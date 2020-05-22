@@ -304,7 +304,7 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 mengshu@office2.cn
 
 ## Authors and acknowledgment - 贡献者和感谢
-- Xueping Pan ([@wpxp123456](https://github.com/wpxp123456))
+- Bug Pan ([@wpxp123456](https://github.com/wpxp123456))
 - Dushusir ([@Dushusir](https://github.com/Dushusir))
 
 ## License - 版权信息
