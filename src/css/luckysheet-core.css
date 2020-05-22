@@ -1,0 +1,6090 @@
+﻿body {
+    margin: 0px;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.jfgrid-noselected-text {
+    -moz-user-select: -moz-test;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jfgrid {
+    position: absolute;
+    /*             width: 100%;
+             height: 100%;*/
+    font-size: 12px;
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+}
+
+    .jfgrid * {
+        box-sizing: initial;
+        outline: none;
+    }
+
+.jfgrid-work-area {
+    height: 90px;
+    width: 100%;
+    position: relative;
+}
+
+.jfgrid_info_detail {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    left: 0px;
+    height: 30px;
+    top: 0px;
+    position: relative;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+    .jfgrid_info_detail > div {
+        display: inline-block;
+        line-height: 30px;
+    }
+
+    .jfgrid_info_detail div.jfgrid_info_detail_title {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        display: inline-block;
+        margin-top: 3px;
+        cursor: pointer;
+    }
+
+        .jfgrid_info_detail div.jfgrid_info_detail_title:hover {
+            background: #eee;
+        }
+
+
+    .jfgrid_info_detail .jfgrid_info_detail_input {
+        border: 1px solid transparent;
+        border-radius: 2px !important;
+        color: #000000;
+        font-size: 16px;
+        height: 20px;
+        line-height: 22px;
+        margin: 0;
+        min-width: 1px;
+        padding: 2px 7px;
+        visibility: hidden;
+    }
+
+    .jfgrid_info_detail .jfgrid_info_detail_input:hover {
+        border: 1px solid #e5e5e5;
+    }
+
+    .jfgrid_info_detail .jfgrid_info_detail_input:focus {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 1px solid #FC6666 !important;
+        -webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+        -moz-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+        box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+        color: #000;
+        outline: none;
+    }
+
+.jfgrid_info_detail_update {
+    color: #cbcbcb;
+    font-size: 12px;
+    margin-left: 15px;
+}
+
+.jfgrid_info_detail_user {
+    right: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    position:absolute;
+}
+
+.jfgrid_info_detail_save{
+    color: #828282;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.jfgrid-share-logo {
+    /*height: 36px;
+    width: 36px;*/
+    position: absolute;
+    left: 11px;
+    top: 3px;
+    z-index: 1;
+    height: 0px;
+    width: 0px;
+    /*background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABCVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjU1YmIxOTI5LWJiOGYtZGY0Zi1iYzkwLWY4YTVkNTI0OTAzYyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFRUVCOEY0Njk3QUYxMUU2QjhCNjgwOTVFRTlFNEQwOCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFRUVCOEY0NTk3QUYxMUU2QjhCNjgwOTVFRTlFNEQwOCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjExZTdjMmEtZDdmYy1lNjQ0LTk4MGUtZDdhZmMxZTZmZDIyIiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6YzBiOWNmMzktOTdhYi0xMWU2LWI4YTktYzg1NzE4MzExNzllIi8+IDxkYzp0aXRsZT4gPHJkZjpBbHQ+IDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCI+6aOT6aOO5pWw5o2u5Y+v6KeG5YyWICDlrprnqL/mm7Lnur8uY2RyPC9yZGY6bGk+IDwvcmRmOkFsdD4gPC9kYzp0aXRsZT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7Ulfi4AAAH1klEQVR42qxYbWxbVxl+zr3XvrEdO59z0nlJSkfbLQttmqzVgElsUwGplE3Vth9IMKgQCFg37QcSUkH8GWgCiR+IIXWsiHYIRicB1WBjZKyMdl23dgtUtNCI0ihpljROlg/Hju3re+/hOb726tjXSSR6pEdJ7j33nOe87/N+nAgpJdYc83PA0hKgaSseS4jqmU1EnAgTrvqSmCKctbYQHR1AIAAD6xl/egl47S9AQ6j0tYArDEj+hJR9xGf59BPEZqKVMIt8eYwSob8TrxB/JhZXnsoziH7wIJBIwDj261UtpEzyUTn9yXuQuLMPmr7BFZphGYHkwNTQcN/cie0IRx6QuhGA6/p9ryzFo6Of2M/Nx4hDPNBPiEwlofJPY3TU34LEI8TjxACMTohYJwqkF+C+944czt829rt9mpMHgiZkLAaXgK7TOfSOIqegNikTVdYMhXqIp5DLfY7PH+XTN6o3Nui26nErcYjYXakWmwu25BaWHjj/ZOGWa6daIOkVlxsuZyHm56E3NMClyWV7O0SYholGAUWypQWCQGcnsLAA+dZbkGNj27joq8TXiKMrCFWR2Un8nkhUPnQ0gQZ7OfPQ8Lftjpl3W9HExXt6ij7Hxo1AWxudE4amfqqNFaFgcKVUSMQ9fhxIp4vi5WggjpReH/UjpAT5h5LPV0aSQGHPhR9ZHbPvtiAY9dyQSnkuomXQ2wts21ZfiSMjcJ95xptf65KfEf+hS98si1YNdZznqsmoYZHyjolX0psnXm5CIOo9zOWA8XHGDoPn2DEanpY/daouH/cNSsW2PUK1I0it/Zzai1QS+jJxV81C1E0sn85+7PIvTGjB60lICdQwPLc0NnoWGxvzZ6OEPTnpZ5nra1nWbfLMmUfLhLginvCbW+CB+iaH8pH0eIiEVkkOmidi30UKQCbjbVxv8GC04gHMzMQUofuJLTUHo3CCjlvonXzVgAiIVROnItTc7P8un4e0rNUJqe8XF7vkuXN7FKEH/eY4fNOembBuWrpCdwWwJqFIpC4hrEWoGF7M/Bcv3q8I3ekrRL6JL112hJ2mhbT6CymNKLGaZn1Cym1rEeIacmpqUIX9zb77EG2ZMdKWwvelSoqy9IcSd1OTP99s1svemra2ldPpmw2f5PiBkQzbckq7lk7LaLKJMD9pohuZMJGmO1xloQb/VcqE/EO+OuIiiky6FGl+hvAKkcPf8lz0Dgr3UywP21nQ2+kiQ0As5uGMuxCRBvjaQLUt/oXXl5Ii9F9iu2+l1zQTBZIJ0xJfvwNyX4+qfqVWRxYho5TYLa2MybD/FqxfWE/P5ekxqw51ot77hUCHA5Om/t4A5MObixahQkv9VpkUf7c0CNffJXJ2dr1kVBlKKkLPqwpRYx7uNxP5sIFvDrjY1Vma4ndSTtSinp78xvT0+vTD0sKu8Z+K0DliqPp9gKVnrKvLTN69RfPhW8UpUlfQMplcP6GtW18u6/BJlAVcTgs0xmg8g7enmqtf1Upf1MnSVyeAubm1Q165KxRaELt2HS/PPEs8db1dFLDZGuZaU3g92QMrq6NuWpNqdqv/of/NbsDNA2vwUclTGxw8gu7uqcqp3yV+U5ZFIUDxmnmM2W147UqiJGYf60hGnWj1efM+tNQIxNxN/JTBbFD8QvpbxzBmxX33/aCy/SjRKPbRzyprSI0hLVyYhovfTm/FZDJCSzi1gnZjrCwtPgnsBLTFRmhvD0A/uwPayCaajMR0169sPMYu81o1IZTM8FV64UvC0cbdolFspIwQnr7Uj+UUw3uFnjhBsoWtKr6ORcuwCcRc0AvXnAlxpRv68Eco9Abv2fXx/aJnSslTU7WvGstZeTSmBwYGWza8E9PCzIsOLrlt+OH5fiwuqMaklIssbsRLyQrdWLOQ+hAUdVwIeIVJEVBhuxiFfnGLV7k9USo3fWdF0d+zt1auimw0gvdz8fYfR5LRX7ItQsa2MF/oxAujPdjd9Q42hq9CWHvZB8U/kEK+MMly9CLdvAQ5QrLnScis0I3OQ0y0QcTjM7Jn6iBs/XBNF9K/YxXxO9oLlxbE40uF4M4o719dTH6m0cbr6CbqhhfQ5vaijixnDgX3AoLGMAIaGzKaRRziLTet+iSVU3nogrqXOZB7kpB35YZwTjvs2xatFo2sGtbHO4NfODNd+GuzKTa0mRqiTAdC6Difbcf8gs1+P4VN5mkkYpdhmDbJ0CrPUzu/YvYOSc8qCQtufwrynnnIvmVg1u0Spy2vaGPlzVWs558N72XcwZPXrOdSluwtVwhZut6K4v1e58lsNOlz2JV/CYmTE3CtAGQLddNhQXZSmI0k5qiGnhqUra9r9t57UZHdxO23q+S4PkJqpAqyaXi28MRExn0ka8tNsuLWHRQFdMir6LVPIuGO0LQUoe4lTV55PSLlwHJzTFs7n9a79z/m23+sl1B5LNsynMy629O2VFfukKEb78WzZ7taJp89JHSTdgquvoCThf6hr9wtmgdO3xBC/sV1Gc7ln/5RZq9+xmux6s2zIBo3H9Fv/cZ+3mTq/rvl/x/MVVp89xfhFv5WbtxqIB1yjbyod3/+QD0yN45QcaUAi1fg09z1W8S/iDzBnsLIEv9gnjgAPbIPgabMqj3sDXFZ0R3qQjhfvu6oO1FPKa2oZmqUYe2odAGzHajfO+B/AgwAeFX9rVH7zuEAAAAASUVORK5CYII=");*/
+}
+
+.jfgrid-wa-editor {
+    height: 34px;
+    background: #f7f7f7;
+    position: relative;
+    padding-left: 15px;
+    border-bottom: 1px solid #d4d4d4;
+    white-space: nowrap;
+}
+
+
+    .jfgrid-wa-editor > div.jfgridfulltoolbar {
+        display: inline-block;
+        height: 34px;
+        padding: 0px 5px;
+        line-height: 34px;
+        font-size: 13px;
+        transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        vertical-align: middle;
+    }
+
+        .jfgrid-wa-editor > div.jfgridfulltoolbar:hover {
+            background: #FC6666;
+            color: #FAFAFA;
+            cursor: pointer;
+        }
+
+        .jfgrid-wa-editor > div.jfgridfulltoolbar:active {
+            background: #FB4747;
+            color: #FFFFFF;
+            -webkit-box-shadow: inset 0 0 2px #727272;
+            -moz-box-shadow: inset 0 0 2px #727272;
+            box-shadow: inset 0 0 2px #727272;
+            cursor: pointer;
+        }
+
+/*toolbar菜单start*/
+
+.jfgrid-toolbar-left-theme{
+    width: 15px;
+    background: #FC6666;
+    position: absolute;
+    left: 0px;
+    top: 1px;
+    bottom: 1px;
+}
+
+.jfgrid-inline-block {
+    position: relative;
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+/*分隔符*/
+.jfgrid-toolbar-separator {
+    height: 17px;
+    line-height: normal;
+    list-style: none;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    text-decoration: none;
+    width: 0;
+    height: 35px;
+    vertical-align: top;
+    border-left: 1px solid #e0e0e0;
+    margin: 0 1px;
+}
+
+/*combo*/
+.jfgrid-toolbar-combo-button {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    outline: none;
+    padding: 0;
+    color: #333;
+    list-style: none;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: default;
+    top: 2px;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: inherit;
+    margin: 0 1px;
+}
+
+.jfgrid-toolbar-combo-button:hover {
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    background-color: #f8f8f8;
+    background-image: -webkit-linear-gradient(to bottom,#f8f8f8,#f1f1f1);
+    background-image: -moz-linear-gradient(to bottom,#f8f8f8,#f1f1f1);
+    background-image: -ms-linear-gradient(to bottom,#f8f8f8,#f1f1f1);
+    background-image: -o-linear-gradient(to bottom,#f8f8f8,#f1f1f1);
+    background-image: linear-gradient(to bottom,#f8f8f8,#f1f1f1);
+    border-color: #c6c6c6!important;
+    color: #222;
+
+    border-width: 1px;
+    border-color: transparent!important;
+    background-color: rgba(0,0,0,.06);
+    background-image: none;
+    cursor: pointer;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.jfgrid-toolbar-combo-button:hover .jfgrid-toolbar-combo-button-input {
+    border-right-color: rgba(0,0,0,0.12);
+}
+
+.jfgrid-toolbar-combo-button-open {
+    color: #222;
+    border-width: 1px;
+    border-color: transparent!important;
+    background-color: rgba(0,0,0,0.12);
+    background-image: none;
+    cursor: pointer;
+}
+
+
+.jfgrid-toolbar-combo-button-open .jfgrid-toolbar-combo-button-input {
+    background: transparent;
+    border-right: 1px solid transparent!important;
+}
+
+
+.jfgrid-toolbar-combo-button-outer-box, .jfgrid-toolbar-combo-button-inner-box {
+    border: 0;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+}
+
+.jfgrid-toolbar-combo-button-inner-box {
+    padding: 0 2px;
+    margin: 0 1px;
+}
+
+.jfgrid-toolbar-zoom-combobox .jfgrid-toolbar-combo-button-caption {
+    width: 48px!important;
+}
+
+.jfgrid-toolbar-combo-button-caption {
+    padding: 0;
+    margin: 0 0 0 -3px;
+}
+
+.jfgrid-toolbar-combo-button-input {
+    background: transparent;
+    border: 1px solid transparent!important;
+    color: #333;
+    font-family: Arial,sans-serif!important;
+    font-size: 11px!important;
+    font-weight: bold!important;
+    height: 20px!important;
+    overflow: hidden!important;
+    color: rgba(0,0,0,.7);
+    height: 22px!important;
+    width: 28px;
+}
+
+.jfgrid-toolbar-combo-button-input:focus{
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+    background: #fff;
+    outline: none;
+    border: 1px solid #FC6666!important;
+}
+
+.jfgrid-toolbar-textinput {
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border: 1px solid #d9d9d9;
+    border-top: 1px solid #c0c0c0;
+    font-size: 13px;
+    height: 25px;
+    padding: 1px 8px;
+}
+
+.jfgrid-toolbar-combo-button-dropdown {
+    background: url(arrow-down.png) center no-repeat;
+    float: right;
+    margin: 9px 0 0 0px;
+    padding: 0 0 0 1px;
+    min-width: 7px;
+    opacity: .8;
+    vertical-align: middle;
+    width: 5px;
+    height: 7px;
+
+    margin-top: 10px;
+}
+
+/*menubar*/
+.jfgrid-toolbar-color-menu-button .jfgrid-toolbar-menu-button-caption {
+    top: -2px;
+}
+
+.jfgrid-color-menu-button-indicator {
+    position: relative;
+    border-bottom: 4px solid #f0f0f0;
+    height: 20px;
+    border-bottom-color: transparent;
+}
+
+.jfgrid-toolbar-button-inner-box .jfgrid-icon, .jfgrid-toolbar-menu-button-caption .jfgrid-icon, .jfgrid-toolbar-menu-button-caption .jfgrid-color-menu-button-indicator .jfgrid-icon {
+    margin-top: 0px;
+}
+
+/*menubutton*/
+.jfgrid-toolbar-menu-button-caption {
+    padding: 0;
+    margin: 0;
+}
+
+.jfgrid-toolbar-menu-button-inner-box{
+    margin: 0px 2px;
+}
+
+.jfgrid-toolbar-menu-button-dropdown{
+    background: url(arrow-down.png) center no-repeat;
+    float: right;
+    margin: 10px 2px 0 3px;
+    padding: 0;
+    opacity: .8;
+    vertical-align: middle;
+    width: 5px;
+    height: 7px;
+
+    margin-left: 4px;
+    margin-right: 0;
+
+    margin-top: 10px;
+}
+
+.jfgrid-toolbar-button-split-right .jfgrid-toolbar-menu-button-dropdown{
+    padding: 0px 3px;
+}
+
+.jfgrid-toolbar-select{
+    margin-left: 1px;
+}
+
+/*split*/
+.jfgrid-toolbar-button-split-left, .jfgrid-toolbar-button-split-left * {
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+    margin-right: 0;
+}
+
+.jfgrid-toolbar-button-split-right, .jfgrid-toolbar-button-split-right * {
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+    min-width: 5px!important;
+    margin-left: 0;
+}
+
+#jfgrid-icon-merge-menu{
+    margin-right: 1px;
+}
+
+
+/*button*/
+.jfgrid-toolbar-button, .jfgrid-toolbar-menu-button {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background: 0;
+    border:1px solid transparent;
+    outline: none;
+    padding: 0;
+    list-style: none;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: default;
+
+    margin: 3px -3px 0px 2px;
+    height: 26px;
+    line-height: 26px;
+    color: rgba(0,0,0,.7);
+}
+
+.jfgrid-toolbar-button:hover, .jfgrid-toolbar-menu-button:hover, .jfgrid-toolbar-button-hover{
+    border: 1px solid transparent;
+    background-color: rgba(0,0,0,0.06);
+    background-image: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.jfgrid-toolbar-button-split-left{
+    margin-right: -6px;
+}
+
+.jfgrid-toolbar-button-split-right.jfgrid-toolbar-menu-button:hover{
+    border-left-color: rgba(0,0,0,0.12) !important;
+}
+
+.jfgrid-toolbar-button-split-right-hover{
+    border-width: 1px;
+    border-color: transparent !important;
+    background-color: rgba(0,0,0,0.06);
+    cursor: pointer;
+    box-shadow: none;
+    border-left-color: rgba(0,0,0,0.12) !important;
+}
+
+.jfgrid-toolbar-button:active, .jfgrid-toolbar-menu-button:active{
+    border: 1px solid transparent;
+    background-color: rgba(0,0,0,0.12);
+    background-image: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.jfgrid-toolbar-button-outer-box, .jfgrid-toolbar-menu-button-outer-box {
+    border: 0;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+}
+
+.jfgrid-toolbar-button-inner-box, .jfgrid-toolbar-menu-button-inner-box {
+    padding: 0 2px;
+    padding: 0;
+    text-align: center;
+    height: 26px;
+    min-width: 26px;
+}
+
+.jfgrid-icon {
+    direction: ltr;
+    text-align: left;
+    overflow: hidden;
+    vertical-align: middle;
+    height: 18px;
+    width: 18px;
+    margin: 1px 2px 2px 1px;
+    margin-top: 0px;
+    opacity: .54;
+}
+
+
+.jfgrid-icon-img {
+    background: url(menuSprite.svg);
+    content: url(menuSprite.svg);
+}
+
+.jfgrid-icon-img-container {
+    height: 424px;
+    position: absolute;
+    width: 590px;
+}
+
+.jfgrid-icon-img-container{
+    height: 1886px;
+    position: absolute;
+    width: 108px;
+}
+
+
+.jfgrid-icon-img{
+    background: url(sprite38.svg);
+    content: url(sprite38.svg);
+}
+
+.jfgrid-icon-print {
+    left: -54px;
+    top: -90px;
+}
+
+.jfgrid-icon-undo{
+    left: -90px;
+    top: -1642px;
+}
+
+.jfgrid-icon-redo{
+    left: 0;
+    top: -1188px;
+}
+
+.jfgrid-icon-paintformat {
+    left: -90px;
+    top: -550px;
+}
+
+.jfgrid-icon-decimal-decrease {
+    left: -36px;
+    top: -1444px;
+}
+
+.toolbar-decimal-icon{
+    margin-bottom: -4px;
+}
+
+.jfgrid-icon-decimal-increase{
+    left: -36px;
+    top: -1660px;
+}
+
+#jfgrid-icon-font-family .jfgrid-toolbar-menu-button-caption {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 55px;
+    margin-left: 1px;
+    text-align: left;
+}
+
+.jfgrid-icon-bold{
+    left: -18px;
+    top: -186px;
+}
+
+.jfgrid-icon-italic {
+    left: -36px;
+    top: -1606px;
+}
+
+.jfgrid-icon-strikethrough{
+    left: -54px;
+    top: -442px;
+}
+
+.jfgrid-icon-text-color {
+    left: -72px;
+    top: -1850px;
+}
+
+.jfgrid-icon-cell-color{
+    left: 0;
+    top: -406px;
+}
+
+.jfgrid-icon-border-all{
+    left: -54px;
+    top: -1552px;
+}
+
+.jfgrid-icon-merge{
+    left: -54px;
+    top: -1534px;
+}
+
+
+.jfgrid-icon-align-left{
+    left: -18px;
+    top: -1426px;
+}
+
+.jfgrid-icon-align-center {
+    left: -18px;
+    top: -334px;
+}
+
+.jfgrid-icon-align-right {
+    left: -36px;
+    top: -1588px;
+}
+
+
+.jfgrid-icon-valign-middle {
+    left: -72px;
+    top: -1390px;
+}
+
+.jfgrid-icon-valign-top {
+    left: -72px;
+    top: -442px;
+}
+
+.jfgrid-icon-valign-bottom {
+    left: 0;
+    top: -316px;
+}
+
+.jfgrid-icon-textwrap-wrap{
+    left: -36px;
+    top: -316px;
+}
+
+.jfgrid-icon-textwrap-overflow{
+    left: -58px;
+    top: -1116px;
+}
+
+.jfgrid-icon-textwrap-clip{
+    left: -54px;
+    top: -1444px;
+}
+
+.jfgrid-icon-rotation-none{
+    left: -36px;
+    top: -586px;
+}
+
+.jfgrid-icon-rotation-angleup{
+    left: -72px;
+    top: -1134px;
+}
+
+.jfgrid-icon-rotation-angledown{
+    left: -36px;
+    top: -186px;
+}
+
+.jfgrid-icon-rotation-vertical{
+    left: -36px;
+    top: -1282px;
+}
+
+.jfgrid-icon-rotation-rotation-up{
+    left: 0;
+    top: -1318px;
+}
+
+.jfgrid-icon-rotation-rotation-down{
+    left: -36px;
+    top: -1336px;
+}
+
+.jfgrid-icon-function {
+    left: -18px;
+    top: -460px;
+}
+
+
+
+.jfgrid-material-icon .jfgrid-icon-border-all {
+    left: -54px;
+    top: -1552px;
+}
+
+.jfgrid-icon-border-inside {
+    left: -36px;
+    top: -806px;
+}
+
+.jfgrid-icon-border-horizontal {
+    left: -58px;
+    top: -168px;
+}
+
+.jfgrid-icon-border-vertical {
+    left: 0;
+    top: -878px;
+}
+
+.jfgrid-icon-border-outside {
+    left: -54px;
+    top: -1246px;
+}
+
+.jfgrid-icon-border-left {
+    left: -54px;
+    top: 0;
+}
+
+.jfgrid-icon-border-top {
+    left: -36px;
+    top: -752px;
+}
+
+.jfgrid-icon-border-right {
+    left: -18px;
+    top: -406px;
+}
+
+.jfgrid-icon-border-bottom {
+    left: -72px;
+    top: -586px;
+}
+
+
+.jfgrid-icon-border-none {
+    left: -18px;
+    top: -1072px;
+}
+
+
+.jfgrid-icon-line-color {
+    left: -36px;
+    top: -622px;
+}
+
+.jfgrid-icon-line-type {
+    left: 0;
+    top: -126px;
+}
+
+
+#jfgrid-icon-function .jfgrid-toolbar-menu-button-caption{
+	margin-right: 5px;
+    margin-left: -5px;
+}
+
+#jfgrid-icon-function .jfgrid-icon{
+	margin-right: 0px;
+}
+
+.jfgrid-icon-autofilter {
+	left: -36px;
+    top: -406px;
+}
+
+#jfgrid-icon-pivotTable .jfgrid-toolbar-menu-button-caption{
+	color: #fc6666;
+}
+
+#jfgrid-icon-chart .jfgrid-toolbar-menu-button-caption{
+	color: #fc6666;
+}
+
+.jfgrid-rightgclick-menu-sub .sp-container{
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
+}
+
+#jfgrid-icon-text-color-menu-menuButton .sp-palette-container, #jfgrid-icon-cell-color-menu-menuButton .sp-palette-container {
+    margin-bottom: -300px;
+}
+
+#jfgrid-icon-text-color-menu-menuButton .sp-palette, #jfgrid-icon-cell-color-menu-menuButton .sp-palette{
+    margin-top: -10px;
+}
+
+/*toolbar菜单end*/
+
+.jfgrid-wa-calculate {
+    height: 28px;
+    /*padding: 10px 8px;*/
+    background: #fff;
+    position: relative;
+    padding-right: 44px;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+
+
+
+.jfgrid-wa-calculate-help{
+	height: 100%; 
+	width: 99px; 
+	border-right: 1px solid #d4d4d4;
+}
+
+.jfgrid-wa-calculate-help-box{
+	height: 100%; 
+	width: 85px; 
+	position: absolute; 
+	top: 0px; 
+	left: 0px;
+}
+
+#jfgrid-helpbox{
+	left: 0;
+    position: absolute;
+    right: 0;
+    top: 6px;
+    resize: none;
+    /* border: 1px #b9b9b9 solid; */
+    font-family: arial,sans,sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    background-color: #ffffff;
+    padding: 2px 5px;
+}
+
+.jfgrid-helpbox-cell-input {
+	width: 100%;
+    height: 100%;
+    margin: 0;
+    outline: none;
+    cursor: text;
+    -webkit-user-modify: read-write-plaintext-only;
+    white-space:nowrap;
+	overflow:hidden;
+    -webkit-transform: translateZ(0);
+    background-color: white;
+	word-wrap: break-word;
+    -webkit-nbsp-mode: space;
+    -webkit-line-break: after-white-space;
+	
+}
+
+
+.jfgrid-wa-calculate-help-tool{
+	position: absolute; 
+	left: 85px; 
+	text-align: center; 
+	height: 100%; 
+	width: 13px;
+    border-left:1px solid transparent;
+    border-right:1px solid transparent;
+}
+
+.jfgrid-wa-calculate-help-tool:hover{
+    background:#EFEFEF;
+    cursor:pointer;
+    border-left:1px solid #E5E5E5;
+    border-right:1px solid #E5E5E5;
+}
+
+.jfgrid-wa-calculate-size{
+    position:absolute;
+    height:3px;
+    width:100%;
+    left:0px;
+    bottom:0px;
+    z-index:1000;
+}
+
+.jfgrid-wa-calculate-size:hover{
+    background:#5e5e5e;
+    cursor:ns-resize;
+}
+
+
+#jfgrid-wa-functionbox-cancel{
+    left: 110px; 
+    font-size: 18px;
+}
+
+#jfgrid-wa-functionbox-confirm{
+    left: 136px; 
+    font-size: 18px;
+}
+
+
+.jfgrid-wa-functionbox {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /*background-color: #fff;*/
+    text-align: center;
+    left: 155px;
+    color: #d6d6d6;
+}
+
+    .jfgrid-wa-functionbox img {
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+    }
+
+
+.jfgrid-wa-calculate-active {
+    color: #585858;
+    cursor: pointer;
+}
+
+    .jfgrid-wa-calculate-active:hover {
+        color: #FC6666;
+    }
+
+.jfgrid-grid-container {
+    width: 100%;
+    position: absolute;
+    top: 90px;
+    bottom: 0px;
+}
+
+.jfgrid-stat-area {
+    position: absolute;
+    height: 23px;
+    bottom: 0px;
+    background: #ff00dc;
+    width: 100%;
+}
+
+.jfgrid-sta-c {
+    height: 22px;
+    background-color: #fff;
+    border-top: 1px solid #e1e1e1;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jfgrid-stat-area:hover .jfgrid-sta-c {
+    -moz-user-select: -moz-all;
+    -khtml-user-select: initial;
+    -webkit-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+}
+
+.jfgrid-sta-c .jfgrid-sta-content {
+    position: relative;
+    height: 22px;
+    line-height: 22px;
+    text-align: right;
+    padding-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+    .jfgrid-sta-c .jfgrid-sta-content span {
+        margin-right: 10px;
+    }
+
+.jfgrid-grid-window {
+    position: absolute;
+    top: 0px;
+    bottom: 23px;
+    left: 0;
+    right: 0px;
+    overflow: hidden;
+    background: #00ffff;
+}
+
+.jfgrid-sheet-area {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #f6f6f6;
+    color: #444;
+    height: 27px;
+    padding: 0;
+    margin: 0;
+    -webkit-touch-callout: none;
+    cursor: default;
+}
+
+    .jfgrid-sheet-area > div, .jfgrid-sheet-area .jfgrid-sheets-item {
+        display: inline-block;
+        margin-right: 6px;
+        margin-top: 1px;
+        padding: 1px 6px;
+    }
+
+    .jfgrid-sheet-area .jfgrid-sheets-add {
+        margin-left: 47px;
+    }
+
+div.jfgrid-sheets-add, div.jfgrid-sheets-m, div.jfgrid-sheets-scroll {
+    background: #F6F6F6;
+    border: 1px solid #F6F6F6;
+    color: #4E4E4E;
+}
+
+div.jfgrid-sheets-scroll {
+    display: none;
+}
+
+div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
+    color: #2A2A2A;
+}
+
+.docs-sheet-fade {
+    position: absolute;
+    display: block;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    z-index: 1005;
+}
+
+    .docs-sheet-fade div {
+        background-color: #d7d7d7;
+        width: 2px;
+        float: right;
+        position: relative;
+        height: 100%;
+    }
+
+.docs-sheet-fade-left {
+    left: 0;
+}
+
+.docs-sheet-fade-right {
+    right: 0;
+}
+
+.docs-sheet-fade1 {
+    opacity: 0.82;
+    filter: alpha(opacity=82);
+}
+
+.docs-sheet-fade2 {
+    opacity: 0.62;
+    filter: alpha(opacity=62);
+}
+
+.docs-sheet-fade3 {
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+.jfgrid-sheet-area div.jfgrid-sheet-container {
+    padding: 0px 0px;
+    margin-left: 0px;
+    position: relative;
+    width: 70%;
+    vertical-align: bottom;
+}
+
+    .jfgrid-sheet-area div.jfgrid-sheet-container div.jfgrid-sheet-container-c {
+        padding: 0px 0px;
+        margin-left: 0px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        max-width: 100%;
+        vertical-align: bottom;
+        display: inline-block;
+    }
+
+
+.jfgrid-sheet-area div.jfgrid-sheets-item {
+    padding: 2px 6px;
+    height: 18px;
+    line-height: 18px;
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.3) inset;
+    background-color: #e2e2e2;
+    border-color: #000;
+    border-top-color: #aaa;
+    border-width: 0 1px 1px 1px;
+    color: #676464;
+    min-width: 30px;
+    top: 0px;
+    position: relative;
+    border-radius: 0 0 2px 2px;
+    margin-right: 1px;
+    cursor: pointer;
+    border-bottom: 1px solid #a5a5a5;
+    transition: all 0.1s;
+    padding-right: 20px;
+    font-size: 13px;
+}
+
+    .jfgrid-sheet-area div.jfgrid-sheets-item:hover {
+        background-color: #EFEFEF;
+        border-color: #a5a5a5;
+        color: #490500;
+    }
+
+    .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-menu {
+        margin-left: 2px;
+        display: inline-block;
+        top: -2px;
+        position: relative;
+        color: #A1A1A1;
+        position: absolute;
+        height: 100%;
+        width: 15px;
+        right: 0px;
+        text-align: center;
+    }
+
+        .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-menu:hover {
+            color: #2A2A2A;
+            cursor: pointer;
+        }
+
+    .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name {
+        padding: 0px 3px;
+    }
+
+        .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name[contenteditable="true"] {
+            border: 1px solid #d9d9d9;
+            display: inline-block;
+            height: 16px;
+            min-width: 8px;
+            margin: -4px -1px;
+            -moz-user-modify: read-write-plaintext-only;
+            -webkit-user-modify: read-write-plaintext-only;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            -webkit-user-select: text !important
+        }
+
+            .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name[contenteditable="true"]:focus {
+                -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+                -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+                border: 1px solid #4d90fe;
+                outline: none
+            }
+
+.jfgrid-sheet-area div.jfgrid-sheets-item-active {
+    padding: 2px 8px;
+    height: 20px;
+    /* line-height: 22px; */
+    background-color: #fff;
+    border-color: #aaa;
+    border-top-color: #fff;
+    color: #222;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    cursor: default;
+    top: -2px;
+    border-bottom: none;
+    padding-right: 20px;
+}
+
+    .jfgrid-sheet-area div.jfgrid-sheets-item-active:hover {
+        background-color: #fff;
+        border-color: #aaa;
+        color: #222;
+    }
+
+.jfgrid-grid-window-1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 27px;
+    left: 0;
+    min-width: 200px;
+    background-color: #FFFFFF !important;
+    overflow: hidden;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jfgridTableContent {
+    position: absolute;
+    z-index: 2;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jfgrid-grid-window-2 {
+    /*background-color: #fff !important;*/
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border-collapse: collapse;
+    display: table;
+}
+
+.jfgrid-paneswrapper {
+    overflow: hidden;
+    height: 1px;
+}
+
+.jfgrid-left-top {
+    width: 45px;
+    height: 19px;
+    border: solid 0 #dfdfdf;
+    position: relative;
+    padding-top: 0;
+    border-width: 0 1px 1px 0;
+    margin: -1px 0 0 -1px;
+    padding-left: 0;
+    cursor: pointer;
+}
+
+.jfgrid-cols-h-c {
+    color: #5e5e5e;
+    overflow: hidden;
+    padding: 0;
+    cursor: default;
+    /*width: 1548px;*/
+    height: 19px;
+    outline-style: none;
+    position: relative;
+    -webkit-user-select: none;
+}
+
+.jfgrid-rows-h {
+    position: relative;
+    outline-style: none;
+    color: #5e5e5e;
+    overflow: hidden;
+    padding: 0;
+    margin-top: -2px;
+    padding-top: 2px;
+    cursor: default;
+    /*height: 472px;*/
+    width: 38px;
+}
+
+.jfgrid-cols-menu-btn {
+    color: #5e5e5e;
+    cursor: pointer;
+    position: absolute;
+    z-index: 12;
+    border: 1px solid #5e5e5e;
+    border-radius: 1px;
+    top: 3px;
+    margin-left: 0px;
+    display: none;
+    padding: 0px 2px;
+    font-size: 12px;
+    height: 12px;
+    opacity: 0.5;
+    /*transition: all 0.1s;*/
+}
+
+    .jfgrid-cols-menu-btn:hover {
+        opacity: 1;
+    }
+
+
+.jfgrid-cols-h-hover {
+    color: #5e5e5e;
+    cursor: default;
+    position: absolute;
+    z-index: 11;
+    border: 0 none;
+    bottom: 0;
+    height: 100%;
+    margin-left: 0px;
+    display: none;
+    /*transition: all 0.1s;*/
+    background-color: rgba(252,195,195, 0.5);
+}
+
+.jfgrid-cols-h-selected {
+    color: #5e5e5e;
+    cursor: default;
+    position: absolute;
+    z-index: 10;
+    border-bottom: 1px solid #FC6666;
+    bottom: 0;
+    height: 100%;
+    margin-left: 0px;
+    display: none;
+    transition: all 0.1s;
+    background-color: rgba(76, 76, 76, 0.1);
+    /*left: 2489px;
+             width: 863px;*/
+}
+
+.jfgrid-cols-h-cells {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    height: inherit;
+    /*width: 4721px;*/
+}
+
+.jfgrid-cols-h-cells-c {
+    color: #5e5e5e;
+    cursor: default;
+    width: 5000000px;
+    height: inherit;
+}
+
+.jfgrid-cols-h-cells-clip {
+    color: #5e5e5e;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    float: left;
+    direction: ltr;
+    height: inherit;
+    width: 2561px;
+    color: #5e5e5e;
+    border-bottom: solid 1px #bbb;
+    position: relative;
+    top: -1px;
+}
+
+.jfgrid-cols-h-cell-nosel {
+    position: absolute;
+    cursor: pointer;
+    border: 0 solid;
+    border-color: #dfdfdf;
+    display: inline-block;
+    min-height: 19px;
+    touch-action: manipulation;
+    border-right-width: 1px;
+    height: inherit;
+}
+
+.jfgrid-cols-h-cell-sel {
+    direction: ltr;
+    height: inherit;
+    position: absolute;
+    cursor: pointer;
+    border: 0 solid;
+    border-color: #bfbfbf;
+    background-color: #e1e1e1;
+    display: inline-block;
+    min-height: 19px;
+    color: #FC6666;
+    font-weight: bold;
+    touch-action: manipulation;
+    border-right-width: 1px;
+}
+
+.jfgrid-col-flow-h {
+    float: left;
+    direction: ltr;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    height: inherit;
+    overflow: hidden;
+}
+
+.jfgrid-col-flow-h-sheet {
+    width: inherit;
+    height: inherit;
+    position: relative;
+    float: left;
+    direction: ltr;
+}
+
+body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid-cols-h-cell-sel:hover, body:not(.ewa-ipad) .jfgrid-rows-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid-rows-h-cell-sel:hover {
+    background-color: #FCC3C3;
+}
+
+.jfgrid-cols-h-cell-txt {
+    cursor: pointer;
+    height: inherit;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    touch-action: manipulation;
+    font-size: 14px;
+    padding-top: 2px;
+}
+
+.jfgrid-rows-h {
+    position: relative;
+    outline-style: none;
+    color: #5e5e5e;
+    overflow: hidden;
+    padding: 0;
+    margin-top: -2px;
+    padding-top: 2px;
+    cursor: default;
+    width: 45px;
+}
+
+.jfgrid-rows-h-hover {
+    position: absolute;
+    z-index: 11;
+    border: 0 none;
+    right: 0;
+    width: 100%;
+    margin-top: 2px;
+    display: none;
+    /*transition: all 0.1s;*/
+    background-color: rgba(252,195,195, 0.5);
+}
+
+.jfgrid-rows-h-selected {
+    position: absolute;
+    z-index: 10;
+    border-right: 1px solid #FC6666;
+    right: 0;
+    width: 100%;
+    margin-top: 2px;
+    display: none;
+    transition: all 0.1s;
+    background-color: rgba(76, 76, 76, 0.1);
+    /*top: 106px;
+             height: 145px;*/
+}
+
+.jfgrid-rows-h-cells {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    width: 100%;
+}
+
+.jfgrid-rows-h-cells-c {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    float: left;
+    direction: ltr;
+    width: 100%;
+}
+
+.jfgrid-rows-h-cells-clip {
+    cursor: default;
+    color: #5e5e5e;
+    direction: ltr;
+    border-right: solid 1px #bbb;
+    width: inherit;
+    height: inherit;
+    position: relative;
+    left: -1px;
+    height: inherit;
+}
+
+.jfgrid-rows-h-cell-nosel {
+    direction: ltr;
+    width: 100%;
+    position: absolute;
+    cursor: pointer;
+    border: 0 solid;
+    border-color: #dfdfdf;
+    border-bottom-width: 1px;
+    touch-action: manipulation;
+}
+
+.jfgrid-rows-h-cell-sel {
+    direction: ltr;
+    width: 100%;
+    position: absolute;
+    cursor: pointer;
+    border: 0 solid;
+    border-color: #bfbfbf;
+    background-color: #e1e1e1;
+    border-bottom-width: 1px;
+    color: #FC6666;
+    font-weight: bold;
+    touch-action: manipulation;
+}
+
+.jfgrid-rows-h-cell-txt {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    padding-bottom: 1px;
+    max-height: 100%;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.jfgrid-cell-loading {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255, 0.3);
+    position: absolute;
+    overflow: hidden;
+    outline-style: none;
+    cursor: not-allowed;
+    font-size: 28px;
+    z-index: 2;
+    display: none;
+}
+
+.jfgrid-cell-loading-inner {
+    position: relative;
+    top: 40%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+    .jfgrid-cell-loading-inner span {
+        margin-left: 10px;
+    }
+
+.jfgrid-cell-main {
+    /*border: solid 1px #BEC1C4;*/
+    background-color: white;
+    width: 15px;
+    height: 15px;
+    background-color: #F3F3F2;/*#E7E7E7;*/
+    border-collapse: collapse;
+    position: relative;
+    overflow: hidden;
+    outline-style: none;
+    cursor: default;
+}
+
+.jfgrid-scrollbars, .jfgrid-menu {
+    scrollbar-base-color: #FFFFFF;
+    scrollbar-track-color: #E7E7E7;
+    scrollbar-darkshadow-color: #FFFFFF;
+    scrollbar-3dlight-color: #FFFFFF;
+    scrollbar-arrow-color: #757778;
+    scrollbar-shadow-color: #BEC1C4;
+    scrollbar-highlight-color: #BEC1C4;
+    -ms-scroll-chaining: none;
+    overflow: auto;
+}
+
+.jfgrid-scrollbar-ltr {
+    position: absolute;
+    overflow: hidden;
+    z-index: 1003;
+}
+
+.jfgrid-scrollbar-ltr div {
+    height: 1px;
+    width: 1px;
+}
+
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button {
+    height: 0;
+    width: 0
+}
+
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:start {
+    display: none
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:end {
+    display: block
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button {
+    border: 1px solid #d9d9d9
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal {
+    border-width: 1px 0 0 0
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical {
+    border-width: 0 0 0 1px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical {
+    border-width: 0 1px 0 0
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment {
+    background: no-repeat url("waffle_sprite.png") -663px -13px;
+    width: 15px;
+    padding-left: 1px;
+    background-clip: border-box;
+    border: 1px solid #d9d9d9;
+    border-width: 1px 0 0 0;
+    box-shadow: none;
+    background-color: #f8f8f8
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:hover {
+    background: no-repeat url("waffle_sprite.png") -395px -62px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:active {
+    background: no-repeat url("waffle_sprite.png") -679px -13px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:decrement {
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    background: no-repeat url("waffle_sprite.png") -283px -62px;
+    width: 17px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:hover {
+    background: no-repeat url("waffle_sprite.png") -145px -70px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:active {
+    background: no-repeat url("waffle_sprite.png") -552px 0
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment {
+    padding-top: 1px;
+    background: no-repeat url("waffle_sprite.png") -531px -24px;
+    height: 15px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:hover {
+    background: no-repeat url("waffle_sprite.png") -570px -42px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:active {
+    background: no-repeat url("waffle_sprite.png") -83px -46px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement {
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    background: no-repeat url("waffle_sprite.png") -631px -27px;
+    height: 17px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:hover {
+    background: no-repeat url("waffle_sprite.png") -180px -58px
+}
+.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:active {
+    background: no-repeat url("waffle_sprite.png") -776px -28px
+}
+
+.jfgrid-scrollbar-x{
+    bottom: 0px;
+    left: 45px;
+    overflow-x: scroll;
+}
+
+.jfgrid-scrollbar-y{
+    right: 0px;
+    top:0px;
+    overflow-y: scroll;
+
+}
+
+
+.jfgrid-cell-flow {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    touch-action: manipulation;
+    overflow: hidden;
+    /*background: #fff;*/
+}
+
+.jfgrid-cell-flow-clip {
+    border-collapse: collapse;
+    cursor: default;
+    width: 5000000px;
+    touch-action: manipulation;
+    overflow: hidden;
+}
+
+.jfgrid-cell-flow-col {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    position: relative;
+    touch-action: manipulation;
+    overflow: hidden;
+    float: left;
+    direction: ltr;
+}
+
+.jfgrid-cell-sheettable {
+    position: relative;
+    /*background-color: #fff;*/
+    text-align: left;
+    font-size: 11pt;
+    color: #000000;
+    text-decoration: none;
+}
+
+.jfgrid-bottom-controll-row{
+    position: absolute;
+    height: 30px;
+    /*width: 400px;*/
+    /* background: #000; */
+    bottom: 68px;
+    left: 10px;
+    z-index: 100;
+}
+
+#jfgrid-bottom-add-row{
+    padding: 5px 20px;
+    margin-right: 5px;
+    margin-top: -2px;
+}
+
+#jfgrid-bottom-add-row-input{
+    width: 40px;
+    min-width: 40px;
+}
+
+#jfgrid-bottom-return-top{
+    padding: 5px 6px;
+    margin-left: 10px;
+    margin-top: -2px;
+}
+
+
+.jfgrid-cell-flow-column {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    touch-action: manipulation;
+}
+
+.jfgrid-cell-flow-column-line {
+    position: absolute;
+    border-right: 1px solid #d4d4d4;
+    height: inherit;
+}
+
+.jfgrid-cell-flow-row {
+    text-align: left;
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    touch-action: manipulation;
+}
+
+.jfgrid-cell-flow-row-line {
+    position: absolute;
+    border-bottom: 1px solid #d4d4d4;
+    width: inherit;
+}
+
+.jfgrid-cell-selected-focus {
+    position: absolute;
+    pointer-events: none;
+    z-index: 14;
+    /*border:1px solid #fff;*/
+    margin: 0px 0 0 0px;
+    background: rgba(0,80,208,0.15);
+    display: none;
+    /*transition: all 0.1s;*/
+}
+
+.jfgrid-selection-copy {
+    position: absolute;
+    pointer-events: none;
+    z-index: 18;
+    border: none;
+    margin: 0px 0 0 0px;
+    display: none;
+}
+
+.jfgrid-selection-copy .jfgrid-copy {
+    position: absolute;
+    z-index: 18;
+    background-color: transparent;
+}
+
+.jfgrid-selection-copy-top {
+    left: 0;
+    right: 0;
+    height: 2px;
+    top: 0;
+    background-position: bottom;
+    background-image: url("EwaAntH.gif");
+}
+
+.jfgrid-selection-copy-right {
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    right: 0;
+    background-image: url("EwaAntV.gif");
+}
+
+.jfgrid-selection-copy-bottom {
+    left: 0;
+    right: 0;
+    height: 2px;
+    bottom: 0;
+    background-image: url("EwaAntH.gif");
+}
+
+.jfgrid-selection-copy-left {
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    left: 0;
+    background-position: right;
+    background-image: url("EwaAntV.gif");
+}
+
+.jfgrid-selection-copy-hc {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px dashed #FC6666;
+    z-index: 8;
+}
+
+.jfgrid-selection-highlight {
+    position: absolute;
+    /*pointer-events: none;*/
+    z-index: 14;
+    border: none;
+    margin: 0px 0 0 0px;
+    display: none;
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-copy {
+    background-image: none;
+    background: #FC6666;
+    position: absolute;
+    z-index: 18;
+    cursor: move;
+    opacity: 0.9;
+    /*border: 1px solid #fff;*/
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-top {
+    top: -2px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-right {
+    right: -2px;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-bottom {
+    bottom: -2px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-left {
+    left: -2px;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+
+.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-hc {
+    border: 2px solid #5e5e5e;
+    opacity: 0.03;
+    z-index: initial;
+}
+
+.jfgrid-selection-highlight-topleft {
+    left: -3px;
+    top: -3px;
+    cursor: se-resize;
+}
+
+.jfgrid-selection-highlight-topright {
+    right: -3px;
+    top: -3px;
+    cursor: ne-resize;
+}
+
+.jfgrid-selection-highlight-bottomleft {
+    left: -3px;
+    bottom: -3px;
+    cursor: ne-resize;
+}
+
+.jfgrid-selection-highlight-bottomright {
+    right: -3px;
+    bottom: -3px;
+    cursor: se-resize;
+}
+
+
+.jfgrid-formula-functionrange-highlight .jfgrid-highlight {
+    position: absolute;
+    z-index: 19;
+    border: 1px solid #fff;
+    background: #FC6666;
+    width: 6px;
+    height: 6px;
+}
+
+.jfgrid-cell-selected-extend {
+    position: absolute;
+    pointer-events: none;
+    z-index: 16;
+    border: 1px dashed #C83D3D;
+    margin: -1px 0 0 -1px;
+    display: none;
+    /*transition: all 0.1s;*/
+}
+
+.jfgrid-cell-selected-move {
+    position: absolute;
+    pointer-events: none;
+    z-index: 16;
+    border: 2px solid #FC6666;
+    margin: -1px 0 0 -1px;
+    display: none;
+    /*transition: all 0.1s;*/
+}
+
+.jfgrid-cell-selected {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15;
+    border: 1px solid #FC6666;
+    margin: -1px 0 0 -1px;
+    background: rgba(252,102,102,0.15);
+    display: none;
+    /*transition: all 0.1s;*/
+}
+
+.jfgrid-cs-inner-border {
+    pointer-events: none;
+    border: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.jfgrid-cs-fillhandle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    bottom: -5px;
+    cursor: crosshair;
+    background-color: #FC6666;
+    border: solid 1px #fff;
+    z-index: 16;
+    pointer-events: auto;
+    right: -5px;
+}
+
+.jfgrid-cs-draghandle {
+    position: absolute;
+    cursor: move;
+    background-color: #fff;
+    opacity: .01;
+    z-index: 15;
+    pointer-events: auto;
+    border: 2px solid #fff;
+}
+
+.jfgrid-cs-draghandle-top {
+    top: -4px;
+    left: -2px;
+    right: -2px;
+    height: 2px;
+}
+
+.jfgrid-cs-draghandle-bottom {
+    right: 0;
+    left: -2px;
+    bottom: -4px;
+    height: 2px;
+}
+
+.jfgrid-cs-draghandle-left {
+    top: 0;
+    left: -4px;
+    bottom: 0;
+    width: 2px;
+}
+
+.jfgrid-cs-draghandle-right {
+    top: 0;
+    right: -4px;
+    bottom: 0;
+    width: 2px;
+}
+
+#jfgrid-dynamicArray-hightShow {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15;
+    border: 1px solid blue;
+    margin: -1px 0 0 -1px;
+    display: none;
+}
+
+.jfgrid-scrollbars::-webkit-scrollbar-track {
+    background-color: #E0E0E0;
+}
+
+.jfgrid-scrollbars::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background-color: #E0E0E0;
+    /*border:0 none;*/
+}
+
+.jfgrid-scrollbars::-webkit-scrollbar-thumb {
+    background-color: #fff;
+    border: 1px solid #A0A0A0;
+    border-radius: 12px;
+}
+
+    .jfgrid-scrollbars::-webkit-scrollbar-thumb:hover {
+        background-color: #FC9A9A;
+        border: 1px solid #A0A0A0;
+        border-radius: 12px;
+    }
+
+.jfgrid-grdusedrange {
+    position: absolute;
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+}
+
+.jfgrid-grdblkflowpush {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    width: 1px;
+}
+
+.jfgrid-grdblkpush {
+    margin: 0;
+    padding: 0;
+    border: none 0;
+    height: 1px;
+    float: left;
+    direction: ltr;
+}
+
+.jfgrid-cell-flow-data {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.jfgrid-cell-flow-data-row {
+    position: absolute;
+    width: inherit;
+}
+
+.jfgrid-cell-flow-data-cell {
+    position: absolute;
+    height: inherit;
+}
+
+.jfgrid-cell-flow-data-value {
+    position: absolute !important;
+    bottom: 0;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+    padding-left: 2px;
+    overflow: hidden;
+}
+
+.jfgrid canvas {
+    position: absolute;
+}
+
+.jfgridcolumeHeader {
+    margin-left: -1px;
+}
+
+.jfgridrowHeader {
+    margin-top: 1px;
+}
+
+.jfgridsheettable {
+    margin-left: -1px;
+    margin-top: -1px;
+}
+
+.jfgrid-cols-menu {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    -webkit-transition: opacity 0.218s;
+    -moz-transition: opacity 0.218s;
+    -o-transition: opacity 0.218s;
+    transition: opacity 0.218s;
+    background: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    cursor: default;
+    font-size: 13px;
+    margin: 0;
+    outline: none;
+    padding: 6px 0;
+    position: absolute;
+    z-index: 1004;
+    box-sizing: border-box;
+    user-select: none;
+    display: none;
+}
+
+    .jfgrid-cols-menu .jfgrid-cols-menuitem {
+        position: relative;
+        color: #333;
+        cursor: pointer;
+        list-style: none;
+        margin: 0;
+        /*padding: 6px 8em 6px 30px;*/
+        padding: 1px 6em 1px 20px;
+        white-space: nowrap;
+        padding-left: 8px;
+        vertical-align: middle;
+        padding-right: 24px;
+        user-select: none;
+    }
+
+        .jfgrid-cols-menu .jfgrid-cols-menuitem:hover, .jfgrid-cols-menu .jfgrid-cols-menuitem-hover {
+            background: #E1E1E1;
+        }
+
+        .jfgrid-cols-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+            position: relative;
+            color: #333;
+            cursor: pointer;
+            list-style: none;
+            margin: 0;
+            padding: 6px 7em 6px 30px;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+.jfgrid-rightgclick-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+    position: relative;
+    color: #333;
+    cursor: pointer;
+    list-style: none;
+    margin: 0;
+    padding: 6px 15px 6px 20px;
+    white-space: nowrap;
+    user-select: none;
+}
+
+#jfgrid-cols-menu .jfgrid-cols-menuitem, .jfgrid-filter-menu .jfgrid-cols-menuitem, #jfgrid-pivotTable-config-option .jfgrid-cols-menuitem {
+    padding-right: 10px;
+    padding-left: 12px;
+}
+
+#jfgrid-pivotTable-config-option-sumtype .jfgrid-cols-menuitem {
+    padding-right: 15px;
+    padding-left: 12px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+#jfgrid-cols-menu .jfgrid-cols-menuitem-content, .jfgrid-filter-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+    padding-right: 10px;
+    padding-left: 12px;
+}
+
+
+.jfgrid-filter-menu div.jfgrid-cols-menuitem {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.jfgrid-filter-submenu div.jfgrid-cols-menuitem {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem {
+    padding-top: 2px;
+    padding-bottom: 0px;
+    cursor: default;
+}
+
+.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content {
+    padding-top: 2px;
+    padding-bottom: 0px;
+    cursor: default;
+}
+
+    .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content input {
+        height: 24px;
+        width: 191px;
+        padding-right: 25px;
+        padding-left: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+        border: 1px solid #d9d9d9;
+        border-top: 1px solid #c0c0c0;
+        font-size: 13px;
+    }
+
+
+        .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content input:focus, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content input:focus {
+            -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            border: 1px solid #4d90fe;
+            outline: none;
+        }
+
+    .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content .jfgrid-filter-byvalue-input-icon, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content .jfgrid-pivotTableFilter-byvalue-input-icon {
+        position: absolute;
+        right: 17px;
+        top: 7px;
+    }
+
+.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem:hover, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem:hover {
+    background: #fff;
+}
+
+.jfgrid-filter-menu .jfgrid-cols-menuitem:last-child:hover {
+    background: #fff;
+}
+
+.jfgrid-filter-menu .jfgrid-cols-menuitem:last-child, .jfgrid-filter-menu .jfgrid-cols-menuitem:last-child .jfgrid-cols-menuitem-content {
+    cursor: default;
+}
+
+#jfgrid-filter-byvalue-select, #jfgrid-pivotTableFilter-byvalue-select {
+    min-height: 100px;
+    width: 200px;
+}
+
+.jfgrid-filter-menu .jfgrid-mousedown-filter-byvalue-btn span, .jfgrid-filter-menu .jfgrid-mousedown-pivotTableFilter-byvalue-btn span {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.jfgrid-filter-menu .jfgrid-mousedown-filter-byvalue-btn div, .jfgrid-filter-menu .jfgrid-mousedown-pivotTableFilter-byvalue-btn div {
+    position: absolute;
+    right: 14px;
+    top: 0px;
+    font-size: 18px;
+}
+
+.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: 3px;
+    display: none;
+}
+
+
+    .jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input input {
+        height: 24px;
+        width: 100%;
+        padding-right: 3px;
+        padding-left: 3px;
+        margin-left: -3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+        border: 1px solid #d9d9d9;
+        border-top: 1px solid #c0c0c0;
+        font-size: 13px;
+    }
+
+
+.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input2 input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input2 input {
+    height: 24px;
+    width: 92px;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-left: -3px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border: 1px solid #d9d9d9;
+    border-top: 1px solid #c0c0c0;
+    font-size: 13px;
+}
+
+.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input2 span, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input2 span {
+    margin-left: 2px;
+    margin-right: 5px;
+}
+
+.jfgrid-menuseparator {
+    border-top: 1px solid #ebebeb;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.jfgrid-submenu-arrow {
+    -webkit-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -o-transition: all 0.218s;
+    transition: all 0.218s;
+    font-size: 12px;
+    left: auto;
+    right: -15px;
+    padding-top: 1px;
+    padding-right: 0;
+    position: absolute;
+    text-align: right;
+    opacity: .5;
+    filter: alpha(opacity=50);
+    color: #000;
+    user-select: none;
+    font-family: Arial;
+}
+
+#jfgrid-pivotTable-config-option-sumtype .jfgrid-submenu-arrow {
+    right: -5px;
+    font-size: 16px;
+    padding-top: 0px;
+    color: blue;
+}
+
+#jfgrid-filter-byvalue-select table, #jfgrid-pivotTableFilter-byvalue-select table {
+    table-layout: fixed;
+}
+
+#jfgrid-filter-byvalue-select tr td, #jfgrid-pivotTableFilter-byvalue-select tr td {
+    padding: 2px 3px;
+}
+
+#jfgrid-filter-byvalue-select tr:hover td, #jfgrid-pivotTableFilter-byvalue-select tr:hover td {
+    background: #E1E1E1;
+}
+
+/*筛选改 -- pan*/
+.jfgrid-cols-menu .cf:before,.jfgrid-cols-menu .cf:after{
+    content:"";
+    display:table;
+}
+.jfgrid-cols-menu .cf:after{ 
+    clear:both;
+}
+#jfgrid-filter-byvalue-select .yearBox .monthList, #jfgrid-pivotTableFilter-byvalue-select .yearBox .monthList{
+    padding-left: 20px;
+}
+#jfgrid-filter-byvalue-select .yearBox .dayList, #jfgrid-pivotTableFilter-byvalue-select .yearBox .dayList{
+    padding-left: 20px;
+}
+#jfgrid-filter-byvalue-select .yearBox .fa-caret-right, #jfgrid-pivotTableFilter-byvalue-select .yearBox .fa-caret-right{
+    padding: 0 2px;
+    float: left;
+    margin-top: 3px;
+    cursor: pointer;
+}
+#jfgrid-filter-byvalue-select .count, #jfgrid-pivotTableFilter-byvalue-select .count{
+    color: gray;
+    margin-left: 5px;
+}
+#jfgrid-filter-byvalue-select input[type="checkbox"], #jfgrid-pivotTableFilter-byvalue-select input[type="checkbox"]{
+    width: auto;
+    height: auto;
+    float: left;
+}
+
+/*颜色筛选 -- pan*/
+#jfgrid-filter-orderby-color-submenu{
+    font-size: 12px;
+}
+#jfgrid-filter-orderby-color-submenu .title{
+    padding: 10px;
+    font-weight: 600;
+    color: #333;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+#jfgrid-filter-orderby-color-submenu .item{
+    padding: 5px 40px 5px 20px;
+    cursor: pointer;
+    position: relative;
+}
+#jfgrid-filter-orderby-color-submenu .item:hover{
+    background-color: #d3d3d3;
+}
+#jfgrid-filter-orderby-color-submenu .item label{
+    display: block;
+    width: 70px;
+    height: 20px;
+    border: 1px solid #d1d1d1;
+}
+#jfgrid-filter-orderby-color-submenu .item input[type="checkbox"]{
+    position: absolute;
+    right: 10px;
+    top: 6px;
+}
+
+#jfgird-copy-content {
+    position: fixed;
+    height: 0px;
+    width: 0px;
+    left: -100px;
+    /*overflow: hidden;*/
+    /*text-indent: -999999px;*/
+    padding-left: 999999px;
+}
+
+#jfgird-copy-btn {
+    position: absolute;
+    visibility: hidden;
+}
+
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 4px 8px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    .btn:focus,
+    .btn:active:focus,
+    .btn.active:focus,
+    .btn.focus,
+    .btn:active.focus,
+    .btn.active.focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+
+    .btn:hover,
+    .btn:focus,
+    .btn.focus {
+        color: #333333;
+        text-decoration: none;
+    }
+
+    .btn:active,
+    .btn.active {
+        outline: 0;
+        background-image: none;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    }
+
+    .btn.disabled,
+    .btn[disabled],
+    fieldset[disabled] .btn {
+        cursor: not-allowed;
+        opacity: 0.65;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+a.btn.disabled,
+fieldset[disabled] a.btn {
+    pointer-events: none;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+    .btn-default:focus,
+    .btn-default.focus {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #8c8c8c;
+    }
+
+    .btn-default:hover {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+
+    .btn-default:active,
+    .btn-default.active,
+    .open > .dropdown-toggle.btn-default {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+
+        .btn-default:active:hover,
+        .btn-default.active:hover,
+        .open > .dropdown-toggle.btn-default:hover,
+        .btn-default:active:focus,
+        .btn-default.active:focus,
+        .open > .dropdown-toggle.btn-default:focus,
+        .btn-default:active.focus,
+        .btn-default.active.focus,
+        .open > .dropdown-toggle.btn-default.focus {
+            color: #333;
+            background-color: #d4d4d4;
+            border-color: #8c8c8c;
+        }
+
+    .btn-default:active,
+    .btn-default.active,
+    .open > .dropdown-toggle.btn-default {
+        background-image: none;
+    }
+
+    .btn-default.disabled:hover,
+    .btn-default[disabled]:hover,
+    fieldset[disabled] .btn-default:hover,
+    .btn-default.disabled:focus,
+    .btn-default[disabled]:focus,
+    fieldset[disabled] .btn-default:focus,
+    .btn-default.disabled.focus,
+    .btn-default[disabled].focus,
+    fieldset[disabled] .btn-default.focus {
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .btn-default .badge {
+        color: #fff;
+        background-color: #333;
+    }
+
+
+.btn-primary {
+    color: #ffffff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+    .btn-primary:focus,
+    .btn-primary.focus {
+        color: #ffffff;
+        background-color: #286090;
+        border-color: #122b40;
+    }
+
+    .btn-primary:hover {
+        color: #ffffff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        color: #ffffff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+        .btn-primary:active:hover,
+        .btn-primary.active:hover,
+        .open > .dropdown-toggle.btn-primary:hover,
+        .btn-primary:active:focus,
+        .btn-primary.active:focus,
+        .open > .dropdown-toggle.btn-primary:focus,
+        .btn-primary:active.focus,
+        .btn-primary.active.focus,
+        .open > .dropdown-toggle.btn-primary.focus {
+            color: #ffffff;
+            background-color: #204d74;
+            border-color: #122b40;
+        }
+
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        background-image: none;
+    }
+
+    .btn-primary.disabled,
+    .btn-primary[disabled],
+    fieldset[disabled] .btn-primary,
+    .btn-primary.disabled:hover,
+    .btn-primary[disabled]:hover,
+    fieldset[disabled] .btn-primary:hover,
+    .btn-primary.disabled:focus,
+    .btn-primary[disabled]:focus,
+    fieldset[disabled] .btn-primary:focus,
+    .btn-primary.disabled.focus,
+    .btn-primary[disabled].focus,
+    fieldset[disabled] .btn-primary.focus,
+    .btn-primary.disabled:active,
+    .btn-primary[disabled]:active,
+    fieldset[disabled] .btn-primary:active,
+    .btn-primary.disabled.active,
+    .btn-primary[disabled].active,
+    fieldset[disabled] .btn-primary.active {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+    }
+
+    .btn-primary .badge {
+        color: #337ab7;
+        background-color: #ffffff;
+    }
+
+.btn-primary, .label-default, .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    background: #8C89FE;
+    border-color: #726EFE;
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background: #7C79FE;
+        border-color: #6864FE;
+    }
+
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+    .btn-danger:focus,
+    .btn-danger.focus {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #761c19;
+    }
+
+    .btn-danger:hover {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #ac2925;
+    }
+
+    .btn-danger:active,
+    .btn-danger.active,
+    .open > .dropdown-toggle.btn-danger {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #ac2925;
+    }
+
+        .btn-danger:active:hover,
+        .btn-danger.active:hover,
+        .open > .dropdown-toggle.btn-danger:hover,
+        .btn-danger:active:focus,
+        .btn-danger.active:focus,
+        .open > .dropdown-toggle.btn-danger:focus,
+        .btn-danger:active.focus,
+        .btn-danger.active.focus,
+        .open > .dropdown-toggle.btn-danger.focus {
+            color: #fff;
+            background-color: #ac2925;
+            border-color: #761c19;
+        }
+
+    .btn-danger:active,
+    .btn-danger.active,
+    .open > .dropdown-toggle.btn-danger {
+        background-image: none;
+    }
+
+    .btn-danger.disabled:hover,
+    .btn-danger[disabled]:hover,
+    fieldset[disabled] .btn-danger:hover,
+    .btn-danger.disabled:focus,
+    .btn-danger[disabled]:focus,
+    fieldset[disabled] .btn-danger:focus,
+    .btn-danger.disabled.focus,
+    .btn-danger[disabled].focus,
+    fieldset[disabled] .btn-danger.focus {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+
+    .btn-danger .badge {
+        color: #d9534f;
+        background-color: #fff;
+    }
+
+.jfgrid-cols-change-size, .jfgrid-rows-change-size, .jfgrid-change-size-line {
+    /*display: none;*/
+    position: absolute;
+    z-index: 12;
+}
+
+.jfgrid-cols-change-size {
+    width: 5px;
+    height: 100%;
+    background: #FC6666;
+    cursor: ew-resize;
+    opacity: 0;
+}
+
+.jfgrid-rows-change-size {
+    width: 100%;
+    height: 5px;
+    background: #FC6666;
+    cursor: ns-resize;
+    opacity: 0;
+}
+
+.jfgrid-change-size-line {
+    border-color: #FC6666;
+    border-style: solid;
+    z-index: 15;
+    display: none;
+}
+
+.jfgrid-count-show {
+    position: absolute;
+    z-index: 15;
+    background: rgba(76,76,76, 0.8);
+    color: #fff;
+    padding: 2px 3px;
+    border-radius: 3px;
+    transition: all 0.3s;
+    display: none;
+    white-space: nowrap;
+}
+
+.jfgrid-row-count-show {
+    text-align: center;
+}
+
+    .jfgrid-row-count-show div {
+        /*-webkit-writing-mode: vertical-rl;*/
+        writing-mode: vertical-rl;
+        /*-ms-writing-mode: tb-rl;*/
+        writing-mode: vertical-rl;
+        -ms-writing-mode: initial;
+        *writing-mode: tb-rl; /* IE 写法 */
+    }
+
+        .jfgrid-row-count-show div:last-child {
+            writing-mode: initial;
+        }
+
+#jfgrid-sheet-list {
+    max-height: 60%;
+    overflow: auto;
+}
+
+    #jfgrid-sheet-list .jfgrid-cols-menuitem {
+        padding-left: 0px;
+        padding-right: 10px;
+    }
+
+        #jfgrid-sheet-list .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+            padding-left: 5px;
+        }
+
+
+    #jfgrid-sheet-list .icon {
+        width: 15px;
+        margin-left: 4px;
+        display: inline-block;
+    }
+
+.jfgrid-input-box {
+    position: absolute;
+    font: normal normal 400 13px arial,sans,sans-serif;
+    text-align: left;
+    top: -10000px;
+    max-height: 9900px;
+    max-width: 9900px;
+    border: 2px #ff4a4a solid;
+    padding: 0 2px;
+    margin: 0;
+    z-index: 15;
+    resize: none;
+    overflow: auto;
+    overflow: initial;
+    white-space: pre-wrap;
+    outline: none;
+    -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    word-wrap: break-word;
+}
+
+
+.jfgrid-cell-input {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    outline: none;
+    cursor: text;
+    -webkit-user-modify: read-write-plaintext-only;
+    white-space: pre-wrap;
+    -webkit-transform: translateZ(0);
+/*    background-color: white;*/
+}
+
+#jfgrid-rich-text-editor{
+    -webkit-user-modify: read-write; 
+/*    background-color: rgb(255, 255, 255); 
+    font-size: 13px; 
+    color: rgb(0, 0, 0); 
+    font-weight: 400; 
+    font-family: Arial; 
+    font-style: normal;*/
+}
+
+.jfgrid-input-box-index {
+    display: none;
+    position: absolute;
+    /*top: -20px;
+    left: -3px;*/
+    height: 14px;
+    line-height: 16px;
+    font-size: 12px;
+    padding: 1px 6px;
+    background-color: #ff4a4a;
+    border-radius: 2px;
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    color: white;
+}
+
+
+.jfgrid-modal-dialog {
+    -webkit-box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    background: #fff;
+    background-clip: padding-box;
+    border: 1px solid #acacac;
+    border: 1px solid rgba(0,0,0,.333);
+    outline: 0;
+    position: absolute;
+    color: #000;
+    padding: 30px 42px;
+    z-index: 100002;
+}
+
+.jfgrid-modal-dialog-mask {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    opacity: 0.6;
+    display: none;
+    left: 0px;
+    top: 0px;
+    z-index: 1004;
+}
+
+
+
+.jfgrid-modal-dialog-title {
+    background-color: #fff;
+    color: #000;
+    cursor: default;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+    margin: 0 0 16px;
+}
+
+.jfgrid-modal-dialog-title-close {
+    height: 11px;
+    opacity: 0.7;
+    padding: 17px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 11px;
+    color: #d4d4d4;
+    outline: 0;
+}
+
+.jfgrid-modal-dialog-chart {
+    padding: 20px 10px;
+    webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/*         .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title{
+             line-height:0px;
+             margin: 0px;
+             font-size: 12px;
+         }
+
+        .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-close,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-max,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-min,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-restore, .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-update {
+             height: 5px;
+             opacity: 0.7;
+             padding: 12px;
+         }
+
+         .jfgrid-modal-dialog-title-update {
+             right: 105px;
+             color:#FC6666;
+             font-size:14px;
+             padding-top: 9px;
+         }
+
+         .jfgrid-modal-dialog-title-min {
+             right: 70px;
+             padding-top: 9px;
+         }
+
+         .jfgrid-modal-dialog-title-max, .jfgrid-modal-dialog-title-restore {
+             right: 35px;
+         }
+
+         .jfgrid-modal-dialog-title-restore{
+             display: none;
+         }*/
+
+.jfgrid-modal-dialog-resize {
+    position: absolute;
+    border: 2px solid #FC6666;
+    margin: 0px;
+    padding: 0px;
+    top: -2px;
+    left: -2px;
+    bottom: -2px;
+    right: -2px;
+    pointer-events: none;
+}
+
+.jfgrid-modal-dialog-resize-item {
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    background: #ffffff;
+    border: 2px solid #FC6666;
+    pointer-events: all;
+    border-radius: 6px;
+}
+
+.jfgrid-modal-dialog-resize-item-lt {
+    left: -6px;
+    top: -6px;
+    cursor: se-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-mt {
+    left: 50%;
+    top: -6px;
+    margin-left: -4px;
+    cursor: s-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-rt {
+    right: -6px;
+    top: -6px;
+    cursor: ne-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-lm {
+    top: 50%;
+    left: -6px;
+    margin-top: -4px;
+    cursor: w-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-rm {
+    top: 50%;
+    right: -6px;
+    margin-top: -4px;
+    cursor: w-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-lb {
+    left: -6px;
+    bottom: -6px;
+    cursor: ne-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-mb {
+    left: 50%;
+    bottom: -6px;
+    margin-left: -4px;
+    cursor: s-resize;
+}
+
+.jfgrid-modal-dialog-resize-item-rb {
+    right: -6px;
+    bottom: -6px;
+    cursor: se-resize;
+}
+
+
+.jfgrid-modal-dialog-controll {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    right: -35px;
+    /* width: 60px; */
+    font-size: 14px;
+    top: 0px;
+}
+
+.jfgrid-modal-controll-btn {
+    height: 13px;
+    /* opacity: 0.7; */
+    padding: 8px;
+    /* position: relative; */
+    /* right: 0px; */
+    /* top: 0px; */
+    width: 13px;
+    color: #d4d4d4;
+    outline: 0;
+    border: 1px solid #B6B6B6;
+    display: block;
+    background: #fff;
+    margin-bottom: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+}
+
+    .jfgrid-modal-controll-btn:hover {
+        border: 1px solid #A1A1A1;
+        color: #FC6666;
+    }
+
+    .jfgrid-modal-controll-btn:active {
+        border: 1px solid #BBBBBB;
+        background: #EFEFEF;
+        color: #FC6666;
+    }
+
+.jfgrid-modal-controll-del {
+    font-size: 16px;
+}
+
+.jfgrid-modal-controll-max-close {
+    font-size: 22px;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    background: #383838;
+    opacity: 0.7;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    color: #fff;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 100000;
+    text-align: center;
+}
+
+.jfgrid-modal-controll-max-close:hover {
+    background: #FC6666;
+    cursor: pointer;
+}
+
+.jfgrid-sort-item-close {
+    margin-right: 3px;
+    font-size: 14px;
+    color: #BBBBBB;
+    cursor: pointer;
+}
+
+    .jfgrid-sort-item-close:hover {
+        color: #494949;
+    }
+
+.jfgrid-modal-dialog-title-close:hover {
+    color: #5e5e5e;
+    cursor: pointer;
+}
+
+.jfgrid-modal-dialog-content {
+    background-color: #fff;
+    line-height: 1.4em;
+    word-wrap: break-word;
+}
+
+.jfgrid-modal-dialog-buttons {
+    margin-top: 10px;
+}
+
+    .jfgrid-modal-dialog-buttons button {
+        margin-right: 10px;
+    }
+
+.jfgrid-modal-dialog-title-text span {
+    font-family: Arial;
+}
+
+.jfgrid-sort-modal {
+    font-size: 12px;
+}
+
+    .jfgrid-sort-modal label input, .jfgrid-sort-modal label span {
+        vertical-align: middle;
+    }
+
+    .jfgrid-sort-modal > div, .jfgrid-sort-modal table {
+        margin-bottom: 10px;
+    }
+
+        .jfgrid-sort-modal table tr {
+            margin-bottom: 10px;
+        }
+
+            .jfgrid-sort-modal table tr td {
+                padding: 5px;
+                white-space: nowrap;
+                border-top: 1px solid #ffc6c6;
+            }
+
+                .jfgrid-sort-modal table tr td > div:first-child {
+                    margin-bottom: 8px;
+                }
+
+                .jfgrid-sort-modal table tr td select {
+                    max-width: 180px;
+                    min-width: 50px;
+                }
+
+            .jfgrid-sort-modal table tr:first-child td {
+                border-top: none;
+            }
+
+.jfgrid-filter-options {
+    color: #897BFF;
+    cursor: pointer;
+    position: absolute;
+    z-index: 20;
+    border: 1px solid #897BFF;
+    border-radius: 3px;
+    top: 3px;
+    margin-left: 0px;
+    display: none;
+    padding: 0px 4px;
+    font-size: 12px;
+    height: 15px;
+    background: #fff;
+    /* transition: all 0.1s; */
+}
+
+    .jfgrid-filter-options:hover {
+        color: #fff;
+        border: 1px solid #fff;
+        background: #897BFF;
+    }
+
+.jfgrid-filter-options-active {
+    color: #fff;
+    border: 1px solid #897BFF;
+    background: #897BFF;
+}
+
+
+.jfgrid-flat-menu-button {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: #f5f5f5;
+    background-image: -webkit-linear-gradient(to bottom,#f5f5f5,#f1f1f1);
+    background-image: -moz-linear-gradient(to bottom,#f5f5f5,#f1f1f1);
+    background-image: -ms-linear-gradient(to bottom,#f5f5f5,#f1f1f1);
+    background-image: -o-linear-gradient(to bottom,#f5f5f5,#f1f1f1);
+    background-image: linear-gradient(to bottom,#f5f5f5,#f1f1f1);
+    border: 1px solid #dcdcdc;
+    color: #333;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 27px;
+    list-style: none;
+    margin: 0 2px;
+    min-width: 46px;
+    outline: none;
+    padding: 0 18px 0 6px;
+    text-align: left;
+    text-decoration: none;
+    position: relative;
+    padding-left: 15px;
+}
+
+    .jfgrid-flat-menu-button:hover {
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        background-color: #f5f5f5;
+        background-image: -webkit-linear-gradient(to bottom,#f1f1f1,#f5f5f5);
+        background-image: -moz-linear-gradient(to bottom,#f1f1f1,#f5f5f5);
+        background-image: -ms-linear-gradient(to bottom,#f1f1f1,#f5f5f5);
+        background-image: -o-linear-gradient(to bottom,#f1f1f1,#f5f5f5);
+        background-image: linear-gradient(to bottom,#f1f1f1,#f5f5f5);
+        border: 1px solid #D0D0D0;
+        color: #000;
+    }
+
+    .jfgrid-flat-menu-button div {
+        display: inline-block;
+        vertical-align: middle;
+        position: absolute;
+        right: 15px;
+    }
+
+
+/*图表生成CSS*/
+
+.jfgrid-data-visualization {
+    width: 60%;
+    min-width: 860px;
+}
+
+.jfgrid-data-visualization-selection, .jfgrid-data-pivotTable-selection {
+    width: 30%;
+    min-width: 200px;
+    display: none;
+}
+
+.jfgrid-data-visualization-chart {
+    width: 50%;
+    /*min-width: 860px;*/
+    height: 50%;
+}
+
+.jfgrid-data-visualization-chart .jfgrid-modal-dialog-content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.jfgrid-datavisual-modal {
+    font-size: 12px;
+    /*height: 450px;*/
+    height: 100%;
+    width: 100%;
+}
+
+/*, .jfgrid-datavisual-right*/
+.jfgrid-datavisual-left {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.jfgrid-datavisual-left {
+}
+
+.jfgrid-datavisual-tabs {
+    border-bottom: 1px solid #DEDEDE;
+    width: 80%;
+    height: 26px;
+    padding-left: 20px;
+}
+
+    .jfgrid-datavisual-tabs .jfgrid-datavisual-tab {
+        padding: 0px 5px;
+        text-align: center;
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #fff;
+        border-bottom: none;
+        height: 24px;
+        line-height: 24px;
+        background: #fff;
+        color: #777;
+    }
+
+        .jfgrid-datavisual-tabs .jfgrid-datavisual-tab:hover {
+            color: #000;
+        }
+
+    .jfgrid-datavisual-tabs .jfgrid-datavisual-tab-active {
+        border: 1px solid #DEDEDE;
+        border-bottom: none;
+        cursor: default;
+        height: 26px;
+        color: #000;
+    }
+
+.jfgrid-datavisual-tab-content {
+    position: absolute;
+    top: 28px;
+    bottom: 0px;
+    width: 100%;
+    display: none;
+}
+
+
+
+.jfgrid-datavisual-quick {
+}
+
+.jfgrid-datavisual-quick-menu {
+    width: 90px;
+    overflow: auto;
+    margin-top: 5px;
+}
+.jfgrid-datavisual-quick-menu::-webkit-scrollbar {
+    display:none;
+}
+
+    .jfgrid-datavisual-quick-menu > div {
+        text-align: left;
+        padding: 4px 4px;
+        border-right: 3px solid #fff;
+        color: #777;
+        cursor: pointer;
+        line-height: 1.4em;
+        word-wrap: break-word;
+        /*margin: 4px 0px;*/
+    }
+
+        .jfgrid-datavisual-quick-menu > div:hover {
+            color: #000;
+        }
+
+        .jfgrid-datavisual-quick-menu > div i {
+            width: 15px;
+        }
+
+        .jfgrid-datavisual-quick-menu > div:hover i {
+            color: #FF7E7E;
+        }
+
+        .jfgrid-datavisual-quick-menu > div.jfgrid-datavisual-quick-menu-active {
+            border-right: 3px solid #FF7E7E;
+            color: #000;
+            font-weight: bold;
+        }
+
+            .jfgrid-datavisual-quick-menu > div.jfgrid-datavisual-quick-menu-active:hover i {
+                color: #000;
+            }
+
+.jfgrid-datavisual-quick-range {
+    padding: 5px 0px;
+}
+
+.jfgrid-datavisual-range-container {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-top: 1px solid #c0c0c0;
+    min-width: 20px;
+    width: 100%;
+    max-width: 200px;
+    display: inline-block;
+}
+
+.jfgrid-datavisual-range-container-focus {
+    border: 1px solid #4d90fe;
+    box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+    outline: none;
+}
+
+.jfgrid-datavisual-range-input, .jfgrid-datavisual-range-input:focus {
+    background: transparent !important;
+    border: none !important;
+    box-sizing: border-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    height: 25px;
+    margin: 0;
+    outline: none !important;
+    padding: 1px 8px !important;
+    width: 100%;
+}
+
+.jfgrid-datavisual-range-button-container {
+    overflow: hidden;
+    padding: 0 0 0 8px;
+    text-align: right;
+    width: 21px;
+}
+
+    .jfgrid-datavisual-range-button-container div {
+        padding: 2px 10px 0px 10px;
+        font-size: 18px;
+        cursor: pointer;
+        color: #6598F3;
+    }
+
+        .jfgrid-datavisual-range-button-container div:hover {
+            color: #FF7E7E;
+        }
+
+.jfgrid-datavisual-range-config {
+    /*display: inline-block;*/
+}
+
+.jfgrid-datavisual-quick-m{
+    margin-top: 5px;
+}
+
+.jfgrid-datavisual-quick-list {
+    left: 90px;
+    right: 0px;
+    bottom: 0px;
+    top: 110px;
+    position: absolute;
+    overflow: auto;
+    border-top: 1px solid #e5e5e5;
+    padding: 5px 3px 35px 3px;
+}
+
+.jfgrid-datavisual-quick-list-title {
+    padding: 4px 6px;
+    background: #e5e5e5;
+    margin-top: 10px;
+}
+
+.jfgrid-datavisual-quick-list-ul {
+    overflow: hidden;
+}
+
+.jfgrid-datavisual-quick-list-item {
+    display: inline-block;
+    margin: 5px 8px;
+    border: 1px solid #DADADA;
+    width: 100px;
+    height: 80px;
+}
+
+    .jfgrid-datavisual-quick-list-item:hover {
+        border: 1px solid #FF7E7E;
+        box-shadow: 0px 0px 20px #FF7E7E;
+    }
+
+    .jfgrid-datavisual-quick-list-item img {
+        display: inline-block;
+        width: 100px;
+        height: 80px;
+    }
+
+.jfgrid-datavisual-quick-list-item-active {
+    border: 1px solid #6598F3;
+    box-shadow: 0px 0px 20px #6598F3;
+}
+
+/*.jfgrid-datavisual-right {
+    background: #fff;
+}
+
+.jfgrid-datavisual-right-chart {
+    width: 100%;
+    height: 90%;
+    top: 5%;
+    position: relative;
+}*/
+
+.jfk-tooltip {
+    z-index: 300000;
+}
+
+.jfk-tooltip-hide {
+    -webkit-transition: visibility .13s,opacity .13s ease-out,left 0 linear .13s,top 0 linear .13s;
+    -moz-transition: visibility .13s,opacity .13s ease-out,left 0 linear .13s,top 0 linear .13s;
+    -o-transition: visibility .13s,opacity .13s ease-out,left 0 linear .13s,top 0 linear .13s;
+    transition: visibility .13s,opacity .13s ease-out,left 0 linear .13s,top 0 linear .13s;
+    opacity: 0;
+    left: 20px !important;
+    top: 20px !important;
+    visibility: hidden !important;
+}
+
+.jfk-tooltip {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: visibility 0,opacity .13s ease-in;
+    -moz-transition: visibility 0,opacity .13s ease-in;
+    -o-transition: visibility 0,opacity .13s ease-in;
+    transition: visibility 0,opacity .13s ease-in;
+    background-color: #2a2a2a;
+    border: 1px solid #fff;
+    color: #fff;
+    cursor: default;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: -1px;
+    opacity: 1;
+    padding: 7px 9px;
+    position: absolute;
+    visibility: visible;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-break: break-word;
+}
+
+.jfk-tooltip-arrowup {
+    top: -6px;
+}
+
+.jfk-tooltip-arrow {
+    pointer-events: none;
+    position: absolute;
+}
+
+    .jfk-tooltip-arrow .jfk-tooltip-arrowimplafter {
+        border: 5px solid;
+    }
+
+    .jfk-tooltip-arrow .jfk-tooltip-arrowimplbefore {
+        border: 6px solid;
+    }
+
+    .jfk-tooltip-arrow .jfk-tooltip-arrowimplbefore, .jfk-tooltip-arrow .jfk-tooltip-arrowimplafter {
+        content: '';
+        display: block;
+        height: 0;
+        position: absolute;
+        width: 0;
+    }
+
+.jfk-tooltip-arrowup .jfk-tooltip-arrowimplafter {
+    border-top-width: 0;
+    top: 1px;
+}
+
+.jfk-tooltip-arrowdown .jfk-tooltip-arrowimplafter, .jfk-tooltip-arrowup .jfk-tooltip-arrowimplafter {
+    border-color: #2a2a2a transparent;
+    left: -5px;
+}
+
+.jfk-tooltip-arrowup .jfk-tooltip-arrowimplbefore {
+    border-top-width: 0;
+}
+
+.jfk-tooltip-arrowdown .jfk-tooltip-arrowimplbefore, .jfk-tooltip-arrowup .jfk-tooltip-arrowimplbefore {
+    border-color: #fff transparent;
+    left: -6px;
+}
+
+
+/*图表详细设置*/
+.jfgrid-datavisual-config {
+    position: relative;
+    width: 100%;
+    height: 97%;
+    overflow: auto;
+    top: 0px;
+}
+
+    .jfgrid-datavisual-config input {
+        outline: none;
+    }
+
+    .jfgrid-datavisual-config .jfgrid-datavisual-accordion-title {
+        position: relative;
+        width: 97%;
+        height: 33px;
+        background: #F5F5F5;
+        border: 1px solid #E5E5E5;
+        margin-top: 30px;
+        line-height: 30px;
+        font-weight: bold;
+        color: #D14836;
+        cursor: pointer;
+    }
+
+        .jfgrid-datavisual-config .jfgrid-datavisual-accordion-title:hover {
+            background: #EFEFEF;
+            border: 1px solid #E0E0E0;
+        }
+
+    .jfgrid-datavisual-config .jfgrid-datavisual-accordion-content {
+        position: relative;
+        width: 97%;
+        border: 1px solid #E5E5E5;
+        border-top: 1px solid #fff;
+        display: none;
+        color: #505050;
+        padding-bottom: 20px;
+    }
+
+.jfgrid-datavisual-config-input, .jfgrid-datavisual-config-input-no {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-top: 1px solid #c0c0c0;
+    min-width: 50px;
+    width: 90%;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px;
+}
+
+    .jfgrid-datavisual-config-input:focus, .jfgrid-datavisual-config-input-no:focus {
+        border: 1px solid #4d90fe;
+        box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+        outline: none;
+    }
+
+.jfgrid-datavisual-content-row {
+    margin-left: 15px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.jfgrid-datavisual-content-column {
+    display: inline-block;
+    position: relative;
+}
+
+.jfgrid-datavisual-content-column-title {
+    text-align: left;
+    font-size: 14px;
+}
+
+.jfgrid-datavisual-content-column-right {
+    text-align: right;
+}
+
+.jfgrid-datavisual-content-rowsplit {
+    height: 5px;
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.jfgrid-datavisual-content-rowsplit-sub {
+    height: 2px;
+    border-top: 1px dashed #E5E5E5;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 18px;
+    text-align: center;
+}
+
+.sp-replacer {
+    padding: 2px;
+    border: solid 1px #E5E5E5;
+    background: #F5F5F5;
+}
+
+.ui-visual-focus {
+    box-shadow: none;
+}
+
+.jfgrid-datavisual-config-slider, .jfgrid-datavisual-config-slider-range {
+    width: 70%;
+    display: inline-block;
+}
+
+    .jfgrid-datavisual-config-slider-range .jfgrid-slider-handle {
+        width: 45px;
+        height: 26px;
+        top: 50%;
+        margin-top: -13px;
+        text-align: center;
+        line-height: 26px;
+    }
+
+.jfgrid-datavisual-content-row-subtitle {
+    display: none;
+}
+
+.ui-selectmenu-button.ui-button {
+    text-align: left;
+    white-space: nowrap;
+    width: 48%;
+}
+
+.jfgrid-datavisual-content-column-italic {
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.jfgridChartAxisShow {
+    display: none;
+}
+
+.jfgrid-datavisual-chart-axistitle-show {
+    display: none;
+}
+
+.jfgridChartseriesShow {
+    display: none;
+}
+
+#jfgridswichxy-button, #piecutselect-button {
+    width: 70%;
+}
+
+.ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
+    padding: 0.5em 0 0.5em 3em;
+}
+
+.ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
+    height: 26px;
+    width: 26px;
+    top: 0.1em;
+    background-image: none;
+}
+
+#jfgridswichseries-menu .ui-state-active, #pie0cutselect-menu .ui-state-active, #pie1cutselect-menu .ui-state-active, #pie2cutselect-menu .ui-state-active, #jfgridscatterselectshow-menu .ui-state-active {
+    border: 1px solid #F5F5F5;
+    background: #F5F5F5;
+    color: #333;
+}
+
+.ui-front {
+    z-index: 100003;
+}
+
+.jfgrid-datavisual-skin {
+}
+
+.jfgrid-datavisual-skin-menu {
+    top: 5px;
+    position: absolute;
+    left: 0px;
+    width: 90%;
+    height: 30px;
+}
+
+#jfgrid-chart-theme-content {
+    height: 21px;
+    width: 120px;
+}
+
+.jfgrid-datavisual-skin-c {
+    position: absolute;
+    left: 0px;
+    top: 38px;
+    bottom: 0px;
+    /*background: #000;*/
+    width: 100%;
+    overflow: auto;
+}
+
+    .jfgrid-datavisual-skin-c .jfgrid-datavisual-skin-item {
+        display: inline-block;
+        width: 46%;
+        height: 152px;
+        /*background: red;*/
+        margin-right: 5px;
+        border: 4px solid #EFEFEF;
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .jfgrid-datavisual-skin-c .jfgrid-datavisual-skin-item-more {
+        display: inline-block;
+        width: 94%;
+        height: 32px;
+        position: relative;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 32px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-canvas, .jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+}
+
+.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-canvas {
+    /*z-index: 1;*/
+}
+
+.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-cover {
+    background-color: rgba(0,0,0,0.4);
+    color: #FFFFFF;
+    font-size: 14px;
+    height: 30%;
+    /*opacity: 0;*/
+    transition: opacity 0.15s ease;
+    -moz-transition: opacity 0.15s ease;
+    -webkit-transition: opacity 0.15s ease;
+    -o-transition: opacity 0.15s ease;
+}
+
+.jfgrid-datavisual-skin-item:hover .jfgrid-datavisual-skin-cover {
+    opacity: 1;
+    z-index: 2;
+}
+
+.jfgrid-datavisual-skin-cover .jfgrid-datavisual-skin-cover-txt {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    text-align: center;
+}
+
+
+
+/*图表点设置*/
+.jfgrid-chart-point-config {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    font-size: 12px;
+}
+
+.jfgrid-chart-point-config-set {
+    position: absolute;
+    width: 60%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    /*background:#ff0000;*/
+}
+
+.jfgrid-chart-point-config-left {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0px;
+    top: 0px;
+}
+
+.jfgrid-chart-point-config-left-top {
+    position: absolute;
+    top: 0px;
+    height: 120px;
+    width: 100%;
+}
+
+.jfgrid-chart-point-searchcondition {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+.jfgrid-chart-point-config-left-mid {
+    position: absolute;
+    top: 120px;
+    height: 25px;
+    width: 100%;
+    text-align: left;
+    margin-left: 20px;
+    line-height: 35px;
+}
+
+    .jfgrid-chart-point-config-left-mid span {
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 12px
+    }
+
+.jfgrid-chart-point-config-left-bottom {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    margin-top: 145px;
+    width: 100%;
+}
+
+.jfgrid-chart-point-searchitem-c {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    cursor: default;
+}
+
+.jfgrid-chart-point-searchitem {
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 90px;
+    border: 2px solid #F5F5F5;
+    background: #fff;
+    text-align: center;
+    padding: 5px 0px;
+    user-select: none;
+    cursor: default;
+    position: relative;
+}
+
+.jfgrid-chart-point-searchitem-selected {
+    position: absolute;
+    color: #616161;
+    left: -6px;
+    top: -10px;
+    font-size: 20px;
+    display: none;
+    font-weight: normal;
+}
+
+.jfgrid-chart-point-searchitem-active {
+    box-shadow: 0px 0px 4px #656565;
+}
+
+    .jfgrid-chart-point-searchitem-active .jfgrid-chart-point-searchitem-selected {
+        display: block;
+    }
+
+.jfgrid-chart-point-searchitem-name {
+    font-size: 12px;
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.jfgrid-chart-point-searchitem-dim {
+    font-size: 12px;
+    opacity: 0.7;
+    /*color: #C1C1C1;*/
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#jfgrid-chart-point-selectedhelp {
+    pointer-events: none;
+    position: absolute;
+    border: 1px dotted #535353;
+}
+
+.jfgrid-chart-point-config-right {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top: 0px;
+    right: 0px;
+}
+
+.jfgrid-chart-point-itemconfig {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    overflow: auto;
+}
+
+.jfgrid-chart-point-config-chart {
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+}
+
+.jfgrid-chart-point-config-chart-c {
+    width: 100%;
+    height: 80%;
+    top: 10%;
+    position: relative;
+}
+
+@media (max-width: 776px) {
+    .jfgrid-chart-point-config-set {
+        width: 90%;
+    }
+
+    .jfgrid-chart-point-config-chart {
+        width: 10%;
+    }
+}
+
+@media (min-width: 768px) {
+    .jfgrid-chart-point-config-set {
+        width: 80%;
+    }
+
+    .jfgrid-chart-point-config-chart {
+        width: 20%;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .jfgrid-chart-point-config-set {
+        width: 70%;
+    }
+
+    .jfgrid-chart-point-config-chart {
+        width: 30%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .jfgrid-chart-point-config-set {
+        width: 60%;
+    }
+
+    .jfgrid-chart-point-config-chart {
+        width: 40%;
+    }
+}
+
+@media (min-width: 1680px) {
+    .jfgrid-chart-point-config-set {
+        width: 50%;
+    }
+
+    .jfgrid-chart-point-config-chart {
+        width: 50%;
+    }
+}
+
+
+/*边栏通用样式*/
+.jfgrid-modal-dialog-slider {
+    top: 1px;
+    bottom: 1px;
+    position: absolute;
+    right: 0px;
+    width: 260px;
+    border: 1px solid #E5E5E5;
+    z-index: 1004;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /*display: none;*/
+}
+
+    .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title {
+        background: #333;
+        color: #fff;
+        height: 39px;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        line-height: 39px;
+        font-size: 13px;
+    }
+
+        .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title > span:first-child {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title > span:last-child {
+            position: relative;
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+.jfgrid-modal-dialog-slider-content {
+    background: #EFEFEF;
+    margin-top: 39px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    font-size: 12px;
+}
+
+.jfgrid-modal-dialog-slider-range {
+    background: #E1E1DE;
+    color: #1B1B19;
+    height: 40px;
+    font-size: 13px;
+    line-height: 40px;
+}
+
+    .jfgrid-modal-dialog-slider-range > div:first-child {
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        float: left;
+        max-width: 170px;
+        margin-right: 10px;
+        margin-left: 5px;
+        white-space: nowrap;
+    }
+
+    .jfgrid-modal-dialog-slider-range > div:last-child {
+        color: blue;
+        cursor: pointer;
+        float: left;
+    }
+
+.jfgrid-modal-dialog-slider-list {
+    width: 250px;
+    height: 320px;
+    overflow-y: scroll;
+    margin: 5px 0px;
+    margin-left: 5px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+}
+
+.jfgrid-modal-dialog-slider-list-title {
+    width: 100%;
+    height: 20px;
+    line-height: 25px;
+    padding: 0px 5px;
+}
+
+.jfgrid-modal-dialog-slider-list .jfgrid-modal-dialog-slider-list-item {
+    padding: 0px 4px;
+    position: relative;
+    width: 228px;
+    height: 25px;
+    user-select: none;
+    border: 1px solid #fff;
+}
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-modal-dialog-slider-list-item:hover {
+        background: #FFF6CB;
+        border: 1px solid #FFE463;
+    }
+
+.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-name {
+    cursor: pointer;
+    height: 25px;
+    line-height: 25px;
+    cursor: move;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+    left: 22px;
+    right: 40px;
+    top: 0px;
+}
+
+.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected {
+    width: 20px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 25px;
+}
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected i {
+        margin-top: 4px;
+        font-size: 16px;
+    }
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected div {
+        border: 1px solid #9C9C9C;
+        top: 4px;
+        left: 1px;
+        position: absolute;
+        height: 14px;
+        width: 14px;
+        -moz-box-shadow: 1px 1px 1px #DBDBDB inset; /* For Firefox3.6+ */
+        -webkit-box-shadow: 1px 1px 1px #DBDBDB inset; /* For Chrome5+, Safari5+ */
+        box-shadow: 1px 1px 1px #DBDBDB inset; /* For Latest Opera */
+    }
+
+        .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected div:hover {
+            border: 1px solid #5E5E5E;
+        }
+
+.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered {
+    width: 20px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    right: 20px;
+    top: 2px;
+    height: 25px;
+    display: none;
+}
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered i {
+        margin-top: 2px;
+        font-size: 16px;
+    }
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered:hover i {
+        color: #FB8686;
+    }
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered i.fa-times {
+        right: 0px;
+        bottom: 3px;
+        color: red;
+        font-size: 9px;
+        position: absolute;
+    }
+
+.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter {
+    width: 20px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 25px;
+}
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter i {
+        margin-top: 2px;
+        font-size: 16px;
+    }
+
+    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter:hover i {
+        color: #FB8686;
+    }
+
+.jfgrid-modal-dialog-slider-config-c {
+    width: 100%;
+    position: absolute;
+    margin-top: 390px;
+    top: 0px;
+    bottom: 3px;
+}
+
+.jfgrid-modal-dialog-slider-config {
+    height: 50%;
+    width: 50%;
+    position: absolute;
+}
+
+    .jfgrid-modal-dialog-slider-config > div:first-child {
+        color: #1B1B19;
+        font-size: 13px;
+        height: 20px;
+        line-height: 20px;
+        width: 100%;
+        padding-left: 5px;
+    }
+
+        .jfgrid-modal-dialog-slider-config > div:first-child span {
+            font-weight: bold;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+    .jfgrid-modal-dialog-slider-config .jfgrid-modal-dialog-slider-config-list {
+        position: absolute;
+        margin-top: 22px;
+        margin-left: 5px;
+        left: 0px;
+        right: 5px;
+        top: 0px;
+        bottom: 3px;
+        border: 1px solid #e5e5e5;
+        user-select: none;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+.jfgrid-modal-dialog-slider-config-list .jfgrid-modal-dialog-slider-config-item {
+    position: relative;
+    height: 19px;
+    line-height: 19px;
+    font-size: 12px;
+    border: 1px solid #FDB8B8;
+    background: #FDD7D7;
+    margin: 2px;
+}
+
+    .jfgrid-modal-dialog-slider-config-list .jfgrid-modal-dialog-slider-config-item:hover {
+        border: 1px solid #FB8686;
+        background: #FDCDCD;
+    }
+
+.jfgrid-modal-dialog-slider-config-item-txt {
+    position: absolute;
+    height: 100%;
+    left: 5px;
+    right: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: move;
+}
+
+.jfgrid-modal-dialog-slider-config-item-icon {
+    position: absolute;
+    height: 100%;
+    width: 15px;
+    right: 0;
+    top: -4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .jfgrid-modal-dialog-slider-config-item-icon:hover {
+        color: #FA7272;
+    }
+
+
+.jfgrid-modal-dialog-config-filter {
+    top: 0;
+    left: 0;
+}
+
+.jfgrid-modal-dialog-config-column {
+    top: 0;
+    left: 50%;
+}
+
+.jfgrid-modal-dialog-config-row {
+    top: 50%;
+    left: 0;
+}
+
+.jfgrid-modal-dialog-config-value {
+    top: 50%;
+    left: 50%;
+}
+
+#jfgrid-modal-dialog-slider-pivot-move {
+    position: absolute;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background: #fff;
+    border: 1px dotted #000;
+    color: #000;
+    font-size: 14px;
+    opacity: 0.6;
+    z-index: 1005;
+    padding: 3px 8px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.jfgrid-modal-dialog-slider-chart{
+    width: 445px;
+}
+
+.jfgrid-modal-dialog-slider-chart .jfgrid-modal-dialog-slider-title{
+    background:#b94045;
+}
+
+.jfgrid-modal-dialog-slider-chart .jfgrid-modal-dialog-slider-content{
+    background:#fff;
+}
+
+#jfgrid-dialog-pivotTable-clearitem {
+    color: blue;
+    cursor: pointer;
+    float: right;
+    margin-right: 30px;
+}
+
+
+/*冻结窗口样式*/
+.jfgrid-freezebar-handle, .jfgrid-freezebar-drop {
+    position: absolute;
+    z-index: 999;
+}
+
+.jfgrid-freezebar-vertical-handle {
+    width: 4px;
+    display: none;
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_jfgrid-freezebar_vertical.png) no-repeat;*/
+}
+
+.jfgrid-freezebar-vertical-drop {
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_jfgrid-freezebar_active_vertical.png) no-repeat;*/
+    width: 4px;
+}
+
+.jfgrid-freezebar-active .jfgrid-freezebar-vertical-handle {
+    display: block;
+    z-index: 1003;
+}
+
+.jfgrid-freezebar-vertical-handle-bar {
+    width: 2px;
+    background: #dbe5f7;
+    border-color: #a5c6fe;
+    border-style: solid;
+    border-width: 0 1px;
+    opacity: 0.45;
+    filter: alpha(opacity=45);
+    margin-top: 19px;
+    top: 0px;
+    bottom: 0px;
+}
+
+.jfgrid-freezebar-vertical-handle-title {
+    width: 4px;
+    background: #9dbefb;
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    height: 19px;
+    top: 0px;
+}
+
+.jfgrid-freezebar-handle-bar, .jfgrid-freezebar-drop-bar {
+    position: absolute;
+    z-index: 7;
+}
+
+.jfgrid-freezebar-vertical-drop-bar {
+    width: 4px;
+    background-color: #ababab;
+    border-width: 2px 1px 2px 2px;
+    margin-top: 19px;
+    top: 0px;
+    bottom: 0px;
+}
+
+.jfgrid-freezebar-vertical-drop-title {
+    width: 4px;
+    background: #616161;
+    /*            opacity: 0.80;
+            filter: alpha(opacity=80);*/
+    height: 19px;
+    top: 0px;
+}
+
+
+.jfgrid-freezebar-hover .jfgrid-freezebar-vertical-drop-bar, .jfgrid-freezebar-active .jfgrid-freezebar-vertical-drop-bar {
+    background: #C1C1C1;
+}
+
+.jfgrid-freezebar-hover .jfgrid-freezebar-vertical-drop-title, .jfgrid-freezebar-active .jfgrid-freezebar-vertical-drop-title {
+    background: #5D88DB;
+}
+
+
+.jfgrid-freezebar-horizontal-handle {
+    height: 4px;
+    display: none;
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_jfgrid-freezebar_horizontal.png) no-repeat;*/
+}
+
+.jfgrid-freezebar-horizontal-drop {
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_jfgrid-freezebar_active_horizontal.png) no-repeat;*/
+    height: 4px;
+}
+
+.jfgrid-freezebar-active .jfgrid-freezebar-horizontal-handle {
+    display: block;
+    z-index: 1003;
+}
+
+.jfgrid-freezebar-horizontal-handle-bar {
+    height: 2px;
+    background: #dbe5f7;
+    border-color: #a5c6fe;
+    border-style: solid;
+    border-width: 1px 0;
+    opacity: 0.45;
+    filter: alpha(opacity=45);
+    margin-left: 45px;
+    left: 0px;
+    right: 0px;
+}
+
+.jfgrid-freezebar-horizontal-handle-title {
+    height: 4px;
+    background: #9dbefb;
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    width: 45px;
+    left: 0px;
+}
+
+.jfgrid-freezebar-horizontal-drop-bar {
+    height: 4px;
+    overflow: hidden;
+    background-color: #ababab;
+    border-width: 2px 2px 1px 2px;
+    margin-left: 45px;
+    left: 0px;
+    right: 0px;
+}
+
+
+.jfgrid-freezebar-horizontal-drop-title {
+    height: 4px;
+    background: #616161;
+    /*            opacity: 0.80;
+            filter: alpha(opacity=80);*/
+    width: 45px;
+    left: 0px;
+}
+
+.jfgrid-freezebar-hover .jfgrid-freezebar-horizontal-drop-bar, .jfgrid-freezebar-active .jfgrid-freezebar-horizontal-drop-bar {
+    background: #C1C1C1;
+}
+
+.jfgrid-freezebar-hover .jfgrid-freezebar-horizontal-drop-title, .jfgrid-freezebar-active .jfgrid-freezebar-horizontal-drop-title {
+    background: #5D88DB;
+}
+
+
+
+/*函数样式*/
+#jfgrid-functionbox-container {
+    height: 100%;
+    padding-left: 10px;
+    overflow: hidden;
+    position: absolute;
+    padding: 0;
+    top: 0px;
+    left: 185px;
+    right: 10px;
+    border-left: 1px solid #e5e5e5;
+}
+
+
+    #jfgrid-functionbox-container > div {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+    }
+
+
+#jfgrid-functionbox {
+    bottom: 6px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 6px;
+    resize: none;
+    /*border: 1px #b9b9b9 solid;*/
+    font-family: arial,sans,sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    background-color: #ffffff;
+    padding: 0px 5px; 
+}
+
+
+
+    #jfgrid-functionbox .jfgrid-functionbox-cell-input {
+        word-wrap: break-word;
+        -webkit-nbsp-mode: space;
+        -webkit-line-break: after-white-space;
+    }
+
+.jfgrid-functionbox-cell-input {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    outline: none;
+    cursor: text;
+    -webkit-user-modify: read-write-plaintext-only;
+    white-space: pre-wrap;
+    -webkit-transform: translateZ(0);
+    background-color: white;
+}
+
+.jfgrid-formula-text-color {
+    color: black;
+}
+
+.jfgrid-formula-text-string {
+    color: forestgreen;
+}
+
+.jfgrid-formula-search-c {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border: 1px solid rgba(0,0,0,.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    color: #535353;
+    font-size: 12px;
+    background: #fff;
+    z-index: 1003;
+    width: 300px;
+    display: none;
+}
+
+    .jfgrid-formula-search-c .jfgrid-formula-search-item {
+        background: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+        .jfgrid-formula-search-c .jfgrid-formula-search-item .jfgrid-formula-search-detail {
+            display: none;
+            color: #444;
+        }
+
+        .jfgrid-formula-search-c .jfgrid-formula-search-item .jfgrid-formula-search-func {
+            color: #222;
+            font-size: 14px;
+        }
+
+    .jfgrid-formula-search-c .jfgrid-formula-search-item-active {
+        display: block;
+        border-top: 1px solid #EBEBEB;
+        border-bottom: 1px solid #EBEBEB;
+        background: #F5F5F5;
+    }
+
+        .jfgrid-formula-search-c .jfgrid-formula-search-item-active .jfgrid-formula-search-detail {
+            display: block;
+        }
+
+.jfgrid-formula-help-c {
+    display: none;
+    position: absolute;
+    left: 20%;
+    top: 20%;
+    border: 1px solid rgba(0,0,0,.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    color: #535353;
+    font-size: 12px;
+    background: #fff;
+    z-index: 1003;
+    width: 300px;
+}
+.jfgrid-formula-help-c .jfgrid-formula-help-content{
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.jfgrid-formula-help-content-example {
+    margin-top: 5px;
+}
+
+.jfgrid-formula-help-title {
+    display: block;
+    border-top: 1px solid #EBEBEB;
+    border-bottom: 1px solid #EBEBEB;
+    background: #F5F5F5;
+    padding: 2px 10px;
+    font-size: 14px;
+}
+
+.jfgrid-formula-help-title-formula {
+    width: 250px;
+    word-break: break-word;
+}
+
+.jfgrid-arguments-help-section {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.jfgrid-arguments-help-section-title {
+    padding: 1px 10px;
+    color: #666;
+}
+
+.jfgrid-arguments-help-parameter-content {
+    padding: 1px 10px;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+.jfgrid-arguments-help-formula {
+    padding: 1px 10px;
+    font-size: 14px;
+}
+
+.jfgrid-arguments-help-parameter-active {
+    background-color: #fff9b2;
+}
+
+
+.jfgrid-formula-help-collapse {
+    position: absolute;
+    top: 0px;
+    right: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+.jfgrid-formula-help-close {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+    .jfgrid-formula-help-close:hover, .jfgrid-formula-help-collapse:hover {
+        color: #555;
+    }
+
+
+.jfgridLoader {
+    font-size: 20px;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    text-indent: -9999em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation: load-effect 1s infinite linear;
+}
+.jfgridLoaderGif {  /*换用GIF loading*/
+    width: 8em;
+    height: 8em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%,-100%);
+    -moz-transform: translate(-50%,-100%);
+    -o-transform: translate(-50%,-100%);
+    transform: translate(-50%,-100%);
+
+    background-image: url(loading.gif);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: 100% 100%;
+}
+/*.jfgridLoaderGif>img{
+    width:100%;
+    height:100%;
+}*/
+
+@keyframes load-effect {
+   0%{
+      box-shadow:
+         /*
+          0:左移3em
+          -3em:下移2em
+          0:模糊距离0，即纯色
+          .2em:外扩.2em
+          #FFF:白色
+         */
+         0 -3em 0 .2em #FC6666,/*上*/
+         2em -2em 0 0 #FC6666,/*右上*/
+         3em 0 0 -.5em #FC6666,/*右*/
+         2em 2em 0 -.5em #FC6666,/*右下*/
+         0 3em 0 -.5em #FC6666, /*下*/
+         -2em 2em 0 -.5em #FC6666, /*左下*/
+         -3em 0 0 -.5em #FC6666, /*左*/
+         -2em -2em 0 0 #FC6666;/*左上*/
+   }
+
+   12.5% {
+      box-shadow:
+         0 -3em 0 0 #FC6666,
+         2em -2em 0 .2em #FC6666,
+         3em 0 0 0 #FC6666,
+         2em 2em 0 -.5em #FC6666,
+         0 3em 0 -.5em #FC6666,
+         -2em 2em 0 -.5em #FC6666,
+         -3em 0 0 -.5em #FC6666,
+         -2em -2em 0 -.5em #FC6666;
+   }
+
+   25% {
+      box-shadow:
+         0 -3em 0 -.5em #FC6666,
+         2em -2em 0 0 #FC6666,
+         3em 0 0 .2em #FC6666,
+         2em 2em 0 0 #FC6666,
+         0 3em 0 -.5em #FC6666,
+         -2em 2em 0 -.5em #FC6666,
+         -3em 0 0 -.5em #FC6666,
+         -2em -2em 0 -.5em #FC6666;
+   }
+
+   37.5% {
+      box-shadow:
+         0 -3em 0 -.5em #FC6666,
+         2em -2em 0 -.5em #FC6666,
+         3em 0 0 0 #FC6666,
+         2em 2em 0 .2em #FC6666,
+         0 3em 0 0 #FC6666,
+         -2em 2em 0 -.5em #FC6666,
+         -3em 0 0 -.5em #FC6666,
+         -2em -2em 0 -.5em #FC6666;
+   }
+
+   50% {
+      box-shadow:
+         0 -3em 0 -.5em #FC6666,
+         2em -2em 0 -.5em #FC6666,
+         3em 0 0 -.5em #FC6666,
+         2em 2em 0 0 #FC6666,
+         0 3em 0 .2em #FC6666,
+         -2em 2em 0 0 #FC6666,
+         -3em 0 0 -.5em #FC6666,
+         -2em -2em 0 -.5em #FC6666;
+   }
+
+   62.5% {
+      box-shadow:
+         0 -3em 0 -.5em #FC6666,
+         2em -2em 0 -.5em #FC6666,
+         3em 0 0 -.5em #FC6666,
+         2em 2em 0 -.5em #FC6666,
+         0 3em 0 0 #FC6666,
+         -2em 2em 0 .2em #FC6666,
+         -3em 0 0 0 #FC6666,
+         -2em -2em 0 -.5em #FC6666;
+   }
+
+   75% {
+      box-shadow:
+         0 -3em 0 -.5em #FC6666,
+         2em -2em 0 -.5em #FC6666,
+         3em 0 0 -.5em #FC6666,
+         2em 2em 0 -.5em #FC6666,
+         0 3em 0 -.5em #FC6666,
+         -2em 2em 0 0 #FC6666,
+         -3em 0 0 .2em #FC6666,
+         -2em -2em 0 0 #FC6666;
+   }
+
+   87.5% {
+      box-shadow:
+         0 -3em 0 0 #FC6666,
+         2em -2em 0 -.5em #FC6666,
+         3em 0 0 -.5em #FC6666,
+         2em 2em 0 -.5em #FC6666,
+         0 3em 0 -.5em #FC6666,
+         -2em 2em 0 0 #FC6666,
+         -3em 0 0 0 #FC6666,
+         -2em -2em 0 .2em #FC6666;
+   }
+
+   100% {
+      box-shadow:
+         0 -3em 0 .2em #FC6666,
+         2em -2em 0 0 #FC6666,
+         3em 0 0 -.5em #FC6666,
+         2em 2em 0 -.5em #FC6666,
+         0 3em 0 -.5em #FC6666,
+         -2em 2em 0 -.5em #FC6666,
+         -3em 0 0 -.5em #FC6666,
+         -2em -2em 0 0 #FC6666;
+   }
+}
+
+.jfgridpopover{
+    position:absolute; 
+/*    left: 50%; 
+    top:20px; */
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: 18px;
+    padding: 20px 100px;
+    text-align: center;
+    z-index:10000;
+    border-radius: 4px;
+    user-select: none;
+    display: none;
+}
+
+.jfgridpopover .jfgridpopover-content{
+
+}
+
+.jfgridpopover .jfgridpopover-btn{
+    position: absolute;
+    right:10px;
+    top: 50%;
+    margin-top: -12px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.jfgridpopover .jfgridpopover-btn:hover{
+    border: 1px solid #FEA2A2;
+    color: #FEA2A2;
+}
+
+.jfgridPaintCursor{
+    cursor: url(paint_24px.ico), auto;
+}
+
+/*        input {
+             -webkit-appearance: textfield;
+             background-color: white;
+             -webkit-rtl-ordering: logical;
+             user-select: text;
+             cursor: auto;
+             padding: 1px;
+             border-width: 2px;
+             border-style: inset;
+             border-color: initial;
+             border-image: initial;
+         }
+         user agent stylesheet
+         input, textarea, keygen, select, button {
+             text-rendering: auto;
+             color: initial;
+             letter-spacing: normal;
+             word-spacing: normal;
+             text-transform: none;
+             text-indent: 0px;
+             text-shadow: none;
+             display: inline-block;
+             text-align: start;
+             margin: 0em 0em 0em 0em;
+             font: 13.3333px Arial;
+         }*/
+         
+/*查找替换弹出框样式*/
+#jfgrid-search-replace .tabBox{
+    margin-top: 20px;
+    font-size: 0;
+}
+#jfgrid-search-replace .tabBox span{
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #d4d4d4;
+    font-size: 14px;
+    line-height: 2;
+}
+#jfgrid-search-replace .tabBox span.on{
+    background-color: #8C89FE;
+    border-color: #726EFE;
+    color: #fff;
+}
+#jfgrid-search-replace .ctBox{
+    padding: 5px 10px;
+    border: solid 1px #d4d4d4;
+    font-size: 14px;
+}
+#jfgrid-search-replace .inputBox{
+    height: 90px;
+    position: relative;
+}
+#jfgrid-search-replace .inputBox .textboxs{
+    height: 30px;
+    line-height: 30px;
+}
+#jfgrid-search-replace .inputBox .checkboxs{
+    height: 90px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#jfgrid-search-replace .inputBox .checkboxs div{
+    height: 30px;
+    line-height: 30px;
+}
+#jfgrid-search-replace .inputBox .checkboxs input[type="checkbox"]{
+    float: left;
+    margin-top: 9px;
+}
+#jfgrid-search-replace .btnBox{
+    margin-top: 10px;
+}
+#jfgrid-search-replace .btnBox button{
+    margin: 0 2.5px;
+}
+#jfgrid-search-replace #searchAllbox{
+    height: 210px;
+    border:1px solid #d4d4d4;
+    margin-top:10px;
+    overflow-y: auto;
+    position: relative;
+}
+#jfgrid-search-replace #searchAllbox .boxTitle{
+    width: 100%;
+    height: 30px;
+    line-height: 29px;
+    padding: 0 5px;
+    background-color: #fff; 
+    border-bottom:1px solid #d4d4d4;
+    box-sizing: border-box;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+#jfgrid-search-replace #searchAllbox .boxTitle span{
+    display: inline-block;
+    text-align: center;
+}
+#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(1){
+    width: 25%;
+}
+#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(2){
+    width: 25%;
+}
+#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(3){
+    width: 50%;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem{
+    height: 30px;
+    line-height: 29px;
+    border-bottom:1px solid #d4d4d4;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem.on{
+    background-color: #8C89FE;
+    color: #fff;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem span{
+    display: block;
+    text-align: center;
+    float: left;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(1){
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(2){
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(3){
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*函数公式查找样式*/
+#jfgrid-search-formula{
+    font-size: 12px;
+}
+#jfgrid-search-formula .inpbox{
+    margin-bottom: 5px;
+}
+#jfgrid-search-formula .inpbox label{
+    display: block;
+    margin-bottom: 5px;
+}
+#jfgrid-search-formula .inpbox input{
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+#jfgrid-search-formula .selbox{
+    margin-bottom: 5px;
+}
+#jfgrid-search-formula .selbox select{
+    width: 50%;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+#jfgrid-search-formula .listbox label{
+    display: block;
+    margin-bottom: 5px;
+}
+#formulaTypeList{
+    width: 300px;
+    height: 170px;
+    border: 1px solid #d4d4d4;
+    overflow-y: scroll;
+}
+#formulaTypeList .listBox{
+    padding: 5px;
+    border-bottom: 1px solid #d4d4d4;
+}
+#formulaTypeList .listBox.on{
+    background-color: #8C89FE;
+    color: #fff;
+}
+#formulaTypeList .listBox span:nth-of-type(1){
+    display:block;
+}
+#formulaTypeList .listBox span:nth-of-type(2){
+    display:block;
+}
+#jfgrid-search-formula-parm{
+    width: 502px;
+    font-size: 12px;
+}
+#jfgrid-search-formula-parm .parmListBox{
+    width: 500px;
+    padding: 5px 0;
+    border: 1px solid #d4d4d4;
+}
+#jfgrid-search-formula-parm .parmBox{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 5px;
+}
+#jfgrid-search-formula-parm .parmBox:last-child{
+    margin-bottom: 0;
+}
+#jfgrid-search-formula-parm .parmBox .name{
+    width: 90px;
+    height: 30px;
+    padding: 0 5px;
+    float: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#jfgrid-search-formula-parm .parmBox .txt{
+    width: 198px;
+    height: 28px;
+    border: 1px solid #d4d4d4;
+    float: left;
+}
+#jfgrid-search-formula-parm .parmBox .txt input{
+    width: 150px;
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    outline-style: none;
+    float: left;
+}
+#jfgrid-search-formula-parm .parmBox .txt i{
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+#jfgrid-search-formula-parm .fa-table{
+    cursor: pointer;
+    color: #6598F3;
+}
+#jfgrid-search-formula-parm .fa-table:hover{
+    color: #FF7E7E;
+}
+#jfgrid-search-formula-parm .parmBox .val{
+    width: 190px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#jfgrid-search-formula-parm .formulaDetails{
+    padding: 5px;
+}
+#jfgrid-search-formula-parm .parmDetailsBox{
+    max-height: 100px;
+    padding: 5px 0 5px 20px;
+    overflow-y: scroll;
+}
+#jfgrid-search-formula-parm .parmDetailsBox span{
+    display: inline-block;
+}
+#jfgrid-search-formula-parm .result{
+    padding: 5px;
+    border-top: 1px solid #d4d4d4;
+}
+/*条件格式颜色选择器*/
+#textCellColor{
+    border: 1px solid #d4d4d4;
+    padding: 5px 10px;
+}
+#textCellColor .colorbox{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+#textCellColor .colorbox input[type="checkbox"]{
+    float: left;
+    margin-top: 10px;
+}
+#textCellColor .colorbox label{
+    display: inline-block;
+    width: 80px;
+}
+/*条件格式单元格选择框*/
+#jfgrid-singleRange-dialog input, #jfgrid-multiRange-dialog input{
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    height: 30px;
+}
+/*条件格式弹出框*/
+#jfgrid-conditionformat-dialog{
+    font-size: 12px;
+}
+#jfgrid-conditionformat-dialog .box .boxTitleOne{
+    margin: 5px 0;
+    font-weight: 600;
+}
+#jfgrid-conditionformat-dialog .box .inpbox{
+    width: 198px;
+    height: 28px;
+    border: 1px solid #d4d4d4;
+}
+#jfgrid-conditionformat-dialog .box .inpbox input{
+    width: 150px;
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    outline-style: none;
+    float: left;
+}
+#jfgrid-conditionformat-dialog .box .inpbox2{
+    float: left;
+    width: 108px;
+    height: 28px;
+    border: 1px solid #d4d4d4;
+}
+#jfgrid-conditionformat-dialog .box .inpbox2 input{
+    width: 60px;
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    outline-style: none;
+    float: left;
+}
+#jfgrid-conditionformat-dialog .box i.fa-table{
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+#jfgrid-conditionformat-dialog .box .fa-table{
+    cursor: pointer;
+    color: #6598F3;
+}
+#jfgrid-conditionformat-dialog .box .fa-table:hover{
+    color: #FF7E7E;
+}
+#jfgrid-conditionformat-dialog .box #daterange-btn{
+    width: 188px;
+    height: 28px;
+    padding: 0 5px;
+    line-height: 28px;
+    border: 1px solid #d4d4d4;
+    cursor: pointer;
+}
+#jfgrid-conditionformat-dialog .box .selectbox{
+    width: 150px;
+    height: 30px;
+}
+
+#jfgrid-icon-dataBar-menuButton .bgImgBox{
+    width: 28px; 
+    height: 26px; 
+    background: url(../plugins/images/CFdataBar.png)no-repeat;
+}
+#jfgrid-icon-colorGradation-menuButton .bgImgBox{
+    width: 28px; 
+    height: 26px; 
+    background: url(../plugins/images/CFcolorGradation.png)no-repeat;
+}
+
+/*条件格式规则管理器*/
+#jfgrid-administerRule-dialog{
+    font-size: 12px;
+}
+#jfgrid-administerRule-dialog .chooseSheet{
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+#jfgrid-administerRule-dialog .chooseSheet select{
+    height: 24px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+#jfgrid-administerRule-dialog .ruleBox{
+    border: 1px solid #d4d4d4;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleBtn{
+    padding: 2.5px 5px;
+    border-bottom: 1px solid #d4d4d4;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleBtn button{
+    margin-right: 10px;
+    font-size: 12px;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle{
+    height: 30px;
+    padding: 0 10px;
+    border-bottom: 1px solid #d4d4d4;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span{
+    display: block;
+    height: 100%;
+    line-height: 29px;
+    float: left;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(1){
+    width: 30%;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(2){
+    width: 20%;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(3){
+    width: 45%;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox{
+    height: 150px;
+    overflow-y: scroll;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item{
+    height: 24px;
+    padding: 2.5px 10px;
+    border-bottom: 1px solid #d4d4d4;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item.on{
+    background-color: #8C89FE;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleName{
+    width: 30%;
+    height: 100%;
+    line-height: 24px;
+    padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+    box-sizing: border-box;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item.on .ruleName{
+    color: #fff;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .format{
+    width: 20%;
+    height: 100%;
+    line-height: 24px;
+    float: left;
+    position: relative;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .format .colorbox{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: solid 1px #d0d0d0;
+    margin: 3px 5px;
+    cursor: pointer;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange{
+    width: 45%;
+    height: 100%;
+    border: 1px solid #d4d4d4;
+    float: left;
+    margin-left: 10px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange input{
+    width: 130px;
+    height: 22px;
+    padding: 0 5px;
+    border: none;
+    outline-style: none;
+    float: left;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table{
+    float: right;
+    cursor: pointer;
+    color: #6598F3;
+    margin-top: 6px;
+    margin-right: 5px;
+}
+#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table:hover{
+    color: #FF7E7E;
+}
+
+/*新建、编辑条件格式规则*/
+.jfgrid-newEditorRule-dialog{
+    font-size: 12px;
+}
+.jfgrid-newEditorRule-dialog .boxTitle{
+    margin-bottom: 5px;
+}
+.jfgrid-newEditorRule-dialog .ruleTypeBox{
+    border: 1px solid #d4d4d4;
+    margin-bottom: 10px;
+}
+.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem{
+    padding: 3px 5px;
+    cursor: pointer;
+}
+.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem.on{
+    background-color: #7C79FE;
+    color: #fff;
+}
+.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem .icon{
+
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox{
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox .title{
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox select{
+    height: 30px;
+    font-size: 12px;
+    float: left;
+    margin-right: 5px;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox .inpbox{
+    width: 100px;
+    height: 30px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    font-size: 12px;
+    float: left;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox .inpbox input{
+    width: 70px;
+    height: 100%;
+    border: none;
+    outline-style: none;
+    padding: 0 5px;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox .txt{
+    display: block;
+    height: 100%;
+    line-height: 30px;
+    float: left;
+    margin: 0 5px;
+}
+.jfgrid-newEditorRule-dialog .ruleExplainBox #isPercent{
+    float: left;
+    margin: 9px 0 8px 10px;
+}
+.jfgrid-newEditorRule-dialog i.fa-table{
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+.jfgrid-newEditorRule-dialog .fa-table{
+    cursor: pointer;
+    color: #6598F3;
+}
+.jfgrid-newEditorRule-dialog .fa-table:hover{
+    color: #FF7E7E;
+}
+.jfgrid-newEditorRule-dialog .iconsBox{
+    height: 30px;
+    margin-bottom: 5px;
+    position: relative;
+}
+.jfgrid-newEditorRule-dialog .iconsBox label{
+    display: block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+}
+.jfgrid-newEditorRule-dialog .iconsBox .showbox{
+    width: 150px;
+    height: 20px;
+    padding: 4px 4px 4px 10px;
+    border: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+    float: left;
+    cursor: pointer;
+}
+.jfgrid-newEditorRule-dialog .iconsBox .showbox .model{
+    width: 125px;
+    height: 20px;
+    background: url(../plugins/images/CFicons.png)no-repeat;
+    background-size: 256px;
+    float: left;
+}
+.jfgrid-newEditorRule-dialog .iconsBox ul{
+    display: none;
+    width: 164px;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    position: absolute;
+    left: 80px;
+    top: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.jfgrid-newEditorRule-dialog .iconsBox ul li{
+    padding: 5px 10px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.jfgrid-newEditorRule-dialog .iconsBox ul li:hover{
+    background-color: #dfdfdf;
+}
+.jfgrid-newEditorRule-dialog .iconsBox ul li div{
+    width: 125px;
+    height: 20px;
+    background: url(../plugins/images/CFicons.png)no-repeat;
+    background-size: 256px;
+}
+
+/*条件格式 图标集弹框*/
+#jfgrid-CFicons-dialog .box{
+    padding: 10px;
+    border: 1px solid #dfdfdf;
+    font-size: 14px;
+}
+#jfgrid-CFicons-dialog .box .title{
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    background-color: #ebebeb;
+}
+#jfgrid-CFicons-dialog .box .list{
+    width: 300px;
+    padding: 5px 0;
+}
+#jfgrid-CFicons-dialog .box .list .left{
+    width: 50%;
+    float: left;
+}
+#jfgrid-CFicons-dialog .box .list .right{
+    width: 50%;
+    float: right;
+}
+#jfgrid-CFicons-dialog .box .list .item{
+    width: 125px;
+    height: 20px;
+    padding: 2.5px 10px;
+    background-color: #fff;
+    cursor: pointer;
+}
+#jfgrid-CFicons-dialog .box .list .item:hover{
+    background-color: #dfdfdf;
+}
+#jfgrid-CFicons-dialog .box .list .item div{
+    width: 125px;
+    height: 20px;
+    background: url(../plugins/images/CFicons.png)no-repeat; 
+    background-size: 256px;
+}
+
+/*交替颜色*/
+#jfgrid-modal-dialog-slider-alternateformat{
+    width: 280px;
+    font-size: 12px;
+}
+#jfgrid-modal-dialog-slider-alternateformat .jfgrid-modal-dialog-slider-content{
+    background-color: #fff;
+    overflow-y: scroll; 
+}
+#jfgrid-modal-dialog-slider-alternateformat .textTitle{
+    padding: 5px 10px;
+    font-weight: 600;
+}
+#jfgrid-alternateformat-range{
+    width: 198px;
+    height: 28px;
+    border: 1px solid #d4d4d4;
+    margin-left: 10px;
+}
+#jfgrid-alternateformat-range input{
+    width: 150px;
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    outline-style: none;
+    float: left;
+} 
+#jfgrid-alternateformat-range .fa-table{
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #6598F3;
+}
+#jfgrid-alternateformat-range .fa-table:hover{
+    color: #FF7E7E;
+}
+#jfgrid-alternateformat-checkbox{
+    padding: 5px 10px;
+    border-top: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4;
+    margin: 10px 0;
+}
+#jfgrid-alternateformat-checkbox div{
+    height: 20px;
+    line-height: 20px;
+}
+#jfgrid-alternateformat-checkbox div:first-child{
+    margin-bottom: 5px;
+}
+#jfgrid-alternateformat-checkbox input[type="checkbox"]{
+    float: left;
+    cursor: pointer;
+    margin-top: 4px;
+}
+#jfgrid-alternateformat-modelList{
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#jfgrid-alternateformat-modelCustom{
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#jfgrid-modal-dialog-slider-alternateformat .modelbox{
+    width: 36px;
+    padding: 2px;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+#jfgrid-modal-dialog-slider-alternateformat .modelbox.on{
+    border-color: #726EFE;
+}
+#jfgrid-modal-dialog-slider-alternateformat .modelbox .box{
+    width: 100%;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+}
+#jfgrid-modal-dialog-slider-alternateformat .modelbox .box span{
+    display: block;
+    width: 100%;
+    height: 10px;
+    line-height: 9px;
+    text-align: center;
+    border-bottom: 1px solid #d4d4d4;
+    box-sizing: border-box;
+}
+#jfgrid-modal-dialog-slider-alternateformat .modelbox .box span:last-child{
+    line-height: 10px;
+    border-bottom: none;
+}
+#jfgrid-alternateformat-modelToning{
+    padding: 10px;
+}
+#jfgrid-alternateformat-modelToning .toningbox{
+    height: 25px;
+    margin-bottom: 5px;
+}
+#jfgrid-alternateformat-modelToning .toningbox .toningShow{
+    width: 150px;
+    height: 100%;
+    line-height: 23px;
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    float: left;
+    margin-right: 10px;
+}
+#jfgrid-alternateformat-modelToning .toningbox .jfgrid-color-menu-button-indicator{
+    width: 20px;
+    float: left;
+    user-select: none;
+    cursor: pointer;
+}
+#jfgrid-alternateformat-modelToning .toningbox .jfgrid-color-menu-button-indicator .jfgrid-icon{
+    user-select: none;
+    margin-bottom: -6px;
+}
+#jfgrid-alternateformat-colorSelect-dialog .currenColor{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+#jfgrid-alternateformat-colorSelect-dialog .currenColor span{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: solid 1px #d0d0d0;
+    margin-left: 5px;
+    margin-bottom: -5px;
+    cursor: pointer;
+}
+#jfgrid-alternateformat-rangeDialog input{
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    height: 30px;
+}
+
+/*if公式生成器*/
+#jfgrid-ifFormulaGenerator-dialog{
+    font-size: 12px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox{
+    height: 30px;
+    margin-bottom: 10px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox label{
+    display: block;
+    width: 50px;
+    height: 100%;
+    line-height: 30px;
+    padding: 0 5px;
+    text-align: right;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox{
+    width: 150px;
+    height: 100%;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox input{
+    width: 100px;
+    height: 100%;
+    padding: 0;
+    border: none;
+    outline-style: none;
+    background: transparent;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table{
+    font-size: 14px;
+    color: #6598F3;
+    float: right;
+    margin-right: 0;
+    margin-top: 8px;
+    cursor: pointer;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table:hover{
+    color: #FF7E7E;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox span.text{
+    height: 100%;
+    line-height: 30px;
+    padding: 0 5px;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog #smallRange,#jfgrid-ifFormulaGenerator-dialog #largeRange{
+    width: 100px;
+    height: 100%;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog #rangeAssess{
+    height: 100%;
+    line-height: 30px;
+    float: left;
+    margin-left: 20px;
+}
+#jfgrid-ifFormulaGenerator-dialog #rangeAssess i.fa-table{
+    color: #6598F3;
+    cursor: pointer;
+}
+#jfgrid-ifFormulaGenerator-dialog #rangeAssess i.fa-table:hover{
+    color: #FF7E7E;
+}
+#jfgrid-ifFormulaGenerator-dialog #DivisionMethod{
+    width: 100px;
+    height: 100%;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog #DivisionMethodVal{
+    width: 120px;
+    height: 100%;
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    box-sizing: border-box;
+    float: left;
+    margin-left: 10px;
+}
+#jfgrid-ifFormulaGenerator-dialog #createBtn{
+    width: 100px;
+    height: 100%;
+    line-height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background-color: #8C89FE;
+    float: right;
+    cursor: pointer;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList{
+    border-top: 1px solid #d4d4d4;
+    height: 180px;
+    padding: 10px;
+    overflow-y: scroll;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item{
+    height: 30px;
+    margin-bottom: 10px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item input{
+    width: 80px;
+    height: 100%;
+    border: 1px solid #d4d4d4;
+    padding: 0 5px;
+    background: transparent;
+    box-sizing: border-box;
+    float: left;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item input.markText{
+    width: 140px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item select{
+    width: 50px;
+    height: 100%;
+    padding: 0 5px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    float: left;
+    margin: 0 10px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item span{
+    height: 100%;
+    line-height: 30px;
+    float: left;
+    margin: 0 10px;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item i.fa-remove{
+    font-size: 16px;
+    float: left;
+    margin-left: 15px;
+    margin-top: 7px;
+    color: #d6d6d6;
+    cursor: pointer;
+}
+#jfgrid-ifFormulaGenerator-dialog .ifList .item i.fa-remove:hover{
+    color: #333;
+}
+#jfgrid-ifFormulaGenerator-singleRange-dialog input,#jfgrid-ifFormulaGenerator-multiRange-dialog input{
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    height: 30px;
+}
+.pictorialBarUploadImg:hover {
+    border: 1px solid #ccc !important;
+    background: #EFEFEF;
+}
+
+/*下拉图标*/
+#jfgrid-dropCell-icon #icon_dropCell{
+    width:25px;
+    height:15px;
+    background-image: url(../plugins/images/icon_dropCell.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: 100% 100%;
+}
+
+/*定位*/
+#jfgrid-locationCell-dialog .listbox{
+    border: 1px solid #dfdfdf;
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+}
+#jfgrid-locationCell-dialog .listbox .listItem{
+    padding: 5px 0;
+}
+#jfgrid-locationCell-dialog .listbox .listItem input[type="radio"]{
+    float: left;
+    margin-top: 5px;
+}
+#jfgrid-locationCell-dialog .listbox .listItem .subbox{
+    height: 30px;
+    padding: 0 10px;
+}
+#jfgrid-locationCell-dialog .listbox .listItem .subbox .subItem{
+    float: left;
+    margin-right: 5px;
+}
+
+/*更多格式*/
+#jfgrid-moreFormat-dialog{
+    font-size: 14px;
+    color: #000;
+}
+#jfgrid-moreFormat-dialog .decimal{
+    margin-bottom: 5px;
+    height: 30px;
+    line-height: 30px;
+}
+#jfgrid-moreFormat-dialog .decimal input{
+    width: 80px;
+    height: 24px;
+    padding: 0 5px;
+}
+#jfgrid-moreFormat-dialog .listbox{
+    border: 1px solid #666;
+    height: 240px;
+    overflow-y: auto;
+}
+#jfgrid-moreFormat-dialog .listbox .listItem{
+    height: 30px;
+    padding: 0 20px 0 10px;
+    border-bottom: 1px solid #dfdfdf;
+}
+#jfgrid-moreFormat-dialog .listbox .listItem.on{
+    background-color: #7C79FE;
+    color: #fff;
+}
+#jfgrid-moreFormat-dialog .listbox .listItem .name{
+    line-height: 29px;
+    float: left;
+}
+#jfgrid-moreFormat-dialog .listbox .listItem .value{
+    line-height: 30px;
+    float: right;
+    color: gray;
+}
+#jfgrid-moreFormat-dialog .listbox .listItem.on .value{
+    color: #fff;
+}
+
+/*分列*/
+#jfgrid-splitColumn-dialog{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#jfgrid-splitColumn-dialog .box{
+    font-size: 14px;
+    
+}
+#jfgrid-splitColumn-dialog .box .boxTitle{
+    padding: 5px;
+}
+#jfgrid-splitColumn-dialog .box .boxMain{
+    padding: 5px;
+    border: 1px solid #dfdfdf;
+}
+#jfgrid-splitColumn-dialog .box input[type="checkbox"]{
+    float: left;
+    margin-top: 5px;
+}
+#jfgrid-splitColumn-dialog .box .boxMain input[type="text"]{
+    margin-left: 5px;
+    width: 50px;
+    padding: 0 5px;
+}
+#jfgrid-splitColumn-dialog .box #splitColumnData{
+    height: 100px;
+    overflow-y: auto;
+}
+#jfgrid-splitColumn-dialog .box #splitColumnData table{
+    border-collapse: collapse;
+}
+#jfgrid-splitColumn-dialog .box #splitColumnData td{
+    border: 1px solid #333;
+}
+
+/*图表设置最下方下拉框优化*/
+.jfgrid-datavisual-config .jfgrid-datavisual-accordion-content:last-child {
+    padding-bottom: 100px;
+}
+
+/*批注聚焦框 移动 改变大小*/
+.jfgrid-postil-dialog-move{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+}
+.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item{
+    /*background: #000;*/
+    position: absolute;
+    pointer-events: all;
+    cursor: move;
+}
+.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-t{
+    width: 100%;
+    height: 3px;
+    border-bottom: 1px solid #000;
+    left: 0;
+    top: -4px;
+}
+.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-r{
+    width: 3px;
+    height: 100%;
+    border-left: 1px solid #000;
+    right: -4px;
+    top: 0;
+}
+.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-b{
+    width: 100%;
+    height: 3px;
+    border-top: 1px solid #000;
+    left: 0;
+    bottom: -4px;
+}
+.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-l{
+    width: 3px;
+    height: 100%;
+    border-right: 1px solid #000;
+    left: -4px;
+    top: 0;
+}
+.jfgrid-postil-show-active .jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item{
+    border-color: #FC6666;
+}
+.jfgrid-postil-dialog-resize{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    top: -2px;
+    left: -2px;
+    bottom: -2px;
+    right: -2px;
+    pointer-events: none;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item{
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    border: 1px solid #FC6666;
+    pointer-events: all;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lt{
+    left: -6px;
+    top: -6px;
+    cursor: se-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-mt{
+    left: 50%;
+    top: -6px;
+    margin-left: -4px;
+    cursor: s-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lm{
+    top: 50%;
+    left: -6px;
+    margin-top: -4px;
+    cursor: w-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rm{
+    top: 50%;
+    right: -6px;
+    margin-top: -4px;
+    cursor: w-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rt{
+    right: -6px;
+    top: -6px;
+    cursor: ne-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lb{
+    left: -6px;
+    bottom: -6px;
+    cursor: ne-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-mb{
+    left: 50%;
+    bottom: -6px;
+    margin-left: -4px;
+    cursor: s-resize;
+}
+.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rb{
+    right: -6px;
+    bottom: -6px;
+    cursor: se-resize;
+}
+
+/*图表设置最下方下拉框优化*/
+.jfgrid-datavisual-config .jfgrid-datavisual-accordion-content:last-child {
+    padding-bottom: 100px;
+}
+
+/*图表样式新增样式: 设置界面overflow滚动*/
+.jfgrid-datavisual-left .el-tabs__content{
+    overflow: auto;
+}

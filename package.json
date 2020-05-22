@@ -1,0 +1,24 @@
+{
+  "name": "luckysheet",
+  "version": "1.0.0",
+  "main": "dist/luckysheet.cjs.js",
+  "module": "dist/luckysheet.esm.js",
+  "browser": "dist/luckysheet.umd.js",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "delete": "^1.1.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-if": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-useref": "^4.0.1"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "gulp build",
+    "dev": "gulp dev"
+  },
+  "files": [
+    "dist"
+  ]
+}
