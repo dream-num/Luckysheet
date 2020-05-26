@@ -11,12 +11,15 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-if": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-useref": "^4.0.1"
+    "gulp-useref": "^4.0.1",
+    "vuepress": "^1.5.0"
   },
   "dependencies": {},
   "scripts": {
     "build": "gulp build",
-    "dev": "gulp dev"
+    "dev": "gulp dev",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "files": [
     "dist"
