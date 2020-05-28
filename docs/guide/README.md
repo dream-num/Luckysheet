@@ -1,9 +1,9 @@
-# Luckysheet
+# 快速上手
 
-## Introduction - 介绍
+## 基本介绍
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
-## Features - 特性
+### 特性
 1. luckeeysht支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
 2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
 3. 支持一键截图、复制为json数据、共享编辑、excel与luckysheet之间数据的复制粘贴
@@ -11,52 +11,52 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 ![演示](https://minio.cnbabylon.com/babylon1/public/Luckysheet_demo.gif)
 
 
-## Documentation - 文档
+### Demo
 [在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/)
+## 开发模式
 
-## Requirements - 环境
+### 环境
 [Node.js](https://nodejs.org/en/) Version >= 6 
 
-## Installation - 安装
-```
+### 安装
+```shell
 npm install
 npm install gulp -g
 ```
 
-## Development - 开发
-开发
-```
+### 开发
+```shell
 npm run dev
 ```
-打包
-```
+
+### 打包
+```shell
 npm run build
 ```
 
-## Usage - 用法
+## 使用步骤
 
-#### 第一步
+### 第一步
 npm run build后dist文件夹下的所有文件复制到项目目录
 
-#### 第二步
+### 第二步
 引入依赖
-```
+```html
 <link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
 <link rel="stylesheet" href="plugins/plugins.min.css">
 <link rel="stylesheet" href="css/main.min.css">
 <script src="plugins/js/plugin.min.js"></script>
 <script src="main.min.js"></script>
 ```
-#### 第三步
+### 第三步
 指定一个表格容器
-```
+```html
 <div id="jfgrid" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-#### 第四步
+### 第四步
 创建一个表格
-```
+```javascript
 <script>
     $(function () {
         //配置项
@@ -68,14 +68,4 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 </script>
 ```
 
-## Contact - 联系
-mengshu@office2.cn
 
-## Authors and acknowledgment - 贡献者和感谢
-- Bug Pan ([@wpxp123456](https://github.com/wpxp123456))
-- Dushusir ([@Dushusir](https://github.com/Dushusir))
-
-## License - 版权信息
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2020-present, mengshukeji

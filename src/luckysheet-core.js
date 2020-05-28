@@ -27196,7 +27196,10 @@
         $(window).resize(function () {
             iscopyself = false;
             //jfgridautoadjustmousedown = 1;
-            jfgrid.jfgridsizeauto();
+            var jfgridDocument = document.getElementById("jfgrid");
+            if(jfgridDocument){
+                jfgrid.jfgridsizeauto();
+            }            
             //jfgridautoadjustmousedown = 2;
         });
 
