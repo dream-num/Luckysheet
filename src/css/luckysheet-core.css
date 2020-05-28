@@ -1802,7 +1802,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     right: 0;
     bottom: 0;
     left: 0;
-    border: 2px dashed #0188fb;
+    border: 2px dashed #12A5FF;
     z-index: 8;
 }
 
@@ -2008,7 +2008,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
 }
 
     .jfgrid-scrollbars::-webkit-scrollbar-thumb:hover {
-        background-color: #FC9A9A;
+        background-color: #969696;
         border: 1px solid #A0A0A0;
         border-radius: 12px;
     }

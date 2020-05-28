@@ -1782,6 +1782,12 @@
         }
     };
 
+    //设备是移动端
+    if(jfgrid.browser.mobilecheck()){
+        //去除滚动条
+        cellMainSrollBarSize = 0;
+    }
+
     jfgrid.controlHistory = {
         redo: function (e) {
             if (jfgrid.jfredo.length == 0) {
@@ -10526,8 +10532,8 @@
                             row_f = margeset.row[1];
                             row_pre_f = margeset.row[0];
 
-                            col_f = margeset.row[1];
-                            col_pre_f = margeset.row[0];
+                            col_f = margeset.column[1];
+                            col_pre_f = margeset.column[0];
                         }
 
                         var top = row_pre_f;
@@ -10776,8 +10782,8 @@
 
                         var margeset = jfgrid.menuButton.mergeborer(jfgrid.flowdata, rf, cf);
                         if(!!margeset){
-                            col_f = margeset.row[1];
-                            col_pre_f = margeset.row[0];
+                            col_f = margeset.column[1];
+                            col_pre_f = margeset.column[0];
                         }
 
                         var left = col_pre_f;
@@ -26977,89 +26983,89 @@
             var $t = $("#jfgrid-cell-main");
             var scrollLeft = $("#jfgrid-scrollbar-x").scrollLeft(), scrollTop = $("#jfgrid-scrollbar-y").scrollTop();
 
-            if (!!isadjust && jfgridautoadjustmousedown != 0) {
-                var scrollHeight = $t.get(0).scrollHeight;
-                var windowHeight = $t.height();
-                var scrollWidth = $t.get(0).scrollWidth;
-                var windowWidth = $t.width();
+            // if (!!isadjust && jfgridautoadjustmousedown != 0) {
+            //     var scrollHeight = $t.get(0).scrollHeight;
+            //     var windowHeight = $t.height();
+            //     var scrollWidth = $t.get(0).scrollWidth;
+            //     var windowWidth = $t.width();
 
-                var maxScrollLeft = scrollWidth - windowWidth;
-                var maxScrollTop = scrollHeight - windowHeight;
+            //     var maxScrollLeft = scrollWidth - windowWidth;
+            //     var maxScrollTop = scrollHeight - windowHeight;
 
-                var visibledatacolumn_c = visibledatacolumn, visibledatarow_c = visibledatarow;
-                // if (jfgrid.freezen.freezenhorizontaldata != null || jfgrid.freezen.freezenverticaldata != null) {
-                //     // jfgrid.cleargridelement();
-                // }
+            //     var visibledatacolumn_c = visibledatacolumn, visibledatarow_c = visibledatarow;
+            //     // if (jfgrid.freezen.freezenhorizontaldata != null || jfgrid.freezen.freezenverticaldata != null) {
+            //     //     // jfgrid.cleargridelement();
+            //     // }
 
-                if (jfgrid.freezen.freezenhorizontaldata != null) {
-                    visibledatarow_c = jfgrid.freezen.freezenhorizontaldata[3];
-                }
+            //     if (jfgrid.freezen.freezenhorizontaldata != null) {
+            //         visibledatarow_c = jfgrid.freezen.freezenhorizontaldata[3];
+            //     }
 
-                if (jfgrid.freezen.freezenverticaldata != null) {
-                    visibledatacolumn_c = jfgrid.freezen.freezenverticaldata[3];
-                }
+            //     if (jfgrid.freezen.freezenverticaldata != null) {
+            //         visibledatacolumn_c = jfgrid.freezen.freezenverticaldata[3];
+            //     }
 
-                var col_ed = jfgrid_searcharray(visibledatacolumn_c, scrollLeft);
-                var row_ed = jfgrid_searcharray(visibledatarow_c, scrollTop);
+            //     var col_ed = jfgrid_searcharray(visibledatacolumn_c, scrollLeft);
+            //     var row_ed = jfgrid_searcharray(visibledatarow_c, scrollTop);
 
-                //var col_ed_e = jfgrid_searcharray(visibledatacolumn_c, scrollLeft + jfgridTableContentHW[0]);
-                //var row_ed_e = jfgrid_searcharray(visibledatarow_c, scrollTop + jfgridTableContentHW[1]);
+            //     //var col_ed_e = jfgrid_searcharray(visibledatacolumn_c, scrollLeft + jfgridTableContentHW[0]);
+            //     //var row_ed_e = jfgrid_searcharray(visibledatarow_c, scrollTop + jfgridTableContentHW[1]);
 
-                var refreshLeft = scrollLeft , refreshTop = scrollTop;
+            //     var refreshLeft = scrollLeft , refreshTop = scrollTop;
 
-                if (col_ed <= 0) {
-                    scrollLeft = 0;
-                }
-                else {
-                    scrollLeft = visibledatacolumn_c[col_ed - 1];
-                }
+            //     if (col_ed <= 0) {
+            //         scrollLeft = 0;
+            //     }
+            //     else {
+            //         scrollLeft = visibledatacolumn_c[col_ed - 1];
+            //     }
 
-                if (row_ed <= 0) {
-                    scrollTop = 0;
-                }
-                else {
-                    scrollTop = visibledatarow_c[row_ed - 1];
-                }
+            //     if (row_ed <= 0) {
+            //         scrollTop = 0;
+            //     }
+            //     else {
+            //         scrollTop = visibledatarow_c[row_ed - 1];
+            //     }
 
-                // if (jfgridautoscrollp[0] < scrollLeft) {
-                //     //col_ed += 1;
-                //     if (col_ed <= 0) {
-                //         scrollLeft = visibledatacolumn_c[0];
-                //     }
-                //     else {
-                //         scrollLeft = visibledatacolumn_c[col_ed-1];
-                //     }
-                // }
-                // else if (jfgridautoscrollp[0] >= scrollLeft) {
-                //     //col_ed -= 1;
-                //     if (col_ed <= 0) {
-                //         scrollLeft = 0;
-                //     }
-                //     else {
-                //         scrollLeft = visibledatacolumn_c[col_ed];
-                //     }
-                // }
+            //     // if (jfgridautoscrollp[0] < scrollLeft) {
+            //     //     //col_ed += 1;
+            //     //     if (col_ed <= 0) {
+            //     //         scrollLeft = visibledatacolumn_c[0];
+            //     //     }
+            //     //     else {
+            //     //         scrollLeft = visibledatacolumn_c[col_ed-1];
+            //     //     }
+            //     // }
+            //     // else if (jfgridautoscrollp[0] >= scrollLeft) {
+            //     //     //col_ed -= 1;
+            //     //     if (col_ed <= 0) {
+            //     //         scrollLeft = 0;
+            //     //     }
+            //     //     else {
+            //     //         scrollLeft = visibledatacolumn_c[col_ed];
+            //     //     }
+            //     // }
 
-                // if (jfgridautoscrollp[1] < scrollTop) {
-                //     //row_ed += jfgridautoadjustmousedown;
-                //     if (row_ed == 0) {
-                //         scrollTop = visibledatarow_c[0];
-                //     }
-                //     else {
-                //         scrollTop = visibledatarow_c[row_ed-1];
-                //     }
-                //     //console.log(scrollTop, visibledatarow_c, row_ed);
-                // }
-                // else if (jfgridautoscrollp[1] >= scrollTop) {
-                //     //row_ed -= jfgridautoadjustmousedown;
-                //     if (row_ed <= 0) {
-                //         scrollTop = 0;
-                //     }
-                //     else {
-                //         scrollTop = visibledatarow_c[row_ed];
-                //     }
-                // }
-            }
+            //     // if (jfgridautoscrollp[1] < scrollTop) {
+            //     //     //row_ed += jfgridautoadjustmousedown;
+            //     //     if (row_ed == 0) {
+            //     //         scrollTop = visibledatarow_c[0];
+            //     //     }
+            //     //     else {
+            //     //         scrollTop = visibledatarow_c[row_ed-1];
+            //     //     }
+            //     //     //console.log(scrollTop, visibledatarow_c, row_ed);
+            //     // }
+            //     // else if (jfgridautoscrollp[1] >= scrollTop) {
+            //     //     //row_ed -= jfgridautoadjustmousedown;
+            //     //     if (row_ed <= 0) {
+            //     //         scrollTop = 0;
+            //     //     }
+            //     //     else {
+            //     //         scrollTop = visibledatarow_c[row_ed];
+            //     //     }
+            //     // }
+            // }
 
             if (jfgrid.freezen.freezenhorizontaldata != null) {
                 if (scrollTop < jfgrid.freezen.freezenhorizontaldata[2]) {
@@ -27483,6 +27489,7 @@
         });
 
         $("#jfgrid-cell-main, #jfgridTableContent").mousedown(function (event) {
+        // $("#jfgrid-cell-main, #jfgridTableContent").on('pointerdown', function (event) {
             $("#jfgrid-cell-selected").find(".jfgrid-cs-fillhandle").css("cursor","default").end().find(".jfgrid-cs-draghandle").css("cursor","default");
             $("#jfgrid-cell-main, #jfgridTableContent, #jfgrid-sheettable_0").css("cursor","default");
 
@@ -27528,6 +27535,15 @@
                 col_pre = margeset.column[0];
                 col_index = margeset.column[2];
                 col_index_ed = margeset.column[3];
+            }
+
+            //若点击单元格部分不在视图内
+            if(col_pre < $("#jfgrid-cell-main").scrollLeft()){
+                $("#jfgrid-scrollbar-x").scrollLeft(col_pre);
+            }
+
+            if(row_pre < $("#jfgrid-cell-main").scrollTop()){
+                $("#jfgrid-scrollbar-y").scrollTop(row_pre);
             }
 
             //mousedown是右键
@@ -32214,6 +32230,7 @@
         jfgrid.jfcountfunc = jfcountfunc;
 
         $(document).mousemove(function (event) {
+        // $(document).on('pointermove', function (event) {
             jfgrid.postil.overshow(event); //有批注显示
 
             clearInterval(jfautoscrollTimeout);
@@ -33202,6 +33219,7 @@
         });
 
         $(document).mouseup(function (event) {
+        // $(document).on('pointerup', function (event) {
             //数据窗格主体
 
             if (jfgird_select_status) {
@@ -48892,49 +48910,136 @@
                 freezen_vertical_scrollTop = jfgrid.freezen.freezenverticaldata[2];
 
                 //左上canvas freezen_3
-                jfgridDrawMain(freezen_vertical_scrollTop, freezen_horizon_scrollTop, freezen_vertical_px, freezen_horizon_px, 1, 1, null, null, "freezen_3");
+                jfgridDrawMain(
+                    freezen_vertical_scrollTop, 
+                    freezen_horizon_scrollTop, 
+                    freezen_vertical_px, 
+                    freezen_horizon_px, 
+                    1, 
+                    1, 
+                    null, 
+                    null, 
+                    "freezen_3"
+                );
 
                 //上右canvas freezen_4
-                jfgridDrawMain(scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, freezen_horizon_scrollTop, drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, freezen_horizon_px, 1, 1, null, null, "freezen_4");
+                jfgridDrawMain(
+                    scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
+                    freezen_horizon_scrollTop, 
+                    drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
+                    freezen_horizon_px, 
+                    1, 
+                    1, 
+                    null, 
+                    null, 
+                    "freezen_4"
+                );
 
                 //左下canvas freezen_7
-                jfgridDrawMain(freezen_vertical_scrollTop, scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, freezen_vertical_px, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 1, 1, null, null, "freezen_7");
+                jfgridDrawMain(
+                    freezen_vertical_scrollTop, 
+                    scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
+                    freezen_vertical_px, 
+                    drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
+                    1, 
+                    1, 
+                    null, 
+                    null, 
+                    "freezen_7"
+                );
 
                 //右下canvas jfgridTableContent
-                jfgridDrawMain(scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth, freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight);
+                jfgridDrawMain(
+                    scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
+                    scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
+                    drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
+                    drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
+                    freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth, 
+                    freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight
+                );
 
                 //标题
+                jfgridDrawgridColumnTitle(
+                    scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
+                    drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
+                    freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth
+                );
                 jfgridDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, rowHeaderWidth);
-                jfgridDrawgridColumnTitle(scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth);
                 
+                jfgridDrawgridRowTitle(
+                    scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
+                    drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
+                    freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight
+                );
                 jfgridDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, columeHeaderHeight);
-                jfgridDrawgridRowTitle(scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight);
             }
             else if (jfgrid.freezen.freezenhorizontaldata != null) {
                 freezen_horizon_px = jfgrid.freezen.freezenhorizontaldata[0];
                 freezen_horizon_ed = jfgrid.freezen.freezenhorizontaldata[1];
                 freezen_horizon_scrollTop = jfgrid.freezen.freezenhorizontaldata[2];
 
-                jfgridDrawMain(scrollWidth, freezen_horizon_scrollTop, drawWidth, freezen_horizon_px, 1, 1, null, null, "freezen_h");
-                jfgridDrawMain(scrollWidth, scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, drawWidth, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, null, freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight);
+                jfgridDrawMain(
+                    scrollWidth, 
+                    freezen_horizon_scrollTop, 
+                    drawWidth, 
+                    freezen_horizon_px, 
+                    1, 
+                    1, 
+                    null, 
+                    null, 
+                    "freezen_h"
+                );
+                jfgridDrawMain(
+                    scrollWidth, 
+                    scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
+                    drawWidth, 
+                    drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
+                    null, 
+                    freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight
+                );
             
                 jfgridDrawgridColumnTitle(scrollWidth, drawWidth, null);
-
+                
+                jfgridDrawgridRowTitle(
+                    scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
+                    drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
+                    freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight
+                );
                 jfgridDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, columeHeaderHeight);
-                jfgridDrawgridRowTitle(scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + columeHeaderHeight);
             }
             else if (jfgrid.freezen.freezenverticaldata != null) {
                 freezen_vertical_px = jfgrid.freezen.freezenverticaldata[0];
                 freezen_vertical_ed = jfgrid.freezen.freezenverticaldata[1];
                 freezen_vertical_scrollTop = jfgrid.freezen.freezenverticaldata[2];
                 
-                jfgridDrawMain(freezen_vertical_scrollTop, scrollHeight, freezen_vertical_px, drawHeight, 1, 1, null, null, "freezen_v");
-                jfgridDrawMain(scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, scrollHeight, drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, drawHeight, freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth, null);
+                jfgridDrawMain(
+                    freezen_vertical_scrollTop, 
+                    scrollHeight, 
+                    freezen_vertical_px, 
+                    drawHeight, 
+                    1, 
+                    1, 
+                    null, 
+                    null, 
+                    "freezen_v"
+                );
+                jfgridDrawMain(
+                    scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
+                    scrollHeight, 
+                    drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
+                    drawHeight, 
+                    freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth, 
+                    null
+                );
                 
                 jfgridDrawgridRowTitle(scrollHeight, drawHeight, null);
-
+                
+                jfgridDrawgridColumnTitle(
+                    scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
+                    drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
+                    freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth
+                );
                 jfgridDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, rowHeaderWidth);
-                jfgridDrawgridColumnTitle(scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, freezen_vertical_px - freezen_vertical_scrollTop + rowHeaderWidth);
             }
         }
         else {
@@ -48972,11 +49077,14 @@
         if (offsetTop == null) {
             offsetTop = columeHeaderHeight;
         }
-
-        //jfgridTableContentHW = [$("#jfgrid-grid-window-1").width() - 13, $("#jfgrid-grid-window-1").height() - 13];
+        
         var jfgridTableContent = $("#jfgridTableContent").get(0).getContext("2d");
-        jfgridTableContent.clearRect(0, offsetTop*devicePixelRatio, (rowHeaderWidth-1)*devicePixelRatio, drawHeight*devicePixelRatio);
-
+        jfgridTableContent.clearRect(
+            0,
+            offsetTop * devicePixelRatio,
+            (rowHeaderWidth - 1) * devicePixelRatio,
+            drawHeight * devicePixelRatio
+        );
 
         jfgridTableContent.font = jfgriddefaultstyle.font;
         jfgridTableContent.textBaseline = jfgriddefaultstyle.textBaseline;
@@ -48985,6 +49093,7 @@
         var dataset_row_st, dataset_row_ed;
         dataset_row_st = jfgrid_searcharray(visibledatarow, scrollHeight);
         dataset_row_ed = jfgrid_searcharray(visibledatarow, scrollHeight + drawHeight);
+
         if (dataset_row_st == -1) {
             dataset_row_st = 0;
         }
@@ -48992,14 +49101,9 @@
             dataset_row_ed = visibledatarow.length - 1;
         }
 
-        //console.log(dataset_row_st, dataset_row_ed, dataset_col_st, dataset_col_ed);
-        var end_r, start_r, end_c, start_c, flow_index = 0, flow_cols_index = 0, rowfix = 0, colfix = 0, colLineState = true;
-
-        // $("#jfgrid-cell-main").scrollLeft(visibledatarow[dataset_row_st]);
-        // $("#jfgrid-cell-main").scrollTop(visibledatacolumn[dataset_col_st]);
+        var end_r, start_r;
 
         for (var r = dataset_row_st; r <= dataset_row_ed; r++) {
-
             if (r == 0) {
                 start_r = -scrollHeight - 1;
             }
@@ -49008,65 +49112,58 @@
             }
             end_r = visibledatarow[r] - scrollHeight;
 
-
-
-            if (end_r <= drawHeight && start_r >= -1) {
-
-                if (config["rowhidden"] != null && config["rowhidden"][r] != null) {
-
-                }
-                else {
-                    //jfgridTableContent.clearRect(offsetLeft-1, start_r - 1 + offsetTop, 1, end_r - start_r - 1);
-
-                    //jfgridTableContent.clearRect(start_c + offsetLeft - 1, offsetTop+drawHeight - 1, end_c - start_c - 1, 1);
-
-                    var textMetrics = jfgridTableContent.measureText(r + 1);
-
-                    jfgridTableContent.fillText(r + 1, (rowHeaderWidth*devicePixelRatio - textMetrics.width) / 2, (start_r + (end_r - start_r) / 2 - 2 + offsetTop)*devicePixelRatio);
-                }
-
-                jfgridTableContent.beginPath();
-                jfgridTableContent.moveTo(-1, (end_r + offsetTop - 2 + 0.5)*devicePixelRatio);
-                jfgridTableContent.lineTo((rowHeaderWidth-1)*devicePixelRatio, (end_r + offsetTop - 2 + 0.5)*devicePixelRatio);
-                jfgridTableContent.lineWidth = devicePixelRatio;
-                jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                jfgridTableContent.closePath();
-                jfgridTableContent.stroke();
-
-                //jfgridTableContent.beginPath();
-                //jfgridTableContent.moveTo(end_c - 2 + offsetLeft, 0.5 + offsetTop);
-                //jfgridTableContent.lineTo(end_c - 2 + offsetLeft, rh_height + offsetTop);
-                //jfgridTableContent.lineWidth = 1;
-                //jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                //jfgridTableContent.closePath();
-                //jfgridTableContent.stroke();
+            //若超出绘制区域终止
+            if(end_r > scrollHeight + drawHeight){
+                break;
             }
 
+            if (config["rowhidden"] != null && config["rowhidden"][r] != null) {
+
+            }
+            else {
+                //行标题栏序列号
+                var textMetrics = jfgridTableContent.measureText(r + 1);
+
+                var horizonAlignPos = (rowHeaderWidth * devicePixelRatio - textMetrics.width) / 2;
+                var verticalAlignPos = (start_r + (end_r - start_r) / 2 + offsetTop) * devicePixelRatio;
+
+                jfgridTableContent.fillText(r + 1, horizonAlignPos, verticalAlignPos);
+            }
+
+            //行标题栏横线
+            jfgridTableContent.beginPath();
+            jfgridTableContent.moveTo(
+                -1,
+                (end_r + offsetTop - 2 + 0.5) * devicePixelRatio
+            );
+            jfgridTableContent.lineTo(
+                (rowHeaderWidth - 1) * devicePixelRatio,
+                (end_r + offsetTop - 2 + 0.5) * devicePixelRatio
+            );
+            jfgridTableContent.lineWidth = devicePixelRatio;
+            jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
+            jfgridTableContent.closePath();
+            jfgridTableContent.stroke();
         }
 
-        //竖线
+        //行标题栏竖线
         jfgridTableContent.beginPath();
-        jfgridTableContent.moveTo((rowHeaderWidth - 2 + 0.5)*devicePixelRatio,  (offsetTop-1)*devicePixelRatio);
-        jfgridTableContent.lineTo((rowHeaderWidth - 2 + 0.5)*devicePixelRatio, (rh_height + offsetTop)*devicePixelRatio);
+        jfgridTableContent.moveTo(
+            (rowHeaderWidth - 2 + 0.5) * devicePixelRatio,
+            (offsetTop - 1) * devicePixelRatio
+        );
+        jfgridTableContent.lineTo(
+            (rowHeaderWidth - 2 + 0.5) * devicePixelRatio,
+            (rh_height + offsetTop) * devicePixelRatio
+        );
         jfgridTableContent.lineWidth = devicePixelRatio;
         jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
         jfgridTableContent.closePath();
         jfgridTableContent.stroke();
 
 
-        ////横线
-        //jfgridTableContent.beginPath();
-        //jfgridTableContent.moveTo(-0.5,  -2 + offsetTop);
-        //jfgridTableContent.lineTo(ch_width + offsetLeft, -2 + offsetTop);
-        //jfgridTableContent.lineWidth = 1;
-        //jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-        //jfgridTableContent.closePath();
-        //jfgridTableContent.stroke();
-
-        //jfgridTableContent.clearRect(0, 0, offsetLeft - 2, offsetTop - 2);
-
-
-        //jfgridTableContent.clearRect(drawWidth > (ch_width + offsetLeft) ? (ch_width + offsetLeft - 2) : drawWidth - 2 + offsetLeft, offsetTop, drawWidth, drawHeight);
+        //清除canvas左上角区域 防止列标题栏序列号溢出显示
+        jfgridTableContent.clearRect(0, 0, rowHeaderWidth, columeHeaderHeight);
     }
 
     function jfgridDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
@@ -49081,10 +49178,14 @@
         if (offsetLeft == null) {
             offsetLeft = rowHeaderWidth;
         }
-
-        //jfgridTableContentHW = [$("#jfgrid-grid-window-1").width() - 13, $("#jfgrid-grid-window-1").height() - 13];
+        
         var jfgridTableContent = $("#jfgridTableContent").get(0).getContext("2d");
-        jfgridTableContent.clearRect(offsetLeft*devicePixelRatio, -0.5, drawWidth*devicePixelRatio, (columeHeaderHeight-1.5)*devicePixelRatio);
+        jfgridTableContent.clearRect(
+            offsetLeft * devicePixelRatio,
+            -0.5,
+            drawWidth * devicePixelRatio,
+            (columeHeaderHeight - 1.5) * devicePixelRatio
+        );
 
 
         jfgridTableContent.font = jfgriddefaultstyle.font;
@@ -49094,123 +49195,72 @@
         var dataset_col_st, dataset_col_ed;
         dataset_col_st = jfgrid_searcharray(visibledatacolumn, scrollWidth);
         dataset_col_ed = jfgrid_searcharray(visibledatacolumn, scrollWidth + drawWidth);
+
         if (dataset_col_st == -1) {
             dataset_col_st = 0;
         }
         if (dataset_col_ed == -1) {
             dataset_col_ed = visibledatacolumn.length - 1;
         }
-        //console.log(dataset_row_st, dataset_row_ed, dataset_col_st, dataset_col_ed);
-        var end_r, start_r, end_c, start_c, flow_index = 0, flow_cols_index = 0, rowfix = 0, colfix = 0, colLineState = true;
 
-        // $("#jfgrid-cell-main").scrollLeft(visibledatarow[dataset_row_st]);
-        // $("#jfgrid-cell-main").scrollTop(visibledatacolumn[dataset_col_st]);
+        var end_c, start_c;
 
-        for (var r = 0; r <= 0; r++) {
-
-
-            //行
-            //jfgridTableContent.beginPath();
-            //jfgridTableContent.moveTo(0, end_r + columeHeaderHeight);
-            //jfgridTableContent.lineTo(rowHeaderWidth, end_r + columeHeaderHeight);
-            //jfgridTableContent.lineWidth = 1;
-            //jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-            //jfgridTableContent.closePath();
-            //jfgridTableContent.stroke();
-
-
-
-            for (var c = dataset_col_st; c <= dataset_col_ed; c++) {
-
-                if (c == 0) {
-                    start_c = -scrollWidth;
-                }
-                else {
-                    start_c = visibledatacolumn[c - 1] - scrollWidth;
-                }
-                end_c = visibledatacolumn[c] - scrollWidth;
-
-                if (r == 0 && start_c >= -1 && end_c <= drawWidth + 18) {
-                    var abc = jfgrid.jfgridchatatABC(c);
-                    var textMetrics = jfgridTableContent.measureText(abc);
-                    jfgridTableContent.fillText(abc, Math.round(start_c*devicePixelRatio + offsetLeft*devicePixelRatio + (end_c*devicePixelRatio - start_c*devicePixelRatio - textMetrics.width) / 2), Math.round((columeHeaderHeight / 2 - 2)*devicePixelRatio));
-
-                    jfgridTableContent.beginPath();
-                    jfgridTableContent.moveTo((end_c + offsetLeft - 2 + 0.5)*devicePixelRatio, 0.5);
-                    jfgridTableContent.lineTo((end_c + offsetLeft - 2 + 0.5)*devicePixelRatio, (columeHeaderHeight - 2)*devicePixelRatio);
-                    jfgridTableContent.lineWidth = devicePixelRatio;
-                    jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                    jfgridTableContent.closePath();
-                    jfgridTableContent.stroke();
-
-                    //jfgridTableContent.clearRect(start_c + offsetLeft - 1, offsetTop-1, end_c - start_c - 1, 1);
-
-                    // jfgridTableContent.clearRect(start_c + offsetLeft - 1, offsetTop+drawHeight, end_c - start_c - 1, 1);
-
-                    if (!jfgridcurrentisPivotTable && end_c <= drawWidth + 18 && start_c >= -1) {
-                        //列
-
-
-                        //jfgridTableContent.beginPath();
-                        //jfgridTableContent.moveTo(0.5 + offsetLeft, end_r + offsetTop);
-                        //jfgridTableContent.lineTo(ch_width + offsetLeft, end_r + offsetTop);
-                        //jfgridTableContent.lineWidth = 1;
-                        //jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                        //jfgridTableContent.closePath();
-                        //jfgridTableContent.stroke();
-                    }
-                }
-
-                //if (r == dataset_row_ed) {
-                //    jfgridTableContent.beginPath();
-                //    jfgridTableContent.moveTo(end_c + rowHeaderWidth, -0.5);
-                //    jfgridTableContent.lineTo(end_c + rowHeaderWidth, columeHeaderHeight+rh_height);
-                //    jfgridTableContent.lineWidth = 1;
-                //    jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                //    jfgridTableContent.closePath();
-                //    jfgridTableContent.stroke();
-                //    console.log("end_c, rh_height", dataset_col_st, dataset_col_ed, dataset_row_st, dataset_row_ed, r_set, c_set, rowfix, $("#jfgridsheettable_" + jfgrid.currentSheetIndex + "_" + r_set + "_" + c_set + ""), end_c, h, r,c);
-                //}
-
-            }
-
-            if (config["rowhidden"] != null && config["rowhidden"][r] != null) {
-
+        for (var c = dataset_col_st; c <= dataset_col_ed; c++) {
+            if (c == 0) {
+                start_c = -scrollWidth;
             }
             else {
-                //jfgridTableContent.clearRect(offsetLeft-1, start_r - 1 + offsetTop, 1, end_r - start_r - 1);
+                start_c = visibledatacolumn[c - 1] - scrollWidth;
+            }
+            end_c = visibledatacolumn[c] - scrollWidth;
 
-                //jfgridTableContent.clearRect(start_c + offsetLeft - 1, offsetTop+drawHeight - 1, end_c - start_c - 1, 1);
-
-                //var textMetrics = jfgridTableContent.measureText(r + 1);
-                //jfgridTableContent.fillText(r + 1, (offsetLeft - textMetrics.width) / 2, start_r + (end_r - start_r) / 2 - 2 + offsetTop);
+            //若超出绘制区域终止
+            if(end_c > scrollWidth + drawWidth){
+                break;
             }
 
+            //列标题栏序列号
+            var abc = jfgrid.jfgridchatatABC(c);
+            var textMetrics = jfgridTableContent.measureText(abc);
+
+            var horizonAlignPos = Math.round((start_c + (end_c - start_c) / 2 + offsetLeft) * devicePixelRatio - textMetrics.width / 2);
+            var verticalAlignPos = Math.round(columeHeaderHeight / 2 * devicePixelRatio);
+            
+            jfgridTableContent.fillText(abc, horizonAlignPos, verticalAlignPos);
+
+            //列标题栏竖线
+            jfgridTableContent.beginPath();
+            jfgridTableContent.moveTo(
+                (end_c + offsetLeft - 2 + 0.5) * devicePixelRatio,
+                0.5
+            );
+            jfgridTableContent.lineTo(
+                (end_c + offsetLeft - 2 + 0.5) * devicePixelRatio,
+                (columeHeaderHeight - 2) * devicePixelRatio
+            );
+            jfgridTableContent.lineWidth = devicePixelRatio;
+            jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
+            jfgridTableContent.closePath();
+            jfgridTableContent.stroke();
         }
 
-        ////竖线
-        //jfgridTableContent.beginPath();
-        //jfgridTableContent.moveTo(offsetLeft - 2 , -0.5);
-        //jfgridTableContent.lineTo(offsetLeft - 2 ,rh_height + offsetTop);
-        //jfgridTableContent.lineWidth = 1;
-        //jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-        //jfgridTableContent.closePath();
-        //jfgridTableContent.stroke();
-
-
-        //横线
+        //列标题栏横线
         jfgridTableContent.beginPath();
-        jfgridTableContent.moveTo((offsetLeft-1)*devicePixelRatio,   (columeHeaderHeight-2 + 0.5)*devicePixelRatio);
-        jfgridTableContent.lineTo((ch_width + offsetLeft - 2)*devicePixelRatio,   (columeHeaderHeight-2 + 0.5)*devicePixelRatio);
+        jfgridTableContent.moveTo(
+            (offsetLeft - 1) * devicePixelRatio,
+            (columeHeaderHeight - 2 + 0.5) * devicePixelRatio
+        );
+        jfgridTableContent.lineTo(
+            (ch_width + offsetLeft - 2) * devicePixelRatio,
+            (columeHeaderHeight - 2 + 0.5) * devicePixelRatio
+        );
         jfgridTableContent.lineWidth = devicePixelRatio;
         jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
         jfgridTableContent.closePath();
         jfgridTableContent.stroke();
 
-        //jfgridTableContent.clearRect(0, 0, offsetLeft - 2, offsetTop - 2);
-
-
-        //jfgridTableContent.clearRect(drawWidth > (ch_width + offsetLeft) ? (ch_width + offsetLeft - 2) : drawWidth - 2 + offsetLeft, offsetTop, drawWidth, drawHeight);
+        //清除canvas左上角区域 防止列标题栏序列号溢出显示
+        jfgridTableContent.clearRect(0, 0, rowHeaderWidth, columeHeaderHeight);
     }
 
     function jfgridDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop, columnOffsetCell, rowOffsetCell, mycanvas, ctx, ctxdata) {
@@ -49276,7 +49326,12 @@
             }
         }
         
-        jfgridTableContent.clearRect(0, 0, jfgridTableContentHW[0] * devicePixelRatio, jfgridTableContentHW[1] * devicePixelRatio);
+        jfgridTableContent.clearRect(
+            0, 
+            0, 
+            jfgridTableContentHW[0] * devicePixelRatio,
+            jfgridTableContentHW[1] * devicePixelRatio
+        );
 
         //离屏canvas
         var offlinecanvas = null;
@@ -49290,8 +49345,13 @@
             offlinecanvas = $("#jfgridTableContentF").get(0).getContext("2d");
         }
         //offlinecanvas.clearRect(0, 0, jfgridTableContentHW[0], jfgridTableContentHW[1]);
-        offlinecanvas.fillStyle="#ffffff";
-        offlinecanvas.fillRect(0, 0, jfgridTableContentHW[0]*devicePixelRatio, jfgridTableContentHW[1]*devicePixelRatio);
+        offlinecanvas.fillStyle = "#ffffff";
+        offlinecanvas.fillRect(
+            0,
+            0, 
+            jfgridTableContentHW[0] * devicePixelRatio, 
+            jfgridTableContentHW[1] * devicePixelRatio
+        );
         offlinecanvas.font = jfgriddefaultstyle.font;
         offlinecanvas.textBaseline = "top";
         offlinecanvas.fillStyle = jfgriddefaultstyle.fillStyle;
@@ -49343,7 +49403,7 @@
             fill_row_st = 0;
         }
         else{
-            fill_row_st = visibledatarow[dataset_row_st-1];
+            fill_row_st = visibledatarow[dataset_row_st - 1];
         }
 
         fill_row_ed = visibledatarow[dataset_row_ed];
@@ -49352,18 +49412,23 @@
             fill_col_st = 0;
         }
         else{
-            fill_col_st = visibledatacolumn[dataset_col_st-1];
+            fill_col_st = visibledatacolumn[dataset_col_st - 1];
         }
 
         fill_col_ed = visibledatacolumn[dataset_col_ed];
 
-        jfgridTableContent.fillStyle="#ffffff";
-        jfgridTableContent.fillRect((offsetLeft - 1) * devicePixelRatio, (offsetTop - 1) * devicePixelRatio, (fill_col_ed - fill_col_st) * devicePixelRatio, (fill_row_ed - fill_row_st) * devicePixelRatio);
+        jfgridTableContent.fillStyle = "#ffffff";
+        jfgridTableContent.fillRect(
+            (offsetLeft - 1) * devicePixelRatio, 
+            (offsetTop - 1) * devicePixelRatio, 
+            (fill_col_ed - scrollWidth) * devicePixelRatio, 
+            (fill_row_ed - scrollHeight) * devicePixelRatio
+        );
         jfgridTableContent.font = jfgriddefaultstyle.font;
         jfgridTableContent.textBaseline = "top";
         jfgridTableContent.fillStyle = jfgriddefaultstyle.fillStyle;
 
-        var end_r, start_r, end_c, start_c, flow_index = 0, flow_cols_index = 0, rowfix = 0, colfix = 0, colLineState = true;
+        var end_r, start_r, end_c, start_c;
 
         var cellupdate = [];
         var mergeCache = {};
@@ -49390,37 +49455,52 @@
 
                 end_c = visibledatacolumn[c] - scrollWidth;
 
-                if(c == dataset_col_ed){
-                    if (!jfgridcurrentisPivotTable && end_r <= drawHeight && start_r >= -1) {
-                        //行
-                        jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(offsetLeft - 1), devicePixelRatio*(end_r + offsetTop - 2 + 0.5));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c + offsetLeft-2), devicePixelRatio*(end_r + offsetTop - 2 + 0.5));
-                        jfgridTableContent.lineWidth = devicePixelRatio;
-                        jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                        jfgridTableContent.closePath();
-                        jfgridTableContent.stroke();
-                    }
+                //横线
+                if(c == dataset_col_ed && !jfgridcurrentisPivotTable){
+                    jfgridTableContent.beginPath();
+                    jfgridTableContent.moveTo(
+                        devicePixelRatio * (offsetLeft - 1), 
+                        devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+                    );
+                    jfgridTableContent.lineTo(
+                        devicePixelRatio * (fill_col_ed - scrollWidth + offsetLeft - 2), 
+                        devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+                    );
+                    jfgridTableContent.lineWidth = devicePixelRatio;
+                    jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
+                    jfgridTableContent.closePath();
+                    jfgridTableContent.stroke();
                 }
 
-                if(r == dataset_row_st){
-                    if (!jfgridcurrentisPivotTable && end_c <= drawWidth + 18 && start_c >= -1) {
-                        //列
-                        jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(end_c + offsetLeft - 2 + 0.5), devicePixelRatio*(offsetTop - 1));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c + offsetLeft - 2 + 0.5), devicePixelRatio*(fill_row_ed - fill_row_st + offsetTop-2));
-                        jfgridTableContent.lineWidth = devicePixelRatio;
-                        jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
-                        jfgridTableContent.closePath();
-                        jfgridTableContent.stroke();
-                    }
+                //竖线
+                if(r == dataset_row_st && !jfgridcurrentisPivotTable){
+                    jfgridTableContent.beginPath();
+                    jfgridTableContent.moveTo(
+                        devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                        devicePixelRatio * (offsetTop - 1)
+                    );
+                    jfgridTableContent.lineTo(
+                        devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                        devicePixelRatio * (fill_row_ed - scrollHeight + offsetTop - 2)
+                    );
+                    jfgridTableContent.lineWidth = devicePixelRatio;
+                    jfgridTableContent.strokeStyle = jfgriddefaultstyle.strokeStyle;
+                    jfgridTableContent.closePath();
+                    jfgridTableContent.stroke();
                 }
 
+                //数据透视表
                 if (!!jfgridcurrentisPivotTable && jfgrid.pivotTable.drawPivotTable) {
                     if ((c == 0 || c == 5) && r <= 11) {
                         jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), devicePixelRatio*(start_r + offsetTop));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), devicePixelRatio*(end_r - 2 + offsetTop));
+                        jfgridTableContent.moveTo(
+                            devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), 
+                            devicePixelRatio * (start_r + offsetTop)
+                        );
+                        jfgridTableContent.lineTo(
+                            devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), 
+                            devicePixelRatio * (end_r - 2 + offsetTop)
+                        );
                         jfgridTableContent.lineWidth = devicePixelRatio;
                         jfgridTableContent.strokeStyle = "#000000";
                         jfgridTableContent.closePath();
@@ -49429,8 +49509,14 @@
 
                     if ((r == 2 || r == 11) && c <= 5) {
                         jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(start_c - 1 + offsetLeft), devicePixelRatio*(end_r - 2 + 0.5 + offsetTop));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c + offsetLeft-2), devicePixelRatio*(end_r - 2 + 0.5 + offsetTop));
+                        jfgridTableContent.moveTo(
+                            devicePixelRatio * (start_c - 1 + offsetLeft), 
+                            devicePixelRatio * (end_r - 2 + 0.5 + offsetTop)
+                        );
+                        jfgridTableContent.lineTo(
+                            devicePixelRatio * (end_c - 2 + offsetLeft), 
+                            devicePixelRatio * (end_r - 2 + 0.5 + offsetTop)
+                        );
                         jfgridTableContent.lineWidth = devicePixelRatio;
                         jfgridTableContent.strokeStyle = "#000000";
                         jfgridTableContent.closePath();
@@ -49438,22 +49524,38 @@
                     }
 
                     if (r == 6 && c == 3) {
-                        jfgridTableContent.fillText("数据透视表", devicePixelRatio*(start_c + 4 + offsetLeft), devicePixelRatio*(start_r + (end_r - start_r) / 2 - 1 + offsetTop));
+                        jfgridTableContent.fillText(
+                            "数据透视表", 
+                            devicePixelRatio * (start_c + 4 + offsetLeft), 
+                            devicePixelRatio *(start_r + (end_r - start_r) / 2 - 1 + offsetTop)
+                        );
                     }
                 }
                 else if (!!jfgridcurrentisPivotTable) {
                     if (c < jfgrid.pivotTable.pivotTableBoundary[1] && r < jfgrid.pivotTable.pivotTableBoundary[0]) {
                         jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), devicePixelRatio*(start_r + offsetTop));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), devicePixelRatio*(end_r - 2 + offsetTop));
+                        jfgridTableContent.moveTo(
+                            devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), 
+                            devicePixelRatio*(start_r + offsetTop)
+                        );
+                        jfgridTableContent.lineTo(
+                            devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), 
+                            devicePixelRatio*(end_r - 2 + offsetTop)
+                        );
                         jfgridTableContent.lineWidth = devicePixelRatio;
                         jfgridTableContent.strokeStyle = "#000000";
                         jfgridTableContent.closePath();
                         jfgridTableContent.stroke();
 
                         jfgridTableContent.beginPath();
-                        jfgridTableContent.moveTo(devicePixelRatio*(start_c - 1 + offsetLeft), devicePixelRatio*(end_r - 2 + 0.5 + offsetTop));
-                        jfgridTableContent.lineTo(devicePixelRatio*(end_c + offsetLeft-2), devicePixelRatio*(end_r - 2 + 0.5 + offsetTop));
+                        jfgridTableContent.moveTo(
+                            devicePixelRatio*(start_c - 1 + offsetLeft), 
+                            devicePixelRatio*(end_r - 2 + 0.5 + offsetTop)
+                        );
+                        jfgridTableContent.lineTo(
+                            devicePixelRatio*(end_c - 2 + offsetLeft), 
+                            devicePixelRatio*(end_r - 2 + 0.5 + offsetTop)
+                        );
                         jfgridTableContent.lineWidth = devicePixelRatio;
                         jfgridTableContent.strokeStyle = "#000000";
                         jfgridTableContent.closePath();
@@ -49470,11 +49572,16 @@
                         firstcolumlen = config["columlen"][c];
                     }
 
-                    if (jfgrid.flowdata[r] != null && jfgrid.flowdata[r][c] != null && start_r >= -1 && start_c >= -1 ) {
+                    if (jfgrid.flowdata[r] != null && jfgrid.flowdata[r][c] != null) {
                         var value = jfgrid.flowdata[r][c];
 
                         if(jfgrid.getObjType(value) == "object" && ("mc" in value)){
-                            borderOffset[r + "_" + c] = { "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c };
+                            borderOffset[r + "_" + c] = { 
+                                "start_r": start_r,
+                                "start_c": start_c, 
+                                "end_r": end_r, 
+                                "end_c": end_c 
+                            };
 
                             if("rs" in value["mc"]){
                                 var key = "r"+ r + "c" + c;
@@ -49486,7 +49593,16 @@
 
                                 if(margeMain == null){
                                     mergeCache[key] = cellupdate.length;
-                                    cellupdate.push({"r": r, "c": c, "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c, "firstcolumlen": firstcolumlen, startlist: []});
+                                    cellupdate.push({
+                                        "r": r, 
+                                        "c": c, 
+                                        "start_c": start_c, 
+                                        "start_r": start_r, 
+                                        "end_r": end_r, 
+                                        "end_c": end_c, 
+                                        "firstcolumlen": firstcolumlen, 
+                                        startlist: []
+                                    });
                                 }
                                 else{
                                     if(margeMain.c == c){
@@ -49502,25 +49618,29 @@
 
                                         // borderOffset[margeMain.r + "_" + margeMain.c].end_c = margeMain.end_c;
                                     }
-
-                                    var margeMaindata = jfgrid.flowdata[margeMain.r][margeMain.c];
-                                    if((margeMain.c + margeMaindata.mc.cs - 1) == c && (margeMain.r + margeMaindata.mc.rs - 1) == r){
-                                        //margeMain.end_r -= 10;
-                                        //margeMain.end_c -= 1;
-                                    }
                                 }
-
-                                continue;
                             }
-                        }
 
-                        cellupdate.push({"r": r, "c": c, "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c, "firstcolumlen": firstcolumlen, startlist: []});
-                        borderOffset[r + "_" + c] = { "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c };
+                            continue;
+                        }
                     }
-                    else{
-                        cellupdate.push({"r": r, "c": c, "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c, "firstcolumlen": firstcolumlen, startlist: []});
-                        borderOffset[r + "_" + c] = { "start_c": start_c, "start_r": start_r, "end_r": end_r, "end_c": end_c };
-                    }
+
+                    cellupdate.push({
+                        "r": r, 
+                        "c": c, 
+                        "start_r": start_r, 
+                        "start_c": start_c, 
+                        "end_r": end_r, 
+                        "end_c": end_c, 
+                        "firstcolumlen": firstcolumlen, 
+                        startlist: []
+                    });
+                    borderOffset[r + "_" + c] = { 
+                        "start_r": start_r, 
+                        "start_c": start_c, 
+                        "end_r": end_r, 
+                        "end_c": end_c 
+                    };
                 }
             }
         }
@@ -50524,11 +50644,26 @@
 
         //渲染表格时有尾列时，清除右边灰色区域，防止表格有值溢出
         if(dataset_col_ed == visibledatacolumn.length - 1){
-            jfgridTableContent.clearRect((fill_col_ed - fill_col_st + offsetLeft - 1) * devicePixelRatio, (offsetTop - 1) * devicePixelRatio, 200, (fill_row_ed - fill_row_st));
+            jfgridTableContent.clearRect(
+                (fill_col_ed - scrollWidth + offsetLeft - 1) * devicePixelRatio, 
+                (offsetTop - 1) * devicePixelRatio, 
+                (ch_width - visibledatacolumn[dataset_col_ed]) * devicePixelRatio, 
+                (fill_row_ed - scrollHeight) * devicePixelRatio
+            );
         }
 
         if(ctx != null){
-            ctx.drawImage(jfgridTableElement, 0, 0, drawWidth, drawHeight, -drawWidth/2 + offsetLeft, -drawHeight/2 + offsetTop, drawWidth, drawHeight);
+            ctx.drawImage(
+                jfgridTableElement, 
+                0, 
+                0, 
+                drawWidth, 
+                drawHeight, 
+                -drawWidth/2 + offsetLeft, 
+                -drawHeight/2 + offsetTop, 
+                drawWidth, 
+                drawHeight
+            );
         }
     }
     jfgrid.jfgridDrawMain = jfgridDrawMain;
