@@ -90,7 +90,7 @@
     .jfgrid_info_detail .jfgrid_info_detail_input:focus {
         -webkit-appearance: none;
         -moz-appearance: none;
-        border: 1px solid #FC6666 !important;
+        border: 1px solid #0188fb !important;
         -webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
         -moz-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
         box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
@@ -153,7 +153,7 @@
     }
 
         .jfgrid-wa-editor > div.jfgridfulltoolbar:hover {
-            background: #FC6666;
+            background: #0188fb;
             color: #FAFAFA;
             cursor: pointer;
         }
@@ -171,7 +171,7 @@
 
 .jfgrid-toolbar-left-theme{
     width: 15px;
-    background: #FC6666;
+    background: #0188fb;
     position: absolute;
     left: 0px;
     top: 1px;
@@ -310,7 +310,7 @@
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
     background: #fff;
     outline: none;
-    border: 1px solid #FC6666!important;
+    border: 1px solid #0188fb!important;
 }
 
 .jfgrid-toolbar-textinput {
@@ -756,11 +756,11 @@
 }
 
 #jfgrid-icon-pivotTable .jfgrid-toolbar-menu-button-caption{
-	color: #fc6666;
+	color: #0188fb;
 }
 
 #jfgrid-icon-chart .jfgrid-toolbar-menu-button-caption{
-	color: #fc6666;
+	color: #0188fb;
 }
 
 .jfgrid-rightgclick-menu-sub .sp-container{
@@ -902,7 +902,7 @@
 }
 
     .jfgrid-wa-calculate-active:hover {
-        color: #FC6666;
+        color: #0188fb;
     }
 
 .jfgrid-grid-container {
@@ -1277,7 +1277,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     cursor: default;
     position: absolute;
     z-index: 10;
-    border-bottom: 1px solid #FC6666;
+    border-bottom: 1px solid #0188fb;
     bottom: 0;
     height: 100%;
     margin-left: 0px;
@@ -1343,7 +1343,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     background-color: #e1e1e1;
     display: inline-block;
     min-height: 19px;
-    color: #FC6666;
+    color: #0188fb;
     font-weight: bold;
     touch-action: manipulation;
     border-right-width: 1px;
@@ -1410,7 +1410,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
 .jfgrid-rows-h-selected {
     position: absolute;
     z-index: 10;
-    border-right: 1px solid #FC6666;
+    border-right: 1px solid #0188fb;
     right: 0;
     width: 100%;
     margin-top: 2px;
@@ -1471,7 +1471,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     border-color: #bfbfbf;
     background-color: #e1e1e1;
     border-bottom-width: 1px;
-    color: #FC6666;
+    color: #0188fb;
     font-weight: bold;
     touch-action: manipulation;
 }
@@ -1802,7 +1802,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     right: 0;
     bottom: 0;
     left: 0;
-    border: 2px dashed #FC6666;
+    border: 2px dashed #0188fb;
     z-index: 8;
 }
 
@@ -1817,7 +1817,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
 
 .jfgrid-formula-functionrange-highlight .jfgrid-copy {
     background-image: none;
-    background: #FC6666;
+    background: #0188fb;
     position: absolute;
     z-index: 18;
     cursor: move;
@@ -1884,7 +1884,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     position: absolute;
     z-index: 19;
     border: 1px solid #fff;
-    background: #FC6666;
+    background: #0188fb;
     width: 6px;
     height: 6px;
 }
@@ -1903,7 +1903,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     position: absolute;
     pointer-events: none;
     z-index: 16;
-    border: 2px solid #FC6666;
+    border: 2px solid #0188fb;
     margin: -1px 0 0 -1px;
     display: none;
     /*transition: all 0.1s;*/
@@ -1913,9 +1913,9 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     position: absolute;
     pointer-events: none;
     z-index: 15;
-    border: 1px solid #FC6666;
+    border: 1px solid #0188fb;
     margin: -1px 0 0 -1px;
-    background: rgba(252,102,102,0.15);
+    background: rgba(1, 136, 251, 0.15);
     display: none;
     /*transition: all 0.1s;*/
 }
@@ -1936,7 +1936,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     height: 6px;
     bottom: -5px;
     cursor: crosshair;
-    background-color: #FC6666;
+    background-color: #0188fb;
     border: solid 1px #fff;
     z-index: 16;
     pointer-events: auto;
@@ -2697,7 +2697,7 @@ fieldset[disabled] a.btn {
 .jfgrid-cols-change-size {
     width: 5px;
     height: 100%;
-    background: #FC6666;
+    background: #0188fb;
     cursor: ew-resize;
     opacity: 0;
 }
@@ -2705,13 +2705,13 @@ fieldset[disabled] a.btn {
 .jfgrid-rows-change-size {
     width: 100%;
     height: 5px;
-    background: #FC6666;
+    background: #0188fb;
     cursor: ns-resize;
     opacity: 0;
 }
 
 .jfgrid-change-size-line {
-    border-color: #FC6666;
+    border-color: #0188fb;
     border-style: solid;
     z-index: 15;
     display: none;
@@ -2774,7 +2774,7 @@ fieldset[disabled] a.btn {
     top: -10000px;
     max-height: 9900px;
     max-width: 9900px;
-    border: 2px #ff4a4a solid;
+    border: 2px #5292f7 solid;
     padding: 0 2px;
     margin: 0;
     z-index: 15;
@@ -2821,7 +2821,7 @@ fieldset[disabled] a.btn {
     line-height: 16px;
     font-size: 12px;
     padding: 1px 6px;
-    background-color: #ff4a4a;
+    background-color: #5292f7;
     border-radius: 2px;
     box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
     color: white;
@@ -2900,7 +2900,7 @@ fieldset[disabled] a.btn {
 
          .jfgrid-modal-dialog-title-update {
              right: 105px;
-             color:#FC6666;
+             color:#0188fb;
              font-size:14px;
              padding-top: 9px;
          }
@@ -2920,7 +2920,7 @@ fieldset[disabled] a.btn {
 
 .jfgrid-modal-dialog-resize {
     position: absolute;
-    border: 2px solid #FC6666;
+    border: 2px solid #0188fb;
     margin: 0px;
     padding: 0px;
     top: -2px;
@@ -2935,7 +2935,7 @@ fieldset[disabled] a.btn {
     height: 6px;
     width: 6px;
     background: #ffffff;
-    border: 2px solid #FC6666;
+    border: 2px solid #0188fb;
     pointer-events: all;
     border-radius: 6px;
 }
@@ -3026,13 +3026,13 @@ fieldset[disabled] a.btn {
 
     .jfgrid-modal-controll-btn:hover {
         border: 1px solid #A1A1A1;
-        color: #FC6666;
+        color: #0188fb;
     }
 
     .jfgrid-modal-controll-btn:active {
         border: 1px solid #BBBBBB;
         background: #EFEFEF;
-        color: #FC6666;
+        color: #0188fb;
     }
 
 .jfgrid-modal-controll-del {
@@ -3058,7 +3058,7 @@ fieldset[disabled] a.btn {
 }
 
 .jfgrid-modal-controll-max-close:hover {
-    background: #FC6666;
+    background: #0188fb;
     cursor: pointer;
 }
 
@@ -4746,110 +4746,110 @@ fieldset[disabled] a.btn {
           .2em:外扩.2em
           #FFF:白色
          */
-         0 -3em 0 .2em #FC6666,/*上*/
-         2em -2em 0 0 #FC6666,/*右上*/
-         3em 0 0 -.5em #FC6666,/*右*/
-         2em 2em 0 -.5em #FC6666,/*右下*/
-         0 3em 0 -.5em #FC6666, /*下*/
-         -2em 2em 0 -.5em #FC6666, /*左下*/
-         -3em 0 0 -.5em #FC6666, /*左*/
-         -2em -2em 0 0 #FC6666;/*左上*/
+         0 -3em 0 .2em #0188fb,/*上*/
+         2em -2em 0 0 #0188fb,/*右上*/
+         3em 0 0 -.5em #0188fb,/*右*/
+         2em 2em 0 -.5em #0188fb,/*右下*/
+         0 3em 0 -.5em #0188fb, /*下*/
+         -2em 2em 0 -.5em #0188fb, /*左下*/
+         -3em 0 0 -.5em #0188fb, /*左*/
+         -2em -2em 0 0 #0188fb;/*左上*/
    }
 
    12.5% {
       box-shadow:
-         0 -3em 0 0 #FC6666,
-         2em -2em 0 .2em #FC6666,
-         3em 0 0 0 #FC6666,
-         2em 2em 0 -.5em #FC6666,
-         0 3em 0 -.5em #FC6666,
-         -2em 2em 0 -.5em #FC6666,
-         -3em 0 0 -.5em #FC6666,
-         -2em -2em 0 -.5em #FC6666;
+         0 -3em 0 0 #0188fb,
+         2em -2em 0 .2em #0188fb,
+         3em 0 0 0 #0188fb,
+         2em 2em 0 -.5em #0188fb,
+         0 3em 0 -.5em #0188fb,
+         -2em 2em 0 -.5em #0188fb,
+         -3em 0 0 -.5em #0188fb,
+         -2em -2em 0 -.5em #0188fb;
    }
 
    25% {
       box-shadow:
-         0 -3em 0 -.5em #FC6666,
-         2em -2em 0 0 #FC6666,
-         3em 0 0 .2em #FC6666,
-         2em 2em 0 0 #FC6666,
-         0 3em 0 -.5em #FC6666,
-         -2em 2em 0 -.5em #FC6666,
-         -3em 0 0 -.5em #FC6666,
-         -2em -2em 0 -.5em #FC6666;
+         0 -3em 0 -.5em #0188fb,
+         2em -2em 0 0 #0188fb,
+         3em 0 0 .2em #0188fb,
+         2em 2em 0 0 #0188fb,
+         0 3em 0 -.5em #0188fb,
+         -2em 2em 0 -.5em #0188fb,
+         -3em 0 0 -.5em #0188fb,
+         -2em -2em 0 -.5em #0188fb;
    }
 
    37.5% {
       box-shadow:
-         0 -3em 0 -.5em #FC6666,
-         2em -2em 0 -.5em #FC6666,
-         3em 0 0 0 #FC6666,
-         2em 2em 0 .2em #FC6666,
-         0 3em 0 0 #FC6666,
-         -2em 2em 0 -.5em #FC6666,
-         -3em 0 0 -.5em #FC6666,
-         -2em -2em 0 -.5em #FC6666;
+         0 -3em 0 -.5em #0188fb,
+         2em -2em 0 -.5em #0188fb,
+         3em 0 0 0 #0188fb,
+         2em 2em 0 .2em #0188fb,
+         0 3em 0 0 #0188fb,
+         -2em 2em 0 -.5em #0188fb,
+         -3em 0 0 -.5em #0188fb,
+         -2em -2em 0 -.5em #0188fb;
    }
 
    50% {
       box-shadow:
-         0 -3em 0 -.5em #FC6666,
-         2em -2em 0 -.5em #FC6666,
-         3em 0 0 -.5em #FC6666,
-         2em 2em 0 0 #FC6666,
-         0 3em 0 .2em #FC6666,
-         -2em 2em 0 0 #FC6666,
-         -3em 0 0 -.5em #FC6666,
-         -2em -2em 0 -.5em #FC6666;
+         0 -3em 0 -.5em #0188fb,
+         2em -2em 0 -.5em #0188fb,
+         3em 0 0 -.5em #0188fb,
+         2em 2em 0 0 #0188fb,
+         0 3em 0 .2em #0188fb,
+         -2em 2em 0 0 #0188fb,
+         -3em 0 0 -.5em #0188fb,
+         -2em -2em 0 -.5em #0188fb;
    }
 
    62.5% {
       box-shadow:
-         0 -3em 0 -.5em #FC6666,
-         2em -2em 0 -.5em #FC6666,
-         3em 0 0 -.5em #FC6666,
-         2em 2em 0 -.5em #FC6666,
-         0 3em 0 0 #FC6666,
-         -2em 2em 0 .2em #FC6666,
-         -3em 0 0 0 #FC6666,
-         -2em -2em 0 -.5em #FC6666;
+         0 -3em 0 -.5em #0188fb,
+         2em -2em 0 -.5em #0188fb,
+         3em 0 0 -.5em #0188fb,
+         2em 2em 0 -.5em #0188fb,
+         0 3em 0 0 #0188fb,
+         -2em 2em 0 .2em #0188fb,
+         -3em 0 0 0 #0188fb,
+         -2em -2em 0 -.5em #0188fb;
    }
 
    75% {
       box-shadow:
-         0 -3em 0 -.5em #FC6666,
-         2em -2em 0 -.5em #FC6666,
-         3em 0 0 -.5em #FC6666,
-         2em 2em 0 -.5em #FC6666,
-         0 3em 0 -.5em #FC6666,
-         -2em 2em 0 0 #FC6666,
-         -3em 0 0 .2em #FC6666,
-         -2em -2em 0 0 #FC6666;
+         0 -3em 0 -.5em #0188fb,
+         2em -2em 0 -.5em #0188fb,
+         3em 0 0 -.5em #0188fb,
+         2em 2em 0 -.5em #0188fb,
+         0 3em 0 -.5em #0188fb,
+         -2em 2em 0 0 #0188fb,
+         -3em 0 0 .2em #0188fb,
+         -2em -2em 0 0 #0188fb;
    }
 
    87.5% {
       box-shadow:
-         0 -3em 0 0 #FC6666,
-         2em -2em 0 -.5em #FC6666,
-         3em 0 0 -.5em #FC6666,
-         2em 2em 0 -.5em #FC6666,
-         0 3em 0 -.5em #FC6666,
-         -2em 2em 0 0 #FC6666,
-         -3em 0 0 0 #FC6666,
-         -2em -2em 0 .2em #FC6666;
+         0 -3em 0 0 #0188fb,
+         2em -2em 0 -.5em #0188fb,
+         3em 0 0 -.5em #0188fb,
+         2em 2em 0 -.5em #0188fb,
+         0 3em 0 -.5em #0188fb,
+         -2em 2em 0 0 #0188fb,
+         -3em 0 0 0 #0188fb,
+         -2em -2em 0 .2em #0188fb;
    }
 
    100% {
       box-shadow:
-         0 -3em 0 .2em #FC6666,
-         2em -2em 0 0 #FC6666,
-         3em 0 0 -.5em #FC6666,
-         2em 2em 0 -.5em #FC6666,
-         0 3em 0 -.5em #FC6666,
-         -2em 2em 0 -.5em #FC6666,
-         -3em 0 0 -.5em #FC6666,
-         -2em -2em 0 0 #FC6666;
+         0 -3em 0 .2em #0188fb,
+         2em -2em 0 0 #0188fb,
+         3em 0 0 -.5em #0188fb,
+         2em 2em 0 -.5em #0188fb,
+         0 3em 0 -.5em #0188fb,
+         -2em 2em 0 -.5em #0188fb,
+         -3em 0 0 -.5em #0188fb,
+         -2em -2em 0 0 #0188fb;
    }
 }
 
@@ -6015,7 +6015,7 @@ fieldset[disabled] a.btn {
     top: 0;
 }
 .jfgrid-postil-show-active .jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item{
-    border-color: #FC6666;
+    border-color: #0188fb;
 }
 .jfgrid-postil-dialog-resize{
     position: absolute;
@@ -6031,7 +6031,7 @@ fieldset[disabled] a.btn {
     position: absolute;
     height: 6px;
     width: 6px;
-    border: 1px solid #FC6666;
+    border: 1px solid #0188fb;
     pointer-events: all;
 }
 .jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lt{

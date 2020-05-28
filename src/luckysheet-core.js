@@ -24930,7 +24930,7 @@
         
         jfgrid.jfgridrefreshgrid($("#jfgrid-cell-main").scrollLeft(), $("#jfgrid-cell-main").scrollTop());
         
-        var ismore = false, toolbarW = 0, morebtn='<div class="jfgrid-toolbar-separator jfgrid-inline-block" style="user-select: none;"> </div><div class="jfgrid-toolbar-button jfgrid-inline-block" data-tips="更多按钮" id="jfgrid-icon-morebtn" role="button" style="user-select: none;"> <div class="jfgrid-toolbar-button-outer-box jfgrid-inline-block" style="user-select: none;"> <div class="jfgrid-toolbar-button-inner-box jfgrid-inline-block" style="user-select: none;"> <div class="jfgrid-toolbar-menu-button-caption jfgrid-inline-block" style="user-select: none;color:#ff6868;"><i class="fa fa-list-ul"></i> 更多... </div> </div> </div> </div>';
+        var ismore = false, toolbarW = 0, morebtn='<div class="jfgrid-toolbar-separator jfgrid-inline-block" style="user-select: none;"> </div><div class="jfgrid-toolbar-button jfgrid-inline-block" data-tips="更多按钮" id="jfgrid-icon-morebtn" role="button" style="user-select: none;"> <div class="jfgrid-toolbar-button-outer-box jfgrid-inline-block" style="user-select: none;"> <div class="jfgrid-toolbar-button-inner-box jfgrid-inline-block" style="user-select: none;"> <div class="jfgrid-toolbar-menu-button-caption jfgrid-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> 更多... </div> </div> </div> </div>';
         var morediv = '<div id="jfgrid-icon-morebtn-div" class="jfgrid-wa-editor" style="position:absolute;top:'+ (infobarHeight + toolbarHeight+2 + $("#" + container).offset().top + $("body").scrollTop() ) +'px; right:0px;z-index:1003;padding-left:0px;display:none;height:auto;white-space:initial;"></div>';
         if($("#jfgrid-icon-morebtn-div").length==0){
             $("body").append(morediv);
@@ -25063,14 +25063,14 @@
 
                 if(i == 0){
                     if(jfgird_select_save.length == 1){
-                        $("#jfgrid-cell-selected-boxs #jfgrid-cell-selected").css({ "left": jfgird_select_save[i]["left_move"], "width": jfgird_select_save[i]["width_move"], "top": jfgird_select_save[i]["top_move"], "height": jfgird_select_save[i]["height_move"], "display": "block", "border": "1px solid #FC6666" }).find(".jfgrid-cs-draghandle").css("display", "block").end().find(".jfgrid-cs-fillhandle").css("display", "block");
+                        $("#jfgrid-cell-selected-boxs #jfgrid-cell-selected").css({ "left": jfgird_select_save[i]["left_move"], "width": jfgird_select_save[i]["width_move"], "top": jfgird_select_save[i]["top_move"], "height": jfgird_select_save[i]["height_move"], "display": "block", "border": "1px solid #0188fb" }).find(".jfgrid-cs-draghandle").css("display", "block").end().find(".jfgrid-cs-fillhandle").css("display", "block");
                     }
                     else{
-                        $("#jfgrid-cell-selected-boxs #jfgrid-cell-selected").css({ "left": jfgird_select_save[i]["left_move"], "width": jfgird_select_save[i]["width_move"], "top": jfgird_select_save[i]["top_move"], "height": jfgird_select_save[i]["height_move"], "display": "block", "border": "1px solid rgba(252,102,102,0.15)" }).find(".jfgrid-cs-draghandle").css("display", "none").end().find(".jfgrid-cs-fillhandle").css("display", "none");
+                        $("#jfgrid-cell-selected-boxs #jfgrid-cell-selected").css({ "left": jfgird_select_save[i]["left_move"], "width": jfgird_select_save[i]["width_move"], "top": jfgird_select_save[i]["top_move"], "height": jfgird_select_save[i]["height_move"], "display": "block", "border": "1px solid rgba(1, 136, 251, 0.15)" }).find(".jfgrid-cs-draghandle").css("display", "none").end().find(".jfgrid-cs-fillhandle").css("display", "none");
                     }
                 }
                 else{
-                    $("#jfgrid-cell-selected-boxs").append('<div class="jfgrid-cell-selected" style="left: '+ jfgird_select_save[i]["left_move"] +'px; width: '+ jfgird_select_save[i]["width_move"] +'px; top: '+ jfgird_select_save[i]["top_move"] +'px; height: '+ jfgird_select_save[i]["height_move"] +'px; border: 1px solid rgba(252,102,102,0.15); display: block;"></div>');
+                    $("#jfgrid-cell-selected-boxs").append('<div class="jfgrid-cell-selected" style="left: '+ jfgird_select_save[i]["left_move"] +'px; width: '+ jfgird_select_save[i]["width_move"] +'px; top: '+ jfgird_select_save[i]["top_move"] +'px; height: '+ jfgird_select_save[i]["height_move"] +'px; border: 1px solid rgba(1, 136, 251, 0.15); display: block;"></div>');
                 }
 
                 if(i == jfgird_select_save.length - 1){
@@ -27011,16 +27011,14 @@
                     scrollLeft = 0;
                 }
                 else {
-                    // scrollLeft = visibledatacolumn_c[col_ed - 1];
-                    scrollLeft = visibledatacolumn_c[col_ed];
+                    scrollLeft = visibledatacolumn_c[col_ed - 1];
                 }
 
                 if (row_ed <= 0) {
                     scrollTop = 0;
                 }
                 else {
-                    // scrollTop = visibledatarow_c[row_ed - 1];
-                    scrollTop = visibledatarow_c[row_ed];
+                    scrollTop = visibledatarow_c[row_ed - 1];
                 }
 
                 // if (jfgridautoscrollp[0] < scrollLeft) {
@@ -48443,6 +48441,8 @@
             visibledatacolumn = [];
             ch_width = 0;
 
+            var maxColumlen = 120;
+
             for (var i = 0; i < colwidth; i++) {
                 var firstcolumlen = defaultcollen;
 
@@ -48471,11 +48471,16 @@
                 ch_width += firstcolumlen + 1;
 
                 visibledatacolumn.push(ch_width);//列的临时长度分布
+
+                if(maxColumlen < firstcolumlen + 1){
+                    maxColumlen = firstcolumlen + 1;
+                }
             }
 
             if(!jfgridConfigsetting.pointEdit){
                 //非编辑器qksheet表格编辑状态
-                ch_width += 120;
+                // ch_width += 120;
+                ch_width += maxColumlen;
             }
         }
 
