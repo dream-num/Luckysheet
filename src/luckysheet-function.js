@@ -4753,7 +4753,9 @@
             setTimeout(function() {
                 var value = $editer.text(),
                     valuetxt = value;
+                    console.log(value, kcode)
                 if (value.length > 0 && value.substr(0, 1) == "=" && kcode != 229) {
+                // if (value.length > 0 && value.substr(0, 1) == "=") {
                     value = jfgrid.formula.functionHTMLGenerate(value);
                     value1 = jfgrid.formula.functionHTMLGenerate(value1txt);
 

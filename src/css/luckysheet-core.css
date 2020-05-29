@@ -1404,7 +1404,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     margin-top: 2px;
     display: none;
     /*transition: all 0.1s;*/
-    background-color: rgba(252,195,195, 0.5);
+    background-color: rgba(194, 194, 194, 0.5);
 }
 
 .jfgrid-rows-h-selected {
@@ -1893,7 +1893,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     position: absolute;
     pointer-events: none;
     z-index: 16;
-    border: 1px dashed #C83D3D;
+    border: 1px dashed #0188fb;
     margin: -1px 0 0 -1px;
     display: none;
     /*transition: all 0.1s;*/
@@ -1979,6 +1979,55 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     right: -4px;
     bottom: 0;
     width: 2px;
+}
+
+.jfgrid-cs-touchhandle{
+    display: none;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    padding: 5px;
+    z-index: 10;
+    pointer-events: auto;
+    touch-action: auto;
+}
+.jfgrid-cs-touchhandle:before{
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+.jfgrid-cs-touchhandle-lt{
+    left: -13px;
+    top: -13px;
+}
+.jfgrid-cs-touchhandle-lb{
+    left: -13px;
+    bottom: -13px;
+}
+.jfgrid-cs-touchhandle-rt{
+    right: -13px;
+    top: -13px;
+}
+.jfgrid-cs-touchhandle-rb{
+    right: -13px;
+    bottom: -13px;
+}
+.jfgrid-cs-touchhandle .jfgrid-cs-touchhandle-btn{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 8px;
+    top: 8px;
+    background-color: #018ffb;
+    background-position: center;
+    box-sizing: border-box;
+    border-radius: 50%;
+    z-index: 11;
 }
 
 #jfgrid-dynamicArray-hightShow {
