@@ -22612,7 +22612,11 @@
     }
 
     jfgrid.getdatabyselection = function (range, sheetIndex) {
-        if (range == null || range["row"] == null || range["row"].length == 0) {
+        if(range == null){
+            range = jfgird_select_save[0];
+        }
+
+        if (range["row"] == null || range["row"].length == 0) {
             return [];
         }
 
@@ -23425,11 +23429,16 @@
             return copySheetName;
         },
         getSheetByIndex:function(index){
-            if(index == null){
-                index = jfgrid.currentSheetIndex;
+            try {
+                if(index == null){
+                    index = jfgrid.sheetmanage.getSheetIndex(jfgrid.currentSheetIndex);
+                }
+                var i = this.getSheetIndex(index);
+                return jfgridfile[i];
             }
-            var i = this.getSheetIndex(index);
-            return jfgridfile[i];
+            catch(err) {
+                console.log(err);
+            }
         },
         getCurSheetnoset: function () {
             var curindex = 0;
@@ -47778,49 +47787,59 @@
 
     //得到单元格的值
     jfgrid.getcellvalue = function (r, c, data, type) {
-        if (type == null) {
-            type = "v";
-        }
-
-        if (data == null) {
-            data = jfgrid.flowdata;
-        }
-
-        var d_value;
-
-        if (r != null && c != null) {
-            d_value = data[r][c];
-        }
-        else if (r != null) {
-            d_value = data[r];
-        }
-        else if (c != null) {
-            d_value = data[c];
-        }
-        else {
-            return data;
-        }
-
-        var retv = d_value;
-
-        if(jfgrid.getObjType(d_value) == "object"){
-            retv = d_value[type];
-
-            if (type == "f" && retv != null) {
-                retv = jfgrid.formula.functionHTMLGenerate(retv);
+        try {
+            if (type == null) {
+                type = "v";
             }
-            else if(type == "f"){
-                retv = d_value["v"];
-            }else if(d_value && d_value.ct && d_value.ct.fa == 'yyyy-MM-dd'){
-                retv = d_value.m
+
+            if (data == null) {
+                data = jfgrid.flowdata;
             }
-        }
 
-        if(retv == undefined){
-            retv = null;
-        }
+            var d_value;
 
-        return retv;
+            if (r != null && c != null) {
+                d_value = data[r][c];
+            }
+            else if (r != null) {
+                d_value = data[r];
+            }
+            else if (c != null) {
+                var newData = data[0].map(function(col, i) {
+                    return data.map(function(row) {
+                        return row[i];
+                    })
+                });
+                d_value = newData[c];
+            }
+            else {
+                return data;
+            }
+
+            var retv = d_value;
+
+            if(jfgrid.getObjType(d_value) == "object"){
+                retv = d_value[type];
+
+                if (type == "f" && retv != null) {
+                    retv = jfgrid.formula.functionHTMLGenerate(retv);
+                }
+                else if(type == "f"){
+                    retv = d_value["v"];
+                }else if(d_value && d_value.ct && d_value.ct.fa == 'yyyy-MM-dd'){
+                    retv = d_value.m
+                }
+            }
+
+            if(retv == undefined){
+                retv = null;
+            }
+
+            return retv;
+        }
+        catch(err) {
+            console.log(err);
+        }
     }
 
     //new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式
