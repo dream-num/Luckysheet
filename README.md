@@ -7,9 +7,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 1. luckeeysht支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
 2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
 3. 支持一键截图、复制为json数据、共享编辑、excel与luckysheet之间数据的复制粘贴
-
-
-
+![演示](https://minio.cnbabylon.com/babylon1/public/LuckysheetDemo.gif)
 
 ## Documentation - 文档
 [在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
