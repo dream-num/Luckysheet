@@ -8,7 +8,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
 3. 支持一键截图、复制为json数据、共享编辑、excel与luckysheet之间数据的复制粘贴
 
-![演示](https://minio.cnbabylon.com/babylon1/public/Luckysheet_demo.gif)
+
 
 
 ## Documentation - 文档
