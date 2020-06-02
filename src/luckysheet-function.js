@@ -4716,7 +4716,7 @@
             //}
         },
         functionRange: function(obj, v, vp) {
-            console.log(v, vp);
+            // console.log(v, vp);
             if (window.getSelection) { //ie11 10 9 ff safari
                 var currSelection = window.getSelection();
                 var fri = jfgrid.formula.findrangeindex(v, vp);
@@ -4753,7 +4753,7 @@
             setTimeout(function() {
                 var value = $editer.text(),
                     valuetxt = value;
-                    console.log(value, kcode)
+                    console.log(value, value1)
                 if (value.length > 0 && value.substr(0, 1) == "=" && kcode != 229) {
                 // if (value.length > 0 && value.substr(0, 1) == "=") {
                     value = jfgrid.formula.functionHTMLGenerate(value);
