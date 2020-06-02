@@ -5017,7 +5017,7 @@
         screenshot: function (title, content, imgurl) {
             $("#jfgrid-modal-dialog-mask").show();
             $("#jfgrid-confirm").remove();
-            $("body").append(jfgrid.replaceHtml(modelHTML, { "id": "jfgrid-confirm", "addclass": "", "style": "z-index:100003", "title": title, "content": content, "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary jfgrid-model-conform-btn">&nbsp;&nbsp;下载&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-danger jfgrid-model-copy-btn">&nbsp;&nbsp;复制到剪切板&nbsp;&nbsp;</button><button class="btn btn-default jfgrid-model-cancel-btn">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>' }));
+            $("body").append(jfgrid.replaceHtml(modelHTML, { "id": "jfgrid-confirm", "addclass": "", "style": "z-index:100003", "title": title, "content": content, "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary jfgrid-model-conform-btn">&nbsp;&nbsp;下载&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary jfgrid-model-copy-btn">&nbsp;&nbsp;复制到剪切板&nbsp;&nbsp;</button><button class="btn btn-default jfgrid-model-cancel-btn">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>' }));
             var $t = $("#jfgrid-confirm").find(".jfgrid-modal-dialog-content").css("min-width", 300).end(), myh = $t.outerHeight(), myw = $t.outerWidth();
             var winw = $(window).width(), winh = $(window).height();
             var scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
@@ -28760,7 +28760,7 @@
             var kcode = event.keyCode;
             if ($("#jfgrid-modal-dialog-mask").is(":visible") || $(event.target).hasClass("jfgrid-mousedown-cancel") || $(event.target).hasClass("sp-input") || (parseInt($("#jfgrid-input-box").css("top")) > 0 && $(event.target).closest(".jfgrid-input-box").length > 0 && kcode != keycode.ENTER && kcode != keycode.TAB && kcode != keycode.UP && kcode != keycode.DOWN && kcode != keycode.LEFT && kcode != keycode.RIGHT)) {
                 var anchor = $(window.getSelection().anchorNode);
-
+                
                 if(anchor.parent().is("#jfgrid-helpbox-cell") || anchor.is("#jfgrid-helpbox-cell")){
                     if(kcode == keycode.ENTER){
                         var helpboxValue = $("#jfgrid-helpbox-cell").text();
@@ -32391,6 +32391,12 @@
                 jfgrid_shiftkeydown = false;
                 jfgrid.jfgrid_shiftpositon = null;
             }
+
+            //输入框中文输入后 shift 和 空格 处理
+            if(parseInt($("#jfgrid-input-box").css("top")) > 0 && (kcode == 13 || kcode == 16 || kcode == 32)){
+                jfgrid.formula.functionInputHanddler($("#jfgrid-functionbox-cell"), $("#jfgrid-rich-text-editor"), kcode);
+            }
+
             e.preventDefault();
         });
 
@@ -40901,7 +40907,7 @@
 
         //     mouseclickposition($("#jfgrid-user-menu"), menuleft, $(this).offset().top+20, "lefttop");
         // });
-        
+
         if(jfgridConfigsetting.userMenuItem.length>0){
             $("body").append('<div class="jfgrid-cols-menu jfgrid-rightgclick-menu jfgrid-mousedown-cancel" id="jfgrid-user-menu">${item}</div>');
             var itemset = "";

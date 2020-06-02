@@ -2662,12 +2662,12 @@ fieldset[disabled] a.btn {
     }
 
 .btn-primary, .label-default, .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-    background: #8C89FE;
+    background: #0188FB;
     border-color: #726EFE;
 }
 
     .btn-primary:hover, .btn-primary:focus {
-        background: #7C79FE;
+        background: #388cf5;
         border-color: #6864FE;
     }
 
@@ -4323,14 +4323,14 @@ fieldset[disabled] a.btn {
     height: 19px;
     line-height: 19px;
     font-size: 12px;
-    border: 1px solid #FDB8B8;
-    background: #FDD7D7;
+    border: 1px solid #88adfd;
+    background: #aac1fe;
     margin: 2px;
 }
 
     .jfgrid-modal-dialog-slider-config-list .jfgrid-modal-dialog-slider-config-item:hover {
-        border: 1px solid #FB8686;
-        background: #FDCDCD;
+        border: 1px solid #0188fb;
+        background: #5f9afc;
     }
 
 .jfgrid-modal-dialog-slider-config-item-txt {

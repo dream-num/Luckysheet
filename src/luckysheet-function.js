@@ -4693,27 +4693,32 @@
             return null;
         },
         setCaretPosition: function(textDom, children, pos) {
-            var el = textDom;
-            var range = document.createRange();
-            var sel = window.getSelection();
-            //console.log(el.childNodes[children], pos);
-            range.setStart(el.childNodes[children], pos);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            el.focus();
-            //if (textDom.setSelectionRange) {
-            //    // IE Support
-            //    textDom.focus();
-            //    textDom.setSelectionRange(pos, pos);
-            //} else if (textDom.createTextRange) {
-            //    // Firefox support
-            //    var range = textDom.createTextRange();
-            //    range.collapse(true);
-            //    range.moveEnd('character', pos);
-            //    range.moveStart('character', pos);
-            //    range.select();
-            //}
+            try{
+                var el = textDom;
+                var range = document.createRange();
+                var sel = window.getSelection();
+                //console.log(el.childNodes[children], pos);
+                range.setStart(el.childNodes[children], pos);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+                el.focus();
+                //if (textDom.setSelectionRange) {
+                //    // IE Support
+                //    textDom.focus();
+                //    textDom.setSelectionRange(pos, pos);
+                //} else if (textDom.createTextRange) {
+                //    // Firefox support
+                //    var range = textDom.createTextRange();
+                //    range.collapse(true);
+                //    range.moveEnd('character', pos);
+                //    range.moveStart('character', pos);
+                //    range.select();
+                //}
+            }
+            catch(err) {
+                jfgrid.jfgridRangeLast(jfgrid.formula.rangeResizeTo[0]);
+            }
         },
         functionRange: function(obj, v, vp) {
             // console.log(v, vp);
@@ -4753,9 +4758,7 @@
             setTimeout(function() {
                 var value = $editer.text(),
                     valuetxt = value;
-                    console.log(value, value1)
-                if (value.length > 0 && value.substr(0, 1) == "=" && kcode != 229) {
-                // if (value.length > 0 && value.substr(0, 1) == "=") {
+                if (value.length > 0 && value.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
                     value = jfgrid.formula.functionHTMLGenerate(value);
                     value1 = jfgrid.formula.functionHTMLGenerate(value1txt);
 
@@ -4776,6 +4779,7 @@
 
                     $editer.html(value);
                     jfgrid.formula.functionRange($editer, value, value1);
+                    
                     // if (jfgrid.formula.functionRangeIndex != null) {
                     //     jfgrid.formula.functionRange($("#jfgrid-functionbox-cell"), value, value1);
                     // }
@@ -4785,13 +4789,11 @@
                     jfgrid.formula.canceFunctionrangeSelected();
                     jfgrid.formula.createRangeHightlight();
                 }
-                
                 jfgrid.formula.rangestart = false;
                 jfgrid.formula.rangedrag_column_start = false;
                 jfgrid.formula.rangedrag_row_start = false;
 
                 $functionbox.html(value);
-
                 jfgrid.formula.rangeHightlightselected($editer, kcode);
             }, 1);
         },
