@@ -4,11 +4,12 @@
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
 ### 特性
-1. luckeeysht支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
-2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
-3. 支持一键截图、复制为json数据、共享编辑、excel与luckysheet之间数据的复制粘贴
+1. Luckysheet支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
+2. 支持数据分析功能包括透视表、分列、矩阵操作、内置385个计算函数
+3. 支持一键截图、复制为json数据、共享编辑、excel与Luckysheet之间数据的复制粘贴
+4. 支持移动端查看
 
-![演示](https://minio.cnbabylon.com/babylon1/public/Luckysheet_demo.gif)
+![演示](https://minio.cnbabylon.com/babylon1/public/LuckysheetDemo.gif)
 
 
 ### Demo
@@ -68,4 +69,54 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 </script>
 ```
 
+## 整体结构
 
+### 格式
+
+一个完整的Luckysheet表格文件的数据格式为：jfgridfile，一个表格表格文件包含若干个sheet文件，对应excel的sheet0、sheet1等。
+
+一个Luckysheet文件的示例如下，该表格包含3个sheet：`
+jfgridfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
+相当于excel的3个sheet
+![excel sheet](img/excel.png)
+
+文件中的一个sheet的示例如下：
+```
+jfgridfile[0] = 
+{
+	"name": "超市销售额",
+	"color": "",
+	"chart": [],
+	"status": 0,
+	"order": 0,
+	"celldata": [],
+	"row":90,
+	"column":100,
+	"index": 0,
+	"visibledatarow": [],
+	"visibledatacolumn": [],
+	"rowsplit": [],
+	"ch_width": 4629,
+	"rh_height": 1681,
+	"jfgird_select_save": {},
+	"jfgrid_selection_range": {},
+	"scrollLeft": 0,
+	"scrollTop": 0,
+	"load": "1",
+	"config": {
+		"columlen": {},
+		"rowhidden": {}
+	}
+	,
+	"pivotTable": {},
+	"isPivotTable": true,
+    "calcChain": [],
+    "filter":{key1:value1, key2:value2},
+    "filter_select": {}
+}
+```
+### 查看方式
+在chrome的console中查看
+`jfgrid.getjfgridfile()`
+可以看到完整设置
+[{shee1}, {sheet2}, {sheet3}]

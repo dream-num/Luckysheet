@@ -18,7 +18,9 @@ module.exports = {
 			'/guide/': [
 			  '',
 			  'config',
-			  'feature'
+			  'feature',
+			  'data',
+			  'operate'
 			],
 		  },
 		// 仓库地址
