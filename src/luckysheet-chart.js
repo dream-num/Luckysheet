@@ -1,44 +1,44 @@
 // 防止chart部分报错,从luckysheet-chartMix.js中迁移出luckysheet部分作为核心主体,关于设置界面的部分放到chartMix vue工程
 // chart用到的各个变量
-jfgrid.chartparam = {
-    jfgrid_chart_point_config: null,
-    jfgridCurrentChartMove: false,
-    jfgridCurrentChartMoveTimeout: null,
-    jfgridCurrentChartResize: null,
-    jfgrid_chart_rangefocus_timeout: null,
-    jfgrid_chart_rangefocus: false,
-    jfgrid_chart_data_select_state: false,
-    jfgridCurrentChartMoveObj: null,
-    jfgridCurrentChartMoveXy: [],
-    jfgridCurrentChartMoveWinH: null,
-    jfgridCurrentChartMoveWinW: null,
-    jfgridInsertChartTosheetChange: true,
+luckysheet.chartparam = {
+    luckysheet_chart_point_config: null,
+    luckysheetCurrentChartMove: false,
+    luckysheetCurrentChartMoveTimeout: null,
+    luckysheetCurrentChartResize: null,
+    luckysheet_chart_rangefocus_timeout: null,
+    luckysheet_chart_rangefocus: false,
+    luckysheet_chart_data_select_state: false,
+    luckysheetCurrentChartMoveObj: null,
+    luckysheetCurrentChartMoveXy: [],
+    luckysheetCurrentChartMoveWinH: null,
+    luckysheetCurrentChartMoveWinW: null,
+    luckysheetInsertChartTosheetChange: true,
     jgridCurrentChartSelection: null,
-    jfgridCurrentChartResizeObj: null,
-    jfgridCurrentChartResizeXy: null,
-    jfgridCurrentChartResizeWinH: null,
-    jfgridCurrentChartResizeWinW: null,
-    jfgrid_chartIns_index: -1,
-    jfgridCurrentChartActive: false,
+    luckysheetCurrentChartResizeObj: null,
+    luckysheetCurrentChartResizeXy: null,
+    luckysheetCurrentChartResizeWinH: null,
+    luckysheetCurrentChartResizeWinW: null,
+    luckysheet_chartIns_index: -1,
+    luckysheetCurrentChartActive: false,
 
     jgridCurrentChartData: null,
-    jfgridcurrentChart: null,
+    luckysheetcurrentChart: null,
 
-    jfgrid_chart_redo_click: false,
+    luckysheet_chart_redo_click: false,
     jgridCurrentChartType: null,
-    jfgridCurrentChartStyle: null,
-    jfgridCurrentChartCurrentType: null,
+    luckysheetCurrentChartStyle: null,
+    luckysheetCurrentChartCurrentType: null,
 
-    jfgridPreviousChart: '' //最近最新的图表json
+    luckysheetPreviousChart: '' //最近最新的图表json
 }
 
 // 初始化图表
-jfgrid.chartInitial = function () {
-    $('#jfgriddatavisual').click(function () {
+luckysheet.chartInitial = function () {
+    $('#luckysheetdatavisual').click(function () {
         
         // 未加入chartMix插件时返回
         if(!window.generateChart){
-            jfgrid.tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "图表插件暂未加入"); 
+            luckysheet.tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "图表插件暂未加入"); 
             return;
         }
         //防止watch生效
@@ -50,7 +50,7 @@ jfgrid.chartInitial = function () {
         }, 0)
         if (store.state.chartSetting.isqk) {
             setTimeout(function () {
-                jfgrid.jfgridsizeauto()
+                luckysheet.luckysheetsizeauto()
             }, 0)
         }
 
@@ -58,34 +58,34 @@ jfgrid.chartInitial = function () {
         var chartAllType = 'echarts|line|default'
 
         //如果只选中一个单元格，则自动填充选取
-        var jfgird_select_save = jfgrid.getjfgird_select_save()
+        var luckysheet_select_save = luckysheet.getluckysheet_select_save()
         if (
-            jfgird_select_save.length == 1 &&
-            jfgird_select_save[0].row[0] == jfgird_select_save[0].row[1] &&
-            jfgird_select_save[0].column[0] == jfgird_select_save[0].column[1]
+            luckysheet_select_save.length == 1 &&
+            luckysheet_select_save[0].row[0] == luckysheet_select_save[0].row[1] &&
+            luckysheet_select_save[0].column[0] == luckysheet_select_save[0].column[1]
         ) {
-            jfgrid.jfgridMoveHighlightRange2('right', 'rangeOfSelect')
+            luckysheet.luckysheetMoveHighlightRange2('right', 'rangeOfSelect')
 
-            jfgrid.jfgridMoveHighlightRange2('down', 'rangeOfSelect')
+            luckysheet.luckysheetMoveHighlightRange2('down', 'rangeOfSelect')
 
-            jfgird_select_save = jfgrid.getjfgird_select_save()
+            luckysheet_select_save = luckysheet.getluckysheet_select_save()
         }
         //处理右边的空白单元格，自动略过并修改选区 ---------------start
         var shiftpositon_row = -1
 
         var row_ed =
-            jfgird_select_save[0]['row'][1] - jfgird_select_save[0]['row'][0]
+            luckysheet_select_save[0]['row'][1] - luckysheet_select_save[0]['row'][0]
         for (
-            var r = jfgird_select_save[0]['row'][0];
-            r <= jfgird_select_save[0]['row'][1];
+            var r = luckysheet_select_save[0]['row'][0];
+            r <= luckysheet_select_save[0]['row'][1];
             r++
         ) {
             for (
-                var c = jfgird_select_save[0]['column'][0];
-                c <= jfgird_select_save[0]['column'][1];
+                var c = luckysheet_select_save[0]['column'][0];
+                c <= luckysheet_select_save[0]['column'][1];
                 c++
             ) {
-                var value = jfgrid.getcellvalue(r, c, jfgrid.flowdata)
+                var value = luckysheet.getcellvalue(r, c, luckysheet.flowdata)
                 //console.log("value,r,c",value,r,c);
                 if (value != null && value.toString().length > 0) {
                     shiftpositon_row = r
@@ -102,27 +102,27 @@ jfgrid.chartInitial = function () {
             shiftpositon_row = 0
         }
 
-        jfgird_select_save[0]['row'] = [shiftpositon_row, shiftpositon_row]
-        jfgrid.setjfgird_select_save(jfgird_select_save)
+        luckysheet_select_save[0]['row'] = [shiftpositon_row, shiftpositon_row]
+        luckysheet.setluckysheet_select_save(luckysheet_select_save)
 
-        jfgrid.jfgrid_shiftpositon = $.extend(true, {}, jfgird_select_save[0])
-        jfgrid.jfgridMoveEndCell('down', 'range', false, row_ed)
-        jfgird_select_save = jfgrid.getjfgird_select_save()
+        luckysheet.luckysheet_shiftpositon = $.extend(true, {}, luckysheet_select_save[0])
+        luckysheet.luckysheetMoveEndCell('down', 'range', false, row_ed)
+        luckysheet_select_save = luckysheet.getluckysheet_select_save()
 
         var shiftpositon_col = -1
         var column_ed =
-            jfgird_select_save[0]['column'][1] - jfgird_select_save[0]['column'][0]
+            luckysheet_select_save[0]['column'][1] - luckysheet_select_save[0]['column'][0]
         for (
-            var c = jfgird_select_save[0]['column'][0];
-            c <= jfgird_select_save[0]['column'][1];
+            var c = luckysheet_select_save[0]['column'][0];
+            c <= luckysheet_select_save[0]['column'][1];
             c++
         ) {
             for (
-                var r = jfgird_select_save[0]['row'][0];
-                r <= jfgird_select_save[0]['row'][1];
+                var r = luckysheet_select_save[0]['row'][0];
+                r <= luckysheet_select_save[0]['row'][1];
                 r++
             ) {
-                var value = jfgrid.getcellvalue(r, c, jfgrid.flowdata)
+                var value = luckysheet.getcellvalue(r, c, luckysheet.flowdata)
                 if (value != null && value.toString().length > 0) {
                     shiftpositon_col = c
                     break
@@ -138,26 +138,26 @@ jfgrid.chartInitial = function () {
             shiftpositon_col = 0
         }
 
-        jfgird_select_save[0]['column'] = [shiftpositon_col, shiftpositon_col]
-        jfgrid.setjfgird_select_save(jfgird_select_save)
+        luckysheet_select_save[0]['column'] = [shiftpositon_col, shiftpositon_col]
+        luckysheet.setluckysheet_select_save(luckysheet_select_save)
 
-        jfgrid.jfgrid_shiftpositon = $.extend(true, {}, jfgird_select_save[0])
-        jfgrid.jfgridMoveEndCell('right', 'range', false, column_ed)
-        jfgird_select_save = jfgrid.getjfgird_select_save()
+        luckysheet.luckysheet_shiftpositon = $.extend(true, {}, luckysheet_select_save[0])
+        luckysheet.luckysheetMoveEndCell('right', 'range', false, column_ed)
+        luckysheet_select_save = luckysheet.getluckysheet_select_save()
 
-        var dataSheetIndex = jfgrid.currentSheetIndex //当前sheet的原始索引
-        var rangeArray = $.extend(true, [], jfgird_select_save)
+        var dataSheetIndex = luckysheet.currentSheetIndex //当前sheet的原始索引
+        var rangeArray = $.extend(true, [], luckysheet_select_save)
 
         //处理右边的空白单元格，自动略过并修改选区 ---------------end
 
         //根据选区来获取数据，########需要支持多选区取得的数据##################
-        var chartData = jfgrid.getdatabyselection(
-            jfgird_select_save[0],
+        var chartData = luckysheet.getdatabyselection(
+            luckysheet_select_save[0],
             dataSheetIndex
         )
         // 获取原始数据
         generator.chartData = chartData
-        var rangeTxt = jfgrid.sheetmanage.getRangetxt(
+        var rangeTxt = luckysheet.sheetmanage.getRangetxt(
             dataSheetIndex,
             rangeArray[0],
             dataSheetIndex
@@ -167,7 +167,7 @@ jfgrid.chartInitial = function () {
 
         var winw = $(window).width(),
             winh = $(window).height()
-        var $cellmain = $('#jfgrid-cell-main')
+        var $cellmain = $('#luckysheet-cell-main')
         var scrollLeft = $cellmain.scrollLeft(),
             scrollTop = $cellmain.scrollTop()
         var myw = winw * 0.3,
@@ -177,7 +177,7 @@ jfgrid.chartInitial = function () {
 
         console.dir(JSON.stringify(chartData))
         console.dir(JSON.stringify(rangeArray))
-        //jfgrid.insertChartTosheet放到insertNewChart中
+        //luckysheet.insertChartTosheet放到insertNewChart中
         generator.insertNewChart(
             chartAllType,
             chartData,
@@ -185,7 +185,7 @@ jfgrid.chartInitial = function () {
             rangeArray,
             rangeTxt,
             chartTheme,
-            jfgrid.currentSheetIndex,
+            luckysheet.currentSheetIndex,
             myh,
             myw,
             myLeft,
@@ -198,7 +198,7 @@ jfgrid.chartInitial = function () {
 }
 
 // 图表数据区域拖动修改
-jfgrid.chart_selection = {
+luckysheet.chart_selection = {
     create: function (chart_id) {
         var chart_json = store.state.chartSetting.chartList[chart_id]
 
@@ -206,13 +206,13 @@ jfgrid.chart_selection = {
             return
         }
 
-        $('#jfgrid-chart-rangeShow').empty()
-        $('#jfgrid-cell-selected-boxs').hide()
-        $('#jfgrid-cell-selected-focus').hide()
-        $('#jfgrid-rows-h-selected').hide()
-        $('#jfgrid-cols-h-selected').hide()
-        $('#jfgrid-row-count-show').hide()
-        $('#jfgrid-column-count-show').hide()
+        $('#luckysheet-chart-rangeShow').empty()
+        $('#luckysheet-cell-selected-boxs').hide()
+        $('#luckysheet-cell-selected-focus').hide()
+        $('#luckysheet-rows-h-selected').hide()
+        $('#luckysheet-cols-h-selected').hide()
+        $('#luckysheet-row-count-show').hide()
+        $('#luckysheet-column-count-show').hide()
 
         var st_r = chart_json.rangeArray[0].row[0]
         var st_c = chart_json.rangeArray[0].column[0]
@@ -258,13 +258,13 @@ jfgrid.chart_selection = {
             rangeSplitArray.content.column[1] + st_c
         )
 
-        $('#jfgrid-chart-rangeShow').append(
+        $('#luckysheet-chart-rangeShow').append(
             chart_rowtitle_html + chart_coltitle_html + chart_content_html
         )
 
         function getRangeShowHtml(type, r1, r2, c1, c2) {
-            var visibledatarow = jfgrid.getvisibledatarow()
-            var visibledatacolumn = jfgrid.getvisibledatacolumn()
+            var visibledatarow = luckysheet.getvisibledatarow()
+            var visibledatacolumn = luckysheet.getvisibledatacolumn()
 
             var row = visibledatarow[r2],
                 row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1]
@@ -284,7 +284,7 @@ jfgrid.chart_selection = {
             }
 
             var html =
-                '<div id="jfgrid-chart-rangeShow-' +
+                '<div id="luckysheet-chart-rangeShow-' +
                 type +
                 '" style="left: ' +
                 col_pre +
@@ -295,31 +295,31 @@ jfgrid.chart_selection = {
                 'px;height: ' +
                 (row - row_pre - 1) +
                 'px;border: none;margin: 0;position: absolute;z-index: 14;">' +
-                '<div class="jfgrid-chart-rangeShow-move" data-type="top" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="top" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
                 color +
                 ';position: absolute;left: 0;right: 0;top: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-move" data-type="right" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="right" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
                 color +
                 ';position: absolute;top: 0;bottom: 0;right: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-move" data-type="bottom" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="bottom" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
                 color +
                 ';position: absolute;left: 0;right: 0;bottom: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-move" data-type="left" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="left" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
                 color +
                 ';position: absolute;top: 0;bottom: 0;left: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
                 '<div style="border: 2px solid #FC6666;background: ' +
                 color +
                 ';position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 15;opacity: 0.1;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-resize" data-type="lt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="lt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
                 color +
                 ';position: absolute;left: -3px;top: -3px;z-index: 19;cursor: se-resize;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-resize" data-type="rt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="rt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
                 color +
                 ';position: absolute;right: -3px;top: -3px;z-index: 19;cursor: ne-resize;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-resize" data-type="lb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="lb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
                 color +
                 ';position: absolute;left: -3px;bottom: -3px;z-index: 19;cursor: ne-resize;"></div>' +
-                '<div class="jfgrid-chart-rangeShow-resize" data-type="rb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="rb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
                 color +
                 ';position: absolute;right: -3px;bottom: -3px;z-index: 19;cursor: se-resize;"></div>' +
                 '</div>'
@@ -343,9 +343,9 @@ jfgrid.chart_selection = {
         var rangeColCheck = chart_json.rangeColCheck
         var rangeSplitArray = chart_json.rangeSplitArray
 
-        var mouse = jfgrid.mouseposition(event.pageX, event.pageY)
-        var scrollLeft = $('#jfgrid-cell-main').scrollLeft()
-        var scrollTop = $('#jfgrid-cell-main').scrollTop()
+        var mouse = luckysheet.mouseposition(event.pageX, event.pageY)
+        var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
+        var scrollTop = $('#luckysheet-cell-main').scrollTop()
 
         var x = mouse[0] + scrollLeft
         var y = mouse[1] + scrollTop
@@ -354,21 +354,21 @@ jfgrid.chart_selection = {
             $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
             winW = $(window).width() + scrollLeft
 
-        var rowLocation = jfgrid.rowLocation(y),
+        var rowLocation = luckysheet.rowLocation(y),
             row_index = rowLocation[2]
-        var colLocation = jfgrid.colLocation(x),
+        var colLocation = luckysheet.colLocation(x),
             col_index = colLocation[2]
 
-        var visibledatarow = jfgrid.getvisibledatarow()
-        var visibledatacolumn = jfgrid.getvisibledatacolumn()
+        var visibledatarow = luckysheet.getvisibledatarow()
+        var visibledatacolumn = luckysheet.getvisibledatacolumn()
 
-        var $id = jfgrid.chart_selection.rangeMoveObj.attr('id')
+        var $id = luckysheet.chart_selection.rangeMoveObj.attr('id')
 
-        if ($id == 'jfgrid-chart-rangeShow-content') {
+        if ($id == 'luckysheet-chart-rangeShow-content') {
             //行
             var row_s =
-                jfgrid.chart_selection.rangeMoveIndex[0] -
-                jfgrid.chart_selection.rangeMovexy[0] +
+                luckysheet.chart_selection.rangeMoveIndex[0] -
+                luckysheet.chart_selection.rangeMovexy[0] +
                 row_index
 
             if (rangeRowCheck.exits) {
@@ -395,8 +395,8 @@ jfgrid.chart_selection = {
 
             //列
             var col_s =
-                jfgrid.chart_selection.rangeMoveIndex[1] -
-                jfgrid.chart_selection.rangeMovexy[1] +
+                luckysheet.chart_selection.rangeMoveIndex[1] -
+                luckysheet.chart_selection.rangeMovexy[1] +
                 col_index
             if (rangeColCheck.exits) {
                 if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
@@ -475,11 +475,11 @@ jfgrid.chart_selection = {
                     column: [col_s, col_e]
                 }
             }
-        } else if ($id == 'jfgrid-chart-rangeShow-rowtitle') {
+        } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
             //列
             var col_s =
-                jfgrid.chart_selection.rangeMoveIndex[1] -
-                jfgrid.chart_selection.rangeMovexy[1] +
+                luckysheet.chart_selection.rangeMoveIndex[1] -
+                luckysheet.chart_selection.rangeMovexy[1] +
                 col_index
 
             if (rangeColCheck.exits) {
@@ -533,11 +533,11 @@ jfgrid.chart_selection = {
                     column: [col_s, col_e]
                 }
             }
-        } else if ($id == 'jfgrid-chart-rangeShow-coltitle') {
+        } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
             //行
             var row_s =
-                jfgrid.chart_selection.rangeMoveIndex[0] -
-                jfgrid.chart_selection.rangeMovexy[0] +
+                luckysheet.chart_selection.rangeMoveIndex[0] -
+                luckysheet.chart_selection.rangeMovexy[0] +
                 row_index
             if (rangeRowCheck.exits) {
                 if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
@@ -605,10 +605,10 @@ jfgrid.chart_selection = {
             value: chart_json.rangeSplitArray,
             chartId: chart_json.chart_id
         })
-        jfgrid.chart_selection.create(store.state.chartSetting.chartCurrent)
+        luckysheet.chart_selection.create(store.state.chartSetting.chartCurrent)
     },
     rangeMoveDragged: function () {
-        jfgrid.chart_selection.rangeMove = false
+        luckysheet.chart_selection.rangeMove = false
 
         var chart_json = $.extend(
             true,
@@ -618,19 +618,19 @@ jfgrid.chart_selection = {
 
         var updateJson = {}
         updateJson.chart_id = store.state.chartSetting.chartCurrent
-        updateJson.rangeTxt = jfgrid.sheetmanage.getRangetxt(
-            jfgrid.currentSheetIndex,
+        updateJson.rangeTxt = luckysheet.sheetmanage.getRangetxt(
+            luckysheet.currentSheetIndex,
             chart_json.rangeArray[0],
-            jfgrid.currentSheetIndex
+            luckysheet.currentSheetIndex
         )
-        updateJson.chartData = jfgrid.getdatabyselection(
+        updateJson.chartData = luckysheet.getdatabyselection(
             chart_json.rangeArray[0],
-            jfgrid.currentSheetIndex
+            luckysheet.currentSheetIndex
         )
 
-        var $id = jfgrid.chart_selection.rangeMoveObj.attr('id')
+        var $id = luckysheet.chart_selection.rangeMoveObj.attr('id')
         if (
-            $id == 'jfgrid-chart-rangeShow-content' &&
+            $id == 'luckysheet-chart-rangeShow-content' &&
             !chart_json.rangeRowCheck.exits &&
             !chart_json.rangeColCheck.exits
         ) {
@@ -711,9 +711,9 @@ jfgrid.chart_selection = {
         var rangeColCheck = chart_json.rangeColCheck
         var rangeSplitArray = chart_json.rangeSplitArray
 
-        var mouse = jfgrid.mouseposition(event.pageX, event.pageY)
-        var scrollLeft = $('#jfgrid-cell-main').scrollLeft()
-        var scrollTop = $('#jfgrid-cell-main').scrollTop()
+        var mouse = luckysheet.mouseposition(event.pageX, event.pageY)
+        var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
+        var scrollTop = $('#luckysheet-cell-main').scrollTop()
 
         var x = mouse[0] + scrollLeft
         var y = mouse[1] + scrollTop
@@ -722,48 +722,48 @@ jfgrid.chart_selection = {
             $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
             winW = $(window).width() + scrollLeft
 
-        var rowLocation = jfgrid.rowLocation(y),
+        var rowLocation = luckysheet.rowLocation(y),
             row_index = rowLocation[2]
-        var colLocation = jfgrid.colLocation(x),
+        var colLocation = luckysheet.colLocation(x),
             col_index = colLocation[2]
 
-        var visibledatarow = jfgrid.getvisibledatarow()
-        var visibledatacolumn = jfgrid.getvisibledatacolumn()
+        var visibledatarow = luckysheet.getvisibledatarow()
+        var visibledatacolumn = luckysheet.getvisibledatacolumn()
 
-        var $id = jfgrid.chart_selection.rangeResizeObj.attr('id')
+        var $id = luckysheet.chart_selection.rangeResizeObj.attr('id')
 
-        if ($id == 'jfgrid-chart-rangeShow-content') {
+        if ($id == 'luckysheet-chart-rangeShow-content') {
             var r1, r2, c1, c2
 
-            if (jfgrid.chart_selection.rangeResize == 'lt') {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[0]
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[0]
+            if (luckysheet.chart_selection.rangeResize == 'lt') {
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[0]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[0]
 
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[1]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[1]
-            } else if (jfgrid.chart_selection.rangeResize == 'lb') {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[1]
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[0]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[1]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[1]
+            } else if (luckysheet.chart_selection.rangeResize == 'lb') {
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[1]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[0]
 
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[0]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[1]
-            } else if (jfgrid.chart_selection.rangeResize == 'rt') {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[0]
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[1]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[0]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[1]
+            } else if (luckysheet.chart_selection.rangeResize == 'rt') {
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[0]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[1]
 
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[1]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[0]
-            } else if (jfgrid.chart_selection.rangeResize == 'rb') {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[1]
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[1]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[1]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[0]
+            } else if (luckysheet.chart_selection.rangeResize == 'rb') {
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[1]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[1]
 
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[0]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[0]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[0]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[0]
             }
 
             //行
             if (rangeRowCheck.exits) {
-                var row_s = r1 - jfgrid.chart_selection.rangeResizexy[0] + row_index
+                var row_s = r1 - luckysheet.chart_selection.rangeResizexy[0] + row_index
 
                 if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
                     row_s = st_r + rangeRowCheck.range[1] + 1
@@ -771,7 +771,7 @@ jfgrid.chart_selection = {
                     row_s = visibledatarow.length - 1
                 }
             } else {
-                var row_s = st_r - jfgrid.chart_selection.rangeResizexy[0] + row_index
+                var row_s = st_r - luckysheet.chart_selection.rangeResizexy[0] + row_index
 
                 if (row_s < 0 || y < 0) {
                     row_s = 0
@@ -782,7 +782,7 @@ jfgrid.chart_selection = {
 
             //列
             if (rangeColCheck.exits) {
-                var col_s = c1 - jfgrid.chart_selection.rangeResizexy[1] + col_index
+                var col_s = c1 - luckysheet.chart_selection.rangeResizexy[1] + col_index
 
                 if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
                     col_s = st_c + rangeColCheck.range[1] + 1
@@ -790,7 +790,7 @@ jfgrid.chart_selection = {
                     col_s = visibledatacolumn.length - 1
                 }
             } else {
-                var col_s = st_c - jfgrid.chart_selection.rangeResizexy[1] + col_index
+                var col_s = st_c - luckysheet.chart_selection.rangeResizexy[1] + col_index
 
                 if (col_s < 0 || x < 0) {
                     col_s = 0
@@ -853,26 +853,26 @@ jfgrid.chart_selection = {
                     }
                 }
             }
-        } else if ($id == 'jfgrid-chart-rangeShow-rowtitle') {
+        } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
             var c1, c2
 
             if (
-                jfgrid.chart_selection.rangeResize == 'lt' ||
-                jfgrid.chart_selection.rangeResize == 'lb'
+                luckysheet.chart_selection.rangeResize == 'lt' ||
+                luckysheet.chart_selection.rangeResize == 'lb'
             ) {
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[0]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[1]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[0]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[1]
             } else if (
-                jfgrid.chart_selection.rangeResize == 'rt' ||
-                jfgrid.chart_selection.rangeResize == 'rb'
+                luckysheet.chart_selection.rangeResize == 'rt' ||
+                luckysheet.chart_selection.rangeResize == 'rb'
             ) {
-                c1 = jfgrid.chart_selection.rangeResizeIndex.column[1]
-                c2 = jfgrid.chart_selection.rangeResizeIndex.column[0]
+                c1 = luckysheet.chart_selection.rangeResizeIndex.column[1]
+                c2 = luckysheet.chart_selection.rangeResizeIndex.column[0]
             }
 
             //列
             if (rangeColCheck.exits) {
-                var col_s = c1 - jfgrid.chart_selection.rangeResizexy[1] + col_index
+                var col_s = c1 - luckysheet.chart_selection.rangeResizexy[1] + col_index
 
                 if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
                     col_s = st_c + rangeColCheck.range[1] + 1
@@ -880,7 +880,7 @@ jfgrid.chart_selection = {
                     col_s = visibledatacolumn.length - 1
                 }
             } else {
-                var col_s = st_c - jfgrid.chart_selection.rangeResizexy[1] + col_index
+                var col_s = st_c - luckysheet.chart_selection.rangeResizexy[1] + col_index
 
                 if (col_s < 0 || x < 0) {
                     col_s = 0
@@ -926,26 +926,26 @@ jfgrid.chart_selection = {
                     column: [obj_c1 - st_c, obj_c2 - st_c]
                 }
             }
-        } else if ($id == 'jfgrid-chart-rangeShow-coltitle') {
+        } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
             var r1, r2
 
             if (
-                jfgrid.chart_selection.rangeResize == 'lt' ||
-                jfgrid.chart_selection.rangeResize == 'rt'
+                luckysheet.chart_selection.rangeResize == 'lt' ||
+                luckysheet.chart_selection.rangeResize == 'rt'
             ) {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[0]
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[1]
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[0]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[1]
             } else if (
-                jfgrid.chart_selection.rangeResize == 'lb' ||
-                jfgrid.chart_selection.rangeResize == 'rb'
+                luckysheet.chart_selection.rangeResize == 'lb' ||
+                luckysheet.chart_selection.rangeResize == 'rb'
             ) {
-                r1 = jfgrid.chart_selection.rangeResizeIndex.row[1]
-                r2 = jfgrid.chart_selection.rangeResizeIndex.row[0]
+                r1 = luckysheet.chart_selection.rangeResizeIndex.row[1]
+                r2 = luckysheet.chart_selection.rangeResizeIndex.row[0]
             }
 
             //行
             if (rangeRowCheck.exits) {
-                var row_s = r1 - jfgrid.chart_selection.rangeResizexy[0] + row_index
+                var row_s = r1 - luckysheet.chart_selection.rangeResizexy[0] + row_index
 
                 if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
                     row_s = st_r + rangeRowCheck.range[1] + 1
@@ -953,7 +953,7 @@ jfgrid.chart_selection = {
                     row_s = visibledatarow.length - 1
                 }
             } else {
-                var row_s = st_r - jfgrid.chart_selection.rangeResizexy[0] + row_index
+                var row_s = st_r - luckysheet.chart_selection.rangeResizexy[0] + row_index
 
                 if (row_s < 0 || y < 0) {
                     row_s = 0
@@ -1014,10 +1014,10 @@ jfgrid.chart_selection = {
             value: chart_json.rangeSplitArray,
             chartId: chart_json.chart_id
         })
-        jfgrid.chart_selection.create(store.state.chartSetting.chartCurrent)
+        luckysheet.chart_selection.create(store.state.chartSetting.chartCurrent)
     },
     rangeResizeDragged: function () {
-        jfgrid.chart_selection.rangeResize = null
+        luckysheet.chart_selection.rangeResize = null
 
         var chart_json = $.extend(
             true,
@@ -1028,19 +1028,19 @@ jfgrid.chart_selection = {
         var updateJson = {}
 
         updateJson.chart_id = store.state.chartSetting.chartCurrent
-        updateJson.rangeTxt = jfgrid.sheetmanage.getRangetxt(
-            jfgrid.currentSheetIndex,
+        updateJson.rangeTxt = luckysheet.sheetmanage.getRangetxt(
+            luckysheet.currentSheetIndex,
             chart_json.rangeArray[0],
-            jfgrid.currentSheetIndex
+            luckysheet.currentSheetIndex
         )
-        updateJson.chartData = jfgrid.getdatabyselection(
+        updateJson.chartData = luckysheet.getdatabyselection(
             chart_json.rangeArray[0],
-            jfgrid.currentSheetIndex
+            luckysheet.currentSheetIndex
         )
 
-        var $id = jfgrid.chart_selection.rangeResizeObj.attr('id')
+        var $id = luckysheet.chart_selection.rangeResizeObj.attr('id')
         if (
-            $id == 'jfgrid-chart-rangeShow-content' &&
+            $id == 'luckysheet-chart-rangeShow-content' &&
             !chart_json.rangeRowCheck.exits &&
             !chart_json.rangeColCheck.exits
         ) {

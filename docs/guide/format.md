@@ -6,15 +6,15 @@
     <tr>
         <td>属性值</td>
         <td>全称</td>
-        <td>说明</td>
+        <td><div style="width:100px">说明</div></td>
         <td>值示例</td>
         <td>Aspose方法或者属性</td>
     </tr>
     <tr>
         <td>ct</td>
-        <td>celltye</td>
+        <td>celltype</td>
         <td>单元格值格式：文本、时间等</td>
-        <td><a href="#cellStyle" target="_blank">单元格格式</a></td>
+        <td><a href="#cellStyle">单元格格式</a></td>
         <td></td>
     </tr>
     <tr>
@@ -241,7 +241,7 @@
 
 
 以下为3个单元格存储：
-```
+```json
 [
     {r:0, c:1, v: { v:"显示", f:"=SUM(A2)", bg:"#fff000", bs:"1",bc:"#000"}},
     {r:10, c:11, v:"值2"},
@@ -251,14 +251,26 @@
 
 ## <div id='cellStyle'>单元格格式</div>
 
-参考https://docs.aspose.com/display/cellsnet/List+of+Supported+Number+Formats#ListofSupportedNumberFormats-Aspose.Cells
+参考[Aspose.Cells](https://docs.aspose.com/display/cellsnet/List+of+Supported+Number+Formats#ListofSupportedNumberFormats-Aspose.Cells)
 
-格式设置为：`{ v: "" , f: "" ,ct :{ v:1, f: "#,##0.00",  t:" Decimal" } }`
+格式设置为：
+
+```json
+{
+    "v": "",
+    "f": "",
+    "ct": {
+        "v": 1,
+        "f": "#,##0.00",
+        "t": " Decimal"
+    }
+}
+```
 
 |参数|说明|使用|
 | ------------ | ------------ | ------------ |
-|v|value，Aspose中的快捷设置值|var currencyStyle = book.CreateStyle();<br>currencyStyle.Number = 8;|
-|f|Format：格式的定义串 `$#,##0;$-#,##0`|var currencyStyle = book.CreateStyle();<br>currencyStyle.Custom  = "#,##0 SEK";|
+|v|value，Aspose中的快捷设置值|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Number = 8;`|
+|f|Format：格式的定义串 `$#,##0;$-#,##0`|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Custom  = "#,##0 SEK";`|
 |t|Type类型：<br>0：General<br>1：Decimal<br>2：Currency<br>3：Percentage<br>4：Scientific<br>5：Fraction<br>6：Date<br>7：Time<br>8：Accounting<br>9：Text<br>10：DateTime|类型是前端区分的格式，excel导入时根据导入format字符的关键字来区分是哪种类型：<br>1.含YYYY、MM、DD的是6|
 
 Aspose设置如下：

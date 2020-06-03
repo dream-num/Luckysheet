@@ -26,7 +26,7 @@
 
 - **后台更新**：
 
-    单元格更新主要是更新 `jfgridfile[i].celldata` 参数，该参数是一个数组：
+    单元格更新主要是更新 `luckysheetfile[i].celldata` 参数，该参数是一个数组：
     ```json
     [
         {r:0, c:1, v: "值1"},
@@ -34,9 +34,9 @@
         {r:10, c:11, v:{f:"=sum", v:"100"}}
     ]
     ```
-    存储了sheet中所有单元格中的值，Luckysheet在建立的时候会根据 `jfgridfile[i].row` 和 `jfgridfile[i].column` 的行列数量大小新建一个表格data，然后再使用 `data[r][c]=v` 的方式填充表格数据，空数据单元格以null表示。
+    存储了sheet中所有单元格中的值，Luckysheet在建立的时候会根据 `luckysheetfile[i].row` 和 `luckysheetfile[i].column` 的行列数量大小新建一个表格data，然后再使用 `data[r][c]=v` 的方式填充表格数据，空数据单元格以null表示。
 
-    后台在保存前台推送的数据时，首先需要把参数转换为 `{r:0, c:1:v:100}` 的格式，然后更新 `jfgridfile[i].celldata` 字段，如果存在该单元格则更新，如果没有则添加，如果存在该单元格但是v为null则删除该单元格。
+    后台在保存前台推送的数据时，首先需要把参数转换为 `{r:0, c:1:v:100}` 的格式，然后更新 `luckysheetfile[i].celldata` 字段，如果存在该单元格则更新，如果没有则添加，如果存在该单元格但是v为null则删除该单元格。
 
 - **前台查看**：
 
@@ -68,19 +68,19 @@
 
 - **后台更新**：
 
-    更新 `jfgridfile[i].config.[k][v.key] = v.value` ，如果config中不存k，则新建一个k属性并设置为空，如果k中不存在v.key中，则新建一个v.key再更新v.value。
+    更新 `luckysheetfile[i].config.[k][v.key] = v.value` ，如果config中不存k，则新建一个k属性并设置为空，如果k中不存在v.key中，则新建一个v.key再更新v.value。
 
     1. 修改行高度举例：
        - 输入：`{"t":"cg","i":3,"v":{"3":10, "5":70, "10":100},"k":" rowlen"}`
-       - 更新：`jfgridfile[3].config.["rowlen"]["3"] = 10`
+       - 更新：`luckysheetfile[3].config.["rowlen"]["3"] = 10`
 
     2. 修改列宽度举例：
        - 输入：`{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columlen"}`
-       - 更新：`jfgridfile[1].config.["columlen"]["20"] = 74`
+       - 更新：`luckysheetfile[1].config.["columlen"]["20"] = 74`
         
     3. 合并单元格举例：
        - 输入：`{"t":"cg","i":1,"v":{"5_10":{row:[1,3], column:[3,5]},"k":" merge "}`
-       - 更新：`jfgridfile[1].config.["merge"]["5_10"] = {row:[1,3], column:[3,5]}`
+       - 更新：`luckysheetfile[1].config.["merge"]["5_10"] = {row:[1,3], column:[3,5]}`
  
 ## 通用保存
 
@@ -111,28 +111,28 @@
 
 - **后台更新**：
 
-    `jfgridfile[3].[k]= v`
-    如果s为true，则为 `jfgridfile[3].[k]= JSON.stringify(v)`
+    `luckysheetfile[3].[k]= v`
+    如果s为true，则为 `luckysheetfile[3].[k]= JSON.stringify(v)`
 
     1. 数据透视表：
        - 输入：`{"t":"all","i":1,"v":{………},"k":"pivotTable", "s": false}`
-       - 更新：`jfgridfile[1].["pivotTable"] = {………}`
+       - 更新：`luckysheetfile[1].["pivotTable"] = {………}`
 
     2. 冻结行列：
        - 输入：`{"t":"all","i":3,"v":{………},"k":"freezen", "s": false}`
-       - 更新：`jfgridfile[3].["freezen"] = {………}`
+       - 更新：`luckysheetfile[3].["freezen"] = {………}`
 
     3. 筛选范围：
        - 输入：`{"t":"all","i":3,"v":{………},"k":"filter_select", "s": true }`
-       - 更新：`jfgridfile[3].["filter_select"] = JSON.stringify ({………})`
+       - 更新：`luckysheetfile[3].["filter_select"] = JSON.stringify ({………})`
         
     4. Sheet名称：
        - 输入：`{"t":"all","i":1,"v":"文档","k":"name", "s": false}`
-       - 更新：`jfgridfile[1].["name"] = "文档"`
+       - 更新：`luckysheetfile[1].["name"] = "文档"`
 
     5. Sheet颜色：
        - 输入： `{"t":"all","i":2,"v":"#FFF000","k":"color", "s": false}`
-       - 更新：`jfgridfile[2].["color"] = "#FFF000"`
+       - 更新：`luckysheetfile[2].["color"] = "#FFF000"`
 
 ## 函数链操作
 
@@ -170,9 +170,9 @@
 - **后台更新**：
 
     calcChain为一个数组
-    - 如果op的值add则添加到末尾 `jfgridfile[i].calcChain.push (v)`， 
-    - 如果op的值update则更新 `jfgridfile[i].calcChain[pos]= v`，
-    - 如果op的值del则删除 `jfgridfile[i].calcChain.splice(pos, 1)`。
+    - 如果op的值add则添加到末尾 `luckysheetfile[i].calcChain.push (v)`， 
+    - 如果op的值update则更新 `luckysheetfile[i].calcChain[pos]= v`，
+    - 如果op的值del则删除 `luckysheetfile[i].calcChain.splice(pos, 1)`。
 
 - **前台查看**：
 
@@ -231,7 +231,7 @@
   
     如果rc的值是r删除行， 如果rc的值为c则删除列， 例如rc=r，index=4，len=5，则代表从第4行开始删除之后的5行（4、5、6、7、8）。
 
-    主要是对 `jfgridfile[i].celldata` 中的单元格进行操作，删除参数中所描述符合条件的单元格并且更新其他单元格的行列值，以上述为例，首先查找单元格中r值在4到8的所有单元格并删除，然后把本来行号9以后的单元格的r值减去5，最后把 `jfgridfile[i].row` 减去5。
+    主要是对 `luckysheetfile[i].celldata` 中的单元格进行操作，删除参数中所描述符合条件的单元格并且更新其他单元格的行列值，以上述为例，首先查找单元格中r值在4到8的所有单元格并删除，然后把本来行号9以后的单元格的r值减去5，最后把 `luckysheetfile[i].row` 减去5。
     如果v值为 `"#__qkdelete#"`（不含引号），则此处为需要删除的单元格。
 
 - **前台查看**：
@@ -293,7 +293,7 @@
 - **后台更新**：
   
     如果rc的值是r新增行， 如果rc的值为c则新增列， 例如rc=r，index=4，len=5，则代表从第4行开始增加5行，如果data为空则增加空行，如果data不为空则用data中的数组添加新增的行中。
-    主要是对 `jfgridfile[i].celldata` 中的单元格进行操作，以上述为例，首先 `jfgridfile[i].row` 加5，然后把r大于4的单元格的整体的r值+5，如果data为空则增加空行则结束，如果data不为空则把二维数组data转换为 `{r:0,c:0,v:100}` 的格式并添加到celldata中，转换的伪代码如下：
+    主要是对 `luckysheetfile[i].celldata` 中的单元格进行操作，以上述为例，首先 `luckysheetfile[i].row` 加5，然后把r大于4的单元格的整体的r值+5，如果data为空则增加空行则结束，如果data不为空则把二维数组data转换为 `{r:0,c:0,v:100}` 的格式并添加到celldata中，转换的伪代码如下：
     ```javascript
     var ret = [];
     for(var r=0;r<data.length;r++){
@@ -338,7 +338,7 @@
 
 - **后台更新**：
   
-    更新 `jfgridfile[i].filter = { pos : v }`， v值为一个JSON格式的字符串。filter为一个键值对，key表示选项位置的索引值（以字符表示），v表示一个json字符串参数。filter代表一个筛选条件的集合。
+    更新 `luckysheetfile[i].filter = { pos : v }`， v值为一个JSON格式的字符串。filter为一个键值对，key表示选项位置的索引值（以字符表示），v表示一个json字符串参数。filter代表一个筛选条件的集合。
 
 ### 清除筛选
 
@@ -354,7 +354,7 @@
 
 - **后台更新**：
   
-    清除 `jfgridfile[i]. filter = null` ， `jfgridfile[i]. filter_select = null`。
+    清除 `luckysheetfile[i]. filter = null` ， `luckysheetfile[i]. filter_select = null`。
 
 ### 恢复筛选
 
@@ -373,7 +373,7 @@
 
 - **后台更新**：
   
-    清除 `jfgridfile[i]. filter = v.filter`， `jfgridfile[i]. filter_select = v. filter_select`。
+    清除 `luckysheetfile[i]. filter = v.filter`， `luckysheetfile[i]. filter_select = v. filter_select`。
 
 ## sheet操作
 
@@ -537,9 +537,9 @@
   
     对sheet的index等于key的页设置其order属性为value值。示例：
 
-    `jfgridfile[key1].order = value1`
-    `jfgridfile[key2].order = value2`
-    `jfgridfile[key3].order = value3`
+    `luckysheetfile[key1].order = value1`
+    `luckysheetfile[key2].order = value2`
+    `luckysheetfile[key3].order = value3`
 
 ## sheet属性(隐藏或显示)
 

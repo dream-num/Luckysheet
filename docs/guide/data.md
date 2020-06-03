@@ -8,7 +8,7 @@
 
 - **格式**：
 
-    jfgridfile示例如下：
+    luckysheetfile示例如下：
     ```json
     [
         {

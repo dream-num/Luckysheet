@@ -10,7 +10,7 @@
     background-color: transparent;
 }
 
-.jfgrid-noselected-text {
+.luckysheet-noselected-text {
     -moz-user-select: -moz-test;
     -khtml-user-select: none;
     -webkit-user-select: none;
@@ -18,7 +18,7 @@
     user-select: none;
 }
 
-.jfgrid {
+.luckysheet {
     position: absolute;
     /*             width: 100%;
              height: 100%;*/
@@ -28,18 +28,18 @@
     background: #fff;
 }
 
-    .jfgrid * {
+    .luckysheet * {
         box-sizing: initial;
         outline: none;
     }
 
-.jfgrid-work-area {
+.luckysheet-work-area {
     height: 90px;
     width: 100%;
     position: relative;
 }
 
-.jfgrid_info_detail {
+.luckysheet_info_detail {
     margin: 0px;
     padding: 0px;
     width: 100%;
@@ -50,12 +50,12 @@
     border-bottom: 1px solid #d4d4d4;
 }
 
-    .jfgrid_info_detail > div {
+    .luckysheet_info_detail > div {
         display: inline-block;
         line-height: 30px;
     }
 
-    .jfgrid_info_detail div.jfgrid_info_detail_title {
+    .luckysheet_info_detail div.luckysheet_info_detail_title {
         width: 24px;
         height: 24px;
         line-height: 24px;
@@ -65,12 +65,12 @@
         cursor: pointer;
     }
 
-        .jfgrid_info_detail div.jfgrid_info_detail_title:hover {
+        .luckysheet_info_detail div.luckysheet_info_detail_title:hover {
             background: #eee;
         }
 
 
-    .jfgrid_info_detail .jfgrid_info_detail_input {
+    .luckysheet_info_detail .luckysheet_info_detail_input {
         border: 1px solid transparent;
         border-radius: 2px !important;
         color: #000000;
@@ -83,11 +83,11 @@
         visibility: hidden;
     }
 
-    .jfgrid_info_detail .jfgrid_info_detail_input:hover {
+    .luckysheet_info_detail .luckysheet_info_detail_input:hover {
         border: 1px solid #e5e5e5;
     }
 
-    .jfgrid_info_detail .jfgrid_info_detail_input:focus {
+    .luckysheet_info_detail .luckysheet_info_detail_input:focus {
         -webkit-appearance: none;
         -moz-appearance: none;
         border: 1px solid #0188fb !important;
@@ -98,26 +98,26 @@
         outline: none;
     }
 
-.jfgrid_info_detail_update {
+.luckysheet_info_detail_update {
     color: #cbcbcb;
     font-size: 12px;
     margin-left: 15px;
 }
 
-.jfgrid_info_detail_user {
+.luckysheet_info_detail_user {
     right: 20px;
     font-size: 12px;
     cursor: pointer;
     position:absolute;
 }
 
-.jfgrid_info_detail_save{
+.luckysheet_info_detail_save{
     color: #828282;
     font-size: 12px;
     margin-left: 5px;
 }
 
-.jfgrid-share-logo {
+.luckysheet-share-logo {
     /*height: 36px;
     width: 36px;*/
     position: absolute;
@@ -129,7 +129,7 @@
     /*background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABCVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjU1YmIxOTI5LWJiOGYtZGY0Zi1iYzkwLWY4YTVkNTI0OTAzYyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFRUVCOEY0Njk3QUYxMUU2QjhCNjgwOTVFRTlFNEQwOCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFRUVCOEY0NTk3QUYxMUU2QjhCNjgwOTVFRTlFNEQwOCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjExZTdjMmEtZDdmYy1lNjQ0LTk4MGUtZDdhZmMxZTZmZDIyIiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6YzBiOWNmMzktOTdhYi0xMWU2LWI4YTktYzg1NzE4MzExNzllIi8+IDxkYzp0aXRsZT4gPHJkZjpBbHQ+IDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCI+6aOT6aOO5pWw5o2u5Y+v6KeG5YyWICDlrprnqL/mm7Lnur8uY2RyPC9yZGY6bGk+IDwvcmRmOkFsdD4gPC9kYzp0aXRsZT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7Ulfi4AAAH1klEQVR42qxYbWxbVxl+zr3XvrEdO59z0nlJSkfbLQttmqzVgElsUwGplE3Vth9IMKgQCFg37QcSUkH8GWgCiR+IIXWsiHYIRicB1WBjZKyMdl23dgtUtNCI0ihpljROlg/Hju3re+/hOb726tjXSSR6pEdJ7j33nOe87/N+nAgpJdYc83PA0hKgaSseS4jqmU1EnAgTrvqSmCKctbYQHR1AIAAD6xl/egl47S9AQ6j0tYArDEj+hJR9xGf59BPEZqKVMIt8eYwSob8TrxB/JhZXnsoziH7wIJBIwDj261UtpEzyUTn9yXuQuLMPmr7BFZphGYHkwNTQcN/cie0IRx6QuhGA6/p9ryzFo6Of2M/Nx4hDPNBPiEwlofJPY3TU34LEI8TjxACMTohYJwqkF+C+944czt829rt9mpMHgiZkLAaXgK7TOfSOIqegNikTVdYMhXqIp5DLfY7PH+XTN6o3Nui26nErcYjYXakWmwu25BaWHjj/ZOGWa6daIOkVlxsuZyHm56E3NMClyWV7O0SYholGAUWypQWCQGcnsLAA+dZbkGNj27joq8TXiKMrCFWR2Un8nkhUPnQ0gQZ7OfPQ8Lftjpl3W9HExXt6ij7Hxo1AWxudE4amfqqNFaFgcKVUSMQ9fhxIp4vi5WggjpReH/UjpAT5h5LPV0aSQGHPhR9ZHbPvtiAY9dyQSnkuomXQ2wts21ZfiSMjcJ95xptf65KfEf+hS98si1YNdZznqsmoYZHyjolX0psnXm5CIOo9zOWA8XHGDoPn2DEanpY/daouH/cNSsW2PUK1I0it/Zzai1QS+jJxV81C1E0sn85+7PIvTGjB60lICdQwPLc0NnoWGxvzZ6OEPTnpZ5nra1nWbfLMmUfLhLginvCbW+CB+iaH8pH0eIiEVkkOmidi30UKQCbjbVxv8GC04gHMzMQUofuJLTUHo3CCjlvonXzVgAiIVROnItTc7P8un4e0rNUJqe8XF7vkuXN7FKEH/eY4fNOembBuWrpCdwWwJqFIpC4hrEWoGF7M/Bcv3q8I3ekrRL6JL112hJ2mhbT6CymNKLGaZn1Cym1rEeIacmpqUIX9zb77EG2ZMdKWwvelSoqy9IcSd1OTP99s1svemra2ldPpmw2f5PiBkQzbckq7lk7LaLKJMD9pohuZMJGmO1xloQb/VcqE/EO+OuIiiky6FGl+hvAKkcPf8lz0Dgr3UywP21nQ2+kiQ0As5uGMuxCRBvjaQLUt/oXXl5Ii9F9iu2+l1zQTBZIJ0xJfvwNyX4+qfqVWRxYho5TYLa2MybD/FqxfWE/P5ekxqw51ot77hUCHA5Om/t4A5MObixahQkv9VpkUf7c0CNffJXJ2dr1kVBlKKkLPqwpRYx7uNxP5sIFvDrjY1Vma4ndSTtSinp78xvT0+vTD0sKu8Z+K0DliqPp9gKVnrKvLTN69RfPhW8UpUlfQMplcP6GtW18u6/BJlAVcTgs0xmg8g7enmqtf1Upf1MnSVyeAubm1Q165KxRaELt2HS/PPEs8db1dFLDZGuZaU3g92QMrq6NuWpNqdqv/of/NbsDNA2vwUclTGxw8gu7uqcqp3yV+U5ZFIUDxmnmM2W147UqiJGYf60hGnWj1efM+tNQIxNxN/JTBbFD8QvpbxzBmxX33/aCy/SjRKPbRzyprSI0hLVyYhovfTm/FZDJCSzi1gnZjrCwtPgnsBLTFRmhvD0A/uwPayCaajMR0169sPMYu81o1IZTM8FV64UvC0cbdolFspIwQnr7Uj+UUw3uFnjhBsoWtKr6ORcuwCcRc0AvXnAlxpRv68Eco9Abv2fXx/aJnSslTU7WvGstZeTSmBwYGWza8E9PCzIsOLrlt+OH5fiwuqMaklIssbsRLyQrdWLOQ+hAUdVwIeIVJEVBhuxiFfnGLV7k9USo3fWdF0d+zt1auimw0gvdz8fYfR5LRX7ItQsa2MF/oxAujPdjd9Q42hq9CWHvZB8U/kEK+MMly9CLdvAQ5QrLnScis0I3OQ0y0QcTjM7Jn6iBs/XBNF9K/YxXxO9oLlxbE40uF4M4o719dTH6m0cbr6CbqhhfQ5vaijixnDgX3AoLGMAIaGzKaRRziLTet+iSVU3nogrqXOZB7kpB35YZwTjvs2xatFo2sGtbHO4NfODNd+GuzKTa0mRqiTAdC6Difbcf8gs1+P4VN5mkkYpdhmDbJ0CrPUzu/YvYOSc8qCQtufwrynnnIvmVg1u0Spy2vaGPlzVWs558N72XcwZPXrOdSluwtVwhZut6K4v1e58lsNOlz2JV/CYmTE3CtAGQLddNhQXZSmI0k5qiGnhqUra9r9t57UZHdxO23q+S4PkJqpAqyaXi28MRExn0ka8tNsuLWHRQFdMir6LVPIuGO0LQUoe4lTV55PSLlwHJzTFs7n9a79z/m23+sl1B5LNsynMy629O2VFfukKEb78WzZ7taJp89JHSTdgquvoCThf6hr9wtmgdO3xBC/sV1Gc7ln/5RZq9+xmux6s2zIBo3H9Fv/cZ+3mTq/rvl/x/MVVp89xfhFv5WbtxqIB1yjbyod3/+QD0yN45QcaUAi1fg09z1W8S/iDzBnsLIEv9gnjgAPbIPgabMqj3sDXFZ0R3qQjhfvu6oO1FPKa2oZmqUYe2odAGzHajfO+B/AgwAeFX9rVH7zuEAAAAASUVORK5CYII=");*/
 }
 
-.jfgrid-wa-editor {
+.luckysheet-wa-editor {
     height: 34px;
     background: #f7f7f7;
     position: relative;
@@ -139,7 +139,7 @@
 }
 
 
-    .jfgrid-wa-editor > div.jfgridfulltoolbar {
+    .luckysheet-wa-editor > div.luckysheetfulltoolbar {
         display: inline-block;
         height: 34px;
         padding: 0px 5px;
@@ -152,13 +152,13 @@
         vertical-align: middle;
     }
 
-        .jfgrid-wa-editor > div.jfgridfulltoolbar:hover {
+        .luckysheet-wa-editor > div.luckysheetfulltoolbar:hover {
             background: #0188fb;
             color: #FAFAFA;
             cursor: pointer;
         }
 
-        .jfgrid-wa-editor > div.jfgridfulltoolbar:active {
+        .luckysheet-wa-editor > div.luckysheetfulltoolbar:active {
             background: #FB4747;
             color: #FFFFFF;
             -webkit-box-shadow: inset 0 0 2px #727272;
@@ -169,7 +169,7 @@
 
 /*toolbar菜单start*/
 
-.jfgrid-toolbar-left-theme{
+.luckysheet-toolbar-left-theme{
     width: 15px;
     background: #0188fb;
     position: absolute;
@@ -178,14 +178,14 @@
     bottom: 1px;
 }
 
-.jfgrid-inline-block {
+.luckysheet-inline-block {
     position: relative;
     display: -moz-inline-box;
     display: inline-block;
 }
 
 /*分隔符*/
-.jfgrid-toolbar-separator {
+.luckysheet-toolbar-separator {
     height: 17px;
     line-height: normal;
     list-style: none;
@@ -201,7 +201,7 @@
 }
 
 /*combo*/
-.jfgrid-toolbar-combo-button {
+.luckysheet-toolbar-combo-button {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -227,7 +227,7 @@
     margin: 0 1px;
 }
 
-.jfgrid-toolbar-combo-button:hover {
+.luckysheet-toolbar-combo-button:hover {
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1);
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
@@ -251,11 +251,11 @@
     cursor: pointer;
 }
 
-.jfgrid-toolbar-combo-button:hover .jfgrid-toolbar-combo-button-input {
+.luckysheet-toolbar-combo-button:hover .luckysheet-toolbar-combo-button-input {
     border-right-color: rgba(0,0,0,0.12);
 }
 
-.jfgrid-toolbar-combo-button-open {
+.luckysheet-toolbar-combo-button-open {
     color: #222;
     border-width: 1px;
     border-color: transparent!important;
@@ -265,34 +265,34 @@
 }
 
 
-.jfgrid-toolbar-combo-button-open .jfgrid-toolbar-combo-button-input {
+.luckysheet-toolbar-combo-button-open .luckysheet-toolbar-combo-button-input {
     background: transparent;
     border-right: 1px solid transparent!important;
 }
 
 
-.jfgrid-toolbar-combo-button-outer-box, .jfgrid-toolbar-combo-button-inner-box {
+.luckysheet-toolbar-combo-button-outer-box, .luckysheet-toolbar-combo-button-inner-box {
     border: 0;
     vertical-align: top;
     margin: 0;
     padding: 0;
 }
 
-.jfgrid-toolbar-combo-button-inner-box {
+.luckysheet-toolbar-combo-button-inner-box {
     padding: 0 2px;
     margin: 0 1px;
 }
 
-.jfgrid-toolbar-zoom-combobox .jfgrid-toolbar-combo-button-caption {
+.luckysheet-toolbar-zoom-combobox .luckysheet-toolbar-combo-button-caption {
     width: 48px!important;
 }
 
-.jfgrid-toolbar-combo-button-caption {
+.luckysheet-toolbar-combo-button-caption {
     padding: 0;
     margin: 0 0 0 -3px;
 }
 
-.jfgrid-toolbar-combo-button-input {
+.luckysheet-toolbar-combo-button-input {
     background: transparent;
     border: 1px solid transparent!important;
     color: #333;
@@ -306,14 +306,14 @@
     width: 28px;
 }
 
-.jfgrid-toolbar-combo-button-input:focus{
+.luckysheet-toolbar-combo-button-input:focus{
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
     background: #fff;
     outline: none;
     border: 1px solid #0188fb!important;
 }
 
-.jfgrid-toolbar-textinput {
+.luckysheet-toolbar-textinput {
     -webkit-border-radius: 1px;
     -moz-border-radius: 1px;
     border-radius: 1px;
@@ -324,7 +324,7 @@
     padding: 1px 8px;
 }
 
-.jfgrid-toolbar-combo-button-dropdown {
+.luckysheet-toolbar-combo-button-dropdown {
     background: url(arrow-down.png) center no-repeat;
     float: right;
     margin: 9px 0 0 0px;
@@ -339,32 +339,32 @@
 }
 
 /*menubar*/
-.jfgrid-toolbar-color-menu-button .jfgrid-toolbar-menu-button-caption {
+.luckysheet-toolbar-color-menu-button .luckysheet-toolbar-menu-button-caption {
     top: -2px;
 }
 
-.jfgrid-color-menu-button-indicator {
+.luckysheet-color-menu-button-indicator {
     position: relative;
     border-bottom: 4px solid #f0f0f0;
     height: 20px;
     border-bottom-color: transparent;
 }
 
-.jfgrid-toolbar-button-inner-box .jfgrid-icon, .jfgrid-toolbar-menu-button-caption .jfgrid-icon, .jfgrid-toolbar-menu-button-caption .jfgrid-color-menu-button-indicator .jfgrid-icon {
+.luckysheet-toolbar-button-inner-box .luckysheet-icon, .luckysheet-toolbar-menu-button-caption .luckysheet-icon, .luckysheet-toolbar-menu-button-caption .luckysheet-color-menu-button-indicator .luckysheet-icon {
     margin-top: 0px;
 }
 
 /*menubutton*/
-.jfgrid-toolbar-menu-button-caption {
+.luckysheet-toolbar-menu-button-caption {
     padding: 0;
     margin: 0;
 }
 
-.jfgrid-toolbar-menu-button-inner-box{
+.luckysheet-toolbar-menu-button-inner-box{
     margin: 0px 2px;
 }
 
-.jfgrid-toolbar-menu-button-dropdown{
+.luckysheet-toolbar-menu-button-dropdown{
     background: url(arrow-down.png) center no-repeat;
     float: right;
     margin: 10px 2px 0 3px;
@@ -380,35 +380,35 @@
     margin-top: 10px;
 }
 
-.jfgrid-toolbar-button-split-right .jfgrid-toolbar-menu-button-dropdown{
+.luckysheet-toolbar-button-split-right .luckysheet-toolbar-menu-button-dropdown{
     padding: 0px 3px;
 }
 
-.jfgrid-toolbar-select{
+.luckysheet-toolbar-select{
     margin-left: 1px;
 }
 
 /*split*/
-.jfgrid-toolbar-button-split-left, .jfgrid-toolbar-button-split-left * {
+.luckysheet-toolbar-button-split-left, .luckysheet-toolbar-button-split-left * {
     border-top-right-radius: 0!important;
     border-bottom-right-radius: 0!important;
     margin-right: 0;
 }
 
-.jfgrid-toolbar-button-split-right, .jfgrid-toolbar-button-split-right * {
+.luckysheet-toolbar-button-split-right, .luckysheet-toolbar-button-split-right * {
     border-top-left-radius: 0!important;
     border-bottom-left-radius: 0!important;
     min-width: 5px!important;
     margin-left: 0;
 }
 
-#jfgrid-icon-merge-menu{
+#luckysheet-icon-merge-menu{
     margin-right: 1px;
 }
 
 
 /*button*/
-.jfgrid-toolbar-button, .jfgrid-toolbar-menu-button {
+.luckysheet-toolbar-button, .luckysheet-toolbar-menu-button {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -432,7 +432,7 @@
     color: rgba(0,0,0,.7);
 }
 
-.jfgrid-toolbar-button:hover, .jfgrid-toolbar-menu-button:hover, .jfgrid-toolbar-button-hover{
+.luckysheet-toolbar-button:hover, .luckysheet-toolbar-menu-button:hover, .luckysheet-toolbar-button-hover{
     border: 1px solid transparent;
     background-color: rgba(0,0,0,0.06);
     background-image: none;
@@ -440,15 +440,15 @@
     cursor: pointer;
 }
 
-.jfgrid-toolbar-button-split-left{
+.luckysheet-toolbar-button-split-left{
     margin-right: -6px;
 }
 
-.jfgrid-toolbar-button-split-right.jfgrid-toolbar-menu-button:hover{
+.luckysheet-toolbar-button-split-right.luckysheet-toolbar-menu-button:hover{
     border-left-color: rgba(0,0,0,0.12) !important;
 }
 
-.jfgrid-toolbar-button-split-right-hover{
+.luckysheet-toolbar-button-split-right-hover{
     border-width: 1px;
     border-color: transparent !important;
     background-color: rgba(0,0,0,0.06);
@@ -457,7 +457,7 @@
     border-left-color: rgba(0,0,0,0.12) !important;
 }
 
-.jfgrid-toolbar-button:active, .jfgrid-toolbar-menu-button:active{
+.luckysheet-toolbar-button:active, .luckysheet-toolbar-menu-button:active{
     border: 1px solid transparent;
     background-color: rgba(0,0,0,0.12);
     background-image: none;
@@ -465,14 +465,14 @@
     cursor: pointer;
 }
 
-.jfgrid-toolbar-button-outer-box, .jfgrid-toolbar-menu-button-outer-box {
+.luckysheet-toolbar-button-outer-box, .luckysheet-toolbar-menu-button-outer-box {
     border: 0;
     vertical-align: top;
     margin: 0;
     padding: 0;
 }
 
-.jfgrid-toolbar-button-inner-box, .jfgrid-toolbar-menu-button-inner-box {
+.luckysheet-toolbar-button-inner-box, .luckysheet-toolbar-menu-button-inner-box {
     padding: 0 2px;
     padding: 0;
     text-align: center;
@@ -480,7 +480,7 @@
     min-width: 26px;
 }
 
-.jfgrid-icon {
+.luckysheet-icon {
     direction: ltr;
     text-align: left;
     overflow: hidden;
@@ -493,50 +493,50 @@
 }
 
 
-.jfgrid-icon-img {
+.luckysheet-icon-img {
     background: url(menuSprite.svg);
     content: url(menuSprite.svg);
 }
 
-.jfgrid-icon-img-container {
+.luckysheet-icon-img-container {
     height: 424px;
     position: absolute;
     width: 590px;
 }
 
-.jfgrid-icon-img-container{
+.luckysheet-icon-img-container{
     height: 1886px;
     position: absolute;
     width: 108px;
 }
 
 
-.jfgrid-icon-img{
+.luckysheet-icon-img{
     background: url(sprite38.svg);
     content: url(sprite38.svg);
 }
 
-.jfgrid-icon-print {
+.luckysheet-icon-print {
     left: -54px;
     top: -90px;
 }
 
-.jfgrid-icon-undo{
+.luckysheet-icon-undo{
     left: -90px;
     top: -1642px;
 }
 
-.jfgrid-icon-redo{
+.luckysheet-icon-redo{
     left: 0;
     top: -1188px;
 }
 
-.jfgrid-icon-paintformat {
+.luckysheet-icon-paintformat {
     left: -90px;
     top: -550px;
 }
 
-.jfgrid-icon-decimal-decrease {
+.luckysheet-icon-decimal-decrease {
     left: -36px;
     top: -1444px;
 }
@@ -545,12 +545,12 @@
     margin-bottom: -4px;
 }
 
-.jfgrid-icon-decimal-increase{
+.luckysheet-icon-decimal-increase{
     left: -36px;
     top: -1660px;
 }
 
-#jfgrid-icon-font-family .jfgrid-toolbar-menu-button-caption {
+#luckysheet-icon-font-family .luckysheet-toolbar-menu-button-caption {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -559,226 +559,226 @@
     text-align: left;
 }
 
-.jfgrid-icon-bold{
+.luckysheet-icon-bold{
     left: -18px;
     top: -186px;
 }
 
-.jfgrid-icon-italic {
+.luckysheet-icon-italic {
     left: -36px;
     top: -1606px;
 }
 
-.jfgrid-icon-strikethrough{
+.luckysheet-icon-strikethrough{
     left: -54px;
     top: -442px;
 }
 
-.jfgrid-icon-text-color {
+.luckysheet-icon-text-color {
     left: -72px;
     top: -1850px;
 }
 
-.jfgrid-icon-cell-color{
+.luckysheet-icon-cell-color{
     left: 0;
     top: -406px;
 }
 
-.jfgrid-icon-border-all{
+.luckysheet-icon-border-all{
     left: -54px;
     top: -1552px;
 }
 
-.jfgrid-icon-merge{
+.luckysheet-icon-merge{
     left: -54px;
     top: -1534px;
 }
 
 
-.jfgrid-icon-align-left{
+.luckysheet-icon-align-left{
     left: -18px;
     top: -1426px;
 }
 
-.jfgrid-icon-align-center {
+.luckysheet-icon-align-center {
     left: -18px;
     top: -334px;
 }
 
-.jfgrid-icon-align-right {
+.luckysheet-icon-align-right {
     left: -36px;
     top: -1588px;
 }
 
 
-.jfgrid-icon-valign-middle {
+.luckysheet-icon-valign-middle {
     left: -72px;
     top: -1390px;
 }
 
-.jfgrid-icon-valign-top {
+.luckysheet-icon-valign-top {
     left: -72px;
     top: -442px;
 }
 
-.jfgrid-icon-valign-bottom {
+.luckysheet-icon-valign-bottom {
     left: 0;
     top: -316px;
 }
 
-.jfgrid-icon-textwrap-wrap{
+.luckysheet-icon-textwrap-wrap{
     left: -36px;
     top: -316px;
 }
 
-.jfgrid-icon-textwrap-overflow{
+.luckysheet-icon-textwrap-overflow{
     left: -58px;
     top: -1116px;
 }
 
-.jfgrid-icon-textwrap-clip{
+.luckysheet-icon-textwrap-clip{
     left: -54px;
     top: -1444px;
 }
 
-.jfgrid-icon-rotation-none{
+.luckysheet-icon-rotation-none{
     left: -36px;
     top: -586px;
 }
 
-.jfgrid-icon-rotation-angleup{
+.luckysheet-icon-rotation-angleup{
     left: -72px;
     top: -1134px;
 }
 
-.jfgrid-icon-rotation-angledown{
+.luckysheet-icon-rotation-angledown{
     left: -36px;
     top: -186px;
 }
 
-.jfgrid-icon-rotation-vertical{
+.luckysheet-icon-rotation-vertical{
     left: -36px;
     top: -1282px;
 }
 
-.jfgrid-icon-rotation-rotation-up{
+.luckysheet-icon-rotation-rotation-up{
     left: 0;
     top: -1318px;
 }
 
-.jfgrid-icon-rotation-rotation-down{
+.luckysheet-icon-rotation-rotation-down{
     left: -36px;
     top: -1336px;
 }
 
-.jfgrid-icon-function {
+.luckysheet-icon-function {
     left: -18px;
     top: -460px;
 }
 
 
 
-.jfgrid-material-icon .jfgrid-icon-border-all {
+.luckysheet-material-icon .luckysheet-icon-border-all {
     left: -54px;
     top: -1552px;
 }
 
-.jfgrid-icon-border-inside {
+.luckysheet-icon-border-inside {
     left: -36px;
     top: -806px;
 }
 
-.jfgrid-icon-border-horizontal {
+.luckysheet-icon-border-horizontal {
     left: -58px;
     top: -168px;
 }
 
-.jfgrid-icon-border-vertical {
+.luckysheet-icon-border-vertical {
     left: 0;
     top: -878px;
 }
 
-.jfgrid-icon-border-outside {
+.luckysheet-icon-border-outside {
     left: -54px;
     top: -1246px;
 }
 
-.jfgrid-icon-border-left {
+.luckysheet-icon-border-left {
     left: -54px;
     top: 0;
 }
 
-.jfgrid-icon-border-top {
+.luckysheet-icon-border-top {
     left: -36px;
     top: -752px;
 }
 
-.jfgrid-icon-border-right {
+.luckysheet-icon-border-right {
     left: -18px;
     top: -406px;
 }
 
-.jfgrid-icon-border-bottom {
+.luckysheet-icon-border-bottom {
     left: -72px;
     top: -586px;
 }
 
 
-.jfgrid-icon-border-none {
+.luckysheet-icon-border-none {
     left: -18px;
     top: -1072px;
 }
 
 
-.jfgrid-icon-line-color {
+.luckysheet-icon-line-color {
     left: -36px;
     top: -622px;
 }
 
-.jfgrid-icon-line-type {
+.luckysheet-icon-line-type {
     left: 0;
     top: -126px;
 }
 
 
-#jfgrid-icon-function .jfgrid-toolbar-menu-button-caption{
+#luckysheet-icon-function .luckysheet-toolbar-menu-button-caption{
 	margin-right: 5px;
     margin-left: -5px;
 }
 
-#jfgrid-icon-function .jfgrid-icon{
+#luckysheet-icon-function .luckysheet-icon{
 	margin-right: 0px;
 }
 
-.jfgrid-icon-autofilter {
+.luckysheet-icon-autofilter {
 	left: -36px;
     top: -406px;
 }
 
-#jfgrid-icon-pivotTable .jfgrid-toolbar-menu-button-caption{
+#luckysheet-icon-pivotTable .luckysheet-toolbar-menu-button-caption{
 	color: #0188fb;
 }
 
-#jfgrid-icon-chart .jfgrid-toolbar-menu-button-caption{
+#luckysheet-icon-chart .luckysheet-toolbar-menu-button-caption{
 	color: #0188fb;
 }
 
-.jfgrid-rightgclick-menu-sub .sp-container{
+.luckysheet-rightgclick-menu-sub .sp-container{
     background-color: #ffffff;
     border: solid 1px #ffffff;
 }
 
-#jfgrid-icon-text-color-menu-menuButton .sp-palette-container, #jfgrid-icon-cell-color-menu-menuButton .sp-palette-container {
+#luckysheet-icon-text-color-menu-menuButton .sp-palette-container, #luckysheet-icon-cell-color-menu-menuButton .sp-palette-container {
     margin-bottom: -300px;
 }
 
-#jfgrid-icon-text-color-menu-menuButton .sp-palette, #jfgrid-icon-cell-color-menu-menuButton .sp-palette{
+#luckysheet-icon-text-color-menu-menuButton .sp-palette, #luckysheet-icon-cell-color-menu-menuButton .sp-palette{
     margin-top: -10px;
 }
 
 /*toolbar菜单end*/
 
-.jfgrid-wa-calculate {
+.luckysheet-wa-calculate {
     height: 28px;
     /*padding: 10px 8px;*/
     background: #fff;
@@ -790,13 +790,13 @@
 
 
 
-.jfgrid-wa-calculate-help{
+.luckysheet-wa-calculate-help{
 	height: 100%; 
 	width: 99px; 
 	border-right: 1px solid #d4d4d4;
 }
 
-.jfgrid-wa-calculate-help-box{
+.luckysheet-wa-calculate-help-box{
 	height: 100%; 
 	width: 85px; 
 	position: absolute; 
@@ -804,7 +804,7 @@
 	left: 0px;
 }
 
-#jfgrid-helpbox{
+#luckysheet-helpbox{
 	left: 0;
     position: absolute;
     right: 0;
@@ -818,7 +818,7 @@
     padding: 2px 5px;
 }
 
-.jfgrid-helpbox-cell-input {
+.luckysheet-helpbox-cell-input {
 	width: 100%;
     height: 100%;
     margin: 0;
@@ -836,7 +836,7 @@
 }
 
 
-.jfgrid-wa-calculate-help-tool{
+.luckysheet-wa-calculate-help-tool{
 	position: absolute; 
 	left: 85px; 
 	text-align: center; 
@@ -846,14 +846,14 @@
     border-right:1px solid transparent;
 }
 
-.jfgrid-wa-calculate-help-tool:hover{
+.luckysheet-wa-calculate-help-tool:hover{
     background:#EFEFEF;
     cursor:pointer;
     border-left:1px solid #E5E5E5;
     border-right:1px solid #E5E5E5;
 }
 
-.jfgrid-wa-calculate-size{
+.luckysheet-wa-calculate-size{
     position:absolute;
     height:3px;
     width:100%;
@@ -862,24 +862,24 @@
     z-index:1000;
 }
 
-.jfgrid-wa-calculate-size:hover{
+.luckysheet-wa-calculate-size:hover{
     background:#5e5e5e;
     cursor:ns-resize;
 }
 
 
-#jfgrid-wa-functionbox-cancel{
+#luckysheet-wa-functionbox-cancel{
     left: 110px; 
     font-size: 18px;
 }
 
-#jfgrid-wa-functionbox-confirm{
+#luckysheet-wa-functionbox-confirm{
     left: 136px; 
     font-size: 18px;
 }
 
 
-.jfgrid-wa-functionbox {
+.luckysheet-wa-functionbox {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -889,30 +889,30 @@
     color: #d6d6d6;
 }
 
-    .jfgrid-wa-functionbox img {
+    .luckysheet-wa-functionbox img {
         vertical-align: middle;
         width: 30px;
         height: 30px;
     }
 
 
-.jfgrid-wa-calculate-active {
+.luckysheet-wa-calculate-active {
     color: #585858;
     cursor: pointer;
 }
 
-    .jfgrid-wa-calculate-active:hover {
+    .luckysheet-wa-calculate-active:hover {
         color: #0188fb;
     }
 
-.jfgrid-grid-container {
+.luckysheet-grid-container {
     width: 100%;
     position: absolute;
     top: 90px;
     bottom: 0px;
 }
 
-.jfgrid-stat-area {
+.luckysheet-stat-area {
     position: absolute;
     height: 23px;
     bottom: 0px;
@@ -920,7 +920,7 @@
     width: 100%;
 }
 
-.jfgrid-sta-c {
+.luckysheet-sta-c {
     height: 22px;
     background-color: #fff;
     border-top: 1px solid #e1e1e1;
@@ -931,7 +931,7 @@
     user-select: none;
 }
 
-.jfgrid-stat-area:hover .jfgrid-sta-c {
+.luckysheet-stat-area:hover .luckysheet-sta-c {
     -moz-user-select: -moz-all;
     -khtml-user-select: initial;
     -webkit-user-select: initial;
@@ -939,7 +939,7 @@
     user-select: initial;
 }
 
-.jfgrid-sta-c .jfgrid-sta-content {
+.luckysheet-sta-c .luckysheet-sta-content {
     position: relative;
     height: 22px;
     line-height: 22px;
@@ -949,11 +949,11 @@
     overflow: hidden;
 }
 
-    .jfgrid-sta-c .jfgrid-sta-content span {
+    .luckysheet-sta-c .luckysheet-sta-content span {
         margin-right: 10px;
     }
 
-.jfgrid-grid-window {
+.luckysheet-grid-window {
     position: absolute;
     top: 0px;
     bottom: 23px;
@@ -963,7 +963,7 @@
     background: #00ffff;
 }
 
-.jfgrid-sheet-area {
+.luckysheet-sheet-area {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -977,28 +977,28 @@
     cursor: default;
 }
 
-    .jfgrid-sheet-area > div, .jfgrid-sheet-area .jfgrid-sheets-item {
+    .luckysheet-sheet-area > div, .luckysheet-sheet-area .luckysheet-sheets-item {
         display: inline-block;
         margin-right: 6px;
         margin-top: 1px;
         padding: 1px 6px;
     }
 
-    .jfgrid-sheet-area .jfgrid-sheets-add {
+    .luckysheet-sheet-area .luckysheet-sheets-add {
         margin-left: 47px;
     }
 
-div.jfgrid-sheets-add, div.jfgrid-sheets-m, div.jfgrid-sheets-scroll {
+div.luckysheet-sheets-add, div.luckysheet-sheets-m, div.luckysheet-sheets-scroll {
     background: #F6F6F6;
     border: 1px solid #F6F6F6;
     color: #4E4E4E;
 }
 
-div.jfgrid-sheets-scroll {
+div.luckysheet-sheets-scroll {
     display: none;
 }
 
-div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
+div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     color: #2A2A2A;
 }
 
@@ -1042,7 +1042,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     filter: alpha(opacity=40);
 }
 
-.jfgrid-sheet-area div.jfgrid-sheet-container {
+.luckysheet-sheet-area div.luckysheet-sheet-container {
     padding: 0px 0px;
     margin-left: 0px;
     position: relative;
@@ -1050,7 +1050,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     vertical-align: bottom;
 }
 
-    .jfgrid-sheet-area div.jfgrid-sheet-container div.jfgrid-sheet-container-c {
+    .luckysheet-sheet-area div.luckysheet-sheet-container div.luckysheet-sheet-container-c {
         padding: 0px 0px;
         margin-left: 0px;
         overflow: hidden;
@@ -1062,7 +1062,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     }
 
 
-.jfgrid-sheet-area div.jfgrid-sheets-item {
+.luckysheet-sheet-area div.luckysheet-sheets-item {
     padding: 2px 6px;
     height: 18px;
     line-height: 18px;
@@ -1084,13 +1084,13 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     font-size: 13px;
 }
 
-    .jfgrid-sheet-area div.jfgrid-sheets-item:hover {
+    .luckysheet-sheet-area div.luckysheet-sheets-item:hover {
         background-color: #EFEFEF;
         border-color: #a5a5a5;
         color: #490500;
     }
 
-    .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-menu {
+    .luckysheet-sheet-area div.luckysheet-sheets-item .luckysheet-sheets-item-menu {
         margin-left: 2px;
         display: inline-block;
         top: -2px;
@@ -1103,16 +1103,16 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
         text-align: center;
     }
 
-        .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-menu:hover {
+        .luckysheet-sheet-area div.luckysheet-sheets-item .luckysheet-sheets-item-menu:hover {
             color: #2A2A2A;
             cursor: pointer;
         }
 
-    .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name {
+    .luckysheet-sheet-area div.luckysheet-sheets-item .luckysheet-sheets-item-name {
         padding: 0px 3px;
     }
 
-        .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name[contenteditable="true"] {
+        .luckysheet-sheet-area div.luckysheet-sheets-item .luckysheet-sheets-item-name[contenteditable="true"] {
             border: 1px solid #d9d9d9;
             display: inline-block;
             height: 16px;
@@ -1125,7 +1125,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
             -webkit-user-select: text !important
         }
 
-            .jfgrid-sheet-area div.jfgrid-sheets-item .jfgrid-sheets-item-name[contenteditable="true"]:focus {
+            .luckysheet-sheet-area div.luckysheet-sheets-item .luckysheet-sheets-item-name[contenteditable="true"]:focus {
                 -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
                 -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
                 box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
@@ -1133,7 +1133,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
                 outline: none
             }
 
-.jfgrid-sheet-area div.jfgrid-sheets-item-active {
+.luckysheet-sheet-area div.luckysheet-sheets-item-active {
     padding: 2px 8px;
     height: 20px;
     /* line-height: 22px; */
@@ -1148,13 +1148,13 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     padding-right: 20px;
 }
 
-    .jfgrid-sheet-area div.jfgrid-sheets-item-active:hover {
+    .luckysheet-sheet-area div.luckysheet-sheets-item-active:hover {
         background-color: #fff;
         border-color: #aaa;
         color: #222;
     }
 
-.jfgrid-grid-window-1 {
+.luckysheet-grid-window-1 {
     position: absolute;
     top: 0;
     right: 0;
@@ -1170,7 +1170,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     user-select: none;
 }
 
-.jfgridTableContent {
+.luckysheetTableContent {
     position: absolute;
     z-index: 2;
     left: 0px;
@@ -1185,7 +1185,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     user-select: none;
 }
 
-.jfgrid-grid-window-2 {
+.luckysheet-grid-window-2 {
     /*background-color: #fff !important;*/
     height: 100%;
     width: 100%;
@@ -1194,12 +1194,12 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     display: table;
 }
 
-.jfgrid-paneswrapper {
+.luckysheet-paneswrapper {
     overflow: hidden;
     height: 1px;
 }
 
-.jfgrid-left-top {
+.luckysheet-left-top {
     width: 45px;
     height: 19px;
     border: solid 0 #dfdfdf;
@@ -1211,7 +1211,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     cursor: pointer;
 }
 
-.jfgrid-cols-h-c {
+.luckysheet-cols-h-c {
     color: #5e5e5e;
     overflow: hidden;
     padding: 0;
@@ -1223,7 +1223,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     -webkit-user-select: none;
 }
 
-.jfgrid-rows-h {
+.luckysheet-rows-h {
     position: relative;
     outline-style: none;
     color: #5e5e5e;
@@ -1236,7 +1236,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     width: 38px;
 }
 
-.jfgrid-cols-menu-btn {
+.luckysheet-cols-menu-btn {
     color: #5e5e5e;
     cursor: pointer;
     position: absolute;
@@ -1253,12 +1253,12 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     /*transition: all 0.1s;*/
 }
 
-    .jfgrid-cols-menu-btn:hover {
+    .luckysheet-cols-menu-btn:hover {
         opacity: 1;
     }
 
 
-.jfgrid-cols-h-hover {
+.luckysheet-cols-h-hover {
     color: #5e5e5e;
     cursor: default;
     position: absolute;
@@ -1272,7 +1272,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     background-color: rgba(252,195,195, 0.5);
 }
 
-.jfgrid-cols-h-selected {
+.luckysheet-cols-h-selected {
     color: #5e5e5e;
     cursor: default;
     position: absolute;
@@ -1288,7 +1288,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
              width: 863px;*/
 }
 
-.jfgrid-cols-h-cells {
+.luckysheet-cols-h-cells {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -1297,14 +1297,14 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     /*width: 4721px;*/
 }
 
-.jfgrid-cols-h-cells-c {
+.luckysheet-cols-h-cells-c {
     color: #5e5e5e;
     cursor: default;
     width: 5000000px;
     height: inherit;
 }
 
-.jfgrid-cols-h-cells-clip {
+.luckysheet-cols-h-cells-clip {
     color: #5e5e5e;
     cursor: default;
     margin: 0;
@@ -1321,7 +1321,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     top: -1px;
 }
 
-.jfgrid-cols-h-cell-nosel {
+.luckysheet-cols-h-cell-nosel {
     position: absolute;
     cursor: pointer;
     border: 0 solid;
@@ -1333,7 +1333,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     height: inherit;
 }
 
-.jfgrid-cols-h-cell-sel {
+.luckysheet-cols-h-cell-sel {
     direction: ltr;
     height: inherit;
     position: absolute;
@@ -1349,7 +1349,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     border-right-width: 1px;
 }
 
-.jfgrid-col-flow-h {
+.luckysheet-col-flow-h {
     float: left;
     direction: ltr;
     position: relative;
@@ -1360,7 +1360,7 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     overflow: hidden;
 }
 
-.jfgrid-col-flow-h-sheet {
+.luckysheet-col-flow-h-sheet {
     width: inherit;
     height: inherit;
     position: relative;
@@ -1368,11 +1368,11 @@ div.jfgrid-sheets-add:hover, div.jfgrid-sheets-m:hover {
     direction: ltr;
 }
 
-body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid-cols-h-cell-sel:hover, body:not(.ewa-ipad) .jfgrid-rows-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid-rows-h-cell-sel:hover {
+body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .luckysheet-cols-h-cell-sel:hover, body:not(.ewa-ipad) .luckysheet-rows-h-cell-nosel:hover, body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     background-color: #FCC3C3;
 }
 
-.jfgrid-cols-h-cell-txt {
+.luckysheet-cols-h-cell-txt {
     cursor: pointer;
     height: inherit;
     position: relative;
@@ -1383,7 +1383,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     padding-top: 2px;
 }
 
-.jfgrid-rows-h {
+.luckysheet-rows-h {
     position: relative;
     outline-style: none;
     color: #5e5e5e;
@@ -1395,7 +1395,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     width: 45px;
 }
 
-.jfgrid-rows-h-hover {
+.luckysheet-rows-h-hover {
     position: absolute;
     z-index: 11;
     border: 0 none;
@@ -1407,7 +1407,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     background-color: rgba(194, 194, 194, 0.5);
 }
 
-.jfgrid-rows-h-selected {
+.luckysheet-rows-h-selected {
     position: absolute;
     z-index: 10;
     border-right: 1px solid #0188fb;
@@ -1421,7 +1421,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
              height: 145px;*/
 }
 
-.jfgrid-rows-h-cells {
+.luckysheet-rows-h-cells {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -1429,7 +1429,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     width: 100%;
 }
 
-.jfgrid-rows-h-cells-c {
+.luckysheet-rows-h-cells-c {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -1439,7 +1439,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     width: 100%;
 }
 
-.jfgrid-rows-h-cells-clip {
+.luckysheet-rows-h-cells-clip {
     cursor: default;
     color: #5e5e5e;
     direction: ltr;
@@ -1451,7 +1451,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     height: inherit;
 }
 
-.jfgrid-rows-h-cell-nosel {
+.luckysheet-rows-h-cell-nosel {
     direction: ltr;
     width: 100%;
     position: absolute;
@@ -1462,7 +1462,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     touch-action: manipulation;
 }
 
-.jfgrid-rows-h-cell-sel {
+.luckysheet-rows-h-cell-sel {
     direction: ltr;
     width: 100%;
     position: absolute;
@@ -1476,7 +1476,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     touch-action: manipulation;
 }
 
-.jfgrid-rows-h-cell-txt {
+.luckysheet-rows-h-cell-txt {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -1487,7 +1487,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     font-size: 14px;
 }
 
-.jfgrid-cell-loading {
+.luckysheet-cell-loading {
     width: 100%;
     height: 100%;
     background-color: rgba(255,255,255, 0.3);
@@ -1500,7 +1500,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     display: none;
 }
 
-.jfgrid-cell-loading-inner {
+.luckysheet-cell-loading-inner {
     position: relative;
     top: 40%;
     width: 100%;
@@ -1508,11 +1508,11 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     text-align: center;
 }
 
-    .jfgrid-cell-loading-inner span {
+    .luckysheet-cell-loading-inner span {
         margin-left: 10px;
     }
 
-.jfgrid-cell-main {
+.luckysheet-cell-main {
     /*border: solid 1px #BEC1C4;*/
     background-color: white;
     width: 15px;
@@ -1525,7 +1525,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     cursor: default;
 }
 
-.jfgrid-scrollbars, .jfgrid-menu {
+.luckysheet-scrollbars, .luckysheet-menu {
     scrollbar-base-color: #FFFFFF;
     scrollbar-track-color: #E7E7E7;
     scrollbar-darkshadow-color: #FFFFFF;
@@ -1537,41 +1537,41 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     overflow: auto;
 }
 
-.jfgrid-scrollbar-ltr {
+.luckysheet-scrollbar-ltr {
     position: absolute;
     overflow: hidden;
     z-index: 1003;
 }
 
-.jfgrid-scrollbar-ltr div {
+.luckysheet-scrollbar-ltr div {
     height: 1px;
     width: 1px;
 }
 
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button {
     height: 0;
     width: 0
 }
 
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:start {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:start {
     display: none
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:end {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:end {
     display: block
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button {
     border: 1px solid #d9d9d9
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal {
     border-width: 1px 0 0 0
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical {
     border-width: 0 0 0 1px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical {
     border-width: 0 1px 0 0
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment {
     background: no-repeat url("waffle_sprite.png") -663px -13px;
     width: 15px;
     padding-left: 1px;
@@ -1581,55 +1581,55 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     box-shadow: none;
     background-color: #f8f8f8
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:hover {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:hover {
     background: no-repeat url("waffle_sprite.png") -395px -62px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:active {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:active {
     background: no-repeat url("waffle_sprite.png") -679px -13px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:decrement {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:decrement {
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
     background: no-repeat url("waffle_sprite.png") -283px -62px;
     width: 17px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:hover {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:hover {
     background: no-repeat url("waffle_sprite.png") -145px -70px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:horizontal:active {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:active {
     background: no-repeat url("waffle_sprite.png") -552px 0
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment {
     padding-top: 1px;
     background: no-repeat url("waffle_sprite.png") -531px -24px;
     height: 15px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:hover {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:hover {
     background: no-repeat url("waffle_sprite.png") -570px -42px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:active {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:active {
     background: no-repeat url("waffle_sprite.png") -83px -46px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement {
     border-top: 1px solid #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
     background: no-repeat url("waffle_sprite.png") -631px -27px;
     height: 17px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:hover {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:hover {
     background: no-repeat url("waffle_sprite.png") -180px -58px
 }
-.jfgrid-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:active {
+.luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement:active {
     background: no-repeat url("waffle_sprite.png") -776px -28px
 }
 
-.jfgrid-scrollbar-x{
+.luckysheet-scrollbar-x{
     bottom: 0px;
     left: 45px;
     overflow-x: scroll;
 }
 
-.jfgrid-scrollbar-y{
+.luckysheet-scrollbar-y{
     right: 0px;
     top:0px;
     overflow-y: scroll;
@@ -1637,7 +1637,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
 }
 
 
-.jfgrid-cell-flow {
+.luckysheet-cell-flow {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -1647,7 +1647,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*background: #fff;*/
 }
 
-.jfgrid-cell-flow-clip {
+.luckysheet-cell-flow-clip {
     border-collapse: collapse;
     cursor: default;
     width: 5000000px;
@@ -1655,7 +1655,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     overflow: hidden;
 }
 
-.jfgrid-cell-flow-col {
+.luckysheet-cell-flow-col {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -1666,7 +1666,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     direction: ltr;
 }
 
-.jfgrid-cell-sheettable {
+.luckysheet-cell-sheettable {
     position: relative;
     /*background-color: #fff;*/
     text-align: left;
@@ -1675,7 +1675,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     text-decoration: none;
 }
 
-.jfgrid-bottom-controll-row{
+.luckysheet-bottom-controll-row{
     position: absolute;
     height: 30px;
     /*width: 400px;*/
@@ -1685,25 +1685,25 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     z-index: 100;
 }
 
-#jfgrid-bottom-add-row{
+#luckysheet-bottom-add-row{
     padding: 5px 20px;
     margin-right: 5px;
     margin-top: -2px;
 }
 
-#jfgrid-bottom-add-row-input{
+#luckysheet-bottom-add-row-input{
     width: 40px;
     min-width: 40px;
 }
 
-#jfgrid-bottom-return-top{
+#luckysheet-bottom-return-top{
     padding: 5px 6px;
     margin-left: 10px;
     margin-top: -2px;
 }
 
 
-.jfgrid-cell-flow-column {
+.luckysheet-cell-flow-column {
     position: absolute;
     height: inherit;
     width: inherit;
@@ -1713,13 +1713,13 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     touch-action: manipulation;
 }
 
-.jfgrid-cell-flow-column-line {
+.luckysheet-cell-flow-column-line {
     position: absolute;
     border-right: 1px solid #d4d4d4;
     height: inherit;
 }
 
-.jfgrid-cell-flow-row {
+.luckysheet-cell-flow-row {
     text-align: left;
     position: absolute;
     height: inherit;
@@ -1730,13 +1730,13 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     touch-action: manipulation;
 }
 
-.jfgrid-cell-flow-row-line {
+.luckysheet-cell-flow-row-line {
     position: absolute;
     border-bottom: 1px solid #d4d4d4;
     width: inherit;
 }
 
-.jfgrid-cell-selected-focus {
+.luckysheet-cell-selected-focus {
     position: absolute;
     pointer-events: none;
     z-index: 14;
@@ -1747,7 +1747,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*transition: all 0.1s;*/
 }
 
-.jfgrid-selection-copy {
+.luckysheet-selection-copy {
     position: absolute;
     pointer-events: none;
     z-index: 18;
@@ -1756,13 +1756,13 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     display: none;
 }
 
-.jfgrid-selection-copy .jfgrid-copy {
+.luckysheet-selection-copy .luckysheet-copy {
     position: absolute;
     z-index: 18;
     background-color: transparent;
 }
 
-.jfgrid-selection-copy-top {
+.luckysheet-selection-copy-top {
     left: 0;
     right: 0;
     height: 2px;
@@ -1771,7 +1771,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     background-image: url("EwaAntH.gif");
 }
 
-.jfgrid-selection-copy-right {
+.luckysheet-selection-copy-right {
     top: 0;
     bottom: 0;
     width: 2px;
@@ -1779,7 +1779,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     background-image: url("EwaAntV.gif");
 }
 
-.jfgrid-selection-copy-bottom {
+.luckysheet-selection-copy-bottom {
     left: 0;
     right: 0;
     height: 2px;
@@ -1787,7 +1787,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     background-image: url("EwaAntH.gif");
 }
 
-.jfgrid-selection-copy-left {
+.luckysheet-selection-copy-left {
     top: 0;
     bottom: 0;
     width: 2px;
@@ -1796,7 +1796,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     background-image: url("EwaAntV.gif");
 }
 
-.jfgrid-selection-copy-hc {
+.luckysheet-selection-copy-hc {
     position: absolute;
     top: 0;
     right: 0;
@@ -1806,7 +1806,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     z-index: 8;
 }
 
-.jfgrid-selection-highlight {
+.luckysheet-selection-highlight {
     position: absolute;
     /*pointer-events: none;*/
     z-index: 14;
@@ -1815,7 +1815,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     display: none;
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-copy {
+.luckysheet-formula-functionrange-highlight .luckysheet-copy {
     background-image: none;
     background: #0188fb;
     position: absolute;
@@ -1825,62 +1825,62 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*border: 1px solid #fff;*/
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-top {
+.luckysheet-formula-functionrange-highlight .luckysheet-selection-copy-top {
     top: -2px;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #fff;
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-right {
+.luckysheet-formula-functionrange-highlight .luckysheet-selection-copy-right {
     right: -2px;
     border-left: 2px solid #fff;
     border-right: 2px solid #fff;
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-bottom {
+.luckysheet-formula-functionrange-highlight .luckysheet-selection-copy-bottom {
     bottom: -2px;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #fff;
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-left {
+.luckysheet-formula-functionrange-highlight .luckysheet-selection-copy-left {
     left: -2px;
     border-left: 2px solid #fff;
     border-right: 2px solid #fff;
 }
 
-.jfgrid-formula-functionrange-highlight .jfgrid-selection-copy-hc {
+.luckysheet-formula-functionrange-highlight .luckysheet-selection-copy-hc {
     border: 2px solid #5e5e5e;
     opacity: 0.03;
     z-index: initial;
 }
 
-.jfgrid-selection-highlight-topleft {
+.luckysheet-selection-highlight-topleft {
     left: -3px;
     top: -3px;
     cursor: se-resize;
 }
 
-.jfgrid-selection-highlight-topright {
+.luckysheet-selection-highlight-topright {
     right: -3px;
     top: -3px;
     cursor: ne-resize;
 }
 
-.jfgrid-selection-highlight-bottomleft {
+.luckysheet-selection-highlight-bottomleft {
     left: -3px;
     bottom: -3px;
     cursor: ne-resize;
 }
 
-.jfgrid-selection-highlight-bottomright {
+.luckysheet-selection-highlight-bottomright {
     right: -3px;
     bottom: -3px;
     cursor: se-resize;
 }
 
 
-.jfgrid-formula-functionrange-highlight .jfgrid-highlight {
+.luckysheet-formula-functionrange-highlight .luckysheet-highlight {
     position: absolute;
     z-index: 19;
     border: 1px solid #fff;
@@ -1889,7 +1889,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     height: 6px;
 }
 
-.jfgrid-cell-selected-extend {
+.luckysheet-cell-selected-extend {
     position: absolute;
     pointer-events: none;
     z-index: 16;
@@ -1899,7 +1899,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*transition: all 0.1s;*/
 }
 
-.jfgrid-cell-selected-move {
+.luckysheet-cell-selected-move {
     position: absolute;
     pointer-events: none;
     z-index: 16;
@@ -1909,7 +1909,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*transition: all 0.1s;*/
 }
 
-.jfgrid-cell-selected {
+.luckysheet-cell-selected {
     position: absolute;
     pointer-events: none;
     z-index: 15;
@@ -1920,7 +1920,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     /*transition: all 0.1s;*/
 }
 
-.jfgrid-cs-inner-border {
+.luckysheet-cs-inner-border {
     pointer-events: none;
     border: 1px solid #fff;
     position: absolute;
@@ -1930,7 +1930,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     right: 0;
 }
 
-.jfgrid-cs-fillhandle {
+.luckysheet-cs-fillhandle {
     position: absolute;
     width: 6px;
     height: 6px;
@@ -1943,7 +1943,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     right: -5px;
 }
 
-.jfgrid-cs-draghandle {
+.luckysheet-cs-draghandle {
     position: absolute;
     cursor: move;
     background-color: #fff;
@@ -1953,35 +1953,35 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     border: 2px solid #fff;
 }
 
-.jfgrid-cs-draghandle-top {
+.luckysheet-cs-draghandle-top {
     top: -4px;
     left: -2px;
     right: -2px;
     height: 2px;
 }
 
-.jfgrid-cs-draghandle-bottom {
+.luckysheet-cs-draghandle-bottom {
     right: 0;
     left: -2px;
     bottom: -4px;
     height: 2px;
 }
 
-.jfgrid-cs-draghandle-left {
+.luckysheet-cs-draghandle-left {
     top: 0;
     left: -4px;
     bottom: 0;
     width: 2px;
 }
 
-.jfgrid-cs-draghandle-right {
+.luckysheet-cs-draghandle-right {
     top: 0;
     right: -4px;
     bottom: 0;
     width: 2px;
 }
 
-.jfgrid-cs-touchhandle{
+.luckysheet-cs-touchhandle{
     display: none;
     position: absolute;
     width: 16px;
@@ -1991,7 +1991,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     pointer-events: auto;
     touch-action: auto;
 }
-.jfgrid-cs-touchhandle:before{
+.luckysheet-cs-touchhandle:before{
     content: '';
     display: block;
     width: 16px;
@@ -2001,23 +2001,23 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     box-sizing: border-box;
     border-radius: 50%;
 }
-.jfgrid-cs-touchhandle-lt{
+.luckysheet-cs-touchhandle-lt{
     left: -13px;
     top: -13px;
 }
-.jfgrid-cs-touchhandle-lb{
+.luckysheet-cs-touchhandle-lb{
     left: -13px;
     bottom: -13px;
 }
-.jfgrid-cs-touchhandle-rt{
+.luckysheet-cs-touchhandle-rt{
     right: -13px;
     top: -13px;
 }
-.jfgrid-cs-touchhandle-rb{
+.luckysheet-cs-touchhandle-rb{
     right: -13px;
     bottom: -13px;
 }
-.jfgrid-cs-touchhandle .jfgrid-cs-touchhandle-btn{
+.luckysheet-cs-touchhandle .luckysheet-cs-touchhandle-btn{
     position: absolute;
     width: 10px;
     height: 10px;
@@ -2030,7 +2030,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     z-index: 11;
 }
 
-#jfgrid-dynamicArray-hightShow {
+#luckysheet-dynamicArray-hightShow {
     position: absolute;
     pointer-events: none;
     z-index: 15;
@@ -2039,44 +2039,44 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     display: none;
 }
 
-.jfgrid-scrollbars::-webkit-scrollbar-track {
+.luckysheet-scrollbars::-webkit-scrollbar-track {
     background-color: #E0E0E0;
 }
 
-.jfgrid-scrollbars::-webkit-scrollbar {
+.luckysheet-scrollbars::-webkit-scrollbar {
     width: 12px;
     height: 12px;
     background-color: #E0E0E0;
     /*border:0 none;*/
 }
 
-.jfgrid-scrollbars::-webkit-scrollbar-thumb {
+.luckysheet-scrollbars::-webkit-scrollbar-thumb {
     background-color: #fff;
     border: 1px solid #A0A0A0;
     border-radius: 12px;
 }
 
-    .jfgrid-scrollbars::-webkit-scrollbar-thumb:hover {
+    .luckysheet-scrollbars::-webkit-scrollbar-thumb:hover {
         background-color: #969696;
         border: 1px solid #A0A0A0;
         border-radius: 12px;
     }
 
-.jfgrid-grdusedrange {
+.luckysheet-grdusedrange {
     position: absolute;
     visibility: hidden;
     width: 1px;
     height: 1px;
 }
 
-.jfgrid-grdblkflowpush {
+.luckysheet-grdblkflowpush {
     margin: 0;
     padding: 0;
     border: none 0;
     width: 1px;
 }
 
-.jfgrid-grdblkpush {
+.luckysheet-grdblkpush {
     margin: 0;
     padding: 0;
     border: none 0;
@@ -2085,7 +2085,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     direction: ltr;
 }
 
-.jfgrid-cell-flow-data {
+.luckysheet-cell-flow-data {
     position: absolute;
     height: inherit;
     width: inherit;
@@ -2094,17 +2094,17 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     z-index: 1;
 }
 
-.jfgrid-cell-flow-data-row {
+.luckysheet-cell-flow-data-row {
     position: absolute;
     width: inherit;
 }
 
-.jfgrid-cell-flow-data-cell {
+.luckysheet-cell-flow-data-cell {
     position: absolute;
     height: inherit;
 }
 
-.jfgrid-cell-flow-data-value {
+.luckysheet-cell-flow-data-value {
     position: absolute !important;
     bottom: 0;
     letter-spacing: -.02em;
@@ -2113,24 +2113,24 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     overflow: hidden;
 }
 
-.jfgrid canvas {
+.luckysheet canvas {
     position: absolute;
 }
 
-.jfgridcolumeHeader {
+.luckysheetcolumeHeader {
     margin-left: -1px;
 }
 
-.jfgridrowHeader {
+.luckysheetrowHeader {
     margin-top: 1px;
 }
 
-.jfgridsheettable {
+.luckysheetsheettable {
     margin-left: -1px;
     margin-top: -1px;
 }
 
-.jfgrid-cols-menu {
+.luckysheet-cols-menu {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -2156,7 +2156,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     display: none;
 }
 
-    .jfgrid-cols-menu .jfgrid-cols-menuitem {
+    .luckysheet-cols-menu .luckysheet-cols-menuitem {
         position: relative;
         color: #333;
         cursor: pointer;
@@ -2171,11 +2171,11 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
         user-select: none;
     }
 
-        .jfgrid-cols-menu .jfgrid-cols-menuitem:hover, .jfgrid-cols-menu .jfgrid-cols-menuitem-hover {
+        .luckysheet-cols-menu .luckysheet-cols-menuitem:hover, .luckysheet-cols-menu .luckysheet-cols-menuitem-hover {
             background: #E1E1E1;
         }
 
-        .jfgrid-cols-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+        .luckysheet-cols-menu .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
             position: relative;
             color: #333;
             cursor: pointer;
@@ -2186,7 +2186,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
             user-select: none;
         }
 
-.jfgrid-rightgclick-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+.luckysheet-rightgclick-menu .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
     position: relative;
     color: #333;
     cursor: pointer;
@@ -2197,47 +2197,47 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     user-select: none;
 }
 
-#jfgrid-cols-menu .jfgrid-cols-menuitem, .jfgrid-filter-menu .jfgrid-cols-menuitem, #jfgrid-pivotTable-config-option .jfgrid-cols-menuitem {
+#luckysheet-cols-menu .luckysheet-cols-menuitem, .luckysheet-filter-menu .luckysheet-cols-menuitem, #luckysheet-pivotTable-config-option .luckysheet-cols-menuitem {
     padding-right: 10px;
     padding-left: 12px;
 }
 
-#jfgrid-pivotTable-config-option-sumtype .jfgrid-cols-menuitem {
+#luckysheet-pivotTable-config-option-sumtype .luckysheet-cols-menuitem {
     padding-right: 15px;
     padding-left: 12px;
     padding-top: 1px;
     padding-bottom: 1px;
 }
 
-#jfgrid-cols-menu .jfgrid-cols-menuitem-content, .jfgrid-filter-menu .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+#luckysheet-cols-menu .luckysheet-cols-menuitem-content, .luckysheet-filter-menu .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
     padding-right: 10px;
     padding-left: 12px;
 }
 
 
-.jfgrid-filter-menu div.jfgrid-cols-menuitem {
+.luckysheet-filter-menu div.luckysheet-cols-menuitem {
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-.jfgrid-filter-submenu div.jfgrid-cols-menuitem {
+.luckysheet-filter-submenu div.luckysheet-cols-menuitem {
     padding-top: 1px;
     padding-bottom: 1px;
 }
 
-.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem {
+.luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem {
     padding-top: 2px;
     padding-bottom: 0px;
     cursor: default;
 }
 
-.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content {
+.luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem-content, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem-content {
     padding-top: 2px;
     padding-bottom: 0px;
     cursor: default;
 }
 
-    .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content input {
+    .luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem-content input, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem-content input {
         height: 24px;
         width: 191px;
         padding-right: 25px;
@@ -2251,7 +2251,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     }
 
 
-        .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content input:focus, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content input:focus {
+        .luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem-content input:focus, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem-content input:focus {
             -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
             -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
@@ -2259,43 +2259,43 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
             outline: none;
         }
 
-    .jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem-content .jfgrid-filter-byvalue-input-icon, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem-content .jfgrid-pivotTableFilter-byvalue-input-icon {
+    .luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem-content .luckysheet-filter-byvalue-input-icon, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem-content .luckysheet-pivotTableFilter-byvalue-input-icon {
         position: absolute;
         right: 17px;
         top: 7px;
     }
 
-.jfgrid-filter-menu .jfgrid-filter-byvalue .jfgrid-cols-menuitem:hover, .jfgrid-filter-menu .jfgrid-pivotTableFilter-byvalue .jfgrid-cols-menuitem:hover {
+.luckysheet-filter-menu .luckysheet-filter-byvalue .luckysheet-cols-menuitem:hover, .luckysheet-filter-menu .luckysheet-pivotTableFilter-byvalue .luckysheet-cols-menuitem:hover {
     background: #fff;
 }
 
-.jfgrid-filter-menu .jfgrid-cols-menuitem:last-child:hover {
+.luckysheet-filter-menu .luckysheet-cols-menuitem:last-child:hover {
     background: #fff;
 }
 
-.jfgrid-filter-menu .jfgrid-cols-menuitem:last-child, .jfgrid-filter-menu .jfgrid-cols-menuitem:last-child .jfgrid-cols-menuitem-content {
+.luckysheet-filter-menu .luckysheet-cols-menuitem:last-child, .luckysheet-filter-menu .luckysheet-cols-menuitem:last-child .luckysheet-cols-menuitem-content {
     cursor: default;
 }
 
-#jfgrid-filter-byvalue-select, #jfgrid-pivotTableFilter-byvalue-select {
+#luckysheet-filter-byvalue-select, #luckysheet-pivotTableFilter-byvalue-select {
     min-height: 100px;
     width: 200px;
 }
 
-.jfgrid-filter-menu .jfgrid-mousedown-filter-byvalue-btn span, .jfgrid-filter-menu .jfgrid-mousedown-pivotTableFilter-byvalue-btn span {
+.luckysheet-filter-menu .luckysheet-mousedown-filter-byvalue-btn span, .luckysheet-filter-menu .luckysheet-mousedown-pivotTableFilter-byvalue-btn span {
     color: blue;
     cursor: pointer;
     text-decoration: underline;
 }
 
-.jfgrid-filter-menu .jfgrid-mousedown-filter-byvalue-btn div, .jfgrid-filter-menu .jfgrid-mousedown-pivotTableFilter-byvalue-btn div {
+.luckysheet-filter-menu .luckysheet-mousedown-filter-byvalue-btn div, .luckysheet-filter-menu .luckysheet-mousedown-pivotTableFilter-byvalue-btn div {
     position: absolute;
     right: 14px;
     top: 0px;
     font-size: 18px;
 }
 
-.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input {
+.luckysheet-filter-menu .luckysheet-filter-bycondition .luckysheet-filter-selected-input, .luckysheet-filter-menu .luckysheet-pivotTableFilter-bycondition .luckysheet-pivotTableFilter-selected-input {
     padding-left: 8px;
     padding-right: 8px;
     margin-top: 3px;
@@ -2303,7 +2303,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
 }
 
 
-    .jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input input {
+    .luckysheet-filter-menu .luckysheet-filter-bycondition .luckysheet-filter-selected-input input, .luckysheet-filter-menu .luckysheet-pivotTableFilter-bycondition .luckysheet-pivotTableFilter-selected-input input {
         height: 24px;
         width: 100%;
         padding-right: 3px;
@@ -2318,7 +2318,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     }
 
 
-.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input2 input, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input2 input {
+.luckysheet-filter-menu .luckysheet-filter-bycondition .luckysheet-filter-selected-input2 input, .luckysheet-filter-menu .luckysheet-pivotTableFilter-bycondition .luckysheet-pivotTableFilter-selected-input2 input {
     height: 24px;
     width: 92px;
     padding-right: 3px;
@@ -2332,18 +2332,18 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     font-size: 13px;
 }
 
-.jfgrid-filter-menu .jfgrid-filter-bycondition .jfgrid-filter-selected-input2 span, .jfgrid-filter-menu .jfgrid-pivotTableFilter-bycondition .jfgrid-pivotTableFilter-selected-input2 span {
+.luckysheet-filter-menu .luckysheet-filter-bycondition .luckysheet-filter-selected-input2 span, .luckysheet-filter-menu .luckysheet-pivotTableFilter-bycondition .luckysheet-pivotTableFilter-selected-input2 span {
     margin-left: 2px;
     margin-right: 5px;
 }
 
-.jfgrid-menuseparator {
+.luckysheet-menuseparator {
     border-top: 1px solid #ebebeb;
     margin-top: 6px;
     margin-bottom: 6px;
 }
 
-.jfgrid-submenu-arrow {
+.luckysheet-submenu-arrow {
     -webkit-transition: all 0.218s;
     -moz-transition: all 0.218s;
     -o-transition: all 0.218s;
@@ -2362,87 +2362,87 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     font-family: Arial;
 }
 
-#jfgrid-pivotTable-config-option-sumtype .jfgrid-submenu-arrow {
+#luckysheet-pivotTable-config-option-sumtype .luckysheet-submenu-arrow {
     right: -5px;
     font-size: 16px;
     padding-top: 0px;
     color: blue;
 }
 
-#jfgrid-filter-byvalue-select table, #jfgrid-pivotTableFilter-byvalue-select table {
+#luckysheet-filter-byvalue-select table, #luckysheet-pivotTableFilter-byvalue-select table {
     table-layout: fixed;
 }
 
-#jfgrid-filter-byvalue-select tr td, #jfgrid-pivotTableFilter-byvalue-select tr td {
+#luckysheet-filter-byvalue-select tr td, #luckysheet-pivotTableFilter-byvalue-select tr td {
     padding: 2px 3px;
 }
 
-#jfgrid-filter-byvalue-select tr:hover td, #jfgrid-pivotTableFilter-byvalue-select tr:hover td {
+#luckysheet-filter-byvalue-select tr:hover td, #luckysheet-pivotTableFilter-byvalue-select tr:hover td {
     background: #E1E1E1;
 }
 
 /*筛选改 -- pan*/
-.jfgrid-cols-menu .cf:before,.jfgrid-cols-menu .cf:after{
+.luckysheet-cols-menu .cf:before,.luckysheet-cols-menu .cf:after{
     content:"";
     display:table;
 }
-.jfgrid-cols-menu .cf:after{ 
+.luckysheet-cols-menu .cf:after{ 
     clear:both;
 }
-#jfgrid-filter-byvalue-select .yearBox .monthList, #jfgrid-pivotTableFilter-byvalue-select .yearBox .monthList{
+#luckysheet-filter-byvalue-select .yearBox .monthList, #luckysheet-pivotTableFilter-byvalue-select .yearBox .monthList{
     padding-left: 20px;
 }
-#jfgrid-filter-byvalue-select .yearBox .dayList, #jfgrid-pivotTableFilter-byvalue-select .yearBox .dayList{
+#luckysheet-filter-byvalue-select .yearBox .dayList, #luckysheet-pivotTableFilter-byvalue-select .yearBox .dayList{
     padding-left: 20px;
 }
-#jfgrid-filter-byvalue-select .yearBox .fa-caret-right, #jfgrid-pivotTableFilter-byvalue-select .yearBox .fa-caret-right{
+#luckysheet-filter-byvalue-select .yearBox .fa-caret-right, #luckysheet-pivotTableFilter-byvalue-select .yearBox .fa-caret-right{
     padding: 0 2px;
     float: left;
     margin-top: 3px;
     cursor: pointer;
 }
-#jfgrid-filter-byvalue-select .count, #jfgrid-pivotTableFilter-byvalue-select .count{
+#luckysheet-filter-byvalue-select .count, #luckysheet-pivotTableFilter-byvalue-select .count{
     color: gray;
     margin-left: 5px;
 }
-#jfgrid-filter-byvalue-select input[type="checkbox"], #jfgrid-pivotTableFilter-byvalue-select input[type="checkbox"]{
+#luckysheet-filter-byvalue-select input[type="checkbox"], #luckysheet-pivotTableFilter-byvalue-select input[type="checkbox"]{
     width: auto;
     height: auto;
     float: left;
 }
 
 /*颜色筛选 -- pan*/
-#jfgrid-filter-orderby-color-submenu{
+#luckysheet-filter-orderby-color-submenu{
     font-size: 12px;
 }
-#jfgrid-filter-orderby-color-submenu .title{
+#luckysheet-filter-orderby-color-submenu .title{
     padding: 10px;
     font-weight: 600;
     color: #333;
     background-color: #f4f4f4;
     text-align: center;
 }
-#jfgrid-filter-orderby-color-submenu .item{
+#luckysheet-filter-orderby-color-submenu .item{
     padding: 5px 40px 5px 20px;
     cursor: pointer;
     position: relative;
 }
-#jfgrid-filter-orderby-color-submenu .item:hover{
+#luckysheet-filter-orderby-color-submenu .item:hover{
     background-color: #d3d3d3;
 }
-#jfgrid-filter-orderby-color-submenu .item label{
+#luckysheet-filter-orderby-color-submenu .item label{
     display: block;
     width: 70px;
     height: 20px;
     border: 1px solid #d1d1d1;
 }
-#jfgrid-filter-orderby-color-submenu .item input[type="checkbox"]{
+#luckysheet-filter-orderby-color-submenu .item input[type="checkbox"]{
     position: absolute;
     right: 10px;
     top: 6px;
 }
 
-#jfgird-copy-content {
+#luckysheet-copy-content {
     position: fixed;
     height: 0px;
     width: 0px;
@@ -2452,7 +2452,7 @@ body:not(.ewa-ipad) .jfgrid-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .jfgrid
     padding-left: 999999px;
 }
 
-#jfgird-copy-btn {
+#luckysheet-copy-btn {
     position: absolute;
     visibility: hidden;
 }
@@ -2737,13 +2737,13 @@ fieldset[disabled] a.btn {
         background-color: #fff;
     }
 
-.jfgrid-cols-change-size, .jfgrid-rows-change-size, .jfgrid-change-size-line {
+.luckysheet-cols-change-size, .luckysheet-rows-change-size, .luckysheet-change-size-line {
     /*display: none;*/
     position: absolute;
     z-index: 12;
 }
 
-.jfgrid-cols-change-size {
+.luckysheet-cols-change-size {
     width: 5px;
     height: 100%;
     background: #0188fb;
@@ -2751,7 +2751,7 @@ fieldset[disabled] a.btn {
     opacity: 0;
 }
 
-.jfgrid-rows-change-size {
+.luckysheet-rows-change-size {
     width: 100%;
     height: 5px;
     background: #0188fb;
@@ -2759,14 +2759,14 @@ fieldset[disabled] a.btn {
     opacity: 0;
 }
 
-.jfgrid-change-size-line {
+.luckysheet-change-size-line {
     border-color: #0188fb;
     border-style: solid;
     z-index: 15;
     display: none;
 }
 
-.jfgrid-count-show {
+.luckysheet-count-show {
     position: absolute;
     z-index: 15;
     background: rgba(76,76,76, 0.8);
@@ -2778,11 +2778,11 @@ fieldset[disabled] a.btn {
     white-space: nowrap;
 }
 
-.jfgrid-row-count-show {
+.luckysheet-row-count-show {
     text-align: center;
 }
 
-    .jfgrid-row-count-show div {
+    .luckysheet-row-count-show div {
         /*-webkit-writing-mode: vertical-rl;*/
         writing-mode: vertical-rl;
         /*-ms-writing-mode: tb-rl;*/
@@ -2791,32 +2791,32 @@ fieldset[disabled] a.btn {
         *writing-mode: tb-rl; /* IE 写法 */
     }
 
-        .jfgrid-row-count-show div:last-child {
+        .luckysheet-row-count-show div:last-child {
             writing-mode: initial;
         }
 
-#jfgrid-sheet-list {
+#luckysheet-sheet-list {
     max-height: 60%;
     overflow: auto;
 }
 
-    #jfgrid-sheet-list .jfgrid-cols-menuitem {
+    #luckysheet-sheet-list .luckysheet-cols-menuitem {
         padding-left: 0px;
         padding-right: 10px;
     }
 
-        #jfgrid-sheet-list .jfgrid-cols-menuitem .jfgrid-cols-menuitem-content {
+        #luckysheet-sheet-list .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
             padding-left: 5px;
         }
 
 
-    #jfgrid-sheet-list .icon {
+    #luckysheet-sheet-list .icon {
         width: 15px;
         margin-left: 4px;
         display: inline-block;
     }
 
-.jfgrid-input-box {
+.luckysheet-input-box {
     position: absolute;
     font: normal normal 400 13px arial,sans,sans-serif;
     text-align: left;
@@ -2839,7 +2839,7 @@ fieldset[disabled] a.btn {
 }
 
 
-.jfgrid-cell-input {
+.luckysheet-cell-input {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -2851,7 +2851,7 @@ fieldset[disabled] a.btn {
 /*    background-color: white;*/
 }
 
-#jfgrid-rich-text-editor{
+#luckysheet-rich-text-editor{
     -webkit-user-modify: read-write; 
 /*    background-color: rgb(255, 255, 255); 
     font-size: 13px; 
@@ -2861,7 +2861,7 @@ fieldset[disabled] a.btn {
     font-style: normal;*/
 }
 
-.jfgrid-input-box-index {
+.luckysheet-input-box-index {
     display: none;
     position: absolute;
     /*top: -20px;
@@ -2877,7 +2877,7 @@ fieldset[disabled] a.btn {
 }
 
 
-.jfgrid-modal-dialog {
+.luckysheet-modal-dialog {
     -webkit-box-shadow: 0 4px 16px rgba(0,0,0,.2);
     -moz-box-shadow: 0 4px 16px rgba(0,0,0,.2);
     box-shadow: 0 4px 16px rgba(0,0,0,.2);
@@ -2892,7 +2892,7 @@ fieldset[disabled] a.btn {
     z-index: 100002;
 }
 
-.jfgrid-modal-dialog-mask {
+.luckysheet-modal-dialog-mask {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -2906,7 +2906,7 @@ fieldset[disabled] a.btn {
 
 
 
-.jfgrid-modal-dialog-title {
+.luckysheet-modal-dialog-title {
     background-color: #fff;
     color: #000;
     cursor: default;
@@ -2916,7 +2916,7 @@ fieldset[disabled] a.btn {
     margin: 0 0 16px;
 }
 
-.jfgrid-modal-dialog-title-close {
+.luckysheet-modal-dialog-title-close {
     height: 11px;
     opacity: 0.7;
     padding: 17px;
@@ -2928,46 +2928,46 @@ fieldset[disabled] a.btn {
     outline: 0;
 }
 
-.jfgrid-modal-dialog-chart {
+.luckysheet-modal-dialog-chart {
     padding: 20px 10px;
     webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
-/*         .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title{
+/*         .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title{
              line-height:0px;
              margin: 0px;
              font-size: 12px;
          }
 
-        .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-close,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-max,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-min,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-restore, .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-update {
+        .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-close,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-max,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-min,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-restore, .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-update {
              height: 5px;
              opacity: 0.7;
              padding: 12px;
          }
 
-         .jfgrid-modal-dialog-title-update {
+         .luckysheet-modal-dialog-title-update {
              right: 105px;
              color:#0188fb;
              font-size:14px;
              padding-top: 9px;
          }
 
-         .jfgrid-modal-dialog-title-min {
+         .luckysheet-modal-dialog-title-min {
              right: 70px;
              padding-top: 9px;
          }
 
-         .jfgrid-modal-dialog-title-max, .jfgrid-modal-dialog-title-restore {
+         .luckysheet-modal-dialog-title-max, .luckysheet-modal-dialog-title-restore {
              right: 35px;
          }
 
-         .jfgrid-modal-dialog-title-restore{
+         .luckysheet-modal-dialog-title-restore{
              display: none;
          }*/
 
-.jfgrid-modal-dialog-resize {
+.luckysheet-modal-dialog-resize {
     position: absolute;
     border: 2px solid #0188fb;
     margin: 0px;
@@ -2979,7 +2979,7 @@ fieldset[disabled] a.btn {
     pointer-events: none;
 }
 
-.jfgrid-modal-dialog-resize-item {
+.luckysheet-modal-dialog-resize-item {
     position: absolute;
     height: 6px;
     width: 6px;
@@ -2989,60 +2989,60 @@ fieldset[disabled] a.btn {
     border-radius: 6px;
 }
 
-.jfgrid-modal-dialog-resize-item-lt {
+.luckysheet-modal-dialog-resize-item-lt {
     left: -6px;
     top: -6px;
     cursor: se-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-mt {
+.luckysheet-modal-dialog-resize-item-mt {
     left: 50%;
     top: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rt {
+.luckysheet-modal-dialog-resize-item-rt {
     right: -6px;
     top: -6px;
     cursor: ne-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-lm {
+.luckysheet-modal-dialog-resize-item-lm {
     top: 50%;
     left: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rm {
+.luckysheet-modal-dialog-resize-item-rm {
     top: 50%;
     right: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-lb {
+.luckysheet-modal-dialog-resize-item-lb {
     left: -6px;
     bottom: -6px;
     cursor: ne-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-mb {
+.luckysheet-modal-dialog-resize-item-mb {
     left: 50%;
     bottom: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rb {
+.luckysheet-modal-dialog-resize-item-rb {
     right: -6px;
     bottom: -6px;
     cursor: se-resize;
 }
 
 
-.jfgrid-modal-dialog-controll {
+.luckysheet-modal-dialog-controll {
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -3052,7 +3052,7 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-modal-controll-btn {
+.luckysheet-modal-controll-btn {
     height: 13px;
     /* opacity: 0.7; */
     padding: 8px;
@@ -3073,22 +3073,22 @@ fieldset[disabled] a.btn {
     -o-transition: all 0.2s;
 }
 
-    .jfgrid-modal-controll-btn:hover {
+    .luckysheet-modal-controll-btn:hover {
         border: 1px solid #A1A1A1;
         color: #0188fb;
     }
 
-    .jfgrid-modal-controll-btn:active {
+    .luckysheet-modal-controll-btn:active {
         border: 1px solid #BBBBBB;
         background: #EFEFEF;
         color: #0188fb;
     }
 
-.jfgrid-modal-controll-del {
+.luckysheet-modal-controll-del {
     font-size: 16px;
 }
 
-.jfgrid-modal-controll-max-close {
+.luckysheet-modal-controll-max-close {
     font-size: 22px;
     width: 42px;
     height: 42px;
@@ -3106,81 +3106,81 @@ fieldset[disabled] a.btn {
     text-align: center;
 }
 
-.jfgrid-modal-controll-max-close:hover {
+.luckysheet-modal-controll-max-close:hover {
     background: #0188fb;
     cursor: pointer;
 }
 
-.jfgrid-sort-item-close {
+.luckysheet-sort-item-close {
     margin-right: 3px;
     font-size: 14px;
     color: #BBBBBB;
     cursor: pointer;
 }
 
-    .jfgrid-sort-item-close:hover {
+    .luckysheet-sort-item-close:hover {
         color: #494949;
     }
 
-.jfgrid-modal-dialog-title-close:hover {
+.luckysheet-modal-dialog-title-close:hover {
     color: #5e5e5e;
     cursor: pointer;
 }
 
-.jfgrid-modal-dialog-content {
+.luckysheet-modal-dialog-content {
     background-color: #fff;
     line-height: 1.4em;
     word-wrap: break-word;
 }
 
-.jfgrid-modal-dialog-buttons {
+.luckysheet-modal-dialog-buttons {
     margin-top: 10px;
 }
 
-    .jfgrid-modal-dialog-buttons button {
+    .luckysheet-modal-dialog-buttons button {
         margin-right: 10px;
     }
 
-.jfgrid-modal-dialog-title-text span {
+.luckysheet-modal-dialog-title-text span {
     font-family: Arial;
 }
 
-.jfgrid-sort-modal {
+.luckysheet-sort-modal {
     font-size: 12px;
 }
 
-    .jfgrid-sort-modal label input, .jfgrid-sort-modal label span {
+    .luckysheet-sort-modal label input, .luckysheet-sort-modal label span {
         vertical-align: middle;
     }
 
-    .jfgrid-sort-modal > div, .jfgrid-sort-modal table {
+    .luckysheet-sort-modal > div, .luckysheet-sort-modal table {
         margin-bottom: 10px;
     }
 
-        .jfgrid-sort-modal table tr {
+        .luckysheet-sort-modal table tr {
             margin-bottom: 10px;
         }
 
-            .jfgrid-sort-modal table tr td {
+            .luckysheet-sort-modal table tr td {
                 padding: 5px;
                 white-space: nowrap;
                 border-top: 1px solid #ffc6c6;
             }
 
-                .jfgrid-sort-modal table tr td > div:first-child {
+                .luckysheet-sort-modal table tr td > div:first-child {
                     margin-bottom: 8px;
                 }
 
-                .jfgrid-sort-modal table tr td select {
+                .luckysheet-sort-modal table tr td select {
                     max-width: 180px;
                     min-width: 50px;
                 }
 
-            .jfgrid-sort-modal table tr:first-child td {
+            .luckysheet-sort-modal table tr:first-child td {
                 border-top: none;
             }
 
-.jfgrid-filter-options {
+.luckysheet-filter-options {
     color: #897BFF;
     cursor: pointer;
     position: absolute;
@@ -3197,20 +3197,20 @@ fieldset[disabled] a.btn {
     /* transition: all 0.1s; */
 }
 
-    .jfgrid-filter-options:hover {
+    .luckysheet-filter-options:hover {
         color: #fff;
         border: 1px solid #fff;
         background: #897BFF;
     }
 
-.jfgrid-filter-options-active {
+.luckysheet-filter-options-active {
     color: #fff;
     border: 1px solid #897BFF;
     background: #897BFF;
 }
 
 
-.jfgrid-flat-menu-button {
+.luckysheet-flat-menu-button {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -3237,7 +3237,7 @@ fieldset[disabled] a.btn {
     padding-left: 15px;
 }
 
-    .jfgrid-flat-menu-button:hover {
+    .luckysheet-flat-menu-button:hover {
         -webkit-border-radius: 2px;
         -moz-border-radius: 2px;
         border-radius: 2px;
@@ -3251,7 +3251,7 @@ fieldset[disabled] a.btn {
         color: #000;
     }
 
-    .jfgrid-flat-menu-button div {
+    .luckysheet-flat-menu-button div {
         display: inline-block;
         vertical-align: middle;
         position: absolute;
@@ -3261,38 +3261,38 @@ fieldset[disabled] a.btn {
 
 /*图表生成CSS*/
 
-.jfgrid-data-visualization {
+.luckysheet-data-visualization {
     width: 60%;
     min-width: 860px;
 }
 
-.jfgrid-data-visualization-selection, .jfgrid-data-pivotTable-selection {
+.luckysheet-data-visualization-selection, .luckysheet-data-pivotTable-selection {
     width: 30%;
     min-width: 200px;
     display: none;
 }
 
-.jfgrid-data-visualization-chart {
+.luckysheet-data-visualization-chart {
     width: 50%;
     /*min-width: 860px;*/
     height: 50%;
 }
 
-.jfgrid-data-visualization-chart .jfgrid-modal-dialog-content {
+.luckysheet-data-visualization-chart .luckysheet-modal-dialog-content {
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-.jfgrid-datavisual-modal {
+.luckysheet-datavisual-modal {
     font-size: 12px;
     /*height: 450px;*/
     height: 100%;
     width: 100%;
 }
 
-/*, .jfgrid-datavisual-right*/
-.jfgrid-datavisual-left {
+/*, .luckysheet-datavisual-right*/
+.luckysheet-datavisual-left {
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -3300,17 +3300,17 @@ fieldset[disabled] a.btn {
     overflow: hidden;
 }
 
-.jfgrid-datavisual-left {
+.luckysheet-datavisual-left {
 }
 
-.jfgrid-datavisual-tabs {
+.luckysheet-datavisual-tabs {
     border-bottom: 1px solid #DEDEDE;
     width: 80%;
     height: 26px;
     padding-left: 20px;
 }
 
-    .jfgrid-datavisual-tabs .jfgrid-datavisual-tab {
+    .luckysheet-datavisual-tabs .luckysheet-datavisual-tab {
         padding: 0px 5px;
         text-align: center;
         display: inline-block;
@@ -3323,11 +3323,11 @@ fieldset[disabled] a.btn {
         color: #777;
     }
 
-        .jfgrid-datavisual-tabs .jfgrid-datavisual-tab:hover {
+        .luckysheet-datavisual-tabs .luckysheet-datavisual-tab:hover {
             color: #000;
         }
 
-    .jfgrid-datavisual-tabs .jfgrid-datavisual-tab-active {
+    .luckysheet-datavisual-tabs .luckysheet-datavisual-tab-active {
         border: 1px solid #DEDEDE;
         border-bottom: none;
         cursor: default;
@@ -3335,7 +3335,7 @@ fieldset[disabled] a.btn {
         color: #000;
     }
 
-.jfgrid-datavisual-tab-content {
+.luckysheet-datavisual-tab-content {
     position: absolute;
     top: 28px;
     bottom: 0px;
@@ -3345,19 +3345,19 @@ fieldset[disabled] a.btn {
 
 
 
-.jfgrid-datavisual-quick {
+.luckysheet-datavisual-quick {
 }
 
-.jfgrid-datavisual-quick-menu {
+.luckysheet-datavisual-quick-menu {
     width: 90px;
     overflow: auto;
     margin-top: 5px;
 }
-.jfgrid-datavisual-quick-menu::-webkit-scrollbar {
+.luckysheet-datavisual-quick-menu::-webkit-scrollbar {
     display:none;
 }
 
-    .jfgrid-datavisual-quick-menu > div {
+    .luckysheet-datavisual-quick-menu > div {
         text-align: left;
         padding: 4px 4px;
         border-right: 3px solid #fff;
@@ -3368,33 +3368,33 @@ fieldset[disabled] a.btn {
         /*margin: 4px 0px;*/
     }
 
-        .jfgrid-datavisual-quick-menu > div:hover {
+        .luckysheet-datavisual-quick-menu > div:hover {
             color: #000;
         }
 
-        .jfgrid-datavisual-quick-menu > div i {
+        .luckysheet-datavisual-quick-menu > div i {
             width: 15px;
         }
 
-        .jfgrid-datavisual-quick-menu > div:hover i {
+        .luckysheet-datavisual-quick-menu > div:hover i {
             color: #FF7E7E;
         }
 
-        .jfgrid-datavisual-quick-menu > div.jfgrid-datavisual-quick-menu-active {
+        .luckysheet-datavisual-quick-menu > div.luckysheet-datavisual-quick-menu-active {
             border-right: 3px solid #FF7E7E;
             color: #000;
             font-weight: bold;
         }
 
-            .jfgrid-datavisual-quick-menu > div.jfgrid-datavisual-quick-menu-active:hover i {
+            .luckysheet-datavisual-quick-menu > div.luckysheet-datavisual-quick-menu-active:hover i {
                 color: #000;
             }
 
-.jfgrid-datavisual-quick-range {
+.luckysheet-datavisual-quick-range {
     padding: 5px 0px;
 }
 
-.jfgrid-datavisual-range-container {
+.luckysheet-datavisual-range-container {
     background: #fff;
     border: 1px solid #d9d9d9;
     border-top: 1px solid #c0c0c0;
@@ -3404,13 +3404,13 @@ fieldset[disabled] a.btn {
     display: inline-block;
 }
 
-.jfgrid-datavisual-range-container-focus {
+.luckysheet-datavisual-range-container-focus {
     border: 1px solid #4d90fe;
     box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
     outline: none;
 }
 
-.jfgrid-datavisual-range-input, .jfgrid-datavisual-range-input:focus {
+.luckysheet-datavisual-range-input, .luckysheet-datavisual-range-input:focus {
     background: transparent !important;
     border: none !important;
     box-sizing: border-box;
@@ -3424,33 +3424,33 @@ fieldset[disabled] a.btn {
     width: 100%;
 }
 
-.jfgrid-datavisual-range-button-container {
+.luckysheet-datavisual-range-button-container {
     overflow: hidden;
     padding: 0 0 0 8px;
     text-align: right;
     width: 21px;
 }
 
-    .jfgrid-datavisual-range-button-container div {
+    .luckysheet-datavisual-range-button-container div {
         padding: 2px 10px 0px 10px;
         font-size: 18px;
         cursor: pointer;
         color: #6598F3;
     }
 
-        .jfgrid-datavisual-range-button-container div:hover {
+        .luckysheet-datavisual-range-button-container div:hover {
             color: #FF7E7E;
         }
 
-.jfgrid-datavisual-range-config {
+.luckysheet-datavisual-range-config {
     /*display: inline-block;*/
 }
 
-.jfgrid-datavisual-quick-m{
+.luckysheet-datavisual-quick-m{
     margin-top: 5px;
 }
 
-.jfgrid-datavisual-quick-list {
+.luckysheet-datavisual-quick-list {
     left: 90px;
     right: 0px;
     bottom: 0px;
@@ -3461,17 +3461,17 @@ fieldset[disabled] a.btn {
     padding: 5px 3px 35px 3px;
 }
 
-.jfgrid-datavisual-quick-list-title {
+.luckysheet-datavisual-quick-list-title {
     padding: 4px 6px;
     background: #e5e5e5;
     margin-top: 10px;
 }
 
-.jfgrid-datavisual-quick-list-ul {
+.luckysheet-datavisual-quick-list-ul {
     overflow: hidden;
 }
 
-.jfgrid-datavisual-quick-list-item {
+.luckysheet-datavisual-quick-list-item {
     display: inline-block;
     margin: 5px 8px;
     border: 1px solid #DADADA;
@@ -3479,27 +3479,27 @@ fieldset[disabled] a.btn {
     height: 80px;
 }
 
-    .jfgrid-datavisual-quick-list-item:hover {
+    .luckysheet-datavisual-quick-list-item:hover {
         border: 1px solid #FF7E7E;
         box-shadow: 0px 0px 20px #FF7E7E;
     }
 
-    .jfgrid-datavisual-quick-list-item img {
+    .luckysheet-datavisual-quick-list-item img {
         display: inline-block;
         width: 100px;
         height: 80px;
     }
 
-.jfgrid-datavisual-quick-list-item-active {
+.luckysheet-datavisual-quick-list-item-active {
     border: 1px solid #6598F3;
     box-shadow: 0px 0px 20px #6598F3;
 }
 
-/*.jfgrid-datavisual-right {
+/*.luckysheet-datavisual-right {
     background: #fff;
 }
 
-.jfgrid-datavisual-right-chart {
+.luckysheet-datavisual-right-chart {
     width: 100%;
     height: 90%;
     top: 5%;
@@ -3595,7 +3595,7 @@ fieldset[disabled] a.btn {
 
 
 /*图表详细设置*/
-.jfgrid-datavisual-config {
+.luckysheet-datavisual-config {
     position: relative;
     width: 100%;
     height: 97%;
@@ -3603,11 +3603,11 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-    .jfgrid-datavisual-config input {
+    .luckysheet-datavisual-config input {
         outline: none;
     }
 
-    .jfgrid-datavisual-config .jfgrid-datavisual-accordion-title {
+    .luckysheet-datavisual-config .luckysheet-datavisual-accordion-title {
         position: relative;
         width: 97%;
         height: 33px;
@@ -3620,12 +3620,12 @@ fieldset[disabled] a.btn {
         cursor: pointer;
     }
 
-        .jfgrid-datavisual-config .jfgrid-datavisual-accordion-title:hover {
+        .luckysheet-datavisual-config .luckysheet-datavisual-accordion-title:hover {
             background: #EFEFEF;
             border: 1px solid #E0E0E0;
         }
 
-    .jfgrid-datavisual-config .jfgrid-datavisual-accordion-content {
+    .luckysheet-datavisual-config .luckysheet-datavisual-accordion-content {
         position: relative;
         width: 97%;
         border: 1px solid #E5E5E5;
@@ -3635,7 +3635,7 @@ fieldset[disabled] a.btn {
         padding-bottom: 20px;
     }
 
-.jfgrid-datavisual-config-input, .jfgrid-datavisual-config-input-no {
+.luckysheet-datavisual-config-input, .luckysheet-datavisual-config-input-no {
     background: #fff;
     border: 1px solid #d9d9d9;
     border-top: 1px solid #c0c0c0;
@@ -3647,13 +3647,13 @@ fieldset[disabled] a.btn {
     padding: 3px;
 }
 
-    .jfgrid-datavisual-config-input:focus, .jfgrid-datavisual-config-input-no:focus {
+    .luckysheet-datavisual-config-input:focus, .luckysheet-datavisual-config-input-no:focus {
         border: 1px solid #4d90fe;
         box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
         outline: none;
     }
 
-.jfgrid-datavisual-content-row {
+.luckysheet-datavisual-content-row {
     margin-left: 15px;
     margin-bottom: 5px;
     margin-top: 15px;
@@ -3661,28 +3661,28 @@ fieldset[disabled] a.btn {
     line-height: 30px;
 }
 
-.jfgrid-datavisual-content-column {
+.luckysheet-datavisual-content-column {
     display: inline-block;
     position: relative;
 }
 
-.jfgrid-datavisual-content-column-title {
+.luckysheet-datavisual-content-column-title {
     text-align: left;
     font-size: 14px;
 }
 
-.jfgrid-datavisual-content-column-right {
+.luckysheet-datavisual-content-column-right {
     text-align: right;
 }
 
-.jfgrid-datavisual-content-rowsplit {
+.luckysheet-datavisual-content-rowsplit {
     height: 5px;
     border-top: 1px solid #E5E5E5;
     width: 100%;
     margin-top: 25px;
 }
 
-.jfgrid-datavisual-content-rowsplit-sub {
+.luckysheet-datavisual-content-rowsplit-sub {
     height: 2px;
     border-top: 1px dashed #E5E5E5;
     width: 90%;
@@ -3701,12 +3701,12 @@ fieldset[disabled] a.btn {
     box-shadow: none;
 }
 
-.jfgrid-datavisual-config-slider, .jfgrid-datavisual-config-slider-range {
+.luckysheet-datavisual-config-slider, .luckysheet-datavisual-config-slider-range {
     width: 70%;
     display: inline-block;
 }
 
-    .jfgrid-datavisual-config-slider-range .jfgrid-slider-handle {
+    .luckysheet-datavisual-config-slider-range .luckysheet-slider-handle {
         width: 45px;
         height: 26px;
         top: 50%;
@@ -3715,7 +3715,7 @@ fieldset[disabled] a.btn {
         line-height: 26px;
     }
 
-.jfgrid-datavisual-content-row-subtitle {
+.luckysheet-datavisual-content-row-subtitle {
     display: none;
 }
 
@@ -3725,25 +3725,25 @@ fieldset[disabled] a.btn {
     width: 48%;
 }
 
-.jfgrid-datavisual-content-column-italic {
+.luckysheet-datavisual-content-column-italic {
     font-style: italic;
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
 }
 
-.jfgridChartAxisShow {
+.luckysheetChartAxisShow {
     display: none;
 }
 
-.jfgrid-datavisual-chart-axistitle-show {
+.luckysheet-datavisual-chart-axistitle-show {
     display: none;
 }
 
-.jfgridChartseriesShow {
+.luckysheetChartseriesShow {
     display: none;
 }
 
-#jfgridswichxy-button, #piecutselect-button {
+#luckysheetswichxy-button, #piecutselect-button {
     width: 70%;
 }
 
@@ -3758,7 +3758,7 @@ fieldset[disabled] a.btn {
     background-image: none;
 }
 
-#jfgridswichseries-menu .ui-state-active, #pie0cutselect-menu .ui-state-active, #pie1cutselect-menu .ui-state-active, #pie2cutselect-menu .ui-state-active, #jfgridscatterselectshow-menu .ui-state-active {
+#luckysheetswichseries-menu .ui-state-active, #pie0cutselect-menu .ui-state-active, #pie1cutselect-menu .ui-state-active, #pie2cutselect-menu .ui-state-active, #luckysheetscatterselectshow-menu .ui-state-active {
     border: 1px solid #F5F5F5;
     background: #F5F5F5;
     color: #333;
@@ -3768,10 +3768,10 @@ fieldset[disabled] a.btn {
     z-index: 100003;
 }
 
-.jfgrid-datavisual-skin {
+.luckysheet-datavisual-skin {
 }
 
-.jfgrid-datavisual-skin-menu {
+.luckysheet-datavisual-skin-menu {
     top: 5px;
     position: absolute;
     left: 0px;
@@ -3779,12 +3779,12 @@ fieldset[disabled] a.btn {
     height: 30px;
 }
 
-#jfgrid-chart-theme-content {
+#luckysheet-chart-theme-content {
     height: 21px;
     width: 120px;
 }
 
-.jfgrid-datavisual-skin-c {
+.luckysheet-datavisual-skin-c {
     position: absolute;
     left: 0px;
     top: 38px;
@@ -3794,7 +3794,7 @@ fieldset[disabled] a.btn {
     overflow: auto;
 }
 
-    .jfgrid-datavisual-skin-c .jfgrid-datavisual-skin-item {
+    .luckysheet-datavisual-skin-c .luckysheet-datavisual-skin-item {
         display: inline-block;
         width: 46%;
         height: 152px;
@@ -3806,7 +3806,7 @@ fieldset[disabled] a.btn {
         cursor: pointer;
     }
 
-    .jfgrid-datavisual-skin-c .jfgrid-datavisual-skin-item-more {
+    .luckysheet-datavisual-skin-c .luckysheet-datavisual-skin-item-more {
         display: inline-block;
         width: 94%;
         height: 32px;
@@ -3818,18 +3818,18 @@ fieldset[disabled] a.btn {
         text-align: center;
     }
 
-.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-canvas, .jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-cover {
+.luckysheet-datavisual-skin-item .luckysheet-datavisual-skin-canvas, .luckysheet-datavisual-skin-item .luckysheet-datavisual-skin-cover {
     position: absolute;
     width: 100%;
     height: 100%;
     bottom: 0;
 }
 
-.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-canvas {
+.luckysheet-datavisual-skin-item .luckysheet-datavisual-skin-canvas {
     /*z-index: 1;*/
 }
 
-.jfgrid-datavisual-skin-item .jfgrid-datavisual-skin-cover {
+.luckysheet-datavisual-skin-item .luckysheet-datavisual-skin-cover {
     background-color: rgba(0,0,0,0.4);
     color: #FFFFFF;
     font-size: 14px;
@@ -3841,12 +3841,12 @@ fieldset[disabled] a.btn {
     -o-transition: opacity 0.15s ease;
 }
 
-.jfgrid-datavisual-skin-item:hover .jfgrid-datavisual-skin-cover {
+.luckysheet-datavisual-skin-item:hover .luckysheet-datavisual-skin-cover {
     opacity: 1;
     z-index: 2;
 }
 
-.jfgrid-datavisual-skin-cover .jfgrid-datavisual-skin-cover-txt {
+.luckysheet-datavisual-skin-cover .luckysheet-datavisual-skin-cover-txt {
     position: absolute;
     width: 80%;
     height: 80%;
@@ -3858,7 +3858,7 @@ fieldset[disabled] a.btn {
 
 
 /*图表点设置*/
-.jfgrid-chart-point-config {
+.luckysheet-chart-point-config {
     position: relative;
     width: 100%;
     height: 100%;
@@ -3866,7 +3866,7 @@ fieldset[disabled] a.btn {
     font-size: 12px;
 }
 
-.jfgrid-chart-point-config-set {
+.luckysheet-chart-point-config-set {
     position: absolute;
     width: 60%;
     height: 100%;
@@ -3875,7 +3875,7 @@ fieldset[disabled] a.btn {
     /*background:#ff0000;*/
 }
 
-.jfgrid-chart-point-config-left {
+.luckysheet-chart-point-config-left {
     position: absolute;
     height: 100%;
     width: 50%;
@@ -3883,14 +3883,14 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-chart-point-config-left-top {
+.luckysheet-chart-point-config-left-top {
     position: absolute;
     top: 0px;
     height: 120px;
     width: 100%;
 }
 
-.jfgrid-chart-point-searchcondition {
+.luckysheet-chart-point-searchcondition {
     position: absolute;
     top: 10px;
     bottom: 10px;
@@ -3898,7 +3898,7 @@ fieldset[disabled] a.btn {
     right: 10px;
 }
 
-.jfgrid-chart-point-config-left-mid {
+.luckysheet-chart-point-config-left-mid {
     position: absolute;
     top: 120px;
     height: 25px;
@@ -3908,14 +3908,14 @@ fieldset[disabled] a.btn {
     line-height: 35px;
 }
 
-    .jfgrid-chart-point-config-left-mid span {
+    .luckysheet-chart-point-config-left-mid span {
         color: blue;
         cursor: pointer;
         text-decoration: underline;
         font-size: 12px
     }
 
-.jfgrid-chart-point-config-left-bottom {
+.luckysheet-chart-point-config-left-bottom {
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -3923,7 +3923,7 @@ fieldset[disabled] a.btn {
     width: 100%;
 }
 
-.jfgrid-chart-point-searchitem-c {
+.luckysheet-chart-point-searchitem-c {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -3932,7 +3932,7 @@ fieldset[disabled] a.btn {
     cursor: default;
 }
 
-.jfgrid-chart-point-searchitem {
+.luckysheet-chart-point-searchitem {
     display: inline-block;
     margin-left: 5px;
     margin-top: 5px;
@@ -3946,7 +3946,7 @@ fieldset[disabled] a.btn {
     position: relative;
 }
 
-.jfgrid-chart-point-searchitem-selected {
+.luckysheet-chart-point-searchitem-selected {
     position: absolute;
     color: #616161;
     left: -6px;
@@ -3956,15 +3956,15 @@ fieldset[disabled] a.btn {
     font-weight: normal;
 }
 
-.jfgrid-chart-point-searchitem-active {
+.luckysheet-chart-point-searchitem-active {
     box-shadow: 0px 0px 4px #656565;
 }
 
-    .jfgrid-chart-point-searchitem-active .jfgrid-chart-point-searchitem-selected {
+    .luckysheet-chart-point-searchitem-active .luckysheet-chart-point-searchitem-selected {
         display: block;
     }
 
-.jfgrid-chart-point-searchitem-name {
+.luckysheet-chart-point-searchitem-name {
     font-size: 12px;
     cursor: default;
     white-space: nowrap;
@@ -3972,7 +3972,7 @@ fieldset[disabled] a.btn {
     text-overflow: ellipsis;
 }
 
-.jfgrid-chart-point-searchitem-dim {
+.luckysheet-chart-point-searchitem-dim {
     font-size: 12px;
     opacity: 0.7;
     /*color: #C1C1C1;*/
@@ -3982,13 +3982,13 @@ fieldset[disabled] a.btn {
     text-overflow: ellipsis;
 }
 
-#jfgrid-chart-point-selectedhelp {
+#luckysheet-chart-point-selectedhelp {
     pointer-events: none;
     position: absolute;
     border: 1px dotted #535353;
 }
 
-.jfgrid-chart-point-config-right {
+.luckysheet-chart-point-config-right {
     position: absolute;
     height: 100%;
     width: 50%;
@@ -3996,7 +3996,7 @@ fieldset[disabled] a.btn {
     right: 0px;
 }
 
-.jfgrid-chart-point-itemconfig {
+.luckysheet-chart-point-itemconfig {
     position: absolute;
     top: 10px;
     bottom: 10px;
@@ -4005,7 +4005,7 @@ fieldset[disabled] a.btn {
     overflow: auto;
 }
 
-.jfgrid-chart-point-config-chart {
+.luckysheet-chart-point-config-chart {
     position: absolute;
     width: 40%;
     height: 100%;
@@ -4013,7 +4013,7 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-chart-point-config-chart-c {
+.luckysheet-chart-point-config-chart-c {
     width: 100%;
     height: 80%;
     top: 10%;
@@ -4021,59 +4021,59 @@ fieldset[disabled] a.btn {
 }
 
 @media (max-width: 776px) {
-    .jfgrid-chart-point-config-set {
+    .luckysheet-chart-point-config-set {
         width: 90%;
     }
 
-    .jfgrid-chart-point-config-chart {
+    .luckysheet-chart-point-config-chart {
         width: 10%;
     }
 }
 
 @media (min-width: 768px) {
-    .jfgrid-chart-point-config-set {
+    .luckysheet-chart-point-config-set {
         width: 80%;
     }
 
-    .jfgrid-chart-point-config-chart {
+    .luckysheet-chart-point-config-chart {
         width: 20%;
     }
 }
 
 
 @media (min-width: 1024px) {
-    .jfgrid-chart-point-config-set {
+    .luckysheet-chart-point-config-set {
         width: 70%;
     }
 
-    .jfgrid-chart-point-config-chart {
+    .luckysheet-chart-point-config-chart {
         width: 30%;
     }
 }
 
 @media (min-width: 1280px) {
-    .jfgrid-chart-point-config-set {
+    .luckysheet-chart-point-config-set {
         width: 60%;
     }
 
-    .jfgrid-chart-point-config-chart {
+    .luckysheet-chart-point-config-chart {
         width: 40%;
     }
 }
 
 @media (min-width: 1680px) {
-    .jfgrid-chart-point-config-set {
+    .luckysheet-chart-point-config-set {
         width: 50%;
     }
 
-    .jfgrid-chart-point-config-chart {
+    .luckysheet-chart-point-config-chart {
         width: 50%;
     }
 }
 
 
 /*边栏通用样式*/
-.jfgrid-modal-dialog-slider {
+.luckysheet-modal-dialog-slider {
     top: 1px;
     bottom: 1px;
     position: absolute;
@@ -4092,7 +4092,7 @@ fieldset[disabled] a.btn {
     /*display: none;*/
 }
 
-    .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title {
+    .luckysheet-modal-dialog-slider .luckysheet-modal-dialog-slider-title {
         background: #333;
         color: #fff;
         height: 39px;
@@ -4104,19 +4104,19 @@ fieldset[disabled] a.btn {
         font-size: 13px;
     }
 
-        .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title > span:first-child {
+        .luckysheet-modal-dialog-slider .luckysheet-modal-dialog-slider-title > span:first-child {
             margin-left: 5px;
             font-weight: bold;
         }
 
-        .jfgrid-modal-dialog-slider .jfgrid-modal-dialog-slider-title > span:last-child {
+        .luckysheet-modal-dialog-slider .luckysheet-modal-dialog-slider-title > span:last-child {
             position: relative;
             float: right;
             margin-right: 20px;
             cursor: pointer;
         }
 
-.jfgrid-modal-dialog-slider-content {
+.luckysheet-modal-dialog-slider-content {
     background: #EFEFEF;
     margin-top: 39px;
     width: 100%;
@@ -4126,7 +4126,7 @@ fieldset[disabled] a.btn {
     font-size: 12px;
 }
 
-.jfgrid-modal-dialog-slider-range {
+.luckysheet-modal-dialog-slider-range {
     background: #E1E1DE;
     color: #1B1B19;
     height: 40px;
@@ -4134,7 +4134,7 @@ fieldset[disabled] a.btn {
     line-height: 40px;
 }
 
-    .jfgrid-modal-dialog-slider-range > div:first-child {
+    .luckysheet-modal-dialog-slider-range > div:first-child {
         font-weight: bold;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -4145,13 +4145,13 @@ fieldset[disabled] a.btn {
         white-space: nowrap;
     }
 
-    .jfgrid-modal-dialog-slider-range > div:last-child {
+    .luckysheet-modal-dialog-slider-range > div:last-child {
         color: blue;
         cursor: pointer;
         float: left;
     }
 
-.jfgrid-modal-dialog-slider-list {
+.luckysheet-modal-dialog-slider-list {
     width: 250px;
     height: 320px;
     overflow-y: scroll;
@@ -4162,14 +4162,14 @@ fieldset[disabled] a.btn {
     background: #fff;
 }
 
-.jfgrid-modal-dialog-slider-list-title {
+.luckysheet-modal-dialog-slider-list-title {
     width: 100%;
     height: 20px;
     line-height: 25px;
     padding: 0px 5px;
 }
 
-.jfgrid-modal-dialog-slider-list .jfgrid-modal-dialog-slider-list-item {
+.luckysheet-modal-dialog-slider-list .luckysheet-modal-dialog-slider-list-item {
     padding: 0px 4px;
     position: relative;
     width: 228px;
@@ -4178,12 +4178,12 @@ fieldset[disabled] a.btn {
     border: 1px solid #fff;
 }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-modal-dialog-slider-list-item:hover {
+    .luckysheet-modal-dialog-slider-list .luckysheet-modal-dialog-slider-list-item:hover {
         background: #FFF6CB;
         border: 1px solid #FFE463;
     }
 
-.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-name {
+.luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-name {
     cursor: pointer;
     height: 25px;
     line-height: 25px;
@@ -4197,7 +4197,7 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected {
+.luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-selected {
     width: 20px;
     cursor: pointer;
     text-align: center;
@@ -4207,12 +4207,12 @@ fieldset[disabled] a.btn {
     height: 25px;
 }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected i {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-selected i {
         margin-top: 4px;
         font-size: 16px;
     }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected div {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-selected div {
         border: 1px solid #9C9C9C;
         top: 4px;
         left: 1px;
@@ -4224,11 +4224,11 @@ fieldset[disabled] a.btn {
         box-shadow: 1px 1px 1px #DBDBDB inset; /* For Latest Opera */
     }
 
-        .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-selected div:hover {
+        .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-selected div:hover {
             border: 1px solid #5E5E5E;
         }
 
-.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered {
+.luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filtered {
     width: 20px;
     cursor: pointer;
     text-align: center;
@@ -4239,16 +4239,16 @@ fieldset[disabled] a.btn {
     display: none;
 }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered i {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filtered i {
         margin-top: 2px;
         font-size: 16px;
     }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered:hover i {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filtered:hover i {
         color: #FB8686;
     }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filtered i.fa-times {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filtered i.fa-times {
         right: 0px;
         bottom: 3px;
         color: red;
@@ -4256,7 +4256,7 @@ fieldset[disabled] a.btn {
         position: absolute;
     }
 
-.jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter {
+.luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filter {
     width: 20px;
     cursor: pointer;
     text-align: center;
@@ -4266,16 +4266,16 @@ fieldset[disabled] a.btn {
     height: 25px;
 }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter i {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filter i {
         margin-top: 2px;
         font-size: 16px;
     }
 
-    .jfgrid-modal-dialog-slider-list .jfgrid-slider-list-item-filter:hover i {
+    .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-filter:hover i {
         color: #FB8686;
     }
 
-.jfgrid-modal-dialog-slider-config-c {
+.luckysheet-modal-dialog-slider-config-c {
     width: 100%;
     position: absolute;
     margin-top: 390px;
@@ -4283,13 +4283,13 @@ fieldset[disabled] a.btn {
     bottom: 3px;
 }
 
-.jfgrid-modal-dialog-slider-config {
+.luckysheet-modal-dialog-slider-config {
     height: 50%;
     width: 50%;
     position: absolute;
 }
 
-    .jfgrid-modal-dialog-slider-config > div:first-child {
+    .luckysheet-modal-dialog-slider-config > div:first-child {
         color: #1B1B19;
         font-size: 13px;
         height: 20px;
@@ -4298,13 +4298,13 @@ fieldset[disabled] a.btn {
         padding-left: 5px;
     }
 
-        .jfgrid-modal-dialog-slider-config > div:first-child span {
+        .luckysheet-modal-dialog-slider-config > div:first-child span {
             font-weight: bold;
             font-weight: bold;
             overflow: hidden;
         }
 
-    .jfgrid-modal-dialog-slider-config .jfgrid-modal-dialog-slider-config-list {
+    .luckysheet-modal-dialog-slider-config .luckysheet-modal-dialog-slider-config-list {
         position: absolute;
         margin-top: 22px;
         margin-left: 5px;
@@ -4318,7 +4318,7 @@ fieldset[disabled] a.btn {
         background: #fff;
     }
 
-.jfgrid-modal-dialog-slider-config-list .jfgrid-modal-dialog-slider-config-item {
+.luckysheet-modal-dialog-slider-config-list .luckysheet-modal-dialog-slider-config-item {
     position: relative;
     height: 19px;
     line-height: 19px;
@@ -4328,12 +4328,12 @@ fieldset[disabled] a.btn {
     margin: 2px;
 }
 
-    .jfgrid-modal-dialog-slider-config-list .jfgrid-modal-dialog-slider-config-item:hover {
+    .luckysheet-modal-dialog-slider-config-list .luckysheet-modal-dialog-slider-config-item:hover {
         border: 1px solid #0188fb;
         background: #5f9afc;
     }
 
-.jfgrid-modal-dialog-slider-config-item-txt {
+.luckysheet-modal-dialog-slider-config-item-txt {
     position: absolute;
     height: 100%;
     left: 5px;
@@ -4344,7 +4344,7 @@ fieldset[disabled] a.btn {
     cursor: move;
 }
 
-.jfgrid-modal-dialog-slider-config-item-icon {
+.luckysheet-modal-dialog-slider-config-item-icon {
     position: absolute;
     height: 100%;
     width: 15px;
@@ -4354,32 +4354,32 @@ fieldset[disabled] a.btn {
     font-size: 14px;
 }
 
-    .jfgrid-modal-dialog-slider-config-item-icon:hover {
+    .luckysheet-modal-dialog-slider-config-item-icon:hover {
         color: #FA7272;
     }
 
 
-.jfgrid-modal-dialog-config-filter {
+.luckysheet-modal-dialog-config-filter {
     top: 0;
     left: 0;
 }
 
-.jfgrid-modal-dialog-config-column {
+.luckysheet-modal-dialog-config-column {
     top: 0;
     left: 50%;
 }
 
-.jfgrid-modal-dialog-config-row {
+.luckysheet-modal-dialog-config-row {
     top: 50%;
     left: 0;
 }
 
-.jfgrid-modal-dialog-config-value {
+.luckysheet-modal-dialog-config-value {
     top: 50%;
     left: 50%;
 }
 
-#jfgrid-modal-dialog-slider-pivot-move {
+#luckysheet-modal-dialog-slider-pivot-move {
     position: absolute;
     max-width: 100px;
     overflow: hidden;
@@ -4396,19 +4396,19 @@ fieldset[disabled] a.btn {
     user-select: none;
 }
 
-.jfgrid-modal-dialog-slider-chart{
+.luckysheet-modal-dialog-slider-chart{
     width: 445px;
 }
 
-.jfgrid-modal-dialog-slider-chart .jfgrid-modal-dialog-slider-title{
+.luckysheet-modal-dialog-slider-chart .luckysheet-modal-dialog-slider-title{
     background:#b94045;
 }
 
-.jfgrid-modal-dialog-slider-chart .jfgrid-modal-dialog-slider-content{
+.luckysheet-modal-dialog-slider-chart .luckysheet-modal-dialog-slider-content{
     background:#fff;
 }
 
-#jfgrid-dialog-pivotTable-clearitem {
+#luckysheet-dialog-pivotTable-clearitem {
     color: blue;
     cursor: pointer;
     float: right;
@@ -4417,28 +4417,28 @@ fieldset[disabled] a.btn {
 
 
 /*冻结窗口样式*/
-.jfgrid-freezebar-handle, .jfgrid-freezebar-drop {
+.luckysheet-freezebar-handle, .luckysheet-freezebar-drop {
     position: absolute;
     z-index: 999;
 }
 
-.jfgrid-freezebar-vertical-handle {
+.luckysheet-freezebar-vertical-handle {
     width: 4px;
     display: none;
-    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_jfgrid-freezebar_vertical.png) no-repeat;*/
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_luckysheet-freezebar_vertical.png) no-repeat;*/
 }
 
-.jfgrid-freezebar-vertical-drop {
-    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_jfgrid-freezebar_active_vertical.png) no-repeat;*/
+.luckysheet-freezebar-vertical-drop {
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_luckysheet-freezebar_active_vertical.png) no-repeat;*/
     width: 4px;
 }
 
-.jfgrid-freezebar-active .jfgrid-freezebar-vertical-handle {
+.luckysheet-freezebar-active .luckysheet-freezebar-vertical-handle {
     display: block;
     z-index: 1003;
 }
 
-.jfgrid-freezebar-vertical-handle-bar {
+.luckysheet-freezebar-vertical-handle-bar {
     width: 2px;
     background: #dbe5f7;
     border-color: #a5c6fe;
@@ -4451,7 +4451,7 @@ fieldset[disabled] a.btn {
     bottom: 0px;
 }
 
-.jfgrid-freezebar-vertical-handle-title {
+.luckysheet-freezebar-vertical-handle-title {
     width: 4px;
     background: #9dbefb;
     opacity: 0.80;
@@ -4460,12 +4460,12 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-freezebar-handle-bar, .jfgrid-freezebar-drop-bar {
+.luckysheet-freezebar-handle-bar, .luckysheet-freezebar-drop-bar {
     position: absolute;
     z-index: 7;
 }
 
-.jfgrid-freezebar-vertical-drop-bar {
+.luckysheet-freezebar-vertical-drop-bar {
     width: 4px;
     background-color: #ababab;
     border-width: 2px 1px 2px 2px;
@@ -4474,7 +4474,7 @@ fieldset[disabled] a.btn {
     bottom: 0px;
 }
 
-.jfgrid-freezebar-vertical-drop-title {
+.luckysheet-freezebar-vertical-drop-title {
     width: 4px;
     background: #616161;
     /*            opacity: 0.80;
@@ -4484,32 +4484,32 @@ fieldset[disabled] a.btn {
 }
 
 
-.jfgrid-freezebar-hover .jfgrid-freezebar-vertical-drop-bar, .jfgrid-freezebar-active .jfgrid-freezebar-vertical-drop-bar {
+.luckysheet-freezebar-hover .luckysheet-freezebar-vertical-drop-bar, .luckysheet-freezebar-active .luckysheet-freezebar-vertical-drop-bar {
     background: #C1C1C1;
 }
 
-.jfgrid-freezebar-hover .jfgrid-freezebar-vertical-drop-title, .jfgrid-freezebar-active .jfgrid-freezebar-vertical-drop-title {
+.luckysheet-freezebar-hover .luckysheet-freezebar-vertical-drop-title, .luckysheet-freezebar-active .luckysheet-freezebar-vertical-drop-title {
     background: #5D88DB;
 }
 
 
-.jfgrid-freezebar-horizontal-handle {
+.luckysheet-freezebar-horizontal-handle {
     height: 4px;
     display: none;
-    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_jfgrid-freezebar_horizontal.png) no-repeat;*/
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/ritz_luckysheet-freezebar_horizontal.png) no-repeat;*/
 }
 
-.jfgrid-freezebar-horizontal-drop {
-    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_jfgrid-freezebar_active_horizontal.png) no-repeat;*/
+.luckysheet-freezebar-horizontal-drop {
+    /*background: url(//ssl.gstatic.com/docs/spreadsheets/jfk_luckysheet-freezebar_active_horizontal.png) no-repeat;*/
     height: 4px;
 }
 
-.jfgrid-freezebar-active .jfgrid-freezebar-horizontal-handle {
+.luckysheet-freezebar-active .luckysheet-freezebar-horizontal-handle {
     display: block;
     z-index: 1003;
 }
 
-.jfgrid-freezebar-horizontal-handle-bar {
+.luckysheet-freezebar-horizontal-handle-bar {
     height: 2px;
     background: #dbe5f7;
     border-color: #a5c6fe;
@@ -4522,7 +4522,7 @@ fieldset[disabled] a.btn {
     right: 0px;
 }
 
-.jfgrid-freezebar-horizontal-handle-title {
+.luckysheet-freezebar-horizontal-handle-title {
     height: 4px;
     background: #9dbefb;
     opacity: 0.80;
@@ -4531,7 +4531,7 @@ fieldset[disabled] a.btn {
     left: 0px;
 }
 
-.jfgrid-freezebar-horizontal-drop-bar {
+.luckysheet-freezebar-horizontal-drop-bar {
     height: 4px;
     overflow: hidden;
     background-color: #ababab;
@@ -4542,7 +4542,7 @@ fieldset[disabled] a.btn {
 }
 
 
-.jfgrid-freezebar-horizontal-drop-title {
+.luckysheet-freezebar-horizontal-drop-title {
     height: 4px;
     background: #616161;
     /*            opacity: 0.80;
@@ -4551,18 +4551,18 @@ fieldset[disabled] a.btn {
     left: 0px;
 }
 
-.jfgrid-freezebar-hover .jfgrid-freezebar-horizontal-drop-bar, .jfgrid-freezebar-active .jfgrid-freezebar-horizontal-drop-bar {
+.luckysheet-freezebar-hover .luckysheet-freezebar-horizontal-drop-bar, .luckysheet-freezebar-active .luckysheet-freezebar-horizontal-drop-bar {
     background: #C1C1C1;
 }
 
-.jfgrid-freezebar-hover .jfgrid-freezebar-horizontal-drop-title, .jfgrid-freezebar-active .jfgrid-freezebar-horizontal-drop-title {
+.luckysheet-freezebar-hover .luckysheet-freezebar-horizontal-drop-title, .luckysheet-freezebar-active .luckysheet-freezebar-horizontal-drop-title {
     background: #5D88DB;
 }
 
 
 
 /*函数样式*/
-#jfgrid-functionbox-container {
+#luckysheet-functionbox-container {
     height: 100%;
     padding-left: 10px;
     overflow: hidden;
@@ -4575,7 +4575,7 @@ fieldset[disabled] a.btn {
 }
 
 
-    #jfgrid-functionbox-container > div {
+    #luckysheet-functionbox-container > div {
         height: 100%;
         overflow-x: hidden;
         overflow-y: auto;
@@ -4583,7 +4583,7 @@ fieldset[disabled] a.btn {
     }
 
 
-#jfgrid-functionbox {
+#luckysheet-functionbox {
     bottom: 6px;
     left: 0;
     position: absolute;
@@ -4600,13 +4600,13 @@ fieldset[disabled] a.btn {
 
 
 
-    #jfgrid-functionbox .jfgrid-functionbox-cell-input {
+    #luckysheet-functionbox .luckysheet-functionbox-cell-input {
         word-wrap: break-word;
         -webkit-nbsp-mode: space;
         -webkit-line-break: after-white-space;
     }
 
-.jfgrid-functionbox-cell-input {
+.luckysheet-functionbox-cell-input {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -4618,15 +4618,15 @@ fieldset[disabled] a.btn {
     background-color: white;
 }
 
-.jfgrid-formula-text-color {
+.luckysheet-formula-text-color {
     color: black;
 }
 
-.jfgrid-formula-text-string {
+.luckysheet-formula-text-string {
     color: forestgreen;
 }
 
-.jfgrid-formula-search-c {
+.luckysheet-formula-search-c {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -4640,34 +4640,34 @@ fieldset[disabled] a.btn {
     display: none;
 }
 
-    .jfgrid-formula-search-c .jfgrid-formula-search-item {
+    .luckysheet-formula-search-c .luckysheet-formula-search-item {
         background: #fff;
         padding: 5px 10px;
         cursor: pointer;
     }
 
-        .jfgrid-formula-search-c .jfgrid-formula-search-item .jfgrid-formula-search-detail {
+        .luckysheet-formula-search-c .luckysheet-formula-search-item .luckysheet-formula-search-detail {
             display: none;
             color: #444;
         }
 
-        .jfgrid-formula-search-c .jfgrid-formula-search-item .jfgrid-formula-search-func {
+        .luckysheet-formula-search-c .luckysheet-formula-search-item .luckysheet-formula-search-func {
             color: #222;
             font-size: 14px;
         }
 
-    .jfgrid-formula-search-c .jfgrid-formula-search-item-active {
+    .luckysheet-formula-search-c .luckysheet-formula-search-item-active {
         display: block;
         border-top: 1px solid #EBEBEB;
         border-bottom: 1px solid #EBEBEB;
         background: #F5F5F5;
     }
 
-        .jfgrid-formula-search-c .jfgrid-formula-search-item-active .jfgrid-formula-search-detail {
+        .luckysheet-formula-search-c .luckysheet-formula-search-item-active .luckysheet-formula-search-detail {
             display: block;
         }
 
-.jfgrid-formula-help-c {
+.luckysheet-formula-help-c {
     display: none;
     position: absolute;
     left: 20%;
@@ -4680,16 +4680,16 @@ fieldset[disabled] a.btn {
     z-index: 1003;
     width: 300px;
 }
-.jfgrid-formula-help-c .jfgrid-formula-help-content{
+.luckysheet-formula-help-c .luckysheet-formula-help-content{
     max-height: 300px;
     overflow-y: scroll;
 }
 
-.jfgrid-formula-help-content-example {
+.luckysheet-formula-help-content-example {
     margin-top: 5px;
 }
 
-.jfgrid-formula-help-title {
+.luckysheet-formula-help-title {
     display: block;
     border-top: 1px solid #EBEBEB;
     border-bottom: 1px solid #EBEBEB;
@@ -4698,39 +4698,39 @@ fieldset[disabled] a.btn {
     font-size: 14px;
 }
 
-.jfgrid-formula-help-title-formula {
+.luckysheet-formula-help-title-formula {
     width: 250px;
     word-break: break-word;
 }
 
-.jfgrid-arguments-help-section {
+.luckysheet-arguments-help-section {
     margin-top: 5px;
     margin-bottom: 5px;
     color: #222;
 }
 
-.jfgrid-arguments-help-section-title {
+.luckysheet-arguments-help-section-title {
     padding: 1px 10px;
     color: #666;
 }
 
-.jfgrid-arguments-help-parameter-content {
+.luckysheet-arguments-help-parameter-content {
     padding: 1px 10px;
     display: inline-block;
     word-wrap: break-word;
 }
 
-.jfgrid-arguments-help-formula {
+.luckysheet-arguments-help-formula {
     padding: 1px 10px;
     font-size: 14px;
 }
 
-.jfgrid-arguments-help-parameter-active {
+.luckysheet-arguments-help-parameter-active {
     background-color: #fff9b2;
 }
 
 
-.jfgrid-formula-help-collapse {
+.luckysheet-formula-help-collapse {
     position: absolute;
     top: 0px;
     right: 25px;
@@ -4739,7 +4739,7 @@ fieldset[disabled] a.btn {
     color: #bbb;
 }
 
-.jfgrid-formula-help-close {
+.luckysheet-formula-help-close {
     position: absolute;
     top: 0px;
     right: 5px;
@@ -4748,12 +4748,12 @@ fieldset[disabled] a.btn {
     color: #bbb;
 }
 
-    .jfgrid-formula-help-close:hover, .jfgrid-formula-help-collapse:hover {
+    .luckysheet-formula-help-close:hover, .luckysheet-formula-help-collapse:hover {
         color: #555;
     }
 
 
-.jfgridLoader {
+.luckysheetLoader {
     font-size: 20px;
     width: 1em;
     height: 1em;
@@ -4764,7 +4764,7 @@ fieldset[disabled] a.btn {
     left: 50%;
     animation: load-effect 1s infinite linear;
 }
-.jfgridLoaderGif {  /*换用GIF loading*/
+.luckysheetLoaderGif {  /*换用GIF loading*/
     width: 8em;
     height: 8em;
     position: absolute;
@@ -4780,7 +4780,7 @@ fieldset[disabled] a.btn {
     background-position:center;
     background-size: 100% 100%;
 }
-/*.jfgridLoaderGif>img{
+/*.luckysheetLoaderGif>img{
     width:100%;
     height:100%;
 }*/
@@ -4902,7 +4902,7 @@ fieldset[disabled] a.btn {
    }
 }
 
-.jfgridpopover{
+.luckysheetpopover{
     position:absolute; 
 /*    left: 50%; 
     top:20px; */
@@ -4917,11 +4917,11 @@ fieldset[disabled] a.btn {
     display: none;
 }
 
-.jfgridpopover .jfgridpopover-content{
+.luckysheetpopover .luckysheetpopover-content{
 
 }
 
-.jfgridpopover .jfgridpopover-btn{
+.luckysheetpopover .luckysheetpopover-btn{
     position: absolute;
     right:10px;
     top: 50%;
@@ -4933,12 +4933,12 @@ fieldset[disabled] a.btn {
     font-size: 14px;
 }
 
-.jfgridpopover .jfgridpopover-btn:hover{
+.luckysheetpopover .luckysheetpopover-btn:hover{
     border: 1px solid #FEA2A2;
     color: #FEA2A2;
 }
 
-.jfgridPaintCursor{
+.luckysheetPaintCursor{
     cursor: url(paint_24px.ico), auto;
 }
 
@@ -4970,11 +4970,11 @@ fieldset[disabled] a.btn {
          }*/
          
 /*查找替换弹出框样式*/
-#jfgrid-search-replace .tabBox{
+#luckysheet-search-replace .tabBox{
     margin-top: 20px;
     font-size: 0;
 }
-#jfgrid-search-replace .tabBox span{
+#luckysheet-search-replace .tabBox span{
     display: inline-block;
     text-align: center;
     width: 100px;
@@ -4982,52 +4982,52 @@ fieldset[disabled] a.btn {
     font-size: 14px;
     line-height: 2;
 }
-#jfgrid-search-replace .tabBox span.on{
+#luckysheet-search-replace .tabBox span.on{
     background-color: #8C89FE;
     border-color: #726EFE;
     color: #fff;
 }
-#jfgrid-search-replace .ctBox{
+#luckysheet-search-replace .ctBox{
     padding: 5px 10px;
     border: solid 1px #d4d4d4;
     font-size: 14px;
 }
-#jfgrid-search-replace .inputBox{
+#luckysheet-search-replace .inputBox{
     height: 90px;
     position: relative;
 }
-#jfgrid-search-replace .inputBox .textboxs{
+#luckysheet-search-replace .inputBox .textboxs{
     height: 30px;
     line-height: 30px;
 }
-#jfgrid-search-replace .inputBox .checkboxs{
+#luckysheet-search-replace .inputBox .checkboxs{
     height: 90px;
     position: absolute;
     right: 0;
     top: 0;
 }
-#jfgrid-search-replace .inputBox .checkboxs div{
+#luckysheet-search-replace .inputBox .checkboxs div{
     height: 30px;
     line-height: 30px;
 }
-#jfgrid-search-replace .inputBox .checkboxs input[type="checkbox"]{
+#luckysheet-search-replace .inputBox .checkboxs input[type="checkbox"]{
     float: left;
     margin-top: 9px;
 }
-#jfgrid-search-replace .btnBox{
+#luckysheet-search-replace .btnBox{
     margin-top: 10px;
 }
-#jfgrid-search-replace .btnBox button{
+#luckysheet-search-replace .btnBox button{
     margin: 0 2.5px;
 }
-#jfgrid-search-replace #searchAllbox{
+#luckysheet-search-replace #searchAllbox{
     height: 210px;
     border:1px solid #d4d4d4;
     margin-top:10px;
     overflow-y: auto;
     position: relative;
 }
-#jfgrid-search-replace #searchAllbox .boxTitle{
+#luckysheet-search-replace #searchAllbox .boxTitle{
     width: 100%;
     height: 30px;
     line-height: 29px;
@@ -5039,48 +5039,48 @@ fieldset[disabled] a.btn {
     left: 0;
     top: 0;
 }
-#jfgrid-search-replace #searchAllbox .boxTitle span{
+#luckysheet-search-replace #searchAllbox .boxTitle span{
     display: inline-block;
     text-align: center;
 }
-#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(1){
+#luckysheet-search-replace #searchAllbox .boxTitle span:nth-of-type(1){
     width: 25%;
 }
-#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(2){
+#luckysheet-search-replace #searchAllbox .boxTitle span:nth-of-type(2){
     width: 25%;
 }
-#jfgrid-search-replace #searchAllbox .boxTitle span:nth-of-type(3){
+#luckysheet-search-replace #searchAllbox .boxTitle span:nth-of-type(3){
     width: 50%;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem{
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem{
     height: 30px;
     line-height: 29px;
     border-bottom:1px solid #d4d4d4;
     padding: 0 5px;
     box-sizing: border-box;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem.on{
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem.on{
     background-color: #8C89FE;
     color: #fff;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem span{
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem span{
     display: block;
     text-align: center;
     float: left;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(1){
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(1){
     width: 25%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(2){
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(2){
     width: 25%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#jfgrid-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(3){
+#luckysheet-search-replace #searchAllbox .boxMain .boxItem span:nth-of-type(3){
     width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -5088,17 +5088,17 @@ fieldset[disabled] a.btn {
 }
 
 /*函数公式查找样式*/
-#jfgrid-search-formula{
+#luckysheet-search-formula{
     font-size: 12px;
 }
-#jfgrid-search-formula .inpbox{
+#luckysheet-search-formula .inpbox{
     margin-bottom: 5px;
 }
-#jfgrid-search-formula .inpbox label{
+#luckysheet-search-formula .inpbox label{
     display: block;
     margin-bottom: 5px;
 }
-#jfgrid-search-formula .inpbox input{
+#luckysheet-search-formula .inpbox input{
     width: 100%;
     height: 24px;
     line-height: 24px;
@@ -5107,10 +5107,10 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     font-size: 12px;
 }
-#jfgrid-search-formula .selbox{
+#luckysheet-search-formula .selbox{
     margin-bottom: 5px;
 }
-#jfgrid-search-formula .selbox select{
+#luckysheet-search-formula .selbox select{
     width: 50%;
     height: 24px;
     line-height: 24px;
@@ -5118,7 +5118,7 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     font-size: 12px;
 }
-#jfgrid-search-formula .listbox label{
+#luckysheet-search-formula .listbox label{
     display: block;
     margin-bottom: 5px;
 }
@@ -5142,24 +5142,24 @@ fieldset[disabled] a.btn {
 #formulaTypeList .listBox span:nth-of-type(2){
     display:block;
 }
-#jfgrid-search-formula-parm{
+#luckysheet-search-formula-parm{
     width: 502px;
     font-size: 12px;
 }
-#jfgrid-search-formula-parm .parmListBox{
+#luckysheet-search-formula-parm .parmListBox{
     width: 500px;
     padding: 5px 0;
     border: 1px solid #d4d4d4;
 }
-#jfgrid-search-formula-parm .parmBox{
+#luckysheet-search-formula-parm .parmBox{
     height: 30px;
     line-height: 30px;
     margin-bottom: 5px;
 }
-#jfgrid-search-formula-parm .parmBox:last-child{
+#luckysheet-search-formula-parm .parmBox:last-child{
     margin-bottom: 0;
 }
-#jfgrid-search-formula-parm .parmBox .name{
+#luckysheet-search-formula-parm .parmBox .name{
     width: 90px;
     height: 30px;
     padding: 0 5px;
@@ -5169,13 +5169,13 @@ fieldset[disabled] a.btn {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#jfgrid-search-formula-parm .parmBox .txt{
+#luckysheet-search-formula-parm .parmBox .txt{
     width: 198px;
     height: 28px;
     border: 1px solid #d4d4d4;
     float: left;
 }
-#jfgrid-search-formula-parm .parmBox .txt input{
+#luckysheet-search-formula-parm .parmBox .txt input{
     width: 150px;
     height: 28px;
     padding: 0 10px;
@@ -5183,19 +5183,19 @@ fieldset[disabled] a.btn {
     outline-style: none;
     float: left;
 }
-#jfgrid-search-formula-parm .parmBox .txt i{
+#luckysheet-search-formula-parm .parmBox .txt i{
     float: right;
     margin-top: 8px;
     margin-right: 5px;
 }
-#jfgrid-search-formula-parm .fa-table{
+#luckysheet-search-formula-parm .fa-table{
     cursor: pointer;
     color: #6598F3;
 }
-#jfgrid-search-formula-parm .fa-table:hover{
+#luckysheet-search-formula-parm .fa-table:hover{
     color: #FF7E7E;
 }
-#jfgrid-search-formula-parm .parmBox .val{
+#luckysheet-search-formula-parm .parmBox .val{
     width: 190px;
     height: 30px;
     line-height: 30px;
@@ -5205,18 +5205,18 @@ fieldset[disabled] a.btn {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#jfgrid-search-formula-parm .formulaDetails{
+#luckysheet-search-formula-parm .formulaDetails{
     padding: 5px;
 }
-#jfgrid-search-formula-parm .parmDetailsBox{
+#luckysheet-search-formula-parm .parmDetailsBox{
     max-height: 100px;
     padding: 5px 0 5px 20px;
     overflow-y: scroll;
 }
-#jfgrid-search-formula-parm .parmDetailsBox span{
+#luckysheet-search-formula-parm .parmDetailsBox span{
     display: inline-block;
 }
-#jfgrid-search-formula-parm .result{
+#luckysheet-search-formula-parm .result{
     padding: 5px;
     border-top: 1px solid #d4d4d4;
 }
@@ -5239,25 +5239,25 @@ fieldset[disabled] a.btn {
     width: 80px;
 }
 /*条件格式单元格选择框*/
-#jfgrid-singleRange-dialog input, #jfgrid-multiRange-dialog input{
+#luckysheet-singleRange-dialog input, #luckysheet-multiRange-dialog input{
     border: 1px solid #d4d4d4;
     padding: 0 10px;
     height: 30px;
 }
 /*条件格式弹出框*/
-#jfgrid-conditionformat-dialog{
+#luckysheet-conditionformat-dialog{
     font-size: 12px;
 }
-#jfgrid-conditionformat-dialog .box .boxTitleOne{
+#luckysheet-conditionformat-dialog .box .boxTitleOne{
     margin: 5px 0;
     font-weight: 600;
 }
-#jfgrid-conditionformat-dialog .box .inpbox{
+#luckysheet-conditionformat-dialog .box .inpbox{
     width: 198px;
     height: 28px;
     border: 1px solid #d4d4d4;
 }
-#jfgrid-conditionformat-dialog .box .inpbox input{
+#luckysheet-conditionformat-dialog .box .inpbox input{
     width: 150px;
     height: 28px;
     padding: 0 10px;
@@ -5265,13 +5265,13 @@ fieldset[disabled] a.btn {
     outline-style: none;
     float: left;
 }
-#jfgrid-conditionformat-dialog .box .inpbox2{
+#luckysheet-conditionformat-dialog .box .inpbox2{
     float: left;
     width: 108px;
     height: 28px;
     border: 1px solid #d4d4d4;
 }
-#jfgrid-conditionformat-dialog .box .inpbox2 input{
+#luckysheet-conditionformat-dialog .box .inpbox2 input{
     width: 60px;
     height: 28px;
     padding: 0 10px;
@@ -5279,19 +5279,19 @@ fieldset[disabled] a.btn {
     outline-style: none;
     float: left;
 }
-#jfgrid-conditionformat-dialog .box i.fa-table{
+#luckysheet-conditionformat-dialog .box i.fa-table{
     float: right;
     margin-top: 8px;
     margin-right: 5px;
 }
-#jfgrid-conditionformat-dialog .box .fa-table{
+#luckysheet-conditionformat-dialog .box .fa-table{
     cursor: pointer;
     color: #6598F3;
 }
-#jfgrid-conditionformat-dialog .box .fa-table:hover{
+#luckysheet-conditionformat-dialog .box .fa-table:hover{
     color: #FF7E7E;
 }
-#jfgrid-conditionformat-dialog .box #daterange-btn{
+#luckysheet-conditionformat-dialog .box #daterange-btn{
     width: 188px;
     height: 28px;
     padding: 0 5px;
@@ -5299,81 +5299,81 @@ fieldset[disabled] a.btn {
     border: 1px solid #d4d4d4;
     cursor: pointer;
 }
-#jfgrid-conditionformat-dialog .box .selectbox{
+#luckysheet-conditionformat-dialog .box .selectbox{
     width: 150px;
     height: 30px;
 }
 
-#jfgrid-icon-dataBar-menuButton .bgImgBox{
+#luckysheet-icon-dataBar-menuButton .bgImgBox{
     width: 28px; 
     height: 26px; 
     background: url(../plugins/images/CFdataBar.png)no-repeat;
 }
-#jfgrid-icon-colorGradation-menuButton .bgImgBox{
+#luckysheet-icon-colorGradation-menuButton .bgImgBox{
     width: 28px; 
     height: 26px; 
     background: url(../plugins/images/CFcolorGradation.png)no-repeat;
 }
 
 /*条件格式规则管理器*/
-#jfgrid-administerRule-dialog{
+#luckysheet-administerRule-dialog{
     font-size: 12px;
 }
-#jfgrid-administerRule-dialog .chooseSheet{
+#luckysheet-administerRule-dialog .chooseSheet{
     height: 24px;
     line-height: 24px;
     margin-bottom: 5px;
 }
-#jfgrid-administerRule-dialog .chooseSheet select{
+#luckysheet-administerRule-dialog .chooseSheet select{
     height: 24px;
     padding: 0 5px;
     box-sizing: border-box;
     font-size: 12px;
 }
-#jfgrid-administerRule-dialog .ruleBox{
+#luckysheet-administerRule-dialog .ruleBox{
     border: 1px solid #d4d4d4;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleBtn{
+#luckysheet-administerRule-dialog .ruleBox .ruleBtn{
     padding: 2.5px 5px;
     border-bottom: 1px solid #d4d4d4;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleBtn button{
+#luckysheet-administerRule-dialog .ruleBox .ruleBtn button{
     margin-right: 10px;
     font-size: 12px;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listTitle{
     height: 30px;
     padding: 0 10px;
     border-bottom: 1px solid #d4d4d4;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listTitle span{
     display: block;
     height: 100%;
     line-height: 29px;
     float: left;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(1){
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(1){
     width: 30%;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(2){
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(2){
     width: 20%;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(3){
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listTitle span:nth-of-type(3){
     width: 45%;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox{
     height: 150px;
     overflow-y: scroll;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item{
     height: 24px;
     padding: 2.5px 10px;
     border-bottom: 1px solid #d4d4d4;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item.on{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item.on{
     background-color: #8C89FE;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleName{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleName{
     width: 30%;
     height: 100%;
     line-height: 24px;
@@ -5384,17 +5384,17 @@ fieldset[disabled] a.btn {
     float: left;
     box-sizing: border-box;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item.on .ruleName{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item.on .ruleName{
     color: #fff;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .format{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .format{
     width: 20%;
     height: 100%;
     line-height: 24px;
     float: left;
     position: relative;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .format .colorbox{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .format .colorbox{
     display: inline-block;
     width: 16px;
     height: 16px;
@@ -5402,7 +5402,7 @@ fieldset[disabled] a.btn {
     margin: 3px 5px;
     cursor: pointer;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange{
     width: 45%;
     height: 100%;
     border: 1px solid #d4d4d4;
@@ -5411,7 +5411,7 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     background-color: #fff;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange input{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange input{
     width: 130px;
     height: 22px;
     padding: 0 5px;
@@ -5419,55 +5419,55 @@ fieldset[disabled] a.btn {
     outline-style: none;
     float: left;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table{
     float: right;
     cursor: pointer;
     color: #6598F3;
     margin-top: 6px;
     margin-right: 5px;
 }
-#jfgrid-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table:hover{
+#luckysheet-administerRule-dialog .ruleBox .ruleList .listBox .item .ruleRange i.fa-table:hover{
     color: #FF7E7E;
 }
 
 /*新建、编辑条件格式规则*/
-.jfgrid-newEditorRule-dialog{
+.luckysheet-newEditorRule-dialog{
     font-size: 12px;
 }
-.jfgrid-newEditorRule-dialog .boxTitle{
+.luckysheet-newEditorRule-dialog .boxTitle{
     margin-bottom: 5px;
 }
-.jfgrid-newEditorRule-dialog .ruleTypeBox{
+.luckysheet-newEditorRule-dialog .ruleTypeBox{
     border: 1px solid #d4d4d4;
     margin-bottom: 10px;
 }
-.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem{
+.luckysheet-newEditorRule-dialog .ruleTypeBox .ruleTypeItem{
     padding: 3px 5px;
     cursor: pointer;
 }
-.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem.on{
+.luckysheet-newEditorRule-dialog .ruleTypeBox .ruleTypeItem.on{
     background-color: #7C79FE;
     color: #fff;
 }
-.jfgrid-newEditorRule-dialog .ruleTypeBox .ruleTypeItem .icon{
+.luckysheet-newEditorRule-dialog .ruleTypeBox .ruleTypeItem .icon{
 
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox{
+.luckysheet-newEditorRule-dialog .ruleExplainBox{
     border: 1px solid #d4d4d4;
     padding: 10px;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox .title{
+.luckysheet-newEditorRule-dialog .ruleExplainBox .title{
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox select{
+.luckysheet-newEditorRule-dialog .ruleExplainBox select{
     height: 30px;
     font-size: 12px;
     float: left;
     margin-right: 5px;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox .inpbox{
+.luckysheet-newEditorRule-dialog .ruleExplainBox .inpbox{
     width: 100px;
     height: 30px;
     border: 1px solid #d4d4d4;
@@ -5475,49 +5475,49 @@ fieldset[disabled] a.btn {
     font-size: 12px;
     float: left;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox .inpbox input{
+.luckysheet-newEditorRule-dialog .ruleExplainBox .inpbox input{
     width: 70px;
     height: 100%;
     border: none;
     outline-style: none;
     padding: 0 5px;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox .txt{
+.luckysheet-newEditorRule-dialog .ruleExplainBox .txt{
     display: block;
     height: 100%;
     line-height: 30px;
     float: left;
     margin: 0 5px;
 }
-.jfgrid-newEditorRule-dialog .ruleExplainBox #isPercent{
+.luckysheet-newEditorRule-dialog .ruleExplainBox #isPercent{
     float: left;
     margin: 9px 0 8px 10px;
 }
-.jfgrid-newEditorRule-dialog i.fa-table{
+.luckysheet-newEditorRule-dialog i.fa-table{
     float: right;
     margin-top: 8px;
     margin-right: 5px;
 }
-.jfgrid-newEditorRule-dialog .fa-table{
+.luckysheet-newEditorRule-dialog .fa-table{
     cursor: pointer;
     color: #6598F3;
 }
-.jfgrid-newEditorRule-dialog .fa-table:hover{
+.luckysheet-newEditorRule-dialog .fa-table:hover{
     color: #FF7E7E;
 }
-.jfgrid-newEditorRule-dialog .iconsBox{
+.luckysheet-newEditorRule-dialog .iconsBox{
     height: 30px;
     margin-bottom: 5px;
     position: relative;
 }
-.jfgrid-newEditorRule-dialog .iconsBox label{
+.luckysheet-newEditorRule-dialog .iconsBox label{
     display: block;
     width: 80px;
     height: 30px;
     line-height: 30px;
     float: left;
 }
-.jfgrid-newEditorRule-dialog .iconsBox .showbox{
+.luckysheet-newEditorRule-dialog .iconsBox .showbox{
     width: 150px;
     height: 20px;
     padding: 4px 4px 4px 10px;
@@ -5526,14 +5526,14 @@ fieldset[disabled] a.btn {
     float: left;
     cursor: pointer;
 }
-.jfgrid-newEditorRule-dialog .iconsBox .showbox .model{
+.luckysheet-newEditorRule-dialog .iconsBox .showbox .model{
     width: 125px;
     height: 20px;
     background: url(../plugins/images/CFicons.png)no-repeat;
     background-size: 256px;
     float: left;
 }
-.jfgrid-newEditorRule-dialog .iconsBox ul{
+.luckysheet-newEditorRule-dialog .iconsBox ul{
     display: none;
     width: 164px;
     max-height: 150px;
@@ -5547,15 +5547,15 @@ fieldset[disabled] a.btn {
     margin: 0;
     padding: 0;
 }
-.jfgrid-newEditorRule-dialog .iconsBox ul li{
+.luckysheet-newEditorRule-dialog .iconsBox ul li{
     padding: 5px 10px;
     background-color: #fff;
     cursor: pointer;
 }
-.jfgrid-newEditorRule-dialog .iconsBox ul li:hover{
+.luckysheet-newEditorRule-dialog .iconsBox ul li:hover{
     background-color: #dfdfdf;
 }
-.jfgrid-newEditorRule-dialog .iconsBox ul li div{
+.luckysheet-newEditorRule-dialog .iconsBox ul li div{
     width: 125px;
     height: 20px;
     background: url(../plugins/images/CFicons.png)no-repeat;
@@ -5563,40 +5563,40 @@ fieldset[disabled] a.btn {
 }
 
 /*条件格式 图标集弹框*/
-#jfgrid-CFicons-dialog .box{
+#luckysheet-CFicons-dialog .box{
     padding: 10px;
     border: 1px solid #dfdfdf;
     font-size: 14px;
 }
-#jfgrid-CFicons-dialog .box .title{
+#luckysheet-CFicons-dialog .box .title{
     height: 20px;
     line-height: 20px;
     padding: 0 10px;
     background-color: #ebebeb;
 }
-#jfgrid-CFicons-dialog .box .list{
+#luckysheet-CFicons-dialog .box .list{
     width: 300px;
     padding: 5px 0;
 }
-#jfgrid-CFicons-dialog .box .list .left{
+#luckysheet-CFicons-dialog .box .list .left{
     width: 50%;
     float: left;
 }
-#jfgrid-CFicons-dialog .box .list .right{
+#luckysheet-CFicons-dialog .box .list .right{
     width: 50%;
     float: right;
 }
-#jfgrid-CFicons-dialog .box .list .item{
+#luckysheet-CFicons-dialog .box .list .item{
     width: 125px;
     height: 20px;
     padding: 2.5px 10px;
     background-color: #fff;
     cursor: pointer;
 }
-#jfgrid-CFicons-dialog .box .list .item:hover{
+#luckysheet-CFicons-dialog .box .list .item:hover{
     background-color: #dfdfdf;
 }
-#jfgrid-CFicons-dialog .box .list .item div{
+#luckysheet-CFicons-dialog .box .list .item div{
     width: 125px;
     height: 20px;
     background: url(../plugins/images/CFicons.png)no-repeat; 
@@ -5604,25 +5604,25 @@ fieldset[disabled] a.btn {
 }
 
 /*交替颜色*/
-#jfgrid-modal-dialog-slider-alternateformat{
+#luckysheet-modal-dialog-slider-alternateformat{
     width: 280px;
     font-size: 12px;
 }
-#jfgrid-modal-dialog-slider-alternateformat .jfgrid-modal-dialog-slider-content{
+#luckysheet-modal-dialog-slider-alternateformat .luckysheet-modal-dialog-slider-content{
     background-color: #fff;
     overflow-y: scroll; 
 }
-#jfgrid-modal-dialog-slider-alternateformat .textTitle{
+#luckysheet-modal-dialog-slider-alternateformat .textTitle{
     padding: 5px 10px;
     font-weight: 600;
 }
-#jfgrid-alternateformat-range{
+#luckysheet-alternateformat-range{
     width: 198px;
     height: 28px;
     border: 1px solid #d4d4d4;
     margin-left: 10px;
 }
-#jfgrid-alternateformat-range input{
+#luckysheet-alternateformat-range input{
     width: 150px;
     height: 28px;
     padding: 0 10px;
@@ -5630,43 +5630,43 @@ fieldset[disabled] a.btn {
     outline-style: none;
     float: left;
 } 
-#jfgrid-alternateformat-range .fa-table{
+#luckysheet-alternateformat-range .fa-table{
     float: right;
     margin-top: 8px;
     margin-right: 5px;
     cursor: pointer;
     color: #6598F3;
 }
-#jfgrid-alternateformat-range .fa-table:hover{
+#luckysheet-alternateformat-range .fa-table:hover{
     color: #FF7E7E;
 }
-#jfgrid-alternateformat-checkbox{
+#luckysheet-alternateformat-checkbox{
     padding: 5px 10px;
     border-top: 1px solid #d4d4d4;
     border-bottom: 1px solid #d4d4d4;
     margin: 10px 0;
 }
-#jfgrid-alternateformat-checkbox div{
+#luckysheet-alternateformat-checkbox div{
     height: 20px;
     line-height: 20px;
 }
-#jfgrid-alternateformat-checkbox div:first-child{
+#luckysheet-alternateformat-checkbox div:first-child{
     margin-bottom: 5px;
 }
-#jfgrid-alternateformat-checkbox input[type="checkbox"]{
+#luckysheet-alternateformat-checkbox input[type="checkbox"]{
     float: left;
     cursor: pointer;
     margin-top: 4px;
 }
-#jfgrid-alternateformat-modelList{
+#luckysheet-alternateformat-modelList{
     padding: 0 10px;
     margin-bottom: 10px;
 }
-#jfgrid-alternateformat-modelCustom{
+#luckysheet-alternateformat-modelCustom{
     padding: 0 10px;
     margin-bottom: 10px;
 }
-#jfgrid-modal-dialog-slider-alternateformat .modelbox{
+#luckysheet-modal-dialog-slider-alternateformat .modelbox{
     width: 36px;
     padding: 2px;
     border: 2px solid #fff;
@@ -5676,15 +5676,15 @@ fieldset[disabled] a.btn {
     margin-bottom: 4px;
     cursor: pointer;
 }
-#jfgrid-modal-dialog-slider-alternateformat .modelbox.on{
+#luckysheet-modal-dialog-slider-alternateformat .modelbox.on{
     border-color: #726EFE;
 }
-#jfgrid-modal-dialog-slider-alternateformat .modelbox .box{
+#luckysheet-modal-dialog-slider-alternateformat .modelbox .box{
     width: 100%;
     border: 1px solid #d4d4d4;
     box-sizing: border-box;
 }
-#jfgrid-modal-dialog-slider-alternateformat .modelbox .box span{
+#luckysheet-modal-dialog-slider-alternateformat .modelbox .box span{
     display: block;
     width: 100%;
     height: 10px;
@@ -5693,18 +5693,18 @@ fieldset[disabled] a.btn {
     border-bottom: 1px solid #d4d4d4;
     box-sizing: border-box;
 }
-#jfgrid-modal-dialog-slider-alternateformat .modelbox .box span:last-child{
+#luckysheet-modal-dialog-slider-alternateformat .modelbox .box span:last-child{
     line-height: 10px;
     border-bottom: none;
 }
-#jfgrid-alternateformat-modelToning{
+#luckysheet-alternateformat-modelToning{
     padding: 10px;
 }
-#jfgrid-alternateformat-modelToning .toningbox{
+#luckysheet-alternateformat-modelToning .toningbox{
     height: 25px;
     margin-bottom: 5px;
 }
-#jfgrid-alternateformat-modelToning .toningbox .toningShow{
+#luckysheet-alternateformat-modelToning .toningbox .toningShow{
     width: 150px;
     height: 100%;
     line-height: 23px;
@@ -5713,21 +5713,21 @@ fieldset[disabled] a.btn {
     float: left;
     margin-right: 10px;
 }
-#jfgrid-alternateformat-modelToning .toningbox .jfgrid-color-menu-button-indicator{
+#luckysheet-alternateformat-modelToning .toningbox .luckysheet-color-menu-button-indicator{
     width: 20px;
     float: left;
     user-select: none;
     cursor: pointer;
 }
-#jfgrid-alternateformat-modelToning .toningbox .jfgrid-color-menu-button-indicator .jfgrid-icon{
+#luckysheet-alternateformat-modelToning .toningbox .luckysheet-color-menu-button-indicator .luckysheet-icon{
     user-select: none;
     margin-bottom: -6px;
 }
-#jfgrid-alternateformat-colorSelect-dialog .currenColor{
+#luckysheet-alternateformat-colorSelect-dialog .currenColor{
     font-size: 12px;
     margin-bottom: 5px;
 }
-#jfgrid-alternateformat-colorSelect-dialog .currenColor span{
+#luckysheet-alternateformat-colorSelect-dialog .currenColor span{
     display: inline-block;
     width: 16px;
     height: 16px;
@@ -5736,21 +5736,21 @@ fieldset[disabled] a.btn {
     margin-bottom: -5px;
     cursor: pointer;
 }
-#jfgrid-alternateformat-rangeDialog input{
+#luckysheet-alternateformat-rangeDialog input{
     border: 1px solid #d4d4d4;
     padding: 0 10px;
     height: 30px;
 }
 
 /*if公式生成器*/
-#jfgrid-ifFormulaGenerator-dialog{
+#luckysheet-ifFormulaGenerator-dialog{
     font-size: 12px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox{
     height: 30px;
     margin-bottom: 10px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox label{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox label{
     display: block;
     width: 50px;
     height: 100%;
@@ -5759,7 +5759,7 @@ fieldset[disabled] a.btn {
     text-align: right;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox{
     width: 150px;
     height: 100%;
     padding: 0 10px;
@@ -5767,7 +5767,7 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox input{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox input{
     width: 100px;
     height: 100%;
     padding: 0;
@@ -5776,7 +5776,7 @@ fieldset[disabled] a.btn {
     background: transparent;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table{
     font-size: 14px;
     color: #6598F3;
     float: right;
@@ -5784,16 +5784,16 @@ fieldset[disabled] a.btn {
     margin-top: 8px;
     cursor: pointer;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table:hover{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox .inpBox i.fa-table:hover{
     color: #FF7E7E;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifAttr .attrBox span.text{
+#luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox span.text{
     height: 100%;
     line-height: 30px;
     padding: 0 5px;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog #smallRange,#jfgrid-ifFormulaGenerator-dialog #largeRange{
+#luckysheet-ifFormulaGenerator-dialog #smallRange,#luckysheet-ifFormulaGenerator-dialog #largeRange{
     width: 100px;
     height: 100%;
     padding: 0 10px;
@@ -5801,27 +5801,27 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog #rangeAssess{
+#luckysheet-ifFormulaGenerator-dialog #rangeAssess{
     height: 100%;
     line-height: 30px;
     float: left;
     margin-left: 20px;
 }
-#jfgrid-ifFormulaGenerator-dialog #rangeAssess i.fa-table{
+#luckysheet-ifFormulaGenerator-dialog #rangeAssess i.fa-table{
     color: #6598F3;
     cursor: pointer;
 }
-#jfgrid-ifFormulaGenerator-dialog #rangeAssess i.fa-table:hover{
+#luckysheet-ifFormulaGenerator-dialog #rangeAssess i.fa-table:hover{
     color: #FF7E7E;
 }
-#jfgrid-ifFormulaGenerator-dialog #DivisionMethod{
+#luckysheet-ifFormulaGenerator-dialog #DivisionMethod{
     width: 100px;
     height: 100%;
     border: 1px solid #d4d4d4;
     box-sizing: border-box;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog #DivisionMethodVal{
+#luckysheet-ifFormulaGenerator-dialog #DivisionMethodVal{
     width: 120px;
     height: 100%;
     border: 1px solid #d4d4d4;
@@ -5830,7 +5830,7 @@ fieldset[disabled] a.btn {
     float: left;
     margin-left: 10px;
 }
-#jfgrid-ifFormulaGenerator-dialog #createBtn{
+#luckysheet-ifFormulaGenerator-dialog #createBtn{
     width: 100px;
     height: 100%;
     line-height: 30px;
@@ -5842,17 +5842,17 @@ fieldset[disabled] a.btn {
     float: right;
     cursor: pointer;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList{
+#luckysheet-ifFormulaGenerator-dialog .ifList{
     border-top: 1px solid #d4d4d4;
     height: 180px;
     padding: 10px;
     overflow-y: scroll;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item{
     height: 30px;
     margin-bottom: 10px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item input{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item input{
     width: 80px;
     height: 100%;
     border: 1px solid #d4d4d4;
@@ -5861,10 +5861,10 @@ fieldset[disabled] a.btn {
     box-sizing: border-box;
     float: left;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item input.markText{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item input.markText{
     width: 140px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item select{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item select{
     width: 50px;
     height: 100%;
     padding: 0 5px;
@@ -5873,13 +5873,13 @@ fieldset[disabled] a.btn {
     float: left;
     margin: 0 10px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item span{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item span{
     height: 100%;
     line-height: 30px;
     float: left;
     margin: 0 10px;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item i.fa-remove{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item i.fa-remove{
     font-size: 16px;
     float: left;
     margin-left: 15px;
@@ -5887,10 +5887,10 @@ fieldset[disabled] a.btn {
     color: #d6d6d6;
     cursor: pointer;
 }
-#jfgrid-ifFormulaGenerator-dialog .ifList .item i.fa-remove:hover{
+#luckysheet-ifFormulaGenerator-dialog .ifList .item i.fa-remove:hover{
     color: #333;
 }
-#jfgrid-ifFormulaGenerator-singleRange-dialog input,#jfgrid-ifFormulaGenerator-multiRange-dialog input{
+#luckysheet-ifFormulaGenerator-singleRange-dialog input,#luckysheet-ifFormulaGenerator-multiRange-dialog input{
     border: 1px solid #d4d4d4;
     padding: 0 10px;
     height: 30px;
@@ -5901,7 +5901,7 @@ fieldset[disabled] a.btn {
 }
 
 /*下拉图标*/
-#jfgrid-dropCell-icon #icon_dropCell{
+#luckysheet-dropCell-icon #icon_dropCell{
     width:25px;
     height:15px;
     background-image: url(../plugins/images/icon_dropCell.png);
@@ -5911,115 +5911,115 @@ fieldset[disabled] a.btn {
 }
 
 /*定位*/
-#jfgrid-locationCell-dialog .listbox{
+#luckysheet-locationCell-dialog .listbox{
     border: 1px solid #dfdfdf;
     padding: 10px;
     font-size: 14px;
     color: #000;
 }
-#jfgrid-locationCell-dialog .listbox .listItem{
+#luckysheet-locationCell-dialog .listbox .listItem{
     padding: 5px 0;
 }
-#jfgrid-locationCell-dialog .listbox .listItem input[type="radio"]{
+#luckysheet-locationCell-dialog .listbox .listItem input[type="radio"]{
     float: left;
     margin-top: 5px;
 }
-#jfgrid-locationCell-dialog .listbox .listItem .subbox{
+#luckysheet-locationCell-dialog .listbox .listItem .subbox{
     height: 30px;
     padding: 0 10px;
 }
-#jfgrid-locationCell-dialog .listbox .listItem .subbox .subItem{
+#luckysheet-locationCell-dialog .listbox .listItem .subbox .subItem{
     float: left;
     margin-right: 5px;
 }
 
 /*更多格式*/
-#jfgrid-moreFormat-dialog{
+#luckysheet-moreFormat-dialog{
     font-size: 14px;
     color: #000;
 }
-#jfgrid-moreFormat-dialog .decimal{
+#luckysheet-moreFormat-dialog .decimal{
     margin-bottom: 5px;
     height: 30px;
     line-height: 30px;
 }
-#jfgrid-moreFormat-dialog .decimal input{
+#luckysheet-moreFormat-dialog .decimal input{
     width: 80px;
     height: 24px;
     padding: 0 5px;
 }
-#jfgrid-moreFormat-dialog .listbox{
+#luckysheet-moreFormat-dialog .listbox{
     border: 1px solid #666;
     height: 240px;
     overflow-y: auto;
 }
-#jfgrid-moreFormat-dialog .listbox .listItem{
+#luckysheet-moreFormat-dialog .listbox .listItem{
     height: 30px;
     padding: 0 20px 0 10px;
     border-bottom: 1px solid #dfdfdf;
 }
-#jfgrid-moreFormat-dialog .listbox .listItem.on{
+#luckysheet-moreFormat-dialog .listbox .listItem.on{
     background-color: #7C79FE;
     color: #fff;
 }
-#jfgrid-moreFormat-dialog .listbox .listItem .name{
+#luckysheet-moreFormat-dialog .listbox .listItem .name{
     line-height: 29px;
     float: left;
 }
-#jfgrid-moreFormat-dialog .listbox .listItem .value{
+#luckysheet-moreFormat-dialog .listbox .listItem .value{
     line-height: 30px;
     float: right;
     color: gray;
 }
-#jfgrid-moreFormat-dialog .listbox .listItem.on .value{
+#luckysheet-moreFormat-dialog .listbox .listItem.on .value{
     color: #fff;
 }
 
 /*分列*/
-#jfgrid-splitColumn-dialog{
+#luckysheet-splitColumn-dialog{
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
-#jfgrid-splitColumn-dialog .box{
+#luckysheet-splitColumn-dialog .box{
     font-size: 14px;
     
 }
-#jfgrid-splitColumn-dialog .box .boxTitle{
+#luckysheet-splitColumn-dialog .box .boxTitle{
     padding: 5px;
 }
-#jfgrid-splitColumn-dialog .box .boxMain{
+#luckysheet-splitColumn-dialog .box .boxMain{
     padding: 5px;
     border: 1px solid #dfdfdf;
 }
-#jfgrid-splitColumn-dialog .box input[type="checkbox"]{
+#luckysheet-splitColumn-dialog .box input[type="checkbox"]{
     float: left;
     margin-top: 5px;
 }
-#jfgrid-splitColumn-dialog .box .boxMain input[type="text"]{
+#luckysheet-splitColumn-dialog .box .boxMain input[type="text"]{
     margin-left: 5px;
     width: 50px;
     padding: 0 5px;
 }
-#jfgrid-splitColumn-dialog .box #splitColumnData{
+#luckysheet-splitColumn-dialog .box #splitColumnData{
     height: 100px;
     overflow-y: auto;
 }
-#jfgrid-splitColumn-dialog .box #splitColumnData table{
+#luckysheet-splitColumn-dialog .box #splitColumnData table{
     border-collapse: collapse;
 }
-#jfgrid-splitColumn-dialog .box #splitColumnData td{
+#luckysheet-splitColumn-dialog .box #splitColumnData td{
     border: 1px solid #333;
 }
 
 /*图表设置最下方下拉框优化*/
-.jfgrid-datavisual-config .jfgrid-datavisual-accordion-content:last-child {
+.luckysheet-datavisual-config .luckysheet-datavisual-accordion-content:last-child {
     padding-bottom: 100px;
 }
 
 /*批注聚焦框 移动 改变大小*/
-.jfgrid-postil-dialog-move{
+.luckysheet-postil-dialog-move{
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -6029,44 +6029,44 @@ fieldset[disabled] a.btn {
     right: 0;
     pointer-events: none;
 }
-.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item{
+.luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item{
     /*background: #000;*/
     position: absolute;
     pointer-events: all;
     cursor: move;
 }
-.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-t{
+.luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item-t{
     width: 100%;
     height: 3px;
     border-bottom: 1px solid #000;
     left: 0;
     top: -4px;
 }
-.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-r{
+.luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item-r{
     width: 3px;
     height: 100%;
     border-left: 1px solid #000;
     right: -4px;
     top: 0;
 }
-.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-b{
+.luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item-b{
     width: 100%;
     height: 3px;
     border-top: 1px solid #000;
     left: 0;
     bottom: -4px;
 }
-.jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item-l{
+.luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item-l{
     width: 3px;
     height: 100%;
     border-right: 1px solid #000;
     left: -4px;
     top: 0;
 }
-.jfgrid-postil-show-active .jfgrid-postil-dialog-move .jfgrid-postil-dialog-move-item{
+.luckysheet-postil-show-active .luckysheet-postil-dialog-move .luckysheet-postil-dialog-move-item{
     border-color: #0188fb;
 }
-.jfgrid-postil-dialog-resize{
+.luckysheet-postil-dialog-resize{
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -6076,64 +6076,64 @@ fieldset[disabled] a.btn {
     right: -2px;
     pointer-events: none;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item{
     position: absolute;
     height: 6px;
     width: 6px;
     border: 1px solid #0188fb;
     pointer-events: all;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lt{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-lt{
     left: -6px;
     top: -6px;
     cursor: se-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-mt{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-mt{
     left: 50%;
     top: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lm{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-lm{
     top: 50%;
     left: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rm{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-rm{
     top: 50%;
     right: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rt{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-rt{
     right: -6px;
     top: -6px;
     cursor: ne-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-lb{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-lb{
     left: -6px;
     bottom: -6px;
     cursor: ne-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-mb{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-mb{
     left: 50%;
     bottom: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
-.jfgrid-postil-dialog-resize .jfgrid-postil-dialog-resize-item-rb{
+.luckysheet-postil-dialog-resize .luckysheet-postil-dialog-resize-item-rb{
     right: -6px;
     bottom: -6px;
     cursor: se-resize;
 }
 
 /*图表设置最下方下拉框优化*/
-.jfgrid-datavisual-config .jfgrid-datavisual-accordion-content:last-child {
+.luckysheet-datavisual-config .luckysheet-datavisual-accordion-content:last-child {
     padding-bottom: 100px;
 }
 
 /*图表样式新增样式: 设置界面overflow滚动*/
-.jfgrid-datavisual-left .el-tabs__content{
+.luckysheet-datavisual-left .el-tabs__content{
     overflow: auto;
 }

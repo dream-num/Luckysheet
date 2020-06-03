@@ -20,7 +20,8 @@ module.exports = {
 			  'config',
 			  'feature',
 			  'data',
-			  'operate'
+			  'operate',
+			  'format'
 			],
 		  },
 		// 仓库地址

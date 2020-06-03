@@ -53,7 +53,7 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 ### 第三步
 指定一个表格容器
 ```html
-<div id="jfgrid" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
+<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
 ### 第四步
 创建一个表格
@@ -62,9 +62,9 @@ npm run build后dist文件夹下的所有文件复制到项目目录
     $(function () {
         //配置项
         var options = {
-            container: 'jfgrid' //jfgrid为容器id
+            container: 'luckysheet' //luckysheet为容器id
         }
-        jfgrid.create(options)
+        luckysheet.create(options)
     })
 </script>
 ```
@@ -73,16 +73,16 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 
 ### 格式
 
-一个完整的Luckysheet表格文件的数据格式为：jfgridfile，一个表格表格文件包含若干个sheet文件，对应excel的sheet0、sheet1等。
+一个完整的Luckysheet表格文件的数据格式为：luckysheetfile，一个表格表格文件包含若干个sheet文件，对应excel的sheet0、sheet1等。
 
 一个Luckysheet文件的示例如下，该表格包含3个sheet：`
-jfgridfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
+luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 相当于excel的3个sheet
 ![excel sheet](img/excel.png)
 
 文件中的一个sheet的示例如下：
 ```
-jfgridfile[0] = 
+luckysheetfile[0] = 
 {
 	"name": "超市销售额",
 	"color": "",
@@ -98,8 +98,8 @@ jfgridfile[0] =
 	"rowsplit": [],
 	"ch_width": 4629,
 	"rh_height": 1681,
-	"jfgird_select_save": {},
-	"jfgrid_selection_range": {},
+	"luckysheet_select_save": {},
+	"luckysheet_selection_range": {},
 	"scrollLeft": 0,
 	"scrollTop": 0,
 	"load": "1",
@@ -117,6 +117,6 @@ jfgridfile[0] =
 ```
 ### 查看方式
 在chrome的console中查看
-`jfgrid.getjfgridfile()`
+`luckysheet.getluckysheetfile()`
 可以看到完整设置
 [{shee1}, {sheet2}, {sheet3}]

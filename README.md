@@ -51,7 +51,7 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 #### 第三步
 指定一个表格容器
 ```
-<div id="jfgrid" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
+<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
 #### 第四步
 创建一个表格
@@ -60,9 +60,9 @@ npm run build后dist文件夹下的所有文件复制到项目目录
     $(function () {
         //配置项
         var options = {
-            container: 'jfgrid' //jfgrid为容器id
+            container: 'luckysheet' //luckysheet为容器id
         }
-        jfgrid.create(options)
+        luckysheet.create(options)
     })
 </script>
 ```
