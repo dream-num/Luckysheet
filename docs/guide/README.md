@@ -78,10 +78,11 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 一个Luckysheet文件的示例如下，该表格包含3个sheet：`
 luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 相当于excel的3个sheet
+
 ![excel sheet](https://minio.cnbabylon.com/public/luckysheet/excel.png)
 
 文件中的一个sheet的示例如下：
-```
+```javascript
 luckysheetfile[0] = 
 {
 	"name": "超市销售额",
