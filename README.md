@@ -73,12 +73,14 @@ mengshu@office2.cn
 ## communication - 交流
 
 - 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
-  ![微信群](https://minio.cnbabylon.com/public/luckysheet/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
+
+  <img src="https://minio.cnbabylon.com/public/luckysheet/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
 或者
 
 - 加入Luckysheet开发者交流QQ群
-  ![QQ群](https://minio.cnbabylon.com/public/luckysheet/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg)
+  
+  <img src="https://minio.cnbabylon.com/public/luckysheet/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
 ## Authors and acknowledgment - 贡献者和感谢
 - Bug Pan ([@wpxp123456](https://github.com/wpxp123456))
