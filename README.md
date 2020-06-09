@@ -8,7 +8,15 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
 3. 支持一键截图、复制为json数据、共享编辑、excel与Luckysheet之间数据的复制粘贴
 4. 支持移动端查看
+5. 支持sparkLine
 ![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+
+## Plan - 计划
+- 模块化(进行中)
+- excel导入/导出
+- 表单
+- 插入图片
+- 更多...
 
 ## Documentation - 文档
 [在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
@@ -33,6 +41,9 @@ npm run dev
 ```
 npm run build
 ```
+阅读
+
+Luckysheet的核心代码为luckysheet-core.js和luckysheet-function.js,开发者看源码只需要看这两个文件即可,接下来会讨论进行模块化方案,完善这个插件.
 
 ## Usage - 用法
 
