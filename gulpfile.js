@@ -50,16 +50,16 @@ const babelConfig = {
 function clean() {
     return del(['dist']);
 }
+
 //监听文件+重载
 function watchReload() {
-    serve();
     core();
+    serve();
     const watcher = watch(['src/**']);
 
     // 多次刷新节流
     let reloadTimer = null;
     watcher.on('change', function (path, stats) {
-        console.info('change------',path)
         
 
         if (reloadTimer !== null) {
@@ -67,7 +67,7 @@ function watchReload() {
         }
         reloadTimer = setTimeout(() => {
             reload();
-            // core();
+            core();
             reloadTimer = null;
         }, 500);
 
@@ -92,7 +92,7 @@ async function core() {
     });
 
     return bundle.write({
-        file: 'src/luckysheet.js',
+        file: 'dist/luckysheet.js',
         format: 'umd',
         name: 'luckysheet',
         sourcemap: true
@@ -119,7 +119,7 @@ function otherFile() {
 function serve() {
     browserSync.init({
         server: {
-            baseDir: "src"
+            baseDir: "./"
         }
     });
 }

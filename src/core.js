@@ -1,9 +1,7 @@
 
 import defaultSetting from './config.js'
 import luckysheet from './luckysheet-chart'
-
-
-
+import { common_extend } from './utils/util'
 
 luckysheet.create = function (setting) {
     var extendsetting = common_extend(defaultSetting, setting);
@@ -109,6 +107,7 @@ luckysheet.create = function (setting) {
 
     return luckysheet;
 }
+
 export {
     luckysheet
 }

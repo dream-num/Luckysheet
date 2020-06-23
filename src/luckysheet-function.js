@@ -3,6 +3,9 @@ import {
     luckyColor
 } from './controllers/constant'
 import luckysheetFreezen from './controllers/freezen'
+// import Store from './store'
+
+// let visibledatarow = Store.visibledatarow;
 
 // (function(luckysheet) {
 	// console.log = function(){};
