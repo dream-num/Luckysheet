@@ -1,4 +1,9 @@
 ﻿import luckysheet, { luckysheetCellUpdate } from './luckysheet-core'
+import {
+    luckyColor
+} from './controllers/constant'
+import luckysheetFreezen from './controllers/freezen'
+
 // (function(luckysheet) {
 	// console.log = function(){};
     window.luckysheet_compareWith = function(){
@@ -2417,11 +2422,11 @@
 
                 if (cellrange == null) {} else if (cellrange.sheetIndex == luckysheet.currentSheetIndex || (cellrange.sheetIndex == -1 && luckysheet.formula.rangetosheet == luckysheet.currentSheetIndex)) {
                     $("#" + rangeid).data("range", cellrange).find(".luckysheet-copy").css({
-                        "background": luckysheet.jfcolor[rangeindex]
+                        "background": luckyColor[rangeindex]
                     }).end().find(".luckysheet-highlight").css({
-                        "background": luckysheet.jfcolor[rangeindex]
+                        "background": luckyColor[rangeindex]
                     }).end().find(".luckysheet-selection-copy-hc").css({
-                        "background": luckysheet.jfcolor[rangeindex]
+                        "background": luckyColor[rangeindex]
                     });
                     luckysheet.seletedHighlistByindex(rangeid, cellrange.row[0], cellrange.row[1], cellrange.column[0], cellrange.column[1]);
                 }
@@ -3880,7 +3885,7 @@
                 }
             } 
             else {
-                var function_str = '<span class="luckysheet-formula-functionrange-cell" rangeindex="' + this.functionHTMLIndex + '" dir="auto" style="color:' + luckysheet.jfcolor[this.functionHTMLIndex] + ';">' + range + '</span>';
+                var function_str = '<span class="luckysheet-formula-functionrange-cell" rangeindex="' + this.functionHTMLIndex + '" dir="auto" style="color:' + luckyColor[this.functionHTMLIndex] + ';">' + range + '</span>';
                 var $t = $(function_str).insertAfter(this.rangeSetValueTo);
                 this.rangechangeindex = this.functionHTMLIndex;
                 $editor = $(this.rangeSetValueTo).closest("div");
@@ -3956,10 +3961,10 @@
                 columnseleted = [this.func_selectedrange.column[0], col_index];
             }
 
-            rowseleted[0] = luckysheet.freezen.changeFreezenIndex(rowseleted[0], "h");
-            rowseleted[1] = luckysheet.freezen.changeFreezenIndex(rowseleted[1], "h");
-            columnseleted[0] = luckysheet.freezen.changeFreezenIndex(columnseleted[0], "v");
-            columnseleted[1] = luckysheet.freezen.changeFreezenIndex(columnseleted[1], "v");
+            rowseleted[0] = luckysheetFreezen.changeFreezenIndex(rowseleted[0], "h");
+            rowseleted[1] = luckysheetFreezen.changeFreezenIndex(rowseleted[1], "h");
+            columnseleted[0] = luckysheetFreezen.changeFreezenIndex(columnseleted[0], "v");
+            columnseleted[1] = luckysheetFreezen.changeFreezenIndex(columnseleted[1], "v");
 
             var changeparam = luckysheet.menuButton.mergeMoveMain(columnseleted, rowseleted, this.func_selectedrange, top , height, left , width);
             if(changeparam != null){
@@ -4004,7 +4009,7 @@
                 luckysheetautoadjustmousedown = 1;
             }, 1);
 
-            luckysheet.freezen.scrollFreezen(rowseleted, columnseleted);
+            luckysheetFreezen.scrollFreezen(rowseleted, columnseleted);
         },
         rangedrag_column_start: false,
         rangedrag_row_start: false,
@@ -4047,10 +4052,10 @@
                 columnseleted = [this.func_selectedrange.column[0], col_index];
             }
 
-            //rowseleted[0] = luckysheet.freezen.changeFreezenIndex(rowseleted[0], "h");
-            //rowseleted[1] = luckysheet.freezen.changeFreezenIndex(rowseleted[1], "h");
-            columnseleted[0] = luckysheet.freezen.changeFreezenIndex(columnseleted[0], "v");
-            columnseleted[1] = luckysheet.freezen.changeFreezenIndex(columnseleted[1], "v");
+            //rowseleted[0] = luckysheetFreezen.changeFreezenIndex(rowseleted[0], "h");
+            //rowseleted[1] = luckysheetFreezen.changeFreezenIndex(rowseleted[1], "h");
+            columnseleted[0] = luckysheetFreezen.changeFreezenIndex(columnseleted[0], "v");
+            columnseleted[1] = luckysheetFreezen.changeFreezenIndex(columnseleted[1], "v");
 
             var changeparam = luckysheet.menuButton.mergeMoveMain(columnseleted, [0, row_index], this.func_selectedrange, row_pre , row - row_pre - 1, left , width);
             if(changeparam != null){
@@ -4084,7 +4089,7 @@
             setTimeout(function() {
                 luckysheetautoadjustmousedown = 1;
             }, 1);
-            luckysheet.freezen.scrollFreezen([0, row_index], columnseleted);
+            luckysheetFreezen.scrollFreezen([0, row_index], columnseleted);
         },
         rangedrag_row: function(event) {
             var mouse = luckysheet.mouseposition(event.pageX, event.pageY);
@@ -4125,10 +4130,10 @@
                 rowseleted = [this.func_selectedrange.row[0], row_index];
             }
 
-            rowseleted[0] = luckysheet.freezen.changeFreezenIndex(rowseleted[0], "h");
-            rowseleted[1] = luckysheet.freezen.changeFreezenIndex(rowseleted[1], "h");
-            // columnseleted[0] = luckysheet.freezen.changeFreezenIndex(columnseleted[0], "v");
-            // columnseleted[1] = luckysheet.freezen.changeFreezenIndex(columnseleted[1], "v");
+            rowseleted[0] = luckysheetFreezen.changeFreezenIndex(rowseleted[0], "h");
+            rowseleted[1] = luckysheetFreezen.changeFreezenIndex(rowseleted[1], "h");
+            // columnseleted[0] = luckysheetFreezen.changeFreezenIndex(columnseleted[0], "v");
+            // columnseleted[1] = luckysheetFreezen.changeFreezenIndex(columnseleted[1], "v");
 
             var changeparam = luckysheet.menuButton.mergeMoveMain([0, col_index], rowseleted, this.func_selectedrange, top, height, col_pre, col - col_pre - 1);
             if(changeparam != null){
@@ -4163,7 +4168,7 @@
                 luckysheetautoadjustmousedown = 1;
             }, 1);
 
-            luckysheet.freezen.scrollFreezen(rowseleted, [0, col_index]);
+            luckysheetFreezen.scrollFreezen(rowseleted, [0, col_index]);
         },
         rangedragged: function() {},
         rangeResizeObj: null,
@@ -4962,7 +4967,7 @@
                 if (i == funcstack.length - 1) {
                     //function_str += str;
                     if (luckysheet.formula.iscelldata($.trim(str))) {
-                        function_str += '<span class="luckysheet-formula-functionrange-cell" rangeindex="' + this.functionHTMLIndex + '" dir="auto" style="color:' + luckysheet.jfcolor[this.functionHTMLIndex] + ';">' + str + '</span>';
+                        function_str += '<span class="luckysheet-formula-functionrange-cell" rangeindex="' + this.functionHTMLIndex + '" dir="auto" style="color:' + luckyColor[this.functionHTMLIndex] + ';">' + str + '</span>';
                         this.functionHTMLIndex++;
                     } else if (matchConfig.dquote > 0) {
                         function_str += str + '</span>';
