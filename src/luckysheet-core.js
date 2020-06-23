@@ -30,6 +30,9 @@
     } from './controllers/constant'
   
     import luckysheetFreezen from './controllers/freezen'
+    // import Store from './store'
+
+    // let visibledatarow = Store.visibledatarow;
 
     //动态表格
     
@@ -22917,21 +22920,7 @@
         }
     }
 
-    var common_extend = function (jsonbject1, jsonbject2) {
-        var resultJsonObject = {};
-
-        for (var attr in jsonbject1) {
-            resultJsonObject[attr] = jsonbject1[attr];
-        }
-
-        for (var attr in jsonbject2) {
-            resultJsonObject[attr] = jsonbject2[attr];
-        }
-
-        return resultJsonObject;
-    };
-
-    
+   
 
     var gridW = 0, gridH = 0, cellmainHeight = 0, cellmainWidth = 0;
     luckysheet.luckysheetsizeauto = function () {

@@ -30,7 +30,27 @@ function isRealNum(val) {
     }
 }
 
+/**
+ * extend two objects
+ * @param {Object } jsonbject1
+ * @param {Object } jsonbject2 
+ */
+function common_extend(jsonbject1, jsonbject2) {
+    var resultJsonObject = {};
+
+    for (var attr in jsonbject1) {
+        resultJsonObject[attr] = jsonbject1[attr];
+    }
+
+    for (var attr in jsonbject2) {
+        resultJsonObject[attr] = jsonbject2[attr];
+    }
+
+    return resultJsonObject;
+};
+
 export {
     isJsonString,
-    isRealNum
+    isRealNum,
+    common_extend
 }
