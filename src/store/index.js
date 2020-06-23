@@ -1,6 +1,8 @@
 const Store = {
+	flowdata: [],
+    config: {},
     visibledatarow: [],
-    
+    luckysheet_select_save: [{ "row": [0, 0], "column": [0, 0] }],
 }
 
 // TODO:class store
