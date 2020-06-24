@@ -1,34 +1,40 @@
 
-import defaultSetting from './config.js'
-import luckysheet from './luckysheet-chart'
-import { common_extend } from './utils/util'
+import defaultSetting from './config.js';
+import { common_extend } from './utils/util';
+import Store from './store';
+import server from './controllers/server';
+import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
+import sheetmanage from './controllers/sheetmanage';
+import { luckysheetsizeauto } from './controllers/resize';
+import luckysheetHandler from './controllers/handler';
+
+let luckysheet = {};
 
 luckysheet.create = function (setting) {
-    var extendsetting = common_extend(defaultSetting, setting);
-    var //defaultflow = extendsetting.defaultflow,
-        loadurl = extendsetting.loadUrl,
-        //data1 = extendsetting.data,
+    let extendsetting = common_extend(defaultSetting, setting);
+
+    let loadurl = extendsetting.loadUrl,
         menu = extendsetting.menu,
         title = extendsetting.title;
 
-    container = extendsetting.container;
-    //config = extendsetting.config;
-    luckysheetfile = extendsetting.data;
-    defaultcolumnNum = extendsetting.column;
-    defaultrowNum = extendsetting.row;
-    fullscreenmode = extendsetting.fullscreenmode;
+    let container = extendsetting.container;
+    Store.container = container;
+    Store.luckysheetfile = extendsetting.data;
+    Store.defaultcolumnNum = extendsetting.column;
+    Store.defaultrowNum = extendsetting.row;
+    Store.fullscreenmode = extendsetting.fullscreenmode;
 
-    luckysheet.server.gridKey = extendsetting.gridKey;
-    luckysheet.server.loadUrl = extendsetting.loadUrl;
-    luckysheet.server.updateUrl = extendsetting.updateUrl;
-    luckysheet.server.updateImageUrl = extendsetting.updateImageUrl;
-    luckysheet.server.title = extendsetting.title;
-    luckysheet.server.loadSheetUrl = extendsetting.loadSheetUrl;
-    luckysheet.server.allowUpdate = extendsetting.allowUpdate;
+    server.gridKey = extendsetting.gridKey;
+    server.loadUrl = extendsetting.loadUrl;
+    server.updateUrl = extendsetting.updateUrl;
+    server.updateImageUrl = extendsetting.updateImageUrl;
+    server.title = extendsetting.title;
+    server.loadSheetUrl = extendsetting.loadSheetUrl;
+    server.allowUpdate = extendsetting.allowUpdate;
 
     luckysheetConfigsetting.autoFormatw = extendsetting.autoFormatw;
     luckysheetConfigsetting.accuracy = extendsetting.accuracy;
-    luckysheetConfigsetting.total = luckysheetfile[0].total;
+    luckysheetConfigsetting.total = extendsetting.data[0].total;
 
     luckysheetConfigsetting.allowCopy = extendsetting.allowCopy;
     luckysheetConfigsetting.showtoolbar = extendsetting.showtoolbar;
@@ -42,11 +48,9 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.userInfo = extendsetting.userInfo;
     luckysheetConfigsetting.userMenuItem = extendsetting.userMenuItem;
     luckysheetConfigsetting.myFolderUrl = extendsetting.myFolderUrl;
-
     luckysheetConfigsetting.functionButton = extendsetting.functionButton;
 
     luckysheetConfigsetting.showConfigWindowResize = extendsetting.showConfigWindowResize;
-
     luckysheetConfigsetting.enableAddRow = extendsetting.enableAddRow;
     luckysheetConfigsetting.enableAddCol = extendsetting.enableAddCol;
     luckysheetConfigsetting.enablePage = extendsetting.enablePage;
@@ -58,54 +62,38 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
 
-    devicePixelRatio = extendsetting.devicePixelRatio;
-    if(devicePixelRatio==null){
+    let devicePixelRatio = extendsetting.devicePixelRatio;
+    if(devicePixelRatio == null){
         devicePixelRatio = 1;
     }
-    devicePixelRatio = Math.ceil(devicePixelRatio);
-
-    //luckysheet.tooltip.chartPointConfig("luckysheet-chart-point-config");
+    Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
     $("#" + container).append('<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"> </div> <span>渲染中...</span></div></div>');
 
-    if(luckysheetConfigsetting.pointEdit){
-        //编辑器qksheet表格编辑状态
-        $("#" + container).attr("tabindex", 0).focus();
-        $("#luckysheetloadingdata .luckysheetLoaderGif").css({ "width": "4em", "height": "4em" });
-    }
-
-    var data = [];
+    let data = [];
     if (loadurl == "") {
-        luckysheet.sheetmanage.initialjfFile(menu, title);
-        luckysheet.luckysheetsizeauto();
-        luckysheet.luckysheetHandler();
+        sheetmanage.initialjfFile(menu, title);
+        luckysheetsizeauto();
+        luckysheetHandler();
         luckysheet.chartInitial();
-        //luckysheet.luckysheetactiveCell();
     }
     else {
-        $.post(loadurl, {"gridKey" : luckysheet.server.gridKey}, function (d) {
-            var data = eval("(" + d + ")");
-            luckysheetfile = data;
+        $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
+            let data = eval("(" + d + ")");
+            Store.luckysheetfile = data;
             
-            luckysheet.sheetmanage.initialjfFile(menu, title);
-            luckysheet.luckysheetsizeauto();
-            luckysheet.luckysheetHandler();
+            sheetmanage.initialjfFile(menu, title);
+            luckysheetsizeauto();
+            luckysheetHandler();
             luckysheet.chartInitial();
 
             //需要更新数据给后台时，建立WebSocket连接
-            if(luckysheet.server.allowUpdate){
-                luckysheet.server.openWebSocket();    
+            if(server.allowUpdate){
+                server.openWebSocket();    
             }
-
-            // setTimeout(function(){
-            //     $("#luckysheetloadingdata").fadeOut().remove();
-            // }, 500);
-            //luckysheet.luckysheetactiveCell();
         });
     }
-
-    return luckysheet;
 }
 
 export {

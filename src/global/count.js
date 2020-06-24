@@ -1,6 +1,7 @@
 import Store from '../store';
-import { getdatabyselectionNoCopy } from '../global/getdata';
-import { isRealNull, isRealNum } from '../global/validate';
+import { getdatabyselectionNoCopy } from './getdata';
+import { isRealNull, isRealNum } from './validate';
+import { update } from './format';
 
 let luckysheet_select_save = Store.luckysheet_select_save;
 
@@ -31,7 +32,7 @@ export function countfunc() {
                     continue;
                 }
 
-                var value = data[r][c].v;
+                let value = data[r][c].v;
 
                 if(!isRealNum(value)){
                     continue;
@@ -52,32 +53,22 @@ export function countfunc() {
         }
     }
 
-    var ret = "";
+    let ret = "";
     ret += "<span>计数:" + count + "</span>";
 
-    // if (sum != 0 && (isFinite(max) || isFinite(min))) {
+    //处理成亿万格式
     if (isFinite(max) || isFinite(min)) {
-        //ret += "<span>求和:" + luckysheet.numFormat(sum) + "</span>";
-        //ret += "<span>平均值:" + luckysheet.numFormat(sum / count, 4) + "</span>";
-
-        //new runze 
-        //处理成亿万格式
-        // ret += "<span>求和:" + luckysheet.mask.update("w", luckysheet.numFormat(sum)) + "</span>";
-        ret += "<span>求和:" + luckysheet.mask.update("w", sum) + "</span>";
-        // ret += "<span>平均值:" + luckysheet.mask.update("w", luckysheet.numFormat(sum / count, 4)) + "</span>";
-        ret += "<span>平均值:" + luckysheet.mask.update("w", Math.round(sum / count * 10000) / 10000) + "</span>";
+        ret += "<span>求和:" + update("w", sum) + "</span>";
+        ret += "<span>平均值:" + update("w", Math.round(sum / count * 10000) / 10000) + "</span>";
     }
 
     if (isFinite(max)) {
-        //ret += "<span>最大值:" + luckysheet.numFormat(max) + "</span>";
-        // ret += "<span>最大值:" + luckysheet.mask.update("w", luckysheet.numFormat(max)) + "</span>";
-        ret += "<span>最大值:" + luckysheet.mask.update("w", max) + "</span>";
+        ret += "<span>最大值:" + update("w", max) + "</span>";
     }
 
     if (isFinite(min)) {
-        //ret += "<span>最小值:" + luckysheet.numFormat(min) + "</span>";
-        // ret += "<span>最小值:" + luckysheet.mask.update("w", luckysheet.numFormat(min)) + "</span>";
-        ret += "<span>最小值:" + luckysheet.mask.update("w", min) + "</span>";
+        ret += "<span>最小值:" + update("w", min) + "</span>";
     }
+
     $("#luckysheet-sta-content").html(ret);
 }
