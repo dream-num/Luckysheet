@@ -9,6 +9,8 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 3. 支持一键截图、复制为json数据、共享编辑、excel与Luckysheet之间数据的复制粘贴
 4. 支持移动端查看
 5. 支持sparkLine
+6. 下拉复制
+7. 快捷键
 ![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
 ## Plan - 计划

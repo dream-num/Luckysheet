@@ -121,3 +121,27 @@ luckysheetfile[0] =
 `luckysheet.getluckysheetfile()`
 可以看到完整设置
 [{shee1}, {sheet2}, {sheet3}]
+
+## 快捷键
+
+| 快捷键 | 功能 |
+| ------------ | ------------ |
+|  CTRL + C | 复制单元格 |
+|  CTRL + V | 粘贴单元格 |
+|  CTRL + X | 剪切单元格 |
+|  CTRL + Z | 撤销 |
+|  CTRL + Y | 重做 |
+|  CTRL + A | 全选 |
+|  CTRL + B | 加粗 |
+|  CTRL + F | 查找 |
+|  CTRL + H | 替换 |
+|  CTRL + I | 斜体 |
+|  CTRL + UP/DOWN/LEFT/RIGHT | 快捷调整单元格选框 |
+|  SHIFT + UP/DOWN/LEFT/RIGHT | 调整选区 |
+|  CTRL + 鼠标左击 | 多选单元格 |
+|  SHIFT + 鼠标左击 | 调整选区 |
+|  UP/DOWN/LEFT/RIGHT | 单个移动调整单元格选框 |
+|  ENTER | 编辑单元格 |
+|  DELETE | 清除单元格数据 |
+
+
