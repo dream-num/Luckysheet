@@ -21,7 +21,6 @@
     "gulp-useref": "^4.0.1",
     "rollup": "^2.16.1",
     "rollup-plugin-terser": "^6.1.0",
-    "standard-version": "^8.0.2",
     "vuepress": "^1.5.0"
   },
   "dependencies": {},
@@ -31,7 +30,7 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "commit": "git-cz",
-    "release": "standard-version"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "files": [
     "dist"
