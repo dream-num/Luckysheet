@@ -12,7 +12,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 4. Support mobile viewing
 5. Support sparkLine
 6. Drop down copy
-7. keyboard shortcuts
+7. Keyboard shortcuts
 
 ![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
