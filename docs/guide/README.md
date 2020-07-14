@@ -1,48 +1,51 @@
-# 快速上手
+# Get started
 
-## 基本介绍
-Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
+## Introduction
+Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
-### 特性
-1. Luckysheet支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
-2. 支持数据分析功能包括透视表、分列、矩阵操作、内置385个计算函数
-3. 支持一键截图、复制为json数据、共享编辑、excel与Luckysheet之间数据的复制粘贴
-4. 支持移动端查看
+### Features
+1. Support table settings including freezing columns, merging cells, filtering, sorting, querying, conditional formatting, and annotations
+2. Support data analysis functions including pivottables, charts, columns, matrix operations, built-in 385 calculation functions
+3. Support one-click screenshots, data copying as json,shared editing, and free data copying and pasting between excel and luckysheet
+4. Support mobile viewing
+5. Support sparkLine
+6. Drop down copy
+7. keyboard shortcuts
 
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
 
 ### Demo
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-## 开发模式
+## Development model
 
-### 环境
+### Requirements
 [Node.js](https://nodejs.org/en/) Version >= 6 
 
-### 安装
+### Installation
 ```shell
 npm install
 npm install gulp -g
 ```
 
-### 开发
+### Development
 ```shell
 npm run dev
 ```
 
-### 打包
+### Package
 ```shell
 npm run build
 ```
 
-## 使用步骤
+## Steps for usage
 
-### 第一步
-npm run build后dist文件夹下的所有文件复制到项目目录
+### First step
+After `npm run build`, all files in the `dist` folder are copied to the project directory
 
-### 第二步
-引入依赖
+### Second step
+Introduce dependencies
 ```html
 <link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
 <link rel="stylesheet" href="plugins/plugins.min.css">
@@ -50,42 +53,42 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 <script src="plugins/js/plugin.min.js"></script>
 <script src="main.min.js"></script>
 ```
-### 第三步
-指定一个表格容器
+### Third step
+Specify a table container
 ```html
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-### 第四步
-创建一个表格
+### Fourth step
+Create a table
 ```javascript
 <script>
     $(function () {
-        //配置项
+        //Configuration item
         var options = {
-            container: 'luckysheet' //luckysheet为容器id
+            container: 'luckysheet' //luckysheet is the container id
         }
         luckysheet.create(options)
     })
 </script>
 ```
 
-## 整体结构
+## Structure
 
-### 格式
+### Format
 
-一个完整的Luckysheet表格文件的数据格式为：luckysheetfile，一个表格表格文件包含若干个sheet文件，对应excel的sheet0、sheet1等。
+The data format of a complete Luckysheet table file is: luckysheetfile, a table file contains several sheet files, corresponding to excel sheet0, sheet1, etc.
 
-一个Luckysheet文件的示例如下，该表格包含3个sheet：`
-luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
-相当于excel的3个sheet
+An example of a Luckysheet file is as follows, the table contains 3 sheets:`
+luckysheetfile = [{sheet1 settings}, {sheet2 settings}, {sheet3 settings}]`
+Equivalent to 3 sheets of excel
 
 ![excel sheet](https://minio.cnbabylon.com/public/luckysheet/excel.png)
 
-文件中的一个sheet的示例如下：
+An example of a sheet in the file is as follows:
 ```javascript
 luckysheetfile[0] = 
 {
-	"name": "超市销售额",
+	"name": "Supermarket sales",
 	"color": "",
 	"chart": [],
 	"status": 0,
@@ -116,32 +119,30 @@ luckysheetfile[0] =
     "filter_select": {}
 }
 ```
-### 查看方式
-在chrome的console中查看
+### View method
+View in chrome's console
 `luckysheet.getluckysheetfile()`
-可以看到完整设置
-[{shee1}, {sheet2}, {sheet3}]
+You can see the complete settings
+`[{shee1}, {sheet2}, {sheet3}]`
 
-## 快捷键
+## Keyboard shortcuts
 
-| 快捷键 | 功能 |
+| Keyboard shortcuts | Features |
 | ------------ | ------------ |
-|  CTRL + C | 复制单元格 |
-|  CTRL + V | 粘贴单元格 |
-|  CTRL + X | 剪切单元格 |
-|  CTRL + Z | 撤销 |
-|  CTRL + Y | 重做 |
-|  CTRL + A | 全选 |
-|  CTRL + B | 加粗 |
-|  CTRL + F | 查找 |
-|  CTRL + H | 替换 |
-|  CTRL + I | 斜体 |
-|  CTRL + UP/DOWN/LEFT/RIGHT | 快捷调整单元格选框 |
-|  SHIFT + UP/DOWN/LEFT/RIGHT | 调整选区 |
-|  CTRL + 鼠标左击 | 多选单元格 |
-|  SHIFT + 鼠标左击 | 调整选区 |
-|  UP/DOWN/LEFT/RIGHT | 单个移动调整单元格选框 |
-|  ENTER | 编辑单元格 |
-|  DELETE | 清除单元格数据 |
-
-
+|  CTRL + C | Copy cell |
+|  CTRL + V | Paste cell |
+|  CTRL + X | Cut cell |
+|  CTRL + Z | Undo |
+|  CTRL + Y | Redo |
+|  CTRL + A | Select all |
+|  CTRL + B | Bold |
+|  CTRL + F | Find |
+|  CTRL + H | Replace |
+|  CTRL + I | Italic |
+|  CTRL + UP/DOWN/LEFT/RIGHT | Quickly adjust cell marquee |
+|  SHIFT + UP/DOWN/LEFT/RIGHT | Adjust selection area |
+|  CTRL + Left mouse click | Multiple selection cell |
+|  SHIFT + Left mouse click | Adjust selection area |
+|  UP/DOWN/LEFT/RIGHT | Single move adjustment cell selection box |
+|  ENTER | Edit cell |
+|  DELETE | Clear cell data |

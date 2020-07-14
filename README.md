@@ -1,59 +1,62 @@
 # Luckysheet
+English| [简体中文](./README-zh.md)
 
-## Introduction - 介绍
-Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
+## Introduction
+Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
-## Features - 特性
-1. Luckysheet支持表格设置包括冻结行列、合并单元格、筛选、排序、查询、条件格式、批注
-2. 支持数据分析功能包括透视表、图表、分列、矩阵操作、内置385个计算函数
-3. 支持一键截图、复制为json数据、共享编辑、excel与Luckysheet之间数据的复制粘贴
-4. 支持移动端查看
-5. 支持sparkLine
-6. 下拉复制
-7. 快捷键
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
-## Plan - 计划
-- 模块化(进行中)
-- excel导入/导出
-- 表单
-- 插入图片
-- 更多...
+## Features
+1. Support table settings including freezing columns, merging cells, filtering, sorting, querying, conditional formatting, and annotations
+2. Support data analysis functions including pivottables, charts, columns, matrix operations, built-in 385 calculation functions
+3. Support one-click screenshots, data copying as json,shared editing, and free data copying and pasting between excel and luckysheet
+4. Support mobile viewing
+5. Support sparkLine
+6. Drop down copy
+7. keyboard shortcuts
 
-## Documentation - 文档
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
+![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/)
+## Plan
+- modularization (in progress)
+- Excel import/export
+- Form
+- Insert picture
+- More...
 
-## Requirements - 环境
+## Documentation
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
+
+[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/en/)
+
+## Requirements
 [Node.js](https://nodejs.org/en/) Version >= 6 
 
-## Installation - 安装
+## Installation
 ```
 npm install
 npm install gulp -g
 ```
 
-## Development - 开发
-开发
+## Development
+Development
 ```
 npm run dev
 ```
-打包
+Package
 ```
 npm run build
 ```
-阅读
+Read
 
-Luckysheet的核心代码为luckysheet-core.js和luckysheet-function.js,开发者看源码只需要看这两个文件即可,接下来会讨论进行模块化方案,完善这个插件.
+The core code of Luckysheet is luckysheet-core.js and luckysheet-function.js, developers only need to look at these two files to see the source code, and then we will discuss the modularization scheme and improve this library.
 
-## Usage - 用法
+## Usage
 
-#### 第一步
-npm run build后dist文件夹下的所有文件复制到项目目录
+#### First step
+`npm run build`后`dist`文件夹下的所有文件复制到项目目录
 
-#### 第二步
-引入依赖
+#### Second step
+Introduce dependencies
 ```
 <link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
 <link rel="stylesheet" href="plugins/plugins.min.css">
@@ -61,45 +64,37 @@ npm run build后dist文件夹下的所有文件复制到项目目录
 <script src="plugins/js/plugin.min.js"></script>
 <script src="main.min.js"></script>
 ```
-#### 第三步
-指定一个表格容器
+#### Third step
+Specify a table container
 ```
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-#### 第四步
-创建一个表格
+#### Fourth step
+Create a table
 ```
 <script>
     $(function () {
-        //配置项
+        //Configuration item
         var options = {
-            container: 'luckysheet' //luckysheet为容器id
+            container: 'luckysheet' //luckysheet is the container id
         }
         luckysheet.create(options)
     })
 </script>
 ```
 
-## Contact - 联系
+## Contact
 mengshu@office2.cn
 
-## communication - 交流
+## communication
 
-- 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
+coming soon!
 
-  <img src="https://minio.cnbabylon.com/public/luckysheet/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
-
-或者
-
-- 加入Luckysheet开发者交流QQ群
-  
-  <img src="https://minio.cnbabylon.com/public/luckysheet/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
-
-## Authors and acknowledgment - 贡献者和感谢
+## Authors and acknowledgment
 - Bug Pan ([@wpxp123456](https://github.com/wpxp123456))
 - Dushusir ([@Dushusir](https://github.com/Dushusir))
 
-## License - 版权信息
+## License
 [MIT](http://opensource.org/licenses/MIT)
 
 Copyright (c) 2020-present, mengshukeji
