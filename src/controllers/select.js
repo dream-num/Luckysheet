@@ -139,7 +139,7 @@ function selectHightlightShow() {
                 }
             }
             else{
-                $("#luckysheet-cell-selected-boxs").append('<div class="luckysheet-cell-selected" style="left: '+ luckysheet_select_save[i]["left_move"] +'px; width: '+ luckysheet_select_save[i]["width_move"] +'px; top: '+ luckysheet_select_save[i]["top_move"] +'px; height: '+ luckysheet_select_save[i]["height_move"] +'px; border: 1px solid rgba(1, 136, 251, 0.15); display: block;"></div>');
+                $("#luckysheet-cell-selected-boxs").append('<div class="luckysheet-cell-selected" style="left: '+ Store.luckysheet_select_save[i]["left_move"] +'px; width: '+ Store.luckysheet_select_save[i]["width_move"] +'px; top: '+ Store.luckysheet_select_save[i]["top_move"] +'px; height: '+ Store.luckysheet_select_save[i]["height_move"] +'px; border: 1px solid rgba(1, 136, 251, 0.15); display: block;"></div>');
             }
 
             if(i == Store.luckysheet_select_save.length - 1){

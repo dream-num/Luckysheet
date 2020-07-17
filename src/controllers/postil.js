@@ -1,8 +1,10 @@
 import { rowLocation, colLocation, mouseposition } from '../global/location';
 import editor from '../global/editor';
+import formula from '../global/formula';
 import { luckysheetRangeLast } from '../global/cursorPos';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import { setluckysheet_scroll_status } from '../methods/set';
+import { getSheetIndex } from '../methods/get';
 import { getObjType } from '../utils/util';
 import luckysheetFreezen from './freezen';
 import menuButton from './menuButton';
@@ -622,9 +624,8 @@ const luckysheetPostil = {
             }
         }
 
+        let rc = [];
         if(allPs.length > 0){
-            let rc = [];
-
             if(isAllShow){ //全部显示，操作为隐藏所有批注
                 $("#luckysheet-cell-main #luckysheet-postil-showBoxs").empty();
 
@@ -748,7 +749,7 @@ const luckysheetPostil = {
         }
     },
     ref: function(data, rc){
-        if (clearjfundo) {
+        if (Store.clearjfundo) {
             Store.jfundo = [];
             
             Store.jfredo.push({ 
@@ -764,7 +765,7 @@ const luckysheetPostil = {
         Store.flowdata = data;
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
-        Store.luckysheetfile[sheetmanage.getSheetIndex(Store.currentSheetIndex)].data = Store.flowdata;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].data = Store.flowdata;
         formula.execFunctionGroupData = Store.flowdata;
 
         //共享编辑模式

@@ -20,6 +20,7 @@ import cleargridelement from '../global/cleargridelement';
 import luckysheetArray from '../global/array';
 import analysis from '../global/analysis';
 import { selectHightlightShow } from './select';
+import { luckysheet_searcharray } from './sheetSearch';
 import { 
     modelHTML, 
     filtermenuHTML, 
@@ -375,15 +376,15 @@ const pivotTable = {
             let item = [];
 
             if(JSON.stringify(dvmap).length > 2){
-                for(y in dvmap){
+                for(let y in dvmap){
                     let ysum = 0;
                     let monthHtml = '';
 
-                    for(m in dvmap[y]){
+                    for(let m in dvmap[y]){
                         let msum = 0;
                         let dayHtml = '';
 
-                        for(d in dvmap[y][m]){
+                        for(let d in dvmap[y][m]){
                             let dayL = dvmap[y][m][d];
                             msum += dayL;
 
@@ -494,7 +495,7 @@ const pivotTable = {
                 for(let i = 0; i < vmapKeys.length; i++){
                     let v = vmapKeys[i];
 
-                    for(x in vmap[v]){
+                    for(let x in vmap[v]){
                         let text;
                         if((v + "#$$$#" + x) == "null#$$$#null"){
                             text = "(空白)";
@@ -665,6 +666,9 @@ const pivotTable = {
 
         let d = $.extend(true, [], sheetmanage.nulldata);
         let data = d;
+
+        let addr = 0, addc = 0;
+
         if (ret.length == 0) {
             _this.setDatatojsfile("drawPivotTable", true);
             _this.setDatatojsfile("pivotTableBoundary", [12, 6]);
@@ -675,8 +679,9 @@ const pivotTable = {
 
             let rlen = ret.length, 
                 clen = ret[0].length;
-            let addr = rlen - d.length, 
-                addc = clen - d[0].length;
+
+            addr = rlen - d.length; 
+            addc = clen - d[0].length;
 
             data = datagridgrowth(d, addr + 20, addc + 10, true);
 
@@ -2034,18 +2039,24 @@ const pivotTable = {
             });
 
             $("#luckysheet-modal-dialog-pivotTable-list").on("click", ".luckysheet-slider-list-item-selected", function () {
-                let $t = $(this), $item = $t.parent(), index = $item.data("index"), name = $item.data("name");
+                let $t = $(this), 
+                    $item = $t.parent(), 
+                    index = $item.data("index"), 
+                    name = $item.data("name");
                 
                 if ($t.find("i").length == 0) {
                     $t.append('<i class="fa fa-check luckysheet-mousedown-cancel"></i>');
 
-                    let type = _this.pivot_data_type[index.toString()], itemHTML;
+                    let type = _this.pivot_data_type[index.toString()], 
+                        itemHTML;
+
                     if (type == "num") {
                         itemHTML = '<div title="' + name + '" class="luckysheet-modal-dialog-slider-config-item" data-nameindex="0" data-sumtype="SUM" data-index="' + index + '" data-name="' + name + '"><div class="luckysheet-modal-dialog-slider-config-item-txt" data-nameindex="0" data-sumtype="SUM" data-index="' + index + '" data-name="' + name + '">求和:' + name + '</div><div class="luckysheet-modal-dialog-slider-config-item-icon"><i class="fa fa-sort-desc" aria-hidden="true"></i></div></div>';
                         $("#luckysheet-modal-dialog-config-value").append(itemHTML);
                     }
                     else {
                         itemHTML = '<div title="' + name + '" class="luckysheet-modal-dialog-slider-config-item" data-index="' + index + '" data-name="' + name + '"><div class="luckysheet-modal-dialog-slider-config-item-txt" data-index="' + index + '" data-name="' + name + '">' + name + '</div><div class="luckysheet-modal-dialog-slider-config-item-icon"><i class="fa fa-sort-desc" aria-hidden="true"></i></div></div>';
+                        
                         let $column = $("#luckysheet-modal-dialog-config-column"), 
                             $row = $("#luckysheet-modal-dialog-config-row");
                         let columnitem = $column.find(".luckysheet-modal-dialog-slider-config-item"), 
@@ -2661,12 +2672,14 @@ const pivotTable = {
                 coltitle.unshift("总计");
             }
 
-            let curentLevelobj = datarowposition, curentLevelarr = datarowtitlegroup;
+            let curentLevelobj_row = datarowposition, 
+                curentLevelarr_row = datarowtitlegroup;
+            
             for (let r = 0; r < rowtitle.length; r++) {
                 let item = rowtitle[r], name = r == 0 ? "总计" : rowtitlename[r - 1];//修改
 
-                if (curentLevelobj[r.toString()] != null && curentLevelobj[r.toString()][item] != null) {//修改
-                    curentLevelarr = curentLevelarr[curentLevelobj[r.toString()][item]].children;
+                if (curentLevelobj_row[r.toString()] != null && curentLevelobj_row[r.toString()][item] != null) {//修改
+                    curentLevelarr_row = curentLevelarr_row[curentLevelobj_row[r.toString()][item]].children;
                 }
                 else {
                     let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + "合计"));
@@ -2675,25 +2688,28 @@ const pivotTable = {
                         name = "(空白)";
                     }
 
-                    curentLevelarr.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
+                    curentLevelarr_row.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
 
-                    if (curentLevelobj[r.toString()] == null) {
-                        curentLevelobj[r.toString()] = {};
+                    if (curentLevelobj_row[r.toString()] == null) {
+                        curentLevelobj_row[r.toString()] = {};
                     }
 
-                    if (curentLevelobj[r.toString()][item] == null) {
-                        curentLevelobj[r.toString()][item] = curentLevelarr.length - 1;
+                    if (curentLevelobj_row[r.toString()][item] == null) {
+                        curentLevelobj_row[r.toString()][item] = curentLevelarr_row.length - 1;
                     }
 
-                    curentLevelarr = curentLevelarr[curentLevelarr.length - 1].children;
+                    curentLevelarr_row = curentLevelarr_row[curentLevelarr_row.length - 1].children;
                 }
             }
+
+            let curentLevelobj_col = datacolposition, 
+                curentLevelarr_col = datacoltitlegroup;
 
             for (let r = 0; r < coltitle.length; r++) {
                 let item = coltitle[r], name = r == 0 ? "总计" : coltitlename[r - 1];
 
-                if (curentLevelobj[r.toString()] != null && curentLevelobj[r.toString()][item] != null) {
-                    curentLevelarr = curentLevelarr[curentLevelobj[r.toString()][item]].children;
+                if (curentLevelobj_col[r.toString()] != null && curentLevelobj_col[r.toString()][item] != null) {
+                    curentLevelarr_col = curentLevelarr_col[curentLevelobj_col[r.toString()][item]].children;
                 }
                 else {
                     let orderby = r == 0 ? "self" : ((column[r - 1].orderby == "self" || column[r - 1].orderby == null) ? item : (showType == "column" ? "合计" + item : values[parseInt(column[r - 1].orderby)].fullname + item));
@@ -2702,17 +2718,17 @@ const pivotTable = {
                         name = "(空白)";
                     }
 
-                    curentLevelarr.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
+                    curentLevelarr_col.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
 
-                    if (curentLevelobj[r.toString()] == null) {
-                        curentLevelobj[r.toString()] = {};
+                    if (curentLevelobj_col[r.toString()] == null) {
+                        curentLevelobj_col[r.toString()] = {};
                     }
 
-                    if (curentLevelobj[r.toString()][item] == null) {
-                        curentLevelobj[r.toString()][item] = curentLevelarr.length - 1;
+                    if (curentLevelobj_col[r.toString()][item] == null) {
+                        curentLevelobj_col[r.toString()][item] = curentLevelarr_col.length - 1;
                     }
 
-                    curentLevelarr = curentLevelarr[curentLevelarr.length - 1].children;
+                    curentLevelarr_col = curentLevelarr_col[curentLevelarr_col.length - 1].children;
                 }
             }
 
@@ -2750,7 +2766,7 @@ const pivotTable = {
 
                 for (let r = 0; r < rowtitle_c.length; r++) {
                     for (let c = 0; c < coltitle_c.length; c++) {
-                        indicator = rowtitle_c[r] + coltitle_c[c];
+                        let indicator = rowtitle_c[r] + coltitle_c[c];
                         _this.addStatisticsData(dataposition, values[v], indicator, d_value);
                     }
                 }
@@ -2759,7 +2775,7 @@ const pivotTable = {
 
         //计算值列
         //SUM/COUNT/COUNTA/COUNTUNIQUE/AVERAGE/MAX/MIN/MEDIAN/PRODUCT/STDEV/STDEVP/let/VARP
-        for (indicator in dataposition) {
+        for (let indicator in dataposition) {
             let json = dataposition[indicator];
 
             if (json.sumtype == "SUM") {
@@ -3018,7 +3034,7 @@ const pivotTable = {
         for(let j = 1; j < _this.celldata.length; j++){
             let isEqual = true
 
-            for(x in obj){
+            for(let x in obj){
                 let value;
                 if(!!_this.celldata[j][x] && !!_this.celldata[j][x]["m"]){
                     value = _this.celldata[j][x]["m"];

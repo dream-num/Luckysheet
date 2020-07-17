@@ -209,7 +209,7 @@ const conditionformat = {
 
                     rule = {
                         "type": "dataBar", 
-                        "cellrange": $.extend(true, [], luckysheet_select_save), 
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
                         "format": format
                     };
                 }
@@ -227,7 +227,7 @@ const conditionformat = {
 
                     rule = {
                         "type": "colorGradation", 
-                        "cellrange": $.extend(true, [], luckysheet_select_save), 
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
                         "format": format
                     };
                 }
@@ -244,7 +244,7 @@ const conditionformat = {
 
                     rule = {
                         "type": "icons", 
-                        "cellrange": $.extend(true, [], luckysheet_select_save), 
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
                         "format": format
                     };
                 }
@@ -476,7 +476,7 @@ const conditionformat = {
 
                 rule = {
                     "type": "default",
-                    "cellrange": $.extend(true, [], luckysheet_select_save),
+                    "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                     "format": format, 
                     "conditionName": conditionName, 
                     "conditionRange": conditionRange, 
@@ -3375,7 +3375,7 @@ const conditionformat = {
                             }
                             //循环应用范围计算
                             if(conditionValue0 == "0"){//重复值
-                                for(x in dmap){
+                                for(let x in dmap){
                                     if(x != "null" && x != "undefined" && dmap[x].length > 1){
                                         for(let j = 0; j < dmap[x].length; j++){
                                             if((dmap[x][j].r + "_" + dmap[x][j].c) in computeMap){
@@ -3390,7 +3390,7 @@ const conditionformat = {
                                 }    
                             }
                             if(conditionValue0 == "1"){//唯一值
-                                for(x in dmap){
+                                for(let x in dmap){
                                     if(x != "null" && x != "undefined" && dmap[x].length == 1){
                                         if((dmap[x][0].r + "_" + dmap[x][0].c) in computeMap){
                                             computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["textColor"] = textColor;
@@ -3536,8 +3536,9 @@ const conditionformat = {
         let historyRules = _this.getHistoryRules(fileH);
         
         //保存当前的规则
+        let ruleArr;
         if(type == "delSheet"){
-            let ruleArr = [];
+            ruleArr = [];
         }
         else{
             let rule = {
@@ -3545,7 +3546,7 @@ const conditionformat = {
                 "cellrange": cellrange, 
                 "format": format
             };
-            let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"] == null ? [] : Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
+            ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"] == null ? [] : Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
             ruleArr.push(rule);
         }
 

@@ -177,7 +177,7 @@ const sheetmanage = {
 
         let sheetname = _this.generateRandomSheetName(Store.luckysheetfile, isPivotTable);
         
-        $("#luckysheet-sheet-Store.container-c").append(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" }));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" }));
 
         let sheetconfig = { 
             "name": sheetname, 
@@ -320,18 +320,18 @@ const sheetmanage = {
             $("#luckysheet-cell-main").append('<div ' + display + ' id="luckysheet-datavisual-selection-set-' + sheetIndex + '" class="luckysheet-datavisual-selection-set"></div>');
         }
 
-        $("#luckysheet-sheet-Store.container-c").append(btn.join(""));
+        $("#luckysheet-sheet-container-c").append(btn.join(""));
 
         _this.locationSheet();
     },
     locationSheet: function() {
-        let $c = $("#luckysheet-sheet-Store.container-c"), winW = $("#"+Store.container).width();
-        let $cursheet = $("#luckysheet-sheet-Store.container-c > div.luckysheet-sheets-item-active").eq(0);
+        let $c = $("#luckysheet-sheet-container-c"), winW = $("#"+Store.container).width();
+        let $cursheet = $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item-active").eq(0);
 
         let scrollLeftpx = 0;
         let c_width = 0;
 
-        $("#luckysheet-sheet-Store.container-c > div.luckysheet-sheets-item:visible").each(function(){
+        $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item:visible").each(function(){
             if($(this).hasClass("luckysheet-sheets-item-active")){
                 scrollLeftpx = c_width;
             }
@@ -343,7 +343,7 @@ const sheetmanage = {
 
             if (c_width >= winW * 0.7) {
                 $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
-                $("#luckysheet-sheet-Store.container .docs-sheet-fade-left").show();
+                $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
             }
         }, 1)
     },
@@ -370,7 +370,7 @@ const sheetmanage = {
         }
 
         let copyobject = $("#luckysheet-sheets-item" + copyindex);
-        $("#luckysheet-sheet-Store.container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset }));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset }));
         $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
         Store.luckysheetfile.splice(copyindex + 1, 0, copyjson);
 
@@ -423,7 +423,7 @@ const sheetmanage = {
             colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + data.color + ';"></div>';
         }
 
-        $("#luckysheet-sheet-Store.container-c").append(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset }));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset }));
 
         let previndex = data.order;
         if(previndex >= Store.luckysheetfile.length){
@@ -1024,23 +1024,23 @@ const sheetmanage = {
             formula.createRangeHightlight();
         }
 
-        let $c = $("#luckysheet-sheet-Store.container-c");
+        let $c = $("#luckysheet-sheet-container-c");
         $c.scrollLeft($sheet.offset().left);
 
         let c_width = $c.width(), c_srollwidth = $c[0].scrollWidth, scrollLeft = $c.scrollLeft();
 
         if (scrollLeft <= 0) {
-            $("#luckysheet-sheet-Store.container .docs-sheet-fade-left").hide();
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
         }
         else {
-            $("#luckysheet-sheet-Store.container .docs-sheet-fade-left").show();
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
         }
 
         if (c_width + scrollLeft >= c_srollwidth) {
-            $("#luckysheet-sheet-Store.container .docs-sheet-fade-right").hide();
+            $("#luckysheet-sheet-container .docs-sheet-fade-right").hide();
         }
         else {
-            $("#luckysheet-sheet-Store.container .docs-sheet-fade-right").show();
+            $("#luckysheet-sheet-container .docs-sheet-fade-right").show();
         }
     },
     delChart: function(chart_id, sheetIndex) {

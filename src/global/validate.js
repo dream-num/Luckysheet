@@ -1,4 +1,5 @@
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
+import Store from '../store';
 
 const error = {
     v: "#VALUE!",    //错误的参数或运算符
@@ -79,7 +80,7 @@ function isEditMode() {
 function hasPartMC(cfg, r1, r2, c1, c2) {
     let hasPartMC = false;
 
-    for(let x in config["merge"]){
+    for(let x in Store.config["merge"]){
         let mc = cfg["merge"][x];
 
         if(r1 < mc.r){

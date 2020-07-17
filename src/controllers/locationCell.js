@@ -259,8 +259,8 @@ const luckysheetLocationCell = {
                 if(st_r == ed_r){
                     let stack_stc = null, stack_edc = null;
 
-                    let r = st_r;
-                    for(let c = st_c; c <= ed_c; c++){
+                    var r = st_r;  //r, c var定义，否则eval报错
+                    for(var c = st_c; c <= ed_c; c++){
                         if(c == st_c){
                             if(eval(str)){
                                 stack_stc = c;
@@ -313,11 +313,11 @@ const luckysheetLocationCell = {
                 else{
                     let stack = {}; 
 
-                    for(let r = st_r; r <= ed_r; r++){
+                    for(var r = st_r; r <= ed_r; r++){
                         stack[r] = [];
                         let stack_stc = null, stack_edc = null;
 
-                        for(let c = st_c; c <= ed_c; c++){
+                        for(var c = st_c; c <= ed_c; c++){
                             if(c == ed_c){
                                 if(eval(str)){
                                     if(stack_stc == null){

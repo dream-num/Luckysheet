@@ -307,13 +307,13 @@ const selection = {
                                 if(JSON.stringify(bl_obj).length > 23){
                                     let bl_color = null, bl_style = null;
 
-                                    for(x in bl_obj.color){
+                                    for(let x in bl_obj.color){
                                         if(bl_obj.color[x] >= (rowlen / 2)){
                                             bl_color = x;
                                         }
                                     }
 
-                                    for(x in bl_obj.style){
+                                    for(let x in bl_obj.style){
                                         if(bl_obj.style[x] >= (rowlen / 2)){
                                             bl_style = x;
                                         }
@@ -327,13 +327,13 @@ const selection = {
                                 if(JSON.stringify(br_obj).length > 23){
                                     let br_color = null, br_style = null;
 
-                                    for(x in br_obj.color){
+                                    for(let x in br_obj.color){
                                         if(br_obj.color[x] >= (rowlen / 2)){
                                             br_color = x;
                                         }
                                     }
 
-                                    for(x in br_obj.style){
+                                    for(let x in br_obj.style){
                                         if(br_obj.style[x] >= (rowlen / 2)){
                                             br_style = x;
                                         }
@@ -347,13 +347,13 @@ const selection = {
                                 if(JSON.stringify(bt_obj).length > 23){
                                     let bt_color = null, bt_style = null;
 
-                                    for(x in bt_obj.color){
+                                    for(let x in bt_obj.color){
                                         if(bt_obj.color[x] >= (collen / 2)){
                                             bt_color = x;
                                         }
                                     }
 
-                                    for(x in bt_obj.style){
+                                    for(let x in bt_obj.style){
                                         if(bt_obj.style[x] >= (collen / 2)){
                                             bt_style = x;
                                         }
@@ -367,13 +367,13 @@ const selection = {
                                 if(JSON.stringify(bb_obj).length > 23){
                                     let bb_color = null, bb_style = null;
 
-                                    for(x in bb_obj.color){
+                                    for(let x in bb_obj.color){
                                         if(bb_obj.color[x] >= (collen / 2)){
                                             bb_color = x;
                                         }
                                     }
 
-                                    for(x in bb_obj.style){
+                                    for(let x in bb_obj.style){
                                         if(bb_obj.style[x] >= (collen / 2)){
                                             bb_style = x;
                                         }

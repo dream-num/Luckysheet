@@ -28,6 +28,7 @@ import splitColumn from './splitColumn';
 import { labelFilterOptionState, orderbydatafiler, createFilter, createFilterOptions } from './filter';
 import insertFormula from './insertFormula';
 import { 
+    replaceHtml,
     getObjType, 
     chatatABC, 
     ArrayUnique,
@@ -60,7 +61,7 @@ import {
     jfrefreshgrid_rhcw,
     luckysheetrefreshgrid, 
 } from '../global/refresh';
-import { getdatabyselection, getcellvalue } from '../global/getdata';
+import { getdatabyselection, getcellvalue, datagridgrowth } from '../global/getdata';
 import { orderbydata, orderbydata1D, sortColumnSeletion } from '../global/sort';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
@@ -69,6 +70,7 @@ import json from '../global/json';
 import { update, genarate } from '../global/format';
 import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
+import { luckysheetDrawMain } from '../global/draw';
 import Store from '../store';
 
 //, columeflowset, rowflowset
@@ -111,14 +113,18 @@ export default function luckysheetHandler() {
 
         //一次滚动三行或三列
         if(event.deltaX != 0){
+            let col_ed;
+            
             if(event.deltaX < 0){
-                let col_ed = col_st + 3;
+                col_ed = col_st + 3;
+                
                 if(col_ed >= visibledatacolumn_c.length){
                     col_ed = visibledatacolumn_c.length - 1;
                 }
             }
             else{
-                let col_ed = col_st - 3;
+                col_ed = col_st - 3;
+                
                 if(col_ed < 0){
                     col_ed = 0;
                 }
@@ -130,14 +136,18 @@ export default function luckysheetHandler() {
         }
 
         if(event.deltaY != 0){
+            let row_ed;
+
             if(event.deltaY < 0){
-                let row_ed = row_st + 3;
+                row_ed = row_st + 3;
+                
                 if(row_ed >= visibledatarow_c.length){
                     row_ed = visibledatarow_c.length - 1;
                 }
             }
             else{
-                let row_ed = row_st - 3;
+                row_ed = row_st - 3;
+                
                 if(row_ed < 0){
                     row_ed = 0;
                 }
@@ -640,8 +650,9 @@ export default function luckysheetHandler() {
                     let currSelection = window.getSelection();
                     let anchorOffset = currSelection.anchorNode;
                     
+                    let $editor;
                     if($("#luckysheet-search-formula-parm").is(":visible") || $("#luckysheet-search-formula-parm-select").is(":visible")){
-                        $editor=$("#luckysheet-rich-text-editor");
+                        $editor = $("#luckysheet-rich-text-editor");
                         formula.rangechangeindex = formula.data_parm_index;
                     }
                     else{
@@ -3574,7 +3585,7 @@ export default function luckysheetHandler() {
 
             cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size);
 
-            if (clearjfundo) {
+            if (Store.clearjfundo) {
                 Store.jfundo = [];
 
                 Store.jfredo.push({
@@ -3642,7 +3653,7 @@ export default function luckysheetHandler() {
 
             cfg["columlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
 
-            if (clearjfundo) {
+            if (Store.clearjfundo) {
                 Store.jfundo = [];
 
                 Store.jfredo.push({
@@ -4304,6 +4315,8 @@ export default function luckysheetHandler() {
                 setTimeout(function(){
                     let currSelection = window.getSelection();
                     let anchorOffset = currSelection.anchorNode;
+                    
+                    let $editor;
                     if($("#luckysheet-search-formula-parm").is(":visible")||$("#luckysheet-search-formula-parm-select").is(":visible")){
                         $editor = $("#luckysheet-rich-text-editor");
                         formula.rangechangeindex = formula.data_parm_index;
@@ -4311,6 +4324,7 @@ export default function luckysheetHandler() {
                     else{
                         $editor = $(anchorOffset).closest("div");
                     }
+
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
                     formula.setCaretPosition($span.get(0), 0, $span.html().length);
@@ -6402,7 +6416,7 @@ export default function luckysheetHandler() {
                     Store.luckysheetfile[index].color = color;
                     server.saveParam("all", Store.currentSheetIndex, color, { "k": "color" });
 
-                    if (clearjfundo) {
+                    if (Store.clearjfundo) {
                         let redo = {};
                         redo["type"] = "sheetColor";
                         redo["sheetIndex"] = Store.currentSheetIndex;
@@ -6427,7 +6441,7 @@ export default function luckysheetHandler() {
                 Store.luckysheetfile[index].color = null;
                 server.saveParam("all", Store.currentSheetIndex, null, { "k": "color" } );
 
-                if (clearjfundo) {
+                if (Store.clearjfundo) {
                     let redo = {};
                     redo["type"] = "sheetColor";
                     redo["sheetIndex"] = Store.currentSheetIndex;
@@ -6590,7 +6604,7 @@ export default function luckysheetHandler() {
 
         $t.attr("contenteditable", "false").removeClass("luckysheet-mousedown-cancel");
 
-        if (clearjfundo) {
+        if (Store.clearjfundo) {
             let redo = {};
             redo["type"] = "sheetName";
             redo["sheetIndex"] = Store.currentSheetIndex;
@@ -6780,7 +6794,7 @@ export default function luckysheetHandler() {
             $("#luckysheet-sheet-list").html(item);
         }
 
-        $t = $("#luckysheet-sheet-list");
+        let $t = $("#luckysheet-sheet-list");
 
         mouseclickposition($t, $(this).offset().left, $(this).offset().top - 12, "leftbottom");
         $("#luckysheet-input-box").removeAttr("style");
@@ -7025,7 +7039,7 @@ export default function luckysheetHandler() {
             }
         }
 
-        if (clearjfundo) {
+        if (Store.clearjfundo) {
             Store.jfundo = [];
             Store.jfredo.push({
                 "type": "resize",
@@ -7191,11 +7205,12 @@ export default function luckysheetHandler() {
                 //数据具有标题行
                 let t = $("#luckysheet-sort-haveheader").is(':checked');
 
+                let str;
                 if(t){
-                    let str = r1 + 1;
+                    str = r1 + 1;
                 }
                 else{
-                    let str = r1;
+                    str = r1;
                 }
 
                 let hasMc = false; //排序选区是否有合并单元格
@@ -7553,11 +7568,11 @@ export default function luckysheetHandler() {
                     let ysum = 0;
                     let monthHtml = '';
 
-                    for(m in dvmap[y]){
+                    for(let m in dvmap[y]){
                         let msum = 0;
                         let dayHtml = '';
 
-                        for(d in dvmap[y][m]){
+                        for(let d in dvmap[y][m]){
                             let dayL = dvmap[y][m][d];
                             msum += dayL;
 
@@ -7668,7 +7683,7 @@ export default function luckysheetHandler() {
                 for(let i = 0; i < vmapKeys.length; i++){
                     let v = vmapKeys[i];
 
-                    for(x in vmap[v]){
+                    for(let x in vmap[v]){
                         let text;
                         if((v + "#$$$#" + x) == "null#$$$#null"){
                             text = "(空白)";
@@ -7767,7 +7782,7 @@ export default function luckysheetHandler() {
                     fc = fc.substr(0, 1) + fc.substr(1, 1).repeat(2) + fc.substr(2, 1).repeat(2) + fc.substr(3, 1).repeat(2);
                 }
     
-                if(config != null && config["rowhidden"] != null && r in config["rowhidden"]){
+                if(Store.config != null && Store.config["rowhidden"] != null && r in Store.config["rowhidden"]){
                     bgMap[bg] = 1;
     
                     if(cell != null && !isRealNull(cell.v)){
@@ -7786,7 +7801,7 @@ export default function luckysheetHandler() {
             let filterBgColorHtml = '';
             if(JSON.stringify(bgMap).length > 2 && Object.keys(bgMap).length > 1){
                 let bgColorItemHtml = '';
-                for(b in bgMap){
+                for(let b in bgMap){
                     if(bgMap[b] == 0){
                         bgColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + b + '" title="' + b + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/></div>';
                     }
@@ -7800,7 +7815,7 @@ export default function luckysheetHandler() {
             let filterFcColorHtml = '';
             if(JSON.stringify(fcMap).length > 2 && Object.keys(fcMap).length > 1){
                 let fcColorItemHtml = '';
-                for(f in fcMap){
+                for(let f in fcMap){
                     if(fcMap[f] == 0){
                         fcColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + f + '" title="' + f + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/></div>';
                     }
@@ -7996,11 +8011,11 @@ export default function luckysheetHandler() {
     
         labelFilterOptionState($top, optionstate, rowhidden, caljs, true, st_r, ed_r, cindex, st_c, ed_c);
     
-        let cfg = $.extend(true, {}, config);
+        let cfg = $.extend(true, {}, Store.config);
         cfg["rowhidden"] = rowhiddenall;
     
         //保存撤销
-        if(clearjfundo){
+        if(Store.clearjfundo){
             let redo = {};
             redo["type"] = "datachangeAll_filter";
             redo["sheetIndex"] = Store.currentSheetIndex;
@@ -8718,7 +8733,7 @@ export default function luckysheetHandler() {
         cfg["rowhidden"] = rowhiddenall;
 
         //保存撤销
-        if(clearjfundo){
+        if(Store.clearjfundo){
             let redo = {};
             redo["type"] = "datachangeAll_filter";
             redo["sheetIndex"] = Store.currentSheetIndex;

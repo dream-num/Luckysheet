@@ -1593,7 +1593,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         let borderInfoCompute = getBorderInfoCompute();
         
-        for(x in borderInfoCompute){
+        for(let x in borderInfoCompute){
             let bd_r = x.split("_")[0], bd_c = x.split("_")[1];
 
             if(borderOffset[bd_r + "_" + bd_c]){
@@ -1924,7 +1924,7 @@ function luckysheetDrawMain_back(scrollWidth, scrollHeight, drawWidth, drawHeigh
                 if (Store.flowdata[r] != null && Store.flowdata[r][c] != null && start_r >= -1 && start_c >= -1 ) {
                     let value = Store.flowdata[r][c];
 
-                    let firstcolumlen = defaultcollen;
+                    let firstcolumlen = Store.defaultcollen;
                     if (Store.config["columlen"] != null && Store.config["columlen"][c] != null) {
                         firstcolumlen = Store.config["columlen"][c];
                     }

@@ -2728,10 +2728,10 @@ const luckysheetformula = {
 
         let row_index_original = luckysheet_cell_selected_move_index[0],
             col_index_original = luckysheet_cell_selected_move_index[1];
-        let row_s = luckysheet_select_save["row"][0] - row_index_original + row_index,
-            row_e = luckysheet_select_save["row"][1] - row_index_original + row_index;
-        let col_s = luckysheet_select_save["column"][0] - col_index_original + col_index,
-            col_e = luckysheet_select_save["column"][1] - col_index_original + col_index;
+        let row_s = luckysheet_select_save["row"][0] - row_index_original + rowLocation(y)[2],
+            row_e = luckysheet_select_save["row"][1] - row_index_original + rowLocation(y)[2];
+        let col_s = luckysheet_select_save["column"][0] - col_index_original + colLocation(x)[2],
+            col_e = luckysheet_select_save["column"][1] - col_index_original + colLocation(x)[2];
 
         if (row_s < 0 || y < 0) {
             row_s = 0;

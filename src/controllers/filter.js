@@ -7,6 +7,7 @@ import { rowlenByRange } from '../global/getRowlen';
 import { jfrefreshgrid } from '../global/refresh';
 import { selectHightlightShow } from './select';
 import { luckysheetMoveEndCell } from './sheetMove';
+import server from './server';
 import Store from '../store';
 
 //筛选配置状态

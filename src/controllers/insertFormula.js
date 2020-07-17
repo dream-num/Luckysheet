@@ -210,13 +210,13 @@ const insertFormula = {
 
         $("#formulaTypeList .listBox:first-child").addClass("on"); //默认公式列表第一个为选中状态
     },
-    formulaParmDialog: function(formula, parm){ //参数弹出框
+    formulaParmDialog: function(formulaTxt, parm){ //参数弹出框
         let parm_title = '',
             parm_content = '',
             parm_list_content = '';
 
         for(let i = 0; i < functionlist.length; i++){
-            if(functionlist[i].n == formula.toUpperCase()){
+            if(functionlist[i].n == formulaTxt.toUpperCase()){
                 parm_title = functionlist[i].n;
 
                 for(let j = 0; j < functionlist[i].p.length; j++){

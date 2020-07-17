@@ -328,20 +328,20 @@ const luckysheetSearchReplace = {
         let searchAllHtml = '';
 
         for(let i = 0; i < searchIndexArr.length; i++){
-            let valueShowEs = valueShowEs(searchIndexArr[i].r, searchIndexArr[i].c, Store.flowdata).toString();
+            let value_ShowEs = valueShowEs(searchIndexArr[i].r, searchIndexArr[i].c, Store.flowdata).toString();
 
-            if(valueShowEs.indexOf("</") > -1 && valueShowEs.indexOf(">") > -1){
+            if(value_ShowEs.indexOf("</") > -1 && value_ShowEs.indexOf(">") > -1){
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
                                     '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span>' + valueShowEs + '</span>' +
+                                    '<span>' + value_ShowEs + '</span>' +
                                  '</div>';
             }
             else{
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
                                     '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span title="' + valueShowEs + '">' + valueShowEs + '</span>' +
+                                    '<span title="' + value_ShowEs + '">' + value_ShowEs + '</span>' +
                                  '</div>';
             }
         }
@@ -550,9 +550,10 @@ const luckysheetSearchReplace = {
 
         let d = editor.deepCopyFlowData(Store.flowdata);
 
+        let r, c;
         if(wordCheck){
-            let r = searchIndexArr[count].r;
-            let c = searchIndexArr[count].c;
+            r = searchIndexArr[count].r;
+            c = searchIndexArr[count].c;
 
             let v = replaceText;
 
@@ -567,8 +568,8 @@ const luckysheetSearchReplace = {
                 reg = new RegExp(func_methods.getRegExpStr(searchText), "ig");
             }
 
-            let r = searchIndexArr[count].r;
-            let c = searchIndexArr[count].c;
+            r = searchIndexArr[count].r;
+            c = searchIndexArr[count].c;
 
             let v = valueShowEs(r, c, d).toString().replace(reg, replaceText);
 
@@ -668,7 +669,6 @@ const luckysheetSearchReplace = {
         let replaceText = $("#luckysheet-search-replace #replaceInput input").val();
 
         let d = editor.deepCopyFlowData(Store.flowdata);
-        let range = [];
 
         if(wordCheck){
             for(let i = 0; i < searchIndexArr.length; i++){

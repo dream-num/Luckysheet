@@ -844,7 +844,7 @@ const alternateformat = {
             let rangeMap = _this.getRangeMap(range["row"], range["column"]);
             
             //遍历
-            for(x in rangeMap){
+            for(let x in rangeMap){
                 if(isExists){
                     break;
                 } 

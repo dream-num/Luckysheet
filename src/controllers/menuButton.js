@@ -26,7 +26,7 @@ import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import { isdatatypemulti } from '../global/datecontroll';
 import { setcellvalue } from '../global/setdata';
 import { countfunc } from '../global/count';
-import { getSheetIndex, getluckysheetfile } from '../methods/get';
+import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
@@ -261,7 +261,7 @@ const menuButton = {
 
             let fa = main.split("");
             let tail = "";
-            for(i=fa.length-1;i>=0;i--){
+            for(let i = fa.length-1; i >= 0; i--){
                 let c = fa[i];
                 if((c!="#" && c!="0" && c!="," && isNaN(parseInt(c)))) {
                     tail = c + tail;
@@ -343,7 +343,7 @@ const menuButton = {
 
             let fa = main.split("");
             let tail = "";
-            for(i=fa.length-1;i>=0;i--){
+            for(let i = fa.length - 1; i >= 0; i--){
                 let c = fa[i];
                 if(( c!="#" && c!="0" && c!="," && isNaN(parseInt(c)))) {
                     tail = c + tail;
@@ -2602,8 +2602,9 @@ const menuButton = {
                     col_index = last["column"][0];
                 }
 
+                let itemdata;
                 if(Store.flowdata[row_index][col_index] != null && Store.flowdata[row_index][col_index].ps != null){
-                    let itemdata = [
+                    itemdata = [
                         {"text": "编辑批注", "value": "editPs", "example": ""},
                         {"text": "删除", "value": "delPs", "example": ""},
                         {"text": "", "value": "split", "example": ""},
@@ -2612,7 +2613,7 @@ const menuButton = {
                     ];
                 }
                 else{
-                    let itemdata = [
+                    itemdata = [
                         {"text": "新建批注", "value": "newPs", "example": ""},
                         {"text": "", "value": "split", "example": ""},
                         {"text": "显示/隐藏所有批注", "value": "showHideAllPs", "example": ""}
@@ -4032,7 +4033,7 @@ const menuButton = {
             col_pre = colLocationByIndex(columnh[0])[0], 
             col = colLocationByIndex(columnh[1])[1];
 
-        let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">'+ formula.toUpperCase() +'</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span class="luckysheet-formula-functionrange-cell" rangeindex="0" dir="auto" style="color:'+ luckyColor[0] +';">'+ _this.getRangetxt(Store.currentSheetIndex, {"row":rowh, "column":columnh }, Store.currentSheetIndex) +'</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
+        let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">'+ formula.toUpperCase() +'</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span class="luckysheet-formula-functionrange-cell" rangeindex="0" dir="auto" style="color:'+ luckyColor[0] +';">'+ getRangetxt(Store.currentSheetIndex, {"row":rowh, "column":columnh }, Store.currentSheetIndex) +'</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
         $("#luckysheet-rich-text-editor").html(formulaTxt);
 
         luckysheetformula.israngeseleciton();
@@ -4061,7 +4062,7 @@ const menuButton = {
     backFormulaInput: function(d, r, c, rowh, columnh, formula){
         let _this = this;
 
-        let f = '='+ formula.toUpperCase() +'('+ _this.getRangetxt(Store.currentSheetIndex, {"row":rowh, "column":columnh }, Store.currentSheetIndex) +')';
+        let f = '='+ formula.toUpperCase() +'('+ getRangetxt(Store.currentSheetIndex, {"row":rowh, "column":columnh }, Store.currentSheetIndex) +')';
         let v = luckysheetformula.execfunction(f, r, c);
         let value = { "v": v[1], "f": v[2] };
         setcellvalue(r, c, d, value);
@@ -4284,25 +4285,25 @@ const menuButton = {
         let isfalse = true;
         luckysheetformula.execFunctionExist = [];
 
-        let execFormulaInput_c = function(){
+        let execFormulaInput_c = function(d, st_r, ed_r, st_c, ed_c, formula){
             let st_c_c = _this.getNoNullValue(d, st_r, ed_c, "c");
 
             if(st_c_c == null){
                 _this.activeFormulaInput(st_r, st_c, null, null, formula, true);
             }
             else{
-                _this.activeFormulaInput(st_r, st_c, [st_r ,ed_r], [st_c_c, ed_c-1], formula);
+                _this.activeFormulaInput(st_r, st_c, [st_r, ed_r], [st_c_c, ed_c - 1], formula);
             }
         }
 
-        let execFormulaInput = function(){
+        let execFormulaInput = function(d, st_r, ed_r, st_c, ed_c, formula){
             let st_r_c = _this.getNoNullValue(d, st_c, ed_r, "r");
 
             if(st_r_c == null){
-                execFormulaInput_c();
+                execFormulaInput_c(d, st_r, ed_r, st_c, ed_c, formula);
             }
             else{
-                _this.activeFormulaInput(st_r, st_c, [st_r_c, ed_r-1], [st_c ,ed_c], formula);
+                _this.activeFormulaInput(st_r, st_c, [st_r_c, ed_r - 1], [st_c, ed_c], formula);
             }
         }
 
@@ -4321,13 +4322,13 @@ const menuButton = {
                 }
 
                 if(ed_r - 1 >= 0 && _this.checkNoNullValue(d[ed_r - 1][st_c])){
-                    execFormulaInput();
+                    execFormulaInput(d, st_r, ed_r, st_c, ed_c, formula);
                 }
                 else if(ed_c - 1 >= 0 && _this.checkNoNullValue(d[st_r][ed_c - 1])){
-                    execFormulaInput_c();
+                    execFormulaInput_c(d, st_r, ed_r, st_c, ed_c, formula);
                 }
                 else{
-                    execFormulaInput();
+                    execFormulaInput(d, st_r, ed_r, st_c, ed_c, formula);
                 }
             }
             else if(st_r == ed_r){
@@ -4356,7 +4357,7 @@ const menuButton = {
         if(!isfalse){
             luckysheetformula.execFunctionExist.reverse();
             luckysheetformula.execFunctionGroup(null, null, null, null, d);
-            jfrefreshgrid(d, [{"row": [st_r, ed_r], "column": [st_c, ed_c]}]);
+            jfrefreshgrid(d, Store.luckysheet_select_save);
 
             clearTimeout(Store.jfcountfuncTimeout);
             Store.jfcountfuncTimeout = setTimeout(function () { countfunc() }, 500);

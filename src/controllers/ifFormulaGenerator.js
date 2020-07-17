@@ -459,9 +459,9 @@ const ifFormulaGenerator = {
     getIfList: function(compareValue, smallRange, largeRange, method, methodVal){
         $("#luckysheet-ifFormulaGenerator-dialog .ifList").empty();
 
-        let smallRange = parseInt(smallRange);
-        let largeRange = parseInt(largeRange);
-        let methodVal = parseInt(methodVal);
+        smallRange = parseInt(smallRange);
+        largeRange = parseInt(largeRange);
+        methodVal = parseInt(methodVal);
 
         let arr = [];
 
