@@ -1,81 +1,81 @@
-# Format attributes
+# 格式属性
 
-## Cell attributes table
+## 单元格属性表
 
 <table>
     <tr>
-        <td>Attribute value</td>
-        <td>Full name</td>
-        <td><div style="width:100px">Explanation</div></td>
-        <td>Example value</td>
-        <td>Aspose method or attribute</td>
+        <td>属性值</td>
+        <td>全称</td>
+        <td><div style="width:100px">说明</div></td>
+        <td>值示例</td>
+        <td>Aspose方法或者属性</td>
     </tr>
     <tr>
         <td>ct</td>
         <td>celltype</td>
-        <td>Cell value format: text, time, etc.</td>
-        <td><a href="#cellStyle">Cell format</a></td>
+        <td>单元格值格式：文本、时间等</td>
+        <td><a href="#cellStyle">单元格格式</a></td>
         <td></td>
     </tr>
     <tr>
         <td>bg</td>
         <td>background</td>
-        <td>background color</td>
+        <td>背景颜色</td>
         <td>#fff000</td>
         <td>setBackgroundColor</td>
     </tr>
     <tr>
         <td>ff</td>
         <td>fontfamily</td>
-        <td>Font</td>
-        <td>0 Microsoft Yahei, 1 Song, 2 ST Heiti, 3 ST Kaiti, 4 ST FangSong, 5 ST Song, 6 Chinese New Wei, 7 Chinese Xingkai, 8 Chinese Lishu, 9 Arial, 10 Times New Roman, 11 Tahoma, 12 Verdana</td>
+        <td>字体</td>
+        <td>0 微软雅黑、1 宋体（Song）、2 黑体（ST Heiti）、3 楷体（ST Kaiti）、 4仿宋（ST FangSong）、 5 新宋体（ST Song）、 6 华文新魏、 7华文行楷、 8 华文隶书、 9 Arial、 10 Times New Roman 、11 Tahoma 、12 Verdana</td>
         <td>Style.Font object's Name property.</td>
     </tr>
     <tr>
         <td>fc</td>
         <td>fontcolor</td>
-        <td>font color</td>
+        <td>字体颜色</td>
         <td>#fff000</td>
         <td>Style.Font object's Color property</td>
     </tr>
     <tr>
         <td>bl</td>
         <td>bold</td>
-        <td>Bold</td>
-        <td>0 Regular, 1 Bold</td>
+        <td>粗体</td>
+        <td>0 常规 、 1加粗</td>
         <td>Style.Font object's IsBold property to true.</td>
     </tr>
     <tr>
         <td>it</td>
         <td>italic</td>
-        <td>Italic</td>
-        <td>0 Regular, 1 Italic</td>
+        <td>斜体</td>
+        <td>0 常规 、 1 斜体</td>
         <td></td>
     </tr>
     <tr>
         <td>fs</td>
         <td>fontsize</td>
-        <td>font size</td>
+        <td>字体大小</td>
         <td>14</td>
         <td>Style.Font object's Size property.</td>
     </tr>
     <tr>
         <td>cl</td>
         <td>cancelline</td>
-        <td>Cancelline</td>
-        <td>0 Regular, 1 Cancelline</td>
+        <td>删除线</td>
+        <td>0 常规 、 1 删除线</td>
         <td rowspan="2">Style.Font object's Underline property</td>
     </tr>
     <tr>
         <td>ul</td>
         <td>underline</td>
-        <td>Underline</td>
-        <td>0 Regular, 1 Underline</td>
+        <td>下划线</td>
+        <td>0 常规 、 1 下划线</td>
     </tr>
     <tr>
         <td rowspan="14">bs</td>
         <td rowspan="14">borderstyle</td>
-        <td rowspan="14">Border style</td>
+        <td rowspan="14">边框样式</td>
         <td>0 none</td>
         <td rowspan="14">LineStyle</td>
     </tr>
@@ -121,139 +121,139 @@
     <tr>
         <td>bc</td>
         <td>bordercolor</td>
-        <td>Border color</td>
+        <td>边框颜色</td>
         <td>#fff000</td>
         <td>setBorderColor</td>
     </tr>
     <tr>
         <td>bs_t</td>
         <td>borderstyleTop</td>
-        <td>Top border style</td>
-        <td rowspan="8">Same as above</td>
+        <td>上边框样式</td>
+        <td rowspan="8">同上</td>
         <td></td>
     </tr>
     <tr>
         <td>bc_t</td>
         <td>bordercolorTop</td>
-        <td>Top border color</td>
+        <td>上边框颜色</td>
         <td></td>
     </tr>
     <tr>
         <td>bs_b</td>
         <td>borderstyleBottom</td>
-        <td>Bottom border style</td>
+        <td>下边框样式</td>
         <td></td>
     </tr>
     <tr>
         <td>bc_b</td>
         <td>bordercolorBottom</td>
-        <td>Bottom border color</td>
+        <td>下边框颜色</td>
         <td></td>
     </tr>
     <tr>
         <td>bs_l</td>
         <td>borderstyleLeft</td>
-        <td>Left border style</td>
+        <td>左边框样式</td>
         <td></td>
     </tr>
     <tr>
         <td>bc_l</td>
         <td>bordercolorLeft</td>
-        <td>Left border color</td>
+        <td>左边框颜色</td>
         <td></td>
     </tr>
     <tr>
         <td>bs_r</td>
         <td>borderstyleRight</td>
-        <td>Right border style</td>
+        <td>右边框样式</td>
         <td></td>
     </tr>
     <tr>
         <td>bc_r</td>
         <td>bordercolorRight</td>
-        <td>Right border color</td>
+        <td>右边框颜色</td>
         <td></td>
     </tr>
     <tr>
         <td>vt</td>
         <td>verticaltype</td>
-        <td>Vertical alignment</td>
-        <td>0 middle, 1 up, 2 down</td>
+        <td>垂直对齐</td>
+        <td>0 中间、1 上、2下</td>
         <td>setVerticalAlignment</td>
     </tr>
     <tr>
         <td>ht</td>
         <td>horizontaltype</td>
-        <td>Horizontal alignment</td>
-        <td>0 center, 1 left, 2 right</td>
+        <td>水平对齐</td>
+        <td>0 居中、1 左、2右</td>
         <td>setHorizontalAlignment</td>
     </tr>
     <tr>
         <td>mc</td>
         <td>mergecell</td>
-        <td>Merge Cells</td>
-        <td>{rs: 10, cs:5} indicates that the cells from this cell to 10 rows and 5 columns are merged.</td>
+        <td>合并单元格</td>
+        <td>{ rs: 10, cs:5 } 表示从此cell开始到10行5列的cell进行合并。</td>
         <td>Merge</td>
     </tr>
     <tr>
         <td>tr</td>
         <td>textrotate</td>
-        <td>Text rotation</td>
-        <td>0:  0、1:  45 、2: -45、3 Vertical text、4:  90 、5: -90</td>
+        <td>文字旋转</td>
+        <td>0： 0、1： 45 、2：-45、3 竖排文字、4： 90 、5：-90</td>
         <td>setRotationAngle</td>
     </tr>
     <tr>
         <td>fl</td>
         <td>floatlenght</td>
-        <td>Decimal places</td>
+        <td>小数位数</td>
         <td>3</td>
         <td></td>
     </tr>
     <tr>
         <td>tb</td>
         <td>textbeak</td>
-        <td>Text wrap</td>
-        <td>0 truncation, 1 overflow, 2 word wrap</td>
-        <td>2: setTextWrapped <br> 0和1: IsTextWrapped =&nbsp;true</td>
+        <td>文本换行</td>
+        <td>0 截断、1溢出、2 自动换行</td>
+        <td>2：setTextWrapped <br> 0和1：IsTextWrapped =&nbsp;true</td>
     </tr>
     <tr>
         <td>ov</td>
         <td>originvalue</td>
-        <td>Original value</td>
+        <td>原始值</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>v</td>
         <td>value</td>
-        <td>Display value</td>
+        <td>显示值</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>f</td>
         <td>function</td>
-        <td>formula</td>
+        <td>公式</td>
         <td></td>
         <td>setFormula <br> setArrayFormula <br> workbook.calculateFormula();</td>
     </tr>
 </table>
 
 
-The following is the storage of 3 cells:
+以下为3个单元格存储：
 ```json
 [
-    {r:0, c:1, v: { v:"display", f:"=SUM(A2)", bg:"#fff000", bs:"1",bc:"#000"}},
-    {r:10, c:11, v:"value2"},
+    {r:0, c:1, v: { v:"显示", f:"=SUM(A2)", bg:"#fff000", bs:"1",bc:"#000"}},
+    {r:10, c:11, v:"值2"},
     {r:10, c:11, v:{f:"=sum", v:"100"}}
 ]
 ```
 
-## <div id='cellStyle'>Cell format</div>
+## <div id='cellStyle'>单元格格式</div>
 
-Reference[Aspose.Cells](https://docs.aspose.com/display/cellsnet/List+of+Supported+Number+Formats#ListofSupportedNumberFormats-Aspose.Cells)
+参考[Aspose.Cells](https://docs.aspose.com/display/cellsnet/List+of+Supported+Number+Formats#ListofSupportedNumberFormats-Aspose.Cells)
 
-The format is set to:
+格式设置为：
 
 ```json
 {
@@ -267,13 +267,13 @@ The format is set to:
 }
 ```
 
-|Parameter|Explanation|Usage|
+|参数|说明|使用|
 | ------------ | ------------ | ------------ |
-|v|value, shortcut setting value in Aspose|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Number = 8;`|
-|f|Format: format definition string `$#,##0;$-#,##0`|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Custom  = "#,##0 SEK";`|
-|t|Type: <br>0: General<br>1: Decimal<br>2: Currency<br>3: Percentage<br>4: Scientific<br>5: Fraction<br>6: Date<br>7: Time<br>8: Accounting<br>9: Text<br>10: DateTime|The type is the format distinguished by the front end. When importing excel, the type is distinguished according to the keyword of the format character:<br>1. YYYY, MM, DD is 6|
+|v|value，Aspose中的快捷设置值|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Number = 8;`|
+|f|Format：格式的定义串 `$#,##0;$-#,##0`|`var currencyStyle = book.CreateStyle();`<br>`currencyStyle.Custom  = "#,##0 SEK";`|
+|t|Type类型：<br>0：General<br>1：Decimal<br>2：Currency<br>3：Percentage<br>4：Scientific<br>5：Fraction<br>6：Date<br>7：Time<br>8：Accounting<br>9：Text<br>10：DateTime|类型是前端区分的格式，excel导入时根据导入format字符的关键字来区分是哪种类型：<br>1.含YYYY、MM、DD的是6|
 
-Aspose is set as follows:
+Aspose设置如下：
 | Value | Type       | Format String                               |
 |-------|------------|---------------------------------------------|
 | 0     | General    | General                                     |
@@ -313,4 +313,4 @@ Aspose is set as follows:
 | 48    | Scientific | \#\#0\.0E\+00                               |
 | 49    | Text       | @                                           |
 
-Import/export only considers the data style that the user sees. For example, the way to process the date format in excel is to convert the date into a number: 42736 represents 2017-1-1.
+导入/导出只用考虑用户看到的数据样式，例如excel中处理日期格式的方式为把日期统一转换为数字：42736 代表 2017-1-1，

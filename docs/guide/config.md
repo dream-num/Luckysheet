@@ -1,232 +1,226 @@
-# 基本配置
+# Basic Configuration
 
 ## container
-- 类型：String
-- 默认值："luckysheet"
-- 作用：容器的ID
+- Type: String
+- Default: "luckysheet"
+- Usage: Container ID
   
 ------------
 ## title
-- 类型：String
-- 默认值："Luckysheet Demo"
-- 作用：表格的名称
+- Type: String
+- Default: "Luckysheet Demo"
+- Usage: Table's name
 
 ------------
 ## column
-- 类型：Number
-- 默认值：60
-- 作用：空表格默认的列数量
+- Type: Number
+- Default: 60
+- Usage: The default number of columns in an empty table
 
 ------------
 ## row
-- 类型：Number
-- 默认值：84
-- 作用：空表格默认的行数据量
+- Type: Number
+- Default: 84
+- Usage: The default number of rows in an empty table
 
 ------------
 ## data
-- 类型：Array
-- 默认值：[{ "name": "Sheet1", color: "", "status": "1", "order": "0", "data": [], "config": {}, "index":0 }, { "name": "Sheet2", color: "", "status": "0", "order": "1", "data": [], "config": {}, "index":1  }, { "name": "Sheet3", color: "", "status": "0", "order": "2", "data": [], "config": {}, "index":2  }]
-- 作用：客户端sheet数据[shee1, sheet2, sheet3]
+- Type: Array
+- Default: [{ "name": "Sheet1", color: "", "status": "1", "order": "0", "data": [], "config": {}, "index":0 }, { "name": "Sheet2", color: "", "status": "0", "order": "1", "data": [], "config": {}, "index":1  }, { "name": "Sheet3", color: "", "status": "0", "order": "2", "data": [], "config": {}, "index":2  }]
+- Usage: Client sheet data `[shee1, sheet2, sheet3]`
 
 ------------
 
 ## fullscreenmode
-- 类型：Boolean
-- 默认值：true
-- 作用：是否全屏模式，非全屏模式下，标记框不会强制选中。
+- Type: Boolean
+- Default: true
+- Usage: Whether full-screen mode. In non-full-screen mode, the marker box is not forced to be selected
 
 ------------
 ## autoFormatw
-- 类型：Boolean
-- 默认值：false
-- 作用：自动格式化超过4位数的数字为 亿万格式 例：true or "true" or "TRUE"
+- Type: Boolean
+- Default: false
+- Usage: Automatically format numbers with more than 4 digits as 'billion format', for example: true or "true" or "TRUE"
 
 ------------
 ## accuracy
-- 类型：Number
-- 默认值：undefined
-- 作用：设置传输来的数值的精确位数，小数点后n位 传参数为数字或数字字符串，例： "0" 或 0
+- Type: Number
+- Default: undefined
+- Usage: Set the accuracy,the number of digits after the decimal point. Pass the parameter as a number or numeric string, for example: "0" or 0
 
 ------------
 ## allowCopy
-- 类型：Boolean
-- 默认值：true
-- 作用：是否允许拷贝
+- Type: Boolean
+- Default: true
+- Usage: Whether to allow copying
 
 ------------
 ## showtoolbar
-- 类型：Boolean
-- 默认值：true
-- 作用：是否第二列显示工具栏
+- Type: Boolean
+- Default: true
+- Usage: Whether to display the toolbar in the second row
 
 ------------
 ## showinfobar
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示顶部名称栏
+- Type: Boolean
+- Default: true
+- Usage: Whether to display the top name bar
 
 ------------
 ## showsheetbar
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示底部表格名称区域
+- Type: Boolean
+- Default: true
+- Usage: Whether to display the bottom table name area
 
 ------------
 
 ## showstatisticBar
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示底部计数栏
+- Type: Boolean
+- Default: true
+- Usage: Whether to display the bottom count bar
 
 ------------
 ## editMode
-- 类型：Boolean
-- 默认值：false
-- 作用：是否为编辑模式
+- Type: Boolean
+- Default: false
+- Usage: Whether it is edit mode
 
 ------------
 ## allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用：是否允许前台编辑
+- Type: Boolean
+- Default: true
+- Usage: Whether to allow frontend editing(Not implemented yet)
 
 ------------
 ## enableAddRow
-- 类型：Boolean
-- 默认值：true
-- 作用：允许增加行
+- Type: Boolean
+- Default: true
+- Usage: Allow add line
 
 ------------
 ## enableAddCol
-- 类型：Boolean
-- 默认值：true
-- 作用：允许增加列
+- Type: Boolean
+- Default: true
+- Usage: Allow add column
 
 ------------
 ## pointEdit
-- 类型：Boolean
-- 默认值：false
-- 作用：是否是编辑器插入表格模式
+- Type: Boolean
+- Default: false
+- Usage: Whether the editor inserts table mode
 
 ------------
 ## pointEditUpdate
-- 类型：Function
-- 默认值：null
-- 作用：编辑器表格更新函数
+- Type: Function
+- Default: null
+- Usage: Editor table update function
 
 ------------
 ## pointEditZoom
-- 类型：Number
-- 默认值：1
-- 作用：编辑器表格编辑时缩放比例
-
-------------
-## pointEditZoom
-- 类型：Number
-- 默认值：1
-- 作用：编辑器表格编辑时缩放比例
+- Type: Number
+- Default: 1
+- Usage: Editor table scaling when editing
 
 ------------
 ## userInfo
-- 类型：String
-- 默认值：`'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
-- 作用：右上角的用户信息展示样式
+- Type: String
+- Default: `'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
+- Usage: User information display style in the upper right corner
 
 ------------
 ## userMenuItem
-- 类型：Array
-- 默认值：`[{url:"www.baidu.com", "icon":'<i class="fa fa-folder" aria-hidden="true"></i>', "name":"我的表格"}, {url:"www.baidu.com", "icon":'<i class="fa fa-sign-out" aria-hidden="true"></i>', "name":"退出登陆"}]`
-- 作用：点击右上角的用户信息弹出的菜单
+- Type: Array
+- Default: `[{url:"www.baidu.com", "icon":'<i class="fa fa-folder" aria-hidden="true"></i>', "name":"My Table"}, {url:"www.baidu.com", "icon":'<i class="fa fa-sign-out" aria-hidden="true"></i>', "name":"Sign Out"}]`
+- Usage: The menu, which popped up by clicking the user information in the upper right corner
 
 ------------
 ## myFolderUrl
-- 类型：String
-- 默认值："www.baidu.com"
-- 作用：左上角<返回按钮的链接
+- Type: String
+- Default: "www.baidu.com"
+- Usage: Back button link in the upper left corner
 
 ------------
 ## config
-- 类型：Object
-- 默认值：{}
-- 作用：表格行高、列宽、合并单元格、公式等设置
+- Type: Object
+- Default: {}
+- Usage: Table row height, column width, merged cells, formulas and other settings
 
 ------------
 ## devicePixelRatio
-- 类型：Number
-- 默认值：window.devicePixelRatio
-- 作用：设备比例，比例越大表格分标率越高
+- Type: Number
+- Default: window.devicePixelRatio
+- Usage: Device Pixel Ratio, the larger the ratio, the higher the table resolution
 
 ------------
 ## gridKey
-- 类型：String
-- 默认值：""
-- 作用：表格唯一标识符
+- Type: String
+- Default: ""
+- Usage: Form unique identifier
 
 ------------
 ## loadUrl
-- 类型：String
-- 默认值：""
-- 作用：配置loadUrl的地址，luckysheet会通过ajax请求表格数据，默认载入status为1的sheet数据中的所有data，其余的sheet载入除data字段外的所有字段
+- Type: String
+- Default: ""
+- Usage: Configure the address of `loadUrl`, Luckysheet will request the table data through ajax. By default, all `data` in the sheet data with status 1 is loaded, and the rest of the sheet loads all fields except the `data` field.
 
 ------------
 ## loadSheetUrl
-- 类型：String
-- 默认值：""
-- 作用：配置loadSheetUrl的地址，参数为gridKey（表格主键） 和 index（sheet主键合集，格式为[1,2,3]），返回的数据为sheet的data字段数据集合
+- Type: String
+- Default: ""
+- Usage: Configure the address of `loadSheetUrl`, the parameters are `gridKey` (table primary key) and `index` (sheet primary key collection, format is `[1,2,3]`), the returned data is the `data` field set of sheet
 
 ------------
 ## updateUrl
-- 类型：String
-- 默认值：""
-- 作用：表格数据的更新地址
+- Type: String
+- Default: ""
+- Usage: Update URL of table data
 
 ------------
 ## updateImageUrl
-- 类型：String
-- 默认值：""
-- 作用：缩略图的更新地址
+- Type: String
+- Default: ""
+- Usage: Update URL of thumbnail
 
 ------------
 ## allowUpdate
-- 类型：Boolean
-- 默认值：false
-- 作用：是否允许编辑后的后台更新
+- Type: Boolean
+- Default: false
+- Usage: Whether to allow background updates after editing
 
 ------------
 ## functionButton
-- 类型：String
-- 默认值：""
-- 作用：右上角功能按钮，例如`'<button id="" class="btn btn-primary" style="padding:3px 6px;font-size: 12px;margin-right: 10px;">下载</button>    <button id="" class="btn btn-primary btn-danger" style="    padding:3px 6px;    font-size: 12px;    margin-right: 10px;">分享</button>    <button id="luckysheet-share-btn-title" class="btn btn-primary btn-danger" style="    padding:3px 6px;    font-size: 12px;    margin-right: 10px;">秀数据</button>'`
+- Type: String
+- Default: ""
+- Usage: Function buttons in the upper right corner, for example`'<button id="" class="btn btn-primary" style="padding:3px 6px;font-size: 12px;margin-right: 10px;">Download</button>    <button id="" class="btn btn-primary btn-danger" style="    padding:3px 6px;    font-size: 12px;    margin-right: 10px;">Share</button>    <button id="luckysheet-share-btn-title" class="btn btn-primary btn-danger" style="    padding:3px 6px;    font-size: 12px;    margin-right: 10px;">Show Data</button>'`
 
 ------------
 ## showConfigWindowResize
-- 类型：Boolean
-- 默认值：true
-- 作用：图表和数据透视表的配置会在右侧弹出，设置弹出后表格是否会自动缩进
+- Type: Boolean
+- Default: true
+- Usage: The configuration of the chart or pivot table will pop up on the right. Set whether the table will be automatically indented after popping up
 
 ------------
 ## enablePage
-- 类型：Boolean
-- 默认值：false
-- 作用：允许加载下一页
+- Type: Boolean
+- Default: false
+- Usage: Allow next page to load
 
 ------------
 ## chartConfigChange
-- 类型：Function
-- 默认值：null
-- 作用：图表插件中图表更新触发的自定义方法
+- Type: Function
+- Default: null
+- Usage: Custom method for triggering chart update in chart plugin
 
 ------------
 ## beforeCreateDom
-- 类型：Function
-- 默认值：null
-- 作用：表格创建之前自定义方法
+- Type: Function
+- Default: null
+- Usage: Custom method before table creation
 
 ------------
 ## fireMousedown
-- 类型：Function
-- 默认值：null
-- 作用：单元格数据下钻自定义方法
+- Type: Function
+- Default: null
+- Usage: Custom method for drilling down cell data
 
 ------------

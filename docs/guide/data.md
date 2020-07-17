@@ -1,14 +1,14 @@
-# 表格数据
+# Table Data
 
-## 获取表格数据
+## Get table data
 
-- **配置**：
+- **Configuration**：
 
-    配置 `updateUrl` 的地址，Luckysheet会通过ajax请求表格数据，默认载入status为1的sheet数据中的所有data，其余的sheet载入除data字段外的所有字段。
+    Configure the address of `updateUrl`, Luckysheet will request the table data through ajax. By default, all `data` in the sheet data with status 1 is loaded, and the rest of the sheet loads all fields except the `data` field.
 
-- **格式**：
+- **Format**：
 
-    luckysheetfile示例如下：
+    The luckysheetfile example is as follows:
     ```json
     [
         {
@@ -41,52 +41,53 @@
     ]
     ```
 
-## 获取sheet数据
+## Get sheet data
 
-- **配置**：
+- **Configuration**：
 
-    配置 `loadSheetUrl` 的地址，参数为gridKey（表格主键） 和 index（sheet主键合集，格式为[1,2,3]），返回的数据为sheet的data字段数据集合
+    Configure the address of `loadSheetUrl`, the parameters are `gridKey` (table primary key) and `index` (sheet primary key collection, format is `[1,2,3]`), the returned data is the `data` field set of sheet
 
-- **格式**：
+- **Format**：
 
     ```json
     {
-        "1":  [{r:0, c:1, v:"值1"},{r:10, c:11, v:"值2"}],
+        "1":  [{r:0, c:1, v:"value 1"},{r:10, c:11, v:"value 2"}],
         "2":  [data],
         "3":  [data],
     }
     ```
-- **说明**：
+- **Explanation**：
 
-    r代表行，c代表列，v代表该单元格的值，值可以是字符、数字或者json串。
-    数据只会载入一次，一般来说都只有一个主键，但是考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则把引用到的sheet的数据一并补全。
+    `r` stands for row, `c` stands for column, and `v` stands for the value of the cell. The value can be a character, number, or json string.
+    
+    The data will only be loaded once, generally speaking, there is only one primary key, but considering that some formulas, charts and pivot tables will refer to the data of other sheets, the front desk will add a judgment, if the current sheet refers to the data of other sheets, then complete the data of the referenced sheet together.
 
-## 获取range范围数据
+## Get range data
 
-- **配置**：
+- **Configuration**：
 
-    配置 `loadCellUrl` 的地址，参数为gridKey（表格主键） 、 index（sheet主键）、开始行、结束行、开始列、结束列。后台根据范围获取指定的celldata数据并返回。
+    Configure the address of `loadCellUrl`, the parameters are `gridKey` (table primary key), `index` (sheet primary key), start row, end row, start column, end column. The backend gets the specified celldata data according to the range and returns it.
 
-## 更新数据
+## Update data
 
-- **配置**：
+- **Configuration**：
 
-    配置 `updateUrl` 的地址，发送到后台的参数为json的字符串。
+    Configure the address of `updateUrl`, and the parameter sent to the backend is a json string.
 
-- **格式**：
+- **Format**：
 
     ```json
     {
         compress: false, 
         gridKey:10004,
-        data: [更新数据]
+        data: [update data]
     }
     ```
 
-- **说明**：
+- **Explanation**：
 
-    | 参数 | 说明 | 举例 |
+    | Parameter | Explanation | Example |
     | ------------ | ------------ | ------------ |
-    |  compress | Luckysheet采用客户端pako进行zlib参数压缩，如果浏览器支持压缩则为true，否则为false。后台可以根据此参数决定是否解压data中的内容  | 服务端获取参数过程：1. 序列化json字符串  2判断compress字段如果为TRUE则解压data字段 3. 解码data字符串URLDecoder.decode(utf-8) |
-    |  gridKey | Luckysheet文件的标识符 | 无 |
-    |  data | 一个包含更新数据的数组，数组中的参数格式请看下面的介绍。实例中：t表示更新类型、i为sheet的索引、c为行号、r为列号，v为值  | data: [{ t : 'cell', i:0, c : 0,  r : 0 , v: 2 }] |
+    |  compress | Luckysheet uses client pako for zlib parameter compression, which is true if the browser supports compression, otherwise false. The backend can decide whether to decompress the data content based on this parameter  | The process of obtaining parameters on the server side: 1. Serialize json string 2. Decode the data field if the compress field is TRUE 3. Decode the data string URLDecoder.decode(utf-8) |
+    |  gridKey | Luckysheet file identifier | none |
+    |  data | An array containing updated data. For the parameter format in the array, please see the introduction below. In the example: `t` indicates the update type, `i` is the index of the sheet, `c` is the row number, `r` is the column number, and `v` is the value  | `data: [{ t : 'cell', i:0, c : 0,  r : 0 , v: 2 }]` |

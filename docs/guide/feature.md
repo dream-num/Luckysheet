@@ -1,89 +1,90 @@
-# 高级功能
+# Advanced Features
 
 ## luckysheet.getcellvalue(r, c, data, type)
-- **参数**：
-	- r：单元格所在行数；可选值；从0开始的整数，0表示第一行。
-	- c：单元格所在列数；可选值；从0开始的整数，0表示第一列。
-	- data：表数据；二维数组；默认值为当前表格数据。
-	- type：单元格属性值；可选值；默认值为'v',表示获取单元格的值。
-- **用法**：
+- **Parameter**：
+	- r: the number of rows in which the cell is located; optional values; integers starting at 0, 0 representing the first row.
+	- c: the number of columns in which the cell is located; optional values; integers starting at 0, 0 indicating the first column.
+	- data: table data; two-dimensional array; the default value is the current table data.
+	- type: cell attribute value; optional value; the default value is'v', which means to get the cell value.
+- **Usage**：
 	
-	此方法为获取单元格的值。r, c都没有值时，返回data；r, c只有一个有值时，返回整行或整列数据；
+	This method is to get the cell value. When `r` and `c` have no value, return `data`; when `r`, `c` has only one value, return the entire row or column of data;
 
 ------------
 ## luckysheet.getluckysheetfile()
-- **用法**：
+- **Usage**：
 
-	返回所有表格数据结构。
+	Return all table data structures.
 
 ------------
 ## luckysheet.sheetmanage.getSheetByIndex(index)
-- **参数**：
-	- index：表格下标；从0开始的整数，0表示第一个表格；默认为当前表格下标。
-- **用法**：
+- **Parameter**：
+	- index: table subscript; integer starting from 0, 0 means the first table; default is the current table subscript.
+- **Usage**：
 
-	返回某个表格数据结构。
+	Returns a table data structure.
 
 ------------
 ## luckysheet.getconfig()
-- **用法**：
+- **Usage**：
 
-	返回当前表格config配置。
+	Returns the current table configuration.
 
 ------------
 ## luckysheet.getSheetConfig(sheetIndex)
-- **参数**：
-	- sheetIndex：表格下标；从0开始的整数，0表示第一个表格；默认为当前表格下标。
-- **用法**：
+- **Parameter**：
+	- sheetIndex: table index; an integer starting from 0, 0 means the first table; the default is the current table index.
+- **Usage**：
 
-	返回某个表格config配置。
+	Return to a table configuration.
 
 ------------
 ## luckysheet.getvisibledatarow()
-- **用法**：
+- **Usage**：
 
-	返回当前表格行高。
+	Returns the current table row height.
 
 ------------
 ## luckysheet.getvisibledatacolumn()
-- **用法**：
+- **Usage**：
 
-	返回当前表格列宽。
+	Returns the current table column width.
 
 ------------
 ## luckysheet.getluckysheet_select_save()
-- **用法**：
+- **Usage**：
 
-	返回当前选区。
+	Returns the current selection.
 
 ------------
 ## luckysheet.getdatabyselection(range, sheetIndex)
-- **参数**：
-	- range：选区对象；object: { row: [r1, r2], column: [c1, c2] }；默认为当前选区。
-	- sheetIndex：表格下标；从0开始的整数，0表示第一个表格；默认为当前表格下标。
-- **用法**：
+- **Parameter**：
+	- range: selection object; `object: {row: [r1, r2], column: [c1, c2] }`; the default is the current selection.
+	- sheetIndex: table index; an integer starting from 0, 0 means the first table; the default is the current table index.
+- **Usage**：
 
-	返回某个表格某个区域单元格数据。
+	Returns the cell data of a range in a table.
 
 ------------
 ## luckysheet.luckysheetrefreshgrid(scrollWidth, scrollHeight)
-- **参数**：
-	- scrollWidth：横向滚动值。默认为当前横向滚动位置。
-	- scrollHeight：纵向滚动值。默认为当前纵向滚动位置。
-- **用法**：
+- **Parameter**：
+	- scrollWidth: horizontal scroll value. The default is the current horizontal scroll position.
+	- scrollHeight: vertical scroll value. The default is the current vertical scroll position.
+- **Usage**：
 
-	按照scrollWidth, scrollHeight刷新canvas展示数据。
+	Refresh canvas display data according to scrollWidth, scrollHeight.
 
 ------------
 ## luckysheet.setcellvalue(r, c, d, v)
-- **参数**：
-	- r：单元格所在行数；从0开始的整数，0表示第一行。
-	- c：单元格所在列数；从0开始的整数，0表示第一列。
-	- d：表数据；二维数组。
-	- v：要设置的值；可为对象，对象是是要符合单元格对象格式。
-- **用法**：
+- **Parameter**：
 
-	设置某个单元格的值。可配合luckysheet.luckysheetrefreshgrid()刷新查看单元格值改变。
+	- r: the number of rows in which the cell is located; an integer starting from 0, 0 means the first row.
+	- c: the number of columns in which the cell is located; an integer starting from 0, 0 means the first column.
+	- d: table data; two-dimensional array.
+	- v: The value to be set; it can be an object, and the object should conform to the cell object format.
+- **Usage**：
+
+	Set the value of a cell. Cooperate with `luckysheet.luckysheetrefreshgrid()` to refresh to see the cell value changes.
 	```js
 	luckysheet.setcellvalue(0, 0, luckysheet.flowdata, 'abc');
 	luckysheet.luckysheetrefreshgrid();
@@ -91,11 +92,11 @@
 
 ------------
 ## luckysheet.setluckysheet_select_save(v)
-- **参数**：
-	- v：要设置的选区值(数组)。符合选区格式规则，如[{ row: [r1, r2], column: [c1, c2] }]。
-- **用法**：
+- **Parameter**：
+	- v: The selection value (array) to be set. It conforms to the selection format rules, such as `[{ row: [r1, r2], column: [c1, c2] }]`.
+- **Usage**：
 	
-	设置当前表格选区的值。配合luckysheet.selectHightlightShow()可在界面查看选区改变。
+	Set the value of the current table selection. With `luckysheet.selectHightlightShow()`, you can view the selection changes on the interface.
 	```js
 	luckysheet.setluckysheet_select_save([{ row: [0, 1], column: [0, 1] }]);
 	luckysheet.selectHightlightShow();
@@ -103,22 +104,22 @@
 
 ------------
 ## luckysheet.sheetmanage.setSheetHide(index)
-- **参数**：
-	- index：表格下标；从0开始的整数，0表示第一个表格；默认为当前表格下标。
-- **用法**：
+- **Parameter**：
+	- index: table subscript; integer starting from 0, 0 means the first table; default is the current table subscript.
+- **Usage**：
 
-	隐藏某个表格。
+	Hide a table.
 
 ------------
 ## luckysheet.sheetmanage.setSheetShow(index)
-- **参数**：
-	- index：表格下标；从0开始的整数，0表示第一个表格；默认为当前表格下标。
-- **用法**：
+- **Parameter**：
+	- index: table subscript; integer starting from 0, 0 means the first table; default is the current table subscript.
+- **Usage**：
 
-	显示某个表格。
+	Display a table.
 
 ------------
 ## luckysheet.method.destroy()
-- **用法**：
+- **Usage**：
 	
-	释放表格
+	Release table
