@@ -5,7 +5,7 @@ import Store from './store';
 import server from './controllers/server';
 import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
-import { luckysheetsizeauto } from './controllers/resize';
+import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
 
 let luckysheet = {};
@@ -76,7 +76,6 @@ luckysheet.create = function (setting) {
         sheetmanage.initialjfFile(menu, title);
         luckysheetsizeauto();
         luckysheetHandler();
-        luckysheet.chartInitial();
     }
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
@@ -86,7 +85,6 @@ luckysheet.create = function (setting) {
             sheetmanage.initialjfFile(menu, title);
             luckysheetsizeauto();
             luckysheetHandler();
-            luckysheet.chartInitial();
 
             //需要更新数据给后台时，建立WebSocket连接
             if(server.allowUpdate){

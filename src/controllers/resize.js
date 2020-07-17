@@ -3,59 +3,49 @@ import luckysheetFreezen from './freezen';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 
-let container = Store.container;
-let infobarHeight = Store.infobarHeight;
-let toolbarHeight = Store.toolbarHeight;
-let sheetBarHeight = Store.sheetBarHeight;
-let statisticBarHeight = Store.statisticBarHeight;
-let luckysheetTableContentHW = Store.luckysheetTableContentHW;
-let devicePixelRatio = Store.devicePixelRatio;
-
 let gridW = 0, 
-    gridH = 0, 
-    cellmainHeight = 0, 
-    cellmainWidth = 0;
+    gridH = 0;
 
 export default function luckysheetsizeauto() {
     if (!luckysheetConfigsetting.showinfobar) {
-        infobarHeight = 0;
+        Store.infobarHeight = 0;
         $("#luckysheet_info_detail").hide();
     }
     else {
-        infobarHeight = 30;
+        Store.infobarHeight = 30;
         $("#luckysheet_info_detail").show();
     }
 
     if (!luckysheetConfigsetting.showtoolbar) {
-        $("#" + container).find(".luckysheet-wa-editor, .luckysheet-share-logo").hide();
-        toolbarHeight = 0;
+        $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").hide();
+        Store.toolbarHeight = 0;
     }
     else {
-        $("#" + container).find(".luckysheet-wa-editor, .luckysheet-share-logo").show();
-        toolbarHeight = 35;
+        $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").show();
+        Store.toolbarHeight = 35;
     }
 
     if (!luckysheetConfigsetting.showsheetbar) {
-        $("#" + container).find("#luckysheet-sheet-area").hide();
-        sheetBarHeight = 0;
+        $("#" + Store.container).find("#luckysheet-sheet-area").hide();
+        Store.sheetBarHeight = 0;
     }
     else {
-        $("#" + container).find("#luckysheet-sheet-area").show();
-        sheetBarHeight = 27;
+        $("#" + Store.container).find("#luckysheet-sheet-area").show();
+        Store.sheetBarHeight = 27;
     }
 
     if (!luckysheetConfigsetting.showstatisticBar) {
-        $("#" + container).find(".luckysheet-stat-area").hide();
-        statisticBarHeight = 0;
+        $("#" + Store.container).find(".luckysheet-stat-area").hide();
+        Store.statisticBarHeight = 0;
     }
     else {
-        $("#" + container).find(".luckysheet-stat-area").show();
-        statisticBarHeight = 23;
+        $("#" + Store.container).find(".luckysheet-stat-area").show();
+        Store.statisticBarHeight = 23;
     }
 
-    $("#" + container).find(".luckysheet-grid-container").css("top", toolbarHeight + infobarHeight + calculatebarHeight);
+    $("#" + Store.container).find(".luckysheet-grid-container").css("top", Store.toolbarHeight + Store.infobarHeight + Store.calculatebarHeight);
 
-    gridW = $("#" + container).width(), gridH = $("#" + container).height();
+    gridW = $("#" + Store.container).width(), gridH = $("#" + Store.container).height();
 
     if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
@@ -69,32 +59,32 @@ export default function luckysheetsizeauto() {
         }
     }
 
-    $("#" + container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
+    $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
 
-    cellmainHeight = gridH - (infobarHeight + toolbarHeight + calculatebarHeight + columeHeaderHeight + sheetBarHeight + statisticBarHeight);
-    cellmainWidth = gridW - rowHeaderWidth;
+    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
+    Store.cellmainWidth = gridW - Store.rowHeaderWidth;
     
-    $("#luckysheet-cols-h-c, #luckysheet-cell-main, #luckysheet-scrollbar-x").width(cellmainWidth);
-    $("#luckysheet-cell-main").height(cellmainHeight);
-    $("#luckysheet-rows-h").height(cellmainHeight - cellMainSrollBarSize);
+    $("#luckysheet-cols-h-c, #luckysheet-cell-main, #luckysheet-scrollbar-x").width(Store.cellmainWidth);
+    $("#luckysheet-cell-main").height(Store.cellmainHeight);
+    $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-y").height(cellmainHeight + 6);
-    $("#luckysheet-scrollbar-x").height(cellMainSrollBarSize);
-    $("#luckysheet-scrollbar-y").width(cellMainSrollBarSize);
+    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + 6);
+    $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
+    $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
 
-    luckysheetTableContentHW = [
-        cellmainWidth + rowHeaderWidth - cellMainSrollBarSize, 
-        cellmainHeight + columeHeaderHeight - cellMainSrollBarSize
+    Store.luckysheetTableContentHW = [
+        Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
+        Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize
     ];
 
     $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
-        width: Math.ceil(luckysheetTableContentHW[0] * devicePixelRatio), 
-        height: Math.ceil(luckysheetTableContentHW[1] * devicePixelRatio) 
+        width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
+        height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio) 
     })
-    .css({ width: luckysheetTableContentHW[0], height: luckysheetTableContentHW[1] });
+    .css({ width: Store.luckysheetTableContentHW[0], height: Store.luckysheetTableContentHW[1] });
 
-    $("#" + container).find("#luckysheet-grid-window-1").css("bottom", sheetBarHeight);
-    $("#" + container).find(".luckysheet-grid-window").css("bottom", statisticBarHeight);
+    $("#" + Store.container).find("#luckysheet-grid-window-1").css("bottom", Store.sheetBarHeight);
+    $("#" + Store.container).find(".luckysheet-grid-window").css("bottom", Store.statisticBarHeight);
 
     let gridwidth = $("#luckysheet-grid-window-1").width();
     $("#luckysheet-freezebar-horizontal").find(".luckysheet-freezebar-horizontal-handle")
@@ -117,7 +107,7 @@ export default function luckysheetsizeauto() {
     let ismore = false, 
         toolbarW = 0, 
         morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="更多按钮" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> 更多... </div> </div> </div> </div>',
-        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (infobarHeight + toolbarHeight+2 + $("#" + container).offset().top + $("body").scrollTop() ) +'px; right:0px;z-index:1003;padding-left:0px;display:none;height:auto;white-space:initial;"></div>';
+        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 2 + $("#" + Store.container).offset().top + $("body").scrollTop() ) +'px; right:0px;z-index:1003;padding-left:0px;display:none;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
         $("body").append(morediv);
@@ -163,13 +153,13 @@ export default function luckysheetsizeauto() {
         $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-left").css("margin-right", -3);
     }
 
-    $("#"+ container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
+    $("#"+ Store.container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
         $(this).next(".luckysheet-toolbar-button-split-right").addClass("luckysheet-toolbar-button-split-right-hover");
     }, function(){
         $(this).next(".luckysheet-toolbar-button-split-right").removeClass("luckysheet-toolbar-button-split-right-hover");
     });
 
-    $("#"+ container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-right").off("hover").hover(function(){
+    $("#"+ Store.container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-right").off("hover").hover(function(){
         $(this).prev(".luckysheet-toolbar-button-split-left").addClass("luckysheet-toolbar-button-hover");
     }, function(){
         $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");

@@ -1,34 +1,25 @@
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import Store from '../store';
 
-let visibledatarow = Store.visibledatarow;
-let visibledatacolumn = Store.visibledatacolumn;
-let container = Store.container;
-let rowHeaderWidth = Store.rowHeaderWidth;
-let infobarHeight = Store.infobarHeight;
-let toolbarHeight = Store.toolbarHeight;
-let calculatebarHeight = Store.calculatebarHeight;
-let columeHeaderHeight = Store.columeHeaderHeight;
-
 function rowLocationByIndex(row_index) {
     let row = 0, row_pre = 0;
-    row = visibledatarow[row_index];
+    row = Store.visibledatarow[row_index];
 
     if (row_index == 0) {
         row_pre = 0;
     }
     else {
-        row_pre = visibledatarow[row_index - 1];
+        row_pre = Store.visibledatarow[row_index - 1];
     }
 
     return [row_pre, row, row_index];
 }
 
 function rowLocation(y) {
-    let row_index = luckysheet_searcharray(visibledatarow, y);
+    let row_index = luckysheet_searcharray(Store.visibledatarow, y);
 
     if (row_index == -1 && y > 0) {
-        row_index = visibledatarow.length - 1;
+        row_index = Store.visibledatarow.length - 1;
     }
     else if (row_index == -1 && y <= 0) {
         row_index = 0;
@@ -39,23 +30,23 @@ function rowLocation(y) {
 
 function colLocationByIndex(col_index){
     let col = 0, col_pre = 0;            
-    col = visibledatacolumn[col_index];
+    col = Store.visibledatacolumn[col_index];
 
     if (col_index == 0) {
         col_pre = 0;
     }
     else {
-        col_pre = visibledatacolumn[col_index - 1];
+        col_pre = Store.visibledatacolumn[col_index - 1];
     }
 
     return [col_pre, col, col_index];
 }
 
 function colLocation(x) {
-    let col_index = luckysheet_searcharray(visibledatacolumn, x);
+    let col_index = luckysheet_searcharray(Store.visibledatacolumn, x);
 
     if (col_index == -1 && x > 0) {
-        col_index = visibledatacolumn.length - 1;
+        col_index = Store.visibledatacolumn.length - 1;
     }
     else if (col_index == -1 && x <= 0) {
         col_index = 0;
@@ -65,10 +56,10 @@ function colLocation(x) {
 }
 
 function mouseposition(x, y) {
-    let container_offset = $("#" + container).offset();
+    let container_offset = $("#" + Store.container).offset();
     
-    let newX = x - container_offset.left - rowHeaderWidth,
-        newY = y - container_offset.top - infobarHeight - toolbarHeight - calculatebarHeight - columeHeaderHeight;
+    let newX = x - container_offset.left - Store.rowHeaderWidth,
+        newY = y - container_offset.top - Store.infobarHeight - Store.toolbarHeight - Store.calculatebarHeight - Store.columeHeaderHeight;
 
     return [newX, newY];
 }

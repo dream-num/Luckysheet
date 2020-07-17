@@ -1,4 +1,4 @@
-import { isRealNum } from './util'
+import { isRealNum } from '../global/validate';
 
 /*
  * 判断obj是否为一个整数

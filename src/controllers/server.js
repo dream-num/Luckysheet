@@ -1,20 +1,16 @@
 import { showloading, hideloading } from '../global/loading';
-import { buildPs } from '../global/postil';
-import { refresh, refresh_rhcw } from '../global/refresh';
-import sheetmanage from '../controllers/sheetmanage';
-import menuButton from '../controllers/menuButton';
-import { createFilterOptions } from '../controllers/filter';
-import luckysheetFreezen from '../controllers/freezen';
+import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from '../global/refresh';
+import { sheetHTML, luckyColor } from './constant';
+import sheetmanage from './sheetmanage';
+import menuButton from './menuButton';
+import { createFilterOptions } from './filter';
+import luckysheetFreezen from './freezen';
+import luckysheetPostil from './postil';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
-import { sheetHTML, luckyColor } from '../controllers/constant';
+import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-let luckysheetfile = Store.luckysheetfile;
-let currentSheetIndex = Store.currentSheetIndex;
-let flowdata = Store.flowdata;
-let config = Store.config;
-
-export const server = {
+const server = {
     gridKey: null,
     loadUrl: null,
     updateUrl: null,
@@ -174,7 +170,7 @@ export const server = {
 	                    value = JSON.parse(value);
 	                }
 
-	                if(index == currentSheetIndex){//发送消息者在当前页面
+	                if(index == Store.currentSheetIndex){//发送消息者在当前页面
 	                    let r = value[value.length - 1].row[0];
 	                    let c = value[value.length - 1].column[0];
 
@@ -218,7 +214,7 @@ export const server = {
 	        index = item.i,
 	        value = item.v;
 
-	    let file = luckysheetfile[sheetmanage.getSheetIndex(index)]; 
+	    let file = Store.luckysheetfile[getSheetIndex(index)]; 
 
 	    if(file == null){
 	        return;
@@ -232,19 +228,19 @@ export const server = {
 	        let r = item.r, c = item.c;
 	        file.data[r][c] = value;
 
-	        if(index == currentSheetIndex){//更新数据为当前表格数据
-	            flowdata = file.data;
+	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
+	            Store.flowdata = file.data;
 
 	            //如果更新的单元格有批注
 	            if(value != null && value.ps != null){
-	                buildPs(r, c, value.ps);
+	                luckysheetPostil.buildPs(r, c, value.ps);
 	            }
 	            else{
-	                buildPs(r, c, null);
+	                luckysheetPostil.buildPs(r, c, null);
 	            }
 
 	            setTimeout(function () {
-	                refresh();
+	                luckysheetrefreshgrid();
 	            }, 1);
 	        }
 	    }
@@ -262,23 +258,23 @@ export const server = {
 	            }
 	        }
 
-	        if(index == currentSheetIndex){//更新数据为当前表格数据
-	            flowdata = file.data;
+	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
+	            Store.flowdata = file.data;
 
 	            //如果更新的单元格有批注
 	            for(let r = r1; r <= r2; r++){
 	                for(let c = c1; c <= c2; c++){
 	                    if(value[r - r1][c - c1] != null && value[r - r1][c - c1].ps != null){
-	                        buildPs(r, c, value[r - r1][c - c1].ps);
+	                        luckysheetPostil.buildPs(r, c, value[r - r1][c - c1].ps);
 	                    }
 	                    else{
-	                        buildPs(r, c, null);
+	                        luckysheetPostil.buildPs(r, c, null);
 	                    }
 	                }
 	            }
 
 	            setTimeout(function () {
-	                refresh();
+	                luckysheetrefreshgrid();
 	            }, 1);
 	        }
 	    }
@@ -298,15 +294,15 @@ export const server = {
 	            }
 	        }
 
-	        if(index == currentSheetIndex){//更新数据为当前表格数据
-	            config = file["config"];
+	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
+	            Store.config = file["config"];
 
 	            if(k == "rowlen" || k == "columlen" || k == "rowhidden"){
-	                refresh_rhcw(flowdata.length, flowdata[0].length);
+	                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 	            }
 
 	            setTimeout(function () {
-	                refresh();
+	                luckysheetrefreshgrid();
 	            }, 1);
 	        }
 	    }
@@ -329,7 +325,7 @@ export const server = {
 	            // luckysheet.pivotTable.changePivotTable(index);
 	        }
 	        else if(k == "freezen"){ //冻结行列
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                if(file["freezen"].horizontal == null){
 	                    $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> 冻结首行');
 	                    luckysheetFreezen.freezenhorizontaldata = null;
@@ -352,39 +348,39 @@ export const server = {
 	            }
 	        }
 	        else if(k == "filter_select"){ //筛选范围
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                createFilterOptions(value);
 	            }
 	        }
 	        else if(k == "filter"){ //筛选保存
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                createFilterOptions(file.filter_select, value);
 	            }
 	        }
 	        else if(k == "luckysheet_conditionformat_save"){ //条件格式
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                setTimeout(function () {
-	                    refresh();
+	                    luckysheetrefreshgrid();
 	                }, 1);
 	            }
 	        }
 	        else if(k == "luckysheet_alternateformat_save"){ //交替颜色
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                setTimeout(function () {
-	                    refresh();
+	                    luckysheetrefreshgrid();
 	                }, 1);
 	            }
 	        }
 	        else if(k == "config"){ //config
-	            if(index == currentSheetIndex){
-	                config = value;
-	                refresh_rhcw(flowdata.length, flowdata[0].length);
+	            if(index == Store.currentSheetIndex){
+	                Store.config = value;
+	                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 	            }
 	        }
 	        else if(k == "dynamicArray"){ //动态数组
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                setTimeout(function () {
-	                    refresh();
+	                    luckysheetrefreshgrid();
 	                }, 1);
 	            }
 	        }
@@ -420,7 +416,7 @@ export const server = {
 	        }
 
 	        setTimeout(function () {
-	            refresh();
+	            luckysheetrefreshgrid();
 	        }, 1);
 	    }
 	    else if(type == "drc"){ //删除行列
@@ -475,14 +471,14 @@ export const server = {
 	        file["config"].merge = mc;
 	        file["config"].borderInfo = borderInfo;
 
-	        if(index == currentSheetIndex){
-	            flowdata = data;
+	        if(index == Store.currentSheetIndex){
+	            Store.flowdata = data;
 
-	            config["merge"] = mc;
-	            config["borderInfo"] = borderInfo;
+	            Store.config["merge"] = mc;
+	            Store.config["borderInfo"] = borderInfo;
 
 	            setTimeout(function () {
-	                refresh();
+	                luckysheetrefreshgrid();
 	            }, 1);
 	        }
 	    }
@@ -525,14 +521,14 @@ export const server = {
 	        file["config"].merge = mc;
 	        file["config"].borderInfo = borderInfo;
 
-	        if(index == currentSheetIndex){
-	            flowdata = data;
+	        if(index == Store.currentSheetIndex){
+	            Store.flowdata = data;
 
-	            config["merge"] = mc;
-	            config["borderInfo"] = borderInfo;
+	            Store.config["merge"] = mc;
+	            Store.config["borderInfo"] = borderInfo;
 
 	            setTimeout(function () {
-	                refresh();
+	                luckysheetrefreshgrid();
 	            }, 1);
 	        }
 	    }
@@ -552,7 +548,7 @@ export const server = {
 	            delete filter[pos];
 	        }
 
-	        if(index == currentSheetIndex){
+	        if(index == Store.currentSheetIndex){
 	            createFilterOptions(file.filter_select, filter);
 	        }
 	    }
@@ -560,8 +556,8 @@ export const server = {
 	        file.filter = null;
 	        file.filter_select = null;
 
-	        if(index == currentSheetIndex){
-	            $('#luckysheet-filter-selected-sheet' + currentSheetIndex + ', #luckysheet-filter-options-sheet' + currentSheetIndex).remove();
+	        if(index == Store.currentSheetIndex){
+	            $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
 	            $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
 	        }
 	    }
@@ -569,12 +565,12 @@ export const server = {
 	        file.filter = value.filter;
 	        file.filter_select = value.filter_select;
 
-	        if(index == currentSheetIndex){
+	        if(index == Store.currentSheetIndex){
 	            createFilterOptions(file.filter_select, file.filter);
 	        }
 	    }
 	    else if(type == "sha"){ //新建sheet
-	        luckysheetfile.push(value);
+	        Store.luckysheetfile.push(value);
 
 	        let colorset = '';
 	        if(value.color != null){
@@ -587,13 +583,13 @@ export const server = {
 	    else if(type == "shc"){ //复制sheet
 	        let copyindex = value.copyindex, name = value.name;
 
-	        let copyarrindex = sheetmanage.getSheetIndex(copyindex);
-	        let copyjson = $.extend(true, {}, luckysheetfile[copyarrindex]); 
+	        let copyarrindex = getSheetIndex(copyindex);
+	        let copyjson = $.extend(true, {}, Store.luckysheetfile[copyarrindex]); 
 	            
 	        copyjson.index = index;
 	        copyjson.name = name;
 
-	        luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
+	        Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
 	        let copyobject = $("#luckysheet-sheets-item" + copyindex);
 	        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "style": "", "colorset": "" }));
@@ -601,11 +597,11 @@ export const server = {
 	        $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + copyjson.index + '" class="luckysheet-datavisual-selection-set"></div>');
 	    }
 	    else if(type == "shd"){ //删除sheet
-	        for(let i = 0; i < luckysheetfile.length; i++){
-	            if(luckysheetfile[i].index == value.deleIndex){
-	                server.sheetDeleSave.push(luckysheetfile[i]);
+	        for(let i = 0; i < Store.luckysheetfile.length; i++){
+	            if(Store.luckysheetfile[i].index == value.deleIndex){
+	                server.sheetDeleSave.push(Store.luckysheetfile[i]);
 
-	                luckysheetfile.splice(i, 1);
+	                Store.luckysheetfile.splice(i, 1);
 	                break;
 	            }
 	        }
@@ -615,7 +611,7 @@ export const server = {
 	    }
 	    else if(type == "shr"){ //sheet位置
 	        for(let x in value){
-	            luckysheetfile[sheetmanage.getSheetIndex(x)].order = value[x];
+	            Store.luckysheetfile[getSheetIndex(x)].order = value[x];
 	        }
 	    }
 	    else if(type == "shre"){ //删除sheet恢复操作
@@ -623,7 +619,7 @@ export const server = {
 	            if(server.sheetDeleSave[i].index == value.reIndex){
 	                let datav = server.sheetDeleSave[i];
 
-	                luckysheetfile.push(datav);
+	                Store.luckysheetfile.push(datav);
 
 	                let colorset = '';
 	                if(value.color != null){
@@ -643,7 +639,7 @@ export const server = {
 	            file.hide = 1;
 	            $("#luckysheet-sheets-item" + index).hide();
 
-	            if(index == currentSheetIndex){
+	            if(index == Store.currentSheetIndex){
 	                $("#luckysheet-sheets-item" + cur).addClass("luckysheet-sheets-item-active");
 	                sheetmanage.changeSheetExec(cur);
 	            }
@@ -711,7 +707,7 @@ export const server = {
 	        col = visibledatacolumn[c2],
 	        col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1];
 
-	    let margeset = menuButton.mergeborer(flowdata, r1, c1);
+	    let margeset = menuButton.mergeborer(Store.flowdata, r1, c1);
 	    if(!!margeset){
 	        row = margeset.row[1];
 	        row_pre = margeset.row[0];
@@ -1068,3 +1064,5 @@ export const server = {
         });
     }
 }
+
+export default server;

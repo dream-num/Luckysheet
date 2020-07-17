@@ -1,18 +1,11 @@
-import Store from '../store';
-import formula from '../global/formula';
 import { getObjType } from '../utils/util';
+import formula from '../global/formula';
 import { isRealNull } from '../global/validate';
+import { countfunc } from '../global/count';
 import menuButton from './menuButton';
 import { selectHightlightShow } from './select';
 import pivotTable from './pivotTable';
-import { countfunc } from '../global/countfunc';
-
-let flowdata = Store.flowdata;
-let luckysheet_select_save = Store.luckysheet_select_save;
-let config = Store.config;
-let visibledatarow = Store.visibledatarow;
-let visibledatacolumn = Store.visibledatacolumn;
-let countfuncTimeout = Store.countfuncTimeout;
+import Store from '../store';
 
 function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     if (isScroll == null) {
@@ -31,7 +24,7 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
         onlyvalue = false;
     }
 
-    let last = luckysheet_select_save[luckysheet_select_save.length - 1];
+    let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
     let curR = last["row"] == null ? 0 : last["row"][0];
     let curC = last["column"] == null ? 0 : last["column"][0];
@@ -45,14 +38,13 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     formula.fucntionboxshow(curR, curC);
 
     if (type == "range") {
-        let p_startR = luckysheet.luckysheet_shiftpositon["row"][0];
-        let p_startC = luckysheet.luckysheet_shiftpositon["column"][0];
+        let p_startR = Store.luckysheet_shiftpositon["row"][0];
+        let p_startC = Store.luckysheet_shiftpositon["column"][0];
 
-        let p_endR = luckysheet.luckysheet_shiftpositon["row"][1];
-        let p_endC = luckysheet.luckysheet_shiftpositon["column"][1];
+        let p_endR = Store.luckysheet_shiftpositon["row"][1];
+        let p_endC = Store.luckysheet_shiftpositon["column"][1];
 
         if (postion == "down" || postion == "up") {
-
             if (p_endR < endR) {
                 curR = last["row"] == null ? 0 : last["row"][1];
             }
@@ -67,23 +59,6 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
                     curR = last["row"] == null ? 0 : last["row"][0];
                 }
             }
-
-
-            //if (endR >= datarowlen) {
-            //    endR = datarowlen - 1;
-            //}
-
-            //if (endR < 0) {
-            //    endR = 0;
-            //}
-
-            //if (startR >= datarowlen) {
-            //    startR = datarowlen - 1;
-            //}
-
-            //if (startR < 0) {
-            //    startR = 0;
-            //}
         }
         else if (postion == "right" || postion == "left") {
             if (p_endC < endC) {
@@ -100,31 +75,13 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
                     curC = last["column"] == null ? 0 : last["column"][0];
                 }
             }
-
-
-            //console.log(p_startC, p_endC, startC, endC, curC);
-
-            //if (endC >= datacolumnlen) {
-            //    endC = datacolumnlen - 1;
-            //}
-
-            //if (endC < 0) {
-            //    endC = 0;
-            //}
-
-            //if (startC >= datacolumnlen) {
-            //    startC = datacolumnlen - 1;
-            //}
-
-            //if (startC < 0) {
-            //    startC = 0;
-            //}
         }
     }
 
-    let datarowlen = flowdata.length, datacolumnlen = flowdata[0].length;
+    let datarowlen = Store.flowdata.length, 
+        datacolumnlen = Store.flowdata[0].length;
 
-    let data = flowdata, moveP = "", moveV = 0;
+    let data = Store.flowdata, moveP = "", moveV = 0;
 
     if (postion == "up") {
         if (curR == 0) {
@@ -326,11 +283,6 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
         }
     }
 
-    //console.log("up", moveV, curR, p_endR, moveV + curR < p_endR);
-    //console.log("down", moveV, curR, p_startR, moveV + curR > p_startR);
-    //console.log("left", moveV, curC, p_endC, moveV + curC < p_endC);
-    //console.log("right", moveV, curC, p_startC, moveV + curC > p_startC);
-
     if (type == "range") {
         if (postion == "up") {
             if (p_endR < endR) {
@@ -352,21 +304,6 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
                     moveV = p_endC - curC;
                 }
             }
-            //else if (p_startC > startC) {
-
-            //}
-            //else if (p_endC == endC && p_startC == startC) {
-            //    if (postion == "right") {
-
-            //    }
-            //    else {
-
-            //    }
-            //}
-
-            //if (curC != p_endC && moveV + curC > p_endC) {
-            //    moveV = curC - p_endC;
-            //}
         }
         else if (postion == "right") {
             if (p_startC > startC) {
@@ -404,27 +341,33 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         postion == "down";
     }
 
-    let datarowlen = flowdata.length, datacolumnlen = flowdata[0].length;
+    let datarowlen = Store.flowdata.length, 
+        datacolumnlen = Store.flowdata[0].length;
+
+    let row, row_pre, row_index, row_index_ed;
+    let col, col_pre, col_index, col_index_ed;
 
     if(type == "rangeOfSelect"){
-        let last = luckysheet_select_save[luckysheet_select_save.length - 1];
-    
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
+        
+        let curR;
         if(last["row_focus"] == null){
-            let curR = last["row"][0];    
+            curR = last["row"][0];    
         }
         else{
-            let curR = last["row_focus"];    
+            curR = last["row_focus"];    
         }
 
+        let curC;
         if(last["column_focus"] == null){
-            let curC = last["column"][0];
+            curC = last["column"][0];
         }
         else{
-            let curC = last["column_focus"];    
+            curC = last["column_focus"];    
         }
         
         //focus单元格 是否是合并单元格
-        let margeset = menuButton.mergeborer(flowdata, curR, curC);
+        let margeset = menuButton.mergeborer(Store.flowdata, curR, curC);
         if(!!margeset){
             let str_r = margeset.row[2];
             let end_r = margeset.row[3];
@@ -481,25 +424,28 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         }
 
         //移动的下一个单元格是否是合并的单元格
-        let margeset2 = menuButton.mergeborer(flowdata, curR, curC);
+        let margeset2 = menuButton.mergeborer(Store.flowdata, curR, curC);
         if(!!margeset2){
-            let row = margeset2.row[1];
-            let row_pre = margeset2.row[0];
-            let row_index = margeset2.row[2];
-            let row_index_ed = margeset2.row[3];
+            row = margeset2.row[1];
+            row_pre = margeset2.row[0];
+            row_index = margeset2.row[2];
+            row_index_ed = margeset2.row[3];
 
-            let col = margeset2.column[1];
-            let col_pre = margeset2.column[0];
-            let col_index = margeset2.column[2];
-            let col_index_ed = margeset2.column[3];
+            col = margeset2.column[1];
+            col_pre = margeset2.column[0];
+            col_index = margeset2.column[2];
+            col_index_ed = margeset2.column[3];
         }
         else{
-            let row = visibledatarow[moveX], row_pre = moveX - 1 == -1 ? 0 : visibledatarow[moveX - 1];
-            let col = visibledatacolumn[moveY], col_pre = moveY - 1 == -1 ? 0 : visibledatacolumn[moveY - 1];
-            let row_index = moveX;
-            let row_index_ed = moveX;
-            let col_index = moveY;
-            let col_index_ed = moveY;
+            row = Store.visibledatarow[moveX]; 
+            row_pre = moveX - 1 == -1 ? 0 : Store.visibledatarow[moveX - 1];
+            row_index = moveX;
+            row_index_ed = moveX;
+
+            col = Store.visibledatacolumn[moveY]; 
+            col_pre = moveY - 1 == -1 ? 0 : Store.visibledatacolumn[moveY - 1];
+            col_index = moveY;
+            col_index_ed = moveY;
         }
 
         last["row"] = [row_index, row_index_ed];
@@ -511,31 +457,28 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         selectHightlightShow();
         pivotTable.pivotclick(row_index, col_index);
         formula.fucntionboxshow(row_index, col_index);
-
-        //图表
-        if (luckysheet.chartparam.luckysheet_chart_data_select_state) {
-            $("#luckysheet-datavisual-range-selection-input").val(luckysheetfile[luckysheet.sheetmanage.getSheetIndex(luckysheet.currentSheetIndex)].name + "!" + luckysheet.luckysheetchatatABC(last["column"][0]) + (last["row"][0] + 1) + ":" + luckysheet.luckysheetchatatABC(last["column"][1]) + (last["row"][1] + 1));
-        }
     }
     else if(type == "rangeOfFormula"){
-        let last = luckysheet.formula.func_selectedrange;
-    
+        let last = formula.func_selectedrange;
+        
+        let curR;
         if(last["row_focus"] == null){
-            let curR = last["row"][0];    
+            curR = last["row"][0];    
         }
         else{
-            let curR = last["row_focus"];    
+            curR = last["row_focus"];    
         }
 
+        let curC;
         if(last["column_focus"] == null){
-            let curC = last["column"][0];
+            curC = last["column"][0];
         }
         else{
-            let curC = last["column_focus"];    
+            curC = last["column_focus"];    
         }
         
         //focus单元格 是否是合并单元格
-        let margeset = menuButton.mergeborer(luckysheet.flowdata, curR, curC);
+        let margeset = menuButton.mergeborer(Store.flowdata, curR, curC);
         if(!!margeset){
             let str_r = margeset.row[2];
             let end_r = margeset.row[3];
@@ -592,25 +535,28 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         }
 
         //移动的下一个单元格是否是合并的单元格
-        let margeset2 = menuButton.mergeborer(flowdata, curR, curC);
+        let margeset2 = menuButton.mergeborer(Store.flowdata, curR, curC);
         if(!!margeset2){
-            let row = margeset2.row[1];
-            let row_pre = margeset2.row[0];
-            let row_index = margeset2.row[2];
-            let row_index_ed = margeset2.row[3];
+            row = margeset2.row[1];
+            row_pre = margeset2.row[0];
+            row_index = margeset2.row[2];
+            row_index_ed = margeset2.row[3];
 
-            let col = margeset2.column[1];
-            let col_pre = margeset2.column[0];
-            let col_index = margeset2.column[2];
-            let col_index_ed = margeset2.column[3];
+            col = margeset2.column[1];
+            col_pre = margeset2.column[0];
+            col_index = margeset2.column[2];
+            col_index_ed = margeset2.column[3];
         }
         else{
-            let row = visibledatarow[moveX], row_pre = moveX - 1 == -1 ? 0 : visibledatarow[moveX - 1];
-            let col = visibledatacolumn[moveY], col_pre = moveY - 1 == -1 ? 0 : visibledatacolumn[moveY - 1];
-            let row_index = moveX;
-            let row_index_ed = moveX;
-            let col_index = moveY;
-            let col_index_ed = moveY;
+            row = Store.visibledatarow[moveX]; 
+            row_pre = moveX - 1 == -1 ? 0 : Store.visibledatarow[moveX - 1];
+            row_index = moveX;
+            row_index_ed = moveX;
+
+            col = Store.visibledatacolumn[moveY];
+            col_pre = moveY - 1 == -1 ? 0 : Store.visibledatacolumn[moveY - 1];
+            col_index = moveY;
+            col_index_ed = moveY;
         }
 
         formula.func_selectedrange = {
@@ -642,7 +588,6 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         });
     }
 
-    //let winW = $(window).width(), winH = $(window).height();
     let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
     let scrollTop = $("#luckysheet-cell-main").scrollTop();
     let winH = $("#luckysheet-cell-main").height(), winW = $("#luckysheet-cell-main").width();
@@ -674,7 +619,7 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         }
     }
 
-    clearTimeout(countfuncTimeout);
+    clearTimeout(Store.countfuncTimeout);
     countfunc();
 }
 
@@ -684,28 +629,29 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
         isScroll = true;
     }
 
+    let row, row_pre;
+    let col, col_pre;
+
     if(type == "rangeOfSelect"){
-        let last = luckysheet_select_save[luckysheet_select_save.length - 1];
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
         let rf = last["row_focus"], cf = last["column_focus"];
 
-        if(config["merge"] != null && (rf + "_" + cf) in config["merge"]){
-            let focusIsMerge = true;
-            let mc = config["merge"][rf + "_" + cf];
-        }
-        else{
-            let focusIsMerge = false;
+        let focusIsMerge = false, mc = {};
+        if(Store.config["merge"] != null && (rf + "_" + cf) in Store.config["merge"]){
+            focusIsMerge = true;
+            mc = Store.config["merge"][rf + "_" + cf];
         }
 
         if(postion == "down"){
-            if(rf == flowdata.length - 1){
+            if(rf == Store.flowdata.length - 1){
                 return;
             }
 
             if(focusIsMerge){
-                rf = getNextIndex("down", cf, mc.r + mc.rs - 1, flowdata.length - 1);
+                rf = getNextIndex("down", cf, mc.r + mc.rs - 1, Store.flowdata.length - 1);
             }
             else{
-                rf = getNextIndex("down", cf, rf, flowdata.length - 1);
+                rf = getNextIndex("down", cf, rf, Store.flowdata.length - 1);
             }
         }
         else if(postion == "up"){
@@ -721,15 +667,15 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
             }
         }
         else if(postion == "right"){
-            if(cf == flowdata[0].length - 1){
+            if(cf == Store.flowdata[0].length - 1){
                 return;
             }
 
             if(focusIsMerge){
-                cf = getNextIndex("right", rf, mc.c + mc.cs - 1, flowdata[0].length - 1);
+                cf = getNextIndex("right", rf, mc.c + mc.cs - 1, Store.flowdata[0].length - 1);
             }
             else{
-                cf = getNextIndex("right", rf, cf, flowdata[0].length - 1);
+                cf = getNextIndex("right", rf, cf, Store.flowdata[0].length - 1);
             }
         }
         else if(postion == "left"){
@@ -748,8 +694,10 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
         let rowseleted = [rf, rf];
         let columnseleted = [cf, cf];
 
-        let row = visibledatarow[rf], row_pre = rf - 1 == -1 ? 0 : visibledatarow[rf - 1];
-        let col = visibledatacolumn[cf], col_pre = cf - 1 == -1 ? 0 : visibledatacolumn[cf - 1];
+        row = Store.visibledatarow[rf];
+        row_pre = rf - 1 == -1 ? 0 : Store.visibledatarow[rf - 1];
+        col = Store.visibledatacolumn[cf];
+        col_pre = cf - 1 == -1 ? 0 : Store.visibledatacolumn[cf - 1];
 
         let changeparam = menuButton.mergeMoveMain(columnseleted, rowseleted, last, row_pre, row - row_pre - 1, col_pre, col - col_pre - 1);
         if(changeparam != null){
@@ -761,38 +709,31 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
             // width = changeparam[5];
         }
 
-        luckysheet_select_save = [{"row": rowseleted, "column": columnseleted}];
+        Store.luckysheet_select_save = [{"row": rowseleted, "column": columnseleted}];
         selectHightlightShow();
         pivotTable.pivotclick(rf, cf);
         formula.fucntionboxshow(rf, cf);
-
-        //图表
-        if (luckysheet.chartparam.luckysheet_chart_data_select_state) {
-            $("#luckysheet-datavisual-range-selection-input").val(luckysheetfile[luckysheet.sheetmanage.getSheetIndex(luckysheet.currentSheetIndex)].name + "!" + luckysheet.luckysheetchatatABC(columnseleted[0]) + (rowseleted[0] + 1) + ":" + luckysheet.luckysheetchatatABC(columnseleted[1]) + (rowseleted[1] + 1));
-        }
     }
     else if(type == "rangeOfFormula"){
         let last = formula.func_selectedrange;
         let rf = last["row_focus"], cf = last["column_focus"];
 
-        if(config["merge"] != null && (rf + "_" + cf) in config["merge"]){
-            let focusIsMerge = true;
-            let mc = config["merge"][rf + "_" + cf];
-        }
-        else{
-            let focusIsMerge = false;
+        let focusIsMerge = false, mc = {};
+        if(Store.config["merge"] != null && (rf + "_" + cf) in Store.config["merge"]){
+            focusIsMerge = true;
+            mc = Store.config["merge"][rf + "_" + cf];
         }
 
         if(postion == "down"){
-            if(rf == flowdata.length - 1){
+            if(rf == Store.flowdata.length - 1){
                 return;
             }
 
             if(focusIsMerge){
-                rf = getNextIndex("down", cf, mc.r + mc.rs - 1, flowdata.length - 1);
+                rf = getNextIndex("down", cf, mc.r + mc.rs - 1, Store.flowdata.length - 1);
             }
             else{
-                rf = getNextIndex("down", cf, rf, flowdata.length - 1);
+                rf = getNextIndex("down", cf, rf, Store.flowdata.length - 1);
             }
         }
         else if(postion == "up"){
@@ -808,15 +749,15 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
             }
         }
         else if(postion == "right"){
-            if(cf == flowdata[0].length - 1){
+            if(cf == Store.flowdata[0].length - 1){
                 return;
             }
 
             if(focusIsMerge){
-                cf = getNextIndex("right", rf, mc.c + mc.cs - 1, flowdata[0].length - 1);
+                cf = getNextIndex("right", rf, mc.c + mc.cs - 1, Store.flowdata[0].length - 1);
             }
             else{
-                cf = getNextIndex("right", rf, cf, flowdata[0].length - 1);
+                cf = getNextIndex("right", rf, cf, Store.flowdata[0].length - 1);
             }
         }
         else if(postion == "left"){
@@ -835,8 +776,10 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
         let rowseleted = [rf, rf];
         let columnseleted = [cf, cf];
 
-        let row = visibledatarow[rf], row_pre = rf - 1 == -1 ? 0 : visibledatarow[rf - 1];
-        let col = visibledatacolumn[cf], col_pre = cf - 1 == -1 ? 0 : visibledatacolumn[cf - 1];
+        row = Store.visibledatarow[rf];
+        row_pre = rf - 1 == -1 ? 0 : Store.visibledatarow[rf - 1];
+        col = Store.visibledatacolumn[cf]; 
+        col_pre = cf - 1 == -1 ? 0 : Store.visibledatacolumn[cf - 1];
 
         let top = row_pre, height = row - row_pre - 1;
         let left = col_pre, width = col - col_pre - 1;
@@ -910,7 +853,7 @@ function luckysheetMoveHighlightCell2(postion, type, isScroll) {
         }
     }
 
-    clearTimeout(countfuncTimeout);
+    clearTimeout(Store.countfuncTimeout);
     countfunc();
 }
 
@@ -924,14 +867,18 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         postion == "down";
     }
 
+    let row, row_pre;
+    let col, col_pre;
+
     if(type == "rangeOfSelect"){
-        let last = luckysheet_select_save[luckysheet_select_save.length - 1];
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
         let curR = last["row"][0], endR = last["row"][1];
         let curC = last["column"][0], endC = last["column"][1];
         let rf = last["row_focus"], cf = last["column_focus"];
 
-        let datarowlen = flowdata.length, datacolumnlen = flowdata[0].length;
+        let datarowlen = Store.flowdata.length, 
+            datacolumnlen = Store.flowdata[0].length;
 
         if(postion == "down"){ //选区上下变动
             if(rowHasMerge(rf, curC, endC)){ //focus单元格所在行有合并单元格
@@ -1075,8 +1022,10 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         let rowseleted = [curR, endR];
         let columnseleted = [curC, endC];
 
-        let row = visibledatarow[endR], row_pre = curR - 1 == -1 ? 0 : visibledatarow[curR - 1];
-        let col = visibledatacolumn[endC], col_pre = curC - 1 == -1 ? 0 : visibledatacolumn[curC - 1];
+        row = Store.visibledatarow[endR]; 
+        row_pre = curR - 1 == -1 ? 0 : Store.visibledatarow[curR - 1];
+        col = Store.visibledatacolumn[endC]; 
+        col_pre = curC - 1 == -1 ? 0 : Store.visibledatacolumn[curC - 1];
 
         let changeparam = menuButton.mergeMoveMain(columnseleted, rowseleted, last, row_pre, row - row_pre - 1, col_pre, col - col_pre - 1);
         if(changeparam != null){
@@ -1092,11 +1041,6 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         last["column"] = columnseleted;
 
         selectHightlightShow();
-
-        //图表
-        if (luckysheet.chartparam.luckysheet_chart_data_select_state) {
-            $("#luckysheet-datavisual-range-selection-input").val(luckysheetfile[luckysheet.sheetmanage.getSheetIndex(luckysheet.currentSheetIndex)].name + "!" + luckysheet.luckysheetchatatABC(last["column"][0]) + (last["row"][0] + 1) + ":" + luckysheet.luckysheetchatatABC(last["column"][1]) + (last["row"][1] + 1));
-        }
     }
     else if(type == "rangeOfFormula"){
         let last = formula.func_selectedrange;
@@ -1105,7 +1049,8 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         let curC = last["column"][0], endC = last["column"][1];
         let rf = last["row_focus"], cf = last["column_focus"];
 
-        let datarowlen = flowdata.length, datacolumnlen = flowdata[0].length;
+        let datarowlen = Store.flowdata.length, 
+            datacolumnlen = Store.flowdata[0].length;
 
         if(postion == "down"){ //选区上下变动
             if(rowHasMerge(rf, curC, endC)){ //focus单元格所在行有合并单元格
@@ -1249,8 +1194,10 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         let rowseleted = [curR, endR];
         let columnseleted = [curC, endC];
 
-        let row = visibledatarow[endR], row_pre = curR - 1 == -1 ? 0 : visibledatarow[curR - 1];
-        let col = visibledatacolumn[endC], col_pre = curC - 1 == -1 ? 0 : visibledatacolumn[curC - 1];
+        row = Store.visibledatarow[endR]; 
+        row_pre = curR - 1 == -1 ? 0 : Store.visibledatarow[curR - 1];
+        col = Store.visibledatacolumn[endC]; 
+        col_pre = curC - 1 == -1 ? 0 : Store.visibledatacolumn[curC - 1];
 
         let top = row_pre, height = row - row_pre - 1;
         let left = col_pre, width = col - col_pre - 1;
@@ -1293,7 +1240,6 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         });
     }
 
-    //let winW = $(window).width(), winH = $(window).height();
     let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
     let scrollTop = $("#luckysheet-cell-main").scrollTop();
     let winH = $("#luckysheet-cell-main").height(), winW = $("#luckysheet-cell-main").width();
@@ -1325,7 +1271,7 @@ function luckysheetMoveHighlightRange(postion, index, type, isScroll) {
         }
     }
 
-    clearTimeout(countfuncTimeout);
+    clearTimeout(Store.countfuncTimeout);
     countfunc();
 }
 
@@ -1335,15 +1281,18 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         isScroll = true;
     }
 
+    let row, row_pre;
+    let col, col_pre;
+
     if(type == "rangeOfSelect"){
-        let last = luckysheet_select_save[luckysheet_select_save.length - 1];
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
         let rf = last["row_focus"], cf = last["column_focus"];
 
         let r1 = last["row"][0], r2 = last["row"][1];
         let c1 = last["column"][0], c2 = last["column"][1];
 
         if(postion == "down"){
-            if(r2 == flowdata.length - 1){
+            if(r2 == Store.flowdata.length - 1){
                 return;
             }
 
@@ -1355,7 +1304,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     r1 = getNextIndex("down", cf, r1, r2);
                 }
                 else{
-                    r2 = getNextIndex("down", cf, r2, flowdata.length - 1);
+                    r2 = getNextIndex("down", cf, r2, Store.flowdata.length - 1);
                 }
             }
             else{
@@ -1363,7 +1312,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     r1 = getNextIndex("down", cf, r1, r2);
                 }
                 else{
-                    r2 = getNextIndex("down", cf, r2, flowdata.length - 1);
+                    r2 = getNextIndex("down", cf, r2, Store.flowdata.length - 1);
                 }
             }
         }
@@ -1393,7 +1342,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
             }
         }
         else if(postion == "right"){
-            if(c2 == flowdata[0].length - 1){
+            if(c2 == Store.flowdata[0].length - 1){
                 return;
             }
 
@@ -1405,7 +1354,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     c1 = getNextIndex("right", rf, c1, c2);
                 }
                 else{
-                    c2 = getNextIndex("right", rf, c2, flowdata[0].length - 1);
+                    c2 = getNextIndex("right", rf, c2, Store.flowdata[0].length - 1);
                 }
             }
             else{
@@ -1413,7 +1362,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     c1 = getNextIndex("right", rf, c1, c2);
                 }
                 else{
-                    c2 = getNextIndex("right", rf, c2, flowdata[0].length - 1);
+                    c2 = getNextIndex("right", rf, c2, Store.flowdata[0].length - 1);
                 }
             }
         }
@@ -1446,8 +1395,10 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         let rowseleted = [r1, r2];
         let columnseleted = [c1, c2];
 
-        let row = visibledatarow[r2], row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1];
-        let col = visibledatacolumn[c2], col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1];
+        row = Store.visibledatarow[r2]; 
+        row_pre = r1 - 1 == -1 ? 0 : Store.visibledatarow[r1 - 1];
+        col = Store.visibledatacolumn[c2]; 
+        col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
 
         let changeparam = menuButton.mergeMoveMain(columnseleted, rowseleted, last, row_pre, row - row_pre - 1, col_pre, col - col_pre - 1);
         if(changeparam != null){
@@ -1463,11 +1414,6 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         last["column"] = columnseleted;
 
         selectHightlightShow();
-
-        //图表
-        if (luckysheet.chartparam.luckysheet_chart_data_select_state) {
-            $("#luckysheet-datavisual-range-selection-input").val(luckysheetfile[luckysheet.sheetmanage.getSheetIndex(luckysheet.currentSheetIndex)].name + "!" + luckysheet.luckysheetchatatABC(last["column"][0]) + (last["row"][0] + 1) + ":" + luckysheet.luckysheetchatatABC(last["column"][1]) + (last["row"][1] + 1));
-        }
     }
     else if(type == "rangeOfFormula"){
         let last = formula.func_selectedrange;
@@ -1477,7 +1423,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         let c1 = last["column"][0], c2 = last["column"][1];
 
         if(postion == "down"){
-            if(r2 == flowdata.length - 1){
+            if(r2 == Store.flowdata.length - 1){
                 return;
             }
 
@@ -1489,7 +1435,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     r1 = getNextIndex("down", cf, r1, r2);
                 }
                 else{
-                    r2 = getNextIndex("down", cf, r2, flowdata.length - 1);
+                    r2 = getNextIndex("down", cf, r2, Store.flowdata.length - 1);
                 }
             }
             else{
@@ -1497,7 +1443,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     r1 = getNextIndex("down", cf, r1, r2);
                 }
                 else{
-                    r2 = getNextIndex("down", cf, r2, flowdata.length - 1);
+                    r2 = getNextIndex("down", cf, r2, Store.flowdata.length - 1);
                 }
             }
         }
@@ -1527,7 +1473,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
             }
         }
         else if(postion == "right"){
-            if(c2 == flowdata[0].length - 1){
+            if(c2 == Store.flowdata[0].length - 1){
                 return;
             }
 
@@ -1539,7 +1485,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     c1 = getNextIndex("right", rf, c1, c2);
                 }
                 else{
-                    c2 = getNextIndex("right", rf, c2, flowdata[0].length - 1);
+                    c2 = getNextIndex("right", rf, c2, Store.flowdata[0].length - 1);
                 }
             }
             else{
@@ -1547,7 +1493,7 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
                     c1 = getNextIndex("right", rf, c1, c2);
                 }
                 else{
-                    c2 = getNextIndex("right", rf, c2, flowdata[0].length - 1);
+                    c2 = getNextIndex("right", rf, c2, Store.flowdata[0].length - 1);
                 }
             }
         }
@@ -1580,8 +1526,10 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         let rowseleted = [r1, r2];
         let columnseleted = [c1, c2];
 
-        let row = visibledatarow[r2], row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1];
-        let col = visibledatacolumn[c2], col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1];
+        row = Store.visibledatarow[r2]; 
+        row_pre = r1 - 1 == -1 ? 0 : Store.visibledatarow[r1 - 1];
+        col = Store.visibledatacolumn[c2]; 
+        col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
 
         let top = row_pre, height = row - row_pre - 1;
         let left = col_pre, width = col - col_pre - 1;
@@ -1655,16 +1603,16 @@ function luckysheetMoveHighlightRange2(postion, type, isScroll) {
         }
     }
 
-    clearTimeout(countfuncTimeout);
+    clearTimeout(Store.countfuncTimeout);
     countfunc();
 }
 
 //shift + 方向键 / ctrl + shift + 方向键 功能
-function rowHasMerge = function(r, c1, c2){
+function rowHasMerge(r, c1, c2){
     let rowHasMerge = false;
 
     for(let c = c1; c <= c2; c++){
-        let cell = flowdata[r][c];
+        let cell = Store.flowdata[r][c];
 
         if(getObjType(cell) == "object" && ("mc" in cell)){
             rowHasMerge = true;
@@ -1674,11 +1622,11 @@ function rowHasMerge = function(r, c1, c2){
 
     return rowHasMerge;
 }
-function colHasMerge = function(c, r1, r2){
+function colHasMerge(c, r1, r2){
     let colHasMerge = false;
 
     for(let r = r1; r <= r2; r++){
-        let cell = flowdata[r][c];
+        let cell = Store.flowdata[r][c];
 
         if(getObjType(cell) == "object" && ("mc" in cell)){
             colHasMerge = true;
@@ -1688,17 +1636,17 @@ function colHasMerge = function(c, r1, r2){
 
     return colHasMerge;
 }
-function getRowMerge = function(rIndex, c1, c2){
-    let r1 = 0, r2 = flowdata.length - 1;
+function getRowMerge(rIndex, c1, c2){
+    let r1 = 0, r2 = Store.flowdata.length - 1;
 
     let str = null;
     if(rIndex > r1){
         for(let r = rIndex; r >= r1; r--){
             for(let c = c1; c <= c2; c++){
-                let cell = flowdata[r][c];
+                let cell = Store.flowdata[r][c];
                 
                 if(getObjType(cell) == "object" && ("mc" in cell)){
-                    let mc = config["merge"][cell["mc"].r + "_" + cell["mc"].c];
+                    let mc = Store.config["merge"][cell["mc"].r + "_" + cell["mc"].c];
 
                     if(str == null || mc.r < str){
                         str = mc.r;
@@ -1722,10 +1670,10 @@ function getRowMerge = function(rIndex, c1, c2){
     if(rIndex < r2){
         for(let r = rIndex; r <= r2; r++){
             for(let c = c1; c <= c2; c++){
-                let cell = flowdata[r][c];
+                let cell = Store.flowdata[r][c];
                 
                 if(getObjType(cell) == "object" && ("mc" in cell)){
-                    let mc = config["merge"][cell["mc"].r + "_" + cell["mc"].c];
+                    let mc = Store.config["merge"][cell["mc"].r + "_" + cell["mc"].c];
 
                     if(end == null || (mc.r + mc.rs - 1) > end){
                         end = mc.r + mc.rs - 1;
@@ -1747,17 +1695,17 @@ function getRowMerge = function(rIndex, c1, c2){
 
     return [str, end];
 }
-function getColMerge = function(cIndex, r1, r2){
-    let c1 = 0, c2 = flowdata[0].length - 1;
+function getColMerge(cIndex, r1, r2){
+    let c1 = 0, c2 = Store.flowdata[0].length - 1;
 
     let str = null;
     if(cIndex > c1){
         for(let c = cIndex; c >= c1; c--){
             for(let r = r1; r <= r2; r++){
-                let cell = flowdata[r][c];
+                let cell = Store.flowdata[r][c];
                 
                 if(getObjType(cell) == "object" && ("mc" in cell)){
-                    let mc = config["merge"][cell["mc"].r + "_" + cell["mc"].c];
+                    let mc = Store.config["merge"][cell["mc"].r + "_" + cell["mc"].c];
 
                     if(str == null || mc.c < str){
                         str = mc.c;
@@ -1781,10 +1729,10 @@ function getColMerge = function(cIndex, r1, r2){
     if(cIndex < c2){
         for(let c = cIndex; c <= c2; c++){
             for(let r = r1; r <= r2; r++){
-                let cell = flowdata[r][c];
+                let cell = Store.flowdata[r][c];
                 
                 if(getObjType(cell) == "object" && ("mc" in cell)){
-                    let mc = config["merge"][cell["mc"].r + "_" + cell["mc"].c];
+                    let mc = Store.config["merge"][cell["mc"].r + "_" + cell["mc"].c];
 
                     if(end == null || (mc.c + mc.cs - 1) > end){
                         end = mc.c + mc.cs - 1;
@@ -1811,7 +1759,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
 
     let stNull;
     if(direction == "down"){
-        let stValue = flowdata[strIndex][focusIndex];
+        let stValue = Store.flowdata[strIndex][focusIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
             stNull = false;
@@ -1825,7 +1773,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
 
         let cellNull = [], i = 0;
         for(let r = strIndex + 1; r <= endIndex; r++){
-            let cell = flowdata[r][focusIndex];
+            let cell = Store.flowdata[r][focusIndex];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
                 cellNull.push(false);
@@ -1866,7 +1814,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         }
     }
     else if(direction == "up"){
-        let stValue = flowdata[endIndex][focusIndex];
+        let stValue = Store.flowdata[endIndex][focusIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
             stNull = false;
@@ -1880,7 +1828,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
 
         let cellNull = [], i = 0;
         for(let r = endIndex - 1; r >= strIndex; r--){
-            let cell = flowdata[r][focusIndex];
+            let cell = Store.flowdata[r][focusIndex];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
                 cellNull.push(false);
@@ -1921,7 +1869,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         }
     }
     else if(direction == "right"){
-        let stValue = flowdata[focusIndex][strIndex];
+        let stValue = Store.flowdata[focusIndex][strIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
             stNull = false;
@@ -1935,7 +1883,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
 
         let cellNull = [], i = 0;
         for(let c = strIndex + 1; c <= endIndex; c++){
-            let cell = flowdata[focusIndex][c];
+            let cell = Store.flowdata[focusIndex][c];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
                 cellNull.push(false);
@@ -1976,7 +1924,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         }
     }
     else if(direction == "left"){
-        let stValue = flowdata[focusIndex][endIndex];
+        let stValue = Store.flowdata[focusIndex][endIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
             stNull = false;
@@ -1990,7 +1938,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
 
         let cellNull = [], i = 0;
         for(let c = endIndex - 1; c >= strIndex; c--){
-            let cell = flowdata[focusIndex][c];
+            let cell = Store.flowdata[focusIndex][c];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
                 cellNull.push(false);

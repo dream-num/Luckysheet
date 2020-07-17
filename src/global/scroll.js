@@ -3,9 +3,6 @@ import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 
-let visibledatarow = Store.visibledatarow;
-let visibledatacolumn = Store.visibledatacolumn;
-
 //全局滚动事件
 export default function luckysheetscrollevent(isadjust) {
     let $t = $("#luckysheet-cell-main");
@@ -21,7 +18,7 @@ export default function luckysheetscrollevent(isadjust) {
         let maxScrollLeft = scrollWidth - windowWidth;
         let maxScrollTop = scrollHeight - windowHeight;
 
-        let visibledatacolumn_c = visibledatacolumn, visibledatarow_c = visibledatarow;
+        let visibledatacolumn_c = Store.visibledatacolumn, visibledatarow_c = Store.visibledatarow;
 
         if (luckysheetFreezen.freezenhorizontaldata != null) {
             visibledatarow_c = luckysheetFreezen.freezenhorizontaldata[3];

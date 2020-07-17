@@ -1,4 +1,6 @@
-export function isdatetime(s) {
+import { hasChinaword } from './validate';
+
+function isdatetime(s) {
     if (s == null || s.toString().length < 5) {
         return false;
     }
@@ -46,6 +48,40 @@ export function isdatetime(s) {
     }
 }
 
-export function diff(now, then) {
+function diff(now, then) {
     return moment(now).diff(moment(then));
+}
+
+function isdatatypemulti(s) {
+    let type = {};
+
+    if (isdatetime(s)) {
+        type["date"] = true;
+    }
+
+    if (!isNaN(parseFloat(s)) && !hasChinaword(s)) {
+        type["num"] = true;
+    }
+
+    return type;
+}
+
+function isdatatype(s) {
+    let type = "string";
+    
+    if (isdatetime(s)) {
+        type = "date";
+    }
+    else if (!isNaN(parseFloat(s)) && !hasChinaword(s)) {
+        type = "num";
+    }
+    
+    return type;
+}
+
+export {
+    isdatetime,
+    diff,
+    isdatatypemulti,
+    isdatatype,
 }

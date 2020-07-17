@@ -3,11 +3,9 @@ import { getdatabyselectionNoCopy } from './getdata';
 import { isRealNull, isRealNum } from './validate';
 import { update } from './format';
 
-let luckysheet_select_save = Store.luckysheet_select_save;
-
 //表格计数栏
 export function countfunc() {
-    if(luckysheet_select_save.length == 0){
+    if(Store.luckysheet_select_save.length == 0){
         return;
     }
 
@@ -17,8 +15,8 @@ export function countfunc() {
     	count = 0,        //计数（非空单元格）
     	mean = 0;         //平均值
 
-    for(let s = 0; s < luckysheet_select_save.length; s++){
-        let data = getdatabyselectionNoCopy(luckysheet_select_save[s]);
+    for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+        let data = getdatabyselectionNoCopy(Store.luckysheet_select_save[s]);
 
         for (let r = 0; r < data.length; r++) {
             for (let c = 0; c < data[0].length; c++) {
