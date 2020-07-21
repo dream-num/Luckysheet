@@ -47,86 +47,15 @@
 
 <body>
 	<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
-	<script>
+	<script type="module">
+		import sheetFormula from './sheetFormula.js'
+		import sheetCell from './sheetCell.js'
+		import sheetConditionFormat from './sheetConditionFormat.js'
 		$(function () {
 
 			luckysheet.create({
 				container: 'luckysheet',
-				data: [
-				    {
-				        "name": "分公司",
-				        "color": "",
-				        "config": {
-						    "merge": {
-						        "0_0": {
-						            "rs": 2,
-						            "cs": 1,
-						            "r": 0,
-						            "c": 0
-						        },
-						        "0_1": {
-						            "rs": 1,
-						            "cs": 2,
-						            "r": 0,
-						            "c": 1
-						        },
-						        "0_3": {
-						            "rs": 2,
-						            "cs": 2,
-						            "r": 0,
-						            "c": 3
-						        },
-						        "1_1": {
-						            "rs": 1,
-						            "cs": 2,
-						            "r": 1,
-						            "c": 1
-						        }
-						    },
-						    "rowlen": {}
-						},
-				        "index": "0",
-				        "chart": [
-				            {
-				                "sheetIndex": "0",
-				                "dataSheetIndex": "0",
-				                "chartType": "column",
-				                "row": "[1,3]",
-				                "column": "[3,3]",
-				                "chartStyle": "default",
-				                "myWidth": "480",
-				                "myHeight": "288",
-				                "myLeft": "67",
-				                "myTop": "11"
-				            }
-				        ],
-				        "status": "1",
-				        "order": "0",
-				        "column": 12,
-				        "row": 36,
-				        "celldata": [{"r":0,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据1","m":"数据1","mc":{"r":0,"c":0,"rs":2,"cs":1},"ht":"0","vt":"0","bl":1,"bg":"#fce5cd"}},{"r":0,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据2","m":"数据2","mc":{"r":0,"c":1,"rs":1,"cs":2},"ht":"0","bl":1,"bg":"#fce5cd"}},{"r":0,"c":2,"v":{"mc":{"r":0,"c":1},"ht":"0","bl":1,"bg":"#fce5cd"}},{"r":0,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据4","m":"数据4","mc":{"r":0,"c":3,"rs":2,"cs":2},"vt":"0","ht":"0","bl":1,"bg":"#fce5cd"}},{"r":0,"c":4,"v":{"mc":{"r":0,"c":3},"vt":"0","ht":"0","bl":1,"bg":"#fce5cd"}},{"r":0,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据6","m":"数据6","bl":1,"bg":"#fce5cd"}},{"r":1,"c":0,"v":{"mc":{"r":0,"c":0},"ht":"0","vt":"0","bl":1,"bg":"#fce5cd"}},{"r":1,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据3","m":"数据3","mc":{"r":1,"c":1,"rs":1,"cs":2},"ht":"0","bl":1,"bg":"#fce5cd"}},{"r":1,"c":2,"v":{"mc":{"r":1,"c":1},"ht":"0","bl":1,"bg":"#fce5cd"}},{"r":1,"c":3,"v":{"mc":{"r":0,"c":3},"vt":"0","ht":"0","bl":1,"bg":"#fce5cd"}},{"r":1,"c":4,"v":{"mc":{"r":0,"c":3},"vt":"0","ht":"0","bl":1,"bg":"#fce5cd"}},{"r":1,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7","bl":1,"bg":"#fce5cd"}},{"r":2,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据3","m":"数据3"}},{"r":2,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据4","m":"数据4"}},{"r":2,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据5","m":"数据5"}},{"r":2,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据6","m":"数据6"}},{"r":2,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7"}},{"r":2,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":3,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据4","m":"数据4"}},{"r":3,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据5","m":"数据5"}},{"r":3,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据6","m":"数据6"}},{"r":3,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7"}},{"r":3,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":3,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":4,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据5","m":"数据5"}},{"r":4,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据6","m":"数据6"}},{"r":4,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7"}},{"r":4,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":4,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":4,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据10","m":"数据10"}},{"r":5,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据6","m":"数据6"}},{"r":5,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7"}},{"r":5,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":5,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":5,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据10","m":"数据10"}},{"r":5,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据11","m":"数据11"}},{"r":6,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据7","m":"数据7"}},{"r":6,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":6,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":6,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据10","m":"数据10"}},{"r":6,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据11","m":"数据11"}},{"r":6,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据12","m":"数据12"}},{"r":7,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据8","m":"数据8"}},{"r":7,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":7,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据10","m":"数据10"}},{"r":7,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据11","m":"数据11"}},{"r":7,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据12","m":"数据12"}},{"r":7,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据13","m":"数据13"}},{"r":8,"c":0,"v":{"ct":{"fa":"General","t":"g"},"v":"数据9","m":"数据9"}},{"r":8,"c":1,"v":{"ct":{"fa":"General","t":"g"},"v":"数据10","m":"数据10"}},{"r":8,"c":2,"v":{"ct":{"fa":"General","t":"g"},"v":"数据11","m":"数据11"}},{"r":8,"c":3,"v":{"ct":{"fa":"General","t":"g"},"v":"数据12","m":"数据12"}},{"r":8,"c":4,"v":{"ct":{"fa":"General","t":"g"},"v":"数据13","m":"数据13"}},{"r":8,"c":5,"v":{"ct":{"fa":"General","t":"g"},"v":"数据14","m":"数据14"}}],
-				        "visibledatarow": [],
-				        "visibledatacolumn": [],
-				        "rowsplit": [],
-				        "ch_width": 4748,
-				        "rh_height": 1790,
-				        "luckysheet_select_save": [
-				            {
-				                "row": [
-				                    0,
-				                    1
-				                ],
-				                "column": [
-				                    0,
-				                    0
-				                ]
-				            }
-				        ],
-				        "luckysheet_selection_range": [],
-				        "scrollLeft": 0,
-				        "scrollTop": 0
-				    }
-				]
+				data: [sheetCell,sheetFormula,sheetConditionFormat]
 			})
 
 		})
