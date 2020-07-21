@@ -2682,7 +2682,7 @@ const pivotTable = {
                     curentLevelarr_row = curentLevelarr_row[curentLevelobj_row[r.toString()][item]].children;
                 }
                 else {
-                    let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + "合计"));
+                    let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + "总计"));
                     
                     if(name == null){
                         name = "(空白)";
@@ -2712,7 +2712,7 @@ const pivotTable = {
                     curentLevelarr_col = curentLevelarr_col[curentLevelobj_col[r.toString()][item]].children;
                 }
                 else {
-                    let orderby = r == 0 ? "self" : ((column[r - 1].orderby == "self" || column[r - 1].orderby == null) ? item : (showType == "column" ? "合计" + item : values[parseInt(column[r - 1].orderby)].fullname + item));
+                    let orderby = r == 0 ? "self" : ((column[r - 1].orderby == "self" || column[r - 1].orderby == null) ? item : (showType == "column" ? "总计" + item : values[parseInt(column[r - 1].orderby)].fullname + item));
                     
                     if(name == null){
                         name = "(空白)";

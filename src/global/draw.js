@@ -54,7 +54,7 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     );
 
     luckysheetTableContent.font = luckysheetdefaultstyle.font;
-    luckysheetTableContent.textBaseline = luckysheetdefaultstyle.textBaseline;
+    luckysheetTableContent.textBaseline = luckysheetdefaultstyle.textBaseline; //基准线 垂直居中
     luckysheetTableContent.fillStyle = luckysheetdefaultstyle.fillStyle;
 
     let dataset_row_st, dataset_row_ed;
@@ -156,7 +156,7 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
 
 
     luckysheetTableContent.font = luckysheetdefaultstyle.font;
-    luckysheetTableContent.textBaseline = luckysheetdefaultstyle.textBaseline;
+    luckysheetTableContent.textBaseline = luckysheetdefaultstyle.textBaseline; //基准线 垂直居中
     luckysheetTableContent.fillStyle = luckysheetdefaultstyle.fillStyle;
 
     let dataset_col_st, dataset_col_ed;
@@ -713,7 +713,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             //垂直对齐 (默认为2，下对齐)
             let verticalFixed = browser.luckysheetrefreshfixed();
-            let verticalAlignPos = (end_r  + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight; 
+            let verticalAlignPos = (end_r + offsetTop - 2) * Store.devicePixelRatio; 
+            luckysheetTableContent.textBaseline = 'bottom';
             
             luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos);
         }
@@ -830,27 +831,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             textH = oneLineTextHeight;
         }
 
-        //水平对齐
-        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c , "ht"); 
-        let horizonAlignPos = (start_c + 4 + offsetLeft) * Store.devicePixelRatio; //horizonAlign默认为1，左对齐
-        if(horizonAlign == "0"){ //居中对齐
-            horizonAlignPos = (start_c + (end_c - start_c) / 2 + offsetLeft) * Store.devicePixelRatio - (textMetrics) / 2;
-        }
-        else if(horizonAlign == "2"){ //右对齐
-            horizonAlignPos = (end_c + offsetLeft - 8) * Store.devicePixelRatio - (textMetrics);
-        }
-
-        //垂直对齐
-        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c , "vt"); 
-        let verticalFixed = browser.luckysheetrefreshfixed();
-        let verticalAlignPos = (end_r  + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight; //verticalAlign默认为2，下对齐
-        if(verticalAlign == "0"){ //居中对齐
-            verticalAlignPos = (start_r + (end_r - start_r) / 2  + offsetTop + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight / 2;
-        }
-        else if(verticalAlign == "1"){ //上对齐
-            verticalAlignPos = (start_r + offsetTop + verticalFixed) * Store.devicePixelRatio;
-        }
-
         //水平对齐方式是 居中或居右对齐 且单元格宽度小于文字宽度 （用离屏canvas渲染）
         let canvasName, cellsize; 
         if(browser.BrowserType() != "Safari" && (canvasType == "offline" || ((horizonAlign == "0" || horizonAlign == "2") && (end_c - start_c) < textW) || ((verticalAlign == "0" || verticalAlign == "2") && (end_r - start_r) < textH))){
@@ -873,6 +853,38 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 Store.devicePixelRatio * (end_c - start_c - 3 + borderfix[2]), 
                 Store.devicePixelRatio * (end_r - start_r - 3 - 0.5 + borderfix[3])
             ];
+        }
+
+        //水平对齐
+        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c , "ht"); 
+        let horizonAlignPos = (start_c + 4 + offsetLeft) * Store.devicePixelRatio; //horizonAlign默认为1，左对齐
+        if(horizonAlign == "0"){ //居中对齐
+            horizonAlignPos = (start_c + (end_c - start_c) / 2 + offsetLeft) * Store.devicePixelRatio - (textMetrics) / 2;
+        }
+        else if(horizonAlign == "2"){ //右对齐
+            horizonAlignPos = (end_c + offsetLeft - 8) * Store.devicePixelRatio - (textMetrics);
+        }
+
+        //垂直对齐
+        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c , "vt"); 
+        let verticalFixed = browser.luckysheetrefreshfixed();
+        
+        //verticalAlign默认为2，下对齐
+        let verticalAlignPos = (end_r + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight;
+        let verticalAlignPos_text = (end_r  + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio; 
+        canvasName.textBaseline = "bottom";
+        
+        if(verticalAlign == "0"){
+            //居中对齐 
+            verticalAlignPos = (start_r + offsetTop + (end_r - start_r) / 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight / 2;
+            verticalAlignPos_text = (start_r + offsetTop + (end_r - start_r) / 2 + verticalFixed) * Store.devicePixelRatio;
+            canvasName.textBaseline = "middle";
+        }
+        else if(verticalAlign == "1"){
+            //上对齐 
+            verticalAlignPos = (start_r + offsetTop + 2 + verticalFixed) * Store.devicePixelRatio;
+            verticalAlignPos_text = (start_r + offsetTop + 2 + verticalFixed) * Store.devicePixelRatio;
+            canvasName.textBaseline = "top";
         }
             
         //单元格 背景颜色
@@ -1046,8 +1058,18 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         if(checksCF != null && checksCF["icons"] != null){
             let l = checksCF["icons"]["left"];
             let t = checksCF["icons"]["top"];
-            
-            canvasName.drawImage(luckysheet_CFiconsImg, l * 42, t * 32, 32, 32, cellsize[0], verticalAlignPos + 2, oneLineTextHeight - 2, oneLineTextHeight - 2);
+
+            canvasName.drawImage(
+                luckysheet_CFiconsImg, 
+                l * 42, 
+                t * 32, 
+                32, 
+                32, 
+                cellsize[0], 
+                verticalAlignPos + 2,  
+                oneLineTextHeight - 2, 
+                oneLineTextHeight - 2
+            );
             
             if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
                 horizonAlignPos = horizonAlignPos + oneLineTextHeight - 2;
@@ -1071,7 +1093,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         if(Store.flowdata[r][c].dd != null){
             canvasName.fillStyle = "#0000ff";
 
-            canvasName.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos);
+            canvasName.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
 
             canvasName.beginPath();
             canvasName.strokeStyle = "#0000ff";
@@ -1083,6 +1105,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         else{
             //自动换行、旋转、删除线功能
             if(Store.flowdata[r][c].tb == "2"){
+                canvasName.textBaseline = 'top'; //自动换行 textBaseline以top计算
+
                 let strValue = value.toString();
                 let cellWidth = end_c - start_c - 8;
                 let strArr = [];
@@ -1120,11 +1144,13 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     else{
                         verticalAlignPos = (end_r  + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight * strArr.length;
                     }
-                    
+
                     canvasName.fillText(strArr[iFill], horizonAlignPos, (verticalAlignPos + iFill * oneLineTextHeight));
                 }
             }
             else if(Store.flowdata[r][c].tr != null && Store.flowdata[r][c].tr != "0"){
+                canvasName.textBaseline = 'top'; //旋转 textBaseline以top计算
+
                 //单元格旋转属性
                 let tr = Store.flowdata[r][c].tr;
                 
@@ -1312,7 +1338,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 }
             }
             else{
-                canvasName.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos);
+                canvasName.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
                 
                 //是否有删除线
                 let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
@@ -1533,7 +1559,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             let m_st = Store.devicePixelRatio * (start_c - 2 + 0.5 + offsetLeft);
             let m_ed = Store.devicePixelRatio * (start_r + offsetTop);
             let line_st = Store.devicePixelRatio * (start_c - 2 + 0.5 + offsetLeft);
-            let line_ed = Store.devicePixelRatio * (end_r - 2 + offsetTop);
+            let line_ed = Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop);
 
             menuButton.setLineDash(canvas, linetype, "v", m_st, m_ed, line_st, line_ed);
 
@@ -1549,7 +1575,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             let m_st = Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft);
             let m_ed = Store.devicePixelRatio * (start_r + offsetTop);
             let line_st = Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft);
-            let line_ed = Store.devicePixelRatio * (end_r - 2 + offsetTop);
+            let line_ed = Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop);
 
             menuButton.setLineDash(canvas, linetype, "v", m_st, m_ed, line_st, line_ed);
 
@@ -1564,7 +1590,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             let m_st = Store.devicePixelRatio * (start_c - 2 + offsetLeft);
             let m_ed = Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop);
-            let line_st = Store.devicePixelRatio * (end_c + offsetLeft - 2);
+            let line_st = Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft);
             let line_ed = Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop);
 
             menuButton.setLineDash(canvas, linetype, "h", m_st, m_ed, line_st, line_ed);
@@ -1580,7 +1606,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             let m_st = Store.devicePixelRatio * (start_c - 2 + offsetLeft);
             let m_ed = Store.devicePixelRatio * (start_r - 1 + 0.5 + offsetTop);
-            let line_st = Store.devicePixelRatio * (end_c + offsetLeft - 2);
+            let line_st = Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft);
             let line_ed = Store.devicePixelRatio * (start_r - 1 + 0.5 + offsetTop);
 
             menuButton.setLineDash(canvas, linetype, "h", m_st, m_ed, line_st, line_ed);

@@ -38,11 +38,12 @@ const server = {
 	        for(let i = 0; i < n; i++){
 	            let str = r1 + timeR * i;
 
+				let edr;
 	            if(i == n - 1){
-	                let edr = r2;
+	                edr = r2;
 	            }
 	            else{
-	                let edr = r1 + timeR * (i + 1) - 1;
+	                edr = r1 + timeR * (i + 1) - 1;
 	            }
 
 	            let v = [];

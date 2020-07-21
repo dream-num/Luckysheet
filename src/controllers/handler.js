@@ -3383,7 +3383,7 @@ export default function luckysheetHandler() {
 
             //格式刷
             if(menuButton.luckysheetPaintModelOn){
-                selection.pasteHandlerOfPaintModel(luckysheet_copy_save);
+                selection.pasteHandlerOfPaintModel(Store.luckysheet_copy_save);
 
                 if(menuButton.luckysheetPaintSingle){
                     //单次 格式刷
@@ -9251,6 +9251,7 @@ export default function luckysheetHandler() {
             let txtdata = clipboardData.getData("text/html");
 
             //如果标示是qksheet复制的内容，判断剪贴板内容是否是当前页面复制的内容
+            let isEqual = true;
             if(txtdata.indexOf("luckysheet_copy_action_table") >- 1 && Store.luckysheet_copy_save["copyRange"] != null && Store.luckysheet_copy_save["copyRange"].length > 0){
                 //剪贴板内容解析
                 let cpDataArr = [];
@@ -9281,31 +9282,36 @@ export default function luckysheetHandler() {
 
                 let copy_index = Store.luckysheet_copy_save["dataSheetIndex"];
 
+                let d;
                 if(copy_index == Store.currentSheetIndex){
-                    let d = editor.deepCopyFlowData(Store.flowdata);
+                    d = editor.deepCopyFlowData(Store.flowdata);
                 }
                 else{
-                    let d = Store.luckysheetfile[getSheetIndex(copy_index)].data;
+                    d = Store.luckysheetfile[getSheetIndex(copy_index)].data;
                 }
 
-                let isEqual = true;
-
                 for(let r = copy_r1; r <= copy_r2; r++){
-                    if(r - copy_r1 > 5){
+                    if(r - copy_r1 > cpDataArr.length - 1){
                         break;
                     }
 
                     for(let c = copy_c1; c <= copy_c2; c++){
                         let cell = d[r][c];
 
-                        if(cell != null && cell.ct != null && cell.ct.fa.indexOf("w") > -1){
-                            let v = d[r][c].v;
+                        let v;
+                        if(cell != null){
+                            if(cell.ct != null && cell.ct.fa.indexOf("w") > -1){
+                                v = d[r][c].v;
+                            }
+                            else{
+                                v = d[r][c].m;
+                            }
                         }
                         else{
-                            let v = d[r][c].m;
+                            v = "";
                         }
 
-                        if(v != cpDataArr[r - copy_r1][c - copy_c1]){
+                        if(cpDataArr[r - copy_r1][c - copy_c1] != v){
                             isEqual = false;
                             break;
                         }
@@ -9317,11 +9323,11 @@ export default function luckysheetHandler() {
                 //剪切板内容 和 luckysheet本身复制的内容 一致
                 if(Store.luckysheet_paste_iscut){
                     Store.luckysheet_paste_iscut = false;
-                    selection.pasteHandlerOfCutPaste(luckysheet_copy_save);
+                    selection.pasteHandlerOfCutPaste(Store.luckysheet_copy_save);
                     selection.clearcopy(e);
                 }
                 else{
-                    selection.pasteHandlerOfCopyPaste(luckysheet_copy_save);
+                    selection.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
             }
             else{

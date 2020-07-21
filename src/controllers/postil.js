@@ -161,6 +161,12 @@ const luckysheetPostil = {
         let row_index = rowLocation(y)[2];
         let col_index = colLocation(x)[2];
 
+        let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
+        if(!!margeset){
+            row_index = margeset.row[2];
+            col_index = margeset.column[2];
+        }
+
         if(Store.flowdata[row_index] == null || Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].ps == null){
             return;
         }
@@ -173,8 +179,21 @@ const luckysheetPostil = {
 
         let value = postil["value"] == null ? "" : postil["value"];
 
-        let toX = Store.visibledatacolumn[col_index];
-        let toY = row_index == 0 ? 0 : Store.visibledatarow[row_index - 1];
+        let row = Store.visibledatarow[row_index], 
+            row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
+        let col = Store.visibledatacolumn[col_index], 
+            col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
+
+        if(!!margeset){
+            row = margeset.row[1];
+            row_pre = margeset.row[0];
+            
+            col = margeset.column[1];
+            col_pre = margeset.column[0];
+        }
+
+        let toX = col;
+        let toY = row_pre;
 
         let fromX = toX + 18;
         let fromY = toY - 18;
@@ -186,7 +205,7 @@ const luckysheetPostil = {
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
         let html =  '<div id="luckysheet-postil-overshow">' +
-                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                         '<div style="width:132px;min-height:72px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ value +'</div>' +
                     '</div>';
 
@@ -330,7 +349,7 @@ const luckysheetPostil = {
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show">' +
-                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
                                 '<div class="luckysheet-postil-dialog-move">' +
                                     '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +
@@ -366,8 +385,22 @@ const luckysheetPostil = {
     newPs: function(r, c){
         let _this = this;
 
-        let toX = Store.visibledatacolumn[c];
-        let toY = r == 0 ? 0 : Store.visibledatarow[r - 1];
+        let row = Store.visibledatarow[r], 
+            row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1];
+        let col = Store.visibledatacolumn[c], 
+            col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
+
+        let margeset = menuButton.mergeborer(Store.flowdata, r, c);
+        if(!!margeset){
+            row = margeset.row[1];
+            row_pre = margeset.row[0];
+            
+            col = margeset.column[1];
+            col_pre = margeset.column[0];
+        }
+
+        let toX = col;
+        let toY = row_pre;
 
         let fromX = toX + 18;
         let fromY = toY - 18;
@@ -379,7 +412,7 @@ const luckysheetPostil = {
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
         let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show luckysheet-postil-show-active">' +
-                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                         '<div class="luckysheet-postil-show-main" style="width:144px;height:84px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;box-sizing:border-box;z-index:100;">' +
                             '<div class="luckysheet-postil-dialog-move">' +
                                 '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +
@@ -467,7 +500,7 @@ const luckysheetPostil = {
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show luckysheet-postil-show-active">' +
-                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
                                 '<div class="luckysheet-postil-dialog-move">' +
                                     '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +
@@ -565,7 +598,7 @@ const luckysheetPostil = {
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show">' +
-                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                            '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
                                 '<div class="luckysheet-postil-dialog-move">' +
                                     '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +
@@ -679,7 +712,7 @@ const luckysheetPostil = {
                         let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
                         let html =  '<div id="luckysheet-postil-show_'+ rowIndex +'_'+ colIndex +'" class="luckysheet-postil-show">' +
-                                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;"></canvas>' +
+                                        '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                                         '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
                                             '<div class="luckysheet-postil-dialog-move">' +
                                                 '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +

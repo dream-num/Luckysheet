@@ -1284,12 +1284,12 @@ const luckysheetformula = {
         _this.cancelNormalSelected();
 
         let RowlChange = false;
-        if(d[r][c].tb == "2" && d[r][c].v != null){//自动换行
-            let cfg = $.extend(true, {}, getluckysheetfile()[getSheetIndex(Store.currentSheetIndex)]["config"]);
-            if(cfg["rowlen"] == null){
-                cfg["rowlen"] = {};
-            }
+        let cfg = $.extend(true, {}, getluckysheetfile()[getSheetIndex(Store.currentSheetIndex)]["config"]);
+        if(cfg["rowlen"] == null){
+            cfg["rowlen"] = {};
+        }
 
+        if(d[r][c].tb == "2" && d[r][c].v != null){//自动换行
             let defaultrowlen = 19;
 
             let offlinecanvas = $("#luckysheetTableContentF").get(0).getContext("2d");
@@ -3034,7 +3034,10 @@ const luckysheetformula = {
                 $editer.html(value);
                 _this.functionRange($editer, value, value1);
                 _this.canceFunctionrangeSelected();
-                _this.createRangeHightlight();
+
+                if(kcode != 46){//delete不执行此函数
+                    _this.createRangeHightlight();
+                }
             }
 
             _this.rangestart = false;

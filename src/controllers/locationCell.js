@@ -1,5 +1,6 @@
 import { replaceHtml } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
+import { isRealNull } from '../global/validate';
 import { isEditMode } from '../global/validate';
 import tooltip from '../global/tooltip';
 import { modelHTML } from './constant';
@@ -209,199 +210,111 @@ const luckysheetLocationCell = {
     apply: function(range, type, value){
         let rangeArr = [];
 
-        if(type == "locationFormula" || type == "locationConstant" || type == "locationNull" || type == "locationCF"){
-            let str, computeMap = {};
-
-            if(type == "locationFormula"){ //公式
-                if(value == "all"){
-                    str = "Store.flowdata[r] != null && Store.flowdata[r][c] != null && Store.flowdata[r][c].v != null && Store.flowdata[r][c].f != null";
-                }
-                else{
-                    str = "Store.flowdata[r] != null && Store.flowdata[r][c] != null && Store.flowdata[r][c].v != null && Store.flowdata[r][c].f != null && Store.flowdata[r][c].ct != null && value.indexOf(Store.flowdata[r][c].ct.t) != -1";
-                }
-            }
-            else if(type == "locationConstant"){ //常量
-                if(value == "all"){
-                    str = "Store.flowdata[r] != null && Store.flowdata[r][c] != null && Store.flowdata[r][c].v != null && Store.flowdata[r][c].f == null && Store.flowdata[r][c].ct != null";
-                }
-                else{
-                    str = "Store.flowdata[r] != null && Store.flowdata[r][c] != null && Store.flowdata[r][c].v != null && Store.flowdata[r][c].f == null && Store.flowdata[r][c].ct != null && value.indexOf(Store.flowdata[r][c].ct.t) != -1";
-                }
-            }
-            else if(type == "locationNull"){ //空值
-                str = "Store.flowdata[r] != null && (Store.flowdata[r][c] == null || Store.flowdata[r][c].v == null || Store.flowdata[r][c].v == '') ";
-            }
-            else if(type == "locationCF"){ //条件格式
-                let index = getSheetIndex(Store.currentSheetIndex);
-                let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
-                let data = Store.luckysheetfile[index]["data"];
-
-                computeMap = conditionformat.compute(ruleArr, data);
-
-                if(JSON.stringify(computeMap) == "{}"){
-                    if(isEditMode()){
-                        alert("未找到单元格");
-                    }
-                    else{
-                        tooltip.info("提示", "未找到单元格");
-                    }
-
-                    return;
-                }
-
-                str = "(r + '_' + c) in computeMap";
-            }
+        if(type == "locationFormula" || type == "locationConstant" || type == "locationNull"){ //公式 常量 空值
+            let minR = null, maxR = null, minC = null, maxC = null, cellSave = {};
 
             for(let s = 0; s < range.length; s++){
-                let st_r = range[s].row[0], ed_r = range[s].row[1];
-                let st_c = range[s].column[0], ed_c = range[s].column[1];
-                
-                if(st_r == ed_r){
-                    let stack_stc = null, stack_edc = null;
+                let st_r = range[s].row[0],
+                    ed_r = range[s].row[1],
+                    st_c = range[s].column[0],
+                    ed_c = range[s].column[1];
 
-                    var r = st_r;  //r, c var定义，否则eval报错
-                    for(var c = st_c; c <= ed_c; c++){
-                        if(c == st_c){
-                            if(eval(str)){
-                                stack_stc = c;
-                            }
-                            else{
-                                stack_stc = null;
-                            }
-                        }
-                        else if(c == ed_c){
-                            if(eval(str)){
-                                if(stack_stc == null){
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [ed_c, ed_c]});
-                                }
-                                else{
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [stack_stc, ed_c]});
-                                }
-                            }
-                            else{
-                                if(stack_edc == null && stack_stc != null){
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [stack_stc, stack_stc]});
-                                }
-                                else if(stack_edc != null){
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [stack_stc, stack_edc]});
-                                }
-                            }
-                        }
-                        else{
-                            if(eval(str)){
-                                if(stack_stc == null){
-                                    stack_stc = c;
-                                }
-                                else{
-                                    stack_edc = c;
-                                }
-                            }
-                            else{
-                                if(stack_edc == null && stack_stc != null){
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [stack_stc, stack_stc]});
-                                    stack_stc = null;
-                                }
-                                else if(stack_edc != null){
-                                    rangeArr.push({"row": [st_r, ed_r], "column": [stack_stc, stack_edc]});
-                                    stack_stc = null;
-                                    stack_edc = null;
-                                }
-                            }
-                        }
-                    }
+                if(minR == null || minR < st_r){
+                    minR = st_r;
                 }
-                else{
-                    let stack = {}; 
+                if(maxR == null || maxR > ed_r){
+                    maxR = ed_r;
+                }
+                if(minC == null || minC < st_c){
+                    minC = st_c;
+                }
+                if(maxC == null || maxC > ed_c){
+                    maxC = ed_c;
+                }
 
-                    for(var r = st_r; r <= ed_r; r++){
-                        stack[r] = [];
-                        let stack_stc = null, stack_edc = null;
+                for(let r = st_r; r <= ed_r; r++){
+                    for(let c = st_c; c <= ed_c; c++){
+                        let cell = Store.flowdata[r][c];
 
-                        for(var c = st_c; c <= ed_c; c++){
-                            if(c == ed_c){
-                                if(eval(str)){
-                                    if(stack_stc == null){
-                                        stack[r].push({"status": false, "range": [ed_c, ed_c]});
-                                    }
-                                    else{
-                                        stack[r].push({"status": false, "range": [stack_stc, ed_c]});   
-                                    }
-                                }
-                                else{
-                                    if(stack_edc == null && stack_stc != null){
-                                        stack[r].push({"status": false, "range": [stack_stc, stack_stc]});
-                                    }
-                                    else if(stack_edc != null){
-                                        stack[r].push({"status": false, "range": [stack_stc, stack_edc]});
-                                    }
-                                }
-                            }
-                            else if(c == st_c){
-                                if(eval(str)){
-                                    stack_stc = c;
-                                }
-                                else{
-                                    stack_stc = null;
-                                }
-                            }
-                            else{
-                                if(eval(str)){
-                                    if(stack_stc == null){
-                                        stack_stc = c;
-                                    }
-                                    else{
-                                        stack_edc = c;
-                                    }
-                                }
-                                else{
-                                    if(stack_edc == null && stack_stc != null){
-                                        stack[r].push({"status": false, "range": [stack_stc, stack_stc]});
-                                        stack_stc = null;
-                                    }
-                                    else if(stack_edc != null){
-                                        stack[r].push({"status": false, "range": [stack_stc, stack_edc]});
-                                        stack_stc = null;
-                                        stack_edc = null;
-                                    }
-                                }
-                            }
+                        if(cell != null && cell.mc != null){
+                            cell = Store.flowdata[cell.mc.r][cell.mc.c];
                         }
-                    }
 
-                    for(let i = st_r; i <= ed_r; i++){
-                        if(i == ed_r){
-                            if(stack[i].length > 0){
-                                for(let j = 0; j < stack[i].length; j++){
-                                    if(!stack[i][j].status){
-                                        rangeArr.push({"row": [ed_r, ed_r], "column": stack[i][j].range});
-                                    }
-                                }
-                            }
+                        if(type == 'locationFormula' && cell != null && !isRealNull(cell.v) && cell.f != null && (value == 'all' || (cell.ct != null && value.indexOf(cell.ct.t) > -1))){
+                            cellSave[r + '_' + c] = 0;
                         }
-                        else{
-                            if(stack[i].length > 0){
-                                for(let j = 0; j < stack[i].length; j++){
-                                    if(!stack[i][j].status){
-                                        let b = 0;
-                                        
-                                        for(let a = 1; a < (ed_r - i); a++){
-                                            if(stack[i + a][j] != null && stack[i + a][j].range[0] == stack[i][j].range[0] && stack[i + a][j].range[1] == stack[i][j].range[1]){
-                                                b = a;
-                                                stack[i + a][j].status = true;
-                                            }
-                                            else{
-                                                break;
-                                            }     
-                                        }
-
-                                        rangeArr.push({"row": [i, i + b], "column": stack[i][j].range});
-                                    }
-                                }
-                            }
+                        else if(type == 'locationConstant' && cell != null && !isRealNull(cell.v) && (value == 'all' || (cell.ct != null && value.indexOf(cell.ct.t) > -1))){
+                            cellSave[r + '_' + c] = 0;
+                        }
+                        else if(type == 'locationNull' && (cell == null || isRealNull(cell.v))){
+                            cellSave[r + '_' + c] = 0;
                         }
                     }
                 }
             }
+
+            rangeArr = this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
+        }
+        else if(type == "locationCF"){ //条件格式
+            let index = getSheetIndex(Store.currentSheetIndex);
+            let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
+            let data = Store.luckysheetfile[index]["data"];
+
+            if(ruleArr == null || ruleArr.length == 0){
+                if(isEditMode()){
+                    alert("未找到单元格");
+                }
+                else{
+                    tooltip.info("提示", "未找到单元格");
+                }
+
+                return;
+            }
+
+            computeMap = conditionformat.compute(ruleArr, data);
+
+            if(Object.keys(computeMap).length == 0){
+                if(isEditMode()){
+                    alert("未找到单元格");
+                }
+                else{
+                    tooltip.info("提示", "未找到单元格");
+                }
+
+                return;
+            }
+
+            let minR = null, maxR = null, minC = null, maxC = null, cellSave = {};
+
+            for(let s = 0; s < range.length; s++){
+                let st_r = range[s].row[0],
+                    ed_r = range[s].row[1],
+                    st_c = range[s].column[0],
+                    ed_c = range[s].column[1];
+
+                if(minR == null || minR < st_r){
+                    minR = st_r;
+                }
+                if(maxR == null || maxR > ed_r){
+                    maxR = ed_r;
+                }
+                if(minC == null || minC < st_c){
+                    minC = st_c;
+                }
+                if(maxC == null || maxC > ed_c){
+                    maxC = ed_c;
+                }
+
+                for(let r = st_r; r <= ed_r; r++){
+                    for(let c = st_c; c <= ed_c; c++){
+                        if((r + '_' + c) in computeMap){
+                            cellSave[r + '_' + c] = 0;
+                        }
+                    }
+                }
+            }
+
+            rangeArr = this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
         }
         else if(type == "locationStepRow"){ //间隔行
             for(let s = 0; s < range.length; s++){
@@ -477,6 +390,99 @@ const luckysheetLocationCell = {
                 $("#luckysheet-scrollbar-y").scrollTop(row_pre - 20);
             }
         }
+    },
+    getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr){
+        if(Object.keys(cellSave).length == 0){
+            return rangeArr;
+        }
+
+        let _this = this;
+
+        let stack_str = null, 
+            stack_edr = null, 
+            stack_stc = null, 
+            stack_edc = null;
+
+        for(let r = minR; r <= maxR; r++){
+            for(let c = minC; c <= maxC; c++){
+                let cell = Store.flowdata[r][c];
+                
+                if((r + '_' + c) in cellSave){
+                    if(cell != null && cell.mc != null){
+                        if(stack_stc == null){
+                            let range = {
+                                'row': [cell.mc.r, cell.mc.r + cell.mc.rs - 1],
+                                'column': [cell.mc.c, cell.mc.c + cell.mc.cs - 1]
+                            };
+                            rangeArr.push(range);
+                            cellSave = _this.deleteCellInSave(cellSave, range);
+                            return _this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
+                        }
+                        else if(c < stack_edc){
+                            let range = {
+                                'row': [stack_str, stack_edr],
+                                'column': [stack_stc, stack_edc]
+                            }
+                            rangeArr.push(range);
+                            cellSave = _this.deleteCellInSave(cellSave, range);
+                            return _this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    else if(stack_stc == null){
+                        stack_stc = c;
+                        stack_edc = c;
+
+                        stack_str = r;
+                        stack_edr = r;
+                    }
+                    else if(c > stack_edc){
+                        stack_edc = c;
+                    }
+                }
+                else if(stack_stc != null){
+                    if(cell != null && cell.mc != null){
+                        break;
+                    }
+                    else if(c < stack_stc){
+
+                    }
+                    else if(c <= stack_edc){
+                        let range = {
+                            'row': [stack_str, stack_edr],
+                            'column': [stack_stc, stack_edc]
+                        }
+                        rangeArr.push(range);
+                        cellSave = _this.deleteCellInSave(cellSave, range);
+                        return _this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
+                    }
+                    else{
+                        stack_edr = r;
+                    }
+                }
+            }
+        }
+
+        if(stack_stc != null){
+            let range = {
+                'row': [stack_str, stack_edr],
+                'column': [stack_stc, stack_edc]
+            }
+            rangeArr.push(range);
+            cellSave = _this.deleteCellInSave(cellSave, range);
+            return _this.getRangeArr(minR, maxR, minC, maxC, cellSave, rangeArr);
+        }
+    },
+    deleteCellInSave(cellSave, range){
+        for(let r = range.row[0]; r <= range.row[1]; r++){
+            for(let c = range.column[0]; c <= range.column[1]; c++){
+                delete cellSave[r + '_' + c];
+            }
+        }
+
+        return cellSave;
     }
 }
 

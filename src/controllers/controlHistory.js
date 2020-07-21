@@ -43,6 +43,10 @@ const controlHistory = {
 
                 for(let r = st_r;r < ed_r + 1; r++){
                     for(let c = st_c; c < ed_c +1; c++){
+                        if(r > ctr.data.length - 1){
+                            break;
+                        }
+
                         if(ctr.data[r][c] == null){
                             formula.delFunctionGroup(r,c);
                         }
