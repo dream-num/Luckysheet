@@ -28,6 +28,7 @@ const luckysheetConfigsetting = {
     chartConfigChange: null,
     beforeCreateDom: null,
     fireMousedown: null,
+    plugins:[]
 }
 
 export default luckysheetConfigsetting;

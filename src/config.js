@@ -51,4 +51,5 @@ export default {
     beforeCreateDom: null,//表格创建之前的方法
     fireMousedown: null, //单元格数据下钻
     lang: 'en', //language
+    plugins: [], //plugins, e.g. ['chart']
 }

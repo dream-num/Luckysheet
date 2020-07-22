@@ -17,7 +17,7 @@ function isJsonString(str) {
         if (typeof JSON.parse(str) == "object") {
             return true;
         }
-    } 
+    }
     catch (e) { }
     return false;
 }
@@ -53,16 +53,16 @@ function getObjType(obj) {
     let toString = Object.prototype.toString;
 
     let map = {
-        '[object Boolean]':  'boolean',
-        '[object Number]':   'number',
-        '[object String]':   'string',
+        '[object Boolean]': 'boolean',
+        '[object Number]': 'number',
+        '[object String]': 'string',
         '[object Function]': 'function',
-        '[object Array]':    'array',
-        '[object Date]':     'date',
-        '[object RegExp]':   'regExp',
-        '[object Undefined]':'undefined',
-        '[object Null]':     'null',
-        '[object Object]':   'object'
+        '[object Array]': 'array',
+        '[object Date]': 'date',
+        '[object RegExp]': 'regExp',
+        '[object Undefined]': 'undefined',
+        '[object Null]': 'null',
+        '[object Object]': 'object'
     }
 
     // if(obj instanceof Element){
@@ -76,10 +76,10 @@ function getObjType(obj) {
 function hexToRgb(hex) {
     let color = [], rgb = [];
     hex = hex.replace(/#/, "");
-    
+
     if (hex.length == 3) { // 处理 "#abc" 成 "#aabbcc"
         let tmp = [];
-        
+
         for (let i = 0; i < 3; i++) {
             tmp.push(hex.charAt(i) + hex.charAt(i));
         }
@@ -99,19 +99,19 @@ function hexToRgb(hex) {
 function rgbTohex(color) {
     let rgb;
 
-    if(color.indexOf("rgba") > -1){
+    if (color.indexOf("rgba") > -1) {
         rgb = color.replace("rgba(", "").replace(")", "").split(',');
     }
-    else{
+    else {
         rgb = color.replace("rgb(", "").replace(")", "").split(',');
     }
-    
+
     let r = parseInt(rgb[0]);
     let g = parseInt(rgb[1]);
     let b = parseInt(rgb[2]);
- 
+
     let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    
+
     return hex;
 };
 
@@ -127,7 +127,7 @@ function ABCatNum(abc) {
     let abc_array = abc.split("");
     let wordlen = columeHeader_word.length;
     let ret = 0;
-    
+
     for (let i = abc_len - 1; i >= 0; i--) {
         if (i == abc_len - 1) {
             ret += columeHeader_word_index[abc_array[i]];
@@ -143,14 +143,14 @@ function ABCatNum(abc) {
 //列下标  数字转字母
 function chatatABC(index) {
     let wordlen = columeHeader_word.length;
-    
+
     if (index < wordlen) {
         return columeHeader_word[index];
     }
     else {
         let last = 0, pre = 0, ret = "";
         let i = 1, n = 0;
-        
+
         while (index >= (wordlen / (wordlen - 1)) * (Math.pow(wordlen, i++) - 1)) {
             n = i;
         }
@@ -160,10 +160,10 @@ function chatatABC(index) {
 
         for (let x = n; x > 0; x--) {
             let last1 = last, x1 = x;//-702=268, 3
-            
+
             if (x == 1) {
                 last1 = last1 % wordlen;
-                
+
                 if (last1 == 0) {
                     last1 = 26;
                 }
@@ -174,7 +174,7 @@ function chatatABC(index) {
             last1 = Math.ceil(last1 / Math.pow(wordlen, x - 1));
             //last1 = last1 % wordlen;
             ret += columeHeader_word[last1 - 1];
-            
+
             if (x > 1) {
                 last = last - (last1 - 1) * wordlen;
             }
@@ -184,14 +184,14 @@ function chatatABC(index) {
 
 function ceateABC(index) {
     let wordlen = columeHeader_word.length;
-    
+
     if (index < wordlen) {
         return columeHeader_word;
     }
     else {
         let relist = [];
         let i = 2, n = 0;
-        
+
         while (index < (wordlen / (wordlen - 1)) * (Math.pow(wordlen, i) - 1)) {
             n = i;
             i++;
@@ -211,19 +211,19 @@ function ceateABC(index) {
 
 function createABCdim(x, count) {
     let chwl = columeHeader_word.length;
-    
+
     if (x == 1) {
         let ret = [];
         let c = 0, con = true;
-        
+
         for (let i = 0; i < chwl; i++) {
             let b = columeHeader_word[i];
-            
+
             for (let n = 0; n < chwl; n++) {
                 let bq = b + columeHeader_word[n];
                 ret.push(bq);
                 c++;
-                
+
                 if (c > index) {
                     return ret;
                 }
@@ -233,18 +233,18 @@ function createABCdim(x, count) {
     else if (x == 2) {
         let ret = [];
         let c = 0, con = true;
-        
+
         for (let i = 0; i < chwl; i++) {
             let bb = columeHeader_word[i];
-            
+
             for (let w = 0; w < chwl; w++) {
                 let aa = columeHeader_word[w];
-                
+
                 for (let n = 0; n < chwl; n++) {
                     let bqa = bb + aa + columeHeader_word[n];
                     ret.push(bqa);
                     c++;
-                    
+
                     if (c > index) {
                         return ret;
                     }
@@ -256,14 +256,14 @@ function createABCdim(x, count) {
 
 //计算字符串字节长度
 function getByteLen(val) {
-    if(val == null){
+    if (val == null) {
         return 0;
     }
 
     let len = 0;
     for (let i = 0; i < val.length; i++) {
         let a = val.charAt(i);
-        
+
         if (a.match(/[^\x00-\xff]/ig) != null) {
             len += 2;
         }
@@ -271,7 +271,7 @@ function getByteLen(val) {
             len += 1;
         }
     }
-    
+
     return len;
 };
 
@@ -279,9 +279,9 @@ function getByteLen(val) {
 function ArrayUnique(dataArr) {
     let arr = [];
 
-    if(dataArr.length > 0){
-        for(let i = 0; i < dataArr.length; i++){
-            if(arr.indexOf(dataArr[i]) == -1){
+    if (dataArr.length > 0) {
+        for (let i = 0; i < dataArr.length; i++) {
+            if (arr.indexOf(dataArr[i]) == -1) {
                 arr.push(dataArr[i]);
             }
         }
@@ -292,14 +292,14 @@ function ArrayUnique(dataArr) {
 
 //获取字体配置
 function luckysheetfontformat(format) {
-    if(getObjType(format) == "object"){
+    if (getObjType(format) == "object") {
         let font = "";
 
         //font-style
-        if(format.it == "0" || format.it == null){
+        if (format.it == "0" || format.it == null) {
             font += "normal ";
         }
-        else{
+        else {
             font += "italic ";
         }
 
@@ -307,36 +307,36 @@ function luckysheetfontformat(format) {
         font += "normal ";
 
         //font-weight
-        if(format.bl == "0"  || format.bl == null){
+        if (format.bl == "0" || format.bl == null) {
             font += "normal ";
         }
-        else{
+        else {
             font += "bold ";
         }
 
         //font-size/line-height
-        if(!format.fs){
+        if (!format.fs) {
             font += Math.ceil(10 * Store.devicePixelRatio) + "pt ";
         }
-        else{
+        else {
             font += Math.ceil(format.fs * Store.devicePixelRatio) + "pt ";
         }
 
-        if(!format.ff){
+        if (!format.ff) {
             font += '微软雅黑, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif';
         }
-        else{
+        else {
             let fontarray = menuButton.fontarray;
             let fontfamily = null;
 
-            if(isdatatypemulti(format.ff)["num"]){
+            if (isdatatypemulti(format.ff)["num"]) {
                 fontfamily = fontarray[parseInt(format.ff)];
             }
-            else{
+            else {
                 fontfamily = fontarray[menuButton.fontjson[format.ff]];
             }
 
-            if(fontfamily == null){
+            if (fontfamily == null) {
                 fontfamily = "微软雅黑";
             }
 
@@ -345,7 +345,7 @@ function luckysheetfontformat(format) {
 
         return font;
     }
-    else{
+    else {
         return luckysheetdefaultstyle.font;
     }
 }
@@ -355,7 +355,7 @@ function showrightclickmenu($menu, x, y) {
     let winH = $(window).height(), winW = $(window).width();
     let menuW = $menu.width(), menuH = $menu.height();
     let top = y, left = x;
-    
+
     if (x + menuW > winW) {
         left = x - menuW;
     }
@@ -414,10 +414,10 @@ function numFormat(num, type) {
         format = "[" + format + "]";
     }
 
-    if(num >= 1e+21){
+    if (num >= 1e+21) {
         value = parseFloat(numeral(num).value());
     }
-    else{
+    else {
         value = parseFloat(numeral(num).format("0." + format));
     }
 
@@ -467,6 +467,148 @@ function mouseclickposition($menu, x, y, p) {
     }
 }
 
+/**
+ * 元素选择器
+ * @param {String}  selector css选择器
+ * @param {String}  context  指定父级DOM
+ */
+function $$(selector, context) {
+    context = context || document
+    var elements = context.querySelectorAll(selector)
+    return elements.length == 1
+        ? Array.prototype.slice.call(elements)[0]
+        : Array.prototype.slice.call(elements)
+}
+
+/** 
+ * 串行加载指定的脚本
+ * 串行加载[异步]逐个加载，每个加载完成后加载下一个
+ * 全部加载完成后执行回调
+ * @param {Array|String}  scripts 指定要加载的脚本
+ * @param {Object} options 属性设置
+ * @param {Function} callback 成功后回调的函数
+ * @return {Array} 所有生成的脚本元素对象数组
+ */
+
+function seriesLoadScripts(scripts, options, callback) {
+    if (typeof (scripts) !== 'object') {
+        var scripts = [scripts];
+    }
+    var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+    var s = [];
+    var last = scripts.length - 1;
+    //递归
+    var recursiveLoad = function (i) {
+        s[i] = document.createElement('script');
+        s[i].setAttribute('type', 'text/javascript');
+        // Attach handlers for all browsers
+        // 异步
+        s[i].onload = s[i].onreadystatechange = function () {
+            if (!/*@cc_on!@*/0 || this.readyState === 'loaded' || this.readyState === 'complete') {
+                this.onload = this.onreadystatechange = null;
+                this.parentNode.removeChild(this);
+                if (i !== last) {
+                    recursiveLoad(i + 1);
+                } else if (typeof (callback) === 'function') {
+                    callback()
+                };
+            }
+        }
+        // 同步
+        s[i].setAttribute('src', scripts[i]);
+
+        // 设置属性
+        if (typeof options === 'object') {
+            for (var attr in options) {
+                s[i].setAttribute(attr, options[attr]);
+            }
+        }
+
+        HEAD.appendChild(s[i]);
+    };
+    recursiveLoad(0);
+}
+
+
+/**
+ * 并行加载指定的脚本
+ * 并行加载[同步]同时加载，不管上个是否加载完成，直接加载全部
+ * 全部加载完成后执行回调
+ * @param {Array|String}  scripts 指定要加载的脚本
+ * @param {Object} options 属性设置
+ * @param {Function} callback 成功后回调的函数
+ * @return {Array} 所有生成的脚本元素对象数组
+ */
+
+function parallelLoadScripts(scripts, options, callback) {
+    if (typeof (scripts) !== 'object') {
+        var scripts = [scripts];
+    }
+    var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+    var s = [];
+    var loaded = 0;
+    for (var i = 0; i < scripts.length; i++) {
+        s[i] = document.createElement('script');
+        s[i].setAttribute('type', 'text/javascript');
+        // Attach handlers for all browsers
+        // 异步
+        s[i].onload = s[i].onreadystatechange = function () {
+            if (!/*@cc_on!@*/0 || this.readyState === 'loaded' || this.readyState === 'complete') {
+                loaded++;
+                this.onload = this.onreadystatechange = null;
+                this.parentNode.removeChild(this);
+                if (loaded === scripts.length && typeof (callback) === 'function') callback();
+            }
+        };
+        // 同步
+        s[i].setAttribute('src', scripts[i]);
+
+        // 设置属性
+        if (typeof options === 'object') {
+            for (var attr in options) {
+                s[i].setAttribute(attr, options[attr]);
+            }
+        }
+
+        HEAD.appendChild(s[i]);
+    }
+}
+
+/**
+* 动态添加css
+* @param {String}  url 指定要加载的css地址
+*/
+function loadLink(url) {
+    var doc = document;
+    var link = doc.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("href", url);
+
+    var heads = doc.getElementsByTagName("head");
+    if (heads.length) {
+        heads[0].appendChild(link);
+    }
+    else {
+        doc.documentElement.appendChild(link);
+    }
+}
+
+/**
+* 动态添加一组css
+* @param {String}  url 指定要加载的css地址
+*/
+function loadLinks(urls) {
+    if (typeof (urls) !== 'object') {
+        urls = [urls];
+    }
+    if(urls.length){
+        urls.forEach(url => {
+            loadLink(url);
+        });
+    }
+}
+
 export {
     isJsonString,
     common_extend,
@@ -486,4 +628,8 @@ export {
     numFormat,
     numfloatlen,
     mouseclickposition,
+    $$,
+    seriesLoadScripts,
+    parallelLoadScripts,
+    loadLinks
 }

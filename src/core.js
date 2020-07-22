@@ -7,6 +7,7 @@ import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
+import {initPlugins} from './controllers/expendPlugins';
 
 let luckysheet = {};
 
@@ -62,6 +63,10 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
+    luckysheetConfigsetting.plugins = extendsetting.plugins;
+
+    // Register plugins
+    initPlugins(extendsetting.plugins);
 
     let devicePixelRatio = extendsetting.devicePixelRatio;
     if(devicePixelRatio == null){
