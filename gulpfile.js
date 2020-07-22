@@ -63,6 +63,7 @@ function watchReload() {
         
 
         if (reloadTimer !== null) {
+            clearTimeout(reloadTimer);
             return;
         }
         reloadTimer = setTimeout(() => {

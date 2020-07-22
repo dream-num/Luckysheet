@@ -56,7 +56,7 @@ const sheetTable = {
 	}],
 	"status": "0",
 	"order": "3",
-	"column": 15,
+	"column": 18,
 	"row": 36,
 	"celldata": [{
 		"r": 0,

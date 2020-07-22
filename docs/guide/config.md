@@ -80,12 +80,6 @@
 - Usage: Whether to display the bottom count bar
 
 ------------
-## editMode
-- Type: Boolean
-- Default: false
-- Usage: Whether it is edit mode
-
-------------
 ## allowEdit
 - Type: Boolean
 - Default: true

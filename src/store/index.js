@@ -81,6 +81,7 @@ const Store = {
     clearjfundo: true,
     jfredo: [],
     jfundo: [],
+    lang: 'en', //language
 }
 
 export default Store;

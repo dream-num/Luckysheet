@@ -1174,7 +1174,7 @@ const sheetCell = {
 	}],
 	"status": "1",
 	"order": "0",
-	"column": 12,
+	"column": 18,
 	"row": 36,
 	"celldata": [{
 		"r": 0,

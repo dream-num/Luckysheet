@@ -168,7 +168,7 @@ const sheetConditionFormat = {
 	}],
 	"status": "0",
 	"order": "2",
-	"column": 15,
+	"column": 18,
 	"row": 36,
 	"celldata": [{
 		"r": 0,

@@ -99,7 +99,7 @@ const sheetFormula = {
 	}],
 	"status": "0",
 	"order": "1",
-	"column": 15,
+	"column": 18,
 	"row": 45,
 	"celldata": [{
 		"r": 0,

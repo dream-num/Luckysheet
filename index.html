@@ -53,11 +53,14 @@
 		import sheetConditionFormat from './demoData/sheetConditionFormat.js'
 		import sheetTable from './demoData/sheetTable.js'
 		import sheetComment from './demoData/sheetComment.js'
+		import sheetPivotTableData from './demoData/sheetPivotTableData.js'
+		import sheetPivotTable from './demoData/sheetPivotTable.js'
 		$(function () {
 
 			luckysheet.create({
 				container: 'luckysheet',
-				data: [sheetCell,sheetFormula,sheetConditionFormat,sheetTable,sheetComment]
+				lang: 'zh',
+				data: [sheetCell,sheetFormula,sheetConditionFormat,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable]
 			})
 
 		})

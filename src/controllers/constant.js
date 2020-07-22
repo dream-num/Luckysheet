@@ -1,3 +1,5 @@
+import locale from '../locale/locale'
+
 //dom variable
 const gridHTML =  '<div class="luckysheet">' +
                     '<canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas>' + 
@@ -237,7 +239,589 @@ const luckysheetAlternateformatHtml = '<div id="luckysheet-modal-dialog-slider-a
 const luckysheetchartpointconfigHTML = '<div class="luckysheet-chart-point-config"> <div class="luckysheet-chart-point-config-set"> <div class="luckysheet-chart-point-config-left"> <div class="luckysheet-chart-point-config-left-top"> <div class="luckysheet-chart-point-searchcondition"> <div class="luckysheet-datavisual-content-row" style="margin-bottom: 0px;margin-top: 0px;height: 30px;"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">选择维度</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-tips="维度选择" name="luckysheetpointconfigsearchdim" id="luckysheetpointconfigsearchdim"> </select> </div> </div> <div class="luckysheet-datavisual-content-row" style="margin-bottom: 0px;margin-top: 3px;height: 30px;"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;">排序</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <label data-tips="无排序" for="luckysheetpointconfigsearchorderno">无排序</label> <input type="radio" checked="checked" value="0" name="luckysheetpointconfigsearchorder" id="luckysheetpointconfigsearchorderno"> <label data-tips="升序" for="luckysheetpointconfigsearchorderasc">升序</label> <input type="radio" value="1" name="luckysheetpointconfigsearchorder" id="luckysheetpointconfigsearchorderasc"> <label data-tips="降序" for="luckysheetpointconfigsearchorderdesc">降序</label> <input type="radio" value="2" name="luckysheetpointconfigsearchorder" id="luckysheetpointconfigsearchorderdesc"> </div> </div> <div class="luckysheet-datavisual-content-row" style="margin-bottom: 0px;margin-top: 5px;height: 30px;"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:90%;text-align: left;"> <select data-width="70" data-tips="按照什么方式查询" name="luckysheetpointconfigsearchtype" id="luckysheetpointconfigsearchtype"> <option value="0" selected="selected">按照名称</option> <option value="1">按排序前%</option> </select> <input data-tips="查询关于点的关键字" id="luckysheetpointconfigsearchcontent" type="text" class="luckysheet-datavisual-config-input-no" style="width:40%;" placeholder="查询内容" /> <button id="luckysheetpointconfigsearchcomfirm" class="btn btn-primary luckysheet-model-conform-btn">查询</button> </div> </div> </div> </div> <div class="luckysheet-chart-point-config-left-mid"> <span id="luckysheet-chart-point-btn-all" class="luckysheet-mousedown-cancel">全选</span> - <span id="luckysheet-chart-point-btn-clear" class="luckysheet-mousedown-cancel">清除</span> - <span id="luckysheet-chart-point-btn-contra" class="luckysheet-mousedown-cancel">反选</span><span style="text-decoration:none;color:#8D8D8D;float:right;margin-right:40px;cursor:default;" class="luckysheet-mousedown-cancel">可以直接框选数据点</span> </div> <div class="luckysheet-chart-point-config-left-bottom"> <div class="luckysheet-chart-point-searchitem-c luckysheet-noselected-text">  </div> </div> </div> <div class="luckysheet-chart-point-config-right"> <div class="luckysheet-chart-point-itemconfig"> <div class="luckysheet-datavisual-content-row" style="font-size: 16px;font-weight: bold;"> 数据点设置 </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">图形颜色</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <input data-tips="颜色" class="luckysheet-datavisual-config-colorOpacity" id="scattersingleitemstylecolor" type="text" data-bigclass="scattersingle" data-attr="itemstyle" data-func="color" /> </div> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">图形大小</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-sliderdiy="scattersingleallsymbolsizeslider" data-tips="点大小设置" name="scattersingleallsymbolsize" id="scattersingleallsymbolsize" data-width="50" data-bigclass="scattersingle" data-attr="all" data-func="symbolsize"> <option value="4" selected="selected">4px</option> <option value="6">6px</option> <option value="8">8px</option> <option value="10">10px</option> <option value="12">12px</option> <option value="14">14px</option> <option value="16">16px</option> <option value="diy">自定义</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row" style="display:none;"> <div data-tips="滑动修改点大小" id="scattersingleallsymbolsizeslider" data-bigclass="scattersingle" data-attr="all" data-func="symbolsize" class="luckysheet-datavisual-config-slider" style="width:70%;" data-min="1" data-max="50" data-step="1"></div> <input data-tips="自定义点大小" data-sliderid="scattersingleallsymbolsizeslider" id="scattersingleallsymbolsizesliderdiy" type="text" class="luckysheet-datavisual-config-input" data-bigclass="scattersingle" data-attr="all" data-func="symbolsize" placeholder="请输入" style="width:10%;margin-left:10px;text-align:center;margin-right: 2px;" /><label for="scattersingleallsymbolsizesliderdiy">px</label> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">图形形状</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-tips="点类型设置" data-width="70" name="scattersingleallsymboltype" id="scattersingleallsymboltype" data-bigclass="scattersingle" data-attr="all" data-func="symboltype"> <option value="emptyCircle" selected="selected">空心圆</option> <option value="circle">圆形</option> <option value="emptyRectangle">空心矩形</option> <option value="rect">矩形</option> <option value="roundRect">圆角矩形</option> <option value="emptyTriangle">空心三角</option> <option value="triangle">三角形</option> <option value="emptyDiamond">空心菱形</option> <option value="diamond">菱形</option> <option value="droplet">水滴</option> <option value="pin">标注</option> <option value="arrow">箭头</option> <option value="heart">心形</option> <option value="star">星星</option> </select> </div> </div> <div class="luckysheet-datavisual-content-rowsplit-sub"></div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">边框粗细</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-sliderdiy="scattersingleitemstyleborderwidthslider" data-tips="点边框粗细" name="scattersingleitemstyleborderwidth" id="scattersingleitemstyleborderwidth" data-width="50" data-bigclass="scattersingle" data-attr="itemstyle" data-func="borderwidth"><option value="0" selected="selected">无</option> <option value="1">1px</option> <option value="2">2px</option> <option value="3">3px</option> <option value="4">4px</option> <option value="5">5px</option> <option value="6">6px</option> <option value="7">7px</option> <option value="8">8px</option> <option value="diy">自定义</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row" style="display:none;"> <div data-tips="滑动修改边框粗细" id="scattersingleitemstyleborderwidthslider" data-bigclass="scattersingle" data-attr="itemstyle" data-func="borderwidth" class="luckysheet-datavisual-config-slider" style="width:70%;" data-min="12" data-max="100" data-step="1"></div> <input data-tips="自定义边框粗细" data-sliderid="scattersingleitemstyleborderwidthslider" id="scattersingleitemstyleborderwidthsliderdiy" type="text" class="luckysheet-datavisual-config-input" data-bigclass="scattersingle" data-attr="itemstyle" data-func="borderwidth" placeholder="请输入" style="width:10%;margin-left:10px;text-align:center;margin-right: 2px;" /><label for="scattersingleitemstyleborderwidthsliderdiy">%</label> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">边框样式</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-tips="点边框类型设置" data-width="50" name="scattersingleitemstyleborderlinetype" id="scattersingleitemstyleborderlinetype" data-bigclass="scattersingle" data-attr="itemstyle" data-func="borderlinetype"> <option value="solid" selected="selected">实线</option> <option value="dashed">虚线</option> <option value="dotted">点线</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">边框颜色</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <input data-tips="点边框颜色" class="luckysheet-datavisual-config-colorOpacity" id="scattersingleitemstyleborderlinecolor" type="text" data-bigclass="scattersingle" data-attr="itemstyle" data-func="borderlinecolor" /> </div> </div> <div class="luckysheet-datavisual-content-rowsplit-sub"></div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;"><i class="fa fa-th-large" aria-hidden="true"></i> 文字标签</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <label data-tips="显示数据点的标签" data-bigclass="scattersingle" data-attr="label" data-func="labelshow" for="scattersinglelabellabelshow">显示</label> <input type="radio" checked="checked" value="1" name="scattersinglelabellabelshow" id="scattersinglelabellabelshow" data-bigclass="scattersingle" data-attr="label" data-func="labelshow"> <label data-tips="隐藏数据点的标签" data-bigclass="scattersingle" data-attr="label" data-func="labelshow" for="scattersinglelabellabelshow1">隐藏</label> <input type="radio" value="0" name="scattersinglelabellabelshow" id="scattersinglelabellabelshow1" data-bigclass="scattersingle" data-attr="label" data-func="labelshow"> </div> </div> <div class="luckysheet-datavisual-content-row" style="height:auto;line-height: initial;margin-left:auto;" showfor="scattersinglelabellabelshow1" hidefor="scattersinglelabellabelshow"> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:40%;">数值比例</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:50%;"> <select data-tips="刻度数值放大比例" name="scattersinglelabelformatratio" id="scattersinglelabelformatratio" data-bigclass="scattersingle" data-attr="label" data-func="formatratio"> <option value="0.01">乘以100</option> <option value="0.1">乘以10</option> <option value="1" selected="selected">默认</option> <option value="10">除以10</option> <option value="100">除以100</option> <option value="1000">除以1000</option> <option value="10000">除以1万</option> <option value="100000">除以10万</option> <option value="1000000">除以一百万</option> <option value="10000000">除以一千万</option> <option value="100000000">除以一亿</option> <option value="1000000000">除以十亿</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:40%;white-space: nowrap;">小数位数</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:50%;"> <select data-tips="数值小数点位数" name="scattersinglelabelfloatlen" id="scattersinglelabelfloatlen" data-bigclass="scattersingle" data-attr="label" data-func="floatlen"> <option value="auto" selected="selected">自动显示</option> <option value="0">整数</option> <option value="1">1位小数</option> <option value="2">2位小数</option> <option value="3">3位小数</option> <option value="4">4位小数</option> <option value="5">5位小数</option> <option value="6">6位小数</option> <option value="7">7位小数</option> <option value="8">8位小数</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row"> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:20%;">标签格式</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:70%;"> <select data-sliderdiy="scattersinglelabelcontentformatslider" data-tips="标签显示格式" name="scattersinglelabelcontentformat" id="scattersinglelabelcontentformat" data-bigclass="scattersingle" data-attr="label" data-func="contentformat"> <option value="default" selected="selected">默认</option> <option value="1">仅数据名</option> <option value="2">数据名+2维数值</option> <option value="5">数据名+全部数值</option> <option value="diy">自定义</option> </select> </div> </div> <div style="display:none;"> <div class="luckysheet-datavisual-content-row" id="scattersinglelabelcontentformatslider"> <div style="text-align:center; width:60px; display:inline-block;">数据名称</div> <label data-tips="是否显示数据名" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelshow" for="scattersinglelabeldatalabelshow" style="font-weight:bold;"><i class="fa fa-eye" aria-hidden="true"></i></label> <input type="checkbox" checked="checked" name="scattersinglelabeldatalabelshow" id="scattersinglelabeldatalabelshow" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelshow"> <input data-tips="显示在数据名前部文字" placeholder="前缀" id="scattersinglelabeldatalabelprefix" type="text" class="luckysheet-datavisual-config-input" style="width:60px;height:19px;" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelprefix" /> <input data-tips="显示在数据名尾部文字" placeholder="后缀" id="scattersinglelabeldatalabelsuffix" type="text" class="luckysheet-datavisual-config-input" style="width:60px;height:19px;" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelsuffix" /> <label data-tips="是否在数据名后换行" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelline" for="scattersinglelabeldatalabelline" style="font-weight:bold;">换行</label> <input type="checkbox" checked="checked" name="scattersinglelabeldatalabelline" id="scattersinglelabeldatalabelline" data-bigclass="scattersingle" data-attr="label" data-func="scattersingledatalabelline"> </div> </div> <div class="luckysheet-datavisual-content-row" > <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-title luckysheet-datavisual-content-column-2x" style="width:10%;white-space:nowrap;">标签位置</div> <div class="luckysheet-datavisual-content-column luckysheet-datavisual-content-column-right luckysheet-datavisual-content-column-2x" style="width:80%;"> <select data-sliderdiy="scattersinglelabellabelplaceslider" data-tips="标签距离图形位置" data-width="70" name="scattersinglelabellabelplace" id="scattersinglelabellabelplace" data-bigclass="scattersingle" data-attr="label" data-func="labelplace"> <option value="top" selected="selected">顶端</option> <option value="left">左侧</option> <option value="right">右侧</option> <option value="bottom">底部</option> <option value="inside">内部居中</option> <option value="diy">自定义</option> <option value="insideLeft">内部左侧</option> <option value="insideRight">内部右侧</option> <option value="insideTop">内部顶端</option> <option value="insideBottom">内部底端</option> <option value="insideTopLeft">内部左上</option> <option value="insideBottomLeft">内部左下</option> <option value="insideTopRight">内部右上</option> <option value="insideBottomRight">内部右下</option> </select> </div> </div> <div class="luckysheet-datavisual-content-row" style="display:none;height:65px;"> <div data-tips="滑动修改点文本水平位置" id="scattersinglelabellabelplaceslider" data-bigclass="scattersingle" data-attr="label" data-func="labelplacediy" class="luckysheet-datavisual-config-slider" style="width:70%;" data-min="-100" data-max="100" data-step="1"></div> <input data-tips="自定义点文本水平位置" data-sliderid="scattersinglelabellabelplaceslider" id="scattersinglelabellabelplacesliderdiy" type="text" class="luckysheet-datavisual-config-input" data-bigclass="scattersingle" data-attr="label" data-func="labelplacediy" placeholder="请输入" style="width:10%;margin-left:10px;text-align:center;margin-right: 2px;" /><label for="scattersinglelabellabelplacesliderdiy">px</label> <br /> <div data-tips="滑动修改点文本垂直位置" id="scattersinglelabellabelplaceslider1" data-bigclass="scattersingle" data-attr="label" data-func="labelplacediy" class="luckysheet-datavisual-config-slider" style="width:70%;" data-min="-100" data-max="100" data-step="1"></div> <input data-tips="自定义点文本垂直位置" data-sliderid="scattersinglelabellabelplaceslider1" id="scattersinglelabellabelplaceslider1diy" type="text" class="luckysheet-datavisual-config-input" data-bigclass="scattersingle" data-attr="label" data-func="labelplacediy" placeholder="请输入" style="width:10%;margin-left:10px;text-align:center;margin-right: 2px;" /><label for="scattersinglelabellabelplaceslider1diy">px</label> </div> <div class="luckysheet-datavisual-content-row"> <label data-tips="加粗" data-bigclass="scattersingle" data-attr="label" data-func="labelbold" for="scattersinglelabellabelbold" style="font-weight:bold;"><i class="fa fa-bold" aria-hidden="true"></i></label> <input type="checkbox" name="scattersinglelabellabelbold" id="scattersinglelabellabelbold" data-bigclass="scattersingle" data-attr="label" data-func="labelbold"> <label data-tips="斜体" data-bigclass="scattersingle" data-attr="label" data-func="labelitalic" for="scattersinglelabellabelitalic" class="luckysheet-datavisual-content-column-italic"><i class="fa fa-italic" aria-hidden="true"></i></label> <input type="checkbox" name="scattersinglelabellabelitalic" id="scattersinglelabellabelitalic" data-bigclass="scattersingle" data-attr="label" data-func="labelitalic"> <select data-sliderdiy="scattersinglelabellabelfontsizeslider" data-width="50" data-tips="字体大小" name="scattersinglelabellabelfontsize" id="scattersinglelabellabelfontsize" data-bigclass="scattersingle" data-attr="label" data-func="labelfontsize"> <option value="12">12px</option> <option value="14">14px</option> <option value="16">16px</option> <option value="18">18px</option> <option value="20">20px</option> <option value="22">22px</option> <option value="24">24px</option> <option value="30">30px</option> <option value="36">36px</option> <option value="diy">自定义</option> </select> <input data-tips="字体颜色" class="luckysheet-datavisual-config-color" id="scattersinglelinelabelcolor" type="text" data-bigclass="scattersingle" data-attr="label" data-func="labelcolor" /> </div> <div class="luckysheet-datavisual-content-row" style="display:none;"> <div data-tips="滑动修改字体大小" id="scattersinglelabellabelfontsizeslider" data-bigclass="scattersingle" data-attr="label" data-func="labelfontsize" class="luckysheet-datavisual-config-slider" style="width:70%;" data-min="12" data-max="100" data-step="1"></div> <input data-tips="自定义字体大小" data-sliderid="scattersinglelabellabelfontsizeslider" id="scattersinglelabellabelfontsizesliderdiy" type="text" class="luckysheet-datavisual-config-input" data-bigclass="scattersingle" data-attr="label" data-func="labelfontsize" placeholder="请输入" style="width:10%;margin-left:10px;text-align:center;margin-right: 2px;" /><label for="scattersinglelabellabelfontsizesliderdiy">px</label> </div> </div> </div> </div> </div> <div class="luckysheet-chart-point-config-chart"> <div id="luckysheet-chart-point-config-chart-c" class="luckysheet-chart-point-config-chart-c"> </div> </div> </div>';
 const luckysheetToolHTML = '<div id="luckysheet-tooltip-up" class="jfk-tooltip" role="tooltip" aria-hidden="true" style="left: 505px; top: 410px;"><div class="jfk-tooltip-contentId">组合图表</div><div class="jfk-tooltip-arrow jfk-tooltip-arrowup" style="left: 35.5px;"><div class="jfk-tooltip-arrowimplbefore"></div><div class="jfk-tooltip-arrowimplafter"></div></div></div>';
 
-const menuToolBar = '<div class="luckysheet-toolbar-left-theme"> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="撤销 (Ctrl+Z)" id="luckysheet-icon-undo" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-undo" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="重做 (Ctrl+Y)" id="luckysheet-icon-redo" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-redo" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="格式刷" id="luckysheet-icon-paintformat" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-paintformat" style="user-select: none;"> </div> </div> </div> </div> </div> <!--<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block" data-tips="缩放" id="luckysheet-icon-zoom" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption" style="user-select: none;"> <input aria-label="缩放比例" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel" role="combobox" style="user-select: none;" tabindex="-1" type="text" value="100%"/> </div> <div class="luckysheet-toolbar-combo-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> --> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="货币格式" id="luckysheet-icon-currency" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> ¥ </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="百分比格式" id="luckysheet-icon-percent" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> % </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="减少小数位数" id="luckysheet-icon-fmt-decimal-decrease" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block toolbar-decimal-icon" style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-decimal-decrease" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="增加小数位数" id="luckysheet-icon-fmt-decimal-increase" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block toolbar-decimal-icon" style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-decimal-increase" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="更多格式" id="luckysheet-icon-fmt-other" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> 123 </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tooltip="字体样式" id="luckysheet-icon-font-family" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> 微软雅黑 </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block" data-tips="字号大小" id="luckysheet-icon-font-size" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption" style="user-select: none;"> <input aria-label="字号大小" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel" role="combobox" style="user-select: none;" tabindex="-1" type="text" value="10"/> </div> <div class="luckysheet-toolbar-combo-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="粗体 (Ctrl+B)" id="luckysheet-icon-bold" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-bold" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="斜体 (Ctrl+I)" id="luckysheet-icon-italic" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-italic" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="删除线 (Alt+Shift+5)" id="luckysheet-icon-strikethrough" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-strikethrough" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="文本颜色" id="luckysheet-icon-text-color" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(0, 0, 0); user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-text-color" style="user-select: none;"> </div> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="颜色选择..." id="luckysheet-icon-text-color-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="单元格颜色" id="luckysheet-icon-cell-color" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(255, 255, 255); user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-cell-color" style="user-select: none;"> </div> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="颜色选择..." id="luckysheet-icon-cell-color-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="边框" id="luckysheet-icon-border-all" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="边框类型..." id="luckysheet-icon-border-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="合并单元格" id="luckysheet-icon-merge-button" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-merge" style="user-select: none;"> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="选择合并类型..." id="luckysheet-icon-merge-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="水平对齐" id="luckysheet-icon-align" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left" style="user-select: none;"> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="对齐方式..." id="luckysheet-icon-align-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="垂直对齐" id="luckysheet-icon-valign" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom" style="user-select: none;"> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="对齐方式..." id="luckysheet-icon-valign-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="文本换行" id="luckysheet-icon-textwrap" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow" style="user-select: none;"> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="换行方式..." id="luckysheet-icon-textwrap-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="文本旋转" id="luckysheet-icon-rotation" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none" style="user-select: none;"> </div> </div> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="旋转方式..." id="luckysheet-icon-rotation-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="冻结首行" id="luckysheet-freezen-btn-horizontal" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> <i class="fa fa-list-alt"> </i> 冻结首行 </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="更多选项..." id="luckysheet-icon-freezen-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div> <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="排序和筛选" id="luckysheet-icon-autofilter" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter" style="user-select: none;"> </div> </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;margin-left: 0px;margin-right: 4px;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="查找替换" id="luckysheet-icon-seachmore" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;font-size: 14px;"> <i class="fa fa-search" aria-hidden="true"></i> </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block" style="user-select: none;margin-left: 0px;margin-right: 4px;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block" data-tips="自动求和" id="luckysheet-icon-function" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-function" style="user-select: none;"> </div> </div> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> 求和 </div> </div> </div> </div> <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="更多函数..." id="luckysheet-icon-function-menu" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div><div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="条件格式" id="luckysheet-icon-conditionformat" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> 条件格式 </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="批注" id="luckysheet-icon-postil" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;"> 批注 </div> <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> <div class="luckysheetfulltoolbar" id="luckysheet-pivot-btn-title"> <i aria-hidden="true" class="fa fa-cube"> </i> 数据透视表 </div> <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-title"> <i class="fa fa-pie-chart"> </i> 图表 </div> <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-screenshot"> <i class="fa fa-object-group"> </i> 截图 </div> <div class="luckysheetfulltoolbar" id="luckysheet-splitColumn-btn-title"> <i class="fa fa-gg"> </i> 分列 </div>';
+// toolbar
+function menuToolBar (){
+       const toolbar = locale().toolbar;
+       return `<div class="luckysheet-toolbar-left-theme">
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.undo}"
+        id="luckysheet-icon-undo" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-undo"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.redo}"
+        id="luckysheet-icon-redo" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-redo"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="格式刷"
+        id="luckysheet-icon-paintformat" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-paintformat"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="luckysheet-toolbar-separator luckysheet-inline-block"
+        style="user-select: none;"> </div> <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block" data-tips="缩放" id="luckysheet-icon-zoom" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption" style="user-select: none;"> <input aria-label="缩放比例" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel" role="combobox" style="user-select: none;" tabindex="-1" type="text" value="100%"/> </div> <div class="luckysheet-toolbar-combo-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> -->
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="货币格式"
+        id="luckysheet-icon-currency" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    ¥
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="百分比格式"
+        id="luckysheet-icon-percent" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    %
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="减少小数位数"
+        id="luckysheet-icon-fmt-decimal-decrease" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block toolbar-decimal-icon"
+                    style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-decimal-decrease"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="增加小数位数"
+        id="luckysheet-icon-fmt-decimal-increase" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block toolbar-decimal-icon"
+                    style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-decimal-increase"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="更多格式"
+        id="luckysheet-icon-fmt-other" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        123
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tooltip="字体样式" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        微软雅黑
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block"
+        data-tips="字号大小" id="luckysheet-icon-font-size" style="user-select: none;">
+            <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption"
+                    style="user-select: none;">
+                        <input aria-label="字号大小" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel"
+                        role="combobox" style="user-select: none;" tabindex="-1" type="text" value="10"
+                        />
+                    </div>
+                    <div class="luckysheet-toolbar-combo-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="粗体 (Ctrl+B)"
+        id="luckysheet-icon-bold" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-bold"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="斜体 (Ctrl+I)"
+        id="luckysheet-icon-italic" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-italic"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="删除线 (Alt+Shift+5)"
+        id="luckysheet-icon-strikethrough" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-strikethrough"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="文本颜色" id="luckysheet-icon-text-color" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(0, 0, 0); user-select: none;">
+                            <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                                <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-text-color"
+                                style="user-select: none;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="颜色选择..." id="luckysheet-icon-text-color-menu" role="button"
+        style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="单元格颜色" id="luckysheet-icon-cell-color" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(255, 255, 255); user-select: none;">
+                            <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                                <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-cell-color"
+                                style="user-select: none;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="颜色选择..." id="luckysheet-icon-cell-color-menu" role="button"
+        style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="边框" id="luckysheet-icon-border-all" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="边框类型..." id="luckysheet-icon-border-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="合并单元格" id="luckysheet-icon-merge-button" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-merge"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="选择合并类型..." id="luckysheet-icon-merge-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="水平对齐" id="luckysheet-icon-align" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="对齐方式..." id="luckysheet-icon-align-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="垂直对齐" id="luckysheet-icon-valign" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="对齐方式..." id="luckysheet-icon-valign-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="文本换行" id="luckysheet-icon-textwrap" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="换行方式..." id="luckysheet-icon-textwrap-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="文本旋转" id="luckysheet-icon-rotation" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="旋转方式..." id="luckysheet-icon-rotation-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="冻结首行" id="luckysheet-freezen-btn-horizontal" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <i class="fa fa-list-alt">
+                        </i>
+                        冻结首行
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="更多选项..." id="luckysheet-icon-freezen-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
+        </div>
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="排序和筛选"
+        id="luckysheet-icon-autofilter" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;margin-left: 0px;margin-right: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="查找替换"
+        id="luckysheet-icon-seachmore" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;font-size: 14px;">
+                        <i class="fa fa-search" aria-hidden="true">
+                        </i>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block"
+                    style="user-select: none;margin-left: 0px;margin-right: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="自动求和" id="luckysheet-icon-function" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-function"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        求和
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
+        data-tips="更多函数..." id="luckysheet-icon-function-menu" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="条件格式"
+        id="luckysheet-icon-conditionformat" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        条件格式
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="批注"
+        id="luckysheet-icon-postil" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        批注
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-pivot-btn-title">
+            <i aria-hidden="true" class="fa fa-cube">
+            </i>
+            数据透视表
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-title">
+            <i class="fa fa-pie-chart">
+            </i>
+            图表
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-screenshot">
+            <i class="fa fa-object-group">
+            </i>
+            截图
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-splitColumn-btn-title">
+            <i class="fa fa-gg">
+            </i>
+            分列
+        </div>`;
+} 
 const luckysheetlodingHTML = '<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div>  <span>渲染中...</span></div></div>';
 
 // var menusetting = {

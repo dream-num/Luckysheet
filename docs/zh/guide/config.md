@@ -80,12 +80,6 @@
 - 作用：是否显示底部计数栏
 
 ------------
-## editMode
-- 类型：Boolean
-- 默认值：false
-- 作用：是否为编辑模式
-
-------------
 ## allowEdit
 - 类型：Boolean
 - 默认值：true
