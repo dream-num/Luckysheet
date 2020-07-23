@@ -24,6 +24,7 @@ import { sortSelection } from '../global/sort';
 import luckysheetformula from '../global/formula';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import { isdatatypemulti } from '../global/datecontroll';
+import { getCellTextSplitArr } from '../global/getRowlen';
 import { setcellvalue } from '../global/setdata';
 import { countfunc } from '../global/count';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
@@ -2928,19 +2929,7 @@ const menuButton = {
 
                             if(tbWidth > cellWidth){
                                 let strArr = [];//文本截断数组
-
-                                for(let strI = 1; strI <= strValue.length; strI++){
-                                    let strV = strValue.substring(strArr.join("").length, strI);
-                                    let strtextMetrics = canvas.measureText(strV).width;
-                                    
-                                    if(strtextMetrics > cellWidth){
-                                        strArr.push(strValue.substring(strArr.join("").length, strI-1));
-                                        strI = strI - 2;
-                                    }
-                                    else if(strtextMetrics <= cellWidth && strI == strValue.length){
-                                        strArr.push(strV);
-                                    }
-                                }
+                                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, canvas);
 
                                 let computeRowlen = oneLineTextHeight * strArr.length;
                                 //比较计算高度和当前高度取最大高度

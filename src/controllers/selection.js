@@ -1391,7 +1391,7 @@ const selection = {
         }
 
         //复制范围 是否有 条件格式
-        let ruleArr_cf = [];
+        let ruleArr_cf = [], cdformat = [];
         if(copyRange["copyRange"].length == 1){
             let c_file = Store.luckysheetfile[getSheetIndex(copySheetIndex)];
             let a_file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
@@ -1402,7 +1402,7 @@ const selection = {
                 c_c2 = copyRange["copyRange"][0].column[1];
             
             ruleArr_cf = $.extend(true, [], c_file["luckysheet_conditionformat_save"]);
-            let cdformat = $.extend(true, [], a_file["luckysheet_conditionformat_save"]);
+            cdformat = $.extend(true, [], a_file["luckysheet_conditionformat_save"]);
 
             if(ruleArr_cf != null && ruleArr_cf.length > 0){
                 for(let i = 0; i < ruleArr_cf.length; i++){
