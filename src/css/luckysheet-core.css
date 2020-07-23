@@ -2452,10 +2452,10 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     padding-left: 999999px;
 }
 
-#luckysheet-copy-btn {
+/* #luckysheet-copy-btn {
     position: absolute;
     visibility: hidden;
-}
+} */
 
 
 .btn {

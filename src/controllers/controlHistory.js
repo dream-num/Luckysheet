@@ -139,6 +139,16 @@ const controlHistory = {
 
             jfrefreshgrid_adRC(ctr.data, ctr.config, "addRC", ctrlValue, ctr.calc, ctr.filterObj, ctr.cf, ctr.af, ctr.freezen);
         }
+        else if (ctr.type == "showHidRows") { // 隐藏、显示行 撤销操作
+            //config
+            Store.config = ctr.config;
+            Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].config = ctr.config;
+        
+            server.saveParam("cg", ctr.sheetIndex, ctr.config["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
         else if (ctr.type == "datachangeAll") {
             formula.execFunctionGroup();
             jfrefreshgridall(ctr.data[0].length, ctr.data.length, ctr.data, null, ctr.range, "datachangeAll", ctr.ctrlValue);
@@ -370,6 +380,16 @@ const controlHistory = {
         }
         else if (ctr.type == "delRC") { //删除行列重做操作
             jfrefreshgrid_adRC(ctr.curData, ctr.curConfig, "delRC", ctr.ctrlValue, ctr.curCalc, ctr.curFilterObj, ctr.curCf, ctr.curAf, ctr.curFreezen);
+        }
+        else if (ctr.type == "showHidRows") { // 隐藏、显示行 重做操作
+            //config
+            Store.config = ctr.curconfig;
+            Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].config = ctr.curconfig;
+        
+            server.saveParam("cg", ctr.sheetIndex, ctr.curconfig["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
         else if (ctr.type == "datachangeAll") {
             formula.execFunctionGroup();

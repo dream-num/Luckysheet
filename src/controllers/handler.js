@@ -185,6 +185,11 @@ export default function luckysheetHandler() {
         }            
     });
 
+    // //禁止前台编辑
+    // if(!Store.allowEdit){
+    //     return;
+    // }
+
     //选区拖动替换
     $("#luckysheet-cell-main div.luckysheet-cs-draghandle").mousedown(function (event) {
         if(isEditMode()){//此模式下禁用选区拖动
@@ -1077,6 +1082,7 @@ export default function luckysheetHandler() {
             let obj_s = Store.luckysheet_select_save[0];
 
             $("#luckysheet-cols-rows-data").show();
+            $("#luckysheet-cols-rows-handleincell").show();
             $("#luckysheet-cols-rows-add, #luckysheet-cols-rows-shift").hide();
 
             if (obj_s["row"] != null && obj_s["row"][0] == 0 && obj_s["row"][1] == Store.flowdata.length - 1) {
@@ -1090,6 +1096,7 @@ export default function luckysheetHandler() {
                 $("#luckysheet-cols-rows-add").show();
                 $("#luckysheet-cols-rows-data").show();
                 $("#luckysheet-cols-rows-shift").hide();
+                $("#luckysheet-cols-rows-handleincell").hide();
                 
                 Store.luckysheet_cols_menu_status = true;
 
@@ -1134,6 +1141,7 @@ export default function luckysheetHandler() {
                 $("#luckysheet-cols-rows-add").show();
                 $("#luckysheet-cols-rows-data").show();
                 $("#luckysheet-cols-rows-shift").hide();
+                $("#luckysheet-cols-rows-handleincell").hide();
 
                 Store.luckysheet_cols_menu_status = true;
 
@@ -4469,6 +4477,7 @@ export default function luckysheetHandler() {
             $("#luckysheet-cols-rows-add").show();
             $("#luckysheet-cols-rows-data").show();
             $("#luckysheet-cols-rows-shift").hide();
+            $("#luckysheet-cols-rows-handleincell").hide();
 
             showrightclickmenu($("#luckysheet-rightclick-menu"), $(this).offset().left + 46, event.pageY);
             Store.luckysheet_cols_menu_status = true;
@@ -4856,6 +4865,7 @@ export default function luckysheetHandler() {
             $("#luckysheet-cols-rows-add").show();
             $("#luckysheet-cols-rows-data").show();
             $("#luckysheet-cols-rows-shift").hide();
+            $("#luckysheet-cols-rows-handleincell").hide();
 
             showrightclickmenu($("#luckysheet-rightclick-menu"), event.pageX, $(this).offset().top + 18);
             Store.luckysheet_cols_menu_status = true;
@@ -5122,6 +5132,7 @@ export default function luckysheetHandler() {
         $("#luckysheet-cols-rows-add").show();
         $("#luckysheet-cols-rows-data").hide();
         $("#luckysheet-cols-rows-shift").show();
+        $("#luckysheet-cols-rows-handleincell").hide();
 
         showrightclickmenu($menu, offset.left, offset.top + 18);
         Store.luckysheet_cols_menu_status = true;
@@ -6843,6 +6854,90 @@ export default function luckysheetHandler() {
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
+    $("#luckysheet-addTopRows").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+        
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            }
+            else{
+                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            }
+
+            return;
+        }
+
+        let $t = $(this), value = $t.parent().find("input").val();
+        if (!isRealNum(value)) {
+            if(isEditMode()){
+                alert("增加错误, 请输入数字");
+            }
+            else{
+                tooltip.info("增加错误, 请输入数字", "");
+            }
+
+            return;
+        }
+
+        value = parseInt(value);
+
+        if (value < 1 || value > 100) {
+            if(isEditMode()){
+                alert("增加错误, 增加范围限制在1-100");
+            }
+            else{
+                tooltip.info("增加错误, 增加范围限制在1-100", ""); 
+            }
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].row[0];
+        luckysheetextendtable('row', st_index, value, "lefttop");
+    })
+    $("#luckysheet-addLeftCols").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+        
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            }
+            else{
+                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            }
+
+            return;
+        }
+
+        let $t = $(this), value = $t.parent().find("input").val();
+        if (!isRealNum(value)) {
+            if(isEditMode()){
+                alert("增加错误, 请输入数字");
+            }
+            else{
+                tooltip.info("增加错误, 请输入数字", "");
+            }
+
+            return;
+        }
+
+        value = parseInt(value);
+
+        if (value < 1 || value > 100) {
+            if(isEditMode()){
+                alert("增加错误, 增加范围限制在1-100");
+            }
+            else{
+                tooltip.info("增加错误, 增加范围限制在1-100", ""); 
+            }
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].column[0];
+        luckysheetextendtable('column', st_index, value, "lefttop");
+    })
 
     //向右增加列，向下增加行
     $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
@@ -6888,6 +6983,92 @@ export default function luckysheetHandler() {
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
+    $("#luckysheet-addBottomRows").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            }
+            else{
+                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            }
+
+            return;
+        }
+
+        let $t = $(this), value = $t.parent().find("input").val();
+        if (!isRealNum(value)) {
+            if(isEditMode()){
+                alert("增加错误, 请输入数字");
+            }
+            else{
+                tooltip.info("增加错误, 请输入数字", ""); 
+            }
+
+            return;
+        }
+
+        value = parseInt(value);
+
+        if (value < 1 || value > 100) {
+            if(isEditMode()){
+                alert("增加错误, 增加范围限制在1-100");
+            }
+            else{
+                tooltip.info("增加错误, 增加范围限制在1-100", "");
+            }
+
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].row[1];
+        luckysheetextendtable('row', st_index, value, "rightbottom");
+    });
+    $("#luckysheet-addRightCols").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            }
+            else{
+                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            }
+
+            return;
+        }
+
+        let $t = $(this), value = $t.parent().find("input").val();
+        if (!isRealNum(value)) {
+            if(isEditMode()){
+                alert("增加错误, 请输入数字");
+            }
+            else{
+                tooltip.info("增加错误, 请输入数字", ""); 
+            }
+
+            return;
+        }
+
+        value = parseInt(value);
+
+        if (value < 1 || value > 100) {
+            if(isEditMode()){
+                alert("增加错误, 增加范围限制在1-100");
+            }
+            else{
+                tooltip.info("增加错误, 增加范围限制在1-100", "");
+            }
+
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].column[1];
+        luckysheetextendtable('column', st_index, value, "rightbottom");
+    });
     
     //删除选中行列
     $("#luckysheet-del-selected, #luckysheet-del-selected_t").click(function (event) {
@@ -6914,9 +7095,150 @@ export default function luckysheetHandler() {
             return;
         }
 
-        let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0], ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
+        let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0], 
+            ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
         luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
     });
+    $("#luckysheet-delRows").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                }
+                else{
+                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                }
+            }
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                }
+                else{
+                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                }
+            }
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].row[0], 
+            ed_index = Store.luckysheet_select_save[0].row[1];
+        luckysheetdeletetable('row', st_index, ed_index);
+    })
+    $("#luckysheet-delCols").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                }
+                else{
+                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                }
+            }
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                }
+                else{
+                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                }
+            }
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].column[0], 
+            ed_index = Store.luckysheet_select_save[0].column[1];
+        luckysheetdeletetable('column', st_index, ed_index);
+    })
+
+    //隐藏、显示行
+    $("#luckysheet-hidRows").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["rowhidden"] == null){
+            cfg["rowhidden"] = {};
+        }
+
+        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+            let r1 = Store.luckysheet_select_save[s].row[0],
+                r2 = Store.luckysheet_select_save[s].row[1],
+                c1 = Store.luckysheet_select_save[s].column[0],
+                c2 = Store.luckysheet_select_save[s].column[1];
+
+            for(let r = r1; r <= r2; r++){
+                cfg["rowhidden"][r] = 0;
+            }
+        }
+    
+        //保存撤销
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = "showHidRows";
+            redo["sheetIndex"] = Store.currentSheetIndex;
+            redo["config"] = $.extend(true, {}, Store.config);
+            redo["curconfig"] = cfg;
+    
+            Store.jfundo = [];
+            Store.jfredo.push(redo);
+        }
+    
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
+    $("#luckysheet-showHidRows").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["rowhidden"] == null){
+            return;
+        }
+
+        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+            let r1 = Store.luckysheet_select_save[s].row[0],
+                r2 = Store.luckysheet_select_save[s].row[1],
+                c1 = Store.luckysheet_select_save[s].column[0],
+                c2 = Store.luckysheet_select_save[s].column[1];
+
+            for(let r = r1; r <= r2; r++){
+                delete cfg["rowhidden"][r];
+            }
+        }
+    
+        //保存撤销
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = "showHidRows";
+            redo["sheetIndex"] = Store.currentSheetIndex;
+            redo["config"] = $.extend(true, {}, Store.config);
+            redo["curconfig"] = cfg;
+    
+            Store.jfundo = [];
+            Store.jfredo.push(redo);
+        }
+    
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
 
     //清除单元格内容
     $("#luckysheet-delete-text").click(function(){
