@@ -977,27 +977,27 @@ const alternateformat = {
         
         //应用范围
         let rangeValue = $("#luckysheet-modal-dialog-slider-alternateformat #luckysheet-alternateformat-range input").val().trim();
-        if(formula.iscelldata(rangeValue)){
-            let cellrange = formula.getcellrange(rangeValue);
-            let isExists = _this.rangeIsExists(cellrange, dataIndex)[0];
-
-            if(isExists){
-                if(isEditMode()){
-                    alert("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！");
-                }
-                else{
-                    tooltip.info("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！", ""); 
-                }
-
-                return;
-            }
-        }
-        else{
+        
+        if(!formula.iscelldata(rangeValue)){
             if(isEditMode()){
                 alert("您选择的应用范围不是选区！");
             }
             else{
                 tooltip.info("您选择的应用范围不是选区！", "");
+            }
+
+            return;
+        }
+        
+        let cellrange = formula.getcellrange(rangeValue);
+        let isExists = _this.rangeIsExists(cellrange, dataIndex)[0];
+
+        if(isExists){
+            if(isEditMode()){
+                alert("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！");
+            }
+            else{
+                tooltip.info("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！", ""); 
             }
 
             return;

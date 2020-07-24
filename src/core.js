@@ -12,9 +12,13 @@ import {
     getluckysheetfile, 
     getluckysheet_select_save, 
     getconfig, 
-    getvisibledatarow, 
-    getvisibledatacolumn 
 } from './methods/get';
+import { 
+    setluckysheetfile,
+    setluckysheet_select_save,
+    setconfig,
+} from './methods/set';
+import { luckysheetrefreshgrid } from './global/refresh';
 
 let luckysheet = {};
 
@@ -115,14 +119,22 @@ luckysheet.getluckysheetfile = getluckysheetfile;
 //获取当前表格 选区
 luckysheet.getluckysheet_select_save = getluckysheet_select_save;
 
+//设置当前表格 选区
+luckysheet.setluckysheet_select_save = setluckysheet_select_save;
+
 //获取当前表格 config配置
 luckysheet.getconfig = getconfig;
 
-//获取当前表格 行高数据
-luckysheet.getvisibledatarow = getvisibledatarow;
+//设置当前表格 config配置
+luckysheet.setconfig = setconfig;
 
-//获取当前表格 列宽数据
-luckysheet.getvisibledatacolumn = getvisibledatacolumn;
+//二维数组数据 转化成 {r, c, v}格式 一维数组 (传入参数为二维数据data)
+luckysheet.getGridData = sheetmanage.getGridData;
+
+//生成表格所需二维数组 （传入参数为表格数据对象file）
+luckysheet.buildGridData = sheetmanage.buildGridData;
+
+luckysheet.luckysheetrefreshgrid = luckysheetrefreshgrid;
 
 export {
     luckysheet
