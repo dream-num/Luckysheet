@@ -97,7 +97,7 @@ const sheetFormula = {
 		"myLeft": "67",
 		"myTop": "11"
 	}],
-	"status": "0",
+	"status": 1,
 	"order": "1",
 	"column": 18,
 	"row": 45,
@@ -105,8 +105,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -120,8 +118,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -135,8 +131,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -150,8 +144,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -165,8 +157,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -180,8 +170,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -195,8 +183,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -210,8 +196,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -225,8 +209,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -240,8 +222,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -255,8 +235,6 @@ const sheetFormula = {
 		"r": 0,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -289,8 +267,6 @@ const sheetFormula = {
 		"r": 1,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -342,8 +318,6 @@ const sheetFormula = {
 		"r": 1,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -357,8 +331,6 @@ const sheetFormula = {
 		"r": 1,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -391,8 +363,6 @@ const sheetFormula = {
 		"r": 1,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -444,8 +414,6 @@ const sheetFormula = {
 		"r": 1,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -459,8 +427,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -474,8 +440,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -527,8 +491,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -542,8 +504,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -557,8 +517,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -572,8 +530,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -625,8 +581,6 @@ const sheetFormula = {
 		"r": 2,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -640,8 +594,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -655,8 +607,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -708,8 +658,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -723,8 +671,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -738,8 +684,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -753,8 +697,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -806,8 +748,6 @@ const sheetFormula = {
 		"r": 3,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -821,8 +761,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -836,8 +774,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -889,8 +825,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -904,8 +838,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -919,8 +851,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -934,8 +864,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -949,8 +877,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -964,8 +890,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -979,8 +903,6 @@ const sheetFormula = {
 		"r": 4,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -994,8 +916,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1009,8 +929,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1062,8 +980,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1077,8 +993,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1092,8 +1006,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1107,8 +1019,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1161,8 +1071,6 @@ const sheetFormula = {
 		"r": 5,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1176,8 +1084,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1191,8 +1097,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1245,8 +1149,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1260,8 +1162,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1275,8 +1175,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1290,8 +1188,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1344,8 +1240,6 @@ const sheetFormula = {
 		"r": 6,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1359,8 +1253,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1374,8 +1266,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1428,8 +1318,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1443,8 +1331,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1458,8 +1344,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1473,8 +1357,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1527,8 +1409,6 @@ const sheetFormula = {
 		"r": 7,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1542,8 +1422,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1557,8 +1435,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1611,8 +1487,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1626,8 +1500,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1641,8 +1513,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1656,8 +1526,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1710,8 +1578,6 @@ const sheetFormula = {
 		"r": 8,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1725,8 +1591,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1740,8 +1604,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1755,8 +1617,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1770,8 +1630,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1785,8 +1643,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1800,8 +1656,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1815,8 +1669,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1830,8 +1682,6 @@ const sheetFormula = {
 		"r": 9,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1864,12 +1714,10 @@ const sheetFormula = {
 		"r": 9,
 		"c": 9,
 		"v": {
-			"v": "#REF!",
 			"ct": {
 				"fa": "General",
-				"t": "e"
+				"t": "n"
 			},
-			"m": "#REF!",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1878,14 +1726,14 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
+			"v": 1,
+			"m": "1",
 			"f": "=INDIRECT(\"Formula!\"&I2)"
 		}
 	}, {
 		"r": 9,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1899,8 +1747,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1914,8 +1760,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1929,8 +1773,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1944,8 +1786,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1959,8 +1799,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1974,8 +1812,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -1989,8 +1825,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2004,8 +1838,6 @@ const sheetFormula = {
 		"r": 10,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2038,12 +1870,10 @@ const sheetFormula = {
 		"r": 10,
 		"c": 9,
 		"v": {
-			"v": "#REF!",
 			"ct": {
 				"fa": "General",
-				"t": "e"
+				"t": "g"
 			},
-			"m": "#REF!",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2052,14 +1882,14 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
+			"m": "J2",
+			"v": "J2",
 			"f": "=INDIRECT(\"Formula!I2\")"
 		}
 	}, {
 		"r": 10,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2073,8 +1903,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2088,8 +1916,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2103,8 +1929,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2118,8 +1942,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2133,8 +1955,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2148,8 +1968,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2163,8 +1981,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2178,8 +1994,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2193,8 +2007,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2208,8 +2020,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2223,8 +2033,6 @@ const sheetFormula = {
 		"r": 11,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2257,8 +2065,6 @@ const sheetFormula = {
 		"r": 12,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2342,8 +2148,6 @@ const sheetFormula = {
 		"r": 12,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2357,8 +2161,6 @@ const sheetFormula = {
 		"r": 12,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2372,8 +2174,6 @@ const sheetFormula = {
 		"r": 12,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2387,8 +2187,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2402,8 +2200,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2417,8 +2213,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2527,8 +2321,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2542,8 +2334,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2557,8 +2347,6 @@ const sheetFormula = {
 		"r": 13,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2572,8 +2360,6 @@ const sheetFormula = {
 		"r": 14,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2587,8 +2373,6 @@ const sheetFormula = {
 		"r": 14,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2626,7 +2410,6 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"m": "97",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2634,7 +2417,8 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"m": "97"
 		}
 	}, {
 		"r": 14,
@@ -2645,7 +2429,6 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"m": "61",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2653,7 +2436,8 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"m": "61"
 		}
 	}, {
 		"r": 14,
@@ -2697,12 +2481,10 @@ const sheetFormula = {
 		"r": 14,
 		"c": 7,
 		"v": {
-			"v": 207,
 			"ct": {
 				"fa": "General",
 				"t": "n"
 			},
-			"m": "207",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2711,14 +2493,14 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
+			"v": 207,
+			"m": "207",
 			"f": "=SUBTOTAL(9,OFFSET($D$15,ROW($D$15:$D$18)-ROW($D$15),1,3))"
 		}
 	}, {
 		"r": 14,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2732,8 +2514,6 @@ const sheetFormula = {
 		"r": 14,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2747,8 +2527,6 @@ const sheetFormula = {
 		"r": 14,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2762,8 +2540,6 @@ const sheetFormula = {
 		"r": 15,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2777,8 +2553,6 @@ const sheetFormula = {
 		"r": 15,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2887,12 +2661,10 @@ const sheetFormula = {
 		"r": 15,
 		"c": 7,
 		"v": {
-			"v": 182,
 			"ct": {
 				"fa": "General",
 				"t": "n"
 			},
-			"m": "182",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2901,14 +2673,14 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
+			"v": 182,
+			"m": "182",
 			"f": "=SUBTOTAL(9,OFFSET(E15,ROW(E15:E18)-ROW(E15),1,3))"
 		}
 	}, {
 		"r": 15,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2916,14 +2688,16 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			}
 		}
 	}, {
 		"r": 15,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2937,8 +2711,6 @@ const sheetFormula = {
 		"r": 15,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2952,8 +2724,6 @@ const sheetFormula = {
 		"r": 16,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -2967,8 +2737,6 @@ const sheetFormula = {
 		"r": 16,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3097,8 +2865,6 @@ const sheetFormula = {
 		"r": 16,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3112,8 +2878,6 @@ const sheetFormula = {
 		"r": 16,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3127,8 +2891,6 @@ const sheetFormula = {
 		"r": 16,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3142,8 +2904,6 @@ const sheetFormula = {
 		"r": 17,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3157,8 +2917,6 @@ const sheetFormula = {
 		"r": 17,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3287,8 +3045,6 @@ const sheetFormula = {
 		"r": 17,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3302,8 +3058,6 @@ const sheetFormula = {
 		"r": 17,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3317,8 +3071,6 @@ const sheetFormula = {
 		"r": 17,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3332,8 +3084,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3347,8 +3097,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3362,8 +3110,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3377,8 +3123,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3392,8 +3136,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3407,8 +3149,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3422,8 +3162,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3437,8 +3175,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3452,8 +3188,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3467,8 +3201,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3482,8 +3214,6 @@ const sheetFormula = {
 		"r": 18,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3497,8 +3227,6 @@ const sheetFormula = {
 		"r": 19,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3512,8 +3240,6 @@ const sheetFormula = {
 		"r": 19,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3597,8 +3323,6 @@ const sheetFormula = {
 		"r": 19,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3612,8 +3336,6 @@ const sheetFormula = {
 		"r": 19,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3627,8 +3349,6 @@ const sheetFormula = {
 		"r": 19,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3642,8 +3362,6 @@ const sheetFormula = {
 		"r": 20,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3657,8 +3375,6 @@ const sheetFormula = {
 		"r": 20,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3710,8 +3426,6 @@ const sheetFormula = {
 		"r": 20,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3725,8 +3439,6 @@ const sheetFormula = {
 		"r": 20,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3740,12 +3452,10 @@ const sheetFormula = {
 		"r": 20,
 		"c": 6,
 		"v": {
-			"v": "Find out the first value on D21:D25 that doesn't contain on D21:D27",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"m": "Find out the first value on D21:D25 that doesn't contain on D21:D27",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3801,8 +3511,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3816,8 +3524,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3869,8 +3575,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3884,8 +3588,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3899,8 +3601,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3914,8 +3614,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3929,8 +3627,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3944,8 +3640,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3959,8 +3653,6 @@ const sheetFormula = {
 		"r": 21,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3974,8 +3666,6 @@ const sheetFormula = {
 		"r": 22,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -3989,8 +3679,6 @@ const sheetFormula = {
 		"r": 22,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4042,8 +3730,6 @@ const sheetFormula = {
 		"r": 22,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4057,8 +3743,6 @@ const sheetFormula = {
 		"r": 22,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4106,12 +3790,12 @@ const sheetFormula = {
 		"r": 22,
 		"c": 8,
 		"v": {
-			"v": "#NAME?",
+			"v": "dumpling",
 			"ct": {
 				"fa": "General",
-				"t": "e"
+				"t": "g"
 			},
-			"m": "#NAME?",
+			"m": "dumpling",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4120,14 +3804,12 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
-			"f": "=INDEX(D21:D25,MATCH(TRUE,ISNA(MATCH(D21:D25,C21:C27,0)),0))"
+			"f": "=INDEX(D21:D25,MATCH(\"dumpling\",D21:D25),1)"
 		}
 	}, {
 		"r": 22,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4135,14 +3817,16 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "b"
+			}
 		}
 	}, {
 		"r": 22,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4150,14 +3834,16 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			}
 		}
 	}, {
 		"r": 23,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4171,8 +3857,6 @@ const sheetFormula = {
 		"r": 23,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4224,8 +3908,6 @@ const sheetFormula = {
 		"r": 23,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4239,8 +3921,6 @@ const sheetFormula = {
 		"r": 23,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4288,12 +3968,10 @@ const sheetFormula = {
 		"r": 23,
 		"c": 8,
 		"v": {
-			"v": "#NAME?",
 			"ct": {
 				"fa": "General",
-				"t": "e"
+				"t": "b"
 			},
-			"m": "#NAME?",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4302,14 +3980,14 @@ const sheetFormula = {
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
 			"vt": 0,
-			"f": "=INDEX(D21:D25,MATCH(TRUE,ISNA(MATCH(D21:D25,C21:C27,0)),0))"
+			"m": "FALSE",
+			"v": false,
+			"f": "=ISNA(MATCH(D21:D25,C21:C27,0))"
 		}
 	}, {
 		"r": 23,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4317,14 +3995,16 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "b"
+			}
 		}
 	}, {
 		"r": 23,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4338,8 +4018,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4353,8 +4031,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4406,8 +4082,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4421,8 +4095,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4436,8 +4108,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4451,8 +4121,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4466,8 +4134,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4475,14 +4141,16 @@ const sheetFormula = {
 			"fs": 10,
 			"fc": "rgb(0, 0, 0)",
 			"ht": 1,
-			"vt": 0
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "e"
+			}
 		}
 	}, {
 		"r": 24,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4496,8 +4164,6 @@ const sheetFormula = {
 		"r": 24,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4511,8 +4177,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4526,8 +4190,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4560,8 +4222,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4575,8 +4235,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4590,8 +4248,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4605,8 +4261,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4620,8 +4274,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4635,8 +4287,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4650,8 +4300,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4665,8 +4313,6 @@ const sheetFormula = {
 		"r": 25,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4680,8 +4326,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4695,8 +4339,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4729,8 +4371,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4744,8 +4384,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4759,8 +4397,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4774,8 +4410,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4789,8 +4423,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4804,8 +4436,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4819,8 +4449,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4834,8 +4462,6 @@ const sheetFormula = {
 		"r": 26,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4849,8 +4475,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4864,8 +4488,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4879,8 +4501,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 2,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4894,8 +4514,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 3,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4909,8 +4527,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 4,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4924,8 +4540,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4939,8 +4553,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 6,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4954,8 +4566,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4969,8 +4579,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4984,8 +4592,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -4999,8 +4605,6 @@ const sheetFormula = {
 		"r": 27,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5014,8 +4618,6 @@ const sheetFormula = {
 		"r": 28,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5029,8 +4631,6 @@ const sheetFormula = {
 		"r": 28,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5114,8 +4714,6 @@ const sheetFormula = {
 		"r": 28,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5129,8 +4727,6 @@ const sheetFormula = {
 		"r": 28,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5144,8 +4740,6 @@ const sheetFormula = {
 		"r": 28,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5159,8 +4753,6 @@ const sheetFormula = {
 		"r": 29,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5174,8 +4766,6 @@ const sheetFormula = {
 		"r": 29,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5246,8 +4836,6 @@ const sheetFormula = {
 		"r": 29,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5317,8 +4905,6 @@ const sheetFormula = {
 		"r": 29,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5332,8 +4918,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5347,8 +4931,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5419,8 +5001,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5454,8 +5034,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5469,8 +5047,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5484,8 +5060,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5499,8 +5073,6 @@ const sheetFormula = {
 		"r": 30,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5514,8 +5086,6 @@ const sheetFormula = {
 		"r": 31,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5529,8 +5099,6 @@ const sheetFormula = {
 		"r": 31,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5601,8 +5169,6 @@ const sheetFormula = {
 		"r": 31,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5659,8 +5225,6 @@ const sheetFormula = {
 		"r": 31,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5674,8 +5238,6 @@ const sheetFormula = {
 		"r": 31,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5689,8 +5251,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5704,8 +5264,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5776,8 +5334,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5811,8 +5367,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5826,8 +5380,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5841,8 +5393,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5856,8 +5406,6 @@ const sheetFormula = {
 		"r": 32,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5871,8 +5419,6 @@ const sheetFormula = {
 		"r": 33,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5886,8 +5432,6 @@ const sheetFormula = {
 		"r": 33,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -5958,8 +5502,6 @@ const sheetFormula = {
 		"r": 33,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6016,8 +5558,6 @@ const sheetFormula = {
 		"r": 33,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6031,8 +5571,6 @@ const sheetFormula = {
 		"r": 33,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6046,8 +5584,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6061,8 +5597,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6133,8 +5667,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6168,8 +5700,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6183,8 +5713,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6198,8 +5726,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6213,8 +5739,6 @@ const sheetFormula = {
 		"r": 34,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6228,8 +5752,6 @@ const sheetFormula = {
 		"r": 35,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6243,8 +5765,6 @@ const sheetFormula = {
 		"r": 35,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6315,8 +5835,6 @@ const sheetFormula = {
 		"r": 35,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6373,8 +5891,6 @@ const sheetFormula = {
 		"r": 35,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6388,8 +5904,6 @@ const sheetFormula = {
 		"r": 35,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6403,8 +5917,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6418,8 +5930,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6490,8 +6000,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6525,8 +6033,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6540,8 +6046,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6555,8 +6059,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6570,8 +6072,6 @@ const sheetFormula = {
 		"r": 36,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6585,8 +6085,6 @@ const sheetFormula = {
 		"r": 37,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6600,8 +6098,6 @@ const sheetFormula = {
 		"r": 37,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6672,8 +6168,6 @@ const sheetFormula = {
 		"r": 37,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6730,8 +6224,6 @@ const sheetFormula = {
 		"r": 37,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6745,8 +6237,6 @@ const sheetFormula = {
 		"r": 37,
 		"c": 10,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgba(255,255,255)",
 			"bl": 0,
 			"it": 0,
@@ -6760,8 +6250,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 0,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6775,8 +6263,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 1,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6847,8 +6333,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 5,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6882,8 +6366,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 7,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6897,8 +6379,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 8,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6912,8 +6392,6 @@ const sheetFormula = {
 		"r": 38,
 		"c": 9,
 		"v": {
-			"v": null,
-			"m": "",
 			"bg": "rgb(255, 255, 255)",
 			"bl": 0,
 			"it": 0,
@@ -6928,300 +6406,4845 @@ const sheetFormula = {
 		"c": 10,
 		"v": {}
 	}],
-	"calcChain":[
-		{
-			"r": 6,
-			"c": 3,
-			"index": 1,
-			"func": [
-				true,
-				23.75,
-				"=AVERAGE(D3:D6)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 7,
-			"c": 3,
-			"index": 1,
-			"func": [
-				true,
-				30,
-				"=MAX(D3:D6)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 8,
-			"c": 3,
-			"index": 1,
-			"func": [
-				true,
-				17,
-				"=MIN(D3:D6)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 5,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				"J2",
-				"=INDIRECT(\"I2\")"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 6,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				1,
-				"=INDIRECT(I2)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 7,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				"I",
-				"=INDIRECT(\"I\"&(1+2))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 8,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				1,
-				"=INDIRECT(I4&J3)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 9,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				"#REF!",
-				"=INDIRECT(\"Formula!\"&I2)"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 10,
-			"c": 9,
-			"index": 1,
-			"func": [
-				true,
-				"#REF!",
-				"=INDIRECT(\"Formula!I2\")"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 14,
-			"c": 7,
-			"index": 1,
-			"func": [
-				true,
-				207,
-				"=SUBTOTAL(9,OFFSET($D$15,ROW($D$15:$D$18)-ROW($D$15),1,3))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 15,
-			"c": 7,
-			"index": 1,
-			"func": [
-				true,
-				182,
-				"=SUBTOTAL(9,OFFSET(E15,ROW(E15:E18)-ROW(E15),1,3))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 16,
-			"c": 7,
-			"index": 1,
-			"func": [
-				true,
-				152,
-				"=SUBTOTAL(9,OFFSET(F15,ROW(F15:F18)-ROW(F15),1,3))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 17,
-			"c": 7,
-			"index": 1,
-			"func": [
-				true,
-				541,
-				"=SUBTOTAL(9,OFFSET(G15,ROW(G15:G18)-ROW(G15),1,3))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 22,
-			"c": 8,
-			"index": 1,
-			"func": [
-				true,
-				"#NAME?",
-				"=INDEX(D21:D25,MATCH(TRUE,ISNA(MATCH(D21:D25,C21:C27,0)),0))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 23,
-			"c": 8,
-			"index": 1,
-			"func": [
-				true,
-				"#NAME?",
-				"=INDEX(D21:D25,MATCH(TRUE,ISNA(MATCH(D21:D25,C21:C27,0)),0))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 38,
-			"c": 6,
-			"index": 1,
-			"func": [
-				true,
-				1,
-				"=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\")<>2,1,0))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 30,
-			"c": 6,
-			"index": 1,
-			"func": [
-				true,
-				"#NAME?",
-				"=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\")*(E31:E39))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 32,
-			"c": 6,
-			"index": 1,
-			"func": [
-				true,
-				"#NAME?",
-				"=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\"))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 34,
-			"c": 6,
-			"index": 1,
-			"func": [
-				true,
-				1,
-				"=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),1,0))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		},
-		{
-			"r": 36,
-			"c": 6,
-			"index": 1,
-			"func": [
-				true,
-				1,
-				"=SUM(IF(MOD((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),2),1,0))"
-			],
-			"color": "w",
-			"parent": null,
-			"chidren": {},
-			"times": 0
-		}
-	],
-	"visibledatarow": [],
-	"visibledatacolumn": [],
+	"calcChain": [{
+		"r": 6,
+		"c": 3,
+		"index": 1,
+		"func": [true, 23.75, "=AVERAGE(D3:D6)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 7,
+		"c": 3,
+		"index": 1,
+		"func": [true, 30, "=MAX(D3:D6)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 8,
+		"c": 3,
+		"index": 1,
+		"func": [true, 17, "=MIN(D3:D6)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 5,
+		"c": 9,
+		"index": 1,
+		"func": [true, "J2", "=INDIRECT(\"I2\")"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 6,
+		"c": 9,
+		"index": 1,
+		"func": [true, 1, "=INDIRECT(I2)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 7,
+		"c": 9,
+		"index": 1,
+		"func": [true, "I", "=INDIRECT(\"I\"&(1+2))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 8,
+		"c": 9,
+		"index": 1,
+		"func": [true, 1, "=INDIRECT(I4&J3)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 16,
+		"c": 7,
+		"index": 1,
+		"func": [true, 152, "=SUBTOTAL(9,OFFSET(F15,ROW(F15:F18)-ROW(F15),1,3))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 17,
+		"c": 7,
+		"index": 1,
+		"func": [true, 541, "=SUBTOTAL(9,OFFSET(G15,ROW(G15:G18)-ROW(G15),1,3))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 22,
+		"c": 8,
+		"index": 1,
+		"func": [true, "dumpling", "=INDEX(D21:D25,MATCH(\"dumpling\",D21:D25),1)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 38,
+		"c": 6,
+		"index": 1,
+		"func": [true, 1, "=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\")<>2,1,0))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 30,
+		"c": 6,
+		"index": 1,
+		"func": [true, "#NAME?", "=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\")*(E31:E39))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 32,
+		"c": 6,
+		"index": 1,
+		"func": [true, "#NAME?", "=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\"))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 34,
+		"c": 6,
+		"index": 1,
+		"func": [true, 1, "=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),1,0))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 36,
+		"c": 6,
+		"index": 1,
+		"func": [true, 1, "=SUM(IF(MOD((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),2),1,0))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 9,
+		"c": 9,
+		"index": 1,
+		"func": [true, 1, "=INDIRECT(\"Formula!\"&I2)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 10,
+		"c": 9,
+		"index": 1,
+		"func": [true, "J2", "=INDIRECT(\"Formula!I2\")"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 14,
+		"c": 7,
+		"index": 1,
+		"func": [true, 207, "=SUBTOTAL(9,OFFSET($D$15,ROW($D$15:$D$18)-ROW($D$15),1,3))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 15,
+		"c": 7,
+		"index": 1,
+		"func": [true, 182, "=SUBTOTAL(9,OFFSET(E15,ROW(E15:E18)-ROW(E15),1,3))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 23,
+		"c": 8,
+		"index": 1,
+		"func": [true, false, "=ISNA(MATCH(D21:D25,C21:C27,0))"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}],
+	"visibledatarow": [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640, 660, 680, 700, 720, 740, 760, 780, 800, 820, 840, 860, 880, 900],
+	"visibledatacolumn": [112, 186, 292, 375, 447, 532, 656, 705, 898, 955, 1012, 1086, 1160, 1234, 1308, 1382, 1456, 1530],
 	"rowsplit": [],
-	"ch_width": 4748,
-	"rh_height": 1790,
+	"ch_width": 1723,
+	"rh_height": 1010,
 	"luckysheet_select_save": [{
-		"row": [0, 0],
-		"column": [0, 0]
+		"left": 532,
+		"width": 123,
+		"top": 780,
+		"height": 19,
+		"left_move": 532,
+		"width_move": 123,
+		"top_move": 780,
+		"height_move": 19,
+		"row": [39, 39],
+		"column": [6, 6],
+		"row_focus": 39,
+		"column_focus": 6
 	}],
 	"luckysheet_selection_range": [],
 	"scrollLeft": 0,
-	"scrollTop": 0
+	"scrollTop": 0,
+	"data": [
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"v": "Basic Function",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Basic Function",
+			"bg": "rgba(255,255,255)",
+			"bl": 1,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Name",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Name",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Age",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Age",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Indirect Function",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Indirect Function",
+			"bg": "rgba(255,255,255)",
+			"bl": 1,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "J2",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "J2",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Jack",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Jack",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 17,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "17",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "I",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "I",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 2,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "2",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Lily",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Lily",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 23,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "23",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "J",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "J",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 3,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "3",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Bob",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Bob",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 30,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "30",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Mary",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Mary",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 25,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "25",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(\"I2\")",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(\"I2\")",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "J2",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "J2",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=INDIRECT(\"I2\")"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Average Age:",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Average Age:",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 23.75,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "23.75",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=AVERAGE(D3:D6)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(I2)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(I2)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=INDIRECT(I2)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Max Age:",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Max Age:",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 30,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "30",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=MAX(D3:D6)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(\"I\"&(1+2))",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(\"I\"&(1+2))",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "I",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "I",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=INDIRECT(\"I\"&(1+2))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Min Age:",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Min Age:",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 17,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "17",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=MIN(D3:D6)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(I4&J3)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(I4&J3)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=INDIRECT(I4&J3)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(\"Formula!\"&I2)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(\"Formula!\"&I2)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"v": 1,
+			"m": "1",
+			"f": "=INDIRECT(\"Formula!\"&I2)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "=INDIRECT(\"Formula!I2\")",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "=INDIRECT(\"Formula!I2\")",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"m": "J2",
+			"v": "J2",
+			"f": "=INDIRECT(\"Formula!I2\")"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"v": "Array Formula",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Array Formula",
+			"bg": "rgba(255,255,255)",
+			"bl": 1,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Calculation",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Calculation",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 6,
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 12,
+				"c": 2
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Match",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Match",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Physical",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Physical",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Chemistry",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Chemistry",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Alex",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Alex",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Sum",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Sum",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Alice",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Alice",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 97,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"m": "97"
+		}, {
+			"v": 61,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"m": "61"
+		}, {
+			"v": 53,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "53",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 43,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "43",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"v": 207,
+			"m": "207",
+			"f": "=SUBTOTAL(9,OFFSET($D$15,ROW($D$15:$D$18)-ROW($D$15),1,3))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "John",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "John",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 65,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "65",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 76,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "76",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 65,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "65",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 55,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "55",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"v": 182,
+			"m": "182",
+			"f": "=SUBTOTAL(9,OFFSET(E15,ROW(E15:E18)-ROW(E15),1,3))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Bob",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Bob",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 55,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "55",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 70,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "70",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 64,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "64",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 54,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "54",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 152,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "152",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUBTOTAL(9,OFFSET(F15,ROW(F15:F18)-ROW(F15),1,3))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Jack",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Jack",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 89,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "89",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 77,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "77",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 73,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "73",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 73,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "73",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 541,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "541",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUBTOTAL(9,OFFSET(G15,ROW(G15:G18)-ROW(G15),1,3))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Search",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Search",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 6,
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 19,
+				"c": 2
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "apple",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "apple",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "apple",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "apple",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 5,
+				"r": 20,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 20,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 20,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 20,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 20,
+				"c": 6
+			}
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "banana",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "banana",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "pear",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "pear",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "pear",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "pear",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "potato",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "potato",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "ArrayFormula Result:",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "ArrayFormula Result:",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 2,
+				"r": 22,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 22,
+				"c": 6
+			}
+		}, {
+			"v": "dumpling",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "dumpling",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=INDEX(D21:D25,MATCH(\"dumpling\",D21:D25),1)"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "b"
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			}
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "tomato",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "tomato",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "potato",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "potato",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "NomalFormula Result:",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "NomalFormula Result:",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 2,
+				"r": 23,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 23,
+				"c": 6
+			}
+		}, {
+			"ct": {
+				"fa": "General",
+				"t": "b"
+			},
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"m": "FALSE",
+			"v": false,
+			"f": "=ISNA(MATCH(D21:D25,C21:C27,0))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "b"
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "potato",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "potato",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "dumpling",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "dumpling",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"ct": {
+				"fa": "General",
+				"t": "e"
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "cake",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "cake",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "noodel",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "noodel",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Statistics",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Statistics",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 6,
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"mc": {
+				"r": 28,
+				"c": 2
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Product",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Product",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Salesman",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Salesman",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Units Sold",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Units Sold",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Summing Sales: Faxes Sold By Brown",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Summing Sales: Faxes Sold By Brown",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"r": 29,
+				"c": 6,
+				"rs": 1,
+				"cs": 3
+			}
+		}, {
+			"mc": {
+				"r": 29,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 29,
+				"c": 6
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Fax",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Fax",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Brown",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Brown",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 61,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "61",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\")*(E31:E39))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Phone",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Phone",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Smith",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Smith",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 10,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "10",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Logical AND (Faxes And Brown)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Logical AND (Faxes And Brown)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 3,
+				"r": 31,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 31,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 31,
+				"c": 6
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Fax",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Fax",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Jones",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Jones",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 20,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "20",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 2,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "2",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUM((C31:C39=\"Fax\")*(D31:D39=\"Brown\"))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Fax",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Fax",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Smith",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Smith",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 30,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "30",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Logical OR (Faxes Or Jones)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Logical OR (Faxes Or Jones)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 3,
+				"r": 33,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 33,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 33,
+				"c": 6
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Phone",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Phone",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Jones",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Jones",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 40,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "40",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),1,0))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "PC",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "PC",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Smith",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Smith",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 50,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "50",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Logical XOR (Fax Or Jones but not both)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Logical XOR (Fax Or Jones but not both)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 3,
+				"r": 35,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 35,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 35,
+				"c": 6
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Fax",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Fax",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Brown",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Brown",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 60,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "60",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUM(IF(MOD((C31:C39=\"Fax\")+(D31:D39=\"Jones\"),2),1,0))"
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Phone",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Phone",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Davis",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Davis",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 70,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "70",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Logical NAND (All Sales Except Fax And Jones)",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Logical NAND (All Sales Except Fax And Jones)",
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"mc": {
+				"rs": 1,
+				"cs": 3,
+				"r": 37,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 37,
+				"c": 6
+			}
+		}, {
+			"mc": {
+				"r": 37,
+				"c": 6
+			}
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgba(255,255,255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, null, null, null, null, null, null, null],
+		[{
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "PC",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "PC",
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": "Jones",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"m": "Jones",
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 80,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "80",
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"v": 1,
+			"ct": {
+				"fa": "General",
+				"t": "n"
+			},
+			"m": "1",
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0,
+			"f": "=SUM(IF((C31:C39=\"Fax\")+(D31:D39=\"Jones\")<>2,1,0))"
+		}, {
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {
+			"bg": "rgb(255, 255, 255)",
+			"bl": 0,
+			"it": 0,
+			"ff": 9,
+			"fs": 10,
+			"fc": "rgb(0, 0, 0)",
+			"ht": 1,
+			"vt": 0
+		}, {}, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+		[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+	],
+	"load": "1"
 }
 
 export default sheetFormula
