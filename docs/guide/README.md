@@ -47,11 +47,11 @@ After `npm run build`, all files in the `dist` folder are copied to the project 
 ### Second step
 Introduce dependencies
 ```html
-<link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
-<link rel="stylesheet" href="plugins/plugins.min.css">
-<link rel="stylesheet" href="css/main.min.css">
-<script src="plugins/js/plugin.min.js"></script>
-<script src="main.min.js"></script>
+<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='./plugins/plugins.css' />
+<link rel='stylesheet' href='./css/luckysheet.css' />
+<script src="./plugins/js/plugin.js"></script>
+<script src="./luckysheet.umd.js"></script>
 ```
 ### Third step
 Specify a table container
@@ -88,35 +88,32 @@ An example of a sheet in the file is as follows:
 ```javascript
 luckysheetfile[0] = 
 {
-	"name": "Supermarket sales",
-	"color": "",
-	"chart": [],
-	"status": 0,
-	"order": 0,
-	"celldata": [],
-	"row":90,
-	"column":100,
-	"index": 0,
-	"visibledatarow": [],
-	"visibledatacolumn": [],
-	"rowsplit": [],
-	"ch_width": 4629,
-	"rh_height": 1681,
-	"luckysheet_select_save": {},
-	"luckysheet_selection_range": {},
-	"scrollLeft": 0,
-	"scrollTop": 0,
-	"load": "1",
-	"config": {
-		"columlen": {},
-		"rowhidden": {}
-	}
-	,
-	"pivotTable": {},
-	"isPivotTable": true,
-    "calcChain": [],
-    "filter":{key1:value1, key2:value2},
-    "filter_select": {}
+	"name": "Cell", //Worksheet name
+	"color": "", //Worksheet color
+	"config": {}, //Table row height, column width, merged cells, borders, hidden rows and other settings
+	"index": "0", //Worksheet index
+	"chart": [], //Chart configuration
+	"status": "1", //Activation status
+	"order": "0", //The order of the worksheet
+	"hide": 0,//whether to hide
+	"column": 18, //Number of columns
+	"row": 36, //number of rows
+	"celldata": [], //Original cell data set
+	"visibledatarow": [], //The position of all rows
+	"visibledatacolumn": [], //The position of all columns
+	"ch_width": 2322, //The width of the worksheet area
+	"rh_height": 949, //The height of the worksheet area
+	"scrollLeft": 0, //Left and right scroll bar position
+	"scrollTop": 315, //Up and down scroll bar position
+	"luckysheet_select_save": [], //selected area
+	"luckysheet_conditionformat_save": {},//Conditional format
+	"calcChain": [],//Formula chain
+	"isPivotTable":false,//Whether to pivot table
+	"pivotTable":{},//Pivot table settings
+	"filter_select": null,//Filter range
+	"filter": null,//Filter configuration
+	"luckysheet_alternateformat_save": [], //Alternate colors
+	"luckysheet_alternateformat_save_modelCustom": []//Customize alternate colors
 }
 ```
 ### View method

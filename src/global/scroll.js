@@ -9,44 +9,44 @@ export default function luckysheetscrollevent(isadjust) {
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
         scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
 
-    if (!!isadjust) {
-        let scrollHeight = $t.get(0).scrollHeight;
-        let windowHeight = $t.height();
-        let scrollWidth = $t.get(0).scrollWidth;
-        let windowWidth = $t.width();
+    // if (!!isadjust) {
+    //     let scrollHeight = $t.get(0).scrollHeight;
+    //     let windowHeight = $t.height();
+    //     let scrollWidth = $t.get(0).scrollWidth;
+    //     let windowWidth = $t.width();
 
-        let maxScrollLeft = scrollWidth - windowWidth;
-        let maxScrollTop = scrollHeight - windowHeight;
+    //     let maxScrollLeft = scrollWidth - windowWidth;
+    //     let maxScrollTop = scrollHeight - windowHeight;
 
-        let visibledatacolumn_c = Store.visibledatacolumn, visibledatarow_c = Store.visibledatarow;
+    //     let visibledatacolumn_c = Store.visibledatacolumn, visibledatarow_c = Store.visibledatarow;
 
-        if (luckysheetFreezen.freezenhorizontaldata != null) {
-            visibledatarow_c = luckysheetFreezen.freezenhorizontaldata[3];
-        }
+    //     if (luckysheetFreezen.freezenhorizontaldata != null) {
+    //         visibledatarow_c = luckysheetFreezen.freezenhorizontaldata[3];
+    //     }
 
-        if (luckysheetFreezen.freezenverticaldata != null) {
-            visibledatacolumn_c = luckysheetFreezen.freezenverticaldata[3];
-        }
+    //     if (luckysheetFreezen.freezenverticaldata != null) {
+    //         visibledatacolumn_c = luckysheetFreezen.freezenverticaldata[3];
+    //     }
 
-        let col_ed = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
-        let row_ed = luckysheet_searcharray(visibledatarow_c, scrollTop);
+    //     let col_ed = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
+    //     let row_ed = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
-        let refreshLeft = scrollLeft , refreshTop = scrollTop;
+    //     let refreshLeft = scrollLeft , refreshTop = scrollTop;
 
-        if (col_ed <= 0) {
-            scrollLeft = 0;
-        }
-        else {
-            scrollLeft = visibledatacolumn_c[col_ed - 1];
-        }
+    //     if (col_ed <= 0) {
+    //         scrollLeft = 0;
+    //     }
+    //     else {
+    //         scrollLeft = visibledatacolumn_c[col_ed - 1];
+    //     }
 
-        if (row_ed <= 0) {
-            scrollTop = 0;
-        }
-        else {
-            scrollTop = visibledatarow_c[row_ed - 1];
-        }
-    }
+    //     if (row_ed <= 0) {
+    //         scrollTop = 0;
+    //     }
+    //     else {
+    //         scrollTop = visibledatarow_c[row_ed - 1];
+    //     }
+    // }
 
     if (luckysheetFreezen.freezenhorizontaldata != null) {
         if (scrollTop < luckysheetFreezen.freezenhorizontaldata[2]) {

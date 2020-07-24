@@ -83,7 +83,7 @@
 ## allowEdit
 - Type: Boolean
 - Default: true
-- Usage: Whether to allow frontend editing(Not implemented yet)
+- Usage: Whether to allow frontend editing
 
 ------------
 ## enableAddRow

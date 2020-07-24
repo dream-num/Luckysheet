@@ -64,11 +64,11 @@ The core code of Luckysheet is luckysheet-core.js and luckysheet-function.js, de
 #### Second step
 Introduce dependencies
 ```
-<link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
-<link rel="stylesheet" href="plugins/plugins.min.css">
-<link rel="stylesheet" href="css/main.min.css">
-<script src="plugins/js/plugin.min.js"></script>
-<script src="main.min.js"></script>
+<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='./plugins/plugins.css' />
+<link rel='stylesheet' href='./css/luckysheet.css' />
+<script src="./plugins/js/plugin.js"></script>
+<script src="./luckysheet.umd.js"></script>
 ```
 #### Third step
 Specify a table container
