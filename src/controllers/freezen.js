@@ -7,7 +7,8 @@ import menuButton from './menuButton';
 import luckysheetPostil from './postil';
 import luckysheetDropCell from './dropCell';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
-import Store from '../store'
+import Store from '../store';
+import locale from '../locale/locale';
 
 const luckysheetFreezen = {
     freezenHorizontalHTML: '<div id="luckysheet-freezebar-horizontal" class="luckysheet-freezebar" tabindex="0"><div class="luckysheet-freezebar-handle luckysheet-freezebar-horizontal-handle" ><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-title" ></div><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-bar" ></div></div><div class="luckysheet-freezebar-drop luckysheet-freezebar-horizontal-drop" ><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-title" ></div><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-bar" >&nbsp;</div></div></div>',
@@ -115,7 +116,9 @@ const luckysheetFreezen = {
 
         _this.freezenverticaldata = freezenverticaldata;
 
-        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-indent"></i> 取消冻结');
+
+
+        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-indent"></i> '+locale().freezen.freezenCancel);
 
         $("#luckysheet-freezebar-vertical").show().find(".luckysheet-freezebar-vertical-handle").css({ "left": left }).end().find(".luckysheet-freezebar-vertical-drop").css({ "left": left });
     },
@@ -235,7 +238,9 @@ const luckysheetFreezen = {
     cancelFreezenHorizontal: function (sheetIndex) {
         let _this = this;
 
-        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> 冻结首行');
+        
+
+        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> '+locale().freezen.default);
         _this.freezenhorizontaldata = null;
         let ishorizontal = $("#luckysheet-freezebar-horizontal").is(":visible");
         $("#luckysheet-freezebar-horizontal").hide();
@@ -309,7 +314,7 @@ const luckysheetFreezen = {
 
         _this.freezenhorizontaldata = freezenhorizontaldata;
 
-        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> 取消冻结');
+        $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> '+locale().freezen.freezenCancel);
         $("#luckysheet-freezebar-horizontal").show().find(".luckysheet-freezebar-horizontal-handle").css({ "top": top }).end().find(".luckysheet-freezebar-horizontal-drop").css({ "top": top });
     },
     createAssistCanvas: function(){

@@ -600,10 +600,10 @@ const menuButton = {
 
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
-                            alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                            alert(locale_alternatingColors.errorInfo);
                         }
                         else{
-                            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                            tooltip.info(locale_alternatingColors.errorInfo, "");
                         }
                         return;
                     }
@@ -653,8 +653,14 @@ const menuButton = {
             
             if($menuButton.length == 0){
                 let subid = "cell-color-self";
-                let coloritem = replaceHtml(_this.coloritem, { "class": "luckysheet-icon-alternateformat", "name": "交替颜色..." });
-                let menu = replaceHtml(_this.color, { "id": menuButtonId, "coloritem": coloritem, "colorself": subid, "sub": "" });
+
+                const _locale = locale();
+                const locale_toolbar = _locale.toolbar;
+                const locale_button = _locale.button;
+                const locale_alternatingColors = _locale.alternatingColors;
+
+                let coloritem = replaceHtml(_this.coloritem, { "class": "luckysheet-icon-alternateformat", "name": locale_toolbar.alternatingColors+"..." });
+                let menu = replaceHtml(_this.color, { "id": menuButtonId, "coloritem": coloritem, "colorself": subid, "sub": "","resetColor":locale_toolbar.resetColor });
                 
                 $("body").append(menu);
                 $menuButton = $("#" + menuButtonId);
@@ -672,13 +678,13 @@ const menuButton = {
                     maxPaletteSize: 8,
                     maxSelectionSize: 8,
                     color: "#fff",
-                    cancelText: "取消",
-                    chooseText: "确定颜色",
-                    togglePaletteMoreText: "自定义",
-                    togglePaletteLessText: "收起",
+                    cancelText: locale_button.cancel,
+                    chooseText: locale_button.confirm,
+                    togglePaletteMoreText: locale_toolbar.customColor,
+                    togglePaletteLessText: locale_toolbar.collapse,
                     togglePaletteOnly: true,
-                    clearText: "清除颜色选择",
-                    noColorSelectedText: "没有颜色被选择",
+                    clearText: locale_toolbar.clearText,
+                    noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.bgcolor" + server.gridKey,
                     palette: [
                         ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
@@ -732,10 +738,10 @@ const menuButton = {
 
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
-                            alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                            alert(locale_alternatingColors.errorInfo);
                         }
                         else{
-                            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                            tooltip.info(locale_alternatingColors.errorInfo, "");
                         }
                         return;
                     }
@@ -904,23 +910,26 @@ const menuButton = {
 
             if($menuButton.length == 0){
                 let canvasH = 10, canvasW = 120;
-
+                const _locale = locale();
+                const locale_border = _locale.border;
+                const locale_toolbar = _locale.toolbar;
+                const locale_button = _locale.button;
                 let itemdata = [
-                    {"text": "上框线", "value": "border-top", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-top" style="user-select: none;"> </div> </div>'},
-                    {"text": "下框线", "value":"border-bottom", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-bottom" style="user-select: none;"> </div> </div>'},
-                    {"text": "左框线", "value":"border-left", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-left" style="user-select: none;"> </div> </div>'},
-                    {"text": "右框线", "value":"border-right", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-right" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderTop, "value": "border-top", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-top" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderBottom, "value":"border-bottom", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-bottom" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderLeft, "value":"border-left", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-left" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderRight, "value":"border-right", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-right" style="user-select: none;"> </div> </div>'},
                     {"text": "", "value": "split", "example":""},
-                    {"text": "无", "value": "border-none", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-none" style="user-select: none;"> </div> </div>'},
-                    {"text": "所有", "value": "border-all", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all" style="user-select: none;"> </div> </div>'},
-                    {"text": "外侧", "value": "border-outside", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-outside" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderNone, "value": "border-none", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-none" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderAll, "value": "border-all", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderOutside, "value": "border-outside", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-outside" style="user-select: none;"> </div> </div>'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "内侧", "value": "border-inside", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-inside" style="user-select: none;"> </div> </div>'},
-                    {"text": "内侧横线", "value": "border-horizontal", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-horizontal" style="user-select: none;"> </div> </div>'},
-                    {"text": "内侧竖线", "value": "border-vertical", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-vertical" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderInside, "value": "border-inside", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-inside" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderHorizontal, "value": "border-horizontal", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-horizontal" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_border.borderVertical, "value": "border-vertical", "example": '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-vertical" style="user-select: none;"> </div> </div>'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "<span id='luckysheet-icon-borderColor-linecolor' class='luckysheet-mousedown-cancel' style='border-bottom:3px solid #000;'>边框颜色</span>", "value":"borderColor", "example":"more"},
-                    {"text": "边框粗细<img id='luckysheetborderSizepreview' width=100 height=10 src='data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==' style='position:absolute;bottom:-5px;right:0px;width:100px;height:10px;'>", "value":"borderSize", "example":"more"}
+                    {"text": "<span id='luckysheet-icon-borderColor-linecolor' class='luckysheet-mousedown-cancel' style='border-bottom:3px solid #000;'>"+ locale_border.borderColor +"</span>", "value":"borderColor", "example":"more"},
+                    {"text": ""+ locale_border.borderSize +"<img id='luckysheetborderSizepreview' width=100 height=10 src='data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==' style='position:absolute;bottom:-5px;right:0px;width:100px;height:10px;'>", "value":"borderSize", "example":"more"}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -928,7 +937,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "border-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 let subitemdata = [
-                    {"text": "无边框", "value": "0", "example": ""},
+                    {"text": locale_border.borderNone, "value": "0", "example": ""},
                     {"text": "<canvas type='Thin' class='border-Thin' width="+ canvasW +" height="+ canvasH +" style='width:"+ canvasW +"px;height:"+ canvasH +"px;position:static;'></canvas>", "value": "1", "example": ""},
                     {"text": "<canvas type='Hair' class='border-Hair' width="+ canvasW +" height="+ canvasH +" style='width:"+ canvasW +"px;height:"+ canvasH +"px;position:static;'></canvas>", "value": "2", "example": ""},
                     {"text": "<canvas type='Dotted' class='border-Dotted' width="+ canvasW +" height="+ canvasH +" style='width:"+ canvasW +"px;height:"+ canvasH +"px;position:static;'></canvas>", "value": "3", "example": ""},
@@ -948,10 +957,10 @@ const menuButton = {
                 let submenu = replaceHtml(_this.menu, { "id": "borderSize", "item": subitemset, "subclass": "luckysheet-menuButton-sub" });
                 let submenuid = "luckysheet-icon-borderSize-menuButton";
                 let subcolormenuid = "luckysheet-icon-borderColor-menuButton";
-                let colormenu = replaceHtml(_this.color, { "id": subcolormenuid, "coloritem": "", "colorself": "", "sub": "luckysheet-menuButton-sub" });
+                let colormenu = replaceHtml(_this.color, { "id": subcolormenuid, "coloritem": "", "colorself": "", "sub": "luckysheet-menuButton-sub",resetColor:locale_toolbar.resetColor });
 
                 $("body").append(menu + colormenu + submenu);
-                $menuButton = $("#" + menuButtonId).width(150);
+                $menuButton = $("#" + menuButtonId).width(160);
                 _this.focus($menuButton, "border-all");
 
                 $("#" + submenuid + " canvas").each(function(i){
@@ -1066,13 +1075,13 @@ const menuButton = {
                     maxPaletteSize: 8,
                     maxSelectionSize: 8,
                     color: "#000",
-                    cancelText: "取消",
-                    chooseText: "确定颜色",
-                    togglePaletteMoreText: "自定义",
-                    togglePaletteLessText: "收起",
+                    cancelText: locale_button.cancel,
+                    chooseText: locale_button.confirm,
+                    togglePaletteMoreText: locale_toolbar.customColor,
+                    togglePaletteLessText: locale_toolbar.collapse,
                     togglePaletteOnly: true,
-                    clearText: "清除颜色选择",
-                    noColorSelectedText: "没有颜色被选择",
+                    clearText: locale_toolbar.clearText,
+                    noColorSelectedText:locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.bordercolor" + server.gridKey,
                     palette: [
                         ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
@@ -1166,11 +1175,14 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_merge =  _locale.merge;
+
                 let itemdata = [
-                    {"text": "全部合并", "value": "mergeAll", "example": ""},
-                    {"text": "垂直合并", "value": "mergeV", "example": ""},
-                    {"text": "水平合并", "value": "mergeH", "example": ""},
-                    {"text": "取消合并", "value": "mergeCancel", "example": ""}
+                    {"text": locale_merge.mergeAll, "value": "mergeAll", "example": ""},
+                    {"text": locale_merge.mergeV, "value": "mergeV", "example": ""},
+                    {"text": locale_merge.mergeH, "value": "mergeH", "example": ""},
+                    {"text": locale_merge.mergeCancel, "value": "mergeCancel", "example": ""}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1187,10 +1199,10 @@ const menuButton = {
 
                     if(selectIsOverlap()){
                         if(isEditMode()){
-                            alert("不能合并重叠区域");
+                            alert(locale_merge.overlappingError);
                         }
                         else{
-                            tooltip.info("不能合并重叠区域", "");
+                            tooltip.info(locale_merge.overlappingError, "");
                         }
                         return;
                     }
@@ -1213,10 +1225,10 @@ const menuButton = {
 
                         if(has_PartMC){
                             if(isEditMode()){
-                                alert("无法对部分合并单元格执行此操作");
+                                alert(locale_merge.partiallyError);
                             }
                             else{
-                                tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                                tooltip.info(locale_merge.partiallyError, ""); 
                             }
                             return;    
                         }
@@ -1256,10 +1268,12 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_align = _locale.align;
                 let itemdata = [
-                    {"text": "左对齐", "value": "left", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left" style="user-select: none;"> </div> </div>'},
-                    {"text": "中间对齐", "value": "center", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-center" style="user-select: none;"> </div> </div>'},
-                    {"text": "右对齐", "value": "right", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-right" style="user-select: none;"> </div> </div>'}
+                    {"text": locale_align.left, "value": "left", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_align.center, "value": "center", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-center" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_align.right, "value": "right", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-right" style="user-select: none;"> </div> </div>'}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1309,12 +1323,13 @@ const menuButton = {
         $("#luckysheet-icon-valign-menu").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
-            
+            const _locale = locale();
+            const locale_align = _locale.align;
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": "顶部对齐", "value": "top", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-top" style="user-select: none;"> </div> </div>'},
-                    {"text": "居中对齐", "value": "middle", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-middle" style="user-select: none;"> </div> </div>'},
-                    {"text": "底部对齐", "value": "bottom", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom" style="user-select: none;"> </div> </div>'}
+                    {"text": locale_align.top, "value": "top", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-top" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_align.middle, "value": "middle", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-middle" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_align.bottom, "value": "bottom", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom" style="user-select: none;"> </div> </div>'}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1356,10 +1371,12 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_textWrap = _locale.textWrap;
                 let itemdata = [
-                    {"text": "溢出", "value": "overflow", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow" style="user-select: none;"> </div> </div>'},
-                    {"text": "自动换行", "value": "wrap", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap" style="user-select: none;"> </div> </div>'},
-                    {"text": "截断", "value": "clip", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-clip" style="user-select: none;"> </div> </div>'}
+                    {"text": locale_textWrap.overflow, "value": "overflow", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_textWrap.wrap, "value": "wrap", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_textWrap.clip, "value": "clip", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-clip" style="user-select: none;"> </div> </div>'}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1401,13 +1418,15 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_rotation = _locale.rotation;
                 let itemdata = [
-                    {"text": "无旋转", "value": "none", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none" style="user-select: none;"> </div> </div>'},
-                    {"text": "向上倾斜", "value": "angleup", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angleup" style="user-select: none;"> </div> </div>'},
-                    {"text": "向下倾斜", "value": "angledown", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angledown" style="user-select: none;"> </div> </div>'},
-                    {"text": "竖排文字", "value": "vertical", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-vertical" style="user-select: none;"> </div> </div>'},
-                    {"text": "向上90°", "value": "rotation-up", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-up" style="user-select: none;"> </div> </div>'},
-                    {"text": "向下90°", "value": "rotation-down", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-down" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.none, "value": "none", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.angleup, "value": "angleup", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angleup" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.angledown, "value": "angledown", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angledown" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.vertical, "value": "vertical", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-vertical" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.rotationUp, "value": "rotation-up", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-up" style="user-select: none;"> </div> </div>'},
+                    {"text": locale_rotation.rotationDown, "value": "rotation-down", "example": '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-down" style="user-select: none;"> </div> </div>'},
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1449,16 +1468,18 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_freezen = _locale.freezen;
                 let itemdata = [
-                    {"text": "冻结首行", "value": "freezenRow", "example": ''},
-                    {"text": "冻结首列", "value": "freezenColumn", "example": ''},
-                    {"text": "冻结行列", "value": "freezenRC", "example": ''},
+                    {"text": locale_freezen.freezenRow, "value": "freezenRow", "example": ''},
+                    {"text": locale_freezen.freezenColumn, "value": "freezenColumn", "example": ''},
+                    {"text": locale_freezen.freezenRC, "value": "freezenRC", "example": ''},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "冻结行到选区", "value": "freezenRowRange", "example": ''},
-                    {"text": "冻结列到选区", "value": "freezenColumnRange", "example": ''},
-                    {"text": "冻结行列到选区", "value": "freezenRCRange", "example": ''},
+                    {"text": locale_freezen.freezenRowRange, "value": "freezenRowRange", "example": ''},
+                    {"text": locale_freezen.freezenColumnRange, "value": "freezenColumnRange", "example": ''},
+                    {"text": locale_freezen.freezenRCRange, "value": "freezenRCRange", "example": ''},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "取消冻结", "value": "freezenCancel", "example": ''}
+                    {"text": locale_freezen.freezenCancel, "value": "freezenCancel", "example": ''}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1466,7 +1487,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "freezen-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(130);
+                $menuButton = $("#" + menuButtonId).width(160);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
@@ -1544,10 +1565,10 @@ const menuButton = {
                     else if(itemvalue == "freezenRowRange"){ //选区行冻结
                         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("没有选区");
+                                alert(locale_freezen.noSeletionError);
                             }
                             else{
-                                tooltip.info("没有选区", "");
+                                tooltip.info(locale_freezen.noSeletionError, "");
                             }
 
                             return;
@@ -1584,10 +1605,10 @@ const menuButton = {
                     else if(itemvalue == "freezenColumnRange"){ //选区列冻结
                         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("没有选区");
+                                alert(locale_freezen.noSeletionError);
                             }
                             else{
-                                tooltip.info("没有选区","");
+                                tooltip.info(locale_freezen.noSeletionError,"");
                             }
 
                             return;
@@ -1624,10 +1645,10 @@ const menuButton = {
                     else if(itemvalue == "freezenRCRange"){ //选区行列冻结
                         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("没有选区");
+                                alert(locale_freezen.noSeletionError);
                             }
                             else{
-                                tooltip.info("没有选区","");
+                                tooltip.info(locale_freezen.noSeletionError,"");
                             }
 
                             return;
@@ -1675,7 +1696,7 @@ const menuButton = {
                         luckysheetFreezen.createAssistCanvas();
                         luckysheetrefreshgrid();
                     }
-                    else if(itemvalue == "freezenCancel"){ //取消冻结
+                    else if(itemvalue == "freezenCancel"){ //Cancel freezen
                         if (luckysheetFreezen.freezenverticaldata != null) {
                             luckysheetFreezen.cancelFreezenVertical();
                             luckysheetFreezen.createAssistCanvas();
@@ -1713,13 +1734,16 @@ const menuButton = {
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_sort = _locale.sort;
+                const locale_filter = _locale.filter;
                 let itemdata = [
-                    {"text": "升序", "value": "asc", "example": '<i style="font-size:14px;" class="fa fa-sort-numeric-asc" aria-hidden="true"></i>'},
-                    {"text": "降序", "value": "desc", "example": '<i style="font-size:14px;" class="fa fa-sort-numeric-desc" aria-hidden="true"></i>'},
-                    {"text": "自定义排序...", "value": "diysort", "example": '<i style="font-size:14px;" class="fa fa-sort" aria-hidden="true"></i>'},
+                    {"text": locale_sort.asc, "value": "asc", "example": '<i style="font-size:14px;" class="fa fa-sort-numeric-asc" aria-hidden="true"></i>'},
+                    {"text": locale_sort.desc, "value": "desc", "example": '<i style="font-size:14px;" class="fa fa-sort-numeric-desc" aria-hidden="true"></i>'},
+                    {"text": locale_sort.custom+"...", "value": "diysort", "example": '<i style="font-size:14px;" class="fa fa-sort" aria-hidden="true"></i>'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "筛选", "value": "filter", "example": '<i style="font-size:14px;" class="fa fa-filter" aria-hidden="true"></i>'},
-                    {"text": "清除筛选", "value": "clearfilter", "example": '<i style="font-size:14px;" class="fa fa-window-close" aria-hidden="true"></i>'}
+                    {"text": locale_filter.filter, "value": "filter", "example": '<i style="font-size:14px;" class="fa fa-filter" aria-hidden="true"></i>'},
+                    {"text": locale_filter.clearFilter, "value": "clearfilter", "example": '<i style="font-size:14px;" class="fa fa-window-close" aria-hidden="true"></i>'}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -3307,8 +3331,9 @@ const menuButton = {
     menuButtonFocus: function(d, r, c){
         let _this = this;
         let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr"];
-        const locale_fontarray = locale().fontarray;
-
+        const _locale = locale();
+        const locale_fontarray = _locale.fontarray;
+        const locale_fontjson = _locale.fontjson;
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];
             let foucsStatus = _this.checkstatus(d, r, c, attr);
@@ -3340,7 +3365,7 @@ const menuButton = {
             else if(attr == "ff"){
                 let menuButtonId = "luckysheet-icon-font-family-menuButton";
                 let $menuButton = $("#" + menuButtonId);
-                const locale_fontarray = locale().fontarray;
+                // const locale_fontarray = locale().fontarray;
                 let itemname = locale_fontarray[0], itemvalue = 0;
                 if(foucsStatus != null){
                     if(isdatatypemulti(foucsStatus)["num"]){
@@ -3348,7 +3373,7 @@ const menuButton = {
                         itemname = locale_fontarray[itemvalue];
                     }
                     else{
-                        itemvalue = _this.fontjson[foucsStatus];
+                        itemvalue = locale_fontjson[foucsStatus];
                         itemname = locale_fontarray[itemvalue];
                     }   
                 }

@@ -99,8 +99,8 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     $("body").append(colsmenuHTML);
     $("body").append(rightclickHTML());
     $("body").append(inputHTML);
-    $("body").append(replaceHtml(filtermenuHTML, { "menuid": "filter" }));
-    $("body").append(replaceHtml(filtersubmenuHTML, { "menuid": "filter" }));
+    $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "filter" }));
+    $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
     $("body").append(sheetconfigHTML());
 
     //批注

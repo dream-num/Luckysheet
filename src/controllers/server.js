@@ -9,6 +9,7 @@ import luckysheetPostil from './postil';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import locale from '../locale/locale';
 
 const server = {
     gridKey: null,
@@ -322,13 +323,15 @@ const server = {
 	                currentSheetItem.append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value + ';"></div>');
 	            }
 	        }
-	        else if(k == "pivotTable"){ //数据透视表
+	        else if(k == "pivotTable"){ //PivotTable
 	            // luckysheet.pivotTable.changePivotTable(index);
 	        }
-	        else if(k == "freezen"){ //冻结行列
+	        else if(k == "freezen"){ //freezen row and column
 	            if(index == Store.currentSheetIndex){
+					const _locale = locale();
+					const locale_freezen = _locale.freezen;
 	                if(file["freezen"].horizontal == null){
-	                    $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> 冻结首行');
+	                    $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> '+locale_freezen.freezenRow);
 	                    luckysheetFreezen.freezenhorizontaldata = null;
 	                    $("#luckysheet-freezebar-horizontal").hide();
 	                }
@@ -337,7 +340,7 @@ const server = {
 	                }
 
 	                if(file["freezen"].vertical == null){
-	                    $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> 冻结首列');
+	                    $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> '+locale_freezen.freezenColumn);
 	                    luckysheetFreezen.freezenverticaldata = null;
 	                    $("#luckysheet-freezebar-vertical").hide();
 	                }
