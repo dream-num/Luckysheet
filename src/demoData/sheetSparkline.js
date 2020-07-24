@@ -41,7 +41,7 @@ const sheetSparkline = {
             "0": 101
         }
     },
-    "index": 4,
+    "index": "4",
     "chart": [
         {
             "sheetIndex": "0",
@@ -57,7 +57,7 @@ const sheetSparkline = {
         }
     ],
     "status": "0",
-    "order": 4,
+    "order": "4",
     "column": 18,
     "row": 36,
     "celldata": [
@@ -759,7 +759,7 @@ const sheetSparkline = {
         {
             "r": 2,
             "c": 2,
-            "index": "Sheet_a3wL60hb6ehl_1595574256825",
+            "index": "4",
             "func": [
                 true,
                 "",
@@ -773,7 +773,7 @@ const sheetSparkline = {
         {
             "r": 2,
             "c": 4,
-            "index": "Sheet_a3wL60hb6ehl_1595574256825",
+            "index": "4",
             "func": [
                 true,
                 "",
