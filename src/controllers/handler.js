@@ -73,7 +73,6 @@ import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
-import locale from '../locale/locale';
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -3623,22 +3622,24 @@ export default function luckysheetHandler() {
 
     //菜单栏 截图按钮
     $("#luckysheet-chart-btn-screenshot").click(function () {
+        const _locale = locale();
+        const locale_screenshot = _locale.screenshot;
         if(Store.luckysheet_select_save.length == 0){
             if(isEditMode()){
-                alert("请框选需要截图的范围");
+                alert(locale_screenshot.screenshotTipNoSelection);
             }
             else{
-                tooltip.info("提示！", "请框选需要截图的范围"); 
+                tooltip.info(locale_screenshot.screenshotTipTitle, locale_screenshot.screenshotTipNoSelection); 
             }
             return;
         }
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("无法对多重选择区域执行此操作");
+                alert(locale_screenshot.screenshotTipHasMulti);
             }
             else{
-                tooltip.info("提示！", "无法对多重选择区域执行此操作");  
+                tooltip.info(locale_screenshot.screenshotTipTitle, locale_screenshot.screenshotTipHasMulti);  
             }
 
             return;
@@ -3663,10 +3664,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对合并单元格执行此操作");
+                    alert(locale_screenshot.screenshotTipHasMerge);
                 }
                 else{
-                    tooltip.info("提示！", "无法对合并单元格执行此操作");
+                    tooltip.info(locale_screenshot.screenshotTipTitle, locale_screenshot.screenshotTipHasMerge);
                 }
                 return;    
             }
@@ -3730,7 +3731,7 @@ export default function luckysheetHandler() {
         }
 
         let maxHeight = $(window).height() - 200;
-        tooltip.screenshot("截取成功！", '<div id="luckysheet-confirm-screenshot-save" style="height:'+ maxHeight +'px;overflow:auto;"></div>', url);
+        tooltip.screenshot(locale_screenshot.screenshotTipSuccess, '<div id="luckysheet-confirm-screenshot-save" style="height:'+ maxHeight +'px;overflow:auto;"></div>', url);
         $("#luckysheet-confirm-screenshot-save").append(image);
         newCanvas.remove();
     });
@@ -3738,7 +3739,8 @@ export default function luckysheetHandler() {
     //截图下载
     $(document).on("click", "a.download", function(){ 
         let dataURI = $("#luckysheet-confirm-screenshot-save img").attr("src");
-
+        const _locale = locale();
+        const locale_screenshot = _locale.screenshot;
         let binStr = atob(dataURI.split(",")[1]),
             len = binStr.length,
             arr = new Uint8Array(len);
@@ -3751,7 +3753,7 @@ export default function luckysheetHandler() {
 
         let element = document.createElement('a');
         element.setAttribute('href', URL.createObjectURL(blob));
-        element.setAttribute('download', '截图.png');
+        element.setAttribute('download', locale_screenshot.screenshotImageName+'.png');
 
         element.style.display = 'none';
         document.body.appendChild(element);

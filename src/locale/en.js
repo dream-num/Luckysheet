@@ -40,7 +40,7 @@ export default {
         autoSum: 'Auto SUM',
         moreFunction: 'More function',
         conditionalFormat: 'Conditional format',
-        postil: 'Postil',
+        postil: 'Comment',
         pivotTable: 'PivotTable',
         chart: 'Chart',
         screenshot: 'Screenshot',
@@ -48,6 +48,10 @@ export default {
 
         clearText:"Clear color",
         noColorSelectedText:"No color is selected",
+
+        toolMore:"More",
+        toolClose:"Close",
+        toolMoreTip:"More features",
     },
     alternatingColors:{
         applyRange: 'Apply to range',
@@ -415,6 +419,26 @@ export default {
        filterCancel:"Cancel",
        clearFilter:"Clear filter",
 
+       conditionNone:"None",
+        conditionCellIsNull:"Is empty",
+        conditionCellNotNull:"Is not empty",
+        conditionCellTextContain:"Text contains",
+        conditionCellTextNotContain:"Text does not contain",
+        conditionCellTextStart:"Text starts with",
+        conditionCellTextEnd:"Text ends with",
+        conditionCellTextEqual:"Text is exactly",
+        conditionCellDateEqual:"Date is",
+        conditionCellDateBefore:"Date is before",
+        conditionCellDateAfter:"Date is after",
+        conditionCellGreater:"Greater than",
+        conditionCellGreaterEqual:"Greater than or equal to",
+        conditionCellLess:"Less than",
+        conditionCellLessEqual:"Less than or equal to",
+        conditionCellEqual:"Is equal to",
+        conditionCellNotEqual:"Is not equal to",
+        conditionCellBetween:"Is between",
+        conditionCellNotBetween:"Is not between",
+
     },
     rightclick: {
         copy: 'Copy',
@@ -474,6 +498,88 @@ export default {
         byRow: 'By row',
         byCol: 'By column',
         generateNewMatrix: 'Generate new matrix',
+        
+    },
+    comment:{
+        "insert":"Insert",
+        "edit":"Edit",
+        "delete":"Delete",
+        "showOne":"Show/Hide",
+        "showAll":"Show/Hide All"
+    },
+    screenshot:{
+        screenshotTipNoSelection:"Please select the scope of the screenshot",
+        screenshotTipTitle:"Warning！",
+        screenshotTipHasMerge:"This operation cannot be performed on merged cells",
+        screenshotTipHasMulti:"This operation cannot be performed on multiple selection regions",
+        screenshotTipSuccess:"Successful",
+        screenshotImageName:"Screenshot",
+
+        downLoadClose:"Close",
+        downLoadCopy:"Copy to clipboard",
+        downLoadBtn:"DownLoad",
+        browserNotTip:"not supported by IE browser!",
+        rightclickTip:"Please right click \"copy\" on the picture",
+        successTip:"Successfully (if pasting fails, please right-click on the image to \"copy image\")",
+    },
+    splitText:{
+        splitDelimiters:"Delimiters",
+        splitOther:"Other",
+        splitContinueSymbol:"Consecutive separators are treated as a single",
+        splitDataPreview:"Preview",
+        splitTextTitle:"Split text",
+        splitConfirmToExe:"There is already data here, do you want to replace it?",
+    },
+    punctuation:{
+        "tab":"Tab",
+        "semicolon":"semicolon",
+        "comma":"comma",
+        "space":"space",
+        
+    },
+
+    findAndReplace:{
+        find:"Find",
+        replace:"Replace",
+        goto:"Goto",
+        location:"Location",
+        formula:"Formula",
+        date:"Date",
+        number:"Number",
+        string:"String",
+        error:"Error",
+        condition:"Condition",
+        rowSpan:"Row span",
+        columnSpan:"Column span",
+        locationExample:"Location",
+        lessTwoRowTip:"Please select at least two rows",
+        lessTwoColumnTip:"Please select at least two columns",
+
+        findTextbox:"Find Content",
+        replaceTextbox:"Replace Content",
+
+        regexTextbox:"Regular Expression",
+        wholeTextbox:"Whole word",
+        distinguishTextbox:"Case sensitive",
+
+        allReplaceBtn:"Replace All",
+        replaceBtn:"Replace",
+        allFindBtn:"Find All",
+        findBtn:"Find next",
+
+        noFindTip:"The content was not found",
+
+        searchTargetSheet:"Sheet",
+        searchTargetCell:"Cell",
+        searchTargetValue:"Value",
+
+        searchInputTip:"Please enter the search content",
+
+        noReplceTip:"There is nothing to replace",
+        noMatchTip:"No match found",
+
+        successTip:"${xlength} items found",
     }
+
   };
   

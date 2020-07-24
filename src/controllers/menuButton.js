@@ -1796,22 +1796,23 @@ const menuButton = {
         $("#luckysheet-icon-seachmore").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
-            
+            const _locale = locale();
+            const locale_findAndReplace = _locale.findAndReplace;
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": "查找 ...", "value": "search", "example": '<i style="font-size:14px;" class="fa fa-search" aria-hidden="true"></i>'},
-                    {"text": "替换 ...", "value": "replace", "example": '<i style="font-size:14px;" class="fa fa-files-o" aria-hidden="true"></i>'},
-                    {"text": "转到 ...", "value": "goto", "example": '<i style="font-size:14px;" class="fa fa-arrow-right" aria-hidden="true"></i>'},
+                    {"text": locale_findAndReplace.find+" ...", "value": "search", "example": '<i style="font-size:14px;" class="fa fa-search" aria-hidden="true"></i>'},
+                    {"text": locale_findAndReplace.replace+" ...", "value": "replace", "example": '<i style="font-size:14px;" class="fa fa-files-o" aria-hidden="true"></i>'},
+                    {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i style="font-size:14px;" class="fa fa-arrow-right" aria-hidden="true"></i>'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "定位条件 ...", "value": "location", "example": '<i style="font-size:14px;" class="fa fa-location-arrow" aria-hidden="true"></i>'},
-                    {"text": "公式", "value": "locationFormula", "example": '定位'},
-                    {"text": "日期", "value": "locationConstantDate", "example": '定位'},
-                    {"text": "数字", "value": "locationConstantNumber", "example": '定位'},
-                    {"text": "字符", "value": "locationConstantString", "example": '定位'},
-                    {"text": "错误", "value": "locationConstantError", "example": '定位'},
-                    {"text": "条件格式", "value": "locationCF", "example": '定位'},
-                    {"text": "间隔行", "value": "locationStepRow", "example": '定位'},
-                    {"text": "间隔列", "value": "locationStepColumn", "example": '定位'}
+                    {"text": locale_findAndReplace.location+" ...", "value": "location", "example": '<i style="font-size:14px;" class="fa fa-location-arrow" aria-hidden="true"></i>'},
+                    {"text": locale_findAndReplace.formula, "value": "locationFormula", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.date, "value": "locationConstantDate", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.number, "value": "locationConstantNumber", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.string, "value": "locationConstantString", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.error, "value": "locationConstantError", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.condition, "value": "locationCF", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.rowSpan, "value": "locationStepRow", "example": locale_findAndReplace.locationExample},
+                    {"text": locale_findAndReplace.columnSpan, "value": "locationStepColumn", "example": locale_findAndReplace.locationExample}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1819,7 +1820,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "seachmore", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(150);
+                $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
@@ -1877,10 +1878,10 @@ const menuButton = {
                     else if(itemvalue == "locationStepRow"){ //间隔行
                         if(Store.luckysheet_select_save.length == 0 || (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].row[0] == Store.luckysheet_select_save[0].row[1])){
                             if(isEditMode()){
-                                alert("请选择最少两行");
+                                alert(locale_findAndReplace.lessTwoRowTip);
                             }
                             else{
-                                tooltip.info("提示", "请选择最少两行"); 
+                                tooltip.info("", locale_findAndReplace.lessTwoRowTip); 
                             }
                             return;                            
                         }
@@ -1892,10 +1893,10 @@ const menuButton = {
                     else if(itemvalue == "locationStepColumn"){ //间隔列
                         if(Store.luckysheet_select_save.length == 0 || (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].column[0] == Store.luckysheet_select_save[0].column[1])){
                             if(isEditMode()){
-                                alert("请选择最少两列");
+                                alert(locale_findAndReplace.lessTwoColumnTip);
                             }
                             else{
-                                tooltip.info("提示", "请选择最少两列"); 
+                                tooltip.info("", locale_findAndReplace.lessTwoColumnTip); 
                             }
                             return;                            
                         }
@@ -2592,6 +2593,8 @@ const menuButton = {
         $("#luckysheet-icon-postil").click(function(){
             let menuButtonId = $(this).attr("id")+"-menuButton";
             let $menuButton = $("#" + menuButtonId);
+            
+            const locale_comment = locale().comment;
 
             $menuButton.remove();
 
@@ -2613,18 +2616,18 @@ const menuButton = {
                 let itemdata;
                 if(Store.flowdata[row_index][col_index] != null && Store.flowdata[row_index][col_index].ps != null){
                     itemdata = [
-                        {"text": "编辑批注", "value": "editPs", "example": ""},
-                        {"text": "删除", "value": "delPs", "example": ""},
+                        {"text": locale_comment.edit, "value": "editPs", "example": ""},
+                        {"text": locale_comment.delete, "value": "delPs", "example": ""},
                         {"text": "", "value": "split", "example": ""},
-                        {"text": "显示/隐藏批注", "value": "showHidePs", "example": ""},
-                        {"text": "显示/隐藏所有批注", "value": "showHideAllPs", "example": ""}
+                        {"text": locale_comment.showOne, "value": "showHidePs", "example": ""},
+                        {"text": locale_comment.showAll, "value": "showHideAllPs", "example": ""}
                     ];
                 }
                 else{
                     itemdata = [
-                        {"text": "新建批注", "value": "newPs", "example": ""},
+                        {"text": locale_comment.insert, "value": "newPs", "example": ""},
                         {"text": "", "value": "split", "example": ""},
-                        {"text": "显示/隐藏所有批注", "value": "showHideAllPs", "example": ""}
+                        {"text": locale_comment.showAll, "value": "showHideAllPs", "example": ""}
                     ];
                 }
                 

@@ -48,6 +48,9 @@ export default {
         clearText:"清除颜色选择",
         noColorSelectedText:"没有颜色被选择",
 
+        toolMore:"更多",
+        toolClose:"收起",
+        toolMoreTip:"更多功能",
 
     },
     alternatingColors:{
@@ -433,11 +436,20 @@ export default {
         conditionCellNotNull:"单元格有数据",
         conditionCellTextContain:"文本包含",
         conditionCellTextNotContain:"文本不包含",
-        conditionNone:"无",
-        conditionNone:"无",
-        conditionNone:"无",
-        conditionNone:"无",
-        conditionNone:"无",
+        conditionCellTextStart:"文本开头为",
+        conditionCellTextEnd:"文本结尾为",
+        conditionCellTextEqual:"文本等于",
+        conditionCellDateEqual:"日期等于",
+        conditionCellDateBefore:"日期早于",
+        conditionCellDateAfter:"日期晚于",
+        conditionCellGreater:"大于",
+        conditionCellGreaterEqual:"大于等于",
+        conditionCellLess:"小于",
+        conditionCellLessEqual:"小于等于",
+        conditionCellEqual:"等于",
+        conditionCellNotEqual:"不等于",
+        conditionCellBetween:"介于",
+        conditionCellNotBetween:"不在其中",
     },
     rightclick: {
         copy: '复制',
@@ -497,5 +509,84 @@ export default {
         byRow: '按行',
         byCol: '按列',
         generateNewMatrix: '生成新矩阵',
+    },
+    comment:{
+        "insert":"新建批注",
+        "edit":"编辑批注",
+        "delete":"删除",
+        "showOne":"显示/隐藏批注",
+        "showAll":"显示/隐藏所有批注"
+    },
+    screenshot:{
+        screenshotTipNoSelection:"请框选需要截图的范围",
+        screenshotTipTitle:"提示！",
+        screenshotTipHasMerge:"无法对合并单元格执行此操作",
+        screenshotTipHasMulti:"无法对多重选择区域执行此操作",
+        screenshotTipSuccess:"截取成功",
+        screenshotImageName:"截图",
+
+        downLoadClose:"关闭",
+        downLoadCopy:"复制到剪切板",
+        downLoadBtn:"下载",
+        browserNotTip:"下载功能IE浏览器不支持！",
+        rightclickTip:"请在图片上右键点击'复制'",
+        successTip:"已成功复制（如果粘贴失败，请在图片上右键点击'复制图片'）",
+    },
+    splitText:{
+        splitSymbol:"分割符号",
+        splitOther:"其它",
+        splitContinueSymbol:"连续分隔符号视为单个处理",
+        splitDataPreview:"数据预览",
+        splitTextTitle:"文本分列",
+        splitConfirmToExe:"此处已有数据，是否替换它？",
+    },
+    punctuation:{
+        "tab":"Tab 键",
+        "semicolon":"分号",
+        "comma":"逗号",
+        "space":"空格",
+        
+    },
+    findAndReplace:{
+        find:"查找",
+        replace:"替换",
+        goto:"转到",
+        location:"定位条件",
+        formula:"公式",
+        date:"日期",
+        number:"数字",
+        string:"字符",
+        error:"错误",
+        condition:"条件格式",
+        rowSpan:"间隔行",
+        columnSpan:"间隔列",
+        locationExample:"定位",
+        lessTwoRowTip:"请选择最少两行",
+        lessTwoColumnTip:"请选择最少两行",
+
+        findTextbox:"查找内容",
+        replaceTextbox:"替换内容",
+
+        regexTextbox:"正则表达式匹配",
+        wholeTextbox:"整词匹配",
+        distinguishTextbox:"区分大小写匹配",
+
+        allReplaceBtn:"全部替换",
+        replaceBtn:"替换",
+        allFindBtn:"查找全部",
+        findBtn:"查找下一个",
+
+        noFindTip:"没有查找到该内容",
+
+        searchTargetSheet:"工作表",
+        searchTargetCell:"单元格",
+        searchTargetValue:"值",
+
+        searchInputTip:"请输入查找内容",
+
+        noReplceTip:"没有可替换的内容",
+        noMatchTip:"找不到匹配项",
+
+        successTip:"已经帮您搜索并进行了${xlength}处替换",
     }
 };

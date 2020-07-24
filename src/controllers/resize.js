@@ -2,6 +2,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetFreezen from './freezen';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
+import locale from '../locale/locale';
 
 let gridW = 0, 
     gridH = 0;
@@ -103,10 +104,11 @@ export default function luckysheetsizeauto() {
     
     luckysheetFreezen.createAssistCanvas();
     luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
-    
+    const _locale = locale();
+    const locale_toolbar = _locale.toolbar;
     let ismore = false, 
         toolbarW = 0, 
-        morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="更多按钮" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> 更多... </div> </div> </div> </div>',
+        morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="'+ locale_toolbar.toolMoreTip +'" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... </div> </div> </div> </div>',
         morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 2 + $("#" + Store.container).offset().top + $("body").scrollTop() ) +'px; right:0px;z-index:1003;padding-left:0px;display:none;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
@@ -123,7 +125,7 @@ export default function luckysheetsizeauto() {
         let $t = $(this);
         toolbarW += $t.outerWidth();
 
-        if(!ismore && toolbarW > gridW - 120){
+        if(!ismore && toolbarW > gridW - 140){
             ismore = true;
         }
 
@@ -133,17 +135,18 @@ export default function luckysheetsizeauto() {
     });
 
     if(ismore){
+        
         $("#luckysheet-wa-editor").append(morebtn);
         $("#luckysheet-icon-morebtn").click(function(){
             let right = $(window).width() - $("#luckysheet-icon-morebtn").offset().left - $("#luckysheet-icon-morebtn").width()+ $("body").scrollLeft();
             $("#luckysheet-icon-morebtn-div").toggle().css("right", right < 0 ? 0 : right);
 
             let $txt = $(this).find(".luckysheet-toolbar-menu-button-caption");
-            if($txt.text().indexOf("更多") > -1){
-                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> 收起... ');
+            if($txt.text().indexOf(locale_toolbar.toolMore) > -1){
+                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> '+ locale_toolbar.toolClose +'... ');
             }
             else{
-                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> 更多... ');
+                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... ');
             }
             
         });

@@ -7,45 +7,51 @@ import { setcellvalue } from '../global/setdata';
 import { getcellvalue } from '../global/getdata';
 import { jfrefreshgrid } from '../global/refresh';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //分列
 const luckysheetSplitColumn = {
     createDialog: function(){
         let _this = this;
 
+        const _locale = locale();
+        const locale_splitText = _locale.splitText;
+        const locale_punctuation = _locale.punctuation;
+        const locale_button = _locale.button;
+
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-splitColumn-dialog").remove();
 
         let content = '<div class="box">' +
-                        '<div class="boxTitle">分割符号</div>' +
+                        '<div class="boxTitle">'+locale_splitText.splitDelimiters+'</div>' +
                         '<div class="boxMain">' +
                             '<div style="height: 22px;line-height: 22px;">' +
                                 '<input id="splitColumn_type_01" type="checkbox"/>' +
-                                '<label for="splitColumn_type_01">Tab 键</label>' +
+                                '<label for="splitColumn_type_01">'+ locale_punctuation.tab +'</label>' +
                             '</div>' +
                             '<div style="height: 22px;line-height: 22px;">' +
                                 '<input id="splitColumn_type_02" type="checkbox"/>' +
-                                '<label for="splitColumn_type_02">分号</label>' +
+                                '<label for="splitColumn_type_02">'+ locale_punctuation.semicolon +'</label>' +
                             '</div>' +
                             '<div style="height: 22px;line-height: 22px;">' +
                                 '<input id="splitColumn_type_03" type="checkbox"/>' +
-                                '<label for="splitColumn_type_03">逗号</label>' +
+                                '<label for="splitColumn_type_03">'+ locale_punctuation.comma +'</label>' +
                             '</div>' +
                             '<div style="height: 22px;line-height: 22px;">' +
                                 '<input id="splitColumn_type_04" type="checkbox"/>' +
-                                '<label for="splitColumn_type_04">空格</label>' +
+                                '<label for="splitColumn_type_04">'+ locale_punctuation.space +'</label>' +
                             '</div>' +
                             '<div style="height: 22px;line-height: 22px;">' +
                                 '<input id="splitColumn_type_05" type="checkbox"/>' +
-                                '<label for="splitColumn_type_05">其它</label>' +
+                                '<label for="splitColumn_type_05">'+ locale_splitText.splitOther +'</label>' +
                                 '<input type="text" class="formulaInputFocus" maxlength="1"/>' +
                             '</div>' +
                         '</div>' +
                         '<div style="height: 22px;line-height: 22px;">' +
                             '<input id="splitColumn_type_06" type="checkbox"/>' +
-                            '<label for="splitColumn_type_06">连续分隔符号视为单个处理</label>' +
+                            '<label for="splitColumn_type_06">'+ locale_splitText.splitContinueSymbol +'</label>' +
                         '</div>' +
-                        '<div class="boxTitle" style="margin-top: 10px;">数据预览</div>' +
+                        '<div class="boxTitle" style="margin-top: 10px;">'+ locale_splitText.splitDataPreview +'</div>' +
                         '<div class="boxMain" id="splitColumnData">' +
 
                         '</div>' +
@@ -54,9 +60,9 @@ const luckysheetSplitColumn = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-splitColumn-dialog", 
             "addclass": "luckysheet-splitColumn-dialog", 
-            "title": "文本分列", 
+            "title": locale_splitText.splitTextTitle, 
             "content": content, 
-            "botton": '<button id="luckysheet-splitColumn-dialog-confirm" class="btn btn-primary">确定</button><button class="btn btn-default luckysheet-model-close-btn">关闭</button>', 
+            "botton": '<button id="luckysheet-splitColumn-dialog-confirm" class="btn btn-primary">'+ locale_button.confirm +'</button><button class="btn btn-default luckysheet-model-close-btn">'+ locale_button.cancel +'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-splitColumn-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
@@ -71,6 +77,8 @@ const luckysheetSplitColumn = {
     },
     init: function(){
         let _this = this;
+        const _locale = locale();
+        const locale_splitText = _locale.splitText;
 
         //数据预览
         $(document).off("change.SPCinpcheckbox").on("change.SPCcheckbox", "#luckysheet-splitColumn-dialog .box input[type='checkbox']", function(){
@@ -118,7 +126,7 @@ const luckysheetSplitColumn = {
                     _this.update(r, c, dataArr);
                 } 
 
-                tooltip.confirm("提示", "此处已有数据，是否替换它？", func1);
+                tooltip.confirm("", locale_splitText.splitConfirmToExe, func1);
             }
             else{
                 _this.update(r, c, dataArr);
