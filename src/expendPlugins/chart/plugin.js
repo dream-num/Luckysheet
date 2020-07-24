@@ -8,12 +8,12 @@ const dependScripts = [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     'https://unpkg.com/vuex@3.4.0',
     'https://unpkg.com/element-ui/lib/index.js',
-    './src/expendPlugins/chart/chartmix.umd.js'
+    'expendPlugins/chart/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
-    './src/expendPlugins/chart/chartmix.css'
+    'expendPlugins/chart/chartmix.css'
 ]
 
 

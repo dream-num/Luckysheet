@@ -141,7 +141,31 @@ function computeRowlenArr(rowHeight, cfg) {
     return rowlenArr;
 }
 
+//获取换行单元格截断数组
+function getCellTextSplitArr(strValue, strArr, cellWidth, canvas){
+    for(let strI = 1; strI <= strValue.length; strI++){
+        let strV = strValue.substring(0, strI);
+        let strtextMetrics = canvas.measureText(strV).width;
+
+        if(strtextMetrics > cellWidth){
+            if(strI - 1 <= 0){
+                return strArr;
+            }
+            else{
+                strArr.push(strValue.substring(0, strI - 1));
+                return getCellTextSplitArr(strValue.substring(strI - 1), strArr, cellWidth, canvas);
+            }
+        }
+        else if(strI == strValue.length){
+            strArr.push(strV);
+        }
+    }
+
+    return strArr;
+}
+
 export {
     rowlenByRange,
     computeRowlenArr,
+    getCellTextSplitArr,
 }

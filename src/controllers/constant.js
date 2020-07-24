@@ -164,9 +164,281 @@ const gridHTML =  '<div class="luckysheet">' +
     columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
     columeHeader_word_index = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25 },
     flow = '<div id="luckysheet-cell-flow_${index}" class="luckysheet-cell-flow luckysheetsheetchange" style="width:${width}px;"><div class="luckysheet-cell-flow-clip"><div class="luckysheet-grdblkpush"></div>${flow}</div></div>',
-    colsmenuHTML = '',
-    rightclickHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-rightclick-menu"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" id="luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">复制</div></div><div class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel" id="luckysheetcopyfor"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">复制为<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-copy-paste"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">粘贴</div></div>            <div id="luckysheet-cols-rows-add"><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>    <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">向<span class="luckysheet-cols-rows-shift-left">左</span>增加<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/><span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span><button id="luckysheet-add-lefttop" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button></div></div>     <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">向<span class="luckysheet-cols-rows-shift-right">右</span>增加<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/><span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span><button id="luckysheet-add-rightbottom" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-del-selected"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">删除选中<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span><span class="luckysheet-cols-rows-shift-size luckysheet-mousedown-cancel">宽</span><input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="数字" value="" style="width:40px;height:18px;margin-left:5px;">px<button id="luckysheet-rows-cols-changesize" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button></div></div></div>       <div id="luckysheet-cols-rows-shift"> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div id="luckysheetorderbyasc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">A-Z顺序排列</div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheetorderbydesc"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">Z-A降序排列</div></div></div>                <div id="luckysheet-cols-rows-data"><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div id="luckysheet-delete-text" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">清除内容</div></div><div id="luckysheetmatrix" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">矩阵操作选区<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span></div></div><div id="luckysheetorderby" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">排序选区</div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheetfilter"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">筛选选区</div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheetdatavisual"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">图表生成</div></div></div>      </div> <div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel" id="luckysheetcopyfor_sub"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">Json<button id="luckysheet-copy-json-head" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">首行为标题</button><button id="luckysheet-copy-json-nohead" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">无标题</button></div></div><div data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel" id="luckysheet-copy-array1"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">一维数组</div></div><div id="luckysheet-copy-array2" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">二维数组</div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div class="luckysheet-mousedown-cancel">多维数组</div><div><input type="number" min="1" class="luckysheet-mousedown-cancel"placeholder="行" style="width:40px;height:18px;" id="luckysheet-copy-arraymore-row"/>×<input type="number" min="1" class="luckysheet-mousedown-cancel" placeholder="列" style="width:40px;height:18px;" id="luckysheet-copy-arraymore-col"/><button id="luckysheet-copy-arraymore-confirm" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button></div></div></div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div id="luckysheet-copy-diagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">对角线</div></div><div data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" id="luckysheet-copy-antidiagonal" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">反对角线</div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">对角偏移<input type="number" class="luckysheet-mousedown-cancel" placeholder="偏移量" id="luckysheet-copy-diagonaloffset-value" value="1" style="width:40px;height:18px;margin-left:5px;"/>列<button id="luckysheet-copy-diagonaloffset" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button></div></div><div id="luckysheet-copy-boolvalue" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">布尔值</div></div></div><div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel" id="luckysheetmatrix_sub"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">翻转<button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-turn-up">上下</button><button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-turn-left">左右</button></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">翻转<button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-turn-cw">顺时针</button><button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-turn-anticw">逆时针</button></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" id="luckysheet-matrix-turn-trans">转置</div></div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div class="luckysheet-mousedown-cancel">矩阵计算</div><div  class="luckysheet-mousedown-cancel"><select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-matrix-cal-type"><option value="plus">加</option><option value="minus">减</option><option value="multiply">乘</option><option value="divided">除</option><option value="power">次方</option><option value="root">次方根</option><option value="log">log</option></select><input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="数值" value="2" style="width:40px;height:18px;margin-left:5px;"/><button id="luckysheet-matrix-cal-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确定</button></div></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">删除两端0值<button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-delezero-row">按行</button><button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-delezero-column">按列</button></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">删除重复值<button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-delerpt-row">按行</button><button class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;" id="luckysheet-matrix-delerpt-column">按列</button></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">生成新矩阵</div></div></div>',
-    pivottableconfigHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-pivotTable-config-option"> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-order"> <option selected="selected" value="default">无排序</option> <option value="asc">升序</option> <option value="desc">降序</option> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序依据</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-orderby"> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">显示总计</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-stastic"> <option  value="0">否</option> <option value="1" selected="selected">是</option> </select> </div> </div> </div> </div>',
+    colsmenuHTML = '';
+
+//右键菜单dom
+const rightclickHTML = '<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">'
+                        +'<div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">复制</div>'
+                        +'</div>'
+                        +'<div id="luckysheetcopyfor" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'复制为<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-copy-paste" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">粘贴</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-cols-rows-handleincell">'
+                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                            +'<div id="luckysheetColsRowsHandleAdd" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'插入<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div id="luckysheetColsRowsHandleDel" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'删除<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div id="luckysheetColsRowsHandleHid" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'隐藏<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-cols-rows-add">'
+                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'向'
+                                    +'<span class="luckysheet-cols-rows-shift-left">左</span>'
+                                    +'增加'
+                                    +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
+                                    +'<button id="luckysheet-add-lefttop" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'向'
+                                    +'<span class="luckysheet-cols-rows-shift-right">右</span>'
+                                    +'增加'
+                                    +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
+                                    +'<button id="luckysheet-add-rightbottom" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div id="luckysheet-del-selected" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'删除选中'
+                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
+                                    +'<span class="luckysheet-cols-rows-shift-size luckysheet-mousedown-cancel">宽</span>'
+                                    +'<input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="数字" value="" style="width:40px;height:18px;margin-left:5px;">'
+                                    +'px'
+                                    +'<button id="luckysheet-rows-cols-changesize" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-cols-rows-shift">'
+                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                            +'<div id="luckysheetorderbyasc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">A-Z顺序排列</div>'
+                            +'</div>'
+                            +'<div id="luckysheetorderbydesc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">Z-A降序排列</div>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-cols-rows-data">'
+                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                            +'<div id="luckysheet-delete-text" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">清除内容</div>'
+                            +'</div>'
+                            +'<div id="luckysheetmatrix" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                    +'矩阵操作选区<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
+                                +'</div>'
+                            +'</div>'
+                            +'<div id="luckysheetorderby" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">排序选区</div>'
+                            +'</div>'
+                            +'<div id="luckysheetfilter" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">筛选选区</div>'
+                            +'</div>'
+                            +'<div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">图表生成</div>'
+                            +'</div>'
+                        +'</div>'
+                    +'</div>'
+                    //复制为 二级菜单
+                    +'<div id="luckysheetcopyfor_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'Json'
+                                +'<button id="luckysheet-copy-json-head" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">首行为标题</button>'
+                                +'<button id="luckysheet-copy-json-nohead" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">无标题</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-copy-array1" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">一维数组</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-copy-array2" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">二维数组</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-mousedown-cancel">多维数组</div>'
+                                +'<div>'
+                                    +'<input type="number" id="luckysheet-copy-arraymore-row" min="1" class="luckysheet-mousedown-cancel"placeholder="行" style="width:40px;height:18px;"/>'
+                                    +'×'
+                                    +'<input type="number" id="luckysheet-copy-arraymore-col" min="1" class="luckysheet-mousedown-cancel" placeholder="列" style="width:40px;height:18px;"/>'
+                                    +'<button id="luckysheet-copy-arraymore-confirm" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                        +'<div id="luckysheet-copy-diagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">对角线</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-copy-antidiagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">反对角线</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'对角偏移'
+                                +'<input type="number" id="luckysheet-copy-diagonaloffset-value" class="luckysheet-mousedown-cancel" placeholder="偏移量" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                +'列'
+                                +'<button id="luckysheet-copy-diagonaloffset" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-copy-boolvalue" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">布尔值</div>'
+                        +'</div>'
+                    +'</div>'
+                    //插入 二级菜单
+                    +'<div id="luckysheetColsRowsHandleAdd_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'向上增加'
+                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                +'<span class="luckysheet-mousedown-cancel">行</span>'
+                                +'<button id="luckysheet-addTopRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'向下增加'
+                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                +'<span class="luckysheet-mousedown-cancel">行</span>'
+                                +'<button id="luckysheet-addBottomRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'向左增加'
+                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                +'<span class="luckysheet-mousedown-cancel">列</span>'
+                                +'<button id="luckysheet-addLeftCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'向右增加'
+                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
+                                +'<span class="luckysheet-mousedown-cancel">列</span>'
+                                +'<button id="luckysheet-addRightCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
+                            +'</div>'
+                        +'</div>'
+                    +'</div>'
+                    //删除 二级菜单 
+                    +'<div id="luckysheetColsRowsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
+                        +'<div id="luckysheet-delRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'删除选中行'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-delCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'删除选中列'
+                            +'</div>'
+                        +'</div>'
+                    +'</div>'
+                    //隐藏 二级菜单
+                    +'<div id="luckysheetColsRowsHandleHid_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
+                        +'<div id="luckysheet-hidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'隐藏选中行'
+                            +'</div>'
+                        +'</div>'
+                        +'<div id="luckysheet-showHidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'显示隐藏行'
+                            +'</div>'
+                        +'</div>'
+                        // +'<div id="luckysheet-hidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                        //     +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                        //         +'隐藏选中列'
+                        //     +'</div>'
+                        // +'</div>'
+                        // +'<div id="luckysheet-showHidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                        //     +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                        //         +'显示隐藏列'
+                        //     +'</div>'
+                        // +'</div>'
+                    +'</div>'
+                    //矩阵操作选区 二级菜单 
+                    +'<div id="luckysheetmatrix_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'翻转'
+                                +'<button id="luckysheet-matrix-turn-up" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">上下</button>'
+                                +'<button id="luckysheet-matrix-turn-left" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">左右</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'翻转'
+                                +'<button id="luckysheet-matrix-turn-cw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">顺时针</button>'
+                                +'<button id="luckysheet-matrix-turn-anticw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">逆时针</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div id="luckysheet-matrix-turn-trans" class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">转置</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'<div class="luckysheet-mousedown-cancel">矩阵计算</div>'
+                                +'<div class="luckysheet-mousedown-cancel">'
+                                    +'<select id="luckysheet-matrix-cal-type" class="luckysheet-mousedown-cancel" style="height:24px;">'
+                                        +'<option value="plus">加</option>'
+                                        +'<option value="minus">减</option>'
+                                        +'<option value="multiply">乘</option>'
+                                        +'<option value="divided">除</option>'
+                                        +'<option value="power">次方</option>'
+                                        +'<option value="root">次方根</option>'
+                                        +'<option value="log">log</option>'
+                                    +'</select>'
+                                    +'<input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="数值" value="2" style="width:40px;height:18px;margin-left:5px;"/>'
+                                    +'<button id="luckysheet-matrix-cal-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确定</button>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'删除两端0值'
+                                +'<button id="luckysheet-matrix-delezero-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按行</button>'
+                                +'<button id="luckysheet-matrix-delezero-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按列</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
+                                +'删除重复值'
+                                +'<button id="luckysheet-matrix-delerpt-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按行</button>'
+                                +'<button id="luckysheet-matrix-delerpt-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按列</button>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
+                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">生成新矩阵</div>'
+                        +'</div>'
+                    +'</div>';
+
+const pivottableconfigHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-pivotTable-config-option"> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-order"> <option selected="selected" value="default">无排序</option> <option value="asc">升序</option> <option value="desc">降序</option> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序依据</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-orderby"> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">显示总计</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-stastic"> <option  value="0">否</option> <option value="1" selected="selected">是</option> </select> </div> </div> </div> </div>',
     pivottablesumHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-pivotTable-config-option-sumtype"> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="SUM"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">求和</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNT"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">数值计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNTA"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNTUNIQUE"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">去重计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="AVERAGE"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">平均值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MAX"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">最大值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MIN"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">最小值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MEDIAN"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">中位数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="PRODUCT"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">乘积</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="STDEV"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">标准差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="STDEVP"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">整体标准差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="VAR"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">方差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="VARP"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">整体方差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> </div>',
     sheetHTML = '<div style="${style}" id="luckysheet-sheets-item${index}" data-index="${index}" class="luckysheet-sheets-item ${active}"><span class="luckysheet-sheets-item-name" spellcheck ="false" contenteditable="false">${name}</span> <span class="luckysheet-sheets-item-menu luckysheet-mousedown-cancel"><i class="fa fa-sort-desc luckysheet-mousedown-cancel"></i></span>${colorset}</div>',
     columnHeaderHTML = '<div class="luckysheet-cols-h-cells luckysheetsheetchange"  id="luckysheet-cols-h-cells_${index}" style="width:${width}px;"> <div class="luckysheet-cols-h-cells-c"> <div class="luckysheet-grdblkpush"></div>${column}</div></div>',
@@ -272,7 +544,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="格式刷"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.paintFormat}"
         id="luckysheet-icon-paintformat" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -290,7 +562,7 @@ function menuToolBar (){
         style="user-select: none;"> </div> <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block" data-tips="缩放" id="luckysheet-icon-zoom" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption" style="user-select: none;"> <input aria-label="缩放比例" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel" role="combobox" style="user-select: none;" tabindex="-1" type="text" value="100%"/> </div> <div class="luckysheet-toolbar-combo-button-dropdown luckysheet-inline-block " style="user-select: none;"> </div> </div> </div> </div> -->
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="货币格式"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.currencyFormat}"
         id="luckysheet-icon-currency" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -300,7 +572,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="百分比格式"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.percentageFormat}"
         id="luckysheet-icon-percent" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -310,7 +582,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="减少小数位数"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberDecrease}"
         id="luckysheet-icon-fmt-decimal-decrease" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -325,7 +597,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="增加小数位数"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberIncrease}"
         id="luckysheet-icon-fmt-decimal-increase" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -340,7 +612,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="更多格式"
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.moreFormats}"
         id="luckysheet-icon-fmt-other" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -359,7 +631,7 @@ function menuToolBar (){
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tooltip="字体样式" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
+        data-tooltip="${toolbar.font}" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -377,14 +649,14 @@ function menuToolBar (){
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block"
-        data-tips="字号大小" id="luckysheet-icon-font-size" style="user-select: none;">
+        data-tips="${toolbar.fontSize}" id="luckysheet-icon-font-size" style="user-select: none;">
             <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-combo-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
                     <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption"
                     style="user-select: none;">
-                        <input aria-label="字号大小" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel"
+                        <input aria-label="${toolbar.fontSize}" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel"
                         role="combobox" style="user-select: none;" tabindex="-1" type="text" value="10"
                         />
                     </div>
@@ -396,7 +668,7 @@ function menuToolBar (){
         </div>
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="粗体 (Ctrl+B)"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.bold}"
         id="luckysheet-icon-bold" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -410,7 +682,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="斜体 (Ctrl+I)"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.italic}"
         id="luckysheet-icon-italic" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -424,7 +696,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="删除线 (Alt+Shift+5)"
+        <div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.strikethrough}"
         id="luckysheet-icon-strikethrough" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -439,7 +711,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="文本颜色" id="luckysheet-icon-text-color" role="button" style="user-select: none;">
+        data-tips="${toolbar.textColor}" id="luckysheet-icon-text-color" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -458,7 +730,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="颜色选择..." id="luckysheet-icon-text-color-menu" role="button"
+        data-tips="${toolbar.chooseColor}..." id="luckysheet-icon-text-color-menu" role="button"
         style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -473,7 +745,7 @@ function menuToolBar (){
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="单元格颜色" id="luckysheet-icon-cell-color" role="button" style="user-select: none;">
+        data-tips="${toolbar.fillColor}" id="luckysheet-icon-cell-color" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -492,7 +764,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="颜色选择..." id="luckysheet-icon-cell-color-menu" role="button"
+        data-tips="${toolbar.chooseColor}..." id="luckysheet-icon-cell-color-menu" role="button"
         style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -505,7 +777,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="边框" id="luckysheet-icon-border-all" role="button" style="user-select: none;">
+        data-tips="${toolbar.border}" id="luckysheet-icon-border-all" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
@@ -519,7 +791,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="边框类型..." id="luckysheet-icon-border-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.borderStyle}..." id="luckysheet-icon-border-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -531,7 +803,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="合并单元格" id="luckysheet-icon-merge-button" role="button" style="user-select: none;">
+        data-tips="${toolbar.mergeCell}" id="luckysheet-icon-merge-button" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
@@ -545,7 +817,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="选择合并类型..." id="luckysheet-icon-merge-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.chooseMergeType}..." id="luckysheet-icon-merge-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -559,7 +831,7 @@ function menuToolBar (){
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="水平对齐" id="luckysheet-icon-align" role="button" style="user-select: none;">
+        data-tips="${toolbar.horizontalAlign}" id="luckysheet-icon-align" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -576,7 +848,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="对齐方式..." id="luckysheet-icon-align-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.alignment}..." id="luckysheet-icon-align-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -588,7 +860,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="垂直对齐" id="luckysheet-icon-valign" role="button" style="user-select: none;">
+        data-tips="${toolbar.verticalAlign}" id="luckysheet-icon-valign" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -605,7 +877,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="对齐方式..." id="luckysheet-icon-valign-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.alignment}..." id="luckysheet-icon-valign-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -617,7 +889,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="文本换行" id="luckysheet-icon-textwrap" role="button" style="user-select: none;">
+        data-tips="${toolbar.textWrap}" id="luckysheet-icon-textwrap" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -634,7 +906,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="换行方式..." id="luckysheet-icon-textwrap-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.textWrapMode}..." id="luckysheet-icon-textwrap-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -646,7 +918,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="文本旋转" id="luckysheet-icon-rotation" role="button" style="user-select: none;">
+        data-tips="${toolbar.textRotate}" id="luckysheet-icon-rotation" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -663,7 +935,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="旋转方式..." id="luckysheet-icon-rotation-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.textRotateMode}..." id="luckysheet-icon-rotation-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -677,7 +949,7 @@ function menuToolBar (){
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="冻结首行" id="luckysheet-freezen-btn-horizontal" role="button" style="user-select: none;">
+        data-tips="${toolbar.freezeTopRow}" id="luckysheet-freezen-btn-horizontal" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
@@ -686,7 +958,7 @@ function menuToolBar (){
                     style="user-select: none;">
                         <i class="fa fa-list-alt">
                         </i>
-                        冻结首行
+                        ${toolbar.freezeTopRow}
                     </div>
                 </div>
             </div>
@@ -705,7 +977,7 @@ function menuToolBar (){
         </div>
         <div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
-        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="排序和筛选"
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.sortAndFilter}"
         id="luckysheet-icon-autofilter" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -722,7 +994,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="查找替换"
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.findAndReplace}"
         id="luckysheet-icon-seachmore" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -740,7 +1012,7 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="自动求和" id="luckysheet-icon-function" role="button" style="user-select: none;">
+        data-tips="${toolbar.autoSum}" id="luckysheet-icon-function" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
@@ -752,13 +1024,13 @@ function menuToolBar (){
                     </div>
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
-                        求和
+                        ${toolbar.sum}
                     </div>
                 </div>
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-right luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tips="更多函数..." id="luckysheet-icon-function-menu" role="button" style="user-select: none;">
+        data-tips="${toolbar.moreFunction}..." id="luckysheet-icon-function-menu" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
@@ -769,7 +1041,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="条件格式"
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.conditionalFormat}"
         id="luckysheet-icon-conditionformat" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -777,7 +1049,7 @@ function menuToolBar (){
                 style="user-select: none;">
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
-                        条件格式
+                        ${toolbar.conditionalFormat}
                     </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
                     style="user-select: none;">
@@ -785,7 +1057,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="批注"
+        <div class="luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.postil}"
         id="luckysheet-icon-postil" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -793,7 +1065,7 @@ function menuToolBar (){
                 style="user-select: none;">
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
-                        批注
+                        ${toolbar.postil}
                     </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block "
                     style="user-select: none;">
@@ -804,22 +1076,22 @@ function menuToolBar (){
         <div class="luckysheetfulltoolbar" id="luckysheet-pivot-btn-title">
             <i aria-hidden="true" class="fa fa-cube">
             </i>
-            数据透视表
+            ${toolbar.pivotTable}
         </div>
         <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-title">
             <i class="fa fa-pie-chart">
             </i>
-            图表
+            ${toolbar.chart}
         </div>
         <div class="luckysheetfulltoolbar" id="luckysheet-chart-btn-screenshot">
             <i class="fa fa-object-group">
             </i>
-            截图
+            ${toolbar.screenshot}
         </div>
         <div class="luckysheetfulltoolbar" id="luckysheet-splitColumn-btn-title">
             <i class="fa fa-gg">
             </i>
-            分列
+            ${toolbar.splitColumn}
         </div>`;
 } 
 const luckysheetlodingHTML = '<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div>  <span>渲染中...</span></div></div>';

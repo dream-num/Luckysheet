@@ -25,6 +25,7 @@ luckysheet.create = function (setting) {
     Store.defaultrowNum = extendsetting.row;
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
+    Store.allowEdit = extendsetting.allowEdit;
 
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;

@@ -9,6 +9,7 @@ import luckysheetFreezen from '../controllers/freezen';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
+import { getCellTextSplitArr } from '../global/getRowlen';
 import { getcellvalue } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
@@ -1307,21 +1308,14 @@ const luckysheetformula = {
 
             if(tbWidth > cellWidth){
                 let strArr = [];//文本截断数组
-                
-                for(let strI = 1; strI <= strValue.length; strI++){
-                    let strV = strValue.substring(strArr.join("").length,strI);
-                    let strtextMetrics = offlinecanvas.measureText(strV).width;
-                    if(strtextMetrics > cellWidth){
-                        strArr.push(strValue.substring(strArr.join("").length, strI - 1));
-                        strI = strI - 2;
-                    }
-                    else if(strtextMetrics <= cellWidth && strI == strValue.length){
-                        strArr.push(strV);
-                    }
-                }
+                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
 
                 let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
-                currentRowLen = oneLineTextHeight * strArr.length;
+                let computeRowlen = oneLineTextHeight * strArr.length;
+                //比较计算高度和当前高度取最大高度
+                if(computeRowlen > currentRowLen){
+                    currentRowLen = computeRowlen;
+                }
             }
 
             if(currentRowLen != defaultrowlen){

@@ -1913,11 +1913,12 @@ const luckysheetSparkline = {
 
     },
     _getContext: function (lineColor, fillColor, lineWidth) {
+        let context;
         if(this.ctx != null){
-            let context = this.ctx;
+            context = this.ctx;
         }
         else{
-            let context = $("#" + this._canvasID ).get(0).getContext('2d');
+            context = $("#" + this._canvasID ).get(0).getContext('2d');
         }
 
         if (lineColor !== undefined) {

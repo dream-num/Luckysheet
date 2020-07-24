@@ -9,6 +9,7 @@ import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { dynamicArrayCompute } from './dynamicArray';
 import browser from './browser';
 import { isRealNull } from './validate';
+import { getCellTextSplitArr } from './getRowlen';
 import { getcellvalue } from './getdata';
 import { getBorderInfoCompute } from './border';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
@@ -781,23 +782,17 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         if(Store.flowdata[r][c].tb == "2"){
             let strValue = value.toString();
+            let tbWidth = luckysheetTableContent.measureText(strValue).width;
             let cellWidth = end_c - start_c - 8;
-            let strArr = [];
-            
-            for(let strI = 1; strI <= strValue.length; strI++){
-                let strV = strValue.substring(strArr.join("").length, strI);
-                let strtextMetrics = luckysheetTableContent.measureText(strV).width;
-                
-                if(strtextMetrics > cellWidth){
-                    strArr.push(strValue.substring(strArr.join("").length, strI - 1));
-                    strI = strI - 2;
-                }
-                else if(strtextMetrics <= cellWidth && strI == strValue.length){
-                    strArr.push(strV);
-                }
-            }
 
-            textH = strArr.length * oneLineTextHeight;
+            if(tbWidth > cellWidth){
+                let strArr = [];//文本截断数组
+                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, luckysheetTableContent);
+                textH = strArr.length * oneLineTextHeight;
+            }
+            else{
+                textH = oneLineTextHeight;
+            }
         }
         else if(Store.flowdata[r][c].tr != null && Store.flowdata[r][c].tr != "0"){
             let tr = Store.flowdata[r][c].tr;
@@ -831,6 +826,11 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             textH = oneLineTextHeight;
         }
 
+        //水平对齐
+        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c , "ht"); 
+        //垂直对齐
+        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c , "vt"); 
+
         //水平对齐方式是 居中或居右对齐 且单元格宽度小于文字宽度 （用离屏canvas渲染）
         let canvasName, cellsize; 
         if(browser.BrowserType() != "Safari" && (canvasType == "offline" || ((horizonAlign == "0" || horizonAlign == "2") && (end_c - start_c) < textW) || ((verticalAlign == "0" || verticalAlign == "2") && (end_r - start_r) < textH))){
@@ -855,21 +855,19 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             ];
         }
 
-        //水平对齐
-        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c , "ht"); 
-        let horizonAlignPos = (start_c + 4 + offsetLeft) * Store.devicePixelRatio; //horizonAlign默认为1，左对齐
-        if(horizonAlign == "0"){ //居中对齐
+        //horizonAlign默认为1，左对齐
+        let horizonAlignPos = (start_c + 4 + offsetLeft) * Store.devicePixelRatio; 
+        if(horizonAlign == "0"){ 
+            //居中对齐
             horizonAlignPos = (start_c + (end_c - start_c) / 2 + offsetLeft) * Store.devicePixelRatio - (textMetrics) / 2;
         }
-        else if(horizonAlign == "2"){ //右对齐
+        else if(horizonAlign == "2"){ 
+            //右对齐
             horizonAlignPos = (end_c + offsetLeft - 8) * Store.devicePixelRatio - (textMetrics);
         }
-
-        //垂直对齐
-        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c , "vt"); 
-        let verticalFixed = browser.luckysheetrefreshfixed();
         
         //verticalAlign默认为2，下对齐
+        let verticalFixed = browser.luckysheetrefreshfixed();
         let verticalAlignPos = (end_r + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio - oneLineTextHeight;
         let verticalAlignPos_text = (end_r  + offsetTop - 2 + verticalFixed) * Store.devicePixelRatio; 
         canvasName.textBaseline = "bottom";
@@ -1109,21 +1107,10 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
                 let strValue = value.toString();
                 let cellWidth = end_c - start_c - 8;
-                let strArr = [];
-                
-                for(let strI = 1; strI <= strValue.length; strI++){
-                    let strV = strValue.substring(strArr.join("").length, strI);
-                    let strtextMetrics = canvasName.measureText(strV).width;
-                    
-                    if(strtextMetrics > cellWidth){
-                        strArr.push(strValue.substring(strArr.join("").length, strI - 1));
-                        strI = strI - 2;
-                    }
-                    else if(strtextMetrics <= cellWidth && strI == strValue.length){
-                        strArr.push(strV);
-                    }
-                }
-                
+
+                let strArr = [];//文本截断数组
+                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, canvasName);
+
                 for(let iFill = 0; iFill < strArr.length; iFill++){
                     //水平对齐计算
                     let strWidth = canvasName.measureText(strArr[iFill]).width;

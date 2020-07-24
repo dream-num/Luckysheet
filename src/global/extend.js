@@ -459,8 +459,9 @@ function luckysheetextendtable(type, index, value, direction) {
         newFreezen.freezenverticaldata = luckysheetFreezen.freezenverticaldata;
     }
 
+    let type1;
     if (type == "row") {
-        let type1 = "r";
+        type1 = "r";
 
         //行高配置变动
         if(cfg["rowlen"] != null){
@@ -586,7 +587,7 @@ function luckysheetextendtable(type, index, value, direction) {
         }
     }
     else {
-        let type1 = "c";
+        type1 = "c";
 
         //行高配置变动
         if(cfg["columlen"] != null){
