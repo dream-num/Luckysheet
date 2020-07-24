@@ -1,5 +1,7 @@
 # Luckysheet
 
+[![Join the chat at https://gitter.im/mengshukeji/Luckysheet](https://badges.gitter.im/mengshukeji/Luckysheet.svg)](https://gitter.im/mengshukeji/Luckysheet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Introduction - 介绍
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
