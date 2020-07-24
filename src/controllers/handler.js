@@ -2508,31 +2508,87 @@ export default function luckysheetHandler() {
                 let anchor = $(window.getSelection().anchorNode);
                 let anchorOffset = window.getSelection().anchorOffset;
 
-                let dir_n = dir, step = 1;
                 if(dir == 'up'){
-                    dir_n = 'down';
-                    step = -1;
-                }
-                if(dir == 'left'){
-                    dir_n = 'right';
-                    step = -1;
-                }
+                    if(anchor.parent().is("span") && anchor.parent().next().length == 0 && anchorOffset > 0){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", -1, "rangeOfSelect");
 
-                if(anchor.parent().is("span") && anchor.parent().next().length == 0 && anchorOffset > 0){
-                    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-                    luckysheetMoveHighlightCell(dir_n, step, "rangeOfSelect");
+                        event.preventDefault();
+                    }
+                    else if(anchor.is("#luckysheet-rich-text-editor") && anchor.context.childElementCount == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", -1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.parent().is("#luckysheet-rich-text-editor") && anchor.context.length == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", -1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
                 }
-                else if(anchor.is("#luckysheet-rich-text-editor") && anchor.context.childElementCount == anchorOffset){
-                    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-                    luckysheetMoveHighlightCell(dir_n, step, "rangeOfSelect");
+                else if(dir == 'down'){
+                    if(anchor.parent().is("span") && anchor.parent().next().length == 0 && anchorOffset > 0){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.is("#luckysheet-rich-text-editor") && anchor.context.childElementCount == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.parent().is("#luckysheet-rich-text-editor") && anchor.context.length == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
                 }
-                else if(anchor.parent().is("#luckysheet-rich-text-editor") && anchor.context.length == anchorOffset){
-                    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-                    luckysheetMoveHighlightCell(dir_n, step, "rangeOfSelect");
+                else if(dir == 'left'){
+                    if(anchor.parent().is("span") && anchor.parent().prev().length == 0 && anchorOffset == 0){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", -1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.is("#luckysheet-rich-text-editor") && anchorOffset == 1){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", -1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.parent().is("#luckysheet-rich-text-editor") && anchorOffset == 0){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", -1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                }
+                else if(dir == 'right'){
+                    if(anchor.parent().is("span") && anchor.parent().next().length == 0 && anchorOffset > 0){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.is("#luckysheet-rich-text-editor") && anchor.context.childElementCount == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
+                    else if(anchor.parent().is("#luckysheet-rich-text-editor") && anchor.context.length == anchorOffset){
+                        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+                        luckysheetMoveHighlightCell("right", 1, "rangeOfSelect");
+
+                        event.preventDefault();
+                    }
                 }
             }
-
-            event.preventDefault();
         }
     }
 

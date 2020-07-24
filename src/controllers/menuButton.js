@@ -3540,7 +3540,7 @@ const menuButton = {
                 }
             }
 
-            if(["0", "1", "2"].indexOf(foucsStatus) == -1){
+            if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
                 foucsStatus = "1";
             }
         }
@@ -3555,7 +3555,7 @@ const menuButton = {
                 }
             }
 
-            if(["0", "1", "2"].indexOf(foucsStatus) == -1){
+            if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
                 foucsStatus = "2";
             }
         }
