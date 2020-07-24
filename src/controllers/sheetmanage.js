@@ -228,7 +228,7 @@ const sheetmanage = {
             indicator = indicator.eq(0).data("index");
         }
         else {
-            indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
+            indicator = luckysheetcurrentSheetitem.preval(":visible").eq(0).data("index");
         }
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         

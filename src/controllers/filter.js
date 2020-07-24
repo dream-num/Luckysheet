@@ -193,14 +193,14 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
     $("#luckysheet-filter-selected-sheet" + Store.currentSheetIndex).remove();
     $("#luckysheet-filter-options-sheet" + Store.currentSheetIndex).remove();
     
-    if(Store.luckysheet_filter_save == null || JSON.stringify(Store.luckysheet_filter_save) == "{}"){
+    if(luckysheet_filter_save == null || JSON.stringify(luckysheet_filter_save) == "{}"){
         return;
     }
 
-    let r1 = Store.luckysheet_filter_save.row[0], 
-        r2 = Store.luckysheet_filter_save.row[1];
-    let c1 = Store.luckysheet_filter_save.column[0], 
-        c2 = Store.luckysheet_filter_save.column[1];
+    let r1 = luckysheet_filter_save.row[0], 
+        r2 = luckysheet_filter_save.row[1];
+    let c1 = luckysheet_filter_save.column[0], 
+        c2 = luckysheet_filter_save.column[1];
 
     let row = Store.visibledatarow[r2], 
         row_pre = r1 - 1 == -1 ? 0 : Store.visibledatarow[r1 - 1];
@@ -254,13 +254,13 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
     $("#luckysheet-rightclick-menu").hide();
     $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
 
-    if ($("#luckysheet-cell-main").scrollTop() > Store.luckysheet_filter_save["top_move"]) {
-        $("#luckysheet-scrollbar-y").scrollTop(Store.luckysheet_filter_save["top_move"]);
+    if ($("#luckysheet-cell-main").scrollTop() > luckysheet_filter_save["top_move"]) {
+        $("#luckysheet-scrollbar-y").scrollTop(luckysheet_filter_save["top_move"]);
     }
 
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
-    file.filter_select = Store.luckysheet_filter_save;
+    file.filter_select = luckysheet_filter_save;
 }
 
 export {

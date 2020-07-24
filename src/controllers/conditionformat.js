@@ -2064,6 +2064,9 @@ const conditionformat = {
                     $("#luckysheet-editorConditionRule-dialog #isPercent").attr("checked", "checked");
                 }
             }
+
+            $("#luckysheet-editorConditionRule-dialog #textcolorshow").spectrum("set", ruleFormat.textColor);
+            $("#luckysheet-editorConditionRule-dialog #cellcolorshow").spectrum("set", ruleFormat.cellColor);
         }
     },
     infoDialog: function(title, content){
@@ -3333,8 +3336,9 @@ const conditionformat = {
                                 dSmall = genarate(conditionValue0)[2];
                             }
                             else{
-                                dBig = genarate(conditionValue0.toString().split("-")[1])[2];   
-                                dSmall = genarate(conditionValue0.toString().split("-")[0])[2];
+                                let str = conditionValue0.toString().split("-");
+                                dBig = genarate(str[1].trim())[2];   
+                                dSmall = genarate(str[0].trim())[2];
                             }
                             //循环应用范围计算
                             for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){

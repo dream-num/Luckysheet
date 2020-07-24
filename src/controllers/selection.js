@@ -590,7 +590,7 @@ const selection = {
             }
         }
 
-        if (getObjType(data) == "object") {
+        if (typeof data == "object") {
             if (data.length == 0) { return; };
 
             let cfg = $.extend(true, {}, Store.config);
@@ -1679,7 +1679,7 @@ const selection = {
     },
     matchcopy: function (data1, data2) {
         let data1cache = [], data2cache = [], data1len, data2len;
-        if (getObjType(data1) == "object") {
+        if (typeof data1 == "object") {
             data1cache = data1;
         }
         else {
@@ -1691,7 +1691,7 @@ const selection = {
 
         data1len = data1cache.length;
 
-        if (getObjType(data2) == "object") {
+        if (typeof data2 == "object") {
             data2cache = data2;
         }
         else {

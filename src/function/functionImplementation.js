@@ -10301,11 +10301,9 @@ const functionImplementation = {
 
             //计算
             if(A1){
-                var reg = /^(([a-zA-Z]+)|([$][a-zA-Z]+))(([0-9]+)|([$][0-9]+))$/g;
-
-                if(reg.test(ref_text)){
-                    var row = parseInt(ref_text.replace(/[^0-9]/g, "")) - 1;
-                    var col = ABCatNum(ref_text.replace(/[^A-Za-z]/g, ""));
+                if(formula.iscelldata(ref_text)){
+                    let cellrange = formula.getcellrange(ref_text);
+                    let row = cellrange.row[0], col = cellrange.column[0];
 
                     if(row < 0 || row >= Store.flowdata.length || col < 0 || col >= Store.flowdata[0].length){
                         return formula.error.r;
@@ -10322,11 +10320,9 @@ const functionImplementation = {
                 }
             }
             else{
-                var reg = /^[R][0-9]+[C][0-9]+$/g;
-
-                if(reg.test(ref_text)){
-                    var row = parseInt(ref_text.split("R")[1].split("C")[0]);
-                    var col = parseInt(ref_text.split("R")[1].split("C")[1]); 
+                if(formula.iscelldata(ref_text)){
+                    let cellrange = formula.getcellrange(ref_text);
+                    let row = cellrange.row[0], col = cellrange.column[0];
 
                     if(row < 0 || row >= Store.flowdata.length || col < 0 || col >= Store.flowdata[0].length){
                         return formula.error.r;

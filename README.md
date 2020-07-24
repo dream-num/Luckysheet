@@ -1,4 +1,6 @@
 # Luckysheet
+[![Join the chat at https://gitter.im/mengshukeji/Luckysheet](https://badges.gitter.im/mengshukeji/Luckysheet.svg)](https://gitter.im/mengshukeji/Luckysheet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 English| [简体中文](./README-zh.md)
 
 ## Introduction
@@ -17,10 +19,14 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 ![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
 
 ## Plan
-- modularization (in progress)
-- Excel import/export
-- Form
+- Improve chart plugin
 - Insert picture
+- Data validation (checkbox, drop-down list)
+- Print
+- Cell segmentation style
+- Tree menu
+- Table function: filter, slice
+- Excel import/export
 - More...
 
 ## Documentation
@@ -88,11 +94,11 @@ mengshu@office2.cn
 
 ## communication
 
-coming soon!
+- [Gitter](https://gitter.im/mengshukeji/Luckysheet)
 
 ## Authors and acknowledgment
-- Bug Pan ([@wpxp123456](https://github.com/wpxp123456))
-- Dushusir ([@Dushusir](https://github.com/Dushusir))
+- [@wpxp123456](https://github.com/wpxp123456)
+- [@Dushusir](https://github.com/Dushusir)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
