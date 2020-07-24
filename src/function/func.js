@@ -184,11 +184,12 @@ function luckysheet_compareWith() {
                             fp[m][n] = booleanToNum(fp[m][n]);
                             tp[m][n] = booleanToNum(tp[m][n]);
 
+                            let value;
                             if(isRealNum(fp[m][n]) && isRealNum(tp[m][n])){
-                                let value = parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
+                                value = parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
                             }
                             else{
-                                let value = error.v;
+                                value = error.v;
                             }
 
                             rowArr.push(value);

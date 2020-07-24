@@ -167,276 +167,265 @@ const gridHTML =  '<div class="luckysheet">' +
     colsmenuHTML = '';
 
 //右键菜单dom
-const rightclickHTML = '<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">'
-                        +'<div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">复制</div>'
-                        +'</div>'
-                        +'<div id="luckysheetcopyfor" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'复制为<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-copy-paste" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">粘贴</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-cols-rows-handleincell">'
-                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                            +'<div id="luckysheetColsRowsHandleAdd" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'插入<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div id="luckysheetColsRowsHandleDel" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'删除<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div id="luckysheetColsRowsHandleHid" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'隐藏<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-cols-rows-add">'
-                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'向'
-                                    +'<span class="luckysheet-cols-rows-shift-left">左</span>'
-                                    +'增加'
-                                    +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
-                                    +'<button id="luckysheet-add-lefttop" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'向'
-                                    +'<span class="luckysheet-cols-rows-shift-right">右</span>'
-                                    +'增加'
-                                    +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
-                                    +'<button id="luckysheet-add-rightbottom" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div id="luckysheet-del-selected" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'删除选中'
-                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'<span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">列</span>'
-                                    +'<span class="luckysheet-cols-rows-shift-size luckysheet-mousedown-cancel">宽</span>'
-                                    +'<input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="数字" value="" style="width:40px;height:18px;margin-left:5px;">'
-                                    +'px'
-                                    +'<button id="luckysheet-rows-cols-changesize" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-cols-rows-shift">'
-                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                            +'<div id="luckysheetorderbyasc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">A-Z顺序排列</div>'
-                            +'</div>'
-                            +'<div id="luckysheetorderbydesc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">Z-A降序排列</div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-cols-rows-data">'
-                            +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                            +'<div id="luckysheet-delete-text" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">清除内容</div>'
-                            +'</div>'
-                            +'<div id="luckysheetmatrix" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                    +'矩阵操作选区<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>'
-                                +'</div>'
-                            +'</div>'
-                            +'<div id="luckysheetorderby" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">排序选区</div>'
-                            +'</div>'
-                            +'<div id="luckysheetfilter" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">筛选选区</div>'
-                            +'</div>'
-                            +'<div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">图表生成</div>'
-                            +'</div>'
-                        +'</div>'
-                    +'</div>'
-                    //复制为 二级菜单
-                    +'<div id="luckysheetcopyfor_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'Json'
-                                +'<button id="luckysheet-copy-json-head" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">首行为标题</button>'
-                                +'<button id="luckysheet-copy-json-nohead" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">无标题</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-copy-array1" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">一维数组</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-copy-array2" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">二维数组</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-mousedown-cancel">多维数组</div>'
-                                +'<div>'
-                                    +'<input type="number" id="luckysheet-copy-arraymore-row" min="1" class="luckysheet-mousedown-cancel"placeholder="行" style="width:40px;height:18px;"/>'
-                                    +'×'
-                                    +'<input type="number" id="luckysheet-copy-arraymore-col" min="1" class="luckysheet-mousedown-cancel" placeholder="列" style="width:40px;height:18px;"/>'
-                                    +'<button id="luckysheet-copy-arraymore-confirm" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                        +'<div id="luckysheet-copy-diagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">对角线</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-copy-antidiagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">反对角线</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'对角偏移'
-                                +'<input type="number" id="luckysheet-copy-diagonaloffset-value" class="luckysheet-mousedown-cancel" placeholder="偏移量" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                +'列'
-                                +'<button id="luckysheet-copy-diagonaloffset" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-copy-boolvalue" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">布尔值</div>'
-                        +'</div>'
-                    +'</div>'
-                    //插入 二级菜单
-                    +'<div id="luckysheetColsRowsHandleAdd_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'向上增加'
-                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                +'<span class="luckysheet-mousedown-cancel">行</span>'
-                                +'<button id="luckysheet-addTopRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'向下增加'
-                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                +'<span class="luckysheet-mousedown-cancel">行</span>'
-                                +'<button id="luckysheet-addBottomRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'向左增加'
-                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                +'<span class="luckysheet-mousedown-cancel">列</span>'
-                                +'<button id="luckysheet-addLeftCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'向右增加'
-                                +'<input type="text" class="luckysheet-mousedown-cancel" placeholder="数字" value="1" style="width:40px;height:18px;margin-left:5px;"/>'
-                                +'<span class="luckysheet-mousedown-cancel">列</span>'
-                                +'<button id="luckysheet-addRightCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确认</button>'
-                            +'</div>'
-                        +'</div>'
-                    +'</div>'
-                    //删除 二级菜单 
-                    +'<div id="luckysheetColsRowsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
-                        +'<div id="luckysheet-delRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'删除选中行'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-delCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'删除选中列'
-                            +'</div>'
-                        +'</div>'
-                    +'</div>'
-                    //隐藏 二级菜单
-                    +'<div id="luckysheetColsRowsHandleHid_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
-                        +'<div id="luckysheet-hidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'隐藏选中行'
-                            +'</div>'
-                        +'</div>'
-                        +'<div id="luckysheet-showHidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'显示隐藏行'
-                            +'</div>'
-                        +'</div>'
-                        // +'<div id="luckysheet-hidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                        //     +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                        //         +'隐藏选中列'
-                        //     +'</div>'
-                        // +'</div>'
-                        // +'<div id="luckysheet-showHidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                        //     +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                        //         +'显示隐藏列'
-                        //     +'</div>'
-                        // +'</div>'
-                    +'</div>'
-                    //矩阵操作选区 二级菜单 
-                    +'<div id="luckysheetmatrix_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'翻转'
-                                +'<button id="luckysheet-matrix-turn-up" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">上下</button>'
-                                +'<button id="luckysheet-matrix-turn-left" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">左右</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'翻转'
-                                +'<button id="luckysheet-matrix-turn-cw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">顺时针</button>'
-                                +'<button id="luckysheet-matrix-turn-anticw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">逆时针</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div id="luckysheet-matrix-turn-trans" class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">转置</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'<div class="luckysheet-mousedown-cancel">矩阵计算</div>'
-                                +'<div class="luckysheet-mousedown-cancel">'
-                                    +'<select id="luckysheet-matrix-cal-type" class="luckysheet-mousedown-cancel" style="height:24px;">'
-                                        +'<option value="plus">加</option>'
-                                        +'<option value="minus">减</option>'
-                                        +'<option value="multiply">乘</option>'
-                                        +'<option value="divided">除</option>'
-                                        +'<option value="power">次方</option>'
-                                        +'<option value="root">次方根</option>'
-                                        +'<option value="log">log</option>'
-                                    +'</select>'
-                                    +'<input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="数值" value="2" style="width:40px;height:18px;margin-left:5px;"/>'
-                                    +'<button id="luckysheet-matrix-cal-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">确定</button>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'删除两端0值'
-                                +'<button id="luckysheet-matrix-delezero-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按行</button>'
-                                +'<button id="luckysheet-matrix-delezero-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按列</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">'
-                                +'删除重复值'
-                                +'<button id="luckysheet-matrix-delerpt-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按行</button>'
-                                +'<button id="luckysheet-matrix-delerpt-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">按列</button>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">'
-                            +'<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">生成新矩阵</div>'
-                        +'</div>'
-                    +'</div>';
+function rightclickHTML(){
+    const rightclick = locale().rightclick;
+
+    return `<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">
+                <div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.copy}</div>
+                </div>
+                <div id="luckysheetcopyfor" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.copyAs}<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>
+                    </div>
+                </div>
+                <div id="luckysheet-copy-paste" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.paste}</div>
+                </div>
+                <div id="luckysheet-cols-rows-handleincell">
+                    <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                    <div id="luckysheetColsRowsHandleAdd" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.insert}<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>
+                        </div>
+                    </div>
+                    <div id="luckysheetColsRowsHandleDel" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.delete}<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>
+                        </div>
+                    </div>
+                    <div id="luckysheetColsRowsHandleHid" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.hide}<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="luckysheet-cols-rows-add">
+                    <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                    <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.to}
+                            <span class="luckysheet-cols-rows-shift-left">${rightclick.left}</span>
+                            ${rightclick.add}
+                            <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                            <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
+                            <button id="luckysheet-add-lefttop" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                        </div>
+                    </div>
+                    <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.to}
+                            <span class="luckysheet-cols-rows-shift-right">${rightclick.right}</span>
+                            ${rightclick.add}
+                            <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                            <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
+                            <button id="luckysheet-add-rightbottom" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                        </div>
+                    </div>
+                    <div id="luckysheet-del-selected" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.deleteSelected}
+                            <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
+                        </div>
+                    </div>
+                    <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
+                            <span class="luckysheet-cols-rows-shift-size luckysheet-mousedown-cancel">${rightclick.width}</span>
+                            <input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="${rightclick.number}" value="" style="width:40px;height:18px;margin-left:5px;">
+                            px
+                            <button id="luckysheet-rows-cols-changesize" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="luckysheet-cols-rows-shift">
+                    <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                    <div id="luckysheetorderbyasc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.orderAZ}</div>
+                    </div>
+                    <div id="luckysheetorderbydesc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.orderZA}</div>
+                    </div>
+                </div>
+                <div id="luckysheet-cols-rows-data">
+                    <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                    <div id="luckysheet-delete-text" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.clearContent}</div>
+                    </div>
+                    <div id="luckysheetmatrix" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                            ${rightclick.matrix}<span class="luckysheet-submenu-arrow" style="user-select: none;">►</span>
+                        </div>
+                    </div>
+                    <div id="luckysheetorderby" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.sortSelection}</div>
+                    </div>
+                    <div id="luckysheetfilter" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.filterSelection}</div>
+                    </div>
+                    <div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.chartGeneration}</div>
+                    </div>
+                </div>
+            </div>
+            <div id="luckysheetcopyfor_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        Json
+                        <button id="luckysheet-copy-json-head" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.firstLineTitle}</button>
+                        <button id="luckysheet-copy-json-nohead" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.untitled}</button>
+                    </div>
+                </div>
+                <div id="luckysheet-copy-array1" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.array1}</div>
+                </div>
+                <div id="luckysheet-copy-array2" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.array2}</div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        <div class="luckysheet-mousedown-cancel">${rightclick.array3}</div>
+                        <div>
+                            <input type="number" id="luckysheet-copy-arraymore-row" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.row}" style="width:40px;height:18px;"/>
+                            ×
+                            <input type="number" id="luckysheet-copy-arraymore-col" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.column}" style="width:40px;height:18px;"/>
+                            <button id="luckysheet-copy-arraymore-confirm" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                <div id="luckysheet-copy-diagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.diagonal}</div>
+                </div>
+                <div id="luckysheet-copy-antidiagonal" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.antiDiagonal}</div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.diagonalOffset}
+                        <input type="number" id="luckysheet-copy-diagonaloffset-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.offset}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                        ${rightclick.column}
+                        <button id="luckysheet-copy-diagonaloffset" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                    </div>
+                </div>
+                <div id="luckysheet-copy-boolvalue" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-copy-btn luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.boolean}</div>
+                </div>
+            </div>
+            <div id="luckysheetColsRowsHandleAdd_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.to}${rightclick.top}${rightclick.add}
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                        <span class="luckysheet-mousedown-cancel">${rightclick.row}</span>
+                        <button id="luckysheet-addTopRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.to}${rightclick.bottom}${rightclick.add}
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                        <span class="luckysheet-mousedown-cancel">${rightclick.row}</span>
+                        <button id="luckysheet-addBottomRows" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.to}${rightclick.left}${rightclick.add}
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                        <span class="luckysheet-mousedown-cancel">${rightclick.column}</span>
+                        <button id="luckysheet-addLeftCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.to}${rightclick.right}${rightclick.add}
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:18px;margin-left:5px;"/>
+                        <span class="luckysheet-mousedown-cancel">${rightclick.column}</span>
+                        <button id="luckysheet-addRightCols" class="btn btn-primary luckysheet-copy-btn luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                    </div>
+                </div>
+            </div>
+            <div id="luckysheetColsRowsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div id="luckysheet-delRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.deleteSelected}${rightclick.row}
+                    </div>
+                </div>
+                <div id="luckysheet-delCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.deleteSelected}${rightclick.column}
+                    </div>
+                </div>
+            </div>
+            <div id="luckysheetColsRowsHandleHid_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div id="luckysheet-hidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.hideSelected}${rightclick.row}
+                    </div>
+                </div>
+                <div id="luckysheet-showHidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.showHide}${rightclick.row}
+                    </div>
+                </div>
+            </div>
+            <div id="luckysheetmatrix_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.flip}
+                        <button id="luckysheet-matrix-turn-up" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.upAndDown}</button>
+                        <button id="luckysheet-matrix-turn-left" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.leftAndRight}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.flip}
+                        <button id="luckysheet-matrix-turn-cw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.clockwise}</button>
+                        <button id="luckysheet-matrix-turn-anticw" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.counterclockwise}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div id="luckysheet-matrix-turn-trans" class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.transpose}</div>
+                </div>
+                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        <div class="luckysheet-mousedown-cancel">${rightclick.matrixCalculation}</div>
+                        <div class="luckysheet-mousedown-cancel">
+                            <select id="luckysheet-matrix-cal-type" class="luckysheet-mousedown-cancel" style="height:24px;">
+                                <option value="plus">${rightclick.plus}</option>
+                                <option value="minus">${rightclick.minus}</option>
+                                <option value="multiply">${rightclick.multiply}</option>
+                                <option value="divided">${rightclick.divided}</option>
+                                <option value="power">${rightclick.power}</option>
+                                <option value="root">${rightclick.root}</option>
+                                <option value="log">${rightclick.log}</option>
+                            </select>
+                            <input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="2" style="width:40px;height:18px;margin-left:5px;"/>
+                            <button id="luckysheet-matrix-cal-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.confirm}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.delete0}
+                        <button id="luckysheet-matrix-delezero-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.byRow}</button>
+                        <button id="luckysheet-matrix-delezero-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.byCol}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.removeDuplicate}
+                        <button id="luckysheet-matrix-delerpt-row" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.byRow}</button>
+                        <button id="luckysheet-matrix-delerpt-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.byCol}</button>
+                    </div>
+                </div>
+                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.generateNewMatrix}</div>
+                </div>
+            </div>`
+}
 
 const pivottableconfigHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-pivotTable-config-option"> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-order"> <option selected="selected" value="default">无排序</option> <option value="asc">升序</option> <option value="desc">降序</option> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">排序依据</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-orderby"> </select> </div> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">显示总计</span> <select class="luckysheet-mousedown-cancel" style="height:24px;" id="luckysheet-pivotTable-config-option-stastic"> <option  value="0">否</option> <option value="1" selected="selected">是</option> </select> </div> </div> </div> </div>',
     pivottablesumHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-pivotTable-config-option-sumtype"> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="SUM"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">求和</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNT"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">数值计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNTA"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="COUNTUNIQUE"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">去重计数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="AVERAGE"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">平均值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MAX"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">最大值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MIN"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">最小值</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="MEDIAN"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">中位数</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="PRODUCT"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">乘积</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="STDEV"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">标准差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="STDEVP"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">整体标准差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="VAR"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">方差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" sumtype="VARP"> <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> <span class="luckysheet-mousedown-cancel">整体方差</span> <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;"><i class="fa fa-check luckysheet-mousedown-cancel" aria-hidden="true"></i></span> </div> </div> </div>',
