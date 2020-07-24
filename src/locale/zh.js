@@ -333,6 +333,102 @@ export default {
         MicrosoftYaHei:"Microsoft YaHei",
     },
     fontarray: ["微软雅黑","宋体","黑体","楷体","仿宋","新宋体","华文新魏","华文行楷","华文隶书","Arial","Times New Roman","Tahoma","Verdana"],
-    fontjson: {"微软雅黑":0,"microsoft yahei":0,"宋体":1,"simsun":1,"黑体":2,"simhei":2,"楷体":3,"kaiti":3,"仿宋":4,"fangsong":4,"新宋体":5,"nsimsun":5,"华文新魏":6,"stxinwei":6,"华文行楷":7,"stxingkai":7,"华文隶书":8,"stliti":8,"arial":9,"times new roman":10,"tahoma":11,"verdana":12}
+    fontjson: {"微软雅黑":0,"microsoft yahei":0,"宋体":1,"simsun":1,"黑体":2,"simhei":2,"楷体":3,"kaiti":3,"仿宋":4,"fangsong":4,"新宋体":5,"nsimsun":5,"华文新魏":6,"stxinwei":6,"华文行楷":7,"stxingkai":7,"华文隶书":8,"stliti":8,"arial":9,"times new roman":10,"tahoma":11,"verdana":12},
+    border:{
+        borderTop:'上框线',
+        borderBottom:'下框线',
+        borderLeft:'左框线',
+        borderRight:'右框线',
+        borderNone:'无',
+        borderAll:'所有',
+        borderOutside:'外侧',
+        borderInside:'内侧',
+        borderHorizontal:'内侧横线',
+        borderVertical:'内侧竖线',
+        borderColor:'边框颜色',
+        borderSize:'边框粗细'
+    },
+    merge:{
+        mergeAll:"全部合并",
+        mergeV:"垂直合并",
+        mergeH:"水平合并",
+        mergeCancel:"取消合并",
+        overlappingError:"不能合并重叠区域",
+        partiallyError:"无法对部分合并单元格执行此操作",
+    },
+    align:{
+        left:"左对齐",
+        center:"中间对齐",
+        right:"右对齐",
 
+        top:"顶部对齐",
+        middle:"居中对齐",
+        bottom:"底部对齐",
+    },
+    textWrap:{
+        "overflow":"溢出",
+        "wrap":"自动换行",
+        "clip":"截断",
+    },
+    freezen:{
+        default:"冻结首行",
+        freezenRow:"冻结首行",
+        freezenColumn:"冻结首列",
+        freezenRC:"冻结行列",
+        freezenRowRange:"冻结行到选区",
+        freezenColumnRange:"冻结列到选区",
+        freezenRCRange:"冻结行列到选区",
+        freezenCancel:"取消冻结",
+
+        noSeletionError:"没有选区",
+    },
+    sort:{
+        "asc":"升序",
+        "desc":"降序",
+        "custom":"自定义排序",
+
+        "hasTitle":"数据具有标题行",
+        "sortBy":"排序依据",
+        "addOthers":"添加其他排序列",
+        "close":"关闭",
+        "confirm":"排序",
+
+        "columnOperation":"列",
+        "secondaryTitle":"次要排序",
+
+        "sortRangeTitle":"排序范围从",
+        "sortRangeTitleTo":"到",
+
+
+        "noRangeError":"不能对多重选择区域执行此操作，请选择单个区域，然后再试",
+        "mergeError":"选区有合并单元格，无法执行此操作！",
+
+    },
+    filter:{
+       "filter":"筛选", 
+       "clearFilter":"清除筛选", 
+
+       sortByAsc:"以A-Z升序排列",
+       sortByDesc:"以Z-A降序排列",
+       filterByColor:"按颜色筛选",
+       filterByCondition:"按条件过滤",
+       filterByValues:"按值过滤",
+
+       filiterInputNone:"无",
+
+       filiterInputTip:"输入筛选值",
+       filiterRangeStartTip:"范围开始",
+       filiterRangeEndTip:"范围结束",
+
+       filterValueByAllBtn:"全选",
+       filterValueByClearBtn:"清除",
+       filterValueByInverseBtn:"反选",
+       filterValueByTip:"按照值进行筛选",
+       filterConform:"确 认",
+       filterCancel:"取 消",
+       clearFilter:"清除筛选",
+
+       conditionNone:"无",
+       
+    }
 };

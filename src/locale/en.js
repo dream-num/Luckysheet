@@ -312,6 +312,110 @@ export default {
         MicrosoftYaHei:"YaHei",
     },
     fontarray: ["Times New Roman","Arial","Tahoma","Verdana"],
-    fontjson: {"arial":1,"times new roman":0,"tahoma":2,"verdana":3}
+    fontjson: {"arial":1,"times new roman":0,"tahoma":2,"verdana":3},
+    border:{
+        borderTop:'borderTop',
+        borderBottom:'borderBottom',
+        borderLeft:'borderLeft',
+        borderRight:'borderRight',
+        borderNone:'borderNone',
+        borderAll:'borderAll',
+        borderOutside:'borderOutside',
+        borderInside:'borderInside',
+        borderHorizontal:'borderHorizontal',
+        borderVertical:'borderVertical',
+        borderColor:'borderColor',
+        borderSize:'borderSize',
+    },
+    merge:{
+        mergeAll:"Merge all",
+        mergeV:"Vertically",
+        mergeH:"Horizentally",
+        mergeCancel:"Unmerge",
+        overlappingError:"Cannot merge overlapping areas",
+        partiallyError:"Cannot perform this operation on partially merged cells",
+    },
+    align:{
+        left:"left",
+        center:"center",
+        right:"right",
+
+        top:"Top",
+        middle:"Middle",
+        bottom:"Bottom",
+    },
+    textWrap:{
+        "overflow":"Overflow",
+        "wrap":"Wrap",
+        "clip":"Clip",
+    },
+    rotation:{
+        "none":"None",
+        "angleup":"Tilt Up",
+        "angledown":"Tilt down",
+        "vertical":"Stack Vertically",
+        "rotationUp":"Rotate Up",
+        "rotationDown":"Rotate down"
+    },
+    freezen:{
+        default:"Freezen",
+        freezenRow:"First Row",
+        freezenColumn:"First column",
+        freezenRC:"Both",
+        freezenRowRange:"Freezen row range",
+        freezenColumnRange:"Freezen column range",
+        freezenRCRange:"Freezen both range",
+        freezenCancel:"Cancel",
+
+        noSeletionError:"No Range to be selected",
+    },
+    sort:{
+        "asc":"Ascending ",
+        "desc":"Descending ",
+        "custom":"Custom sort",
+
+        "hasTitle":"Data has header row",
+        "sortBy":"Sort by",
+        "addOthers":"Add another sort column",
+        "close":"close",
+        "confirm":"sort",
+
+        "columnOperation":"Column",
+        "secondaryTitle":"then by",
+
+        "sortRangeTitle":"Sort range from",
+        "sortRangeTitleTo":"to",
+
+
+        "noRangeError":"Cannot perform this operation on multiple selection areas, please select a single range and try again",
+        "mergeError":"There are merged cells in the selection, this operation cannot be performed!",
+
+    },
+    filter:{
+       "filter":"create filter", 
+       "clearFilter":"Cancel filter", 
+
+       sortByAsc:"Sort A-Z",
+       sortByDesc:"Sort Z-A",
+       filterByColor:"Filter by color",
+       filterByCondition:"Filter by condition",
+       filterByValues:"Filter by values",
+
+       filiterInputNone:"None",
+
+       filiterInputTip:"Enter filter value",
+       filiterRangeStartTip:"Value for formula",
+       filiterRangeEndTip:"Value for formula",
+
+       filterValueByAllBtn:"Check all",
+       filterValueByClearBtn:"Clear",
+       filterValueByInverseBtn:"Inverse",
+       filterValueByTip:"filter By Values",
+       filterConform:"Confirm",
+       filterCancel:"Cancel",
+       clearFilter:"Clear filter",
+
+
+    }
   };
   

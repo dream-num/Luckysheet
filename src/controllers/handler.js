@@ -72,6 +72,7 @@ import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -3791,7 +3792,7 @@ export default function luckysheetHandler() {
 
     //冻结行列
     $("#luckysheet-freezen-btn-horizontal").click(function () {
-        if($.trim($(this).text())=="取消冻结"){
+        if($.trim($(this).text())==locale().freezen.freezenCancel){
             if (luckysheetFreezen.freezenverticaldata != null) {
                 luckysheetFreezen.cancelFreezenVertical();
                 luckysheetFreezen.createAssistCanvas();
@@ -7496,13 +7497,14 @@ export default function luckysheetHandler() {
     let luckysheet_sort_initial = true;
     $("#luckysheetorderby").click(function () {
         $("body .luckysheet-cols-menu").hide();
-
+        const _locale = locale();
+        const locale_sort = _locale.sort;
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_sort.noRangeError);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                tooltip.info(locale_sort.noRangeError, ""); 
             }
             return;
         }
@@ -7513,9 +7515,10 @@ export default function luckysheetHandler() {
 
         if (luckysheet_sort_initial) {
             luckysheet_sort_initial = false;
-            let content = '<div style="overflow: hidden;" class="luckysheet-sort-modal"><div><label><input type="checkbox" id="luckysheet-sort-haveheader"/><span>数据具有标题行</span></label></div><div style="overflow-y:auto;" id="luckysheet-sort-dialog-tablec"><table data-itemcount="0" cellspacing="0"> <tr><td>排序依据 <select name="sort_0"> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> </select> </td> <td> <div><label><input value="asc" type="radio" checked="checked" name="sort_0"><span>正序A-Z</span></label></div> <div><label><input value="desc" type="radio" name="sort_0"><span>倒序Z-A</span></label></div></td></tr></table></div><div style="background: #e5e5e5;border-top: 1px solid #f5f5f5; height: 1px; width: 100%;margin:2px 0px;margin-bottom:10px;"></div> <div> <span style="font-weight: bold; text-decoration: underline;text-align:center;color: blue;cursor: pointer;" class="luckysheet-sort-dialog-additem">+ 添加其他排序列</span> </div> </div>';
+            
+            let content = `<div style="overflow: hidden;" class="luckysheet-sort-modal"><div><label><input type="checkbox" id="luckysheet-sort-haveheader"/><span>${locale_sort.hasTitle}</span></label></div><div style="overflow-y:auto;" id="luckysheet-sort-dialog-tablec"><table data-itemcount="0" cellspacing="0"> <tr><td>${locale_sort.hasTitle} <select name="sort_0"> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> </select> </td> <td> <div><label><input value="asc" type="radio" checked="checked" name="sort_0"><span>${locale_sort.asc}A-Z</span></label></div> <div><label><input value="desc" type="radio" name="sort_0"><span>${locale_sort.desc}Z-A</span></label></div></td></tr></table></div><div style="background: #e5e5e5;border-top: 1px solid #f5f5f5; height: 1px; width: 100%;margin:2px 0px;margin-bottom:10px;"></div> <div> <span style="font-weight: bold; text-decoration: underline;text-align:center;color: blue;cursor: pointer;" class="luckysheet-sort-dialog-additem">+ ${locale_sort.addOthers}</span> </div> </div>`;
 
-            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-sort-dialog", "addclass": "", "title": "排序范围", "content": content, "botton": '<button id="luckysheet-sort-modal-confirm" class="btn btn-primary">排序</button><button class="btn btn-default luckysheet-model-close-btn">关闭</button>' }));
+            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-sort-dialog", "addclass": "", "title": "排序范围", "content": content, "botton": `<button id="luckysheet-sort-modal-confirm" class="btn btn-primary">${locale_sort.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_sort.close}</button>`}));
 
             $("#luckysheet-sort-dialog .luckysheet-sort-dialog-additem").click(function () {
                 let last = Store.luckysheet_select_save[0];
@@ -7530,7 +7533,7 @@ export default function luckysheetHandler() {
                         let v = getcellvalue(r1, c, Store.flowdata, "m");
 
                         if(v == null){
-                            v = "列" + (c - c1 + 1); 
+                            v = locale_sort.columnOperation + (c - c1 + 1); 
                         }
 
                         option += '<option value="' + c + '">' + v + '</option>';
@@ -7540,7 +7543,19 @@ export default function luckysheetHandler() {
                     }
                 }
 
-                $("#luckysheet-sort-dialog table").append('<tr class="luckysheet-sort-dialog-tr"><td><span class="luckysheet-sort-item-close" onclick="$(this).parent().parent().remove();"><i class="fa fa-times" aria-hidden="true"></i></span>次要排序 <select name="sort_' + i + '">' + option + '</select> </td> <td> <div><label><input value="asc" type="radio" checked="checked" name="sort_' + i + '"><span>正序A-Z</span></label></div> <div><label><input value="desc" type="radio" name="sort_' + i + '"><span>倒序Z-A</span></label></div></td></tr>');
+                $("#luckysheet-sort-dialog table").append(`
+                    <tr class="luckysheet-sort-dialog-tr">
+                        <td><span class="luckysheet-sort-item-close" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"
+                                    aria-hidden="true"></i></span>${locale_sort.secondaryTitle} <select
+                                name="sort_${i}">${option}</select> </td>
+                        <td>
+                            <div><label><input value="asc" type="radio" checked="checked"
+                                        name="sort_${i}"><span>${locale_sort.asc}A-Z</span></label></div>
+                            <div><label><input value="desc" type="radio" name="sort_${i}"><span>${locale_sort.desc}Z-A</span></label>
+                            </div>
+                        </td>
+                    </tr>
+                `);
                 $("#luckysheet-sort-dialog table").data("itemcount", i);
             });
 
@@ -7557,7 +7572,7 @@ export default function luckysheetHandler() {
                         let v = getcellvalue(r1, c, Store.flowdata, "m");
                         
                         if(v == null){
-                            v = "列" + (c - c1 + 1); 
+                            v = locale_sort.columnOperation + (c - c1 + 1); 
                         }
 
                         option += '<option value="' + c + '">' + v + '</option>';
@@ -7572,14 +7587,14 @@ export default function luckysheetHandler() {
                 });
             });
 
-            //自定义排序
+            //Custom sort
             $("#luckysheet-sort-modal-confirm").click(function () {
                 if(Store.luckysheet_select_save.length > 1){
                     if(isEditMode()){
-                        alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                        alert(locale_sort.noRangeError);
                     }
                     else{
-                        tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                        tooltip.info(locale_sort.noRangeError, "");
                     }
 
                     return;
@@ -7591,7 +7606,7 @@ export default function luckysheetHandler() {
                 let r1 = last["row"][0], r2 = last["row"][1];
                 let c1 = last["column"][0], c2 = last["column"][1];
 
-                //数据具有标题行
+                //Data has header row
                 let t = $("#luckysheet-sort-haveheader").is(':checked');
 
                 let str;
@@ -7602,7 +7617,8 @@ export default function luckysheetHandler() {
                     str = r1;
                 }
 
-                let hasMc = false; //排序选区是否有合并单元格
+                let hasMc = false; //Whether the sort selection has merged cells
+
                 let data = [];
 
                 for(let r = str; r <= r2; r++){
@@ -7622,10 +7638,10 @@ export default function luckysheetHandler() {
 
                 if(hasMc){
                     if(isEditMode()){
-                        alert("选区有合并单元格，无法执行此操作！");
+                        alert(locale_sort.mergeError);
                     }
                     else{
-                        tooltip.info("选区有合并单元格，无法执行此操作！", "");
+                        tooltip.info(locale_sort.mergeError, "");
                     }
 
                     return;
@@ -7680,7 +7696,7 @@ export default function luckysheetHandler() {
         $("#luckysheet-sort-haveheader").prop("checked", false);
         $("#luckysheet-sort-dialog input:radio:first").prop("checked", "checked");
 
-        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html("排序范围从<span>" + chatatABC(c1) + (r1 + 1) + "</span>到<span>" + chatatABC(c2) + (r2 + 1) + "</span>");
+        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html(locale_sort.sortRangeTitle+"<span>" + chatatABC(c1) + (r1 + 1) + "</span>"+ locale_sort.sortRangeTitleTo +"<span>" + chatatABC(c2) + (r2 + 1) + "</span>");
 
         let $t = $("#luckysheet-sort-dialog"), myh = $t.outerHeight(), myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
@@ -7712,7 +7728,7 @@ export default function luckysheetHandler() {
         }
     });
 
-    //筛选事件处理
+    //filter event handler
     let hidefilersubmenu = null;
     $("#luckysheetfilter").click(createFilter);
 
@@ -9708,6 +9724,9 @@ export default function luckysheetHandler() {
                 }
             }
 
+
+            const locale_fontjson = locale().fontjson;
+
             if(txtdata.indexOf("luckysheet_copy_action_table") >- 1 && Store.luckysheet_copy_save["copyRange"] != null && Store.luckysheet_copy_save["copyRange"].length > 0 && isEqual){
                 //剪切板内容 和 luckysheet本身复制的内容 一致
                 if(Store.luckysheet_paste_iscut){
@@ -9785,7 +9804,7 @@ export default function luckysheetHandler() {
                             let ffs = ff.split(",");
                             for(let i = 0; i < ffs.length; i++){
                                 let fa = $.trim(ffs[i].toLowerCase());
-                                fa = menuButton.fontjson[fa];
+                                fa = locale_fontjson[fa];
                                 if(fa == null){
                                     cell.ff = 0;
                                 }
