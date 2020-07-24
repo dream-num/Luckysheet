@@ -11,6 +11,7 @@ import editor from '../global/editor';
 import tooltip from '../global/tooltip';
 import func_methods from '../global/func_methods';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //查找替换
 const luckysheetSearchReplace = {
@@ -18,34 +19,37 @@ const luckysheetSearchReplace = {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-search-replace").remove();
 
+        const _locale = locale();
+        const locale_findAndReplace = _locale.findAndReplace;
+
         let content = '<div class="tabBox">' +
-                        '<span id="searchTab">查找</span>' +
-                        '<span id="replaceTab">替换</span>' +
+                        '<span id="searchTab">'+ locale_findAndReplace.find +'</span>' +
+                        '<span id="replaceTab">'+ locale_findAndReplace.replace +'</span>' +
                       '</div>' +
                       '<div class="ctBox">' +
                         '<div class="inputBox">' +
-                            '<div class="textboxs" id="searchInput">查找内容：<input class="formulaInputFocus" spellcheck="false" value=""/></div>' +
-                            '<div class="textboxs" id="replaceInput">替换内容：<input class="formulaInputFocus" spellcheck="false" value=""/></div>' +
+                            '<div class="textboxs" id="searchInput">'+ locale_findAndReplace.findTextbox +'：<input class="formulaInputFocus" spellcheck="false" value=""/></div>' +
+                            '<div class="textboxs" id="replaceInput">'+ locale_findAndReplace.replaceTextbox +'：<input class="formulaInputFocus" spellcheck="false" value=""/></div>' +
                             '<div class="checkboxs">' +
                                 '<div id="regCheck">' +
                                     '<input type="checkbox"/>' +
-                                    '<span>正则表达式匹配</span>' +
+                                    '<span>'+ locale_findAndReplace.regexTextbox +'</span>' +
                                 '</div>' +    
                                 '<div id="wordCheck">' +
                                     '<input type="checkbox"/>' +
-                                    '<span>整词匹配</span>' +
+                                    '<span>'+ locale_findAndReplace.wholeTextbox +'</span>' +
                                 '</div>' +    
                                 '<div id="caseCheck">' +
                                     '<input type="checkbox"/>' +
-                                    '<span>区分大小写匹配</span>' +
+                                    '<span>'+ locale_findAndReplace.distinguishTextbox +'</span>' +
                                 '</div>' +    
                             '</div>' +
                         '</div>' +
                         '<div class="btnBox">' +
-                            '<button id="replaceAllBtn" class="btn btn-default">全部替换</button>' +
-                            '<button id="replaceBtn" class="btn btn-default">替换</button>' +
-                            '<button id="searchAllBtn" class="btn btn-default">查找全部</button>' +
-                            '<button id="searchNextBtn" class="btn btn-default">查找下一个</button>' +
+                            '<button id="replaceAllBtn" class="btn btn-default">'+ locale_findAndReplace.allReplaceBtn +'</button>' +
+                            '<button id="replaceBtn" class="btn btn-default">'+ locale_findAndReplace.replaceBtn +'</button>' +
+                            '<button id="searchAllBtn" class="btn btn-default">'+ locale_findAndReplace.allFindBtn +'</button>' +
+                            '<button id="searchNextBtn" class="btn btn-default">'+ locale_findAndReplace.findBtn +'</button>' +
                         '</div>' +
                       '</div>';
 
@@ -191,10 +195,10 @@ const luckysheetSearchReplace = {
 
         if(searchIndexArr.length == 0){
             if(isEditMode()){
-                alert("没有查找到该内容");
+                alert(locale_findAndReplace.noFindTip);
             }
             else{
-                tooltip.info("没有查找到该内容", "");
+                tooltip.info(locale_findAndReplace.noFindTip, "");
             }
 
             return;
@@ -294,6 +298,9 @@ const luckysheetSearchReplace = {
     searchAll: function(){
         let _this = this;
 
+        const _locale = locale();
+        const locale_findAndReplace = _locale.findAndReplace;
+
         $("#luckysheet-search-replace #searchAllbox").remove();
         
         let searchText = $("#luckysheet-search-replace #searchInput input").val();
@@ -316,10 +323,10 @@ const luckysheetSearchReplace = {
 
         if(searchIndexArr.length == 0){
             if(isEditMode()){
-                alert("没有查找到该内容");
+                alert(locale_findAndReplace.noFindTip);
             }
             else{
-                tooltip.info("没有查找到该内容", "");
+                tooltip.info(locale_findAndReplace.noFindTip, "");
             }
 
             return;
@@ -346,7 +353,7 @@ const luckysheetSearchReplace = {
             }
         }
         
-        $('<div id="searchAllbox"><div class="boxTitle"><span>工作表</span><span>单元格</span><span>值</span></div><div class="boxMain">' + searchAllHtml + '</div></div>').appendTo($("#luckysheet-search-replace"));
+        $('<div id="searchAllbox"><div class="boxTitle"><span>'+ locale_findAndReplace.searchTargetSheet +'</span><span>'+locale_findAndReplace.searchTargetCell+'</span><span>'+locale_findAndReplace.searchTargetValue+'</span></div><div class="boxMain">' + searchAllHtml + '</div></div>').appendTo($("#luckysheet-search-replace"));
         
         $("#luckysheet-search-replace #searchAllbox .boxItem").eq(0).addClass("on").siblings().removeClass("on");
 
@@ -463,13 +470,16 @@ const luckysheetSearchReplace = {
     replace: function(){
         let _this = this;
 
+        const _locale = locale();
+        const locale_findAndReplace = _locale.findAndReplace;
+
         let searchText = $("#luckysheet-search-replace #searchInput input").val();
         if(searchText == "" || searchText == null){
             if(isEditMode()){
-                alert("请输入查找内容");
+                alert(locale_findAndReplace.searchInputTip);
             }
             else{
-                tooltip.info("请输入查找内容", "");
+                tooltip.info(locale_findAndReplace.searchInputTip, "");
             }
 
             return;
@@ -490,10 +500,10 @@ const luckysheetSearchReplace = {
 
         if(searchIndexArr.length == 0){
             if(isEditMode()){
-                alert("没有可替换的内容");
+                alert(locale_findAndReplace.noReplceTip);
             }
             else{
-                tooltip.info("没有可替换的内容", "");
+                tooltip.info(locale_findAndReplace.noReplceTip, "");
             }
 
             return;
@@ -515,10 +525,10 @@ const luckysheetSearchReplace = {
         if(count == null){
             if(searchIndexArr.length == 0){
                 if(isEditMode()){
-                    alert("找不到匹配项");
+                    alert(locale_findAndReplace.noMatchTip);
                 }
                 else{
-                    tooltip.info("找不到匹配项", "");
+                    tooltip.info(locale_findAndReplace.noMatchTip, "");
                 }
 
                 return;
@@ -612,13 +622,16 @@ const luckysheetSearchReplace = {
     replaceAll: function(){
         let _this = this;
 
+        const _locale = locale();
+        const locale_findAndReplace = _locale.findAndReplace;
+
         let searchText = $("#luckysheet-search-replace #searchInput input").val();
         if(searchText == "" || searchText == null){
             if(isEditMode()){
-                alert("请输入查找内容");
+                alert(locale_findAndReplace.searchInputTip);
             }
             else{
-                tooltip.info("请输入查找内容", "");
+                tooltip.info(locale_findAndReplace.searchInputTip, "");
             }
 
             return;
@@ -639,10 +652,10 @@ const luckysheetSearchReplace = {
 
         if(searchIndexArr.length == 0){
             if(isEditMode()){
-                alert("没有可替换的内容");
+                alert(locale_findAndReplace.noReplceTip);
             }
             else{
-                tooltip.info("没有可替换的内容", "");
+                tooltip.info(locale_findAndReplace.noReplceTip, "");
             }
 
             return;
@@ -712,11 +725,14 @@ const luckysheetSearchReplace = {
         Store.luckysheet_select_save = $.extend(true, [], range);
         selectHightlightShow();
 
+        let succeedInfo = replaceHtml(locale_findAndReplace.successTip, { 
+            "xlength": searchIndexArr.length
+        });
         if(isEditMode()){
-            alert("已经帮您搜索并进行了" + searchIndexArr.length + "处替换");
+            alert(succeedInfo);
         }
         else{
-            tooltip.info("已经帮您搜索并进行了" + searchIndexArr.length + "处替换", "");
+            tooltip.info(succeedInfo, "");
         }
     }
 }
