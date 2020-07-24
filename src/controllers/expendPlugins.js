@@ -1,4 +1,4 @@
-import chart from '../expendPlugins/chart/plugin'
+import { chart } from '../expendPlugins/chart/plugin'
 
 const pluginsObj = {
     'chart':chart

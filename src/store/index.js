@@ -82,6 +82,8 @@ const Store = {
     jfredo: [],
     jfundo: [],
     lang: 'en', //language
+    store: [],
+    zIndex: 15
 }
 
 export default Store;

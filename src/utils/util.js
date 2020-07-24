@@ -602,12 +602,16 @@ function loadLinks(urls) {
     if (typeof (urls) !== 'object') {
         urls = [urls];
     }
-    if(urls.length){
+    if (urls.length) {
         urls.forEach(url => {
             loadLink(url);
         });
     }
 }
+
+
+
+
 
 export {
     isJsonString,

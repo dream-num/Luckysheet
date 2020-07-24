@@ -72,6 +72,7 @@ import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import Store from '../store';
+import { createChart } from '../expendPlugins/chart/plugin'
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -2006,6 +2007,7 @@ export default function luckysheetHandler() {
     //菜单栏 图表按钮
     $("#luckysheet-chart-btn-title").click(function () {
         $("#luckysheetdatavisual").click();
+        createChart()
     });
 
     //菜单栏 数据透视表
