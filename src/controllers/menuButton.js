@@ -31,12 +31,14 @@ import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
+import { connect } from 'tls';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
     "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
     "split": '<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>',
-    "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">重置颜色</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
+    "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${resetColor}</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
     "coloritem": '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel ${class}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${name}</div></div>',
     "subcolor": '<div id="luckysheet-icon-${id}-menuButton" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-menuButton-sub luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div></div>',
     "rightclickmenu": null,
@@ -380,33 +382,15 @@ const menuButton = {
 
         //更多格式
         $("#luckysheet-icon-fmt-other").click(function(){
+            const _locale = locale();
+            const locale_format = _locale.format;
+            const locale_defaultFmt = _locale.defaultFmt;
+
             let menuButtonId = $(this).attr("id")+"-menuButton";
             let $menuButton = $("#" + menuButtonId);
             
             if($menuButton.length == 0){
-                let itemdata = [
-                    { "text": "自动", "value": "General", "example": "" },
-                    { "text": "纯文本", "value": "@", "example": "" },
-                    { "text": "", "value": "split", "example": "" },
-                    { "text": "数字", "value": "##0.00", "example": "1000.12" },
-                    { "text": "百分比", "value": "#0.00%", "example": "12.21%" },
-                    { "text": "科学计数", "value": "0.00E+00", "example": "1.01E+5" },
-                    { "text": "", "value": "split", "example": "" },
-                    { "text": "会计", "value": "¥(0.00)", "example": "¥(1200.09)" },
-                    //{ "text": "财务", "value": "(#.####)", "example": "(1200.09)" },
-                    { "text": "万元", "value": "w", "example": "1亿2000万2500" },
-                    { "text": "货币", "value": "¥0.00", "example": "¥1200.09" },
-                    //{ "text": "货币整数", "value": "¥####", "example": "¥1200" },
-                    { "text": "万元2位小数", "value": "w0.00", "example": "2万2500.55" },
-                    { "text": "", "value": "split", "example": "" },
-                    { "text": "日期", "value": "yyyy-MM-dd", "example": "2017-11-29" },
-                    { "text": "时间", "value": "hh:mm AM/PM", "example": "3:00 PM" },
-                    { "text": "时间24H", "value": "hh:mm", "example": "15:00" },
-                    { "text": "日期时间", "value": "yyyy-MM-dd hh:mm AM/PM", "example": "2017-11-29 3:00 PM" },
-                    { "text": "日期时间24H", "value": "yyyy-MM-dd hh:mm", "example": "2017-11-29 15:00" },
-                    { "text": "", "value": "split", "example": "" },
-                    { "text": "自定义格式", "value": "fmtOtherSelf", "example": "more" }
-                ];
+                let itemdata = locale_defaultFmt;
 
                 let itemset = _this.createButtonMenu(itemdata);
 
@@ -414,9 +398,9 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, {"id": "fmt-other", "item": itemset, "subclass": "", "sub": ""});
 
                 let subitemdata = [
-                    {"text":"更多货币格式...", "value":"morecurrency", "example":""},
-                    {"text":"更多日期与时间格式...", "value":"moredatetime", "example":""},
-                    {"text":"更多数字格式...", "value":"moredigit", "example":""}
+                    {"text":locale_format.moreCurrency+"...", "value":"morecurrency", "example":""},
+                    {"text":locale_format.moreDateTime+"...", "value":"moredatetime", "example":""},
+                    {"text":locale_format.moreNumber+"...", "value":"moredigit", "example":""}
                 ];
                 let subitemset = _this.createButtonMenu(subitemdata);
                 let submenu = replaceHtml(_this.menu, {"id": "fmtOtherSelf", "item": subitemset, "subclass": "luckysheet-menuButton-sub"});
@@ -469,30 +453,25 @@ const menuButton = {
         $("#luckysheet-icon-font-family").click(function(){
             let menuButtonId = $(this).attr("id")+"-menuButton";
             let $menuButton = $("#"+menuButtonId);
-
             if($menuButton.length == 0){
-                let itemdata = [
-                    { "value": "0", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:微软雅黑'>微软雅黑</span>", "example": "" },
-                    { "value": "1", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:宋体'>宋体</span>", "example": "" },
-                    { "value": "2", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:黑体'>黑体</span>", "example": "" },
-                    { "value": "3", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:楷体'>楷体</span>", "example": "" },
-                    { "value": "4", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:仿宋'>仿宋</span>", "example": "" },
-                    { "value": "5", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:新宋体'>新宋体</span>", "example": "" },
-                    { "value": "6", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:华文新魏'>华文新魏</span>", "example": "" },
-                    { "value": "7", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:华文行楷'>华文行楷</span>", "example": "" },
-                    { "value": "8", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:华文隶书'>华文隶书</span>", "example": "" },
-                    { "value": "9", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:Arial'>Arial</span>", "example": "" },
-                    { "value": "10", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:Times New Roman'>Times New Roman</span>", "example": "" },
-                    { "value": "11", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:Tahoma'>Tahoma</span>", "example": "" },
-                    { "value": "12", "text": "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:Verdana'>Verdana</span>", "example": "" }
-                ];
+                const locale_fontarray = locale().fontarray;
+                let itemdata = [];
+
+                for(let a=0;a<locale_fontarray.length;a++){
+                    let fItem = locale_fontarray[a];
+                    let ret = {};
+                    ret.value = a;
+                    ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:"+fItem+"'>"+fItem+"</span>";
+                    ret.example = "";
+                    itemdata.push(ret);
+                }
 
                 let itemset = _this.createButtonMenu(itemdata);
 
                 let menu = replaceHtml(_this.menu, {"id": "font-family", "item": itemset, "subclass": "", "sub": ""});
 
                 $("body").append(menu);
-                $menuButton = $("#"+menuButtonId).width(150);
+                $menuButton = $("#"+menuButtonId).width(200);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
@@ -534,14 +513,18 @@ const menuButton = {
             let $menuButton = $("#"+menuButtonId);
 
             if($menuButton.length == 0){
+                const _locale = locale();
+                const locale_toolbar = _locale.toolbar;
+                const locale_button = _locale.button;
+                const locale_alternatingColors = _locale.alternatingColors;
                 let itemdata = [
-                    {"name":"交替颜色...", "id":"luckysheet-color-alternate", "example":""}
+                    {"name":locale_toolbar.alternatingColors+"...", "id":"luckysheet-color-alternate", "example":""}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
                 let subid = "text-color-self";
-                let coloritem = replaceHtml(_this.coloritem, {"class": "luckysheet-icon-alternateformat", "name": "交替颜色..."});
-                let menu = replaceHtml(_this.color, {"id":menuButtonId, "coloritem": coloritem, "colorself": subid, "sub": ""});
+                let coloritem = replaceHtml(_this.coloritem, {"class": "luckysheet-icon-alternateformat", "name": locale_toolbar.alternatingColors+"..."});
+                let menu = replaceHtml(_this.color, {"id":menuButtonId, "coloritem": coloritem, "colorself": subid, "sub": "","resetColor":locale_toolbar.resetColor});
 
                 $("body").append(menu);
                 $menuButton = $("#" + menuButtonId);
@@ -558,14 +541,14 @@ const menuButton = {
                     showSelectionPalette: true,
                     maxPaletteSize: 8,
                     maxSelectionSize: 8,
-                    cancelText: "取消",
-                    chooseText: "确定颜色",
-                    togglePaletteMoreText: "自定义",
-                    togglePaletteLessText: "收起",
+                    cancelText: locale_button.cancel,
+                    chooseText: locale_button.confirm,
+                    togglePaletteMoreText: locale_toolbar.customColor,
+                    togglePaletteLessText: locale_toolbar.collapse,
                     togglePaletteOnly: true,
-                    clearText: "清除颜色选择",
+                    clearText: locale_toolbar.clearText,
                     color:"#000",
-                    noColorSelectedText: "没有颜色被选择",
+                    noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.textcolor" + server.gridKey,
                     palette: [["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
                     ["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
@@ -2696,8 +2679,6 @@ const menuButton = {
             }
         });
     },
-    fontarray: ["微软雅黑","宋体","黑体","楷体","仿宋","新宋体","华文新魏","华文行楷","华文隶书","Arial","Times New Roman","Tahoma","Verdana"],
-    fontjson: {"微软雅黑":0,"microsoft yahei":0,"宋体":1,"simsun":1,"黑体":2,"simhei":2,"楷体":3,"kaiti":3,"仿宋":4,"fangsong":4,"新宋体":5,"nsimsun":5,"华文新魏":6,"stxinwei":6,"华文行楷":7,"stxingkai":7,"华文隶书":8,"stliti":8,"arial":9,"times new roman":10,"tahoma":11,"verdana":12},
     getQKBorder: function(width, type, color){
         let bordertype = "";
         if(width.indexOf("pt") > -1){
@@ -3326,6 +3307,7 @@ const menuButton = {
     menuButtonFocus: function(d, r, c){
         let _this = this;
         let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr"];
+        const locale_fontarray = locale().fontarray;
 
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];
@@ -3358,16 +3340,16 @@ const menuButton = {
             else if(attr == "ff"){
                 let menuButtonId = "luckysheet-icon-font-family-menuButton";
                 let $menuButton = $("#" + menuButtonId);
-                let itemname = "微软雅黑", itemvalue = 0;
-                
+                const locale_fontarray = locale().fontarray;
+                let itemname = locale_fontarray[0], itemvalue = 0;
                 if(foucsStatus != null){
                     if(isdatatypemulti(foucsStatus)["num"]){
                         itemvalue = parseInt(foucsStatus);
-                        itemname = _this.fontarray[itemvalue];
+                        itemname = locale_fontarray[itemvalue];
                     }
                     else{
                         itemvalue = _this.fontjson[foucsStatus];
-                        itemname = _this.fontarray[itemvalue];
+                        itemname = locale_fontarray[itemvalue];
                     }   
                 }
 
@@ -3974,7 +3956,9 @@ const menuButton = {
     },
     getTextHeightCache: {},
     getTextSize: function(text, font){
-        let f = font || '10pt 微软雅黑';
+        let fontarray = locale().fontarray;
+        let f = font || '10pt ' + fontarray[0];
+        
         let _this = this;
 
         if (f in _this.getTextHeightCache){
@@ -4364,6 +4348,8 @@ const menuButton = {
         let cf_compute = conditionformat.getComputeMap();
         let checksCF = conditionformat.checksCF(r, c, cf_compute);
 
+        const locale_fontarray = locale().fontarray;
+
         let cell = d[r][c];
         for(let key in cell){
             let value = _this.checkstatus(d, r, c , key);
@@ -4404,7 +4390,7 @@ const menuButton = {
             if(key == "ff" && value != "0"){
                 let f = value;
                 if(!isNaN(parseInt(value))){
-                    f = _this.fontarray[parseInt(value)];
+                    f = locale_fontarray[parseInt(value)];
                 }
                 style += "font-family: " + f + ";";
             }
