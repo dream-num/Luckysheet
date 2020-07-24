@@ -31,12 +31,17 @@ function chart() {
         chartmix.default.initChart(outDom)
         $('.chartSetting').css({
             position: 'absolute',
-            zIndex: 999,
             right: 0,
             width: '300px',
-            display: 'none'
+            display: 'none',
+            background: '#fff',
+            paddingLeft: '10px',
+            border: '1px solid #ccc',
+            height: 'auto',
+            zIndex: 999
         })
         chartInfo.createChart = chartmix.default.createChart
+        chartInfo.highlightChart = chartmix.default.highlightChart
     });
 }
 

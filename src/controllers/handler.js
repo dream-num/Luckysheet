@@ -3612,40 +3612,32 @@ export default function luckysheetHandler() {
     //菜单栏 图表按钮
     $("#luckysheet-chart-btn-title").click(function () {
         $("#luckysheetdatavisual").click();
-        $("#luckysheetdatavisual").click();
-        getdatabyselection()
-        let render = Store.createChart($('.luckysheet-grid-container')[0])
-        render.style.width = '400px'
-        render.style.height = '250px'
-        render.style.position = 'absolute'
-        render.style.background = '#fff'
-        render.style.zIndex = Store.zIndex
+        let chartData = getdatabyselection()
+        let { render , container } = Store.createChart($('.luckysheet-cell-main')[0] , chartData)
+
+        container.style.width = '400px'
+        container.style.height = '250px'
+        container.style.position = 'absolute'
+        container.style.background = '#fff'
+        container.style.left = Math.random()*100 + 'px'
+        container.style.top = Math.random()*100 + 'px'
+        render.style.width = '100%'
+        render.style.height = '100%'
+        container.style.zIndex = Store.zIndex
         Store.zIndex++
         let chartSetting = document.getElementsByClassName('chartSetting')[0]
         chartSetting.style.display = 'block'
 
-
-        // let luckysheetGridContainer = document.getElementsByClassName('luckysheet-grid-container')[0]
-        // luckysheetGridContainer.onclick = function (e){
-        //     console.dir(e.path)
-        //     if(e.path.some(item => item.includes())){
-
-        //     }
-        // }
-        // render.onClick = function(){
-
-        // }
-        
-        // render.oncontextmenu = function(e){
-        //     let em = e || event 
-        //     em.preventDefault()
-
-        //     let dom = document.createElement('div')
-        //     dom.addClass('chartMenu')
-        //     dom.innerHtml = '<ul><li class="delChart">删除</li></ul>'
-        //     dom.style.position = 'absolute'
-        //     console.dir(em)
-        // }
+        $('.luckysheet-cell-main').click(function(e){
+            console.dir(e)
+            if(e.target.parentNode.parentNode && Array.from(e.target.parentNode.parentNode.classList).includes('jfgrid-modal-dialog-content')){
+                Store.highlightChart(e.target.parentNode.parentNode.id)
+                container.style.zIndex = ++Store.zIndex
+                chartSetting.style.display = 'block'
+            }else{
+                chartSetting.style.display = 'none'
+            }
+        })
     });
 
     //菜单栏 数据透视表

@@ -56176,6 +56176,97 @@ module.exports = _default;
 
 /***/ }),
 
+/***/ "4d63":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__("83ab");
+var global = __webpack_require__("da84");
+var isForced = __webpack_require__("94ca");
+var inheritIfRequired = __webpack_require__("7156");
+var defineProperty = __webpack_require__("9bf2").f;
+var getOwnPropertyNames = __webpack_require__("241c").f;
+var isRegExp = __webpack_require__("44e7");
+var getFlags = __webpack_require__("ad6d");
+var stickyHelpers = __webpack_require__("9f7f");
+var redefine = __webpack_require__("6eeb");
+var fails = __webpack_require__("d039");
+var setInternalState = __webpack_require__("69f3").set;
+var setSpecies = __webpack_require__("2626");
+var wellKnownSymbol = __webpack_require__("b622");
+
+var MATCH = wellKnownSymbol('match');
+var NativeRegExp = global.RegExp;
+var RegExpPrototype = NativeRegExp.prototype;
+var re1 = /a/g;
+var re2 = /a/g;
+
+// "new" should create a new object, old webkit bug
+var CORRECT_NEW = new NativeRegExp(re1) !== re1;
+
+var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
+
+var FORCED = DESCRIPTORS && isForced('RegExp', (!CORRECT_NEW || UNSUPPORTED_Y || fails(function () {
+  re2[MATCH] = false;
+  // RegExp constructor can alter flags and IsRegExp works correct with @@match
+  return NativeRegExp(re1) != re1 || NativeRegExp(re2) == re2 || NativeRegExp(re1, 'i') != '/a/i';
+})));
+
+// `RegExp` constructor
+// https://tc39.github.io/ecma262/#sec-regexp-constructor
+if (FORCED) {
+  var RegExpWrapper = function RegExp(pattern, flags) {
+    var thisIsRegExp = this instanceof RegExpWrapper;
+    var patternIsRegExp = isRegExp(pattern);
+    var flagsAreUndefined = flags === undefined;
+    var sticky;
+
+    if (!thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined) {
+      return pattern;
+    }
+
+    if (CORRECT_NEW) {
+      if (patternIsRegExp && !flagsAreUndefined) pattern = pattern.source;
+    } else if (pattern instanceof RegExpWrapper) {
+      if (flagsAreUndefined) flags = getFlags.call(pattern);
+      pattern = pattern.source;
+    }
+
+    if (UNSUPPORTED_Y) {
+      sticky = !!flags && flags.indexOf('y') > -1;
+      if (sticky) flags = flags.replace(/y/g, '');
+    }
+
+    var result = inheritIfRequired(
+      CORRECT_NEW ? new NativeRegExp(pattern, flags) : NativeRegExp(pattern, flags),
+      thisIsRegExp ? this : RegExpPrototype,
+      RegExpWrapper
+    );
+
+    if (UNSUPPORTED_Y && sticky) setInternalState(result, { sticky: sticky });
+
+    return result;
+  };
+  var proxy = function (key) {
+    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
+      configurable: true,
+      get: function () { return NativeRegExp[key]; },
+      set: function (it) { NativeRegExp[key] = it; }
+    });
+  };
+  var keys = getOwnPropertyNames(NativeRegExp);
+  var index = 0;
+  while (keys.length > index) proxy(keys[index++]);
+  RegExpPrototype.constructor = RegExpWrapper;
+  RegExpWrapper.prototype = RegExpPrototype;
+  redefine(global, 'RegExp', RegExpWrapper);
+}
+
+// https://tc39.github.io/ecma262/#sec-get-regexp-@@species
+setSpecies('RegExp');
+
+
+/***/ }),
+
 /***/ "4d64":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -59664,6 +59755,51 @@ function _default(ecModel) {
 }
 
 module.exports = _default;
+
+/***/ }),
+
+/***/ "5899":
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+
+/***/ "58a8":
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__("1d80");
+var whitespaces = __webpack_require__("5899");
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
 
 /***/ }),
 
@@ -90275,6 +90411,84 @@ module.exports = _default;
 
 /***/ }),
 
+/***/ "a434":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var toAbsoluteIndex = __webpack_require__("23cb");
+var toInteger = __webpack_require__("a691");
+var toLength = __webpack_require__("50c4");
+var toObject = __webpack_require__("7b0b");
+var arraySpeciesCreate = __webpack_require__("65f0");
+var createProperty = __webpack_require__("8418");
+var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
+var arrayMethodUsesToLength = __webpack_require__("ae40");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('splice');
+var USES_TO_LENGTH = arrayMethodUsesToLength('splice', { ACCESSORS: true, 0: 0, 1: 2 });
+
+var max = Math.max;
+var min = Math.min;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
+
+// `Array.prototype.splice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
+    }
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
+  }
+});
+
+
+/***/ }),
+
 /***/ "a4b1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93557,6 +93771,92 @@ AngleAxis.prototype = {
 zrUtil.inherits(AngleAxis, Axis);
 var _default = AngleAxis;
 module.exports = _default;
+
+/***/ }),
+
+/***/ "a9e3":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__("83ab");
+var global = __webpack_require__("da84");
+var isForced = __webpack_require__("94ca");
+var redefine = __webpack_require__("6eeb");
+var has = __webpack_require__("5135");
+var classof = __webpack_require__("c6b6");
+var inheritIfRequired = __webpack_require__("7156");
+var toPrimitive = __webpack_require__("c04e");
+var fails = __webpack_require__("d039");
+var create = __webpack_require__("7c73");
+var getOwnPropertyNames = __webpack_require__("241c").f;
+var getOwnPropertyDescriptor = __webpack_require__("06cf").f;
+var defineProperty = __webpack_require__("9bf2").f;
+var trim = __webpack_require__("58a8").trim;
+
+var NUMBER = 'Number';
+var NativeNumber = global[NUMBER];
+var NumberPrototype = NativeNumber.prototype;
+
+// Opera ~12 has broken Object#toString
+var BROKEN_CLASSOF = classof(create(NumberPrototype)) == NUMBER;
+
+// `ToNumber` abstract operation
+// https://tc39.github.io/ecma262/#sec-tonumber
+var toNumber = function (argument) {
+  var it = toPrimitive(argument, false);
+  var first, third, radix, maxCode, digits, length, index, code;
+  if (typeof it == 'string' && it.length > 2) {
+    it = trim(it);
+    first = it.charCodeAt(0);
+    if (first === 43 || first === 45) {
+      third = it.charCodeAt(2);
+      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+    } else if (first === 48) {
+      switch (it.charCodeAt(1)) {
+        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal of /^0b[01]+$/i
+        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal of /^0o[0-7]+$/i
+        default: return +it;
+      }
+      digits = it.slice(2);
+      length = digits.length;
+      for (index = 0; index < length; index++) {
+        code = digits.charCodeAt(index);
+        // parseInt parses a string to a first unavailable symbol
+        // but ToNumber should return NaN if a string contains unavailable symbols
+        if (code < 48 || code > maxCode) return NaN;
+      } return parseInt(digits, radix);
+    }
+  } return +it;
+};
+
+// `Number` constructor
+// https://tc39.github.io/ecma262/#sec-number-constructor
+if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumber('+0x1'))) {
+  var NumberWrapper = function Number(value) {
+    var it = arguments.length < 1 ? 0 : value;
+    var dummy = this;
+    return dummy instanceof NumberWrapper
+      // check on 1..constructor(foo) case
+      && (BROKEN_CLASSOF ? fails(function () { NumberPrototype.valueOf.call(dummy); }) : classof(dummy) != NUMBER)
+        ? inheritIfRequired(new NativeNumber(toNumber(it)), dummy, NumberWrapper) : toNumber(it);
+  };
+  for (var keys = DESCRIPTORS ? getOwnPropertyNames(NativeNumber) : (
+    // ES3:
+    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+    // ES2015 (in case, if modules with ES2015 Number statics required before):
+    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+  ).split(','), j = 0, key; keys.length > j; j++) {
+    if (has(NativeNumber, key = keys[j]) && !has(NumberWrapper, key)) {
+      defineProperty(NumberWrapper, key, getOwnPropertyDescriptor(NativeNumber, key));
+    }
+  }
+  NumberWrapper.prototype = NumberPrototype;
+  NumberPrototype.constructor = NumberWrapper;
+  redefine(global, NUMBER, NumberWrapper);
+}
+
 
 /***/ }),
 
@@ -97766,7 +98066,7 @@ var chartComponent = {
     //是否显示
     text: '默认标题',
     //标题内容
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
     position: {
       value: 'left-top',
       //custom:自定义 //left-top  为custom的时候,取offsetX, offsetY
@@ -97782,7 +98082,7 @@ var chartComponent = {
     //是否显示
     text: '',
     //标题内容
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
     distance: {
       value: 'auto',
       //'auto': 默认, 'far': 远 // 'normal': 一般 'close':近 custom :取cusGap作为距离
@@ -97823,7 +98123,7 @@ var chartComponent = {
       //
       isShow: true
     }],
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
     //图例文字样式
     position: {
       value: 'left-top',
@@ -97861,7 +98161,7 @@ var chartComponent = {
   tooltip: {
     show: true,
     //鼠标提示显示
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
     //文字样式
     backgroundColor: 'rgba(50,50,50,0.7)',
     // 鼠标提示框背景色
@@ -97929,7 +98229,7 @@ var chartComponent = {
         //标题与轴线距离
         rotate: 0,
         //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
 
       },
@@ -97962,7 +98262,7 @@ var chartComponent = {
       tickLabel: {
         show: true,
         //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         rotate: 0,
         //倾斜标签角度
         prefix: '',
@@ -98026,7 +98326,7 @@ var chartComponent = {
         //标题与轴线距离
         rotate: 0,
         //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
 
       },
@@ -98059,7 +98359,7 @@ var chartComponent = {
       tickLabel: {
         show: true,
         //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         rotate: 0,
         //倾斜标签角度
         prefix: '',
@@ -98120,7 +98420,7 @@ var chartComponent = {
         //标题与轴线距离
         rotate: 0,
         //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
 
       },
@@ -98153,10 +98453,10 @@ var chartComponent = {
       tickLabel: {
         show: true,
         //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         rotate: 0,
         //倾斜标签角度
-        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.formatter),
+        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.formatter),
         split: 5,
         //分割段数
         min: null,
@@ -98215,7 +98515,7 @@ var chartComponent = {
         //标题与轴线距离
         rotate: 0,
         //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
 
       },
@@ -98248,10 +98548,10 @@ var chartComponent = {
       tickLabel: {
         show: true,
         //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.label),
+        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
         rotate: 0,
         //倾斜标签角度
-        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(baseComponent.formatter),
+        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.formatter),
         split: 5,
         //分割段数
         min: null,
@@ -98617,9 +98917,9 @@ var chartOptions = {
   //图表类型设置集合
   chartAllType: 'echarts|line|default',
   //图表配置
-  defaultOption: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(chartComponent),
+  defaultOption: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(chartComponent),
   //图表数据
-  chartData: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "a"])(chartModelData)
+  chartData: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(chartModelData)
 }; //图表设置项
 
 
@@ -102070,6 +102370,38 @@ module.exports = store;
 
 /***/ }),
 
+/***/ "c740":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var $findIndex = __webpack_require__("b727").findIndex;
+var addToUnscopables = __webpack_require__("44d2");
+var arrayMethodUsesToLength = __webpack_require__("ae40");
+
+var FIND_INDEX = 'findIndex';
+var SKIPS_HOLES = true;
+
+var USES_TO_LENGTH = arrayMethodUsesToLength(FIND_INDEX);
+
+// Shouldn't skip holes
+if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES = false; });
+
+// `Array.prototype.findIndex` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.findindex
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
+  findIndex: function findIndex(callbackfn /* , that = undefined */) {
+    return $findIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables(FIND_INDEX);
+
+
+/***/ }),
+
 /***/ "c775":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -103025,8 +103357,14 @@ $({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD || !US
 "use strict";
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ deepCopy; });
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ generateRandomKey; });
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ deepCopy; });
+__webpack_require__.d(__webpack_exports__, "c", function() { return /* binding */ generateRandomKey; });
+__webpack_require__.d(__webpack_exports__, "h", function() { return /* binding */ replaceHtml; });
+__webpack_require__.d(__webpack_exports__, "g", function() { return /* binding */ getRowColCheck; });
+__webpack_require__.d(__webpack_exports__, "f", function() { return /* binding */ getRangeSplitArray; });
+__webpack_require__.d(__webpack_exports__, "d", function() { return /* binding */ getChartDataCache; });
+__webpack_require__.d(__webpack_exports__, "e", function() { return /* binding */ getChartDataSeriesOrder; });
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ addDataToOption; });
 
 // UNUSED EXPORTS: deepClone
 
@@ -103039,8 +103377,20 @@ var es_array_for_each = __webpack_require__("4160");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
 var es_array_iterator = __webpack_require__("e260");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("fb6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.splice.js
+var es_array_splice = __webpack_require__("a434");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.map.js
 var es_map = __webpack_require__("4ec9");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
@@ -103048,8 +103398,14 @@ var es_object_keys = __webpack_require__("b64b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
 var es_object_to_string = __webpack_require__("d3b7");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.constructor.js
+var es_regexp_constructor = __webpack_require__("4d63");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
 var es_regexp_exec = __webpack_require__("ac1f");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__("25f0");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
 var es_string_iterator = __webpack_require__("3ca3");
@@ -103100,15 +103456,6 @@ function _typeof(obj) {
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
 var es_array_from = __webpack_require__("a630");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__("25f0");
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(arr, len) {
@@ -103202,6 +103549,12 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
   };
 }
 // CONCATENATED MODULE: ./src/utils/util.js
+
+
+
+
+
+
 
 
 
@@ -103351,6 +103704,1259 @@ function generateRandomKey(prefix) {
 
   var time = new Date().getTime();
   return prefix + '_' + mid + '_' + time;
+} // 替换temp中的${xxx}为指定内容 ,temp:字符串，这里指html代码，dataarry：一个对象{"xxx":"替换的内容"}
+// 例：jfgrid.replaceHtml("${image}",{"image":"abc","jskdjslf":"abc"})   ==>  abc
+
+
+function replaceHtml(temp, dataarry) {
+  return temp.replace(/\$\{([\w]+)\}/g, function (s1, s2) {
+    var s = dataarry[s2];
+
+    if (typeof s != "undefined") {
+      return s;
+    } else {
+      return s1;
+    }
+  });
+}
+
+function hasChinaword(s) {
+  var patrn = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/gi;
+
+  if (!patrn.exec(s)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function isdatetime(s) {
+  if (s == null || s.toString().length < 5) {
+    return false;
+  } else if (checkDateTime(s)) {
+    return true;
+  } else {
+    return false;
+  }
+
+  function checkDateTime(str) {
+    var reg1 = /^(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2})(:(\d{1,2}))?)?$/;
+    var reg2 = /^(\d{4})\/(\d{1,2})\/(\d{1,2})(\s(\d{1,2}):(\d{1,2})(:(\d{1,2}))?)?$/;
+
+    if (!reg1.test(str) && !reg2.test(str)) {
+      return false;
+    }
+
+    var year = RegExp.$1,
+        month = RegExp.$2,
+        day = RegExp.$3;
+
+    if (year < 1900) {
+      return false;
+    }
+
+    if (month > 12) {
+      return false;
+    }
+
+    if (day > 31) {
+      return false;
+    }
+
+    if (month == 2) {
+      if (new Date(year, 1, 29).getDate() == 29 && day > 29) {
+        return false;
+      } else if (new Date(year, 1, 29).getDate() != 29 && day > 28) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+}
+
+function isRealNum(val) {
+  if (val === "" || val == null) {
+    return false;
+  }
+
+  if (!isNaN(val)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isdatatype(s) {
+  var type = "string";
+
+  if (isdatetime(s)) {
+    type = "date";
+  } else if (!isNaN(parseFloat(s)) && !hasChinaword(s)) {
+    type = "num";
+  }
+
+  return type;
+}
+
+function dataTranspose(getdata) {
+  var arr = [];
+
+  for (var c = 0; c < getdata[0].length; c++) {
+    var a = [];
+
+    for (var r = 0; r < getdata.length; r++) {
+      var value = '';
+
+      if (getdata[r] != null && getdata[r][c] != null) {
+        value = getdata[r][c];
+      }
+
+      a.push(value);
+    }
+
+    arr.push(a);
+  }
+
+  return arr;
+}
+
+function dataChangeOrder(data, order) {
+  if (data.length == 0 || data.length != order.length) {
+    return data;
+  }
+
+  var ret = [];
+
+  for (var i = 0; i < data.length; i++) {
+    ret[order[i]] = data[i];
+  }
+
+  return ret;
+}
+
+function dataChangeOrderTwo(data, order) {
+  var ret = [];
+
+  for (var r = 0; r < data.length; r++) {
+    var d = data[r];
+    ret.push(dataChangeOrder(d, order));
+  }
+
+  return ret;
+}
+
+function getObjType(obj) {
+  var toString = Object.prototype.toString;
+  var map = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String]': 'string',
+    '[object Function]': 'function',
+    '[object Array]': 'array',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regExp',
+    '[object Undefined]': 'undefined',
+    '[object Null]': 'null',
+    '[object Object]': 'object'
+  }; // if(obj instanceof Element){
+  //     return 'element';
+  // }
+
+  return map[toString.call(obj)];
+}
+
+function getRowColCheck(data) {
+  //从右下角开始，按照斜角网上遍历，如果非数字格式则取得上一个斜角的行列值。然后分别按行和按列往左遍历，遇到非数字则记0-i为列头或行头
+  var r = data.length - 1,
+      c = data[0].length - 1;
+  var r_cal, c_cal;
+
+  while (r >= 0 && c >= 0) {
+    var cell = data[r][c]; //cell的可能值,都判断为同数字一样略过，不作为标题
+    //1.cell = 3;
+    //2.cell = {v:3}
+    //3.cell = {}
+    //4.cell = ""
+    //5.cell.v = ""
+
+    if (cell === null || isRealNum(cell) || getObjType(cell) == 'object' && isRealNum(cell.v) || getObjType(cell) == 'object' && getObjType(cell.v) == 'undefined' || cell === '' || cell.v === '') {
+      if (cell && cell.ct && cell.ct.fa == 'yyyy-MM-dd') {
+        r_cal = r + 1;
+        c_cal = c + 1;
+        break;
+      } else {
+        r_cal = r--;
+        c_cal = c--;
+      }
+    } else {
+      if (r == data.length - 1 && c == data[0].length - 1) {
+        r_cal = r;
+        c_cal = c;
+      } else {
+        r_cal = r + 1;
+        c_cal = c + 1;
+      }
+
+      break;
+    }
+  }
+
+  var rowcheck = {
+    exits: false,
+    range: [0, 0]
+  }; //默认取第一行，让设计界面的check可以有值
+
+  if (r_cal > 0) {
+    for (var i = r_cal; i >= 0; i--) {
+      var cell = data[i][c_cal];
+
+      if (cell === null || isRealNum(cell) || getObjType(cell) == 'object' && isRealNum(cell.v) || getObjType(cell) == 'object' && getObjType(cell.v) == 'undefined' || cell === '' || cell.v === '') {} else {
+        rowcheck.exits = true;
+        rowcheck.range = [0, i];
+        break;
+      }
+    }
+  }
+
+  var colcheck = {
+    exits: false,
+    range: [0, 0]
+  }; //默认取第一列，让设计界面的check可以有值
+
+  if (c_cal > 0) {
+    for (var i = c_cal; i >= 0; i--) {
+      var cell = data[r_cal][i];
+
+      if (cell === null || isRealNum(cell) || getObjType(cell) == 'object' && isRealNum(cell.v) || getObjType(cell) == 'object' && getObjType(cell.v) == 'undefined' || cell === '' || cell.v === '') {
+        if (cell && cell.ct && cell.ct.fa == 'yyyy-MM-dd') {
+          colcheck.exits = true;
+          colcheck.range = [0, i];
+          break;
+        }
+      } else {
+        colcheck.exits = true;
+        colcheck.range = [0, i];
+        break;
+      }
+    }
+  } //处理行标题和列标签为整个数据的时候，把标题去除，只用作内容
+
+
+  if (rowcheck.range[1] + 1 == data.length) {
+    rowcheck = {
+      exits: false,
+      range: [0, 0]
+    };
+  }
+
+  if (colcheck.range[1] + 1 == data[0].length) {
+    colcheck = {
+      exits: false,
+      range: [0, 0]
+    };
+  } // console.dir([rowcheck, colcheck])
+
+
+  return [rowcheck, colcheck];
+}
+
+function getRangeSplitArray(chartData, rangeColCheck, rangeRowCheck) {
+  var rangeSplitArray = {}; //生成类似excel的图表选区
+  //上左、上右、下左、下右
+
+  if (rangeColCheck.exits && rangeRowCheck.exits) {
+    rangeSplitArray = {
+      title: {
+        row: rangeRowCheck.range,
+        column: rangeColCheck.range
+      },
+      rowtitle: {
+        row: rangeRowCheck.range,
+        column: [rangeColCheck.range[1] + 1, chartData[0].length - 1]
+      },
+      coltitle: {
+        row: [rangeRowCheck.range[1] + 1, chartData.length - 1],
+        column: rangeColCheck.range
+      },
+      content: {
+        row: [rangeRowCheck.range[1] + 1, chartData.length - 1],
+        column: [rangeColCheck.range[1] + 1, chartData[0].length - 1]
+      },
+      type: 'normal'
+    };
+  } //左、右，没有行标题
+  else if (rangeColCheck.exits) {
+      //处理"content"：如果列标题的列数等于整个数据的列数，则没有内容
+      rangeSplitArray = {
+        title: null,
+        rowtitle: null,
+        coltitle: {
+          row: [0, chartData.length - 1],
+          column: rangeColCheck.range
+        },
+        content: {
+          row: [0, chartData.length - 1],
+          column: [rangeColCheck.range[1] + 1, chartData[0].length - 1]
+        },
+        type: 'leftright'
+      };
+    } //上、下，没有列标题
+    else if (rangeRowCheck.exits) {
+        //处理"content"：如果行标题的行数等于整个数据的行数，则没有内容
+        rangeSplitArray = {
+          title: null,
+          rowtitle: {
+            row: rangeRowCheck.range,
+            column: [0, chartData[0].length - 1]
+          },
+          coltitle: null,
+          content: {
+            row: [rangeRowCheck.range[1] + 1, chartData.length - 1],
+            column: [0, chartData[0].length - 1]
+          },
+          type: 'topbottom'
+        };
+      } //无标题，纯数据没有标题
+      else {
+          rangeSplitArray = {
+            title: null,
+            rowtitle: null,
+            coltitle: null,
+            content: {
+              row: [0, chartData.length - 1],
+              column: [0, chartData[0].length - 1]
+            },
+            type: 'contentonly'
+          };
+        } // }
+  // console.dir(rangeSplitArray)
+
+
+  return rangeSplitArray;
+} //处理qk格式的数据返回原始值，###########需要完善日期获取############。
+
+
+function getChartCellData(r, c, d) {
+  var value = null; // if (jfgrid != null && jfgrid.getcellvalue != null) {
+  //   value = jfgrid.getcellvalue(r, c, d)
+  // } else {
+
+  var cell = d[r][c];
+
+  if (cell != null) {
+    if (cell.v != null) {
+      value = cell.v;
+    } else {
+      value = cell;
+    }
+  } // }
+  //处理undefined
+
+
+  if (value == undefined) {
+    value = '';
+  }
+
+  return value;
+}
+
+function getChartDataCache(chartData, rangeSplitArray, product, type, style, rangeConfigCheck) {
+  var ret = {};
+
+  if (type == 'line' || type == 'column' || type == 'area' || type == 'scatter' || type == 'bar' || type == 'pie' || type == 'radar' || type == 'funnel' || type == 'gauge' || type == 'map') {
+    //转置
+    if (rangeConfigCheck) {
+      if (rangeSplitArray.type == 'normal') {
+        var rangeSA = rangeSplitArray; //取原数据标签及列标题 用作X轴
+
+        var rtitle = rangeSA.rowtitle,
+            rtitleData = [];
+
+        if (rtitle != null) {
+          ret.title = {
+            //标题不变
+            text: getChartCellData(rangeSA.title.row[0], rangeSA.title.column[0], chartData)
+          };
+
+          for (var c = rtitle.column[0]; c <= rtitle.column[1]; c++) {
+            var value = '';
+
+            for (var r = rtitle.row[0]; r <= rtitle.row[1]; r++) {
+              value += '\n' + getChartCellData(r, c, chartData); //使用X轴处理方式
+            }
+
+            value = value.substr(1, value.length);
+
+            if (product == 'highcharts') {
+              value = value.replace(/\n/g, '<br/>');
+            }
+
+            rtitleData.push(value);
+          }
+
+          ret.xAxis = rtitleData;
+        } //取x轴以及行标题 用作数据标签
+
+
+        var ctitle = rangeSA.coltitle,
+            ctitleData = [];
+
+        if (ctitle != null) {
+          for (var r = ctitle.row[0]; r <= ctitle.row[1]; r++) {
+            var value = '';
+
+            for (var c = ctitle.column[0]; c <= ctitle.column[1]; c++) {
+              value += ' ' + getChartCellData(r, c, chartData);
+            }
+
+            ctitleData.push(value.substr(1, value.length));
+          }
+
+          ret.label = ctitleData;
+        } //系列series的数据
+
+
+        var content = rangeSA.content,
+            contentData = [];
+
+        if (content != null) {
+          var series_tpye = {};
+
+          for (var c = content.column[0]; c <= content.column[1]; c++) {
+            var row = [];
+            var i = 0;
+
+            for (var r = content.row[0]; r <= content.row[1]; r++) {
+              var value = getChartCellData(r, c, chartData);
+              row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+              if (c == content.column[0]) {
+                series_tpye[i++] = isdatatype(value);
+              }
+            }
+
+            contentData.push(row);
+          }
+
+          ret.series = contentData; //用于在界面上显示系列的格式符号
+
+          ret.series_tpye = series_tpye;
+        }
+      } //左、右，行标题用系列1、系列2、系列3 等样式表示
+      else if (rangeSplitArray.type == 'leftright') {
+          var rangeSA = rangeSplitArray; //取x轴以及行标题 用作数据标签
+
+          var ctitle = rangeSA.coltitle,
+              ctitleData = [];
+
+          if (ctitle != null) {
+            for (var r = ctitle.row[0]; r <= ctitle.row[1]; r++) {
+              var value = '';
+
+              for (var c = ctitle.column[0]; c <= ctitle.column[1]; c++) {
+                value += ' ' + getChartCellData(r, c, chartData);
+              }
+
+              ctitleData.push(value.substr(1, value.length));
+            }
+
+            ret.label = ctitleData;
+          } //系列series的数据
+
+
+          var content = rangeSA.content,
+              contentData = [];
+
+          if (content != null) {
+            var series_tpye = {};
+
+            for (var c = content.column[0]; c <= content.column[1]; c++) {
+              var row = [];
+              var i = 0;
+
+              for (var r = content.row[0]; r <= content.row[1]; r++) {
+                var value = getChartCellData(r, c, chartData);
+                row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                if (c == content.column[0]) {
+                  series_tpye[i++] = isdatatype(value);
+                }
+              }
+
+              contentData.push(row);
+            }
+
+            ret.series = contentData; //用于在界面上显示系列的格式符号
+
+            ret.series_tpye = series_tpye;
+          } //取原数据标签及列标题 用作X轴
+
+
+          var rtitle = rangeSA.rowtitle,
+              rtitleData = [];
+
+          if (rtitle == null) {
+            ret.title = {
+              //标题不变
+              text: '图表标题' //标题直接使用 "图表标题"
+
+            };
+
+            for (var c = 0; c <= content.column[1] - content.column[0]; c++) {
+              rtitleData.push(c + 1); //列标题用1、2、3 表示
+            }
+
+            ret.xAxis = rtitleData;
+          }
+        } //上、下，列标题用1、2、3等样式表示
+        else if (rangeSplitArray.type == 'topbottom') {
+            var rangeSA = rangeSplitArray; //取原数据标签及列标题 用作X轴
+
+            var rtitle = rangeSA.rowtitle,
+                rtitleData = [];
+
+            if (rtitle != null) {
+              ret.title = {
+                //标题不变
+                text: '图表标题' //标题直接使用 "图表标题"
+
+              };
+
+              for (var c = rtitle.column[0]; c <= rtitle.column[1]; c++) {
+                var value = '';
+
+                for (var r = rtitle.row[0]; r <= rtitle.row[1]; r++) {
+                  value += '\n' + getChartCellData(r, c, chartData); //使用X轴处理方式
+                }
+
+                value = value.substr(1, value.length);
+
+                if (product == 'highcharts') {
+                  value = value.replace(/\n/g, '<br/>');
+                }
+
+                rtitleData.push(value);
+              }
+
+              ret.xAxis = rtitleData;
+            } //系列series的数据
+
+
+            var content = rangeSA.content,
+                contentData = [];
+
+            if (content != null) {
+              var series_tpye = {};
+
+              for (var c = content.column[0]; c <= content.column[1]; c++) {
+                var row = [];
+                var i = 0;
+
+                for (var r = content.row[0]; r <= content.row[1]; r++) {
+                  var value = getChartCellData(r, c, chartData);
+                  row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                  if (c == content.column[0]) {
+                    series_tpye[i++] = isdatatype(value);
+                  }
+                }
+
+                contentData.push(row);
+              }
+
+              ret.series = contentData; //用于在界面上显示系列的格式符号
+
+              ret.series_tpye = series_tpye;
+            } //取x轴以及行标题 用作数据标签
+
+
+            var ctitle = rangeSA.coltitle,
+                ctitleData = [];
+
+            if (ctitle == null) {
+              for (var r = 0; r <= content.row[1] - content.row[0]; r++) {
+                ctitleData.push('系列' + (r + 1)); //用系列1、系列2、系列3 样式表示
+              }
+
+              ret.label = ctitleData;
+            }
+          } //无标题，行标题用系列1、系列2、系列3样式表示，列标题用1、2、3 样式表示
+          else if (rangeSplitArray.type == 'contentonly') {
+              var rangeSA = rangeSplitArray; //系列series的数据
+
+              var content = rangeSA.content,
+                  contentData = [];
+
+              if (content != null) {
+                var series_tpye = {};
+
+                for (var c = content.column[0]; c <= content.column[1]; c++) {
+                  var row = [];
+                  var i = 0;
+
+                  for (var r = content.row[0]; r <= content.row[1]; r++) {
+                    var value = getChartCellData(r, c, chartData);
+                    row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                    if (c == content.column[0]) {
+                      series_tpye[i++] = isdatatype(value);
+                    }
+                  }
+
+                  contentData.push(row);
+                }
+
+                ret.series = contentData; //用于在界面上显示系列的格式符号
+
+                ret.series_tpye = series_tpye;
+              } //取原数据标签及列标题 用作X轴
+
+
+              var rtitle = rangeSA.rowtitle,
+                  rtitleData = [];
+
+              if (rtitle == null) {
+                ret.title = {
+                  //标题不变
+                  text: '图表标题' //标题直接使用 "图表标题"
+
+                };
+
+                for (var c = 0; c <= content.column[1] - content.column[0]; c++) {
+                  rtitleData.push(c + 1); //列标题用1、2、3 表示
+                }
+
+                ret.xAxis = rtitleData;
+              } //取x轴以及行标题 用作数据标签
+
+
+              var ctitle = rangeSA.coltitle,
+                  ctitleData = [];
+
+              if (ctitle == null) {
+                for (var r = 0; r <= content.row[1] - content.row[0]; r++) {
+                  ctitleData.push('系列' + (r + 1)); //用系列1、系列2、系列3 样式表示
+                }
+
+                ret.label = ctitleData;
+              }
+            }
+    } else {
+      //不转置
+      if (rangeSplitArray.type == 'normal') {
+        var rangeSA = rangeSplitArray; //数据标签及列标题
+
+        var rtitle = rangeSA.rowtitle,
+            rtitleData = [];
+
+        if (rtitle != null) {
+          for (var c = rtitle.column[0]; c <= rtitle.column[1]; c++) {
+            var value = '';
+
+            for (var r = rtitle.row[0]; r <= rtitle.row[1]; r++) {
+              value += ' ' + getChartCellData(r, c, chartData);
+            }
+
+            rtitleData.push(value.substr(1, value.length));
+          }
+
+          ret.label = rtitleData;
+        } //x轴以及行标题
+
+
+        var ctitle = rangeSA.coltitle,
+            ctitleData = [];
+
+        if (ctitle != null) {
+          for (var r = ctitle.row[0]; r <= ctitle.row[1]; r++) {
+            var value = '';
+
+            for (var c = ctitle.column[0]; c <= ctitle.column[1]; c++) {
+              value += '\n' + getChartCellData(r, c, chartData);
+            }
+
+            value = value.substr(1, value.length);
+
+            if (product == 'highcharts') {
+              value = value.replace(/\n/g, '<br/>');
+            }
+
+            ctitleData.push(value);
+          } // 饼图x轴数据,散点图X轴数据不一样
+          // if (type != 'pie') {
+
+
+          ret.xAxis = ctitleData; // } else if (type == 'pie') {
+          //   ret.pieName = ctitleData
+          // }
+        } //系列series的数据
+
+
+        var content = rangeSA.content,
+            contentData = [];
+
+        if (content != null) {
+          var series_tpye = {};
+
+          for (var r = content.row[0]; r <= content.row[1]; r++) {
+            var row = [];
+            var i = 0;
+
+            for (var c = content.column[0]; c <= content.column[1]; c++) {
+              var value = getChartCellData(r, c, chartData);
+              row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+              if (r == content.row[0]) {
+                series_tpye[i++] = isdatatype(value);
+              }
+            }
+
+            contentData.push(row);
+          }
+
+          ret.series = contentData; //用于在界面上显示系列的格式符号
+
+          ret.series_tpye = series_tpye;
+        }
+      } //左、右，行标题用系列1、系列2、系列3 等样式表示
+      else if (rangeSplitArray.type == 'leftright') {
+          var rangeSA = rangeSplitArray; //x轴以及行标题
+
+          var ctitle = rangeSA.coltitle,
+              ctitleData = [];
+
+          if (ctitle != null) {
+            for (var r = ctitle.row[0]; r <= ctitle.row[1]; r++) {
+              var value = '';
+
+              for (var c = ctitle.column[0]; c <= ctitle.column[1]; c++) {
+                value += '\n' + getChartCellData(r, c, chartData);
+              }
+
+              value = value.substr(1, value.length);
+
+              if (product == 'highcharts') {
+                value = value.replace(/\n/g, '<br/>');
+              }
+
+              ctitleData.push(value);
+            }
+
+            ret.xAxis = ctitleData;
+          } //系列series的数据
+
+
+          var content = rangeSA.content,
+              contentData = [];
+
+          if (content != null) {
+            var series_tpye = {};
+
+            for (var r = content.row[0]; r <= content.row[1]; r++) {
+              var row = [];
+              var i = 0;
+
+              for (var c = content.column[0]; c <= content.column[1]; c++) {
+                var value = getChartCellData(r, c, chartData);
+                row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                if (r == content.row[0]) {
+                  series_tpye[i++] = isdatatype(value);
+                }
+              }
+
+              contentData.push(row);
+            }
+
+            ret.series = contentData; //用于在界面上显示系列的格式符号
+
+            ret.series_tpye = series_tpye;
+          } //数据标签及列标题
+
+
+          var rtitle = rangeSA.rowtitle,
+              rtitleData = [];
+
+          if (rtitle == null) {
+            ret.title = {
+              text: '图表标题' //标题直接使用 "图表标题"
+
+            };
+
+            for (var c = 0; c <= content.column[1] - content.column[0]; c++) {
+              rtitleData.push('系列' + (c + 1)); //行标题用系列1、系列2、系列3 样式表示
+            }
+
+            ret.label = rtitleData;
+          }
+        } //上、下，列标题用1、2、3等样式表示
+        else if (rangeSplitArray.type == 'topbottom') {
+            var rangeSA = rangeSplitArray; //数据标签及列标题
+
+            var rtitle = rangeSA.rowtitle,
+                rtitleData = [];
+
+            if (rtitle != null) {
+              ret.title = {
+                text: '图表标题' //标题直接使用 "图表标题"
+
+              };
+
+              for (var c = rtitle.column[0]; c <= rtitle.column[1]; c++) {
+                var value = '';
+
+                for (var r = rtitle.row[0]; r <= rtitle.row[1]; r++) {
+                  value += ' ' + getChartCellData(r, c, chartData);
+                }
+
+                rtitleData.push(value.substr(1, value.length));
+              }
+
+              ret.label = rtitleData;
+            } //系列series的数据
+
+
+            var content = rangeSA.content,
+                contentData = [];
+
+            if (content != null) {
+              var series_tpye = {};
+
+              for (var r = content.row[0]; r <= content.row[1]; r++) {
+                var row = [];
+                var i = 0;
+
+                for (var c = content.column[0]; c <= content.column[1]; c++) {
+                  var value = getChartCellData(r, c, chartData);
+                  row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                  if (r == content.row[0]) {
+                    series_tpye[i++] = isdatatype(value);
+                  }
+                }
+
+                contentData.push(row);
+              }
+
+              ret.series = contentData; //用于在界面上显示系列的格式符号
+
+              ret.series_tpye = series_tpye;
+            } //x轴以及行标题
+
+
+            var ctitle = rangeSA.coltitle,
+                ctitleData = [];
+
+            if (ctitle == null) {
+              for (var r = 0; r <= content.row[1] - content.row[0]; r++) {
+                ctitleData.push(r + 1); //列标题用1、2、3 表示
+              }
+
+              ret.xAxis = ctitleData;
+            }
+          } //无标题，行标题用系列1、系列2、系列3样式表示，列标题用1、2、3 样式表示
+          else if (rangeSplitArray.type == 'contentonly') {
+              var rangeSA = rangeSplitArray; //系列series的数据
+
+              var content = rangeSA.content,
+                  contentData = [];
+
+              if (content != null) {
+                var series_tpye = {};
+
+                for (var r = content.row[0]; r <= content.row[1]; r++) {
+                  var row = [];
+                  var i = 0;
+
+                  for (var c = content.column[0]; c <= content.column[1]; c++) {
+                    var value = getChartCellData(r, c, chartData);
+                    row.push(value); //######需要再细化时间、数字、字符的判断#####
+
+                    if (r == content.row[0]) {
+                      series_tpye[i++] = isdatatype(value);
+                    }
+                  }
+
+                  contentData.push(row);
+                }
+
+                ret.series = contentData; //用于在界面上显示系列的格式符号
+
+                ret.series_tpye = series_tpye;
+              } //数据标签及列标题
+
+
+              var rtitle = rangeSA.rowtitle,
+                  rtitleData = [];
+
+              if (rtitle == null) {
+                ret.title = {
+                  text: '图表标题' //标题直接使用 "图表标题"
+
+                };
+
+                for (var c = 0; c <= content.column[1] - content.column[0]; c++) {
+                  rtitleData.push('系列' + (c + 1)); //用系列1、系列2、系列3 样式表示
+                }
+
+                ret.label = rtitleData;
+              } //x轴以及行标题
+
+
+              var ctitle = rangeSA.coltitle,
+                  ctitleData = [];
+
+              if (ctitle == null) {
+                for (var r = 0; r <= content.row[1] - content.row[0]; r++) {
+                  ctitleData.push(r + 1); //列标题用1、2、3 表示
+                }
+
+                ret.xAxis = ctitleData;
+              }
+            }
+    }
+  } // if(product=="echarts"){
+  // 	if(type=="line" || type=="column" || type=="area" || type=="scatter"){
+  // 		ret = {"chart"};
+  // 	}
+  // }
+  // else if(product=="highcharts"){
+  // }
+  // else if(product=="g2" || product=="g6"){
+  // }
+  // else if(product=="amcharts"){
+  // }
+
+
+  return ret;
+}
+
+function getChartDataSeriesOrder(len) {
+  var ret = {};
+  ret.length = len;
+
+  for (var i = 0; i < len; i++) {
+    ret[i] = i;
+  }
+
+  return ret;
+}
+
+function addDataToOption(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle) {
+  if (chartPro == 'echarts' && chartType == 'bar') {
+    defaultOptionIni.axis.yAxisLeft.data = chartDataCache.xAxis;
+    defaultOptionIni.axis.yAxisLeft.type = 'category';
+    defaultOptionIni.axis.xAxisDown.type = 'value';
+  } else if (!!chartDataCache.xAxis && chartStyle != 'polarStack' && !defaultOptionIni.firstShow && (chartType != 'radar' || chartPro == 'highcharts') && chartType != 'pie') {
+    //由于配置可能来自已经让用户配置过的项，所以为了不丢失选项，更新数据的时候需要进行判断。如果是象限数据为空、象限数据与需要更新的数据大小不一致，则全量更新。否则深入到每一项进行更新。以下同
+    if (defaultOptionIni.axis.xAxisDown.data == null || defaultOptionIni.axis.xAxisDown.data.length == 0 || defaultOptionIni.axis.xAxisDown.data.length != chartDataCache.xAxis.length) {
+      defaultOptionIni.axis.xAxisDown.data = chartDataCache.xAxis;
+      defaultOptionIni.axis.xAxisDown.type = 'category';
+      defaultOptionIni.axis.yAxisLeft.type = 'value';
+    } else {
+      for (var i = 0; i < defaultOptionIni.axis.xAxisDown.data.length; i++) {
+        var cell = defaultOptionIni.axis.xAxisDown.data[i];
+
+        if (cell instanceof Object) {
+          cell.value = chartDataCache.xAxis[i];
+        } else {
+          defaultOptionIni.axis.xAxisDown.data[i] = chartDataCache.xAxis[i];
+        }
+      }
+    }
+  }
+
+  if (!!chartDataCache.yAxis && chartStyle != 'polarStack' && !defaultOptionIni.firstShow && chartType != 'radar' && chartPro == 'echarts') {
+    if (defaultOptionIni.axis.yAxisLeft.data == null || defaultOptionIni.axis.yAxisLeft.data.length == 0 || defaultOptionIni.axis.yAxisLeft.data.length != chartDataCache.yAxis) {
+      defaultOptionIni.axis.yAxisLeft.data = chartDataCache.yAxis;
+      defaultOptionIni.axis.yAxisLeft.type = 'category';
+      defaultOptionIni.axis.xAxisDown.type = 'value';
+    } else {
+      for (var i = 0; i < defaultOptionIni.axis.yAxisLeft.data.length; i++) {
+        var cell = defaultOptionIni.axis.yAxisLeft.data[i];
+
+        if (cell instanceof Object) {
+          cell.value = chartDataCache.yAxis[i];
+        } else {
+          defaultOptionIni.axis.yAxisLeft.data[i] = chartDataCache.yAxis[i];
+        }
+      }
+    }
+  }
+
+  if (!!chartDataCache.series) {
+    // console.dir(chartDataCache)
+    var seriesData = dataTranspose(dataChangeOrderTwo(chartDataCache.series, chartDataSeriesOrder));
+    var legendData = dataChangeOrder(chartDataCache.label, chartDataSeriesOrder);
+    defaultOptionIni.legend.data = legendData;
+    defaultOptionIni.seriesData = seriesData; // echarts默认所需初始数据格式
+
+    if (chartType == 'pie') {
+      defaultOptionIni.legendData = legendData;
+      defaultOptionIni.legend.data = []; // 图例data结构改动,变为对象形式
+
+      if (seriesData[0].length == 1) {
+        for (var i = 0; i < chartDataCache.label.length; i++) {
+          defaultOptionIni.legend.data.push({
+            name: chartDataCache.label[i],
+            textStyle: {
+              color: null
+            },
+            value: seriesData[i][0]
+          });
+        }
+      } else {
+        for (var i = 0; i < chartDataCache.xAxis.length; i++) {
+          defaultOptionIni.legend.data.push({
+            name: chartDataCache.xAxis[i],
+            textStyle: {
+              color: null
+            },
+            value: seriesData[0][i]
+          });
+        }
+      }
+
+      defaultOptionIni.series.length = 0;
+      var seriesObj = {
+        name: legendData[0],
+        type: 'pie',
+        radius: ['0%', '75%'],
+        data: [],
+        dataLabels: {}
+      };
+      defaultOptionIni.series1Data = []; // 如果选一行
+
+      if (seriesData[0].length == 1) {
+        for (var i = 0; i < seriesData.length; i++) {
+          defaultOptionIni.minus = [];
+
+          if (seriesData[i].toString().slice(0, 1) == '-') {
+            defaultOptionIni.minus.push(i);
+          }
+
+          var value, name;
+
+          if (seriesData[i] > 0) {
+            value = seriesData[i][0];
+            name = legendData[i];
+          } else if (seriesData[i] <= 0) {
+            value = '';
+            name = '';
+          }
+
+          seriesObj.data.push({
+            value: value,
+            name: name,
+            label: {},
+            labelLine: {
+              lineStyle: {}
+            },
+            itemStyle: {}
+          });
+        }
+
+        defaultOptionIni.series.push(seriesObj);
+      } else {
+        // 如果选多行
+        // console.dir(seriesData)
+        for (var i = 0; i < seriesData.length; i++) {
+          if (i == 0) {
+            for (var j = 0; j < seriesData[0].length; j++) {
+              var value, name;
+
+              if (seriesData[0][j] > 0) {
+                value = seriesData[0][j];
+                name = chartDataCache.xAxis[j];
+              } else if (seriesData[0][j] <= 0) {
+                value = '';
+                name = '';
+              }
+
+              seriesObj.data.push({
+                value: value,
+                name: name,
+                label: {},
+                labelLine: {
+                  lineStyle: {}
+                },
+                itemStyle: {}
+              });
+            }
+
+            defaultOptionIni.series.push(seriesObj);
+          } // 如果是环形嵌套图,第二列为数据项
+
+
+          if (i == 1) {
+            defaultOptionIni.legend.name1 = defaultOptionIni.legendData[1];
+
+            for (var a = 0; a < seriesData[1].length; a++) {
+              var value, name;
+
+              if (seriesData[1][a] > 0) {
+                value = seriesData[1][a];
+                name = chartDataCache.xAxis[a];
+              } else if (seriesData[1][a] <= 0) {
+                value = '';
+                name = '';
+              }
+
+              defaultOptionIni.series1Data.push({
+                value: value,
+                name: name,
+                label: {},
+                labelLine: {
+                  lineStyle: {}
+                },
+                itemStyle: {}
+              });
+            }
+          }
+        }
+      } // console.dir(defaultOptionIni)
+
+    } else {
+      if (defaultOptionIni.series.length != seriesData.length && chartStyle != 'special') {
+        defaultOptionIni.series = [];
+      }
+
+      for (var i = 0; i < seriesData.length; i++) {
+        if (defaultOptionIni.series[i] == null) {
+          defaultOptionIni.series[i] = {};
+          defaultOptionIni.series[i].data = deepCopy(seriesData[i]);
+          defaultOptionIni.series[i].type = chartType; // 如果是echarts,并且是面积图,将type改为line
+
+          if (chartPro == 'echarts' && chartType == 'area') {
+            defaultOptionIni.series[i].type = 'line';
+          } else if (chartPro == 'echarts' && chartType == 'column') {
+            defaultOptionIni.series[i].type = 'bar';
+          }
+
+          defaultOptionIni.series[i].name = legendData[i];
+          defaultOptionIni.series[i].markPoint = {};
+          defaultOptionIni.series[i].markPoint.data = [];
+          defaultOptionIni.series[i].markLine = {};
+          defaultOptionIni.series[i].markLine.data = [];
+          defaultOptionIni.series[i].markArea = {};
+          defaultOptionIni.series[i].markArea.data = [];
+        } else {
+          if (defaultOptionIni.series[i].data == null || defaultOptionIni.series[i].data.length == 0 || defaultOptionIni.series[i].data.length != seriesData[i].length) {
+            defaultOptionIni.series[i].data = deepCopy(seriesData[i]);
+            defaultOptionIni.series[i].name = legendData[i];
+          } else {
+            for (var a = 0; a < defaultOptionIni.series[i].data.length; a++) {
+              var cell = defaultOptionIni.series[i].data[a];
+
+              if (cell instanceof Object) {
+                cell.value = seriesData[i][a];
+              } else {
+                defaultOptionIni.series[i].data[a] = seriesData[i][a];
+              }
+            }
+
+            defaultOptionIni.series[i].name = legendData[i];
+          }
+        }
+      }
+
+      if (chartStyle == 'costComposition') {
+        if (defaultOptionIni.series.length > 1) {
+          defaultOptionIni.series.splice(1, defaultOptionIni.series.length - 1);
+        }
+
+        var sum = 0;
+        var sum1 = 0;
+
+        for (var i = 0; i < defaultOptionIni.series[0].data.length; i++) {
+          sum = sum + Number(defaultOptionIni.series[0].data[i]);
+        }
+
+        var data2 = [];
+
+        for (var j = 0; j < defaultOptionIni.series[0].data.length; j++) {
+          sum1 = sum1 + Number(defaultOptionIni.series[0].data[j]);
+          data2.push(sum - sum1);
+        }
+
+        data2.unshift(0); // defaultOptionIni.series[0].stack = '总量'
+        // defaultOptionIni.series[0].type = 'bar'
+
+        var series1obj = deepCopy(defaultOptionIni.series[0]);
+        series1obj.data.unshift(sum);
+
+        if (series1obj.itemStyle) {
+          delete series1obj.itemStyle;
+        }
+
+        defaultOptionIni.series.push(series1obj);
+        defaultOptionIni.series[0].data = data2;
+      }
+
+      if (chartPro == 'echarts' && chartType == 'bar') {
+        defaultOptionIni.seriesData = seriesData; // 第一个条形图系列的zindex置顶
+
+        defaultOptionIni.series[0].zlevel = 1; // 处理组件中的formatter数据
+
+        if (defaultOptionIni.config.option1) {
+          defaultOptionIni.config.option1.data = seriesData; // 大屏所需
+
+          if (seriesData.length > 1) {
+            var speArr = [];
+
+            for (var i = 0; i < seriesData[0].length; i++) {
+              speArr.push(seriesData[0][i] / seriesData[1][i] * 100);
+            }
+
+            defaultOptionIni.config.option1.speArr = speArr;
+          }
+        }
+      } // 折线柱状图
+
+
+      if (chartStyle == 'linemix') {
+        if (defaultOptionIni.series.length > 1) {
+          for (var j = 0; j < chartData[1].length; j++) {
+            if (chartData[1][j] && JSON.stringify(chartData[1][j]) != '{}' && chartData[1][j].ct.fa.slice(-1) == '%') {
+              // defaultOption.isPercent = true
+              if (typeof chartData[1][0].v == 'string') {
+                var data = defaultOptionIni.series[j - 1].data; // defaultOptionIni.series[j-1].yAxisIndex = 1
+              } else {
+                var data = defaultOptionIni.series[j].data; // defaultOptionIni.series[j].yAxisIndex = 1
+              }
+
+              for (var k = 0; k < data.length; k++) {
+                data[k] *= 100;
+              }
+            }
+          }
+        }
+      } // 如果有百分比数据乘以100
+
+
+      if ((chartType == 'bar' || chartType == 'column') && chartStyle != 'special') {
+        for (var j = 0; j < chartData[1].length; j++) {
+          if (chartData[1][j] && JSON.stringify(chartData[1][j]) != '{}' && (chartData[1][j].ct.fa.slice(-1) == '%' || chartData[1][j].m.slice(-1) == '%')) {
+            // 如果是移动端,并且是tab切换,不执行
+            if (!(window.previewOption && window.previewOption.noChangeData)) {
+              if (typeof chartData[1][0].v == 'string' || chartData[1][0].ct.fa == 'yyyy-MM-dd') {
+                var data = defaultOptionIni.series[j - 1].data;
+              } else {
+                var data = defaultOptionIni.series[j].data;
+              }
+
+              for (var k = 0; k < data.length; k++) {
+                data[k] *= 100;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return defaultOptionIni;
 }
 
 
@@ -129243,12 +130849,12 @@ var es_function_name = __webpack_require__("b0c0");
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=3e7886d0&
-var ChartSettingvue_type_template_id_3e7886d0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',[_c('div',{staticStyle:{"overflow":"hidden"}},[_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" 数据 ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":20}},[_c('p',{staticStyle:{"font-size":"12px","color":"#626262","margin-bottom":"20px"}},[_vm._v("暂不支持修改")])]),_c('el-col',{attrs:{"span":2}},[_c('div')])],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" 样式 ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'title',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption}}),_c('chart-sub-title',{attrs:{"router":'subtitle',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption}}),_c('chart-cursor',{attrs:{"router":'tooltip',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption}}),_c('chart-legend',{attrs:{"router":'legend',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption}}),_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType}})],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)])])])}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=07b78e5c&
+var ChartSettingvue_type_template_id_07b78e5c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',[_c('div',{staticStyle:{"overflow":"hidden"}},[_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" 数据 ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":20}},[_c('p',{staticStyle:{"font-size":"12px","color":"#626262","margin-bottom":"20px"}},[_vm._v("暂不支持修改")])]),_c('el-col',{attrs:{"span":2}},[_c('div')])],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" 样式 ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'title',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption}}),_c('chart-sub-title',{attrs:{"router":'subtitle',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption}}),_c('chart-cursor',{attrs:{"router":'tooltip',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption}}),_c('chart-legend',{attrs:{"router":'legend',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption}}),(_vm.currentChartType.split('|')[1]!='pie')?_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType}}):_vm._e()],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)])])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=3e7886d0&
+// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=07b78e5c&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
 var es_object_to_string = __webpack_require__("d3b7");
@@ -129343,23 +130949,23 @@ var chartJson = __webpack_require__("b4cc");
 //
 //
 var ChartTitle = function ChartTitle() {
-  return __webpack_require__.e(/* import() */ 8).then(__webpack_require__.bind(null, "450b"));
+  return __webpack_require__.e(/* import() */ 7).then(__webpack_require__.bind(null, "450b"));
 };
 
 var ChartSubTitle = function ChartSubTitle() {
-  return __webpack_require__.e(/* import() */ 7).then(__webpack_require__.bind(null, "969a"));
+  return __webpack_require__.e(/* import() */ 6).then(__webpack_require__.bind(null, "969a"));
 };
 
 var ChartCursor = function ChartCursor() {
-  return __webpack_require__.e(/* import() */ 5).then(__webpack_require__.bind(null, "9b10"));
+  return __webpack_require__.e(/* import() */ 4).then(__webpack_require__.bind(null, "9b10"));
 };
 
 var ChartLegend = function ChartLegend() {
-  return __webpack_require__.e(/* import() */ 6).then(__webpack_require__.bind(null, "954f"));
+  return __webpack_require__.e(/* import() */ 5).then(__webpack_require__.bind(null, "954f"));
 };
 
 var ChartAxis = function ChartAxis() {
-  return __webpack_require__.e(/* import() */ 4).then(__webpack_require__.bind(null, "e078"));
+  return __webpack_require__.e(/* import() */ 3).then(__webpack_require__.bind(null, "e078"));
 };
 
 
@@ -129386,15 +130992,15 @@ var ChartAxis = function ChartAxis() {
     return {
       currentChartType: '',
       //图表类型
-      titleOption: Object(util["a" /* deepCopy */])(chartJson["a" /* chartComponent */].title),
+      titleOption: Object(util["b" /* deepCopy */])(chartJson["a" /* chartComponent */].title),
       //标题设置
-      subTitleOption: Object(util["a" /* deepCopy */])(chartJson["a" /* chartComponent */].subtitle),
+      subTitleOption: Object(util["b" /* deepCopy */])(chartJson["a" /* chartComponent */].subtitle),
       //标题设置
-      cursorOption: Object(util["a" /* deepCopy */])(chartJson["a" /* chartComponent */].tooltip),
+      cursorOption: Object(util["b" /* deepCopy */])(chartJson["a" /* chartComponent */].tooltip),
       //鼠标提示设置
-      legendOption: Object(util["a" /* deepCopy */])(chartJson["a" /* chartComponent */].legend),
+      legendOption: Object(util["b" /* deepCopy */])(chartJson["a" /* chartComponent */].legend),
       //图例设置
-      axisOption: Object(util["a" /* deepCopy */])(chartJson["a" /* chartComponent */].axis) //坐标轴设置
+      axisOption: Object(util["b" /* deepCopy */])(chartJson["a" /* chartComponent */].axis) //坐标轴设置
 
     };
   },
@@ -129438,7 +131044,7 @@ var componentNormalizer = __webpack_require__("2877");
 
 var component = Object(componentNormalizer["a" /* default */])(
   ChartMix_ChartSettingvue_type_script_lang_js_,
-  ChartSettingvue_type_template_id_3e7886d0_render,
+  ChartSettingvue_type_template_id_07b78e5c_render,
   staticRenderFns,
   false,
   null,
@@ -129876,10 +131482,10 @@ var transformAxis_transformAxis = function transformAxis(chartAllTypeArray, axis
   };
 
   return {
-    xAxisUp: transAxis(Object(util["a" /* deepCopy */])(option), 'xAxisUp'),
-    xAxisDown: transAxis(Object(util["a" /* deepCopy */])(option), 'xAxisDown'),
-    yAxisLeft: transAxis(Object(util["a" /* deepCopy */])(option), 'yAxisLeft'),
-    yAxisRight: transAxis(Object(util["a" /* deepCopy */])(option), 'yAxisRight')
+    xAxisUp: transAxis(Object(util["b" /* deepCopy */])(option), 'xAxisUp'),
+    xAxisDown: transAxis(Object(util["b" /* deepCopy */])(option), 'xAxisDown'),
+    yAxisLeft: transAxis(Object(util["b" /* deepCopy */])(option), 'yAxisLeft'),
+    yAxisRight: transAxis(Object(util["b" /* deepCopy */])(option), 'yAxisRight')
   };
 };
 
@@ -129908,24 +131514,21 @@ var echartsEngine_echartsEngine = function echartsEngine(chartOptions) {
   var legendOption = echartsEngine_transformLegend(chartAllTypeArray, chartOptions.defaultOption.legend);
   var tooltipOption = echartsEngine_transformTooltip(chartAllTypeArray, chartOptions.defaultOption.tooltip);
   var axisOption = echartsEngine_transformAxis(chartAllTypeArray, chartOptions.defaultOption.axis);
+  axisOption.xAxisDown.data = chartOptions.defaultOption.axis.xAxisDown.data;
   var option = {
     title: Object(objectSpread2["a" /* default */])({}, titleOption),
     tooltip: Object(objectSpread2["a" /* default */])({}, tooltipOption),
-    legend: Object(objectSpread2["a" /* default */])({
-      data: ['销量']
-    }, legendOption),
-    xAxis: [Object(objectSpread2["a" /* default */])({
-      data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-    }, axisOption.xAxisDown), Object(objectSpread2["a" /* default */])({
-      data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-    }, axisOption.xAxisUp)],
+    legend: Object(objectSpread2["a" /* default */])({}, legendOption),
+    xAxis: [Object(objectSpread2["a" /* default */])({}, axisOption.xAxisDown), Object(objectSpread2["a" /* default */])({}, axisOption.xAxisUp)],
     yAxis: [axisOption.yAxisLeft, axisOption.yAxisRight],
-    series: [{
-      name: '销量',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20]
-    }]
-  };
+    series: chartOptions.defaultOption.series
+  }; // 饼图去掉XY轴
+
+  if (chartType == 'pie') {
+    delete option.xAxis;
+    delete option.yAxis;
+  }
+
   console.dir(option);
   console.dir(JSON.stringify(option));
   return option;
@@ -130347,6 +131950,9 @@ var ChartRender_component = Object(componentNormalizer["a" /* default */])(
 /* harmony default export */ var ChartRender = (ChartRender_component.exports);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
 var es_array_find = __webpack_require__("7db0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find-index.js
+var es_array_find_index = __webpack_require__("c740");
 
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
@@ -130816,8 +132422,13 @@ var debug = "production" !== 'production';
 
 
 
+
+
+
 function initChart(outDom) {
-  outDom.innerHTML = "<div id=\"chartmix\"></div>";
+  var dom = document.createElement('div');
+  dom.id = 'chartmix';
+  outDom.appendChild(dom);
   new external_commonjs_vue_commonjs2_vue_root_Vue_default.a({
     el: '#chartmix',
     store: src_store,
@@ -130835,20 +132446,39 @@ function initChart(outDom) {
 } // 创建图表,返回dom便于后续操作
 
 
-function createChart(outDom, style) {
-  var chart_id = Object(util["b" /* generateRandomKey */])('chart');
-  var dom = document.createElement('div');
-  dom.id = chart_id;
+function createChart(outDom, chartData) {
+  var chart_id = Object(util["c" /* generateRandomKey */])('chart');
+  chartJson["b" /* chartOptions */].defaultOption.series = []; // 随机生成图表
+
+  var ratio = Math.random() * 10;
+
+  if (ratio > 5) {
+    chartJson["b" /* chartOptions */].chartAllType = 'echarts|pie|default';
+  } else {
+    chartJson["b" /* chartOptions */].chartAllType = 'echarts|line|default';
+  } // 生成图表数据机构
+
+
+  var chartOption = insertNewChart(chartJson["b" /* chartOptions */], chart_id, chartJson["b" /* chartOptions */].chartAllType, chartData);
   var renderDom = document.createElement('div');
   renderDom.id = 'render' + chart_id;
-  dom.appendChild(renderDom);
-  outDom.appendChild(dom);
+  var modelChartShowHTML = '<div id="${id}"class="jfgrid-modal-dialog jfgrid-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="jfgrid-modal-dialog-resize"><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lt"data-type="lt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-mt"data-type="mt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lm"data-type="lm"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rm"data-type="rm"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rt"data-type="rt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lb"data-type="lb"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-mb"data-type="mb"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="jfgrid-modal-dialog-controll"><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-max"role="butjfgrid_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="jfgrid-modal-dialog-content">${content}</div></div>';
+  var chart_id_c = chart_id + '_c';
+  var $t = $(Object(util["h" /* replaceHtml */])(modelChartShowHTML, {
+    id: chart_id_c,
+    addclass: 'jfgrid-data-visualization-chart',
+    title: '图表生成',
+    content: ''
+  })).appendTo($(outDom));
+  $t.find('.jfgrid-modal-dialog-content').attr('id', chart_id);
+  $('.jfgrid-modal-dialog-content').append(renderDom);
   src_store.state.chartSetting.currentChartIndex = src_store.state.chartSetting.chartLists.length;
   src_store.state.chartSetting.chartLists.push({
     'chart_id': chart_id,
     'active': true,
-    'chartOptions': Object(util["a" /* deepCopy */])(chartJson["b" /* chartOptions */])
+    'chartOptions': Object(util["b" /* deepCopy */])(chartOption)
   });
+  console.dir(chartOption);
   new external_commonjs_vue_commonjs2_vue_root_Vue_default.a({
     el: '#render' + chart_id,
     store: src_store,
@@ -130861,6 +132491,7 @@ function createChart(outDom, style) {
       options: function options() {
         var _this = this;
 
+        console.dir(this.chart_id);
         return src_store.state.chartSetting.chartLists.find(function (item) {
           return item.chart_id == _this.chart_id;
         }).chartOptions;
@@ -130876,7 +132507,66 @@ function createChart(outDom, style) {
     template: "<ChartRender :chartOptions=\"options\" :chart_id=\"chart_id\" :active=\"active\"></ChartRneder>"
   });
   var render = document.getElementById(chart_id);
-  return render;
+  var container = document.getElementById(chart_id + '_c');
+  return {
+    container: container,
+    render: render
+  };
+} // insertChart
+
+
+function insertNewChart(chartOptions, chart_id, chartAllType, chartData, chartTheme, height, width, left, top) {
+  var chart_json = {};
+  var chartAllTypeArray = chartAllType.split('|');
+  var chartPro = chartAllTypeArray[0],
+      chartType = chartAllTypeArray[1],
+      chartStyle = chartAllTypeArray[2];
+  chart_json.chart_id = chart_id;
+  chart_json.chartAllType = chartAllType;
+  chart_json.chartPro = chartPro;
+  chart_json.chartType = chartType;
+  chart_json.chartStyle = chartStyle;
+  chart_json.height = height;
+  chart_json.width = width;
+  chart_json.left = left;
+  chart_json.top = top; //按照图表类型得到图表的默认设置
+
+  var defaultOptionIni = chartOptions.defaultOption; //数据的sheet索引
+
+  chart_json.chartData = chartData; //根据数据集得到按钮状态，rangeColCheck表示首列是否标题，rangeRowCheck表示首行是否标题，rangeConfigCheck表示是否转置。
+
+  var rowColCheck = Object(util["g" /* getRowColCheck */])(chartData);
+  var rangeRowCheck = rowColCheck[0],
+      rangeColCheck = rowColCheck[1],
+      rangeConfigCheck = false;
+  chart_json.rangeColCheck = rangeColCheck;
+  chart_json.rangeRowCheck = rangeRowCheck;
+  chart_json.rangeConfigCheck = rangeConfigCheck; //按照数据范围文字得到具体数据范围
+
+  var rangeSplitArray = Object(util["f" /* getRangeSplitArray */])(chartData, rangeColCheck, rangeRowCheck);
+  chart_json.rangeSplitArray = rangeSplitArray; //根据数据集、功能按钮状态、图表类型，得到图表可操作的数据格式，例如：{ "x":[], "y":[], series:[] }，可以按照次格式渲染数据页中的系列和轴控件。
+  //数据为一行且为汉字的时候，chartDataCache的series为空数组
+
+  var chartDataCache = Object(util["d" /* getChartDataCache */])(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
+  chart_json.chartDataCache = chartDataCache; //生成默认的系列顺序，默认根据series数组的位置，用户可以在界面上操作更改这个位置。
+
+  var chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(chartDataCache.series[0].length);
+  chart_json.chartDataSeriesOrder = chartDataSeriesOrder; //设置图表皮肤
+
+  chart_json.chartTheme = chartTheme; //根据图表的默认设置、图表数据、图表系列顺序，等到一个完整的图表配置串。
+
+  var defaultOption = Object(util["a" /* addDataToOption */])(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle); //根据图表厂商选择渲染引擎，并根据设置渲染出图表
+
+  chart_json.defaultOption = defaultOption;
+  return chart_json;
+} // highlight current chart
+
+
+function highlightChart(id) {
+  var index = src_store.state.chartSetting.chartLists.findIndex(function (item) {
+    return item.chart_id == id;
+  });
+  src_store.state.chartSetting.currentChartIndex = index;
 }
 
 
@@ -130929,7 +132619,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   install: packages_install
 }, components), {}, {
   initChart: initChart,
-  createChart: createChart // ChartSetting,
+  createChart: createChart,
+  highlightChart: highlightChart // ChartSetting,
   // ChartRender
 
 }));

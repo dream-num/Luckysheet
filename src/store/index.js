@@ -83,6 +83,7 @@ const Store = {
     jfundo: [],
     lang: 'en', //language
     createChart: '',
+    highlightChart: '',
     zIndex: 15
 }
 
