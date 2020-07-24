@@ -134,12 +134,6 @@
 - Usage: Back button link in the upper left corner
 
 ------------
-## config
-- Type: Object
-- Default: {}
-- Usage: Table row height, column width, merged cells, formulas and other settings
-
-------------
 ## devicePixelRatio
 - Type: Number
 - Default: window.devicePixelRatio
