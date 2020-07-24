@@ -6651,8 +6651,8 @@ export default function luckysheetHandler() {
     });
 
     $("#luckysheetsheetconfigmoveleft").click(function () {
-        if (luckysheetcurrentSheetitem.prevAll(":visible").length > 0) {
-            luckysheetcurrentSheetitem.insertBefore(luckysheetcurrentSheetitem.prevAll(":visible").eq(0));
+        if (luckysheetcurrentSheetitem.preval(":visible").length > 0) {
+            luckysheetcurrentSheetitem.insertBefore(luckysheetcurrentSheetitem.preval(":visible").eq(0));
             sheetmanage.reOrderAllSheet();
         }
         $("#luckysheet-input-box").removeAttr("style");

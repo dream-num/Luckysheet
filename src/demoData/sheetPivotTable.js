@@ -2,7 +2,7 @@ const sheetPivotTable = {
 	"name": "PivotTable",
 	"color": "",
 	"config": {},
-	"index": "6",
+	"index": "7",
 	"chart": [{
 		"sheetIndex": "0",
 		"dataSheetIndex": "0",
@@ -16,7 +16,7 @@ const sheetPivotTable = {
 		"myTop": "11"
 	}],
 	"status": "0",
-	"order": "6",
+	"order": "7",
 	"column": 18,
 	"row": 36,
 	"celldata": [{
