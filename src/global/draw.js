@@ -833,7 +833,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         //水平对齐方式是 居中或居右对齐 且单元格宽度小于文字宽度 （用离屏canvas渲染）
         let canvasName, cellsize; 
-        if(browser.BrowserType() != "Safari" && (canvasType == "offline" || ((horizonAlign == "0" || horizonAlign == "2") && (end_c - start_c) < textW) || ((verticalAlign == "0" || verticalAlign == "2") && (end_r - start_r) < textH))){
+        if(browser.BrowserType() != "Safari" && (canvasType == "offline" || ((horizonAlign == "0" || horizonAlign == "2") && (end_c - start_c) < textW) || ((end_r - start_r) < textH))){
             canvasName = offlinecanvas;
             canvasName.font = fontset;
 
