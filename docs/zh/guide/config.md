@@ -83,7 +83,7 @@
 ## allowEdit
 - 类型：Boolean
 - 默认值：true
-- 作用：是否允许前台编辑(暂未实现)
+- 作用：是否允许前台编辑
 
 ------------
 ## enableAddRow
