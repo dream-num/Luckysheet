@@ -3634,7 +3634,9 @@ const menuButton = {
             "13": "Thick"
         };
 
-    	type = borderType[type.toString()];
+        type = borderType[type.toString()];
+        
+        canvasborder.save();
 
     	try {
         	if(type == "Hair"){

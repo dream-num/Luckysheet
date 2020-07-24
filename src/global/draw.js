@@ -1555,6 +1555,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             
             canvas.stroke();
             canvas.closePath();
+            canvas.restore();
         }
 
         let borderRightRender = function(style, color, start_r, start_c, end_r, end_c, offsetLeft, offsetTop, canvas){
@@ -1571,6 +1572,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             
             canvas.stroke();
             canvas.closePath();
+            canvas.restore();
         }
 
         let borderBottomRender = function(style, color, start_r, start_c, end_r, end_c, offsetLeft, offsetTop, canvas){
@@ -1587,6 +1589,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             
             canvas.stroke();
             canvas.closePath();
+            canvas.restore();
         }
 
         let borderTopRender = function(style, color, start_r, start_c, end_r, end_c, offsetLeft, offsetTop, canvas){
@@ -1603,6 +1606,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             
             canvas.stroke();
             canvas.closePath();
+            canvas.restore();
         }
 
         let borderInfoCompute = getBorderInfoCompute();
