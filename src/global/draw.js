@@ -776,7 +776,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         luckysheetTableContent.font = fontset;
 
         let textMetrics = luckysheetTableContent.measureText(value).width;
-        let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
+        // let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
+        let oneLineTextHeight = menuButton.getTextSize(value, fontset)[1];
 
         let textW, textH; 
 

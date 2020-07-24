@@ -71,6 +71,7 @@ import { update, genarate } from '../global/format';
 import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
+import locale from '../locale/locale';
 import Store from '../store';
 
 //, columeflowset, rowflowset
@@ -884,10 +885,10 @@ export default function luckysheetHandler() {
             if (obj_s["row"] != null && obj_s["row"][0] == 0 && obj_s["row"][1] == Store.flowdata.length - 1) {
                 Store.luckysheetRightHeadClickIs = "column";
 
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text("列");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text("宽");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text("左");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text("右");
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.column);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.width);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.left);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.right);
 
                 $("#luckysheet-cols-rows-add").show();
                 $("#luckysheet-cols-rows-data").show();
@@ -929,10 +930,10 @@ export default function luckysheetHandler() {
             else if (obj_s["column"] != null && obj_s["column"][0] == 0 && obj_s["column"][1] == Store.flowdata[0].length - 1) {
                 Store.luckysheetRightHeadClickIs = "row";
 
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text("行");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text("高");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text("上");
-                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text("下");
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.row);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.height);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.top);
+                $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.bottom);
                 
                 $("#luckysheet-cols-rows-add").show();
                 $("#luckysheet-cols-rows-data").show();
@@ -4536,10 +4537,10 @@ export default function luckysheetHandler() {
 
             $("#luckysheet-cols-rows-shift").hide();
             Store.luckysheetRightHeadClickIs = "row";
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text("行");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text("高");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text("上");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text("下");
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.row);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.height);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.top);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.bottom);
 
             $("#luckysheet-cols-rows-add").show();
             $("#luckysheet-cols-rows-data").show();
@@ -4924,10 +4925,10 @@ export default function luckysheetHandler() {
             }
 
             Store.luckysheetRightHeadClickIs = "column";
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text("列");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text("宽");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text("左");
-            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text("右");
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.column);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.width);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.left);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.right);
 
             $("#luckysheet-cols-rows-add").show();
             $("#luckysheet-cols-rows-data").show();
@@ -5192,9 +5193,9 @@ export default function luckysheetHandler() {
         let offset = $(this).offset();
         $("#luckysheet-cols-rows-shift").show();
         Store.luckysheetRightHeadClickIs = "column";
-        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text("列");
-        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text("左");
-        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text("右");
+        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.column);
+        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.left);
+        $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.right);
 
         $("#luckysheet-cols-rows-add").show();
         $("#luckysheet-cols-rows-data").hide();
