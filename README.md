@@ -59,7 +59,7 @@ The core code of Luckysheet is luckysheet-core.js and luckysheet-function.js, de
 ## Usage
 
 #### First step
-`npm run build`后`dist`文件夹下的所有文件复制到项目目录
+Copy all files in the `dist` folder after `npm run build` to the project directory
 
 #### Second step
 Introduce dependencies
