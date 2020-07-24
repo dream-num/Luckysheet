@@ -27,13 +27,14 @@
 		import sheetComment from './demoData/sheetComment.js'
 		import sheetPivotTableData from './demoData/sheetPivotTableData.js'
 		import sheetPivotTable from './demoData/sheetPivotTable.js'
+		import sheetSparkline from './demoData/sheetSparkline.js'
 		$(function () {
 
 			luckysheet.create({
 				container: 'luckysheet',
-				lang: 'zh',
+				lang: 'en',
 				plugins: ['chart'],
-				data: [sheetCell,sheetFormula,sheetConditionFormat,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable]
+				data: [sheetCell,sheetFormula,sheetConditionFormat,sheetTable,sheetSparkline,sheetComment,sheetPivotTableData,sheetPivotTable]
 			})
 
 		})

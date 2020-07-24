@@ -22,7 +22,7 @@ export default {
     config: {}, //表格行高、列宽、合并单元格、公式等设置
     fullscreenmode: true, //是否全屏模式，非全屏模式下，标记框不会强制选中。
     devicePixelRatio: window.devicePixelRatio, //设备比例，比例越大表格分标率越高
-    allowEdit: false, //是否允许前台编辑
+    allowEdit: true, //是否允许前台编辑
     loadUrl: "", // 配置loadUrl的地址，luckysheet会通过ajax请求表格数据，默认载入status为1的sheet数据中的所有data，其余的sheet载入除data字段外的所有字段
     loadSheetUrl: "", //配置loadSheetUrl的地址，参数为gridKey（表格主键） 和 index（sheet主键合集，格式为[1,2,3]），返回的数据为sheet的data字段数据集合
     gridKey: "", // 表格唯一标识符

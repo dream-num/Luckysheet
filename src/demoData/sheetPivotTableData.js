@@ -4,7 +4,7 @@ const sheetPivotTableData = {
 	"config": {
 		"merge": {}
 	},
-	"index": "5",
+	"index": "6",
 	"chart": [{
 		"sheetIndex": "0",
 		"dataSheetIndex": "0",
@@ -18,7 +18,7 @@ const sheetPivotTableData = {
 		"myTop": "11"
 	}],
 	"status": "0",
-	"order": "5",
+	"order": "6",
 	"hide": 1,
 	"column": 18,
 	"row": 36,
