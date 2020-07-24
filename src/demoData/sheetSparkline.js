@@ -7070,7 +7070,6 @@ const sheetSparkline = {
 		"chidren": {},
 		"times": 0
 	}],
-	"load": "1",
 	"luckysheet_conditionformat_save": [],
 	"filter_select": null,
 	"filter": null,

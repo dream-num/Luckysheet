@@ -7,7 +7,8 @@
     配置 `updateUrl` 的地址，Luckysheet会通过ajax请求表格数据，默认载入status为1的sheet数据中的所有`data`，其余的sheet载入除`data`字段外的所有字段。
 
 - **格式**：
-    通过全局方法 `luckysheet.getluckysheetfile()`可以获取所有工作表的配置信息
+    通过全局方法 `luckysheet.getluckysheetfile()`可以获取所有工作表的配置信息。
+
     luckysheetfile示例如下：
     ```json
     [
@@ -20,7 +21,6 @@
             "status": "1", //激活状态
             "order": "0", //工作表的顺序
             "hide": 0,//是否隐藏
-            "load": "1", //是否已远程加载
             "column": 18, //列数
             "row": 36, //行数
             "celldata": [], //原始单元格数据集
@@ -84,7 +84,7 @@
     ## status
     - 类型：Number
     - 默认值：1
-    - 作用： 激活状态，仅有一个激活状态的工作表，其他工作表为 `0`
+    - 作用： 激活状态，仅有一个激活状态的工作表，其他工作表为 0
     
     ------------
     ## order
@@ -97,13 +97,7 @@
     - 类型：Number
     - 默认值：0
     - 作用： 是否隐藏，`0`为不隐藏，`1`为隐藏
-    
-    ------------
-    ## load
-    - 类型：Number
-    - 默认值：0
-    - 作用： 是否已远程加载，`0`为未远程加载，`1`为已远程加载到数据
-    
+
     ------------
     ## column
     - 类型：Number
@@ -283,8 +277,8 @@
             }
     ```
     - 行数：`rowhidden[行数]: 0`,`key`指定行数即可，`value`总是为`0`
-    ------------
     
+    ------------
     ## celldata
     - 类型：Array
     - 默认值：[]
@@ -308,32 +302,397 @@
 		}
 	}]
     ```
-    
+
+    ------------
     ## luckysheet_select_save
     - 类型：Array
     - 默认值：[]
     - 作用： 选中的区域，支持多选，是一个包含多个选区对象的一维数组，示例：
     ```js
-    
+    [
+        {
+            "left": 0,
+            "width": 97,
+            "top": 0,
+            "height": 20,
+            "left_move": 0,
+            "width_move": 97,
+            "top_move": 0,
+            "height_move": 41,
+            "row": [ 0, 1 ],
+            "column": [ 0, 0 ],
+            "row_focus": 0,
+            "column_focus": 0
+        },
+        {
+            "left": 98,
+            "width": 73,
+            "top": 63,
+            "height": 20,
+            "left_move": 98,
+            "width_move": 189,
+            "top_move": 63,
+            "height_move": 41,
+            "row": [ 3, 4 ],
+            "column": [ 1, 2 ],
+            "row_focus": 3,
+            "column_focus": 1
+        },
+        {
+            "left": 288,
+            "width": 128,
+            "top": 21,
+            "height": 20,
+            "left_move": 288,
+            "width_move": 128,
+            "top_move": 21,
+            "height_move": 62,
+            "row": [ 1, 3 ],
+            "column": [ 3, 3 ],
+            "row_focus": 1,
+            "column_focus": 3
+        }
+    ]
     ```
 
+    ------------
+    ## luckysheet_conditionformat_save
+    - 类型：Array
+    - 默认值：[]
+    - 作用： 条件格式配置信息，包含多个条件格式配置对象的一维数组，
+    
+    type: "default": 突出显示单元格规则和项目选区规则，
+
+    "dataBar":数据条，
+    
+    "icons":图标集，
+    
+    "colorGradation": 色阶
+
+    示例：
+    ```js
+    [
+        {
+            "type": "default",
+            "cellrange": [
+                {
+                    "row": [ 2, 7 ],
+                    "column": [ 2, 2 ]
+                }
+            ],
+            "format": {
+                "textColor": "#000000",
+                "cellColor": "#ff0000"
+            },
+            "conditionName": "betweenness",
+            "conditionRange": [
+                {
+                    "row": [ 4, 4 ],
+                    "column": [ 2, 2 ]
+                },
+                {
+                    "row": [ 6, 6 ],
+                    "column": [ 2, 2 ]
+                }
+            ],
+            "conditionValue": [ 2, 4
+            ]
+        },
+        {
+            "type": "dataBar",
+            "cellrange": [
+                {
+                    "row": [ 10, 15 ],
+                    "column": [ 10, 11 ]
+                }
+            ],
+            "format": [
+                "#6aa84f",
+                "#ffffff"
+            ]
+        },
+        {
+            "type": "icons",
+            "cellrange": [
+                {
+                    "row": [ 19, 23 ],
+                    "column": [ 2, 2 ]
+                }
+            ],
+            "format": {
+                "len": "3",
+                "leftMin": "0",
+                "top": "0"
+            }
+        },
+        {
+            "type": "colorGradation",
+            "cellrange": [
+                {
+                    "left": 422,
+                    "width": 100,
+                    "top": 210,
+                    "height": 20,
+                    "left_move": 422,
+                    "width_move": 100,
+                    "top_move": 210,
+                    "height_move": 125,
+                    "row": [ 10, 15 ],
+                    "column": [ 6, 6 ],
+                    "row_focus": 10,
+                    "column_focus": 6
+                }
+            ],
+            "format": [
+                "rgb(99, 190, 123)",
+                "rgb(255, 235, 132)",
+                "rgb(248, 105, 107)"
+            ]
+        }
+    ]
+    ```
+        
+    ------------
+    ## calcChain
+    - 类型：Array
+    - 默认值：[]
+    - 作用： 公式链，用于公式所链接的单元格改变后，所有引用此单元格的公式都会联动刷新，示例：
+    ```js
+    [{
+		"r": 6,
+		"c": 3,
+		"index": 1,
+		"func": [true, 23.75, "=AVERAGE(D3:D6)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}, {
+		"r": 7,
+		"c": 3,
+		"index": 1,
+		"func": [true, 30, "=MAX(D3:D6)"],
+		"color": "w",
+		"parent": null,
+		"chidren": {},
+		"times": 0
+	}]
+    ```
+    
+    ------------
+    ## isPivotTable
+    - 类型：Boolean
+    - 默认值：false
+    - 作用： 是否数据透视表
+    
+    ------------
+    ## pivotTable
+    - 类型：Object
+    - 默认值：{}
+    - 作用： 数据透视表设置,示例：
+    ```js
+    {
+		"pivot_select_save": {
+			"left": 0,
+			"width": 73,
+			"top": 0,
+			"height": 19,
+			"left_move": 0,
+			"width_move": 369,
+			"top_move": 0,
+			"height_move": 259,
+			"row": [0, 12],
+			"column": [0, 4],
+			"row_focus": 0,
+			"column_focus": 0
+		},
+		"pivotDataSheetIndex": 6, //The sheet index where the source data is located
+		"column": [{
+			"index": 3,
+			"name": "subject",
+			"fullname": "subject"
+		}],
+		"row": [{
+			"index": 1,
+			"name": "student",
+			"fullname": "student"
+		}],
+		"filter": [],
+		"values": [{
+			"index": 4,
+			"name": "score",
+			"fullname": "count:score",
+			"sumtype": "COUNTA",
+			"nameindex": 0
+		}],
+		"showType": "column",
+		"pivotDatas": [
+			["count:score", "science", "mathematics", "foreign language", "English", "total"],
+			["Alex", 1, 1, 1, 1, 4],
+			["Joy", 1, 1, 1, 1, 4],
+			["Tim", 1, 1, 1, 1, 4],
+			["total", 3, 3, 3, 3, 12]
+		],
+		"drawPivotTable": false,
+		"pivotTableBoundary": [5, 6]
+	}
+    ```
+    
+    ------------
+    ## filter_select
+    - 类型：Object
+    - 默认值：{}
+    - 作用： 筛选范围，一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`示例：
+    ```js
+    {
+        "left": 74,
+        "width": 73,
+        "top": 40,
+        "height": 19,
+        "left_move": 74,
+        "width_move": 221,
+        "top_move": 40,
+        "height_move": 99,
+        "row": [
+            2,
+            6
+        ],
+        "column": [
+            1,
+            3
+        ],
+        "row_focus": 2,
+        "column_focus": 1
+    }
+    ```
+    
+    ------------
+    ## filter
+    - 类型：Object
+    - 默认值：{}
+    - 作用： 筛选的具体设置，示例：
+    ```js
+    {
+        "0": {
+            "caljs": {},
+            "rowhidden": {
+                "3": 0,
+                "4": 0
+            },
+            "optionstate": true,
+            "str": 2,
+            "edr": 6,
+            "cindex": 1,
+            "stc": 1,
+            "edc": 3
+        },
+        "1": {
+            "caljs": {},
+            "rowhidden": {
+                "6": 0
+            },
+            "optionstate": true,
+            "str": 2,
+            "edr": 6,
+            "cindex": 2,
+            "stc": 1,
+            "edc": 3
+        }
+    }
+    ```
+    
+    ------------
+    ## luckysheet_alternateformat_save
+    - 类型：Array
+    - 默认值：[]
+    - 作用： 交替颜色配置，示例：
+    ```js
+    [{
+		"cellrange": {
+			"row": [1, 6],
+			"column": [1, 5]
+		},
+		"format": {
+			"head": {
+				"fc": "#000",
+				"bc": "#5ed593"
+			},
+			"one": {
+				"fc": "#000",
+				"bc": "#ffffff"
+			},
+			"two": {
+				"fc": "#000",
+				"bc": "#e5fbee"
+			},
+			"foot": {
+				"fc": "#000",
+				"bc": "#a5efcc"
+			}
+		},
+		"hasRowHeader": false,
+		"hasRowFooter": false
+	}, {
+		"cellrange": {
+			"row": [1, 6],
+			"column": [8, 12]
+		},
+		"format": {
+			"head": {
+				"fc": "#000",
+				"bc": "#5599fc"
+			},
+			"one": {
+				"fc": "#000",
+				"bc": "#ffffff"
+			},
+			"two": {
+				"fc": "#000",
+				"bc": "#ecf2fe"
+			},
+			"foot": {
+				"fc": "#000",
+				"bc": "#afcbfa"
+			}
+		},
+		"hasRowHeader": false,
+		"hasRowFooter": false
+	}]
+    ```
+    
+    ------------
+    ## luckysheet_alternateformat_save_modelCustom
+    - 类型：Array
+    - 默认值：[]
+    - 作用：自定义交替颜色，包含多个自定义交替颜色的配置，示例：
+    ```js
+    [{
+		"head": {
+			"fc": "#6aa84f",
+			"bc": "#ffffff"
+		},
+		"one": {
+			"fc": "#000",
+			"bc": "#ffffff"
+		},
+		"two": {
+			"fc": "#000",
+			"bc": "#e5fbee"
+		},
+		"foot": {
+			"fc": "#000",
+			"bc": "#a5efcc"
+		}
+	}]
+    ```
+
+    ------------
     ## chart
     - 类型：Array
     - 默认值：[]
     - 作用： 图表配置（开发中）
     
     ------------
-
-    - `"luckysheet_select_save": []`, //选中的区域
-    - `"luckysheet_conditionformat_save": {}`,//条件格式
-    - `"calcChain": []`,//公式链
-    - `"isPivotTable":false`,//是否数据透视表
-    - `"pivotTable":{}`,//数据透视表设置
-    - `"filter_select": null`,//筛选范围
-    - `"filter": null`,//筛选配置
-    - `"luckysheet_alternateformat_save": []`, //交替颜色
-    - `"luckysheet_alternateformat_save_modelCustom": []`//自定义交替颜色	
-
 
 ## 获取sheet数据
 

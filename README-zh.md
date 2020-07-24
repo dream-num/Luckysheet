@@ -61,11 +61,11 @@ Luckysheet的核心代码为luckysheet-core.js和luckysheet-function.js,开发�
 #### 第二步
 引入依赖
 ```
-<link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
-<link rel="stylesheet" href="plugins/plugins.min.css">
-<link rel="stylesheet" href="css/main.min.css">
-<script src="plugins/js/plugin.min.js"></script>
-<script src="main.min.js"></script>
+<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='./plugins/plugins.css' />
+<link rel='stylesheet' href='./css/luckysheet.css' />
+<script src="./plugins/js/plugin.js"></script>
+<script src="./luckysheet.umd.js"></script>
 ```
 #### 第三步
 指定一个表格容器
