@@ -3,6 +3,7 @@ import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
 import { hasChinaword } from '../global/validate';
 import Store from '../store';
+import locale from '../locale/locale';
 
 /**
  * Common tool methods
@@ -292,6 +293,7 @@ function ArrayUnique(dataArr) {
 
 //获取字体配置
 function luckysheetfontformat(format) {
+    let fontarray = locale().fontarray;
     if (getObjType(format) == "object") {
         let font = "";
 
@@ -323,21 +325,22 @@ function luckysheetfontformat(format) {
         }
 
         if (!format.ff) {
-            font += '微软雅黑, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif';
+            
+            font += fontarray[0] + ', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif';
         }
         else {
-            let fontarray = menuButton.fontarray;
             let fontfamily = null;
-
+            let fontjson = locale().fontjson;
             if (isdatatypemulti(format.ff)["num"]) {
                 fontfamily = fontarray[parseInt(format.ff)];
             }
             else {
-                fontfamily = fontarray[menuButton.fontjson[format.ff]];
+
+                fontfamily = fontarray[fontjson[format.ff]];
             }
 
             if (fontfamily == null) {
-                fontfamily = "微软雅黑";
+                fontfamily = fontarray[0];
             }
 
             font += fontfamily + ', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif';

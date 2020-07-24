@@ -264,7 +264,7 @@ const alternateformat = {
         let _this = this;
 
         $("#luckysheet-modal-dialog-slider-alternateformat").remove();
-        $("body").append(luckysheetAlternateformatHtml);
+        $("body").append(luckysheetAlternateformatHtml());
         luckysheetsizeauto();
 
         //关闭

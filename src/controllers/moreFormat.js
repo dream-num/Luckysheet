@@ -5,6 +5,7 @@ import editor from '../global/editor';
 import tooltip from '../global/tooltip';
 import { isEditMode } from '../global/validate';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //更多格式
 const luckysheetMoreFormat = {
@@ -795,13 +796,275 @@ const luckysheetMoreFormat = {
     createDialog: function(type){
         let _this = this;
 
+        const currencyDetail = locale().currencyDetail;
+        const locale_format = locale().format;
+        const locale_button = locale().button;
+
+        this.moneyFmtList = [
+            {'name': currencyDetail.RMB,'pos': 'before','value': '¥'},
+            {'name': currencyDetail.USdollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.EUR,'pos': 'before','value': '€'},
+            {'name': currencyDetail.GBP,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.HK,'pos': 'before','value': '$'},
+            {'name': currencyDetail.JPY,'pos': 'before','value': '￥'},
+            {'name': currencyDetail.AlbanianLek,'pos': 'before','value': 'Lek'},
+            {'name': currencyDetail.AlgerianDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.Afghani,'pos': 'after','value': 'Af'},
+            {'name': currencyDetail.ArgentinePeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.UnitedArabEmiratesDirham,'pos': 'before','value': 'dh'},
+            {'name': currencyDetail.ArubanFlorin,'pos': 'before','value': 'Afl'},
+            {'name': currencyDetail.OmaniRial,'pos': 'before','value': 'Rial'},
+            {'name': currencyDetail.Azerbaijanimanat,'pos': 'before','value': '?'},
+            {'name': currencyDetail.EgyptianPound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.EthiopianBirr,'pos': 'before','value': 'Birr'},
+            {'name': currencyDetail.AngolaKwanza,'pos': 'before','value': 'Kz'},
+            {'name': currencyDetail.AustralianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.Patacas,'pos': 'before','value': 'MOP'},
+            {'name': currencyDetail.BarbadosDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.PapuaNewGuineaKina,'pos': 'before','value': 'PGK'},
+            {'name': currencyDetail.BahamianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.PakistanRupee,'pos': 'before','value': 'Rs'},
+            {'name': currencyDetail.ParaguayanGuarani,'pos': 'after','value': 'Gs'},
+            {'name': currencyDetail.BahrainiDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.PanamanianBalboa,'pos': 'before','value': 'B/'},
+            {'name': currencyDetail.Brazilianreal,'pos': 'before','value': 'R$'},
+            {'name': currencyDetail.Belarusianruble,'pos': 'after','value': 'р'},
+            {'name': currencyDetail.BermudianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.BulgarianLev,'pos': 'before','value': 'lev'},
+            {'name': currencyDetail.IcelandKrona,'pos': 'before','value': 'kr'},
+            {'name': currencyDetail.BosniaHerzegovinaConvertibleMark,'pos': 'before','value': 'KM'},
+            {'name': currencyDetail.PolishZloty,'pos': 'after','value': 'z?'},
+            {'name': currencyDetail.Boliviano,'pos': 'before','value': 'Bs'},
+            {'name': currencyDetail.BelizeDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.BotswanaPula,'pos': 'before','value': 'P'},
+            {'name': currencyDetail.NotDannuzhamu,'pos': 'before','value': 'Nu'},
+            {'name': currencyDetail.BurundiFranc,'pos': 'before','value': 'FBu'},
+            {'name': currencyDetail.NorthKoreanWon,'pos': 'before','value': '?KP'},
+            {'name': currencyDetail.DanishKrone,'pos': 'after','value': 'kr'},
+            {'name': currencyDetail.EastCaribbeanDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.DominicaPeso,'pos': 'before','value': 'RD$'},
+            {'name': currencyDetail.RussianRuble,'pos': 'after','value': '?'},
+            {'name': currencyDetail.EritreanNakfa,'pos': 'before','value': 'Nfk'},
+            {'name': currencyDetail.CFAfranc,'pos': 'before','value': 'CFA'},
+            {'name': currencyDetail.PhilippinePeso,'pos': 'before','value': '?'},
+            {'name': currencyDetail.FijiDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.CapeVerdeEscudo,'pos': 'before','value': 'CVE'},
+            {'name': currencyDetail.FalklandIslandsPound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.GambianDalasi,'pos': 'before','value': 'GMD'},
+            {'name': currencyDetail.Congolesefranc,'pos': 'before','value': 'FrCD'},
+            {'name': currencyDetail.ColombianPeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.CostaRicanColon,'pos': 'before','value': '?'},
+            {'name': currencyDetail.CubanPeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.Cubanconvertiblepeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.GuyanaDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.KazakhstanTenge,'pos': 'before','value': '?'},
+            {'name': currencyDetail.Haitiangourde,'pos': 'before','value': 'HTG'},
+            {'name': currencyDetail.won,'pos': 'before','value': '?'},
+            {'name': currencyDetail.NetherlandsAntillesGuilder,'pos': 'before','value': 'NAf.'},
+            {'name': currencyDetail.Honduraslempiras,'pos': 'before','value': 'L'},
+            {'name': currencyDetail.DjiboutiFranc,'pos': 'before','value': 'Fdj'},
+            {'name': currencyDetail.KyrgyzstanSom,'pos': 'before','value': 'KGS'},
+            {'name': currencyDetail.GuineaFranc,'pos': 'before','value': 'FG'},
+            {'name': currencyDetail.CanadianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.GhanaianCedi,'pos': 'before','value': 'GHS'},
+            {'name': currencyDetail.Cambodianriel,'pos': 'before','value': 'Riel'},
+            {'name': currencyDetail.CzechKoruna,'pos': 'after','value': 'K?'},
+            {'name': currencyDetail.ZimbabweDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.QatariRiyal,'pos': 'before','value': 'Rial'},
+            {'name': currencyDetail.CaymanIslandsDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.Comorianfranc,'pos': 'before','value': 'CF'},
+            {'name': currencyDetail.KuwaitiDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.CroatianKuna,'pos': 'before','value': 'kn'},
+            {'name': currencyDetail.KenyanShilling,'pos': 'before','value': 'Ksh'},
+            {'name': currencyDetail.LesothoLoti,'pos': 'before','value': 'LSL'},
+            {'name': currencyDetail.LaoKip,'pos': 'before','value': '?'},
+            {'name': currencyDetail.LebanesePound,'pos': 'before','value': 'L￡'},
+            {'name': currencyDetail.Lithuanianlitas,'pos': 'before','value': 'Lt'},
+            {'name': currencyDetail.LibyanDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.LiberianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.RwandaFranc,'pos': 'before','value': 'RF'},
+            {'name': currencyDetail.RomanianLeu,'pos': 'before','value': 'RON'},
+            {'name': currencyDetail.MalagasyAriary,'pos': 'before','value': 'Ar'},
+            {'name': currencyDetail.MaldivianRufiyaa,'pos': 'before','value': 'Rf'},
+            {'name': currencyDetail.MalawiKwacha,'pos': 'before','value': 'MWK'},
+            {'name': currencyDetail.MalaysianRinggit,'pos': 'before','value': 'RM'},
+            {'name': currencyDetail.MacedoniawearingDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.MauritiusRupee,'pos': 'before','value': 'MURs'},
+            {'name': currencyDetail.MauritanianOuguiya,'pos': 'before','value': 'MRO'},
+            {'name': currencyDetail.MongolianTugrik,'pos': 'before','value': '?'},
+            {'name': currencyDetail.BangladeshiTaka,'pos': 'before','value': '?'},
+            {'name': currencyDetail.PeruvianNuevoSol,'pos': 'before','value': 'S/'},
+            {'name': currencyDetail.MyanmarKyat,'pos': 'before','value': 'K'},
+            {'name': currencyDetail.MoldovanLeu,'pos': 'before','value': 'MDL'},
+            {'name': currencyDetail.MoroccanDirham,'pos': 'before','value': 'dh'},
+            {'name': currencyDetail.MozambiqueMetical,'pos': 'before','value': 'MTn'},
+            {'name': currencyDetail.MexicanPeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.NamibianDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.SouthAfricanRand,'pos': 'before','value': 'R'},
+            {'name': currencyDetail.SouthSudanesePound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.NicaraguaCordoba,'pos': 'before','value': 'C$'},
+            {'name': currencyDetail.NepaleseRupee,'pos': 'before','value': 'Rs'},
+            {'name': currencyDetail.NigerianNaira,'pos': 'before','value': '?'},
+            {'name': currencyDetail.NorwegianKrone,'pos': 'after','value': 'kr'},
+            {'name': currencyDetail.GeorgianLari,'pos': 'before','value': 'GEL'},
+            {'name': currencyDetail.RenminbiOffshore,'pos': 'before','value': '￥'},
+            {'name': currencyDetail.SwedishKrona,'pos': 'after','value': 'kr'},
+            {'name': currencyDetail.SwissFranc,'pos': 'before','value': 'CHF'},
+            {'name': currencyDetail.SerbianDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.SierraLeone,'pos': 'before','value': 'SLL'},
+            {'name': currencyDetail.SeychellesRupee,'pos': 'before','value': 'SCR'},
+            {'name': currencyDetail.SaudiRiyal,'pos': 'before','value': 'Rial'},
+            {'name': currencyDetail.SaoTomeDobra,'pos': 'before','value': 'Db'},
+            {'name': currencyDetail.SaintHelenapound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.SriLankaRupee,'pos': 'before','value': 'Rs'},
+            {'name': currencyDetail.SwazilandLilangeni,'pos': 'before','value': 'SZL'},
+            {'name': currencyDetail.SudanesePound,'pos': 'before','value': 'SDG'},
+            {'name': currencyDetail.Surinamesedollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.SolomonIslandsDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.SomaliShilling,'pos': 'before','value': 'SOS'},
+            {'name': currencyDetail.TajikistanSomoni,'pos': 'before','value': 'Som'},
+            {'name': currencyDetail.PacificFranc,'pos': 'after','value': 'FCFP'},
+            {'name': currencyDetail.ThaiBaht,'pos': 'before','value': '?'},
+            {'name': currencyDetail.TanzanianShilling,'pos': 'before','value': 'TSh'},
+            {'name': currencyDetail.TonganPaanga,'pos': 'before','value': 'T$'},
+            {'name': currencyDetail.TrinidadandTobagoDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.TunisianDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.TurkishLira,'pos': 'before','value': '?'},
+            {'name': currencyDetail.VanuatuVatu,'pos': 'before','value': 'VUV'},
+            {'name': currencyDetail.GuatemalanQuetzal,'pos': 'before','value': 'Q'},
+            {'name': currencyDetail.CommissionBolivar,'pos': 'before','value': 'Bs'},
+            {'name': currencyDetail.BruneiDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.UgandanShilling,'pos': 'before','value': 'UGX'},
+            {'name': currencyDetail.UkrainianHryvnia,'pos': 'before','value': 'грн.'},
+            {'name': currencyDetail.UruguayanPeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.Uzbekistansom,'pos': 'before','value': 'so?m'},
+            {'name': currencyDetail.WesternSamoaTala,'pos': 'before','value': 'WST'},
+            {'name': currencyDetail.SingaporeDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.NT,'pos': 'before','value': 'NT$'},
+            {'name': currencyDetail.NewZealandDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.HungarianForint,'pos': 'before','value': 'Ft'},
+            {'name': currencyDetail.SyrianPound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.JamaicanDollar,'pos': 'before','value': '$'},
+            {'name': currencyDetail.ArmenianDram,'pos': 'before','value': 'Dram'},
+            {'name': currencyDetail.YemeniRial,'pos': 'before','value': 'Rial'},
+            {'name': currencyDetail.IraqiDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.IranianRial,'pos': 'before','value': 'Rial'},
+            {'name': currencyDetail.NewIsraeliShekel,'pos': 'before','value': '?'},
+            {'name': currencyDetail.IndianRupee,'pos': 'before','value': '?'},
+            {'name': currencyDetail.IndonesianRupiah,'pos': 'before','value': 'Rp'},
+            {'name': currencyDetail.JordanianDinar,'pos': 'before','value': 'din'},
+            {'name': currencyDetail.VND,'pos': 'after','value': '?'},
+            {'name': currencyDetail.ZambianKwacha,'pos': 'before','value': 'ZMW'},
+            {'name': currencyDetail.GibraltarPound,'pos': 'before','value': '￡'},
+            {'name': currencyDetail.ChileanPeso,'pos': 'before','value': '$'},
+            {'name': currencyDetail.CFAFrancBEAC,'pos': 'before','value': 'FCFA'}
+        ];
+
+        this.dateFmtList = locale().dateFmtList;
+
+        this.numFmtList = [
+            {
+                "name": "1235",
+                "value": "0"
+            },
+            {
+                "name": "1234.56",
+                "value": "0.00"
+            },
+            {
+                "name": "1,235",
+                "value": "#,##0"
+            },
+            {
+                "name": "1,234.56",
+                "value": "#,##0.00"
+            },
+            {
+                "name": "1,235",
+                "value": "#,##0_);(#,##0)"
+            },
+            {
+                "name": "1,235",
+                "value": "#,##0_);[Red](#,##0)"
+            },
+            {
+                "name": "1,234.56",
+                "value": "#,##0.00_);(#,##0.00)"
+            },
+            {
+                "name": "1,234.56",
+                "value": "#,##0.00_);[Red](#,##0.00)"
+            },
+            {
+                "name": "$1,235",
+                "value": "$#,##0_);($#,##0)"
+            },
+            {
+                "name": "$1,235",
+                "value": "$#,##0_);[Red]($#,##0)"
+            },
+            {
+                "name": "$1,234.56",
+                "value": "$#,##0.00_);($#,##0.00)"
+            },
+            {
+                "name": "$1,234.56",
+                "value": "$#,##0.00_);[Red]($#,##0.00)"
+            },
+            {
+                "name": "1234.56",
+                "value": "@"
+            },
+            {
+                "name": "123456%",
+                "value": "0%"
+            },
+            {
+                "name": "123456.00%",
+                "value": "0.00%"
+            },
+            {
+                "name": "1.23E+03",
+                "value": "0.00E+00"
+            },
+            {
+                "name": "1.2E+3",
+                "value": "##0.0E+0"
+            },
+            {
+                "name": "1234 5/9",
+                "value": "# ?/?"
+            },
+            {
+                "name": "1234 14/25",
+                "value": "# ??/??"
+            },
+            {
+                "name": "$ 1,235",
+                "value": '_($* #,##0_);_(...($* "-"_);_(@_)'
+            },
+            {
+                "name": "1,235",
+                "value": '_(* #,##0_);_(*..._(* "-"_);_(@_)'
+            },
+            {
+                "name": "$ 1,234.56",
+                // "value": '_($* #,##0.00_)...* "-"??_);_(@_)'
+                "value": '_($* #,##0.00_);_(...($* "-"_);_(@_)'
+            },
+            {
+                "name": "1,234.56",
+                "value": '_(* #,##0.00_);...* "-"??_);_(@_)'
+            },
+        ]    
+
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-moreFormat-dialog").remove();
 
         let title = "", content = '';
 
         if(type == "morecurrency"){ //货币
-            title = "货币格式";
+            title = locale_format.titleCurrency;
 
             let listHtml = '';
 
@@ -819,14 +1082,14 @@ const luckysheetMoreFormat = {
 
             content = '<div class="box" id="morecurrency">'+
                         '<div class="decimal">'+
-                            '<label>小数位数：</label>'+
+                            '<label>'+ locale_format.decimalPlaces +'：</label>'+
                             '<input type="number" class="formulaInputFocus" value="2" min="0" max="9"/>'+
                         '</div>'+
                         '<div class="listbox">'+ listHtml +'</div>'+
                       '</div>';
         }
         else if(type == "moredatetime"){ //日期时间
-            title = "日期与时间格式";
+            title = locale_format.titleDateTime;
 
             let listHtml = '';
 
@@ -845,7 +1108,7 @@ const luckysheetMoreFormat = {
                       '</div>';
         }
         else if(type == "moredigit"){ //数字
-            title = "数字格式";
+            title = locale_format.titleNumber;
 
             let listHtml = '';
 
@@ -869,7 +1132,7 @@ const luckysheetMoreFormat = {
             "addclass": "luckysheet-moreFormat-dialog", 
             "title": title, 
             "content": content, 
-            "botton": '<button id="luckysheet-moreFormat-dialog-confirm" class="btn btn-primary">确定</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "botton": '<button id="luckysheet-moreFormat-dialog-confirm" class="btn btn-primary">'+ locale_button.confirm +'</button><button class="btn btn-default luckysheet-model-close-btn">'+ locale_button.cancel +'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-moreFormat-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
