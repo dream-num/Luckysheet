@@ -61,7 +61,7 @@ const luckysheetSearchReplace = {
             "botton": '<button class="btn btn-default luckysheet-model-close-btn">关闭</button>', 
             "style": "z-index:100003" 
         }));
-        let $t = $("#luckysheet-search-replace").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
+        let $t = $("#luckysheet-search-replace").find(".luckysheet-modal-dialog-content").css("min-width", 500).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
@@ -179,7 +179,8 @@ const luckysheetSearchReplace = {
         if(searchText == "" || searchText == null){
             return;
         }
-
+        const _locale = locale();
+        const locale_findAndReplace = _locale.findAndReplace;
         let range;
         if(Store.luckysheet_select_save.length == 0 || (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].row[0] == Store.luckysheet_select_save[0].row[1] && Store.luckysheet_select_save[0].column[0] == Store.luckysheet_select_save[0].column[1])){
             range = [{ 
