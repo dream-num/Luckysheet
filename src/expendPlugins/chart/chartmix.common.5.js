@@ -17,7 +17,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("e6cf");
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("2f62");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return vuex__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return vuex__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("ca00");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "deepCopy", function() { return _utils_util__WEBPACK_IMPORTED_MODULE_3__["a"]; });
@@ -31,27 +31,27 @@ __webpack_require__.r(__webpack_exports__);
 
 // 复用的组件和方法
 var ChartBaseLabel = function ChartBaseLabel() {
-  return __webpack_require__.e(/* import() */ 3).then(__webpack_require__.bind(null, "02ce"));
+  return __webpack_require__.e(/* import() */ 2).then(__webpack_require__.bind(null, "02ce"));
 };
 
 var ChartBaseSwitch = function ChartBaseSwitch() {
-  return __webpack_require__.e(/* import() */ 12).then(__webpack_require__.bind(null, "9e1a"));
+  return __webpack_require__.e(/* import() */ 11).then(__webpack_require__.bind(null, "9e1a"));
 };
 
 var ChartBaseInput = function ChartBaseInput() {
-  return __webpack_require__.e(/* import() */ 11).then(__webpack_require__.bind(null, "37cd"));
+  return __webpack_require__.e(/* import() */ 10).then(__webpack_require__.bind(null, "37cd"));
 };
 
 var ChartBaseSelect = function ChartBaseSelect() {
-  return __webpack_require__.e(/* import() */ 4).then(__webpack_require__.bind(null, "138b"));
+  return __webpack_require__.e(/* import() */ 3).then(__webpack_require__.bind(null, "138b"));
 };
 
 var ChartBaseSlider = function ChartBaseSlider() {
-  return __webpack_require__.e(/* import() */ 2).then(__webpack_require__.bind(null, "b57e"));
+  return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "b57e"));
 };
 
 var ChartBaseBox = function ChartBaseBox() {
-  return __webpack_require__.e(/* import() */ 10).then(__webpack_require__.bind(null, "3f9f"));
+  return __webpack_require__.e(/* import() */ 9).then(__webpack_require__.bind(null, "3f9f"));
 };
 
 
@@ -72,28 +72,19 @@ var importComp = function importComp(t) {
 
 /***/ }),
 
-/***/ "e078":
+/***/ "9b10":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=728665dc&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"6","title":"XY轴设置"}},[_c('chart-base-select',{attrs:{"selectOption":_vm.axisGroup,"selectValue":_vm.axis.axisType},on:{"update:selectValue":function($event){return _vm.$set(_vm.axis, "axisType", $event)},"update:select-value":function($event){return _vm.$set(_vm.axis, "axisType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("选择坐标轴")])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.series.name))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.show),expression:"series.show"}]},[_c('chart-base-input',{attrs:{"inputValue":_vm.series.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标题内容")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}],staticStyle:{"margin-top":"15px"}},[_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.series.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.series.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.series.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.fzPosOption,"selectValue":_vm.series.title.fzPosition},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("文本对齐方式")])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.inverse},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "inverse", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "inverse", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("反向坐标轴")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":10,"baseSliderOption":_vm.series.tickLabel.optimize,"unit":'个',"content":'滑动修改坐标轴间隔个数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("坐标轴间隔个数")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"baseSliderOption":_vm.series.title.nameGap,"unit":'px',"content":'滑动修改标题与轴线距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("标题与轴线距离")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation+'',"max":180,"min":-180,"baseSliderOption":_vm.series.title.rotate,"unit":'°',"content":'滑动修改标题与轴线距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "rotate", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("倾斜轴标题")])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度线")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tickLine.width,"unit":'px',"content":'滑动修改刻度线宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度线宽度")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":7}},[_vm._v("刻度线颜色")]),_c('el-col',{attrs:{"push":14,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"刻度线颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tickLine.color),callback:function ($$v) {_vm.$set(_vm.series.tickLine, "color", $$v)},expression:"series.tickLine.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tick.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tick, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.orient,"selectValue":_vm.series.tick.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tick, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("刻度位置")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tick.length,"unit":'px',"content":'滑动修改刻度长度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "length", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度长度")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.tick.width,"unit":'px',"content":'滑动修改刻度宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度宽度")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v("刻度颜色")]),_c('el-col',{attrs:{"push":14,"span":4}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"刻度颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tick.color),callback:function ($$v) {_vm.$set(_vm.series.tick, "color", $$v)},expression:"series.tick.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLabel.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度标签")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation,"max":180,"min":-180,"baseSliderOption":_vm.series.tickLabel.rotate,"unit":'°',"content":'滑动修改标签倾斜角度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("倾斜标签")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showLabel),expression:"showLabel"}]},[_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.min,"placeholder":'请输入刻度最小值'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("刻度最小值")])]),_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.max,"placeholder":'请输入刻度最大值且最大值不能小于最小值'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("刻度最大值")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.ratioOption,"selectValue":_vm.series.tickLabel.ratio},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("数值缩放比例")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.digitOption,"selectValue":_vm.series.tickLabel.digit},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("小数位数")])])],1),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.prefix,"placeholder":'请输入标签前缀'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签前缀")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.suffix,"placeholder":'请输入标签后缀'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签后缀")])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netLine, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示网格线")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netLine.show),expression:"series.netLine.show"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.netLine.width,"unit":'px',"content":'滑动修改网格线宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("网格线宽度")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.series.netLine.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格线类型")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._v("网格线颜色")]),_c('el-col',{attrs:{"push":13,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"网格线颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.netLine.color),callback:function ($$v) {_vm.$set(_vm.series.netLine, "color", $$v)},expression:"series.netLine.color"}})],1)],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netLine.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格线分割间隔数")])]),(_vm.series.netLine.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netLine.interval.cusNumber,"unit":'个',"content":'滑动修改间隔数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netArea.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netArea, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示网格区域")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netArea.show),expression:"series.netArea.show"}]},[_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netArea.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格区域分割间隔数")])]),(_vm.series.netArea.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netArea.interval.cusNumber,"unit":'个',"content":'滑动修改间隔数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)}}}):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("网格区域第一颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorOne),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorOne", $$v)},expression:"series.netArea.colorOne"}})],1),_c('el-col',{attrs:{"span":6}},[_vm._v("网格区域第二颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorTwo),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorTwo", $$v)},expression:"series.netArea.colorTwo"}})],1)],1)],1)],1)],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=1ee52ff0&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"4","title":"鼠标提示"}},[_c('chart-base-switch',{attrs:{"switchValue":_vm.cursor.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.cursor, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.cursor, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示提示框")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.cursor.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("鼠标提示样式")])]),_c('el-row',{staticStyle:{"margin-top":"10px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("背景颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.backgroundColor),callback:function ($$v) {_vm.$set(_vm.cursor, "backgroundColor", $$v)},expression:"cursor.backgroundColor"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerMethodArr,"selectValue":_vm.cursor.triggerOn},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发条件")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerTypeArr,"selectValue":_vm.cursor.triggerType},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发类型")])]),(_vm.cursor.triggerType != 'item')?_c('div',[_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.cursor.axisPointer.style.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线类型")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineWeightOption,"selectValue":_vm.cursor.axisPointer.style.width},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线宽")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("线条颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.axisPointer.style.color),callback:function ($$v) {_vm.$set(_vm.cursor.axisPointer.style, "color", $$v)},expression:"cursor.axisPointer.style.color"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.axisPointerArr,"selectValue":_vm.cursor.axisPointer.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器类型")])])],1):_vm._e(),(_vm.cursor.triggerType == 'item')?_c('chart-base-select',{attrs:{"selectOption":_vm.posOption,"selectValue":_vm.cursor.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示框浮层位置")])]):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":8}},[_vm._v("鼠标提示后缀")])],1),_vm._l((_vm.seriesOption),function(item,i){return _c('el-row',{key:i,staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(item))]),_c('el-col',{attrs:{"span":4}},[_c('chart-base-input',{attrs:{"hideCol":true,"placeholder":'后缀'}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'数值比例',"selectOption":_vm.ratioOption,"selectValue":_vm.cursor.format[i].ratio,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)}}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'小数位数',"selectOption":_vm.digitOption,"selectValue":_vm.cursor.format[i].digit,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)}}})],1)],1)})],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=728665dc&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("ac1f");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
-var es_string_split = __webpack_require__("1276");
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=1ee52ff0&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
@@ -104,127 +95,8 @@ var importUtil = __webpack_require__("1540");
 // EXTERNAL MODULE: ./src/data/chartJson.js
 var chartJson = __webpack_require__("b4cc");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=script&lang=js&
 
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -305,71 +177,69 @@ var chartJson = __webpack_require__("b4cc");
 //
 
 
-/* harmony default export */ var ChartAxisvue_type_script_lang_js_ = ({
-  name: 'ChartXaxis',
-  props: {
-    chartAllType: String,
-    axisOption: Object,
-    router: String
-  },
+/* harmony default export */ var ChartCursorvue_type_script_lang_js_ = ({
   components: Object(objectSpread2["a" /* default */])({}, importUtil["importComp"](importUtil)),
+  props: {
+    router: String,
+    chartAllType: String,
+    cursorOption: Object
+  },
   data: function data() {
     return {
-      axis: {},
-      series: {},
-      //具体坐标轴配置
-      fontSizeOption: '',
-      lineStyleOption: '',
-      ratioOption: '',
-      digitOption: '',
-      fzPosOption: [{
-        value: 'middle',
-        label: '居中'
+      cursor: {},
+      //鼠标提示设置
+      fontSizeOption: importUtil["deepCopy"](chartJson["f" /* fontSizeOption */]),
+      lineStyleOption: importUtil["deepCopy"](chartJson["j" /* lineStyleOption */]),
+      lineWeightOption: importUtil["deepCopy"](chartJson["k" /* lineWeightOption */]),
+      posOption: importUtil["deepCopy"](chartJson["l" /* posOption */]),
+      ratioOption: importUtil["deepCopy"](chartJson["n" /* ratioOption */]),
+      digitOption: importUtil["deepCopy"](chartJson["c" /* digitOption */]),
+      triggerTypeArr: [{
+        value: 'item',
+        label: '数据项图形触发'
       }, {
-        value: 'start',
-        label: '头部'
-      }, {
-        value: 'end',
-        label: '尾部'
-      }, {
-        value: 'hidden',
-        label: '隐藏'
+        value: 'axis',
+        label: '坐标轴触发'
       }],
-      orient: [{
-        label: '朝内',
-        value: 'inside'
+      axisPointerArr: [{
+        value: 'line',
+        label: '直线指示器'
       }, {
-        label: '朝外',
-        value: 'outside'
+        value: 'shadow',
+        label: '阴影指示器'
+      }, {
+        value: 'cross',
+        label: '十字准星指示器'
       }],
-      formatRotation: function formatRotation(val) {
-        return val + ' °';
-      }
+      triggerMethodArr: [{
+        value: 'mousemove',
+        label: '鼠标移动'
+      }, {
+        value: 'click',
+        label: '单击左键/鼠标划过'
+      }, {
+        value: 'mousemove|click',
+        label: '同时触发'
+      }]
     };
   },
   watch: {
-    axisOption: {
+    cursorOption: {
       handler: function handler(newVal) {
-        if (importUtil["isEqual"](this.axis, this.axisOption)) {
+        if (importUtil["isEqual"](this.cursor, newVal)) {
           return;
         }
 
-        this.axis = importUtil["deepCopy"](this.axisOption);
-        this.series = this.axis[newVal.axisType];
-        this.fontSizeOption = importUtil["deepCopy"](chartJson["f" /* fontSizeOption */]);
-        this.lineStyleOption = importUtil["deepCopy"](chartJson["j" /* lineStyleOption */]);
-        this.intervalOption = importUtil["deepCopy"](chartJson["i" /* intervalOption */]);
-        this.ratioOption = importUtil["deepCopy"](chartJson["n" /* ratioOption */]);
-        this.digitOption = importUtil["deepCopy"](chartJson["c" /* digitOption */]);
+        this.cursor = importUtil["deepCopy"](newVal);
       },
       immediate: true,
       deep: true
     },
-    series: {
+    cursor: {
       handler: function handler(newVal, oldVal) {
         // 改变值就重新渲染
         if (oldVal) {
-          this.changeAxis();
+          this.changeCursor();
         }
       },
       deep: true,
@@ -377,79 +247,32 @@ var chartJson = __webpack_require__("b4cc");
     }
   },
   computed: {
-    chartType: function chartType() {
-      return this.chartAllType.split('|')[1];
-    },
-    chartStyle: function chartStyle() {
-      return this.chartAllType.split('|')[2];
-    },
-    axisGroup: function axisGroup() {
-      if (this.chartType == 'bar' && this.chartStyle != 'compare') {
-        return [{
-          value: 'xAxisDown',
-          label: 'Y轴(左侧垂直)'
-        }, {
-          value: 'xAxisUp',
-          label: 'Y轴(左侧垂直)'
-        }, {
-          value: 'yAxisLeft',
-          label: 'X轴(下方水平)'
-        }, {
-          value: 'yAxisRight',
-          label: 'X轴(上方水平)'
-        }];
-      } else if (this.chartStyle == 'compare') {
-        return [{
-          value: 'xAxisDown',
-          label: 'Y轴(右侧坐标轴)'
-        }, {
-          value: 'xAxisUp',
-          label: 'Y轴(左侧坐标轴)'
-        }, {
-          value: 'yAxisLeft',
-          label: 'X轴(右侧坐标轴)'
-        }, {
-          value: 'yAxisRight',
-          label: 'X轴(左侧坐标轴)'
-        }];
-      } else {
-        return [{
-          value: 'xAxisDown',
-          label: 'X轴(下方水平)'
-        }, {
-          value: 'xAxisUp',
-          label: 'X轴(上方水平)'
-        }, {
-          value: 'yAxisLeft',
-          label: 'Y轴(左侧垂直)'
-        }, {
-          value: 'yAxisRight',
-          label: 'Y轴(右侧垂直)'
-        }];
+    seriesOption: function seriesOption() {
+      var arr = [];
+
+      for (var i = 0; i < this.cursor.format.length; i++) {
+        arr.push(this.cursor.format[i].seriesName);
       }
-    },
-    showLabel: function showLabel() {
-      if (this.chartType == 'bar' && this.axis.axisType.slice(0, 1) == 'x' || this.chartType != 'bar' && this.axis.axisType.slice(0, 1) == 'y') {
-        return true;
-      }
+
+      return arr;
     }
   },
   methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
-    changeAxis: function changeAxis() {
+    changeCursor: function changeCursor() {
       var updateObj = {
-        updateObj: importUtil["deepCopy"](this.series),
-        router: this.router + '/' + this.axis.axisType
+        updateObj: importUtil["deepCopy"](this.cursor),
+        router: this.router
       };
       this.updateChartItem(updateObj);
     }
   })
 });
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=script&lang=js&
- /* harmony default export */ var chart_ChartAxisvue_type_script_lang_js_ = (ChartAxisvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartCursorvue_type_script_lang_js_ = (ChartCursorvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue
 
 
 
@@ -458,7 +281,7 @@ var componentNormalizer = __webpack_require__("2877");
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  chart_ChartAxisvue_type_script_lang_js_,
+  chart_ChartCursorvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -468,7 +291,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   
 )
 
-/* harmony default export */ var ChartAxis = __webpack_exports__["default"] = (component.exports);
+/* harmony default export */ var ChartCursor = __webpack_exports__["default"] = (component.exports);
 
 /***/ })
 

@@ -72,7 +72,6 @@ import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import Store from '../store';
-import { createChart } from '../expendPlugins/chart/plugin'
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -2015,7 +2014,39 @@ export default function luckysheetHandler() {
     //菜单栏 图表按钮
     $("#luckysheet-chart-btn-title").click(function () {
         $("#luckysheetdatavisual").click();
-        createChart()
+        getdatabyselection()
+        let render = Store.createChart($('.luckysheet-grid-container')[0])
+        render.style.width = '400px'
+        render.style.height = '250px'
+        render.style.position = 'absolute'
+        render.style.background = '#fff'
+        render.style.zIndex = Store.zIndex
+        Store.zIndex++
+        let chartSetting = document.getElementsByClassName('chartSetting')[0]
+        chartSetting.style.display = 'block'
+
+
+        // let luckysheetGridContainer = document.getElementsByClassName('luckysheet-grid-container')[0]
+        // luckysheetGridContainer.onclick = function (e){
+        //     console.dir(e.path)
+        //     if(e.path.some(item => item.includes())){
+
+        //     }
+        // }
+        // render.onClick = function(){
+
+        // }
+        
+        // render.oncontextmenu = function(e){
+        //     let em = e || event 
+        //     em.preventDefault()
+
+        //     let dom = document.createElement('div')
+        //     dom.addClass('chartMenu')
+        //     dom.innerHtml = '<ul><li class="delChart">删除</li></ul>'
+        //     dom.style.position = 'absolute'
+        //     console.dir(em)
+        // }
     });
 
     //菜单栏 数据透视表

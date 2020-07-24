@@ -82,7 +82,7 @@ const Store = {
     jfredo: [],
     jfundo: [],
     lang: 'en', //language
-    store: [],
+    createChart: '',
     zIndex: 15
 }
 

@@ -1,37 +1,23 @@
 ((typeof self !== 'undefined' ? self : this)["webpackJsonpchartmix"] = (typeof self !== 'undefined' ? self : this)["webpackJsonpchartmix"] || []).push([[3],{
 
-/***/ "02ce":
+/***/ "138b":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=template&id=e2628114&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":16}},[_c('chart-base-box',{attrs:{"boxData":_vm.baseLabelOptionData.fontGroup,"checkboxOption":_vm.fontStyleObj},on:{"update:boxData":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontGroup", $event)},"update:box-data":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontGroup", $event)}}}),_c('el-row',{staticStyle:{"margin-top":"5px"}},[_c('el-col',{attrs:{"span":12}},[_c('chart-base-select',{attrs:{"hideCol":true,"tooltip":'选择字体大小',"selectOption":_vm.fontSizeList,"selectValue":_vm.baseLabelOptionData.fontSize},on:{"update:selectValue":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontSize", $event)}}})],1),_c('el-col',{attrs:{"span":8,"offset":2}},[_c('el-color-picker',{attrs:{"size":"mini"},on:{"change":_vm.changeStyle},model:{value:(_vm.baseLabelOptionData.color),callback:function ($$v) {_vm.$set(_vm.baseLabelOptionData, "color", $$v)},expression:"baseLabelOptionData.color"}})],1)],1)],1)],1),(_vm.baseLabelOptionData.fontSize === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.baseLabelOptionData.cusFontSize,"unit":'px',"content":'滑动修改字体大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.baseLabelOptionData, "cusFontSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.baseLabelOptionData, "cusFontSize", $event)}}}):_vm._e()],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=6331a3cc&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.hideCol)?_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("select")],2),_c('el-col',{attrs:{"span":16}},[_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)],1)],1):_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=template&id=e2628114&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=6331a3cc&
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
-var es_array_includes = __webpack_require__("caad");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.includes.js
-var es_string_includes = __webpack_require__("2532");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
-var objectSpread2 = __webpack_require__("5530");
-
-// EXTERNAL MODULE: ./src/utils/importUtil.js
-var importUtil = __webpack_require__("1540");
-
-// EXTERNAL MODULE: ./src/data/chartJson.js
-var chartJson = __webpack_require__("b4cc");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=script&lang=js&
-
-
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=script&lang=js&
 
 //
 //
@@ -52,82 +38,33 @@ var chartJson = __webpack_require__("b4cc");
 //
 //
 //
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ var ChartBaseLabelvue_type_script_lang_js_ = ({
-  name: 'chart-base-label',
+/* harmony default export */ var ChartBaseSelectvue_type_script_lang_js_ = ({
   props: {
-    router: String,
-    baseLabelOption: Object
-  },
-  components: {
-    'chart-base-slider': importUtil["ChartBaseSlider"],
-    'chart-base-select': importUtil["ChartBaseSelect"],
-    'chart-base-box': importUtil["ChartBaseBox"]
+    selectOption: Array,
+    tooltip: String,
+    selectValue: [String, Number, Array],
+    hideCol: Boolean
   },
   data: function data() {
     return {
-      baseLabelOptionData: {},
-      //整个label设置
-      fontSizeList: importUtil["deepCopy"](chartJson["e" /* fontSizeList */]),
-      //位置选择数组
-      fontStyleObj: {} //字体样式:数据=>DOM转换
-
+      select: ''
     };
   },
-  watch: {
-    baseLabelOption: {
-      handler: function handler(newVal) {
-        if (importUtil["isEqual"](this.baseLabelOptionData, newVal)) {
-          return;
-        }
-
-        this.baseLabelOptionData = importUtil["deepCopy"](newVal); //传过来的值需要深拷贝防止数据流向父组件传递
-        //根据在不同的组件内渲染不同的结构
-
-        if (this.router.includes('title')) {
-          //在主标题/副标题组件内
-          this.fontStyleObj = importUtil["deepCopy"](chartJson["h" /* fontStyleIBV */]);
-        } else {
-          //鼠标提示组件内
-          this.fontStyleObj = importUtil["deepCopy"](chartJson["g" /* fontStyleIB */]);
-        }
-      },
-      immediate: true,
-      deep: true
-    },
-    baseLabelOptionData: {
-      handler: function handler(newVal, oldVal) {
-        if (oldVal) {
-          this.changeStyle();
-        }
-      },
-      immediate: true,
-      deep: true
-    }
+  mounted: function mounted() {
+    this.select = this.selectValue;
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
-    changeStyle: function changeStyle() {
-      var updateObj = {
-        updateObj: importUtil["deepCopy"](this.baseLabelOptionData),
-        router: this.router
-      };
-      this.updateChartItem(updateObj);
+  methods: {
+    changeSelect: function changeSelect(val) {
+      this.$emit('update:selectValue', val);
     }
-  })
+  }
 });
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=script&lang=js&
- /* harmony default export */ var base_ChartBaseLabelvue_type_script_lang_js_ = (ChartBaseLabelvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseSelectvue_type_script_lang_js_ = (ChartBaseSelectvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__("2877");
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue
 
 
 
@@ -136,7 +73,7 @@ var componentNormalizer = __webpack_require__("2877");
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  base_ChartBaseLabelvue_type_script_lang_js_,
+  base_ChartBaseSelectvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -146,64 +83,137 @@ var component = Object(componentNormalizer["a" /* default */])(
   
 )
 
-/* harmony default export */ var ChartBaseLabel = __webpack_exports__["default"] = (component.exports);
+/* harmony default export */ var ChartBaseSelect = __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "2532":
+/***/ "5899":
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+
+/***/ "58a8":
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__("1d80");
+var whitespaces = __webpack_require__("5899");
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+
+/***/ "a9e3":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__("23e7");
-var notARegExp = __webpack_require__("5a34");
-var requireObjectCoercible = __webpack_require__("1d80");
-var correctIsRegExpLogic = __webpack_require__("ab13");
+var DESCRIPTORS = __webpack_require__("83ab");
+var global = __webpack_require__("da84");
+var isForced = __webpack_require__("94ca");
+var redefine = __webpack_require__("6eeb");
+var has = __webpack_require__("5135");
+var classof = __webpack_require__("c6b6");
+var inheritIfRequired = __webpack_require__("7156");
+var toPrimitive = __webpack_require__("c04e");
+var fails = __webpack_require__("d039");
+var create = __webpack_require__("7c73");
+var getOwnPropertyNames = __webpack_require__("241c").f;
+var getOwnPropertyDescriptor = __webpack_require__("06cf").f;
+var defineProperty = __webpack_require__("9bf2").f;
+var trim = __webpack_require__("58a8").trim;
 
-// `String.prototype.includes` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.includes
-$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
-  includes: function includes(searchString /* , position = 0 */) {
-    return !!~String(requireObjectCoercible(this))
-      .indexOf(notARegExp(searchString), arguments.length > 1 ? arguments[1] : undefined);
+var NUMBER = 'Number';
+var NativeNumber = global[NUMBER];
+var NumberPrototype = NativeNumber.prototype;
+
+// Opera ~12 has broken Object#toString
+var BROKEN_CLASSOF = classof(create(NumberPrototype)) == NUMBER;
+
+// `ToNumber` abstract operation
+// https://tc39.github.io/ecma262/#sec-tonumber
+var toNumber = function (argument) {
+  var it = toPrimitive(argument, false);
+  var first, third, radix, maxCode, digits, length, index, code;
+  if (typeof it == 'string' && it.length > 2) {
+    it = trim(it);
+    first = it.charCodeAt(0);
+    if (first === 43 || first === 45) {
+      third = it.charCodeAt(2);
+      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+    } else if (first === 48) {
+      switch (it.charCodeAt(1)) {
+        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal of /^0b[01]+$/i
+        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal of /^0o[0-7]+$/i
+        default: return +it;
+      }
+      digits = it.slice(2);
+      length = digits.length;
+      for (index = 0; index < length; index++) {
+        code = digits.charCodeAt(index);
+        // parseInt parses a string to a first unavailable symbol
+        // but ToNumber should return NaN if a string contains unavailable symbols
+        if (code < 48 || code > maxCode) return NaN;
+      } return parseInt(digits, radix);
+    }
+  } return +it;
+};
+
+// `Number` constructor
+// https://tc39.github.io/ecma262/#sec-number-constructor
+if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumber('+0x1'))) {
+  var NumberWrapper = function Number(value) {
+    var it = arguments.length < 1 ? 0 : value;
+    var dummy = this;
+    return dummy instanceof NumberWrapper
+      // check on 1..constructor(foo) case
+      && (BROKEN_CLASSOF ? fails(function () { NumberPrototype.valueOf.call(dummy); }) : classof(dummy) != NUMBER)
+        ? inheritIfRequired(new NativeNumber(toNumber(it)), dummy, NumberWrapper) : toNumber(it);
+  };
+  for (var keys = DESCRIPTORS ? getOwnPropertyNames(NativeNumber) : (
+    // ES3:
+    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+    // ES2015 (in case, if modules with ES2015 Number statics required before):
+    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+  ).split(','), j = 0, key; keys.length > j; j++) {
+    if (has(NativeNumber, key = keys[j]) && !has(NumberWrapper, key)) {
+      defineProperty(NumberWrapper, key, getOwnPropertyDescriptor(NativeNumber, key));
+    }
   }
-});
-
-
-/***/ }),
-
-/***/ "5a34":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isRegExp = __webpack_require__("44e7");
-
-module.exports = function (it) {
-  if (isRegExp(it)) {
-    throw TypeError("The method doesn't accept regular expressions");
-  } return it;
-};
-
-
-/***/ }),
-
-/***/ "ab13":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-
-var MATCH = wellKnownSymbol('match');
-
-module.exports = function (METHOD_NAME) {
-  var regexp = /./;
-  try {
-    '/./'[METHOD_NAME](regexp);
-  } catch (e) {
-    try {
-      regexp[MATCH] = false;
-      return '/./'[METHOD_NAME](regexp);
-    } catch (f) { /* empty */ }
-  } return false;
-};
+  NumberWrapper.prototype = NumberPrototype;
+  NumberPrototype.constructor = NumberWrapper;
+  redefine(global, NUMBER, NumberWrapper);
+}
 
 
 /***/ })
