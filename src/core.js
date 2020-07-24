@@ -8,9 +8,17 @@ import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
 import {initPlugins} from './controllers/expendPlugins';
+import { 
+    getluckysheetfile, 
+    getluckysheet_select_save, 
+    getconfig, 
+    getvisibledatarow, 
+    getvisibledatacolumn 
+} from './methods/get';
 
 let luckysheet = {};
 
+//创建luckysheet表格
 luckysheet.create = function (setting) {
     let extendsetting = common_extend(defaultSetting, setting);
 
@@ -100,6 +108,21 @@ luckysheet.create = function (setting) {
         });
     }
 }
+
+//获取所有表格数据
+luckysheet.getluckysheetfile = getluckysheetfile;
+
+//获取当前表格 选区
+luckysheet.getluckysheet_select_save = getluckysheet_select_save;
+
+//获取当前表格 config配置
+luckysheet.getconfig = getconfig;
+
+//获取当前表格 行高数据
+luckysheet.getvisibledatarow = getvisibledatarow;
+
+//获取当前表格 列宽数据
+luckysheet.getvisibledatacolumn = getvisibledatacolumn;
 
 export {
     luckysheet
