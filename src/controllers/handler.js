@@ -6468,8 +6468,8 @@ export default function luckysheetHandler() {
                 hideAfterPaletteSelect: false,
                 showSelectionPalette: true,
                 maxPaletteSize: 10,
-                cancelText: "取消",
-                chooseText: "确定颜色",
+                cancelText: locale().sheetconfig.cancelText,
+                chooseText: locale().sheetconfig.chooseText,
                 togglePaletteMoreText: "更多",
                 togglePaletteLessText: "少于",
                 clearText: "清除颜色选择",
@@ -9656,9 +9656,11 @@ export default function luckysheetHandler() {
 
                     let reg2Arr = regArr[i].match(reg2);
 
-                    for(let j = 0; j < reg2Arr.length; j++){
-                        let cpValue = reg2Arr[j].replace(/<td.*?>/g, "").replace(/<\/td>/g, "");
-                        cpRowArr.push(cpValue);
+                    if(reg2Arr != null){
+                        for(let j = 0; j < reg2Arr.length; j++){
+                            let cpValue = reg2Arr[j].replace(/<td.*?>/g, "").replace(/<\/td>/g, "");
+                            cpRowArr.push(cpValue);
+                        }
                     }
 
                     cpDataArr.push(cpRowArr);
