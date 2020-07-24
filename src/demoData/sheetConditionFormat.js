@@ -6112,7 +6112,6 @@ const sheetConditionFormat = {
 	}],
 	"visibledatarow": [],
 	"visibledatacolumn": [],
-	"rowsplit": [],
 	"ch_width": 4748,
 	"rh_height": 1790,
 	"luckysheet_select_save": [{

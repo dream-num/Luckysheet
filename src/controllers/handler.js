@@ -73,7 +73,6 @@ import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
-import locale from '../locale/locale';
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
