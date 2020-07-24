@@ -1157,6 +1157,10 @@ const sheetCell = {
 			"8": 128,
 			"9": 140,
 			"10": 144
+		},
+		"rowhidden": {
+			"30": 0,
+			"31": 0
 		}
 	},
 	"index": "0",
@@ -5547,25 +5551,50 @@ const sheetCell = {
 			"ht": 1,
 			"vt": 1
 		}
+	}, {
+		"r": 30,
+		"c": 0,
+		"v": {
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"v": "hidden1",
+			"m": "hidden1"
+		}
+	}, {
+		"r": 31,
+		"c": 0,
+		"v": {
+			"m": "hidden2",
+			"ct": {
+				"fa": "General",
+				"t": "g"
+			},
+			"v": "hidden2"
+		}
 	}],
-	"visibledatarow": [],
-	"visibledatacolumn": [],
-	"rowsplit": [],
-	"ch_width": 4748,
-	"rh_height": 1790,
+	"visibledatarow": [21, 42, 63, 84, 105, 126, 147, 168, 189, 210, 231, 252, 273, 294, 315, 336, 357, 389, 410, 431, 452, 473, 494, 515, 536, 616, 637, 658, 739, 759, 759, 759, 779, 799, 819, 839],
+	"visibledatacolumn": [98, 172, 288, 417, 554, 677, 816, 948, 1077, 1218, 1363, 1437, 1511, 1585, 1659, 1733, 1807, 1881, 1955, 2029, 2103, 2177],
+	"ch_width": 2322,
+	"rh_height": 949,
 	"luckysheet_select_save": [{
-		"row": [
-			0,
-			0
-		],
-		"column": [
-			0,
-			0
-		]
+		"left": 0,
+		"width": 97,
+		"top": 759,
+		"height": -1,
+		"left_move": 0,
+		"width_move": 97,
+		"top_move": 759,
+		"height_move": -1,
+		"row": [30, 31],
+		"column": [0, 0],
+		"row_focus": 30,
+		"column_focus": 0
 	}],
 	"luckysheet_selection_range": [],
 	"scrollLeft": 0,
-	"scrollTop": 0
+	"scrollTop": 315,
+	"load": "1"
 }
-
 export default sheetCell

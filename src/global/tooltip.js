@@ -1,6 +1,7 @@
 import { modelHTML, luckysheetchartpointconfigHTML, luckysheetToolHTML } from '../controllers/constant';
 import browser from './browser';
 import { replaceHtml } from '../utils/util';
+import locale from '../locale/locale';
 
 const tooltip = {
     info: function (title, content) {
@@ -24,12 +25,15 @@ const tooltip = {
     confirm: function (title, content, func1, func2, name1, name2) {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-confirm").remove();
+
+        const _locale = locale();
+        const locale_button = _locale.button;
         
         if(name1 == null){
-            name1 = "确定";
+            name1 = locale_button.confirm;
         }
         if(name2 == null){
-            name2 = "取消";
+            name2 = locale_button.cancel;
         }
 
         $("body").append(replaceHtml(modelHTML, { 
@@ -62,6 +66,9 @@ const tooltip = {
         });
     },
     screenshot: function (title, content, imgurl) {
+
+        const _locale = locale();
+        const locale_screenshot = _locale.screenshot;
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-confirm").remove();
         $("body").append(replaceHtml(modelHTML, { 
@@ -70,7 +77,7 @@ const tooltip = {
             "style": "z-index:100003", 
             "title": title, 
             "content": content, 
-            "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;下载&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;复制到剪切板&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>' 
+            "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadBtn +'&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadCopy +'&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadClose +'&nbsp;&nbsp;</button>' 
         }));
         let $t = $("#luckysheet-confirm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
@@ -80,7 +87,7 @@ const tooltip = {
         $("#luckysheet-confirm").css({ "left": (winw + scrollLeft - myw) / 2, "top": (winh + scrollTop - myh) / 3 }).show();
         $t.find(".luckysheet-model-conform-btn").click(function () {
             if(browser.isIE() == "1"){
-                alert("下载功能IE浏览器不支持！");
+                alert(locale_screenshot.browserNotTip);
             }
             else{
                 if (!!window.ActiveXObject || "ActiveXObject" in window){
@@ -106,11 +113,11 @@ const tooltip = {
             let dt = new clipboard.DT();
             dt.setData("text/html", "<img src='"+ imgurl +"'>");
             if(browser.isIE() == "1"){
-                alert("请在图片上右键点击'复制'");
+                alert(locale_screenshot.rightclickTip);
             }
             else{
                 clipboard.write(dt);
-                alert("已成功复制（如果粘贴失败，请在图片上右键点击'复制图片'）");  
+                alert(locale_screenshot.successTip);  
             }
         });
     },

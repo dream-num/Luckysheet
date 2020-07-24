@@ -10,14 +10,55 @@ import { modelHTML, luckysheet_CFiconsImg } from './constant';
 import server from './server';
 import { selectionCopyShow } from './select';
 import sheetmanage from './sheetmanage';
+import locale from '../locale/locale';
 import Store from '../store';
 
 //条件格式
 const conditionformat = {
     fileClone: [],
     editorRule: null, //{"sheetIndex": sheetIndex,"itemIndex": itemIndex,"data": luckysheetfile[sheetIndex].luckysheet_conditionformat_save[itemIndex]}
-    ruleTypeHtml: '<div class="ruleTypeBox"><div class="ruleTypeItem"><span class="icon">► </span><span>基于各自值设置所有单元格的格式</span></div><div class="ruleTypeItem"><span class="icon">► </span><span>只为包含以下内容的单元格设置格式</span></div><div class="ruleTypeItem"><span class="icon">► </span><span>仅对排名靠前或靠后的数值设置格式</span></div><div class="ruleTypeItem"><span class="icon">► </span><span>仅对高于或低于平均值的数值设置格式</span></div><div class="ruleTypeItem"><span class="icon">► </span><span>仅对唯一值或重复值设置格式</span></div></div>',
-    textCellColorHtml: '<div id="textCellColor"><div class="colorbox"><input id="checkTextColor" type="checkbox" checked="checked"><label for="checkTextColor">文本颜色：</label><input id="textcolorshow" data-tips="文本颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#9c0006" style="display: none;"></div><div class="colorbox"><input id="checkCellColor" type="checkbox" checked="checked"><label for="checkCellColor">单元格颜色：</label><input id="cellcolorshow" data-tips="单元格颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#ffc7ce" style="display: none;"></div></div>',
+    ruleTypeHtml: function(){
+        const conditionformat_Text = locale().conditionformat;
+
+        return `<div class="ruleTypeBox">
+                    <div class="ruleTypeItem">
+                        <span class="icon">► </span>
+                        <span>${conditionformat_Text.ruleTypeItem1}</span>
+                    </div>
+                    <div class="ruleTypeItem">
+                        <span class="icon">► </span>
+                        <span>${conditionformat_Text.ruleTypeItem2}</span>
+                    </div>
+                    <div class="ruleTypeItem">
+                        <span class="icon">► </span>
+                        <span>${conditionformat_Text.ruleTypeItem3}</span>
+                    </div>
+                    <div class="ruleTypeItem">
+                        <span class="icon">► </span>
+                        <span>${conditionformat_Text.ruleTypeItem4}</span>
+                    </div>
+                    <div class="ruleTypeItem">
+                        <span class="icon">► </span>
+                        <span>${conditionformat_Text.ruleTypeItem5}</span>
+                    </div>
+                </div>`;
+    },
+    textCellColorHtml: function(){
+        const conditionformat_Text = locale().conditionformat;
+
+        return `<div id="textCellColor">
+                    <div class="colorbox">
+                        <input id="checkTextColor" type="checkbox" checked="checked">
+                        <label for="checkTextColor">${conditionformat_Text.textColor}：</label>
+                        <input id="textcolorshow" data-tips="${conditionformat_Text.textColor}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#9c0006" style="display: none;">
+                    </div>
+                    <div class="colorbox">
+                        <input id="checkCellColor" type="checkbox" checked="checked">
+                        <label for="checkCellColor">${conditionformat_Text.cellColor}：</label>
+                        <input id="cellcolorshow" data-tips="${conditionformat_Text.cellColor}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#ffc7ce" style="display: none;">
+                    </div>
+                </div>`;
+    },
     selectRange: [],
     selectStatus: false,
     dataBarList: [
@@ -1545,44 +1586,51 @@ const conditionformat = {
     administerRuleDialog: function(){
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-administerRule-dialog").remove();
+
+        const conditionformat_Text = locale().conditionformat;
         
         //工作表
         let opHtml = ''; 
         for(let j = 0; j < Store.luckysheetfile.length; j++){
             if(Store.luckysheetfile[j].status == "1"){
-                opHtml += '<option value="' + Store.luckysheetfile[j]["index"] + '" selected="selected">当前工作表：' + Store.luckysheetfile[j]["name"] + '</option>';
+                opHtml +=  `<option value="${Store.luckysheetfile[j]["index"]}" selected="selected">
+                                ${conditionformat_Text.currentSheet}：${Store.luckysheetfile[j]["name"]}
+                            </option>`;
             }
             else{
-                opHtml += '<option value="' + Store.luckysheetfile[j]["index"] + '">表：' + Store.luckysheetfile[j]["name"] + '</option>';
+                opHtml +=  `<option value="${Store.luckysheetfile[j]["index"]}">
+                                ${conditionformat_Text.sheet}：${Store.luckysheetfile[j]["name"]}
+                            </option>`;
             }
         }
 
-        let content = '<div class="chooseSheet">' +
-                        '<label>显示其格式规则：</label>' +
-                        '<select>' + opHtml + '</select>' +
-                      '</div>' +
-                      '<div class="ruleBox">' +
-                        '<div class="ruleBtn">' +
-                            '<button id="newConditionRule" class="btn btn-default">新建规则</button>' +
-                            '<button id="editorConditionRule" class="btn btn-default">编辑规则</button>' +
-                            '<button id="deleteConditionRule" class="btn btn-default">删除规则</button>' +
-                        '</div>' +
-                        '<div class="ruleList">' +
-                            '<div class="listTitle">' +
-                                '<span>规则</span>' +
-                                '<span>格式</span>' +
-                                '<span>应用范围</span>' +
-                            '</div>' +
-                            '<div class="listBox"></div>' +
-                        '</div>' +
-                      '</div>';
+        let content =  `<div class="chooseSheet">
+                            <label>${conditionformat_Text.showRules}：</label>
+                            <select>${opHtml}</select>
+                        </div>
+                        <div class="ruleBox">
+                            <div class="ruleBtn">
+                                <button id="newConditionRule" class="btn btn-default">${conditionformat_Text.newRule}</button>
+                                <button id="editorConditionRule" class="btn btn-default">${conditionformat_Text.editRule}</button>
+                                <button id="deleteConditionRule" class="btn btn-default">${conditionformat_Text.deleteRule}</button>
+                            </div>
+                            <div class="ruleList">
+                                <div class="listTitle">
+                                    <span>${conditionformat_Text.rule}</span>
+                                    <span>${conditionformat_Text.format}</span>
+                                    <span>${conditionformat_Text.applyRange}</span>
+                                </div>
+                                <div class="listBox"></div>
+                            </div>
+                        </div>`;
 
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-administerRule-dialog", 
             "addclass": "luckysheet-administerRule-dialog", 
-            "title": "条件格式规则管理器", 
+            "title": conditionformat_Text.manageRules, 
             "content": content, 
-            "botton": '<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">确定</button><button id="luckysheet-administerRule-dialog-close" class="btn btn-default">关闭</button>', 
+            "botton":  `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-administerRule-dialog")
@@ -1609,9 +1657,8 @@ const conditionformat = {
 
         let ruleArr = _this.fileClone[getSheetIndex(index)].luckysheet_conditionformat_save; //条件格式规则集合
         if(ruleArr != null && ruleArr.length > 0){
-            let textColorHtml = ''; //文本颜色dom
-            let cellColorHtml = ''; //单元格颜色dom
-
+            const conditionformat_Text = locale().conditionformat;
+            
             for(let i = 0; i < ruleArr.length; i++){
                 let type = ruleArr[i]["type"];            //规则类型
                 let format = ruleArr[i]["format"];        //规则样式
@@ -1620,17 +1667,17 @@ const conditionformat = {
                 let ruleName;         //规则名称
                 let formatHtml = '';  //样式dom
                 if(type == "dataBar"){
-                    ruleName = "数据条";
+                    ruleName = conditionformat_Text.dataBar;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
                 }
                 else if(type == "colorGradation"){
-                    ruleName = "色阶";
+                    ruleName = conditionformat_Text.colorGradation;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
                 }
                 else if(type == "icons"){
-                    ruleName = "图标集";
+                    ruleName = conditionformat_Text.icons;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
                 }
@@ -1638,11 +1685,11 @@ const conditionformat = {
                     ruleName = _this.getConditionRuleName(ruleArr[i].conditionName, ruleArr[i].conditionRange, ruleArr[i].conditionValue);
                 
                     if(format["textColor"] != null){
-                        formatHtml += '<span class="colorbox" title="文本颜色" style="background-color:' + format["textColor"] + '"></span>';
+                        formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.textColor +'" style="background-color:' + format["textColor"] + '"></span>';
                     }
 
                     if(format["cellColor"] != null){
-                        formatHtml += '<span class="colorbox" title="单元格颜色" style="background-color:' + format["cellColor"] + '"></span>';
+                        formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.cellColor +'" style="background-color:' + format["cellColor"] + '"></span>';
                     }
                 }
                 
@@ -1661,7 +1708,7 @@ const conditionformat = {
                                     '<div class="format">' + formatHtml + '</div>' +
                                     '<div class="ruleRange">' +
                                         '<input class="formulaInputFocus" readonly="true" value="' + rangeTxtArr.join(",") + '"/>' +
-                                        '<i class="fa fa-table" aria-hidden="true" title="点击选择应用范围"></i>' +
+                                        '<i class="fa fa-table" aria-hidden="true" title="'+ conditionformat_Text.selectRange +'"></i>' +
                                     '</div>' +
                                 '</div>';
 
@@ -1758,12 +1805,14 @@ const conditionformat = {
             v = conditionValue[0];
         }
 
+        const conditionformat_Text = locale().conditionformat; 
+
         //返回条件格式规则名称
         if(conditionName == "greaterThan"){
-            return "单元格值 > " + v;
+            return conditionformat_Text.cellValue + " > " + v;
         }
         else if(conditionName == "lessThan"){
-            return "单元格值 < " + v;
+            return conditionformat_Text.cellValue + " < " + v;
         }
         else if(conditionName == "betweenness"){
             let v2;
@@ -1773,46 +1822,48 @@ const conditionformat = {
             else{
                 v2 = conditionValue[1];
             }
-            return "单元格值介于 "+ v +" 和 "+ v2 +" 之间";
+            return conditionformat_Text.cellValue + " " + conditionformat_Text.between + " " + v + " " + conditionformat_Text.in + " " + v2 + " " + conditionformat_Text.between2;
         }
         else if(conditionName == "equal"){
-            return "单元格值 = " + v;
+            return conditionformat_Text.cellValue + " = " + v;
         }
         else if(conditionName == "textContains"){
-            return "单元格值包含 =" + v;
+            return conditionformat_Text.cellValue + conditionformat_Text.contain + " =" + v;
         }
         else if(conditionName == "occurrenceDate"){
             return conditionValue;
         }
         else if(conditionName == "duplicateValue"){
             if(conditionValue == "0"){
-                return "重复值";
+                return conditionformat_Text.duplicateValue;
             }
             if(conditionValue == "1"){
-                return "唯一值";
+                return conditionformat_Text.uniqueValue;
             }
         }
         else if(conditionName == "top10"){
-            return "前 "+ v +" 个";
+            return conditionformat_Text.top + " " + v + " " + conditionformat_Text.oneself;
         }
         else if(conditionName == "top10%"){
-            return "前 "+ v +"% 个";
+            return conditionformat_Text.top + " " + v + "% " + conditionformat_Text.oneself;
         }
         else if(conditionName == "last10"){
-            return "后 "+ v +" 个";
+            return conditionformat_Text.last + " " + v + " " + conditionformat_Text.oneself;
         }
         else if(conditionName == "last10%"){
-            return "后 "+ v +"% 个";
+            return conditionformat_Text.last + " " + v + "% " + conditionformat_Text.oneself;
         }
         else if(conditionName == "AboveAverage"){
-            return "高于平均值";
+            return conditionformat_Text.aboveAverage;
         }
         else if(conditionName == "SubAverage"){
-            return "低于平均值";
+            return conditionformat_Text.belowAverage;
         }
     },
     newConditionRuleDialog: function(source){
         let _this = this;
+
+        const conditionformat_Text = locale().conditionformat; 
 
         //规则说明
         let ruleExplainHtml = _this.getRuleExplain(0);
@@ -1823,9 +1874,9 @@ const conditionformat = {
         $("#luckysheet-newConditionRule-dialog").remove();
 
         let content = '<div>' +
-                        '<div class="boxTitle">选择规则类型：</div>' +
-                        _this.ruleTypeHtml +
-                        '<div class="boxTitle">编辑规则说明：</div>' +
+                        '<div class="boxTitle">' + conditionformat_Text.chooseRuleType + '：</div>' +
+                        _this.ruleTypeHtml() +
+                        '<div class="boxTitle">' + conditionformat_Text.editRuleDescription + '：</div>' +
                         '<div class="ruleExplainBox">' +
                             ruleExplainHtml +
                         '</div>' +
@@ -1834,9 +1885,10 @@ const conditionformat = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-newConditionRule-dialog", 
             "addclass": "luckysheet-newEditorRule-dialog", 
-            "title": "新建格式规则", 
+            "title": conditionformat_Text.newFormatRule, 
             "content": content, 
-            "botton": '<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="'+source+'">确定</button><button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="'+source+'">取消</button>', 
+            "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="'+source+'">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="'+source+'">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-newConditionRule-dialog")
@@ -1914,7 +1966,7 @@ const conditionformat = {
 
         let content = '<div>' +
                         '<div class="boxTitle">选择规则类型：</div>' +
-                        _this.ruleTypeHtml +
+                        _this.ruleTypeHtml() +
                         '<div class="boxTitle">编辑规则说明：</div>' +
                         '<div class="ruleExplainBox">' +
                             ruleExplainHtml +
@@ -2094,85 +2146,87 @@ const conditionformat = {
         }).show();
     },
     getRuleExplain: function(index){
-        let textCellColorHtml = this.textCellColorHtml;
+        const conditionformat_Text = locale().conditionformat; 
+
+        let textCellColorHtml = this.textCellColorHtml();
         
         let ruleExplainHtml;
         switch(index){
             case 0: //基于各自值设置所有单元格的格式
-                ruleExplainHtml = '<div class="title">基于各自值设置所有单元格的格式：</div>' +
-                                      '<div style="height: 30px;margin-bottom: 5px;">' +
-                                        '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">格式样式：</label>' +
-                                        '<select id="type1">' +
-                                            '<option value="dataBar">数据条</option>' +
-                                            '<option value="colorGradation">色阶</option>' +
-                                            '<option value="icons">图标集</option>' +
-                                        '</select>' +
-                                      '</div>' +
-                                      '<div>' +
-                                        '<div class="type1Box dataBarBox">' +
-                                            '<div style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">填充类型：</label>' +
-                                                '<select id="type2">' +
-                                                    '<option value="gradient">渐变</option>' +
-                                                    '<option value="solid">实心</option>' +
-                                                '</select>' +
-                                            '</div>' +
-                                            '<div style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">颜色：</label>' +
-                                                '<input data-tips="数据条颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#638ec6" style="display: none;">' +    
-                                            '</div>' +
-                                        '</div>' +
-                                        '<div class="type1Box colorGradationBox" style="display: none;">' +
-                                            '<div style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">填充类型：</label>' +
-                                                '<select id="type2">' +
-                                                    '<option value="threeColor">三色</option>' +
-                                                    '<option value="twoColor">双色</option>' +
-                                                '</select>' +
-                                            '</div>' +
-                                            '<div class="maxVal" style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">最大值：</label>' +
-                                                '<input data-tips="最大值颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(99, 190, 123)" style="display: none;">' +
-                                            '</div>' +
-                                            '<div class="midVal" style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">中间值：</label>' +
-                                                '<input data-tips="中间值颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(255, 235, 132)" style="display: none;">' +
-                                            '</div>' +
-                                            '<div class="minVal" style="height: 30px;margin-bottom: 5px;">' +
-                                                '<label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">最小值：</label>' +
-                                                '<input data-tips="最小值颜色" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(248, 105, 107)" style="display: none;">' +
-                                            '</div>' +
-                                        '</div>' +
-                                        '<div class="type1Box iconsBox" style="display: none;">' +
-                                            '<label>填充类型：</label>' +
-                                            '<div class="showbox">' +
-                                                '<div class="model" data-len="3" data-leftmin="0" data-top="0" title="三向箭头(彩色)" style="background-position: 0 0;"></div>' +
-                                                '<span class="ui-selectmenu-icon ui-icon ui-icon-triangle-1-s" style="margin-top: 2px;"></span>' +
-                                            '</div>' +
-                                            '<ul>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="0" title="三向箭头(彩色)" style="background-position: 0 0;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="5" data-top="0" title="三向箭头(灰色)" style="background-position: -131px 0;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="1" title="3个三角形" style="background-position: 0 -20px;"></div></li>' +
-                                                '<li><div data-len="4" data-leftmin="0" data-top="2" title="四向箭头(彩色)" style="background-position: 0 -40px;"></div></li>' +
-                                                '<li><div data-len="4" data-leftmin="5" data-top="1" title="四向箭头(灰色)" style="background-position: -131px -20px;"></div></li>' +
-                                                '<li><div data-len="5" data-leftmin="0" data-top="3" title="五向箭头(彩色)" style="background-position: 0 -60px;"></div></li>' +
-                                                '<li><div data-len="5" data-leftmin="5" data-top="2" title="五向箭头(灰色)" style="background-position: -131px -40px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="4" title="三色交通灯(无边框)" style="background-position: 0 -80px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="5" data-top="4" title="三色交通灯(有边框)" style="background-position: -131px -80px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="5" title="三标志" style="background-position: 0 -100px;"></div></li>' +
-                                                '<li><div data-len="4" data-leftmin="5" data-top="5" title="四色交通灯" style="background-position: -131px -100px;"></div></li>' +
-                                                '<li><div data-len="4" data-leftmin="0" data-top="6" title="绿-红-黑渐变" style="background-position: 0 -120px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="7" title="三个符号(有圆圈)" style="background-position: 0 -140px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="5" data-top="7" title="三个符号(无圆圈)" style="background-position: -131px -140px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="8" title="三色旗" style="background-position: 0 -160px;"></div></li>' +
-                                                '<li><div data-len="3" data-leftmin="0" data-top="9" title="3个星形" style="background-position: 0 -180px;"></div></li>' +
-                                                '<li><div data-len="5" data-leftmin="0" data-top="10" title="五象限图" style="background-position: 0 -200px;"></div></li>' +
-                                                '<li><div data-len="5" data-leftmin="0" data-top="11" title="5个框" style="background-position: 0 -220px;"></div></li>' +
-                                                '<li><div data-len="4" data-leftmin="5" data-top="9" title="四等级" style="background-position: -131px -180px;"></div></li>' +
-                                                '<li><div data-len="5" data-leftmin="5" data-top="10" title="五等级" style="background-position: -131px -200px;"></div></li>' +
-                                            '</ul>' +
-                                        '</div>' +
-                                      '</div>';
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem1}：</div>
+                                    <div style="height: 30px;margin-bottom: 5px;">
+                                        <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.formatStyle}：</label>
+                                        <select id="type1">
+                                            <option value="dataBar">${conditionformat_Text.dataBar}</option>
+                                            <option value="colorGradation">${conditionformat_Text.colorGradation}</option>
+                                            <option value="icons">${conditionformat_Text.icons}</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <div class="type1Box dataBarBox">
+                                            <div style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.fillType}：</label>
+                                                <select id="type2">
+                                                    <option value="gradient">${conditionformat_Text.gradient}</option>
+                                                    <option value="solid">${conditionformat_Text.solid}</option>
+                                                </select>
+                                            </div>
+                                            <div style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.color}：</label>
+                                                <input data-tips="${conditionformat_Text.dataBarColor}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="#638ec6" style="display: none;"> 
+                                            </div>
+                                        </div>
+                                        <div class="type1Box colorGradationBox" style="display: none;">
+                                            <div style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.fillType}：</label>
+                                                <select id="type2">
+                                                    <option value="threeColor">${conditionformat_Text.tricolor}</option>
+                                                    <option value="twoColor">${conditionformat_Text.twocolor}</option>
+                                                </select>
+                                            </div>
+                                            <div class="maxVal" style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.maxValue}：</label>
+                                                <input data-tips="${conditionformat_Text.maxValue} ${conditionformat_Text.color}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(99, 190, 123)" style="display: none;">
+                                            </div>
+                                            <div class="midVal" style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.medianValue}：</label>
+                                                <input data-tips="${conditionformat_Text.medianValue} ${conditionformat_Text.color}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(255, 235, 132)" style="display: none;">
+                                            </div>
+                                            <div class="minVal" style="height: 30px;margin-bottom: 5px;">
+                                                <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.minValue}：</label>
+                                                <input data-tips="${conditionformat_Text.minValue} ${conditionformat_Text.color}" data-func="background" class="luckysheet-conditionformat-config-color" type="text" value="rgb(248, 105, 107)" style="display: none;">
+                                            </div>
+                                        </div>
+                                        <div class="type1Box iconsBox" style="display: none;">
+                                            <label>${conditionformat_Text.fillType}：</label>
+                                            <div class="showbox">
+                                                <div class="model" data-len="3" data-leftmin="0" data-top="0" title="${conditionformat_Text.threeWayArrow}(${conditionformat_Text.multicolor})" style="background-position: 0 0;"></div>
+                                                <span class="ui-selectmenu-icon ui-icon ui-icon-triangle-1-s" style="margin-top: 2px;"></span>
+                                            </div>
+                                            <ul>
+                                                <li><div data-len="3" data-leftmin="0" data-top="0" title="${conditionformat_Text.threeWayArrow}(${conditionformat_Text.multicolor})" style="background-position: 0 0;"></div></li>
+                                                <li><div data-len="3" data-leftmin="5" data-top="0" title="${conditionformat_Text.threeWayArrow}(${conditionformat_Text.grayColor})" style="background-position: -131px 0;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="1" title="${conditionformat_Text.threeTriangles}" style="background-position: 0 -20px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="0" data-top="2" title="${conditionformat_Text.fourWayArrow}(${conditionformat_Text.multicolor})" style="background-position: 0 -40px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="5" data-top="1" title="${conditionformat_Text.fourWayArrow}(${conditionformat_Text.grayColor})" style="background-position: -131px -20px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="0" data-top="3" title="${conditionformat_Text.fiveWayArrow}(${conditionformat_Text.multicolor})" style="background-position: 0 -60px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="5" data-top="2" title="${conditionformat_Text.fiveWayArrow}(${conditionformat_Text.grayColor})" style="background-position: -131px -40px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.rimless})" style="background-position: 0 -80px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="5" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.bordered})" style="background-position: -131px -80px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="5" title="三标志" style="background-position: 0 -100px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="5" data-top="5" title="${conditionformat_Text.fourColorTrafficLight}" style="background-position: -131px -100px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="0" data-top="6" title="绿-红-黑渐变" style="background-position: 0 -120px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="7" title="三个符号(有圆圈)" style="background-position: 0 -140px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="5" data-top="7" title="三个符号(无圆圈)" style="background-position: -131px -140px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="8" title="三色旗" style="background-position: 0 -160px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="9" title="3个星形" style="background-position: 0 -180px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="0" data-top="10" title="五象限图" style="background-position: 0 -200px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="0" data-top="11" title="5个框" style="background-position: 0 -220px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="5" data-top="9" title="四等级" style="background-position: -131px -180px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="5" data-top="10" title="五等级" style="background-position: -131px -200px;"></div></li>
+                                            </ul>
+                                        </div>
+                                    </div>`;
                 break;
             case 1: //只为包含以下内容的单元格设置格式
                 ruleExplainHtml = '<div class="title">只为满足以下条件的单元格：</div>' +

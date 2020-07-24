@@ -134,12 +134,6 @@
 - 作用：左上角<返回按钮的链接
 
 ------------
-## config
-- 类型：Object
-- 默认值：{}
-- 作用：表格行高、列宽、合并单元格、公式等设置
-
-------------
 ## devicePixelRatio
 - 类型：Number
 - 默认值：window.devicePixelRatio

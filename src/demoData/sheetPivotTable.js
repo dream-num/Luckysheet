@@ -22,27 +22,27 @@ const sheetPivotTable = {
 	"celldata": [{
 		"r": 0,
 		"c": 0,
-		"v": "计数:分数"
+		"v": "count:score"
 	}, {
 		"r": 0,
 		"c": 1,
-		"v": "理综"
+		"v": "science"
 	}, {
 		"r": 0,
 		"c": 2,
-		"v": "数学"
+		"v": "mathematics"
 	}, {
 		"r": 0,
 		"c": 3,
-		"v": "英语"
+		"v": "foreign language"
 	}, {
 		"r": 0,
 		"c": 4,
-		"v": "语文"
+		"v": "English"
 	}, {
 		"r": 0,
 		"c": 5,
-		"v": "总计"
+		"v": "total"
 	}, {
 		"r": 1,
 		"c": 0,
@@ -118,7 +118,7 @@ const sheetPivotTable = {
 	}, {
 		"r": 4,
 		"c": 0,
-		"v": "总计"
+		"v": "total"
 	}, {
 		"r": 4,
 		"c": 1,
@@ -142,7 +142,6 @@ const sheetPivotTable = {
 	}],
 	"visibledatarow": [],
 	"visibledatacolumn": [],
-	"rowsplit": [],
 	"ch_width": 4748,
 	"rh_height": 1790,
 	"luckysheet_select_save": [{
@@ -168,32 +167,32 @@ const sheetPivotTable = {
 			"row_focus": 0,
 			"column_focus": 0
 		},
-		"pivotDataSheetIndex": 5, //The sheet index where the source data is located
+		"pivotDataSheetIndex": 6, //The sheet index where the source data is located
 		"column": [{
 			"index": 3,
-			"name": "科目",
-			"fullname": "科目"
+			"name": "subject",
+			"fullname": "subject"
 		}],
 		"row": [{
 			"index": 1,
-			"name": "学生",
-			"fullname": "学生"
+			"name": "student",
+			"fullname": "student"
 		}],
 		"filter": [],
 		"values": [{
 			"index": 4,
-			"name": "分数",
-			"fullname": "计数:分数",
+			"name": "score",
+			"fullname": "count:score",
 			"sumtype": "COUNTA",
 			"nameindex": 0
 		}],
 		"showType": "column",
 		"pivotDatas": [
-			["计数:分数", "理综", "数学", "英语", "语文", "总计"],
+			["count:score", "science", "mathematics", "foreign language", "English", "total"],
 			["Alex", 1, 1, 1, 1, 4],
 			["Joy", 1, 1, 1, 1, 4],
 			["Tim", 1, 1, 1, 1, 4],
-			["总计", 3, 3, 3, 3, 12]
+			["total", 3, 3, 3, 3, 12]
 		],
 		"drawPivotTable": false,
 		"pivotTableBoundary": [5, 6]

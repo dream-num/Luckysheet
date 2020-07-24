@@ -97,11 +97,11 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     //新建行菜单
     $("body").append(maskHTML);
     $("body").append(colsmenuHTML);
-    $("body").append(rightclickHTML);
+    $("body").append(rightclickHTML());
     $("body").append(inputHTML);
-    $("body").append(replaceHtml(filtermenuHTML, { "menuid": "filter" }));
-    $("body").append(replaceHtml(filtersubmenuHTML, { "menuid": "filter" }));
-    $("body").append(sheetconfigHTML);
+    $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "filter" }));
+    $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
+    $("body").append(sheetconfigHTML());
 
     //批注
     luckysheetPostil.buildAllPs(Store.flowdata);

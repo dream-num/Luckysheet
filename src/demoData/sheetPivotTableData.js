@@ -19,74 +19,74 @@ const sheetPivotTableData = {
 	}],
 	"status": "0",
 	"order": "6",
-	"hide": 1,
+	"hide": 0,
 	"column": 18,
 	"row": 36,
 	"celldata": [{
 		"r": 0,
 		"c": 0,
 		"v": {
-			"m": "模考",
+			"m": "Mock test",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "模考"
+			"v": "Mock test"
 		}
 	}, {
 		"r": 0,
 		"c": 1,
 		"v": {
-			"m": "学生",
+			"m": "student",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "学生"
+			"v": "student"
 		}
 	}, {
 		"r": 0,
 		"c": 2,
 		"v": {
-			"m": "班级",
+			"m": "class",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "班级"
+			"v": "class"
 		}
 	}, {
 		"r": 0,
 		"c": 3,
 		"v": {
-			"m": "科目",
+			"m": "subject",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "科目"
+			"v": "subject"
 		}
 	}, {
 		"r": 0,
 		"c": 4,
 		"v": {
-			"m": "分数",
+			"m": "score",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "分数"
+			"v": "score"
 		}
 	}, {
 		"r": 1,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 1,
@@ -103,23 +103,23 @@ const sheetPivotTableData = {
 		"r": 1,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 1,
 		"c": 3,
 		"v": {
-			"m": "语文",
+			"m": "English",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "语文"
+			"v": "English"
 		}
 	}, {
 		"r": 1,
@@ -136,12 +136,12 @@ const sheetPivotTableData = {
 		"r": 2,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 2,
@@ -158,23 +158,23 @@ const sheetPivotTableData = {
 		"r": 2,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 2,
 		"c": 3,
 		"v": {
-			"m": "数学",
+			"m": "mathematics",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "数学"
+			"v": "mathematics"
 		}
 	}, {
 		"r": 2,
@@ -191,12 +191,12 @@ const sheetPivotTableData = {
 		"r": 3,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 3,
@@ -213,23 +213,23 @@ const sheetPivotTableData = {
 		"r": 3,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 3,
 		"c": 3,
 		"v": {
-			"m": "英语",
+			"m": "foreign language",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "英语"
+			"v": "foreign language"
 		}
 	}, {
 		"r": 3,
@@ -246,12 +246,12 @@ const sheetPivotTableData = {
 		"r": 4,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 4,
@@ -268,23 +268,23 @@ const sheetPivotTableData = {
 		"r": 4,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 4,
 		"c": 3,
 		"v": {
-			"m": "理综",
+			"m": "science",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "理综"
+			"v": "science"
 		}
 	}, {
 		"r": 4,
@@ -301,12 +301,12 @@ const sheetPivotTableData = {
 		"r": 5,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 5,
@@ -323,23 +323,23 @@ const sheetPivotTableData = {
 		"r": 5,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 5,
 		"c": 3,
 		"v": {
-			"m": "语文",
+			"m": "English",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "语文"
+			"v": "English"
 		}
 	}, {
 		"r": 5,
@@ -356,12 +356,12 @@ const sheetPivotTableData = {
 		"r": 6,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 6,
@@ -378,23 +378,23 @@ const sheetPivotTableData = {
 		"r": 6,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 6,
 		"c": 3,
 		"v": {
-			"m": "数学",
+			"m": "mathematics",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "数学"
+			"v": "mathematics"
 		}
 	}, {
 		"r": 6,
@@ -411,12 +411,12 @@ const sheetPivotTableData = {
 		"r": 7,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 7,
@@ -433,23 +433,23 @@ const sheetPivotTableData = {
 		"r": 7,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 7,
 		"c": 3,
 		"v": {
-			"m": "英语",
+			"m": "foreign language",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "英语"
+			"v": "foreign language"
 		}
 	}, {
 		"r": 7,
@@ -466,12 +466,12 @@ const sheetPivotTableData = {
 		"r": 8,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 8,
@@ -488,23 +488,23 @@ const sheetPivotTableData = {
 		"r": 8,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 8,
 		"c": 3,
 		"v": {
-			"m": "理综",
+			"m": "science",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "理综"
+			"v": "science"
 		}
 	}, {
 		"r": 8,
@@ -521,12 +521,12 @@ const sheetPivotTableData = {
 		"r": 9,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 9,
@@ -543,23 +543,23 @@ const sheetPivotTableData = {
 		"r": 9,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 9,
 		"c": 3,
 		"v": {
-			"m": "语文",
+			"m": "English",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "语文"
+			"v": "English"
 		}
 	}, {
 		"r": 9,
@@ -576,12 +576,12 @@ const sheetPivotTableData = {
 		"r": 10,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 10,
@@ -598,23 +598,23 @@ const sheetPivotTableData = {
 		"r": 10,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 10,
 		"c": 3,
 		"v": {
-			"m": "数学",
+			"m": "mathematics",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "数学"
+			"v": "mathematics"
 		}
 	}, {
 		"r": 10,
@@ -631,12 +631,12 @@ const sheetPivotTableData = {
 		"r": 11,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 11,
@@ -653,23 +653,23 @@ const sheetPivotTableData = {
 		"r": 11,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 11,
 		"c": 3,
 		"v": {
-			"m": "英语",
+			"m": "foreign language",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "英语"
+			"v": "foreign language"
 		}
 	}, {
 		"r": 11,
@@ -686,12 +686,12 @@ const sheetPivotTableData = {
 		"r": 12,
 		"c": 0,
 		"v": {
-			"m": "第一轮",
+			"m": "first round",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "第一轮"
+			"v": "first round"
 		}
 	}, {
 		"r": 12,
@@ -708,23 +708,23 @@ const sheetPivotTableData = {
 		"r": 12,
 		"c": 2,
 		"v": {
-			"m": "一班",
+			"m": "Class one",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "一班"
+			"v": "Class one"
 		}
 	}, {
 		"r": 12,
 		"c": 3,
 		"v": {
-			"m": "理综",
+			"m": "science",
 			"ct": {
 				"fa": "General",
 				"t": "g"
 			},
-			"v": "理综"
+			"v": "science"
 		}
 	}, {
 		"r": 12,
@@ -740,7 +740,6 @@ const sheetPivotTableData = {
 	}],
 	"visibledatarow": [],
 	"visibledatacolumn": [],
-	"rowsplit": [],
 	"ch_width": 4748,
 	"rh_height": 1790,
 	"luckysheet_select_save": [{

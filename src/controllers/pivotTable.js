@@ -881,8 +881,8 @@ const pivotTable = {
 
             $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-data-pivotTable-selection", "addclass": "luckysheet-data-pivotTable-selection", "title": "选取数据范围", "content": '<input id="luckysheet-pivotTable-range-selection-input" class="luckysheet-datavisual-range-container" style="font-size: 14px;padding:5px;max-width:none;" spellcheck="false" aria-label="数据范围" placeholder="数据范围">', "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">确认选取</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>' }));
 
-            $("body").append(replaceHtml(filtermenuHTML, { "menuid": "pivotTableFilter" }));
-            $("body").append(replaceHtml(filtersubmenuHTML, { "menuid": "pivotTableFilter" }));
+            $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "pivotTableFilter" }));
+            $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "pivotTableFilter" }));
             $("body").append(pivottableconfigHTML);
             $("body").append(pivottablesumHTML);
 
