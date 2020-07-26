@@ -470,7 +470,9 @@ const luckysheetDropCell = {
 
                         if(cell.f != null){
                             let f = "=" + formula.functionCopy(cell.f, "down", j - apply_str_r + 1);
-                            let v = formula.execfunction(f, j, i, true);
+                            let v = formula.execfunction(f, j, i);
+
+                            formula.execFunctionGroup(j, i, v[1], undefined, d);
 
                             cell.f = v[2];
                             cell.v = v[1];
@@ -552,7 +554,9 @@ const luckysheetDropCell = {
 
                         if(cell.f != null){
                             let f = "=" + formula.functionCopy(cell.f, "up", apply_end_r - j + 1);
-                            let v = formula.execfunction(f, j, i, true);
+                            let v = formula.execfunction(f, j, i);
+
+                            formula.execFunctionGroup(j, i, v[1], undefined, d);
 
                             cell.f = v[2];
                             cell.v = v[1];
@@ -644,7 +648,9 @@ const luckysheetDropCell = {
 
                         if(cell.f != null){
                             let f = "=" + formula.functionCopy(cell.f, "right", j - apply_str_c + 1);
-                            let v = formula.execfunction(f, i, j, true);
+                            let v = formula.execfunction(f, i, j);
+
+                            formula.execFunctionGroup(j, i, v[1], undefined, d);
 
                             cell.f = v[2];
                             cell.v = v[1];
@@ -726,7 +732,9 @@ const luckysheetDropCell = {
 
                         if(cell.f != null){
                             let f = "=" + formula.functionCopy(cell.f, "left", apply_end_c - j + 1);
-                            let v = formula.execfunction(f, i, j, true);
+                            let v = formula.execfunction(f, i, j);
+
+                            formula.execFunctionGroup(j, i, v[1], undefined, d);
 
                             cell.f = v[2];
                             cell.v = v[1];
