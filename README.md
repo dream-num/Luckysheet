@@ -32,7 +32,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 ## Documentation
 [Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/en/)
+[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
 
 ## Requirements
 [Node.js](https://nodejs.org/en/) Version >= 6 

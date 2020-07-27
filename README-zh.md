@@ -29,7 +29,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 ## 文档
 [在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/)
+[在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
 
 ## 环境
 [Node.js](https://nodejs.org/en/) Version >= 6 

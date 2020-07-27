@@ -1,7 +1,7 @@
 ---
-name: ''
-about: 为这个项目提出想法
-title: ''
+name: '错误报告'
+about: 创建报告帮助我们改进
+title: '[BUG]发现了个bug'
 labels: ''
 assignees: ''
 
