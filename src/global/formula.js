@@ -20,7 +20,7 @@ import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
 import luckysheet_function from '../function/luckysheet_function';
 import functionlist from '../function/functionlist';
-import { luckysheet_compareWith, luckysheet_getcelldata } from '../function/func';
+import { luckysheet_compareWith, luckysheet_getcelldata, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
 import Store from '../store';
 
 const luckysheetformula = {
@@ -1217,6 +1217,8 @@ const luckysheetformula = {
         }
         
         window.luckysheet_getcelldata_cache = null;
+
+        let isRunExecFunction = true;
         
         let d = editor.deepCopyFlowData(Store.flowdata);
 
@@ -1245,7 +1247,7 @@ const luckysheetformula = {
             else{
                 _this.delFunctionGroup(r, c);
                 _this.execFunctionGroup(r, c, value);
-
+                isRunExecFunction = false;
                 curv = _this.execFunctionGroupData[r][c];
 
                 delete curv.f;
@@ -1278,6 +1280,7 @@ const luckysheetformula = {
             else{
                 _this.delFunctionGroup(r, c);
                 _this.execFunctionGroup(r, c, value);
+                isRunExecFunction = false;
             }
         }
 
@@ -1325,10 +1328,10 @@ const luckysheetformula = {
         }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{"row": [r, r], "column": [c, c]}], cfg, null, RowlChange);
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, isRunExecFunction);
         }
-        else{
-            jfrefreshgrid(d, [{"row": [r, r], "column": [c, c]}]);
+        else {
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, isRunExecFunction);
         }
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
@@ -3922,7 +3925,7 @@ const luckysheetformula = {
         setluckysheetfile(luckysheetfile);
     },
     isFunctionRangeSave: false,
-    isFunctionRange: function(txt, r, c) {
+    isFunctionRange1: function(txt, r, c) {
         let _this = this;
 
         if (_this.operatorjson == null) {
@@ -4020,12 +4023,12 @@ const luckysheetformula = {
                         let row = range.row,
                             col = range.column;
 
-                        if((r + "_" + c) in dynamicArray_compute){
+                        if ((r + "_" + c) in dynamicArray_compute) {
                             let isd_range = false;
 
-                            for(let d_r = row[0]; d_r <= row[1]; d_r++){
-                                for(let d_c = col[0]; d_c <= col[1]; d_c++){
-                                    if((d_r + "_" + d_c) in dynamicArray_compute && dynamicArray_compute[d_r + "_" + d_c].r == r && dynamicArray_compute[d_r + "_" + d_c].c == c){
+                            for (let d_r = row[0]; d_r <= row[1]; d_r++) {
+                                for (let d_c = col[0]; d_c <= col[1]; d_c++) {
+                                    if ((d_r + "_" + d_c) in dynamicArray_compute && dynamicArray_compute[d_r + "_" + d_c].r == r && dynamicArray_compute[d_r + "_" + d_c].c == c) {
                                         isd_range = true;
                                     }
                                 }
@@ -4033,37 +4036,366 @@ const luckysheetformula = {
 
                             if (isd_range) {
                                 _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
-                            } 
+                            }
                             else {
                                 _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
                             }
                         }
-                        else{
+                        else {
                             if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1]) {
                                 _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
-                            } 
+                            }
                             else {
                                 _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
                             }
                         }
-                    } 
+                    }
                     else {
                         let sheetlen = $.trim(str).split("!");
 
                         if (sheetlen.length > 1) {
                             _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
-                        } 
+                        }
                         else {
                             _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
                         }
                     }
                 }
+                else {
+                    //console.log(str);
+                }
             }
 
             i++;
         }
-
+        //console.log(function_str);
         return function_str;
+    },
+    isFunctionRange: function (txt, r, c) {
+        let _this = this;
+
+        if (_this.operatorjson == null) {
+            let arr = _this.operator.split("|"),
+                op = {};
+
+            for (let i = 0; i < arr.length; i++) {
+                op[arr[i].toString()] = 1;
+            }
+
+            _this.operatorjson = op;
+        }
+
+        if (txt.substr(0, 1) == "=") {
+            txt = txt.substr(1);
+        }
+
+        let funcstack = txt.split("");
+        let i = 0,
+            str = "",
+            function_str = "",
+            ispassby = true;
+
+        let matchConfig = {
+            "bracket": 0,
+            "comma": 0,
+            "squote": 0,
+            "dquote": 0,
+            "compare": 0,
+            "braces": 0
+        }
+
+        let luckysheetfile = getluckysheetfile();
+        let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
+
+        //bracket 0为运算符括号、1为函数括号
+        let cal1 = [], cal2 = [], bracket = [];
+
+        while (i < funcstack.length) {
+            let s = funcstack[i];
+
+            if (s == "(" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+                if (str.length > 0 && bracket.length == 0) {
+                    function_str += "luckysheet_function." + str.toUpperCase() + ".f(";
+                    bracket.push(1);
+                    str = "";
+                }
+                else if (bracket.length == 0) {
+                    function_str += "(";
+                    bracket.push(0);
+                    str = "";
+                }
+                else {
+                    bracket.push(0);
+                    str += s;
+                }
+            }
+            else if (s == ")" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+                let bt = bracket.pop();
+
+                if (bracket.length == 0) {
+                    function_str += _this.isFunctionRange(str,r,c) + ")";
+                    str = "";
+                }
+                else {
+                    str += s;
+                }
+            }
+            else if (s == "{" && matchConfig.dquote == 0) {
+                str += '{';
+                matchConfig.braces += 1;
+            }
+            else if (s == "}" && matchConfig.dquote == 0) {
+                str += '}';
+                matchConfig.braces -= 1;
+            }
+            else if (s == '"') {
+                str += '"';
+
+                if (matchConfig.dquote > 0) {
+                    matchConfig.dquote -= 1;
+                }
+                else {
+                    matchConfig.dquote += 1;
+                }
+            }
+            else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+                if (bracket.length <= 1) {
+                    function_str += _this.isFunctionRange(str, r, c) + ",";
+                    str = "";
+                }
+                else {
+                    str += ",";
+                }
+            }
+            else if (s in _this.operatorjson && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+                let s_next = "";
+                let op = _this.operatorPriority;
+
+                if ((i + 1) < funcstack.length) {
+                    s_next = funcstack[i + 1];
+                }
+
+                if ((s + s_next) in _this.operatorjson) {
+                    if (bracket.length == 0) {
+                        if ($.trim(str).length > 0) {
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c));
+                        }
+                        else if ($.trim(function_str).length > 0) {
+                            cal2.unshift($.trim(function_str));
+                        }
+
+                        if (cal1[0] in _this.operatorjson) {
+                            let stackCeilPri = op[cal1[0]];
+
+                            while (cal1.length > 0 && stackCeilPri != null) {
+                                cal2.unshift(cal1.shift());
+                                stackCeilPri = op[cal1[0]];
+                            }
+                        }
+
+                        cal1.unshift(s + s_next);
+
+                        function_str = "";
+                        str = "";
+                    }
+                    else {
+                        str += s + s_next;
+                    }
+
+                    i++;
+                }
+                else {
+                    if (bracket.length == 0) {
+                        if ($.trim(str).length > 0) {
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c));
+                        }
+                        else if ($.trim(function_str).length > 0) {
+                            cal2.unshift($.trim(function_str));
+                        }
+
+                        if (cal1[0] in _this.operatorjson) {
+                            let stackCeilPri = op[cal1[0]];
+                            stackCeilPri = stackCeilPri == null ? 1000 : stackCeilPri;
+
+                            let sPri = op[s];
+                            sPri = sPri == null ? 1000 : sPri;
+
+                            while (cal1.length > 0 && sPri >= stackCeilPri) {
+                                cal2.unshift(cal1.shift());
+
+                                stackCeilPri = op[cal1[0]];
+                                stackCeilPri = stackCeilPri == null ? 1000 : stackCeilPri;
+                            }
+                        }
+
+                        cal1.unshift(s);
+
+                        function_str = "";
+                        str = "";
+                    }
+                    else {
+                        str += s;
+                    }
+                }
+            }
+            else {
+                if (matchConfig.dquote == 0) {
+                    str += $.trim(s);
+                }
+                else {
+                    str += s;
+                }
+            }
+
+            if (i == funcstack.length - 1) {
+                let endstr = "";
+
+                if (_this.iscelldata($.trim(str))) {
+                    endstr = "luckysheet_getcelldata('" + $.trim(str) + "')";
+
+                    _this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                }
+                else {
+                    str = $.trim(str);
+
+                    let regx = /{.*?}/;
+                    if (regx.test(str) && str.substr(0, 1) != '"' && str.substr(str.length - 1, 1) != '"') {
+                        let arraytxt = regx.exec(str)[0];
+                        let arraystart = str.search(regx);
+                        let alltxt = "";
+
+                        if (arraystart > 0) {
+                            endstr += str.substr(0, arraystart);
+                        }
+
+                        endstr += "luckysheet_getarraydata('" + arraytxt + "')";
+
+                        if (arraystart + arraytxt.length < str.length) {
+                            endstr += str.substr(arraystart + arraytxt.length, str.length);
+                        }
+                    }
+                    else {
+                        endstr = str;
+                    }
+                }
+
+                if (endstr.length > 0) {
+                    cal2.unshift(endstr);
+                }
+
+                if (cal1.length > 0) {
+                    if (function_str.length > 0) {
+                        cal2.unshift(function_str);
+                        function_str = "";
+                    }
+
+                    while (cal1.length > 0) {
+                        cal2.unshift(cal1.shift());
+                    }
+                }
+
+                if (cal2.length > 0) {
+                    function_str = _this.calPostfixExpression(cal2);
+                }
+                else {
+                    function_str += endstr;
+                }
+            }
+
+            i++;
+        }
+        //console.log(function_str);
+        _this.checkSpecialFunctionRange(function_str, r, c, dynamicArray_compute);
+        return function_str;
+    },
+    isFunctionRangeSaveChange: function (str, r, c, dynamicArray_compute) {
+        let _this = this;
+        if (r != null && c != null) {
+            let range = _this.getcellrange($.trim(str));
+            let row = range.row,
+                col = range.column;
+
+            if ((r + "_" + c) in dynamicArray_compute) {
+                let isd_range = false;
+
+                for (let d_r = row[0]; d_r <= row[1]; d_r++) {
+                    for (let d_c = col[0]; d_c <= col[1]; d_c++) {
+                        if ((d_r + "_" + d_c) in dynamicArray_compute && dynamicArray_compute[d_r + "_" + d_c].r == r && dynamicArray_compute[d_r + "_" + d_c].c == c) {
+                            isd_range = true;
+                        }
+                    }
+                }
+
+                if (isd_range) {
+                    _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
+                }
+                else {
+                    _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
+                }
+            }
+            else {
+                if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1]) {
+                    _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
+                }
+                else {
+                    _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
+                }
+            }
+        }
+        else {
+            let sheetlen = $.trim(str).split("!");
+
+            if (sheetlen.length > 1) {
+                _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
+            }
+            else {
+                _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
+            }
+        }
+    },
+    checkSpecialFunctionRange: function (function_str, r, c, dynamicArray_compute) {
+        if (!window.luckysheet_indirect_check) {
+            window.luckysheet_indirect_check = luckysheet_indirect_check;
+            window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
+            window.luckysheet_offset_check = luckysheet_offset_check;
+        }
+        if (function_str.substr(0, 20) == "luckysheet_function.") {
+            let funcName = function_str.split(".")[1];
+            if (funcName != null) {
+                funcName = funcName.toUpperCase();
+                if (funcName == "INDIRECT") {
+                    let tempFunc = "luckysheet_indirect_check" + function_str.substr(30, function_str.length);
+
+                    //tempFunc = tempFunc.replace(/luckysheet_getcelldata/g, "luckysheet_indirect_check_return");
+
+                    try {
+                        let str = eval(tempFunc);
+                        if (this.iscelldata($.trim(str))) {
+                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                        }
+                    }
+                    catch{
+
+                    }
+                }
+                else if (funcName == "OFFSET") {
+                    let tempFunc = "luckysheet_offset_check" + function_str.substr(28, function_str.length);
+
+                    let str = eval(tempFunc);
+                    if (this.iscelldata($.trim(str))) {
+                        this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                        
+                        //console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                    }
+
+                    //let result = eval(function_str);
+
+                    //console.log(function_str, result);
+                }
+            }
+
+        }
     },
     execvertex: {},
     execFunctionGroupData: null,
@@ -4332,10 +4664,10 @@ const luckysheetformula = {
             quotalen += quota2.length;
         }
         
-        if ((fp.substr(0, 16) == "luckysheet_function." || fp.substr(0, 18) == "luckysheet_compareWith") && funclen != quotalen / 2) {
+        if ((fp.substr(0, 20) == "luckysheet_function." || fp.substr(0, 22) == "luckysheet_compareWith") && funclen != quotalen / 2) {
             fp += ")";
 
-            if(fp.substr(0, 16) == "luckysheet_function."){
+            if(fp.substr(0, 20) == "luckysheet_function."){
                 txt += ")";
             }
 
@@ -4410,7 +4742,7 @@ const luckysheetformula = {
 
         let fp = $.trim(_this.functionParser(txt));
         
-        if ((fp.substr(0, 16) == "luckysheet_function." || fp.substr(0, 18) == "luckysheet_compareWith") ) {
+        if ((fp.substr(0, 20) == "luckysheet_function." || fp.substr(0, 22) == "luckysheet_compareWith") ) {
             _this.functionHTMLIndex = 0;
         }
 

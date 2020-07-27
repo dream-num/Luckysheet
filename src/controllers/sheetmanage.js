@@ -753,8 +753,6 @@ const sheetmanage = {
 
         Store.flowdata = file["data"];
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
-        formula.execFunctionGroupData = null;
-        window.luckysheet_getcelldata_cache = null;
 
         luckysheetPostil.buildAllPs(Store.flowdata);
 

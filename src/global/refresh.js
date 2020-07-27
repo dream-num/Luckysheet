@@ -18,19 +18,21 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-function jfrefreshgrid(data, range, cfg, cdformat, RowlChange) {
+function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true) {
     //单元格数据更新联动
-    formula.execFunctionExist = [];
-    for(let s = 0; s < range.length; s++){
-        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+    if (isRunExecFunction) {
+        formula.execFunctionExist = [];
+        for(let s = 0; s < range.length; s++){
+            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
+                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
+                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+                }
             }
         }
+        formula.execFunctionExist.reverse();
+        formula.execFunctionGroup(null, null, null, null, data);
+        formula.execFunctionGroupData = null;
     }
-    formula.execFunctionExist.reverse();
-    formula.execFunctionGroup(null, null, null, null, data);
-    formula.execFunctionGroupData = null;
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
