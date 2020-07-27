@@ -7,6 +7,7 @@ import { modelHTML } from './constant';
 import { selectHightlightShow } from './select';
 import conditionformat from './conditionformat';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //定位
 const luckysheetLocationCell = {
@@ -14,83 +15,87 @@ const luckysheetLocationCell = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-locationCell-dialog").remove();
 
+        const _locale = locale();
+        const locale_location = _locale.findAndReplace;
+        const locale_button = _locale.button;
+
         let content = '<div class="listbox">'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" checked="checked" id="locationConstant">'+
-                            '<label for="locationConstant">常量</label>'+
+                            '<label for="locationConstant">'+locale_location.locationConstant+'</label>'+
                             '<div class="subbox">'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="date" id="locationConstantDate">'+
-                                    '<label for="locationConstantDate">日期</label>'+
+                                    '<label for="locationConstantDate">'+locale_location.locationDate+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="number" id="locationConstantNumber">'+
-                                    '<label for="locationConstantNumber">数字</label>'+
+                                    '<label for="locationConstantNumber">'+locale_location.locationDigital+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="string" id="locationConstantString">'+
-                                    '<label for="locationConstantString">字符</label>'+
+                                    '<label for="locationConstantString">'+locale_location.locationString+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="boolean" id="locationConstantBoolean">'+
-                                    '<label for="locationConstantBoolean">逻辑值</label>'+
+                                    '<label for="locationConstantBoolean">'+locale_location.locationBool+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="error" id="locationConstantError">'+
-                                    '<label for="locationConstantError">错误</label>'+
+                                    '<label for="locationConstantError">'+locale_location.locationBool+'</label>'+
                                 '</div>'+
                             '</div>'+
                         '</div>'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" id="locationFormula">'+
-                            '<label for="locationFormula">公式</label>'+
+                            '<label for="locationFormula">'+locale_location.locationFormula+'</label>'+
                             '<div class="subbox">'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="date" id="locationFormulaDate" disabled="true">'+
-                                    '<label for="locationFormulaDate" style="color: #666">日期</label>'+
+                                    '<label for="locationFormulaDate" style="color: #666">'+locale_location.locationDate+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="number" id="locationFormulaNumber" disabled="true">'+
-                                    '<label for="locationFormulaNumber" style="color: #666">数字</label>'+
+                                    '<label for="locationFormulaNumber" style="color: #666">'+locale_location.locationDigital+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="string" id="locationFormulaString" disabled="true">'+
-                                    '<label for="locationFormulaString" style="color: #666">字符</label>'+
+                                    '<label for="locationFormulaString" style="color: #666">'+locale_location.locationString+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="boolean" id="locationFormulaBoolean" disabled="true">'+
-                                    '<label for="locationFormulaBoolean" style="color: #666">逻辑值</label>'+
+                                    '<label for="locationFormulaBoolean" style="color: #666">'+locale_location.locationBool+'</label>'+
                                 '</div>'+
                                 '<div class="subItem">'+
                                     '<input type="checkbox" checked="checked" class="error" id="locationFormulaError" disabled="true">'+
-                                    '<label for="locationFormulaError" style="color: #666">错误</label>'+
+                                    '<label for="locationFormulaError" style="color: #666">'+locale_location.locationError+'</label>'+
                                 '</div>'+
                             '</div>'+
                         '</div>'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" id="locationNull">'+
-                            '<label for="locationNull">空值</label>'+
+                            '<label for="locationNull">'+locale_location.locationNull+'</label>'+
                         '</div>'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" id="locationCF">'+
-                            '<label for="locationCF">条件格式</label>'+
+                            '<label for="locationCF">'+locale_location.locationCondition+'</label>'+
                         '</div>'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" id="locationStepRow">'+
-                            '<label for="locationStepRow">间隔行</label>'+
+                            '<label for="locationStepRow">'+locale_location.locationRowSpan+'</label>'+
                         '</div>'+
                         '<div class="listItem">'+
                             '<input type="radio" name="locationType" id="locationStepColumn">'+
-                            '<label for="locationStepColumn">间隔列</label>'+
+                            '<label for="locationStepColumn">'+locale_location.locationColumnSpan+'</label>'+
                         '</div>'+
                       '</div>';
 
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-locationCell-dialog", 
             "addclass": "luckysheet-locationCell-dialog", 
-            "title": "定位条件", 
+            "title": locale_location.location, 
             "content": content, 
-            "botton": '<button id="luckysheet-locationCell-dialog-confirm" class="btn btn-primary">确定</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "botton": '<button id="luckysheet-locationCell-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-locationCell-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
@@ -166,10 +171,10 @@ const luckysheetLocationCell = {
             else if(id == "locationStepRow"){
                 if(Store.luckysheet_select_save.length == 0 || (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].row[0] == Store.luckysheet_select_save[0].row[1])){
                     if(isEditMode()){
-                        alert("请选择最少两行");
+                        alert(locale_location.locationTiplessTwoRow);
                     }
                     else{
-                        tooltip.info("提示", "请选择最少两行"); 
+                        tooltip.info("", locale_location.locationTiplessTwoRow); 
                     }
                     return;                            
                 }
@@ -181,10 +186,10 @@ const luckysheetLocationCell = {
             else if(id == "locationStepColumn"){
                 if(Store.luckysheet_select_save.length == 0 || (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].column[0] == Store.luckysheet_select_save[0].column[1])){
                     if(isEditMode()){
-                        alert("请选择最少两列");
+                        alert(locale_location.locationTiplessTwoColumn);
                     }
                     else{
-                        tooltip.info("提示", "请选择最少两列");    
+                        tooltip.info("", locale_location.locationTiplessTwoColumn);    
                     }
                     return;                            
                 }
@@ -262,10 +267,10 @@ const luckysheetLocationCell = {
 
             if(ruleArr == null || ruleArr.length == 0){
                 if(isEditMode()){
-                    alert("未找到单元格");
+                    alert(locale_location.locationTipNotFindCell);
                 }
                 else{
-                    tooltip.info("提示", "未找到单元格");
+                    tooltip.info("", locale_location.locationTipNotFindCell);
                 }
 
                 return;
@@ -275,10 +280,10 @@ const luckysheetLocationCell = {
 
             if(Object.keys(computeMap).length == 0){
                 if(isEditMode()){
-                    alert("未找到单元格");
+                    alert(locale_location.locationTipNotFindCell);
                 }
                 else{
-                    tooltip.info("提示", "未找到单元格");
+                    tooltip.info("", locale_location.locationTipNotFindCell);
                 }
 
                 return;
@@ -351,10 +356,10 @@ const luckysheetLocationCell = {
 
         if(rangeArr.length == 0){
             if(isEditMode()){
-                alert("未找到单元格");
+                alert(locale_location.locationTipNotFindCell);
             }
             else{
-                tooltip.info("提示", "未找到单元格");  
+                tooltip.info("", locale_location.locationTipNotFindCell);  
             }
         }
         else{

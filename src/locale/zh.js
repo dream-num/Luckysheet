@@ -71,10 +71,14 @@ export default {
     button: {
         confirm: '确定',
         cancel: '取消',
+        colse:"关闭"
     },
-    tooltip: {
-        paintFormatStart: '格式刷开启',
-        paintFormatEnd: 'ESC键退出',
+    paint: {
+        start: '格式刷开启',
+        end: 'ESC键退出',
+
+        tipSelectRange:"请选择需要复制格式的区域",
+        tipNotMulti:"无法对多重选择区域执行此操作",
     },
     format: {
         moreCurrency: '更多货币格式',
@@ -588,6 +592,23 @@ export default {
         noMatchTip:"找不到匹配项",
 
         successTip:"已经帮您搜索并进行了${xlength}处替换",
+
+        locationConstant:"常量",
+        locationFormula:"公式",
+        locationDate:"日期",
+        locationDigital:"数字",
+        locationString:"字符",
+        locationBool:"逻辑值",
+        locationError:"错误",
+        locationNull:"空值",
+        locationCondition:"条件格式",
+        locationRowSpan:"间隔行",
+        locationColumnSpan:"间隔列",
+
+        locationTiplessTwoRow:"请选择最少两行",
+        locationTiplessTwoColumn:"请选择最少两列",
+        locationTipNotFindCell:"未找到单元格"
+
     },
     sheetconfig: {
         delete: '删除',
