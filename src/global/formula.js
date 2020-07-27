@@ -4370,25 +4370,33 @@ const luckysheetformula = {
 
                     try {
                         let str = eval(tempFunc);
+                        if(str instanceof Object && str.data!=null){
+                            str = str.data.v;
+                        }
                         if (this.iscelldata($.trim(str))) {
                             this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
-                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                            //console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
                     catch{
 
                     }
+                    
+                    
                 }
                 else if (funcName == "OFFSET") {
                     let tempFunc = "luckysheet_offset_check" + function_str.substr(28, function_str.length);
 
-                    let str = eval(tempFunc);
-                    if (this.iscelldata($.trim(str))) {
-                        this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
-                        
-                        //console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                    try {
+                        let str = eval(tempFunc);
+                        if (this.iscelldata($.trim(str))) {
+                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                            //console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                        }
                     }
+                    catch{
 
+                    }
                     //let result = eval(function_str);
 
                     //console.log(function_str, result);

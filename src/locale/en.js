@@ -5,8 +5,8 @@ export default {
         paintFormat: 'Paint format',
         currencyFormat: 'Format as currency',
         percentageFormat: 'Format as percent',
-        decreaseDecimal: 'Decrease decimal places',
-        increaseDecimal: 'Increase decimal places',
+        numberDecrease: 'Decrease decimal places',
+        numberIncrease: 'Increase decimal places',
         moreFormats:'More formats',
         font: 'Font',
         fontSize: 'Font size',
@@ -71,10 +71,14 @@ export default {
     button: {
         confirm: 'OK',
         cancel: 'Cancel',
+        colse:"close"
     },
-    tooltip:{
-        paintFormatStart: 'Paint format start',
-        paintFormatEnd: 'ESC key to exit',
+    paint:{
+        start: 'Paint format start',
+        end: 'ESC key to exit',
+
+        tipSelectRange:"Please select the range to be copied",
+        tipNotMulti:"Cannot perform this operation on multiple selection range",
     },
     format:{
         moreCurrency: 'More currency formats',
@@ -465,10 +469,10 @@ export default {
         orderAZ: 'A-Z order',
         orderZA: 'Z-A order',
         clearContent: 'Clear content',
-        matrix: 'Matrix operation selection',
-        sortSelection: 'Sort selection',
-        filterSelection: 'Filter selection',
-        chartGeneration: 'Chart generation',
+        matrix: 'Matrix operation',
+        sortSelection: 'Sort',
+        filterSelection: 'Filter',
+        chartGeneration: 'Create chart',
         firstLineTitle: 'First line title',
         untitled: 'Untitled',
         array1: 'One-dimensional array',
@@ -579,6 +583,22 @@ export default {
         noMatchTip:"No match found",
 
         successTip:"${xlength} items found",
+
+        locationConstant:"Constant",
+        locationFormula:"Formula",
+        locationDate:"Date",
+        locationDigital:"number",
+        locationString:"String",
+        locationBool:"Logical",
+        locationError:"Error",
+        locationNull:"Null",
+        locationCondition:"Conditional format",
+        locationRowSpan:"Row span",
+        locationColumnSpan:"Column span",
+
+        locationTiplessTwoRow:"Please select at least two Row",
+        locationTiplessTwoColumn:"Please select at least two columns",
+        locationTipNotFindCell:"Cell not found"
     
     },
     sheetconfig: {

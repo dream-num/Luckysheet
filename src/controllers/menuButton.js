@@ -101,26 +101,30 @@ const menuButton = {
 
         //格式刷
         $("#luckysheet-icon-paintformat").click(function(){
+
+            let _locale = locale();
+            let locale_paint = _locale.paint;
+
             if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
-                    alert("请选择需要复制格式的区域");
+                    alert(locale_paint.tipSelectRange);
                 }
                 else{
-                    tooltip.info("提示","请选择需要复制格式的区域");
+                    tooltip.info("",locale_paint.tipSelectRange);
                 }
                 return;
             }
             else if(Store.luckysheet_select_save.length > 1){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_paint.tipNotMulti);
                 }
                 else{
-                    tooltip.info("提示","无法对多重选择区域执行此操作");
+                    tooltip.info("",locale_paint.tipNotMulti);
                 }
                 return;
             }
 
-            tooltip.popover("<i class='fa fa-paint-brush'></i> 格式刷开启", "topCenter", true, null, "ESC键退出",function(){
+            tooltip.popover("<i class='fa fa-paint-brush'></i> "+locale_paint.start+"", "topCenter", true, null, locale_paint.end,function(){
                 _this.cancelPaintModel();
             });
             $("#luckysheet-sheettable_0").addClass("luckysheetPaintCursor");
@@ -152,26 +156,28 @@ const menuButton = {
             _this.luckysheetPaintSingle = true;
         });
         $("#luckysheet-icon-paintformat").dblclick(function(){
+            let _locale = locale();
+            let locale_paint = _locale.paint;
             if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
-                    alert("请选择需要复制格式的区域");
+                    alert(locale_paint.tipSelectRange);
                 }
                 else{
-                    tooltip.info("提示","请选择需要复制格式的区域");  
+                    tooltip.info("",locale_paint.tipSelectRange);  
                 }
                 return;
             }
             else if(Store.luckysheet_select_save.length > 1){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_paint.tipNotMulti);
                 }
                 else{
-                    tooltip.info("提示","无法对多重选择区域执行此操作");
+                    tooltip.info("",locale_paint.tipNotMulti);
                 }
                 return;
             }
 
-            tooltip.popover("<i class='fa fa-paint-brush'></i> 格式刷开启", "topCenter", true, null, "ESC键退出",function(){
+            tooltip.popover("<i class='fa fa-paint-brush'></i> "+locale_paint.start, "topCenter", true, null, locale_paint.end,function(){
                 _this.cancelPaintModel();
             });
             $("#luckysheet-sheettable_0").addClass("luckysheetPaintCursor");
@@ -1434,7 +1440,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "rotation-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
