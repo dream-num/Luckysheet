@@ -1933,17 +1933,20 @@ const menuButton = {
         $("#luckysheet-icon-function-menu").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
+
+            const _locale = locale();
+            const locale_formula = _locale.formula;
             
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": "求和", "value": "SUM", "example": 'SUM'},
-                    {"text": "平均值", "value": "AVERAGE", "example": 'AVERAGE'},
-                    {"text": "计数", "value": "COUNT", "example": 'COUNT'},
-                    {"text": "最大值", "value": "MAX", "example": 'MAX'},
-                    {"text": "最小值", "value": "MIN", "example": 'MIN'},
+                    {"text": locale_formula.sum, "value": "SUM", "example": 'SUM'},
+                    {"text": locale_formula.average, "value": "AVERAGE", "example": 'AVERAGE'},
+                    {"text": locale_formula.count, "value": "COUNT", "example": 'COUNT'},
+                    {"text": locale_formula.max, "value": "MAX", "example": 'MAX'},
+                    {"text": locale_formula.min, "value": "MIN", "example": 'MIN'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "if公式生成器", "value": "if", "example": 'IF'},
-                    {"text": "函数查找 ...", "value": "formula", "example": ""}
+                    {"text": locale_formula.ifGenerate, "value": "if", "example": 'IF'},
+                    {"text": locale_formula.find+" ...", "value": "formula", "example": ""}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1951,7 +1954,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "function-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(150);
+                $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
@@ -1972,10 +1975,10 @@ const menuButton = {
                             }
                             else{
                                 if(isEditMode()){
-                                    alert("该单元格函数不属于if公式！");
+                                    alert(locale_formula.tipNotBelongToIf);
                                 }
                                 else{
-                                    tooltip.info("该单元格函数不属于if公式！","");
+                                    tooltip.info(locale_formula.tipNotBelongToIf,"");
                                 }
                                 return;
                             }
@@ -1990,10 +1993,10 @@ const menuButton = {
                         //点击函数查找弹出框
                         if(Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("请选择单元格插入函数");
+                                alert(locale_formula.tipSelectCell);
                             }
                             else{
-                                tooltip.info("请选择单元格插入函数","");
+                                tooltip.info(locale_formula.tipSelectCell,"");
                             }
 
                             return;
