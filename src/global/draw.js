@@ -400,40 +400,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             let end_c = Store.visibledatacolumn[c] - scrollWidth;
 
-            //横线
-            if(c == dataset_col_ed && !Store.luckysheetcurrentisPivotTable){
-                luckysheetTableContent.beginPath();
-                luckysheetTableContent.moveTo(
-                    Store.devicePixelRatio * (offsetLeft - 1), 
-                    Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
-                );
-                luckysheetTableContent.lineTo(
-                    Store.devicePixelRatio * (fill_col_ed - scrollWidth + offsetLeft - 2), 
-                    Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
-                );
-                luckysheetTableContent.lineWidth = Store.devicePixelRatio;
-                luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
-                luckysheetTableContent.closePath();
-                luckysheetTableContent.stroke();
-            }
-
-            //竖线
-            if(r == dataset_row_st && !Store.luckysheetcurrentisPivotTable){
-                luckysheetTableContent.beginPath();
-                luckysheetTableContent.moveTo(
-                    Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-                    Store.devicePixelRatio * (offsetTop - 1)
-                );
-                luckysheetTableContent.lineTo(
-                    Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-                    Store.devicePixelRatio * (fill_row_ed - scrollHeight + offsetTop - 2)
-                );
-                luckysheetTableContent.lineWidth = Store.devicePixelRatio;
-                luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
-                luckysheetTableContent.closePath();
-                luckysheetTableContent.stroke();
-            }
-
             //数据透视表
             if (!!Store.luckysheetcurrentisPivotTable && pivotTable.drawPivotTable) {
                 if ((c == 0 || c == 5) && r <= 11) {
@@ -708,8 +674,14 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         //右边框
         luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), Store.devicePixelRatio * (start_r + offsetTop));
-        luckysheetTableContent.lineTo(Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), Store.devicePixelRatio * (end_r - 2 + offsetTop));
+        luckysheetTableContent.moveTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+            Store.devicePixelRatio * (start_r + offsetTop - 2)
+        );
+        luckysheetTableContent.lineTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2)
+        );
         luckysheetTableContent.lineWidth = Store.devicePixelRatio;
 
         if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
@@ -724,8 +696,14 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         //下边框
         luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(Store.devicePixelRatio * (start_c - 2 + offsetLeft), Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop));
-        luckysheetTableContent.lineTo(Store.devicePixelRatio * (end_c + offsetLeft - 2), Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop));
+        luckysheetTableContent.moveTo(
+            Store.devicePixelRatio * (start_c + offsetLeft - 2), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+        );
+        luckysheetTableContent.lineTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+        );
         luckysheetTableContent.lineWidth = Store.devicePixelRatio;
 
         if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
@@ -742,647 +720,1227 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     //非空白单元格渲染
     let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, canvasType){
         let cell = Store.flowdata[r][c];
-        let cellWidth = end_c - start_c;
-        let cellHeight = end_r - start_r;
-
-        //取渲染单元格大小离屏canvas
-        let offlinecanvasElement = offlinecanvasElement_cache[cellWidth + '_' + cellHeight];
-        if(offlinecanvasElement == null){
-            offlinecanvasElement = document.createElement('canvas');
-            offlinecanvasElement.width = cellWidth * Store.devicePixelRatio;
-            offlinecanvasElement.height = cellHeight * Store.devicePixelRatio;
-            offlinecanvasElement_cache[cellWidth + '_' + cellHeight] = offlinecanvasElement;
-        }
-        let offlinecanvas = offlinecanvasElement.getContext("2d");
-
-        offlinecanvas.clearRect(
-            0, 
-            0, 
-            cellWidth * Store.devicePixelRatio,
-            cellHeight * Store.devicePixelRatio
-        )
+        let cellWidth = end_c - start_c - 2;
+        let cellHeight = end_r - start_r - 2;
+        let space_width = 2, space_height = 2; //宽高方向 间隙
 
         let fontset = luckysheetfontformat(cell);
-        offlinecanvas.font = fontset;
-        
-        //文本宽度和高度
+        luckysheetTableContent.font = fontset;
+
+        //文本计算 宽度和高度
+        let cellValueSize = getCellValueSize(cell, value, luckysheetTableContent, cellWidth, cellHeight, space_width, space_height);
+
+        //水平对齐
+        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c, "ht");
+        //垂直对齐
+        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c, "vt");
+
+        //文本单行 宽度和高度
         let measureText = luckysheetTableContent.measureText(value);
         let textMetrics = measureText.width;
         let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
-
+        
         //交替颜色
         let checksAF = alternateformat.checksAF(r, c, af_compute); 
         //条件格式
         let checksCF = conditionformat.checksCF(r, c, cf_compute); 
 
         //单元格 背景颜色
-        offlinecanvas.fillStyle = menuButton.checkstatus(Store.flowdata, r, c, "bg");
-
-        //若单元格有交替颜色 背景颜色
-        if(checksAF != null && checksAF[1] != null){ 
-            offlinecanvas.fillStyle = checksAF[1];
+        luckysheetTableContent.fillStyle = menuButton.checkstatus(Store.flowdata, r, c, "bg");
+        if(checksAF != null && checksAF[1] != null){ //若单元格有交替颜色 背景颜色
+            luckysheetTableContent.fillStyle = checksAF[1];
         }
-        //若单元格有条件格式 背景颜色
-        if(checksCF != null && checksCF["cellColor"] != null){ 
-            offlinecanvas.fillStyle = checksCF["cellColor"];
+        if(checksCF != null && checksCF["cellColor"] != null){ //若单元格有条件格式 背景颜色
+            luckysheetTableContent.fillStyle = checksCF["cellColor"];
         }
-
-        offlinecanvas.fillRect(
-            0, 
-            0, 
-            cellWidth * Store.devicePixelRatio,
-            cellHeight * Store.devicePixelRatio
+        luckysheetTableContent.fillRect(
+            (start_c + offsetLeft - 1) * Store.devicePixelRatio, 
+            (start_r + offsetTop) * Store.devicePixelRatio, 
+            (end_c - start_c + 2) * Store.devicePixelRatio,
+            (end_r - start_r + 1) * Store.devicePixelRatio
         )
 
-        //若单元格有批注（单元格右上角红色小三角标示）
-        if(cell.ps != null){
-            let ps_w = 5, ps_h = 5; //红色小三角宽高
+        // 非Safari浏览器
+        //（canvasType为offline）
+        //（水平对齐方式为居中或右对齐 且 文本宽度大于单元格宽度）
+        //（文本高度大于单元格高度）
+        // 走离屏canvas方法
+        if(browser.BrowserType() != "Safari" && ( canvasType == "offline" || ( (horizonAlign == "0" || horizonAlign == "2") && cellWidth < cellValueSize.width ) || cellHeight < cellValueSize.height )){
+            //取渲染单元格大小离屏canvas
+            let offlinecanvasElement = offlinecanvasElement_cache[cellWidth + '_' + cellHeight];
+            if(offlinecanvasElement == null){
+                offlinecanvasElement = document.createElement('canvas');
+                offlinecanvasElement.width = cellWidth * Store.devicePixelRatio;
+                offlinecanvasElement.height = cellHeight * Store.devicePixelRatio;
+                offlinecanvasElement_cache[cellWidth + '_' + cellHeight] = offlinecanvasElement;
+            }
+            let offlinecanvas = offlinecanvasElement.getContext("2d");
 
-            offlinecanvas.beginPath();
-            offlinecanvas.moveTo(
-                Store.devicePixelRatio * (cellWidth - ps_w), 
-                0
+            offlinecanvas.clearRect(
+                0, 
+                0, 
+                cellWidth * Store.devicePixelRatio, 
+                cellHeight * Store.devicePixelRatio
             );
-            offlinecanvas.lineTo(
-                Store.devicePixelRatio * cellWidth, 
-                0
-            );
-            offlinecanvas.lineTo(
-                Store.devicePixelRatio * cellWidth, 
-                Store.devicePixelRatio * ps_h
-            );
-            offlinecanvas.fillStyle = "#FC6666";
-            offlinecanvas.fill();
-            offlinecanvas.closePath();
-        }
+            offlinecanvas.font = fontset;
 
-        let space_width = 2, space_height = 2; //宽高方向 间隙
-
-        //若单元格有条件格式数据条
-        if(checksCF != null && checksCF["dataBar"] != null){
-            let x = Store.devicePixelRatio * space_width;
-            let y = Store.devicePixelRatio * space_height;
-            let w = Store.devicePixelRatio * (cellWidth - space_width * 2);
-            let h = Store.devicePixelRatio * (cellHeight - space_height * 2);
-
-            let valueType = checksCF["dataBar"]["valueType"];
-            let valueLen = checksCF["dataBar"]["valueLen"];
-            let format = checksCF["dataBar"]["format"];
-
-            if(valueType == 'minus'){
-                //负数
-                let minusLen = checksCF["dataBar"]["minusLen"];
-                
-                if(format.length > 1){
-                    //渐变
-                    let my_gradient = offlinecanvas.createLinearGradient(
-                        x + w * minusLen * (1 - valueLen), 
-                        y, 
-                        x + w * minusLen, 
-                        y
-                    );
-                    my_gradient.addColorStop(0, "#ffffff");
-                    my_gradient.addColorStop(1, "#ff0000");
-
-                    offlinecanvas.fillStyle = my_gradient;
-                }
-                else{
-                    //单色
-                    offlinecanvas.fillStyle = "#ff0000";
-                }
-                
-                offlinecanvas.fillRect(
-                    x + w * minusLen * (1 - valueLen), 
-                    y, 
-                    w * minusLen * valueLen, 
-                    h
-                );
+            //若单元格有批注（单元格右上角红色小三角标示）
+            if(cell.ps != null){
+                let ps_w = 5, ps_h = 5; //红色小三角宽高
 
                 offlinecanvas.beginPath();
                 offlinecanvas.moveTo(
-                    x + w * minusLen * (1 - valueLen), 
-                    y
+                    Store.devicePixelRatio * (cellWidth - ps_w), 
+                    0
                 );
                 offlinecanvas.lineTo(
-                    x + w * minusLen * (1 - valueLen), 
-                    y + h
+                    Store.devicePixelRatio * cellWidth, 
+                    0
                 );
                 offlinecanvas.lineTo(
-                    x + w * minusLen, 
-                    y + h
+                    Store.devicePixelRatio * cellWidth, 
+                    Store.devicePixelRatio * ps_h
                 );
-                offlinecanvas.lineTo(
-                    x + w * minusLen, 
-                    y
-                );
-                offlinecanvas.lineTo(
-                    x + w * minusLen * (1 - valueLen), 
-                    y
-                );
-                offlinecanvas.lineWidth = Store.devicePixelRatio;
-                offlinecanvas.strokeStyle = "#ff0000";
-                offlinecanvas.stroke();
+                offlinecanvas.fillStyle = "#FC6666";
+                offlinecanvas.fill();
                 offlinecanvas.closePath();
             }
-            else if(valueType == 'plus'){
-                //正数
-                let plusLen = checksCF["dataBar"]["plusLen"];
 
-                if(plusLen == 1){
+            //若单元格有条件格式数据条
+            if(checksCF != null && checksCF["dataBar"] != null){
+                let x = Store.devicePixelRatio * space_width;
+                let y = Store.devicePixelRatio * space_height;
+                let w = Store.devicePixelRatio * (cellWidth - space_width * 2);
+                let h = Store.devicePixelRatio * (cellHeight - space_height * 2);
+
+                let valueType = checksCF["dataBar"]["valueType"];
+                let valueLen = checksCF["dataBar"]["valueLen"];
+                let format = checksCF["dataBar"]["format"];
+
+                if(valueType == 'minus'){
+                    //负数
+                    let minusLen = checksCF["dataBar"]["minusLen"];
+                    
                     if(format.length > 1){
                         //渐变
                         let my_gradient = offlinecanvas.createLinearGradient(
+                            x + w * minusLen * (1 - valueLen), 
+                            y, 
+                            x + w * minusLen, 
+                            y
+                        );
+                        my_gradient.addColorStop(0, "#ffffff");
+                        my_gradient.addColorStop(1, "#ff0000");
+
+                        offlinecanvas.fillStyle = my_gradient;
+                    }
+                    else{
+                        //单色
+                        offlinecanvas.fillStyle = "#ff0000";
+                    }
+                    
+                    offlinecanvas.fillRect(
+                        x + w * minusLen * (1 - valueLen), 
+                        y, 
+                        w * minusLen * valueLen, 
+                        h
+                    );
+
+                    offlinecanvas.beginPath();
+                    offlinecanvas.moveTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y
+                    );
+                    offlinecanvas.lineTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y + h
+                    );
+                    offlinecanvas.lineTo(
+                        x + w * minusLen, 
+                        y + h
+                    );
+                    offlinecanvas.lineTo(
+                        x + w * minusLen, 
+                        y
+                    );
+                    offlinecanvas.lineTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y
+                    );
+                    offlinecanvas.lineWidth = Store.devicePixelRatio;
+                    offlinecanvas.strokeStyle = "#ff0000";
+                    offlinecanvas.stroke();
+                    offlinecanvas.closePath();
+                }
+                else if(valueType == 'plus'){
+                    //正数
+                    let plusLen = checksCF["dataBar"]["plusLen"];
+
+                    if(plusLen == 1){
+                        if(format.length > 1){
+                            //渐变
+                            let my_gradient = offlinecanvas.createLinearGradient(
+                                x, 
+                                y, 
+                                x + w * valueLen, 
+                                y
+                            );
+                            my_gradient.addColorStop(0, format[0]);
+                            my_gradient.addColorStop(1, format[1]);
+        
+                            offlinecanvas.fillStyle = my_gradient;
+                        }
+                        else{
+                            //单色
+                            offlinecanvas.fillStyle = format[0];
+                        }
+                        
+                        offlinecanvas.fillRect(
                             x, 
                             y, 
+                            w * valueLen, 
+                            h
+                        );
+
+                        offlinecanvas.beginPath();
+                        offlinecanvas.moveTo(
+                            x, 
+                            y
+                        );
+                        offlinecanvas.lineTo(
+                            x, 
+                            y + h
+                        );
+                        offlinecanvas.lineTo(
+                            x + w * valueLen, 
+                            y + h
+                        );
+                        offlinecanvas.lineTo(
                             x + w * valueLen, 
                             y
                         );
-                        my_gradient.addColorStop(0, format[0]);
-                        my_gradient.addColorStop(1, format[1]);
-    
-                        offlinecanvas.fillStyle = my_gradient;
+                        offlinecanvas.lineTo(
+                            x, 
+                            y
+                        );
+                        offlinecanvas.lineWidth = Store.devicePixelRatio;
+                        offlinecanvas.strokeStyle = format[0];
+                        offlinecanvas.stroke();
+                        offlinecanvas.closePath();
                     }
                     else{
-                        //单色
-                        offlinecanvas.fillStyle = format[0];
-                    }
-                    
-                    offlinecanvas.fillRect(
-                        x, 
-                        y, 
-                        w * valueLen, 
-                        h
-                    );
+                        let minusLen = checksCF["dataBar"]["minusLen"];
 
-                    offlinecanvas.beginPath();
-                    offlinecanvas.moveTo(
-                        x, 
-                        y
-                    );
-                    offlinecanvas.lineTo(
-                        x, 
-                        y + h
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * valueLen, 
-                        y + h
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * valueLen, 
-                        y
-                    );
-                    offlinecanvas.lineTo(
-                        x, 
-                        y
-                    );
-                    offlinecanvas.lineWidth = Store.devicePixelRatio;
-                    offlinecanvas.strokeStyle = format[0];
-                    offlinecanvas.stroke();
-                    offlinecanvas.closePath();
-                }
-                else{
-                    let minusLen = checksCF["dataBar"]["minusLen"];
-
-                    if(format.length > 1){
-                        //渐变
-                        let my_gradient = offlinecanvas.createLinearGradient(
+                        if(format.length > 1){
+                            //渐变
+                            let my_gradient = offlinecanvas.createLinearGradient(
+                                x + w * minusLen, 
+                                y, 
+                                x + w * minusLen + w * plusLen * valueLen, 
+                                y
+                            );
+                            my_gradient.addColorStop(0, format[0]);
+                            my_gradient.addColorStop(1, format[1]);
+        
+                            offlinecanvas.fillStyle = my_gradient;
+                        }
+                        else{
+                            //单色
+                            offlinecanvas.fillStyle = format[0];
+                        }
+                        
+                        offlinecanvas.fillRect(
                             x + w * minusLen, 
                             y, 
+                            w * plusLen * valueLen, 
+                            h
+                        );
+
+                        offlinecanvas.beginPath();
+                        offlinecanvas.moveTo(
+                            x + w * minusLen, 
+                            y
+                        );
+                        offlinecanvas.lineTo(
+                            x + w * minusLen, 
+                            y + h
+                        );
+                        offlinecanvas.lineTo(
+                            x + w * minusLen + w * plusLen * valueLen, 
+                            y + h
+                        );
+                        offlinecanvas.lineTo(
                             x + w * minusLen + w * plusLen * valueLen, 
                             y
                         );
-                        my_gradient.addColorStop(0, format[0]);
-                        my_gradient.addColorStop(1, format[1]);
-    
-                        offlinecanvas.fillStyle = my_gradient;
+                        offlinecanvas.lineTo(
+                            x + w * minusLen, 
+                            y
+                        );
+                        offlinecanvas.lineWidth = Store.devicePixelRatio;
+                        offlinecanvas.strokeStyle = format[0];
+                        offlinecanvas.stroke();
+                        offlinecanvas.closePath();
+                    }
+                }
+            }
+
+            let horizonAlignPos = space_width * Store.devicePixelRatio; //默认为1，左对齐
+            if(horizonAlign == "0"){ //居中对齐
+                horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
+            }
+            else if(horizonAlign == "2"){ //右对齐
+                horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - textMetrics;
+            }
+            
+            let verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - oneLineTextHeight; //默认为2，下对齐
+            let verticalAlignPos_text = (cellHeight - space_height) * Store.devicePixelRatio; //文本垂直方向基准线
+            offlinecanvas.textBaseline = "bottom";
+            if(verticalAlign == "0"){ //居中对齐 
+                verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (oneLineTextHeight / 2);
+                
+                verticalAlignPos_text = (cellHeight / 2) * Store.devicePixelRatio;
+                offlinecanvas.textBaseline = "middle";
+            }
+            else if(verticalAlign == "1"){ //上对齐
+                verticalAlignPos = space_height * Store.devicePixelRatio;
+                
+                verticalAlignPos_text = space_height * Store.devicePixelRatio;
+                offlinecanvas.textBaseline = "top";
+            }
+          
+            //若单元格有条件格式图标集
+            if(checksCF != null && checksCF["icons"] != null){
+                let l = checksCF["icons"]["left"];
+                let t = checksCF["icons"]["top"];
+
+                offlinecanvas.drawImage(
+                    luckysheet_CFiconsImg, 
+                    l * 42, 
+                    t * 32, 
+                    32, 
+                    32, 
+                    0, 
+                    verticalAlignPos,  
+                    oneLineTextHeight, 
+                    oneLineTextHeight
+                );
+                
+                if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
+                    horizonAlignPos = horizonAlignPos + oneLineTextHeight;
+                }
+            }
+
+            //单元格 文本颜色
+            offlinecanvas.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
+            
+            //若单元格有交替颜色 文本颜色
+            if(checksAF != null && checksAF[0] != null){ 
+                offlinecanvas.fillStyle = checksAF[0];
+            }
+            //若单元格有条件格式 文本颜色
+            if(checksCF != null && checksCF["textColor"] != null){ 
+                offlinecanvas.fillStyle = checksCF["textColor"];
+            }
+
+            //单元格是否有删除线
+            let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
+
+            if(cell.tb == '2'){
+                //自动换行
+                offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+                
+                let strArr = [];//文本截断数组
+                strArr = getCellTextSplitArr(value.toString(), strArr, cellWidth - space_width * 2, offlinecanvas);
+
+                for(let i = 0; i < strArr.length; i++){
+                    let strV = strArr[i];
+
+                    let strWidth = offlinecanvas.measureText(strV).width;
+                    let strHeight = oneLineTextHeight;
+
+                    //水平对齐计算
+                    if(horizonAlign == "0"){
+                        horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (strWidth / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - strWidth;
                     }
                     else{
-                        //单色
-                        offlinecanvas.fillStyle = format[0];
+                        horizonAlignPos = space_width * Store.devicePixelRatio;
                     }
                     
-                    offlinecanvas.fillRect(
-                        x + w * minusLen, 
-                        y, 
-                        w * plusLen * valueLen, 
-                        h
-                    );
+                    //垂直对齐计算
+                    if(verticalAlign == "0"){
+                        verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (strHeight / 2) * strArr.length;
+                    }
+                    else if(verticalAlign == "1"){
+                        verticalAlignPos = space_height * Store.devicePixelRatio;
+                    }
+                    else{
+                        verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - strHeight * strArr.length;
+                    }
+
+                    offlinecanvas.fillText(strV, horizonAlignPos, (verticalAlignPos + i * strHeight));
+
+                    if(cl == "1" && !isRealNull(strV)){
+                        offlinecanvas.beginPath();
+                        offlinecanvas.strokeStyle = "#000";
+                        offlinecanvas.moveTo(
+                            horizonAlignPos, 
+                            (verticalAlignPos + i * strHeight) + strHeight / 2
+                        );
+                        offlinecanvas.lineTo(
+                            horizonAlignPos + strWidth, 
+                            (verticalAlignPos + i * strHeight) + strHeight / 2
+                        );
+                        offlinecanvas.stroke();
+                        offlinecanvas.closePath();
+                    }
+                }
+            }
+            else if(cell.tr != null && cell.tr != '0'){
+                //旋转
+                offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+
+                //单元格旋转属性
+                let tr = cell.tr;
+
+                //旋转重新计算水平、垂直方向坐标
+                if(cell.tr == "1" || cell.tr == "2"){
+                    let textW = 0.707 * (textMetrics + oneLineTextHeight);
+                    let textH = 0.707 * (textMetrics + oneLineTextHeight);
+
+                    let hAP = space_width * Store.devicePixelRatio;
+                    if(horizonAlign == "0"){
+                        hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
+                    }
+
+                    let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
+                    if(verticalAlign == "0"){
+                        vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                    }
+                    else if(verticalAlign == "1"){
+                        vAP = space_height * Store.devicePixelRatio;
+                    }
+                    
+                    //向下倾斜（45 旋转）
+                    if(cell.tr == "1"){
+                        offlinecanvas.save();
+                        offlinecanvas.translate(hAP, vAP);
+                        offlinecanvas.rotate(45 * Math.PI / 180);
+                        offlinecanvas.translate(-hAP, -vAP);
+                        offlinecanvas.fillText(
+                            value == null ? "" : value, 
+                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
+                            vAP - (0.707 * 0.707 * oneLineTextHeight)
+                        );
+                        offlinecanvas.restore();
+                        
+                        if(cl == "1" && !isRealNull(value)){
+                            offlinecanvas.beginPath();
+                            offlinecanvas.strokeStyle = "#000";
+                            offlinecanvas.moveTo(
+                                hAP + oneLineTextHeight / 2, 
+                                vAP + oneLineTextHeight / 2
+                            );
+                            offlinecanvas.lineTo(
+                                hAP + textW - oneLineTextHeight / 2, 
+                                vAP + textH - oneLineTextHeight / 2
+                            );
+                            offlinecanvas.closePath();
+                            offlinecanvas.stroke();
+                        }
+                    }
+                    
+                    //向上倾斜（-45 旋转）
+                    if(cell.tr == "2"){
+                        offlinecanvas.save();
+                        offlinecanvas.translate(hAP, vAP + textH);
+                        offlinecanvas.rotate(-45 * Math.PI / 180);
+                        offlinecanvas.translate(-hAP, -(vAP + textH));
+                        offlinecanvas.fillText(
+                            value == null ? "" : value, 
+                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
+                            vAP + textH - (0.707 * 0.707 * oneLineTextHeight)
+                        );
+                        offlinecanvas.restore();
+                        
+                        if(cl == "1" && !isRealNull(value)){
+                            offlinecanvas.beginPath();
+                            offlinecanvas.strokeStyle = "#000";
+                            offlinecanvas.moveTo(
+                                hAP + oneLineTextHeight / 2, 
+                                vAP + textH - oneLineTextHeight / 2
+                            );
+                            offlinecanvas.lineTo(
+                                hAP + textW - oneLineTextHeight / 2, 
+                                vAP + oneLineTextHeight / 2
+                            );
+                            offlinecanvas.closePath();
+                            offlinecanvas.stroke();
+                        }
+                    }
+                }
+                else if(cell.tr == "3"){
+                    if(!isRealNull(value)){
+                        value = value.toString();
+                        
+                        let vArr = [];
+                        if(value.length > 1){
+                            vArr = value.split("");    
+                        }
+                        else{
+                            vArr.push(value);
+                        }
+
+                        let textW_all = 0; //拆分后宽高度合计
+                        let textH_all = 0; 
+
+                        for(let i = 0; i < vArr.length; i++){
+                            let textW = offlinecanvas.measureText(vArr[i]).width;
+                            let textH = oneLineTextHeight;
+                            
+                            textW_all += textW;
+                            textH_all += textH;
+
+                            let hAP = space_width * Store.devicePixelRatio;
+                            if(horizonAlign == "0"){
+                                hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                            }
+                            else if(horizonAlign == "2"){
+                                hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
+                            }
+
+                            let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH * vArr.length;
+                            if(verticalAlign == "0"){
+                                vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2) * vArr.length;
+                            }
+                            else if(verticalAlign == "1"){
+                                vAP = space_height * Store.devicePixelRatio;
+                            }
+                            
+                            offlinecanvas.fillText(vArr[i], hAP, (vAP + i * textH));
+                        }
+
+                        if(cl == "1" && !isRealNull(value)){
+                            let textW = textW_all / vArr.length;
+                            let textH = textH_all;
+
+                            let hAP = space_width * Store.devicePixelRatio;
+                            if(horizonAlign == "0"){
+                                hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                            }
+                            else if(horizonAlign == "2"){
+                                hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
+                            }
+
+                            let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
+                            if(verticalAlign == "0"){
+                                vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                            }
+                            else if(verticalAlign == "1"){
+                                vAP = space_height * Store.devicePixelRatio;
+                            }
+
+                            offlinecanvas.beginPath();
+                            offlinecanvas.strokeStyle = "#000";
+                            offlinecanvas.moveTo(
+                                hAP + textW / 2, 
+                                vAP
+                            );
+                            offlinecanvas.lineTo(
+                                hAP + textW / 2, 
+                                vAP + textH
+                            );
+                            offlinecanvas.closePath();
+                            offlinecanvas.stroke();
+                        }
+                    }
+                }
+                else if(cell.tr == "4" || cell.tr == "5"){
+                    let textW = oneLineTextHeight;
+                    let textH = textMetrics;
+
+                    let hAP = space_width * Store.devicePixelRatio;
+                    if(horizonAlign == "0"){
+                        hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
+                    }
+
+                    let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
+                    if(verticalAlign == "0"){
+                        vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                    }
+                    else if(verticalAlign == "1"){
+                        vAP = space_height * Store.devicePixelRatio;
+                    }
+
+                    //向下90（90 旋转）
+                    if(tr == "4"){
+                        offlinecanvas.save();
+                        offlinecanvas.translate(hAP, vAP);
+                        offlinecanvas.rotate(90 * Math.PI / 180);
+                        offlinecanvas.translate(-hAP, -vAP);
+                        offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textW);
+                        offlinecanvas.restore();
+                    }
+                    
+                    //向上90（-90 旋转）
+                    if(tr == "5"){
+                        offlinecanvas.save();
+                        offlinecanvas.translate(hAP + textH, vAP);
+                        offlinecanvas.rotate(-90 * Math.PI / 180);
+                        offlinecanvas.translate(-(hAP + textH), -vAP);
+                        offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textH);
+                        offlinecanvas.restore();
+                    }
+
+                    if(cl == "1" && !isRealNull(value)){
+                        offlinecanvas.beginPath();
+                        offlinecanvas.strokeStyle = "#000";
+                        offlinecanvas.moveTo(hAP + textW / 2, vAP);
+                        offlinecanvas.lineTo(hAP + textW / 2, vAP + textH);
+                        offlinecanvas.closePath();
+                        offlinecanvas.stroke();
+                    }
+                }
+            }
+            else{
+                //单元格有下钻属性，文本颜色变成超链接的颜色
+                if(cell.dd != null){
+                    offlinecanvas.fillStyle = "#0000ff";
 
                     offlinecanvas.beginPath();
+                    offlinecanvas.strokeStyle = "#0000ff";
                     offlinecanvas.moveTo(
-                        x + w * minusLen, 
-                        y
+                        horizonAlignPos, 
+                        verticalAlignPos + oneLineTextHeight
                     );
                     offlinecanvas.lineTo(
-                        x + w * minusLen, 
-                        y + h
+                        horizonAlignPos + textMetrics, 
+                        verticalAlignPos + oneLineTextHeight
                     );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen + w * plusLen * valueLen, 
-                        y + h
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen + w * plusLen * valueLen, 
-                        y
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen, 
-                        y
-                    );
-                    offlinecanvas.lineWidth = Store.devicePixelRatio;
-                    offlinecanvas.strokeStyle = format[0];
                     offlinecanvas.stroke();
                     offlinecanvas.closePath();
                 }
-            }
-        }
 
-        //水平对齐
-        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c, "ht"); 
-        let horizonAlignPos = space_width * Store.devicePixelRatio; //默认为1，左对齐
-        if(horizonAlign == "0"){ //居中对齐
-            horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
-        }
-        else if(horizonAlign == "2"){ //右对齐
-            horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - textMetrics;
-        }
-
-        //垂直对齐
-        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c, "vt"); 
-        let verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - oneLineTextHeight; //默认为2，下对齐
-        
-        let verticalAlignPos_text = (cellHeight - space_height) * Store.devicePixelRatio; //文本垂直方向基准线
-        offlinecanvas.textBaseline = "bottom";
-        
-        if(verticalAlign == "0"){ //居中对齐 
-            verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (oneLineTextHeight / 2);
-            
-            verticalAlignPos_text = (cellHeight / 2) * Store.devicePixelRatio;
-            offlinecanvas.textBaseline = "middle";
-        }
-        else if(verticalAlign == "1"){ //上对齐
-            verticalAlignPos = space_height * Store.devicePixelRatio;
-            
-            verticalAlignPos_text = space_height * Store.devicePixelRatio;
-            offlinecanvas.textBaseline = "top";
-        }
-
-        //若单元格有条件格式图标集
-        if(checksCF != null && checksCF["icons"] != null){
-            let l = checksCF["icons"]["left"];
-            let t = checksCF["icons"]["top"];
-
-            offlinecanvas.drawImage(
-                luckysheet_CFiconsImg, 
-                l * 42, 
-                t * 32, 
-                32, 
-                32, 
-                0, 
-                verticalAlignPos,  
-                oneLineTextHeight, 
-                oneLineTextHeight
-            );
-            
-            if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
-                horizonAlignPos = horizonAlignPos + oneLineTextHeight;
-            }
-        }
-
-        //单元格 文本颜色
-        offlinecanvas.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
-        
-        //若单元格有交替颜色 文本颜色
-        if(checksAF != null && checksAF[0] != null){ 
-            offlinecanvas.fillStyle = checksAF[0];
-        }
-        //若单元格有条件格式 文本颜色
-        if(checksCF != null && checksCF["textColor"] != null){ 
-            offlinecanvas.fillStyle = checksCF["textColor"];
-        }
-
-        //单元格是否有删除线
-        let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
-
-        if(cell.tb == '2'){
-            //自动换行
-            offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
-            
-            let strArr = [];//文本截断数组
-            strArr = getCellTextSplitArr(value.toString(), strArr, cellWidth - space_width * 2, offlinecanvas);
-
-            for(let i = 0; i < strArr.length; i++){
-                let strV = strArr[i];
-
-                let strWidth = offlinecanvas.measureText(strV).width;
-                let strHeight = oneLineTextHeight;
-
-                //水平对齐计算
-                if(horizonAlign == "0"){
-                    horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (strWidth / 2);
-                }
-                else if(horizonAlign == "2"){
-                    horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - strWidth;
-                }
-                else{
-                    horizonAlignPos = space_width * Store.devicePixelRatio;
-                }
-                
-                //垂直对齐计算
-                if(verticalAlign == "0"){
-                    verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (strHeight / 2) * strArr.length;
-                }
-                else if(verticalAlign == "1"){
-                    verticalAlignPos = space_height * Store.devicePixelRatio;
-                }
-                else{
-                    verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - strHeight * strArr.length;
-                }
-
-                offlinecanvas.fillText(strV, horizonAlignPos, (verticalAlignPos + i * strHeight));
-
-                if(cl == "1" && !isRealNull(strV)){
+                offlinecanvas.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
+                    
+                if(cl == "1" && !isRealNull(value)){
                     offlinecanvas.beginPath();
                     offlinecanvas.strokeStyle = "#000";
                     offlinecanvas.moveTo(
                         horizonAlignPos, 
-                        (verticalAlignPos + i * strHeight) + strHeight / 2
+                        verticalAlignPos + oneLineTextHeight / 2
                     );
                     offlinecanvas.lineTo(
-                        horizonAlignPos + strWidth, 
-                        (verticalAlignPos + i * strHeight) + strHeight / 2
+                        horizonAlignPos + textMetrics, 
+                        verticalAlignPos + oneLineTextHeight / 2
                     );
                     offlinecanvas.stroke();
                     offlinecanvas.closePath();
                 }
             }
+
+            //将离屏canvas 画到主表格canvas上
+            luckysheetTableContent.drawImage(
+                offlinecanvasElement, 
+                0, 
+                0, 
+                cellWidth * Store.devicePixelRatio, 
+                cellHeight * Store.devicePixelRatio, 
+                (start_c + offsetLeft) * Store.devicePixelRatio, 
+                (start_r + offsetTop) * Store.devicePixelRatio, 
+                cellWidth * Store.devicePixelRatio, 
+                cellHeight * Store.devicePixelRatio, 
+            );
         }
-        else if(cell.tr != null && cell.tr != '0'){
-            //旋转
-            offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+        //走主表格canvas方法
+        else{
+            let pos_x = start_c + offsetLeft;
+            let pos_y = start_r + offsetTop + 1;
 
-            //单元格旋转属性
-            let tr = cell.tr;
+            //若单元格有批注（单元格右上角红色小三角标示）
+            if(cell.ps != null){
+                let ps_w = 5, ps_h = 5; //红色小三角宽高
 
-            //旋转重新计算水平、垂直方向坐标
-            if(cell.tr == "1" || cell.tr == "2"){
-                let textW = 0.707 * (textMetrics + oneLineTextHeight);
-                let textH = 0.707 * (textMetrics + oneLineTextHeight);
-
-                let hAP = space_width * Store.devicePixelRatio;
-                if(horizonAlign == "0"){
-                    hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                }
-                else if(horizonAlign == "2"){
-                    hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                }
-
-                let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                if(verticalAlign == "0"){
-                    vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                }
-                else if(verticalAlign == "1"){
-                    vAP = space_height * Store.devicePixelRatio;
-                }
-                
-                //向下倾斜（45 旋转）
-                if(cell.tr == "1"){
-                    offlinecanvas.save();
-                    offlinecanvas.translate(hAP, vAP);
-                    offlinecanvas.rotate(45 * Math.PI / 180);
-                    offlinecanvas.translate(-hAP, -vAP);
-                    offlinecanvas.fillText(
-                        value == null ? "" : value, 
-                        hAP + (0.707 * 0.707 * oneLineTextHeight), 
-                        vAP - (0.707 * 0.707 * oneLineTextHeight)
-                    );
-                    offlinecanvas.restore();
-                    
-                    if(cl == "1" && !isRealNull(value)){
-                        offlinecanvas.beginPath();
-                        offlinecanvas.strokeStyle = "#000";
-                        offlinecanvas.moveTo(
-                            hAP + oneLineTextHeight / 2, 
-                            vAP + oneLineTextHeight / 2
-                        );
-                        offlinecanvas.lineTo(
-                            hAP + textW - oneLineTextHeight / 2, 
-                            vAP + textH - oneLineTextHeight / 2
-                        );
-                        offlinecanvas.closePath();
-                        offlinecanvas.stroke();
-                    }
-                }
-                
-                //向上倾斜（-45 旋转）
-                if(cell.tr == "2"){
-                    offlinecanvas.save();
-                    offlinecanvas.translate(hAP, vAP + textH);
-                    offlinecanvas.rotate(-45 * Math.PI / 180);
-                    offlinecanvas.translate(-hAP, -(vAP + textH));
-                    offlinecanvas.fillText(
-                        value == null ? "" : value, 
-                        hAP + (0.707 * 0.707 * oneLineTextHeight), 
-                        vAP + textH - (0.707 * 0.707 * oneLineTextHeight)
-                    );
-                    offlinecanvas.restore();
-                    
-                    if(cl == "1" && !isRealNull(value)){
-                        offlinecanvas.beginPath();
-                        offlinecanvas.strokeStyle = "#000";
-                        offlinecanvas.moveTo(
-                            hAP + oneLineTextHeight / 2, 
-                            vAP + textH - oneLineTextHeight / 2
-                        );
-                        offlinecanvas.lineTo(
-                            hAP + textW - oneLineTextHeight / 2, 
-                            vAP + oneLineTextHeight / 2
-                        );
-                        offlinecanvas.closePath();
-                        offlinecanvas.stroke();
-                    }
-                }
+                luckysheetTableContent.beginPath();
+                luckysheetTableContent.moveTo(
+                    Store.devicePixelRatio * (end_c + offsetLeft - ps_w), 
+                    start_r + offsetTop
+                );
+                luckysheetTableContent.lineTo(
+                    Store.devicePixelRatio * end_c + offsetLeft, 
+                    start_r + offsetTop
+                );
+                luckysheetTableContent.lineTo(
+                    Store.devicePixelRatio * end_c + offsetLeft, 
+                    Store.devicePixelRatio * (start_r + offsetTop + ps_h)
+                );
+                luckysheetTableContent.fillStyle = "#FC6666";
+                luckysheetTableContent.fill();
+                luckysheetTableContent.closePath();
             }
-            else if(cell.tr == "3"){
-                if(!isRealNull(value)){
-                    value = value.toString();
+
+            //若单元格有条件格式数据条
+            if(checksCF != null && checksCF["dataBar"] != null){
+                let x = Store.devicePixelRatio * (start_c + offsetLeft + space_width);
+                let y = Store.devicePixelRatio * (start_r + offsetTop + space_height);
+                let w = Store.devicePixelRatio * (cellWidth - space_width * 2);
+                let h = Store.devicePixelRatio * (cellHeight - space_height * 2);
+
+                let valueType = checksCF["dataBar"]["valueType"];
+                let valueLen = checksCF["dataBar"]["valueLen"];
+                let format = checksCF["dataBar"]["format"];
+
+                if(valueType == 'minus'){
+                    //负数
+                    let minusLen = checksCF["dataBar"]["minusLen"];
                     
-                    let vArr = [];
-                    if(value.length > 1){
-                        vArr = value.split("");    
+                    if(format.length > 1){
+                        //渐变
+                        let my_gradient = luckysheetTableContent.createLinearGradient(
+                            x + w * minusLen * (1 - valueLen), 
+                            y, 
+                            x + w * minusLen, 
+                            y
+                        );
+                        my_gradient.addColorStop(0, "#ffffff");
+                        my_gradient.addColorStop(1, "#ff0000");
+
+                        luckysheetTableContent.fillStyle = my_gradient;
                     }
                     else{
-                        vArr.push(value);
+                        //单色
+                        luckysheetTableContent.fillStyle = "#ff0000";
+                    }
+                    
+                    luckysheetTableContent.fillRect(
+                        x + w * minusLen * (1 - valueLen), 
+                        y, 
+                        w * minusLen * valueLen, 
+                        h
+                    );
+
+                    luckysheetTableContent.beginPath();
+                    luckysheetTableContent.moveTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen, 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen, 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen * (1 - valueLen), 
+                        y
+                    );
+                    luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+                    luckysheetTableContent.strokeStyle = "#ff0000";
+                    luckysheetTableContent.stroke();
+                    luckysheetTableContent.closePath();
+                }
+                else if(valueType == 'plus'){
+                    //正数
+                    let plusLen = checksCF["dataBar"]["plusLen"];
+
+                    if(plusLen == 1){
+                        if(format.length > 1){
+                            //渐变
+                            let my_gradient = luckysheetTableContent.createLinearGradient(
+                                x, 
+                                y, 
+                                x + w * valueLen, 
+                                y
+                            );
+                            my_gradient.addColorStop(0, format[0]);
+                            my_gradient.addColorStop(1, format[1]);
+        
+                            luckysheetTableContent.fillStyle = my_gradient;
+                        }
+                        else{
+                            //单色
+                            luckysheetTableContent.fillStyle = format[0];
+                        }
+                        
+                        luckysheetTableContent.fillRect(
+                            x, 
+                            y, 
+                            w * valueLen, 
+                            h
+                        );
+
+                        luckysheetTableContent.beginPath();
+                        luckysheetTableContent.moveTo(
+                            x, 
+                            y
+                        );
+                        luckysheetTableContent.lineTo(
+                            x, 
+                            y + h
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * valueLen, 
+                            y + h
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * valueLen, 
+                            y
+                        );
+                        luckysheetTableContent.lineTo(
+                            x, 
+                            y
+                        );
+                        luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+                        luckysheetTableContent.strokeStyle = format[0];
+                        luckysheetTableContent.stroke();
+                        luckysheetTableContent.closePath();
+                    }
+                    else{
+                        let minusLen = checksCF["dataBar"]["minusLen"];
+
+                        if(format.length > 1){
+                            //渐变
+                            let my_gradient = luckysheetTableContent.createLinearGradient(
+                                x + w * minusLen, 
+                                y, 
+                                x + w * minusLen + w * plusLen * valueLen, 
+                                y
+                            );
+                            my_gradient.addColorStop(0, format[0]);
+                            my_gradient.addColorStop(1, format[1]);
+        
+                            luckysheetTableContent.fillStyle = my_gradient;
+                        }
+                        else{
+                            //单色
+                            luckysheetTableContent.fillStyle = format[0];
+                        }
+                        
+                        luckysheetTableContent.fillRect(
+                            x + w * minusLen, 
+                            y, 
+                            w * plusLen * valueLen, 
+                            h
+                        );
+
+                        luckysheetTableContent.beginPath();
+                        luckysheetTableContent.moveTo(
+                            x + w * minusLen, 
+                            y
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * minusLen, 
+                            y + h
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * minusLen + w * plusLen * valueLen, 
+                            y + h
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * minusLen + w * plusLen * valueLen, 
+                            y
+                        );
+                        luckysheetTableContent.lineTo(
+                            x + w * minusLen, 
+                            y
+                        );
+                        luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+                        luckysheetTableContent.strokeStyle = format[0];
+                        luckysheetTableContent.stroke();
+                        luckysheetTableContent.closePath();
+                    }
+                }
+            }
+
+            let horizonAlignPos = (pos_x + space_width) * Store.devicePixelRatio; //默认为1，左对齐
+            if(horizonAlign == "0"){ //居中对齐
+                horizonAlignPos = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
+            }
+            else if(horizonAlign == "2"){ //右对齐
+                horizonAlignPos = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textMetrics;
+            }
+            
+            let verticalAlignPos = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - oneLineTextHeight; //默认为2，下对齐
+            let verticalAlignPos_text = (pos_y + cellHeight - space_height) * Store.devicePixelRatio; //文本垂直方向基准线
+            luckysheetTableContent.textBaseline = "bottom";
+            if(verticalAlign == "0"){ //居中对齐 
+                verticalAlignPos = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (oneLineTextHeight / 2);
+                
+                verticalAlignPos_text = (pos_y + cellHeight / 2) * Store.devicePixelRatio;
+                luckysheetTableContent.textBaseline = "middle";
+            }
+            else if(verticalAlign == "1"){ //上对齐
+                verticalAlignPos = (pos_y + space_height) * Store.devicePixelRatio;
+                
+                verticalAlignPos_text = (pos_y + space_height) * Store.devicePixelRatio;
+                luckysheetTableContent.textBaseline = "top";
+            }
+          
+            //若单元格有条件格式图标集
+            if(checksCF != null && checksCF["icons"] != null){
+                let l = checksCF["icons"]["left"];
+                let t = checksCF["icons"]["top"];
+
+                luckysheetTableContent.drawImage(
+                    luckysheet_CFiconsImg, 
+                    l * 42, 
+                    t * 32, 
+                    32, 
+                    32, 
+                    pos_x * Store.devicePixelRatio, 
+                    verticalAlignPos,  
+                    oneLineTextHeight, 
+                    oneLineTextHeight
+                );
+                
+                if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
+                    horizonAlignPos = horizonAlignPos + oneLineTextHeight;
+                }
+            }
+
+            //单元格 文本颜色
+            luckysheetTableContent.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
+            
+            //若单元格有交替颜色 文本颜色
+            if(checksAF != null && checksAF[0] != null){ 
+                luckysheetTableContent.fillStyle = checksAF[0];
+            }
+            //若单元格有条件格式 文本颜色
+            if(checksCF != null && checksCF["textColor"] != null){ 
+                luckysheetTableContent.fillStyle = checksCF["textColor"];
+            }
+
+            //单元格是否有删除线
+            let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
+
+            if(cell.tb == '2'){
+                //自动换行
+                luckysheetTableContent.textBaseline = 'top'; //textBaseline以top计算
+                
+                let strArr = [];//文本截断数组
+                strArr = getCellTextSplitArr(value.toString(), strArr, cellWidth - space_width * 2, luckysheetTableContent);
+
+                for(let i = 0; i < strArr.length; i++){
+                    let strV = strArr[i];
+
+                    let strWidth = luckysheetTableContent.measureText(strV).width;
+                    let strHeight = oneLineTextHeight;
+
+                    //水平对齐计算
+                    if(horizonAlign == "0"){
+                        horizonAlignPos = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (strWidth / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        horizonAlignPos = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - strWidth;
+                    }
+                    else{
+                        horizonAlignPos = (pos_x + space_width) * Store.devicePixelRatio;
+                    }
+                    
+                    //垂直对齐计算
+                    if(verticalAlign == "0"){
+                        verticalAlignPos = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (strHeight / 2) * strArr.length;
+                    }
+                    else if(verticalAlign == "1"){
+                        verticalAlignPos = (pos_y + space_height) * Store.devicePixelRatio;
+                    }
+                    else{
+                        verticalAlignPos = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - strHeight * strArr.length;
                     }
 
-                    let textW_all = 0; //拆分后宽高度合计
-                    let textH_all = 0; 
+                    luckysheetTableContent.fillText(strV, horizonAlignPos, (verticalAlignPos + i * strHeight));
 
-                    for(let i = 0; i < vArr.length; i++){
-                        let textW = offlinecanvas.measureText(vArr[i]).width;
-                        let textH = oneLineTextHeight;
+                    if(cl == "1" && !isRealNull(strV)){
+                        luckysheetTableContent.beginPath();
+                        luckysheetTableContent.strokeStyle = "#000";
+                        luckysheetTableContent.moveTo(
+                            horizonAlignPos, 
+                            (verticalAlignPos + i * strHeight) + strHeight / 2
+                        );
+                        luckysheetTableContent.lineTo(
+                            horizonAlignPos + strWidth, 
+                            (verticalAlignPos + i * strHeight) + strHeight / 2
+                        );
+                        luckysheetTableContent.stroke();
+                        luckysheetTableContent.closePath();
+                    }
+                }
+            }
+            else if(cell.tr != null && cell.tr != '0'){
+                //旋转
+                luckysheetTableContent.textBaseline = 'top'; //textBaseline以top计算
+
+                //单元格旋转属性
+                let tr = cell.tr;
+
+                //旋转重新计算水平、垂直方向坐标
+                if(cell.tr == "1" || cell.tr == "2"){
+                    let textW = 0.707 * (textMetrics + oneLineTextHeight);
+                    let textH = 0.707 * (textMetrics + oneLineTextHeight);
+
+                    let hAP = (pos_x + space_width) * Store.devicePixelRatio;
+                    if(horizonAlign == "0"){
+                        hAP = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        hAP = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textW;
+                    }
+
+                    let vAP = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - textH;
+                    if(verticalAlign == "0"){
+                        vAP = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                    }
+                    else if(verticalAlign == "1"){
+                        vAP = (pos_y + space_height) * Store.devicePixelRatio;
+                    }
+                    
+                    //向下倾斜（45 旋转）
+                    if(cell.tr == "1"){
+                        luckysheetTableContent.save();
+                        luckysheetTableContent.translate(hAP, vAP);
+                        luckysheetTableContent.rotate(45 * Math.PI / 180);
+                        luckysheetTableContent.translate(-hAP, -vAP);
+                        luckysheetTableContent.fillText(
+                            value == null ? "" : value, 
+                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
+                            vAP - (0.707 * 0.707 * oneLineTextHeight)
+                        );
+                        luckysheetTableContent.restore();
                         
-                        textW_all += textW;
-                        textH_all += textH;
-
-                        let hAP = space_width * Store.devicePixelRatio;
-                        if(horizonAlign == "0"){
-                            hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                        if(cl == "1" && !isRealNull(value)){
+                            luckysheetTableContent.beginPath();
+                            luckysheetTableContent.strokeStyle = "#000";
+                            luckysheetTableContent.moveTo(
+                                hAP + oneLineTextHeight / 2, 
+                                vAP + oneLineTextHeight / 2
+                            );
+                            luckysheetTableContent.lineTo(
+                                hAP + textW - oneLineTextHeight / 2, 
+                                vAP + textH - oneLineTextHeight / 2
+                            );
+                            luckysheetTableContent.closePath();
+                            luckysheetTableContent.stroke();
                         }
-                        else if(horizonAlign == "2"){
-                            hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                        }
-
-                        let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH * vArr.length;
-                        if(verticalAlign == "0"){
-                            vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2) * vArr.length;
-                        }
-                        else if(verticalAlign == "1"){
-                            vAP = space_height * Store.devicePixelRatio;
-                        }
+                    }
+                    
+                    //向上倾斜（-45 旋转）
+                    if(cell.tr == "2"){
+                        luckysheetTableContent.save();
+                        luckysheetTableContent.translate(hAP, vAP + textH);
+                        luckysheetTableContent.rotate(-45 * Math.PI / 180);
+                        luckysheetTableContent.translate(-hAP, -(vAP + textH));
+                        luckysheetTableContent.fillText(
+                            value == null ? "" : value, 
+                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
+                            vAP + textH - (0.707 * 0.707 * oneLineTextHeight)
+                        );
+                        luckysheetTableContent.restore();
                         
-                        offlinecanvas.fillText(vArr[i], hAP, (vAP + i * textH));
+                        if(cl == "1" && !isRealNull(value)){
+                            luckysheetTableContent.beginPath();
+                            luckysheetTableContent.strokeStyle = "#000";
+                            luckysheetTableContent.moveTo(
+                                hAP + oneLineTextHeight / 2, 
+                                vAP + textH - oneLineTextHeight / 2
+                            );
+                            luckysheetTableContent.lineTo(
+                                hAP + textW - oneLineTextHeight / 2, 
+                                vAP + oneLineTextHeight / 2
+                            );
+                            luckysheetTableContent.closePath();
+                            luckysheetTableContent.stroke();
+                        }
+                    }
+                }
+                else if(cell.tr == "3"){
+                    if(!isRealNull(value)){
+                        value = value.toString();
+                        
+                        let vArr = [];
+                        if(value.length > 1){
+                            vArr = value.split("");    
+                        }
+                        else{
+                            vArr.push(value);
+                        }
+
+                        let textW_all = 0; //拆分后宽高度合计
+                        let textH_all = 0; 
+
+                        for(let i = 0; i < vArr.length; i++){
+                            let textW = luckysheetTableContent.measureText(vArr[i]).width;
+                            let textH = oneLineTextHeight;
+                            
+                            textW_all += textW;
+                            textH_all += textH;
+
+                            let hAP = (pos_x + space_width) * Store.devicePixelRatio;
+                            if(horizonAlign == "0"){
+                                hAP = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                            }
+                            else if(horizonAlign == "2"){
+                                hAP = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textW;
+                            }
+
+                            let vAP = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - textH * vArr.length;
+                            if(verticalAlign == "0"){
+                                vAP = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (textH / 2) * vArr.length;
+                            }
+                            else if(verticalAlign == "1"){
+                                vAP = (pos_y + space_height) * Store.devicePixelRatio;
+                            }
+                            
+                            luckysheetTableContent.fillText(vArr[i], hAP, (vAP + i * textH));
+                        }
+
+                        if(cl == "1" && !isRealNull(value)){
+                            let textW = textW_all / vArr.length;
+                            let textH = textH_all;
+
+                            let hAP = (pos_x + space_width) * Store.devicePixelRatio;
+                            if(horizonAlign == "0"){
+                                hAP = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                            }
+                            else if(horizonAlign == "2"){
+                                hAP = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textW;
+                            }
+
+                            let vAP = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - textH;
+                            if(verticalAlign == "0"){
+                                vAP = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                            }
+                            else if(verticalAlign == "1"){
+                                vAP = (pos_y + space_height) * Store.devicePixelRatio;
+                            }
+
+                            luckysheetTableContent.beginPath();
+                            luckysheetTableContent.strokeStyle = "#000";
+                            luckysheetTableContent.moveTo(
+                                hAP + textW / 2, 
+                                vAP
+                            );
+                            luckysheetTableContent.lineTo(
+                                hAP + textW / 2, 
+                                vAP + textH
+                            );
+                            luckysheetTableContent.closePath();
+                            luckysheetTableContent.stroke();
+                        }
+                    }
+                }
+                else if(cell.tr == "4" || cell.tr == "5"){
+                    let textW = oneLineTextHeight;
+                    let textH = textMetrics;
+
+                    let hAP = (pos_x + space_width) * Store.devicePixelRatio;
+                    if(horizonAlign == "0"){
+                        hAP = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
+                    }
+                    else if(horizonAlign == "2"){
+                        hAP = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textW;
+                    }
+
+                    let vAP = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - textH;
+                    if(verticalAlign == "0"){
+                        vAP = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
+                    }
+                    else if(verticalAlign == "1"){
+                        vAP = (pos_y + space_height) * Store.devicePixelRatio;
+                    }
+
+                    //向下90（90 旋转）
+                    if(tr == "4"){
+                        luckysheetTableContent.save();
+                        luckysheetTableContent.translate(hAP, vAP);
+                        luckysheetTableContent.rotate(90 * Math.PI / 180);
+                        luckysheetTableContent.translate(-hAP, -vAP);
+                        luckysheetTableContent.fillText(value == null ? "" : value, hAP, vAP - textW);
+                        luckysheetTableContent.restore();
+                    }
+                    
+                    //向上90（-90 旋转）
+                    if(tr == "5"){
+                        luckysheetTableContent.save();
+                        luckysheetTableContent.translate(hAP + textH, vAP);
+                        luckysheetTableContent.rotate(-90 * Math.PI / 180);
+                        luckysheetTableContent.translate(-(hAP + textH), -vAP);
+                        luckysheetTableContent.fillText(value == null ? "" : value, hAP, vAP - textH);
+                        luckysheetTableContent.restore();
                     }
 
                     if(cl == "1" && !isRealNull(value)){
-                        let textW = textW_all / vArr.length;
-                        let textH = textH_all;
-
-                        let hAP = space_width * Store.devicePixelRatio;
-                        if(horizonAlign == "0"){
-                            hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                        }
-                        else if(horizonAlign == "2"){
-                            hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                        }
-
-                        let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                        if(verticalAlign == "0"){
-                            vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                        }
-                        else if(verticalAlign == "1"){
-                            vAP = space_height * Store.devicePixelRatio;
-                        }
-
-                        offlinecanvas.beginPath();
-                        offlinecanvas.strokeStyle = "#000";
-                        offlinecanvas.moveTo(
-                            hAP + textW / 2, 
-                            vAP
-                        );
-                        offlinecanvas.lineTo(
-                            hAP + textW / 2, 
-                            vAP + textH
-                        );
-                        offlinecanvas.closePath();
-                        offlinecanvas.stroke();
+                        luckysheetTableContent.beginPath();
+                        luckysheetTableContent.strokeStyle = "#000";
+                        luckysheetTableContent.moveTo(hAP + textW / 2, vAP);
+                        luckysheetTableContent.lineTo(hAP + textW / 2, vAP + textH);
+                        luckysheetTableContent.closePath();
+                        luckysheetTableContent.stroke();
                     }
                 }
             }
-            else if(cell.tr == "4" || cell.tr == "5"){
-                let textW = oneLineTextHeight;
-                let textH = textMetrics;
+            else{
+                //单元格有下钻属性，文本颜色变成超链接的颜色
+                if(cell.dd != null){
+                    luckysheetTableContent.fillStyle = "#0000ff";
 
-                let hAP = space_width * Store.devicePixelRatio;
-                if(horizonAlign == "0"){
-                    hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                }
-                else if(horizonAlign == "2"){
-                    hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                }
-
-                let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                if(verticalAlign == "0"){
-                    vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                }
-                else if(verticalAlign == "1"){
-                    vAP = space_height * Store.devicePixelRatio;
-                }
-
-                //向下90（90 旋转）
-                if(tr == "4"){
-                    offlinecanvas.save();
-                    offlinecanvas.translate(hAP, vAP);
-                    offlinecanvas.rotate(90 * Math.PI / 180);
-                    offlinecanvas.translate(-hAP, -vAP);
-                    offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textW);
-                    offlinecanvas.restore();
-                }
-                
-                //向上90（-90 旋转）
-                if(tr == "5"){
-                    offlinecanvas.save();
-                    offlinecanvas.translate(hAP + textH, vAP);
-                    offlinecanvas.rotate(-90 * Math.PI / 180);
-                    offlinecanvas.translate(-(hAP + textH), -vAP);
-                    offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textH);
-                    offlinecanvas.restore();
+                    luckysheetTableContent.beginPath();
+                    luckysheetTableContent.strokeStyle = "#0000ff";
+                    luckysheetTableContent.moveTo(
+                        horizonAlignPos, 
+                        verticalAlignPos + oneLineTextHeight
+                    );
+                    luckysheetTableContent.lineTo(
+                        horizonAlignPos + textMetrics, 
+                        verticalAlignPos + oneLineTextHeight
+                    );
+                    luckysheetTableContent.stroke();
+                    luckysheetTableContent.closePath();
                 }
 
+                luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
+                    
                 if(cl == "1" && !isRealNull(value)){
-                    offlinecanvas.beginPath();
-                    offlinecanvas.strokeStyle = "#000";
-                    offlinecanvas.moveTo(hAP + textW / 2, vAP);
-                    offlinecanvas.lineTo(hAP + textW / 2, vAP + textH);
-                    offlinecanvas.closePath();
-                    offlinecanvas.stroke();
+                    luckysheetTableContent.beginPath();
+                    luckysheetTableContent.strokeStyle = "#000";
+                    luckysheetTableContent.moveTo(
+                        horizonAlignPos, 
+                        verticalAlignPos + oneLineTextHeight / 2
+                    );
+                    luckysheetTableContent.lineTo(
+                        horizonAlignPos + textMetrics, 
+                        verticalAlignPos + oneLineTextHeight / 2
+                    );
+                    luckysheetTableContent.stroke();
+                    luckysheetTableContent.closePath();
                 }
             }
-        }
-        else{
-            //单元格有下钻属性，文本颜色变成超链接的颜色
-            if(cell.dd != null){
-                offlinecanvas.fillStyle = "#0000ff";
+        }  
 
-                offlinecanvas.beginPath();
-                offlinecanvas.strokeStyle = "#0000ff";
-                offlinecanvas.moveTo(
-                    horizonAlignPos, 
-                    verticalAlignPos + oneLineTextHeight
-                );
-                offlinecanvas.lineTo(
-                    horizonAlignPos + textMetrics, 
-                    verticalAlignPos + oneLineTextHeight
-                );
-                offlinecanvas.stroke();
-                offlinecanvas.closePath();
-            }
-
-            offlinecanvas.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
-                
-            if(cl == "1" && !isRealNull(value)){
-                offlinecanvas.beginPath();
-                offlinecanvas.strokeStyle = "#000";
-                offlinecanvas.moveTo(
-                    horizonAlignPos, 
-                    verticalAlignPos + oneLineTextHeight / 2
-                );
-                offlinecanvas.lineTo(
-                    horizonAlignPos + textMetrics, 
-                    verticalAlignPos + oneLineTextHeight / 2
-                );
-                offlinecanvas.stroke();
-                offlinecanvas.closePath();
-            }
-        }
-
-        //将离屏canvas 画到主表格canvas上
-        luckysheetTableContent.drawImage(
-            offlinecanvasElement, 
-            0, 
-            0, 
-            cellWidth * Store.devicePixelRatio, 
-            cellHeight * Store.devicePixelRatio, 
-            (start_c + offsetLeft) * Store.devicePixelRatio, 
-            (start_r + offsetTop + 1) * Store.devicePixelRatio, 
-            cellWidth * Store.devicePixelRatio, 
-            cellHeight * Store.devicePixelRatio, 
-        );
-
-        //右边框
+        //右边框重绘
         luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), Store.devicePixelRatio * (start_r + offsetTop));
-        luckysheetTableContent.lineTo(Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), Store.devicePixelRatio * (end_r - 2 + offsetTop));
+        luckysheetTableContent.moveTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+            Store.devicePixelRatio * (start_r + offsetTop - 2)
+        );
+        luckysheetTableContent.lineTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2)
+        );
         luckysheetTableContent.lineWidth = Store.devicePixelRatio;
 
         if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
@@ -1395,10 +1953,16 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         luckysheetTableContent.stroke();
         luckysheetTableContent.closePath();
 
-        //下边框
+        //下边框重绘
         luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(Store.devicePixelRatio * (start_c - 2 + offsetLeft), Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop));
-        luckysheetTableContent.lineTo(Store.devicePixelRatio * (end_c + offsetLeft - 2), Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop));
+        luckysheetTableContent.moveTo(
+            Store.devicePixelRatio * (start_c + offsetLeft - 2), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+        );
+        luckysheetTableContent.lineTo(
+            Store.devicePixelRatio * (end_c + offsetLeft - 2), 
+            Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
+        );
         luckysheetTableContent.lineWidth = Store.devicePixelRatio;
 
         if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
@@ -1675,6 +2239,66 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             (Store.ch_width - Store.visibledatacolumn[dataset_col_ed]) * Store.devicePixelRatio, 
             (fill_row_ed - scrollHeight) * Store.devicePixelRatio
         );
+    }
+}
+
+function getCellValueSize(cell, value, canvas, cellWidth, cellHeight, space_width, space_height){
+    let textWidth, textHeight;
+
+    value = value.toString();
+
+    let measureText = canvas.measureText(value);
+    let textW = measureText.width;
+    let textH = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+
+    if(cell.tb == '2' && textW > cellWidth - space_width * 2){
+        //自动换行 且 文本长度超出单元格长度
+        let strArr = [];//文本截断数组
+        strArr = getCellTextSplitArr(value, strArr, cellWidth - space_width * 2, canvas);
+
+        textWidth = cellWidth - space_width * 2;
+        textHeight = textH * strArr.length;
+    }
+    else if(cell.tr != null && cell.tr != '0'){
+        //旋转
+        if(cell.tr == '1' || cell.tr == '2'){
+            textWidth = 0.707 * (textW + textH);
+            textHeight = 0.707 * (textW + textH);
+        }
+        else if(cell.tr == '3'){
+            let vArr = [];
+
+            if(value.length > 1){
+                vArr = value.split('');
+            }
+            else{
+                vArr.push(value);
+            }
+
+            let textW_all, textH_all;
+
+            for(let i = 0; i < vArr.length; i++){
+                let measureText_i = canvas.measureText(vArr[i]);
+                textW_all += measureText_i.width;
+                textH_all += measureText_i.actualBoundingBoxDescent - measureText_i.actualBoundingBoxAscent;
+            }
+
+            textWidth = textW_all / vArr.length;
+            textHeight = textH_all;
+        }
+        else if(cell.tr == '4' || cell.tr == '5'){
+            textWidth = textH;
+            textHeight = textW;
+        }
+    }
+    else{
+        textWidth = textW;
+        textHeight = textH;
+    }
+
+    return {
+        width: textWidth,
+        height: textHeight
     }
 }
 
