@@ -4,13 +4,16 @@ import luckysheetupdateCell from './updateCell';
 import { modelHTML } from './constant';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //if公式生成器
 const ifFormulaGenerator = {
     singleRangeFocus: false,
     init: function(){
         let _this = this;
-
+        const _locale = locale();
+        const locale_formula = _locale.formula;
+        const locale_button = _locale.button;
         //点击选择单元格
         $(document).off("focus.IFcompareValue").on("focus.IFcompareValue", "#luckysheet-ifFormulaGenerator-dialog #compareValue", function(){
             $("#luckysheet-modal-dialog-mask").hide();
@@ -143,7 +146,7 @@ const ifFormulaGenerator = {
         $(document).off("click.IFcreateBtn").on("click.IFcreateBtn", "#luckysheet-ifFormulaGenerator-dialog #createBtn", function(){
             let compareValue = $(this).parents("#luckysheet-ifFormulaGenerator-dialog").find("#compareValue").val().trim();
             if(compareValue == ""){
-                _this.info("比较值不能为空！");
+                _this.info(locale_formula.ifGenTipNotNullValue);
                 return;
             }
 
@@ -161,7 +164,7 @@ const ifFormulaGenerator = {
                                         '<option value="1" selected="selected"> < </option>'+
                                     '</select>'+
                                     '<input type="number" class="largeNum formulaInputFocus"/>'+
-                                    '<span>标签：</span>'+
+                                    '<span>'+locale_formula.ifGenTipLableTitile+'：</span>'+
                                     '<input type="text" class="markText formulaInputFocus" value="">'+
                                     '<i class="fa fa-remove" aria-hidden="true"></i>'+
                                 '</div>';
@@ -173,11 +176,11 @@ const ifFormulaGenerator = {
                 let DivisionMethodVal = $(this).parents("#luckysheet-ifFormulaGenerator-dialog").find("#DivisionMethodVal").val().trim();
                 
                 if(smallRange == "" || largeRange == ""){
-                    _this.info("范围不能为空！");
+                    _this.info(locale_formula.ifGenTipRangeNotforNull);
                     return;
                 }
                 else if(DivisionMethodVal == ""){
-                    _this.info("划分值不能为空！");
+                    _this.info(locale_formula.ifGenTipCutValueNotforNull);
                     return;
                 }
 
@@ -204,7 +207,7 @@ const ifFormulaGenerator = {
 
                 let markText = $(e).find(".markText").val().trim();
                 if(markText == ""){
-                    markText = "标签" + (i + 1);
+                    markText = locale_formula.ifGenTipLableTitile + (i + 1);
                 }
 
                 if(smallNum == "" && largeNum == ""){
@@ -247,7 +250,7 @@ const ifFormulaGenerator = {
             })
             
             if(str.length == 0){
-                _this.info("没有生成可用的条件！");
+                _this.info(locale_formula.ifGenTipNotGenCondition);
                 return;
             }
 
@@ -280,6 +283,10 @@ const ifFormulaGenerator = {
     },
     ifFormulaDialog: function(fp){
         let _this = this;
+
+        const _locale = locale();
+        const locale_formula = _locale.formula;
+        const locale_button = _locale.button;
 
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-ifFormulaGenerator-dialog").remove();
@@ -321,7 +328,7 @@ const ifFormulaGenerator = {
                                         '<option value="1" selected="selected"> < </option>'+
                                     '</select>'+
                                     '<input type="number" class="largeNum formulaInputFocus" value="'+ largeNum +'"/>'+
-                                    '<span>标签：</span>'+
+                                    '<span>'+locale_formula.ifGenTipLableTitile+'：</span>'+
                                     '<input type="text" class="markText formulaInputFocus" value="'+ markText +'">'+
                                     '<i class="fa fa-remove" aria-hidden="true"></i>'+
                                 '</div>'; 
@@ -331,31 +338,31 @@ const ifFormulaGenerator = {
 
         let content = '<div class="ifAttr">'+
                         '<div class="attrBox">'+
-                            '<label for="compareValue"> 比较值 </label>'+
+                            '<label for="compareValue"> '+ locale_formula.ifGenCompareValueTitle +' </label>'+
                             '<div class="inpBox">'+
                                 '<input id="compareValue" class="formulaInputFocus" value="'+ compareValue +'"/>'+
-                                '<i class="singRange fa fa-table" aria-hidden="true" title="点击选择单元格"></i>'+
+                                '<i class="singRange fa fa-table" aria-hidden="true" title="'+ locale_formula.ifGenSelectCellTitle +'"></i>'+
                             '</div>'+
                         '</div>'+
                         '<div class="attrBox">'+
-                            '<label for="smallRange"> 范围 </label>'+
+                            '<label for="smallRange"> '+ locale_formula.ifGenRangeTitle +' </label>'+
                             '<input type="number" id="smallRange" class="formulaInputFocus"/>'+
-                            '<span class="text"> 至 </span>'+
+                            '<span class="text"> '+ locale_formula.ifGenRangeTo +' </span>'+
                             '<input type="number" id="largeRange" class="formulaInputFocus"/>'+
                             '<div id="rangeAssess">'+
-                                '<span> 范围评估 </span>'+
-                                '<i class="multiRange fa fa-table" aria-hidden="true" title="点击选择范围"></i>'+
+                                '<span> '+ locale_formula.ifGenRangeEvaluate +' </span>'+
+                                '<i class="multiRange fa fa-table" aria-hidden="true" title="'+ locale_formula.ifGenSelectRangeTitle +'"></i>'+
                             '</div>'+
                         '</div>'+
                         '<div class="attrBox">'+
-                            '<label for="DivisionMethod"> 划分方式 </label>'+
+                            '<label for="DivisionMethod"> '+ locale_formula.ifGenCutWay +' </label>'+
                             '<select id="DivisionMethod">'+
-                                '<option value="0"> 划分值相同 </option>'+
-                                '<option value="1"> 划分为N份 </option>'+
-                                '<option value="2"> 自定义输入 </option>'+
+                                '<option value="0"> '+ locale_formula.ifGenCutSame +' </option>'+
+                                '<option value="1"> '+ locale_formula.ifGenCutNpiece +' </option>'+
+                                '<option value="2"> '+ locale_formula.ifGenCutCustom +' </option>'+
                             '</select>'+
                             '<input id="DivisionMethodVal" class="formulaInputFocus"/>'+
-                            '<div id="createBtn"> 生成 </div>'+
+                            '<div id="createBtn"> '+ locale_formula.ifGenCutSame +' </div>'+
                         '</div>'+
                       '</div>'+
                       '<div class="ifList">'+ifListHtml+'</div>';
@@ -363,9 +370,9 @@ const ifFormulaGenerator = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-ifFormulaGenerator-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-dialog", 
-            "title": "if公式生成器", 
+            "title": locale_formula.ifGenerate, 
             "content": content, 
-            "botton": '<button id="luckysheet-ifFormulaGenerator-dialog-confirm" class="btn btn-primary">确认</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "botton": '<button id="luckysheet-ifFormulaGenerator-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-ifFormulaGenerator-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 590).end(), 
@@ -417,6 +424,10 @@ const ifFormulaGenerator = {
         $("#luckysheet-ifFormulaGenerator-dialog").hide();
         $("#luckysheet-ifFormulaGenerator-singleRange-dialog").remove();
 
+        const _locale = locale();
+        const locale_formula = _locale.formula;
+        const locale_button = _locale.button;
+
         if(value == null){
             value = "";
         }
@@ -424,9 +435,9 @@ const ifFormulaGenerator = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
-            "title": "选择单元格", 
-            "content": '<input readonly="readonly" placeholder="请选择单元格" value="'+ value +'">', 
-            "botton": '<button id="luckysheet-ifFormulaGenerator-singleRange-confirm" class="btn btn-primary">确认</button><button id="luckysheet-ifFormulaGenerator-singleRange-cancel" class="btn btn-default">取消</button>', 
+            "title": locale_formula.ifGenTipSelectCell, 
+            "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectCellPlace+'" value="'+ value +'">', 
+            "botton": '<button id="luckysheet-ifFormulaGenerator-singleRange-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-ifFormulaGenerator-singleRange-cancel" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-ifFormulaGenerator-singleRange-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
@@ -441,12 +452,16 @@ const ifFormulaGenerator = {
         $("#luckysheet-ifFormulaGenerator-dialog").hide();
         $("#luckysheet-ifFormulaGenerator-multiRange-dialog").remove();
 
+        const _locale = locale();
+        const locale_formula = _locale.formula;
+        const locale_button = _locale.button;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
-            "title": "选择范围", 
-            "content": '<input readonly="readonly" placeholder="请选择范围" value="">', 
-            "botton": '<button id="luckysheet-ifFormulaGenerator-multiRange-confirm" class="btn btn-primary">确认</button><button id="luckysheet-ifFormulaGenerator-multiRange-cancel" class="btn btn-default">取消</button>', 
+            "title": locale_formula.ifGenTipSelectRange, 
+            "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectRangePlace+'" value="">', 
+            "botton": '<button id="luckysheet-ifFormulaGenerator-multiRange-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-ifFormulaGenerator-multiRange-cancel" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-ifFormulaGenerator-multiRange-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
@@ -514,7 +529,7 @@ const ifFormulaGenerator = {
                                     '<option value="1" selected="selected"> < </option>'+
                                 '</select>'+
                                 '<input type="number" class="largeNum formulaInputFocus" value="'+ arr[j + 1] +'"/>'+
-                                '<span>标签：</span>'+
+                                '<span>'+locale_formula.ifGenTipLableTitile+'：</span>'+
                                 '<input type="text" class="markText formulaInputFocus" value="'+ markText +'">'+
                                 '<i class="fa fa-remove" aria-hidden="true"></i>'+
                             '</div>';
@@ -525,12 +540,15 @@ const ifFormulaGenerator = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-ifFormulaGenerator-info").remove();
 
+        const _locale = locale();
+        const locale_button = _locale.button;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-ifFormulaGenerator-info", 
             "addclass": "", 
             "title": title, 
             "content": "", 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>', 
+            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-ifFormulaGenerator-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 

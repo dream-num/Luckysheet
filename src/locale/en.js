@@ -71,11 +71,11 @@ export default {
     button: {
         confirm: 'OK',
         cancel: 'Cancel',
-        colse:"close"
+        close:"Close"
     },
     paint:{
         start: 'Paint format start',
-        end: 'ESC key to exit',
+        end: 'ESC',
 
         tipSelectRange:"Please select the range to be copied",
         tipNotMulti:"Cannot perform this operation on multiple selection range",
@@ -676,5 +676,68 @@ export default {
         rimless: 'Rimless',
         bordered: 'Bordered',
     },
+    formula:{
+        sum:"Sum",
+        average:"Average",
+        count:"Count",
+        max:"Max",
+        min:"Min",
+        ifGenerate:"If formula generator",
+        find:"Learn more",
+
+        tipNotBelongToIf:"This cell function does not belong to the if formula!",
+        tipSelectCell:"Please select the cell to insert the function",
+
+        ifGenCompareValueTitle:"Comparison value",
+        ifGenSelectCellTitle:"Click to select cell",
+        ifGenRangeTitle:"Range",
+        ifGenRangeTo:"to",
+        ifGenRangeEvaluate:"Range evaluate",
+        ifGenSelectRangeTitle:"Click to select range",
+        ifGenCutWay:"Partition way",
+        ifGenCutSame:"Same Partition value",
+        ifGenCutNpiece:"Partition by N",
+        ifGenCutCustom:"Custom",
+        ifGenCutConfirm:"Confirm",
+
+        ifGenTipSelectCell:"Select cells",
+        ifGenTipSelectCellPlace:"Please select cells",
+
+        ifGenTipSelectRange:"Select range",
+        ifGenTipSelectRangePlace:"Please select range",
+
+        ifGenTipNotNullValue:"The comparison value cannot be empty!",
+        ifGenTipLableTitile:"Label",
+        ifGenTipRangeNotforNull:"The range cannot be empty!",
+        ifGenTipCutValueNotforNull:"The partition value cannot be empty!",
+        ifGenTipNotGenCondition:"No conditions are available for generation!",
+    },
+    formulaMore:{
+        valueTitle:"Value",
+        tipSelectDataRange:"Select data range",
+        tipDataRangeTile:"Data range",
+        findFunctionTitle:"Search function",
+        tipInputFunctionName:"Function name or brief description of function",
+
+        "Array":"Array",
+        "Database":"Database",
+        "Date":"Date",
+        "Engineering":"Engineering",
+        "Filter":"Filter",
+        "Financial":"Financial",
+        "luckysheet":"Luckysheet",
+        "other":"Other",
+        "Logical":"Logical",
+        "Lookup":"Lookup",
+        "Math":"Math",
+        "Operator":"Operator",
+        "Parser":"Parser",
+        "Statistical":"Statistical",
+        "Text":"Text",
+        "dataMining":"DataMining",
+
+        "selectFunctionTitle":"Select a function",
+        "calculationResult":"Result",
+    }
   };
   

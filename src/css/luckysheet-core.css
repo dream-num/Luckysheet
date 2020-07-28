@@ -5752,7 +5752,7 @@ fieldset[disabled] a.btn {
 }
 #luckysheet-ifFormulaGenerator-dialog .ifAttr .attrBox label{
     display: block;
-    width: 50px;
+    width: 100px;
     height: 100%;
     line-height: 30px;
     padding: 0 5px;

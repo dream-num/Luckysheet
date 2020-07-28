@@ -71,7 +71,7 @@ export default {
     button: {
         confirm: '确定',
         cancel: '取消',
-        colse:"关闭"
+        close:"关闭"
     },
     paint: {
         start: '格式刷开启',
@@ -685,4 +685,67 @@ export default {
         rimless: '无边框',
         bordered: '有边框',
     },
+    formula:{
+        sum:"求和",
+        average:"平均值",
+        count:"计数",
+        max:"最大值",
+        min:"最小值",
+        ifGenerate:"if公式生成器",
+        find:"更多函数",
+
+        tipNotBelongToIf:"该单元格函数不属于if公式！",
+        tipSelectCell:"请选择单元格插入函数",
+
+        ifGenCompareValueTitle:"比较值",
+        ifGenSelectCellTitle:"点击选择单元格",
+        ifGenRangeTitle:"范围",
+        ifGenRangeTo:"至",
+        ifGenRangeEvaluate:"范围评估",
+        ifGenSelectRangeTitle:"点击选择范围",
+        ifGenCutWay:"划分方式",
+        ifGenCutSame:"划分值相同",
+        ifGenCutNpiece:"划分为N份",
+        ifGenCutCustom:"自定义输入",
+        ifGenCutConfirm:"生成",
+
+        ifGenTipSelectCell:"选择单元格",
+        ifGenTipSelectCellPlace:"请选择单元格",
+
+        ifGenTipSelectRange:"选择单范围",
+        ifGenTipSelectRangePlace:"请选择范围",
+
+        ifGenTipNotNullValue:"比较值不能为空！",
+        ifGenTipLableTitile:"标签",
+        ifGenTipRangeNotforNull:"范围不能为空！",
+        ifGenTipCutValueNotforNull:"划分值不能为空！",
+        ifGenTipNotGenCondition:"没有生成可用的条件！",
+    },
+    formulaMore:{
+        valueTitle:"值",
+        tipSelectDataRange:"选取数据范围",
+        tipDataRangeTile:"数据范围",
+        findFunctionTitle:"查找函数",
+        tipInputFunctionName:"请输入您要查找的函数名称或函数功能的简要描述",
+
+        "Array":"数组",
+        "Database":"数据源",
+        "Date":"日期",
+        "Engineering":"工程计算",
+        "Filter":"过滤器",
+        "Financial":"财务",
+        "luckysheet":"Luckysheet内置",
+        "other":"其它",
+        "Logical":"逻辑",
+        "Lookup":"查找",
+        "Math":"数学",
+        "Operator":"运算符",
+        "Parser":"转换工具",
+        "Statistical":"统计",
+        "Text":"文本",
+        "dataMining":"数据挖掘",
+
+        "selectFunctionTitle":"选择函数",
+        "calculationResult":"计算结果",
+    }
 };
