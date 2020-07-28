@@ -18,8 +18,8 @@ import tooltip from './tooltip';
 import { rowLocation, colLocation, colLocationByIndex, mouseposition } from './location';
 import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
-import luckysheet_function from '../function/luckysheet_function';
-import functionlist from '../function/functionlist';
+// import luckysheet_function from '../function/luckysheet_function';
+// import functionlist from '../function/functionlist';
 import { luckysheet_compareWith, luckysheet_getcelldata, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
 import Store from '../store';
 
@@ -878,6 +878,7 @@ const luckysheetformula = {
     searchFunctionCell: null,
     searchFunction: function($editer) {
         let _this = this;
+        let functionlist = Store.functionlist;
 
         let $cell = _this.getrangeseleciton();
         _this.searchFunctionCell = $cell;
@@ -989,6 +990,7 @@ const luckysheetformula = {
     functionlistPosition: {},
     helpFunction: function($editer, funcname, paramIndex) {
         let _this = this;
+        let functionlist = Store.functionlist;
 
         let $func = functionlist[_this.functionlistPosition[$.trim(funcname).toUpperCase()]];
         if ($func == null) {
@@ -1062,6 +1064,7 @@ const luckysheetformula = {
     },
     helpFunctionExe: function($editer, currSelection) {
         let _this = this;
+        let functionlist = Store.functionlist;
 
         if ($("#luckysheet-formula-help-c").length == 0) {
             $("body").after(_this.helpHTML);

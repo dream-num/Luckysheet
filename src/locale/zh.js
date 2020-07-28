@@ -377,6 +377,14 @@ export default {
         "wrap":"自动换行",
         "clip":"截断",
     },
+    rotation:{
+        "none":"无选装",
+        "angleup":"向上倾斜",
+        "angledown":"向下倾斜",
+        "vertical":"竖排文字",
+        "rotationUp":"向上90°",
+        "rotationDown":"向下90°"
+    },
     freezen:{
         default:"冻结首行",
         freezenRow:"冻结首行",

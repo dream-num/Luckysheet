@@ -1,6 +1,6 @@
 import { luckysheet_getcelldata } from '../function/func';
-import functionlist from '../function/functionlist';
-import luckysheet_function from '../function/luckysheet_function';
+// import functionlist from '../function/functionlist';
+// import Store.luckysheet_function from '../function/Store.luckysheet_function';
 import formula from '../global/formula';
 import { isRealNum, isRealNull } from '../global/validate';
 import { modelHTML } from './constant';
@@ -20,6 +20,7 @@ const insertFormula = {
         $(document).off("keyup.fxSFLI").on("keyup.fxSFLI", "#searchFormulaListInput", function(){
             $("#formulaTypeList").empty();
             let txt = $(this).val().toUpperCase();
+            let functionlist = Store.functionlist;
 
             if(txt == ""){
                 //若没有查找内容则根据类别筛选
@@ -67,16 +68,16 @@ const insertFormula = {
             formula.data_parm_index = parmIndex;
 
             let formulatxt = $(this).parents("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-title-text").text();
-            let parmLen = luckysheet_function[formulatxt].p.length;
+            let parmLen = Store.luckysheet_function[formulatxt].p.length;
 
             let parmDetail, parmRepeat;
             if(parmIndex >= parmLen){
-                parmDetail = luckysheet_function[formulatxt].p[parmLen - 1].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmLen - 1].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmLen - 1].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmLen - 1].repeat;
             }
             else{
-                parmDetail = luckysheet_function[formulatxt].p[parmIndex].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmIndex].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmIndex].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmIndex].repeat;
             }
 
             //参数选区显示，参数值显示
@@ -209,6 +210,7 @@ const insertFormula = {
     },
     formulaListByType: function(type){
         $("#formulaTypeList").empty();
+        let functionlist = Store.functionlist;
                     
         for(let i = 0; i < functionlist.length; i++){
             if((type == "-1" && functionlist[i].t > 14) || functionlist[i].t == type){
@@ -225,7 +227,8 @@ const insertFormula = {
 
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
-        let locale_button = _locale.button
+        let locale_button = _locale.button;
+        let functionlist = Store.functionlist;
 
         for(let i = 0; i < functionlist.length; i++){
             if(functionlist[i].n == formulaTxt.toUpperCase()){
@@ -428,7 +431,7 @@ const insertFormula = {
         
         $("#luckysheet-search-formula-parm .parmBox").each(function(i, e){
             let parmtxt = $(e).find(".txt input").val();
-            let parmRequire = luckysheet_function[formulatxt].p[i].require;
+            let parmRequire = Store.luckysheet_function[formulatxt].p[i].require;
 
             if(parmtxt == "" && parmRequire == "m"){
                 isVal = false;

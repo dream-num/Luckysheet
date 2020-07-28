@@ -12361,7 +12361,7 @@ const functionImplementation = {
             var endDate = moment(arguments[1]);
             var unit = arguments[2];
             var result = formula.error.v;
-            if(luckysheet_function.DAYS.f(endDate,startDate) < 0){
+            if(window.luckysheet_function.DAYS.f(endDate,startDate) < 0){
                 return formula.error.v;
             }
 

@@ -19,6 +19,7 @@ import {
     setconfig,
 } from './methods/set';
 import { luckysheetrefreshgrid } from './global/refresh';
+import functionlist from './function/functionlist';
 
 let luckysheet = {};
 
@@ -80,6 +81,9 @@ luckysheet.create = function (setting) {
 
     // Register plugins
     initPlugins(extendsetting.plugins);
+
+    // Store formula information, including internationalization
+    functionlist();
 
     let devicePixelRatio = extendsetting.devicePixelRatio;
     if(devicePixelRatio == null){
