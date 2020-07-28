@@ -16,7 +16,7 @@ const tooltip = {
             "addclass": "", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.colse+'&nbsp;&nbsp;</button>', 
+            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 

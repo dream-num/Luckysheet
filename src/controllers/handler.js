@@ -89,6 +89,14 @@ export default function luckysheetHandler() {
         event.preventDefault();
     });
 
+    const _locale = locale();
+    const locale_drag = _locale.drag;
+    const locale_sheetconfig = _locale.sheetconfig;
+    const locale_info = _locale.info;
+    const locale_filter = _locale.filter;
+    const locale_button= _locale.button;
+    const locale_formula= _locale.formula;
+
     $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
             scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
@@ -2281,10 +2289,10 @@ export default function luckysheetHandler() {
             //选区包含部分单元格
             if(hasPartMC(cfg, last["row"][0], last["row"][1], last["column"][0], last["column"][1])){
                 if(isEditMode()){
-                    alert("无法对合并单元格执行此操作");
+                    alert(locale_drag.noMerge);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"无法对合并单元格执行此操作");
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',locale_drag.noMerge);
                 }
                 return;
             }
@@ -2317,10 +2325,10 @@ export default function luckysheetHandler() {
             //替换的位置包含部分单元格
             if(hasPartMC(cfg, row_s, row_e, col_s, col_e)){
                 if(isEditMode()){
-                    alert("无法对合并单元格执行此操作");
+                    alert(locale_drag.noMerge);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"无法对合并单元格执行此操作");
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',locale_drag.noMerge);
                 }
                 return;
             }
@@ -2553,7 +2561,7 @@ export default function luckysheetHandler() {
 
                         //是否有数据透视表范围
                         if(pivotTable.isPivotRange(row_s, col_e)){
-                            tooltip.info("无法对所选单元格进行此更改，因为它会影响数据透视表！","");
+                            tooltip.info(locale_drag.affectPivot,"");
                             return;
                         }
                     }
@@ -2565,7 +2573,7 @@ export default function luckysheetHandler() {
 
                         //是否有数据透视表范围
                         if(pivotTable.isPivotRange(row_e, col_e)){
-                            tooltip.info("无法对所选单元格进行此更改，因为它会影响数据透视表！","");
+                            tooltip.info(locale_drag.affectPivot,"");
                             return;
                         }
                     }
@@ -2584,7 +2592,7 @@ export default function luckysheetHandler() {
 
                         //是否有数据透视表范围
                         if(pivotTable.isPivotRange(row_e, col_s)){
-                            tooltip.info("无法对所选单元格进行此更改，因为它会影响数据透视表！","");
+                            tooltip.info(locale_drag.affectPivot,"");
                             return;
                         }
                     }
@@ -2596,7 +2604,7 @@ export default function luckysheetHandler() {
 
                         //是否有数据透视表范围
                         if(pivotTable.isPivotRange(row_e, col_e)){
-                            tooltip.info("无法对所选单元格进行此更改，因为它会影响数据透视表！","");
+                            tooltip.info(locale_drag.affectPivot,"");
                             return;
                         }
                     }
@@ -2622,10 +2630,10 @@ export default function luckysheetHandler() {
 
                 if(hasMc){
                     if(isEditMode()){
-                        alert("无法对合并单元格执行此操作");
+                        alert(locale_drag.noMerge);
                     }
                     else{
-                        tooltip.info("无法对合并单元格执行此操作", ""); 
+                        tooltip.info(locale_drag.noMerge, ""); 
                     }
 
                     return;
@@ -2644,10 +2652,10 @@ export default function luckysheetHandler() {
 
                 if(hasMc){
                     if(isEditMode()){
-                        alert("无法对合并单元格执行此操作");
+                        alert(locale_drag.noMerge);
                     }
                     else{
-                        tooltip.info("无法对合并单元格执行此操作", ""); 
+                        tooltip.info(locale_drag.noMerge, ""); 
                     }
 
                     return;
@@ -2900,10 +2908,10 @@ export default function luckysheetHandler() {
 
         if (isNaN(parseInt(value))) {
             if(isEditMode()){
-                alert("请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误", "请输入数字");
+                tooltip.info("error", locale_info.tipInputNumber);
             }
             return;
         }
@@ -2911,10 +2919,10 @@ export default function luckysheetHandler() {
         value = parseInt(value);
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加范围限制在1-100");
+                alert(locale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误", "增加范围限制在1-100");
+                tooltip.info("error", locale_info.tipInputNumberLimit);
             }
             return;
         }
@@ -3143,10 +3151,10 @@ export default function luckysheetHandler() {
 
                         if(has_PartMC){
                             if(isEditMode()){
-                                alert("无法对部分合并单元格执行此操作");
+                                alert(locale_drag.noMerge);
                             }
                             else{
-                                tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                                tooltip.info(locale_drag.noMerge, ""); 
                             }
                             return;    
                         }
@@ -3182,10 +3190,10 @@ export default function luckysheetHandler() {
 
                         if(hasCF){
                             if(isEditMode()){
-                                alert("无法对多重选择区域执行此操作");
+                                alert(locale_drag.noMulti);
                             }
                             else{
-                                tooltip.info("无法对多重选择区域执行此操作", "");
+                                tooltip.info(locale_drag.noMulti, "");
                             }
                             return;
                         }
@@ -3211,10 +3219,10 @@ export default function luckysheetHandler() {
 
                         if((!isSameRow && !isSameCol) || selectIsOverlap()){
                             if(isEditMode()){
-                                alert("无法对多重选择区域执行此操作");
+                                alert(locale_drag.noMulti);
                             }
                             else{
-                                tooltip.info("无法对多重选择区域执行此操作", ""); 
+                                tooltip.info(locale_drag.noMulti, ""); 
                             }
                             return;
                         }    
@@ -3254,10 +3262,10 @@ export default function luckysheetHandler() {
 
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
-                            alert("无法在此处粘贴此内容，请选择粘贴区域的一个单元格，然后再次尝试粘贴");
+                            alert(locale_drag.noPaste);
                         }
                         else{
-                            tooltip.info("无法在此处粘贴此内容，请选择粘贴区域的一个单元格，然后再次尝试粘贴", "");
+                            tooltip.info(locale_drag.noPaste, "");
                         }
                         return;
                     }
@@ -3297,10 +3305,10 @@ export default function luckysheetHandler() {
 
                         if(has_PartMC){
                             if(luckysheetConfigsetting.editMode){
-                                alert("无法对合并单元格执行此操作");
+                                alert(_locale_drag.noMerge);
                             }
                             else{
-                                tooltip.info("无法对合并单元格执行此操作", ""); 
+                                tooltip.info(_locale_drag.noMerge, ""); 
                             }
                             return;    
                         }
@@ -3309,10 +3317,10 @@ export default function luckysheetHandler() {
                     //多重选区时 提示
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
-                            alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                            alert(locale_drag.noMulti);
                         }
                         else{
-                            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                            tooltip.info(locale_drag.noMulti, ""); 
                         }
                         return;
                     }
@@ -3504,7 +3512,6 @@ export default function luckysheetHandler() {
     //右键菜单 复制按钮
     $("#luckysheet-copy-btn, #luckysheet-cols-copy-btn, #luckysheet-paste-btn-title").click(function (event) {
         $(this).parent().hide();
-
         //复制范围内包含部分合并单元格，提示
         if(Store.config["merge"] != null){
             let has_PartMC = false;
@@ -3524,10 +3531,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -3563,10 +3570,10 @@ export default function luckysheetHandler() {
 
             if(hasCF){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("无法对多重选择区域执行此操作", "");
+                    tooltip.info(locale_drag.noMulti, "");
                 }
                 return;
             }
@@ -3592,10 +3599,10 @@ export default function luckysheetHandler() {
 
             if((!isSameRow && !isSameCol) || selectIsOverlap()){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("无法对多重选择区域执行此操作", "");  
+                    tooltip.info(locale_drag.noMulti, "");  
                 }
                 return;
             }    
@@ -3648,7 +3655,6 @@ export default function luckysheetHandler() {
 
     //菜单栏 截图按钮
     $("#luckysheet-chart-btn-screenshot").click(function () {
-        const _locale = locale();
         const locale_screenshot = _locale.screenshot;
         if(Store.luckysheet_select_save.length == 0){
             if(isEditMode()){
@@ -3765,7 +3771,6 @@ export default function luckysheetHandler() {
     //截图下载
     $(document).on("click", "a.download", function(){ 
         let dataURI = $("#luckysheet-confirm-screenshot-save img").attr("src");
-        const _locale = locale();
         const locale_screenshot = _locale.screenshot;
         let binStr = atob(dataURI.split(",")[1]),
             len = binStr.length,
@@ -3805,13 +3810,15 @@ export default function luckysheetHandler() {
             return;
         }
 
+        const locale_splitText = _locale.splitText;
+
         if(Store.luckysheet_select_save.length > 1){
-            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            tooltip.info(locale_splitText.tipNoMulti, "");
             return;
         }
 
         if(Store.luckysheet_select_save[0].column[0] != Store.luckysheet_select_save[0].column[1]){
-            tooltip.info("一次只能转换一列数据，选定区域可以有多行，但不能有多列，请在选定单列区域以后再试", "");
+            tooltip.info(locale_splitText.tipNoMultiColumn, "");
             return;   
         }
 
@@ -5256,10 +5263,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");   
+                tooltip.info(locale_drag.noMulti, "");   
             }
             return;
         }
@@ -5283,10 +5290,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5327,12 +5334,13 @@ export default function luckysheetHandler() {
         $("body .luckysheet-cols-menu").hide();
         $("#" + Store.container).attr("tabindex", 0).focus();
 
+
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5356,10 +5364,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5389,10 +5397,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5416,10 +5424,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5444,12 +5452,13 @@ export default function luckysheetHandler() {
         $("body .luckysheet-cols-menu").hide();
         $("#" + Store.container).attr("tabindex", 0).focus();
 
+
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5473,10 +5482,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5504,10 +5513,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5531,10 +5540,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5582,20 +5591,20 @@ export default function luckysheetHandler() {
 
         if(row.toString() == "NaN" || col.toString() == "NaN"){
             if(isEditMode()){
-                alert("请输入正确的数值!");
+                alert(locale_drag.inputCorrect);
             }
             else{
-                tooltip.info("请输入正确的数值!", "");
+                tooltip.info(locale_drag.inputCorrect, "");
             }
             return;
         }
 
         if(row < 1 || col < 1){
             if(isEditMode()){
-                alert("行列数不能小于1!");
+                alert(locale_drag.notLessOne);
             }
             else{
-                tooltip.info("行列数不能小于1!", "");
+                tooltip.info(locale_drag.notLessOne, "");
             }
             return;
         }
@@ -5624,10 +5633,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5651,10 +5660,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5682,12 +5691,13 @@ export default function luckysheetHandler() {
         $("body .luckysheet-cols-menu").hide();
         $("#" + Store.container).attr("tabindex", 0).focus();
 
+
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5711,10 +5721,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5744,10 +5754,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5771,10 +5781,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5791,20 +5801,20 @@ export default function luckysheetHandler() {
 
         if(offset.toString() == "NaN"){
             if(isEditMode()){
-                alert("请输入正确的数值！");
+                alert(locale_drag.inputCorrect);
             }
             else{
-                tooltip.info("请输入正确的数值！", "");
+                tooltip.info(locale_drag.inputCorrect, "");
             }
             return;
         }
 
         if(offset < 0){
             if(isEditMode()){
-                alert("偏移列不能为负数！");
+                alert(locale_drag.offsetColumnLessZero);
             }
             else{
-                tooltip.info("偏移列不能为负数！", "");
+                tooltip.info(locale_drag.offsetColumnLessZero, "");
             }
             return;
         }
@@ -5828,12 +5838,13 @@ export default function luckysheetHandler() {
         $("body .luckysheet-cols-menu").hide();
         $("#" + Store.container).attr("tabindex", 0).focus();
 
+
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5857,10 +5868,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                    tooltip.info(locale_drag.noPartMerge, ""); 
                 }
                 return;    
             }
@@ -5910,10 +5921,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5946,10 +5957,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -5982,10 +5993,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6018,10 +6029,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6054,10 +6065,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6103,10 +6114,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6121,10 +6132,10 @@ export default function luckysheetHandler() {
 
         if(calvalue.toString() == "NaN"){
             if(isEditMode()){
-                alert("请输入正确的数值！");
+                alert(locale_drag.inputCorrect);
             }
             else{
-                tooltip.info("请输入正确的数值！", "");
+                tooltip.info(locale_drag.inputCorrect, "");
             }
             return;
         }
@@ -6196,10 +6207,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6264,10 +6275,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6345,10 +6356,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6406,10 +6417,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选定区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选定区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
             return;
         }
@@ -6487,6 +6498,7 @@ export default function luckysheetHandler() {
     function showsheetconfigmenu() {
         if (!isInitialSheetConfig) {
             isInitialSheetConfig = true;
+            let locale_toolbar = _locale.toolbar;
             $("#luckysheetsheetconfigcolorur").spectrum({
                 showPalette: true,
                 preferredFormat: "hex",
@@ -6497,12 +6509,12 @@ export default function luckysheetHandler() {
                 hideAfterPaletteSelect: false,
                 showSelectionPalette: true,
                 maxPaletteSize: 10,
-                cancelText: locale().sheetconfig.cancelText,
-                chooseText: locale().sheetconfig.chooseText,
-                togglePaletteMoreText: "更多",
-                togglePaletteLessText: "少于",
-                clearText: "清除颜色选择",
-                noColorSelectedText: "没有颜色被选择",
+                cancelText: _locale.sheetconfig.cancelText,
+                chooseText: _locale.sheetconfig.chooseText,
+                togglePaletteMoreText: locale_toolbar.toolMore,
+                togglePaletteLessText: locale_toolbar.toolLess,
+                clearText: locale_toolbar.clearText,
+                noColorSelectedText: locale_toolbar.noColorSelectedText,
                 palette: [["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(255, 255, 255)"], ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)", "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"], ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)"], ["rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)"], ["rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)"], ["rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)"], ["rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"], ["#c1232b", "#27727b", "#fcce10", "#e87c25", "#b5c334", "#fe8463", "#9bca63", "#fad860", "#f3a43b", "#60c0dd", "#d7504b", "#c6e579", "#f4e001", "#f0805a", "#26c0c0", "#c12e34", "#e6b600", "#0098d9", "#2b821d", "#005eaa", "#339ca8", "#cda819", "#32a487", "#3fb1e3", "#6be6c1", "#626c91", "#a0a7e6", "#c4ebad", "#96dee8"]],
                 change: function (color) {
                     let $input = $(this);
@@ -6681,14 +6693,15 @@ export default function luckysheetHandler() {
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
+        
         let index = getSheetIndex(Store.currentSheetIndex);
         for (let i = 0; i < Store.luckysheetfile.length; i++) {
             if (index != i && Store.luckysheetfile[i].name == txt) {
                 if(isEditMode()){
-                    alert("标签页的名称不能重复！请重新修改");
+                    alert(locale_sheetconfig.tipNameRepeat);
                 }
                 else{
-                    tooltip.info("提示", "标签页的名称不能重复！请重新修改");
+                    tooltip.info("", locale_sheetconfig.tipNameRepeat);
                 }
                 $t.text(oldtxt).attr("contenteditable", "false");
                 return;
@@ -6770,10 +6783,10 @@ export default function luckysheetHandler() {
 
         if($("#luckysheet-sheet-container-c .luckysheet-sheets-item:visible").length <= 1){
             if(isEditMode()){
-                alert("工作薄内至少含有一张可视工作表。若需删除选定的工作表，请先插入一张新工作表或显示一张隐藏的工作表。");
+                alert(locale_sheetconfig.noMoreSheet);
             }
             else{
-                tooltip.info("工作薄内至少含有一张可视工作表。若需删除选定的工作表，请先插入一张新工作表或显示一张隐藏的工作表。", "");
+                tooltip.info(locale_sheetconfig.noMoreSheet, "");
             }
 
             return;
@@ -6781,7 +6794,7 @@ export default function luckysheetHandler() {
 
         let index = getSheetIndex(Store.currentSheetIndex);
 
-        tooltip.confirm("是否删除【" + Store.luckysheetfile[index].name + "】？", "<span style='color:#9e9e9e;font-size:12px;'>可以通过Ctrl+Z撤销删除</span>", function () {
+        tooltip.confirm(locale_sheetconfig.confirmDelete+"【" + Store.luckysheetfile[index].name + "】？", "<span style='color:#9e9e9e;font-size:12px;'>"+locale_sheetconfig.redoDelete+"</span>", function () {
             sheetmanage.deleteSheet(luckysheetcurrentSheetitem.data("index"));
         }, null);
         
@@ -6797,10 +6810,10 @@ export default function luckysheetHandler() {
     $("#luckysheetsheetconfighide").click(function () {
         if ($("#luckysheet-sheet-area div.luckysheet-sheets-item:visible").length == 1) {
             if(isEditMode()){
-                alert("不能隐藏, 至少保留一个sheet标签");
+                alert(locale_sheetconfig.noHide);
             }
             else{
-                tooltip.info("不能隐藏", "至少保留一个sheet标签");
+                tooltip.info("", locale_sheetconfig.noHide);
             }
             return;
         }
@@ -6884,7 +6897,7 @@ export default function luckysheetHandler() {
             $("#luckysheet-sheet-list").on("click", ".luckysheet-cols-menuitem", function (e) {
                 if(isEditMode()){
                     // tooltip.info("提示", "图表编辑模式下不允许该操作！");
-                    alert("图表编辑模式下不允许该操作！");
+                    alert(locale_sheetconfig.chartEditNoOpt);
                     return;
                 }
 
@@ -6915,10 +6928,10 @@ export default function luckysheetHandler() {
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -6927,10 +6940,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", "");
+                tooltip.info(locale_info.tipInputNumber, "");
             }
 
             return;
@@ -6940,10 +6953,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(locale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", ""); 
+                tooltip.info(locale_info.tipInputNumberLimit, ""); 
             }
             return;
         }
@@ -6957,10 +6970,10 @@ export default function luckysheetHandler() {
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -6969,10 +6982,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", "");
+                tooltip.info(locale_info.tipInputNumber, "");
             }
 
             return;
@@ -6982,10 +6995,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(llocale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", ""); 
+                tooltip.info(llocale_info.tipInputNumberLimit, ""); 
             }
             return;
         }
@@ -6999,10 +7012,10 @@ export default function luckysheetHandler() {
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -7011,10 +7024,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", "");
+                tooltip.info(locale_info.tipInputNumber, "");
             }
 
             return;
@@ -7024,10 +7037,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(llocale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", ""); 
+                tooltip.info(llocale_info.tipInputNumberLimit, ""); 
             }
             return;
         }
@@ -7043,10 +7056,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -7055,10 +7068,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", ""); 
+                tooltip.info(locale_info.tipInputNumber, ""); 
             }
 
             return;
@@ -7068,10 +7081,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(llocale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", "");
+                tooltip.info(llocale_info.tipInputNumberLimit, "");
             }
 
             return;
@@ -7086,10 +7099,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -7098,10 +7111,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", ""); 
+                tooltip.info(locale_info.tipInputNumber, ""); 
             }
 
             return;
@@ -7111,10 +7124,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(llocale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", "");
+                tooltip.info(llocale_info.tipInputNumberLimit, "");
             }
 
             return;
@@ -7129,10 +7142,10 @@ export default function luckysheetHandler() {
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_drag.noMulti);
             }
             else{
-                tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                tooltip.info(locale_drag.noMulti, "");
             }
 
             return;
@@ -7141,10 +7154,10 @@ export default function luckysheetHandler() {
         let $t = $(this), value = $t.parent().find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
-                alert("增加错误, 请输入数字");
+                alert(locale_info.tipInputNumber);
             }
             else{
-                tooltip.info("增加错误, 请输入数字", ""); 
+                tooltip.info(locale_info.tipInputNumber, ""); 
             }
 
             return;
@@ -7154,10 +7167,10 @@ export default function luckysheetHandler() {
 
         if (value < 1 || value > 100) {
             if(isEditMode()){
-                alert("增加错误, 增加范围限制在1-100");
+                alert(llocale_info.tipInputNumberLimit);
             }
             else{
-                tooltip.info("增加错误, 增加范围限制在1-100", "");
+                tooltip.info(llocale_info.tipInputNumberLimit, "");
             }
 
             return;
@@ -7175,18 +7188,18 @@ export default function luckysheetHandler() {
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                    tooltip.info(locale_drag.noMulti, "");
                 }
             }
             else if(Store.luckysheetRightHeadClickIs == "column"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                    tooltip.info(locale_drag.noMulti, ""); 
                 }
             }
             return;
@@ -7203,18 +7216,18 @@ export default function luckysheetHandler() {
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                    tooltip.info(locale_drag.noMulti, "");
                 }
             }
             else if(Store.luckysheetRightHeadClickIs == "column"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                    tooltip.info(locale_drag.noMulti, ""); 
                 }
             }
             return;
@@ -7231,18 +7244,18 @@ export default function luckysheetHandler() {
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+                    tooltip.info(locale_drag.noMulti, "");
                 }
             }
             else if(Store.luckysheetRightHeadClickIs == "column"){
                 if(isEditMode()){
-                    alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                    alert(locale_drag.noMulti);
                 }
                 else{
-                    tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", ""); 
+                    tooltip.info(locale_drag.noMulti, ""); 
                 }
             }
             return;
@@ -7361,10 +7374,10 @@ export default function luckysheetHandler() {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("无法对部分合并单元格执行此操作");
+                    alert(locale_drag.noPartMerge);
                 }
                 else{
-                    tooltip.info("无法对部分合并单元格执行此操作", "");
+                    tooltip.info(locale_drag.noPartMerge, "");
                 }
 
                 return;
@@ -7413,10 +7426,10 @@ export default function luckysheetHandler() {
 
         if(size < 0 || size > 255){
             if(isEditMode()){
-                alert("数值必须在0 ~ 255之间");
+                alert(llocale_info.tipRowHeightLimit);
             }
             else{
-                tooltip.info("数值必须在0 ~ 255之间", "");
+                tooltip.info(llocale_info.tipRowHeightLimit, "");
             }
             
             return;
@@ -7526,7 +7539,6 @@ export default function luckysheetHandler() {
     let luckysheet_sort_initial = true;
     $("#luckysheetorderby").click(function () {
         $("body .luckysheet-cols-menu").hide();
-        const _locale = locale();
         const locale_sort = _locale.sort;
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -7547,7 +7559,7 @@ export default function luckysheetHandler() {
             
             let content = `<div style="overflow: hidden;" class="luckysheet-sort-modal"><div><label><input type="checkbox" id="luckysheet-sort-haveheader"/><span>${locale_sort.hasTitle}</span></label></div><div style="overflow-y:auto;" id="luckysheet-sort-dialog-tablec"><table data-itemcount="0" cellspacing="0"> <tr><td>${locale_sort.hasTitle} <select name="sort_0"> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> </select> </td> <td> <div><label><input value="asc" type="radio" checked="checked" name="sort_0"><span>${locale_sort.asc}A-Z</span></label></div> <div><label><input value="desc" type="radio" name="sort_0"><span>${locale_sort.desc}Z-A</span></label></div></td></tr></table></div><div style="background: #e5e5e5;border-top: 1px solid #f5f5f5; height: 1px; width: 100%;margin:2px 0px;margin-bottom:10px;"></div> <div> <span style="font-weight: bold; text-decoration: underline;text-align:center;color: blue;cursor: pointer;" class="luckysheet-sort-dialog-additem">+ ${locale_sort.addOthers}</span> </div> </div>`;
 
-            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-sort-dialog", "addclass": "", "title": "排序范围", "content": content, "botton": `<button id="luckysheet-sort-modal-confirm" class="btn btn-primary">${locale_sort.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_sort.close}</button>`}));
+            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-sort-dialog", "addclass": "", "title": _locale.sort.sortTitle, "content": content, "botton": `<button id="luckysheet-sort-modal-confirm" class="btn btn-primary">${locale_sort.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_sort.close}</button>`}));
 
             $("#luckysheet-sort-dialog .luckysheet-sort-dialog-additem").click(function () {
                 let last = Store.luckysheet_select_save[0];
@@ -7812,7 +7824,7 @@ export default function luckysheetHandler() {
 
         setTimeout(function () {
             if ($t.attr("id") == "luckysheet-filter-bycondition" && $("#luckysheet-filter-bycondition").next().is(":visible")) {
-                if ($("#luckysheet-filter-selected span").text() != "无") {
+                if ($("#luckysheet-filter-selected span").text() != locale_filter.filiterInputNone) {
                     $("#luckysheet-filter-byvalue").next().slideUp(200);
                 }
             }
@@ -7879,7 +7891,7 @@ export default function luckysheetHandler() {
         $menu.data("edc", ed_c);
 
         $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide().find("input").val();
-        $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text("无");
+        $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text(locale_filter.filiterInputNone);
 
         let byconditiontype = $t.data("byconditiontype");
         $("#luckysheet-filter-selected span").data("value", $t.data("byconditionvalue")).data("type", byconditiontype).text($t.data("byconditiontext"));
@@ -7901,7 +7913,7 @@ export default function luckysheetHandler() {
             orderbydatafiler(st_r, st_c, ed_r, ed_c, cindex, false);
         });
 
-        $("#luckysheet-filter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size:14px;"><div class="luckysheetLoaderGif"></div><span>数据量大！请稍后</span></div>');
+        $("#luckysheet-filter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size:14px;"><div class="luckysheetLoaderGif"></div><span>'+locale_filter.filiterMoreDataTip+'</span></div>');
 
         let rowhiddenother = {}; //其它筛选列的隐藏行
         $("#luckysheet-filter-options-sheet" + Store.currentSheetIndex + " .luckysheet-filter-options").not(this).each(function () {
@@ -8062,7 +8074,7 @@ export default function luckysheetHandler() {
                                             '<div class="month luckysheet-mousedown-cancel cf" data-check="false" title="'+ y +'-'+ mT2 +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + m + '月</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + m + ''+ locale_filter.filiterMonthText +'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
                                             '</div>' +
                                             '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
@@ -8073,7 +8085,7 @@ export default function luckysheetHandler() {
                                             '<div class="month luckysheet-mousedown-cancel cf" data-check="true" title="'+ y +'-'+ mT2 +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + m + '月</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + m + ''+ locale_filter.filiterMonthText +'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
                                             '</div>' +
                                             '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
@@ -8088,7 +8100,7 @@ export default function luckysheetHandler() {
                                             '<div class="year luckysheet-mousedown-cancel cf" data-check="false" title="'+ y +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + y + '年</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + y + ''+ locale_filter.filiterYearText +'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
                                             '</div>' +
                                             '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
@@ -8099,7 +8111,7 @@ export default function luckysheetHandler() {
                                             '<div class="year luckysheet-mousedown-cancel cf" data-check="true" title="'+ y +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + y + '年</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + y + ''+ locale_filter.filiterYearText +'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
                                             '</div>' +
                                             '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
@@ -8243,7 +8255,7 @@ export default function luckysheetHandler() {
                         bgColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + b + '" title="' + b + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox"/></div>';
                     }
                 }
-                filterBgColorHtml = '<div id="filterBgColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">按单元格颜色筛选</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + bgColorItemHtml + '</div></div>';
+                filterBgColorHtml = '<div id="filterBgColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">'+locale_filter.filiterByColorTip+'</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + bgColorItemHtml + '</div></div>';
             }
     
             let filterFcColorHtml = '';
@@ -8257,15 +8269,15 @@ export default function luckysheetHandler() {
                         fcColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + f + '" title="' + f + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox"/></div>';
                     }
                 }
-                filterFcColorHtml = '<div id="filterFcColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">按字体颜色筛选</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + fcColorItemHtml + '</div></div>';
+                filterFcColorHtml = '<div id="filterFcColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">'+locale_filter.filiterByTextColorTip+'</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + fcColorItemHtml + '</div></div>';
             }
             //
             let content;
             if(filterBgColorHtml == '' && filterFcColorHtml == ''){
-                content = '<div class="luckysheet-mousedown-cancel" style="padding: 10px 30px;text-align: center;">本列仅包含一种颜色</div>';
+                content = '<div class="luckysheet-mousedown-cancel" style="padding: 10px 30px;text-align: center;">'+locale_filter.filterContainerOneColorTip+'</div>';
             }
             else{
-                content = filterBgColorHtml + filterFcColorHtml + '<div class="luckysheet-mousedown-cancel"><button id="luckysheet-filter-orderby-color-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin: 5px 20px;width: 70px;">确认</button></div>';
+                content = filterBgColorHtml + filterFcColorHtml + '<div class="luckysheet-mousedown-cancel"><button id="luckysheet-filter-orderby-color-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin: 5px 20px;width: 70px;">'+locale_button.confirm+'</button></div>';
             }
             //颜色筛选子菜单
             $("#luckysheet-filter-orderby-color-submenu").remove();
@@ -8677,7 +8689,7 @@ export default function luckysheetHandler() {
     //清除筛选
     $("#luckysheet-filter-initial").click(function () {
         $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide().find("input").val();
-        $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text("无");
+        $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text(locale_filter.conditionNone);
 
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
         $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
@@ -9106,14 +9118,14 @@ export default function luckysheetHandler() {
                         day = "0" + Number(day);
                     }
 
-                    let month = $(e).closest(".monthBox").find(".month label").text().replace("月", "");
+                    let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "");
                     if(Number(month) < 10){
                         month = "0" + Number(month);
                     }
 
-                    let year = $(e).closest(".yearBox").find(".year label").text().replace("年", "");
+                    let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "");
 
-                    let itemV = "日期格式#$$$#" + year + "-" + month + "-" + day;
+                    let itemV = locale_filter.filterDateFormatTip +"#$$$#" + year + "-" + month + "-" + day;
 
                     filterdata[itemV] = "1";
                 }
@@ -9142,7 +9154,7 @@ export default function luckysheetHandler() {
                 }
                 else if(cell.ct != null && cell.ct.t == "d"){
                     let fmt = update("YYYY-MM-DD", cell.v);
-                    value = "日期格式#$$$#" + fmt;
+                    value = locale_filter.filterDateFormatTip +"#$$$#" + fmt;
                 }
                 else{
                     value = cell.v + "#$$$#" + cell.m;
@@ -9376,10 +9388,10 @@ export default function luckysheetHandler() {
         //点击函数查找弹出框
         if(Store.luckysheet_select_save.length == 0){
             if(isEditMode()){
-                alert("请选择单元格插入函数");
+                alert(locale_formula.tipSelectCell);
             }
             else{
-                tooltip.info("请选择单元格插入函数","");
+                tooltip.info(locale_formula.tipSelectCell,"");
             }
 
             return;
@@ -10025,10 +10037,20 @@ export default function luckysheetHandler() {
                 luckysheetConfigsetting.pageInfo.currentPage++;
                 if(luckysheetConfigsetting.pageInfo.totalPage == (luckysheetConfigsetting.pageInfo.currentPage)){
                     $("#luckysheet-bottom-page-next").hide();
-                    $("#luckysheet-bottom-page-info").html('共'+luckysheetConfigsetting.total +'条，'+ luckysheetConfigsetting.pageInfo.totalPage +'页，'+'已显示全部数据');
+                    let pageInfoFull = replaceHtml(locale_info.pageInfoFull,{
+                        total:luckysheetConfigsetting.total,
+                        totalPage:luckysheetConfigsetting.pageInfo.totalPage,
+                    });
+                    $("#luckysheet-bottom-page-info").html(pageInfoFull);
                 }
                 else{
-                    $("#luckysheet-bottom-page-info").html('共'+luckysheetConfigsetting.total +'条，'+ luckysheetConfigsetting.pageInfo.totalPage +'页，当前已显示'+ (luckysheetConfigsetting.pageInfo.currentPage) +'页');
+                    let pageInfo = replaceHtml(locale_info.pageInfo,{
+                        total:luckysheetConfigsetting.total,
+                        totalPage:luckysheetConfigsetting.pageInfo.totalPage,
+                        currentPage:luckysheetConfigsetting.pageInfo.currentPage
+
+                    });
+                    $("#luckysheet-bottom-page-info").html(pageInfo);
                 }
             });
         }).mousedown(function(e){

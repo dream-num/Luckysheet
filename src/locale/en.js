@@ -50,6 +50,7 @@ export default {
         noColorSelectedText:"No color is selected",
 
         toolMore:"More",
+        toolLess:"Less",
         toolClose:"Close",
         toolMoreTip:"More features",
     },
@@ -93,8 +94,28 @@ export default {
     info:{
         detailUpdate: 'New opened',
         detailSave: 'Local cache restored',
-        row: 'row',
-        column: 'column'
+        row: '',
+        column: '',
+        loading:"Loading",
+
+        copy:"Copy",
+        return:"Exit",
+        rename:"Rename",
+        tips:"WorkBook rename",
+        noName:"Untitled spreadsheet",
+        wait:"waiting for update",
+
+        add:"Add",
+        addLast:"more rows at bottom",
+        backTop:"Back to the top",
+        pageInfo:'Total ${total}，${totalPage} page，current ${currentPage}',
+        nextPage:"Next",
+
+        tipInputNumber:"Please enter the number",
+        tipInputNumberLimit:"The increase range is limited to 1-100",
+
+        tipRowHeightLimit:"The value must be between 0 ~ 255",
+        pageInfoFull:'Total ${total}，${totalPage} page，All data displayed',
     },
     currencyDetail:{
         RMB:'RMB',
@@ -443,6 +464,14 @@ export default {
         conditionCellBetween:"Is between",
         conditionCellNotBetween:"Is not between",
 
+        filiterMoreDataTip:"Big amount of data! please wait",
+        filiterMonthText:"Month",
+        filiterYearText:"Year",
+        filiterByColorTip:"Filter by cell color",
+        filiterByTextColorTip:"Filter by font color",
+        filterContainerOneColorTip:"This column contains only one color",
+        filterDateFormatTip:"Date format",
+
     },
     rightclick: {
         copy: 'Copy',
@@ -533,6 +562,9 @@ export default {
         splitDataPreview:"Preview",
         splitTextTitle:"Split text",
         splitConfirmToExe:"There is already data here, do you want to replace it?",
+
+        tipNoMulti:"Cannot perform this operation on multiple selection areas, please select a single area and try again",
+        tipNoMultiColumn:"Only one column of data can be converted at a time. The selected area can have multiple rows but not multiple columns. Please try again after selecting a single column range",
     },
     punctuation:{
         "tab":"Tab",
@@ -738,6 +770,34 @@ export default {
 
         "selectFunctionTitle":"Select a function",
         "calculationResult":"Result",
+
+        tipSuccessText:"Success",
+        tipParamErrorText:"Parameter type error",
+
+        "helpClose":"Close",
+        "helpCollapse":"Collapse",
+        "helpExample":"Example",
+        "helpAbstract":"Abstract",
+
+        "execfunctionError":'Error in the formula',
+        "execfunctionSelfError":'Formula cannot refer to its own cell',
+        "execfunctionSelfErrorResult":'The formula cannot refer to its own cell, which will lead to inaccurate calculation results',
+
+        "allowRepeatText":"Repeat",
+        "allowOptionText":"Option",
+
+        "selectCategory":"Or select a category",
+    },
+    drag:{
+        noMerge:"Cannot perform this operation on merged cells",
+        affectPivot:"This change cannot be made to the selected cell because it will affect the pivot table!",
+        noMulti:"Cannot perform this operation on multiple selection areas, please select a single area",
+        noPaste:"Unable to paste this content here, please select a cell in the paste area and try to paste again",
+        noPartMerge:"Cannot perform this operation on partially merged cells",
+
+        inputCorrect:"Please enter the correct value",
+        notLessOne:"The number of rows and columns cannot be less than 1",
+        offsetColumnLessZero:"The offset column cannot be negative!",
     }
   };
   

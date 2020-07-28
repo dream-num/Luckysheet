@@ -49,6 +49,7 @@ export default {
         noColorSelectedText:"没有颜色被选择",
 
         toolMore:"更多",
+        toolLess:"少于",
         toolClose:"收起",
         toolMoreTip:"更多功能",
 
@@ -94,7 +95,28 @@ export default {
         detailUpdate: '新打开',
         detailSave: '已恢复本地缓存',
         row: '行',
-        column: '列'
+        column: '列',
+
+        loading:"渲染中",
+        copy:"副本",
+        return:"返回",
+        rename:"重命名",
+        tips:"表格重命名",
+        noName:"无标题的电子表格",
+        wait:"待更新",
+
+        add:"添加",
+        addLast:"在底部添加",
+        backTop:"回到顶部",
+        pageInfo:'共${total}条，${totalPage}页，当前已显示${currentPage}页',
+        nextPage:"下一页",
+
+        tipInputNumber:"请输入数字",
+        tipInputNumberLimit:"增加范围限制在1-100",
+
+        tipRowHeightLimit:"数值必须在0 ~ 255之间",
+        pageInfoFull:'共${total}条，${totalPage}页，已显示全部数据',
+
     },
     currencyDetail:{
         RMB:'人民币',
@@ -411,6 +433,8 @@ export default {
         "columnOperation":"列",
         "secondaryTitle":"次要排序",
 
+        "sortTitle":"排序范围",
+
         "sortRangeTitle":"排序范围从",
         "sortRangeTitleTo":"到",
 
@@ -443,6 +467,8 @@ export default {
         filterCancel:"取 消",
         clearFilter:"清除筛选",
 
+
+
         conditionNone:"无",
         conditionCellIsNull:"单元格为空",
         conditionCellNotNull:"单元格有数据",
@@ -462,6 +488,15 @@ export default {
         conditionCellNotEqual:"不等于",
         conditionCellBetween:"介于",
         conditionCellNotBetween:"不在其中",
+
+        filiterMoreDataTip:"数据量大！请稍后",
+        filiterMonthText:"月",
+        filiterYearText:"年",
+        filiterByColorTip:"按单元格颜色筛选",
+        filiterByTextColorTip:"按单元格字体颜色筛选",
+        filterContainerOneColorTip:"本列仅包含一种颜色",
+        filterDateFormatTip:"日期格式",
+
     },
     rightclick: {
         copy: '复制',
@@ -551,6 +586,9 @@ export default {
         splitDataPreview:"数据预览",
         splitTextTitle:"文本分列",
         splitConfirmToExe:"此处已有数据，是否替换它？",
+
+        tipNoMulti:"不能对多重选择区域执行此操作，请选择单个区域，然后再试",
+        tipNoMultiColumn:"一次只能转换一列数据，选定区域可以有多行，但不能有多列，请在选定单列区域以后再试",
     },
     punctuation:{
         "tab":"Tab 键",
@@ -630,6 +668,14 @@ export default {
         resetColor: '重置颜色',
         cancelText: '取消',
         chooseText: '确定颜色',
+
+        tipNameRepeat:"标签页的名称不能重复！请重新修改",
+        noMoreSheet:"工作薄内至少含有一张可视工作表。若需删除选定的工作表，请先插入一张新工作表或显示一张隐藏的工作表。",
+        confirmDelete:"是否删除",
+        redoDelete:"可以通过Ctrl+Z撤销删除",
+        noHide:"不能隐藏, 至少保留一个sheet标签",
+        chartEditNoOpt:"图表编辑模式下不允许该操作！",
+
     },
     conditionformat: {
         rule: '规则',
@@ -755,5 +801,33 @@ export default {
 
         "selectFunctionTitle":"选择函数",
         "calculationResult":"计算结果",
+
+        tipSuccessText:"成功",
+        tipParamErrorText:"参数类型错误",
+
+        "helpClose":"关闭",
+        "helpCollapse":"收起",
+        "helpExample":"示例",
+        "helpAbstract":"摘要",
+
+        "execfunctionError":'提示", "公式存在错误',
+        "execfunctionSelfError":'公式不可引用其本身的单元格',
+        "execfunctionSelfErrorResult":'公式不可引用其本身的单元格，会导致计算结果不准确',
+
+        "allowRepeatText":"可重复",
+        "allowOptionText":"可选",
+
+        "selectCategory":"或选择类别",
+    },
+    drag:{
+        noMerge:"无法对合并单元格执行此操作",
+        affectPivot:"无法对所选单元格进行此更改，因为它会影响数据透视表！",
+        noMulti:"无法对多重选择区域执行此操作,请选择单个区域",
+        noPaste:"无法在此处粘贴此内容，请选择粘贴区域的一个单元格，然后再次尝试粘贴",
+        noPartMerge:"无法对部分合并单元格执行此操作",
+
+        inputCorrect:"请输入正确的数值",
+        notLessOne:"行列数不能小于1",
+        offsetColumnLessZero:"偏移列不能为负数！",
     }
 };

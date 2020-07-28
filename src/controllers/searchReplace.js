@@ -21,6 +21,7 @@ const luckysheetSearchReplace = {
 
         const _locale = locale();
         const locale_findAndReplace = _locale.findAndReplace;
+        const locale_button = _locale.button;
 
         let content = '<div class="tabBox">' +
                         '<span id="searchTab">'+ locale_findAndReplace.find +'</span>' +
@@ -58,8 +59,9 @@ const luckysheetSearchReplace = {
             "addclass": "luckysheet-search-replace", 
             "title": "", 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">关闭</button>', 
-            "style": "z-index:100003" 
+            "botton": '<button class="btn btn-default luckysheet-model-close-btn">'+locale_button.close+'</button>', 
+            "style": "z-index:100003",
+            "close":locale_button.close
         }));
         let $t = $("#luckysheet-search-replace").find(".luckysheet-modal-dialog-content").css("min-width", 500).end(), 
             myh = $t.outerHeight(), 

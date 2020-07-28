@@ -1,19 +1,24 @@
 import locale from '../locale/locale';
 
 //dom variable
-const gridHTML =  '<div class="luckysheet">' +
+const gridHTML = function(){ 
+    
+    const _locale = locale();
+    const locale_info = _locale.info;
+    
+    return '<div class="luckysheet">' +
                     '<canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas>' + 
                     '<div class="luckysheet-work-area luckysheet-noselected-text">' + 
                         '<div class="luckysheet-share-logo" title="${logotitle}"></div>' + 
                         '<div id ="luckysheet_info_detail" class="luckysheet_info_detail">' + 
-                            '<div data-tips="返回" id="luckysheet_info_detail_title" class="luckysheet_info_detail_title">' + 
+                            '<div data-tips="'+locale_info.return+'" id="luckysheet_info_detail_title" class="luckysheet_info_detail_title">' + 
                                 '<i style="margin-left: -2px;" class="fa fa-chevron-left" aria-hidden="true"></i>' + 
                             '</div>' + 
                             '<div>' + 
-                                '<input data-tips="表格重命名" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="无标题的电子表格" tabindex="0" dir="ltr" aria-label="重命名" style="visibility: visible; width: 149px;" data-tooltip="重命名">' + 
+                                '<input data-tips="'+locale_info.tips+'" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="'+locale_info.noName+'" tabindex="0" dir="ltr" aria-label="'+locale_info.rename+'" style="visibility: visible; width: 149px;" data-tooltip="'+locale_info.rename+'">' + 
                             '</div>' + 
-                            '<div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> 新打开 </div>' + 
-                            '<div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> 待更新 </div>' + 
+                            '<div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> '+locale_info.detailUpdate+' </div>' + 
+                            '<div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> '+locale_info.wait+' </div>' + 
                             '<div class="luckysheet_info_detail_user"> ${functionButton} <span id="luckysheet_info_detail_user"></span> </div>' + 
                         '</div>' + 
                         '<div id="luckysheet-wa-editor" class="luckysheet-wa-editor"> ${menu} </div>' + 
@@ -160,8 +165,10 @@ const gridHTML =  '<div class="luckysheet">' +
                     '<div id="luckysheet-copy-content" contenteditable="true"></div>' +
                     '<input id="luckysheet-copy-btn" type="button" data-clipboard-target="luckysheet-copy-content">' +
                     '<div id="testdpidiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>' +
-                  '</div>',
-    columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+                  '</div>';
+}
+
+const    columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
     columeHeader_word_index = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25 },
     flow = '<div id="luckysheet-cell-flow_${index}" class="luckysheet-cell-flow luckysheetsheetchange" style="width:${width}px;"><div class="luckysheet-cell-flow-clip"><div class="luckysheet-grdblkpush"></div>${flow}</div></div>',
     colsmenuHTML = '';
@@ -434,7 +441,7 @@ const pivottableconfigHTML = '<div class="luckysheet-cols-menu luckysheet-rightg
     sheetselectlistHTML = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel" id="luckysheet-sheet-list">${item}</div>',
     sheetselectlistitemHTML = '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"  id="luckysheet-sheet-btn${index}" data-index="${index}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="${style}" ><span class="icon luckysheet-mousedown-cancel">${icon}</span>${name}</div></div>',
     inputHTML = '<div dir="ltr"><div class="luckysheet-input-box-index" id="luckysheet-input-box-index"></div><div id="luckysheet-input-box" spellcheck="false" aria-hidden="false" class="luckysheet-input-box"><div class="luckysheet-cell-input editable" tabindex="0" role="combobox" contenteditable="true" id="luckysheet-rich-text-editor" dir="ltr" g_editable="true" aria-autocomplete="list"></div></div></div>',
-    modelHTML = '<div id="${id}" style="${style}" class="luckysheet-modal-dialog ${addclass}" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> <div class="luckysheet-modal-dialog-title luckysheet-modal-dialog-title-draggable"> <span class="luckysheet-modal-dialog-title-text" role="heading">${title}</span>	 <span class="luckysheet-modal-dialog-title-close" role="button" tabindex="0" aria-label="关闭"><i class="fa fa-times" aria-hidden="true"></i></span> </div> <div class="luckysheet-modal-dialog-content">${content}</div> <div class="luckysheet-modal-dialog-buttons">	 ${botton} </div></div>',
+    modelHTML = '<div id="${id}" style="${style}" class="luckysheet-modal-dialog ${addclass}" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> <div class="luckysheet-modal-dialog-title luckysheet-modal-dialog-title-draggable"> <span class="luckysheet-modal-dialog-title-text" role="heading">${title}</span>	 <span class="luckysheet-modal-dialog-title-close" role="button" tabindex="0" aria-label="${close}"><i class="fa fa-times" aria-hidden="true"></i></span> </div> <div class="luckysheet-modal-dialog-content">${content}</div> <div class="luckysheet-modal-dialog-buttons">	 ${botton} </div></div>',
 
     maskHTML = '<div class="luckysheet-modal-dialog-mask" id="luckysheet-modal-dialog-mask"></div>';
 
@@ -1150,8 +1157,13 @@ function menuToolBar (){
             ${toolbar.splitColumn}
         </div>`;
 } 
-const luckysheetlodingHTML = '<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div>  <span>渲染中...</span></div></div>';
 
+
+const luckysheetlodingHTML = function(){ 
+    const _locale = locale()
+    const info =_locale.info;
+    return'<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div>  <span>'+info.loading+'...</span></div></div>';
+}
 // var menusetting = {
 //     menu_selectall: '<div id="luckysheet-selectall-btn-title"><i class="fa fa-i-cursor"></i> 全选</div>',
 //     menu_copy: '<div id="luckysheet-copy-btn-title"><i class="fa fa-copy"></i> 复制</div>',

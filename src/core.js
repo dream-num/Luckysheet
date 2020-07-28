@@ -20,6 +20,7 @@ import {
 } from './methods/set';
 import { luckysheetrefreshgrid } from './global/refresh';
 import functionlist from './function/functionlist';
+import { luckysheetlodingHTML } from './controllers/constant';
 
 let luckysheet = {};
 
@@ -92,7 +93,7 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append('<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"> </div> <span>渲染中...</span></div></div>');
+    $("#" + container).append(luckysheetlodingHTML());
 
     let data = [];
     if (loadurl == "") {
