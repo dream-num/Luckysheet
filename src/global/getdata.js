@@ -6,7 +6,7 @@ import editor from './editor';
 import { dynamicArrayCompute } from './dynamicArray';
 import Store from '../store';
 
-//获取选区范围值
+//Get selection range value
 export function getdatabyselection(range, sheetIndex) {
     if(range == null){
         range = Store.luckysheet_select_save[0];
@@ -118,7 +118,7 @@ export function getdatabyselectionNoCopy(range) {
     return data;
 }
 
-//得到单元格的值
+//Get the value of the cell
 export function getcellvalue(r, c, data, type) {
     if (type == null) {
         type = "v";
@@ -171,7 +171,7 @@ export function getcellvalue(r, c, data, type) {
     return retv;
 }
 
-//数据增加行列
+//Data increase in rows and columns
 export function datagridgrowth(data, addr, addc, iscallback) {
     if (addr <= 0 && addc <= 0) {
         return data;

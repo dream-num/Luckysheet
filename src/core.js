@@ -14,13 +14,15 @@ import {
     getconfig, 
 } from './methods/get';
 import { 
-    setluckysheetfile,
-    setluckysheet_select_save,
-    setconfig,
+    setluckysheet_select_save
 } from './methods/set';
-import { luckysheetrefreshgrid } from './global/refresh';
+import { luckysheetrefreshgrid, jfrefreshgrid } from './global/refresh';
 import functionlist from './function/functionlist';
 import { luckysheetlodingHTML } from './controllers/constant';
+import { getcellvalue, getdatabyselection } from './global/getdata';
+import { setcellvalue } from './global/setdata';
+import { selectHightlightShow } from './controllers/select';
+import method from './global/method';
 
 let luckysheet = {};
 
@@ -130,16 +132,49 @@ luckysheet.setluckysheet_select_save = setluckysheet_select_save;
 //获取当前表格 config配置
 luckysheet.getconfig = getconfig;
 
-//设置当前表格 config配置
-luckysheet.setconfig = setconfig;
-
 //二维数组数据 转化成 {r, c, v}格式 一维数组 (传入参数为二维数据data)
 luckysheet.getGridData = sheetmanage.getGridData;
 
 //生成表格所需二维数组 （传入参数为表格数据对象file）
 luckysheet.buildGridData = sheetmanage.buildGridData;
 
+// Refresh the canvas display data according to scrollHeight and scrollWidth
 luckysheet.luckysheetrefreshgrid = luckysheetrefreshgrid;
+
+// Refresh canvas
+luckysheet.jfrefreshgrid = jfrefreshgrid;
+
+// Get the value of the cell
+luckysheet.getcellvalue = getcellvalue;
+
+// Set cell value
+luckysheet.setcellvalue = setcellvalue;
+
+// Get selection range value
+luckysheet.getdatabyselection = getdatabyselection;
+
+// Data of the current table
+luckysheet.flowdata = function () {
+    return Store.flowdata;
+}
+
+// Set selection highlight
+luckysheet.selectHightlightShow = selectHightlightShow;
+
+// Set the worksheet to hide
+// Use the call method to change the `this` of the function to `this` of sheetmanage,
+// Prevent _this error in setSheetHide
+luckysheet.setSheetHide = function(index) {
+    return sheetmanage.setSheetHide.call(sheetmanage,index);
+}
+
+// Set the worksheet to show
+luckysheet.setSheetShow = function(index) {
+    return sheetmanage.setSheetShow.call(sheetmanage,index);
+}
+
+// Reset parameters after destroying the table
+luckysheet.destroy = method.destroy;
 
 export {
     luckysheet
