@@ -7,6 +7,13 @@ import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
+import {initialFilterHandler} from './controllers/filter';
+import {initialMatrixOperation} from './controllers/matrixOperation';
+import {initialSheetBar} from './controllers/sheetBar';
+import {formulaBarInitial} from './controllers/formulaBar';
+import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
+import {keyboardInitial} from './controllers/keyboard';
+import {orderByInitial} from './controllers/orderBy';
 import {initPlugins} from './controllers/expendPlugins';
 import { 
     getluckysheetfile, 
@@ -19,6 +26,8 @@ import {
     setconfig,
 } from './methods/set';
 import { luckysheetrefreshgrid } from './global/refresh';
+import functionlist from './function/functionlist';
+import { luckysheetlodingHTML } from './controllers/constant';
 
 let luckysheet = {};
 
@@ -81,6 +90,9 @@ luckysheet.create = function (setting) {
     // Register plugins
     initPlugins(extendsetting.plugins);
 
+    // Store formula information, including internationalization
+    functionlist();
+
     let devicePixelRatio = extendsetting.devicePixelRatio;
     if(devicePixelRatio == null){
         devicePixelRatio = 1;
@@ -88,13 +100,13 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append('<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"> </div> <span>渲染中...</span></div></div>');
+    $("#" + container).append(luckysheetlodingHTML());
 
     let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         luckysheetsizeauto();
-        luckysheetHandler();
+        initialWorkBook();
     }
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
@@ -103,7 +115,7 @@ luckysheet.create = function (setting) {
             
             sheetmanage.initialjfFile(menu, title);
             luckysheetsizeauto();
-            luckysheetHandler();
+            initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
             if(server.allowUpdate){
@@ -111,6 +123,17 @@ luckysheet.create = function (setting) {
             }
         });
     }
+}
+
+function initialWorkBook(){
+    luckysheetHandler();//Overall dom initialization
+    initialFilterHandler();//Filter initialization
+    initialMatrixOperation();//Right click matrix initialization
+    initialSheetBar();//bottom sheet bar initialization
+    formulaBarInitial();//top formula bar initialization
+    rowColumnOperationInitial();//row and coloumn operate initialization
+    keyboardInitial();//Keyboard operate initialization
+    orderByInitial();//menu bar orderby function initialization
 }
 
 //获取所有表格数据

@@ -282,7 +282,7 @@
     ## celldata
     - Type：Array
     - Default：[]
-    - Usage： The original cell data set is a set containing `{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}} }`The one-dimensional array of format cell information is only used during initialization. After the table is initialized with celldata, the data is converted to the same level field data in the luckysheetfile, such as `luckysheetfile[0].data`, the subsequent operation of the table Data update will be updated to this data field, and celldata is no longer used. If you need to take out data as initial data, you need to execute `luckysheet.getGridData(data)` to convert it to celldata data. One-dimensional array of `rcv` is converted to two-dimensional array using `luckysheet.buildGridData(luckysheetfile)`, and the input parameter is the table data object `luckysheetfile`, example:
+    - Usage： The original cell data set is a set containing `{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}} }`The one-dimensional array of format cell information is only used during initialization. After the table is initialized with celldata, the data is converted to the same level field data in the luckysheetfile, such as `luckysheetfile[0].data`, the subsequent operation of the table Data update will be updated to this data field, and celldata is no longer used. Example:
     ```js
     [{
 		"r": 0,

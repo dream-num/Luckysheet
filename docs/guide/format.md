@@ -64,13 +64,7 @@
         <td>cancelline</td>
         <td>Cancelline</td>
         <td>0 Regular, 1 Cancelline</td>
-        <td rowspan="2">Style.Font object's Underline property</td>
-    </tr>
-    <tr>
-        <td>ul</td>
-        <td>underline</td>
-        <td>Underline</td>
-        <td>0 Regular, 1 Underline</td>
+        <td>Style.Font object's Underline property</td>
     </tr>
     <tr>
         <td>vt</td>
@@ -101,13 +95,6 @@
         <td>setRotationAngle</td>
     </tr>
     <tr>
-        <td>fl</td>
-        <td>floatlenght</td>
-        <td>Decimal places</td>
-        <td>3</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>tb</td>
         <td>textbeak</td>
         <td>Text wrap</td>
@@ -115,15 +102,15 @@
         <td>2: setTextWrapped <br> 0和1: IsTextWrapped =&nbsp;true</td>
     </tr>
     <tr>
-        <td>ov</td>
-        <td>originvalue</td>
+        <td>v</td>
+        <td>value</td>
         <td>Original value</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>v</td>
-        <td>value</td>
+        <td>m</td>
+        <td>monitor</td>
         <td>Display value</td>
         <td></td>
         <td></td>
@@ -141,9 +128,33 @@
 The following is the storage of 3 cells:
 ```json
 [
-    {r:0, c:1, v: { v:"display", f:"=SUM(A2)", bg:"#fff000", bs:"1",bc:"#000"}},
-    {r:10, c:11, v:"value2"},
-    {r:10, c:11, v:{f:"=sum", v:"100"}}
+    {
+        "r": 10,
+        "c": 11,
+        "v": {
+            "f": "=MAX(A7:A9)",
+            "ct": {
+                "fa": "General",
+                "t": "n"
+            },
+            "v": 100,
+            "m": "100"
+        }
+    },
+    {
+        "r": 0,
+        "c": 1,
+        "v": {
+            "v": 12,
+            "f": "=SUM(A2)",
+            "bg": "#fff000"
+        }
+    },
+    {
+        "r": 10,
+        "c": 11,
+        "v": "值2"
+    }
 ]
 ```
 
@@ -155,13 +166,12 @@ The format is set to:
 
 ```json
 {
-    "v": "",
-    "f": "",
     "ct": {
-        "v": 1,
-        "f": "#,##0.00",
-        "t": " Decimal"
-    }
+        "fa": "General",
+        "t": "g"
+    },
+    "m": "2424",
+    "v": 2424
 }
 ```
 
