@@ -829,5 +829,8 @@ export default {
         inputCorrect:"请输入正确的数值",
         notLessOne:"行列数不能小于1",
         offsetColumnLessZero:"偏移列不能为负数！",
+    },
+    pivotTable:{
+        
     }
 };

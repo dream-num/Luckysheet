@@ -268,7 +268,7 @@ function jfrefreshrange(data, range, cdformat) {
             "curdata": data, 
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
-            "cdformat":  $.extend(true, [], luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
+            "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
             "curCdformat": cdformat 
         });
     }

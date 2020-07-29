@@ -645,6 +645,13 @@ export default {
         resetColor: 'Reset color',
         cancelText: 'Cancel',
         chooseText: 'Confirm color',
+
+        tipNameRepeat:"The name of the tab page cannot be repeated! Please revise",
+        noMoreSheet:"The workbook contains at least one visual worksheet. To delete the selected worksheet, please insert a new worksheet or show a hidden worksheet.",
+        confirmDelete:"Are you sure to delete",
+        redoDelete:"Can be undo by Ctrl+Z",
+        noHide:"Can't hide, at least keep one sheet tag",
+        chartEditNoOpt:"This operation is not allowed in chart editing mode!",
     },
     conditionformat: {
         rule: 'Rule',
@@ -798,6 +805,9 @@ export default {
         inputCorrect:"Please enter the correct value",
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
+    },
+    pivotTable:{
+        
     }
   };
   
