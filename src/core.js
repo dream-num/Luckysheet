@@ -7,6 +7,13 @@ import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
+import {initialFilterHandler} from './controllers/filter';
+import {initialMatrixOperation} from './controllers/matrixOperation';
+import {initialSheetBar} from './controllers/sheetBar';
+import {formulaBarInitial} from './controllers/formulaBar';
+import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
+import {keyboardInitial} from './controllers/keyboard';
+import {orderByInitial} from './controllers/orderBy';
 import {initPlugins} from './controllers/expendPlugins';
 import { 
     getluckysheetfile, 
@@ -14,11 +21,15 @@ import {
     getconfig, 
 } from './methods/get';
 import { 
-    setluckysheetfile,
-    setluckysheet_select_save,
-    setconfig,
+    setluckysheet_select_save
 } from './methods/set';
-import { luckysheetrefreshgrid } from './global/refresh';
+import { luckysheetrefreshgrid, jfrefreshgrid } from './global/refresh';
+import functionlist from './function/functionlist';
+import { luckysheetlodingHTML } from './controllers/constant';
+import { getcellvalue, getdatabyselection } from './global/getdata';
+import { setcellvalue } from './global/setdata';
+import { selectHightlightShow } from './controllers/select';
+import method from './global/method';
 
 let luckysheet = {};
 
@@ -81,6 +92,9 @@ luckysheet.create = function (setting) {
     // Register plugins
     initPlugins(extendsetting.plugins);
 
+    // Store formula information, including internationalization
+    functionlist();
+
     let devicePixelRatio = extendsetting.devicePixelRatio;
     if(devicePixelRatio == null){
         devicePixelRatio = 1;
@@ -88,13 +102,13 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append('<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"> </div> <span>渲染中...</span></div></div>');
+    $("#" + container).append(luckysheetlodingHTML());
 
     let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         luckysheetsizeauto();
-        luckysheetHandler();
+        initialWorkBook();
     }
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
@@ -103,7 +117,7 @@ luckysheet.create = function (setting) {
             
             sheetmanage.initialjfFile(menu, title);
             luckysheetsizeauto();
-            luckysheetHandler();
+            initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
             if(server.allowUpdate){
@@ -111,6 +125,17 @@ luckysheet.create = function (setting) {
             }
         });
     }
+}
+
+function initialWorkBook(){
+    luckysheetHandler();//Overall dom initialization
+    initialFilterHandler();//Filter initialization
+    initialMatrixOperation();//Right click matrix initialization
+    initialSheetBar();//bottom sheet bar initialization
+    formulaBarInitial();//top formula bar initialization
+    rowColumnOperationInitial();//row and coloumn operate initialization
+    keyboardInitial();//Keyboard operate initialization
+    orderByInitial();//menu bar orderby function initialization
 }
 
 //获取所有表格数据
@@ -125,16 +150,49 @@ luckysheet.setluckysheet_select_save = setluckysheet_select_save;
 //获取当前表格 config配置
 luckysheet.getconfig = getconfig;
 
-//设置当前表格 config配置
-luckysheet.setconfig = setconfig;
-
 //二维数组数据 转化成 {r, c, v}格式 一维数组 (传入参数为二维数据data)
 luckysheet.getGridData = sheetmanage.getGridData;
 
 //生成表格所需二维数组 （传入参数为表格数据对象file）
 luckysheet.buildGridData = sheetmanage.buildGridData;
 
+// Refresh the canvas display data according to scrollHeight and scrollWidth
 luckysheet.luckysheetrefreshgrid = luckysheetrefreshgrid;
+
+// Refresh canvas
+luckysheet.jfrefreshgrid = jfrefreshgrid;
+
+// Get the value of the cell
+luckysheet.getcellvalue = getcellvalue;
+
+// Set cell value
+luckysheet.setcellvalue = setcellvalue;
+
+// Get selection range value
+luckysheet.getdatabyselection = getdatabyselection;
+
+// Data of the current table
+luckysheet.flowdata = function () {
+    return Store.flowdata;
+}
+
+// Set selection highlight
+luckysheet.selectHightlightShow = selectHightlightShow;
+
+// Set the worksheet to hide
+// Use the call method to change the `this` of the function to `this` of sheetmanage,
+// Prevent _this error in setSheetHide
+luckysheet.setSheetHide = function(index) {
+    return sheetmanage.setSheetHide.call(sheetmanage,index);
+}
+
+// Set the worksheet to show
+luckysheet.setSheetShow = function(index) {
+    return sheetmanage.setSheetShow.call(sheetmanage,index);
+}
+
+// Reset parameters after destroying the table
+luckysheet.destroy = method.destroy;
 
 export {
     luckysheet

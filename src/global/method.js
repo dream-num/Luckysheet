@@ -21,7 +21,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML);
+        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
         param.currentPage++;
         
         let dataType = 'application/json;charset=UTF-8';
@@ -67,7 +67,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML);
+        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
 
         let arg = {"gridKey" : server.gridKey, "index": index};
         param = $.extend(true, param, arg);

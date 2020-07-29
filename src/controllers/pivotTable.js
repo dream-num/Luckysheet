@@ -873,7 +873,7 @@ const pivotTable = {
         if (_this.initial) {
             _this.initial = false;
 
-            $("body").append(luckysheetPivotTableHTML);
+            $("body").append(luckysheetPivotTableHTML());
             $("#luckysheet-modal-dialog-slider-close").click(function () {
                 $("#luckysheet-modal-dialog-slider-pivot").hide();
                 luckysheetsizeauto();

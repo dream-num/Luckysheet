@@ -3,9 +3,13 @@ import { isRealNull, isRealNum, valueIsError } from './validate';
 import { genarate, update } from './format';
 import server from '../controllers/server';
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
+import Store from '../store/index'
 
-//设置单元格的值
+//Set cell value
 function setcellvalue(r, c, d, v) {
+    if(d == null){
+        d = Store.flowdata;
+    }
     let cell = d[r][c];
 
     let vupdate;

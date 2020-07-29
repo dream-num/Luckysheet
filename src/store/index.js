@@ -84,7 +84,10 @@ const Store = {
     lang: 'en', //language
     createChart: '',
     highlightChart: '',
-    zIndex: 15
+    zIndex: 15,
+
+    functionList:null, //function list explanation
+    luckysheet_function:null,
 }
 
 export default Store;

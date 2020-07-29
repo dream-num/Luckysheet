@@ -6607,7 +6607,7 @@ const sheetFormula = {
 	}],
 	"luckysheet_selection_range": [],
 	"scrollLeft": 0,
-	"scrollTop": 0,
+	"scrollTop": 0
 }
 
 export default sheetFormula

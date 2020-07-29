@@ -1,6 +1,6 @@
 import { luckysheet_getcelldata } from '../function/func';
-import functionlist from '../function/functionlist';
-import luckysheet_function from '../function/luckysheet_function';
+// import functionlist from '../function/functionlist';
+// import Store.luckysheet_function from '../function/Store.luckysheet_function';
 import formula from '../global/formula';
 import { isRealNum, isRealNull } from '../global/validate';
 import { modelHTML } from './constant';
@@ -20,6 +20,7 @@ const insertFormula = {
         $(document).off("keyup.fxSFLI").on("keyup.fxSFLI", "#searchFormulaListInput", function(){
             $("#formulaTypeList").empty();
             let txt = $(this).val().toUpperCase();
+            let functionlist = Store.functionlist;
 
             if(txt == ""){
                 //若没有查找内容则根据类别筛选
@@ -67,16 +68,16 @@ const insertFormula = {
             formula.data_parm_index = parmIndex;
 
             let formulatxt = $(this).parents("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-title-text").text();
-            let parmLen = luckysheet_function[formulatxt].p.length;
+            let parmLen = Store.luckysheet_function[formulatxt].p.length;
 
             let parmDetail, parmRepeat;
             if(parmIndex >= parmLen){
-                parmDetail = luckysheet_function[formulatxt].p[parmLen - 1].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmLen - 1].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmLen - 1].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmLen - 1].repeat;
             }
             else{
-                parmDetail = luckysheet_function[formulatxt].p[parmIndex].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmIndex].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmIndex].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmIndex].repeat;
             }
 
             //参数选区显示，参数值显示
@@ -193,7 +194,7 @@ const insertFormula = {
             "id": "luckysheet-search-formula", 
             "addclass": "luckysheet-search-formula", 
             "title": "", 
-            "content": "<div class='inpbox'><label for='searchFormulaListInput'>"+ locale_formulaMore.findFunctionTitle +"：</label><input class='formulaInputFocus' id='searchFormulaListInput' placeholder='"+ locale_formulaMore.tipInputFunctionName +"' spellcheck='false'/></div><div class='selbox'><label>或选择类别：</label><select id='formulaTypeSelect'><option value='0'>"+locale_formulaMore.Math+"</option><option value='1'>"+locale_formulaMore.Statistical+"</option><option value='2'>"+locale_formulaMore.Lookup+"</option><option value='3'>"+locale_formulaMore.luckysheet+"</option><option value='4'>"+locale_formulaMore.dataMining+"</option><option value='5'>"+locale_formulaMore.Database+"</option><option value='6'>"+locale_formulaMore.Date+"</option><option value='7'>"+locale_formulaMore.Filter+"</option><option value='8'>"+locale_formulaMore.Financial+"</option><option value='9'>"+locale_formulaMore.Engineering+"</option><option value='10'>"+locale_formulaMore.Logical+"</option><option value='11'>"+locale_formulaMore.Operator+"</option><option value='12'>"+locale_formulaMore.Text+"</option><option value='13'>"+locale_formulaMore.Parser+"</option><option value='14'>"+locale_formulaMore.Array+"</option><option value='-1'>"+locale_formulaMore.other+"</option></select></div><div class='listbox'><label>"+locale_formulaMore.selectFunctionTitle+"：</label><div id='formulaTypeList'></div></div>", 
+            "content": "<div class='inpbox'><label for='searchFormulaListInput'>"+ locale_formulaMore.findFunctionTitle +"：</label><input class='formulaInputFocus' id='searchFormulaListInput' placeholder='"+ locale_formulaMore.tipInputFunctionName +"' spellcheck='false'/></div><div class='selbox'><label>"+locale_formulaMore.selectCategory+"：</label><select id='formulaTypeSelect'><option value='0'>"+locale_formulaMore.Math+"</option><option value='1'>"+locale_formulaMore.Statistical+"</option><option value='2'>"+locale_formulaMore.Lookup+"</option><option value='3'>"+locale_formulaMore.luckysheet+"</option><option value='4'>"+locale_formulaMore.dataMining+"</option><option value='5'>"+locale_formulaMore.Database+"</option><option value='6'>"+locale_formulaMore.Date+"</option><option value='7'>"+locale_formulaMore.Filter+"</option><option value='8'>"+locale_formulaMore.Financial+"</option><option value='9'>"+locale_formulaMore.Engineering+"</option><option value='10'>"+locale_formulaMore.Logical+"</option><option value='11'>"+locale_formulaMore.Operator+"</option><option value='12'>"+locale_formulaMore.Text+"</option><option value='13'>"+locale_formulaMore.Parser+"</option><option value='14'>"+locale_formulaMore.Array+"</option><option value='-1'>"+locale_formulaMore.other+"</option></select></div><div class='listbox'><label>"+locale_formulaMore.selectFunctionTitle+"：</label><div id='formulaTypeList'></div></div>", 
             "botton": '<button id="luckysheet-search-formula-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
@@ -209,6 +210,7 @@ const insertFormula = {
     },
     formulaListByType: function(type){
         $("#formulaTypeList").empty();
+        let functionlist = Store.functionlist;
                     
         for(let i = 0; i < functionlist.length; i++){
             if((type == "-1" && functionlist[i].t > 14) || functionlist[i].t == type){
@@ -225,7 +227,8 @@ const insertFormula = {
 
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
-        let locale_button = _locale.button
+        let locale_button = _locale.button;
+        let functionlist = Store.functionlist;
 
         for(let i = 0; i < functionlist.length; i++){
             if(functionlist[i].n == formulaTxt.toUpperCase()){
@@ -428,7 +431,7 @@ const insertFormula = {
         
         $("#luckysheet-search-formula-parm .parmBox").each(function(i, e){
             let parmtxt = $(e).find(".txt input").val();
-            let parmRequire = luckysheet_function[formulatxt].p[i].require;
+            let parmRequire = Store.luckysheet_function[formulatxt].p[i].require;
 
             if(parmtxt == "" && parmRequire == "m"){
                 isVal = false;

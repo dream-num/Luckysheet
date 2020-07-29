@@ -2,6 +2,7 @@ import Store from '../store';
 import { getdatabyselectionNoCopy } from './getdata';
 import { isRealNull, isRealNum } from './validate';
 import { update } from './format';
+import locale from '../locale/locale';
 
 //表格计数栏
 export function countfunc() {
@@ -51,21 +52,23 @@ export function countfunc() {
         }
     }
 
+    let locale_formula = locale().formula;
+
     let ret = "";
-    ret += "<span>计数:" + count + "</span>";
+    ret += "<span>"+locale_formula.count+":" + count + "</span>";
 
     //处理成亿万格式
     if (isFinite(max) || isFinite(min)) {
-        ret += "<span>求和:" + update("w", sum) + "</span>";
-        ret += "<span>平均值:" + update("w", Math.round(sum / count * 10000) / 10000) + "</span>";
+        ret += "<span>"+locale_formula.sum+":" + update("w", sum) + "</span>";
+        ret += "<span>"+locale_formula.average+":" + update("w", Math.round(sum / count * 10000) / 10000) + "</span>";
     }
 
     if (isFinite(max)) {
-        ret += "<span>最大值:" + update("w", max) + "</span>";
+        ret += "<span>"+locale_formula.max+":" + update("w", max) + "</span>";
     }
 
     if (isFinite(min)) {
-        ret += "<span>最小值:" + update("w", min) + "</span>";
+        ret += "<span>"+locale_formula.min+":" + update("w", min) + "</span>";
     }
 
     $("#luckysheet-sta-content").html(ret);

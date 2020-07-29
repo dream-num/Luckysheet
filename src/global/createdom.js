@@ -18,6 +18,7 @@ import editor from './editor';
 import rhchInit from './rhchInit';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 export default function luckysheetcreatedom(colwidth, rowheight, data, menu, title) {
     //最少30行
@@ -30,7 +31,7 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
         colwidth = 22;
     }
 
-    let gh = gridHTML;
+    let gh = gridHTML();
     gh = replaceHtml(gh, { "logotitle": title });//设置title
     gh = replaceHtml(gh, { "menu": menuToolBar() });//设置需要显示的菜单
 
@@ -59,11 +60,19 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
 
     rhchInit(rowheight, colwidth);
 
-    let addControll = '<button id="luckysheet-bottom-add-row" class="btn btn-default">添加</button><input id="luckysheet-bottom-add-row-input" type="text" class="luckysheet-datavisual-config-input luckysheet-mousedown-cancel" placeholder="100"><span style="font-size: 14px;">行</span><span style="font-size: 14px;color: #9c9c9c;">(在底部添加)</span>';
-    let backControll = ' <button id="luckysheet-bottom-bottom-top" class="btn btn-default" style="">回到顶部</button>';
+    const _locale = locale();
+    const locale_info = _locale.info;
+
+    let addControll = '<button id="luckysheet-bottom-add-row" class="btn btn-default">'+locale_info.add+'</button><input id="luckysheet-bottom-add-row-input" type="text" class="luckysheet-datavisual-config-input luckysheet-mousedown-cancel" placeholder="100"><span style="font-size: 14px;">'+ locale_info.row +'</span><span style="font-size: 14px;color: #9c9c9c;">('+locale_info.addLast+')</span>';
+    let backControll = ' <button id="luckysheet-bottom-bottom-top" class="btn btn-default" style="">'+ locale_info.backTop +'</button>';
     // let pageControll = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">共'+ luckysheetConfigsetting.pageInfo.totalPage +'页，当前已显示'+ (luckysheetConfigsetting.pageInfo.currentPage) +'页，每页'+ luckysheetConfigsetting.pageInfo.pageSize +'条</span> <button id="luckysheet-bottom-page-next" class="btn btn-danger" style="">下一页</button>';
-    let pageControll = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">共'+ luckysheetConfigsetting.total +'条，'+ luckysheetConfigsetting.pageInfo.totalPage +'页，当前已显示'+ (luckysheetConfigsetting.pageInfo.currentPage) +'页</span> <button id="luckysheet-bottom-page-next" class="btn btn-danger" style="">下一页</button>';
-    let pageControll2 = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">共'+ luckysheetConfigsetting.total +'条，'+ luckysheetConfigsetting.pageInfo.totalPage +'页，当前已显示'+ (luckysheetConfigsetting.pageInfo.currentPage) +'页</span>';
+    let pageInfo = replaceHtml(locale_info.pageInfo,{
+        total:luckysheetConfigsetting.total?luckysheetConfigsetting.total:"",
+        totalPage:luckysheetConfigsetting.pageInfo.totalPage?luckysheetConfigsetting.pageInfo.totalPage:"",
+        currentPage:luckysheetConfigsetting.pageInfo.currentPage?luckysheetConfigsetting.pageInfo.currentPage:"",
+    });
+    let pageControll = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">'+ pageInfo +'</span> <button id="luckysheet-bottom-page-next" class="btn btn-danger" style="">下一页</button>';
+    let pageControll2 = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">'+pageInfo+'</span>';
 
     let bottomControll = "";
     if(luckysheetConfigsetting.enableAddRow){

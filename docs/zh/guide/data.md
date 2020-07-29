@@ -282,7 +282,7 @@
     ## celldata
     - 类型：Array
     - 默认值：[]
-    - 作用： 原始单元格数据集，是一个包含`{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}}}`格式单元格信息的一维数组，只在初始化的时候使用，使用celldata初始化完表格后，数据转换为luckysheetfile中的同级字段data，如`luckysheetfile[0].data`,后续操作表格的数据更新，会更新到这个data字段中，celldata不再使用。如果需要将data拿出来作为初始化数据，则需要执行 `luckysheet.getGridData(data)`转换为celldata数据。其中`rcv`一维数组转换为二维数组使用的是`luckysheet.buildGridData(luckysheetfile)`，传入参数为表格数据对象`luckysheetfile`，示例：
+    - 作用： 原始单元格数据集，是一个包含`{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}}}`格式单元格信息的一维数组，只在初始化的时候使用，使用celldata初始化完表格后，数据转换为luckysheetfile中的同级字段data，如`luckysheetfile[0].data`,后续操作表格的数据更新，会更新到这个data字段中，celldata不再使用。示例：
     ```js
     [{
 		"r": 0,

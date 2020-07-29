@@ -18,10 +18,11 @@ import tooltip from './tooltip';
 import { rowLocation, colLocation, colLocationByIndex, mouseposition } from './location';
 import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
-import luckysheet_function from '../function/luckysheet_function';
-import functionlist from '../function/functionlist';
+// import luckysheet_function from '../function/luckysheet_function';
+// import functionlist from '../function/functionlist';
 import { luckysheet_compareWith, luckysheet_getcelldata, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
 import Store from '../store';
+import locale from '../locale/locale';
 
 const luckysheetformula = {
     error: {
@@ -39,6 +40,8 @@ const luckysheetformula = {
     },
     errorParamCheck: function(thisp, data, i) {
         let type, require;
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
         if(i < thisp.length){
             type = thisp[i].type;
             require = thisp[i].require;
@@ -49,30 +52,30 @@ const luckysheetformula = {
         }
 
         if(require == "o" && (data == null || data == "")){
-            return [true, "成功"];
+            return [true, locale_formulaMore.tipSuccessText];
         }
 
         if(type.indexOf("all") > -1){
-            return [true, "成功"];
+            return [true, locale_formulaMore.tipSuccessText];
         }
         else{
             if(type.indexOf("range") > -1 && (getObjType(data) == "object" || getObjType(data) == "array")){
-                return [true, "成功"];
+                return [true, locale_formulaMore.tipSuccessText];
             }
 
             if(type.indexOf("number") > -1 && (isRealNum(data) || getObjType(data) == "boolean")){
-                return [true, "成功"];
+                return [true, locale_formulaMore.tipSuccessText];
             }
             
             if(type.indexOf("string") > -1 && getObjType(data) == "string"){
-                return [true, "成功"];
+                return [true, locale_formulaMore.tipSuccessText];
             }
 
             if(type.indexOf("date") > -1 && isdatetime(data)){
-                return [true, "成功"];
+                return [true, locale_formulaMore.tipSuccessText];
             }
 
-            return [false, "参数类型错误"];
+            return [false, locale_formulaMore.tipParamErrorText];
         }
     },
     getPureValueByData: function(data){
@@ -787,7 +790,7 @@ const luckysheetformula = {
         $("#luckysheet-formula-functionrange .luckysheet-formula-functionrange-highlight").show();
     },
     searchHTML: '<div id="luckysheet-formula-search-c" class="luckysheet-formula-search-c"></div>',
-    helpHTML: '<div id="luckysheet-formula-help-c" class="luckysheet-formula-help-c"> <div class="luckysheet-formula-help-close" title="关闭"><i class="fa fa-times" aria-hidden="true"></i></div> <div class="luckysheet-formula-help-collapse" title="收起"><i class="fa fa-angle-up" aria-hidden="true"></i></div> <div class="luckysheet-formula-help-title"><div class="luckysheet-formula-help-title-formula"> <span class="luckysheet-arguments-help-function-name">SUM</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> <span class="luckysheet-arguments-help-parameter luckysheet-arguments-help-parameter-active" dir="auto">A2:A100</span>, <span class="luckysheet-arguments-help-parameter" dir="auto">101</span> </span> <span class="luckysheet-arguments-paren">)</span> </div></div> <div class="luckysheet-formula-help-content"> <div class="luckysheet-formula-help-content-example"> <div class="luckysheet-arguments-help-section-title">示例</div> <div class="luckysheet-arguments-help-formula"> <span class="luckysheet-arguments-help-function-name">SUM</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> <span class="luckysheet-arguments-help-parameter luckysheet-arguments-help-parameter-active" dir="auto">A2:A100</span>, <span class="luckysheet-arguments-help-parameter" dir="auto">101</span> </span> <span class="luckysheet-arguments-paren">)</span> </div> </div> <div class="luckysheet-formula-help-content-detail"> <div class="luckysheet-arguments-help-section"> <div class="luckysheet-arguments-help-section-title luckysheet-arguments-help-parameter-name">摘要</div> <span class="luckysheet-arguments-help-parameter-content">${detail}</span> </div> </div> <div class="luckysheet-formula-help-content-param"> ${param} </div> </div> <div class="luckysheet-formula-help-foot"></div></div>',
+    helpHTML: '<div id="luckysheet-formula-help-c" class="luckysheet-formula-help-c"> <div class="luckysheet-formula-help-close" title="${helpClose}"><i class="fa fa-times" aria-hidden="true"></i></div> <div class="luckysheet-formula-help-collapse" title="${helpCollapse}"><i class="fa fa-angle-up" aria-hidden="true"></i></div> <div class="luckysheet-formula-help-title"><div class="luckysheet-formula-help-title-formula"> <span class="luckysheet-arguments-help-function-name">SUM</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> <span class="luckysheet-arguments-help-parameter luckysheet-arguments-help-parameter-active" dir="auto">A2:A100</span>, <span class="luckysheet-arguments-help-parameter" dir="auto">101</span> </span> <span class="luckysheet-arguments-paren">)</span> </div></div> <div class="luckysheet-formula-help-content"> <div class="luckysheet-formula-help-content-example"> <div class="luckysheet-arguments-help-section-title">${helpExample}</div> <div class="luckysheet-arguments-help-formula"> <span class="luckysheet-arguments-help-function-name">SUM</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> <span class="luckysheet-arguments-help-parameter luckysheet-arguments-help-parameter-active" dir="auto">A2:A100</span>, <span class="luckysheet-arguments-help-parameter" dir="auto">101</span> </span> <span class="luckysheet-arguments-paren">)</span> </div> </div> <div class="luckysheet-formula-help-content-detail"> <div class="luckysheet-arguments-help-section"> <div class="luckysheet-arguments-help-section-title luckysheet-arguments-help-parameter-name">${helpAbstract}</div> <span class="luckysheet-arguments-help-parameter-content">${helpAbstract}</span> </div> </div> <div class="luckysheet-formula-help-content-param"> ${param} </div> </div> <div class="luckysheet-formula-help-foot"></div></div>',
     getrangeseleciton: function() {
         let currSelection = window.getSelection();
         let anchor = $(currSelection.anchorNode);
@@ -878,6 +881,7 @@ const luckysheetformula = {
     searchFunctionCell: null,
     searchFunction: function($editer) {
         let _this = this;
+        let functionlist = Store.functionlist;
 
         let $cell = _this.getrangeseleciton();
         _this.searchFunctionCell = $cell;
@@ -989,11 +993,15 @@ const luckysheetformula = {
     functionlistPosition: {},
     helpFunction: function($editer, funcname, paramIndex) {
         let _this = this;
+        let functionlist = Store.functionlist;
 
         let $func = functionlist[_this.functionlistPosition[$.trim(funcname).toUpperCase()]];
         if ($func == null) {
             return;
         }
+
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
 
         $("#luckysheet-formula-help-c .luckysheet-arguments-help-function-name").html($func.n);
         $("#luckysheet-formula-help-c .luckysheet-arguments-help-parameter-content").html($func.d);
@@ -1020,11 +1028,11 @@ const luckysheetformula = {
 
             if (paramitem.repeat == "y") {
                 name += ", ...";
-                nameli += '<span class="luckysheet-arguments-help-argument-info">...-可重复</span>';
+                nameli += '<span class="luckysheet-arguments-help-argument-info">...-'+locale_formulaMore.allowRepeatText+'</span>';
             }
             if (paramitem.require == "o") {
                 name = "[" + name + "]";
-                nameli += '<span class="luckysheet-arguments-help-argument-info">-[可选]</span>';
+                nameli += '<span class="luckysheet-arguments-help-argument-info">-['+locale_formulaMore.allowOptionText+']</span>';
             }
 
             fht += '<span class="luckysheet-arguments-help-parameter" dir="auto">' + name + '</span>, ';
@@ -1062,9 +1070,16 @@ const luckysheetformula = {
     },
     helpFunctionExe: function($editer, currSelection) {
         let _this = this;
-
+        let functionlist = Store.functionlist;
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
         if ($("#luckysheet-formula-help-c").length == 0) {
-            $("body").after(_this.helpHTML);
+            $("body").after(replaceHtml(_this.helpHTML,{
+                helpClose:locale_formulaMore.helpClose,
+                helpCollapse:locale_formulaMore.helpCollapse,
+                helpExample:locale_formulaMore.helpExample,
+                helpAbstract:locale_formulaMore.helpAbstract,
+            }));
             $("#luckysheet-formula-help-c .luckysheet-formula-help-close").click(function() {
                 $("#luckysheet-formula-help-c").hide();
             });
@@ -4739,6 +4754,9 @@ const luckysheetformula = {
     },
     execfunction: function(txt, r, c, isrefresh, notInsertFunc) {
         let _this = this;
+
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
         
         if(txt.indexOf(_this.error.r) > -1){
             return [false, _this.error.r, txt];
@@ -4755,7 +4773,7 @@ const luckysheetformula = {
         }
 
         if (!_this.testFunction(txt, fp) || fp == "") {
-            tooltip.info("提示", "公式存在错误");
+            tooltip.info("",locale_formulaMore.execfunctionError);
             return [false, _this.error.n, txt];
         }
 
@@ -4780,10 +4798,10 @@ const luckysheetformula = {
 
                     if(funcgRange.sheetIndex == Store.currentSheetIndex && r >= funcgRange.row[0] && r <= funcgRange.row[1] && c >= funcgRange.column[0] && c <= funcgRange.column[1]){
                         if(isEditMode()){
-                            alert("公式不可引用其本身的单元格");
+                            alert(locale_formulaMore.execfunctionSelfError);
                         }
                         else{
-                            tooltip.info("公式不可引用其本身的单元格，会导致计算结果不准确", "");
+                            tooltip.info("", locale_formulaMore.execfunctionSelfErrorResult);
                             
                         }
 
