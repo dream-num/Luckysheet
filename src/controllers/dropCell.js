@@ -9,8 +9,9 @@ import formula from '../global/formula';
 import conditionformat from './conditionformat';
 import { selectHightlightShow } from './select';
 import { getSheetIndex } from '../methods/get';
-import { getObjType } from '../utils/util';
+import { getObjType, replaceHtml } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //选区下拉
 const luckysheetDropCell = {
@@ -20,47 +21,47 @@ const luckysheetDropCell = {
     typeListHtml: '<div id="luckysheet-dropCell-typeList" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="0">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>复制单元格'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${copyCell}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="1">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>填充序列'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${sequence}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="2">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>仅填充格式'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${onlyFormat}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="3">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>不带格式填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${noFormat}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="4">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>以天数填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${day}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="5">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>以工作日填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${workDay}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="6">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>以月填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${month}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="7">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>以年填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${year}'+
                         '</div>'+
                     '</div>'+
                     '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" data-type="8">'+
                         '<div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 2px;">'+
-                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>以中文小写数字填充'+
+                            '<span style="margin-right:5px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span>${chineseNumber}'+
                         '</div>'+
                     '</div>'+
                   '</div>',
@@ -310,7 +311,19 @@ const luckysheetDropCell = {
             $(this).css("background-color", "#f1f1f1");
         }).mousedown(function(event){
             $("#luckysheet-dropCell-typeList").remove();
-            $("body").append(_this.typeListHtml);
+            const _locale = locale();
+            const locale_dropCell = _locale.dropCell;
+            $("body").append(replaceHtml(_this.typeListHtml,{
+                copyCell:locale_dropCell.copyCell,
+                sequence:locale_dropCell.sequence,
+                onlyFormat:locale_dropCell.onlyFormat,
+                noFormat:locale_dropCell.noFormat,
+                day:locale_dropCell.day,
+                workDay:locale_dropCell.workDay,
+                month:locale_dropCell.month,
+                year:locale_dropCell.year,
+                chineseNumber:locale_dropCell.chineseNumber,
+            }));
 
             let typeItemHide = _this.typeItemHide();
             if(!typeItemHide[0] && !typeItemHide[1] && !typeItemHide[2] && !typeItemHide[3] && !typeItemHide[4] && !typeItemHide[5] && !typeItemHide[6]){

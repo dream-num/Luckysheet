@@ -497,6 +497,7 @@ export default {
         filterContainerOneColorTip:"本列仅包含一种颜色",
         filterDateFormatTip:"日期格式",
 
+        valueBlank:"(空白)",
     },
     rightclick: {
         copy: '复制',
@@ -831,6 +832,70 @@ export default {
         offsetColumnLessZero:"偏移列不能为负数！",
     },
     pivotTable:{
-        
+        title:"数据透视表",
+        closePannel:"关闭",
+        editRange:"编辑范围",
+        tipPivotFieldSelected:"选择需要添加到数据透视表的字段",
+        tipClearSelectedField:"清除所有已选字段",
+        btnClearSelectedField:"清除",
+        btnFilter:"筛选",
+        titleRow:"行",
+        titleColumn:"列",
+        titleValue:"数值",
+        tipShowColumn:"统计字段显示为列",
+        tipShowRow:"统计字段显示为行",
+
+        titleSelectionDataRange:"选取数据范围",
+        titleDataRange:"数据范围",
+
+        valueSum:"总计",
+
+        valueStatisticsSUM:"求和",
+        valueStatisticsCOUNT:"数值计数",
+        valueStatisticsCOUNTA:"计数",
+        valueStatisticsCOUNTUNIQUE:"去重计数",
+        valueStatisticsAVERAGE:"平均值",
+        valueStatisticsMAX:"最大值",
+        valueStatisticsMIN:"最小值",
+        valueStatisticsMEDIAN:"中位数",
+        valueStatisticsPRODUCT:"乘积",
+        valueStatisticsSTDEV:"标准差",
+
+        valueStatisticsSTDEVP:"整体标准差",
+        valueStatisticslet:"方差",
+        valueStatisticsVARP:"整体方差",
+
+        errorNotAllowEdit:"非编辑模式下禁止该操作！",
+        errorNotAllowMulti:"不能对多重选择区域执行此操作，请选择单个区域，然后再试",
+        errorSelectRange:"请选择新建透视表的区域",
+        errorIsDamage:"此数据透视表的源数据已损坏！",
+        errorNotAllowPivotData:"不可选择数据透视表为源数据！",
+        errorSelectionRange:"选择失败, 输入范围错误！",
+        errorIncreaseRange:"请扩大选择的数据范围!",
+
+        titleAddColumn:"添加列到数据透视表",
+        titleMoveColumn:"移动该列到下方白框",
+        titleClearColumnFilter:"清除该列的筛选条件",
+        titleFilterColumn:"筛选该列",
+
+        titleSort:"排序",
+        titleNoSort:"无排序",
+        titleSortAsc:"升序",
+        titleSortDesc:"降序",
+        titleSortBy:"排序依据",
+        titleShowSum:"显示总计",
+        titleStasticTrue:"是",
+        titleStasticFalse:"否",
+    },
+    dropCell:{
+        copyCell:"复制单元格",
+        sequence:"填充序列",
+        onlyFormat:"仅填充格式",
+        noFormat:"不带格式填充",
+        day:"以天数填充",
+        workDay:"以工作日填充",
+        month:"以月填充",
+        year:"以年填充",
+        chineseNumber:"以中文小写数字填充",
     }
 };

@@ -685,7 +685,7 @@ function initialFilterHandler(){
                     for(let x in vmap[v]){
                         let text;
                         if((v + "#$$$#" + x) == "null#$$$#null"){
-                            text = "(空白)";
+                            text = locale_filter.valueBlank;
                         }
                         else{
                             text = x;

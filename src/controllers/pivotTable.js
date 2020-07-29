@@ -33,6 +33,7 @@ import sheetmanage from './sheetmanage';
 import luckysheetsizeauto from './resize';
 import server from './server';
 import Store from '../store';
+import locale from '../locale/locale';
 
 const pivotTable = {
     pivotDatas: null,
@@ -238,6 +239,9 @@ const pivotTable = {
     luckysheetsliderlistitemfilter: function ($filter) {
         let _this = this;
 
+        const _locale = locale();
+        const locale_filter = _locale.filter;
+
         let $t = $filter.parent(), 
             toffset = $t.offset(), 
             $menu = $("#luckysheet-pivotTableFilter-menu"), 
@@ -263,7 +267,7 @@ const pivotTable = {
         $menu.data("index", cindex);
 
         $("#luckysheet-pivotTableFilter-menu .luckysheet-pivotTableFilter-selected-input").hide().find("input").val();
-        $("#luckysheet-pivotTableFilter-selected span").data("type", "0").data("type", null).text("无");
+        $("#luckysheet-pivotTableFilter-selected span").data("type", "0").data("type", null).text(locale_filter.filiterInputNone);
 
         let byconditiontype = $t.data("byconditiontype");
         $("#luckysheet-pivotTableFilter-selected span").data("value", $t.data("byconditionvalue")).data("type", byconditiontype).text($t.data("byconditiontext"));
@@ -277,7 +281,7 @@ const pivotTable = {
             $("#luckysheet-pivotTableFilter-menu .luckysheet-pivotTableFilter-selected-input").eq(0).show().find("input").val($t.data("byconditionvalue1"));
         }
 
-        $("#luckysheet-pivotTableFilter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size: 14px;"> <div class="luckysheetLoaderGif"> </div> <span>数据量大！请稍后</span></div>');
+        $("#luckysheet-pivotTableFilter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size: 14px;"> <div class="luckysheetLoaderGif"> </div> <span>'+locale_filter.filiterMoreDataTip+'</span></div>');
         
         let rowhiddenother = {}; //其它筛选列的隐藏行
         $("#luckysheet-modal-dialog-pivotTable-list .luckysheet-modal-dialog-slider-list-item").not($t.get(0)).each(function () {
@@ -440,7 +444,7 @@ const pivotTable = {
                                             '<div class="month luckysheet-mousedown-cancel cf" data-check="false" title="'+ y +'-'+ mT2 +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + m + '月</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + m + ''+locale_filter.filiterMonthText+'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
                                             '</div>' +
                                             '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
@@ -451,7 +455,7 @@ const pivotTable = {
                                             '<div class="month luckysheet-mousedown-cancel cf" data-check="true" title="'+ y +'-'+ mT2 +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + m + '月</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + m + ''+locale_filter.filiterMonthText+'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
                                             '</div>' +
                                             '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
@@ -466,7 +470,7 @@ const pivotTable = {
                                             '<div class="year luckysheet-mousedown-cancel cf" data-check="false" title="'+ y +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + y + '年</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + y + ''+locale_filter.filiterYearText+'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
                                             '</div>' +
                                             '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
@@ -477,7 +481,7 @@ const pivotTable = {
                                             '<div class="year luckysheet-mousedown-cancel cf" data-check="true" title="'+ y +'">' +
                                                 '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
                                                 '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                                '<label class="luckysheet-mousedown-cancel">' + y + '年</label>' +
+                                                '<label class="luckysheet-mousedown-cancel">' + y + ''+locale_filter.filiterYearText+'</label>' +
                                                 '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
                                             '</div>' +
                                             '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
@@ -498,7 +502,7 @@ const pivotTable = {
                     for(let x in vmap[v]){
                         let text;
                         if((v + "#$$$#" + x) == "null#$$$#null"){
-                            text = "(空白)";
+                            text = locale_filter.valueBlank;
                         }
                         else{
                             text = x;
@@ -534,44 +538,47 @@ const pivotTable = {
     getSumTypeName: function (type) {
         let name = "";
 
+        const _locale = locale();
+        const locale_pivotTable = _locale.pivotTable;
+
         if (type == "SUM") {
-            name = "求和";
+            name = locale_pivotTable.valueStatisticsSUM;
         }
         else if (type == "COUNT") {
-            name = "数值计数";
+            name = locale_pivotTable.valueStatisticsCOUNT;
         }
         else if (type == "COUNTA") {
-            name = "计数";
+            name = locale_pivotTable.valueStatisticsCOUNTA;
         }
         else if (type == "COUNTUNIQUE") {
-            name = "去重计数";
+            name = locale_pivotTable.valueStatisticsCOUNTUNIQUE;
         }
         else if (type == "AVERAGE") {
-            name = "平均值";
+            name = locale_pivotTable.valueStatisticsAVERAGE;
         }
         else if (type == "MAX") {
-            name = "最大值";
+            name = locale_pivotTable.valueStatisticsMAX;
         }
         else if (type == "MIN") {
-            name = "最小值";
+            name = locale_pivotTable.valueStatisticsMIN;
         }
         else if (type == "MEDIAN") {
-            name = "中位数";
+            name = locale_pivotTable.valueStatisticsMEDIAN;
         }
         else if (type == "PRODUCT") {
-            name = "乘积";
+            name = locale_pivotTable.valueStatisticsPRODUCT;
         }
         else if (type == "STDEV") {
-            name = "标准差";
+            name = locale_pivotTable.valueStatisticsSTDEV;
         }
         else if (type == "STDEVP") {
-            name = "整体标准差";
+            name = locale_pivotTable.valueStatisticsSTDEVP;
         }
         else if (type == "let") {
-            name = "方差";
+            name = locale_pivotTable.valueStatisticslet;
         }
         else if (type == "VARP") {
-            name = "整体方差";
+            name = locale_pivotTable.valueStatisticsVARP;
         }
 
         return name;
@@ -614,18 +621,21 @@ const pivotTable = {
 
         let datasheetindex = Store.currentSheetIndex;
 
+        const _locale = locale();
+        const locale_pivotTable = _locale.pivotTable;
+
         if(isEditMode()){
-            alert("非编辑模式下禁止该操作！");
+            alert(locale_pivotTable.errorNotAllowEdit);
             return;
         }
 
         if(Store.luckysheet_select_save.length > 1){
-            tooltip.info("提示", "不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            tooltip.info("", locale_pivotTable.errorNotAllowMulti);
             return
         }
 
         if (Store.luckysheet_select_save.length == 0 || Store.luckysheet_select_save[0].row[0] == Store.luckysheet_select_save[0].row[1] || Store.luckysheet_select_save[0].column[0] == Store.luckysheet_select_save[0].column[1]) {
-            tooltip.info("提示", "请选择新建透视表的区域");
+            tooltip.info("", locale_pivotTable.errorSelectRange);
             return;
         }
 
@@ -642,11 +652,14 @@ const pivotTable = {
     changePivotTable: function (index) {
         let _this = this;
 
+        const _locale = locale();
+        const locale_pivotTable = _locale.pivotTable;
+
         let pivotDataSheetIndex = Store.luckysheetfile[getSheetIndex(index)].pivotTable.pivotDataSheetIndex;
         let real_pivotDataSheetIndex = getSheetIndex(pivotDataSheetIndex);
 
         if(real_pivotDataSheetIndex == null){
-            tooltip.info("此数据透视表的源数据已损坏！", "");
+            tooltip.info(locale_pivotTable.errorIsDamage, "");
             return;
         }
 
@@ -869,9 +882,15 @@ const pivotTable = {
     },
     initialPivotManage: function (restore) {
         let _this = this;
+        const _locale = locale();
+        const locale_pivotTable = _locale.pivotTable;
+        const locale_button = _locale.button;
+        const locale_filter = _locale.filter;
 
         if (_this.initial) {
             _this.initial = false;
+
+
 
             $("body").append(luckysheetPivotTableHTML());
             $("#luckysheet-modal-dialog-slider-close").click(function () {
@@ -879,12 +898,12 @@ const pivotTable = {
                 luckysheetsizeauto();
             });
 
-            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-data-pivotTable-selection", "addclass": "luckysheet-data-pivotTable-selection", "title": "选取数据范围", "content": '<input id="luckysheet-pivotTable-range-selection-input" class="luckysheet-datavisual-range-container" style="font-size: 14px;padding:5px;max-width:none;" spellcheck="false" aria-label="数据范围" placeholder="数据范围">', "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">确认选取</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>' }));
+            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-data-pivotTable-selection", "addclass": "luckysheet-data-pivotTable-selection", "title": locale_pivotTable.titleSelectionDataRange, "content": '<input id="luckysheet-pivotTable-range-selection-input" class="luckysheet-datavisual-range-container" style="font-size: 14px;padding:5px;max-width:none;" spellcheck="false" aria-label="'+locale_pivotTable.titleDataRange+'" placeholder="'+locale_pivotTable.titleDataRange+'">', "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>' }));
 
             $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "pivotTableFilter" }));
             $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "pivotTableFilter" }));
-            $("body").append(pivottableconfigHTML);
-            $("body").append(pivottablesumHTML);
+            $("body").append(pivottableconfigHTML());
+            $("body").append(pivottablesumHTML());
 
             $("#luckysheet-pivotTableFilter-orderby-asc").remove();
             $("#luckysheet-pivotTableFilter-orderby-desc").next().remove();
@@ -1138,7 +1157,7 @@ const pivotTable = {
                 $t.next().slideToggle(200);
                 setTimeout(function () {
                     if ($t.attr("id") == "luckysheet-pivotTableFilter-bycondition" && $("#luckysheet-pivotTableFilter-bycondition").next().is(":visible")) {
-                        if ($("#luckysheet-pivotTableFilter-selected span").text() != "无") {
+                        if ($("#luckysheet-pivotTableFilter-selected span").text() != locale_filter.filiterInputNone) {
                             $("#luckysheet-pivotTableFilter-byvalue").next().slideUp(200);
                         }
                     }
@@ -1242,7 +1261,7 @@ const pivotTable = {
                 $("#luckysheet-modal-dialog-pivotTable-list .luckysheet-modal-dialog-slider-list-item").data("rowhidden", "");
                 $("#luckysheet-pivotTableFilter-menu, #luckysheet-pivotTableFilter-submenu").hide();
                 $("#luckysheet-pivotTableFilter-menu .luckysheet-pivotTableFilter-selected-input").hide().find("input").val();
-                $("#luckysheet-pivotTableFilter-selected span").data("type", "0").data("type", null).text("无");
+                $("#luckysheet-pivotTableFilter-selected span").data("type", "0").data("type", null).text(locale_filter.filiterInputNone);
 
                 _this.setDatatojsfile("filterparm", null);
                 _this.celldata = _this.origindata;
@@ -1675,14 +1694,14 @@ const pivotTable = {
                                 day = "0" + day;
                             }
 
-                            let month = $(e).closest(".monthBox").find(".month label").text().replace("月", "");
+                            let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "");
                             if(Number(month) < 10){
                                 month = "0" + month;
                             }
 
-                            let year = $(e).closest(".yearBox").find(".year label").text().replace("年", "");
+                            let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "");
 
-                            let itemV = "日期格式#$$$#" + year + "-" + month + "-" + day;
+                            let itemV = locale_filter.filterDateFormatTip+"#$$$#" + year + "-" + month + "-" + day;
 
                             filterdata[itemV] = "1";
                         }
@@ -1711,7 +1730,7 @@ const pivotTable = {
                         }
                         else if(cell.ct != null && cell.ct.t == "d"){
                             let fmt = update("YYYY-MM-DD", cell.v);
-                            value = "日期格式#$$$#" + fmt;
+                            value = locale_filter.filterDateFormatTip+"#$$$#" + fmt;
                         }
                         else{
                             value = cell.v + "#$$$#" + cell.m;
@@ -1813,10 +1832,10 @@ const pivotTable = {
 
                     if(Store.luckysheetfile[getSheetIndex(sheetIndex)].isPivotTable){
                         if(isEditMode()){
-                            alert("不可选择数据透视表为源数据！");
+                            alert(locale_pivotTable.errorNotAllowPivotData);
                         }
                         else{
-                            tooltip.info("选择失败", "不可选择数据透视表为源数据！");    
+                            tooltip.info("", locale_pivotTable.errorNotAllowPivotData);    
                         }
                         $input.val(_this.jgridCurrentPivotInput);
                         return;
@@ -1824,10 +1843,10 @@ const pivotTable = {
 
                     if (rangetxt.indexOf(":") == -1) {
                         if(isEditMode()){
-                            alert("选择失败, 输入范围错误！");
+                            alert(locale_pivotTable.errorSelectionRange);
                         }
                         else{
-                            tooltip.info("选择失败", "输入范围错误！");    
+                            tooltip.info("", locale_pivotTable.errorSelectionRange);    
                         }
                         $input.val(_this.jgridCurrentPivotInput);
                         return;
@@ -1841,10 +1860,10 @@ const pivotTable = {
 
                     if (row[0] > row[1]) {
                         if(isEditMode()){
-                            alert("选择失败, 输入范围错误！");
+                            alert(locale_pivotTable.errorSelectionRange);
                         }
                         else{
-                            tooltip.info("选择失败", "输入范围错误！");    
+                            tooltip.info("", locale_pivotTable.errorSelectionRange);    
                         }
                         $input.val(_this.jgridCurrentPivotInput);
                         return;
@@ -1855,10 +1874,10 @@ const pivotTable = {
 
                     if (col[0] > col[1]) {
                         if(isEditMode()){
-                            alert("选择失败, 输入范围错误！");
+                            alert(locale_pivotTable.errorSelectionRange);
                         }
                         else{
-                            tooltip.info("选择失败", "输入范围错误！");    
+                            tooltip.info(locale_pivotTable.errorSelectionRange);    
                         }
                         $input.val(_this.jgridCurrentPivotInput);
                         return;
@@ -1957,12 +1976,12 @@ const pivotTable = {
                             let type = _this.pivot_data_type[_this.movesave.index.toString()];
                             
                             if (type == "num") {
-                                name = "求和:" + name;
+                                name = locale_pivotTable.valueStatisticsSUM+":" + name;
                                 sumtype = "data-sumtype='SUM'";
                                 nameindex = "data-nameindex='0'";
                             }
                             else {
-                                name = "计数:" + name;
+                                name = locale_pivotTable.valueStatisticsCOUNTA+":" + name;
                                 sumtype = "data-sumtype='COUNTA'";
                                 nameindex = "data-nameindex='0'";
                             }
@@ -2109,10 +2128,10 @@ const pivotTable = {
 
         if (_this.celldata.length <= 1 && _this.celldata[0].length <= 1) {
             if(isEditMode()){
-                alert("请扩大选择的数据范围!");
+                alert(locale_pivotTable.errorIncreaseRange);
             }
             else{
-                tooltip.info("提示", "请扩大选择的数据范围!");
+                tooltip.info("", locale_pivotTable.errorIncreaseRange);
             }
         }
 
@@ -2135,7 +2154,7 @@ const pivotTable = {
             }
 
             if (name == null || $.trim(name.toString()).length == 0) {
-                name = "列 " + selecteditemNullIndex;
+                name = locale_pivotTable.titleColumn+" " + selecteditemNullIndex;
             }
             selecteditemNullIndex++
 
@@ -2193,7 +2212,7 @@ const pivotTable = {
                 style = "display:block;";
             }
 
-            selecteditem += '<div class="luckysheet-modal-dialog-slider-list-item" ' + dataother + ' data-index="' + i + '" data-name="' + name + '"><div title="添加列到数据透视表" class="luckysheet-slider-list-item-selected"><div></div></div><div title="移动该列到下方白框" class="luckysheet-slider-list-item-name" ' + dataother + ' data-index="' + i + '" data-name="' + name + '">' + name + '</div><div title="清除该列的筛选条件" class="luckysheet-slider-list-item-filtered" style="' + style + '"><i class="fa fa-filter luckysheet-mousedown-cancel" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></div><div title="筛选该列" class="luckysheet-slider-list-item-filter"><i class="fa fa-sort-desc" aria-hidden="true"></i></div></div>';
+            selecteditem += '<div class="luckysheet-modal-dialog-slider-list-item" ' + dataother + ' data-index="' + i + '" data-name="' + name + '"><div title="'+locale_pivotTable.titleAddColumn+'" class="luckysheet-slider-list-item-selected"><div></div></div><div title="'+locale_pivotTable.titleMoveColumn+'" class="luckysheet-slider-list-item-name" ' + dataother + ' data-index="' + i + '" data-name="' + name + '">' + name + '</div><div title="'+locale_pivotTable.titleClearColumnFilter+'" class="luckysheet-slider-list-item-filtered" style="' + style + '"><i class="fa fa-filter luckysheet-mousedown-cancel" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></div><div title="'+locale_pivotTable.titleFilterColumn+'" class="luckysheet-slider-list-item-filter"><i class="fa fa-sort-desc" aria-hidden="true"></i></div></div>';
         }
         $("#luckysheet-modal-dialog-pivotTable-list").html(selecteditem);
 
@@ -2414,19 +2433,22 @@ const pivotTable = {
             isAsc = true;
         }
 
+        const _locale = locale();
+        const locale_filter = _locale.filter;
+
         let a = function (x, y) {
             let f = null, s = null;
 
             if (orderby == "self" || orderby == null) {
                 if(x.name == null){
-                    f = "(空白)";
+                    f = locale_filter.valueBlank;
                 }
                 else{
                     f = x.name.toString();
                 }
 
                 if(y.name == null){
-                    s = "(空白)";
+                    s = locale_filter.valueBlank;
                 }
                 else{
                     s = y.name.toString();
@@ -2460,14 +2482,14 @@ const pivotTable = {
 
             if (orderby == "self" || orderby == null) {
                 if(x.name == null){
-                    f = "(空白)";
+                    f = locale_filter.valueBlank;
                 }
                 else{
                     f = x.name.toString();
                 }
 
                 if(y.name == null){
-                    s = "(空白)";
+                    s = locale_filter.valueBlank;
                 }
                 else{
                     s = y.name.toString();
@@ -2505,10 +2527,11 @@ const pivotTable = {
     },
     generategroupaddstatic: function (arr, name) {
         let stasticarr = [];
-
+        const _locale = locale();
+        const locale_pivotTable = _locale.pivotTable;
         for (let a = 0; a < arr[0].length; a++) {
             if (a == 0) {
-                if (name == "总计") {
+                if (name == locale_pivotTable.valueSum) {
                     stasticarr.push(name);
                 }
                 else {
@@ -2625,6 +2648,11 @@ const pivotTable = {
         //values:[{"index":1, "sumtype":"SUM/COUNT/COUNTA/COUNTUNIQUE/AVERAGE/MAX/MIN/MEDIAN/PRODUCT/STDEV/STDEVP/let/VARP", "name":"求和:fyc"}]
         let _this = this;
 
+        const _locale = locale();
+        const locale_filter = _locale.filter;
+        const locale_pivotTable = _locale.pivotTable;
+        
+
         if (showType == null) {
             showType = "column";
         }
@@ -2665,27 +2693,27 @@ const pivotTable = {
             coltitle = _this.getComposeArray(coltitlename);
 
             if (rowtitle.length > 0) {
-                rowtitle.unshift("总计");
+                rowtitle.unshift(locale_pivotTable.valueSum);
             }
 
             if (coltitle.length > 0) {
-                coltitle.unshift("总计");
+                coltitle.unshift(locale_pivotTable.valueSum);
             }
 
             let curentLevelobj_row = datarowposition, 
                 curentLevelarr_row = datarowtitlegroup;
             
             for (let r = 0; r < rowtitle.length; r++) {
-                let item = rowtitle[r], name = r == 0 ? "总计" : rowtitlename[r - 1];//修改
+                let item = rowtitle[r], name = r == 0 ? locale_pivotTable.valueSum : rowtitlename[r - 1];//修改
 
                 if (curentLevelobj_row[r.toString()] != null && curentLevelobj_row[r.toString()][item] != null) {//修改
                     curentLevelarr_row = curentLevelarr_row[curentLevelobj_row[r.toString()][item]].children;
                 }
                 else {
-                    let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + "总计"));
+                    let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + locale_pivotTable.valueSum));
                     
                     if(name == null){
-                        name = "(空白)";
+                        name = locale_filter.valueBlank;;
                     }
 
                     curentLevelarr_row.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
@@ -2706,16 +2734,16 @@ const pivotTable = {
                 curentLevelarr_col = datacoltitlegroup;
 
             for (let r = 0; r < coltitle.length; r++) {
-                let item = coltitle[r], name = r == 0 ? "总计" : coltitlename[r - 1];
+                let item = coltitle[r], name = r == 0 ? locale_pivotTable.valueSum : coltitlename[r - 1];
 
                 if (curentLevelobj_col[r.toString()] != null && curentLevelobj_col[r.toString()][item] != null) {
                     curentLevelarr_col = curentLevelarr_col[curentLevelobj_col[r.toString()][item]].children;
                 }
                 else {
-                    let orderby = r == 0 ? "self" : ((column[r - 1].orderby == "self" || column[r - 1].orderby == null) ? item : (showType == "column" ? "总计" + item : values[parseInt(column[r - 1].orderby)].fullname + item));
+                    let orderby = r == 0 ? "self" : ((column[r - 1].orderby == "self" || column[r - 1].orderby == null) ? item : (showType == "column" ? locale_pivotTable.valueSum + item : values[parseInt(column[r - 1].orderby)].fullname + item));
                     
                     if(name == null){
-                        name = "(空白)";
+                        name = locale_filter.valueBlank;
                     }
 
                     curentLevelarr_col.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
@@ -2887,7 +2915,7 @@ const pivotTable = {
                     //列标题
                     if (datacoltitle[r] != null) {
                         if (getObjType(datacoltitle[r][c - colOver]) == "object") {
-                            retdata[r][c] = datacoltitle[r][c - colOver].name + "总计";
+                            retdata[r][c] = datacoltitle[r][c - colOver].name + locale_pivotTable.valueSum;
                         }
                         else {
                             retdata[r][c] = datacoltitle[r][c - colOver];
@@ -2901,7 +2929,7 @@ const pivotTable = {
                     //行标题
                     if (drt != null) {
                         if (getObjType(drt[c]) == "object") {
-                            retdata[r][c] = drt[c].name + "总计";
+                            retdata[r][c] = drt[c].name + locale_pivotTable.valueSum;
                         }
                         else {
                             retdata[r][c] = drt[c];
@@ -2992,6 +3020,10 @@ const pivotTable = {
         let cell = _this.pivotDatas[row_index][col_index];
         let d = $.extend(true, [], sheetmanage.nulldata);
 
+        const _locale = locale();
+        const locale_filter = _locale.filter;
+        const locale_pivotTable = _locale.pivotTable;
+
         let selecteditemNullIndex = 1;
         for(let i = 0; i < _this.celldata[0].length; i++){
             let name;
@@ -3007,7 +3039,7 @@ const pivotTable = {
             }
 
             if (name == null || $.trim(name.toString()).length == 0) {
-                name = "列 " + selecteditemNullIndex;
+                name = locale_pivotTable.titleColumn+" " + selecteditemNullIndex;
             }
             selecteditemNullIndex++
 
@@ -3047,7 +3079,7 @@ const pivotTable = {
                     value = value.toString();
                 }
                 else{
-                    value = "(空白)";
+                    value = locale_filter.valueBlank;
                 }
 
                 if(value != obj[x]){
