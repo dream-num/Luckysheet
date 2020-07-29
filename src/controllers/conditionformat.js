@@ -98,6 +98,8 @@ const conditionformat = {
     init: function(){
         let _this = this;
 
+        const conditionformat_Text = locale().conditionformat;
+
         // 管理规则
         $(document).off("change.CFchooseSheet").on("change.CFchooseSheet", "#luckysheet-administerRule-dialog .chooseSheet", function(){
             let index = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
@@ -221,10 +223,10 @@ const conditionformat = {
         $(document).off("click.CFnewConditionRule").on("click.CFnewConditionRule", "#newConditionRule", function(){
             if(Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
-                    alert("请选择应用范围");
+                    alert(conditionformat_Text.pleaseSelectRange);
                 }
                 else{
-                    tooltip.info("请选择应用范围", "");
+                    tooltip.info(conditionformat_Text.pleaseSelectRange, "");
                 }
                 return;
             }
@@ -304,7 +306,7 @@ const conditionformat = {
                             //条件值是否是选区
                             let rangeArr1 = _this.getRangeByTxt(v1);
                             if(rangeArr1.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr1.length == 1){
@@ -318,13 +320,13 @@ const conditionformat = {
                                     conditionValue.push(v1);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr1.length == 0){
                                 if(isNaN(v1) || v1 == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -334,7 +336,7 @@ const conditionformat = {
 
                             let rangeArr2 = _this.getRangeByTxt(v2);
                             if(rangeArr2.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr2.length == 1){
@@ -348,13 +350,13 @@ const conditionformat = {
                                     conditionValue.push(v2);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr2.length == 0){
                                 if(isNaN(v2) || v2 == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -369,7 +371,7 @@ const conditionformat = {
                             //条件值是否是选区
                             let rangeArr = _this.getRangeByTxt(v);
                             if(rangeArr.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr.length == 1){
@@ -383,13 +385,13 @@ const conditionformat = {
                                     conditionValue.push(v);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr.length == 0){
                                 if(isNaN(v) || v == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -407,7 +409,7 @@ const conditionformat = {
                         //条件值是否是选区
                         let rangeArr = _this.getRangeByTxt(v);
                         if(rangeArr.length > 1){
-                            _this.infoDialog("只能对单个单元格进行引用", "");
+                            _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                             return;
                         }
                         else if(rangeArr.length == 1){
@@ -421,13 +423,13 @@ const conditionformat = {
                                 conditionValue.push(v);
                             }
                             else{
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                         }
                         else if(rangeArr.length == 0){
                             if(isNaN(v) || v == ""){
-                                _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                 return;
                             }
                             else{
@@ -442,7 +444,7 @@ const conditionformat = {
                         let v = $("#luckysheet-newConditionRule-dialog #daterange-btn").val();
 
                         if(v == "" || v == null){
-                            _this.infoDialog("请选择日期", "");
+                            _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
                         
@@ -472,7 +474,7 @@ const conditionformat = {
                     let v = $("#luckysheet-newConditionRule-dialog #conditionVal input").val().trim();
 
                     if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
-                        _this.infoDialog("请输入一个介于 1 和 1000 之间的整数", "");
+                        _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
                     
@@ -669,7 +671,7 @@ const conditionformat = {
                             //条件值是否是选区
                             let rangeArr1 = _this.getRangeByTxt(v1);
                             if(rangeArr1.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr1.length == 1){
@@ -683,13 +685,13 @@ const conditionformat = {
                                     conditionValue.push(v1);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr1.length == 0){
                                 if(isNaN(v1) || v1 == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -699,7 +701,7 @@ const conditionformat = {
 
                             let rangeArr2 = _this.getRangeByTxt(v2);
                             if(rangeArr2.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr2.length == 1){
@@ -713,13 +715,13 @@ const conditionformat = {
                                     conditionValue.push(v2);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr2.length == 0){
                                 if(isNaN(v2) || v2 == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -734,7 +736,7 @@ const conditionformat = {
                             //条件值是否是选区
                             let rangeArr = _this.getRangeByTxt(v);
                             if(rangeArr.length > 1){
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                             else if(rangeArr.length == 1){
@@ -748,13 +750,13 @@ const conditionformat = {
                                     conditionValue.push(v);
                                 }
                                 else{
-                                    _this.infoDialog("只能对单个单元格进行引用", "");
+                                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
                             }
                             else if(rangeArr.length == 0){
                                 if(isNaN(v) || v == ""){
-                                    _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                    _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
                                 }
                                 else{
@@ -772,7 +774,7 @@ const conditionformat = {
                         //条件值是否是选区
                         let rangeArr = _this.getRangeByTxt(v);
                         if(rangeArr.length > 1){
-                            _this.infoDialog("只能对单个单元格进行引用", "");
+                            _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                             return;
                         }
                         else if(rangeArr.length == 1){
@@ -786,13 +788,13 @@ const conditionformat = {
                                 conditionValue.push(v);
                             }
                             else{
-                                _this.infoDialog("只能对单个单元格进行引用", "");
+                                _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
                         }
                         else if(rangeArr.length == 0){
                             if(isNaN(v) || v == ""){
-                                _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                                _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                 return;
                             }
                             else{
@@ -807,7 +809,7 @@ const conditionformat = {
                         let v = $("#luckysheet-editorConditionRule-dialog #daterange-btn").val();
 
                         if(v == "" || v == null){
-                            _this.infoDialog("请选择日期", "");
+                            _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
                         
@@ -837,7 +839,7 @@ const conditionformat = {
                     let v = $("#luckysheet-editorConditionRule-dialog #conditionVal input").val().trim();
 
                     if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
-                        _this.infoDialog("请输入一个介于 1 和 1000 之间的整数", "");
+                        _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
                     
@@ -998,7 +1000,7 @@ const conditionformat = {
                 //条件值是否是选区
                 let rangeArr = _this.getRangeByTxt(v);
                 if(rangeArr.length > 1){
-                    _this.infoDialog("只能对单个单元格进行引用", "");
+                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
                 }
                 else if(rangeArr.length == 1){
@@ -1012,13 +1014,13 @@ const conditionformat = {
                         conditionValue.push(v);
                     }
                     else{
-                        _this.infoDialog("只能对单个单元格进行引用", "");
+                        _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
                 }
                 else if(rangeArr.length == 0){
                     if(isNaN(v) || v == ""){
-                        _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                        _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
                     }
                     else{
@@ -1033,7 +1035,7 @@ const conditionformat = {
                 //条件值是否是选区
                 let rangeArr1 = _this.getRangeByTxt(v1);
                 if(rangeArr1.length > 1){
-                    _this.infoDialog("只能对单个单元格进行引用", "");
+                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
                 }
                 else if(rangeArr1.length == 1){
@@ -1047,13 +1049,13 @@ const conditionformat = {
                         conditionValue.push(v1);
                     }
                     else{
-                        _this.infoDialog("只能对单个单元格进行引用", "");
+                        _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
                 }
                 else if(rangeArr1.length == 0){
                     if(isNaN(v1) || v1 == ""){
-                        _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                        _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
                     }
                     else{
@@ -1063,7 +1065,7 @@ const conditionformat = {
 
                 let rangeArr2 = _this.getRangeByTxt(v2);
                 if(rangeArr2.length > 1){
-                    _this.infoDialog("只能对单个单元格进行引用", "");
+                    _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
                 }
                 else if(rangeArr2.length == 1){
@@ -1077,13 +1079,13 @@ const conditionformat = {
                         conditionValue.push(v2);
                     }
                     else{
-                        _this.infoDialog("只能对单个单元格进行引用", "");
+                        _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
                 }
                 else if(rangeArr2.length == 0){
                     if(isNaN(v2) || v2 == ""){
-                        _this.infoDialog("条件值只能是数字或者单个单元格", "");
+                        _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
                     }
                     else{
@@ -1095,7 +1097,7 @@ const conditionformat = {
                 let v = $("#luckysheet-conditionformat-dialog #daterange-btn").val();
 
                 if(v == "" || v == null){
-                    _this.infoDialog("请选择日期", "");
+                    _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                     return;
                 }
 
@@ -1108,7 +1110,7 @@ const conditionformat = {
                 let v = $("#luckysheet-conditionformat-dialog #conditionVal").val().trim();
 
                 if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
-                    _this.infoDialog("请输入一个介于 1 和 1000 之间的整数", "");
+                    _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                     return;
                 }
 
@@ -1287,7 +1289,7 @@ const conditionformat = {
             
             //新建规则弹出层
             if(id == "luckysheet-newConditionRule-dialog"){
-                let source=$("#" + id).find("#luckysheet-newConditionRule-dialog-close").attr("data-source");
+                let source = $("#" + id).find("#luckysheet-newConditionRule-dialog-close").attr("data-source");
                 //新建规则入口
                 if(source == 1){
                     $("#luckysheet-administerRule-dialog").show();
@@ -1343,12 +1345,15 @@ const conditionformat = {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-singleRange-dialog").remove();
 
+        const conditionformat_Text = locale().conditionformat;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-singleRange-dialog", 
             "addclass": "luckysheet-singleRange-dialog", 
-            "title": "选择单元格", 
-            "content": '<input readonly="readonly" placeholder="请选择单元格" value="'+value+'"/>', 
-            "botton": '<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="'+source+'">确定</button><button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="'+source+'">取消</button>', 
+            "title": conditionformat_Text.selectCell, 
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectCell}" value="${value}"/>`, 
+            "botton":  `<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-singleRange-dialog")
@@ -1370,12 +1375,15 @@ const conditionformat = {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-multiRange-dialog").remove();
 
+        const conditionformat_Text = locale().conditionformat;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-multiRange-dialog", 
             "addclass": "luckysheet-multiRange-dialog", 
-            "title": "选择应用范围", 
-            "content": '<input readonly="readonly" placeholder="请选择应用范围" value="'+value+'"/>', 
-            "botton": '<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="'+dataItem+'">确定</button><button id="luckysheet-multiRange-dialog-close" class="btn btn-default">取消</button>', 
+            "title": conditionformat_Text.selectRange, 
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectRange}" value="${value}"/>`, 
+            "botton":  `<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="${dataItem}">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-multiRange-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-multiRange-dialog")
@@ -1431,6 +1439,8 @@ const conditionformat = {
         return range;
     },
     colorSelectInit: function(){
+        const conditionformat_Text = locale().conditionformat;
+
         $(".luckysheet-conditionformat-config-color").spectrum({
             showPalette: true,
             showPaletteOnly:true,
@@ -1445,12 +1455,12 @@ const conditionformat = {
             maxPaletteSize: 8,
             maxSelectionSize: 8,
             // color: currenColor,
-            cancelText: "取消",
-            chooseText: "确定颜色",
+            cancelText: conditionformat_Text.cancel,
+            chooseText: conditionformat_Text.confirmColor,
             togglePaletteMoreText: "自定义",
             togglePaletteLessText: "收起",
             togglePaletteOnly: true,
-            clearText: "清除颜色选择",
+            clearText: conditionformat_Text.clearColorSelect,
             noColorSelectedText: "没有颜色被选择",
             localStorageKey: "spectrum.textcolor" + server.gridKey,
             palette: [["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
@@ -1474,12 +1484,15 @@ const conditionformat = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-conditionformat-dialog").remove();
 
+        const conditionformat_Text = locale().conditionformat;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-conditionformat-dialog", 
             "addclass": "luckysheet-conditionformat-dialog", 
             "title": title, 
             "content": content, 
-            "botton": '<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">确定</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "botton":  `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+                        <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-conditionformat-dialog")
@@ -1498,7 +1511,7 @@ const conditionformat = {
         _this.init();
         _this.colorSelectInit();
         
-        if(title == "条件格式——发生日期"){
+        if(title == locale().conditionformat.conditionformat_occurrenceDate){
             _this.daterangeInit("luckysheet-conditionformat-dialog");
         }
     },
@@ -1506,68 +1519,70 @@ const conditionformat = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-CFicons-dialog").remove();
 
-        let content = '<div class="box">'+
-                        '<div style="margin-bottom: 10px;">请点击选择一组图标：</div>'+
-                        '<div class="title">方向</div>'+
-                        '<div class="list">'+
-                            '<div class="left">'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="0" title="三向箭头(彩色)"><div style="background-position:0 0;"></div></div>'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="1" title="3个三角形"><div style="background-position:0 -20px;"></div></div>'+
-                                '<div class="item" data-len="4" data-leftMin="0" data-top="2" title="四向箭头(彩色)"><div style="background-position:0 -40px;"></div></div>'+
-                                '<div class="item" data-len="5" data-leftMin="0" data-top="3" title="五向箭头(彩色)"><div style="background-position:0 -60px;"></div></div>'+
-                            '</div>'+
-                            '<div class="right">'+
-                                '<div class="item" data-len="3" data-leftMin="5" data-top="0" title="三向箭头(灰色)"><div style="background-position:-131px 0;"></div></div>'+
-                                '<div class="item" data-len="4" data-leftMin="5" data-top="1" title="四向箭头(灰色)"><div style="background-position:-131px -20px;"></div></div>'+
-                                '<div class="item" data-len="5" data-leftMin="5" data-top="2" title="五向箭头(灰色)"><div style="background-position:-131px -40px;"></div></div>'+
-                            '</div>'+
-                            '<div style="clear:both;"></div>'+
-                        '</div>'+
-                        '<div class="title">形状</div>'+
-                        '<div class="list">'+
-                            '<div class="left">'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="4" title="三色交通灯(无边框)"><div style="background-position:0 -80px;"></div></div>'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="5" title="三标志"><div style="background-position:0 -100px;"></div></div>'+
-                                '<div class="item" data-len="4" data-leftMin="0" data-top="6" title="绿-红-黑渐变"><div style="background-position:0 -120px;"></div></div>'+
-                            '</div>'+
-                            '<div class="right">'+
-                                '<div class="item" data-len="3" data-leftMin="5" data-top="4" title="三色交通灯(有边框)"><div style="background-position:-131px -80px;"></div></div>'+
-                                '<div class="item" data-len="4" data-leftMin="5" data-top="5" title="四色交通灯"><div style="background-position:-131px -100px;"></div></div>'+
-                            '</div>'+
-                            '<div style="clear:both;"></div>'+
-                        '</div>'+
-                        '<div class="title">标记</div>'+
-                        '<div class="list">'+
-                            '<div class="left">'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="7" title="三个符号(有圆圈)"><div style="background-position:0 -140px;"></div></div>'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="8" title="三色旗"><div style="background-position:0 -160px;"></div></div>'+
-                            '</div>'+
-                            '<div class="right">'+
-                                '<div class="item" data-len="3" data-leftMin="5" data-top="7" title="三个符号(无圆圈)"><div style="background-position:-131px -140px;"></div></div>'+
-                            '</div>'+
-                            '<div style="clear:both;"></div>'+
-                        '</div>'+
-                        '<div class="title">等级</div>'+
-                        '<div class="list">'+
-                            '<div class="left">'+
-                                '<div class="item" data-len="3" data-leftMin="0" data-top="9" title="3个星形"><div style="background-position:0 -180px;"></div></div>'+
-                                '<div class="item" data-len="5" data-leftMin="0" data-top="10" title="五象限图"><div style="background-position:0 -200px;"></div></div>'+
-                                '<div class="item" data-len="5" data-leftMin="0" data-top="11" title="5个框"><div style="background-position:0 -220px;"></div></div>'+
-                            '</div>'+
-                            '<div class="right">'+
-                                '<div class="item" data-len="4" data-leftMin="5" data-top="9" title="四等级"><div style="background-position:-131px -180px;"></div></div>'+
-                                '<div class="item" data-len="5" data-leftMin="5" data-top="10" title="五等级"><div style="background-position:-131px -200px;"></div></div>'+
-                            '</div>'+
-                            '<div style="clear:both;"></div>'+
-                        '</div>'+
-                      '</div>';
+        const conditionformat_Text = locale().conditionformat;
+
+        let content =  `<div class="box">
+                            <div style="margin-bottom: 10px;">${conditionformat_Text.pleaseSelectIcon}</div>
+                            <div class="title">${conditionformat_Text.direction}</div>
+                            <div class="list">
+                                <div class="left">
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="0" title="${conditionformat_Text.threeWayArrow}(${conditionformat_Text.multicolor})"><div style="background-position:0 0;"></div></div>
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="1" title="${conditionformat_Text.threeTriangles}"><div style="background-position:0 -20px;"></div></div>
+                                    <div class="item" data-len="4" data-leftMin="0" data-top="2" title="${conditionformat_Text.fourWayArrow}(${conditionformat_Text.multicolor})"><div style="background-position:0 -40px;"></div></div>
+                                    <div class="item" data-len="5" data-leftMin="0" data-top="3" title="${conditionformat_Text.fiveWayArrow}(${conditionformat_Text.multicolor})"><div style="background-position:0 -60px;"></div></div>
+                                </div>
+                                <div class="right">
+                                    <div class="item" data-len="3" data-leftMin="5" data-top="0" title="${conditionformat_Text.threeWayArrow}(${conditionformat_Text.grayColor})"><div style="background-position:-131px 0;"></div></div>
+                                    <div class="item" data-len="4" data-leftMin="5" data-top="1" title="${conditionformat_Text.fourWayArrow}(${conditionformat_Text.grayColor})"><div style="background-position:-131px -20px;"></div></div>
+                                    <div class="item" data-len="5" data-leftMin="5" data-top="2" title="${conditionformat_Text.fiveWayArrow}(${conditionformat_Text.grayColor})"><div style="background-position:-131px -40px;"></div></div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                            <div class="title">${conditionformat_Text.shape}</div>
+                            <div class="list">
+                                <div class="left">
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.rimless})"><div style="background-position:0 -80px;"></div></div>
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="5" title="${conditionformat_Text.threeSigns}"><div style="background-position:0 -100px;"></div></div>
+                                    <div class="item" data-len="4" data-leftMin="0" data-top="6" title="${conditionformat_Text.greenRedBlackGradient}"><div style="background-position:0 -120px;"></div></div>
+                                </div>
+                                <div class="right">
+                                    <div class="item" data-len="3" data-leftMin="5" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.bordered})"><div style="background-position:-131px -80px;"></div></div>
+                                    <div class="item" data-len="4" data-leftMin="5" data-top="5" title="${conditionformat_Text.fourColorTrafficLight}"><div style="background-position:-131px -100px;"></div></div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                            <div class="title">${conditionformat_Text.mark}</div>
+                            <div class="list">
+                                <div class="left">
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="7" title="${conditionformat_Text.threeSymbols}(${conditionformat_Text.circled})"><div style="background-position:0 -140px;"></div></div>
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="8" title="${conditionformat_Text.tricolorFlag}"><div style="background-position:0 -160px;"></div></div>
+                                </div>
+                                <div class="right">
+                                    <div class="item" data-len="3" data-leftMin="5" data-top="7" title="${conditionformat_Text.threeSymbols}(${conditionformat_Text.noCircle})"><div style="background-position:-131px -140px;"></div></div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                            <div class="title">${conditionformat_Text.grade}</div>
+                            <div class="list">
+                                <div class="left">
+                                    <div class="item" data-len="3" data-leftMin="0" data-top="9" title="${conditionformat_Text.threeStars}"><div style="background-position:0 -180px;"></div></div>
+                                    <div class="item" data-len="5" data-leftMin="0" data-top="10" title="${conditionformat_Text.fiveQuadrantDiagram}"><div style="background-position:0 -200px;"></div></div>
+                                    <div class="item" data-len="5" data-leftMin="0" data-top="11" title="${conditionformat_Text.fiveBoxes}"><div style="background-position:0 -220px;"></div></div>
+                                </div>
+                                <div class="right">
+                                    <div class="item" data-len="4" data-leftMin="5" data-top="9" title="${conditionformat_Text.grade4}"><div style="background-position:-131px -180px;"></div></div>
+                                    <div class="item" data-len="5" data-leftMin="5" data-top="10" title="${conditionformat_Text.grade5}"><div style="background-position:-131px -200px;"></div></div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>`;
 
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-CFicons-dialog", 
             "addclass": "luckysheet-CFicons-dialog", 
-            "title": "图标集", 
+            "title": conditionformat_Text.icons, 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">关闭</button>', 
+            "botton": `<button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.close}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-CFicons-dialog")
@@ -1912,6 +1927,8 @@ const conditionformat = {
     editorConditionRuleDialog: function(){
         let _this = this;
 
+        const conditionformat_Text = locale().conditionformat; 
+
         let rule = _this.editorRule.data;
         let ruleType = rule["type"], ruleFormat = rule["format"];
         
@@ -1965,9 +1982,9 @@ const conditionformat = {
         $("#luckysheet-editorConditionRule-dialog").remove();
 
         let content = '<div>' +
-                        '<div class="boxTitle">选择规则类型：</div>' +
+                        '<div class="boxTitle">'+ conditionformat_Text.chooseRuleType +'：</div>' +
                         _this.ruleTypeHtml() +
-                        '<div class="boxTitle">编辑规则说明：</div>' +
+                        '<div class="boxTitle">'+ conditionformat_Text.editRuleDescription +'：</div>' +
                         '<div class="ruleExplainBox">' +
                             ruleExplainHtml +
                         '</div>' +
@@ -1976,9 +1993,10 @@ const conditionformat = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-editorConditionRule-dialog", 
             "addclass": "luckysheet-newEditorRule-dialog", 
-            "title": "编辑格式规则", 
+            "title": conditionformat_Text.editFormatRule, 
             "content": content, 
-            "botton": '<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">确定</button><button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">取消</button>', 
+            "botton":  `<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-editorConditionRule-dialog")
@@ -2129,7 +2147,7 @@ const conditionformat = {
             "addclass": "", 
             "title": title, 
             "content": content, 
-            "botton": '<button id="luckysheet-conditionformat-info-dialog-close" class="btn btn-default">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>', 
+            "botton": `<button id="luckysheet-conditionformat-info-dialog-close" class="btn btn-default">${locale().conditionformat.close}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-conditionformat-info-dialog")
@@ -2213,138 +2231,159 @@ const conditionformat = {
                                                 <li><div data-len="5" data-leftmin="5" data-top="2" title="${conditionformat_Text.fiveWayArrow}(${conditionformat_Text.grayColor})" style="background-position: -131px -40px;"></div></li>
                                                 <li><div data-len="3" data-leftmin="0" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.rimless})" style="background-position: 0 -80px;"></div></li>
                                                 <li><div data-len="3" data-leftmin="5" data-top="4" title="${conditionformat_Text.threeColorTrafficLight}(${conditionformat_Text.bordered})" style="background-position: -131px -80px;"></div></li>
-                                                <li><div data-len="3" data-leftmin="0" data-top="5" title="三标志" style="background-position: 0 -100px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="5" title="${conditionformat_Text.threeSigns}" style="background-position: 0 -100px;"></div></li>
                                                 <li><div data-len="4" data-leftmin="5" data-top="5" title="${conditionformat_Text.fourColorTrafficLight}" style="background-position: -131px -100px;"></div></li>
-                                                <li><div data-len="4" data-leftmin="0" data-top="6" title="绿-红-黑渐变" style="background-position: 0 -120px;"></div></li>
-                                                <li><div data-len="3" data-leftmin="0" data-top="7" title="三个符号(有圆圈)" style="background-position: 0 -140px;"></div></li>
-                                                <li><div data-len="3" data-leftmin="5" data-top="7" title="三个符号(无圆圈)" style="background-position: -131px -140px;"></div></li>
-                                                <li><div data-len="3" data-leftmin="0" data-top="8" title="三色旗" style="background-position: 0 -160px;"></div></li>
-                                                <li><div data-len="3" data-leftmin="0" data-top="9" title="3个星形" style="background-position: 0 -180px;"></div></li>
-                                                <li><div data-len="5" data-leftmin="0" data-top="10" title="五象限图" style="background-position: 0 -200px;"></div></li>
-                                                <li><div data-len="5" data-leftmin="0" data-top="11" title="5个框" style="background-position: 0 -220px;"></div></li>
-                                                <li><div data-len="4" data-leftmin="5" data-top="9" title="四等级" style="background-position: -131px -180px;"></div></li>
-                                                <li><div data-len="5" data-leftmin="5" data-top="10" title="五等级" style="background-position: -131px -200px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="0" data-top="6" title="${conditionformat_Text.greenRedBlackGradient}" style="background-position: 0 -120px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="7" title="${conditionformat_Text.threeSymbols}(${conditionformat_Text.circled})" style="background-position: 0 -140px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="5" data-top="7" title="${conditionformat_Text.threeSymbols}(${conditionformat_Text.noCircle})" style="background-position: -131px -140px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="8" title="${conditionformat_Text.tricolorFlag}" style="background-position: 0 -160px;"></div></li>
+                                                <li><div data-len="3" data-leftmin="0" data-top="9" title="${conditionformat_Text.threeStars}" style="background-position: 0 -180px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="0" data-top="10" title="${conditionformat_Text.fiveQuadrantDiagram}" style="background-position: 0 -200px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="0" data-top="11" title="${conditionformat_Text.fiveBoxes}" style="background-position: 0 -220px;"></div></li>
+                                                <li><div data-len="4" data-leftmin="5" data-top="9" title="${conditionformat_Text.grade4}" style="background-position: -131px -180px;"></div></li>
+                                                <li><div data-len="5" data-leftmin="5" data-top="10" title="${conditionformat_Text.grade5}" style="background-position: -131px -200px;"></div></li>
                                             </ul>
                                         </div>
                                     </div>`;
                 break;
             case 1: //只为包含以下内容的单元格设置格式
-                ruleExplainHtml = '<div class="title">只为满足以下条件的单元格：</div>' +
-                                      '<div style="height: 30px;margin-bottom: 10px;">' +
-                                        '<select id="type1">' +
-                                            '<option value="number">单元格值</option>' +
-                                            '<option value="text">特定文本</option>' +
-                                            '<option value="date">发生日期</option>' +
-                                        '</select>'+
-                                        '<div>' +
-                                            '<div class="type1Box numberBox">' +
-                                                '<select id="type2">' +
-                                                    '<option value="greaterThan">大于</option>' +
-                                                    '<option value="lessThan">小于</option>' +
-                                                    '<option value="betweenness">介于</option>' +
-                                                    '<option value="equal">等于</option>' +
-                                                '</select>' +
-                                                '<div class="inpbox range" id="conditionVal">' +
-                                                    '<input class="formulaInputFocus"/><i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                                '<span class="txt" style="display: none;">到</span>' +
-                                                '<div class="inpbox range" id="conditionVal2" style="display: none;">' +
-                                                    '<input class="formulaInputFocus"/><i class="fa fa-table" aria-hidden="true" title="点击选择数据范围"></i>' +
-                                                '</div>' +
-                                            '</div>' +
-                                            '<div class="type1Box textBox" style="display: none;">' +
-                                                '<select id="type2">' +
-                                                    '<option value="">包含</option>' +
-                                                '</select>' +
-                                                '<div class="inpbox range" id="conditionVal">' +
-                                                    '<input class="formulaInputFocus"/><i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                            '</div>' +
-                                            '<div class="type1Box dateBox" style="display: none;">' +
-                                                '<div style="width: 162px;" class="inpbox">' +
-                                                    '<input style="width: 150px;" id="daterange-btn" readonly="readonly" placeholder="请选择日期"/>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                      '</div>' +
-                                      '<div class="title">设置格式：</div>' + textCellColorHtml;
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
+                                    <div style="height: 30px;margin-bottom: 10px;">
+                                        <select id="type1">
+                                            <option value="number">${conditionformat_Text.cellValue}</option>
+                                            <option value="text">${conditionformat_Text.specificText}</option>
+                                            <option value="date">${conditionformat_Text.occurrence}</option>
+                                        </select>
+                                        <div>
+                                            <div class="type1Box numberBox">
+                                                <select id="type2">
+                                                    <option value="greaterThan">${conditionformat_Text.greaterThan}</option>
+                                                    <option value="lessThan">${conditionformat_Text.lessThan}</option>
+                                                    <option value="betweenness">${conditionformat_Text.between}</option>
+                                                    <option value="equal">${conditionformat_Text.equal}</option>
+                                                </select>
+                                                <div class="inpbox range" id="conditionVal">
+                                                    <input class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_Text.selectCell}"></i>
+                                                </div>
+                                                <span class="txt" style="display: none;">${conditionformat_Text.in}</span>
+                                                <div class="inpbox range" id="conditionVal2" style="display: none;">
+                                                    <input class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_Text.selectDataRange}"></i>
+                                                </div>
+                                            </div>
+                                            <div class="type1Box textBox" style="display: none;">
+                                                <select id="type2">
+                                                    <option value="">${conditionformat_Text.contain}</option>
+                                                </select>
+                                                <div class="inpbox range" id="conditionVal">
+                                                    <input class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_Text.selectCell}"></i>
+                                                </div>
+                                            </div>
+                                            <div class="type1Box dateBox" style="display: none;">
+                                                <div style="width: 162px;" class="inpbox">
+                                                    <input style="width: 150px;" id="daterange-btn" readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectADate}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="title">设置格式：</div>${textCellColorHtml}`;
                 break;
             case 2: //仅对排名靠前或靠后的数值设置格式
-                ruleExplainHtml = '<div class="title">为以下排名内的值：</div>'+
-                                      '<div style="height: 30px;margin-bottom: 10px;">'+
-                                        '<select id="type1">'+
-                                            '<option value="top">前</option>'+
-                                            '<option value="last">后</option>'+
-                                        '</select>'+
-                                        '<div class="inpbox" id="conditionVal">'+
-                                            '<input class="formulaInputFocus" type="number" value="10"/>'+
-                                        '</div>'+
-                                        '<input id="isPercent" type="checkbox"/>'+
-                                        '<label for="isPercent" class="txt">所选范围的百分比</label>'+
-                                      '</div>'+
-                                      '<div class="title">设置格式：</div>' + textCellColorHtml;
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem3_title}：</div>
+                                    <div style="height: 30px;margin-bottom: 10px;">
+                                        <select id="type1">
+                                            <option value="top">${conditionformat_Text.top}</option>
+                                            <option value="last">${conditionformat_Text.last}</option>
+                                        </select>
+                                        <div class="inpbox" id="conditionVal">
+                                            <input class="formulaInputFocus" type="number" value="10"/>
+                                        </div>
+                                        <input id="isPercent" type="checkbox"/>
+                                        <label for="isPercent" class="txt">${conditionformat_Text.selectRange_percent}</label>
+                                    </div>
+                                    <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
             case 3: //仅对高于或低于平均值的数值设置格式
-                ruleExplainHtml = '<div class="title">为满足以下条件的值：</div>'+
-                                      '<div style="height: 30px;margin-bottom: 10px;">'+
-                                        '<select id="type1">'+
-                                            '<option value="AboveAverage">高于</option>'+
-                                            '<option value="SubAverage">低于</option>'+
-                                        '</select>'+
-                                        '<span class="txt">选定范围的平均值</span>'+
-                                      '</div>'+
-                                      '<div class="title">设置格式：</div>' + textCellColorHtml;
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem4_title}：</div>
+                                    <div style="height: 30px;margin-bottom: 10px;">
+                                        <select id="type1">
+                                            <option value="AboveAverage">${conditionformat_Text.above}</option>
+                                            <option value="SubAverage">${conditionformat_Text.below}</option>
+                                        </select>
+                                        <span class="txt">${conditionformat_Text.selectRange_average}</span>
+                                    </div>
+                                    <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
             case 4: //仅对唯一值或重复值设置格式
-                ruleExplainHtml = '<div class="title">全部：</div>'+
-                                      '<div style="height: 30px;margin-bottom: 10px;">'+
-                                        '<select id="type1">'+
-                                            '<option value="0">重复</option>'+
-                                            '<option value="1">唯一</option>'+
-                                        '</select>'+
-                                        '<span class="txt">选定范围中的数值</span>'+
-                                      '</div>'+
-                                      '<div class="title">设置格式：</div>' + textCellColorHtml;
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.all}：</div>
+                                    <div style="height: 30px;margin-bottom: 10px;">
+                                        <select id="type1">
+                                            <option value="0">${conditionformat_Text.duplicateValue}</option>
+                                            <option value="1">${conditionformat_Text.uniqueValue}</option>
+                                        </select>
+                                        <span class="txt">${conditionformat_Text.selectRange_value}</span>
+                                    </div>
+                                    <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
         }
 
         return ruleExplainHtml;
     },
     daterangeInit: function(id){
+        const conditionformat_Text = locale().conditionformat; 
+
         //日期选择插件
         $('.ranges_1 ul').remove();
         $('#' + id).find("#daterange-btn").daterangepicker({
             ranges: 
                 {
-                    // '全部': [moment(), moment().subtract(-1, 'days')],
-                    '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    '今天': [moment(), moment()],
-                    // '明天': [moment().subtract(-1, 'days'), moment().subtract(-1, 'days')],
-                    '上周': [moment(moment().subtract(1, 'week')).subtract(new Date().getDay() - 1, 'days'), moment().subtract(new Date().getDay(), 'days')],
-                    '本周': [moment().subtract(new Date().getDay() - 1, 'days'), moment().add(7 - new Date().getDay(), 'days')],
-                    '上月': [moment(moment().format('YYYY-MM')).subtract(1, 'month'), moment(moment().format('YYYY-MM')).subtract(1, 'day')],
-                    '本月': [moment().format('YYYY-MM'), moment(moment(moment().format('YYYY-MM')).add(1, 'month')).subtract(1, 'day')],
-                    '去年': [moment(moment(moment().format('YYYY'))).subtract(1, 'years').format('YYYY'), moment(moment().format('YYYY')).subtract(1, 'day')],
-                    '本年': [moment().format('YYYY'), moment(moment(moment().add(1, 'years')).format('YYYY')).subtract(1, 'day')],
-                    '最近7天': [moment().subtract(6, 'days'), moment()],
-                    '最近30天': [moment().subtract(29, 'days'), moment()]
-                    // '未来七天': [moment(),moment().subtract(-6, 'days')],
-                    // '未来30天': [moment(),moment().subtract(-29, 'days')],
-                    // '未来60天': [moment(),moment().subtract(-59, 'days'), ]
+                    // [conditionformat_Text.all]: [moment(), moment().subtract(-1, 'days')],
+                    [conditionformat_Text.yesterday]: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    [conditionformat_Text.today]: [moment(), moment()],
+                    // [conditionformat_Text.tomorrow]: [moment().subtract(-1, 'days'), moment().subtract(-1, 'days')],
+                    [conditionformat_Text.lastWeek]: [moment(moment().subtract(1, 'week')).subtract(new Date().getDay() - 1, 'days'), moment().subtract(new Date().getDay(), 'days')],
+                    [conditionformat_Text.thisWeek]: [moment().subtract(new Date().getDay() - 1, 'days'), moment().add(7 - new Date().getDay(), 'days')],
+                    [conditionformat_Text.lastMonth]: [moment(moment().format('YYYY-MM')).subtract(1, 'month'), moment(moment().format('YYYY-MM')).subtract(1, 'day')],
+                    [conditionformat_Text.thisMonth]: [moment().format('YYYY-MM'), moment(moment(moment().format('YYYY-MM')).add(1, 'month')).subtract(1, 'day')],
+                    [conditionformat_Text.lastYear]: [moment(moment(moment().format('YYYY'))).subtract(1, 'years').format('YYYY'), moment(moment().format('YYYY')).subtract(1, 'day')],
+                    [conditionformat_Text.thisYear]: [moment().format('YYYY'), moment(moment(moment().add(1, 'years')).format('YYYY')).subtract(1, 'day')],
+                    [conditionformat_Text.last7days]: [moment().subtract(6, 'days'), moment()],
+                    [conditionformat_Text.last30days]: [moment().subtract(29, 'days'), moment()]
+                    // [conditionformat_Text.next7days]: [moment(),moment().subtract(-6, 'days')],
+                    // [conditionformat_Text.next30days]: [moment(),moment().subtract(-29, 'days')],
+                    // [conditionformat_Text.next60days]: [moment(),moment().subtract(-59, 'days'), ]
                 },
                 startDate: moment(),
                 endDate: moment()
             },
             function(start, end,label) {
                 //label:通过它来知道用户选择的是什么，传给后台进行相应的展示
-                if(label == '全部'){
+                let format1 = [
+                    conditionformat_Text.yesterday,
+                    conditionformat_Text.today
+                ];
+
+                let format2 = [
+                    conditionformat_Text.lastWeek,
+                    conditionformat_Text.thisWeek,
+                    conditionformat_Text.lastMonth,
+                    conditionformat_Text.thisMonth,
+                    conditionformat_Text.lastYear,
+                    conditionformat_Text.thisYear,
+                    conditionformat_Text.last7days,
+                    conditionformat_Text.last30days
+                ]
+
+                if(label == conditionformat_Text.all){
                     $('#daterange-btn').val('');
                 }
-                else if(label == '昨天' || label == '今天'){
+                else if(format1.indexOf(label) > -1){
                     $('#daterange-btn').val(start.format('YYYY/MM/DD'));
                 }
-                else if(label == '上周' || label == '本周' || label == '上月' || label == '本月' || label == '去年' || label == '本年' || label == '最近7天' || label == '最近30天'){
-                    $('#daterange-btn').val(start.format('YYYY/MM/DD')+'-'+end.format('YYYY/MM/DD'));
+                else if(format2.indexOf(label) > -1){
+                    $('#daterange-btn').val(start.format('YYYY/MM/DD') + '-' + end.format('YYYY/MM/DD'));
                 }
             }
         ); 
