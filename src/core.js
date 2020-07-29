@@ -7,6 +7,13 @@ import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
+import {initialFilterHandler} from './controllers/filter';
+import {initialMatrixOperation} from './controllers/matrixOperation';
+import {initialSheetBar} from './controllers/sheetBar';
+import {formulaBarInitial} from './controllers/formulaBar';
+import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
+import {keyboardInitial} from './controllers/keyboard';
+import {orderByInitial} from './controllers/orderBy';
 import {initPlugins} from './controllers/expendPlugins';
 import { 
     getluckysheetfile, 
@@ -101,7 +108,7 @@ luckysheet.create = function (setting) {
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         luckysheetsizeauto();
-        luckysheetHandler();
+        initialWorkBook();
     }
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
@@ -110,7 +117,7 @@ luckysheet.create = function (setting) {
             
             sheetmanage.initialjfFile(menu, title);
             luckysheetsizeauto();
-            luckysheetHandler();
+            initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
             if(server.allowUpdate){
@@ -118,6 +125,17 @@ luckysheet.create = function (setting) {
             }
         });
     }
+}
+
+function initialWorkBook(){
+    luckysheetHandler();//Overall dom initialization
+    initialFilterHandler();//Filter initialization
+    initialMatrixOperation();//Right click matrix initialization
+    initialSheetBar();//bottom sheet bar initialization
+    formulaBarInitial();//top formula bar initialization
+    rowColumnOperationInitial();//row and coloumn operate initialization
+    keyboardInitial();//Keyboard operate initialization
+    orderByInitial();//menu bar orderby function initialization
 }
 
 //获取所有表格数据
