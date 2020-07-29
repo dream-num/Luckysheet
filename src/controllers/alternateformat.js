@@ -10,6 +10,7 @@ import luckysheetsizeauto from './resize';
 import server from './server';
 import { selectHightlightShow } from './select';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //交替颜色
 const alternateformat = {
@@ -411,7 +412,8 @@ const alternateformat = {
         //选择颜色 确定 添加自定义模板
         $(document).off("click.AFselectColorConfirm").on("click.AFselectColorConfirm", "#luckysheet-alternateformat-colorSelect-dialog-confirm", function(){
             let $parent = $(this).parents("#luckysheet-alternateformat-colorSelect-dialog");
-
+            const _locale = locale()
+            const alternatingColors =_locale.alternatingColors;
             $("#luckysheet-modal-dialog-mask").hide();
             $parent.hide();
 
@@ -419,10 +421,10 @@ const alternateformat = {
             let currenColor = $parent.find(".currenColor span").attr("title");
 
             let colorType;
-            if($parent.find(".luckysheet-modal-dialog-title-text").text() == "选择文本颜色"){
+            if($parent.find(".luckysheet-modal-dialog-title-text").text() == alternatingColors.selectionTextColor){
                 colorType = "fc";
             }
-            else if($parent.find(".luckysheet-modal-dialog-title-text").text() == "选择单元格颜色"){
+            else if($parent.find(".luckysheet-modal-dialog-title-text").text() == alternatingColors.selectionCellColor){
                 colorType = "bc";
             }
 
@@ -712,20 +714,25 @@ const alternateformat = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-alternateformat-colorSelect-dialog").remove();
 
+        const _locale = locale()
+        const alternatingColors =_locale.alternatingColors;
+        const locale_button = _locale.button;
+        const locale_toolbar = _locale.toolbar;
+
         let title;
         if(colorType == "fc"){
-            title = "选择文本颜色";
+            title = alternatingColors.selectionTextColor;
         }
         else if(colorType == "bc"){
-            title = "选择单元格颜色";
+            title = alternatingColors.selectionCellColor;
         }
 
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-alternateformat-colorSelect-dialog", 
             "addclass": "luckysheet-alternateformat-colorSelect-dialog", 
             "title": title, 
-            "content": "<div class='currenColor' data-source='"+ source +"'>当前颜色：<span title='"+ currenColor +"' style='background-color:"+ currenColor +"'></span></div><div class='colorshowbox'></div>", 
-            "botton": '<button id="luckysheet-alternateformat-colorSelect-dialog-confirm" class="btn btn-primary">确定</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "content": "<div class='currenColor' data-source='"+ source +"'>"+ alternatingColors.currentColor +"：<span title='"+ currenColor +"' style='background-color:"+ currenColor +"'></span></div><div class='colorshowbox'></div>", 
+            "botton": '<button id="luckysheet-alternateformat-colorSelect-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-alternateformat-colorSelect-dialog")
@@ -756,13 +763,13 @@ const alternateformat = {
             maxPaletteSize: 8,
             maxSelectionSize: 8,
             color: currenColor,
-            cancelText: "取消",
-            chooseText: "确定颜色",
-            togglePaletteMoreText: "自定义",
-            togglePaletteLessText: "收起",
+            cancelText: locale_button.cancel,
+            chooseText: locale_toolbar.confirmColor,
+            togglePaletteMoreText: locale_toolbar.customColor,
+            togglePaletteLessText: locale_toolbar.collapse,
             togglePaletteOnly: true,
-            clearText: "清除颜色选择",
-            noColorSelectedText: "没有颜色被选择",
+            clearText: locale_toolbar.clearText,
+            noColorSelectedText: locale_toolbar.noColorSelectedText,
             localStorageKey: "spectrum.textcolor" + server.gridKey,
             palette: [
                 ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
@@ -790,12 +797,16 @@ const alternateformat = {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-alternateformat-rangeDialog").remove();
 
+        const _locale = locale()
+        const alternatingColors =_locale.alternatingColors;
+        const locale_button = _locale.button;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-alternateformat-rangeDialog", 
             "addclass": "luckysheet-alternateformat-rangeDialog", 
-            "title": "选择应用范围", 
-            "content": '<input readonly="readonly" placeholder="请选择交替颜色应用范围" value="'+value+'"/>', 
-            "botton": '<button id="luckysheet-alternateformat-rangeDialog-confirm" class="btn btn-primary">确定</button><button id="luckysheet-alternateformat-rangeDialog-close" class="btn btn-default">取消</button>', 
+            "title": alternatingColors.selectRange, 
+            "content": '<input readonly="readonly" placeholder="'+alternatingColors.tipSelectRange+'" value="'+value+'"/>', 
+            "botton": '<button id="luckysheet-alternateformat-rangeDialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-alternateformat-rangeDialog-close" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-alternateformat-rangeDialog")
@@ -971,7 +982,8 @@ const alternateformat = {
     },
     update: function(){
         let _this = this;
-
+        const _locale = locale()
+        const alternatingColors =_locale.alternatingColors;
         //获取标识
         let dataIndex = $("#luckysheet-alternateformat-remove").data("index");
         
@@ -980,10 +992,10 @@ const alternateformat = {
         
         if(!formula.iscelldata(rangeValue)){
             if(isEditMode()){
-                alert("您选择的应用范围不是选区！");
+                alert(alternatingColors.errorNoRange);
             }
             else{
-                tooltip.info("您选择的应用范围不是选区！", "");
+                tooltip.info(alternatingColors.errorNoRange, "");
             }
 
             return;
@@ -994,10 +1006,10 @@ const alternateformat = {
 
         if(isExists){
             if(isEditMode()){
-                alert("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！");
+                alert(alternatingColors.errorExistColors);
             }
             else{
-                tooltip.info("您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！", ""); 
+                tooltip.info(alternatingColors.errorExistColors, ""); 
             }
 
             return;

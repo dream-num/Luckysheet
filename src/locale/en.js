@@ -68,6 +68,11 @@ export default {
         selectionCellColor:"Click to select cell color",
         removeColor:"Remove alternating colors",
         colorShow:"color",
+        currentColor:"Current",
+
+        tipSelectRange:"Please select the range of alternating colors",
+        errorNoRange:"No range is selected",
+        errorExistColors:"Alternating colors already exist and cannot be edited",
     },
     button: {
         confirm: 'OK',
@@ -285,7 +290,11 @@ export default {
         { "text": 'Scientific', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
         { "text": 'Accounting', "value": "¥(0.00)", "example": "¥(1200.09)" },
+
+
         { "text": 'Currency', "value": "¥0.00", "example": "¥1200.09" },
+
+
         { "text": "", "value": "split", "example": "" },
         { "text": 'Date', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": 'Time', "value": "hh:mm AM/PM", "example": "3:00 PM" },
@@ -411,6 +420,8 @@ export default {
 
         "columnOperation":"Column",
         "secondaryTitle":"then by",
+
+        "sortTitle":"Sort range",
 
         "sortRangeTitle":"Sort range from",
         "sortRangeTitleTo":"to",
@@ -755,7 +766,7 @@ export default {
         pleaseSelectIcon: 'Please click to select a group of icons:',
         cellValue: 'Cell value',
         specificText: 'Specific text',
-        occurrence: 'Date of occurrence',
+        occurrence: 'Date',
         greaterThan: 'Greater than',
         lessThan: 'Less than',
         between: 'Between',
@@ -778,7 +789,7 @@ export default {
         below: 'Below',
         belowAverage: 'Below average',
         all: 'All',
-        yesterday: 'Yesterday',
+        yesterday: 'YTD',
         today: 'Today',
         tomorrow: 'Tomorrow',
         lastWeek: 'Last week',
@@ -796,8 +807,8 @@ export default {
         editRuleDescription: 'Edit rule description',
         newFormatRule: 'New format rule',
         editFormatRule: 'Edit format rule',
-        formatStyle: 'Format style',
-        fillType: 'Fill type',
+        formatStyle: 'Style',
+        fillType: 'Fill',
         color: 'Color',
         twocolor: 'Two-color',
         tricolor: 'Tricolor',

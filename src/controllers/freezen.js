@@ -41,7 +41,10 @@ const luckysheetFreezen = {
     cancelFreezenVertical: function (sheetIndex) {
         let _this = this;
 
-        $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> 冻结首列');
+        const _locale = locale();
+        const locale_freezen = _locale.freezen;
+
+        $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> '+locale_freezen.freezenColumn);
         _this.freezenverticaldata = null;
         let isvertical = $("#luckysheet-freezebar-vertical").is(":visible");
         $("#luckysheet-freezebar-vertical").hide();

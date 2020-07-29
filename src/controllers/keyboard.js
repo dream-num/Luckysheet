@@ -509,17 +509,17 @@ export function keyboardInitial(){
                     //多重选区 行不一样且列不一样时 提示
                     if(Store.luckysheet_select_save.length > 1){ 
                         let isSameRow = true, 
-                            str_r = luckysheet_select_save[0].row[0], 
-                            end_r = luckysheet_select_save[0].row[1];
+                            str_r = Store.luckysheet_select_save[0].row[0], 
+                            end_r = Store.luckysheet_select_save[0].row[1];
                         let isSameCol = true, 
-                            str_c = luckysheet_select_save[0].column[0], 
-                            end_c = luckysheet_select_save[0].column[1];
+                            str_c = Store.luckysheet_select_save[0].column[0], 
+                            end_c = Store.luckysheet_select_save[0].column[1];
                         
-                        for(let s = 1; s < luckysheet_select_save.length; s++){
-                            if(luckysheet_select_save[s].row[0] != str_r || luckysheet_select_save[s].row[1] != end_r){
+                        for(let s = 1; s < Store.luckysheet_select_save.length; s++){
+                            if(Store.luckysheet_select_save[s].row[0] != str_r || Store.luckysheet_select_save[s].row[1] != end_r){
                                 isSameRow = false;
                             }
-                            if(luckysheet_select_save[s].column[0] != str_c || luckysheet_select_save[s].column[1] != end_c){
+                            if(Store.luckysheet_select_save[s].column[0] != str_c || Store.luckysheet_select_save[s].column[1] != end_c){
                                 isSameCol = false;
                             }
                         }

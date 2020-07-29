@@ -2145,8 +2145,8 @@ const menuButton = {
                     { "text": conditionformat_text.top10_percent, "value": "top10%", "example": conditionformat_text.top10_percent },
                     { "text": conditionformat_text.last10, "value": "last10", "example": conditionformat_text.last10 },
                     { "text": conditionformat_text.last10_percent, "value": "last10%", "example": conditionformat_text.last10_percent },
-                    { "text": conditionformat_text.aboveAverage, "value": "AboveAverage", "example": conditionformat_text.aboveAverage },
-                    { "text": conditionformat_text.belowAverage, "value": "SubAverage", "example": conditionformat_text.belowAverage }
+                    { "text": conditionformat_text.aboveAverage, "value": "AboveAverage", "example": conditionformat_text.above },
+                    { "text": conditionformat_text.belowAverage, "value": "SubAverage", "example": conditionformat_text.below }
                 ];
                 let subitemset2 = _this.createButtonMenu(subitemdata2);
                 let submenu2 = replaceHtml(_this.menu, {"id": "projectSelectRule", "item": subitemset2, "subclass": "luckysheet-menuButton-sub"});
@@ -2240,8 +2240,8 @@ const menuButton = {
 
                 $("body").append(menu + submenu + submenu2 + submenu3 + submenu4 + submenu6);
                 $menuButton = $("#" + menuButtonId).width(190);
-                $("#luckysheet-icon-highlightCellRule-menuButton").width(130);
-                $("#luckysheet-icon-projectSelectRule-menuButton").width(170);
+                $("#luckysheet-icon-highlightCellRule-menuButton").width(160);
+                $("#luckysheet-icon-projectSelectRule-menuButton").width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();

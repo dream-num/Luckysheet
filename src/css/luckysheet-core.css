@@ -1682,7 +1682,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     /* background: #000; */
     bottom: 68px;
     left: 10px;
-    z-index: 100;
+    z-index: 1000;
 }
 
 #luckysheet-bottom-add-row{
@@ -4467,7 +4467,7 @@ fieldset[disabled] a.btn {
 
 .luckysheet-freezebar-vertical-drop-bar {
     width: 4px;
-    background-color: #ababab;
+    background-color: #f3f3f2;
     border-width: 2px 1px 2px 2px;
     margin-top: 19px;
     top: 0px;
@@ -4476,7 +4476,7 @@ fieldset[disabled] a.btn {
 
 .luckysheet-freezebar-vertical-drop-title {
     width: 4px;
-    background: #616161;
+    background: #bcbdbc;
     /*            opacity: 0.80;
             filter: alpha(opacity=80);*/
     height: 19px;
@@ -4534,7 +4534,7 @@ fieldset[disabled] a.btn {
 .luckysheet-freezebar-horizontal-drop-bar {
     height: 4px;
     overflow: hidden;
-    background-color: #ababab;
+    background-color: #f3f3f2;
     border-width: 2px 2px 1px 2px;
     margin-left: 45px;
     left: 0px;
@@ -4544,7 +4544,7 @@ fieldset[disabled] a.btn {
 
 .luckysheet-freezebar-horizontal-drop-title {
     height: 4px;
-    background: #616161;
+    background: #bcbdbc;
     /*            opacity: 0.80;
             filter: alpha(opacity=80);*/
     width: 45px;

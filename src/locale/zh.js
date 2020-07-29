@@ -19,6 +19,7 @@ export default {
         customColor: '自定义',
         alternatingColors: '交替颜色',
         confirmColor: '确定颜色',
+        cancelColor: '取消',
         collapse: '收起',
         fillColor: '单元格颜色',
         border: '边框',
@@ -52,7 +53,6 @@ export default {
         toolLess:"少于",
         toolClose:"收起",
         toolMoreTip:"更多功能",
-
     },
     alternatingColors:{
         applyRange: '应用范围',
@@ -64,10 +64,15 @@ export default {
         textTitle:"格式样式",
         custom:"自定义",
         close:"关闭",
-        selectionTextColor:"点击选择文本颜色",
-        selectionCellColor:"点击选择单元格颜色",
+        selectionTextColor:"选择文本颜色",
+        selectionCellColor:"选择单元格颜色",
         removeColor:"移除交替颜色",
         colorShow:"颜色",
+        currentColor:"当前颜色",
+
+        tipSelectRange:"请选择交替颜色应用范围",
+        errorNoRange:"您选择的应用范围不是选区！",
+        errorExistColors:"您选择的应用范围已存在交替颜色且不属于你要编辑的应用范围！",
     },
     button: {
         confirm: '确定',
@@ -96,8 +101,8 @@ export default {
         detailSave: '已恢复本地缓存',
         row: '行',
         column: '列',
-
         loading:"渲染中",
+
         copy:"副本",
         return:"返回",
         rename:"重命名",
@@ -466,8 +471,6 @@ export default {
         filterConform:"确 认",
         filterCancel:"取 消",
         clearFilter:"清除筛选",
-
-
 
         conditionNone:"无",
         conditionCellIsNull:"单元格为空",
