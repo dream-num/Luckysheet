@@ -1013,6 +1013,6 @@ export default {
         workDay:"以工作日填充",
         month:"以月填充",
         year:"以年填充",
-        chineseNumber:"以中文小写数字填充",
+        chineseNumber:"以中文小写数字填充"
     }
 };
