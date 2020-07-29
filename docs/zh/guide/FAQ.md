@@ -22,18 +22,3 @@ luckysheet.buildGridData(luckysheetfile)
 **<span style="font-size:20px;">A</span>** : 参考[单元格格式列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/format.html#%E5%8D%95%E5%85%83%E6%A0%BC%E6%A0%BC%E5%BC%8F),例举了可用的单元格格式
 
 ------------
-## luckysheetfile中的data和celldata有什么区别？
-
-**<span style="font-size:20px;">A</span>** : 
-
-------------
-## luckysheetfile中的data和celldata有什么区别？
-
-**<span style="font-size:20px;">A</span>** : 
-
-------------
-## luckysheetfile中的data和celldata有什么区别？
-
-**<span style="font-size:20px;">A</span>** : 
-
-------------

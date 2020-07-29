@@ -19,6 +19,12 @@ import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
 function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true) {
+    if(data == null){
+        data = Store.flowdata;
+    }
+    if(range == null){
+        range = Store.luckysheet_select_save;
+    }
     //单元格数据更新联动
     if (isRunExecFunction) {
         formula.execFunctionExist = [];
@@ -781,7 +787,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth){
     }, 1);
 }
 
-//按照scrollHeight, scrollWidth刷新canvas展示数据
+//Refresh the canvas display data according to scrollHeight and scrollWidth
 function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
     formula.groupValuesRefresh();
     
