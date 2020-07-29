@@ -1642,7 +1642,7 @@ const conditionformat = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-administerRule-dialog", 
             "addclass": "luckysheet-administerRule-dialog", 
-            "title": conditionformat_Text.manageRules, 
+            "title": conditionformat_Text.conditionformatManageRules, 
             "content": content, 
             "botton":  `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`, 

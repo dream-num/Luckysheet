@@ -712,7 +712,7 @@ export default {
         showRules: '显示其格式规则',
         highlightCellRules: '突出显示单元格规则',
         itemSelectionRules: '项目选取规则',
-        manageRules: '条件格式规则管理器',
+        conditionformatManageRules: '条件格式规则管理器',
         format: '格式',
         setFormat: '设置格式',
         setAs: '设置为',

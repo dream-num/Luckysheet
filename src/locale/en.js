@@ -688,7 +688,7 @@ export default {
         showRules: 'Show its formatting rules',
         highlightCellRules: 'Highlight cell rules',
         itemSelectionRules: 'Item selection rules',
-        manageRules: 'Conditional Formatting Rule Manager',
+        conditionformatManageRules: 'Conditional Formatting Rule Manager',
         format: 'Format',
         setFormat: 'Set format',
         setAs: 'Set as',
