@@ -841,7 +841,7 @@ const sheetmanage = {
                 pivotTable.changePivotTable(index);
             }
         }
-        else {
+        else if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")) {
             Store.luckysheetcurrentisPivotTable = false;
             $("#luckysheet-modal-dialog-slider-pivot").hide();
             luckysheetsizeauto();
