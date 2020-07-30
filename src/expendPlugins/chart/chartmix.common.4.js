@@ -188,12 +188,12 @@ var chartJson = __webpack_require__("b4cc");
     return {
       cursor: {},
       //鼠标提示设置
-      fontSizeOption: importUtil["deepCopy"](chartJson["f" /* fontSizeOption */]),
-      lineStyleOption: importUtil["deepCopy"](chartJson["j" /* lineStyleOption */]),
-      lineWeightOption: importUtil["deepCopy"](chartJson["k" /* lineWeightOption */]),
-      posOption: importUtil["deepCopy"](chartJson["l" /* posOption */]),
-      ratioOption: importUtil["deepCopy"](chartJson["n" /* ratioOption */]),
-      digitOption: importUtil["deepCopy"](chartJson["c" /* digitOption */]),
+      fontSizeOption: importUtil["deepCopy"](chartJson["g" /* fontSizeOption */]),
+      lineStyleOption: importUtil["deepCopy"](chartJson["k" /* lineStyleOption */]),
+      lineWeightOption: importUtil["deepCopy"](chartJson["l" /* lineWeightOption */]),
+      posOption: importUtil["deepCopy"](chartJson["m" /* posOption */]),
+      ratioOption: importUtil["deepCopy"](chartJson["o" /* ratioOption */]),
+      digitOption: importUtil["deepCopy"](chartJson["d" /* digitOption */]),
       triggerTypeArr: [{
         value: 'item',
         label: '数据项图形触发'

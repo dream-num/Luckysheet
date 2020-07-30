@@ -75,7 +75,7 @@ var chartJson = __webpack_require__("b4cc");
     return {
       baseLabelOptionData: {},
       //整个label设置
-      fontSizeList: importUtil["deepCopy"](chartJson["e" /* fontSizeList */]),
+      fontSizeList: importUtil["deepCopy"](chartJson["f" /* fontSizeList */]),
       //位置选择数组
       fontStyleObj: {} //字体样式:数据=>DOM转换
 
@@ -93,10 +93,10 @@ var chartJson = __webpack_require__("b4cc");
 
         if (this.router.includes('title')) {
           //在主标题/副标题组件内
-          this.fontStyleObj = importUtil["deepCopy"](chartJson["h" /* fontStyleIBV */]);
+          this.fontStyleObj = importUtil["deepCopy"](chartJson["i" /* fontStyleIBV */]);
         } else {
           //鼠标提示组件内
-          this.fontStyleObj = importUtil["deepCopy"](chartJson["g" /* fontStyleIB */]);
+          this.fontStyleObj = importUtil["deepCopy"](chartJson["h" /* fontStyleIB */]);
         }
       },
       immediate: true,

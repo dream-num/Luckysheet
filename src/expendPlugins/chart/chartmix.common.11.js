@@ -7,12 +7,12 @@
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=c152a4dc&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=3254263d&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":16}},[_c('el-switch',{attrs:{"active-color":"#13ce66","inactive-color":"#d8d8d8"},on:{"change":_vm.changeSwitch},model:{value:(_vm.switchData),callback:function ($$v) {_vm.switchData=$$v},expression:"switchData"}})],1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=c152a4dc&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=3254263d&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=script&lang=js&
 //
@@ -40,6 +40,11 @@ var staticRenderFns = []
     return {
       switchData: false
     };
+  },
+  watch: {
+    switchValue: function switchValue(val) {
+      this.switchData = val;
+    }
   },
   mounted: function mounted() {
     this.switchData = this.switchValue ? this.switchValue : false;

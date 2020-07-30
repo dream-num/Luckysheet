@@ -79,12 +79,12 @@ var importComp = function importComp(t) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=3cf11da3&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=48647076&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"1"}},[_c('template',{slot:"title"},[_vm._v(" 标题设置 "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.title.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.title, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.title, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示主标题")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("主标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.positionData,"selectValue":_vm.title.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.title.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.title.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主标题位置")])]),(_vm.title.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetX,"unit":'%',"content":'滑动修改左边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetY,"unit":'%',"content":'滑动修改上边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)}}})],1):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=3cf11da3&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=48647076&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
@@ -150,7 +150,8 @@ var chartJson = __webpack_require__("b4cc");
     return {
       title: '',
       //整个title设置,
-      positionData: chartJson["m" /* positionOption */]
+      positionData: chartJson["n" /* positionOption */],
+      isChange: false
     };
   },
   watch: {
@@ -160,6 +161,10 @@ var chartJson = __webpack_require__("b4cc");
           return;
         }
 
+        if (oldVal) {
+          this.isChange = true;
+        }
+
         this.title = importUtil["deepCopy"](newVal);
       },
       deep: true,
@@ -167,7 +172,12 @@ var chartJson = __webpack_require__("b4cc");
     },
     title: {
       handler: function handler(newVal, oldVal) {
-        // 改变值就重新渲染
+        if (this.isChange) {
+          this.isChange = !this.isChange;
+          return;
+        } // 改变值就重新渲染
+
+
         if (oldVal) {
           this.changeTitle();
         }

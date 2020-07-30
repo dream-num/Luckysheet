@@ -165,9 +165,9 @@ var importUtil = __webpack_require__("1540");
     return {
       legend: {},
       //图例设置
-      positionOption: importUtil["deepCopy"](chartJson["m" /* positionOption */]),
-      sizeOption: importUtil["deepCopy"](chartJson["o" /* sizeOption */]),
-      distanceOption: importUtil["deepCopy"](chartJson["d" /* distanceOption */]),
+      positionOption: importUtil["deepCopy"](chartJson["n" /* positionOption */]),
+      sizeOption: importUtil["deepCopy"](chartJson["p" /* sizeOption */]),
+      distanceOption: importUtil["deepCopy"](chartJson["e" /* distanceOption */]),
       dirOptions: [{
         value: "horizontal",
         label: "水平"

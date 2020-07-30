@@ -7,12 +7,12 @@
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=78fe7fa8&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=5d34b6a1&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-row',[_c('el-checkbox-group',{attrs:{"size":"mini"},on:{"change":_vm.changeStyle},model:{value:(_vm.boxValue),callback:function ($$v) {_vm.boxValue=$$v},expression:"boxValue"}},_vm._l((_vm.checkboxOption),function(value,name){return _c('el-tooltip',{key:name,attrs:{"open-delay":500,"content":value.des,"effect":"dark","placement":"bottom"}},[_c('el-checkbox-button',{attrs:{"label":name}},[_vm._v(" "+_vm._s(value.text)+" ")])],1)}),1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=78fe7fa8&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=5d34b6a1&
 
 // EXTERNAL MODULE: ./src/utils/util.js + 4 modules
 var util = __webpack_require__("ca00");
@@ -41,6 +41,11 @@ var util = __webpack_require__("ca00");
     return {
       boxValue: ''
     };
+  },
+  watch: {
+    boxData: function boxData(val) {
+      this.boxValue = val;
+    }
   },
   mounted: function mounted() {
     this.boxValue = this.boxData ? Object(util["b" /* deepCopy */])(this.boxData) : [];

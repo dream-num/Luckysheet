@@ -139,7 +139,7 @@ var chartJson = __webpack_require__("b4cc");
     return {
       subTitle: {},
       //整个title设置
-      distanceOption: importUtil["deepCopy"](chartJson["d" /* distanceOption */]) //位置选择数组
+      distanceOption: importUtil["deepCopy"](chartJson["e" /* distanceOption */]) //位置选择数组
 
     };
   },

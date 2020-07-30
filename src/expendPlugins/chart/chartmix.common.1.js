@@ -75,6 +75,11 @@
       baseSliderData: 12
     };
   },
+  watch: {
+    baseSliderOption: function baseSliderOption(val) {
+      this.baseSliderData = val;
+    }
+  },
   mounted: function mounted() {
     this.baseSliderData = this.baseSliderOption;
   },
@@ -115,12 +120,12 @@
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=609b7952&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=51d27ae6&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(!_vm.hideCol)?_c('el-row',{staticClass:"chart-base-slider",staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":22}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.content,"placement":"top"}},[_c('el-slider',{staticStyle:{"padding-left":"12px"},attrs:{"show-input-controls":false,"min":_vm.min,"max":_vm.max,"input-size":"mini","show-input":"","format-tooltip":_vm.format?_vm.formatter:null},on:{"change":_vm.handlerChange},model:{value:(_vm.baseSliderData),callback:function ($$v) {_vm.baseSliderData=$$v},expression:"baseSliderData"}})],1)],1),_c('el-col',{staticClass:"input_content",attrs:{"span":1}},[_vm._v(_vm._s(_vm.unit))])],1):_c('el-row',{staticClass:"chart-base-slider",staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":17}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.content,"placement":"top"}},[_c('el-slider',{staticStyle:{"padding-left":"12px"},attrs:{"show-input-controls":false,"min":_vm.min,"max":_vm.max,"input-size":"mini","show-input":"","format-tooltip":_vm.format?_vm.formatter:null},on:{"change":_vm.handlerChange},model:{value:(_vm.baseSliderData),callback:function ($$v) {_vm.baseSliderData=$$v},expression:"baseSliderData"}})],1)],1),_c('el-col',{staticClass:"input_content",attrs:{"span":1}},[_vm._v(_vm._s(_vm.unit))])],1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=609b7952&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=51d27ae6&
 
 // EXTERNAL MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=script&lang=js&
 var ChartBaseSlidervue_type_script_lang_js_ = __webpack_require__("1847");

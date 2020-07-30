@@ -7,12 +7,12 @@
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=6331a3cc&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3da76939-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=0004f709&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.hideCol)?_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("select")],2),_c('el-col',{attrs:{"span":16}},[_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)],1)],1):_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=6331a3cc&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=0004f709&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -49,6 +49,11 @@ var es_number_constructor = __webpack_require__("a9e3");
     return {
       select: ''
     };
+  },
+  watch: {
+    selectValue: function selectValue(val) {
+      this.select = val;
+    }
   },
   mounted: function mounted() {
     this.select = this.selectValue;

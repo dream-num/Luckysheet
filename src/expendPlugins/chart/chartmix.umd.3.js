@@ -356,11 +356,11 @@ var chartJson = __webpack_require__("b4cc");
 
         this.axis = importUtil["deepCopy"](this.axisOption);
         this.series = this.axis[newVal.axisType];
-        this.fontSizeOption = importUtil["deepCopy"](chartJson["f" /* fontSizeOption */]);
-        this.lineStyleOption = importUtil["deepCopy"](chartJson["j" /* lineStyleOption */]);
-        this.intervalOption = importUtil["deepCopy"](chartJson["i" /* intervalOption */]);
-        this.ratioOption = importUtil["deepCopy"](chartJson["n" /* ratioOption */]);
-        this.digitOption = importUtil["deepCopy"](chartJson["c" /* digitOption */]);
+        this.fontSizeOption = importUtil["deepCopy"](chartJson["g" /* fontSizeOption */]);
+        this.lineStyleOption = importUtil["deepCopy"](chartJson["k" /* lineStyleOption */]);
+        this.intervalOption = importUtil["deepCopy"](chartJson["j" /* intervalOption */]);
+        this.ratioOption = importUtil["deepCopy"](chartJson["o" /* ratioOption */]);
+        this.digitOption = importUtil["deepCopy"](chartJson["d" /* digitOption */]);
       },
       immediate: true,
       deep: true
