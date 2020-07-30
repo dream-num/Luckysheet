@@ -13,7 +13,7 @@ import cleargridelement from '../global/cleargridelement';
 import Store from '../store';
 
 export default function luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, d, cover, isnotfocus) {
-    if(isEditMode()){//此模式下禁用单元格编辑
+    if(isEditMode() || Store.allowEdit===false){//此模式下禁用单元格编辑
         return;
     }
 

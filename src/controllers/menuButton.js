@@ -2781,6 +2781,10 @@ const menuButton = {
     updateFormat: function(d, attr, foucsStatus){
         let _this = this;
 
+        if(Store.allowEdit===false){
+            return;
+        }
+
         let canvasElement = document.createElement('canvas');
         let canvas = canvasElement.getContext("2d");
 

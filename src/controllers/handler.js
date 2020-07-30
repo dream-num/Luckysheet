@@ -2667,7 +2667,7 @@ export default function luckysheetHandler() {
 
     //选区拖动替换
     $("#luckysheet-cell-main div.luckysheet-cs-draghandle").mousedown(function (event) {
-        if(isEditMode()){//此模式下禁用选区拖动
+        if(isEditMode() || Store.allowEdit===false){//此模式下禁用选区拖动
             return;
         }
 
@@ -2709,7 +2709,7 @@ export default function luckysheetHandler() {
 
     //选区下拉
     $("#luckysheet-cell-main div.luckysheet-cs-fillhandle").mousedown(function (event) {
-        if(isEditMode()){//此模式下禁用选区下拉
+        if(isEditMode() || Store.allowEdit===false){//此模式下禁用选区下拉
             return;
         }
 

@@ -441,6 +441,10 @@ const luckysheetDropCell = {
     update: function(){
         let _this = this;
 
+        if(Store.allowEdit===false){
+            return;
+        }
+
         let d = editor.deepCopyFlowData(Store.flowdata);
         let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
         

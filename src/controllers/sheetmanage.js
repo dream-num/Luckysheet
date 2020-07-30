@@ -169,7 +169,7 @@ const sheetmanage = {
         return Store.currentSheetIndex;
     },
     addNewSheet: function(e, isPivotTable) {
-        if(isEditMode()){
+        if(isEditMode() || Store.allowEdit===false){
             // alert("非编辑模式下不允许该操作！");
             return;
         }
@@ -352,7 +352,7 @@ const sheetmanage = {
         }, 1)
     },
     copySheet: function(copyindex, e) {
-        if(isEditMode()){
+        if(isEditMode() || Store.allowEdit===false){
             // alert("非编辑模式下不允许该操作！");
             return;
         }
@@ -459,6 +459,10 @@ const sheetmanage = {
     },
     deleteSheet: function(index) {
         let _this = this;
+
+        if(Store.allowEdit===false){
+            return;
+        }
 
         let arrIndex = _this.getSheetIndex(index);
         _this.setSheetHide(index);

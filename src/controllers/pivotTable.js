@@ -617,6 +617,9 @@ const pivotTable = {
         }
     },
     createPivotTable: function (e) {
+        if(isEditMode() || Store.allowEdit===false){
+            return;
+        }
         let _this = this;
 
         let datasheetindex = Store.currentSheetIndex;
