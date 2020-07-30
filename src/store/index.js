@@ -86,7 +86,21 @@ const Store = {
     highlightChart: '',
     zIndex: 15,
     chartparam: {
-        jfgridCurrentChartActive: false
+        luckysheetCurrentChart: null,
+        luckysheetCurrentChartActive: false,
+        luckysheetCurrentChartMove: null, // Debounce state
+        luckysheetCurrentChartMoveTimeout: null,//拖动图表框的节流定时器
+        luckysheetCurrentChartMoveObj: null, //chart DOM object
+        luckysheetCurrentChartMoveXy: null, //上一次操作结束的图表信息，x,y: chart框位置，scrollLeft1,scrollTop1: 滚动条位置
+        luckysheetCurrentChartMoveWinH: null, //左右滚动条滑动距离
+        luckysheetCurrentChartMoveWinW: null, //上下滚动条滑动距离
+        luckysheetCurrentChartResize: null,
+        luckysheetCurrentChartResizeObj: null,
+        luckysheetCurrentChartResizeXy: null,
+        luckysheetCurrentChartResizeWinH: null,
+        luckysheetCurrentChartResizeWinW: null,
+        luckysheetInsertChartTosheetChange: true, // 正在执行撤销
+
     },
     functionList:null, //function list explanation
     luckysheet_function:null,
