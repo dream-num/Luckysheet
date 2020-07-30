@@ -17,17 +17,17 @@ const dependScripts = [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     'https://unpkg.com/vuex@3.4.0',
     // 'https://unpkg.com/element-ui/lib/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
     // 'expendPlugins/chart/chartmix.umd.js'
-    'http://192.168.10.246:8000/chartmix.umd.js'
+    'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
+    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
     // 'expendPlugins/chart/chartmix.css'
-    'http://192.168.10.246:8000/chartmix.css'
+    'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -40,7 +40,7 @@ function chart() {
 
         Vue.use(chartmix.default, { store })
         let outDom = document.getElementById('luckysheet_info_detail')
-        chartmix.default.initChart(outDom)
+        chartmix.default.initChart(outDom,chartInfo.lang)
         $('.chartSetting').css({
             position: 'absolute',
             right: 0,
@@ -174,7 +174,7 @@ function createLuckyChart(width, height, left, top) {
 
     let container = document.getElementById(chart_id_c)
 
-    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.jfgrid-modal-dialog-content')[0], chartData, chart_id , rangeArray , rangeTxt)
+    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id , rangeArray , rangeTxt)
     console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
@@ -314,13 +314,12 @@ function createLuckyChart(width, height, left, top) {
           "#luckysheet-cell-main"
         )[0].scrollWidth;
 
-        chartInfo.chartparam.luckysheetcurrentChart = chart_id;
+        chartInfo.chartparam.luckysheetCurrentChart = chart_id;
 
-                chartInfo.chartparam.jfgridcurrentChart = chart_id;
+        e.stopPropagation();
 
-                e.stopPropagation();
-            }
-        })
+        }
+    })
 }
 
 // delete chart

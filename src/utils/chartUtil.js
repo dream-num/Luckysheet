@@ -85,7 +85,7 @@ function isMap(obj) {
 }
 
 // 替换temp中的${xxx}为指定内容 ,temp:字符串，这里指html代码，dataarry：一个对象{"xxx":"替换的内容"}
-// 例：jfgrid.replaceHtml("${image}",{"image":"abc","jskdjslf":"abc"})   ==>  abc
+// 例：luckysheet.replaceHtml("${image}",{"image":"abc","jskdjslf":"abc"})   ==>  abc
 function replaceHtml(temp, dataarry) {
     return temp.replace(/\$\{([\w]+)\}/g, function (s1, s2) { var s = dataarry[s2]; if (typeof (s) != "undefined") { return s; } else { return s1; } });
 }
