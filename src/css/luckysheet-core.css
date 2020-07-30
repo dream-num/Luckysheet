@@ -1067,7 +1067,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     height: 18px;
     line-height: 18px;
     box-shadow: 0px 1px 2px rgba(0,0,0,0.3) inset;
-    background-color: #e2e2e2;
+    background-color: #f7f7f7;
     border-color: #000;
     border-top-color: #aaa;
     border-width: 0 1px 1px 1px;
@@ -1078,7 +1078,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     border-radius: 0 0 2px 2px;
     margin-right: 1px;
     cursor: pointer;
-    border-bottom: 1px solid #a5a5a5;
+    border-bottom: 1px solid #cacaca;
     transition: all 0.1s;
     padding-right: 20px;
     font-size: 13px;
@@ -1141,7 +1141,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     border-color: #aaa;
     border-top-color: #fff;
     color: #222;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     cursor: default;
     top: -2px;
     border-bottom: none;
@@ -1269,7 +1269,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     margin-left: 0px;
     display: none;
     /*transition: all 0.1s;*/
-    background-color: rgba(252,195,195, 0.5);
+    background-color: rgba(194, 194, 194, 0.4);
 }
 
 .luckysheet-cols-h-selected {
@@ -1404,7 +1404,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     margin-top: 2px;
     display: none;
     /*transition: all 0.1s;*/
-    background-color: rgba(194, 194, 194, 0.5);
+    background-color: rgba(194, 194, 194, 0.4);
 }
 
 .luckysheet-rows-h-selected {
@@ -1579,7 +1579,8 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     border: 1px solid #d9d9d9;
     border-width: 1px 0 0 0;
     box-shadow: none;
-    background-color: #f8f8f8
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #d9d9d9;
 }
 .luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:increment:hover {
     background: no-repeat url("waffle_sprite.png") -395px -62px
@@ -1591,7 +1592,8 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
     background: no-repeat url("waffle_sprite.png") -283px -62px;
-    width: 17px
+    width: 17px;
+    border-bottom: 1px solid #d9d9d9;
 }
 .luckysheet-scrollbar-ltr::-webkit-scrollbar-button:horizontal:hover {
     background: no-repeat url("waffle_sprite.png") -145px -70px
@@ -1602,6 +1604,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
 .luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment {
     padding-top: 1px;
     background: no-repeat url("waffle_sprite.png") -531px -24px;
+    border-left: 1px solid #d9d9d9;
     height: 15px
 }
 .luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:increment:hover {
@@ -1613,6 +1616,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
 .luckysheet-scrollbar-ltr::-webkit-scrollbar-button:vertical:decrement {
     border-top: 1px solid #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
     background: no-repeat url("waffle_sprite.png") -631px -27px;
     height: 17px
 }
@@ -1625,7 +1629,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
 
 .luckysheet-scrollbar-x{
     bottom: 0px;
-    left: 45px;
+    left: 44px;
     overflow-x: scroll;
 }
 
@@ -2040,20 +2044,34 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
 }
 
 .luckysheet-scrollbars::-webkit-scrollbar-track {
-    background-color: #E0E0E0;
+    background-color: #FFFFFF;
+    border: 1px solid #d9d9d9;
+}
+
+.luckysheet-scrollbar-x::-webkit-scrollbar-track {
+    border-left: 1px solid #d9d9d9;
+    border-right: none;
+}
+
+.luckysheet-scrollbar-y::-webkit-scrollbar-track {
+    border-top: none;
+    border-bottom: none;
 }
 
 .luckysheet-scrollbars::-webkit-scrollbar {
     width: 12px;
     height: 12px;
-    background-color: #E0E0E0;
+    background-color: #FFFFFF;
     /*border:0 none;*/
 }
 
 .luckysheet-scrollbars::-webkit-scrollbar-thumb {
-    background-color: #fff;
-    border: 1px solid #A0A0A0;
+    background-color: rgba(0,0,0,.2);
+    background-clip: padding-box;
+    border: solid transparent;
     border-radius: 12px;
+    border-width: 2px 1px 1px 2px;
+    box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
 }
 
     .luckysheet-scrollbars::-webkit-scrollbar-thumb:hover {
