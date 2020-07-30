@@ -9,13 +9,18 @@ import { mouseposition } from '../../global/location'
 const dependScripts = [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     'https://unpkg.com/vuex@3.4.0',
-    'https://unpkg.com/element-ui/lib/index.js',
-    'expendPlugins/chart/chartmix.umd.js'
+    // 'https://unpkg.com/element-ui/lib/index.js',
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
+    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'expendPlugins/chart/chartmix.umd.js'
+    'http://192.168.10.246:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
-    'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css'
+    // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
+    // 'expendPlugins/chart/chartmix.css'
+    'http://192.168.10.246:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -55,12 +60,12 @@ function createLuckyChart(width, height, left, top) {
     let chart_id_c = chart_id + '_c'
 
     let modelChartShowHTML =
-        '<div id="${id}"class="jfgrid-modal-dialog jfgrid-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="jfgrid-modal-dialog-resize"><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lt"data-type="lt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-mt"data-type="mt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lm"data-type="lm"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rm"data-type="rm"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rt"data-type="rt"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-lb"data-type="lb"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-mb"data-type="mb"></div><div class="jfgrid-modal-dialog-resize-item jfgrid-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="jfgrid-modal-dialog-controll"><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-max"role="butjfgrid_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="jfgrid-modal-controll-btn jfgrid-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="jfgrid-modal-dialog-content">${content}</div></div>'
+        '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
 
     let $t = $(
         replaceHtml(modelChartShowHTML, {
             id: chart_id_c,
-            addclass: 'jfgrid-data-visualization-chart',
+            addclass: 'luckysheet-data-visualization-chart',
             title: '图表生成',
             content: ''
         })
@@ -68,7 +73,7 @@ function createLuckyChart(width, height, left, top) {
 
     let container = document.getElementById(chart_id_c)
 
-    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.jfgrid-modal-dialog-content')[0], chartData, chart_id)
+    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id)
     console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
@@ -87,7 +92,10 @@ function createLuckyChart(width, height, left, top) {
     chartInfo.zIndex++
 
     // insert chartinfo
-    let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
+    let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
+    if(!sheetFile.chart){
+        sheetFile.chart = [];
+    }
     sheetFile.chart.push({
         chart_id,
         width,
@@ -102,93 +110,94 @@ function createLuckyChart(width, height, left, top) {
     $('.luckysheet-cell-main').click(function (e) {
         if (e.target.tagName == 'CANVAS' && e.target.offsetParent && e.target.offsetParent.offsetParent && e.target.offsetParent.offsetParent.id && e.target.offsetParent.offsetParent.id.slice(0, 6) == 'chart_') {
             chartInfo.highlightChart(e.target.offsetParent.offsetParent.id)
-            chartInfo.chartparam.jfgridCurrentChartMoveObj = $(e.target.offsetParent.offsetParent.id + '_c')
-            chartInfo.chartparam.jfgridCurrentChartResizeObj = $(e.target.offsetParent.offsetParent.id + '_c')
-            chartInfo.chartparam.jfgridCurrentChartActive = true
+            chartInfo.chartparam.luckysheetCurrentChartMoveObj = $(e.target.offsetParent.offsetParent.id + '_c')
+            chartInfo.chartparam.luckysheetCurrentChartResizeObj = $(e.target.offsetParent.offsetParent.id + '_c')
+            chartInfo.chartparam.luckysheetCurrentChartActive = true
             document.getElementById(e.target.offsetParent.offsetParent.id + '_c').style.zIndex = ++chartInfo.zIndex
             $('.chartSetting').css('display', 'block')
             return
         }
         $('.chartSetting').css('display', 'none')
-        chartInfo.chartparam.jfgridCurrentChartActive = false
+        chartInfo.chartparam.luckysheetCurrentChartActive = false
     })
 
     // delete current chart
-    $(`#${chart_id}_c .jfgrid-modal-controll-del`).click(function (e) {
+    $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
         delChart(chart_id)
     })
 
-    chartInfo.chartparam.jfgridCurrentChartMoveObj = $(`#${chart_id}_c `)
-    chartInfo.chartparam.jfgridCurrentChartResizeObj = $(`#${chart_id}_c `)
-    chartInfo.chartparam.jfgridCurrentChartActive = true
+    chartInfo.chartparam.luckysheetCurrentChartMoveObj = $(`#${chart_id}_c `)
+    chartInfo.chartparam.luckysheetCurrentChartResizeObj = $(`#${chart_id}_c `)
+    chartInfo.chartparam.luckysheetCurrentChartActive = true
 
     // move chart
     $t.mousedown(function (e) {
         //允许拖动渲染框
         if (
-            !$(e.target).is(".jfgrid-modal-dialog-controll") &&
-            !$(e.target).is(".jfgrid-modal-controll-btn") &&
+            !$(e.target).is(".luckysheet-modal-dialog-controll") &&
+            !$(e.target).is(".luckysheet-modal-controll-btn") &&
             !$(e.target).is("i")
         ) {
-            chartInfo.chartparam.currentChartMoveTimeout = setTimeout(
+            // Debounce
+            chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
                 function () {
-                    chartInfo.chartparam.currentChartMove = true;
+                    chartInfo.chartparam.luckysheetCurrentChartMove = true;
                 },
                 100
             );
         }
 
-        var toffset = chartInfo.chartparam.jfgridCurrentChartMoveObj.offset();
-        var tpsition = chartInfo.chartparam.jfgridCurrentChartMoveObj.position();
-        //jfgridCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
-        chartInfo.chartparam.jfgridCurrentChartMoveXy = [
+        var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
+        var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
+        //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
+        chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
             e.pageX - toffset.left,
             e.pageY - toffset.top,
             tpsition.left,
             tpsition.top,
-            $("#jfgrid-scrollbar-x").scrollLeft(),
-            $("#jfgrid-scrollbar-y").scrollTop()
+            $("#luckysheet-scrollbar-x").scrollLeft(),
+            $("#luckysheet-scrollbar-y").scrollTop()
         ];
-        chartInfo.chartparam.jfgridCurrentChartMoveWinH = $(
+        chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
             "#luckysheet-cell-main"
         )[0].scrollHeight;
-        chartInfo.chartparam.jfgridCurrentChartMoveWinW = $(
+        chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
             "#luckysheet-cell-main"
         )[0].scrollWidth;
 
         if (
-            !$(e.target).hasClass("jfgrid-mousedown-cancel") &&
+            !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
             $(e.target).filter("[class*='sp-palette']").length == 0 &&
             $(e.target).filter("[class*='sp-thumb']").length == 0 &&
             $(e.target).filter("[class*='sp-']").length == 0
         ) {
-            $("#jfgrid-rightclick-menu").hide();
-            $("#jfgrid-cols-h-hover").hide();
-            $("#jfgrid-cols-menu-btn").hide();
-            $("#jfgrid-rightclick-menu").hide();
+            $("#luckysheet-rightclick-menu").hide();
+            $("#luckysheet-cols-h-hover").hide();
+            $("#luckysheet-cols-menu-btn").hide();
+            $("#luckysheet-rightclick-menu").hide();
             $(
-                "#jfgrid-sheet-list, #jfgrid-rightclick-sheet-menu, #jfgrid-user-menu"
+                "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
             ).hide();
             $(
-                "body > .jfgrid-filter-menu, body > .jfgrid-filter-submenu, body > .jfgrid-cols-menu"
+                "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
             ).hide();
 
         }
 
         e.stopPropagation();
-    }).find(".jfgrid-modal-dialog-resize-item")
+    }).find(".luckysheet-modal-dialog-resize-item")
     .mousedown(function(e) {
-      if (chartInfo.chartparam.jfgridCurrentChartActive) {
-        chartInfo.chartparam.jfgridCurrentChartResize = $(this).data("type"); //开始状态resize
+      if (chartInfo.chartparam.luckysheetCurrentChartActive) {
+        chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
 
         var mouse = mouseposition(e.pageX, e.pageY),
           scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
           scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
         var x = mouse[0] + scrollLeft;
         var y = mouse[1] + scrollTop;
-        var position = chartInfo.chartparam.jfgridCurrentChartResizeObj.position();
+        var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
         //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
-        chartInfo.chartparam.jfgridCurrentChartResizeXy = [
+        chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
           x,
           y,
           $t.width(),
@@ -198,14 +207,14 @@ function createLuckyChart(width, height, left, top) {
           scrollLeft,
           scrollTop
         ];
-        chartInfo.chartparam.jfgridCurrentChartResizeWinH = $(
+        chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $(
           "#luckysheet-cell-main"
         )[0].scrollHeight;
-        chartInfo.chartparam.jfgridCurrentChartResizeWinW = $(
+        chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $(
           "#luckysheet-cell-main"
         )[0].scrollWidth;
 
-        chartInfo.chartparam.jfgridcurrentChart = chart_id;
+        chartInfo.chartparam.luckysheetcurrentChart = chart_id;
 
         e.stopPropagation();
       }

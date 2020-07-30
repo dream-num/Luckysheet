@@ -1262,7 +1262,7 @@ export default function luckysheetHandler() {
             Store.luckysheet_model_move_obj.css({ "top": top, "left": left });
             event.preventDefault();
         }
-        else if (!!Store.luckysheet_scroll_status || !!Store.luckysheet_select_status || !!Store.luckysheet_rows_selected_status || !!Store.luckysheet_cols_selected_status || !!Store.luckysheet_cell_selected_move || !!Store.luckysheet_cell_selected_extend || !!Store.luckysheet_cols_change_size || !!Store.luckysheet_rows_change_size || !!formula.rangeResize || !!formula.rangeMove) {
+        else if (!!Store.luckysheet_scroll_status || !!Store.luckysheet_select_status || !!Store.luckysheet_rows_selected_status || !!Store.luckysheet_cols_selected_status || !!Store.luckysheet_cell_selected_move || !!Store.luckysheet_cell_selected_extend || !!Store.luckysheet_cols_change_size || !!Store.luckysheet_rows_change_size || !!Store.chartparam.luckysheetCurrentChartMove || !!Store.chartparam.luckysheetCurrentChartResize || !!formula.rangeResize || !!formula.rangeMove ) {
             if (Store.luckysheet_select_status) {
                 clearTimeout(Store.countfuncTimeout);
                 Store.countfuncTimeout = setTimeout(function () { countfunc() }, 500);
@@ -1805,6 +1805,108 @@ export default function luckysheetHandler() {
                         $("#luckysheet-rows-change-size").css({ "top": y });
                     }
                 }
+                // chart move
+                else if(!!Store.chartparam.luckysheetCurrentChartMove){
+                    const mouse = mouseposition(event.pageX, event.pageY);
+                    const x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
+                    const y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
+
+                    const myh = Store.chartparam.luckysheetCurrentChartMoveObj.height(), myw = Store.chartparam.luckysheetCurrentChartMoveObj.width();
+                    const top = y - Store.chartparam.luckysheetCurrentChartMoveXy[1], left = x - Store.chartparam.luckysheetCurrentChartMoveXy[0];
+
+                    if (top < 0) {
+                        top = 0;
+                    }
+
+                    if (top + myh + 42 + 6 > Store.chartparam.luckysheetCurrentChartMoveWinH) {
+                        top = Store.chartparam.luckysheetCurrentChartMoveWinH - myh - 42 - 6;
+                    }
+
+                    if (left < 0) {
+                        left = 0;
+                    }
+
+                    if (left + myw + 22 + 36 > Store.chartparam.luckysheetCurrentChartMoveWinW) {
+                        left = Store.chartparam.luckysheetCurrentChartMoveWinW - myw - 22 - 36;
+                    }
+
+                    Store.chartparam.luckysheetCurrentChartMoveObj.css({ "top": top, "left": left });
+
+                    if(luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null){
+                        luckysheetFreezen.scrollAdapt();
+
+                        const toffset = Store.chartparam.luckysheetCurrentChartMoveObj.offset();
+                        const tpsition = Store.chartparam.luckysheetCurrentChartMoveObj.position();
+                        Store.chartparam.luckysheetCurrentChartMoveXy = [event.pageX - toffset.left, event.pageY - toffset.top, tpsition.left, tpsition.top, $("#luckysheet-scrollbar-x").scrollLeft(), $("#luckysheet-scrollbar-y").scrollTop()];
+                    }
+                }
+                // chart resize
+                else if (!!Store.chartparam.luckysheetCurrentChartResize) {
+                    var scrollTop = $("#luckysheet-cell-main").scrollTop(), scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                    var mouse = mouseposition(event.pageX, event.pageY);
+                    var x = mouse[0] + scrollLeft;
+                    var y = mouse[1] + scrollTop;
+
+                    if (x < 0 || y < 0) {
+                        return false;
+                    }
+
+                    var myh = Store.chartparam.luckysheetCurrentChartResizeObj.height(), myw = Store.chartparam.luckysheetCurrentChartResizeObj.width();
+                    var topchange = y - Store.chartparam.luckysheetCurrentChartResizeXy[1], leftchange = x - Store.chartparam.luckysheetCurrentChartResizeXy[0];
+
+                    var top = Store.chartparam.luckysheetCurrentChartResizeXy[5], height = Store.chartparam.luckysheetCurrentChartResizeXy[3], left = Store.chartparam.luckysheetCurrentChartResizeXy[4], width = Store.chartparam.luckysheetCurrentChartResizeXy[2];
+
+                    if (Store.chartparam.luckysheetCurrentChartResize == "lm" || Store.chartparam.luckysheetCurrentChartResize == "lt" || Store.chartparam.luckysheetCurrentChartResize == "lb") {
+                        left = x;
+                        width = Store.chartparam.luckysheetCurrentChartResizeXy[2] - leftchange;
+                        if (left > Store.chartparam.luckysheetCurrentChartResizeXy[2] + Store.chartparam.luckysheetCurrentChartResizeXy[4] - 60) {
+                            left = Store.chartparam.luckysheetCurrentChartResizeXy[2] + Store.chartparam.luckysheetCurrentChartResizeXy[4] - 60;
+                            width = Store.chartparam.luckysheetCurrentChartResizeXy[2] - (Store.chartparam.luckysheetCurrentChartResizeXy[2] + Store.chartparam.luckysheetCurrentChartResizeXy[4] - 60 - Store.chartparam.luckysheetCurrentChartResizeXy[0]);
+                        }
+                        else if (left <= 0) {
+                            left = 0;
+                            width = Store.chartparam.luckysheetCurrentChartResizeXy[2] + Store.chartparam.luckysheetCurrentChartResizeXy[0];
+                        }
+                    }
+
+                    if (Store.chartparam.luckysheetCurrentChartResize == "rm" || Store.chartparam.luckysheetCurrentChartResize == "rt" || Store.chartparam.luckysheetCurrentChartResize == "rb") {
+                        width = Store.chartparam.luckysheetCurrentChartResizeXy[2] + leftchange;
+                        if (width < 60) {
+                            width = 60;
+                        }
+                        else if (width >= Store.chartparam.luckysheetCurrentChartResizeWinW - Store.chartparam.luckysheetCurrentChartResizeXy[4] - 22 - 36) {
+                            width = Store.chartparam.luckysheetCurrentChartResizeWinW - Store.chartparam.luckysheetCurrentChartResizeXy[4] - 22 - 36;
+                        }
+                    }
+
+                    if (Store.chartparam.luckysheetCurrentChartResize == "mt" || Store.chartparam.luckysheetCurrentChartResize == "lt" || Store.chartparam.luckysheetCurrentChartResize == "rt") {
+                        top = y;
+                        height = Store.chartparam.luckysheetCurrentChartResizeXy[3] - topchange;
+                        if (top > Store.chartparam.luckysheetCurrentChartResizeXy[3] + Store.chartparam.luckysheetCurrentChartResizeXy[5] - 60) {
+                            top = Store.chartparam.luckysheetCurrentChartResizeXy[3] + Store.chartparam.luckysheetCurrentChartResizeXy[5] - 60;
+                            height = Store.chartparam.luckysheetCurrentChartResizeXy[3] - (Store.chartparam.luckysheetCurrentChartResizeXy[3] + Store.chartparam.luckysheetCurrentChartResizeXy[5] - 60 - Store.chartparam.luckysheetCurrentChartResizeXy[1]);
+                        }
+                        else if (top <= 0) {
+                            top = 0;
+                            height = Store.chartparam.luckysheetCurrentChartResizeXy[3] + Store.chartparam.luckysheetCurrentChartResizeXy[1];
+                        }
+                    }
+
+                    if (Store.chartparam.luckysheetCurrentChartResize == "mb" || Store.chartparam.luckysheetCurrentChartResize == "lb" || Store.chartparam.luckysheetCurrentChartResize == "rb") {
+                        height = Store.chartparam.luckysheetCurrentChartResizeXy[3] + topchange;
+                        if (height < 60) {
+                            height = 60;
+                        }
+                        else if (height >= Store.chartparam.luckysheetCurrentChartResizeWinH - Store.chartparam.luckysheetCurrentChartResizeXy[5] - 42 - 6) {
+                            height = Store.chartparam.luckysheetCurrentChartResizeWinH - Store.chartparam.luckysheetCurrentChartResizeXy[5] - 42 - 6;
+                        }
+                    }
+
+                    var resizedata = { "top": top, "left": left, "height": height, "width": width };
+                    Store.chartparam.luckysheetCurrentChartResizeObj.css(resizedata);
+                    // resize chart
+                    // generator.resize(luckysheet.chartparam.luckysheetCurrentChart);
+                }
                 else if (luckysheetPostil.move){
                     let mouse = mouseposition(event.pageX, event.pageY);
                     let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
@@ -2023,6 +2125,62 @@ export default function luckysheetHandler() {
             Store.luckysheet_sheet_move_data.cursorobject.css({ "cursor": "pointer" });
             Store.luckysheet_sheet_move_data = {};
             sheetmanage.reOrderAllSheet();
+        }
+
+        // chart move debounce timer clear
+        clearTimeout(Store.chartparam.luckysheetCurrentChartMoveTimeout);
+
+        //图表拖动 chartMix
+        if (!!Store.chartparam.luckysheetCurrentChartMove) {
+            Store.chartparam.luckysheetCurrentChartMove = false;
+            if (Store.chartparam.luckysheetInsertChartTosheetChange) {
+
+                //myTop, myLeft: 本次的chart框位置，scrollLeft,scrollTop: 上一次的滚动条位置
+                var myTop = Store.chartparam.luckysheetCurrentChartMoveObj.css("top"), myLeft = Store.chartparam.luckysheetCurrentChartMoveObj.css("left"), scrollLeft = $("#luckysheet-cell-main").scrollLeft(), scrollTop = $("#luckysheet-cell-main").scrollTop();
+
+                //点击时候存储的信息，即上一次操作结束的图表信息，x,y: chart框位置，scrollLeft1,scrollTop1: 滚动条位置
+                var x = Store.chartparam.luckysheetCurrentChartMoveXy[2];
+                var y = Store.chartparam.luckysheetCurrentChartMoveXy[3];
+
+                var scrollLeft1 = Store.chartparam.luckysheetCurrentChartMoveXy[4];
+                var scrollTop1 = Store.chartparam.luckysheetCurrentChartMoveXy[5];
+
+                var chart_id = Store.chartparam.luckysheetCurrentChartMoveObj.find(".luckysheet-modal-dialog-content").attr("id");
+
+                //去除chartobj,改用chart_id代替即可定位到此图表
+                Store.jfredo.push({ "type": "moveChart", "chart_id": chart_id, "sheetIndex": Store.currentSheetIndex, "myTop": myTop, "myLeft": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft, "x": x, "y": y, "scrollTop1": scrollTop1, "scrollLeft1": scrollLeft1  });
+
+                // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "top": myTop, "left": myLeft });
+                //存储滚动条位置//协同编辑时可能影响用户操作，可以考虑不存储滚动条位置,或者滚动条信息仅仅保存到后台，但是不分发到其他设备（google sheet没有存储滚动条位置）
+                // Store.server.saveParam("c", sheetIndex, { "left":myLeft, "top":myTop,"scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op":"xy", "cid": chart_id});
+            }
+        }
+
+         //图表改变大小 chartMix
+         if (!!Store.chartparam.luckysheetCurrentChartResize) {
+            Store.chartparam.luckysheetCurrentChartResize = null;
+            if (Store.chartparam.luckysheetInsertChartTosheetChange) {
+                var myHeight = Store.chartparam.luckysheetCurrentChartResizeObj.height(), myWidth = Store.chartparam.luckysheetCurrentChartResizeObj.width(), scrollLeft = $("#luckysheet-cell-main").scrollLeft(), scrollTop = $("#luckysheet-cell-main").scrollTop();
+
+                var myTop = Store.chartparam.luckysheetCurrentChartMoveObj.css("top"),
+                    myLeft = Store.chartparam.luckysheetCurrentChartMoveObj.css("left");
+
+                var chart_id = Store.chartparam.luckysheetCurrentChartResizeObj.find(".luckysheet-modal-dialog-content").attr("id");
+
+                var myWidth1 = Store.chartparam.luckysheetCurrentChartResizeXy[2];
+                var myHeight1 = Store.chartparam.luckysheetCurrentChartResizeXy[3];
+                var x = Store.chartparam.luckysheetCurrentChartResizeXy[4];//增加上一次的位置x，y
+                var y = Store.chartparam.luckysheetCurrentChartResizeXy[5];
+                var scrollLeft1 = Store.chartparam.luckysheetCurrentChartResizeXy[6];
+                var scrollTop1 = Store.chartparam.luckysheetCurrentChartResizeXy[7];
+
+                Store.jfredo.push({ "type": "resizeChart", "chart_id": chart_id, "sheetIndex": Store.currentSheetIndex,"myTop": myTop, "myLeft": myLeft, "myHeight": myHeight, "myWidth": myWidth, "scrollTop": scrollTop, "scrollLeft": scrollLeft, "x": x, "y": y, "myWidth1": myWidth1, "myHeight1": myHeight1, "scrollTop1": scrollTop1, "scrollLeft1": scrollLeft1 });
+
+                //加上滚动条的位置
+                // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "height": myHeight, "width": myWidth, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft });
+                
+                // Store.server.saveParam("c", sheetIndex, { "width":myWidth, "height":myHeight, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft}, { "op":"wh", "cid": chart_id});
+            }
         }
 
         if (!!formula.rangeResize) {
@@ -3022,11 +3180,16 @@ export default function luckysheetHandler() {
         $(this).parent().hide();
     });
 
-    //菜单栏 图表按钮
+    //Menu bar, Chart button
     $("#luckysheet-chart-btn-title").click(function () {
-        $("#luckysheetdatavisual").click();
-        createLuckyChart()
+        createLuckyChart();
     });
+    
+    // Right-click the menu, chart generation
+    $("#luckysheetdatavisual").click(function() {
+        createLuckyChart();
+    });
+
 
     //菜单栏 数据透视表
     $("#luckysheet-pivot-btn-title").click(function (e) {
