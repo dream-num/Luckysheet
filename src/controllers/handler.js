@@ -63,7 +63,9 @@ export default function luckysheetHandler() {
     if(browser.mobilecheck()){
         mobileinit();
     }
-
+    
+    const os = browser.detectOS(), isMac = os=="Mac"?true:false, scrollNum = isMac?1:3;
+    
     //滚动监听
     $("#luckysheet-cell-main").scroll(function () {
         
@@ -100,41 +102,18 @@ export default function luckysheetHandler() {
         let rowscroll = 0;
 
         //一次滚动三行或三列
-        if(event.deltaX != 0){
-            let col_ed;
-            
-            if(event.deltaX < 0){
-                col_ed = col_st + 3;
-                
-                if(col_ed >= visibledatacolumn_c.length){
-                    col_ed = visibledatacolumn_c.length - 1;
-                }
-            }
-            else{
-                col_ed = col_st - 3;
-                
-                if(col_ed < 0){
-                    col_ed = 0;
-                }
-            }
-
-            colscroll = col_ed == 0 ? 0 : visibledatacolumn_c[col_ed - 1];
-
-            $("#luckysheet-scrollbar-x").scrollLeft(colscroll);
-        }
-
         if(event.deltaY != 0){
             let row_ed;
 
             if(event.deltaY < 0){
-                row_ed = row_st + 3;
+                row_ed = row_st + scrollNum;
                 
                 if(row_ed >= visibledatarow_c.length){
                     row_ed = visibledatarow_c.length - 1;
                 }
             }
             else{
-                row_ed = row_st - 3;
+                row_ed = row_st - scrollNum;
                 
                 if(row_ed < 0){
                     row_ed = 0;
@@ -144,6 +123,28 @@ export default function luckysheetHandler() {
             rowscroll = row_ed == 0 ? 0 : visibledatarow_c[row_ed - 1];
 
             $("#luckysheet-scrollbar-y").scrollTop(rowscroll);
+        }
+        else if(event.deltaX != 0){
+            let col_ed;
+            
+            if((isMac && event.deltaX >0 ) || (!isMac && event.deltaX < 0)){
+                col_ed = col_st + scrollNum;
+                
+                if(col_ed >= visibledatacolumn_c.length){
+                    col_ed = visibledatacolumn_c.length - 1;
+                }
+            }
+            else{
+                col_ed = col_st - scrollNum;
+                
+                if(col_ed < 0){
+                    col_ed = 0;
+                }
+            }
+
+            colscroll = col_ed == 0 ? 0 : visibledatacolumn_c[col_ed - 1];
+
+            $("#luckysheet-scrollbar-x").scrollLeft(colscroll);
         }
     });
 
