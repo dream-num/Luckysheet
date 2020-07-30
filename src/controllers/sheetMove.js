@@ -38,8 +38,8 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     formula.fucntionboxshow(curR, curC);
 
     if (type == "range") {
-        let p_startR = Store.luckysheet_shiftpositon["row"][0];
-        let p_startC = Store.luckysheet_shiftpositon["column"][0];
+        var p_startR = Store.luckysheet_shiftpositon["row"][0];
+        var p_startC = Store.luckysheet_shiftpositon["column"][0];
 
         let p_endR = Store.luckysheet_shiftpositon["row"][1];
         let p_endC = Store.luckysheet_shiftpositon["column"][1];
