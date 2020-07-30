@@ -7,12 +7,16 @@ const tooltip = {
     info: function (title, content) {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-info").remove();
+
+        let _locale = locale();
+        let locale_button = _locale.button;
+
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-info", 
             "addclass": "", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>', 
+            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
@@ -213,11 +217,15 @@ const tooltip = {
         });
     },
     popover: function(content, position, close, style, btntxt, exitsFuc){
+        let _locale = locale();
+        let locale_button = _locale.button;
+        let locale_paint = _locale.paint;
+
         if(btntxt == null){
-            btntxt = "关闭";
+            btntxt = locale_button.close;
         }
 
-        let htmldiv = '<div id="luckysheetpopover" class="luckysheetpopover"><div class="luckysheetpopover-content">格式刷开启</div><div class="luckysheetpopover-btn">'+ btntxt +'</div></div>';
+        let htmldiv = '<div id="luckysheetpopover" class="luckysheetpopover"><div class="luckysheetpopover-content">'+locale_paint.start+'</div><div class="luckysheetpopover-btn">'+ btntxt +'</div></div>';
         $("#luckysheetpopover").remove();
         $("body").append(htmldiv);
         $("#luckysheetpopover .luckysheetpopover-content").html(content);

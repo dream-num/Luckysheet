@@ -10299,21 +10299,27 @@ const functionImplementation = {
                 }
             }
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //计算
             if(A1){
                 if(formula.iscelldata(ref_text)){
                     let cellrange = formula.getcellrange(ref_text);
                     let row = cellrange.row[0], col = cellrange.column[0];
 
-                    if(row < 0 || row >= Store.flowdata.length || col < 0 || col >= Store.flowdata[0].length){
+                    if (row < 0 || row >= sheetdata.length || col < 0 || col >= sheetdata[0].length){
                         return formula.error.r;
                     }
 
-                    if(Store.flowdata[row][col] == null || isRealNull(Store.flowdata[row][col].v)){
+                    if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
                         return 0;
                     }
 
-                    return Store.flowdata[row][col].v;
+                    return sheetdata[row][col].v;
                 }
                 else{
                     return formula.error.r;
@@ -10324,15 +10330,15 @@ const functionImplementation = {
                     let cellrange = formula.getcellrange(ref_text);
                     let row = cellrange.row[0], col = cellrange.column[0];
 
-                    if(row < 0 || row >= Store.flowdata.length || col < 0 || col >= Store.flowdata[0].length){
+                    if (row < 0 || row >= sheetdata.length || col < 0 || col >= sheetdata[0].length){
                         return formula.error.r;
                     }
 
-                    if(Store.flowdata[row][col] == null || isRealNull(Store.flowdata[row][col].v)){
+                    if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
                         return 0;
                     }
 
-                    return Store.flowdata[row][col].v;
+                    return sheetdata[row][col].v;
                 }
                 else{
                     return formula.error.r;
@@ -10611,7 +10617,13 @@ const functionImplementation = {
             var cellRow1 = cellRow0 + height - 1;
             var cellCol1 = cellCol0 + width - 1;
 
-            if(cellRow0 < 0 || cellRow1 >= Store.flowdata.length || cellCol0 < 0 || cellCol1 >= Store.flowdata[0].length){
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
+            if (cellRow0 < 0 || cellRow1 >= sheetdata.length || cellCol0 < 0 || cellCol1 >= sheetdata[0].length){
                 return formula.error.r;
             }  
 
@@ -10621,8 +10633,8 @@ const functionImplementation = {
                 var rowArr = [];
 
                 for(var c = cellCol0; c <= cellCol1; c++){
-                    if(Store.flowdata[r][c] != null && !isRealNull(Store.flowdata[r][c].v)){
-                        rowArr.push(Store.flowdata[r][c].v);
+                    if (sheetdata[r][c] != null && !isRealNull(sheetdata[r][c].v)){
+                        rowArr.push(sheetdata[r][c].v);
                     }
                     else{
                         rowArr.push(0);
@@ -12349,7 +12361,7 @@ const functionImplementation = {
             var endDate = moment(arguments[1]);
             var unit = arguments[2];
             var result = formula.error.v;
-            if(luckysheet_function.DAYS.f(endDate,startDate) < 0){
+            if(window.luckysheet_function.DAYS.f(endDate,startDate) < 0){
                 return formula.error.v;
             }
 
@@ -23288,6 +23300,12 @@ const functionImplementation = {
             var row_index = cellrange.row[0];
             var col_index = cellrange.column[0];
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             switch(info_type){
                 case "address":
                     return reference;
@@ -23299,28 +23317,28 @@ const functionImplementation = {
                     return 0;
                     break;  
                 case "contents":
-                    if(Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].v == null || Store.flowdata[row_index][col_index].v ==""){
+                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
                         return 0;
                     }
 
-                    return Store.flowdata[row_index][col_index].v;
+                    return sheetdata[row_index][col_index].v;
                     break;
                 case "filename":
                     return file.name;
                     break;
                 case "format":
-                    if(Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].ct == null){
+                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].ct == null){
                         return "G";
                     }
 
-                    return Store.flowdata[row_index][col_index].ct.fa;
+                    return sheetdata[row_index][col_index].ct.fa;
                     break;
                 case "parentheses":
-                    if(Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].v == null || Store.flowdata[row_index][col_index].v ==""){
+                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
                         return 0;
                     }
 
-                    if(Store.flowdata[row_index][col_index].v > 0){
+                    if (sheetdata[row_index][col_index].v > 0){
                         return 1;
                     }
                     else{
@@ -23328,17 +23346,17 @@ const functionImplementation = {
                     }
                     break;
                 case "prefix":
-                    if(Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].ht == null || Store.flowdata[row_index][col_index].v == null || Store.flowdata[row_index][col_index].v ==""){
+                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].ht == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
                         return "";
                     }
 
-                    if(Store.flowdata[row_index][col_index].ht == 0){//居中对齐
+                    if (sheetdata[row_index][col_index].ht == 0){//居中对齐
                         return "^";
                     }
-                    else if(Store.flowdata[row_index][col_index].ht == 1){//左对齐
+                    else if (sheetdata[row_index][col_index].ht == 1){//左对齐
                         return "'";
                     }
-                    else if(Store.flowdata[row_index][col_index].ht == 2){//右对齐
+                    else if (sheetdata[row_index][col_index].ht == 2){//右对齐
                         return '"';
                     }
                     else{
@@ -23352,7 +23370,7 @@ const functionImplementation = {
                     return row_index + 1;
                     break;
                 case "type":
-                    if(Store.flowdata[row_index][col_index] == null || Store.flowdata[row_index][col_index].v == null || Store.flowdata[row_index][col_index].v ==""){
+                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
                         return "b";
                     }
 
@@ -25366,11 +25384,17 @@ const functionImplementation = {
             var minSpot = arguments[6];
             var spotRadius = arguments[7];
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -25506,8 +25530,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -25637,8 +25667,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -25779,8 +25815,14 @@ const functionImplementation = {
                 } 
                 var offsetY = data[0].length;
             }
+
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1];
 
@@ -25866,8 +25908,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -26007,8 +26055,14 @@ const functionImplementation = {
                 } 
                 var offsetY = data[0].length;
             }
+
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1];
 
@@ -26094,8 +26148,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -26179,8 +26239,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -26274,8 +26340,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -26363,8 +26435,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 
@@ -26449,8 +26527,14 @@ const functionImplementation = {
             //定义需要格式化data数据
             //var dataformat = formula.readCellDataToOneArray(rangeValue);
 
+            let sheetdata = null;
+            sheetdata = Store.flowdata;
+            if (formula.execFunctionGroupData != null) {
+                sheetdata = formula.execFunctionGroupData;
+            }
+
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
-            var cellSize = menuButton.getCellRealSize(Store.flowdata, cell_r, cell_c);
+            var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
             var height = cellSize[1]; 
 

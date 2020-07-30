@@ -5,6 +5,7 @@ import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import browser from '../global/browser';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //公式函数 选区实体框
 function seletedHighlistByindex(id, r1, r2, c1, c2) {
@@ -21,7 +22,7 @@ function seletedHighlistByindex(id, r1, r2, c1, c2) {
     });
 }
 
-//选区
+//Set selection highlight
 function selectHightlightShow() {
     $("#luckysheet-cell-selected-boxs").show();
     $("#luckysheet-cell-selected-boxs #luckysheet-cell-selected").siblings(".luckysheet-cell-selected").remove();
@@ -347,6 +348,9 @@ function luckysheet_count_show(left, top, width, height, rowseleted, columnselet
     let scrollWidth = $("#luckysheet-cell-main").scrollLeft(), 
         scrollHeight = $("#luckysheet-cell-main").scrollTop();
 
+    const _locale = locale();
+    const locale_info = _locale.info;
+
     if (rowl >= 4) {
         let leftv = left - 25;
         if (leftv < 0) {
@@ -362,7 +366,7 @@ function luckysheet_count_show(left, top, width, height, rowseleted, columnselet
             topv = scrollHeight + drawHeight / 2;
         }
 
-        $("#luckysheet-row-count-show").css({ "left": leftv, "top": topv, "display": "block" }).html("<div>" + rowl.toString().split("").join("</div><div>") + "</div><div>行</div>");
+        $("#luckysheet-row-count-show").css({ "left": leftv, "top": topv, "display": "block" }).html("<div>" + rowl.toString().split("").join("</div><div>") + "</div><div>"+locale_info.row+"</div>");
     }
     else {
         $("#luckysheet-row-count-show").hide();
@@ -383,7 +387,7 @@ function luckysheet_count_show(left, top, width, height, rowseleted, columnselet
             leftv = scrollWidth + drawWidth / 2;
         }
 
-        $("#luckysheet-column-count-show").css({ "left": leftv, "top": topv, "display": "block" }).text(coll + "列");
+        $("#luckysheet-column-count-show").css({ "left": leftv, "top": topv, "display": "block" }).text(coll + locale_info.column);
     }
     else {
         $("#luckysheet-column-count-show").hide();

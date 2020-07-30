@@ -40,8 +40,8 @@ module.exports = {
 					}
 				},
 				nav: [
-					{ text: 'Home', link: '/en/' },
-					{ text: 'Guide', link: '/en/guide/' },
+					{ text: 'Home', link: '/' },
+					{ text: 'Guide', link: '/guide/' },
 					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
 				],
 				// 侧边栏 
@@ -52,7 +52,8 @@ module.exports = {
 						'feature',
 						'data',
 						'operate',
-						'format'
+						'format',
+						'FAQ'
 					],
 				},
 			},
@@ -74,8 +75,8 @@ module.exports = {
 				},
 				// 导航栏
 				nav: [
-					{ text: '首页', link: '/' },
-					{ text: '指南', link: '/guide/' },
+					{ text: '首页', link: '/zh/' },
+					{ text: '指南', link: '/zh/guide/' },
 					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
 				],
 				// 侧边栏 
@@ -86,7 +87,8 @@ module.exports = {
 						'feature',
 						'data',
 						'operate',
-						'format'
+						'format',
+						'FAQ'
 					],
 				},
 			},

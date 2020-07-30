@@ -5,7 +5,7 @@ import { isRealNum, valueIsError } from '../global/validate';
 import { getdatabyselectionD } from '../global/getdata';
 import { genarate } from '../global/format';
 import { inverse } from '../function/matrix_methods';
-import { getSheetIndex, getluckysheetfile } from '../methods/get';
+import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
 
@@ -1770,10 +1770,112 @@ function luckysheet_getValue() {
     }
 }
 
+
+function luckysheet_indirect_check() {
+    let cellTxt = arguments[0];
+    if (cellTxt == null || cellTxt.length == 0) {
+        return null;
+    }
+    return cellTxt;
+}
+
+function luckysheet_indirect_check_return(txt) {
+    return txt;
+}
+
+function luckysheet_offset_check() {
+    if (!(getObjType(arguments[0]) == "object" && arguments[0].startCell != null)) {
+        return formula.error.v;
+    }
+
+    var reference = arguments[0].startCell;
+
+    //要偏移的行数
+    var rows = func_methods.getFirstValue(arguments[1]);
+    if (valueIsError(rows)) {
+        return rows;
+    }
+
+    if (!isRealNum(rows)) {
+        return formula.error.v;
+    }
+
+    rows = parseInt(rows);
+
+    //要偏移的列数
+    var cols = func_methods.getFirstValue(arguments[2]);
+    if (valueIsError(cols)) {
+        return cols;
+    }
+
+    if (!isRealNum(cols)) {
+        return formula.error.v;
+    }
+
+    cols = parseInt(cols);
+
+    //要从偏移目标开始返回的范围的高度
+    var height = arguments[0].rowl;
+    if (arguments.length >= 4) {
+        height = func_methods.getFirstValue(arguments[3]);
+        if (valueIsError(height)) {
+            return height;
+        }
+
+        if (!isRealNum(height)) {
+            return formula.error.v;
+        }
+
+        height = parseInt(height);
+    }
+
+    //要从偏移目标开始返回的范围的宽度
+    var width = arguments[0].coll;
+    if (arguments.length == 5) {
+        width = func_methods.getFirstValue(arguments[4]);
+        if (valueIsError(width)) {
+            return width;
+        }
+
+        if (!isRealNum(width)) {
+            return formula.error.v;
+        }
+
+        width = parseInt(width);
+    }
+
+    if (height < 1 || width < 1) {
+        return formula.error.r;
+    }
+
+    //计算
+    var cellrange = formula.getcellrange(reference);
+    var cellRow0 = cellrange["row"][0];
+    var cellCol0 = cellrange["column"][0];
+
+    cellRow0 += rows;
+    cellCol0 += cols;
+
+    var cellRow1 = cellRow0 + height - 1;
+    var cellCol1 = cellCol0 + width - 1;
+
+    if (cellRow0 < 0 || cellRow1 >= Store.flowdata.length || cellCol0 < 0 || cellCol1 >= Store.flowdata[0].length) {
+        return formula.error.r;
+    }
+
+    return getRangetxt(Store.currentSheetIndex, {
+        row: [cellRow0, cellRow1],
+        column: [cellCol0, cellCol1]
+    });
+}
+
 export {
     luckysheet_compareWith,
     luckysheet_getarraydata,
     luckysheet_getcelldata,
     luckysheet_parseData,
     luckysheet_getValue,
+    luckysheet_indirect_check,
+    luckysheet_indirect_check_return,
+    luckysheet_offset_check
 }

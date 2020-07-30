@@ -10,7 +10,7 @@ import editor from '../global/editor';
 import { luckysheetextendtable, luckysheetdeletetable } from '../global/extend';
 import { isRealNum } from '../global/validate';
 import { replaceHtml, getObjType, chatatABC } from '../utils/util';
-import { sheetHTML } from './constant';
+import { sheetHTML,luckysheetlodingHTML } from './constant';
 import server from './server';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import pivotTable from './pivotTable';
@@ -20,6 +20,7 @@ import luckysheetFreezen from './freezen';
 import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
+import locale from '../locale/locale';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -62,9 +63,12 @@ const sheetmanage = {
     generateCopySheetName: function(file, name) {
         let copySheetName = "";
 
-        if(name.toString().indexOf("(副本") > -1){
-            let copy_i = name.toString().indexOf("(副本");
-            let name2 = name.toString().substring(0, copy_i) + "(副本";
+        let _locale = locale();
+        let locale_info = _locale.info;
+
+        if(name.toString().indexOf("("+locale_info.copy) > -1){
+            let copy_i = name.toString().indexOf("("+locale_info.copy);
+            let name2 = name.toString().substring(0, copy_i) + "("+locale_info.copy;
             let index = null;
 
             for(let i = 0; i < file.length; i++){
@@ -94,7 +98,7 @@ const sheetmanage = {
         else{
             let index = null;
             let hascopy = false;
-            let name2 = name + "(副本";
+            let name2 = name + "("+locale_info.copy;
 
             for(let i = 0; i < file.length; i++){
                 let fileName = file[i].name.toString();
@@ -115,15 +119,15 @@ const sheetmanage = {
 
             if(hascopy){
                 if(index == null){
-                    copySheetName = name + "(副本2)";
+                    copySheetName = name + "("+ locale_info.copy +"2)";
                 }
                 else{
                     index++;
-                    copySheetName = name + "(副本" + index + ")";
+                    copySheetName = name + "("+ locale_info.copy +"" + index + ")";
                 }
             }
             else{
-                copySheetName = name + "(副本)";
+                copySheetName = name + "("+ locale_info.copy +")";
             }
         }
 
@@ -228,7 +232,7 @@ const sheetmanage = {
             indicator = indicator.eq(0).data("index");
         }
         else {
-            indicator = luckysheetcurrentSheetitem.preval(":visible").eq(0).data("index");
+            indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
         }
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         
@@ -632,7 +636,7 @@ const sheetmanage = {
                 width: Store.luckysheetTableContentHW[0], 
                 height: Store.luckysheetTableContentHW[1] 
             }).get(0).getContext("2d");
-
+            let locale_info = locale().info;
             let key = server.gridKey;
             let cahce_key = key + "__qkcache";
 
@@ -663,7 +667,7 @@ const sheetmanage = {
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     
                     luckysheetrefreshgrid(0, 0);
-                    $("#luckysheet_info_detail_save").html("已恢复本地缓存");
+                    $("#luckysheet_info_detail_save").html(locale_info.detailSave);
 
                     if (!!file.isPivotTable) {
                         Store.luckysheetcurrentisPivotTable = true;
@@ -753,6 +757,7 @@ const sheetmanage = {
 
         Store.flowdata = file["data"];
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+
         formula.execFunctionGroupData = null;
         window.luckysheet_getcelldata_cache = null;
 
@@ -874,7 +879,7 @@ const sheetmanage = {
                 server.saveParam("shs", null, Store.currentSheetIndex);
             }
             else{
-                $("#luckysheet-grid-window-1").append('<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div> <span>渲染中...</span></div></div>');
+                $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
 
                 let sheetindex = _this.checkLoadSheetIndex(file);
                 

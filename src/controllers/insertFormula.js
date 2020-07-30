@@ -1,21 +1,26 @@
 import { luckysheet_getcelldata } from '../function/func';
-import functionlist from '../function/functionlist';
-import luckysheet_function from '../function/luckysheet_function';
+// import functionlist from '../function/functionlist';
+// import Store.luckysheet_function from '../function/Store.luckysheet_function';
 import formula from '../global/formula';
 import { isRealNum, isRealNull } from '../global/validate';
 import { modelHTML } from './constant';
 import { luckysheet_count_show } from './select';
 import { replaceHtml, getObjType } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 //插入函数
 const insertFormula = {
     init: function(){
         let _this = this;
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
+        let locale_button = _locale.button
 
         $(document).off("keyup.fxSFLI").on("keyup.fxSFLI", "#searchFormulaListInput", function(){
             $("#formulaTypeList").empty();
             let txt = $(this).val().toUpperCase();
+            let functionlist = Store.functionlist;
 
             if(txt == ""){
                 //若没有查找内容则根据类别筛选
@@ -63,16 +68,16 @@ const insertFormula = {
             formula.data_parm_index = parmIndex;
 
             let formulatxt = $(this).parents("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-title-text").text();
-            let parmLen = luckysheet_function[formulatxt].p.length;
+            let parmLen = Store.luckysheet_function[formulatxt].p.length;
 
             let parmDetail, parmRepeat;
             if(parmIndex >= parmLen){
-                parmDetail = luckysheet_function[formulatxt].p[parmLen - 1].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmLen - 1].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmLen - 1].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmLen - 1].repeat;
             }
             else{
-                parmDetail = luckysheet_function[formulatxt].p[parmIndex].detail;
-                parmRepeat = luckysheet_function[formulatxt].p[parmIndex].repeat;
+                parmDetail = Store.luckysheet_function[formulatxt].p[parmIndex].detail;
+                parmRepeat = Store.luckysheet_function[formulatxt].p[parmIndex].repeat;
             }
 
             //参数选区显示，参数值显示
@@ -92,7 +97,7 @@ const insertFormula = {
                 let parmCount = $("#luckysheet-search-formula-parm .parmBox").length;
 
                 if(parmCount < 5 && parmIndex == (parmCount - 1)){
-                    $('<div class="parmBox"><div class="name">值'+ (parmCount + 1) +'</div><div class="txt"><input class="formulaInputFocus" /><i class="fa fa-table" aria-hidden="true" title="点击选择数据范围"></i></div><div class="val">=</div></div>').appendTo($("#luckysheet-search-formula-parm .parmListBox"));
+                    $('<div class="parmBox"><div class="name">'+ locale_formulaMore.valueTitle +''+ (parmCount + 1) +'</div><div class="txt"><input class="formulaInputFocus" /><i class="fa fa-table" aria-hidden="true" title="'+locale_formulaMore.tipSelectDataRange+'"></i></div><div class="val">=</div></div>').appendTo($("#luckysheet-search-formula-parm .parmListBox"));
                 }
             }
         });
@@ -133,9 +138,9 @@ const insertFormula = {
                 $("body").append(replaceHtml(modelHTML, { 
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
-                    "title": "选取数据范围", 
-                    "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='数据范围' readonly='true' placeholder='数据范围'>", 
-                    "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">确认</button>', 
+                    "title": locale_formulaMore.tipSelectDataRange, 
+                    "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='"+ locale_formulaMore.tipDataRangeTile +"' readonly='true' placeholder='"+ locale_formulaMore.tipDataRangeTile +"'>", 
+                    "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">'+locale_button.confirm+'</button>', 
                     "style": "z-index:100003" 
                 }));
             }
@@ -143,9 +148,9 @@ const insertFormula = {
                 $("body").append(replaceHtml(modelHTML, { 
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
-                    "title": "选取数据范围", 
-                    "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='数据范围' readonly='true' value='"+ $(this).parents(".parmBox").find(".txt input").val() +"'>", 
-                    "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">确认</button>', 
+                    "title": locale_formulaMore.tipSelectDataRange, 
+                    "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='"+ locale_formulaMore.tipDataRangeTile +"' readonly='true' value='"+ $(this).parents(".parmBox").find(".txt input").val() +"'>", 
+                    "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">'+locale_button.confirm+'</button>', 
                     "style": "z-index:100003" 
                 }));
             }
@@ -178,6 +183,10 @@ const insertFormula = {
     formulaListDialog: function(){
         let _this = this;
 
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
+        let locale_button = _locale.button
+
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-search-formula").remove();
 
@@ -185,8 +194,8 @@ const insertFormula = {
             "id": "luckysheet-search-formula", 
             "addclass": "luckysheet-search-formula", 
             "title": "", 
-            "content": "<div class='inpbox'><label for='searchFormulaListInput'>查找函数：</label><input class='formulaInputFocus' id='searchFormulaListInput' placeholder='请输入您要查找的函数名称或函数功能的简要描述' spellcheck='false'/></div><div class='selbox'><label>或选择类别：</label><select id='formulaTypeSelect'><option value='0'>数学</option><option value='1'>统计</option><option value='2'>查找</option><option value='3'>Luckysheet内置</option><option value='4'>数据挖掘</option><option value='5'>数据源</option><option value='6'>日期</option><option value='7'>过滤器</option><option value='8'>财务</option><option value='9'>工程计算</option><option value='10'>逻辑</option><option value='11'>运算符</option><option value='12'>文本</option><option value='13'>转换工具</option><option value='14'>数组</option><option value='-1'>其它</option></select></div><div class='listbox'><label>选择函数：</label><div id='formulaTypeList'></div></div>", 
-            "botton": '<button id="luckysheet-search-formula-confirm" class="btn btn-primary">确认</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "content": "<div class='inpbox'><label for='searchFormulaListInput'>"+ locale_formulaMore.findFunctionTitle +"：</label><input class='formulaInputFocus' id='searchFormulaListInput' placeholder='"+ locale_formulaMore.tipInputFunctionName +"' spellcheck='false'/></div><div class='selbox'><label>"+locale_formulaMore.selectCategory+"：</label><select id='formulaTypeSelect'><option value='0'>"+locale_formulaMore.Math+"</option><option value='1'>"+locale_formulaMore.Statistical+"</option><option value='2'>"+locale_formulaMore.Lookup+"</option><option value='3'>"+locale_formulaMore.luckysheet+"</option><option value='4'>"+locale_formulaMore.dataMining+"</option><option value='5'>"+locale_formulaMore.Database+"</option><option value='6'>"+locale_formulaMore.Date+"</option><option value='7'>"+locale_formulaMore.Filter+"</option><option value='8'>"+locale_formulaMore.Financial+"</option><option value='9'>"+locale_formulaMore.Engineering+"</option><option value='10'>"+locale_formulaMore.Logical+"</option><option value='11'>"+locale_formulaMore.Operator+"</option><option value='12'>"+locale_formulaMore.Text+"</option><option value='13'>"+locale_formulaMore.Parser+"</option><option value='14'>"+locale_formulaMore.Array+"</option><option value='-1'>"+locale_formulaMore.other+"</option></select></div><div class='listbox'><label>"+locale_formulaMore.selectFunctionTitle+"：</label><div id='formulaTypeList'></div></div>", 
+            "botton": '<button id="luckysheet-search-formula-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-search-formula").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
@@ -201,6 +210,7 @@ const insertFormula = {
     },
     formulaListByType: function(type){
         $("#formulaTypeList").empty();
+        let functionlist = Store.functionlist;
                     
         for(let i = 0; i < functionlist.length; i++){
             if((type == "-1" && functionlist[i].t > 14) || functionlist[i].t == type){
@@ -215,6 +225,11 @@ const insertFormula = {
             parm_content = '',
             parm_list_content = '';
 
+        let _locale = locale();
+        let locale_formulaMore = _locale.formulaMore;
+        let locale_button = _locale.button;
+        let functionlist = Store.functionlist;
+
         for(let i = 0; i < functionlist.length; i++){
             if(functionlist[i].n == formulaTxt.toUpperCase()){
                 parm_title = functionlist[i].n;
@@ -226,7 +241,7 @@ const insertFormula = {
                                                 '<div class="name">'+ functionlist[i].p[j].name +'</div>'+
                                                 '<div class="txt">'+
                                                     '<input class="formulaInputFocus" spellcheck="false"/>' +
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择数据范围"></i>'+
+                                                    '<i class="fa fa-table" aria-hidden="true" title="'+locale_formulaMore.tipSelectDataRange+'"></i>'+
                                                 '</div>'+
                                                 '<div class="val">=</div>'+
                                              '</div>';
@@ -241,7 +256,7 @@ const insertFormula = {
                                                 '<div class="name">'+ functionlist[i].p[j].name +'</div>'+
                                                 '<div class="txt">'+
                                                     '<input class="formulaInputFocus" value="'+ parm[j] +'" spellcheck="false"/>'+
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择数据范围"></i>'+
+                                                    '<i class="fa fa-table" aria-hidden="true" title="'+locale_formulaMore.tipSelectDataRange+'"></i>'+
                                                 '</div>'+
                                                 '<div class="val">=</div>'+
                                              '</div>';
@@ -252,7 +267,7 @@ const insertFormula = {
                                     '<div class="parmListBox">'+ parm_list_content +'</div>'+
                                     '<div class="formulaDetails">'+ functionlist[i].d +'</div>'+
                                     '<div class="parmDetailsBox"></div>'+
-                                    '<div class="result">计算结果 = <span></span></div>'+
+                                    '<div class="result">'+locale_formulaMore.calculationResult+' = <span></span></div>'+
                                 '</div>';
             }
         }
@@ -266,7 +281,7 @@ const insertFormula = {
             "addclass": "luckysheet-search-formula-parm", 
             "title": parm_title, 
             "content": parm_content, 
-            "botton": '<button id="luckysheet-search-formula-parm-confirm" class="btn btn-primary">确认</button><button class="btn btn-default luckysheet-model-close-btn">取消</button>', 
+            "botton": '<button id="luckysheet-search-formula-parm-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
@@ -416,7 +431,7 @@ const insertFormula = {
         
         $("#luckysheet-search-formula-parm .parmBox").each(function(i, e){
             let parmtxt = $(e).find(".txt input").val();
-            let parmRequire = luckysheet_function[formulatxt].p[i].require;
+            let parmRequire = Store.luckysheet_function[formulatxt].p[i].require;
 
             if(parmtxt == "" && parmRequire == "m"){
                 isVal = false;

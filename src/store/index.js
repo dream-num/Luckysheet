@@ -87,7 +87,9 @@ const Store = {
     zIndex: 15,
     chartparam: {
         jfgridCurrentChartActive: false
-    }
+    },
+    functionList:null, //function list explanation
+    luckysheet_function:null,
 }
 
 export default Store;

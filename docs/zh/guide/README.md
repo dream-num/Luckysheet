@@ -47,11 +47,11 @@ npm run build
 ### 第二步
 引入依赖
 ```html
-<link rel="stylesheet" href="plugins/css/pluginsCss.min.css">
-<link rel="stylesheet" href="plugins/plugins.min.css">
-<link rel="stylesheet" href="css/main.min.css">
-<script src="plugins/js/plugin.min.js"></script>
-<script src="main.min.js"></script>
+<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='./plugins/plugins.css' />
+<link rel='stylesheet' href='./css/luckysheet.css' />
+<script src="./plugins/js/plugin.js"></script>
+<script src="./luckysheet.umd.js"></script>
 ```
 ### 第三步
 指定一个表格容器
@@ -88,35 +88,32 @@ luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 ```javascript
 luckysheetfile[0] = 
 {
-	"name": "超市销售额",
-	"color": "",
-	"chart": [],
-	"status": 0,
-	"order": 0,
-	"celldata": [],
-	"row":90,
-	"column":100,
-	"index": 0,
-	"visibledatarow": [],
-	"visibledatacolumn": [],
-	"rowsplit": [],
-	"ch_width": 4629,
-	"rh_height": 1681,
-	"luckysheet_select_save": {},
-	"luckysheet_selection_range": {},
-	"scrollLeft": 0,
-	"scrollTop": 0,
-	"load": "1",
-	"config": {
-		"columlen": {},
-		"rowhidden": {}
-	}
-	,
-	"pivotTable": {},
-	"isPivotTable": true,
-    "calcChain": [],
-    "filter":{key1:value1, key2:value2},
-    "filter_select": {}
+	"name": "Cell", //工作表名称
+	"color": "", //工作表颜色
+	"config": {}, //表格行高、列宽、合并单元格、边框、隐藏行等设置
+	"index": "0", //工作表索引
+	"chart": [], //图表配置
+	"status": "1", //激活状态
+	"order": "0", //工作表的顺序
+	"hide": 0,//是否隐藏
+	"column": 18, //列数
+	"row": 36, //行数
+	"celldata": [], //原始单元格数据集
+	"visibledatarow": [], //所有行的位置
+	"visibledatacolumn": [], //所有列的位置
+	"ch_width": 2322, //工作表区域的宽度
+	"rh_height": 949, //工作表区域的高度
+	"scrollLeft": 0, //左右滚动条位置
+	"scrollTop": 315, //上下滚动条位置
+	"luckysheet_select_save": [], //选中的区域
+	"luckysheet_conditionformat_save": {},//条件格式
+	"calcChain": [],//公式链
+	"isPivotTable":false,//是否数据透视表
+	"pivotTable":{},//数据透视表设置
+	"filter_select": null,//筛选范围
+	"filter": null,//筛选配置
+	"luckysheet_alternateformat_save": [], //交替颜色
+	"luckysheet_alternateformat_save_modelCustom": []//自定义交替颜色	
 }
 ```
 ### 查看方式

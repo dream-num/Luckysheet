@@ -101,26 +101,30 @@ const menuButton = {
 
         //格式刷
         $("#luckysheet-icon-paintformat").click(function(){
+
+            let _locale = locale();
+            let locale_paint = _locale.paint;
+
             if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
-                    alert("请选择需要复制格式的区域");
+                    alert(locale_paint.tipSelectRange);
                 }
                 else{
-                    tooltip.info("提示","请选择需要复制格式的区域");
+                    tooltip.info("",locale_paint.tipSelectRange);
                 }
                 return;
             }
             else if(Store.luckysheet_select_save.length > 1){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_paint.tipNotMulti);
                 }
                 else{
-                    tooltip.info("提示","无法对多重选择区域执行此操作");
+                    tooltip.info("",locale_paint.tipNotMulti);
                 }
                 return;
             }
 
-            tooltip.popover("<i class='fa fa-paint-brush'></i> 格式刷开启", "topCenter", true, null, "ESC键退出",function(){
+            tooltip.popover("<i class='fa fa-paint-brush'></i> "+locale_paint.start+"", "topCenter", true, null, locale_paint.end,function(){
                 _this.cancelPaintModel();
             });
             $("#luckysheet-sheettable_0").addClass("luckysheetPaintCursor");
@@ -152,26 +156,28 @@ const menuButton = {
             _this.luckysheetPaintSingle = true;
         });
         $("#luckysheet-icon-paintformat").dblclick(function(){
+            let _locale = locale();
+            let locale_paint = _locale.paint;
             if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
-                    alert("请选择需要复制格式的区域");
+                    alert(locale_paint.tipSelectRange);
                 }
                 else{
-                    tooltip.info("提示","请选择需要复制格式的区域");  
+                    tooltip.info("",locale_paint.tipSelectRange);  
                 }
                 return;
             }
             else if(Store.luckysheet_select_save.length > 1){
                 if(isEditMode()){
-                    alert("无法对多重选择区域执行此操作");
+                    alert(locale_paint.tipNotMulti);
                 }
                 else{
-                    tooltip.info("提示","无法对多重选择区域执行此操作");
+                    tooltip.info("",locale_paint.tipNotMulti);
                 }
                 return;
             }
 
-            tooltip.popover("<i class='fa fa-paint-brush'></i> 格式刷开启", "topCenter", true, null, "ESC键退出",function(){
+            tooltip.popover("<i class='fa fa-paint-brush'></i> "+locale_paint.start, "topCenter", true, null, locale_paint.end,function(){
                 _this.cancelPaintModel();
             });
             $("#luckysheet-sheettable_0").addClass("luckysheetPaintCursor");
@@ -1434,7 +1440,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "rotation-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
@@ -1927,17 +1933,20 @@ const menuButton = {
         $("#luckysheet-icon-function-menu").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
+
+            const _locale = locale();
+            const locale_formula = _locale.formula;
             
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": "求和", "value": "SUM", "example": 'SUM'},
-                    {"text": "平均值", "value": "AVERAGE", "example": 'AVERAGE'},
-                    {"text": "计数", "value": "COUNT", "example": 'COUNT'},
-                    {"text": "最大值", "value": "MAX", "example": 'MAX'},
-                    {"text": "最小值", "value": "MIN", "example": 'MIN'},
+                    {"text": locale_formula.sum, "value": "SUM", "example": 'SUM'},
+                    {"text": locale_formula.average, "value": "AVERAGE", "example": 'AVERAGE'},
+                    {"text": locale_formula.count, "value": "COUNT", "example": 'COUNT'},
+                    {"text": locale_formula.max, "value": "MAX", "example": 'MAX'},
+                    {"text": locale_formula.min, "value": "MIN", "example": 'MIN'},
                     {"text": "", "value": "split", "example": ""},
-                    {"text": "if公式生成器", "value": "if", "example": 'IF'},
-                    {"text": "函数查找 ...", "value": "formula", "example": ""}
+                    {"text": locale_formula.ifGenerate, "value": "if", "example": 'IF'},
+                    {"text": locale_formula.find+" ...", "value": "formula", "example": ""}
                 ];
 
                 let itemset = _this.createButtonMenu(itemdata);
@@ -1945,7 +1954,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "function-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(150);
+                $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
@@ -1966,10 +1975,10 @@ const menuButton = {
                             }
                             else{
                                 if(isEditMode()){
-                                    alert("该单元格函数不属于if公式！");
+                                    alert(locale_formula.tipNotBelongToIf);
                                 }
                                 else{
-                                    tooltip.info("该单元格函数不属于if公式！","");
+                                    tooltip.info(locale_formula.tipNotBelongToIf,"");
                                 }
                                 return;
                             }
@@ -1984,10 +1993,10 @@ const menuButton = {
                         //点击函数查找弹出框
                         if(Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("请选择单元格插入函数");
+                                alert(locale_formula.tipSelectCell);
                             }
                             else{
-                                tooltip.info("请选择单元格插入函数","");
+                                tooltip.info(locale_formula.tipSelectCell,"");
                             }
 
                             return;
@@ -2099,131 +2108,132 @@ const menuButton = {
         $("#luckysheet-icon-conditionformat").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
+
+            const conditionformat_text = locale().conditionformat;
             
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": "突出显示单元格规则", "value": "highlightCellRule", "example": "more"},
-                    {"text": "项目选取规则", "value": "projectSelectRule", "example": "more"},
-                    {"text": "数据条", "value": "dataBar", "example": "more"},
-                    {"text": "色阶", "value": "colorGradation", "example": "more"},
-                    {"text": "图标集", "value": "icons", "example": ""},
-                    {"text": "", "value": "split", "example": ""},
-                    {"text": "新建规则", "value": "newRule", "example": ""},
-                    {"text": "清除规则", "value": "deleteRule", "example": "more"},
-                    {"text": "管理规则", "value": "administerRule", "example": ""}
+                    { "text": conditionformat_text.highlightCellRules, "value": "highlightCellRule", "example": "more" },
+                    { "text": conditionformat_text.itemSelectionRules, "value": "projectSelectRule", "example": "more" },
+                    { "text": conditionformat_text.dataBar, "value": "dataBar", "example": "more" },
+                    { "text": conditionformat_text.colorGradation, "value": "colorGradation", "example": "more" },
+                    { "text": conditionformat_text.icons, "value": "icons", "example": "" },
+                    { "text": "", "value": "split", "example": "" },
+                    { "text": conditionformat_text.newRule, "value": "newRule", "example": "" },
+                    { "text": conditionformat_text.deleteRule, "value": "deleteRule", "example": "more" },
+                    { "text": conditionformat_text.manageRules, "value": "administerRule", "example": "" }
                 ];
                 let itemset = _this.createButtonMenu(itemdata);
                 let menu = replaceHtml(_this.menu, {"id": "conditionformat", "item": itemset, "subclass": "", "sub": ""});
                 
                 //突出显示单元格规则子菜单
                 let subitemdata = [
-                    {"text": "大于", "value": "greaterThan", "example": ">"},
-                    {"text": "小于", "value": "lessThan", "example": "<"},
-                    {"text": "介于", "value": "betweenness", "example": "[]"},
-                    {"text": "等于", "value": "equal", "example": "="},
-                    {"text": "文本包含", "value": "textContains", "example": "()"},
-                    {"text": "发生日期", "value": "occurrenceDate", "example": "昨天"},
-                    {"text": "重复值", "value": "duplicateValue", "example": "##"}
+                    { "text": conditionformat_text.greaterThan, "value": "greaterThan", "example": ">" },
+                    { "text": conditionformat_text.lessThan, "value": "lessThan", "example": "<" },
+                    { "text": conditionformat_text.between, "value": "betweenness", "example": "[]" },
+                    { "text": conditionformat_text.equal, "value": "equal", "example": "=" },
+                    { "text": conditionformat_text.textContains, "value": "textContains", "example": "()" },
+                    { "text": conditionformat_text.occurrence, "value": "occurrenceDate", "example": conditionformat_text.yesterday },
+                    { "text": conditionformat_text.duplicateValue, "value": "duplicateValue", "example": "##" }
                 ];
                 let subitemset = _this.createButtonMenu(subitemdata);
                 let submenu = replaceHtml(_this.menu, {"id": "highlightCellRule", "item": subitemset, "subclass": "luckysheet-menuButton-sub"});
                 
                 //项目选取规则子菜单
                 let subitemdata2 = [
-                    {"text": "前 10 项", "value": "top10", "example": "前10项"},
-                    {"text": "前 10%", "value": "top10%", "example": "前10%"},
-                    {"text": "最后 10 项", "value": "last10", "example": "后10项"},
-                    {"text": "最后 10%", "value": "last10%", "example": "后10%"},
-                    {"text": "高于平均值", "value": "AboveAverage", "example": "高于均值"},
-                    {"text": "低于平均值", "value": "SubAverage", "example": "低于均值"}
+                    { "text": conditionformat_text.top10, "value": "top10", "example": conditionformat_text.top10 },
+                    { "text": conditionformat_text.top10_percent, "value": "top10%", "example": conditionformat_text.top10_percent },
+                    { "text": conditionformat_text.last10, "value": "last10", "example": conditionformat_text.last10 },
+                    { "text": conditionformat_text.last10_percent, "value": "last10%", "example": conditionformat_text.last10_percent },
+                    { "text": conditionformat_text.aboveAverage, "value": "AboveAverage", "example": conditionformat_text.aboveAverage },
+                    { "text": conditionformat_text.belowAverage, "value": "SubAverage", "example": conditionformat_text.belowAverage }
                 ];
                 let subitemset2 = _this.createButtonMenu(subitemdata2);
                 let submenu2 = replaceHtml(_this.menu, {"id": "projectSelectRule", "item": subitemset2, "subclass": "luckysheet-menuButton-sub"});
                 
                 //数据条子菜单
-                let submenu3 = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton luckysheet-menuButton-sub luckysheet-mousedown-cancel" id="luckysheet-icon-dataBar-menuButton" style="width: 126px;padding: 5px;top: 118.5px;left: 1321.48px;display: none;">' +
-                                '<div itemvalue="0" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 0;" title="蓝-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="1" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px 0;" title="绿-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="2" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px 0;" title="红-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="3" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -36px;" title="橙-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="4" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -36px;" title="浅蓝-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="5" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -36px;" title="紫-白渐变数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="6" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -72px;" title="蓝色数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="7" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -72px;" title="绿色数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="8" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -72px;" title="红色数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="9" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -108px;" title="橙色数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="10" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -108px;" title="浅蓝色数据条"></div>' +
-                                '</div>' +
-                                '<div itemvalue="11" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -108px;" title="紫色数据条"></div>' +
-                                '</div>' +
-                               '</div>';
+                let submenu3 = `<div id="luckysheet-icon-dataBar-menuButton" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton luckysheet-menuButton-sub luckysheet-mousedown-cancel" style="width: 126px;padding: 5px;top: 118.5px;left: 1321.48px;display: none;">
+                                    <div itemvalue="0" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 0;" title="${conditionformat_text.gradientDataBar_1}"></div>
+                                    </div>
+                                    <div itemvalue="1" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px 0;" title="${conditionformat_text.gradientDataBar_2}"></div>
+                                    </div>
+                                    <div itemvalue="2" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px 0;" title="${conditionformat_text.gradientDataBar_3}"></div>
+                                    </div>
+                                    <div itemvalue="3" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -36px;" title="${conditionformat_text.gradientDataBar_4}"></div>
+                                    </div>
+                                    <div itemvalue="4" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -36px;" title="${conditionformat_text.gradientDataBar_5}"></div>
+                                    </div>
+                                    <div itemvalue="5" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -36px;" title="${conditionformat_text.gradientDataBar_6}"></div>
+                                    </div>
+                                    <div itemvalue="6" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -72px;" title="${conditionformat_text.solidColorDataBar_1}"></div>
+                                    </div>
+                                    <div itemvalue="7" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -72px;" title="${conditionformat_text.solidColorDataBar_2}"></div>
+                                    </div>
+                                    <div itemvalue="8" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -72px;" title="${conditionformat_text.solidColorDataBar_3}"></div>
+                                    </div>
+                                    <div itemvalue="9" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -108px;" title="${conditionformat_text.solidColorDataBar_4}"></div>
+                                    </div>
+                                    <div itemvalue="10" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -108px;" title="${conditionformat_text.solidColorDataBar_5}"></div>
+                                    </div>
+                                    <div itemvalue="11" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -108px;" title="${conditionformat_text.solidColorDataBar_6}"></div>
+                                    </div>
+                                </div>`;
 
                 //色阶
-                let submenu4 = '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton luckysheet-menuButton-sub luckysheet-mousedown-cancel" id="luckysheet-icon-colorGradation-menuButton" style="width: 126px;padding: 5px;top: 143.5px;left: 1321.48px;display: none;">' +
-                                '<div itemvalue="0" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 0;" title="绿-黄-红色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="1" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px 0;" title="红-黄-绿色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="2" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px 0;" title="绿-白-红色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="3" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px 0;" title="红-白-绿色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="4" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -36px;" title="蓝-白-红色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="5" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -36px;" title="红-白-蓝色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="6" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -36px;" title="白-红色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="7" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px -36px;" title="红-白色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="8" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -72px;" title="绿-白色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="9" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -72px;" title="白-绿色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="10" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -72px;" title="绿-黄色阶"></div>' +
-                                '</div>' +
-                                '<div itemvalue="11" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">' +
-                                    '<div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px -72px;" title="黄-绿色阶"></div>' +
-                                '</div>' +
-                               '</div>';
+                let submenu4 = `<div id="luckysheet-icon-colorGradation-menuButton" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton luckysheet-menuButton-sub luckysheet-mousedown-cancel" style="width: 126px;padding: 5px;top: 143.5px;left: 1321.48px;display: none;">
+                                    <div itemvalue="0" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 0;" title="${conditionformat_text.colorGradation_1}"></div>
+                                    </div>
+                                    <div itemvalue="1" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px 0;" title="${conditionformat_text.colorGradation_2}"></div>
+                                    </div>
+                                    <div itemvalue="2" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px 0;" title="${conditionformat_text.colorGradation_3}"></div>
+                                    </div>
+                                    <div itemvalue="3" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px 0;" title="${conditionformat_text.colorGradation_4}"></div>
+                                    </div>
+                                    <div itemvalue="4" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -36px;" title="${conditionformat_text.colorGradation_5}"></div>
+                                    </div>
+                                    <div itemvalue="5" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -36px;" title="${conditionformat_text.colorGradation_6}"></div>
+                                    </div>
+                                    <div itemvalue="6" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -36px;" title="${conditionformat_text.colorGradation_7}"></div>
+                                    </div>
+                                    <div itemvalue="7" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px -36px;" title="${conditionformat_text.colorGradation_8}"></div>
+                                    </div>
+                                    <div itemvalue="8" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: 0 -72px;" title="${conditionformat_text.colorGradation_9}"></div>
+                                    </div>
+                                    <div itemvalue="9" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -38px -72px;" title="${conditionformat_text.colorGradation_10}"></div>
+                                    </div>
+                                    <div itemvalue="10" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -76px -72px;" title="${conditionformat_text.colorGradation_11}"></div>
+                                    </div>
+                                    <div itemvalue="11" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="width: 28px; height: 26px;padding: 5px;float: left;">
+                                        <div class="luckysheet-mousedown-cancel bgImgBox" style="background-position: -114px -72px;" title="${conditionformat_text.colorGradation_12}"></div>
+                                    </div>
+                                </div>`;
 
                 //清除规则子菜单
                 let subitemdata6 = [
-                    // {"text":"清除所选单元格的规则", "value":"", "example":""},
-                    {"text":"清除整个工作表的规则", "value":"delSheet", "example":""}
+                    { "text": conditionformat_text.deleteSheetRule, "value": "delSheet", "example": "" }
                 ];
                 let subitemset6 = _this.createButtonMenu(subitemdata6);
                 let submenu6 = replaceHtml(_this.menu, {"id": "deleteRule", "item": subitemset6, "subclass":"luckysheet-menuButton-sub"});
@@ -2242,10 +2252,10 @@ const menuButton = {
                     if(itemvalue == "icons"){
                         if(Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("请选择应用范围");
+                                alert(conditionformat_text.pleaseSelectRange);
                             }
                             else{
-                                tooltip.info("请选择应用范围", "");
+                                tooltip.info(conditionformat_text.pleaseSelectRange, "");
                             }
                             return;
                         }
@@ -2256,10 +2266,10 @@ const menuButton = {
                     else if(itemvalue == "newRule"){
                         if(Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
-                                alert("请选择应用范围");
+                                alert(conditionformat_text.pleaseSelectRange);
                             }
                             else{
-                                tooltip.info("请选择应用范围", "");
+                                tooltip.info(conditionformat_text.pleaseSelectRange, "");
                             }
                             return;
                         }
@@ -2320,108 +2330,107 @@ const menuButton = {
 
                     if(Store.luckysheet_select_save.length == 0){
                         if(isEditMode()){
-                            alert("请选择条件格式的应用范围");
+                            alert(conditionformat_text.pleaseSelectRange);
                         }
                         else{
-                            tooltip.info("请选择条件格式的应用范围", ""); 
+                            tooltip.info(conditionformat_text.pleaseSelectRange, ""); 
                         }
                         return;
                     }
                     else{
-                        let textCellColorHtml = conditionformat.textCellColorHtml;
+                        let textCellColorHtml = conditionformat.textCellColorHtml();
 
                         let title, content;
                         switch(itemvalue){
                             case "greaterThan":
-                                title = "条件格式——大于";
-                                content = '<div class="box" data-itemvalue="greaterThan">' +
-                                                '<div class="boxTitleOne">为大于以下值的单元格设置格式：</div>' +
-                                                '<div class="inpbox range">' +
-                                                    '<input id="conditionVal" class="formulaInputFocus"/>' +
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' + 
-                                                textCellColorHtml + 
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_greaterThan;
+                                content =  `<div class="box" data-itemvalue="greaterThan">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_greaterThan_title}：</div>
+                                                <div class="inpbox range">
+                                                    <input id="conditionVal" class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div> 
+                                                ${textCellColorHtml} 
+                                            </div>`;
                                 break;
                             case "lessThan":
-                                title = "条件格式——小于";
-                                content = '<div class="box" data-itemvalue="lessThan">' +
-                                                '<div class="boxTitleOne">为小于以下值的单元格设置格式：</div>' +
-                                                '<div class="inpbox range">' +
-                                                    '<input id="conditionVal" class="formulaInputFocus"/>' +
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_lessThan;
+                                content =  `<div class="box" data-itemvalue="lessThan">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_lessThan_title}：</div>
+                                                <div class="inpbox range">
+                                                    <input id="conditionVal" class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "betweenness":
-                                title = "条件格式——介于";
-                                content = '<div class="box" data-itemvalue="betweenness">' +
-                                                '<div class="boxTitleOne">为介于以下值的单元格设置格式：</div>' +
-                                                '<div style="height: 30px;line-height: 30px;">' +
-                                                    '<div class="inpbox2 range">' +
-                                                        '<input id="conditionVal" class="formulaInputFocus"/>' +
-                                                        '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                    '</div>' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">到</div>' +
-                                                    '<div class="inpbox2 range">' +
-                                                        '<input id="conditionVal2" class="formulaInputFocus"/>' +
-                                                        '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_betweenness;
+                                content =  `<div class="box" data-itemvalue="betweenness">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_betweenness_title}：</div>
+                                                <div style="height: 30px;line-height: 30px;">
+                                                    <div class="inpbox2 range">
+                                                        <input id="conditionVal" class="formulaInputFocus"/>
+                                                        <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                    </div>
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.to}</div>
+                                                    <div class="inpbox2 range">
+                                                        <input id="conditionVal2" class="formulaInputFocus"/>
+                                                        <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                    </div>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "equal":
-                                title = "条件格式——等于";
-                                content = '<div class="box" data-itemvalue="equal">' +
-                                                '<div class="boxTitleOne">为等于以下值的单元格设置格式：</div>' +
-                                                '<div class="inpbox range">' +
-                                                    '<input id="conditionVal" class="formulaInputFocus"/>' +
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_equal;
+                                content =  `<div class="box" data-itemvalue="equal">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_equal_title}：</div>
+                                                <div class="inpbox range">
+                                                    <input id="conditionVal" class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "textContains":
-                                title = "条件格式——文本包含";
-                                content = '<div class="box" data-itemvalue="textContains">' +
-                                                '<div class="boxTitleOne">为包含以下文本的单元格设置格式：</div>' +
-                                                '<div class="inpbox range">' +
-                                                    '<input id="conditionVal" class="formulaInputFocus"/>' +
-                                                    '<i class="fa fa-table" aria-hidden="true" title="点击选择单元格"></i>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_textContains;
+                                content =  `<div class="box" data-itemvalue="textContains">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_textContains_title}：</div>
+                                                <div class="inpbox range">
+                                                    <input id="conditionVal" class="formulaInputFocus"/>
+                                                    <i class="fa fa-table" aria-hidden="true" title="${conditionformat_text.selectCell}"></i>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break; 
                             case "occurrenceDate":
-                                title = "条件格式——发生日期";
-                                content = '<div class="box" data-itemvalue="occurrenceDate">' +
-                                                '<div class="boxTitleOne">为包含以下日期的单元格设置格式：</div>' +
-                                                '<div class="inpbox">' +
-                                                    '<input id="daterange-btn" class="formulaInputFocus" readonly="readonly" placeholder="请选择日期"/>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_occurrenceDate;
+                                content =  `<div class="box" data-itemvalue="occurrenceDate">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_occurrenceDate_title}：</div>
+                                                <div class="inpbox">
+                                                    <input id="daterange-btn" class="formulaInputFocus" readonly="readonly" placeholder="${conditionformat_text.pleaseSelectADate}"/>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break; 
                             case "duplicateValue":
-                                title = "条件格式——重复值";
-                                content = '<div class="box" data-itemvalue="duplicateValue">' +
-                                                '<div class="boxTitleOne">为包含以下类型值的单元格设置格式：</div>' +
-                                                '<select id="conditionVal" class="selectbox">' +
-                                                    '<option value="0">重复</option>' +
-                                                    '<option value="1">唯一</option>' +
-                                                '</select>' +
-                                                '<span style="margin-left: 5px;">值</span>' +
-                                                '<div style="margin:5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_duplicateValue;
+                                content =  `<div class="box" data-itemvalue="duplicateValue">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_duplicateValue_title}：</div>
+                                                <select id="conditionVal" class="selectbox">
+                                                    <option value="0">${conditionformat_text.duplicateValue}</option>
+                                                    <option value="1">${conditionformat_text.uniqueValue}</option>
+                                                </select>
+                                                <div style="margin:5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;      
                         }
 
@@ -2439,93 +2448,93 @@ const menuButton = {
 
                     if(Store.luckysheet_select_save.length == 0){
                         if(isEditMode()){
-                            alert("请选择条件格式的应用范围");
+                            alert(conditionformat_text.pleaseSelectRange);
                         }
                         else{
-                            tooltip.info("请选择条件格式的应用范围", ""); 
+                            tooltip.info(conditionformat_text.pleaseSelectRange, ""); 
                         }
                         return;
                     }
                     else{
-                        let textCellColorHtml = conditionformat.textCellColorHtml;
+                        let textCellColorHtml = conditionformat.textCellColorHtml();
 
                         let title, content;
                         switch(itemvalue){
                             case "top10":
-                                title = "条件格式——前 10 项";
-                                content = '<div class="box" data-itemvalue="top10">' +
-                                                '<div class="boxTitleOne">为值最大的那些单元格设置格式：</div>' +
-                                                '<div style="height: 30px;line-height: 30px;">' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">前</div>' +
-                                                    '<div class="inpbox2">' +
-                                                        '<input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>' +
-                                                    '</div>' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">项</div>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_top10;
+                                content =  `<div class="box" data-itemvalue="top10">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_top10_title}：</div>
+                                                <div style="height: 30px;line-height: 30px;">
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.top}</div>
+                                                    <div class="inpbox2">
+                                                        <input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>
+                                                    </div>
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.oneself}</div>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "top10%":
-                                title = "条件格式——前 10%";
-                                content = '<div class="box" data-itemvalue="top10%">' +
-                                                '<div class="boxTitleOne">为值最大的那些单元格设置格式：</div>' +
-                                                '<div style="height: 30px;line-height: 30px;">' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">前</div>' +
-                                                    '<div class="inpbox2">' +
-                                                        '<input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>' +
-                                                    '</div>' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">%</div>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_top10_percent;
+                                content =  `<div class="box" data-itemvalue="top10%">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_top10_title}：</div>
+                                                <div style="height: 30px;line-height: 30px;">
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.top}</div>
+                                                    <div class="inpbox2">
+                                                        <input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>
+                                                    </div>
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">%</div>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "last10":
-                                title = "条件格式——最后 10 项";
-                                content = '<div class="box" data-itemvalue="last10">' +
-                                                '<div class="boxTitleOne">为值最小的那些单元格设置格式：</div>' +
-                                                '<div style="height: 30px;line-height: 30px;">' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">最后</div>' +
-                                                    '<div class="inpbox2">' +
-                                                        '<input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>' +
-                                                    '</div>' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">项</div>' +
-                                                '</div>' +
-                                                '<div style="margin: 5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_last10;
+                                content =  `<div class="box" data-itemvalue="last10">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_last10_title}：</div>
+                                                <div style="height: 30px;line-height: 30px;">
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.last}</div>
+                                                    <div class="inpbox2">
+                                                        <input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>
+                                                    </div>
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.oneself}</div>
+                                                </div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAs}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "last10%":
-                                title = "条件格式——最后 10%";
-                                content = '<div class="box" data-itemvalue="last10%">' +
-                                                '<div class="boxTitleOne">为值最小的那些单元格设置格式：</div>' +
-                                                '<div style="height: 30px;line-height: 30px;">' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">最后</div>' +
-                                                    '<div class="inpbox2">' +
-                                                        '<input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>' +
-                                                    '</div>' +
-                                                    '<div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">%</div>' +
-                                                '</div>' +
-                                                '<div style="margin:5px 0;">设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_last10_percent;
+                                content =  `<div class="box" data-itemvalue="last10%">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_last10_title}：</div>
+                                                <div style="height: 30px;line-height: 30px;">
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">${conditionformat_text.last}</div>
+                                                    <div class="inpbox2">
+                                                        <input id="conditionVal" class="formulaInputFocus" type="number" value="10"/>
+                                                    </div>
+                                                    <div style="float: left;height: 30px;line-height: 30px;margin: 0 5px;">%</div>
+                                                </div>
+                                                <div style="margin:5px 0;">设置为：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break;
                             case "AboveAverage":
-                                title = "条件格式——高于平均值";
-                                content = '<div class="box" data-itemvalue="AboveAverage">' +
-                                                '<div class="boxTitleOne">为高于平均值的单元格设置格式：</div>' +
-                                                '<div style="margin: 5px 0;">针对选定区域，设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_AboveAverage;
+                                content =  `<div class="box" data-itemvalue="AboveAverage">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_AboveAverage_title}：</div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAsByArea}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break; 
                             case "SubAverage":
-                                title = "条件格式——低于平均值";
-                                content = '<div class="box" data-itemvalue="SubAverage">' +
-                                                '<div class="boxTitleOne">为低于平均值的单元格设置格式：</div>' +
-                                                '<div style="margin: 5px 0;">针对选定区域，设置为：</div>' +
-                                                textCellColorHtml +
-                                              '</div>';
+                                title = conditionformat_text.conditionformat_SubAverage;
+                                content =  `<div class="box" data-itemvalue="SubAverage">
+                                                <div class="boxTitleOne">${conditionformat_text.conditionformat_SubAverage_title}：</div>
+                                                <div style="margin: 5px 0;">${conditionformat_text.setAsByArea}：</div>
+                                                ${textCellColorHtml}
+                                            </div>`;
                                 break; 
                         }
 

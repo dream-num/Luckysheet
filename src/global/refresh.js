@@ -18,19 +18,27 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-function jfrefreshgrid(data, range, cfg, cdformat, RowlChange) {
+function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true) {
+    if(data == null){
+        data = Store.flowdata;
+    }
+    if(range == null){
+        range = Store.luckysheet_select_save;
+    }
     //单元格数据更新联动
-    formula.execFunctionExist = [];
-    for(let s = 0; s < range.length; s++){
-        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+    if (isRunExecFunction) {
+        formula.execFunctionExist = [];
+        for(let s = 0; s < range.length; s++){
+            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
+                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
+                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+                }
             }
         }
+        formula.execFunctionExist.reverse();
+        formula.execFunctionGroup(null, null, null, null, data);
+        formula.execFunctionGroupData = null;
     }
-    formula.execFunctionExist.reverse();
-    formula.execFunctionGroup(null, null, null, null, data);
-    formula.execFunctionGroupData = null;
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
@@ -266,7 +274,7 @@ function jfrefreshrange(data, range, cdformat) {
             "curdata": data, 
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
-            "cdformat":  $.extend(true, [], luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
+            "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
             "curCdformat": cdformat 
         });
     }
@@ -779,7 +787,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth){
     }, 1);
 }
 
-//按照scrollHeight, scrollWidth刷新canvas展示数据
+//Refresh the canvas display data according to scrollHeight and scrollWidth
 function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
     formula.groupValuesRefresh();
     
