@@ -726,6 +726,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
         let fontset = luckysheetfontformat(cell);
         luckysheetTableContent.font = fontset;
+        luckysheetTableContent.textBaseline = 'top';
 
         //文本计算 宽度和高度
         let cellValueSize = getCellValueSize(cell, value, luckysheetTableContent, cellWidth, cellHeight, space_width, space_height);

@@ -3612,6 +3612,10 @@ export default function luckysheetHandler() {
                     for(let c = copy_c1; c <= copy_c2; c++){
                         let cell = d[r][c];
 
+                        if(cell != null && cell.mc != null && cell.mc.rs == null){
+                            continue;
+                        }
+
                         let v;
                         if(cell != null){
                             if(cell.ct != null && cell.ct.fa.indexOf("w") > -1){
@@ -3625,6 +3629,10 @@ export default function luckysheetHandler() {
                             v = "";
                         }
 
+                        if(v == null){
+                            v = "";
+                        }
+
                         if(cpDataArr[r - copy_r1][c - copy_c1] != v){
                             isEqual = false;
                             break;
@@ -3632,7 +3640,6 @@ export default function luckysheetHandler() {
                     }
                 }
             }
-
 
             const locale_fontjson = locale().fontjson;
 

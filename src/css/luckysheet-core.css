@@ -5667,11 +5667,11 @@ fieldset[disabled] a.btn {
     margin-bottom: 10px;
 }
 #luckysheet-modal-dialog-slider-alternateformat .modelbox{
+    display: inline-block;
     width: 36px;
     padding: 2px;
     border: 2px solid #fff;
     box-sizing: border-box;
-    float: left;
     margin-right: 4px;
     margin-bottom: 4px;
     cursor: pointer;

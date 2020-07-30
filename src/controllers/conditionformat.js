@@ -1902,8 +1902,8 @@ const conditionformat = {
             "addclass": "luckysheet-newEditorRule-dialog", 
             "title": conditionformat_Text.newFormatRule, 
             "content": content, 
-            "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="'+source+'">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="'+source+'">${conditionformat_Text.cancel}</button>`, 
+            "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-newConditionRule-dialog")
@@ -1930,7 +1930,9 @@ const conditionformat = {
         const conditionformat_Text = locale().conditionformat; 
 
         let rule = _this.editorRule.data;
-        let ruleType = rule["type"], ruleFormat = rule["format"];
+        let ruleType = rule["type"], 
+            ruleFormat = rule["format"], 
+            conditionName = rule["conditionName"];
         
         let index, type1;
         if(ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons"){
@@ -1938,8 +1940,6 @@ const conditionformat = {
             type1 = ruleType;
         }
         else{
-            let conditionName = rule["conditionName"];
-
             if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "betweenness" || conditionName == "equal" || conditionName == "textContains" || conditionName == "occurrenceDate"){
                 index = 1;
 
