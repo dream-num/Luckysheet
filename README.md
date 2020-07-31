@@ -6,28 +6,88 @@ English| [简体中文](./README-zh.md)
 ## Introduction
 Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
-
 ## Features
-1. Support table settings including freezing columns, merging cells, filtering, sorting, querying, conditional formatting, and annotations
-2. Support data analysis functions including pivottables, charts, columns, matrix operations, built-in 385 calculation functions
-3. Support one-click screenshots, data copying as json,shared editing, and free data copying and pasting between excel and luckysheet
-4. Support mobile viewing
-5. Support sparkLine
-6. Drop down copy
-7. Keyboard shortcuts
+
+### Formatting
++ **Styling** (Change font style, size, color, or apply effects)
++ **Conditional formatting** (highlight interesting cells or ranges of cells, emphasize unusual values, and visualize data by using data bars, color scales, and icon sets that correspond to specific variations in the data)
++ **Align or rotate text** 
++ **Support text truncation, overflow, automatic line wrapping**
++ **Data types** 
+	+ **currency, percentages, decimals, dates** 
+	+ **Custom** (E.g `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
+
+### Cells
++ **Move cells by drag and dropping** (Operate on selection)
++ **Fill handle** (For a series like 1, 2, 3, 4, 5..., type 1 and 2 in the first two cells. For the series 2, 4, 6, 8..., type 2 and 4. Support arithmetic sequence, geometric sequence,date, week,chinese numbers)
++ **Auto Fill Options** (Fill copy, sequence, only format, no format, day, month, year)
++ **Multiple selection** (Hold Ctrl Selecting multiple cells, copy and paste)
++ **Find and replace** (Such as a particular number or text string, Support regular expression, whole word, case sensitive)
++ **Location** (Cells can be selected according to the data type)
++ **Merge cells**
+
+### Row & columns
++ **Hide, Insert, Delete rows and columns** 
++ **Frozen rows and columns** (First row, first column, Frozen to selection, freeze adjustment lever can be dragged)
++ **Split text** (Split text into different columns with the Convert Text to Columns Wizard)
+
+### Operation
++ **Undo/Redo**
++ **Copy/Paste/Cut** (Copy from excel to luckysheet with format, vice versa)
++ **Hot key** (The operating experience is consistent with excel, if there are differences or missing, please feedback to us)
++ **Format Painter** (Similar to google sheet)
++ **Selection by drag and dropping** (Change the parameters of formula and chart through selection)
+
+### Formulas & functions
++ **Built-in formulas**
+	+ Math (SUMIFS, AVERAGEIFS, SUMIF, SUM, etc.)
+	+ Text (CONCATENATE, REGEXMATCH, MID)
+	+ Date (DATEVALUE, DATEDIF, NOW, WEEKDAY, etc.)
+	+ Financial (PV, FV, IRR, NPV, etc.)
+	+ Logical (IF, AND, OR, IFERROR, etc.)
+	+ Lookup (VLOOKUP, HLOOkUP, INDIRECT, OFFSET, etc.)
+	+ Dynamic Array (Excel2019 new formulas, SORT,FILTER,UNIQUE,RANDARRAY,SEQUENCE)
++ **Array** (={1,2,3,4,5,6}, Crtl+Shift+Enter)
++ **Remote formulas** (DM_TEXT_TFIDF, DM_TEXT_TEXTRANK,DATA_CN_STOCK_CLOSE etc. Need remote interface, can realize complex calculation)
++ **Custom**  (Some formula suitable for use in China have been added. AGE_BY_IDCARD, SEX_BY_IDCARD, BIRTHDAY_BY_IDCARD, PROVINCE_BY_IDCARD, CITY_BY_IDCARD, etc. You can define any formula you want)
+
+### Tables
++ **Filters** (Support color , numerical, date, text filtering)
++ **Sort** (Sort multiple fields simultaneously)
+
+### Pivot table
++ **Arrange fields** (Add fileds to rows, columns, values, area, it is similar to excel)
++ **Aggregation**  (Surport Sum,Count,CountA,CountUnique,Average,Max,Min,Median,Product,Stdev,Stdevp,Var,VarP etc.)
++ **Filter data** (Add fileds to filters area and analyze the desired data )
++ **Drill down** (Double click pivot table cell to drill down for detail data )
++ **Create a PivotChart** (Pivot table can create a chart )
+
+### Chart
++ **Support types** (Line, Column, Area, Bar, Pie, comming soon Scatter, Radar, Gauge, Funnel etc.) 
++ **Chart Plugins**  (Link to another project [ChartMix](https://github.com/mengshukeji/chartMix)(MIT): ECharts is currently supported,Highcharts, Ali G2, amCharts, googleChart, chart.js are being developed gradually)
++ **Sparklines** (Support by formula : Line, Pie, Box, Pie etc.)
+
+### Share
++ **Comments** (Add, delete, update)
++ **Collaborate** (Simultaneous editing by multiple users)
+
+### LuckySheet
++ **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
++ **Screenshot** (Take a screenshot with selection)
++ **Copy to** (In the right-click menu, copy selection to json, array etc.)
+
+### Coming soon
++ **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
++ **Data validation**  (Checkbox, drop-down list, datePicker)
++ **Print** (Like excel print option, save to PDF)
++ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
++ **Tree menu** (Just like the outline (group)  function of excel)
++ **Table new Features** (filter, slicer)
++ **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
++ **Documentation** (Improve documentation and API)
++ **More...** (Please advise us)
 
 ![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
-
-## Plan
-- Improve chart plugin
-- Insert picture
-- Data validation (checkbox, drop-down list)
-- Print
-- Cell segmentation style
-- Tree menu
-- Table function: filter, slice
-- Excel import/export
-- More...
 
 ## Documentation
 [Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
@@ -52,9 +112,6 @@ Package
 ```
 npm run build
 ```
-Read
-
-The core code of Luckysheet is luckysheet-core.js and luckysheet-function.js, developers only need to look at these two files to see the source code, and then we will discuss the modularization scheme and improve this library.
 
 ## Usage
 
@@ -90,11 +147,14 @@ Create a table
 ```
 
 ## Contact
-mengshu@office2.cn
+- Welcome to submit PR or [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
+- Email: mengshu@office2.cn
 
-## communication
+## Communication
 
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
+
+[Chinese community](./README-zh.md)
 
 ## Authors and acknowledgment
 - [@wpxp123456](https://github.com/wpxp123456)

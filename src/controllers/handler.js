@@ -3043,7 +3043,7 @@ export default function luckysheetHandler() {
 
         $('.luckysheet-cell-main').click(function(e){
             console.dir(e)
-            if(e.target.parentNode.parentNode && Array.from(e.target.parentNode.parentNode.classList).includes('jfgrid-modal-dialog-content')){
+            if(e.target.parentNode.parentNode && Array.from(e.target.parentNode.parentNode.classList).includes('luckysheet-modal-dialog-content')){
                 Store.highlightChart(e.target.parentNode.parentNode.id)
                 container.style.zIndex = ++Store.zIndex
                 chartSetting.style.display = 'block'
