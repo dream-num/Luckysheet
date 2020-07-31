@@ -20,7 +20,7 @@ import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
 // import luckysheet_function from '../function/luckysheet_function';
 // import functionlist from '../function/functionlist';
-import { luckysheet_compareWith, luckysheet_getcelldata, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
+import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
 import Store from '../store';
 import locale from '../locale/locale';
 
@@ -4369,11 +4369,6 @@ const luckysheetformula = {
         }
     },
     checkSpecialFunctionRange: function (function_str, r, c, dynamicArray_compute) {
-        if (!window.luckysheet_indirect_check) {
-            window.luckysheet_indirect_check = luckysheet_indirect_check;
-            window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
-            window.luckysheet_offset_check = luckysheet_offset_check;
-        }
         if (function_str.substr(0, 20) == "luckysheet_function.") {
             let funcName = function_str.split(".")[1];
             if (funcName != null) {
@@ -4428,6 +4423,17 @@ const luckysheetformula = {
         
         if (data == null) {
             data = Store.flowdata;
+        }
+
+        if (!window.luckysheet_compareWith) {
+            window.luckysheet_compareWith = luckysheet_compareWith;
+            window.luckysheet_getarraydata = luckysheet_getarraydata;
+            window.luckysheet_getcelldata = luckysheet_getcelldata;
+            window.luckysheet_parseData = luckysheet_parseData;
+            window.luckysheet_getValue = luckysheet_getValue;
+            window.luckysheet_indirect_check = luckysheet_indirect_check;
+            window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
+            window.luckysheet_offset_check = luckysheet_offset_check;
         }
         
         _this.execFunctionGroupData = $.extend(true, [], data);
