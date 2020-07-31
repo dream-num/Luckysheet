@@ -86,7 +86,7 @@ const Store = {
     highlightChart: '',
     zIndex: 15,
     chartparam: {
-        luckysheetCurrentChart: null,
+        luckysheetCurrentChart: null, //current chart_id
         luckysheetCurrentChartActive: false,
         luckysheetCurrentChartMove: null, // Debounce state
         luckysheetCurrentChartMoveTimeout: null,//拖动图表框的节流定时器
