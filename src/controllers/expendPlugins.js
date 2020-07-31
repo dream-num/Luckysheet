@@ -4,13 +4,15 @@ const pluginsObj = {
     'chart':chart
 }
 
+const isDemo = true
+
 /**
  * Register plugins
  */
 function initPlugins(plugins , data){
     if(plugins.length){
         plugins.forEach(plugin => {
-            pluginsObj[plugin](data)
+            pluginsObj[plugin](data , isDemo)
         });
     }
 }

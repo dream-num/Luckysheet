@@ -4,8 +4,9 @@ import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
 import { luckysheet_getcelldata } from '../../function/func';
-import { getSheetIndex, getRangetxt } from '../../methods/get'
+import { getSheetIndex, getRangetxt , getvisibledatacolumn , getvisibledatarow } from '../../methods/get'
 import { rowLocation, colLocation, mouseposition } from '../../global/location'
+import { setluckysheet_scroll_status } from '../../methods/set'
 import {
     luckysheetMoveHighlightCell,
     luckysheetMoveHighlightCell2,
@@ -15,8 +16,6 @@ import {
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import { getvisibledatarow, getvisibledatacolumn } from '../../methods/get'
-import { setluckysheet_scroll_status } from '../../methods/set'
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
@@ -37,7 +36,7 @@ const dependLinks = [
 ]
 
 // Initialize the chart component
-function chart(data) {
+function chart(data , isDemo) {
     loadLinks(dependLinks);
 
     seriesLoadScripts(dependScripts, null, function () {
@@ -67,26 +66,68 @@ function chart(data) {
         chartInfo.getChartJson = chartmix.default.getChartJson
         chartInfo.chart_selection = chart_selection()
         chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
-        chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData 
+        chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData
         chartInfo.chartparam.renderChart = chartmix.default.renderChart
+        chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
 
         // 初始化渲染图表
-        for(let i = 0; i < data.length; i++){
-            if(data[i].status == '1'){
-                renderCharts(data[i].chart)
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].status == '1') {
+                renderCharts(data[i].chart , isDemo)
             }
         }
     });
 }
 
 // rendercharts
-function renderCharts(chartLists){
+function renderCharts(chartLists , isDemo) {
+    for (let i = 0; i < chartLists.length; i++) {
+        let chart = chartLists[i]
+        let chart_id_c = chart.chart_id + '_c'
+        let modelChartShowHTML =
+            '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
 
+        let $t = $(
+            replaceHtml(modelChartShowHTML, {
+                id: chart_id_c,
+                addclass: 'luckysheet-data-visualization-chart',
+                title: '图表生成',
+                content: ''
+            })
+        ).appendTo($('.luckysheet-cell-main'))
+
+        $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart.chart_id
+
+        let container = document.getElementById(chart_id_c)
+
+        let chart_json
+        if(isDemo){
+            chart_json = chart.chartOptions
+        }else{
+            chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
+        }
+        chartInfo.chartparam.renderChart({chart_id: chart.chart_id , chartOptions: chart_json})
+
+        let width = chart.width
+        let height = chart.height
+        let left = chart.left
+        let top = chart.top
+        container.style.width = width + 'px'
+        container.style.height = height + 'px'
+        container.style.position = 'absolute'
+        container.style.background = '#fff'
+        container.style.left = left + 'px'
+        container.style.top = top + 'px'
+        // render.style.width = '100%'
+        // render.style.height = '100%'
+        container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
+        chartInfo.zIndex++
+    }
 }
 
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
     let chart = chartInfo.currentChart
-    if(!chart){
+    if (!chart) {
         return
     }
     if (chart.rangeArray.length == 1) {
@@ -94,12 +135,12 @@ function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
         var column = chart.rangeArray[0].column;
         //不在范围内的不更新
         if (
-          r_st > row[1] ||
-          r_ed < row[0] ||
-          c_st > column[1] ||
-          c_ed < column[0]
+            r_st > row[1] ||
+            r_ed < row[0] ||
+            c_st > column[1] ||
+            c_ed < column[0]
         ) {
-          return
+            return
         }
         //根据原有的范围取得数据
         var luckysheetgetcellrange = formula.getcellrange(
@@ -846,6 +887,7 @@ function chart_selection() {
         },
         rangeResizeDragged: function () {
             chartInfo.chart_selection.rangeResize = null
+            var updateJson = chartInfo.currentChart
 
             updateJson.rangeTxt = getRangetxt(
                 chartInfo.currentSheetIndex,
@@ -1000,8 +1042,8 @@ function createLuckyChart(width, height, left, top) {
 
     // insert chartinfo
     let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
-    
-    if(!sheetFile.chart){
+
+    if (!sheetFile.chart) {
         sheetFile.chart = [];
     }
     sheetFile.chart.push({
@@ -1315,8 +1357,8 @@ function hideAllNeedRangeShow() {
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
     for (let chartId in chartLists) {
         // if (chartLists[chartId].sheetIndex == chartInfo.currentSheetIndex) {
-            //当前sheet的图表设置为false
-            chartLists[chartId].needRangeShow = false
+        //当前sheet的图表设置为false
+        chartLists[chartId].needRangeShow = false
         // }
 
     }
@@ -1436,11 +1478,11 @@ function renderChartShow(index) {
     const luckysheetfile = chartInfo.luckysheetfile;
     luckysheetfile.forEach((file) => {
         //切换当前页的所有图表都显示出来
-        if(file.index == index){
-             
-             const chartLists = file.chart || [];
+        if (file.index == index) {
 
-             chartLists.forEach((chart)=>{
+            const chartLists = file.chart || [];
+
+            chartLists.forEach((chart) => {
                 chart.isShow = true;
                 $('#' + chart.chart_id + '_c').show();
 
@@ -1451,21 +1493,21 @@ function renderChartShow(index) {
                     selectRangeBorderShow(chart.chart_id)
                 }
 
-             })    
-             
+            })
+
         }
-        
+
         // 隐藏其他页的图表
-        else{
+        else {
             const chartLists = file.chart || [];
 
-             chartLists.forEach((chart)=>{
+            chartLists.forEach((chart) => {
                 chart.isShow = false;
                 $('#' + chart.chart_id + '_c').hide();
-             })
+            })
         }
     });
 
 }
 
-export { chart, createLuckyChart, hideAllNeedRangeShow,renderChartShow }
+export { chart, createLuckyChart, hideAllNeedRangeShow, renderChartShow }
