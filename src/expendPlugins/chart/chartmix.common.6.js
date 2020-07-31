@@ -16,8 +16,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("e6cf");
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("2f62");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return vuex__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("5880");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"]; });
 
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("ca00");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "deepCopy", function() { return _utils_util__WEBPACK_IMPORTED_MODULE_3__["b"]; });
@@ -79,7 +80,7 @@ var importComp = function importComp(t) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"c43d8a64-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1ddcf282-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"2"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-input',{attrs:{"inputValue":_vm.subTitle.text,"placeholder":'请输入副标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.subTitle, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.subTitle, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("副标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.subTitle.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.distanceOption,"selectValue":_vm.subTitle.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主副标题间距")])]),(_vm.subTitle.distance.value === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.subTitle.distance.cusGap,"unit":'px',"content":'滑动修改间距'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)}}}):_vm._e()],2)}
 var staticRenderFns = []
 

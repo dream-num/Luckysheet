@@ -59,6 +59,8 @@ function chart() {
         chartInfo.highlightChart = chartmix.default.highlightChart
         chartInfo.deleteChart = chartmix.default.deleteChart
         chartInfo.resizeChart = chartmix.default.resizeChart
+        chartInfo.changeChartRange = chartmix.default.changeChartRange
+        chartInfo.changeChartCellData = chartmix.default.changeChartCellData
         chartInfo.chart_selection = chart_selection()
     });
 }

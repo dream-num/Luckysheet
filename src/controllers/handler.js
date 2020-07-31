@@ -3530,27 +3530,26 @@ export default function luckysheetHandler() {
 
         Store.chart_selection.rangeMoveObj = $(this).parent();
 
-        let chart_id = luckysheet.chartparam.luckysheetCurrentChartMoveObj.find(".luckysheet-modal-dialog-content").attr("id");
-        let chart_json = !!window.store && store.state.chartSetting.chartList[chart_id];
+        let chart_json = Store.currentChart
         
         let $id = $(this).parent().attr("id");
         if($id == "luckysheet-chart-rangeShow-content"){
             let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
             let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
 
-            luckysheet.chart_selection.rangeMoveIndex = [row_s, col_s];
+            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
         }
         else if($id == "luckysheet-chart-rangeShow-rowtitle"){
             let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.rowtitle.row[0];
             let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[0];
 
-            luckysheet.chart_selection.rangeMoveIndex = [row_s, col_s];
+            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
         }
         else if($id == "luckysheet-chart-rangeShow-coltitle"){
             let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.coltitle.row[0];
             let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[0];
             
-            luckysheet.chart_selection.rangeMoveIndex = [row_s, col_s];
+            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
         }
 
         let mouse = mouseposition(event.pageX, event.pageY);
@@ -3574,20 +3573,20 @@ export default function luckysheetHandler() {
         let row_index = rowLocation(y)[2];
         let col_index = colLocation(x)[2];
 
-        luckysheet.chart_selection.rangeMovexy = [row_index, col_index];
+        Store.chart_selection.rangeMovexy = [row_index, col_index];
 
         event.stopPropagation();
     });
 
     $("#luckysheet-chart-rangeShow").on("mousedown.chartRangeShowResize", ".luckysheet-chart-rangeShow-resize", function(event){
-        luckysheet.chart_selection.rangeResize = $(this).data("type");//开始状态resize
+        Store.chart_selection.rangeResize = $(this).data("type");//开始状态resize
         Store.luckysheet_scroll_status = true;
 
-        luckysheet.chart_selection.rangeResizeObj = $(this).parent();
+        Store.chart_selection.rangeResizeObj = $(this).parent();
 
         let chart_id = luckysheet.chartparam.luckysheetCurrentChartMoveObj.find(".luckysheet-modal-dialog-content").attr("id");
         // let vue = !!window.generator && generator.chartEditorComponent;
-        let chart_json = !!window.store && store.state.chartSetting.chartList[chart_id];
+        let chart_json = Store.currentChart
         
         let $id = $(this).parent().attr("id");
         if($id == "luckysheet-chart-rangeShow-content"){
@@ -3609,7 +3608,7 @@ export default function luckysheetHandler() {
                 let col_e = chart_json.rangeSplitArray.content.column[1];
             }
 
-            luckysheet.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
+            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }
         else if($id == "luckysheet-chart-rangeShow-rowtitle"){
             let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.rowtitle.row[0];
@@ -3618,7 +3617,7 @@ export default function luckysheetHandler() {
             let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[0];
             let col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[1];
 
-            luckysheet.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
+            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }
         else if($id == "luckysheet-chart-rangeShow-coltitle"){
             let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.coltitle.row[0];
@@ -3627,26 +3626,26 @@ export default function luckysheetHandler() {
             let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[0];
             let col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[1];
             
-            luckysheet.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
+            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }
 
         let mouse = mouseposition(event.pageX, event.pageY);
         let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
         let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
 
-        if (luckysheet.chart_selection.rangeResize == "lt") {
+        if (Store.chart_selection.rangeResize == "lt") {
             x += 3;
             y += 3;
         }
-        else if (luckysheet.chart_selection.rangeResize == "lb") {
+        else if (Store.chart_selection.rangeResize == "lb") {
             x += 3;
             y -= 3;
         }
-        else if (luckysheet.chart_selection.rangeResize == "rt") {
+        else if (Store.chart_selection.rangeResize == "rt") {
             x -= 3;
             y += 3;
         }
-        else if (luckysheet.chart_selection.rangeResize == "rb") {
+        else if (Store.chart_selection.rangeResize == "rb") {
             x -= 3;
             y -= 3;
         }
@@ -3654,7 +3653,7 @@ export default function luckysheetHandler() {
         let row_index = rowLocation(y)[2];
         let col_index = colLocation(x)[2];
 
-        luckysheet.chart_selection.rangeResizexy = [row_index, col_index];
+        Store.chart_selection.rangeResizexy = [row_index, col_index];
 
         event.stopPropagation();
     })
