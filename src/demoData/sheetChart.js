@@ -3856,7 +3856,7 @@ const sheetChart = {
 		}
 	}, {
 		"chart_id": "chart_ei765e0iKkoe_1596210011748",
-		"width": 400,
+		"width": 600,
 		"height": 250,
 		"left": 150,
 		"top": 450,
