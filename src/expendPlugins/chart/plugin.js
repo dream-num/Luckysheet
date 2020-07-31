@@ -22,15 +22,15 @@ const dependScripts = [
     // 'https://unpkg.com/element-ui/lib/index.js',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    // 'expendPlugins/chart/chartmix.umd.js'
-    'http://10.0.75.1:8000/chartmix.umd.js'
+    'expendPlugins/chart/chartmix.umd.js'
+    // 'http://10.0.75.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    // 'expendPlugins/chart/chartmix.css'
-    'http://10.0.75.1:8000/chartmix.css'
+    'expendPlugins/chart/chartmix.css'
+    // 'http://10.0.75.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -59,9 +59,744 @@ function chart() {
         chartInfo.highlightChart = chartmix.default.highlightChart
         chartInfo.deleteChart = chartmix.default.deleteChart
         chartInfo.resizeChart = chartmix.default.resizeChart
-        chartInfo.chartStore = store;
+        chartInfo.chart_selection = chart_selection()
     });
 }
+
+function chart_selection(){
+  return {
+    create: function () {
+        var chart_json = chartInfo.currentChart
+  
+        if (chart_json.rangeArray.length > 1) {
+            return
+        }
+  
+        $('#luckysheet-chart-rangeShow').empty()
+        $('#luckysheet-cell-selected-boxs').hide()
+        $('#luckysheet-cell-selected-focus').hide()
+        $('#luckysheet-rows-h-selected').hide()
+        $('#luckysheet-cols-h-selected').hide()
+        $('#luckysheet-row-count-show').hide()
+        $('#luckysheet-column-count-show').hide()
+  
+        var st_r = chart_json.rangeArray[0].row[0]
+        var st_c = chart_json.rangeArray[0].column[0]
+  
+        var rangeSplitArray = chart_json.rangeSplitArray
+  
+        //首行是否标题
+        var rangeRowCheck = chart_json.rangeRowCheck
+  
+        if (rangeRowCheck.exits) {
+            var chart_rowtitle_html = getRangeShowHtml(
+                'rowtitle',
+                rangeSplitArray.rowtitle.row[0] + st_r,
+                rangeSplitArray.rowtitle.row[1] + st_r,
+                rangeSplitArray.rowtitle.column[0] + st_c,
+                rangeSplitArray.rowtitle.column[1] + st_c
+            )
+        } else {
+            var chart_rowtitle_html = ''
+        }
+  
+        //首列是否标题
+        var rangeColCheck = chart_json.rangeColCheck
+  
+        if (rangeColCheck.exits) {
+            var chart_coltitle_html = getRangeShowHtml(
+                'coltitle',
+                rangeSplitArray.coltitle.row[0] + st_r,
+                rangeSplitArray.coltitle.row[1] + st_r,
+                rangeSplitArray.coltitle.column[0] + st_c,
+                rangeSplitArray.coltitle.column[1] + st_c
+            )
+        } else {
+            var chart_coltitle_html = ''
+        }
+  
+        //内容块
+        var chart_content_html = getRangeShowHtml(
+            'content',
+            rangeSplitArray.content.row[0] + st_r,
+            rangeSplitArray.content.row[1] + st_r,
+            rangeSplitArray.content.column[0] + st_c,
+            rangeSplitArray.content.column[1] + st_c
+        )
+  
+        $('#luckysheet-chart-rangeShow').append(
+            chart_rowtitle_html + chart_coltitle_html + chart_content_html
+        )
+  
+        function getRangeShowHtml(type, r1, r2, c1, c2) {
+            var visibledatarow = getvisibledatarow()
+            var visibledatacolumn = getvisibledatacolumn()
+  
+            var row = visibledatarow[r2],
+                row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1]
+            var col = visibledatacolumn[c2],
+                col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1]
+  
+            if (type == 'rowtitle') {
+                var color = '#C65151'
+            }
+  
+            if (type == 'coltitle') {
+                var color = '#9667C0'
+            }
+  
+            if (type == 'content') {
+                var color = '#4970D1'
+            }
+  
+            var html =
+                '<div id="luckysheet-chart-rangeShow-' +
+                type +
+                '" style="left: ' +
+                col_pre +
+                'px;width: ' +
+                (col - col_pre - 1) +
+                'px;top: ' +
+                row_pre +
+                'px;height: ' +
+                (row - row_pre - 1) +
+                'px;border: none;margin: 0;position: absolute;z-index: 14;">' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="top" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
+                color +
+                ';position: absolute;left: 0;right: 0;top: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="right" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
+                color +
+                ';position: absolute;top: 0;bottom: 0;right: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="bottom" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
+                color +
+                ';position: absolute;left: 0;right: 0;bottom: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-move" data-type="left" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
+                color +
+                ';position: absolute;top: 0;bottom: 0;left: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
+                '<div style="border: 2px solid #FC6666;background: ' +
+                color +
+                ';position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 15;opacity: 0.1;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="lt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                color +
+                ';position: absolute;left: -3px;top: -3px;z-index: 19;cursor: se-resize;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="rt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                color +
+                ';position: absolute;right: -3px;top: -3px;z-index: 19;cursor: ne-resize;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="lb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                color +
+                ';position: absolute;left: -3px;bottom: -3px;z-index: 19;cursor: ne-resize;"></div>' +
+                '<div class="luckysheet-chart-rangeShow-resize" data-type="rb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
+                color +
+                ';position: absolute;right: -3px;bottom: -3px;z-index: 19;cursor: se-resize;"></div>' +
+                '</div>'
+  
+            return html
+        }
+    },
+    rangeMove: false,
+    rangeMovexy: null,
+    rangeMoveIndex: null,
+    rangeMoveObj: null,
+    rangeMoveDraging: function (event, sheetBarHeight, statisticBarHeight) {
+        var chart_json = chartInfo.currentChart
+        var st_r = chart_json.rangeArray[0].row[0]
+        var st_c = chart_json.rangeArray[0].column[0]
+        var rangeRowCheck = chart_json.rangeRowCheck
+        var rangeColCheck = chart_json.rangeColCheck
+        var rangeSplitArray = chart_json.rangeSplitArray
+  
+        var mouse = mouseposition(event.pageX, event.pageY)
+        var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
+        var scrollTop = $('#luckysheet-cell-main').scrollTop()
+  
+        var x = mouse[0] + scrollLeft
+        var y = mouse[1] + scrollTop
+  
+        var winH =
+            $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+            winW = $(window).width() + scrollLeft
+  
+        var rowLocation = rowLocation(y),
+            row_index = rowLocation[2]
+        var colLocation = colLocation(x),
+            col_index = colLocation[2]
+  
+        var visibledatarow = getvisibledatarow()
+        var visibledatacolumn = getvisibledatacolumn()
+  
+        var $id = chartInfo.chart_selection.rangeMoveObj.attr('id')
+  
+        if ($id == 'luckysheet-chart-rangeShow-content') {
+            //行
+            var row_s =
+                chartInfo.chart_selection.rangeMoveIndex[0] -
+                chartInfo.chart_selection.rangeMovexy[0] +
+                row_index
+  
+            if (rangeRowCheck.exits) {
+                if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
+                    row_s = st_r + rangeRowCheck.range[1] + 1
+                }
+            } else {
+                if (row_s < 0 || y < 0) {
+                    row_s = 0
+                }
+            }
+  
+            var row_e =
+                rangeSplitArray.content.row[1] - rangeSplitArray.content.row[0] + row_s
+  
+            if (row_e >= visibledatarow.length - 1 || y > winH) {
+                row_s =
+                    visibledatarow.length -
+                    1 -
+                    rangeSplitArray.content.row[1] +
+                    rangeSplitArray.content.row[0]
+                row_e = visibledatarow.length - 1
+            }
+  
+            //列
+            var col_s =
+                chartInfo.chart_selection.rangeMoveIndex[1] -
+                chartInfo.chart_selection.rangeMovexy[1] +
+                col_index
+            if (rangeColCheck.exits) {
+                if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
+                    col_s = st_c + rangeColCheck.range[1] + 1
+                }
+            } else {
+                if (col_s < 0 || x < 0) {
+                    col_s = 0
+                }
+            }
+  
+            var col_e =
+                rangeSplitArray.content.column[1] -
+                rangeSplitArray.content.column[0] +
+                col_s
+  
+            if (col_e >= visibledatacolumn.length - 1 || x > winW) {
+                col_s =
+                    visibledatacolumn.length -
+                    1 -
+                    rangeSplitArray.content.column[1] +
+                    rangeSplitArray.content.column[0]
+                col_e = visibledatacolumn.length - 1
+            }
+  
+            //更新
+            if (rangeRowCheck.exits && rangeColCheck.exits) {
+                chart_json.rangeArray = [{ row: [st_r, row_e], column: [st_c, col_e] }]
+                chart_json.rangeSplitArray.range = {
+                    row: [st_r, row_e],
+                    column: [st_c, col_e]
+                }
+  
+                chart_json.rangeSplitArray.content = {
+                    row: [row_s - st_r, row_e - st_r],
+                    column: [col_s - st_c, col_e - st_c]
+                }
+  
+                chart_json.rangeSplitArray.rowtitle = {
+                    row: chart_json.rangeSplitArray.rowtitle.row,
+                    column: [col_s - st_c, col_e - st_c]
+                }
+  
+                chart_json.rangeSplitArray.coltitle = {
+                    row: [row_s - st_r, row_e - st_r],
+                    column: chart_json.rangeSplitArray.coltitle.column
+                }
+            } else if (rangeRowCheck.exits) {
+                chart_json.rangeArray = [{ row: [st_r, row_e], column: [col_s, col_e] }]
+                chart_json.rangeSplitArray.range = {
+                    row: [st_r, row_e],
+                    column: [col_s, col_e]
+                }
+  
+                chart_json.rangeSplitArray.content = {
+                    row: [row_s - st_r, row_e - st_r],
+                    column: chart_json.rangeSplitArray.content.column
+                }
+            } else if (rangeColCheck.exits) {
+                chart_json.rangeArray = [{ row: [row_s, row_e], column: [st_c, col_e] }]
+                chart_json.rangeSplitArray.range = {
+                    row: [row_s, row_e],
+                    column: [st_c, col_e]
+                }
+  
+                chart_json.rangeSplitArray.content = {
+                    row: chart_json.rangeSplitArray.content.row,
+                    column: [col_s - st_c, col_e - st_c]
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: [row_s, row_e], column: [col_s, col_e] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [row_s, row_e],
+                    column: [col_s, col_e]
+                }
+            }
+        } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
+            //列
+            var col_s =
+                chartInfo.chart_selection.rangeMoveIndex[1] -
+                chartInfo.chart_selection.rangeMovexy[1] +
+                col_index
+  
+            if (rangeColCheck.exits) {
+                if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
+                    col_s = st_c + rangeColCheck.range[1] + 1
+                }
+            } else {
+                if (col_s < 0 || x < 0) {
+                    col_s = 0
+                }
+            }
+  
+            var col_e =
+                rangeSplitArray.rowtitle.column[1] -
+                rangeSplitArray.rowtitle.column[0] +
+                col_s
+  
+            if (col_e >= visibledatacolumn.length - 1 || x > winW) {
+                col_s =
+                    visibledatacolumn.length -
+                    1 -
+                    rangeSplitArray.rowtitle.column[1] +
+                    rangeSplitArray.rowtitle.column[0]
+                col_e = visibledatacolumn.length - 1
+            }
+  
+            //更新
+            if (rangeColCheck.exits) {
+                chart_json.rangeArray = [
+                    { row: chart_json.rangeArray[0].row, column: [st_c, col_e] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: chart_json.rangeArray[0].row,
+                    column: [st_c, col_e]
+                }
+  
+                chart_json.rangeSplitArray.rowtitle = {
+                    row: chart_json.rangeSplitArray.rowtitle.row,
+                    column: [col_s - st_c, col_e - st_c]
+                }
+                chart_json.rangeSplitArray.content = {
+                    row: chart_json.rangeSplitArray.content.row,
+                    column: [col_s - st_c, col_e - st_c]
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: chart_json.rangeArray[0].row, column: [col_s, col_e] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: chart_json.rangeArray[0].row,
+                    column: [col_s, col_e]
+                }
+            }
+        } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
+            //行
+            var row_s =
+                chartInfo.chart_selection.rangeMoveIndex[0] -
+                chartInfo.chart_selection.rangeMovexy[0] +
+                row_index
+            if (rangeRowCheck.exits) {
+                if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
+                    row_s = st_r + rangeRowCheck.range[1] + 1
+                }
+            } else {
+                if (row_s < 0 || y < 0) {
+                    row_s = 0
+                }
+            }
+  
+            //更新
+            var row_e =
+                rangeSplitArray.coltitle.row[1] -
+                rangeSplitArray.coltitle.row[0] +
+                row_s
+  
+            if (row_e >= visibledatarow.length - 1 || y > winH) {
+                row_s =
+                    visibledatarow.length -
+                    1 -
+                    rangeSplitArray.coltitle.row[1] +
+                    rangeSplitArray.coltitle.row[0]
+                row_e = visibledatarow.length - 1
+            }
+  
+            if (rangeRowCheck.exits) {
+                chart_json.rangeArray = [
+                    { row: [st_r, row_e], column: chart_json.rangeArray[0].column }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [st_r, row_e],
+                    column: chart_json.rangeArray[0].column
+                }
+  
+                chart_json.rangeSplitArray.coltitle = {
+                    row: [row_s - st_r, row_e - st_r],
+                    column: chart_json.rangeSplitArray.coltitle.column
+                }
+                chart_json.rangeSplitArray.content = {
+                    row: [row_s - st_r, row_e - st_r],
+                    column: chart_json.rangeSplitArray.content.column
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: [row_s, row_e], column: chart_json.rangeArray[0].column }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [row_s, row_e],
+                    column: chart_json.rangeArray[0].column
+                }
+            }
+        }
+  
+        chartInfo.chart_selection.create(chartInfo.currentChart)
+    },
+    rangeMoveDragged: function () {
+        chartInfo.chart_selection.rangeMove = false
+  
+        var updateJson = chartInfo.currentChart
+  
+        updateJson.rangeTxt = getRangetxt(
+            luckysheet.currentSheetIndex,
+            updateJson.rangeArray[0],
+            luckysheet.currentSheetIndex
+        )
+        updateJson.chartData = getdatabyselection(
+            updateJson.rangeArray[0],
+            luckysheet.currentSheetIndex
+        )
+        // 渲染
+        chartInfo.changeChartRange(updateJson.chart_id, updateJson.chartData, updateJson.rangeArray, updateJson.rangeTxt)
+    },
+    rangeResize: false,
+    rangeResizexy: null,
+    rangeResizeIndex: null,
+    rangeResizeObj: null,
+    rangeResizeDraging: function (event, sheetBarHeight, statisticBarHeight) {
+        var chart_json = chartInfo.currentChart
+  
+        var st_r = chart_json.rangeArray[0].row[0]
+        var st_c = chart_json.rangeArray[0].column[0]
+        var rangeRowCheck = chart_json.rangeRowCheck
+        var rangeColCheck = chart_json.rangeColCheck
+        var rangeSplitArray = chart_json.rangeSplitArray
+  
+        var mouse = mouseposition(event.pageX, event.pageY)
+        var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
+        var scrollTop = $('#luckysheet-cell-main').scrollTop()
+  
+        var x = mouse[0] + scrollLeft
+        var y = mouse[1] + scrollTop
+  
+        var winH =
+            $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+            winW = $(window).width() + scrollLeft
+  
+        var rowLocation = rowLocation(y),
+            row_index = rowLocation[2]
+        var colLocation = colLocation(x),
+            col_index = colLocation[2]
+  
+        var visibledatarow = getvisibledatarow()
+        var visibledatacolumn = getvisibledatacolumn()
+  
+        var $id = chartInfo.chart_selection.rangeResizeObj.attr('id')
+  
+        if ($id == 'luckysheet-chart-rangeShow-content') {
+            var r1, r2, c1, c2
+  
+            if (chartInfo.chart_selection.rangeResize == 'lt') {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+  
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+            } else if (chartInfo.chart_selection.rangeResize == 'lb') {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+  
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+            } else if (chartInfo.chart_selection.rangeResize == 'rt') {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+  
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+            } else if (chartInfo.chart_selection.rangeResize == 'rb') {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+  
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+            }
+  
+            //行
+            if (rangeRowCheck.exits) {
+                var row_s = r1 - chartInfo.chart_selection.rangeResizexy[0] + row_index
+  
+                if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
+                    row_s = st_r + rangeRowCheck.range[1] + 1
+                } else if (row_s >= visibledatarow.length - 1 || y > winH) {
+                    row_s = visibledatarow.length - 1
+                }
+            } else {
+                var row_s = st_r - chartInfo.chart_selection.rangeResizexy[0] + row_index
+  
+                if (row_s < 0 || y < 0) {
+                    row_s = 0
+                } else if (row_s >= visibledatarow.length - 1 || y > winH) {
+                    row_s = visibledatarow.length - 1
+                }
+            }
+  
+            //列
+            if (rangeColCheck.exits) {
+                var col_s = c1 - chartInfo.chart_selection.rangeResizexy[1] + col_index
+  
+                if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
+                    col_s = st_c + rangeColCheck.range[1] + 1
+                } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
+                    col_s = visibledatacolumn.length - 1
+                }
+            } else {
+                var col_s = st_c - chartInfo.chart_selection.rangeResizexy[1] + col_index
+  
+                if (col_s < 0 || x < 0) {
+                    col_s = 0
+                } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
+                    col_s = visibledatacolumn.length - 1
+                }
+            }
+  
+            var obj_r1, obj_r2, obj_c1, obj_c2
+  
+            if (row_s > r2) {
+                obj_r1 = r2
+                obj_r2 = row_s
+            } else {
+                obj_r1 = row_s
+                obj_r2 = r2
+            }
+  
+            if (col_s > c2) {
+                obj_c1 = c2
+                obj_c2 = col_s
+            } else {
+                obj_c1 = col_s
+                obj_c2 = c2
+            }
+  
+            if (!rangeRowCheck.exits && !rangeColCheck.exits) {
+                chart_json.rangeArray = [
+                    { row: [obj_r1, obj_r2], column: [obj_c1, obj_c2] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [obj_r1, obj_r2],
+                    column: [obj_c1, obj_c2]
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: [st_r, obj_r2], column: [st_c, obj_c2] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [st_r, obj_r2],
+                    column: [st_c, obj_c2]
+                }
+  
+                chart_json.rangeSplitArray.content = {
+                    row: [obj_r1 - st_r, obj_r2 - st_r],
+                    column: [obj_c1 - st_c, obj_c2 - st_c]
+                }
+  
+                if (rangeRowCheck.exits) {
+                    chart_json.rangeSplitArray.rowtitle = {
+                        row: chart_json.rangeSplitArray.rowtitle.row,
+                        column: [obj_c1 - st_c, obj_c2 - st_c]
+                    }
+                }
+  
+                if (rangeColCheck.exits) {
+                    chart_json.rangeSplitArray.coltitle = {
+                        row: [obj_r1 - st_r, obj_r2 - st_r],
+                        column: chart_json.rangeSplitArray.coltitle.column
+                    }
+                }
+            }
+        } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
+            var c1, c2
+  
+            if (
+                chartInfo.chart_selection.rangeResize == 'lt' ||
+                chartInfo.chart_selection.rangeResize == 'lb'
+            ) {
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+            } else if (
+                chartInfo.chart_selection.rangeResize == 'rt' ||
+                chartInfo.chart_selection.rangeResize == 'rb'
+            ) {
+                c1 = chartInfo.chart_selection.rangeResizeIndex.column[1]
+                c2 = chartInfo.chart_selection.rangeResizeIndex.column[0]
+            }
+  
+            //列
+            if (rangeColCheck.exits) {
+                var col_s = c1 - chartInfo.chart_selection.rangeResizexy[1] + col_index
+  
+                if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
+                    col_s = st_c + rangeColCheck.range[1] + 1
+                } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
+                    col_s = visibledatacolumn.length - 1
+                }
+            } else {
+                var col_s = st_c - chartInfo.chart_selection.rangeResizexy[1] + col_index
+  
+                if (col_s < 0 || x < 0) {
+                    col_s = 0
+                } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
+                    col_s = visibledatacolumn.length - 1
+                }
+            }
+  
+            var obj_c1, obj_c2
+  
+            if (col_s > c2) {
+                obj_c1 = c2
+                obj_c2 = col_s
+            } else {
+                obj_c1 = col_s
+                obj_c2 = c2
+            }
+  
+            //更新
+            if (!rangeColCheck.exits) {
+                chart_json.rangeArray = [
+                    { row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: chart_json.rangeArray[0].row,
+                    column: [obj_c1, obj_c2]
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: chart_json.rangeArray[0].row, column: [st_c, obj_c2] }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: chart_json.rangeArray[0].row,
+                    column: [st_c, obj_c2]
+                }
+  
+                chart_json.rangeSplitArray.rowtitle = {
+                    row: chart_json.rangeSplitArray.rowtitle.row,
+                    column: [obj_c1 - st_c, obj_c2 - st_c]
+                }
+                chart_json.rangeSplitArray.content = {
+                    row: chart_json.rangeSplitArray.content.row,
+                    column: [obj_c1 - st_c, obj_c2 - st_c]
+                }
+            }
+        } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
+            var r1, r2
+  
+            if (
+                chartInfo.chart_selection.rangeResize == 'lt' ||
+                chartInfo.chart_selection.rangeResize == 'rt'
+            ) {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+            } else if (
+                chartInfo.chart_selection.rangeResize == 'lb' ||
+                chartInfo.chart_selection.rangeResize == 'rb'
+            ) {
+                r1 = chartInfo.chart_selection.rangeResizeIndex.row[1]
+                r2 = chartInfo.chart_selection.rangeResizeIndex.row[0]
+            }
+  
+            //行
+            if (rangeRowCheck.exits) {
+                var row_s = r1 - chartInfo.chart_selection.rangeResizexy[0] + row_index
+  
+                if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
+                    row_s = st_r + rangeRowCheck.range[1] + 1
+                } else if (row_s >= visibledatarow.length - 1 || y > winH) {
+                    row_s = visibledatarow.length - 1
+                }
+            } else {
+                var row_s = st_r - chartInfo.chart_selection.rangeResizexy[0] + row_index
+  
+                if (row_s < 0 || y < 0) {
+                    row_s = 0
+                } else if (row_s >= visibledatarow.length - 1 || y > winH) {
+                    row_s = visibledatarow.length - 1
+                }
+            }
+  
+            var obj_r1, obj_r2
+  
+            if (row_s > r2) {
+                obj_r1 = r2
+                obj_r2 = row_s
+            } else {
+                obj_r1 = row_s
+                obj_r2 = r2
+            }
+  
+            //更新
+            if (!rangeRowCheck.exits) {
+                chart_json.rangeArray = [
+                    { row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [obj_r1, obj_r2],
+                    column: chart_json.rangeArray[0].column
+                }
+            } else {
+                chart_json.rangeArray = [
+                    { row: [st_r, obj_r2], column: chart_json.rangeArray[0].column }
+                ]
+                chart_json.rangeSplitArray.range = {
+                    row: [st_r, obj_r2],
+                    column: chart_json.rangeArray[0].column
+                }
+  
+                chart_json.rangeSplitArray.coltitle = {
+                    row: [obj_r1 - st_r, obj_r2 - st_r],
+                    column: chart_json.rangeSplitArray.coltitle.column
+                }
+                chart_json.rangeSplitArray.content = {
+                    row: [obj_r1 - st_r, obj_r2 - st_r],
+                    column: chart_json.rangeSplitArray.content.column
+                }
+            }
+        }
+  
+        chartInfo.chart_selection.create(chartInfo.currentChart)
+    },
+    rangeResizeDragged: function () {
+        chartInfo.chart_selection.rangeResize = null
+  
+        updateJson.rangeTxt = getRangetxt(
+            luckysheet.currentSheetIndex,
+            updateJson.rangeArray[0],
+            luckysheet.currentSheetIndex
+        )
+        updateJson.chartData = getdatabyselection(
+            updateJson.rangeArray[0],
+            luckysheet.currentSheetIndex
+        )
+        // 渲染
+        chartInfo.changeChartRange(updateJson.chart_id, updateJson.chartData, updateJson.rangeArray, updateJson.rangeTxt)
+  
+    }
+  }
+} 
+
 
 // create chart
 function createLuckyChart(width, height, left, top) {
@@ -180,6 +915,7 @@ function createLuckyChart(width, height, left, top) {
     let container = document.getElementById(chart_id_c)
 
     let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
+    chartInfo.currentChart = chart_json.chartOptions
     console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
@@ -373,7 +1109,7 @@ function hideAllNeedRangeShow() {
 function selectRangeBorderShow(chart_id) {
 
     let $t = $('#' + chart_id + '_c')
-    // chartInfo.chart_selection.create(chart_id)
+    chartInfo.chart_selection.create(chart_id)
     chartInfo.chartparam.luckysheetCurrentChartActive = true
     chartInfo.chartparam.luckysheetCurrentChartMoveObj = $t
     chartInfo.chartparam.luckysheetCurrentChartResizeObj = $t
@@ -401,7 +1137,7 @@ function selectRangeBorderShow(chart_id) {
     }
 
     // 切换到当前图表设置项
-    chartInfo.highlightChart(chart_id)
+    chartInfo.currentChart = chartInfo.highlightChart(chart_id)
 }
 
 //选择区域高亮隐藏
@@ -467,915 +1203,5 @@ function hideChartSettingComponent(refresh) {
     }
 }
 
-// 数据高亮选区
-const chart_selection = {
-    create: function (chart_id) {
-      const store = chartInfo.chartStore
-      var chart_json = store.state.chartSetting.chartLists[chart_id].chartOptions
-  
-      if (chart_json.rangeArray.length > 1) {
-        return
-      }
-  
-      $('#luckysheet-chart-rangeShow').empty()
-      $('#luckysheet-cell-selected-boxs').hide()
-      $('#luckysheet-cell-selected-focus').hide()
-      $('#luckysheet-rows-h-selected').hide()
-      $('#luckysheet-cols-h-selected').hide()
-      $('#luckysheet-row-count-show').hide()
-      $('#luckysheet-column-count-show').hide()
-  
-      var st_r = chart_json.rangeArray[0].row[0]
-      var st_c = chart_json.rangeArray[0].column[0]
-  
-      var rangeSplitArray = chart_json.rangeSplitArray
-  
-      //首行是否标题
-      var rangeRowCheck = chart_json.rangeRowCheck
-  
-      if (rangeRowCheck.exits) {
-        var chart_rowtitle_html = getRangeShowHtml(
-          'rowtitle',
-          rangeSplitArray.rowtitle.row[0] + st_r,
-          rangeSplitArray.rowtitle.row[1] + st_r,
-          rangeSplitArray.rowtitle.column[0] + st_c,
-          rangeSplitArray.rowtitle.column[1] + st_c
-        )
-      } else {
-        var chart_rowtitle_html = ''
-      }
-  
-      //首列是否标题
-      var rangeColCheck = chart_json.rangeColCheck
-  
-      if (rangeColCheck.exits) {
-        var chart_coltitle_html = getRangeShowHtml(
-          'coltitle',
-          rangeSplitArray.coltitle.row[0] + st_r,
-          rangeSplitArray.coltitle.row[1] + st_r,
-          rangeSplitArray.coltitle.column[0] + st_c,
-          rangeSplitArray.coltitle.column[1] + st_c
-        )
-      } else {
-        var chart_coltitle_html = ''
-      }
-  
-      //内容块
-      var chart_content_html = getRangeShowHtml(
-        'content',
-        rangeSplitArray.content.row[0] + st_r,
-        rangeSplitArray.content.row[1] + st_r,
-        rangeSplitArray.content.column[0] + st_c,
-        rangeSplitArray.content.column[1] + st_c
-      )
-  
-      $('#luckysheet-chart-rangeShow').append(
-        chart_rowtitle_html + chart_coltitle_html + chart_content_html
-      )
-  
-      function getRangeShowHtml(type, r1, r2, c1, c2) {
-        var visibledatarow = getvisibledatarow()
-        var visibledatacolumn = getvisibledatacolumn()
-  
-        var row = visibledatarow[r2],
-          row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1]
-        var col = visibledatacolumn[c2],
-          col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1]
-  
-        if (type == 'rowtitle') {
-          var color = '#C65151'
-        }
-  
-        if (type == 'coltitle') {
-          var color = '#9667C0'
-        }
-  
-        if (type == 'content') {
-          var color = '#4970D1'
-        }
-  
-        var html =
-          '<div id="luckysheet-chart-rangeShow-' +
-          type +
-          '" style="left: ' +
-          col_pre +
-          'px;width: ' +
-          (col - col_pre - 1) +
-          'px;top: ' +
-          row_pre +
-          'px;height: ' +
-          (row - row_pre - 1) +
-          'px;border: none;margin: 0;position: absolute;z-index: 14;">' +
-          '<div class="luckysheet-chart-rangeShow-move" data-type="top" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
-          color +
-          ';position: absolute;left: 0;right: 0;top: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-move" data-type="right" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
-          color +
-          ';position: absolute;top: 0;bottom: 0;right: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-move" data-type="bottom" style="height: 2px;border-top: 2px solid #fff;border-bottom: 2px solid #fff;background: ' +
-          color +
-          ';position: absolute;left: 0;right: 0;bottom: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-move" data-type="left" style="width: 2px;border-left: 2px solid #fff;border-right: 2px solid #fff;background: ' +
-          color +
-          ';position: absolute;top: 0;bottom: 0;left: -2px;z-index: 18;opacity: 0.9;cursor: move;"></div>' +
-          '<div style="border: 2px solid #FC6666;background: ' +
-          color +
-          ';position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 15;opacity: 0.1;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-resize" data-type="lt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
-          color +
-          ';position: absolute;left: -3px;top: -3px;z-index: 19;cursor: se-resize;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-resize" data-type="rt" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
-          color +
-          ';position: absolute;right: -3px;top: -3px;z-index: 19;cursor: ne-resize;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-resize" data-type="lb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
-          color +
-          ';position: absolute;left: -3px;bottom: -3px;z-index: 19;cursor: ne-resize;"></div>' +
-          '<div class="luckysheet-chart-rangeShow-resize" data-type="rb" style="width: 6px;height: 6px;border: 1px solid #fff;background: ' +
-          color +
-          ';position: absolute;right: -3px;bottom: -3px;z-index: 19;cursor: se-resize;"></div>' +
-          '</div>'
-  
-        return html
-      }
-    },
-    rangeMove: false,
-    rangeMovexy: null,
-    rangeMoveIndex: null,
-    rangeMoveObj: null,
-    rangeMoveDraging: function (event, sheetBarHeight, statisticBarHeight) {
-    const store = chartInfo.chartStore
-      var chart_json = $.extend(
-        true,
-        {},
-        store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex].chartOptions
-      )
-      var st_r = chart_json.rangeArray[0].row[0]
-      var st_c = chart_json.rangeArray[0].column[0]
-      var rangeRowCheck = chart_json.rangeRowCheck
-      var rangeColCheck = chart_json.rangeColCheck
-      var rangeSplitArray = chart_json.rangeSplitArray
-  
-      var mouse = mouseposition(event.pageX, event.pageY)
-      var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
-      var scrollTop = $('#luckysheet-cell-main').scrollTop()
-  
-      var x = mouse[0] + scrollLeft
-      var y = mouse[1] + scrollTop
-  
-      var winH =
-        $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
-        winW = $(window).width() + scrollLeft
-  
-      var rowLocation = rowLocation(y),
-        row_index = rowLocation[2]
-      var colLocation = colLocation(x),
-        col_index = colLocation[2]
-  
-      var visibledatarow = getvisibledatarow()
-      var visibledatacolumn = getvisibledatacolumn()
-  
-      var $id = chart_selection.rangeMoveObj.attr('id')
-  
-      if ($id == 'luckysheet-chart-rangeShow-content') {
-        //行
-        var row_s =
-          chart_selection.rangeMoveIndex[0] -
-          chart_selection.rangeMovexy[0] +
-          row_index
-  
-        if (rangeRowCheck.exits) {
-          if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
-            row_s = st_r + rangeRowCheck.range[1] + 1
-          }
-        } else {
-          if (row_s < 0 || y < 0) {
-            row_s = 0
-          }
-        }
-  
-        var row_e =
-          rangeSplitArray.content.row[1] - rangeSplitArray.content.row[0] + row_s
-  
-        if (row_e >= visibledatarow.length - 1 || y > winH) {
-          row_s =
-            visibledatarow.length -
-            1 -
-            rangeSplitArray.content.row[1] +
-            rangeSplitArray.content.row[0]
-          row_e = visibledatarow.length - 1
-        }
-  
-        //列
-        var col_s =
-          chart_selection.rangeMoveIndex[1] -
-          chart_selection.rangeMovexy[1] +
-          col_index
-        if (rangeColCheck.exits) {
-          if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
-            col_s = st_c + rangeColCheck.range[1] + 1
-          }
-        } else {
-          if (col_s < 0 || x < 0) {
-            col_s = 0
-          }
-        }
-  
-        var col_e =
-          rangeSplitArray.content.column[1] -
-          rangeSplitArray.content.column[0] +
-          col_s
-  
-        if (col_e >= visibledatacolumn.length - 1 || x > winW) {
-          col_s =
-            visibledatacolumn.length -
-            1 -
-            rangeSplitArray.content.column[1] +
-            rangeSplitArray.content.column[0]
-          col_e = visibledatacolumn.length - 1
-        }
-  
-        //更新
-        if (rangeRowCheck.exits && rangeColCheck.exits) {
-          chart_json.rangeArray = [{ row: [st_r, row_e], column: [st_c, col_e] }]
-          chart_json.rangeSplitArray.range = {
-            row: [st_r, row_e],
-            column: [st_c, col_e]
-          }
-  
-          chart_json.rangeSplitArray.content = {
-            row: [row_s - st_r, row_e - st_r],
-            column: [col_s - st_c, col_e - st_c]
-          }
-  
-          chart_json.rangeSplitArray.rowtitle = {
-            row: chart_json.rangeSplitArray.rowtitle.row,
-            column: [col_s - st_c, col_e - st_c]
-          }
-  
-          chart_json.rangeSplitArray.coltitle = {
-            row: [row_s - st_r, row_e - st_r],
-            column: chart_json.rangeSplitArray.coltitle.column
-          }
-        } else if (rangeRowCheck.exits) {
-          chart_json.rangeArray = [{ row: [st_r, row_e], column: [col_s, col_e] }]
-          chart_json.rangeSplitArray.range = {
-            row: [st_r, row_e],
-            column: [col_s, col_e]
-          }
-  
-          chart_json.rangeSplitArray.content = {
-            row: [row_s - st_r, row_e - st_r],
-            column: chart_json.rangeSplitArray.content.column
-          }
-        } else if (rangeColCheck.exits) {
-          chart_json.rangeArray = [{ row: [row_s, row_e], column: [st_c, col_e] }]
-          chart_json.rangeSplitArray.range = {
-            row: [row_s, row_e],
-            column: [st_c, col_e]
-          }
-  
-          chart_json.rangeSplitArray.content = {
-            row: chart_json.rangeSplitArray.content.row,
-            column: [col_s - st_c, col_e - st_c]
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: [row_s, row_e], column: [col_s, col_e] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [row_s, row_e],
-            column: [col_s, col_e]
-          }
-        }
-      } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
-        //列
-        var col_s =
-          chart_selection.rangeMoveIndex[1] -
-          chart_selection.rangeMovexy[1] +
-          col_index
-  
-        if (rangeColCheck.exits) {
-          if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
-            col_s = st_c + rangeColCheck.range[1] + 1
-          }
-        } else {
-          if (col_s < 0 || x < 0) {
-            col_s = 0
-          }
-        }
-  
-        var col_e =
-          rangeSplitArray.rowtitle.column[1] -
-          rangeSplitArray.rowtitle.column[0] +
-          col_s
-  
-        if (col_e >= visibledatacolumn.length - 1 || x > winW) {
-          col_s =
-            visibledatacolumn.length -
-            1 -
-            rangeSplitArray.rowtitle.column[1] +
-            rangeSplitArray.rowtitle.column[0]
-          col_e = visibledatacolumn.length - 1
-        }
-  
-        //更新
-        if (rangeColCheck.exits) {
-          chart_json.rangeArray = [
-            { row: chart_json.rangeArray[0].row, column: [st_c, col_e] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: chart_json.rangeArray[0].row,
-            column: [st_c, col_e]
-          }
-  
-          chart_json.rangeSplitArray.rowtitle = {
-            row: chart_json.rangeSplitArray.rowtitle.row,
-            column: [col_s - st_c, col_e - st_c]
-          }
-          chart_json.rangeSplitArray.content = {
-            row: chart_json.rangeSplitArray.content.row,
-            column: [col_s - st_c, col_e - st_c]
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: chart_json.rangeArray[0].row, column: [col_s, col_e] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: chart_json.rangeArray[0].row,
-            column: [col_s, col_e]
-          }
-        }
-      } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
-        //行
-        var row_s =
-          chart_selection.rangeMoveIndex[0] -
-          chart_selection.rangeMovexy[0] +
-          row_index
-        if (rangeRowCheck.exits) {
-          if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
-            row_s = st_r + rangeRowCheck.range[1] + 1
-          }
-        } else {
-          if (row_s < 0 || y < 0) {
-            row_s = 0
-          }
-        }
-  
-        //更新
-        var row_e =
-          rangeSplitArray.coltitle.row[1] -
-          rangeSplitArray.coltitle.row[0] +
-          row_s
-  
-        if (row_e >= visibledatarow.length - 1 || y > winH) {
-          row_s =
-            visibledatarow.length -
-            1 -
-            rangeSplitArray.coltitle.row[1] +
-            rangeSplitArray.coltitle.row[0]
-          row_e = visibledatarow.length - 1
-        }
-  
-        if (rangeRowCheck.exits) {
-          chart_json.rangeArray = [
-            { row: [st_r, row_e], column: chart_json.rangeArray[0].column }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [st_r, row_e],
-            column: chart_json.rangeArray[0].column
-          }
-  
-          chart_json.rangeSplitArray.coltitle = {
-            row: [row_s - st_r, row_e - st_r],
-            column: chart_json.rangeSplitArray.coltitle.column
-          }
-          chart_json.rangeSplitArray.content = {
-            row: [row_s - st_r, row_e - st_r],
-            column: chart_json.rangeSplitArray.content.column
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: [row_s, row_e], column: chart_json.rangeArray[0].column }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [row_s, row_e],
-            column: chart_json.rangeArray[0].column
-          }
-        }
-      }
-  
-      //TODO:更新图表rangeArray 和 rangeSplitArray
-    //   store.commit({
-    //     type: 'updateChartItem',
-    //     key: 'rangeArray',
-    //     value: chart_json.rangeArray,
-    //     chartId: chart_json.chart_id
-    //   })
-    //   store.commit({
-    //     type: 'updateChartItem',
-    //     key: 'rangeSplitArray',
-    //     value: chart_json.rangeSplitArray,
-    //     chartId: chart_json.chart_id
-    //   })
-      chart_selection.create(chart_json.chart_id)
-    },
-    rangeMoveDragged: function () {
-      chart_selection.rangeMove = false
-      
-      const store = chartInfo.chartStore
-      var chart_json = $.extend(
-        true,
-        {},
-        store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex].chartOptions
-      )
-  
-      var updateJson = {}
-      updateJson.chart_id = chart_json.chart_id
-      updateJson.rangeTxt = getRangetxt(
-        chartInfo.currentSheetIndex,
-        chart_json.rangeArray[0],
-        chartInfo.currentSheetIndex
-      )
-      updateJson.chartData = getdatabyselection(
-        chart_json.rangeArray[0],
-        chartInfo.currentSheetIndex
-      )
-        
-    //   TODO : 从chartMix抛出api调用
-    //   var $id = chart_selection.rangeMoveObj.attr('id')
-    //   if (
-    //     $id == 'luckysheet-chart-rangeShow-content' &&
-    //     !chart_json.rangeRowCheck.exits &&
-    //     !chart_json.rangeColCheck.exits
-    //   ) {
-    //     //rangeMoveDraging中未更新chartData，在此使用新的chartData更新到updateJson
-    //     updateJson.rangeSplitArray = generator.getRangeSplitArray(
-    //       updateJson.chartData,
-    //       chart_json.rangeArray,
-    //       chart_json.rangeColCheck,
-    //       chart_json.rangeRowCheck
-    //     )
-    //   } else {
-    //     updateJson.rangeSplitArray = chart_json.rangeSplitArray
-    //   }
-  
-    //   var chartAllTypeArray = chart_json.chartAllType.split('|')
-    //   var chartPro = chartAllTypeArray[0],
-    //     chartType = chartAllTypeArray[1],
-    //     chartStyle = chartAllTypeArray[2]
-  
-    //   updateJson.chartDataCache = generator.getChartDataCache(
-    //     updateJson.chartData,
-    //     updateJson.rangeSplitArray,
-    //     chartPro,
-    //     chartType,
-    //     chartStyle
-    //   )
-    //   updateJson.chartDataSeriesOrder = generator.getChartDataSeriesOrder(
-    //     updateJson.chartDataCache.series[0].length
-    //   )
-    //   // 是否是移动改变图形
-    //   generator.drag = true
-    //   // 不增加点/线/区域
-    //   generator.addPoint = false
-    //   generator.addLine = false
-    //   generator.addArea = false
-    //   if (chartType == 'funnel' || chartType == 'gauge') {
-    //     updateJson.defaultOption = generator.addDataToOption1(
-    //       chart_json.defaultOption,
-    //       updateJson.chartDataCache,
-    //       updateJson.chartDataSeriesOrder,
-    //       chartPro,
-    //       chartType,
-    //       chartStyle
-    //     )
-    //   } else {
-    //     updateJson.defaultOption = generator.addDataToOption(
-    //       chart_json.defaultOption,
-    //       updateJson.chartDataCache,
-    //       updateJson.chartDataSeriesOrder,
-    //       chartPro,
-    //       chartType,
-    //       chartStyle
-    //     )
-    //   }
-  
-    //   // console.dir(JSON.stringify(updateJson.defaultOption))
-    //   generator.patchVueSet(updateJson)
-    //   generator.generateChart(
-    //     updateJson.defaultOption,
-    //     chart_json.chartTheme,
-    //     chart_json.chartAllType,
-    //     $('#' + updateJson.chart_id).get(0)
-    //   )
-    },
-    rangeResize: false,
-    rangeResizexy: null,
-    rangeResizeIndex: null,
-    rangeResizeObj: null,
-    rangeResizeDraging: function (event, sheetBarHeight, statisticBarHeight) {
-        const store = chartInfo.chartStore
-        var chart_json = $.extend(
-            true,
-            {},
-            store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex].chartOptions
-        )
-      var st_r = chart_json.rangeArray[0].row[0]
-      var st_c = chart_json.rangeArray[0].column[0]
-      var rangeRowCheck = chart_json.rangeRowCheck
-      var rangeColCheck = chart_json.rangeColCheck
-      var rangeSplitArray = chart_json.rangeSplitArray
-  
-      var mouse = mouseposition(event.pageX, event.pageY)
-      var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
-      var scrollTop = $('#luckysheet-cell-main').scrollTop()
-  
-      var x = mouse[0] + scrollLeft
-      var y = mouse[1] + scrollTop
-  
-      var winH =
-        $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
-        winW = $(window).width() + scrollLeft
-  
-      var rowLocation = rowLocation(y),
-        row_index = rowLocation[2]
-      var colLocation = colLocation(x),
-        col_index = colLocation[2]
-  
-      var visibledatarow = getvisibledatarow()
-      var visibledatacolumn = getvisibledatacolumn()
-  
-      var $id = chart_selection.rangeResizeObj.attr('id')
-  
-      if ($id == 'luckysheet-chart-rangeShow-content') {
-        var r1, r2, c1, c2
-  
-        if (chart_selection.rangeResize == 'lt') {
-          r1 = chart_selection.rangeResizeIndex.row[0]
-          c1 = chart_selection.rangeResizeIndex.column[0]
-  
-          r2 = chart_selection.rangeResizeIndex.row[1]
-          c2 = chart_selection.rangeResizeIndex.column[1]
-        } else if (chart_selection.rangeResize == 'lb') {
-          r1 = chart_selection.rangeResizeIndex.row[1]
-          c1 = chart_selection.rangeResizeIndex.column[0]
-  
-          r2 = chart_selection.rangeResizeIndex.row[0]
-          c2 = chart_selection.rangeResizeIndex.column[1]
-        } else if (chart_selection.rangeResize == 'rt') {
-          r1 = chart_selection.rangeResizeIndex.row[0]
-          c1 = chart_selection.rangeResizeIndex.column[1]
-  
-          r2 = chart_selection.rangeResizeIndex.row[1]
-          c2 = chart_selection.rangeResizeIndex.column[0]
-        } else if (chart_selection.rangeResize == 'rb') {
-          r1 = chart_selection.rangeResizeIndex.row[1]
-          c1 = chart_selection.rangeResizeIndex.column[1]
-  
-          r2 = chart_selection.rangeResizeIndex.row[0]
-          c2 = chart_selection.rangeResizeIndex.column[0]
-        }
-  
-        //行
-        if (rangeRowCheck.exits) {
-          var row_s = r1 - chart_selection.rangeResizexy[0] + row_index
-  
-          if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
-            row_s = st_r + rangeRowCheck.range[1] + 1
-          } else if (row_s >= visibledatarow.length - 1 || y > winH) {
-            row_s = visibledatarow.length - 1
-          }
-        } else {
-          var row_s = st_r - chart_selection.rangeResizexy[0] + row_index
-  
-          if (row_s < 0 || y < 0) {
-            row_s = 0
-          } else if (row_s >= visibledatarow.length - 1 || y > winH) {
-            row_s = visibledatarow.length - 1
-          }
-        }
-  
-        //列
-        if (rangeColCheck.exits) {
-          var col_s = c1 - chart_selection.rangeResizexy[1] + col_index
-  
-          if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
-            col_s = st_c + rangeColCheck.range[1] + 1
-          } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
-            col_s = visibledatacolumn.length - 1
-          }
-        } else {
-          var col_s = st_c - chart_selection.rangeResizexy[1] + col_index
-  
-          if (col_s < 0 || x < 0) {
-            col_s = 0
-          } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
-            col_s = visibledatacolumn.length - 1
-          }
-        }
-  
-        var obj_r1, obj_r2, obj_c1, obj_c2
-  
-        if (row_s > r2) {
-          obj_r1 = r2
-          obj_r2 = row_s
-        } else {
-          obj_r1 = row_s
-          obj_r2 = r2
-        }
-  
-        if (col_s > c2) {
-          obj_c1 = c2
-          obj_c2 = col_s
-        } else {
-          obj_c1 = col_s
-          obj_c2 = c2
-        }
-  
-        if (!rangeRowCheck.exits && !rangeColCheck.exits) {
-          chart_json.rangeArray = [
-            { row: [obj_r1, obj_r2], column: [obj_c1, obj_c2] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [obj_r1, obj_r2],
-            column: [obj_c1, obj_c2]
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: [st_r, obj_r2], column: [st_c, obj_c2] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [st_r, obj_r2],
-            column: [st_c, obj_c2]
-          }
-  
-          chart_json.rangeSplitArray.content = {
-            row: [obj_r1 - st_r, obj_r2 - st_r],
-            column: [obj_c1 - st_c, obj_c2 - st_c]
-          }
-  
-          if (rangeRowCheck.exits) {
-            chart_json.rangeSplitArray.rowtitle = {
-              row: chart_json.rangeSplitArray.rowtitle.row,
-              column: [obj_c1 - st_c, obj_c2 - st_c]
-            }
-          }
-  
-          if (rangeColCheck.exits) {
-            chart_json.rangeSplitArray.coltitle = {
-              row: [obj_r1 - st_r, obj_r2 - st_r],
-              column: chart_json.rangeSplitArray.coltitle.column
-            }
-          }
-        }
-      } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
-        var c1, c2
-  
-        if (
-          chart_selection.rangeResize == 'lt' ||
-          chart_selection.rangeResize == 'lb'
-        ) {
-          c1 = chart_selection.rangeResizeIndex.column[0]
-          c2 = chart_selection.rangeResizeIndex.column[1]
-        } else if (
-          chart_selection.rangeResize == 'rt' ||
-          chart_selection.rangeResize == 'rb'
-        ) {
-          c1 = chart_selection.rangeResizeIndex.column[1]
-          c2 = chart_selection.rangeResizeIndex.column[0]
-        }
-  
-        //列
-        if (rangeColCheck.exits) {
-          var col_s = c1 - chart_selection.rangeResizexy[1] + col_index
-  
-          if (col_s < st_c + rangeColCheck.range[1] + 1 || x < 0) {
-            col_s = st_c + rangeColCheck.range[1] + 1
-          } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
-            col_s = visibledatacolumn.length - 1
-          }
-        } else {
-          var col_s = st_c - chart_selection.rangeResizexy[1] + col_index
-  
-          if (col_s < 0 || x < 0) {
-            col_s = 0
-          } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
-            col_s = visibledatacolumn.length - 1
-          }
-        }
-  
-        var obj_c1, obj_c2
-  
-        if (col_s > c2) {
-          obj_c1 = c2
-          obj_c2 = col_s
-        } else {
-          obj_c1 = col_s
-          obj_c2 = c2
-        }
-  
-        //更新
-        if (!rangeColCheck.exits) {
-          chart_json.rangeArray = [
-            { row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: chart_json.rangeArray[0].row,
-            column: [obj_c1, obj_c2]
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: chart_json.rangeArray[0].row, column: [st_c, obj_c2] }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: chart_json.rangeArray[0].row,
-            column: [st_c, obj_c2]
-          }
-  
-          chart_json.rangeSplitArray.rowtitle = {
-            row: chart_json.rangeSplitArray.rowtitle.row,
-            column: [obj_c1 - st_c, obj_c2 - st_c]
-          }
-          chart_json.rangeSplitArray.content = {
-            row: chart_json.rangeSplitArray.content.row,
-            column: [obj_c1 - st_c, obj_c2 - st_c]
-          }
-        }
-      } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
-        var r1, r2
-  
-        if (
-          chart_selection.rangeResize == 'lt' ||
-          chart_selection.rangeResize == 'rt'
-        ) {
-          r1 = chart_selection.rangeResizeIndex.row[0]
-          r2 = chart_selection.rangeResizeIndex.row[1]
-        } else if (
-          chart_selection.rangeResize == 'lb' ||
-          chart_selection.rangeResize == 'rb'
-        ) {
-          r1 = chart_selection.rangeResizeIndex.row[1]
-          r2 = chart_selection.rangeResizeIndex.row[0]
-        }
-  
-        //行
-        if (rangeRowCheck.exits) {
-          var row_s = r1 - chart_selection.rangeResizexy[0] + row_index
-  
-          if (row_s < st_r + rangeRowCheck.range[1] + 1 || y < 0) {
-            row_s = st_r + rangeRowCheck.range[1] + 1
-          } else if (row_s >= visibledatarow.length - 1 || y > winH) {
-            row_s = visibledatarow.length - 1
-          }
-        } else {
-          var row_s = st_r - chart_selection.rangeResizexy[0] + row_index
-  
-          if (row_s < 0 || y < 0) {
-            row_s = 0
-          } else if (row_s >= visibledatarow.length - 1 || y > winH) {
-            row_s = visibledatarow.length - 1
-          }
-        }
-  
-        var obj_r1, obj_r2
-  
-        if (row_s > r2) {
-          obj_r1 = r2
-          obj_r2 = row_s
-        } else {
-          obj_r1 = row_s
-          obj_r2 = r2
-        }
-  
-        //更新
-        if (!rangeRowCheck.exits) {
-          chart_json.rangeArray = [
-            { row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [obj_r1, obj_r2],
-            column: chart_json.rangeArray[0].column
-          }
-        } else {
-          chart_json.rangeArray = [
-            { row: [st_r, obj_r2], column: chart_json.rangeArray[0].column }
-          ]
-          chart_json.rangeSplitArray.range = {
-            row: [st_r, obj_r2],
-            column: chart_json.rangeArray[0].column
-          }
-  
-          chart_json.rangeSplitArray.coltitle = {
-            row: [obj_r1 - st_r, obj_r2 - st_r],
-            column: chart_json.rangeSplitArray.coltitle.column
-          }
-          chart_json.rangeSplitArray.content = {
-            row: [obj_r1 - st_r, obj_r2 - st_r],
-            column: chart_json.rangeSplitArray.content.column
-          }
-        }
-      }
-  
-    //   //部分更新 TODO
-    //   store.commit({
-    //     type: 'updateChartItem',
-    //     key: 'rangeArray',
-    //     value: chart_json.rangeArray,
-    //     chartId: chart_json.chart_id
-    //   })
-    //   store.commit({
-    //     type: 'updateChartItem',
-    //     key: 'rangeSplitArray',
-    //     value: chart_json.rangeSplitArray,
-    //     chartId: chart_json.chart_id
-    //   })
-      chart_selection.create(chart_json.chart_id)
-    },
-    rangeResizeDragged: function () {
-      chart_selection.rangeResize = null
-        
-      const store = chartInfo.chartStore
-        var chart_json = $.extend(
-            true,
-            {},
-            store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex].chartOptions
-        )
-        
-  
-      var updateJson = {}
-  
-      updateJson.chart_id = chart_json.chart_id
-      updateJson.rangeTxt = getRangetxt(
-        luckysheet.currentSheetIndex,
-        chart_json.rangeArray[0],
-        luckysheet.currentSheetIndex
-      )
-      updateJson.chartData = getdatabyselection(
-        chart_json.rangeArray[0],
-        luckysheet.currentSheetIndex
-      )
-        
-    //   TODO
-    //   var $id = chart_selection.rangeResizeObj.attr('id')
-    //   if (
-    //     $id == 'luckysheet-chart-rangeShow-content' &&
-    //     !chart_json.rangeRowCheck.exits &&
-    //     !chart_json.rangeColCheck.exits
-    //   ) {
-    //     //采用updateJson.chartData
-    //     updateJson.rangeSplitArray = generator.getRangeSplitArray(
-    //       updateJson.chartData,
-    //       chart_json.rangeArray,
-    //       chart_json.rangeColCheck,
-    //       chart_json.rangeRowCheck
-    //     )
-    //   } else {
-    //     updateJson.rangeSplitArray = chart_json.rangeSplitArray
-    //   }
-  
-    //   var chartAllTypeArray = chart_json.chartAllType.split('|')
-    //   var chartPro = chartAllTypeArray[0],
-    //     chartType = chartAllTypeArray[1],
-    //     chartStyle = chartAllTypeArray[2]
-  
-    //   updateJson.chartDataCache = generator.getChartDataCache(
-    //     updateJson.chartData,
-    //     updateJson.rangeSplitArray,
-    //     chartPro,
-    //     chartType,
-    //     chartStyle
-    //   )
-    //   updateJson.chartDataSeriesOrder = generator.getChartDataSeriesOrder(
-    //     updateJson.chartDataCache.series[0].length
-    //   )
-    //   if (chartType == 'funnel' || chartType == 'gauge') {
-    //     updateJson.defaultOption = generator.addDataToOption1(
-    //       chart_json.defaultOption,
-    //       updateJson.chartDataCache,
-    //       updateJson.chartDataSeriesOrder,
-    //       chartPro,
-    //       chartType,
-    //       chartStyle
-    //     )
-    //   } else {
-    //     updateJson.defaultOption = generator.addDataToOption(
-    //       chart_json.defaultOption,
-    //       updateJson.chartDataCache,
-    //       updateJson.chartDataSeriesOrder,
-    //       chartPro,
-    //       chartType,
-    //       chartStyle
-    //     )
-    //   }
-  
-    //   generator.patchVueSet(updateJson)
-  
-    //   generator.generateChart(
-    //     updateJson.defaultOption,
-    //     chart_json.chartTheme,
-    //     chart_json.chartAllType,
-    //     $('#' + updateJson.chart_id).get(0)
-    //   )
-    }
-  }
+
 export { chart, createLuckyChart }
