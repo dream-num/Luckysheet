@@ -5,18 +5,7 @@ const sheetPivotTableData = {
 		"merge": {}
 	},
 	"index": "6",
-	"chart": [{
-		"sheetIndex": "0",
-		"dataSheetIndex": "0",
-		"chartType": "column",
-		"row": "[1,3]",
-		"column": "[3,3]",
-		"chartStyle": "default",
-		"myWidth": "480",
-		"myHeight": "288",
-		"myLeft": "67",
-		"myTop": "11"
-	}],
+	"chart": [],
 	"status": "0",
 	"order": "6",
 	"hide": 0,
