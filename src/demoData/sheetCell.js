@@ -1165,16 +1165,11 @@ const sheetCell = {
 	},
 	"index": "0",
 	"chart": [{
-		"sheetIndex": "0",
-		"dataSheetIndex": "0",
-		"chartType": "column",
-		"row": "[1,3]",
-		"column": "[3,3]",
-		"chartStyle": "default",
-		"width": "480",
-		"height": "288",
-		"left": "67",
-		"top": "11"
+		"chart_id": "chart_5erpeWc1eWal_1596092336315",
+		"width": 400,
+		"height": 250,
+		"top": 30,
+		"left": 50
 	}],
 	"status": "1",
 	"order": "0",
