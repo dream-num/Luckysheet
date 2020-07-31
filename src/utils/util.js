@@ -1,4 +1,4 @@
-import { columeHeader_word, columeHeader_word_index,luckysheetdefaultFont } from '../controllers/constant';
+import { columeHeader_word, columeHeader_word_index, luckysheetdefaultstyle } from '../controllers/constant';
 import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
 import { hasChinaword } from '../global/validate';

@@ -85,9 +85,33 @@ const Store = {
     createChart: '',
     highlightChart: '',
     zIndex: 15,
-
+    chartparam: {
+        luckysheetCurrentChart: null, //current chart_id
+        luckysheetCurrentChartActive: false,
+        luckysheetCurrentChartMove: null, // Debounce state
+        luckysheetCurrentChartMoveTimeout: null,//拖动图表框的节流定时器
+        luckysheetCurrentChartMoveObj: null, //chart DOM object
+        luckysheetCurrentChartMoveXy: null, //上一次操作结束的图表信息，x,y: chart框位置，scrollLeft1,scrollTop1: 滚动条位置
+        luckysheetCurrentChartMoveWinH: null, //左右滚动条滑动距离
+        luckysheetCurrentChartMoveWinW: null, //上下滚动条滑动距离
+        luckysheetCurrentChartResize: null,
+        luckysheetCurrentChartResizeObj: null,
+        luckysheetCurrentChartResizeXy: null,
+        luckysheetCurrentChartResizeWinH: null,
+        luckysheetCurrentChartResizeWinW: null,
+        luckysheetInsertChartTosheetChange: true, // 正在执行撤销
+        luckysheetCurrentChartZIndexRank : 100,
+        luckysheet_chart_redo_click:false, //撤销重做时标识
+        luckysheetCurrentChartMaxState: false, //图表全屏状态
+        jfrefreshchartall: '',
+        changeChartCellData: '',
+        renderChart: '',
+        getChartJson: ''
+    },
     functionList:null, //function list explanation
     luckysheet_function:null,
+    chart_selection: {},
+    currentChart: ''
 }
 
 export default Store;

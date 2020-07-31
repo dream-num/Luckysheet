@@ -795,12 +795,12 @@ const server = {
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
                     let re = eval('('+ data +')')
                     if(re.status){
-                        $("#jfgrid_info_detail_update").html("最近存档时间:"+ moment().format("M-D H:m:s"));
-                        $("#jfgrid_info_detail_save").html("同步成功");
+                        $("#luckysheet_info_detail_update").html("最近存档时间:"+ moment().format("M-D H:m:s"));
+                        $("#luckysheet_info_detail_save").html("同步成功");
                         _this.clearcachelocaldata();
                     }
                     else{
-                        $("#jfgrid_info_detail_save").html("<span style='color:#ff2121'>同步失败</span>");
+                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>同步失败</span>");
                         _this.restorecachelocaldata();
                     }
                     _this.requestlast = moment();
@@ -815,9 +815,9 @@ const server = {
     imageRequest: function(){
         let _this = this;
         
-        html2canvas($("#" + container).find(".jfgrid-grid-window").get(0), {
+        html2canvas($("#" + container).find(".luckysheet-grid-window").get(0), {
           onrendered: function(canvas) {
-            //let imgcut = $("#jfgrid-cell-main").find(".jfgrid-grid-window");
+            //let imgcut = $("#luckysheet-cell-main").find(".luckysheet-grid-window");
             //document.body.appendChild(canvas);
             let old = $(canvas).appendTo("body");
             old.hide();
@@ -844,7 +844,7 @@ const server = {
             //console.log(base64);
             //console.log("压缩：", pako.gzip(base64, { to: "string" }));
             //console.log("imageRequest");
-            let curindex = jfgrid.sheetmanage.getCurSheetnoset();
+            let curindex = luckysheet.sheetmanage.getCurSheetnoset();
             _this.imageRequestLock =true;
             // let data1 = pako.gzip(encodeURIComponent(JSON.stringify({"t":"thumb", "img": base64, "curindex":curindex })), { to: "string" });
             let data1 = encodeURIComponent(JSON.stringify({"t":"thumb", "img": base64, "curindex":curindex }));
@@ -858,7 +858,7 @@ const server = {
                         imageRequestLast = moment();
                     }
                     else{
-                        $("#jfgrid_info_detail_save").html("<span style='color:#ff2121'>网络不稳定</span>");
+                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>网络不稳定</span>");
                     }
                     _this.imageRequestLock =true;
                 });

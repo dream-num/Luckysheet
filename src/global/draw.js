@@ -654,7 +654,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
     //非空白单元格渲染
     let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, canvasType){
-
         let cell = Store.flowdata[r][c];
         let cellWidth = end_c - start_c - 2;
         let cellHeight = end_r - start_r - 2;
@@ -676,7 +675,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         let measureText = luckysheetTableContent.measureText(value);
         let textMetrics = measureText.width;
         let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
-
         //交替颜色
         let checksAF = alternateformat.checksAF(r, c, af_compute); 
         //条件格式
