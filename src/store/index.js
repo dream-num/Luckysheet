@@ -102,6 +102,7 @@ const Store = {
         luckysheetInsertChartTosheetChange: true, // 正在执行撤销
         luckysheetCurrentChartZIndexRank : 100,
         luckysheet_chart_redo_click:false, //撤销重做时标识
+        luckysheetCurrentChartMaxState: false, //图表全屏状态
 
     },
     functionList:null, //function list explanation
