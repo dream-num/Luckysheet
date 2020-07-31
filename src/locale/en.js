@@ -935,7 +935,7 @@ export default {
         offsetColumnLessZero:"The offset column cannot be negative!",
     },
     pivotTable:{
-        title:"Pivot table",
+        title:"PivotTable",
         closePannel:"Close",
         editRange:"Select data range",
         tipPivotFieldSelected:"Select the fields",

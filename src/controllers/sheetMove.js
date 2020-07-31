@@ -1786,7 +1786,7 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
             }
 
             if(cellNull.length == 1 && stNull && cellNull[i] == false){
-                index = strIndex + i;
+                index = strIndex + i + 1;
                 break;
             }
             else if(cellNull.length > 1){

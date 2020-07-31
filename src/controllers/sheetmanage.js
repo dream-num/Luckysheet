@@ -43,9 +43,12 @@ const sheetmanage = {
     generateRandomSheetName: function(file, isPivotTable) {
         let index = file.length;
 
+        const locale_pivotTable = locale().pivotTable;
+        const title = locale_pivotTable.title;
+
         for(let i = 0; i < file.length; i++){
-            if(file[i].name.indexOf("Sheet") > -1 || file[i].name.indexOf("数据透视表") > -1){
-                let suffix = parseFloat(file[i].name.replace("Sheet", "").replace("数据透视表", ""));
+            if(file[i].name.indexOf("Sheet") > -1 || file[i].name.indexOf(title) > -1){
+                let suffix = parseFloat(file[i].name.replace("Sheet", "").replace(title, ""));
 
                 if(suffix != "NaN" && Math.ceil(suffix) > index){
                     index = Math.ceil(suffix);
@@ -54,7 +57,7 @@ const sheetmanage = {
         }
 
         if(isPivotTable){
-            return "数据透视表" + (index + 1);
+            return title + (index + 1);
         }
         else{
             return "Sheet" + (index + 1);
