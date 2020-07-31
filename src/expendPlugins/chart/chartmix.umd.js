@@ -35391,7 +35391,7 @@ function initPie(series, chartDataCache, seriesData, legendData, product, type, 
 
 
 function editPie(series, chartDataCache, seriesData, legendData, chartPro, chartType, chartStyle) {
-  seires.name = legendData; // 如果原来的数据长度小于所选的数据长度
+  series.name = legendData; // 如果原来的数据长度小于所选的数据长度
 
   if (series.data.length < seriesData.length) {
     for (var k = series.data.length; k < seriesData.length; k++) {
@@ -38975,7 +38975,7 @@ function changeChartRange(chart_id, chartData, rangeArray, rangeTxt) {
   chart_json.chartData = chartData;
   chart_json.rangeTxt = rangeTxt; //根据数据集得到按钮状态，rangeColCheck表示首列是否标题，rangeRowCheck表示首行是否标题，rangeConfigCheck表示是否转置。
 
-  var rowColCheck = getRowColCheck(chartData);
+  var rowColCheck = Object(util["g" /* getRowColCheck */])(chartData);
   var rangeRowCheck = rowColCheck[0],
       rangeColCheck = rowColCheck[1],
       rangeConfigCheck = false; // 如果列转置标识,再转为列转置
@@ -38999,7 +38999,7 @@ function changeChartRange(chart_id, chartData, rangeArray, rangeTxt) {
   chart_json.defaultOption = defaultOption;
   src_store.dispatch('chartSetting/updateChartItemChartlist', chart_json);
   chartUtil_renderChart({
-    chartOptions: updateJson,
+    chartOptions: chart_json,
     chart_id: chart_id
   });
 }
@@ -40378,20 +40378,15 @@ function createChart(render, chartData, chart_id, rangeArray, rangeTxt) {
   var chartOption = insertNewChart(data_chartJson["c" /* chartOptions */], chart_Id, data_chartJson["c" /* chartOptions */].chartAllType, chartData, rangeArray, rangeTxt);
   var renderDom = document.createElement('div');
   renderDom.id = 'render' + chart_Id;
-  render.appendChild(renderDom); // 插入store和export出去的配置
-
+  render.appendChild(renderDom);
   var chart_json = {
     'chart_id': chart_Id,
     'active': true,
     'chartOptions': Object(util["b" /* deepCopy */])(chartOption)
   };
-  src_store.commit('UPDATE_CHART_ITEM_ONE', {
-    key: 'currentChartIndex',
-    value: exportUtil_ChartSetting.chartLists.length
-  }); // ChartSetting.currentChartIndex = ChartSetting.chartLists.length
-
+  exportUtil_ChartSetting.currentChartIndex = exportUtil_ChartSetting.chartLists.length;
   exportUtil_ChartSetting.chartLists.push(chart_json);
-  console.dir(chartOption);
+  console.dir(chart_json);
   new external_Vue_default.a({
     el: '#render' + chart_Id,
     store: src_store,
