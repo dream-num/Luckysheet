@@ -62,7 +62,9 @@ function chart() {
         chartInfo.resizeChart = chartmix.default.resizeChart
         chartInfo.changeChartRange = chartmix.default.changeChartRange
         chartInfo.changeChartCellData = chartmix.default.changeChartCellData
+        chartInfo.getChartJson = chartmix.default.getChartJson
         chartInfo.chart_selection = chart_selection()
+
     });
 }
 
@@ -457,7 +459,7 @@ function chart_selection() {
                 }
             }
 
-            chartInfo.chart_selection.create(chartInfo.currentChart)
+            chartInfo.chart_selection.create()
         },
         rangeMoveDragged: function () {
             chartInfo.chart_selection.rangeMove = false
@@ -779,7 +781,7 @@ function chart_selection() {
                 }
             }
 
-            chartInfo.chart_selection.create(chartInfo.currentChart)
+            chartInfo.chart_selection.create()
         },
         rangeResizeDragged: function () {
             chartInfo.chart_selection.rangeResize = null
@@ -917,7 +919,7 @@ function createLuckyChart(width, height, left, top) {
     let container = document.getElementById(chart_id_c)
 
     let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
-    chartInfo.currentChart = chart_json.chartOptions
+    // chartInfo.currentChart = chart_json.chartOptions
     console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
@@ -1099,13 +1101,17 @@ function delChart(chart_id) {
 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
 function showNeedRangeShow(chart_id) {
+    
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
+
     for (let chartId in chartLists) {
         // if (chartLists[chartId].sheetIndex == chartInfo.currentSheetIndex) {
             //当前sheet的图表先设置为false
             chartLists[chartId].needRangeShow = false
             if (chartLists[chartId].chart_id == chart_id) {
-                chartLists[chartId].needRangeShow = true
+                chartLists[chartId].needRangeShow = true;
+
+                chartInfo.currentChart =  chartInfo.getChartJson(chart_id)
             }
         // }
 
@@ -1135,7 +1141,7 @@ function selectRangeBorderShow(chart_id) {
     let $t = $('#' + chart_id + '_c')
 
     // Highlight of data range
-    chartInfo.chart_selection.create(chart_id)
+    chartInfo.chart_selection.create()
 
     chartInfo.chartparam.luckysheetCurrentChartActive = true
     chartInfo.chartparam.luckysheetCurrentChartMoveObj = $t
