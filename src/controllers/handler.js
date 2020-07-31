@@ -56,7 +56,7 @@ import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
-import { createLuckyChart } from '../expendPlugins/chart/plugin'
+import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -828,7 +828,7 @@ export default function luckysheetHandler() {
 
         if (!isEditMode()) {
             //chartMix 隐藏当前页的数据选择区域高亮
-            !!window.store && store.commit("hideAllNeedRangeShow");
+            hideAllNeedRangeShow();
         }
 
         $("#luckysheet-helpbox-cell").text(getRangetxt(Store.currentSheetIndex, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]));
