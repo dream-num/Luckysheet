@@ -25,7 +25,7 @@ const dependScripts = [
     'https://unpkg.com/vuex@3.4.0',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.js'
+    'expendPlugins/chart/chartmix.umd.min.js'
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
@@ -86,10 +86,17 @@ function chart(data, isDemo) {
 
         // 初始化渲染图表
         for (let i = 0; i < data.length; i++) {
-            if (data[i].status == '1') {
+            // if (data[i].status == '1') {
                 renderCharts(data[i].chart, isDemo)
+            // }
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].status == '1') {
+                renderChartShow(data[i].index)
             }
         }
+
     });
 }
 
@@ -259,6 +266,7 @@ function renderCharts(chartLists, isDemo) {
         container.style.top = top + 'px'
         container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
         chartInfo.zIndex++
+
     }
 }
 
@@ -1470,6 +1478,8 @@ function renderChartShow(index) {
             chartLists.forEach((chart) => {
                 chart.isShow = true;
                 $('#' + chart.chart_id + '_c').show();
+
+                chartInfo.resizeChart(chart.chart_id)
 
                 if (chart.needRangeShow == true) {
                     //一个sheet页只有一个图表高亮显示,//重要！因为在store了做了存储，所以能在此处找到对应图表设置显示隐藏
