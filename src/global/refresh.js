@@ -116,7 +116,9 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
             server.historyParam(Store.flowdata, Store.currentSheetIndex, range[s]);
         }
         // 刷新图表
-        Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1])
+        if(typeof(Store.chartparam.jfrefreshchartall)=="function"){
+            Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1]);
+        }
     }
 
     //刷新表格

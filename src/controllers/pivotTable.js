@@ -2342,7 +2342,7 @@ const pivotTable = {
 
         $("#luckysheet-dialog-pivotTable-range").html(getRangetxt(_this.pivotDataSheetIndex, _this.pivot_select_save));
         $("#luckysheet-modal-dialog-slider-pivot").show();
-        sheetmanage.sheetBarShowAndHide();
+        
         luckysheetsizeauto();
     },
     getComposeArray: function (data) {

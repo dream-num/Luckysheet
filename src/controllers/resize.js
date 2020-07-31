@@ -3,6 +3,7 @@ import luckysheetFreezen from './freezen';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 import locale from '../locale/locale';
+import sheetmanage from './sheetmanage';
 
 let gridW = 0, 
     gridH = 0;
@@ -167,4 +168,7 @@ export default function luckysheetsizeauto() {
     }, function(){
         $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");
     });
+
+    sheetmanage.sheetArrowShowAndHide();
+    sheetmanage.sheetBarShowAndHide();
 }

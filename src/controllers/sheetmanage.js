@@ -1041,6 +1041,23 @@ const sheetmanage = {
         
         this.sheetBarShowAndHide(index);
     },
+    sheetArrowShowAndHide(){
+        let containerW = $("#luckysheet-sheet-container").width();
+
+        let c_width = 0;
+        $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item:visible").each(function(){
+            c_width += $(this).outerWidth();
+        });
+
+        if (c_width >= containerW) {
+            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+        }
+        else{
+            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "none");
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
+        }
+    },
     sheetBarShowAndHide(index){
         let $c = $("#luckysheet-sheet-container-c");
 
