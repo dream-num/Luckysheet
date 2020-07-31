@@ -1037,9 +1037,17 @@ const sheetmanage = {
         if (formula.rangestart) {
             formula.createRangeHightlight();
         }
-
+        
+        this.sheetBarShowAndHide(index);
+    },
+    sheetBarShowAndHide(index){
         let $c = $("#luckysheet-sheet-container-c");
-        $c.scrollLeft($sheet.offset().left);
+
+        if(index!=null){
+            let $sheet = $("#luckysheet-sheets-item" + index);
+            $c.scrollLeft($sheet.offset().left);
+        }
+
 
         let c_width = $c.width(), c_srollwidth = $c[0].scrollWidth, scrollLeft = $c.scrollLeft();
 
