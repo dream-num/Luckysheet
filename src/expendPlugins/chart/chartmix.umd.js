@@ -40534,6 +40534,13 @@ function deleteChart(chart_id) {
   }
 }
 
+function getChartJson(chart_id) {
+  var index = exportUtil_ChartSetting.chartLists.findIndex(function (item) {
+    return item.chart_id == chart_id;
+  });
+  return exportUtil_ChartSetting.chartLists[index].chartOptions;
+}
+
 
 // CONCATENATED MODULE: ./src/packages/index.js
 
@@ -40590,7 +40597,10 @@ if (typeof window !== 'undefined' && window.Vue) {
   resizeChart: resizeChart,
   changeChartRange: changeChartRange,
   changeChartCellData: changeChartCellData,
-  renderChart: /* Cannot get final name for export "renderChart" in "./src/utils/exportUtil.js" (known exports: initChart createChart highlightChart deleteChart resizeChart resizeChartAll, known reexports: changeChartRange changeChartCellData) */ undefined
+  renderChart: chartUtil_renderChart,
+  getChartJson: getChartJson // ChartSetting,
+  // ChartRender
+
 }));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

@@ -3599,28 +3599,30 @@ export default function luckysheetHandler() {
 
         Store.chart_selection.rangeResizeObj = $(this).parent();
 
-        let chart_id = luckysheet.chartparam.luckysheetCurrentChartMoveObj.find(".luckysheet-modal-dialog-content").attr("id");
-        // let vue = !!window.generator && generator.chartEditorComponent;
         let chart_json = Store.currentChart
+        let row_s
+        let row_e
+        let col_s
+        let col_e
 
         let $id = $(this).parent().attr("id");
         if ($id == "luckysheet-chart-rangeShow-content") {
             if (chart_json.rangeRowCheck.exits) {
-                let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-                let row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
+                 row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
+                 row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
             }
             else {
-                let row_s = chart_json.rangeSplitArray.content.row[0];
-                let row_e = chart_json.rangeSplitArray.content.row[0];
+                 row_s = chart_json.rangeSplitArray.content.row[0];
+                 row_e = chart_json.rangeSplitArray.content.row[0];
             }
 
             if (chart_json.rangeColCheck.exits) {
-                let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-                let col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
+                 col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
+                 col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
             }
             else {
-                let col_s = chart_json.rangeSplitArray.content.column[0];
-                let col_e = chart_json.rangeSplitArray.content.column[1];
+                 col_s = chart_json.rangeSplitArray.content.column[0];
+                 col_e = chart_json.rangeSplitArray.content.column[1];
             }
 
             Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };

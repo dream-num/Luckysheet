@@ -105,7 +105,8 @@ const Store = {
         luckysheetCurrentChartMaxState: false, //图表全屏状态
         jfrefreshchartall: '',
         changeChartCellData: '',
-        renderChart: ''
+        renderChart: '',
+        getChartJson: ''
     },
     functionList:null, //function list explanation
     luckysheet_function:null,
