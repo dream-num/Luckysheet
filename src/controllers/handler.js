@@ -1812,7 +1812,7 @@ export default function luckysheetHandler() {
                     const y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
 
                     const myh = Store.chartparam.luckysheetCurrentChartMoveObj.height(), myw = Store.chartparam.luckysheetCurrentChartMoveObj.width();
-                    const top = y - Store.chartparam.luckysheetCurrentChartMoveXy[1], left = x - Store.chartparam.luckysheetCurrentChartMoveXy[0];
+                    let top = y - Store.chartparam.luckysheetCurrentChartMoveXy[1], left = x - Store.chartparam.luckysheetCurrentChartMoveXy[0];
 
                     if (top < 0) {
                         top = 0;
@@ -1842,19 +1842,19 @@ export default function luckysheetHandler() {
                 }
                 // chart resize
                 else if (!!Store.chartparam.luckysheetCurrentChartResize) {
-                    var scrollTop = $("#luckysheet-cell-main").scrollTop(), scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-                    var mouse = mouseposition(event.pageX, event.pageY);
-                    var x = mouse[0] + scrollLeft;
-                    var y = mouse[1] + scrollTop;
+                    const scrollTop = $("#luckysheet-cell-main").scrollTop(), scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                    const mouse = mouseposition(event.pageX, event.pageY);
+                    const x = mouse[0] + scrollLeft;
+                    const y = mouse[1] + scrollTop;
 
                     if (x < 0 || y < 0) {
                         return false;
                     }
 
-                    var myh = Store.chartparam.luckysheetCurrentChartResizeObj.height(), myw = Store.chartparam.luckysheetCurrentChartResizeObj.width();
-                    var topchange = y - Store.chartparam.luckysheetCurrentChartResizeXy[1], leftchange = x - Store.chartparam.luckysheetCurrentChartResizeXy[0];
+                    const myh = Store.chartparam.luckysheetCurrentChartResizeObj.height(), myw = Store.chartparam.luckysheetCurrentChartResizeObj.width();
+                    const topchange = y - Store.chartparam.luckysheetCurrentChartResizeXy[1], leftchange = x - Store.chartparam.luckysheetCurrentChartResizeXy[0];
 
-                    var top = Store.chartparam.luckysheetCurrentChartResizeXy[5], height = Store.chartparam.luckysheetCurrentChartResizeXy[3], left = Store.chartparam.luckysheetCurrentChartResizeXy[4], width = Store.chartparam.luckysheetCurrentChartResizeXy[2];
+                    let top = Store.chartparam.luckysheetCurrentChartResizeXy[5], height = Store.chartparam.luckysheetCurrentChartResizeXy[3], left = Store.chartparam.luckysheetCurrentChartResizeXy[4], width = Store.chartparam.luckysheetCurrentChartResizeXy[2];
 
                     if (Store.chartparam.luckysheetCurrentChartResize == "lm" || Store.chartparam.luckysheetCurrentChartResize == "lt" || Store.chartparam.luckysheetCurrentChartResize == "lb") {
                         left = x;
@@ -1902,10 +1902,10 @@ export default function luckysheetHandler() {
                         }
                     }
 
-                    var resizedata = { "top": top, "left": left, "height": height, "width": width };
+                    const resizedata = { "top": top, "left": left, "height": height, "width": width };
                     Store.chartparam.luckysheetCurrentChartResizeObj.css(resizedata);
                     // resize chart
-                    // generator.resize(luckysheet.chartparam.luckysheetCurrentChart);
+                    Store.resizeChart(Store.chartparam.luckysheetCurrentChart)
                 }
                 else if (luckysheetPostil.move){
                     let mouse = mouseposition(event.pageX, event.pageY);
@@ -3188,6 +3188,7 @@ export default function luckysheetHandler() {
     // Right-click the menu, chart generation
     $("#luckysheetdatavisual").click(function() {
         createLuckyChart();
+        $("#luckysheet-rightclick-menu").hide();
     });
 
 

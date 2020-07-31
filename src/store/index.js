@@ -100,6 +100,8 @@ const Store = {
         luckysheetCurrentChartResizeWinH: null,
         luckysheetCurrentChartResizeWinW: null,
         luckysheetInsertChartTosheetChange: true, // 正在执行撤销
+        luckysheetCurrentChartZIndexRank : 100,
+        luckysheet_chart_redo_click:false, //撤销重做时标识
 
     },
     functionList:null, //function list explanation
