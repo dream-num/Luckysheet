@@ -26,14 +26,14 @@ const dependScripts = [
     'https://unpkg.com/vuex@3.4.0',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.js'
-    // 'http://26.26.26.1:8000/chartmix.umd.js'
+    // 'expendPlugins/chart/chartmix.umd.js'
+    'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css'
-    // 'http://26.26.26.1:8000/chartmix.css'
+    // 'expendPlugins/chart/chartmix.css'
+    'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -966,7 +966,7 @@ function createLuckyChart(width, height, left, top) {
     let chart_id_c = chart_id + '_c'
 
     let modelChartShowHTML =
-        '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
+        '<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
 
     let $t = $(
         replaceHtml(modelChartShowHTML, {
@@ -1021,9 +1021,10 @@ function createLuckyChart(width, height, left, top) {
         delChart(chart_id)
     })
 
-    // chartInfo.chartparam.luckysheetCurrentChartMoveObj = $(`#${chart_id}_c `)
-    // chartInfo.chartparam.luckysheetCurrentChartResizeObj = $(`#${chart_id}_c `)
-    // chartInfo.chartparam.luckysheetCurrentChartActive = true
+     // max current chart
+    $(`#${chart_id}_c .luckysheet-modal-controll-max`).click(function (e) {
+        maxChart(chart_id)
+    })
 
     $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
         if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
@@ -1038,110 +1039,176 @@ function createLuckyChart(width, height, left, top) {
                 .find('.jfgrid-modal-controll-update')
                 .click()
         } else {
-            // TODO：全屏关闭
-            // closebtn.click()
+            $('.luckysheet-modal-controll-max-close').click();
         }
         e.stopPropagation()
     })
-        // move chart
-        .mousedown(function (e) {
+    // move chart
+    .mousedown(function (e) {
 
-            if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-                //当前图表显示区域高亮
-                showNeedRangeShow(chart_id);
-                setluckysheet_scroll_status(true);
+        if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
+            //当前图表显示区域高亮
+            showNeedRangeShow(chart_id);
+            setluckysheet_scroll_status(true);
 
-                //允许拖动渲染框
-                if (
-                    !$(e.target).is(".luckysheet-modal-dialog-controll") &&
-                    !$(e.target).is(".luckysheet-modal-controll-btn") &&
-                    !$(e.target).is("i")
-                ) {
-                    // Debounce
-                    chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
-                        function () {
-                            chartInfo.chartparam.luckysheetCurrentChartMove = true;
-                        },
-                        100
-                    );
-                }
+            //允许拖动渲染框
+            if (
+                !$(e.target).is(".luckysheet-modal-dialog-controll") &&
+                !$(e.target).is(".luckysheet-modal-controll-btn") &&
+                !$(e.target).is("i")
+            ) {
+                // Debounce
+                chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
+                    function () {
+                        chartInfo.chartparam.luckysheetCurrentChartMove = true;
+                    },
+                    100
+                );
+            }
 
-                var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
-                var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
-                //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
-                chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
-                    e.pageX - toffset.left,
-                    e.pageY - toffset.top,
-                    tpsition.left,
-                    tpsition.top,
-                    $("#luckysheet-scrollbar-x").scrollLeft(),
-                    $("#luckysheet-scrollbar-y").scrollTop()
-                ];
-                chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollHeight;
-                chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollWidth;
+            var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
+            var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
+            //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
+            chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
+                e.pageX - toffset.left,
+                e.pageY - toffset.top,
+                tpsition.left,
+                tpsition.top,
+                $("#luckysheet-scrollbar-x").scrollLeft(),
+                $("#luckysheet-scrollbar-y").scrollTop()
+            ];
+            chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
+                "#luckysheet-cell-main"
+            )[0].scrollHeight;
+            chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
+                "#luckysheet-cell-main"
+            )[0].scrollWidth;
 
-                if (
-                    !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
-                    $(e.target).filter("[class*='sp-palette']").length == 0 &&
-                    $(e.target).filter("[class*='sp-thumb']").length == 0 &&
-                    $(e.target).filter("[class*='sp-']").length == 0
-                ) {
-                    $("#luckysheet-rightclick-menu").hide();
-                    $("#luckysheet-cols-h-hover").hide();
-                    $("#luckysheet-cols-menu-btn").hide();
-                    $("#luckysheet-rightclick-menu").hide();
-                    $(
-                        "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
-                    ).hide();
-                    $(
-                        "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
-                    ).hide();
-
-                }
-
-                e.stopPropagation();
+            if (
+                !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
+                $(e.target).filter("[class*='sp-palette']").length == 0 &&
+                $(e.target).filter("[class*='sp-thumb']").length == 0 &&
+                $(e.target).filter("[class*='sp-']").length == 0
+            ) {
+                $("#luckysheet-rightclick-menu").hide();
+                $("#luckysheet-cols-h-hover").hide();
+                $("#luckysheet-cols-menu-btn").hide();
+                $("#luckysheet-rightclick-menu").hide();
+                $(
+                    "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
+                ).hide();
+                $(
+                    "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
+                ).hide();
 
             }
 
-        }).find(".luckysheet-modal-dialog-resize-item")
-        .mousedown(function (e) {
-            if (chartInfo.chartparam.luckysheetCurrentChartActive) {
-                chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
+            e.stopPropagation();
 
-                var mouse = mouseposition(e.pageX, e.pageY),
-                    scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
-                    scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
-                var x = mouse[0] + scrollLeft;
-                var y = mouse[1] + scrollTop;
-                var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
-                //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
-                chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
-                    x,
-                    y,
-                    $t.width(),
-                    $t.height(),
-                    position.left + scrollLeft,
-                    position.top + scrollTop,
-                    scrollLeft,
-                    scrollTop
-                ];
-                chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollHeight;
-                chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollWidth;
+        }
 
-                chartInfo.chartparam.luckysheetCurrentChart = chart_id;
+    }).find(".luckysheet-modal-dialog-resize-item")
+    .mousedown(function (e) {
+        if (chartInfo.chartparam.luckysheetCurrentChartActive) {
+            chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
 
-                e.stopPropagation();
+            var mouse = mouseposition(e.pageX, e.pageY),
+                scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
+                scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+            var x = mouse[0] + scrollLeft;
+            var y = mouse[1] + scrollTop;
+            var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
+            //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
+            chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
+                x,
+                y,
+                $t.width(),
+                $t.height(),
+                position.left + scrollLeft,
+                position.top + scrollTop,
+                scrollLeft,
+                scrollTop
+            ];
+            chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $(
+                "#luckysheet-cell-main"
+            )[0].scrollHeight;
+            chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $(
+                "#luckysheet-cell-main"
+            )[0].scrollWidth;
 
-            }
-        })
+            chartInfo.chartparam.luckysheetCurrentChart = chart_id;
+
+            e.stopPropagation();
+
+        }
+    })
+    .end()
+    .find('.jfgrid-modal-controll-update')
+    .click(function () {
+      generator.ini(chartMixConfig)
+
+      jfgrid.chartparam.jfgridcurrentChart = chart_id
+      generator.editorChart(chart_id)
+      //修改为统一方法 //editorChart中切换图表时已不执行切换，在showChartSettingComponent中切换
+      generator.showChartSettingComponent(null, chart_id)
+
+      $('body .jfgrid-cols-menu').hide()
+    })
+    .end()
+    .find('.jfgrid-modal-controll-code')
+    .click(function () {
+      jfgrid.chartparam.jfgridcurrentChart = chart_id
+
+      //得到chartMix格式的option后，使用转换引擎转换成对应的chart option
+
+      var chartJson = store.state.chartSetting.chartList[chart_id],
+        chartJsonTranslate
+      var chartAllType = chartJson.chartAllType
+      var chartAllTypeArray = chartAllType.split('|')
+
+      var chartPro = chartAllTypeArray[0],
+        chartType = chartAllTypeArray[1],
+        chartStyle = chartAllTypeArray[2]
+      if (chartPro == 'highcharts') {
+        // chartJson = generator.highchartsEngine(generator.getOptionByRouter(store.state.chartSetting));
+        chartJsonTranslate = generator.highchartsEngine(
+          chartJson.defaultOption,
+          chartAllType,
+          document.getElementById(chartJson.chart_id)
+        )
+      }
+
+      var chartDialogShowJson = Vue.extend({
+        //局部定义组件
+        props: ['chartJson', 'isShow'],
+        data: function () {
+          return {
+            dialogShowJsonVisible: this.isShow
+          }
+        },
+        template: `<el-dialog title="查看图表配置" :visible.sync="dialogShowJsonVisible" :fullscreen="false" class="dialogShowChartJson">
+						  <el-input type="textarea" v-model="chartJson"></el-input>
+						  <div slot="footer" class="dialog-footer">
+						    <el-button @click="dialogShowJsonVisible = false">取 消</el-button>
+						    <el-button type="primary" @click="dialogShowJsonVisible = false">确 定</el-button>
+						  </div>
+						</el-dialog>`
+      })
+
+      // chartJson = JSON.stringify(chartJson, null, "\t"); // 缩进一个tab
+      chartJsonTranslate = JSON.stringify(chartJsonTranslate, null, 4) // 缩进4个空格
+      var chartJsonObject = {
+        propsData: {
+          chartJson: chartJsonTranslate,
+          isShow: true
+        }
+      }
+
+      var chartDialogShowJsonObject = new chartDialogShowJson(
+        chartJsonObject
+      ).$mount()
+      $('body').append(chartDialogShowJsonObject.$el)
+    })
 }
 
 // delete chart
@@ -1160,6 +1227,68 @@ function delChart(chart_id) {
     chartInfo.deleteChart(chart_id)
 }
 
+// max chart container
+function maxChart(chart_id) {
+
+    let $t = $(`.luckysheet-cell-main #${chart_id}_c`);
+
+    const t_origin = [
+        $t.css('left'),
+        $t.css('top'),
+        $t.height(),
+        $t.width(),
+        $t.css('z-index')
+      ]
+      $t.css({
+        position: 'fixed',
+        left: '20px',
+        top: '20px',
+        height: $(window).height() - 42 - 40,
+        width: $(window).width() - 22 - 40,
+        'z-index': 1006
+      })
+      setTimeout(function () {
+        $t.find('.jfgrid-modal-dialog-resize').hide()
+        $t.find('.jfgrid-modal-dialog-controll').hide()
+
+        //$("#jfgrid-cell-main").find(".jfgrid-datavisual-selection-set div").remove();
+        chartInfo.chartparam.luckysheetCurrentChartActive = false
+      }, 1)
+
+      chartInfo.chartparam.luckysheetCurrentChart = chart_id
+      chartInfo.resizeChart(chart_id)
+
+      $('#luckysheet-modal-dialog-mask').show()
+      
+      let closebtn = $(
+        '<div class="luckysheet-modal-controll-max-close" title="还原图表大小"><i class="fa fa-times" aria-hidden="true"></i></div>'
+      ).appendTo('body')
+
+      chartInfo.chartparam.luckysheetCurrentChartMaxState = true
+
+      closebtn.click(function () {
+
+        $t.css({
+          position: 'absolute',
+          left: t_origin[0],
+          top: t_origin[1],
+          height: t_origin[2],
+          width: t_origin[3],
+          'z-index': t_origin[4]
+        })
+
+        closebtn.remove()
+
+        chartInfo.resizeChart(chart_id)
+
+        $('#luckysheet-modal-dialog-mask').hide()
+        chartInfo.chartparam.luckysheetCurrentChartMaxState = false
+
+      })
+
+}
+
+// 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
 function showNeedRangeShow(chart_id) {
     
