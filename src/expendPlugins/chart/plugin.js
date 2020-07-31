@@ -2,6 +2,8 @@ import { seriesLoadScripts, loadLinks, $$ } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
+import formula from '../../global/formula';
+import { luckysheet_getcelldata } from '../../function/func';
 import { getSheetIndex, getRangetxt } from '../../methods/get'
 import { rowLocation, colLocation, mouseposition } from '../../global/location'
 import {
@@ -13,8 +15,7 @@ import {
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import { getvisibledatarow, getvisibledatacolumn } from '../../methods/get'
-import { setluckysheet_scroll_status } from '../../methods/set';
+import { getvisibledatarow, getvisibledatacolumn, setluckysheet_scroll_status } from '../../methods/get'
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
@@ -24,18 +25,18 @@ const dependScripts = [
     'https://unpkg.com/vuex@3.4.0',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    // 'expendPlugins/chart/chartmix.umd.js'
-    'http://26.26.26.1:8000/chartmix.umd.js'
+    'expendPlugins/chart/chartmix.umd.js'
+    // 'http://192.168.10.246:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    // 'expendPlugins/chart/chartmix.css'
-    'http://26.26.26.1:8000/chartmix.css'
+    'expendPlugins/chart/chartmix.css'
+    // 'http://192.168.10.246:8000/chartmix.css'
 ]
 
 // Initialize the chart component
-function chart() {
+function chart(data) {
     loadLinks(dependLinks);
 
     seriesLoadScripts(dependScripts, null, function () {
@@ -64,8 +65,67 @@ function chart() {
         chartInfo.changeChartCellData = chartmix.default.changeChartCellData
         chartInfo.getChartJson = chartmix.default.getChartJson
         chartInfo.chart_selection = chart_selection()
+        chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
+        chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData 
+        chartInfo.chartparam.renderChart = chartmix.default.renderChart
 
+        // 初始化渲染图表
+        for(let i = 0; i < data.length; i++){
+            if(data[i].status == '1'){
+                renderCharts(data[i].chart)
+            }
+        }
     });
+}
+
+// rendercharts
+function renderCharts(chartLists){
+
+}
+
+function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
+    let chart = chartInfo.currentChart
+    if(!chart){
+        return
+    }
+    if (chart.rangeArray.length == 1) {
+        var row = chart.rangeArray[0].row;
+        var column = chart.rangeArray[0].column;
+        //不在范围内的不更新
+        if (
+          r_st > row[1] ||
+          r_ed < row[0] ||
+          c_st > column[1] ||
+          c_ed < column[0]
+        ) {
+          return
+        }
+        //根据原有的范围取得数据
+        var luckysheetgetcellrange = formula.getcellrange(
+            chart.rangeTxt
+        );
+        var sheetIndex =
+            luckysheetgetcellrange.sheetIndex == -1
+                ? 0
+                : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+
+        var selection = {
+            row: luckysheetgetcellrange.row,
+            column: luckysheetgetcellrange.column,
+            dataSheetIndex: sheetIndex
+        }; //数组
+        var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
+
+        if (
+            typeof getcelldata === "object" &&
+            getcelldata.length != 0 &&
+            getcelldata.data.length != null
+        ) {
+            //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+            var chartData = getcelldata.data;
+            chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+        }
+    }
 }
 
 function chart_selection() {

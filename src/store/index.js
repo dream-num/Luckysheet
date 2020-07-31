@@ -103,12 +103,14 @@ const Store = {
         luckysheetCurrentChartZIndexRank : 100,
         luckysheet_chart_redo_click:false, //撤销重做时标识
         luckysheetCurrentChartMaxState: false, //图表全屏状态
-
+        jfrefreshchartall: '',
+        changeChartCellData: '',
+        renderChart: ''
     },
     functionList:null, //function list explanation
     luckysheet_function:null,
     chart_selection: {},
-    currentChart: {}
+    currentChart: ''
 }
 
 export default Store;

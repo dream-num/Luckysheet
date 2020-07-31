@@ -1164,7 +1164,18 @@ const sheetCell = {
 		}
 	},
 	"index": "0",
-	"chart": [],
+	"chart": [{
+		"sheetIndex": "0",
+		"dataSheetIndex": "0",
+		"chartType": "column",
+		"row": "[1,3]",
+		"column": "[3,3]",
+		"chartStyle": "default",
+		"width": "480",
+		"height": "288",
+		"left": "67",
+		"top": "11"
+	}],
 	"status": "1",
 	"order": "0",
 	"column": 18,
