@@ -15,7 +15,8 @@ import {
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import { getvisibledatarow, getvisibledatacolumn, setluckysheet_scroll_status } from '../../methods/get'
+import { getvisibledatarow, getvisibledatacolumn } from '../../methods/get'
+import { setluckysheet_scroll_status } from '../../methods/set'
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
@@ -26,13 +27,13 @@ const dependScripts = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
     'expendPlugins/chart/chartmix.umd.js'
-    // 'http://192.168.10.246:8000/chartmix.umd.js'
+    // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
     'expendPlugins/chart/chartmix.css'
-    // 'http://192.168.10.246:8000/chartmix.css'
+    // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -1317,6 +1318,7 @@ function renderChartShow(index) {
                 if (chart.needRangeShow == true) {
                     //一个sheet页只有一个图表高亮显示,//重要！因为在store了做了存储，所以能在此处找到对应图表设置显示隐藏
                     //操作DOM当前图表选择区域高亮
+                    chartInfo.currentChart =  chartInfo.getChartJson(chart.chart_id)
                     selectRangeBorderShow(chart.chart_id)
                 }
 
