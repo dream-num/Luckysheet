@@ -79,12 +79,12 @@ var importComp = function importComp(t) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6315de3f-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=1ee52ff0&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"4","title":"鼠标提示"}},[_c('chart-base-switch',{attrs:{"switchValue":_vm.cursor.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.cursor, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.cursor, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示提示框")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.cursor.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("鼠标提示样式")])]),_c('el-row',{staticStyle:{"margin-top":"10px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("背景颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.backgroundColor),callback:function ($$v) {_vm.$set(_vm.cursor, "backgroundColor", $$v)},expression:"cursor.backgroundColor"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerMethodArr,"selectValue":_vm.cursor.triggerOn},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发条件")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerTypeArr,"selectValue":_vm.cursor.triggerType},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发类型")])]),(_vm.cursor.triggerType != 'item')?_c('div',[_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.cursor.axisPointer.style.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线类型")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineWeightOption,"selectValue":_vm.cursor.axisPointer.style.width},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线宽")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("线条颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.axisPointer.style.color),callback:function ($$v) {_vm.$set(_vm.cursor.axisPointer.style, "color", $$v)},expression:"cursor.axisPointer.style.color"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.axisPointerArr,"selectValue":_vm.cursor.axisPointer.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器类型")])])],1):_vm._e(),(_vm.cursor.triggerType == 'item')?_c('chart-base-select',{attrs:{"selectOption":_vm.posOption,"selectValue":_vm.cursor.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示框浮层位置")])]):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":8}},[_vm._v("鼠标提示后缀")])],1),_vm._l((_vm.seriesOption),function(item,i){return _c('el-row',{key:i,staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(item))]),_c('el-col',{attrs:{"span":4}},[_c('chart-base-input',{attrs:{"hideCol":true,"placeholder":'后缀'}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'数值比例',"selectOption":_vm.ratioOption,"selectValue":_vm.cursor.format[i].ratio,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)}}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'小数位数',"selectOption":_vm.digitOption,"selectValue":_vm.cursor.format[i].digit,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)}}})],1)],1)})],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"c43d8a64-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=40b1872f&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"4"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.cursor.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.cursor, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.cursor, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示提示框")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.cursor.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("鼠标提示样式")])]),_c('el-row',{staticStyle:{"margin-top":"10px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("背景颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.backgroundColor),callback:function ($$v) {_vm.$set(_vm.cursor, "backgroundColor", $$v)},expression:"cursor.backgroundColor"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerMethodArr,"selectValue":_vm.cursor.triggerOn},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发条件")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerTypeArr,"selectValue":_vm.cursor.triggerType},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发类型")])]),(_vm.cursor.triggerType != 'item')?_c('div',[_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.cursor.axisPointer.style.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线类型")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineWeightOption,"selectValue":_vm.cursor.axisPointer.style.width},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线宽")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("线条颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.axisPointer.style.color),callback:function ($$v) {_vm.$set(_vm.cursor.axisPointer.style, "color", $$v)},expression:"cursor.axisPointer.style.color"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.axisPointerArr,"selectValue":_vm.cursor.axisPointer.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器类型")])])],1):_vm._e(),(_vm.cursor.triggerType == 'item')?_c('chart-base-select',{attrs:{"selectOption":_vm.posOption,"selectValue":_vm.cursor.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示框浮层位置")])]):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":8}},[_vm._v("鼠标提示后缀")])],1),_vm._l((_vm.seriesOption),function(item,i){return _c('el-row',{key:i,staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(item))]),_c('el-col',{attrs:{"span":4}},[_c('chart-base-input',{attrs:{"hideCol":true,"placeholder":'后缀'}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'数值比例',"selectOption":_vm.ratioOption,"selectValue":_vm.cursor.format[i].ratio,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)}}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'小数位数',"selectOption":_vm.digitOption,"selectValue":_vm.cursor.format[i].digit,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)}}})],1)],1)})],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=1ee52ff0&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=40b1872f&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
@@ -94,6 +94,12 @@ var importUtil = __webpack_require__("1540");
 
 // EXTERNAL MODULE: ./src/data/chartJson.js
 var chartJson = __webpack_require__("b4cc");
+
+// EXTERNAL MODULE: ./src/data/cn.js
+var cn = __webpack_require__("7a56");
+
+// EXTERNAL MODULE: ./src/data/en.js
+var en = __webpack_require__("a70a");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=script&lang=js&
 
@@ -175,6 +181,34 @@ var chartJson = __webpack_require__("b4cc");
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ var ChartCursorvue_type_script_lang_js_ = ({
@@ -182,7 +216,11 @@ var chartJson = __webpack_require__("b4cc");
   props: {
     router: String,
     chartAllType: String,
-    cursorOption: Object
+    cursorOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
   },
   data: function data() {
     return {
@@ -195,33 +233,42 @@ var chartJson = __webpack_require__("b4cc");
       ratioOption: importUtil["deepCopy"](chartJson["o" /* ratioOption */]),
       digitOption: importUtil["deepCopy"](chartJson["d" /* digitOption */]),
       triggerTypeArr: [{
-        value: 'item',
-        label: '数据项图形触发'
+        value: "item",
+        label: "数据项图形触发"
       }, {
-        value: 'axis',
-        label: '坐标轴触发'
+        value: "axis",
+        label: "坐标轴触发"
       }],
       axisPointerArr: [{
-        value: 'line',
-        label: '直线指示器'
+        value: "line",
+        label: "直线指示器"
       }, {
-        value: 'shadow',
-        label: '阴影指示器'
+        value: "shadow",
+        label: "阴影指示器"
       }, {
-        value: 'cross',
-        label: '十字准星指示器'
+        value: "cross",
+        label: "十字准星指示器"
       }],
       triggerMethodArr: [{
-        value: 'mousemove',
-        label: '鼠标移动'
+        value: "mousemove",
+        label: "鼠标移动"
       }, {
-        value: 'click',
-        label: '单击左键/鼠标划过'
+        value: "click",
+        label: "单击左键/鼠标划过"
       }, {
-        value: 'mousemove|click',
-        label: '同时触发'
-      }]
+        value: "mousemove|click",
+        label: "同时触发"
+      }],
+      setItem: {}
     };
+  },
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["a" /* default */]["chartCursor"];
+      return;
+    }
+
+    this.setItem = en["a" /* default */]["chartCursor"];
   },
   watch: {
     cursorOption: {
@@ -244,6 +291,14 @@ var chartJson = __webpack_require__("b4cc");
       },
       deep: true,
       immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["a" /* default */]["chartCursor"];
+        return;
+      }
+
+      this.setItem = en["a" /* default */]["chartCursor"];
     }
   },
   computed: {
@@ -257,7 +312,7 @@ var chartJson = __webpack_require__("b4cc");
       return arr;
     }
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
     changeCursor: function changeCursor() {
       var updateObj = {
         updateObj: importUtil["deepCopy"](this.cursor),

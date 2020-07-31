@@ -79,12 +79,12 @@ var importComp = function importComp(t) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6315de3f-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=48647076&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"1"}},[_c('template',{slot:"title"},[_vm._v(" 标题设置 "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.title.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.title, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.title, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示主标题")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("主标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.positionData,"selectValue":_vm.title.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.title.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.title.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主标题位置")])]),(_vm.title.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetX,"unit":'%',"content":'滑动修改左边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetY,"unit":'%',"content":'滑动修改上边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)}}})],1):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"c43d8a64-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=8a6c8ae2&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"1"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.title.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.title, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.title, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示主标题")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("主标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.positionData,"selectValue":_vm.title.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.title.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.title.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主标题位置")])]),(_vm.title.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetX,"unit":'%',"content":'滑动修改左边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetY,"unit":'%',"content":'滑动修改上边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)}}})],1):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=48647076&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=8a6c8ae2&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
@@ -94,6 +94,12 @@ var importUtil = __webpack_require__("1540");
 
 // EXTERNAL MODULE: ./src/data/chartJson.js
 var chartJson = __webpack_require__("b4cc");
+
+// EXTERNAL MODULE: ./src/data/cn.js
+var cn = __webpack_require__("7a56");
+
+// EXTERNAL MODULE: ./src/data/en.js
+var en = __webpack_require__("a70a");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=script&lang=js&
 
@@ -136,22 +142,45 @@ var chartJson = __webpack_require__("b4cc");
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ var ChartTitlevue_type_script_lang_js_ = ({
-  name: 'ChartTitle',
+  name: "ChartTitle",
   props: {
     router: String,
     chartAllType: String,
-    titleOption: Object
+    titleOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
   },
   components: Object(objectSpread2["a" /* default */])({}, importUtil["importComp"](importUtil)),
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["a" /* default */]["chartTitle"];
+      return;
+    }
+
+    this.setItem = en["a" /* default */]["chartTitle"];
+  },
   data: function data() {
     return {
-      title: '',
+      title: "",
       //整个title设置,
       positionData: chartJson["n" /* positionOption */],
-      isChange: false
+      isChange: false,
+      setItem: {}
     };
   },
   watch: {
@@ -184,9 +213,17 @@ var chartJson = __webpack_require__("b4cc");
       },
       deep: true,
       immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["a" /* default */]["chartTitle"];
+        return;
+      }
+
+      this.setItem = en["a" /* default */]["chartTitle"];
     }
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
     changeTitle: function changeTitle() {
       var updateObj = {
         updateObj: importUtil["deepCopy"](this.title),

@@ -79,12 +79,12 @@ var importComp = function importComp(t) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6315de3f-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=60e525b6&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"2"}},[_c('template',{slot:"title"},[_vm._v(" 副标题设置 "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-input',{attrs:{"inputValue":_vm.subTitle.text,"placeholder":'请输入副标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.subTitle, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.subTitle, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("副标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.subTitle.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.distanceOption,"selectValue":_vm.subTitle.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主副标题间距")])]),(_vm.subTitle.distance.value === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.subTitle.distance.cusGap,"unit":'px',"content":'滑动修改间距'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)}}}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"c43d8a64-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"2"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-input',{attrs:{"inputValue":_vm.subTitle.text,"placeholder":'请输入副标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.subTitle, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.subTitle, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("副标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.subTitle.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.distanceOption,"selectValue":_vm.subTitle.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主副标题间距")])]),(_vm.subTitle.distance.value === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.subTitle.distance.cusGap,"unit":'px',"content":'滑动修改间距'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)}}}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=60e525b6&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("5530");
@@ -94,6 +94,12 @@ var importUtil = __webpack_require__("1540");
 
 // EXTERNAL MODULE: ./src/data/chartJson.js
 var chartJson = __webpack_require__("b4cc");
+
+// EXTERNAL MODULE: ./src/data/cn.js
+var cn = __webpack_require__("7a56");
+
+// EXTERNAL MODULE: ./src/data/en.js
+var en = __webpack_require__("a70a");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=script&lang=js&
 
@@ -125,23 +131,43 @@ var chartJson = __webpack_require__("b4cc");
 //
 //
 //
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ var ChartSubTitlevue_type_script_lang_js_ = ({
-  name: 'ChartSubTitle',
+  name: "ChartSubTitle",
   props: {
     router: String,
     chartAllType: String,
-    subTitleOption: Object
+    subTitleOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
   },
   components: Object(objectSpread2["a" /* default */])({}, importUtil["importComp"](importUtil)),
   data: function data() {
     return {
       subTitle: {},
       //整个title设置
-      distanceOption: importUtil["deepCopy"](chartJson["e" /* distanceOption */]) //位置选择数组
-
+      distanceOption: importUtil["deepCopy"](chartJson["e" /* distanceOption */]),
+      //位置选择数组
+      setItem: {}
     };
+  },
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["a" /* default */]["chartSubTitle"];
+      return;
+    }
+
+    this.setItem = en["a" /* default */]["chartSubTitle"];
   },
   watch: {
     subTitleOption: {
@@ -164,9 +190,17 @@ var chartJson = __webpack_require__("b4cc");
       },
       deep: true,
       immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["a" /* default */]["chartSubTitle"];
+        return;
+      }
+
+      this.setItem = en["a" /* default */]["chartSubTitle"];
     }
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
     changeTitle: function changeTitle() {
       var updateObj = {
         updateObj: importUtil["deepCopy"](this.subTitle),

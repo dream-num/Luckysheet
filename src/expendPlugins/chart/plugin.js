@@ -19,15 +19,15 @@ const dependScripts = [
     // 'https://unpkg.com/element-ui/lib/index.js',
     // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    // 'expendPlugins/chart/chartmix.umd.js'
-    'http://26.26.26.1:8000/chartmix.umd.js'
+    'expendPlugins/chart/chartmix.umd.js'
+    // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
     // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    // 'expendPlugins/chart/chartmix.css'
-    'http://26.26.26.1:8000/chartmix.css'
+    'expendPlugins/chart/chartmix.css'
+    // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
@@ -319,7 +319,9 @@ function createLuckyChart(width, height, left, top) {
         e.stopPropagation();
 
         }
-    })
+    }).find('.luckysheet-modal-controll-update').click(){
+        $('.chartSetting').css('display', 'block')
+    }
 }
 
 // delete chart
