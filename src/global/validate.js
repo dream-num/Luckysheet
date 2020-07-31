@@ -68,7 +68,7 @@ function hasChinaword(s) {
 
 //是否为非编辑模式
 function isEditMode() {
-    if(luckysheetConfigsetting.editMode){
+    if(Store.editMode){
         return true;
     }
     else{

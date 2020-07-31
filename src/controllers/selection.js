@@ -98,6 +98,8 @@ const selection = {
             clipboardData = e.originalEvent.clipboardData;
         }
 
+
+
         Store.luckysheet_selection_range = [];
         //copy范围
         let minR = Store.luckysheet_select_save[0].row[0], 
@@ -549,6 +551,10 @@ const selection = {
     paste: function (e, triggerType) {//paste事件
         let _this = this;
 
+        if(Store.allowEdit===false){
+            return;
+        }
+
         let textarea = $("#luckysheet-copy-content");
         textarea.focus();
         textarea.select();
@@ -581,6 +587,9 @@ const selection = {
         }, 10);
     },
     pasteHandler: function (data, borderInfo) {
+        if(Store.allowEdit===false){
+            return;
+        }
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
                 alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
@@ -791,6 +800,9 @@ const selection = {
         }
     },
     pasteHandlerOfCutPaste: function(copyRange){
+        if(Store.allowEdit===false){
+            return;
+        }
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};

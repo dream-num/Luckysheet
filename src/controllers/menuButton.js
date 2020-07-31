@@ -467,7 +467,7 @@ const menuButton = {
                     let fItem = locale_fontarray[a];
                     let ret = {};
                     ret.value = a;
-                    ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:16px;font-family:"+fItem+"'>"+fItem+"</span>";
+                    ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem+"'>"+fItem+"</span>";
                     ret.example = "";
                     itemdata.push(ret);
                 }
@@ -2780,6 +2780,10 @@ const menuButton = {
     },
     updateFormat: function(d, attr, foucsStatus){
         let _this = this;
+
+        if(Store.allowEdit===false){
+            return;
+        }
 
         let canvasElement = document.createElement('canvas');
         let canvas = canvasElement.getContext("2d");

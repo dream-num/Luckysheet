@@ -200,6 +200,9 @@ export function initialSheetBar(){
     });
 
     let luckysheetsheetnameeditor = function ($t) {
+        if(Store.allowEdit===false){
+            return;
+        }
         $t.attr("contenteditable", "true").addClass("luckysheet-mousedown-cancel").data("oldtxt", $t.text());
 
         setTimeout(function () {
@@ -221,6 +224,9 @@ export function initialSheetBar(){
     });
 
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
+        if(Store.allowEdit===false){
+            return;
+        }
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
         
@@ -269,6 +275,9 @@ export function initialSheetBar(){
     });
 
     $("#luckysheet-sheet-area").on("keydown", "span.luckysheet-sheets-item-name", function (e) {
+        if(Store.allowEdit===false){
+            return;
+        }
         let kcode = e.keyCode;
         let $t = $(this);
         if (kcode == keycode.ENTER) {
