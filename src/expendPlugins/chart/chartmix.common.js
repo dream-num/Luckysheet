@@ -1,56 +1,7 @@
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// install a JSONP callback for chunk loading
-/******/ 	function webpackJsonpCallback(data) {
-/******/ 		var chunkIds = data[0];
-/******/ 		var moreModules = data[1];
-/******/
-/******/
-/******/ 		// add "moreModules" to the modules object,
-/******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
-/******/ 		for(;i < chunkIds.length; i++) {
-/******/ 			chunkId = chunkIds[i];
-/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 				resolves.push(installedChunks[chunkId][0]);
-/******/ 			}
-/******/ 			installedChunks[chunkId] = 0;
-/******/ 		}
-/******/ 		for(moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/
-/******/ 		while(resolves.length) {
-/******/ 			resolves.shift()();
-/******/ 		}
-/******/
-/******/ 	};
-/******/
-/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
-/******/ 	// object to store loaded CSS chunks
-/******/ 	var installedCssChunks = {
-/******/ 		0: 0
-/******/ 	}
-/******/
-/******/ 	// object to store loaded and loading chunks
-/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 	// Promise = chunk loading, 0 = chunk loaded
-/******/ 	var installedChunks = {
-/******/ 		0: 0
-/******/ 	};
-/******/
-/******/
-/******/
-/******/ 	// script path function
-/******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "chartmix.common." + ({}[chunkId]||chunkId) + ".js"
-/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -76,108 +27,6 @@ module.exports =
 /******/ 		return module.exports;
 /******/ 	}
 /******/
-/******/ 	// This file contains only the entry chunk.
-/******/ 	// The chunk loading function for additional chunks
-/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
-/******/ 		var promises = [];
-/******/
-/******/
-/******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"1":1};
-/******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
-/******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
-/******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "css/" + ({}[chunkId]||chunkId) + "." + {"1":"68a757d2","2":"31d6cfe0","3":"31d6cfe0","4":"31d6cfe0","5":"31d6cfe0","6":"31d6cfe0","7":"31d6cfe0","8":"31d6cfe0","9":"31d6cfe0","10":"31d6cfe0","11":"31d6cfe0"}[chunkId] + ".css";
-/******/ 				var fullhref = __webpack_require__.p + href;
-/******/ 				var existingLinkTags = document.getElementsByTagName("link");
-/******/ 				for(var i = 0; i < existingLinkTags.length; i++) {
-/******/ 					var tag = existingLinkTags[i];
-/******/ 					var dataHref = tag.getAttribute("data-href") || tag.getAttribute("href");
-/******/ 					if(tag.rel === "stylesheet" && (dataHref === href || dataHref === fullhref)) return resolve();
-/******/ 				}
-/******/ 				var existingStyleTags = document.getElementsByTagName("style");
-/******/ 				for(var i = 0; i < existingStyleTags.length; i++) {
-/******/ 					var tag = existingStyleTags[i];
-/******/ 					var dataHref = tag.getAttribute("data-href");
-/******/ 					if(dataHref === href || dataHref === fullhref) return resolve();
-/******/ 				}
-/******/ 				var linkTag = document.createElement("link");
-/******/ 				linkTag.rel = "stylesheet";
-/******/ 				linkTag.type = "text/css";
-/******/ 				linkTag.onload = resolve;
-/******/ 				linkTag.onerror = function(event) {
-/******/ 					var request = event && event.target && event.target.src || fullhref;
-/******/ 					var err = new Error("Loading CSS chunk " + chunkId + " failed.\n(" + request + ")");
-/******/ 					err.code = "CSS_CHUNK_LOAD_FAILED";
-/******/ 					err.request = request;
-/******/ 					delete installedCssChunks[chunkId]
-/******/ 					linkTag.parentNode.removeChild(linkTag)
-/******/ 					reject(err);
-/******/ 				};
-/******/ 				linkTag.href = fullhref;
-/******/
-/******/ 				var head = document.getElementsByTagName("head")[0];
-/******/ 				head.appendChild(linkTag);
-/******/ 			}).then(function() {
-/******/ 				installedCssChunks[chunkId] = 0;
-/******/ 			}));
-/******/ 		}
-/******/
-/******/ 		// JSONP chunk loading for javascript
-/******/
-/******/ 		var installedChunkData = installedChunks[chunkId];
-/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
-/******/
-/******/ 			// a Promise means "currently loading".
-/******/ 			if(installedChunkData) {
-/******/ 				promises.push(installedChunkData[2]);
-/******/ 			} else {
-/******/ 				// setup Promise in chunk cache
-/******/ 				var promise = new Promise(function(resolve, reject) {
-/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
-/******/ 				});
-/******/ 				promises.push(installedChunkData[2] = promise);
-/******/
-/******/ 				// start chunk loading
-/******/ 				var script = document.createElement('script');
-/******/ 				var onScriptComplete;
-/******/
-/******/ 				script.charset = 'utf-8';
-/******/ 				script.timeout = 120;
-/******/ 				if (__webpack_require__.nc) {
-/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
-/******/ 				}
-/******/ 				script.src = jsonpScriptSrc(chunkId);
-/******/
-/******/ 				// create error before stack unwound to get useful stacktrace later
-/******/ 				var error = new Error();
-/******/ 				onScriptComplete = function (event) {
-/******/ 					// avoid mem leaks in IE.
-/******/ 					script.onerror = script.onload = null;
-/******/ 					clearTimeout(timeout);
-/******/ 					var chunk = installedChunks[chunkId];
-/******/ 					if(chunk !== 0) {
-/******/ 						if(chunk) {
-/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
-/******/ 							var realSrc = event && event.target && event.target.src;
-/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
-/******/ 							error.name = 'ChunkLoadError';
-/******/ 							error.type = errorType;
-/******/ 							error.request = realSrc;
-/******/ 							chunk[1](error);
-/******/ 						}
-/******/ 						installedChunks[chunkId] = undefined;
-/******/ 					}
-/******/ 				};
-/******/ 				var timeout = setTimeout(function(){
-/******/ 					onScriptComplete({ type: 'timeout', target: script });
-/******/ 				}, 120000);
-/******/ 				script.onerror = script.onload = onScriptComplete;
-/******/ 				document.head.appendChild(script);
-/******/ 			}
-/******/ 		}
-/******/ 		return Promise.all(promises);
-/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -230,16 +79,6 @@ module.exports =
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// on error function for async loading
-/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
-/******/
-/******/ 	var jsonpArray = (typeof self !== 'undefined' ? self : this)["webpackJsonpchartmix"] = (typeof self !== 'undefined' ? self : this)["webpackJsonpchartmix"] || [];
-/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-/******/ 	jsonpArray.push = webpackJsonpCallback;
-/******/ 	jsonpArray = jsonpArray.slice();
-/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -11490,6 +11329,101 @@ module.exports = (!STRICT_METHOD || !USES_TO_LENGTH) ? function forEach(callback
 
 /***/ }),
 
+/***/ "1847":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a9e3");
+/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_0__);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["a"] = ({
+  name: "chart-base-slider",
+  props: {
+    baseSliderOption: Number,
+    unit: String,
+    // % or px
+    min: {
+      type: Number,
+      default: 0
+    },
+    max: {
+      type: Number,
+      default: 100
+    },
+    content: {
+      type: String,
+      default: "滑动修改值大小"
+    },
+    hideCol: false,
+    format: [Function, String]
+  },
+  data: function data() {
+    return {
+      baseSliderData: 12
+    };
+  },
+  watch: {
+    baseSliderOption: function baseSliderOption(val) {
+      this.baseSliderData = val;
+    }
+  },
+  mounted: function mounted() {
+    this.baseSliderData = this.baseSliderOption;
+  },
+  methods: {
+    handlerChange: function handlerChange(value) {
+      this.$emit("update:baseSliderOption", value);
+    },
+    formatter: function formatter(val) {
+      eval(this.format);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "19aa":
 /***/ (function(module, exports) {
 
@@ -11565,16 +11499,6 @@ module.exports = function (exec, SKIP_CLOSING) {
   } catch (error) { /* empty */ }
   return ITERATION_SUPPORT;
 };
-
-
-/***/ }),
-
-/***/ "1cdc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var userAgent = __webpack_require__("342f");
-
-module.exports = /(iphone|ipod|ipad).*applewebkit/i.test(userAgent);
 
 
 /***/ }),
@@ -11765,6 +11689,28 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
+/***/ "2532":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var notARegExp = __webpack_require__("5a34");
+var requireObjectCoercible = __webpack_require__("1d80");
+var correctIsRegExpLogic = __webpack_require__("ab13");
+
+// `String.prototype.includes` method
+// https://tc39.github.io/ecma262/#sec-string.prototype.includes
+$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+  includes: function includes(searchString /* , position = 0 */) {
+    return !!~String(requireObjectCoercible(this))
+      .indexOf(notARegExp(searchString), arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
 /***/ "25f0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11820,227 +11766,6 @@ module.exports = function (CONSTRUCTOR_NAME) {
       get: function () { return this; }
     });
   }
-};
-
-
-/***/ }),
-
-/***/ "2877":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () {
-        injectStyles.call(
-          this,
-          (options.functional ? this.parent : this).$root.$options.shadowRoot
-        )
-      }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functional component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ "2cf4":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var fails = __webpack_require__("d039");
-var classof = __webpack_require__("c6b6");
-var bind = __webpack_require__("0366");
-var html = __webpack_require__("1be4");
-var createElement = __webpack_require__("cc12");
-var IS_IOS = __webpack_require__("1cdc");
-
-var location = global.location;
-var set = global.setImmediate;
-var clear = global.clearImmediate;
-var process = global.process;
-var MessageChannel = global.MessageChannel;
-var Dispatch = global.Dispatch;
-var counter = 0;
-var queue = {};
-var ONREADYSTATECHANGE = 'onreadystatechange';
-var defer, channel, port;
-
-var run = function (id) {
-  // eslint-disable-next-line no-prototype-builtins
-  if (queue.hasOwnProperty(id)) {
-    var fn = queue[id];
-    delete queue[id];
-    fn();
-  }
-};
-
-var runner = function (id) {
-  return function () {
-    run(id);
-  };
-};
-
-var listener = function (event) {
-  run(event.data);
-};
-
-var post = function (id) {
-  // old engines have not location.origin
-  global.postMessage(id + '', location.protocol + '//' + location.host);
-};
-
-// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-if (!set || !clear) {
-  set = function setImmediate(fn) {
-    var args = [];
-    var i = 1;
-    while (arguments.length > i) args.push(arguments[i++]);
-    queue[++counter] = function () {
-      // eslint-disable-next-line no-new-func
-      (typeof fn == 'function' ? fn : Function(fn)).apply(undefined, args);
-    };
-    defer(counter);
-    return counter;
-  };
-  clear = function clearImmediate(id) {
-    delete queue[id];
-  };
-  // Node.js 0.8-
-  if (classof(process) == 'process') {
-    defer = function (id) {
-      process.nextTick(runner(id));
-    };
-  // Sphere (JS game engine) Dispatch API
-  } else if (Dispatch && Dispatch.now) {
-    defer = function (id) {
-      Dispatch.now(runner(id));
-    };
-  // Browsers with MessageChannel, includes WebWorkers
-  // except iOS - https://github.com/zloirock/core-js/issues/624
-  } else if (MessageChannel && !IS_IOS) {
-    channel = new MessageChannel();
-    port = channel.port2;
-    channel.port1.onmessage = listener;
-    defer = bind(port.postMessage, port, 1);
-  // Browsers with postMessage, skip WebWorkers
-  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-  } else if (
-    global.addEventListener &&
-    typeof postMessage == 'function' &&
-    !global.importScripts &&
-    !fails(post) &&
-    location.protocol !== 'file:'
-  ) {
-    defer = post;
-    global.addEventListener('message', listener, false);
-  // IE8-
-  } else if (ONREADYSTATECHANGE in createElement('script')) {
-    defer = function (id) {
-      html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-        html.removeChild(this);
-        run(id);
-      };
-    };
-  // Rest old browsers
-  } else {
-    defer = function (id) {
-      setTimeout(runner(id), 0);
-    };
-  }
-}
-
-module.exports = {
-  set: set,
-  clear: clear
 };
 
 
@@ -29386,21 +29111,6 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "44de":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-
-module.exports = function (a, b) {
-  var console = global.console;
-  if (console && console.error) {
-    arguments.length === 1 ? console.error(a) : console.error(a, b);
-  }
-};
-
-
-/***/ }),
-
 /***/ "44e7":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30007,71 +29717,6 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
 
 /***/ }),
 
-/***/ "5530":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread2; });
-/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a4d3");
-/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("4de4");
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("4160");
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("e439");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("dbb4");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("b64b");
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("159b");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("ade3");
-
-
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        Object(_defineProperty__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"])(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-
 /***/ "5692":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30154,6 +29799,20 @@ module.exports = {
   // `String.prototype.trim` method
   // https://tc39.github.io/ecma262/#sec-string.prototype.trim
   trim: createMethod(3)
+};
+
+
+/***/ }),
+
+/***/ "5a34":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isRegExp = __webpack_require__("44e7");
+
+module.exports = function (it) {
+  if (isRegExp(it)) {
+    throw TypeError("The method doesn't accept regular expressions");
+  } return it;
 };
 
 
@@ -30518,6 +30177,13 @@ module.exports = function (originalArray, length) {
 
 /***/ }),
 
+/***/ "6999":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "69f3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30798,67 +30464,6 @@ module.exports = [
   'valueOf'
 ];
 
-
-/***/ }),
-
-/***/ "7a56":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var G_gitlab_chartMix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ade3");
-
-
-var _chartSetting;
-
-var obj = {
-  'chartSetting': (_chartSetting = {
-    data: '数据',
-    chartType: '图表类型',
-    transpose: '转置(切换行/列)',
-    row1: '设选中项第',
-    row2: '行为标题',
-    column: '设选中项第'
-  }, Object(G_gitlab_chartMix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_chartSetting, "column", '列为标题'), Object(G_gitlab_chartMix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_chartSetting, "style", '样式'), Object(G_gitlab_chartMix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_chartSetting, "echarts", {
-    line: {
-      default: '默认折线图',
-      smooth: '平滑折线图',
-      label: '带标签的折线图'
-    },
-    area: {
-      default: '默认面积图',
-      stack: '堆叠面积图'
-    },
-    column: {
-      default: '默认柱状图',
-      stack: '堆叠柱状图'
-    },
-    bar: {
-      default: '默认条形图',
-      stack: '堆叠条形图'
-    },
-    pie: {
-      default: '默认饼图',
-      split: '分离型饼图',
-      ring: '环形饼图'
-    }
-  }), _chartSetting),
-  'chartTitle': {
-    modalName: '标题设置'
-  },
-  'chartSubTitle': {
-    modalName: '副标题设置'
-  },
-  'chartAxis': {
-    modalName: 'XY轴设置'
-  },
-  'chartLegend': {
-    modalName: '图例设置'
-  },
-  'chartCursor': {
-    modalName: '鼠标提示'
-  }
-};
-/* harmony default export */ __webpack_exports__["a"] = (obj);
 
 /***/ }),
 
@@ -31401,6 +31006,17 @@ if (PATCH) {
 
 module.exports = patchedExec;
 
+
+/***/ }),
+
+/***/ "9470":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChartBaseSlider_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6999");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChartBaseSlider_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChartBaseSlider_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChartBaseSlider_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -32002,65 +31618,6 @@ module.exports = function (argument) {
 
 /***/ }),
 
-/***/ "a70a":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var obj = {
-  'chartSetting': {
-    data: 'data',
-    chartType: 'chartType',
-    transpose: 'transpose(switch row/column)',
-    row1: 'set number',
-    row2: 'row as title',
-    column1: 'set number',
-    column2: 'column as title',
-    style: 'style',
-    echarts: {
-      line: {
-        default: 'Basic Line',
-        smooth: 'Smoothed Line',
-        label: 'Line With Label'
-      },
-      area: {
-        default: 'Basic Area',
-        stack: 'Stacked Area'
-      },
-      column: {
-        default: 'Basic Column',
-        stack: 'Stacked Column'
-      },
-      bar: {
-        default: 'Basic Bar',
-        stack: 'Stacked Bar'
-      },
-      pie: {
-        default: 'Basic Pie',
-        split: 'Split Pie',
-        ring: 'Doughnut Pie'
-      }
-    }
-  },
-  'chartTitle': {
-    modalName: 'Title Setting'
-  },
-  'chartSubTitle': {
-    modalName: 'SubTitle Setting'
-  },
-  'chartAxis': {
-    modalName: 'XY-Axis Setting'
-  },
-  'chartLegend': {
-    modalName: 'Legend Setting'
-  },
-  'chartCursor': {
-    modalName: 'Tooltip Setting'
-  }
-};
-/* harmony default export */ __webpack_exports__["a"] = (obj);
-
-/***/ }),
-
 /***/ "a8f2":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32158,6 +31715,28 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
 
 /***/ }),
 
+/***/ "ab13":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("b622");
+
+var MATCH = wellKnownSymbol('match');
+
+module.exports = function (METHOD_NAME) {
+  var regexp = /./;
+  try {
+    '/./'[METHOD_NAME](regexp);
+  } catch (e) {
+    try {
+      regexp[MATCH] = false;
+      return '/./'[METHOD_NAME](regexp);
+    } catch (f) { /* empty */ }
+  } return false;
+};
+
+
+/***/ }),
+
 /***/ "ac1f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32194,28 +31773,6 @@ module.exports = function () {
   return result;
 };
 
-
-/***/ }),
-
-/***/ "ade3":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
 
 /***/ }),
 
@@ -32340,1023 +31897,6 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
     }
   });
 }
-
-
-/***/ }),
-
-/***/ "b4cc":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return baseComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return chartComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return positionOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return distanceOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return fontSizeOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return lineStyleOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return lineWeightOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return posOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return ratioOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return digitOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return sizeOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return fontSizeList; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return intervalOption; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return fontStyleIBV; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return fontStyleIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return chartOptions; });
-/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ca00");
-/**
- * 图表的样式结构: 为chartOptions.defaultOption下的所有属性,应该是所有图表类型的并集
- * DOM的结构与此对应: DOM操作后修改此处参数,直接存储后台, 渲染图表时候经过一层引擎转换才能使用各个图表插件渲染; 后台拿到此参数,可对应绑定到DOM上
- *
- * 设计细节:
- * 1. 各个图表类型之间的设置项不同,有交集和并集,此处设置统一存储并集参数
- * 2. 切换图表类型时,亦应保留所具有的设置参数,为切换回上一个图表类型保留设置
- */
-
-var baseComponent = {
-  label: {
-    fontSize: 12,
-    //字体大小 //fontSize为'custom'时,取cusFontSize的值
-    color: '#333',
-    //颜色
-    fontFamily: 'sans-serif',
-    //字体
-    fontGroup: [],
-    //字体, 加粗:选中:'bold',无:'normal'; 斜体: 选中:'italic',无:'normal';方向:选中:'vertical',无:'horizen'
-    cusFontSize: 12 //自定义文字大小
-
-  },
-  formatter: {
-    prefix: '',
-    //前缀
-    suffix: '',
-    //后缀
-    ratio: 1,
-    //数值比例
-    digit: 'auto' //小数位数
-
-  },
-  item: {
-    color: null,
-    borderColor: '#000',
-    borderType: 'solid',
-    borderWidth: 1
-  },
-  lineStyle: {
-    color: null,
-    width: 1,
-    type: 'solid'
-  }
-};
-var chartComponent = {
-  //标题设置
-  title: {
-    show: false,
-    //是否显示
-    text: '默认标题',
-    //标题内容
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-    position: {
-      value: 'left-top',
-      //custom:自定义 //left-top  为custom的时候,取offsetX, offsetY
-      offsetX: 40,
-      //自定义的X位置,单位百分比
-      offsetY: 50 //自定义的Y位置,单位百分比
-
-    }
-  },
-  //副标题
-  subtitle: {
-    show: false,
-    //是否显示
-    text: '',
-    //标题内容
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-    distance: {
-      value: 'auto',
-      //'auto': 默认, 'far': 远 // 'normal': 一般 'close':近 custom :取cusGap作为距离
-      cusGap: 40 //自定义距离
-
-    }
-  },
-  // 图表设置
-  config: {
-    color: 'transparent',
-    //默认颜色//'#333'
-    fontFamily: 'Sans-serif',
-    grid: {
-      value: 'normal',
-      //''normal':正常 'wide':宽 // 'narrow':窄 // 'slender':瘦长 'flat':扁平
-      top: 5,
-      left: 10,
-      right: 20,
-      bottom: 10
-    }
-  },
-  //图例设置
-  legend: {
-    show: true,
-    selectMode: 'multiple',
-    //'single':单选 //'多选':multiple //'禁用':'disable'
-    selected: [//图例显示选择 //动态数据渲染 //分:初始化图表+后台加载使用数据结构中数据 /编辑时根据系列实时变化
-    {
-      seriesName: '衣服',
-      //
-      isShow: true
-    }, {
-      seriesName: '食材',
-      //
-      isShow: true
-    }, {
-      seriesName: '图书',
-      //
-      isShow: true
-    }],
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-    //图例文字样式
-    position: {
-      value: 'left-top',
-      //custom:自定义 //left-top  为custom的时候,取offsetX, offsetY
-      offsetX: 40,
-      //自定义的X位置,单位百分比
-      offsetY: 50,
-      //自定义的Y位置,单位百分比
-      direction: 'horizontal' //图例位置水平或者垂直 horizontal(水平)/vertical(垂直)
-
-    },
-    width: {
-      //图例图标大小
-      value: 'auto',
-      //'auto':默认/ 'big':大/'medium':中/'small':小/'custom':自定义
-      cusSize: 25 //图例自定义宽度 ,单位px
-
-    },
-    height: {
-      //图例图标大小
-      value: 'auto',
-      //'auto':默认/ 'big':大/'medium':中/'small':小/'custom':自定义
-      cusSize: 14 //图例自定义宽度 ,单位px
-
-    },
-    distance: {
-      value: 'auto',
-      //'auto':默认 /far':远 / 'general':一般 / 'near':近 /'custom':自定义
-      cusGap: 10 //自定义距离
-
-    },
-    itemGap: 10
-  },
-  //提示设置
-  tooltip: {
-    show: true,
-    //鼠标提示显示
-    label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-    //文字样式
-    backgroundColor: 'rgba(50,50,50,0.7)',
-    // 鼠标提示框背景色
-    triggerOn: 'mousemove',
-    // 'mousemove':鼠标滑过 click':单击 触发条件
-    triggerType: 'item',
-    //触发类型 //'axis':坐标轴触发 'item':数据项图形触发
-    axisPointer: {
-      // 指示器配置
-      type: 'line',
-      // 'line':默认直线指示器 //'cross': 十字指示器配置 //'shadow': 阴影指示器配置
-      style: {
-        // 指示器样式
-        color: '#555',
-        width: 'normal',
-        //宽度:'normal':正常 'bold': 粗 'bolder':加粗
-        type: 'solid' //'solid': 实线 'dash': 虚线 'dot':点线
-
-      }
-    },
-    format: [//鼠标提示后缀
-    {
-      seriesName: '衣服',
-      prefix: '',
-      //前缀
-      suffix: '',
-      //后缀 (自定义单位)
-      ratio: 1,
-      //除以的数 // 1为默认, 0.1 /0.001 /...
-      digit: 'auto' //小数位数 'auto' :不处理 // 数值:0 , 1 ,2 ...
-
-    }, {
-      seriesName: '食材',
-      prefix: '',
-      //前缀
-      suffix: '',
-      //后缀
-      ratio: 1,
-      digit: 'auto'
-    }, {
-      seriesName: '图书',
-      prefix: '',
-      //前缀
-      suffix: '',
-      //后缀
-      ratio: 1,
-      digit: 'auto'
-    }],
-    position: 'auto' // 鼠标提示位置 //'inside':中心位置 //'left'/'top'/'right'/'top'
-
-  },
-  // XY轴
-  axis: {
-    axisType: 'xAxisDown',
-    //要显示的坐标轴类型
-    xAxisUp: {
-      show: false,
-      //显示X轴
-      title: {
-        showTitle: false,
-        //显示X轴
-        text: '',
-        //标题内容
-        nameGap: 15,
-        //标题与轴线距离
-        rotate: 0,
-        //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
-
-      },
-      name: '显示X轴',
-      inverse: false,
-      //反向坐标轴 (echarts有)
-      //刻度线
-      tickLine: {
-        show: true,
-        //显示刻度线
-        width: 1,
-        //刻度线宽度
-        color: 'auto' //刻度线颜色
-
-      },
-      //刻度
-      tick: {
-        show: true,
-        //显示刻度
-        position: 'outside',
-        //刻度位置,默认: outside朝外 / inside: 朝内
-        length: 5,
-        //刻度长度
-        width: 1,
-        //刻度宽度
-        color: 'auto' //刻度颜色
-
-      },
-      //标签
-      tickLabel: {
-        show: true,
-        //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        rotate: 0,
-        //倾斜标签角度
-        prefix: '',
-        //标签前缀
-        suffix: '',
-        //标签后缀
-        optimize: 0,
-        distance: 0,
-        //标签与轴线距离
-        min: 'auto',
-        //最小值
-        max: 'auto',
-        //最大值
-        ratio: 1,
-        digit: 'auto'
-      },
-      //网格线
-      netLine: {
-        show: false,
-        //显示网格线
-        width: 1,
-        //网格线宽度
-        type: 'solid',
-        //网格线类型
-        color: 'auto',
-        //网格线颜色
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        }
-      },
-      //网格区域
-      netArea: {
-        show: false,
-        //显示网格区域
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        },
-        colorOne: 'auto',
-        //网格第一颜色
-        colorTwo: 'auto' //网格第二颜色
-
-      },
-      axisLine: {
-        //第二根X轴必需
-        onZero: false
-      }
-    },
-    xAxisDown: {
-      show: true,
-      //显示X轴
-      title: {
-        showTitle: false,
-        //显示X轴
-        text: '',
-        //标题内容
-        nameGap: 15,
-        //标题与轴线距离
-        rotate: 0,
-        //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
-
-      },
-      name: '显示X轴',
-      inverse: false,
-      //反向坐标轴 (echarts有)
-      //刻度线
-      tickLine: {
-        show: true,
-        //显示刻度线
-        width: 1,
-        //刻度线宽度
-        color: 'auto' //刻度线颜色
-
-      },
-      //刻度
-      tick: {
-        show: true,
-        //显示刻度
-        position: 'outside',
-        //刻度位置,默认: outside朝外 / inside: 朝内
-        length: 5,
-        //刻度长度
-        width: 1,
-        //刻度宽度
-        color: 'auto' //刻度颜色
-
-      },
-      //标签
-      tickLabel: {
-        show: true,
-        //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        rotate: 0,
-        //倾斜标签角度
-        prefix: '',
-        //标签前缀
-        suffix: '',
-        //标签后缀
-        optimize: 0,
-        //标签间隔个数
-        distance: 0,
-        //标签与轴线距离
-        min: null,
-        //最小值
-        max: null,
-        //最大值
-        ratio: 1,
-        digit: 'auto'
-      },
-      //网格线
-      netLine: {
-        show: false,
-        //显示网格线
-        width: 1,
-        //网格线宽度
-        type: 'solid',
-        //网格线类型
-        color: 'auto',
-        //网格线颜色
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        }
-      },
-      //网格区域
-      netArea: {
-        show: false,
-        //显示网格区域
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        },
-        colorOne: 'auto',
-        //网格第一颜色
-        colorTwo: 'auto' //网格第二颜色
-
-      }
-    },
-    yAxisLeft: {
-      show: true,
-      //显示X轴
-      title: {
-        showTitle: false,
-        //显示X轴
-        text: '',
-        //标题内容
-        nameGap: 15,
-        //标题与轴线距离
-        rotate: 0,
-        //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
-
-      },
-      name: '显示Y轴',
-      inverse: false,
-      //反向坐标轴 (echarts有)
-      //刻度线
-      tickLine: {
-        show: true,
-        //显示刻度线
-        width: 1,
-        //刻度线宽度
-        color: 'auto' //刻度线颜色
-
-      },
-      //刻度
-      tick: {
-        show: true,
-        //显示刻度
-        position: 'outside',
-        //刻度位置,默认: outside朝外 / inside: 朝内
-        length: 5,
-        //刻度长度
-        width: 1,
-        //刻度宽度
-        color: 'auto' //刻度颜色
-
-      },
-      //标签
-      tickLabel: {
-        show: true,
-        //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        rotate: 0,
-        //倾斜标签角度
-        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.formatter),
-        split: 5,
-        //分割段数
-        min: null,
-        //最小值
-        max: null,
-        //最大值
-        prefix: '',
-        //标签前缀
-        suffix: '',
-        //标签后缀
-        ratio: 1,
-        digit: 'auto',
-        distance: 0 //标签与轴线距离
-
-      },
-      //网格线
-      netLine: {
-        show: false,
-        //显示网格线
-        width: 1,
-        //网格线宽度
-        type: 'solid',
-        //网格线类型
-        color: 'auto',
-        //网格线颜色
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        }
-      },
-      //网格区域
-      netArea: {
-        show: false,
-        //显示网格区域
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        },
-        colorOne: 'auto',
-        //网格第一颜色
-        colorTwo: 'auto' //网格第二颜色
-
-      }
-    },
-    yAxisRight: {
-      show: false,
-      //显示X轴
-      title: {
-        showTitle: false,
-        //显示X轴
-        text: '',
-        //标题内容
-        nameGap: 15,
-        //标题与轴线距离
-        rotate: 0,
-        //标题倾斜角度
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
-
-      },
-      name: '显示Y轴',
-      inverse: false,
-      //反向坐标轴 (echarts有)
-      //刻度线
-      tickLine: {
-        show: true,
-        //显示刻度线
-        width: 1,
-        //刻度线宽度
-        color: 'auto' //刻度线颜色
-
-      },
-      //刻度
-      tick: {
-        show: true,
-        //显示刻度
-        position: 'outside',
-        //刻度位置,默认: outside朝外 / inside: 朝内
-        length: 5,
-        //刻度长度
-        width: 1,
-        //刻度宽度
-        color: 'auto' //刻度颜色
-
-      },
-      //标签
-      tickLabel: {
-        show: true,
-        //显示刻度标签
-        label: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.label),
-        rotate: 0,
-        //倾斜标签角度
-        formatter: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(baseComponent.formatter),
-        split: 5,
-        //分割段数
-        min: null,
-        //最小值
-        max: null,
-        //最大值
-        prefix: '',
-        //标签前缀
-        suffix: '',
-        //标签后缀
-        ratio: 1,
-        digit: 'auto',
-        distance: 0 //标签与轴线距离
-
-      },
-      //网格线
-      netLine: {
-        show: false,
-        //显示网格线
-        width: 1,
-        //网格线宽度
-        type: 'solid',
-        //网格线类型
-        color: 'auto',
-        //网格线颜色
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        }
-      },
-      //网格区域
-      netArea: {
-        show: false,
-        //显示网格区域
-        interval: {
-          //网格分割间隔数
-          value: 'auto',
-          cusNumber: 0
-        },
-        colorOne: 'auto',
-        //网格第一颜色
-        colorTwo: 'auto' //网格第二颜色
-
-      }
-    }
-  }
-}; //此类数据抽出来作为模板数据,每次使用deepCopy一份即可
-//注: 若页面展示的是语义化的参数,则此处也只定义语义化的参数,具体数值在引擎里做转换
-//若界面选择的直接是用户期望的数值,则直接采用数值即可
-
-/**
- *  位置信息
- *
- */
-
-var positionOption = [{
-  value: 'left-top',
-  label: '左上'
-}, {
-  value: 'left-middle',
-  label: '左中'
-}, {
-  value: 'left-bottom',
-  label: '左下'
-}, {
-  value: 'right-top',
-  label: '右上'
-}, {
-  value: 'right-middle',
-  label: '右中'
-}, {
-  value: 'right-bottom',
-  label: '右下'
-}, {
-  value: 'center-top',
-  label: '中上'
-}, {
-  value: 'center-middle',
-  label: '居中'
-}, {
-  value: 'center-bottom',
-  label: '中下'
-}, {
-  value: 'custom',
-  label: '自定义'
-}]; //距离
-
-var distanceOption = [{
-  value: 'auto',
-  label: '默认'
-}, {
-  value: 'far',
-  label: '远'
-}, {
-  value: 'normal',
-  label: '一般'
-}, {
-  value: 'close',
-  label: '近'
-}, {
-  value: 'custom',
-  label: '自定义'
-}]; // 字体大小集合
-
-var fontSizeOption = [{
-  value: 6,
-  label: '6px'
-}, {
-  value: 8,
-  label: '8px'
-}, {
-  value: 10,
-  label: '10px'
-}, {
-  value: 12,
-  label: '12px'
-}, {
-  value: 14,
-  label: '14px'
-}, {
-  value: 16,
-  label: '16px'
-}, {
-  value: 18,
-  label: '18px'
-}, {
-  value: 20,
-  label: '20px'
-}, {
-  value: 22,
-  label: '22px'
-}, {
-  value: 24,
-  label: '24px'
-}, {
-  value: 30,
-  label: '30x'
-}, {
-  value: 36,
-  label: '36px'
-}, {
-  value: 'custom',
-  label: '自定义'
-}]; // 线样式
-
-var lineStyleOption = [{
-  value: 'solid',
-  label: '实线'
-}, {
-  value: 'dashed',
-  label: '虚线'
-}, {
-  value: 'dotted',
-  label: '点线'
-}]; // 线宽度
-
-var lineWeightOption = [{
-  value: 'normal',
-  label: '正常'
-}, {
-  value: 'bold',
-  label: '粗'
-}, {
-  value: 'bolder',
-  label: '加粗'
-}]; // 普通位置集合
-
-var posOption = [{
-  value: 'auto',
-  label: '默认'
-}, {
-  value: 'inside',
-  label: '中心位置'
-}, {
-  value: 'top',
-  label: '上侧'
-}, {
-  value: 'left',
-  label: '左侧'
-}, {
-  value: 'right',
-  label: '右侧'
-}, {
-  value: 'bottom',
-  label: '底侧'
-}]; // 数值比例集合
-
-var ratioOption = [{
-  value: 100,
-  label: '乘以100'
-}, {
-  value: 10,
-  label: '乘以10'
-}, {
-  value: 1,
-  label: '默认'
-}, {
-  value: 0.1,
-  label: '除以10'
-}, {
-  value: 0.01,
-  label: '除以100'
-}, {
-  value: 0.001,
-  label: '除以1000'
-}, {
-  value: 0.0001,
-  label: '除以一万'
-}, {
-  value: 0.00001,
-  label: '除以10万'
-}, {
-  value: 0.000001,
-  label: '除以一百万'
-}, {
-  value: 0.0000001,
-  label: '除以一千万'
-}, {
-  value: 0.00000001,
-  label: '除以一亿'
-}, {
-  value: 0.000000001,
-  label: '除以十亿'
-}]; // 数值位数集合
-
-var digitOption = [{
-  value: 'auto',
-  label: '自动显示'
-}, {
-  value: 0,
-  label: '整数'
-}, {
-  value: 1,
-  label: '1位小数'
-}, {
-  value: 2,
-  label: '2位小数'
-}, {
-  value: 3,
-  label: '3位小数'
-}, {
-  value: 4,
-  label: '4位小数'
-}, {
-  value: 5,
-  label: '5位小数'
-}, {
-  value: 6,
-  label: '6位小数'
-}, {
-  value: 7,
-  label: '7位小数'
-}, {
-  value: 8,
-  label: '8位小数'
-}]; // (图例)大小集合
-
-var sizeOption = [{
-  value: 'auto',
-  label: '默认'
-}, {
-  value: 'big',
-  label: '大'
-}, {
-  value: 'medium',
-  label: '中'
-}, {
-  value: 'small',
-  label: '小'
-}, {
-  value: 'custom',
-  label: '自定义'
-}]; // 间隔集合
-
-var intervalOption = [{
-  value: 'auto',
-  label: '默认'
-}, {
-  value: 0,
-  label: '每个刻度'
-}, {
-  value: 1,
-  label: '间隔1个'
-}, {
-  value: 2,
-  label: '间隔2个'
-}, {
-  value: 3,
-  label: '间隔3个'
-}, {
-  value: 'custom',
-  label: '自定义'
-}]; //字体大小
-
-var fontSizeList = [{
-  label: '默认',
-  value: 'auto'
-}, {
-  label: '6px',
-  value: 6
-}, {
-  label: '8px',
-  value: 8
-}, {
-  label: '10px',
-  value: 10
-}, {
-  label: '12px',
-  value: 12
-}, {
-  label: '14px',
-  value: 14
-}, {
-  label: '16px',
-  value: 16
-}, {
-  label: '18px',
-  value: 18
-}, {
-  label: '24px',
-  value: 24
-}, {
-  label: '28px',
-  value: 28
-}, {
-  label: '36px',
-  value: 36
-}, {
-  label: '自定义',
-  value: 'custom'
-}]; //label字体样式 1 // 'bold','italic','vertical'
-
-var fontStyleIBV = {
-  bold: {
-    des: '加粗',
-    text: 'B'
-  },
-  italic: {
-    des: '斜体',
-    text: 'I'
-  },
-  vertical: {
-    des: '文字方向',
-    text: '垂直'
-  }
-}; //label字体样式 2 // 'italic','bold'
-
-var fontStyleIB = {
-  bold: {
-    des: '加粗',
-    text: 'B'
-  },
-  italic: {
-    des: '斜体',
-    text: 'I'
-  }
-}; // model data
-
-var chartModelData = [["地区", "衣服", "食材", "图书"], ["上海", 134, 345, 51], ["北京", 345, 421, 234], ["广州", 453, 224, 156], ["杭州", 321, 634, 213], ["南京", 654, 542, 231]]; // base chart option
-
-var chartOptions = {
-  //图表类型设置集合
-  chartAllType: 'echarts|line|default',
-  //图表配置
-  defaultOption: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(chartComponent),
-  //图表数据
-  chartData: Object(_utils_util__WEBPACK_IMPORTED_MODULE_0__[/* deepCopy */ "b"])(chartModelData)
-}; //图表设置项
-
-
-
-/***/ }),
-
-/***/ "b575":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var getOwnPropertyDescriptor = __webpack_require__("06cf").f;
-var classof = __webpack_require__("c6b6");
-var macrotask = __webpack_require__("2cf4").set;
-var IS_IOS = __webpack_require__("1cdc");
-
-var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
-var process = global.process;
-var Promise = global.Promise;
-var IS_NODE = classof(process) == 'process';
-// Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
-var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
-
-var flush, head, last, notify, toggle, node, promise, then;
-
-// modern engines have queueMicrotask method
-if (!queueMicrotask) {
-  flush = function () {
-    var parent, fn;
-    if (IS_NODE && (parent = process.domain)) parent.exit();
-    while (head) {
-      fn = head.fn;
-      head = head.next;
-      try {
-        fn();
-      } catch (error) {
-        if (head) notify();
-        else last = undefined;
-        throw error;
-      }
-    } last = undefined;
-    if (parent) parent.enter();
-  };
-
-  // Node.js
-  if (IS_NODE) {
-    notify = function () {
-      process.nextTick(flush);
-    };
-  // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-  } else if (MutationObserver && !IS_IOS) {
-    toggle = true;
-    node = document.createTextNode('');
-    new MutationObserver(flush).observe(node, { characterData: true });
-    notify = function () {
-      node.data = toggle = !toggle;
-    };
-  // environments with maybe non-completely correct, but existent Promise
-  } else if (Promise && Promise.resolve) {
-    // Promise.resolve without an argument throws an error in LG WebOS 2
-    promise = Promise.resolve(undefined);
-    then = promise.then;
-    notify = function () {
-      then.call(promise, flush);
-    };
-  // for other environments - macrotask based on:
-  // - setImmediate
-  // - MessageChannel
-  // - window.postMessag
-  // - onreadystatechange
-  // - setTimeout
-  } else {
-    notify = function () {
-      // strange IE + webpack dev server bug - use .call(global)
-      macrotask.call(global, flush);
-    };
-  }
-}
-
-module.exports = queueMicrotask || function (fn) {
-  var task = { fn: fn, next: undefined };
-  if (last) last.next = task;
-  if (!head) {
-    head = task;
-    notify();
-  } last = task;
-};
 
 
 /***/ }),
@@ -33768,21 +32308,940 @@ $({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD || !US
 
 /***/ }),
 
-/***/ "ca00":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "ca84":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("5135");
+var toIndexedObject = __webpack_require__("fc6a");
+var indexOf = __webpack_require__("4d64").indexOf;
+var hiddenKeys = __webpack_require__("d012");
+
+module.exports = function (object, names) {
+  var O = toIndexedObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~indexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "caad":
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ deepCopy; });
-__webpack_require__.d(__webpack_exports__, "c", function() { return /* binding */ generateRandomKey; });
-__webpack_require__.d(__webpack_exports__, "g", function() { return /* binding */ getRowColCheck; });
-__webpack_require__.d(__webpack_exports__, "f", function() { return /* binding */ getRangeSplitArray; });
-__webpack_require__.d(__webpack_exports__, "d", function() { return /* binding */ getChartDataCache; });
-__webpack_require__.d(__webpack_exports__, "e", function() { return /* binding */ getChartDataSeriesOrder; });
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ addDataToOption; });
+var $ = __webpack_require__("23e7");
+var $includes = __webpack_require__("4d64").includes;
+var addToUnscopables = __webpack_require__("44d2");
+var arrayMethodUsesToLength = __webpack_require__("ae40");
 
-// UNUSED EXPORTS: deepClone, transformCommon
+var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
+
+// `Array.prototype.includes` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+$({ target: 'Array', proto: true, forced: !USES_TO_LENGTH }, {
+  includes: function includes(el /* , fromIndex = 0 */) {
+    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('includes');
+
+
+/***/ }),
+
+/***/ "cc12":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("da84");
+var isObject = __webpack_require__("861d");
+
+var document = global.document;
+// typeof document.createElement is 'object' in old IE
+var EXISTS = isObject(document) && isObject(document.createElement);
+
+module.exports = function (it) {
+  return EXISTS ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ "cca6":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("23e7");
+var assign = __webpack_require__("60da");
+
+// `Object.assign` method
+// https://tc39.github.io/ecma262/#sec-object.assign
+$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
+  assign: assign
+});
+
+
+/***/ }),
+
+/***/ "ce4e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("da84");
+var createNonEnumerableProperty = __webpack_require__("9112");
+
+module.exports = function (key, value) {
+  try {
+    createNonEnumerableProperty(global, key, value);
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+
+/***/ }),
+
+/***/ "d012":
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ "d039":
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (error) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "d066":
+/***/ (function(module, exports, __webpack_require__) {
+
+var path = __webpack_require__("428f");
+var global = __webpack_require__("da84");
+
+var aFunction = function (variable) {
+  return typeof variable == 'function' ? variable : undefined;
+};
+
+module.exports = function (namespace, method) {
+  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
+    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
+};
+
+
+/***/ }),
+
+/***/ "d1e7":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// Nashorn ~ JDK8 bug
+var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
+
+// `Object.prototype.propertyIsEnumerable` method implementation
+// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+  var descriptor = getOwnPropertyDescriptor(this, V);
+  return !!descriptor && descriptor.enumerable;
+} : nativePropertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ "d28b":
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineWellKnownSymbol = __webpack_require__("746f");
+
+// `Symbol.iterator` well-known symbol
+// https://tc39.github.io/ecma262/#sec-symbol.iterator
+defineWellKnownSymbol('iterator');
+
+
+/***/ }),
+
+/***/ "d2bb":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("825a");
+var aPossiblePrototype = __webpack_require__("3bbe");
+
+// `Object.setPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+    setter.call(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype(proto);
+    if (CORRECT_SETTER) setter.call(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);
+
+
+/***/ }),
+
+/***/ "d3b7":
+/***/ (function(module, exports, __webpack_require__) {
+
+var TO_STRING_TAG_SUPPORT = __webpack_require__("00ee");
+var redefine = __webpack_require__("6eeb");
+var toString = __webpack_require__("b041");
+
+// `Object.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+if (!TO_STRING_TAG_SUPPORT) {
+  redefine(Object.prototype, 'toString', toString, { unsafe: true });
+}
+
+
+/***/ }),
+
+/***/ "d44e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineProperty = __webpack_require__("9bf2").f;
+var has = __webpack_require__("5135");
+var wellKnownSymbol = __webpack_require__("b622");
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+
+module.exports = function (it, TAG, STATIC) {
+  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
+    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
+  }
+};
+
+
+/***/ }),
+
+/***/ "d784":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// TODO: Remove from `core-js@4` since it's moved to entry points
+__webpack_require__("ac1f");
+var redefine = __webpack_require__("6eeb");
+var fails = __webpack_require__("d039");
+var wellKnownSymbol = __webpack_require__("b622");
+var regexpExec = __webpack_require__("9263");
+var createNonEnumerableProperty = __webpack_require__("9112");
+
+var SPECIES = wellKnownSymbol('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+// IE <= 11 replaces $0 with the whole match, as if it was $&
+// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
+var REPLACE_KEEPS_$0 = (function () {
+  return 'a'.replace(/./, '$0') === '$0';
+})();
+
+var REPLACE = wellKnownSymbol('replace');
+// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
+var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
+  if (/./[REPLACE]) {
+    return /./[REPLACE]('a', '$0') === '';
+  }
+  return false;
+})();
+
+// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+// Weex JS has frozen built-in prototypes, so use try / catch wrapper
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+});
+
+module.exports = function (KEY, length, exec, sham) {
+  var SYMBOL = wellKnownSymbol(KEY);
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
+    var O = {};
+    O[SYMBOL] = function () { return 7; };
+    return ''[KEY](O) != 7;
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+
+    if (KEY === 'split') {
+      // We can't use real regex here since it causes deoptimization
+      // and serious performance degradation in V8
+      // https://github.com/zloirock/core-js/issues/306
+      re = {};
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+      re.flags = '';
+      re[SYMBOL] = /./[SYMBOL];
+    }
+
+    re.exec = function () { execCalled = true; return null; };
+
+    re[SYMBOL]('');
+    return !execCalled;
+  });
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !(
+      REPLACE_SUPPORTS_NAMED_GROUPS &&
+      REPLACE_KEEPS_$0 &&
+      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    )) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+      if (regexp.exec === regexpExec) {
+        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+          // The native String method already delegates to @@method (this
+          // polyfilled function), leasing to infinite recursion.
+          // We avoid it by directly calling the native @@method method.
+          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+        }
+        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+      }
+      return { done: false };
+    }, {
+      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
+      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    });
+    var stringMethod = methods[0];
+    var regexMethod = methods[1];
+
+    redefine(String.prototype, KEY, stringMethod);
+    redefine(RegExp.prototype, SYMBOL, length == 2
+      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+      ? function (string, arg) { return regexMethod.call(string, this, arg); }
+      // 21.2.5.6 RegExp.prototype[@@match](string)
+      // 21.2.5.9 RegExp.prototype[@@search](string)
+      : function (string) { return regexMethod.call(string, this); }
+    );
+  }
+
+  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
+};
+
+
+/***/ }),
+
+/***/ "d81d":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var $map = __webpack_require__("b727").map;
+var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
+var arrayMethodUsesToLength = __webpack_require__("ae40");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
+// FF49- issue
+var USES_TO_LENGTH = arrayMethodUsesToLength('map');
+
+// `Array.prototype.map` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.map
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  map: function map(callbackfn /* , thisArg */) {
+    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
+/***/ "da84":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var check = function (it) {
+  return it && it.Math == Math && it;
+};
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+module.exports =
+  // eslint-disable-next-line no-undef
+  check(typeof globalThis == 'object' && globalThis) ||
+  check(typeof window == 'object' && window) ||
+  check(typeof self == 'object' && self) ||
+  check(typeof global == 'object' && global) ||
+  // eslint-disable-next-line no-new-func
+  Function('return this')();
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
+
+/***/ }),
+
+/***/ "dbb4":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("23e7");
+var DESCRIPTORS = __webpack_require__("83ab");
+var ownKeys = __webpack_require__("56ef");
+var toIndexedObject = __webpack_require__("fc6a");
+var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
+var createProperty = __webpack_require__("8418");
+
+// `Object.getOwnPropertyDescriptors` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
+$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
+  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+    var O = toIndexedObject(object);
+    var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+    var keys = ownKeys(O);
+    var result = {};
+    var index = 0;
+    var key, descriptor;
+    while (keys.length > index) {
+      descriptor = getOwnPropertyDescriptor(O, key = keys[index++]);
+      if (descriptor !== undefined) createProperty(result, key, descriptor);
+    }
+    return result;
+  }
+});
+
+
+/***/ }),
+
+/***/ "ddb0":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("da84");
+var DOMIterables = __webpack_require__("fdbc");
+var ArrayIteratorMethods = __webpack_require__("e260");
+var createNonEnumerableProperty = __webpack_require__("9112");
+var wellKnownSymbol = __webpack_require__("b622");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var ArrayValues = ArrayIteratorMethods.values;
+
+for (var COLLECTION_NAME in DOMIterables) {
+  var Collection = global[COLLECTION_NAME];
+  var CollectionPrototype = Collection && Collection.prototype;
+  if (CollectionPrototype) {
+    // some Chrome versions have non-configurable methods on DOMTokenList
+    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
+    } catch (error) {
+      CollectionPrototype[ITERATOR] = ArrayValues;
+    }
+    if (!CollectionPrototype[TO_STRING_TAG]) {
+      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
+    }
+    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
+      // some Chrome versions have non-configurable methods on DOMTokenList
+      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
+      } catch (error) {
+        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
+      }
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "df4a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "df75":
+/***/ (function(module, exports, __webpack_require__) {
+
+var internalObjectKeys = __webpack_require__("ca84");
+var enumBugKeys = __webpack_require__("7839");
+
+// `Object.keys` method
+// https://tc39.github.io/ecma262/#sec-object.keys
+module.exports = Object.keys || function keys(O) {
+  return internalObjectKeys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "e01a":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// `Symbol.prototype.description` getter
+// https://tc39.github.io/ecma262/#sec-symbol.prototype.description
+
+var $ = __webpack_require__("23e7");
+var DESCRIPTORS = __webpack_require__("83ab");
+var global = __webpack_require__("da84");
+var has = __webpack_require__("5135");
+var isObject = __webpack_require__("861d");
+var defineProperty = __webpack_require__("9bf2").f;
+var copyConstructorProperties = __webpack_require__("e893");
+
+var NativeSymbol = global.Symbol;
+
+if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in NativeSymbol.prototype) ||
+  // Safari 12 bug
+  NativeSymbol().description !== undefined
+)) {
+  var EmptyStringDescriptionStore = {};
+  // wrap Symbol constructor for correct work with undefined description
+  var SymbolWrapper = function Symbol() {
+    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : String(arguments[0]);
+    var result = this instanceof SymbolWrapper
+      ? new NativeSymbol(description)
+      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
+      : description === undefined ? NativeSymbol() : NativeSymbol(description);
+    if (description === '') EmptyStringDescriptionStore[result] = true;
+    return result;
+  };
+  copyConstructorProperties(SymbolWrapper, NativeSymbol);
+  var symbolPrototype = SymbolWrapper.prototype = NativeSymbol.prototype;
+  symbolPrototype.constructor = SymbolWrapper;
+
+  var symbolToString = symbolPrototype.toString;
+  var native = String(NativeSymbol('test')) == 'Symbol(test)';
+  var regexp = /^Symbol\((.*)\)[^)]+$/;
+  defineProperty(symbolPrototype, 'description', {
+    configurable: true,
+    get: function description() {
+      var symbol = isObject(this) ? this.valueOf() : this;
+      var string = symbolToString.call(symbol);
+      if (has(EmptyStringDescriptionStore, symbol)) return '';
+      var desc = native ? string.slice(7, -1) : string.replace(regexp, '$1');
+      return desc === '' ? undefined : desc;
+    }
+  });
+
+  $({ global: true, forced: true }, {
+    Symbol: SymbolWrapper
+  });
+}
+
+
+/***/ }),
+
+/***/ "e163":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("5135");
+var toObject = __webpack_require__("7b0b");
+var sharedKey = __webpack_require__("f772");
+var CORRECT_PROTOTYPE_GETTER = __webpack_require__("e177");
+
+var IE_PROTO = sharedKey('IE_PROTO');
+var ObjectPrototype = Object.prototype;
+
+// `Object.getPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.getprototypeof
+module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectPrototype : null;
+};
+
+
+/***/ }),
+
+/***/ "e177":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("d039");
+
+module.exports = !fails(function () {
+  function F() { /* empty */ }
+  F.prototype.constructor = null;
+  return Object.getPrototypeOf(new F()) !== F.prototype;
+});
+
+
+/***/ }),
+
+/***/ "e260":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var toIndexedObject = __webpack_require__("fc6a");
+var addToUnscopables = __webpack_require__("44d2");
+var Iterators = __webpack_require__("3f8c");
+var InternalStateModule = __webpack_require__("69f3");
+var defineIterator = __webpack_require__("7dd0");
+
+var ARRAY_ITERATOR = 'Array Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
+
+// `Array.prototype.entries` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.entries
+// `Array.prototype.keys` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.keys
+// `Array.prototype.values` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.values
+// `Array.prototype[@@iterator]` method
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
+// `CreateArrayIterator` internal method
+// https://tc39.github.io/ecma262/#sec-createarrayiterator
+module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
+  setInternalState(this, {
+    type: ARRAY_ITERATOR,
+    target: toIndexedObject(iterated), // target
+    index: 0,                          // next index
+    kind: kind                         // kind
+  });
+// `%ArrayIteratorPrototype%.next` method
+// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
+}, function () {
+  var state = getInternalState(this);
+  var target = state.target;
+  var kind = state.kind;
+  var index = state.index++;
+  if (!target || index >= target.length) {
+    state.target = undefined;
+    return { value: undefined, done: true };
+  }
+  if (kind == 'keys') return { value: index, done: false };
+  if (kind == 'values') return { value: target[index], done: false };
+  return { value: [index, target[index]], done: false };
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values%
+// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
+// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
+Iterators.Arguments = Iterators.Array;
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
+/***/ "e2cc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var redefine = __webpack_require__("6eeb");
+
+module.exports = function (target, src, options) {
+  for (var key in src) redefine(target, key, src[key], options);
+  return target;
+};
+
+
+/***/ }),
+
+/***/ "e439":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("23e7");
+var fails = __webpack_require__("d039");
+var toIndexedObject = __webpack_require__("fc6a");
+var nativeGetOwnPropertyDescriptor = __webpack_require__("06cf").f;
+var DESCRIPTORS = __webpack_require__("83ab");
+
+var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
+var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
+
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
+  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
+    return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
+  }
+});
+
+
+/***/ }),
+
+/***/ "e538":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("b622");
+
+exports.f = wellKnownSymbol;
+
+
+/***/ }),
+
+/***/ "e893":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("5135");
+var ownKeys = __webpack_require__("56ef");
+var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
+var definePropertyModule = __webpack_require__("9bf2");
+
+module.exports = function (target, source) {
+  var keys = ownKeys(source);
+  var defineProperty = definePropertyModule.f;
+  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+  }
+};
+
+
+/***/ }),
+
+/***/ "e8b5":
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__("c6b6");
+
+// `IsArray` abstract operation
+// https://tc39.github.io/ecma262/#sec-isarray
+module.exports = Array.isArray || function isArray(arg) {
+  return classof(arg) == 'Array';
+};
+
+
+/***/ }),
+
+/***/ "e95a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("b622");
+var Iterators = __webpack_require__("3f8c");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var ArrayPrototype = Array.prototype;
+
+// check on default Array iterator
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ "f183":
+/***/ (function(module, exports, __webpack_require__) {
+
+var hiddenKeys = __webpack_require__("d012");
+var isObject = __webpack_require__("861d");
+var has = __webpack_require__("5135");
+var defineProperty = __webpack_require__("9bf2").f;
+var uid = __webpack_require__("90e3");
+var FREEZING = __webpack_require__("bb2f");
+
+var METADATA = uid('meta');
+var id = 0;
+
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+
+var setMetadata = function (it) {
+  defineProperty(it, METADATA, { value: {
+    objectID: 'O' + ++id, // object ID
+    weakData: {}          // weak collections IDs
+  } });
+};
+
+var fastKey = function (it, create) {
+  // return a primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMetadata(it);
+  // return object ID
+  } return it[METADATA].objectID;
+};
+
+var getWeakData = function (it, create) {
+  if (!has(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMetadata(it);
+  // return the store of weak collections IDs
+  } return it[METADATA].weakData;
+};
+
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZING && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
+  return it;
+};
+
+var meta = module.exports = {
+  REQUIRED: false,
+  fastKey: fastKey,
+  getWeakData: getWeakData,
+  onFreeze: onFreeze
+};
+
+hiddenKeys[METADATA] = true;
+
+
+/***/ }),
+
+/***/ "f5df":
+/***/ (function(module, exports, __webpack_require__) {
+
+var TO_STRING_TAG_SUPPORT = __webpack_require__("00ee");
+var classofRaw = __webpack_require__("c6b6");
+var wellKnownSymbol = __webpack_require__("b622");
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) { /* empty */ }
+};
+
+// getting tag from ES6+ `Object.prototype.toString`
+module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+    // builtinTag case
+    : CORRECT_ARGUMENTS ? classofRaw(O)
+    // ES3 arguments fallback
+    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
+};
+
+
+/***/ }),
+
+/***/ "f772":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("5692");
+var uid = __webpack_require__("90e3");
+
+var keys = shared('keys');
+
+module.exports = function (key) {
+  return keys[key] || (keys[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "fb15":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// NAMESPACE OBJECT: ./src/utils/importUtil.js
+var importUtil_namespaceObject = {};
+__webpack_require__.r(importUtil_namespaceObject);
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseLabel", function() { return ChartBaseLabel; });
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseSwitch", function() { return ChartBaseSwitch; });
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseInput", function() { return ChartBaseInput; });
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseSelect", function() { return ChartBaseSelect; });
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseSlider", function() { return ChartBaseSlider; });
+__webpack_require__.d(importUtil_namespaceObject, "ChartBaseBox", function() { return ChartBaseBox; });
+__webpack_require__.d(importUtil_namespaceObject, "deepCopy", function() { return deepCopy; });
+__webpack_require__.d(importUtil_namespaceObject, "isEqual", function() { return lodash["isEqual"]; });
+__webpack_require__.d(importUtil_namespaceObject, "importComp", function() { return importComp; });
+__webpack_require__.d(importUtil_namespaceObject, "mapActions", function() { return external_Vuex_["mapActions"]; });
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var currentScript = window.document.currentScript
+  if (true) {
+    var getCurrentScript = __webpack_require__("8875")
+    currentScript = getCurrentScript()
+
+    // for backward compatibility, because previously we directly included the polyfill
+    if (!('currentScript' in document)) {
+      Object.defineProperty(document, 'currentScript', { get: getCurrentScript })
+    }
+  }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
+  }
+}
+
+// Indicate to webpack that this file can be concatenated
+/* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
+var es_array_map = __webpack_require__("d81d");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
+var es_symbol = __webpack_require__("a4d3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
 var es_array_filter = __webpack_require__("4de4");
@@ -33790,26 +33249,121 @@ var es_array_filter = __webpack_require__("4de4");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
 var es_array_for_each = __webpack_require__("4160");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
+var es_object_get_own_property_descriptor = __webpack_require__("e439");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.map.js
-var es_map = __webpack_require__("4ec9");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptors.js
+var es_object_get_own_property_descriptors = __webpack_require__("dbb4");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("159b");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=8b165cc4&
+var ChartSettingvue_type_template_id_8b165cc4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',{staticStyle:{"overflow":"hidden","height":"100%"}},[_c('chart-list',{attrs:{"chartAllType":_vm.currentChartType,"showList":_vm.showList,"lang":_vm.lang},on:{"closeChartShowList":function($event){_vm.showList=false}}}),_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" "+_vm._s(_vm.setItem.data)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('div',{staticStyle:{"margin-top":"1px"}},[_vm._v(_vm._s(_vm.setItem.chartType))]),_c('div',{staticStyle:{"margin-top":"10px"}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"small"},on:{"click":function($event){_vm.showList = !_vm.showList}}},[_c('i',{staticClass:"iconfont",class:_vm.chartTypeTxt[0],staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.chartTypeTxt[1])+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})])],1),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.fix),function(item){return _c('div',{key:item.title,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-tag',{staticStyle:{"width":"100%","text-align":"center"},attrs:{"size":"medium"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(item.field)+" ")])],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.change),function(item,index){return _c('div',{key:index,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-dropdown',{staticStyle:{"width":"100%"},attrs:{"size":"medium","trigger":"click"},on:{"command":_vm.handleSeriseCommand}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"mini"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left","font-size":"16px"}}),_vm._v(" "+_vm._s(item.field)+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})]),_c('el-dropdown-menu',{staticStyle:{"min-width":"306px"},attrs:{"slot":"dropdown"},slot:"dropdown"},_vm._l((_vm.chartXYSeriesList.option),function(ditem,index){return _c('el-dropdown-item',{key:("A-" + index),attrs:{"command":{series:item, option:ditem}}},[_vm._v(" "+_vm._s(ditem.field)+" "),(item.id==ditem.id)?_c('i',{staticClass:"iconfont icon-dagou",staticStyle:{"float":"right"}}):_vm._e()])}),1)],1)],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),_c('el-row',[_c('div',{staticStyle:{"margin":"25px 0"}}),_c('el-checkbox',{on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeConfigCheck),callback:function ($$v) {_vm.currentRangeConfigCheck=$$v},expression:"currentRangeConfigCheck"}},[_vm._v(_vm._s(_vm.setItem.transpose))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkRowDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeRowCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeRowCheck, "exits", $$v)},expression:"currentRangeRowCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.row1)+" "+_vm._s(_vm.getColRowCheckTxt(true))+" "+_vm._s(_vm.setItem.row2))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkColDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeColCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeColCheck, "exits", $$v)},expression:"currentRangeColCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.column1)+" "+_vm._s(_vm.getColRowCheckTxt())+" "+_vm._s(_vm.setItem.column2))])],1)],1)],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" "+_vm._s(_vm.setItem.style)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'title',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption,"lang":_vm.lang}}),_c('chart-sub-title',{attrs:{"router":'subtitle',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption,"lang":_vm.lang}}),_c('chart-cursor',{attrs:{"router":'tooltip',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption,"lang":_vm.lang}}),_c('chart-legend',{attrs:{"router":'legend',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption,"lang":_vm.lang}}),(_vm.currentChartType.split('|')[1]!='pie')?_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType,"lang":_vm.lang}}):_vm._e()],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)],1)])}
+var staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=8b165cc4&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
+var es_regexp_exec = __webpack_require__("ac1f");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
+var es_string_split = __webpack_require__("1276");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartList.vue?vue&type=template&id=1e0e5502&
+var ChartListvue_type_template_id_1e0e5502_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.showList)?_c('div',{staticClass:"luckysheet-datavisual-quick-m",style:({position: 'absolute',zIndex: _vm.zindex,bottom: '0px',left: '0px',right: '0px',background: '#fff'})},[_c('el-button',{staticStyle:{"width":"100%","margin":"2px 4px 8px 4px"},attrs:{"plain":"","round":"","size":"small","type":"danger"},on:{"click":function($event){return _vm.$emit('closeChartShowList')}}},[_c('i',{staticClass:"iconfont icon-guanbi",staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.close)+" ")]),_c('el-radio-group',{staticStyle:{"display":"block","text-align":"center"},attrs:{"size":"mini"},model:{value:(_vm.currentPro),callback:function ($$v) {_vm.currentPro=$$v},expression:"currentPro"}},_vm._l((_vm.config),function(item,index){return _c('el-radio-button',{key:index,attrs:{"label":item.type}},[_vm._v(_vm._s(item.name))])}),1),_c('div',{staticClass:"luckysheet-datavisual-quick-menu",attrs:{"id":"luckysheet-datavisual-quick-menu"}},_vm._l((_vm.currentConfig.data),function(item,index){return _c('div',{key:index,attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-menu-' + item.type},on:{"click":_vm.quickMenu}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_c('span',[_vm._v(_vm._s(item.name))])])}),0),_c('div',{staticClass:"luckysheet-datavisual-quick-list luckysheet-scrollbars",attrs:{"id":"luckysheet-datavisual-quick-list"},on:{"scroll":_vm.quickListScroll}},[_vm._l((_vm.currentConfig.data),function(item,index){return [_c('div',{key:index,staticClass:"luckysheet-datavisual-quick-list-title"},[_c('a',{attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-listtitle-'+item.type}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_vm._v(" "+_vm._s(item.name)+" ")])]),_c('div',{staticClass:"luckysheet-datavisual-quick-list-ul"},_vm._l((item.data),function(chartItem,index){return _c('el-tooltip',{key:index,attrs:{"content":chartItem.name,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('div',{staticClass:"luckysheet-datavisual-quick-list-item",class:chartItem.type==_vm.currentChartType? 'luckysheet-datavisual-quick-list-item-active':'',attrs:{"chartAllType":chartItem.type,"data-style":chartItem.type.split('-')[2],"data-type":chartItem.type.split('-')[1]},on:{"click":function($event){return _vm.changeChartType(chartItem.type)}}},[_c('img',{attrs:{"src":chartItem.img.length==0?'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjkzIiB5PSIxMDAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTFwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4yNDJ4MjAwPC90ZXh0PjwvZz48L3N2Zz4=':chartItem.img,"alt":"图片"}})])])}),1)]})],2)],1):_vm._e()}
+var ChartListvue_type_template_id_1e0e5502_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=template&id=1e0e5502&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
+var es_array_find = __webpack_require__("7db0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
+
+// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
+var jquery = __webpack_require__("1157");
+var jquery_default = /*#__PURE__*/__webpack_require__.n(jquery);
+
+// EXTERNAL MODULE: external "Vuex"
+var external_Vuex_ = __webpack_require__("5880");
+var external_Vuex_default = /*#__PURE__*/__webpack_require__.n(external_Vuex_);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.map.js
+var es_map = __webpack_require__("4ec9");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
 var es_object_to_string = __webpack_require__("d3b7");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.constructor.js
 var es_regexp_constructor = __webpack_require__("4d63");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("ac1f");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
 var es_regexp_to_string = __webpack_require__("25f0");
@@ -33820,17 +33374,8 @@ var es_string_iterator = __webpack_require__("3ca3");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
 var es_string_replace = __webpack_require__("5319");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
-var es_string_split = __webpack_require__("1276");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("159b");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
 var web_dom_collections_iterator = __webpack_require__("ddb0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
-var es_symbol = __webpack_require__("a4d3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
 var es_symbol_description = __webpack_require__("e01a");
@@ -33958,8 +33503,914 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
     }
   };
 }
-// EXTERNAL MODULE: ./src/data/chartJson.js
-var chartJson = __webpack_require__("b4cc");
+// CONCATENATED MODULE: ./src/data/chartJson.js
+/**
+ * 图表的样式结构: 为chartOptions.defaultOption下的所有属性,应该是所有图表类型的并集
+ * DOM的结构与此对应: DOM操作后修改此处参数,直接存储后台, 渲染图表时候经过一层引擎转换才能使用各个图表插件渲染; 后台拿到此参数,可对应绑定到DOM上
+ *
+ * 设计细节:
+ * 1. 各个图表类型之间的设置项不同,有交集和并集,此处设置统一存储并集参数
+ * 2. 切换图表类型时,亦应保留所具有的设置参数,为切换回上一个图表类型保留设置
+ */
+
+var baseComponent = {
+  label: {
+    fontSize: 12,
+    //字体大小 //fontSize为'custom'时,取cusFontSize的值
+    color: '#333',
+    //颜色
+    fontFamily: 'sans-serif',
+    //字体
+    fontGroup: [],
+    //字体, 加粗:选中:'bold',无:'normal'; 斜体: 选中:'italic',无:'normal';方向:选中:'vertical',无:'horizen'
+    cusFontSize: 12 //自定义文字大小
+
+  },
+  formatter: {
+    prefix: '',
+    //前缀
+    suffix: '',
+    //后缀
+    ratio: 1,
+    //数值比例
+    digit: 'auto' //小数位数
+
+  },
+  item: {
+    color: null,
+    borderColor: '#000',
+    borderType: 'solid',
+    borderWidth: 1
+  },
+  lineStyle: {
+    color: null,
+    width: 1,
+    type: 'solid'
+  }
+};
+var chartComponent = {
+  //标题设置
+  title: {
+    show: false,
+    //是否显示
+    text: '默认标题',
+    //标题内容
+    label: deepCopy(baseComponent.label),
+    position: {
+      value: 'left-top',
+      //custom:自定义 //left-top  为custom的时候,取offsetX, offsetY
+      offsetX: 40,
+      //自定义的X位置,单位百分比
+      offsetY: 50 //自定义的Y位置,单位百分比
+
+    }
+  },
+  //副标题
+  subtitle: {
+    show: false,
+    //是否显示
+    text: '',
+    //标题内容
+    label: deepCopy(baseComponent.label),
+    distance: {
+      value: 'auto',
+      //'auto': 默认, 'far': 远 // 'normal': 一般 'close':近 custom :取cusGap作为距离
+      cusGap: 40 //自定义距离
+
+    }
+  },
+  // 图表设置
+  config: {
+    color: 'transparent',
+    //默认颜色//'#333'
+    fontFamily: 'Sans-serif',
+    grid: {
+      value: 'normal',
+      //''normal':正常 'wide':宽 // 'narrow':窄 // 'slender':瘦长 'flat':扁平
+      top: 5,
+      left: 10,
+      right: 20,
+      bottom: 10
+    }
+  },
+  //图例设置
+  legend: {
+    show: true,
+    selectMode: 'multiple',
+    //'single':单选 //'多选':multiple //'禁用':'disable'
+    selected: [//图例显示选择 //动态数据渲染 //分:初始化图表+后台加载使用数据结构中数据 /编辑时根据系列实时变化
+    {
+      seriesName: '衣服',
+      //
+      isShow: true
+    }, {
+      seriesName: '食材',
+      //
+      isShow: true
+    }, {
+      seriesName: '图书',
+      //
+      isShow: true
+    }],
+    label: deepCopy(baseComponent.label),
+    //图例文字样式
+    position: {
+      value: 'left-top',
+      //custom:自定义 //left-top  为custom的时候,取offsetX, offsetY
+      offsetX: 40,
+      //自定义的X位置,单位百分比
+      offsetY: 50,
+      //自定义的Y位置,单位百分比
+      direction: 'horizontal' //图例位置水平或者垂直 horizontal(水平)/vertical(垂直)
+
+    },
+    width: {
+      //图例图标大小
+      value: 'auto',
+      //'auto':默认/ 'big':大/'medium':中/'small':小/'custom':自定义
+      cusSize: 25 //图例自定义宽度 ,单位px
+
+    },
+    height: {
+      //图例图标大小
+      value: 'auto',
+      //'auto':默认/ 'big':大/'medium':中/'small':小/'custom':自定义
+      cusSize: 14 //图例自定义宽度 ,单位px
+
+    },
+    distance: {
+      value: 'auto',
+      //'auto':默认 /far':远 / 'general':一般 / 'near':近 /'custom':自定义
+      cusGap: 10 //自定义距离
+
+    },
+    itemGap: 10
+  },
+  //提示设置
+  tooltip: {
+    show: true,
+    //鼠标提示显示
+    label: deepCopy(baseComponent.label),
+    //文字样式
+    backgroundColor: 'rgba(50,50,50,0.7)',
+    // 鼠标提示框背景色
+    triggerOn: 'mousemove',
+    // 'mousemove':鼠标滑过 click':单击 触发条件
+    triggerType: 'item',
+    //触发类型 //'axis':坐标轴触发 'item':数据项图形触发
+    axisPointer: {
+      // 指示器配置
+      type: 'line',
+      // 'line':默认直线指示器 //'cross': 十字指示器配置 //'shadow': 阴影指示器配置
+      style: {
+        // 指示器样式
+        color: '#555',
+        width: 'normal',
+        //宽度:'normal':正常 'bold': 粗 'bolder':加粗
+        type: 'solid' //'solid': 实线 'dash': 虚线 'dot':点线
+
+      }
+    },
+    format: [//鼠标提示后缀
+    {
+      seriesName: '衣服',
+      prefix: '',
+      //前缀
+      suffix: '',
+      //后缀 (自定义单位)
+      ratio: 1,
+      //除以的数 // 1为默认, 0.1 /0.001 /...
+      digit: 'auto' //小数位数 'auto' :不处理 // 数值:0 , 1 ,2 ...
+
+    }, {
+      seriesName: '食材',
+      prefix: '',
+      //前缀
+      suffix: '',
+      //后缀
+      ratio: 1,
+      digit: 'auto'
+    }, {
+      seriesName: '图书',
+      prefix: '',
+      //前缀
+      suffix: '',
+      //后缀
+      ratio: 1,
+      digit: 'auto'
+    }],
+    position: 'auto' // 鼠标提示位置 //'inside':中心位置 //'left'/'top'/'right'/'top'
+
+  },
+  // XY轴
+  axis: {
+    axisType: 'xAxisDown',
+    //要显示的坐标轴类型
+    xAxisUp: {
+      show: false,
+      //显示X轴
+      title: {
+        showTitle: false,
+        //显示X轴
+        text: '',
+        //标题内容
+        nameGap: 15,
+        //标题与轴线距离
+        rotate: 0,
+        //标题倾斜角度
+        label: deepCopy(baseComponent.label),
+        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
+
+      },
+      name: '显示X轴',
+      inverse: false,
+      //反向坐标轴 (echarts有)
+      //刻度线
+      tickLine: {
+        show: true,
+        //显示刻度线
+        width: 1,
+        //刻度线宽度
+        color: 'auto' //刻度线颜色
+
+      },
+      //刻度
+      tick: {
+        show: true,
+        //显示刻度
+        position: 'outside',
+        //刻度位置,默认: outside朝外 / inside: 朝内
+        length: 5,
+        //刻度长度
+        width: 1,
+        //刻度宽度
+        color: 'auto' //刻度颜色
+
+      },
+      //标签
+      tickLabel: {
+        show: true,
+        //显示刻度标签
+        label: deepCopy(baseComponent.label),
+        rotate: 0,
+        //倾斜标签角度
+        prefix: '',
+        //标签前缀
+        suffix: '',
+        //标签后缀
+        optimize: 0,
+        distance: 0,
+        //标签与轴线距离
+        min: 'auto',
+        //最小值
+        max: 'auto',
+        //最大值
+        ratio: 1,
+        digit: 'auto'
+      },
+      //网格线
+      netLine: {
+        show: false,
+        //显示网格线
+        width: 1,
+        //网格线宽度
+        type: 'solid',
+        //网格线类型
+        color: 'auto',
+        //网格线颜色
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        }
+      },
+      //网格区域
+      netArea: {
+        show: false,
+        //显示网格区域
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        },
+        colorOne: 'auto',
+        //网格第一颜色
+        colorTwo: 'auto' //网格第二颜色
+
+      },
+      axisLine: {
+        //第二根X轴必需
+        onZero: false
+      }
+    },
+    xAxisDown: {
+      show: true,
+      //显示X轴
+      title: {
+        showTitle: false,
+        //显示X轴
+        text: '',
+        //标题内容
+        nameGap: 15,
+        //标题与轴线距离
+        rotate: 0,
+        //标题倾斜角度
+        label: deepCopy(baseComponent.label),
+        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
+
+      },
+      name: '显示X轴',
+      inverse: false,
+      //反向坐标轴 (echarts有)
+      //刻度线
+      tickLine: {
+        show: true,
+        //显示刻度线
+        width: 1,
+        //刻度线宽度
+        color: 'auto' //刻度线颜色
+
+      },
+      //刻度
+      tick: {
+        show: true,
+        //显示刻度
+        position: 'outside',
+        //刻度位置,默认: outside朝外 / inside: 朝内
+        length: 5,
+        //刻度长度
+        width: 1,
+        //刻度宽度
+        color: 'auto' //刻度颜色
+
+      },
+      //标签
+      tickLabel: {
+        show: true,
+        //显示刻度标签
+        label: deepCopy(baseComponent.label),
+        rotate: 0,
+        //倾斜标签角度
+        prefix: '',
+        //标签前缀
+        suffix: '',
+        //标签后缀
+        optimize: 0,
+        //标签间隔个数
+        distance: 0,
+        //标签与轴线距离
+        min: null,
+        //最小值
+        max: null,
+        //最大值
+        ratio: 1,
+        digit: 'auto'
+      },
+      //网格线
+      netLine: {
+        show: false,
+        //显示网格线
+        width: 1,
+        //网格线宽度
+        type: 'solid',
+        //网格线类型
+        color: 'auto',
+        //网格线颜色
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        }
+      },
+      //网格区域
+      netArea: {
+        show: false,
+        //显示网格区域
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        },
+        colorOne: 'auto',
+        //网格第一颜色
+        colorTwo: 'auto' //网格第二颜色
+
+      }
+    },
+    yAxisLeft: {
+      show: true,
+      //显示X轴
+      title: {
+        showTitle: false,
+        //显示X轴
+        text: '',
+        //标题内容
+        nameGap: 15,
+        //标题与轴线距离
+        rotate: 0,
+        //标题倾斜角度
+        label: deepCopy(baseComponent.label),
+        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
+
+      },
+      name: '显示Y轴',
+      inverse: false,
+      //反向坐标轴 (echarts有)
+      //刻度线
+      tickLine: {
+        show: true,
+        //显示刻度线
+        width: 1,
+        //刻度线宽度
+        color: 'auto' //刻度线颜色
+
+      },
+      //刻度
+      tick: {
+        show: true,
+        //显示刻度
+        position: 'outside',
+        //刻度位置,默认: outside朝外 / inside: 朝内
+        length: 5,
+        //刻度长度
+        width: 1,
+        //刻度宽度
+        color: 'auto' //刻度颜色
+
+      },
+      //标签
+      tickLabel: {
+        show: true,
+        //显示刻度标签
+        label: deepCopy(baseComponent.label),
+        rotate: 0,
+        //倾斜标签角度
+        formatter: deepCopy(baseComponent.formatter),
+        split: 5,
+        //分割段数
+        min: null,
+        //最小值
+        max: null,
+        //最大值
+        prefix: '',
+        //标签前缀
+        suffix: '',
+        //标签后缀
+        ratio: 1,
+        digit: 'auto',
+        distance: 0 //标签与轴线距离
+
+      },
+      //网格线
+      netLine: {
+        show: false,
+        //显示网格线
+        width: 1,
+        //网格线宽度
+        type: 'solid',
+        //网格线类型
+        color: 'auto',
+        //网格线颜色
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        }
+      },
+      //网格区域
+      netArea: {
+        show: false,
+        //显示网格区域
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        },
+        colorOne: 'auto',
+        //网格第一颜色
+        colorTwo: 'auto' //网格第二颜色
+
+      }
+    },
+    yAxisRight: {
+      show: false,
+      //显示X轴
+      title: {
+        showTitle: false,
+        //显示X轴
+        text: '',
+        //标题内容
+        nameGap: 15,
+        //标题与轴线距离
+        rotate: 0,
+        //标题倾斜角度
+        label: deepCopy(baseComponent.label),
+        fzPosition: 'end' //标题对齐方式,end: 尾部, middle: 中间
+
+      },
+      name: '显示Y轴',
+      inverse: false,
+      //反向坐标轴 (echarts有)
+      //刻度线
+      tickLine: {
+        show: true,
+        //显示刻度线
+        width: 1,
+        //刻度线宽度
+        color: 'auto' //刻度线颜色
+
+      },
+      //刻度
+      tick: {
+        show: true,
+        //显示刻度
+        position: 'outside',
+        //刻度位置,默认: outside朝外 / inside: 朝内
+        length: 5,
+        //刻度长度
+        width: 1,
+        //刻度宽度
+        color: 'auto' //刻度颜色
+
+      },
+      //标签
+      tickLabel: {
+        show: true,
+        //显示刻度标签
+        label: deepCopy(baseComponent.label),
+        rotate: 0,
+        //倾斜标签角度
+        formatter: deepCopy(baseComponent.formatter),
+        split: 5,
+        //分割段数
+        min: null,
+        //最小值
+        max: null,
+        //最大值
+        prefix: '',
+        //标签前缀
+        suffix: '',
+        //标签后缀
+        ratio: 1,
+        digit: 'auto',
+        distance: 0 //标签与轴线距离
+
+      },
+      //网格线
+      netLine: {
+        show: false,
+        //显示网格线
+        width: 1,
+        //网格线宽度
+        type: 'solid',
+        //网格线类型
+        color: 'auto',
+        //网格线颜色
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        }
+      },
+      //网格区域
+      netArea: {
+        show: false,
+        //显示网格区域
+        interval: {
+          //网格分割间隔数
+          value: 'auto',
+          cusNumber: 0
+        },
+        colorOne: 'auto',
+        //网格第一颜色
+        colorTwo: 'auto' //网格第二颜色
+
+      }
+    }
+  }
+}; //此类数据抽出来作为模板数据,每次使用deepCopy一份即可
+//注: 若页面展示的是语义化的参数,则此处也只定义语义化的参数,具体数值在引擎里做转换
+//若界面选择的直接是用户期望的数值,则直接采用数值即可
+
+/**
+ *  位置信息
+ *
+ */
+
+var positionOption = [{
+  value: 'left-top',
+  label: '左上'
+}, {
+  value: 'left-middle',
+  label: '左中'
+}, {
+  value: 'left-bottom',
+  label: '左下'
+}, {
+  value: 'right-top',
+  label: '右上'
+}, {
+  value: 'right-middle',
+  label: '右中'
+}, {
+  value: 'right-bottom',
+  label: '右下'
+}, {
+  value: 'center-top',
+  label: '中上'
+}, {
+  value: 'center-middle',
+  label: '居中'
+}, {
+  value: 'center-bottom',
+  label: '中下'
+}, {
+  value: 'custom',
+  label: '自定义'
+}]; //距离
+
+var distanceOption = [{
+  value: 'auto',
+  label: '默认'
+}, {
+  value: 'far',
+  label: '远'
+}, {
+  value: 'normal',
+  label: '一般'
+}, {
+  value: 'close',
+  label: '近'
+}, {
+  value: 'custom',
+  label: '自定义'
+}]; // 字体大小集合
+
+var fontSizeOption = [{
+  value: 6,
+  label: '6px'
+}, {
+  value: 8,
+  label: '8px'
+}, {
+  value: 10,
+  label: '10px'
+}, {
+  value: 12,
+  label: '12px'
+}, {
+  value: 14,
+  label: '14px'
+}, {
+  value: 16,
+  label: '16px'
+}, {
+  value: 18,
+  label: '18px'
+}, {
+  value: 20,
+  label: '20px'
+}, {
+  value: 22,
+  label: '22px'
+}, {
+  value: 24,
+  label: '24px'
+}, {
+  value: 30,
+  label: '30x'
+}, {
+  value: 36,
+  label: '36px'
+}, {
+  value: 'custom',
+  label: '自定义'
+}]; // 线样式
+
+var lineStyleOption = [{
+  value: 'solid',
+  label: '实线'
+}, {
+  value: 'dashed',
+  label: '虚线'
+}, {
+  value: 'dotted',
+  label: '点线'
+}]; // 线宽度
+
+var lineWeightOption = [{
+  value: 'normal',
+  label: '正常'
+}, {
+  value: 'bold',
+  label: '粗'
+}, {
+  value: 'bolder',
+  label: '加粗'
+}]; // 普通位置集合
+
+var posOption = [{
+  value: 'auto',
+  label: '默认'
+}, {
+  value: 'inside',
+  label: '中心位置'
+}, {
+  value: 'top',
+  label: '上侧'
+}, {
+  value: 'left',
+  label: '左侧'
+}, {
+  value: 'right',
+  label: '右侧'
+}, {
+  value: 'bottom',
+  label: '底侧'
+}]; // 数值比例集合
+
+var ratioOption = [{
+  value: 100,
+  label: '乘以100'
+}, {
+  value: 10,
+  label: '乘以10'
+}, {
+  value: 1,
+  label: '默认'
+}, {
+  value: 0.1,
+  label: '除以10'
+}, {
+  value: 0.01,
+  label: '除以100'
+}, {
+  value: 0.001,
+  label: '除以1000'
+}, {
+  value: 0.0001,
+  label: '除以一万'
+}, {
+  value: 0.00001,
+  label: '除以10万'
+}, {
+  value: 0.000001,
+  label: '除以一百万'
+}, {
+  value: 0.0000001,
+  label: '除以一千万'
+}, {
+  value: 0.00000001,
+  label: '除以一亿'
+}, {
+  value: 0.000000001,
+  label: '除以十亿'
+}]; // 数值位数集合
+
+var digitOption = [{
+  value: 'auto',
+  label: '自动显示'
+}, {
+  value: 0,
+  label: '整数'
+}, {
+  value: 1,
+  label: '1位小数'
+}, {
+  value: 2,
+  label: '2位小数'
+}, {
+  value: 3,
+  label: '3位小数'
+}, {
+  value: 4,
+  label: '4位小数'
+}, {
+  value: 5,
+  label: '5位小数'
+}, {
+  value: 6,
+  label: '6位小数'
+}, {
+  value: 7,
+  label: '7位小数'
+}, {
+  value: 8,
+  label: '8位小数'
+}]; // (图例)大小集合
+
+var sizeOption = [{
+  value: 'auto',
+  label: '默认'
+}, {
+  value: 'big',
+  label: '大'
+}, {
+  value: 'medium',
+  label: '中'
+}, {
+  value: 'small',
+  label: '小'
+}, {
+  value: 'custom',
+  label: '自定义'
+}]; // 间隔集合
+
+var intervalOption = [{
+  value: 'auto',
+  label: '默认'
+}, {
+  value: 0,
+  label: '每个刻度'
+}, {
+  value: 1,
+  label: '间隔1个'
+}, {
+  value: 2,
+  label: '间隔2个'
+}, {
+  value: 3,
+  label: '间隔3个'
+}, {
+  value: 'custom',
+  label: '自定义'
+}]; //字体大小
+
+var fontSizeList = [{
+  label: '默认',
+  value: 'auto'
+}, {
+  label: '6px',
+  value: 6
+}, {
+  label: '8px',
+  value: 8
+}, {
+  label: '10px',
+  value: 10
+}, {
+  label: '12px',
+  value: 12
+}, {
+  label: '14px',
+  value: 14
+}, {
+  label: '16px',
+  value: 16
+}, {
+  label: '18px',
+  value: 18
+}, {
+  label: '24px',
+  value: 24
+}, {
+  label: '28px',
+  value: 28
+}, {
+  label: '36px',
+  value: 36
+}, {
+  label: '自定义',
+  value: 'custom'
+}]; //label字体样式 1 // 'bold','italic','vertical'
+
+var fontStyleIBV = {
+  bold: {
+    des: '加粗',
+    text: 'B'
+  },
+  italic: {
+    des: '斜体',
+    text: 'I'
+  },
+  vertical: {
+    des: '文字方向',
+    text: '垂直'
+  }
+}; //label字体样式 2 // 'italic','bold'
+
+var fontStyleIB = {
+  bold: {
+    des: '加粗',
+    text: 'B'
+  },
+  italic: {
+    des: '斜体',
+    text: 'I'
+  }
+}; // model data
+
+var chartModelData = [["地区", "衣服", "食材", "图书"], ["上海", 134, 345, 51], ["北京", 345, 421, 234], ["广州", 453, 224, 156], ["杭州", 321, 634, 213], ["南京", 654, 542, 231]]; // base chart option
+
+var chartJson_chartOptions = {
+  //图表类型设置集合
+  chartAllType: 'echarts|line|default',
+  //图表配置
+  defaultOption: deepCopy(chartComponent),
+  //图表数据
+  chartData: deepCopy(chartModelData)
+}; //图表设置项
+
 
 // CONCATENATED MODULE: ./src/utils/util.js
 
@@ -35170,8 +35621,8 @@ function transformCommon(defaultOptionIni, seriesData, legendData, chartPro, cha
 
 function initCommon(series, data, legendData, product, type, style) {
   series = {
-    itemStyle: deepCopy(chartJson["a" /* baseComponent */].item),
-    lineStyle: deepCopy(chartJson["a" /* baseComponent */].lineStyle),
+    itemStyle: deepCopy(baseComponent.item),
+    lineStyle: deepCopy(baseComponent.lineStyle),
     data: data,
     type: type,
     name: legendData,
@@ -35425,1424 +35876,8 @@ function editPie(series, chartDataCache, seriesData, legendData, chartPro, chart
 }
 
 
-
-/***/ }),
-
-/***/ "ca84":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("5135");
-var toIndexedObject = __webpack_require__("fc6a");
-var indexOf = __webpack_require__("4d64").indexOf;
-var hiddenKeys = __webpack_require__("d012");
-
-module.exports = function (object, names) {
-  var O = toIndexedObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~indexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-
-/***/ }),
-
-/***/ "caad":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var $includes = __webpack_require__("4d64").includes;
-var addToUnscopables = __webpack_require__("44d2");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
-
-var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
-
-// `Array.prototype.includes` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.includes
-$({ target: 'Array', proto: true, forced: !USES_TO_LENGTH }, {
-  includes: function includes(el /* , fromIndex = 0 */) {
-    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables('includes');
-
-
-/***/ }),
-
-/***/ "cc12":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var isObject = __webpack_require__("861d");
-
-var document = global.document;
-// typeof document.createElement is 'object' in old IE
-var EXISTS = isObject(document) && isObject(document.createElement);
-
-module.exports = function (it) {
-  return EXISTS ? document.createElement(it) : {};
-};
-
-
-/***/ }),
-
-/***/ "cca6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var assign = __webpack_require__("60da");
-
-// `Object.assign` method
-// https://tc39.github.io/ecma262/#sec-object.assign
-$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
-  assign: assign
-});
-
-
-/***/ }),
-
-/***/ "cdf9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("825a");
-var isObject = __webpack_require__("861d");
-var newPromiseCapability = __webpack_require__("f069");
-
-module.exports = function (C, x) {
-  anObject(C);
-  if (isObject(x) && x.constructor === C) return x;
-  var promiseCapability = newPromiseCapability.f(C);
-  var resolve = promiseCapability.resolve;
-  resolve(x);
-  return promiseCapability.promise;
-};
-
-
-/***/ }),
-
-/***/ "ce4e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var createNonEnumerableProperty = __webpack_require__("9112");
-
-module.exports = function (key, value) {
-  try {
-    createNonEnumerableProperty(global, key, value);
-  } catch (error) {
-    global[key] = value;
-  } return value;
-};
-
-
-/***/ }),
-
-/***/ "d012":
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-
-/***/ "d039":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (error) {
-    return true;
-  }
-};
-
-
-/***/ }),
-
-/***/ "d066":
-/***/ (function(module, exports, __webpack_require__) {
-
-var path = __webpack_require__("428f");
-var global = __webpack_require__("da84");
-
-var aFunction = function (variable) {
-  return typeof variable == 'function' ? variable : undefined;
-};
-
-module.exports = function (namespace, method) {
-  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
-    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
-};
-
-
-/***/ }),
-
-/***/ "d1e7":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-// Nashorn ~ JDK8 bug
-var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
-
-// `Object.prototype.propertyIsEnumerable` method implementation
-// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
-exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
-  var descriptor = getOwnPropertyDescriptor(this, V);
-  return !!descriptor && descriptor.enumerable;
-} : nativePropertyIsEnumerable;
-
-
-/***/ }),
-
-/***/ "d28b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineWellKnownSymbol = __webpack_require__("746f");
-
-// `Symbol.iterator` well-known symbol
-// https://tc39.github.io/ecma262/#sec-symbol.iterator
-defineWellKnownSymbol('iterator');
-
-
-/***/ }),
-
-/***/ "d2bb":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("825a");
-var aPossiblePrototype = __webpack_require__("3bbe");
-
-// `Object.setPrototypeOf` method
-// https://tc39.github.io/ecma262/#sec-object.setprototypeof
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
-  var CORRECT_SETTER = false;
-  var test = {};
-  var setter;
-  try {
-    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-    setter.call(test, []);
-    CORRECT_SETTER = test instanceof Array;
-  } catch (error) { /* empty */ }
-  return function setPrototypeOf(O, proto) {
-    anObject(O);
-    aPossiblePrototype(proto);
-    if (CORRECT_SETTER) setter.call(O, proto);
-    else O.__proto__ = proto;
-    return O;
-  };
-}() : undefined);
-
-
-/***/ }),
-
-/***/ "d3b7":
-/***/ (function(module, exports, __webpack_require__) {
-
-var TO_STRING_TAG_SUPPORT = __webpack_require__("00ee");
-var redefine = __webpack_require__("6eeb");
-var toString = __webpack_require__("b041");
-
-// `Object.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-if (!TO_STRING_TAG_SUPPORT) {
-  redefine(Object.prototype, 'toString', toString, { unsafe: true });
-}
-
-
-/***/ }),
-
-/***/ "d44e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineProperty = __webpack_require__("9bf2").f;
-var has = __webpack_require__("5135");
-var wellKnownSymbol = __webpack_require__("b622");
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-
-module.exports = function (it, TAG, STATIC) {
-  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
-    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
-  }
-};
-
-
-/***/ }),
-
-/***/ "d784":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// TODO: Remove from `core-js@4` since it's moved to entry points
-__webpack_require__("ac1f");
-var redefine = __webpack_require__("6eeb");
-var fails = __webpack_require__("d039");
-var wellKnownSymbol = __webpack_require__("b622");
-var regexpExec = __webpack_require__("9263");
-var createNonEnumerableProperty = __webpack_require__("9112");
-
-var SPECIES = wellKnownSymbol('species');
-
-var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
-  // #replace needs built-in support for named groups.
-  // #match works fine because it just return the exec results, even if it has
-  // a "grops" property.
-  var re = /./;
-  re.exec = function () {
-    var result = [];
-    result.groups = { a: '7' };
-    return result;
-  };
-  return ''.replace(re, '$<a>') !== '7';
-});
-
-// IE <= 11 replaces $0 with the whole match, as if it was $&
-// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
-var REPLACE_KEEPS_$0 = (function () {
-  return 'a'.replace(/./, '$0') === '$0';
-})();
-
-var REPLACE = wellKnownSymbol('replace');
-// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
-var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
-  if (/./[REPLACE]) {
-    return /./[REPLACE]('a', '$0') === '';
-  }
-  return false;
-})();
-
-// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-// Weex JS has frozen built-in prototypes, so use try / catch wrapper
-var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
-  var re = /(?:)/;
-  var originalExec = re.exec;
-  re.exec = function () { return originalExec.apply(this, arguments); };
-  var result = 'ab'.split(re);
-  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-});
-
-module.exports = function (KEY, length, exec, sham) {
-  var SYMBOL = wellKnownSymbol(KEY);
-
-  var DELEGATES_TO_SYMBOL = !fails(function () {
-    // String methods call symbol-named RegEp methods
-    var O = {};
-    O[SYMBOL] = function () { return 7; };
-    return ''[KEY](O) != 7;
-  });
-
-  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
-    // Symbol-named RegExp methods call .exec
-    var execCalled = false;
-    var re = /a/;
-
-    if (KEY === 'split') {
-      // We can't use real regex here since it causes deoptimization
-      // and serious performance degradation in V8
-      // https://github.com/zloirock/core-js/issues/306
-      re = {};
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
-      // a new one. We need to return the patched regex when creating the new one.
-      re.constructor = {};
-      re.constructor[SPECIES] = function () { return re; };
-      re.flags = '';
-      re[SYMBOL] = /./[SYMBOL];
-    }
-
-    re.exec = function () { execCalled = true; return null; };
-
-    re[SYMBOL]('');
-    return !execCalled;
-  });
-
-  if (
-    !DELEGATES_TO_SYMBOL ||
-    !DELEGATES_TO_EXEC ||
-    (KEY === 'replace' && !(
-      REPLACE_SUPPORTS_NAMED_GROUPS &&
-      REPLACE_KEEPS_$0 &&
-      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    )) ||
-    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
-  ) {
-    var nativeRegExpMethod = /./[SYMBOL];
-    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-      if (regexp.exec === regexpExec) {
-        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-          // The native String method already delegates to @@method (this
-          // polyfilled function), leasing to infinite recursion.
-          // We avoid it by directly calling the native @@method method.
-          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
-        }
-        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
-      }
-      return { done: false };
-    }, {
-      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
-      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    });
-    var stringMethod = methods[0];
-    var regexMethod = methods[1];
-
-    redefine(String.prototype, KEY, stringMethod);
-    redefine(RegExp.prototype, SYMBOL, length == 2
-      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
-      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
-      ? function (string, arg) { return regexMethod.call(string, this, arg); }
-      // 21.2.5.6 RegExp.prototype[@@match](string)
-      // 21.2.5.9 RegExp.prototype[@@search](string)
-      : function (string) { return regexMethod.call(string, this); }
-    );
-  }
-
-  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
-};
-
-
-/***/ }),
-
-/***/ "d81d":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var $map = __webpack_require__("b727").map;
-var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
-// FF49- issue
-var USES_TO_LENGTH = arrayMethodUsesToLength('map');
-
-// `Array.prototype.map` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.map
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  map: function map(callbackfn /* , thisArg */) {
-    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-
-/***/ "da84":
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var check = function (it) {
-  return it && it.Math == Math && it;
-};
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-module.exports =
-  // eslint-disable-next-line no-undef
-  check(typeof globalThis == 'object' && globalThis) ||
-  check(typeof window == 'object' && window) ||
-  check(typeof self == 'object' && self) ||
-  check(typeof global == 'object' && global) ||
-  // eslint-disable-next-line no-new-func
-  Function('return this')();
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
-
-/***/ }),
-
-/***/ "dbb4":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var DESCRIPTORS = __webpack_require__("83ab");
-var ownKeys = __webpack_require__("56ef");
-var toIndexedObject = __webpack_require__("fc6a");
-var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
-var createProperty = __webpack_require__("8418");
-
-// `Object.getOwnPropertyDescriptors` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
-$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
-    var O = toIndexedObject(object);
-    var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-    var keys = ownKeys(O);
-    var result = {};
-    var index = 0;
-    var key, descriptor;
-    while (keys.length > index) {
-      descriptor = getOwnPropertyDescriptor(O, key = keys[index++]);
-      if (descriptor !== undefined) createProperty(result, key, descriptor);
-    }
-    return result;
-  }
-});
-
-
-/***/ }),
-
-/***/ "ddb0":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var DOMIterables = __webpack_require__("fdbc");
-var ArrayIteratorMethods = __webpack_require__("e260");
-var createNonEnumerableProperty = __webpack_require__("9112");
-var wellKnownSymbol = __webpack_require__("b622");
-
-var ITERATOR = wellKnownSymbol('iterator');
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var ArrayValues = ArrayIteratorMethods.values;
-
-for (var COLLECTION_NAME in DOMIterables) {
-  var Collection = global[COLLECTION_NAME];
-  var CollectionPrototype = Collection && Collection.prototype;
-  if (CollectionPrototype) {
-    // some Chrome versions have non-configurable methods on DOMTokenList
-    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
-      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
-    } catch (error) {
-      CollectionPrototype[ITERATOR] = ArrayValues;
-    }
-    if (!CollectionPrototype[TO_STRING_TAG]) {
-      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
-    }
-    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
-      // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
-        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-      } catch (error) {
-        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
-      }
-    }
-  }
-}
-
-
-/***/ }),
-
-/***/ "df4a":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "df75":
-/***/ (function(module, exports, __webpack_require__) {
-
-var internalObjectKeys = __webpack_require__("ca84");
-var enumBugKeys = __webpack_require__("7839");
-
-// `Object.keys` method
-// https://tc39.github.io/ecma262/#sec-object.keys
-module.exports = Object.keys || function keys(O) {
-  return internalObjectKeys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
-/***/ "e01a":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// `Symbol.prototype.description` getter
-// https://tc39.github.io/ecma262/#sec-symbol.prototype.description
-
-var $ = __webpack_require__("23e7");
-var DESCRIPTORS = __webpack_require__("83ab");
-var global = __webpack_require__("da84");
-var has = __webpack_require__("5135");
-var isObject = __webpack_require__("861d");
-var defineProperty = __webpack_require__("9bf2").f;
-var copyConstructorProperties = __webpack_require__("e893");
-
-var NativeSymbol = global.Symbol;
-
-if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in NativeSymbol.prototype) ||
-  // Safari 12 bug
-  NativeSymbol().description !== undefined
-)) {
-  var EmptyStringDescriptionStore = {};
-  // wrap Symbol constructor for correct work with undefined description
-  var SymbolWrapper = function Symbol() {
-    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : String(arguments[0]);
-    var result = this instanceof SymbolWrapper
-      ? new NativeSymbol(description)
-      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
-      : description === undefined ? NativeSymbol() : NativeSymbol(description);
-    if (description === '') EmptyStringDescriptionStore[result] = true;
-    return result;
-  };
-  copyConstructorProperties(SymbolWrapper, NativeSymbol);
-  var symbolPrototype = SymbolWrapper.prototype = NativeSymbol.prototype;
-  symbolPrototype.constructor = SymbolWrapper;
-
-  var symbolToString = symbolPrototype.toString;
-  var native = String(NativeSymbol('test')) == 'Symbol(test)';
-  var regexp = /^Symbol\((.*)\)[^)]+$/;
-  defineProperty(symbolPrototype, 'description', {
-    configurable: true,
-    get: function description() {
-      var symbol = isObject(this) ? this.valueOf() : this;
-      var string = symbolToString.call(symbol);
-      if (has(EmptyStringDescriptionStore, symbol)) return '';
-      var desc = native ? string.slice(7, -1) : string.replace(regexp, '$1');
-      return desc === '' ? undefined : desc;
-    }
-  });
-
-  $({ global: true, forced: true }, {
-    Symbol: SymbolWrapper
-  });
-}
-
-
-/***/ }),
-
-/***/ "e163":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("5135");
-var toObject = __webpack_require__("7b0b");
-var sharedKey = __webpack_require__("f772");
-var CORRECT_PROTOTYPE_GETTER = __webpack_require__("e177");
-
-var IE_PROTO = sharedKey('IE_PROTO');
-var ObjectPrototype = Object.prototype;
-
-// `Object.getPrototypeOf` method
-// https://tc39.github.io/ecma262/#sec-object.getprototypeof
-module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectPrototype : null;
-};
-
-
-/***/ }),
-
-/***/ "e177":
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__("d039");
-
-module.exports = !fails(function () {
-  function F() { /* empty */ }
-  F.prototype.constructor = null;
-  return Object.getPrototypeOf(new F()) !== F.prototype;
-});
-
-
-/***/ }),
-
-/***/ "e260":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toIndexedObject = __webpack_require__("fc6a");
-var addToUnscopables = __webpack_require__("44d2");
-var Iterators = __webpack_require__("3f8c");
-var InternalStateModule = __webpack_require__("69f3");
-var defineIterator = __webpack_require__("7dd0");
-
-var ARRAY_ITERATOR = 'Array Iterator';
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
-
-// `Array.prototype.entries` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.entries
-// `Array.prototype.keys` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.keys
-// `Array.prototype.values` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.values
-// `Array.prototype[@@iterator]` method
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
-// `CreateArrayIterator` internal method
-// https://tc39.github.io/ecma262/#sec-createarrayiterator
-module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
-  setInternalState(this, {
-    type: ARRAY_ITERATOR,
-    target: toIndexedObject(iterated), // target
-    index: 0,                          // next index
-    kind: kind                         // kind
-  });
-// `%ArrayIteratorPrototype%.next` method
-// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
-}, function () {
-  var state = getInternalState(this);
-  var target = state.target;
-  var kind = state.kind;
-  var index = state.index++;
-  if (!target || index >= target.length) {
-    state.target = undefined;
-    return { value: undefined, done: true };
-  }
-  if (kind == 'keys') return { value: index, done: false };
-  if (kind == 'values') return { value: target[index], done: false };
-  return { value: [index, target[index]], done: false };
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values%
-// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
-// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
-Iterators.Arguments = Iterators.Array;
-
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-
-/***/ }),
-
-/***/ "e2cc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var redefine = __webpack_require__("6eeb");
-
-module.exports = function (target, src, options) {
-  for (var key in src) redefine(target, key, src[key], options);
-  return target;
-};
-
-
-/***/ }),
-
-/***/ "e439":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var fails = __webpack_require__("d039");
-var toIndexedObject = __webpack_require__("fc6a");
-var nativeGetOwnPropertyDescriptor = __webpack_require__("06cf").f;
-var DESCRIPTORS = __webpack_require__("83ab");
-
-var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
-var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
-
-// `Object.getOwnPropertyDescriptor` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
-$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
-    return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
-  }
-});
-
-
-/***/ }),
-
-/***/ "e538":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-
-exports.f = wellKnownSymbol;
-
-
-/***/ }),
-
-/***/ "e667":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return { error: false, value: exec() };
-  } catch (error) {
-    return { error: true, value: error };
-  }
-};
-
-
-/***/ }),
-
-/***/ "e6cf":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var IS_PURE = __webpack_require__("c430");
-var global = __webpack_require__("da84");
-var getBuiltIn = __webpack_require__("d066");
-var NativePromise = __webpack_require__("fea9");
-var redefine = __webpack_require__("6eeb");
-var redefineAll = __webpack_require__("e2cc");
-var setToStringTag = __webpack_require__("d44e");
-var setSpecies = __webpack_require__("2626");
-var isObject = __webpack_require__("861d");
-var aFunction = __webpack_require__("1c0b");
-var anInstance = __webpack_require__("19aa");
-var classof = __webpack_require__("c6b6");
-var inspectSource = __webpack_require__("8925");
-var iterate = __webpack_require__("2266");
-var checkCorrectnessOfIteration = __webpack_require__("1c7e");
-var speciesConstructor = __webpack_require__("4840");
-var task = __webpack_require__("2cf4").set;
-var microtask = __webpack_require__("b575");
-var promiseResolve = __webpack_require__("cdf9");
-var hostReportErrors = __webpack_require__("44de");
-var newPromiseCapabilityModule = __webpack_require__("f069");
-var perform = __webpack_require__("e667");
-var InternalStateModule = __webpack_require__("69f3");
-var isForced = __webpack_require__("94ca");
-var wellKnownSymbol = __webpack_require__("b622");
-var V8_VERSION = __webpack_require__("2d00");
-
-var SPECIES = wellKnownSymbol('species');
-var PROMISE = 'Promise';
-var getInternalState = InternalStateModule.get;
-var setInternalState = InternalStateModule.set;
-var getInternalPromiseState = InternalStateModule.getterFor(PROMISE);
-var PromiseConstructor = NativePromise;
-var TypeError = global.TypeError;
-var document = global.document;
-var process = global.process;
-var $fetch = getBuiltIn('fetch');
-var newPromiseCapability = newPromiseCapabilityModule.f;
-var newGenericPromiseCapability = newPromiseCapability;
-var IS_NODE = classof(process) == 'process';
-var DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent);
-var UNHANDLED_REJECTION = 'unhandledrejection';
-var REJECTION_HANDLED = 'rejectionhandled';
-var PENDING = 0;
-var FULFILLED = 1;
-var REJECTED = 2;
-var HANDLED = 1;
-var UNHANDLED = 2;
-var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
-
-var FORCED = isForced(PROMISE, function () {
-  var GLOBAL_CORE_JS_PROMISE = inspectSource(PromiseConstructor) !== String(PromiseConstructor);
-  if (!GLOBAL_CORE_JS_PROMISE) {
-    // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
-    // We can't detect it synchronously, so just check versions
-    if (V8_VERSION === 66) return true;
-    // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    if (!IS_NODE && typeof PromiseRejectionEvent != 'function') return true;
-  }
-  // We need Promise#finally in the pure version for preventing prototype pollution
-  if (IS_PURE && !PromiseConstructor.prototype['finally']) return true;
-  // We can't use @@species feature detection in V8 since it causes
-  // deoptimization and performance degradation
-  // https://github.com/zloirock/core-js/issues/679
-  if (V8_VERSION >= 51 && /native code/.test(PromiseConstructor)) return false;
-  // Detect correctness of subclassing with @@species support
-  var promise = PromiseConstructor.resolve(1);
-  var FakePromise = function (exec) {
-    exec(function () { /* empty */ }, function () { /* empty */ });
-  };
-  var constructor = promise.constructor = {};
-  constructor[SPECIES] = FakePromise;
-  return !(promise.then(function () { /* empty */ }) instanceof FakePromise);
-});
-
-var INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function (iterable) {
-  PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
-});
-
-// helpers
-var isThenable = function (it) {
-  var then;
-  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
-};
-
-var notify = function (promise, state, isReject) {
-  if (state.notified) return;
-  state.notified = true;
-  var chain = state.reactions;
-  microtask(function () {
-    var value = state.value;
-    var ok = state.state == FULFILLED;
-    var index = 0;
-    // variable length - can't use forEach
-    while (chain.length > index) {
-      var reaction = chain[index++];
-      var handler = ok ? reaction.ok : reaction.fail;
-      var resolve = reaction.resolve;
-      var reject = reaction.reject;
-      var domain = reaction.domain;
-      var result, then, exited;
-      try {
-        if (handler) {
-          if (!ok) {
-            if (state.rejection === UNHANDLED) onHandleUnhandled(promise, state);
-            state.rejection = HANDLED;
-          }
-          if (handler === true) result = value;
-          else {
-            if (domain) domain.enter();
-            result = handler(value); // can throw
-            if (domain) {
-              domain.exit();
-              exited = true;
-            }
-          }
-          if (result === reaction.promise) {
-            reject(TypeError('Promise-chain cycle'));
-          } else if (then = isThenable(result)) {
-            then.call(result, resolve, reject);
-          } else resolve(result);
-        } else reject(value);
-      } catch (error) {
-        if (domain && !exited) domain.exit();
-        reject(error);
-      }
-    }
-    state.reactions = [];
-    state.notified = false;
-    if (isReject && !state.rejection) onUnhandled(promise, state);
-  });
-};
-
-var dispatchEvent = function (name, promise, reason) {
-  var event, handler;
-  if (DISPATCH_EVENT) {
-    event = document.createEvent('Event');
-    event.promise = promise;
-    event.reason = reason;
-    event.initEvent(name, false, true);
-    global.dispatchEvent(event);
-  } else event = { promise: promise, reason: reason };
-  if (handler = global['on' + name]) handler(event);
-  else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
-};
-
-var onUnhandled = function (promise, state) {
-  task.call(global, function () {
-    var value = state.value;
-    var IS_UNHANDLED = isUnhandled(state);
-    var result;
-    if (IS_UNHANDLED) {
-      result = perform(function () {
-        if (IS_NODE) {
-          process.emit('unhandledRejection', value, promise);
-        } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
-      });
-      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-      state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
-      if (result.error) throw result.value;
-    }
-  });
-};
-
-var isUnhandled = function (state) {
-  return state.rejection !== HANDLED && !state.parent;
-};
-
-var onHandleUnhandled = function (promise, state) {
-  task.call(global, function () {
-    if (IS_NODE) {
-      process.emit('rejectionHandled', promise);
-    } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
-  });
-};
-
-var bind = function (fn, promise, state, unwrap) {
-  return function (value) {
-    fn(promise, state, value, unwrap);
-  };
-};
-
-var internalReject = function (promise, state, value, unwrap) {
-  if (state.done) return;
-  state.done = true;
-  if (unwrap) state = unwrap;
-  state.value = value;
-  state.state = REJECTED;
-  notify(promise, state, true);
-};
-
-var internalResolve = function (promise, state, value, unwrap) {
-  if (state.done) return;
-  state.done = true;
-  if (unwrap) state = unwrap;
-  try {
-    if (promise === value) throw TypeError("Promise can't be resolved itself");
-    var then = isThenable(value);
-    if (then) {
-      microtask(function () {
-        var wrapper = { done: false };
-        try {
-          then.call(value,
-            bind(internalResolve, promise, wrapper, state),
-            bind(internalReject, promise, wrapper, state)
-          );
-        } catch (error) {
-          internalReject(promise, wrapper, error, state);
-        }
-      });
-    } else {
-      state.value = value;
-      state.state = FULFILLED;
-      notify(promise, state, false);
-    }
-  } catch (error) {
-    internalReject(promise, { done: false }, error, state);
-  }
-};
-
-// constructor polyfill
-if (FORCED) {
-  // 25.4.3.1 Promise(executor)
-  PromiseConstructor = function Promise(executor) {
-    anInstance(this, PromiseConstructor, PROMISE);
-    aFunction(executor);
-    Internal.call(this);
-    var state = getInternalState(this);
-    try {
-      executor(bind(internalResolve, this, state), bind(internalReject, this, state));
-    } catch (error) {
-      internalReject(this, state, error);
-    }
-  };
-  // eslint-disable-next-line no-unused-vars
-  Internal = function Promise(executor) {
-    setInternalState(this, {
-      type: PROMISE,
-      done: false,
-      notified: false,
-      parent: false,
-      reactions: [],
-      rejection: false,
-      state: PENDING,
-      value: undefined
-    });
-  };
-  Internal.prototype = redefineAll(PromiseConstructor.prototype, {
-    // `Promise.prototype.then` method
-    // https://tc39.github.io/ecma262/#sec-promise.prototype.then
-    then: function then(onFulfilled, onRejected) {
-      var state = getInternalPromiseState(this);
-      var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
-      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
-      reaction.fail = typeof onRejected == 'function' && onRejected;
-      reaction.domain = IS_NODE ? process.domain : undefined;
-      state.parent = true;
-      state.reactions.push(reaction);
-      if (state.state != PENDING) notify(this, state, false);
-      return reaction.promise;
-    },
-    // `Promise.prototype.catch` method
-    // https://tc39.github.io/ecma262/#sec-promise.prototype.catch
-    'catch': function (onRejected) {
-      return this.then(undefined, onRejected);
-    }
-  });
-  OwnPromiseCapability = function () {
-    var promise = new Internal();
-    var state = getInternalState(promise);
-    this.promise = promise;
-    this.resolve = bind(internalResolve, promise, state);
-    this.reject = bind(internalReject, promise, state);
-  };
-  newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
-    return C === PromiseConstructor || C === PromiseWrapper
-      ? new OwnPromiseCapability(C)
-      : newGenericPromiseCapability(C);
-  };
-
-  if (!IS_PURE && typeof NativePromise == 'function') {
-    nativeThen = NativePromise.prototype.then;
-
-    // wrap native Promise#then for native async functions
-    redefine(NativePromise.prototype, 'then', function then(onFulfilled, onRejected) {
-      var that = this;
-      return new PromiseConstructor(function (resolve, reject) {
-        nativeThen.call(that, resolve, reject);
-      }).then(onFulfilled, onRejected);
-    // https://github.com/zloirock/core-js/issues/640
-    }, { unsafe: true });
-
-    // wrap fetch result
-    if (typeof $fetch == 'function') $({ global: true, enumerable: true, forced: true }, {
-      // eslint-disable-next-line no-unused-vars
-      fetch: function fetch(input /* , init */) {
-        return promiseResolve(PromiseConstructor, $fetch.apply(global, arguments));
-      }
-    });
-  }
-}
-
-$({ global: true, wrap: true, forced: FORCED }, {
-  Promise: PromiseConstructor
-});
-
-setToStringTag(PromiseConstructor, PROMISE, false, true);
-setSpecies(PROMISE);
-
-PromiseWrapper = getBuiltIn(PROMISE);
-
-// statics
-$({ target: PROMISE, stat: true, forced: FORCED }, {
-  // `Promise.reject` method
-  // https://tc39.github.io/ecma262/#sec-promise.reject
-  reject: function reject(r) {
-    var capability = newPromiseCapability(this);
-    capability.reject.call(undefined, r);
-    return capability.promise;
-  }
-});
-
-$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {
-  // `Promise.resolve` method
-  // https://tc39.github.io/ecma262/#sec-promise.resolve
-  resolve: function resolve(x) {
-    return promiseResolve(IS_PURE && this === PromiseWrapper ? PromiseConstructor : this, x);
-  }
-});
-
-$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
-  // `Promise.all` method
-  // https://tc39.github.io/ecma262/#sec-promise.all
-  all: function all(iterable) {
-    var C = this;
-    var capability = newPromiseCapability(C);
-    var resolve = capability.resolve;
-    var reject = capability.reject;
-    var result = perform(function () {
-      var $promiseResolve = aFunction(C.resolve);
-      var values = [];
-      var counter = 0;
-      var remaining = 1;
-      iterate(iterable, function (promise) {
-        var index = counter++;
-        var alreadyCalled = false;
-        values.push(undefined);
-        remaining++;
-        $promiseResolve.call(C, promise).then(function (value) {
-          if (alreadyCalled) return;
-          alreadyCalled = true;
-          values[index] = value;
-          --remaining || resolve(values);
-        }, reject);
-      });
-      --remaining || resolve(values);
-    });
-    if (result.error) reject(result.value);
-    return capability.promise;
-  },
-  // `Promise.race` method
-  // https://tc39.github.io/ecma262/#sec-promise.race
-  race: function race(iterable) {
-    var C = this;
-    var capability = newPromiseCapability(C);
-    var reject = capability.reject;
-    var result = perform(function () {
-      var $promiseResolve = aFunction(C.resolve);
-      iterate(iterable, function (promise) {
-        $promiseResolve.call(C, promise).then(capability.resolve, reject);
-      });
-    });
-    if (result.error) reject(result.value);
-    return capability.promise;
-  }
-});
-
-
-/***/ }),
-
-/***/ "e893":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("5135");
-var ownKeys = __webpack_require__("56ef");
-var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
-var definePropertyModule = __webpack_require__("9bf2");
-
-module.exports = function (target, source) {
-  var keys = ownKeys(source);
-  var defineProperty = definePropertyModule.f;
-  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
-  }
-};
-
-
-/***/ }),
-
-/***/ "e8b5":
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__("c6b6");
-
-// `IsArray` abstract operation
-// https://tc39.github.io/ecma262/#sec-isarray
-module.exports = Array.isArray || function isArray(arg) {
-  return classof(arg) == 'Array';
-};
-
-
-/***/ }),
-
-/***/ "e95a":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-var Iterators = __webpack_require__("3f8c");
-
-var ITERATOR = wellKnownSymbol('iterator');
-var ArrayPrototype = Array.prototype;
-
-// check on default Array iterator
-module.exports = function (it) {
-  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
-};
-
-
-/***/ }),
-
-/***/ "f069":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var aFunction = __webpack_require__("1c0b");
-
-var PromiseCapability = function (C) {
-  var resolve, reject;
-  this.promise = new C(function ($$resolve, $$reject) {
-    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
-    resolve = $$resolve;
-    reject = $$reject;
-  });
-  this.resolve = aFunction(resolve);
-  this.reject = aFunction(reject);
-};
-
-// 25.4.1.5 NewPromiseCapability(C)
-module.exports.f = function (C) {
-  return new PromiseCapability(C);
-};
-
-
-/***/ }),
-
-/***/ "f183":
-/***/ (function(module, exports, __webpack_require__) {
-
-var hiddenKeys = __webpack_require__("d012");
-var isObject = __webpack_require__("861d");
-var has = __webpack_require__("5135");
-var defineProperty = __webpack_require__("9bf2").f;
-var uid = __webpack_require__("90e3");
-var FREEZING = __webpack_require__("bb2f");
-
-var METADATA = uid('meta');
-var id = 0;
-
-var isExtensible = Object.isExtensible || function () {
-  return true;
-};
-
-var setMetadata = function (it) {
-  defineProperty(it, METADATA, { value: {
-    objectID: 'O' + ++id, // object ID
-    weakData: {}          // weak collections IDs
-  } });
-};
-
-var fastKey = function (it, create) {
-  // return a primitive with prefix
-  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if (!has(it, METADATA)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return 'F';
-    // not necessary to add metadata
-    if (!create) return 'E';
-    // add missing metadata
-    setMetadata(it);
-  // return object ID
-  } return it[METADATA].objectID;
-};
-
-var getWeakData = function (it, create) {
-  if (!has(it, METADATA)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return true;
-    // not necessary to add metadata
-    if (!create) return false;
-    // add missing metadata
-    setMetadata(it);
-  // return the store of weak collections IDs
-  } return it[METADATA].weakData;
-};
-
-// add metadata on freeze-family methods calling
-var onFreeze = function (it) {
-  if (FREEZING && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
-  return it;
-};
-
-var meta = module.exports = {
-  REQUIRED: false,
-  fastKey: fastKey,
-  getWeakData: getWeakData,
-  onFreeze: onFreeze
-};
-
-hiddenKeys[METADATA] = true;
-
-
-/***/ }),
-
-/***/ "f5df":
-/***/ (function(module, exports, __webpack_require__) {
-
-var TO_STRING_TAG_SUPPORT = __webpack_require__("00ee");
-var classofRaw = __webpack_require__("c6b6");
-var wellKnownSymbol = __webpack_require__("b622");
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-// ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
-
-// fallback for IE11 Script Access Denied error
-var tryGet = function (it, key) {
-  try {
-    return it[key];
-  } catch (error) { /* empty */ }
-};
-
-// getting tag from ES6+ `Object.prototype.toString`
-module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
-  var O, tag, result;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
-    // builtinTag case
-    : CORRECT_ARGUMENTS ? classofRaw(O)
-    // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
-};
-
-
-/***/ }),
-
-/***/ "f772":
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__("5692");
-var uid = __webpack_require__("90e3");
-
-var keys = shared('keys');
-
-module.exports = function (key) {
-  return keys[key] || (keys[key] = uid(key));
-};
-
-
-/***/ }),
-
-/***/ "fb15":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (true) {
-    var getCurrentScript = __webpack_require__("8875")
-    currentScript = getCurrentScript()
-
-    // for backward compatibility, because previously we directly included the polyfill
-    if (!('currentScript' in document)) {
-      Object.defineProperty(document, 'currentScript', { get: getCurrentScript })
-    }
-  }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
-var es_array_map = __webpack_require__("d81d");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
-var objectSpread2 = __webpack_require__("5530");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1ddcf282-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=0c1b7da0&
-var ChartSettingvue_type_template_id_0c1b7da0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',{staticStyle:{"overflow":"hidden","height":"100%"}},[_c('chart-list',{attrs:{"chartAllType":_vm.currentChartType,"showList":_vm.showList,"lang":_vm.lang},on:{"closeChartShowList":function($event){_vm.showList=false}}}),_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" "+_vm._s(_vm.setItem.data)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('div',{staticStyle:{"margin-top":"1px"}},[_vm._v(_vm._s(_vm.setItem.chartType))]),_c('div',{staticStyle:{"margin-top":"10px"}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"small"},on:{"click":function($event){_vm.showList = !_vm.showList}}},[_c('i',{staticClass:"iconfont",class:_vm.chartTypeTxt[0],staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.chartTypeTxt[1])+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})])],1),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.fix),function(item){return _c('div',{key:item.title,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-tag',{staticStyle:{"width":"100%","text-align":"center"},attrs:{"size":"medium"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(item.field)+" ")])],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.change),function(item,index){return _c('div',{key:index,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-dropdown',{staticStyle:{"width":"100%"},attrs:{"size":"medium","trigger":"click"},on:{"command":_vm.handleSeriseCommand}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"mini"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left","font-size":"16px"}}),_vm._v(" "+_vm._s(item.field)+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})]),_c('el-dropdown-menu',{staticStyle:{"min-width":"306px"},attrs:{"slot":"dropdown"},slot:"dropdown"},_vm._l((_vm.chartXYSeriesList.option),function(ditem,index){return _c('el-dropdown-item',{key:("A-" + index),attrs:{"command":{series:item, option:ditem}}},[_vm._v(" "+_vm._s(ditem.field)+" "),(item.id==ditem.id)?_c('i',{staticClass:"iconfont icon-dagou",staticStyle:{"float":"right"}}):_vm._e()])}),1)],1)],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),_c('el-row',[_c('div',{staticStyle:{"margin":"25px 0"}}),_c('el-checkbox',{on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeConfigCheck),callback:function ($$v) {_vm.currentRangeConfigCheck=$$v},expression:"currentRangeConfigCheck"}},[_vm._v(_vm._s(_vm.setItem.transpose))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkRowDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeRowCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeRowCheck, "exits", $$v)},expression:"currentRangeRowCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.row1)+" "+_vm._s(_vm.getColRowCheckTxt(true))+" "+_vm._s(_vm.setItem.row2))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkColDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeColCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeColCheck, "exits", $$v)},expression:"currentRangeColCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.column1)+" "+_vm._s(_vm.getColRowCheckTxt())+" "+_vm._s(_vm.setItem.column2))])],1)],1)],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" "+_vm._s(_vm.setItem.style)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'title',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption,"lang":_vm.lang}}),_c('chart-sub-title',{attrs:{"router":'subtitle',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption,"lang":_vm.lang}}),_c('chart-cursor',{attrs:{"router":'tooltip',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption,"lang":_vm.lang}}),_c('chart-legend',{attrs:{"router":'legend',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption,"lang":_vm.lang}}),(_vm.currentChartType.split('|')[1]!='pie')?_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType,"lang":_vm.lang}}):_vm._e()],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)],1)])}
-var staticRenderFns = []
-
-
-// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=0c1b7da0&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__("d3b7");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__("e6cf");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("ac1f");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
-var es_string_split = __webpack_require__("1276");
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1ddcf282-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartList.vue?vue&type=template&id=1e0e5502&
-var ChartListvue_type_template_id_1e0e5502_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.showList)?_c('div',{staticClass:"luckysheet-datavisual-quick-m",style:({position: 'absolute',zIndex: _vm.zindex,bottom: '0px',left: '0px',right: '0px',background: '#fff'})},[_c('el-button',{staticStyle:{"width":"100%","margin":"2px 4px 8px 4px"},attrs:{"plain":"","round":"","size":"small","type":"danger"},on:{"click":function($event){return _vm.$emit('closeChartShowList')}}},[_c('i',{staticClass:"iconfont icon-guanbi",staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.close)+" ")]),_c('el-radio-group',{staticStyle:{"display":"block","text-align":"center"},attrs:{"size":"mini"},model:{value:(_vm.currentPro),callback:function ($$v) {_vm.currentPro=$$v},expression:"currentPro"}},_vm._l((_vm.config),function(item,index){return _c('el-radio-button',{key:index,attrs:{"label":item.type}},[_vm._v(_vm._s(item.name))])}),1),_c('div',{staticClass:"luckysheet-datavisual-quick-menu",attrs:{"id":"luckysheet-datavisual-quick-menu"}},_vm._l((_vm.currentConfig.data),function(item,index){return _c('div',{key:index,attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-menu-' + item.type},on:{"click":_vm.quickMenu}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_c('span',[_vm._v(_vm._s(item.name))])])}),0),_c('div',{staticClass:"luckysheet-datavisual-quick-list luckysheet-scrollbars",attrs:{"id":"luckysheet-datavisual-quick-list"},on:{"scroll":_vm.quickListScroll}},[_vm._l((_vm.currentConfig.data),function(item,index){return [_c('div',{key:index,staticClass:"luckysheet-datavisual-quick-list-title"},[_c('a',{attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-listtitle-'+item.type}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_vm._v(" "+_vm._s(item.name)+" ")])]),_c('div',{staticClass:"luckysheet-datavisual-quick-list-ul"},_vm._l((item.data),function(chartItem,index){return _c('el-tooltip',{key:index,attrs:{"content":chartItem.name,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('div',{staticClass:"luckysheet-datavisual-quick-list-item",class:chartItem.type==_vm.currentChartType? 'luckysheet-datavisual-quick-list-item-active':'',attrs:{"chartAllType":chartItem.type,"data-style":chartItem.type.split('-')[2],"data-type":chartItem.type.split('-')[1]},on:{"click":function($event){return _vm.changeChartType(chartItem.type)}}},[_c('img',{attrs:{"src":chartItem.img.length==0?'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjkzIiB5PSIxMDAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTFwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4yNDJ4MjAwPC90ZXh0PjwvZz48L3N2Zz4=':chartItem.img,"alt":"图片"}})])])}),1)]})],2)],1):_vm._e()}
-var ChartListvue_type_template_id_1e0e5502_staticRenderFns = []
-
-
-// CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=template&id=1e0e5502&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
-var es_array_find = __webpack_require__("7db0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
-var es_number_constructor = __webpack_require__("a9e3");
-
-// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
-var jquery = __webpack_require__("1157");
-var jquery_default = /*#__PURE__*/__webpack_require__.n(jquery);
-
-// EXTERNAL MODULE: external "Vuex"
-var external_Vuex_ = __webpack_require__("5880");
-var external_Vuex_default = /*#__PURE__*/__webpack_require__.n(external_Vuex_);
-
-// EXTERNAL MODULE: ./src/utils/util.js + 4 modules
-var util = __webpack_require__("ca00");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find-index.js
 var es_array_find_index = __webpack_require__("c740");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
-var es_array_for_each = __webpack_require__("4160");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
 var es_array_includes = __webpack_require__("caad");
@@ -36852,24 +35887,6 @@ var es_array_index_of = __webpack_require__("c975");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__("cca6");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__("5319");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("159b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.map.js
-var es_map = __webpack_require__("4ec9");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("3ca3");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("ddb0");
 
 // CONCATENATED MODULE: ./src/utils/echartsEngine/transformTitle.js
 
@@ -37083,9 +36100,6 @@ var transformTooltip_transformTooltip = function transformTooltip(chartAllTypeAr
 };
 
 /* harmony default export */ var echartsEngine_transformTooltip = (transformTooltip_transformTooltip);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
 // CONCATENATED MODULE: ./src/utils/echartsEngine/transformAxis.js
 
 
@@ -37156,7 +36170,7 @@ var transformAxis_transformAxis = function transformAxis(chartAllTypeArray, axis
   };
 
   var transAxis = function transAxis(res, ori) {
-    var origin = Object(util["b" /* deepCopy */])(axis[ori]);
+    var origin = deepCopy(axis[ori]);
     res = jquery_default.a.extend(res, origin); // axis.show
 
     res.show = origin.show; // axis.name
@@ -37215,10 +36229,10 @@ var transformAxis_transformAxis = function transformAxis(chartAllTypeArray, axis
   };
 
   return {
-    xAxisUp: transAxis(Object(util["b" /* deepCopy */])(option), 'xAxisUp'),
-    xAxisDown: transAxis(Object(util["b" /* deepCopy */])(option), 'xAxisDown'),
-    yAxisLeft: transAxis(Object(util["b" /* deepCopy */])(option), 'yAxisLeft'),
-    yAxisRight: transAxis(Object(util["b" /* deepCopy */])(option), 'yAxisRight')
+    xAxisUp: transAxis(deepCopy(option), 'xAxisUp'),
+    xAxisDown: transAxis(deepCopy(option), 'xAxisDown'),
+    yAxisLeft: transAxis(deepCopy(option), 'yAxisLeft'),
+    yAxisRight: transAxis(deepCopy(option), 'yAxisRight')
   };
 };
 
@@ -37249,10 +36263,10 @@ var echartsEngine_echartsEngine = function echartsEngine(chartOptions) {
   var axisOption = echartsEngine_transformAxis(chartAllTypeArray, chartOptions.defaultOption.axis);
   axisOption.xAxisDown.data = chartOptions.defaultOption.axis.xAxisDown.data;
   var option = {
-    title: Object(objectSpread2["a" /* default */])({}, titleOption),
-    tooltip: Object(objectSpread2["a" /* default */])({}, tooltipOption),
-    legend: Object(objectSpread2["a" /* default */])({}, legendOption),
-    xAxis: [Object(objectSpread2["a" /* default */])({}, axisOption.xAxisDown), Object(objectSpread2["a" /* default */])({}, axisOption.xAxisUp)],
+    title: _objectSpread2({}, titleOption),
+    tooltip: _objectSpread2({}, tooltipOption),
+    legend: _objectSpread2({}, legendOption),
+    xAxis: [_objectSpread2({}, axisOption.xAxisDown), _objectSpread2({}, axisOption.xAxisUp)],
     yAxis: [axisOption.yAxisLeft, axisOption.yAxisRight],
     series: chartOptions.defaultOption.series ? chartOptions.defaultOption.series : [{
       name: '销量',
@@ -37570,60 +36584,57 @@ var CHANGE_LEFT = 'CHANGE_LEFT';
     return null;
   }
 });
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__("ade3");
-
 // CONCATENATED MODULE: ./src/store/modules/rect/mutations.js
 
 
 var _ENABLE_ACTIVE$DISABL;
 
 
-/* harmony default export */ var mutations = (_ENABLE_ACTIVE$DISABL = {}, Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_ACTIVE, function (state, id) {
+/* harmony default export */ var mutations = (_ENABLE_ACTIVE$DISABL = {}, _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_ACTIVE, function (state, id) {
   state.rects[id].active = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_ACTIVE, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_ACTIVE, function (state, id) {
   state.rects[id].active = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_ASPECT, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_ASPECT, function (state, id) {
   state.rects[id].aspectRatio = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_ASPECT, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_ASPECT, function (state, id) {
   state.rects[id].aspectRatio = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_DRAGGABLE, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_DRAGGABLE, function (state, id) {
   state.rects[id].draggable = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_DRAGGABLE, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_DRAGGABLE, function (state, id) {
   state.rects[id].draggable = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_RESIZABLE, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_RESIZABLE, function (state, id) {
   state.rects[id].resizable = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_RESIZABLE, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_RESIZABLE, function (state, id) {
   state.rects[id].resizable = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_SNAP_TO_GRID, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_SNAP_TO_GRID, function (state, id) {
   state.rects[id].snapToGrid = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_SNAP_TO_GRID, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_SNAP_TO_GRID, function (state, id) {
   state.rects[id].snapToGrid = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_BOTH_AXIS, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_BOTH_AXIS, function (state, id) {
   state.rects[id].axis = 'both';
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_NONE_AXIS, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_NONE_AXIS, function (state, id) {
   state.rects[id].axis = 'none';
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_X_AXIS, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_X_AXIS, function (state, id) {
   state.rects[id].axis = 'x';
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_Y_AXIS, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_Y_AXIS, function (state, id) {
   state.rects[id].axis = 'y';
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, ENABLE_PARENT_LIMITATION, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, ENABLE_PARENT_LIMITATION, function (state, id) {
   state.rects[id].parentLim = true;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, DISABLE_PARENT_LIMITATION, function (state, id) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, DISABLE_PARENT_LIMITATION, function (state, id) {
   state.rects[id].parentLim = false;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_ZINDEX, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_ZINDEX, function (state, payload) {
   state.rects[payload.id].zIndex = payload.zIndex;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_HEIGHT, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_HEIGHT, function (state, payload) {
   state.rects[payload.id].height = payload.height;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_WIDTH, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_WIDTH, function (state, payload) {
   state.rects[payload.id].width = payload.width;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_TOP, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_TOP, function (state, payload) {
   state.rects[payload.id].top = payload.top;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_LEFT, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_LEFT, function (state, payload) {
   state.rects[payload.id].left = payload.left;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_MINH, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_MINH, function (state, payload) {
   state.rects[payload.id].minh = payload.minh;
-}), Object(defineProperty["a" /* default */])(_ENABLE_ACTIVE$DISABL, CHANGE_MINW, function (state, payload) {
+}), _defineProperty(_ENABLE_ACTIVE$DISABL, CHANGE_MINW, function (state, payload) {
   state.rects[payload.id].minw = payload.minw;
 }), _ENABLE_ACTIVE$DISABL);
 // CONCATENATED MODULE: ./src/store/modules/rect/state.js
@@ -37784,36 +36795,33 @@ var mutations_ENABLE_ACTIVE$DISABL;
 
 
 
-/* harmony default export */ var chartSetting_mutations = (mutations_ENABLE_ACTIVE$DISABL = {}, Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, mutation_types_ENABLE_ACTIVE, function (state, id) {
+/* harmony default export */ var chartSetting_mutations = (mutations_ENABLE_ACTIVE$DISABL = {}, _defineProperty(mutations_ENABLE_ACTIVE$DISABL, mutation_types_ENABLE_ACTIVE, function (state, id) {
   // 1. set active
   state.chartLists[id].active = true; // 2. set current chart index
 
   state.currentChartIndex = id;
-}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, mutation_types_DISABLE_ACTIVE, function (state, id) {
+}), _defineProperty(mutations_ENABLE_ACTIVE$DISABL, mutation_types_DISABLE_ACTIVE, function (state, id) {
   state.chartLists[id].active = false;
-}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM, function (state, params) {
+}), _defineProperty(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM, function (state, params) {
   //子组件设置更新到chartOptions上后再更新到fabric组件上
   console.info('updateObj', params);
   var router = params.router,
       updateObj = params.updateObj;
   var currentChartOptions = state.chartLists[state.currentChartIndex].chartOptions;
   setChartOptionsByRouter(currentChartOptions, router, updateObj); //更新到子对象
-}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_CHARTLIST, function (state, params) {
+}), _defineProperty(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_CHARTLIST, function (state, params) {
   // let index = state.chartLists.findIndex(item => item.chart_id == params.chart_id)
   var index = 0;
   state.chartLists[index].chartOptions = jquery_default.a.extend(state.chartLists[index].chartOptions, params);
-}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_CHARTLIST_ONE, function (state, params) {
+}), _defineProperty(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_CHARTLIST_ONE, function (state, params) {
   // let index = state.chartLists.findIndex(item => item.chart_id == params.chart_id)
   var index = 0;
   state.chartLists[index].chartOptions[params.key] = params.value;
-}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_ONE, function (state, item) {
+}), _defineProperty(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_ITEM_ONE, function (state, item) {
   state[item.key] = item.value;
 }), mutations_ENABLE_ACTIVE$DISABL);
 // EXTERNAL MODULE: ./node_modules/lodash/lodash.js
 var lodash = __webpack_require__("2ef0");
-
-// EXTERNAL MODULE: ./src/data/chartJson.js
-var data_chartJson = __webpack_require__("b4cc");
 
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/state.js
 
@@ -38556,7 +37564,2212 @@ var state_option = {
 };
 /* harmony default export */ var chartSetting_state = ({
   // store all chart objects
-  chartLists: [],
+  chartLists: [{
+    "chart_id": "chart_5erpeWc1eWal_1596092336315",
+    "active": true,
+    "chartOptions": {
+      "chart_id": "chart_5erpeWc1eWal_1596092336315",
+      "chartAllType": "echarts|line|default",
+      "chartPro": "echarts",
+      "chartType": "line",
+      "chartStyle": "default",
+      "chartData": [[{
+        "v": "德国人的",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "德国人的",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "地方当然",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "地方当然",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 1,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "1",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 2,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "2",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "树人",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "树人",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 3,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "3",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 4,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "4",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "多个",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "多个",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 5,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "5",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 6,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "6",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }]],
+      "rangeArray": [{
+        "row": [17, 20],
+        "column": [9, 11],
+        "row_focus": 17,
+        "column_focus": 9,
+        "left": 1077,
+        "width": 140,
+        "top": 357,
+        "height": 31,
+        "left_move": 1077,
+        "width_move": 359,
+        "top_move": 357,
+        "height_move": 94
+      }],
+      "rangeTxt": "J18:L21",
+      "rangeColCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeRowCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeConfigCheck": false,
+      "rangeSplitArray": {
+        "title": {
+          "row": [0, 0],
+          "column": [0, 0]
+        },
+        "rowtitle": {
+          "row": [0, 0],
+          "column": [1, 2]
+        },
+        "coltitle": {
+          "row": [1, 3],
+          "column": [0, 0]
+        },
+        "content": {
+          "row": [1, 3],
+          "column": [1, 2]
+        },
+        "type": "normal",
+        "range": {
+          "row": [17, 20],
+          "column": [9, 11],
+          "row_focus": 17,
+          "column_focus": 9,
+          "left": 1077,
+          "width": 140,
+          "top": 357,
+          "height": 31,
+          "left_move": 1077,
+          "width_move": 359,
+          "top_move": 357,
+          "height_move": 94
+        }
+      },
+      "chartDataCache": {
+        "label": ["尔尔", "地方当然"],
+        "xAxis": ["尔尔", "树人", "多个"],
+        "series": [[1, 2], [3, 4], [5, 6]],
+        "series_tpye": {
+          "0": "num",
+          "1": "num"
+        }
+      },
+      "chartDataSeriesOrder": {
+        "0": 0,
+        "1": 1,
+        "length": 2
+      },
+      "defaultOption": {
+        "title": {
+          "show": false,
+          "text": "默认标题",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50
+          }
+        },
+        "subtitle": {
+          "show": false,
+          "text": "",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 40
+          }
+        },
+        "config": {
+          "color": "transparent",
+          "fontFamily": "Sans-serif",
+          "grid": {
+            "value": "normal",
+            "top": 5,
+            "left": 10,
+            "right": 20,
+            "bottom": 10
+          }
+        },
+        "legend": {
+          "show": true,
+          "selectMode": "multiple",
+          "selected": [{
+            "seriesName": "衣服",
+            "isShow": true
+          }, {
+            "seriesName": "食材",
+            "isShow": true
+          }, {
+            "seriesName": "图书",
+            "isShow": true
+          }],
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50,
+            "direction": "horizontal"
+          },
+          "width": {
+            "value": "auto",
+            "cusSize": 25
+          },
+          "height": {
+            "value": "auto",
+            "cusSize": 14
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 10
+          },
+          "itemGap": 10,
+          "data": ["尔尔", "地方当然"]
+        },
+        "tooltip": {
+          "show": true,
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "backgroundColor": "rgba(50,50,50,0.7)",
+          "triggerOn": "mousemove",
+          "triggerType": "item",
+          "axisPointer": {
+            "type": "line",
+            "style": {
+              "color": "#555",
+              "width": "normal",
+              "type": "solid"
+            }
+          },
+          "format": [{
+            "seriesName": "衣服",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "食材",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "图书",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }],
+          "position": "auto"
+        },
+        "axis": {
+          "axisType": "xAxisDown",
+          "xAxisUp": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": "auto",
+              "max": "auto",
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "axisLine": {
+              "onZero": false
+            }
+          },
+          "xAxisDown": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": null,
+              "max": null,
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "data": ["尔尔", "树人", "多个"],
+            "type": "category"
+          },
+          "yAxisLeft": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "type": "value"
+          },
+          "yAxisRight": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            }
+          }
+        },
+        "series": [{
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [1, 3, 5],
+          "type": "line",
+          "name": "尔尔",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }, {
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [2, 4, 6],
+          "type": "line",
+          "name": "地方当然",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }],
+        "seriesData": [[1, 3, 5], [2, 4, 6]]
+      }
+    }
+  }, {
+    "chart_id": "chart_5erpeWc1eWal_1596093236310",
+    "active": true,
+    "chartOptions": {
+      "chart_id": "chart_5erpeWc1eWal_1596093236310",
+      "chartAllType": "echarts|line|default",
+      "chartPro": "echarts",
+      "chartType": "line",
+      "chartStyle": "default",
+      "chartData": [[{
+        "v": "德国人的",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "德国人的",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "地方当然",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "地方当然",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 1,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "1",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 2,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "2",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "树人",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "树人",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 3,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "3",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 4,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "4",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "多个",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "多个",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 5,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "5",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 6,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "6",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }]],
+      "rangeArray": [{
+        "row": [17, 20],
+        "column": [9, 11],
+        "row_focus": 17,
+        "column_focus": 9,
+        "left": 1077,
+        "width": 140,
+        "top": 357,
+        "height": 31,
+        "left_move": 1077,
+        "width_move": 359,
+        "top_move": 357,
+        "height_move": 94
+      }],
+      "rangeTxt": "J18:L21",
+      "rangeColCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeRowCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeConfigCheck": false,
+      "rangeSplitArray": {
+        "title": {
+          "row": [0, 0],
+          "column": [0, 0]
+        },
+        "rowtitle": {
+          "row": [0, 0],
+          "column": [1, 2]
+        },
+        "coltitle": {
+          "row": [1, 3],
+          "column": [0, 0]
+        },
+        "content": {
+          "row": [1, 3],
+          "column": [1, 2]
+        },
+        "type": "normal",
+        "range": {
+          "row": [17, 20],
+          "column": [9, 11],
+          "row_focus": 17,
+          "column_focus": 9,
+          "left": 1077,
+          "width": 140,
+          "top": 357,
+          "height": 31,
+          "left_move": 1077,
+          "width_move": 359,
+          "top_move": 357,
+          "height_move": 94
+        }
+      },
+      "chartDataCache": {
+        "label": ["尔尔", "地方当然"],
+        "xAxis": ["尔尔", "树人", "多个"],
+        "series": [[1, 2], [3, 4], [5, 6]],
+        "series_tpye": {
+          "0": "num",
+          "1": "num"
+        }
+      },
+      "chartDataSeriesOrder": {
+        "0": 0,
+        "1": 1,
+        "length": 2
+      },
+      "defaultOption": {
+        "title": {
+          "show": false,
+          "text": "默认标题",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50
+          }
+        },
+        "subtitle": {
+          "show": false,
+          "text": "",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 40
+          }
+        },
+        "config": {
+          "color": "transparent",
+          "fontFamily": "Sans-serif",
+          "grid": {
+            "value": "normal",
+            "top": 5,
+            "left": 10,
+            "right": 20,
+            "bottom": 10
+          }
+        },
+        "legend": {
+          "show": true,
+          "selectMode": "multiple",
+          "selected": [{
+            "seriesName": "衣服",
+            "isShow": true
+          }, {
+            "seriesName": "食材",
+            "isShow": true
+          }, {
+            "seriesName": "图书",
+            "isShow": true
+          }],
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50,
+            "direction": "horizontal"
+          },
+          "width": {
+            "value": "auto",
+            "cusSize": 25
+          },
+          "height": {
+            "value": "auto",
+            "cusSize": 14
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 10
+          },
+          "itemGap": 10,
+          "data": ["尔尔", "地方当然"]
+        },
+        "tooltip": {
+          "show": true,
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "backgroundColor": "rgba(50,50,50,0.7)",
+          "triggerOn": "mousemove",
+          "triggerType": "item",
+          "axisPointer": {
+            "type": "line",
+            "style": {
+              "color": "#555",
+              "width": "normal",
+              "type": "solid"
+            }
+          },
+          "format": [{
+            "seriesName": "衣服",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "食材",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "图书",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }],
+          "position": "auto"
+        },
+        "axis": {
+          "axisType": "xAxisDown",
+          "xAxisUp": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": "auto",
+              "max": "auto",
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "axisLine": {
+              "onZero": false
+            }
+          },
+          "xAxisDown": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": null,
+              "max": null,
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "data": ["尔尔", "树人", "多个"],
+            "type": "category"
+          },
+          "yAxisLeft": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "type": "value"
+          },
+          "yAxisRight": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            }
+          }
+        },
+        "series": [{
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [1, 3, 5],
+          "type": "line",
+          "name": "尔尔",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }, {
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [2, 4, 6],
+          "type": "line",
+          "name": "地方当然",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }],
+        "seriesData": [[1, 3, 5], [2, 4, 6]]
+      }
+    }
+  }, {
+    "chart_id": "chart_5erpeWc1eWal_15960973336319",
+    "active": true,
+    "chartOptions": {
+      "chart_id": "chart_5erpeWc1eWal_15960973336319",
+      "chartAllType": "echarts|line|default",
+      "chartPro": "echarts",
+      "chartType": "line",
+      "chartStyle": "default",
+      "chartData": [[{
+        "v": "德国人的",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "德国人的",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": "地方当然",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "地方当然",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "尔尔",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "尔尔",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 1,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "1",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 2,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "2",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "树人",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "树人",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 3,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "3",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 4,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "4",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }], [{
+        "v": "多个",
+        "ct": {
+          "fa": "General",
+          "t": "g"
+        },
+        "m": "多个",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 5,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "5",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }, {
+        "v": 6,
+        "ct": {
+          "fa": "General",
+          "t": "n"
+        },
+        "m": "6",
+        "bg": "rgba(255,255,255)",
+        "bl": 0,
+        "it": 0,
+        "ff": 1,
+        "fs": 11,
+        "fc": "rgb(0, 0, 0)",
+        "ht": 1,
+        "vt": 0
+      }]],
+      "rangeArray": [{
+        "row": [17, 20],
+        "column": [9, 11],
+        "row_focus": 17,
+        "column_focus": 9,
+        "left": 1077,
+        "width": 140,
+        "top": 357,
+        "height": 31,
+        "left_move": 1077,
+        "width_move": 359,
+        "top_move": 357,
+        "height_move": 94
+      }],
+      "rangeTxt": "J18:L21",
+      "rangeColCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeRowCheck": {
+        "exits": true,
+        "range": [0, 0]
+      },
+      "rangeConfigCheck": false,
+      "rangeSplitArray": {
+        "title": {
+          "row": [0, 0],
+          "column": [0, 0]
+        },
+        "rowtitle": {
+          "row": [0, 0],
+          "column": [1, 2]
+        },
+        "coltitle": {
+          "row": [1, 3],
+          "column": [0, 0]
+        },
+        "content": {
+          "row": [1, 3],
+          "column": [1, 2]
+        },
+        "type": "normal",
+        "range": {
+          "row": [17, 20],
+          "column": [9, 11],
+          "row_focus": 17,
+          "column_focus": 9,
+          "left": 1077,
+          "width": 140,
+          "top": 357,
+          "height": 31,
+          "left_move": 1077,
+          "width_move": 359,
+          "top_move": 357,
+          "height_move": 94
+        }
+      },
+      "chartDataCache": {
+        "label": ["尔尔", "地方当然"],
+        "xAxis": ["尔尔", "树人", "多个"],
+        "series": [[1, 2], [3, 4], [5, 6]],
+        "series_tpye": {
+          "0": "num",
+          "1": "num"
+        }
+      },
+      "chartDataSeriesOrder": {
+        "0": 0,
+        "1": 1,
+        "length": 2
+      },
+      "defaultOption": {
+        "title": {
+          "show": false,
+          "text": "默认标题",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50
+          }
+        },
+        "subtitle": {
+          "show": false,
+          "text": "",
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 40
+          }
+        },
+        "config": {
+          "color": "transparent",
+          "fontFamily": "Sans-serif",
+          "grid": {
+            "value": "normal",
+            "top": 5,
+            "left": 10,
+            "right": 20,
+            "bottom": 10
+          }
+        },
+        "legend": {
+          "show": true,
+          "selectMode": "multiple",
+          "selected": [{
+            "seriesName": "衣服",
+            "isShow": true
+          }, {
+            "seriesName": "食材",
+            "isShow": true
+          }, {
+            "seriesName": "图书",
+            "isShow": true
+          }],
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "position": {
+            "value": "left-top",
+            "offsetX": 40,
+            "offsetY": 50,
+            "direction": "horizontal"
+          },
+          "width": {
+            "value": "auto",
+            "cusSize": 25
+          },
+          "height": {
+            "value": "auto",
+            "cusSize": 14
+          },
+          "distance": {
+            "value": "auto",
+            "cusGap": 10
+          },
+          "itemGap": 10,
+          "data": ["尔尔", "地方当然"]
+        },
+        "tooltip": {
+          "show": true,
+          "label": {
+            "fontSize": 12,
+            "color": "#333",
+            "fontFamily": "sans-serif",
+            "fontGroup": [],
+            "cusFontSize": 12
+          },
+          "backgroundColor": "rgba(50,50,50,0.7)",
+          "triggerOn": "mousemove",
+          "triggerType": "item",
+          "axisPointer": {
+            "type": "line",
+            "style": {
+              "color": "#555",
+              "width": "normal",
+              "type": "solid"
+            }
+          },
+          "format": [{
+            "seriesName": "衣服",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "食材",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }, {
+            "seriesName": "图书",
+            "prefix": "",
+            "suffix": "",
+            "ratio": 1,
+            "digit": "auto"
+          }],
+          "position": "auto"
+        },
+        "axis": {
+          "axisType": "xAxisDown",
+          "xAxisUp": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": "auto",
+              "max": "auto",
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "axisLine": {
+              "onZero": false
+            }
+          },
+          "xAxisDown": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示X轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "prefix": "",
+              "suffix": "",
+              "optimize": 0,
+              "distance": 0,
+              "min": null,
+              "max": null,
+              "ratio": 1,
+              "digit": "auto"
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "data": ["尔尔", "树人", "多个"],
+            "type": "category"
+          },
+          "yAxisLeft": {
+            "show": true,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            },
+            "type": "value"
+          },
+          "yAxisRight": {
+            "show": false,
+            "title": {
+              "showTitle": false,
+              "text": "",
+              "nameGap": 15,
+              "rotate": 0,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "fzPosition": "end"
+            },
+            "name": "显示Y轴",
+            "inverse": false,
+            "tickLine": {
+              "show": true,
+              "width": 1,
+              "color": "auto"
+            },
+            "tick": {
+              "show": true,
+              "position": "outside",
+              "length": 5,
+              "width": 1,
+              "color": "auto"
+            },
+            "tickLabel": {
+              "show": true,
+              "label": {
+                "fontSize": 12,
+                "color": "#333",
+                "fontFamily": "sans-serif",
+                "fontGroup": [],
+                "cusFontSize": 12
+              },
+              "rotate": 0,
+              "formatter": {
+                "prefix": "",
+                "suffix": "",
+                "ratio": 1,
+                "digit": "auto"
+              },
+              "split": 5,
+              "min": null,
+              "max": null,
+              "prefix": "",
+              "suffix": "",
+              "ratio": 1,
+              "digit": "auto",
+              "distance": 0
+            },
+            "netLine": {
+              "show": false,
+              "width": 1,
+              "type": "solid",
+              "color": "auto",
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              }
+            },
+            "netArea": {
+              "show": false,
+              "interval": {
+                "value": "auto",
+                "cusNumber": 0
+              },
+              "colorOne": "auto",
+              "colorTwo": "auto"
+            }
+          }
+        },
+        "series": [{
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [1, 3, 5],
+          "type": "line",
+          "name": "尔尔",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }, {
+          "itemStyle": {
+            "color": null,
+            "borderColor": "#000",
+            "borderType": "solid",
+            "borderWidth": 1
+          },
+          "lineStyle": {
+            "color": null,
+            "width": 1,
+            "type": "solid"
+          },
+          "data": [2, 4, 6],
+          "type": "line",
+          "name": "地方当然",
+          "markPoint": {
+            "data": []
+          },
+          "markLine": {
+            "data": []
+          },
+          "markArea": {
+            "data": []
+          }
+        }],
+        "seriesData": [[1, 3, 5], [2, 4, 6]]
+      }
+    }
+  }],
   // store current chart index
   currentChartIndex: null // current chart objects, bind to chartSetting component
   // currentChart: {},
@@ -38640,6 +39853,9 @@ var setChartOptionsByRouter = function setChartOptionsByRouter(chartOptions, rou
   }
 
   deepFind(defaultOption);
+  chartUtil_renderChart({
+    chartOptions: chartOptions
+  });
   return chartOptions;
 };
 /**
@@ -38649,8 +39865,9 @@ var setChartOptionsByRouter = function setChartOptionsByRouter(chartOptions, rou
 
 
 var chartUtil_renderChart = function renderChart(renderChartObj, ele) {
-  var chart_id = renderChartObj.chart_id,
-      chartOptions = renderChartObj.chartOptions;
+  var chartOptions = renderChartObj.chartOptions;
+  var chart_id = chartOptions.chart_id; // const { chart_id, chartOptions } = renderChartObj;
+
   var chartAllTypeArray = chartOptions.chartAllType.split('|');
   var chartPro = chartAllTypeArray[0]; // const container = ele || document.getElementById(chart_id);
 
@@ -38865,14 +40082,14 @@ var chartUtil_changeChangeAllType = function changeChangeAllType(chart_json, cha
   var defaultOptionIni = chart_json.defaultOption;
   defaultOptionIni.series = []; //根据数据集、功能按钮状态、图表类型，得到图表可操作的数据格式，例如：{ "x":[], "y":[], series:[] }，可以按照次格式渲染数据页中的系列和轴控件。
 
-  var chartDataCache = Object(util["d" /* getChartDataCache */])(chart_json.chartData, chart_json.rangeSplitArray, chartPro, chartType, chartStyle); // console.dir(chartDataCache)
+  var chartDataCache = getChartDataCache(chart_json.chartData, chart_json.rangeSplitArray, chartPro, chartType, chartStyle); // console.dir(chartDataCache)
 
   updateJson.chartDataCache = chartDataCache; //生成默认的系列顺序，默认根据series数组的位置，用户可以在界面上操作更改这个位置。
 
-  var chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(chartDataCache.series[0].length);
+  var chartDataSeriesOrder = getChartDataSeriesOrder(chartDataCache.series[0].length);
   updateJson.chartDataSeriesOrder = chartDataSeriesOrder; //根据图表的默认设置、图表数据、图表系列顺序，等到一个完整的图表配置串。
 
-  var defaultOption = Object(util["a" /* addDataToOption */])(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, chart_json.chartData);
+  var defaultOption = addDataToOption(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, chart_json.chartData);
   updateJson.defaultOption = defaultOption;
   src_store.dispatch('chartSetting/updateChartItemChartlist', updateJson);
   chartUtil_renderChart({
@@ -38884,22 +40101,22 @@ var chartUtil_changeChangeAllType = function changeChangeAllType(chart_json, cha
 
 var chartUtil_checkCurrentBoxChange = function checkCurrentBoxChange(chart_id, rangeRowCheck, rangeColCheck, rangeConfigCheck) {
   var state = src_store.state;
-  var updateJson = Object(util["b" /* deepCopy */])(state.chartSetting.chartLists[state.chartSetting.currentChartIndex].chartOptions); //原来的json
+  var updateJson = deepCopy(state.chartSetting.chartLists[state.chartSetting.currentChartIndex].chartOptions); //原来的json
 
   updateJson.chart_id = chart_id;
   updateJson.rangeRowCheck = rangeRowCheck;
   updateJson.rangeColCheck = rangeColCheck;
   updateJson.rangeConfigCheck = rangeConfigCheck;
   updateJson.chartData = updateJson.chartData || [];
-  updateJson.rangeSplitArray = Object(util["f" /* getRangeSplitArray */])(updateJson.chartData, updateJson.rangeArray, rangeColCheck, rangeRowCheck);
+  updateJson.rangeSplitArray = getRangeSplitArray(updateJson.chartData, updateJson.rangeArray, rangeColCheck, rangeRowCheck);
   var chartAllTypeArray = updateJson.chartAllType.split("|");
   var chartPro = chartAllTypeArray[0],
       chartType = chartAllTypeArray[1],
       chartStyle = chartAllTypeArray[2];
-  updateJson.chartDataCache = Object(util["d" /* getChartDataCache */])(updateJson.chartData, updateJson.rangeSplitArray, chartPro, chartType, chartStyle, rangeConfigCheck); //处理转置
+  updateJson.chartDataCache = getChartDataCache(updateJson.chartData, updateJson.rangeSplitArray, chartPro, chartType, chartStyle, rangeConfigCheck); //处理转置
 
-  updateJson.chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(updateJson.chartDataCache.series[0].length);
-  updateJson.defaultOption = Object(util["a" /* addDataToOption */])(updateJson.defaultOption, updateJson.chartDataCache, updateJson.chartDataSeriesOrder, chartPro, chartType, chartStyle);
+  updateJson.chartDataSeriesOrder = getChartDataSeriesOrder(updateJson.chartDataCache.series[0].length);
+  updateJson.defaultOption = addDataToOption(updateJson.defaultOption, updateJson.chartDataCache, updateJson.chartDataSeriesOrder, chartPro, chartType, chartStyle);
   src_store.dispatch('chartSetting/updateChartItemChartlist', updateJson);
   chartUtil_renderChart({
     chartOptions: updateJson,
@@ -38918,7 +40135,7 @@ var chartUtil_changeSeriesOrder = function changeSeriesOrder(chart_json, chartDa
   var chartPro = chartAllTypeArray[0],
       chartType = chartAllTypeArray[1],
       chartStyle = chartAllTypeArray[2];
-  chart_json.defaultOption = Object(util["a" /* addDataToOption */])(chart_json.defaultOption, chart_json.chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle);
+  chart_json.defaultOption = addDataToOption(chart_json.defaultOption, chart_json.chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle);
   src_store.dispatch('chartSetting/updateChartItemChartlist', chart_json);
   chartUtil_renderChart({
     chartOptions: updateJson,
@@ -38942,7 +40159,7 @@ function changeChartRange(chart_id, chartData, rangeArray, rangeTxt) {
   chart_json.chartData = chartData;
   chart_json.rangeTxt = rangeTxt; //根据数据集得到按钮状态，rangeColCheck表示首列是否标题，rangeRowCheck表示首行是否标题，rangeConfigCheck表示是否转置。
 
-  var rowColCheck = Object(util["g" /* getRowColCheck */])(chartData);
+  var rowColCheck = getRowColCheck(chartData);
   var rangeRowCheck = rowColCheck[0],
       rangeColCheck = rowColCheck[1],
       rangeConfigCheck = false; // 如果列转置标识,再转为列转置
@@ -38952,17 +40169,17 @@ function changeChartRange(chart_id, chartData, rangeArray, rangeTxt) {
   chart_json.rangeRowCheck = rangeRowCheck;
   chart_json.rangeConfigCheck = rangeConfigCheck; //按照数据范围文字得到具体数据范围
 
-  var rangeSplitArray = Object(util["f" /* getRangeSplitArray */])(chartData, rangeArray, rangeColCheck, rangeRowCheck);
+  var rangeSplitArray = getRangeSplitArray(chartData, rangeArray, rangeColCheck, rangeRowCheck);
   chart_json.rangeSplitArray = rangeSplitArray; //根据数据集、功能按钮状态、图表类型，得到图表可操作的数据格式，例如：{ "x":[], "y":[], series:[] }，可以按照次格式渲染数据页中的系列和轴控件。
 
-  var chartDataCache = Object(util["d" /* getChartDataCache */])(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
+  var chartDataCache = getChartDataCache(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
   chart_json.chartDataCache = chartDataCache; //生成默认的系列顺序，默认根据series数组的位置，用户可以在界面上操作更改这个位置。
 
-  var chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(chartDataCache.series[0].length);
+  var chartDataSeriesOrder = getChartDataSeriesOrder(chartDataCache.series[0].length);
   chart_json.chartDataSeriesOrder = chartDataSeriesOrder;
   var defaultOptionIni = chart_json.defaultOption; //根据图表的默认设置、图表数据、图表系列顺序，等到一个完整的图表配置串。
 
-  var defaultOption = Object(util["a" /* addDataToOption */])(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, true, chartData);
+  var defaultOption = addDataToOption(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, true, chartData);
   chart_json.defaultOption = defaultOption;
   src_store.dispatch('chartSetting/updateChartItemChartlist', chart_json);
   chartUtil_renderChart({
@@ -38987,17 +40204,17 @@ function changeChartCellData(chart_id, chartData) {
   var rangeRowCheck = chart_json.rangeRowCheck;
   var rangeColCheck = chart_json.rangeColCheck; //按照数据范围文字得到具体数据范围
 
-  var rangeSplitArray = Object(util["f" /* getRangeSplitArray */])(chartData, chart_json.rangeArray, rangeColCheck, rangeRowCheck);
+  var rangeSplitArray = getRangeSplitArray(chartData, chart_json.rangeArray, rangeColCheck, rangeRowCheck);
   chart_json.rangeSplitArray = rangeSplitArray; //根据数据集、功能按钮状态、图表类型，得到图表可操作的数据格式，例如：{ "x":[], "y":[], series:[] }，可以按照次格式渲染数据页中的系列和轴控件。
 
-  var chartDataCache = Object(util["d" /* getChartDataCache */])(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
+  var chartDataCache = getChartDataCache(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
   chart_json.chartDataCache = chartDataCache; //��成默认的系列顺序，默认根据series数组的位置，用户可以在界面上操作更改这个位置。
 
-  var chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(chartDataCache.series[0].length);
+  var chartDataSeriesOrder = getChartDataSeriesOrder(chartDataCache.series[0].length);
   chart_json.chartDataSeriesOrder = chartDataSeriesOrder;
   var defaultOptionIni = chart_json.defaultOption; //根据图表的默认设置、图表数据、图表系列顺序，等到一个完整的图表配置串。
 
-  var defaultOption = Object(util["a" /* addDataToOption */])(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, true, chartData);
+  var defaultOption = addDataToOption(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle, true, chartData);
   chart_json.defaultOption = defaultOption;
   src_store.dispatch('chartSetting/updateChartItemChartlist', chart_json);
   chartUtil_renderChart({
@@ -39010,12 +40227,113 @@ function changeChartCellData(chart_id, chartData) {
 // EXTERNAL MODULE: ./node_modules/color-name/index.js
 var color_name = __webpack_require__("4f4d");
 
-// EXTERNAL MODULE: ./src/data/cn.js
-var cn = __webpack_require__("7a56");
+// CONCATENATED MODULE: ./src/data/cn.js
 
-// EXTERNAL MODULE: ./src/data/en.js
-var en = __webpack_require__("a70a");
 
+var _chartSetting;
+
+var cn_obj = {
+  'chartSetting': (_chartSetting = {
+    data: '数据',
+    chartType: '图表类型',
+    transpose: '转置(切换行/列)',
+    row1: '设选中项第',
+    row2: '行为标题',
+    column: '设选中项第'
+  }, _defineProperty(_chartSetting, "column", '列为标题'), _defineProperty(_chartSetting, "style", '样式'), _defineProperty(_chartSetting, "echarts", {
+    line: {
+      default: '默认折线图',
+      smooth: '平滑折线图',
+      label: '带标签的折线图'
+    },
+    area: {
+      default: '默认面积图',
+      stack: '堆叠面积图'
+    },
+    column: {
+      default: '默认柱状图',
+      stack: '堆叠柱状图'
+    },
+    bar: {
+      default: '默认条形图',
+      stack: '堆叠条形图'
+    },
+    pie: {
+      default: '默认饼图',
+      split: '分离型饼图',
+      ring: '环形饼图'
+    }
+  }), _chartSetting),
+  'chartTitle': {
+    modalName: '标题设置'
+  },
+  'chartSubTitle': {
+    modalName: '副标题设置'
+  },
+  'chartAxis': {
+    modalName: 'XY轴设置'
+  },
+  'chartLegend': {
+    modalName: '图例设置'
+  },
+  'chartCursor': {
+    modalName: '鼠标提示'
+  }
+};
+/* harmony default export */ var cn = (cn_obj);
+// CONCATENATED MODULE: ./src/data/en.js
+var en_obj = {
+  'chartSetting': {
+    data: 'data',
+    chartType: 'chartType',
+    transpose: 'transpose(switch row/column)',
+    row1: 'set number',
+    row2: 'row as title',
+    column1: 'set number',
+    column2: 'column as title',
+    style: 'style',
+    echarts: {
+      line: {
+        default: 'Basic Line',
+        smooth: 'Smoothed Line',
+        label: 'Line With Label'
+      },
+      area: {
+        default: 'Basic Area',
+        stack: 'Stacked Area'
+      },
+      column: {
+        default: 'Basic Column',
+        stack: 'Stacked Column'
+      },
+      bar: {
+        default: 'Basic Bar',
+        stack: 'Stacked Bar'
+      },
+      pie: {
+        default: 'Basic Pie',
+        split: 'Split Pie',
+        ring: 'Doughnut Pie'
+      }
+    }
+  },
+  'chartTitle': {
+    modalName: 'Title Setting'
+  },
+  'chartSubTitle': {
+    modalName: 'SubTitle Setting'
+  },
+  'chartAxis': {
+    modalName: 'XY-Axis Setting'
+  },
+  'chartLegend': {
+    modalName: 'Legend Setting'
+  },
+  'chartCursor': {
+    modalName: 'Tooltip Setting'
+  }
+};
+/* harmony default export */ var en = (en_obj);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartList.vue?vue&type=script&lang=js&
 
 
@@ -39299,7 +40617,7 @@ var en = __webpack_require__("a70a");
     this.close = "close chart-select menu";
     this.chooseConfig();
   },
-  computed: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapState"])("chartSetting", ["chartLists", "currentChartIndex"])), {}, {
+  computed: _objectSpread2(_objectSpread2({}, Object(external_Vuex_["mapState"])("chartSetting", ["chartLists", "currentChartIndex"])), {}, {
     chartPro: function chartPro() {
       return this.chartAllType.split("|")[0];
     },
@@ -39348,7 +40666,7 @@ var en = __webpack_require__("a70a");
         return null;
       }
 
-      chartUtil_changeChangeAllType(Object(util["b" /* deepCopy */])(this.chartLists[this.currentChartIndex].chartOptions), value);
+      chartUtil_changeChangeAllType(deepCopy(this.chartLists[this.currentChartIndex].chartOptions), value);
       this.currentChartType = value;
     },
     quickListScroll: function quickListScroll(e) {
@@ -39400,8 +40718,105 @@ var en = __webpack_require__("a70a");
 // EXTERNAL MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=style&index=0&lang=css&
 var ChartListvue_type_style_index_0_lang_css_ = __webpack_require__("9622");
 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__("2877");
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
 
 // CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue
 
@@ -39412,7 +40827,7 @@ var componentNormalizer = __webpack_require__("2877");
 
 /* normalize component */
 
-var component = Object(componentNormalizer["a" /* default */])(
+var component = normalizeComponent(
   ChartMix_ChartListvue_type_script_lang_js_,
   ChartListvue_type_template_id_1e0e5502_render,
   ChartListvue_type_template_id_1e0e5502_staticRenderFns,
@@ -39424,234 +40839,1923 @@ var component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var ChartList = (component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=8a6c8ae2&
+var ChartTitlevue_type_template_id_8a6c8ae2_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"1"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.title.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.title, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.title, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示主标题")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("主标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.positionData,"selectValue":_vm.title.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.title.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.title.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主标题位置")])]),(_vm.title.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetX,"unit":'%',"content":'滑动修改左边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.title.position.offsetY,"unit":'%',"content":'滑动修改上边距偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.title.position, "offsetY", $event)}}})],1):_vm._e()],2)}
+var ChartTitlevue_type_template_id_8a6c8ae2_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=template&id=8a6c8ae2&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=template&id=e2628114&
+var ChartBaseLabelvue_type_template_id_e2628114_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":16}},[_c('chart-base-box',{attrs:{"boxData":_vm.baseLabelOptionData.fontGroup,"checkboxOption":_vm.fontStyleObj},on:{"update:boxData":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontGroup", $event)},"update:box-data":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontGroup", $event)}}}),_c('el-row',{staticStyle:{"margin-top":"5px"}},[_c('el-col',{attrs:{"span":12}},[_c('chart-base-select',{attrs:{"hideCol":true,"tooltip":'选择字体大小',"selectOption":_vm.fontSizeList,"selectValue":_vm.baseLabelOptionData.fontSize},on:{"update:selectValue":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.baseLabelOptionData, "fontSize", $event)}}})],1),_c('el-col',{attrs:{"span":8,"offset":2}},[_c('el-color-picker',{attrs:{"size":"mini"},on:{"change":_vm.changeStyle},model:{value:(_vm.baseLabelOptionData.color),callback:function ($$v) {_vm.$set(_vm.baseLabelOptionData, "color", $$v)},expression:"baseLabelOptionData.color"}})],1)],1)],1)],1),(_vm.baseLabelOptionData.fontSize === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.baseLabelOptionData.cusFontSize,"unit":'px',"content":'滑动修改字体大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.baseLabelOptionData, "cusFontSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.baseLabelOptionData, "cusFontSize", $event)}}}):_vm._e()],1)}
+var ChartBaseLabelvue_type_template_id_e2628114_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=template&id=e2628114&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.includes.js
+var es_string_includes = __webpack_require__("2532");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=script&lang=js&
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ var ChartBaseLabelvue_type_script_lang_js_ = ({
+  name: 'chart-base-label',
+  props: {
+    router: String,
+    baseLabelOption: Object
+  },
+  components: {
+    'chart-base-slider': ChartBaseSlider,
+    'chart-base-select': ChartBaseSelect,
+    'chart-base-box': ChartBaseBox
+  },
+  data: function data() {
+    return {
+      baseLabelOptionData: {},
+      //整个label设置
+      fontSizeList: deepCopy(fontSizeList),
+      //位置选择数组
+      fontStyleObj: {} //字体样式:数据=>DOM转换
+
+    };
+  },
+  watch: {
+    baseLabelOption: {
+      handler: function handler(newVal) {
+        if (lodash["isEqual"](this.baseLabelOptionData, newVal)) {
+          return;
+        }
+
+        this.baseLabelOptionData = deepCopy(newVal); //传过来的值需要深拷贝防止数据流向父组件传递
+        //根据在不同的组件内渲染不同的结构
+
+        if (this.router.includes('title')) {
+          //在主标题/副标题组件内
+          this.fontStyleObj = deepCopy(fontStyleIBV);
+        } else {
+          //鼠标提示组件内
+          this.fontStyleObj = deepCopy(fontStyleIB);
+        }
+      },
+      immediate: true,
+      deep: true
+    },
+    baseLabelOptionData: {
+      handler: function handler(newVal, oldVal) {
+        if (oldVal) {
+          this.changeStyle();
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]('chartSetting', ['updateChartItem'])), {}, {
+    changeStyle: function changeStyle() {
+      var updateObj = {
+        updateObj: deepCopy(this.baseLabelOptionData),
+        router: this.router
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseLabelvue_type_script_lang_js_ = (ChartBaseLabelvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseLabel.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseLabel_component = normalizeComponent(
+  base_ChartBaseLabelvue_type_script_lang_js_,
+  ChartBaseLabelvue_type_template_id_e2628114_render,
+  ChartBaseLabelvue_type_template_id_e2628114_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseLabel = (ChartBaseLabel_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=3254263d&
+var ChartBaseSwitchvue_type_template_id_3254263d_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":16}},[_c('el-switch',{attrs:{"active-color":"#13ce66","inactive-color":"#d8d8d8"},on:{"change":_vm.changeSwitch},model:{value:(_vm.switchData),callback:function ($$v) {_vm.switchData=$$v},expression:"switchData"}})],1)],1)}
+var ChartBaseSwitchvue_type_template_id_3254263d_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=template&id=3254263d&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var ChartBaseSwitchvue_type_script_lang_js_ = ({
+  name: "chart-base-switch",
+  props: {
+    switchValue: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: function data() {
+    return {
+      switchData: false
+    };
+  },
+  watch: {
+    switchValue: function switchValue(val) {
+      this.switchData = val;
+    }
+  },
+  mounted: function mounted() {
+    this.switchData = this.switchValue ? this.switchValue : false;
+  },
+  methods: {
+    changeSwitch: function changeSwitch(val) {
+      this.$emit('update:switchValue', val);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseSwitchvue_type_script_lang_js_ = (ChartBaseSwitchvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSwitch.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseSwitch_component = normalizeComponent(
+  base_ChartBaseSwitchvue_type_script_lang_js_,
+  ChartBaseSwitchvue_type_template_id_3254263d_render,
+  ChartBaseSwitchvue_type_template_id_3254263d_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseSwitch = (ChartBaseSwitch_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseInput.vue?vue&type=template&id=bcc16090&
+var ChartBaseInputvue_type_template_id_bcc16090_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(!_vm.hideCol)?_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("input")],2),_c('el-col',{attrs:{"span":16}},[_c('el-input',{attrs:{"placeholder":_vm.placeholder,"size":"mini","suffix-icon":"el-icon-edit","type":_vm.type?_vm.type:'text'},on:{"change":_vm.changeInput},model:{value:(_vm.input),callback:function ($$v) {_vm.input=$$v},expression:"input"}})],1)],1):_c('el-input',{attrs:{"type":_vm.type?_vm.type:'text',"placeholder":_vm.placeholder,"size":"mini"},on:{"change":_vm.changeInput},model:{value:(_vm.input),callback:function ($$v) {_vm.input=$$v},expression:"input"}})],1)}
+var ChartBaseInputvue_type_template_id_bcc16090_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseInput.vue?vue&type=template&id=bcc16090&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseInput.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var ChartBaseInputvue_type_script_lang_js_ = ({
+  name: 'chart-base-input',
+  props: {
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    inputValue: '',
+    hideCol: Boolean,
+    type: String
+  },
+  data: function data() {
+    return {
+      input: ''
+    };
+  },
+  watch: {
+    inputValue: function inputValue(val) {
+      this.input = val;
+    }
+  },
+  mounted: function mounted() {
+    this.input = this.inputValue ? this.inputValue : '';
+  },
+  methods: {
+    changeInput: function changeInput(val) {
+      this.$emit('update:inputValue', val);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseInput.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseInputvue_type_script_lang_js_ = (ChartBaseInputvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseInput.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseInput_component = normalizeComponent(
+  base_ChartBaseInputvue_type_script_lang_js_,
+  ChartBaseInputvue_type_template_id_bcc16090_render,
+  ChartBaseInputvue_type_template_id_bcc16090_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseInput = (ChartBaseInput_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=0004f709&
+var ChartBaseSelectvue_type_template_id_0004f709_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.hideCol)?_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._t("select")],2),_c('el-col',{attrs:{"span":16}},[_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)],1)],1):_c('el-tooltip',{attrs:{"disabled":!_vm.tooltip,"open-delay":500,"content":_vm.tooltip,"effect":"dark","placement":"bottom"}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.changeSelect},model:{value:(_vm.select),callback:function ($$v) {_vm.select=$$v},expression:"select"}},_vm._l((_vm.selectOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)}
+var ChartBaseSelectvue_type_template_id_0004f709_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=template&id=0004f709&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var ChartBaseSelectvue_type_script_lang_js_ = ({
+  props: {
+    selectOption: Array,
+    tooltip: String,
+    selectValue: [String, Number, Array],
+    hideCol: Boolean
+  },
+  data: function data() {
+    return {
+      select: ''
+    };
+  },
+  watch: {
+    selectValue: function selectValue(val) {
+      this.select = val;
+    }
+  },
+  mounted: function mounted() {
+    this.select = this.selectValue;
+  },
+  methods: {
+    changeSelect: function changeSelect(val) {
+      this.$emit('update:selectValue', val);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseSelectvue_type_script_lang_js_ = (ChartBaseSelectvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSelect.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseSelect_component = normalizeComponent(
+  base_ChartBaseSelectvue_type_script_lang_js_,
+  ChartBaseSelectvue_type_template_id_0004f709_render,
+  ChartBaseSelectvue_type_template_id_0004f709_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseSelect = (ChartBaseSelect_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=51d27ae6&
+var ChartBaseSlidervue_type_template_id_51d27ae6_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(!_vm.hideCol)?_c('el-row',{staticClass:"chart-base-slider",staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":22}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.content,"placement":"top"}},[_c('el-slider',{staticStyle:{"padding-left":"12px"},attrs:{"show-input-controls":false,"min":_vm.min,"max":_vm.max,"input-size":"mini","show-input":"","format-tooltip":_vm.format?_vm.formatter:null},on:{"change":_vm.handlerChange},model:{value:(_vm.baseSliderData),callback:function ($$v) {_vm.baseSliderData=$$v},expression:"baseSliderData"}})],1)],1),_c('el-col',{staticClass:"input_content",attrs:{"span":1}},[_vm._v(_vm._s(_vm.unit))])],1):_c('el-row',{staticClass:"chart-base-slider",staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._t("title")],2),_c('el-col',{attrs:{"span":17}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.content,"placement":"top"}},[_c('el-slider',{staticStyle:{"padding-left":"12px"},attrs:{"show-input-controls":false,"min":_vm.min,"max":_vm.max,"input-size":"mini","show-input":"","format-tooltip":_vm.format?_vm.formatter:null},on:{"change":_vm.handlerChange},model:{value:(_vm.baseSliderData),callback:function ($$v) {_vm.baseSliderData=$$v},expression:"baseSliderData"}})],1)],1),_c('el-col',{staticClass:"input_content",attrs:{"span":1}},[_vm._v(_vm._s(_vm.unit))])],1)],1)}
+var ChartBaseSlidervue_type_template_id_51d27ae6_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=template&id=51d27ae6&
+
+// EXTERNAL MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=script&lang=js&
+var ChartBaseSlidervue_type_script_lang_js_ = __webpack_require__("1847");
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseSlidervue_type_script_lang_js_ = (ChartBaseSlidervue_type_script_lang_js_["a" /* default */]); 
+// EXTERNAL MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue?vue&type=style&index=0&lang=css&
+var ChartBaseSlidervue_type_style_index_0_lang_css_ = __webpack_require__("9470");
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseSlider.vue
+
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseSlider_component = normalizeComponent(
+  base_ChartBaseSlidervue_type_script_lang_js_,
+  ChartBaseSlidervue_type_template_id_51d27ae6_render,
+  ChartBaseSlidervue_type_template_id_51d27ae6_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseSlider = (ChartBaseSlider_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=5d34b6a1&
+var ChartBaseBoxvue_type_template_id_5d34b6a1_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-row',[_c('el-checkbox-group',{attrs:{"size":"mini"},on:{"change":_vm.changeStyle},model:{value:(_vm.boxValue),callback:function ($$v) {_vm.boxValue=$$v},expression:"boxValue"}},_vm._l((_vm.checkboxOption),function(value,name){return _c('el-tooltip',{key:name,attrs:{"open-delay":500,"content":value.des,"effect":"dark","placement":"bottom"}},[_c('el-checkbox-button',{attrs:{"label":name}},[_vm._v(" "+_vm._s(value.text)+" ")])],1)}),1)],1)}
+var ChartBaseBoxvue_type_template_id_5d34b6a1_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=template&id=5d34b6a1&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var ChartBaseBoxvue_type_script_lang_js_ = ({
+  props: {
+    checkboxOption: [Object, Array],
+    boxData: {
+      type: Array,
+      default: []
+    }
+  },
+  data: function data() {
+    return {
+      boxValue: ''
+    };
+  },
+  watch: {
+    boxData: function boxData(val) {
+      this.boxValue = val;
+    }
+  },
+  mounted: function mounted() {
+    this.boxValue = this.boxData ? deepCopy(this.boxData) : [];
+  },
+  methods: {
+    changeStyle: function changeStyle(val) {
+      this.$emit('update:boxData', val);
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue?vue&type=script&lang=js&
+ /* harmony default export */ var base_ChartBaseBoxvue_type_script_lang_js_ = (ChartBaseBoxvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/base/ChartBaseBox.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartBaseBox_component = normalizeComponent(
+  base_ChartBaseBoxvue_type_script_lang_js_,
+  ChartBaseBoxvue_type_template_id_5d34b6a1_render,
+  ChartBaseBoxvue_type_template_id_5d34b6a1_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartBaseBox = (ChartBaseBox_component.exports);
+// CONCATENATED MODULE: ./src/utils/importUtil.js
+// 复用的组件和方法
+// const ChartBaseLabel = () => import('@/packages/ChartMix/chartChips/base/ChartBaseLabel')
+// const ChartBaseSwitch = () => import('@/packages/ChartMix/chartChips/base/ChartBaseSwitch')
+// const ChartBaseInput = () => import('@/packages/ChartMix/chartChips/base/ChartBaseInput')
+// const ChartBaseSelect = () => import('@/packages/ChartMix/chartChips/base/ChartBaseSelect')
+// const ChartBaseSlider = () => import('@/packages/ChartMix/chartChips/base/ChartBaseSlider')
+// const ChartBaseBox = () => import('@/packages/ChartMix/chartChips/base/ChartBaseBox')
+
+
+
+
+
+
+
+
+ // 重复引入的组件
+
+var importComp = function importComp(t) {
+  return {
+    'chart-base-label': t.ChartBaseLabel,
+    'chart-base-input': t.ChartBaseInput,
+    'chart-base-switch': t.ChartBaseSwitch,
+    'chart-base-slider': t.ChartBaseSlider,
+    'chart-base-select': t.ChartBaseSelect
+  };
+};
+
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var ChartTitlevue_type_script_lang_js_ = ({
+  name: "ChartTitle",
+  props: {
+    router: String,
+    chartAllType: String,
+    titleOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
+  },
+  components: _objectSpread2({}, importComp(importUtil_namespaceObject)),
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["chartTitle"];
+      return;
+    }
+
+    this.setItem = en["chartTitle"];
+  },
+  data: function data() {
+    return {
+      title: "",
+      //整个title设置,
+      positionData: positionOption,
+      isChange: false,
+      setItem: {}
+    };
+  },
+  watch: {
+    titleOption: {
+      handler: function handler(newVal, oldVal) {
+        if (lodash["isEqual"](this.title, newVal)) {
+          return;
+        }
+
+        if (oldVal) {
+          this.isChange = true;
+        }
+
+        this.title = deepCopy(newVal);
+      },
+      deep: true,
+      immediate: true
+    },
+    title: {
+      handler: function handler(newVal, oldVal) {
+        if (this.isChange) {
+          this.isChange = !this.isChange;
+          return;
+        } // 改变值就重新渲染
+
+
+        if (oldVal) {
+          this.changeTitle();
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["chartTitle"];
+        return;
+      }
+
+      this.setItem = en["chartTitle"];
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
+    changeTitle: function changeTitle() {
+      var updateObj = {
+        updateObj: deepCopy(this.title),
+        router: this.router
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartTitlevue_type_script_lang_js_ = (ChartTitlevue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartTitle.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartTitle_component = normalizeComponent(
+  chart_ChartTitlevue_type_script_lang_js_,
+  ChartTitlevue_type_template_id_8a6c8ae2_render,
+  ChartTitlevue_type_template_id_8a6c8ae2_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartTitle = (ChartTitle_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
+var ChartSubTitlevue_type_template_id_3659945b_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"2"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-input',{attrs:{"inputValue":_vm.subTitle.text,"placeholder":'请输入副标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.subTitle, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.subTitle, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("副标题内容")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.subTitle.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.distanceOption,"selectValue":_vm.subTitle.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.subTitle.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("主副标题间距")])]),(_vm.subTitle.distance.value === 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.subTitle.distance.cusGap,"unit":'px',"content":'滑动修改间距'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.subTitle.distance, "cusGap", $event)}}}):_vm._e()],2)}
+var ChartSubTitlevue_type_template_id_3659945b_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=template&id=3659945b&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var ChartSubTitlevue_type_script_lang_js_ = ({
+  name: "ChartSubTitle",
+  props: {
+    router: String,
+    chartAllType: String,
+    subTitleOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
+  },
+  components: _objectSpread2({}, importComp(importUtil_namespaceObject)),
+  data: function data() {
+    return {
+      subTitle: {},
+      //整个title设置
+      distanceOption: deepCopy(distanceOption),
+      //位置选择数组
+      setItem: {}
+    };
+  },
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["chartSubTitle"];
+      return;
+    }
+
+    this.setItem = en["chartSubTitle"];
+  },
+  watch: {
+    subTitleOption: {
+      handler: function handler(newVal) {
+        if (lodash["isEqual"](this.subTitle, newVal)) {
+          return;
+        }
+
+        this.subTitle = deepCopy(newVal); //传过来的值需要深拷贝防止数据流向父组件传递
+      },
+      immediate: true,
+      deep: true
+    },
+    subTitle: {
+      handler: function handler(newVal, oldVal) {
+        // 改变值就重新渲染
+        if (oldVal) {
+          this.changeTitle();
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["chartSubTitle"];
+        return;
+      }
+
+      this.setItem = en["chartSubTitle"];
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
+    changeTitle: function changeTitle() {
+      var updateObj = {
+        updateObj: deepCopy(this.subTitle),
+        router: this.router
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartSubTitlevue_type_script_lang_js_ = (ChartSubTitlevue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartSubTitle.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartSubTitle_component = normalizeComponent(
+  chart_ChartSubTitlevue_type_script_lang_js_,
+  ChartSubTitlevue_type_template_id_3659945b_render,
+  ChartSubTitlevue_type_template_id_3659945b_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartSubTitle = (ChartSubTitle_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=40b1872f&
+var ChartCursorvue_type_template_id_40b1872f_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"4"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.cursor.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.cursor, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.cursor, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示提示框")])]),_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.cursor.label}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("鼠标提示样式")])]),_c('el-row',{staticStyle:{"margin-top":"10px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("背景颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.backgroundColor),callback:function ($$v) {_vm.$set(_vm.cursor, "backgroundColor", $$v)},expression:"cursor.backgroundColor"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerMethodArr,"selectValue":_vm.cursor.triggerOn},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerOn", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发条件")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.triggerTypeArr,"selectValue":_vm.cursor.triggerType},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "triggerType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示触发类型")])]),(_vm.cursor.triggerType != 'item')?_c('div',[_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.cursor.axisPointer.style.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线类型")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineWeightOption,"selectValue":_vm.cursor.axisPointer.style.width},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer.style, "width", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器线宽")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("线条颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.cursor.axisPointer.style.color),callback:function ($$v) {_vm.$set(_vm.cursor.axisPointer.style, "color", $$v)},expression:"cursor.axisPointer.style.color"}})],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.axisPointerArr,"selectValue":_vm.cursor.axisPointer.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.axisPointer, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("指示器类型")])])],1):_vm._e(),(_vm.cursor.triggerType == 'item')?_c('chart-base-select',{attrs:{"selectOption":_vm.posOption,"selectValue":_vm.cursor.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("提示框浮层位置")])]):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":8}},[_vm._v("鼠标提示后缀")])],1),_vm._l((_vm.seriesOption),function(item,i){return _c('el-row',{key:i,staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(item))]),_c('el-col',{attrs:{"span":4}},[_c('chart-base-input',{attrs:{"hideCol":true,"placeholder":'后缀'}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'数值比例',"selectOption":_vm.ratioOption,"selectValue":_vm.cursor.format[i].ratio,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "ratio", $event)}}})],1),_c('el-col',{attrs:{"span":6}},[_c('chart-base-select',{attrs:{"tooltip":'小数位数',"selectOption":_vm.digitOption,"selectValue":_vm.cursor.format[i].digit,"hideCol":true},on:{"update:selectValue":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.cursor.format[i], "digit", $event)}}})],1)],1)})],2)}
+var ChartCursorvue_type_template_id_40b1872f_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=template&id=40b1872f&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var ChartCursorvue_type_script_lang_js_ = ({
+  components: _objectSpread2({}, importComp(importUtil_namespaceObject)),
+  props: {
+    router: String,
+    chartAllType: String,
+    cursorOption: Object,
+    lang: {
+      type: String,
+      default: "cn"
+    }
+  },
+  data: function data() {
+    return {
+      cursor: {},
+      //鼠标提示设置
+      fontSizeOption: deepCopy(fontSizeOption),
+      lineStyleOption: deepCopy(lineStyleOption),
+      lineWeightOption: deepCopy(lineWeightOption),
+      posOption: deepCopy(posOption),
+      ratioOption: deepCopy(ratioOption),
+      digitOption: deepCopy(digitOption),
+      triggerTypeArr: [{
+        value: "item",
+        label: "数据项图形触发"
+      }, {
+        value: "axis",
+        label: "坐标轴触发"
+      }],
+      axisPointerArr: [{
+        value: "line",
+        label: "直线指示器"
+      }, {
+        value: "shadow",
+        label: "阴影指示器"
+      }, {
+        value: "cross",
+        label: "十字准星指示器"
+      }],
+      triggerMethodArr: [{
+        value: "mousemove",
+        label: "鼠标移动"
+      }, {
+        value: "click",
+        label: "单击左键/鼠标划过"
+      }, {
+        value: "mousemove|click",
+        label: "同时触发"
+      }],
+      setItem: {}
+    };
+  },
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["chartCursor"];
+      return;
+    }
+
+    this.setItem = en["chartCursor"];
+  },
+  watch: {
+    cursorOption: {
+      handler: function handler(newVal) {
+        if (lodash["isEqual"](this.cursor, newVal)) {
+          return;
+        }
+
+        this.cursor = deepCopy(newVal);
+      },
+      immediate: true,
+      deep: true
+    },
+    cursor: {
+      handler: function handler(newVal, oldVal) {
+        // 改变值就重新渲染
+        if (oldVal) {
+          this.changeCursor();
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["chartCursor"];
+        return;
+      }
+
+      this.setItem = en["chartCursor"];
+    }
+  },
+  computed: {
+    seriesOption: function seriesOption() {
+      var arr = [];
+
+      for (var i = 0; i < this.cursor.format.length; i++) {
+        arr.push(this.cursor.format[i].seriesName);
+      }
+
+      return arr;
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
+    changeCursor: function changeCursor() {
+      var updateObj = {
+        updateObj: deepCopy(this.cursor),
+        router: this.router
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartCursorvue_type_script_lang_js_ = (ChartCursorvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartCursor.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartCursor_component = normalizeComponent(
+  chart_ChartCursorvue_type_script_lang_js_,
+  ChartCursorvue_type_template_id_40b1872f_render,
+  ChartCursorvue_type_template_id_40b1872f_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartCursor = (ChartCursor_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=441b50ba&
+var ChartLegendvue_type_template_id_441b50ba_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"3"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"switchValue":_vm.legend.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.legend, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.legend, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示图例")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.legend.show),expression:"legend.show"}]},[_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.legend.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.legend, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.legend, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.positionOption,"selectValue":_vm.legend.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例位置")])]),(_vm.legend.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.position.offsetX,"unit":'%',"content":'滑动修改水平偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.position.offsetY,"unit":'%',"content":'滑动修改垂直偏移量'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)}}})],1):_vm._e(),_c('chart-base-select',{attrs:{"selectOption":_vm.dirOptions,"selectValue":_vm.legend.position.direction},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "direction", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "direction", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例朝向")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.sizeOption,"selectValue":_vm.legend.width.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.width, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.width, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例宽度")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.sizeOption,"selectValue":_vm.legend.height.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.height, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.height, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例高度")])]),(_vm.legend.width.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.width.cusSize,"unit":'px',"content":'滑动修改图例宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)}}}):_vm._e(),(_vm.legend.height.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.height.cusSize,"unit":'px',"content":'滑动修改图例高度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)}}}):_vm._e(),_c('chart-base-select',{attrs:{"selectOption":_vm.distanceOption,"selectValue":_vm.legend.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例间距")])]),(_vm.legend.distance.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.distance.cusGap,"unit":'px',"content":'滑动修改图例间距'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例样式")])]):_vm._e()],1)],2)}
+var ChartLegendvue_type_template_id_441b50ba_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=441b50ba&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var ChartLegendvue_type_script_lang_js_ = ({
+  props: {
+    legendOption: Object,
+    chartAllType: String,
+    router: String,
+    lang: {
+      type: String,
+      default: "cn"
+    }
+  },
+  data: function data() {
+    return {
+      legend: {},
+      //图例设置
+      positionOption: deepCopy(positionOption),
+      sizeOption: deepCopy(sizeOption),
+      distanceOption: deepCopy(distanceOption),
+      dirOptions: [{
+        value: "horizontal",
+        label: "水平"
+      }, {
+        value: "vertical",
+        label: "垂直"
+      }],
+      setItem: {}
+    };
+  },
+  components: _objectSpread2({}, importComp(importUtil_namespaceObject)),
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["chartLegend"];
+      return;
+    }
+
+    this.setItem = en["chartLegend"];
+  },
+  watch: {
+    legendOption: {
+      handler: function handler(newVal) {
+        if (lodash["isEqual"](this.legend, newVal)) {
+          return;
+        }
+
+        this.legend = deepCopy(newVal);
+      },
+      immediate: true,
+      deep: true
+    },
+    legend: {
+      handler: function handler(newVal, oldVal) {
+        // 改变值就重新渲染
+        if (oldVal) {
+          this.changeLegend();
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["chartLegend"];
+        return;
+      }
+
+      this.setItem = en["chartLegend"];
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
+    changeLegend: function changeLegend() {
+      var updateObj = {
+        updateObj: deepCopy(this.legend),
+        router: this.router
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartLegendvue_type_script_lang_js_ = (ChartLegendvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartLegend.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartLegend_component = normalizeComponent(
+  chart_ChartLegendvue_type_script_lang_js_,
+  ChartLegendvue_type_template_id_441b50ba_render,
+  ChartLegendvue_type_template_id_441b50ba_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartLegend = (ChartLegend_component.exports);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=6b00f3b4&
+var ChartAxisvue_type_template_id_6b00f3b4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"6"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-select',{attrs:{"selectOption":_vm.axisGroup,"selectValue":_vm.axis.axisType},on:{"update:selectValue":function($event){return _vm.$set(_vm.axis, "axisType", $event)},"update:select-value":function($event){return _vm.$set(_vm.axis, "axisType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("选择坐标轴")])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.series.name))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.show),expression:"series.show"}]},[_c('chart-base-input',{attrs:{"inputValue":_vm.series.title.text,"placeholder":'请输入标题内容'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.title, "text", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标题内容")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}],staticStyle:{"margin-top":"15px"}},[_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.series.title.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.series.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.series.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("文本样式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.fzPosOption,"selectValue":_vm.series.title.fzPosition},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("文本对齐方式")])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.inverse},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "inverse", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "inverse", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("反向坐标轴")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":10,"baseSliderOption":_vm.series.tickLabel.optimize,"unit":'个',"content":'滑动修改坐标轴间隔个数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("坐标轴间隔个数")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"baseSliderOption":_vm.series.title.nameGap,"unit":'px',"content":'滑动修改标题与轴线距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("标题与轴线距离")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation+'',"max":180,"min":-180,"baseSliderOption":_vm.series.title.rotate,"unit":'°',"content":'滑动修改标题与轴线距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "rotate", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("倾斜轴标题")])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度线")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tickLine.width,"unit":'px',"content":'滑动修改刻度线宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度线宽度")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":7}},[_vm._v("刻度线颜色")]),_c('el-col',{attrs:{"push":14,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"刻度线颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tickLine.color),callback:function ($$v) {_vm.$set(_vm.series.tickLine, "color", $$v)},expression:"series.tickLine.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tick.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tick, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.orient,"selectValue":_vm.series.tick.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tick, "position", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("刻度位置")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tick.length,"unit":'px',"content":'滑动修改刻度长度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "length", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度长度")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.tick.width,"unit":'px',"content":'滑动修改刻度宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("刻度宽度")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v("刻度颜色")]),_c('el-col',{attrs:{"push":14,"span":4}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"刻度颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tick.color),callback:function ($$v) {_vm.$set(_vm.series.tick, "color", $$v)},expression:"series.tick.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLabel.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示刻度标签")])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation,"max":180,"min":-180,"baseSliderOption":_vm.series.tickLabel.rotate,"unit":'°',"content":'滑动修改标签倾斜角度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("倾斜标签")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showLabel),expression:"showLabel"}]},[_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.min,"placeholder":'请输入刻度最小值'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("刻度最小值")])]),_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.max,"placeholder":'请输入刻度最大值且最大值不能小于最小值'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("刻度最大值")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.ratioOption,"selectValue":_vm.series.tickLabel.ratio},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("数值缩放比例")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.digitOption,"selectValue":_vm.series.tickLabel.digit},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("小数位数")])])],1),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.prefix,"placeholder":'请输入标签前缀'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签前缀")])]),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.suffix,"placeholder":'请输入标签后缀'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签后缀")])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netLine, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示网格线")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netLine.show),expression:"series.netLine.show"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.netLine.width,"unit":'px',"content":'滑动修改网格线宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine, "width", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("网格线宽度")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.series.netLine.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine, "type", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格线类型")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._v("网格线颜色")]),_c('el-col',{attrs:{"push":13,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":"网格线颜色","effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.netLine.color),callback:function ($$v) {_vm.$set(_vm.series.netLine, "color", $$v)},expression:"series.netLine.color"}})],1)],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netLine.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格线分割间隔数")])]),(_vm.series.netLine.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netLine.interval.cusNumber,"unit":'个',"content":'滑动修改间隔数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netArea.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netArea, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示网格区域")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netArea.show),expression:"series.netArea.show"}]},[_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netArea.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("网格区域分割间隔数")])]),(_vm.series.netArea.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netArea.interval.cusNumber,"unit":'个',"content":'滑动修改间隔数'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)}}}):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("网格区域第一颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorOne),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorOne", $$v)},expression:"series.netArea.colorOne"}})],1),_c('el-col',{attrs:{"span":6}},[_vm._v("网格区域第二颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorTwo),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorTwo", $$v)},expression:"series.netArea.colorTwo"}})],1)],1)],1)],1)],2)}
+var ChartAxisvue_type_template_id_6b00f3b4_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=6b00f3b4&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=script&lang=js&
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ var ChartAxisvue_type_script_lang_js_ = ({
+  name: "ChartXaxis",
+  props: {
+    chartAllType: String,
+    axisOption: Object,
+    router: String,
+    lang: {
+      type: String,
+      default: "cn"
+    }
+  },
+  components: _objectSpread2({}, importComp(importUtil_namespaceObject)),
+  data: function data() {
+    return {
+      axis: {},
+      series: {},
+      //具体坐标轴配置
+      fontSizeOption: "",
+      lineStyleOption: "",
+      ratioOption: "",
+      digitOption: "",
+      fzPosOption: [{
+        value: "middle",
+        label: "居中"
+      }, {
+        value: "start",
+        label: "头部"
+      }, {
+        value: "end",
+        label: "尾部"
+      }, {
+        value: "hidden",
+        label: "隐藏"
+      }],
+      orient: [{
+        label: "朝内",
+        value: "inside"
+      }, {
+        label: "朝外",
+        value: "outside"
+      }],
+      formatRotation: function formatRotation(val) {
+        return val + " °";
+      },
+      setItem: {}
+    };
+  },
+  mounted: function mounted() {
+    if (this.lang == "ch") {
+      this.setItem = cn["chartAxis"];
+      return;
+    }
+
+    this.setItem = en["chartAxis"];
+  },
+  watch: {
+    axisOption: {
+      handler: function handler(newVal) {
+        if (lodash["isEqual"](this.axis, this.axisOption)) {
+          return;
+        }
+
+        this.axis = deepCopy(this.axisOption);
+        this.series = this.axis[newVal.axisType];
+        this.fontSizeOption = deepCopy(fontSizeOption);
+        this.lineStyleOption = deepCopy(lineStyleOption);
+        this.intervalOption = deepCopy(intervalOption);
+        this.ratioOption = deepCopy(ratioOption);
+        this.digitOption = deepCopy(digitOption);
+      },
+      immediate: true,
+      deep: true
+    },
+    series: {
+      handler: function handler(newVal, oldVal) {
+        // 改变值就重新渲染
+        if (oldVal) {
+          this.changeAxis();
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    lang: function lang(val) {
+      if (val == "ch") {
+        this.setItem = cn["chartAxis"];
+        return;
+      }
+
+      this.setItem = en["chartAxis"];
+    }
+  },
+  computed: {
+    chartType: function chartType() {
+      return this.chartAllType.split("|")[1];
+    },
+    chartStyle: function chartStyle() {
+      return this.chartAllType.split("|")[2];
+    },
+    axisGroup: function axisGroup() {
+      if (this.chartType == "bar" && this.chartStyle != "compare") {
+        return [{
+          value: "xAxisDown",
+          label: "Y轴(左侧垂直)"
+        }, {
+          value: "xAxisUp",
+          label: "Y轴(左侧垂直)"
+        }, {
+          value: "yAxisLeft",
+          label: "X轴(下方水平)"
+        }, {
+          value: "yAxisRight",
+          label: "X轴(上方水平)"
+        }];
+      } else if (this.chartStyle == "compare") {
+        return [{
+          value: "xAxisDown",
+          label: "Y轴(右侧坐标轴)"
+        }, {
+          value: "xAxisUp",
+          label: "Y轴(左侧坐标轴)"
+        }, {
+          value: "yAxisLeft",
+          label: "X轴(右侧坐标轴)"
+        }, {
+          value: "yAxisRight",
+          label: "X轴(左侧坐标轴)"
+        }];
+      } else {
+        return [{
+          value: "xAxisDown",
+          label: "X轴(下方水平)"
+        }, {
+          value: "xAxisUp",
+          label: "X轴(上方水平)"
+        }, {
+          value: "yAxisLeft",
+          label: "Y轴(左侧垂直)"
+        }, {
+          value: "yAxisRight",
+          label: "Y轴(右侧垂直)"
+        }];
+      }
+    },
+    showLabel: function showLabel() {
+      if (this.chartType == "bar" && this.axis.axisType.slice(0, 1) == "x" || this.chartType != "bar" && this.axis.axisType.slice(0, 1) == "y") {
+        return true;
+      }
+    }
+  },
+  methods: _objectSpread2(_objectSpread2({}, external_Vuex_["mapActions"]("chartSetting", ["updateChartItem"])), {}, {
+    changeAxis: function changeAxis() {
+      var updateObj = {
+        updateObj: deepCopy(this.series),
+        router: this.router + "/" + this.axis.axisType
+      };
+      this.updateChartItem(updateObj);
+    }
+  })
+});
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=script&lang=js&
+ /* harmony default export */ var chart_ChartAxisvue_type_script_lang_js_ = (ChartAxisvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue
+
+
+
+
+
+/* normalize component */
+
+var ChartAxis_component = normalizeComponent(
+  chart_ChartAxisvue_type_script_lang_js_,
+  ChartAxisvue_type_template_id_6b00f3b4_render,
+  ChartAxisvue_type_template_id_6b00f3b4_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var ChartAxis = (ChartAxis_component.exports);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=script&lang=js&
 
 
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ // const ChartTitle = () => import("./chartChips/chart/ChartTitle");
+// const ChartSubTitle = () => import("./chartChips/chart/ChartSubTitle");
+// const ChartCursor = () => import("./chartChips/chart/ChartCursor");
+// const ChartLegend = () => import("./chartChips/chart/ChartLegend");
+// const ChartAxis = () => import("./chartChips/chart/ChartAxis");
 
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
-var ChartTitle = function ChartTitle() {
-  return __webpack_require__.e(/* import() */ 7).then(__webpack_require__.bind(null, "450b"));
-};
 
-var ChartSubTitle = function ChartSubTitle() {
-  return __webpack_require__.e(/* import() */ 6).then(__webpack_require__.bind(null, "969a"));
-};
-
-var ChartCursor = function ChartCursor() {
-  return __webpack_require__.e(/* import() */ 4).then(__webpack_require__.bind(null, "9b10"));
-};
-
-var ChartLegend = function ChartLegend() {
-  return __webpack_require__.e(/* import() */ 5).then(__webpack_require__.bind(null, "954f"));
-};
-
-var ChartAxis = function ChartAxis() {
-  return __webpack_require__.e(/* import() */ 3).then(__webpack_require__.bind(null, "e078"));
-};
 
 
 
@@ -39684,15 +42788,15 @@ var ChartAxis = function ChartAxis() {
     return {
       currentChartType: "echarts|line|default",
       //图表类型
-      titleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].title),
+      titleOption: deepCopy(chartComponent.title),
       //标题设置
-      subTitleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].subtitle),
+      subTitleOption: deepCopy(chartComponent.subtitle),
       //标题设置
-      cursorOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].tooltip),
+      cursorOption: deepCopy(chartComponent.tooltip),
       //鼠标提示设置
-      legendOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].legend),
+      legendOption: deepCopy(chartComponent.legend),
       //图例设置
-      axisOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].axis),
+      axisOption: deepCopy(chartComponent.axis),
       //坐标轴设置
       showList: false,
       setItem: {
@@ -39706,11 +42810,11 @@ var ChartAxis = function ChartAxis() {
   },
   mounted: function mounted() {
     if (this.lang == "ch") {
-      this.setItem = cn["a" /* default */]["chartSetting"];
+      this.setItem = cn["chartSetting"];
       return;
     }
 
-    this.setItem = en["a" /* default */]["chartSetting"];
+    this.setItem = en["chartSetting"];
     console.dir(this.setItem);
   },
   watch: {
@@ -39731,14 +42835,14 @@ var ChartAxis = function ChartAxis() {
     },
     lang: function lang(val) {
       if (val == "ch") {
-        this.setItem = cn["a" /* default */]["chartSetting"];
+        this.setItem = cn["chartSetting"];
         return;
       }
 
-      this.setItem = en["a" /* default */]["chartSetting"];
+      this.setItem = en["chartSetting"];
     }
   },
-  computed: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapState"])("chartSetting", ["chartLists", "currentChartIndex"])), {}, {
+  computed: _objectSpread2(_objectSpread2({}, Object(external_Vuex_["mapState"])("chartSetting", ["chartLists", "currentChartIndex"])), {}, {
     currentRangeColCheck: {
       get: function get() {
         if (this.currentChartIndex == null) {
@@ -40107,7 +43211,7 @@ var ChartAxis = function ChartAxis() {
       }
     }
   }),
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapActions"])("chartSetting", ["updateChartItemChartlistOne"])), {}, {
+  methods: _objectSpread2(_objectSpread2({}, Object(external_Vuex_["mapActions"])("chartSetting", ["updateChartItemChartlistOne"])), {}, {
     handleClick: function handleClick(tab) {
       if (tab.index != 0) {
         this.showList = false;
@@ -40149,7 +43253,7 @@ var ChartAxis = function ChartAxis() {
     handleSeriseCommand: function handleSeriseCommand(command) {
       var series = command.series,
           option = command.option;
-      var newOrder = Object(util["b" /* deepCopy */])(this.currentChartDataSeriesOrder);
+      var newOrder = deepCopy(this.currentChartDataSeriesOrder);
       var newid = option.id,
           newTrueIndex = series.index;
       var exchangeid = series.id,
@@ -40175,9 +43279,9 @@ var ChartSettingvue_type_style_index_0_lang_scss_ = __webpack_require__("a8f2");
 
 /* normalize component */
 
-var ChartSetting_component = Object(componentNormalizer["a" /* default */])(
+var ChartSetting_component = normalizeComponent(
   ChartMix_ChartSettingvue_type_script_lang_js_,
-  ChartSettingvue_type_template_id_0c1b7da0_render,
+  ChartSettingvue_type_template_id_8b165cc4_render,
   staticRenderFns,
   false,
   null,
@@ -40187,7 +43291,7 @@ var ChartSetting_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var ChartSetting = (ChartSetting_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1ddcf282-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartRender.vue?vue&type=template&id=69e5af98&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"be102880-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartRender.vue?vue&type=template&id=69e5af98&scoped=true&
 var ChartRendervue_type_template_id_69e5af98_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartRender"})}
 var ChartRendervue_type_template_id_69e5af98_scoped_true_staticRenderFns = []
 
@@ -40261,7 +43365,7 @@ var ChartRendervue_type_template_id_69e5af98_scoped_true_staticRenderFns = []
 
 /* normalize component */
 
-var ChartRender_component = Object(componentNormalizer["a" /* default */])(
+var ChartRender_component = normalizeComponent(
   ChartMix_ChartRendervue_type_script_lang_js_,
   ChartRendervue_type_template_id_69e5af98_scoped_true_render,
   ChartRendervue_type_template_id_69e5af98_scoped_true_staticRenderFns,
@@ -40329,27 +43433,27 @@ function initChart(outDom, lang) {
 
 
 function createChart(render, chartData, chart_id, rangeArray, rangeTxt) {
-  var chart_Id = chart_id ? chart_id : Object(util["c" /* generateRandomKey */])('chart');
+  var chart_Id = chart_id ? chart_id : generateRandomKey('chart');
   render.id = chart_Id;
-  data_chartJson["c" /* chartOptions */].defaultOption.series = []; // 随机生成图表
+  chartJson_chartOptions.defaultOption.series = []; // 随机生成图表
 
   var ratio = Math.random() * 10;
 
   if (ratio > 5) {
-    data_chartJson["c" /* chartOptions */].chartAllType = 'echarts|pie|default';
+    chartJson_chartOptions.chartAllType = 'echarts|pie|default';
   } else {
-    data_chartJson["c" /* chartOptions */].chartAllType = 'echarts|line|default';
+    chartJson_chartOptions.chartAllType = 'echarts|line|default';
   } // 生成图表数据结构
 
 
-  var chartOption = insertNewChart(data_chartJson["c" /* chartOptions */], chart_Id, data_chartJson["c" /* chartOptions */].chartAllType, chartData, rangeArray, rangeTxt);
+  var chartOption = insertNewChart(chartJson_chartOptions, chart_Id, chartJson_chartOptions.chartAllType, chartData, rangeArray, rangeTxt);
   var renderDom = document.createElement('div');
   renderDom.id = 'render' + chart_Id;
   render.appendChild(renderDom);
   var chart_json = {
     'chart_id': chart_Id,
     'active': true,
-    'chartOptions': Object(util["b" /* deepCopy */])(chartOption)
+    'chartOptions': deepCopy(chartOption)
   };
   exportUtil_ChartSetting.currentChartIndex = exportUtil_ChartSetting.chartLists.length;
   exportUtil_ChartSetting.chartLists.push(chart_json);
@@ -40422,7 +43526,7 @@ function insertNewChart(chartOptions, chart_id, chartAllType, chartData, rangeAr
   chart_json.rangeArray = rangeArray;
   chart_json.rangeTxt = rangeTxt; //根据数据集得到按钮状态，rangeColCheck表示首列是否标题，rangeRowCheck表示首行是否标题，rangeConfigCheck表示是否转置。
 
-  var rowColCheck = Object(util["g" /* getRowColCheck */])(chartData);
+  var rowColCheck = getRowColCheck(chartData);
   var rangeRowCheck = rowColCheck[0],
       rangeColCheck = rowColCheck[1],
       rangeConfigCheck = false;
@@ -40430,19 +43534,19 @@ function insertNewChart(chartOptions, chart_id, chartAllType, chartData, rangeAr
   chart_json.rangeRowCheck = rangeRowCheck;
   chart_json.rangeConfigCheck = rangeConfigCheck; //按照数据范围文字得到具体数据范围
 
-  var rangeSplitArray = Object(util["f" /* getRangeSplitArray */])(chartData, rangeArray, rangeColCheck, rangeRowCheck);
+  var rangeSplitArray = getRangeSplitArray(chartData, rangeArray, rangeColCheck, rangeRowCheck);
   chart_json.rangeSplitArray = rangeSplitArray; //根据数据集、功能按钮状态、图表类型，得到图表可操作的数据格式，例如：{ "x":[], "y":[], series:[] }，可以按照次格式渲染数据页中的系列和轴控件。
   //数据为一行且为汉字的时候，chartDataCache的series为空数组
 
-  var chartDataCache = Object(util["d" /* getChartDataCache */])(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
+  var chartDataCache = getChartDataCache(chartData, rangeSplitArray, chartPro, chartType, chartStyle);
   chart_json.chartDataCache = chartDataCache; //生成默认的系列顺序，默认根据series数组的位置，用户可以在界面上操作更改这个位置。
 
-  var chartDataSeriesOrder = Object(util["e" /* getChartDataSeriesOrder */])(chartDataCache.series[0].length);
+  var chartDataSeriesOrder = getChartDataSeriesOrder(chartDataCache.series[0].length);
   chart_json.chartDataSeriesOrder = chartDataSeriesOrder; //设置图表皮肤
 
   chart_json.chartTheme = chartTheme; //根据图表的默认设置、图表数据、图表系列顺序，等到一个完整的图表配置串。
 
-  var defaultOption = Object(util["a" /* addDataToOption */])(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle); //根据图表厂商选择渲染引擎，并根据设置渲染出图表
+  var defaultOption = addDataToOption(defaultOptionIni, chartDataCache, chartDataSeriesOrder, chartPro, chartType, chartStyle); //根据图表厂商选择渲染引擎，并根据设置渲染出图表
 
   chart_json.defaultOption = defaultOption;
   return chart_json;
@@ -40557,7 +43661,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   packages_install(window.Vue);
 }
 
-/* harmony default export */ var src_packages = (Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({
+/* harmony default export */ var src_packages = (_objectSpread2(_objectSpread2({
   // must use install function
   install: packages_install
 }, components), {}, {
@@ -40706,16 +43810,6 @@ module.exports = NATIVE_SYMBOL
   && !Symbol.sham
   // eslint-disable-next-line no-undef
   && typeof Symbol.iterator == 'symbol';
-
-
-/***/ }),
-
-/***/ "fea9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-
-module.exports = global.Promise;
 
 
 /***/ })
