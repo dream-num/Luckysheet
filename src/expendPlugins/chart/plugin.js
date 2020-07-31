@@ -14,6 +14,8 @@ import {
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
 import { getvisibledatarow, getvisibledatacolumn} from '../../methods/get'
+let _rowLocation = rowLocation
+let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
@@ -57,6 +59,8 @@ function chart() {
         chartInfo.highlightChart = chartmix.default.highlightChart
         chartInfo.deleteChart = chartmix.default.deleteChart
         chartInfo.resizeChart = chartmix.default.resizeChart
+        chartInfo.changeChartRange = chartmix.default.changeChartRange
+        chartInfo.changeChartCellData = chartmix.default.changeChartCellData
         chartInfo.chart_selection = chart_selection()
     });
 }
@@ -214,9 +218,9 @@ function chart_selection(){
             $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
             winW = $(window).width() + scrollLeft
   
-        var rowLocation = rowLocation(y),
+        var rowLocation = _rowLocation(y),
             row_index = rowLocation[2]
-        var colLocation = colLocation(x),
+        var colLocation = _colLocation(x),
             col_index = colLocation[2]
   
         var visibledatarow = getvisibledatarow()
@@ -460,13 +464,13 @@ function chart_selection(){
         var updateJson = chartInfo.currentChart
   
         updateJson.rangeTxt = getRangetxt(
-            luckysheet.currentSheetIndex,
+            chartInfo.currentSheetIndex,
             updateJson.rangeArray[0],
-            luckysheet.currentSheetIndex
+            chartInfo.currentSheetIndex
         )
         updateJson.chartData = getdatabyselection(
             updateJson.rangeArray[0],
-            luckysheet.currentSheetIndex
+            chartInfo.currentSheetIndex
         )
         // 渲染
         chartInfo.changeChartRange(updateJson.chart_id, updateJson.chartData, updateJson.rangeArray, updateJson.rangeTxt)
@@ -495,9 +499,9 @@ function chart_selection(){
             $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
             winW = $(window).width() + scrollLeft
   
-        var rowLocation = rowLocation(y),
+        var rowLocation = _rowLocation(y),
             row_index = rowLocation[2]
-        var colLocation = colLocation(x),
+        var colLocation = _colLocation(x),
             col_index = colLocation[2]
   
         var visibledatarow = getvisibledatarow()
@@ -780,13 +784,13 @@ function chart_selection(){
         chartInfo.chart_selection.rangeResize = null
   
         updateJson.rangeTxt = getRangetxt(
-            luckysheet.currentSheetIndex,
+            chartInfo.currentSheetIndex,
             updateJson.rangeArray[0],
-            luckysheet.currentSheetIndex
+            chartInfo.currentSheetIndex
         )
         updateJson.chartData = getdatabyselection(
             updateJson.rangeArray[0],
-            luckysheet.currentSheetIndex
+            chartInfo.currentSheetIndex
         )
         // 渲染
         chartInfo.changeChartRange(updateJson.chart_id, updateJson.chartData, updateJson.rangeArray, updateJson.rangeTxt)
@@ -794,7 +798,6 @@ function chart_selection(){
     }
   }
 } 
-
 
 // create chart
 function createLuckyChart(width, height, left, top) {
@@ -947,20 +950,6 @@ function createLuckyChart(width, height, left, top) {
 
     //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
     showNeedRangeShow(chart_id);
-    // highline current chart
-    // $('.luckysheet-cell-main').click(function (e) {
-    //     if (e.target.tagName == 'CANVAS' && e.target.offsetParent && e.target.offsetParent.offsetParent && e.target.offsetParent.offsetParent.id && e.target.offsetParent.offsetParent.id.slice(0, 6) == 'chart_') {
-    //         chartInfo.highlightChart(e.target.offsetParent.offsetParent.id)
-    //         chartInfo.chartparam.luckysheetCurrentChartMoveObj = $(e.target.offsetParent.offsetParent.id + '_c')
-    //         chartInfo.chartparam.luckysheetCurrentChartResizeObj = $(e.target.offsetParent.offsetParent.id + '_c')
-    //         chartInfo.chartparam.luckysheetCurrentChartActive = true
-    //         document.getElementById(e.target.offsetParent.offsetParent.id + '_c').style.zIndex = ++chartInfo.zIndex
-    //         $('.chartSetting').css('display', 'block')
-    //         return
-    //     }
-    //     $('.chartSetting').css('display', 'none')
-    //     chartInfo.chartparam.luckysheetCurrentChartActive = false
-    // })
 
     // delete current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
@@ -1091,7 +1080,7 @@ function delChart(chart_id) {
 
     // delete storage
     let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
-    sheetFile.chart.findIndex(item => item.chart_id == chart_id)
+    let index = sheetFile.chart.findIndex(item => item.chart_id == chart_id)
     sheetFile.chart.splice(index, 1)
     // api call
     chartInfo.deleteChart(chart_id)
