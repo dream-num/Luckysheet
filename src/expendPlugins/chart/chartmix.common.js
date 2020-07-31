@@ -38556,31 +38556,7 @@ var state_option = {
 };
 /* harmony default export */ var chartSetting_state = ({
   // store all chart objects
-  chartLists: [{
-    'chart_id': 'chart_a_001',
-    'active': false,
-    'chartOptions': state_option.chartOptions
-  }, {
-    'chart_id': 'chart_a_002',
-    'active': false,
-    'chartOptions': Object(lodash["merge"])(Object(lodash["cloneDeep"])(data_chartJson["c" /* chartOptions */]), {
-      defaultOption: {
-        title: {
-          text: '默认标题'
-        }
-      }
-    })
-  }, {
-    'chart_id': 'chart_a_003',
-    'active': false,
-    'chartOptions': Object(lodash["merge"])(Object(lodash["cloneDeep"])(data_chartJson["c" /* chartOptions */]), {
-      defaultOption: {
-        title: {
-          text: '默认标题'
-        }
-      }
-    })
-  }],
+  chartLists: [],
   // store current chart index
   currentChartIndex: null // current chart objects, bind to chartSetting component
   // currentChart: {},
@@ -40532,6 +40508,10 @@ function getChartJson(chart_id) {
   return exportUtil_ChartSetting.chartLists[index].chartOptions;
 }
 
+function insertToStore(chart_json) {
+  exportUtil_ChartSetting.chartLists.push(chart_json);
+}
+
 
 // CONCATENATED MODULE: ./src/packages/index.js
 
@@ -40589,7 +40569,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   changeChartRange: changeChartRange,
   changeChartCellData: changeChartCellData,
   renderChart: chartUtil_renderChart,
-  getChartJson: getChartJson // ChartSetting,
+  getChartJson: getChartJson,
+  insertToStore: insertToStore // ChartSetting,
   // ChartRender
 
 }));
