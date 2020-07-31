@@ -231,8 +231,6 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
     luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth * Store.devicePixelRatio, Store.columeHeaderHeight * Store.devicePixelRatio);
 }
 
-let offlinecanvasElement_cache = {};
-
 function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop, columnOffsetCell, rowOffsetCell, mycanvas) {
     if(Store.flowdata == null){
         return;
@@ -558,6 +556,9 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     //条件格式计算
     let cf_compute = conditionformat.getComputeMap();
 
+    //表格渲染区域 溢出单元格配置保存
+    let cellOverflowMap = getCellOverflowMap(luckysheetTableContent, dataset_col_st, dataset_col_ed);
+
     //sparklines渲染
     let sparklinesRender = function(r, c, offsetX, offsetY, canvasid, ctx){
         if(Store.flowdata[r] == null || Store.flowdata[r][c] == null){
@@ -672,27 +673,44 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             luckysheetTableContent.closePath();
         }
 
-        //右边框
-        luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(
-            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-            Store.devicePixelRatio * (start_r + offsetTop - 2)
-        );
-        luckysheetTableContent.lineTo(
-            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-            Store.devicePixelRatio * (end_r + offsetTop - 2)
-        );
-        luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+        //此单元格 与  溢出单元格关系
+        let cellOverflow_colInObj = cellOverflow_colIn(cellOverflowMap, r, c, dataset_col_st, dataset_col_ed);
 
-        if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
-            luckysheetTableContent.strokeStyle = "#000000";
+        //此单元格 为 溢出单元格渲染范围最后一列，绘制溢出单元格内容
+        if(cellOverflow_colInObj.colLast){
+            cellOverflowRender(
+                cellOverflow_colInObj.rowIndex,
+                cellOverflow_colInObj.colIndex,
+                cellOverflow_colInObj.stc,
+                cellOverflow_colInObj.edc
+            );
         }
-        else{
-            luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
+
+        //即溢出单元格跨此单元格，此单元格不绘制右边框
+        if(!cellOverflow_colInObj.colIn || cellOverflow_colInObj.colLast){
+            //右边框
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.moveTo(
+                Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                Store.devicePixelRatio * (start_r + offsetTop - 2)
+            );
+            luckysheetTableContent.lineTo(
+                Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                Store.devicePixelRatio * (end_r + offsetTop - 2)
+            );
+            luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+
+            if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
+                luckysheetTableContent.strokeStyle = "#000000";
+            }
+            else{
+                luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
+            }
+            
+            luckysheetTableContent.stroke();
+            luckysheetTableContent.closePath();
+
         }
-        
-        luckysheetTableContent.stroke();
-        luckysheetTableContent.closePath();
 
         //下边框
         luckysheetTableContent.beginPath();
@@ -758,637 +776,51 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             (start_c + offsetLeft - 1) * Store.devicePixelRatio, 
             (start_r + offsetTop) * Store.devicePixelRatio, 
             (end_c - start_c + 2) * Store.devicePixelRatio,
-            (end_r - start_r + 1) * Store.devicePixelRatio
+            (end_r - start_r) * Store.devicePixelRatio
         )
 
-        // 非Safari浏览器
-        //（canvasType为offline）
-        //（水平对齐方式为居中或右对齐 且 文本宽度大于单元格宽度）
-        //（文本高度大于单元格高度）
-        // 走离屏canvas方法
-        if(browser.BrowserType() != "Safari" && ( canvasType == "offline" || ( (horizonAlign == "0" || horizonAlign == "2") && cellWidth < cellValueSize.width ) || cellHeight < cellValueSize.height )){
-            //取渲染单元格大小离屏canvas
-            let offlinecanvasElement = offlinecanvasElement_cache[cellWidth + '_' + cellHeight];
-            if(offlinecanvasElement == null){
-                offlinecanvasElement = document.createElement('canvas');
-                offlinecanvasElement.width = cellWidth * Store.devicePixelRatio;
-                offlinecanvasElement.height = cellHeight * Store.devicePixelRatio;
-                offlinecanvasElement_cache[cellWidth + '_' + cellHeight] = offlinecanvasElement;
-            }
-            let offlinecanvas = offlinecanvasElement.getContext("2d");
+        //若单元格有批注（单元格右上角红色小三角标示）
+        if(cell.ps != null){
+            let ps_w = 5, ps_h = 5; //红色小三角宽高
 
-            offlinecanvas.clearRect(
-                0, 
-                0, 
-                cellWidth * Store.devicePixelRatio, 
-                cellHeight * Store.devicePixelRatio
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.moveTo(
+                Store.devicePixelRatio * (end_c + offsetLeft - ps_w), 
+                start_r + offsetTop
             );
-            offlinecanvas.font = fontset;
+            luckysheetTableContent.lineTo(
+                Store.devicePixelRatio * end_c + offsetLeft, 
+                start_r + offsetTop
+            );
+            luckysheetTableContent.lineTo(
+                Store.devicePixelRatio * end_c + offsetLeft, 
+                Store.devicePixelRatio * (start_r + offsetTop + ps_h)
+            );
+            luckysheetTableContent.fillStyle = "#FC6666";
+            luckysheetTableContent.fill();
+            luckysheetTableContent.closePath();
+        }
 
-            //若单元格有批注（单元格右上角红色小三角标示）
-            if(cell.ps != null){
-                let ps_w = 5, ps_h = 5; //红色小三角宽高
-
-                offlinecanvas.beginPath();
-                offlinecanvas.moveTo(
-                    Store.devicePixelRatio * (cellWidth - ps_w), 
-                    0
-                );
-                offlinecanvas.lineTo(
-                    Store.devicePixelRatio * cellWidth, 
-                    0
-                );
-                offlinecanvas.lineTo(
-                    Store.devicePixelRatio * cellWidth, 
-                    Store.devicePixelRatio * ps_h
-                );
-                offlinecanvas.fillStyle = "#FC6666";
-                offlinecanvas.fill();
-                offlinecanvas.closePath();
-            }
-
-            //若单元格有条件格式数据条
-            if(checksCF != null && checksCF["dataBar"] != null){
-                let x = Store.devicePixelRatio * space_width;
-                let y = Store.devicePixelRatio * space_height;
-                let w = Store.devicePixelRatio * (cellWidth - space_width * 2);
-                let h = Store.devicePixelRatio * (cellHeight - space_height * 2);
-
-                let valueType = checksCF["dataBar"]["valueType"];
-                let valueLen = checksCF["dataBar"]["valueLen"];
-                let format = checksCF["dataBar"]["format"];
-
-                if(valueType == 'minus'){
-                    //负数
-                    let minusLen = checksCF["dataBar"]["minusLen"];
-                    
-                    if(format.length > 1){
-                        //渐变
-                        let my_gradient = offlinecanvas.createLinearGradient(
-                            x + w * minusLen * (1 - valueLen), 
-                            y, 
-                            x + w * minusLen, 
-                            y
-                        );
-                        my_gradient.addColorStop(0, "#ffffff");
-                        my_gradient.addColorStop(1, "#ff0000");
-
-                        offlinecanvas.fillStyle = my_gradient;
-                    }
-                    else{
-                        //单色
-                        offlinecanvas.fillStyle = "#ff0000";
-                    }
-                    
-                    offlinecanvas.fillRect(
-                        x + w * minusLen * (1 - valueLen), 
-                        y, 
-                        w * minusLen * valueLen, 
-                        h
-                    );
-
-                    offlinecanvas.beginPath();
-                    offlinecanvas.moveTo(
-                        x + w * minusLen * (1 - valueLen), 
-                        y
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen * (1 - valueLen), 
-                        y + h
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen, 
-                        y + h
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen, 
-                        y
-                    );
-                    offlinecanvas.lineTo(
-                        x + w * minusLen * (1 - valueLen), 
-                        y
-                    );
-                    offlinecanvas.lineWidth = Store.devicePixelRatio;
-                    offlinecanvas.strokeStyle = "#ff0000";
-                    offlinecanvas.stroke();
-                    offlinecanvas.closePath();
-                }
-                else if(valueType == 'plus'){
-                    //正数
-                    let plusLen = checksCF["dataBar"]["plusLen"];
-
-                    if(plusLen == 1){
-                        if(format.length > 1){
-                            //渐变
-                            let my_gradient = offlinecanvas.createLinearGradient(
-                                x, 
-                                y, 
-                                x + w * valueLen, 
-                                y
-                            );
-                            my_gradient.addColorStop(0, format[0]);
-                            my_gradient.addColorStop(1, format[1]);
+        //溢出单元格
+        let cellOverflow_bd_r_render = true; //溢出单元格右边框是否需要绘制
+        let cellOverflow_colInObj = cellOverflow_colIn(cellOverflowMap, r, c, dataset_col_st, dataset_col_ed);
         
-                            offlinecanvas.fillStyle = my_gradient;
-                        }
-                        else{
-                            //单色
-                            offlinecanvas.fillStyle = format[0];
-                        }
-                        
-                        offlinecanvas.fillRect(
-                            x, 
-                            y, 
-                            w * valueLen, 
-                            h
-                        );
-
-                        offlinecanvas.beginPath();
-                        offlinecanvas.moveTo(
-                            x, 
-                            y
-                        );
-                        offlinecanvas.lineTo(
-                            x, 
-                            y + h
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * valueLen, 
-                            y + h
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * valueLen, 
-                            y
-                        );
-                        offlinecanvas.lineTo(
-                            x, 
-                            y
-                        );
-                        offlinecanvas.lineWidth = Store.devicePixelRatio;
-                        offlinecanvas.strokeStyle = format[0];
-                        offlinecanvas.stroke();
-                        offlinecanvas.closePath();
-                    }
-                    else{
-                        let minusLen = checksCF["dataBar"]["minusLen"];
-
-                        if(format.length > 1){
-                            //渐变
-                            let my_gradient = offlinecanvas.createLinearGradient(
-                                x + w * minusLen, 
-                                y, 
-                                x + w * minusLen + w * plusLen * valueLen, 
-                                y
-                            );
-                            my_gradient.addColorStop(0, format[0]);
-                            my_gradient.addColorStop(1, format[1]);
-        
-                            offlinecanvas.fillStyle = my_gradient;
-                        }
-                        else{
-                            //单色
-                            offlinecanvas.fillStyle = format[0];
-                        }
-                        
-                        offlinecanvas.fillRect(
-                            x + w * minusLen, 
-                            y, 
-                            w * plusLen * valueLen, 
-                            h
-                        );
-
-                        offlinecanvas.beginPath();
-                        offlinecanvas.moveTo(
-                            x + w * minusLen, 
-                            y
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * minusLen, 
-                            y + h
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * minusLen + w * plusLen * valueLen, 
-                            y + h
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * minusLen + w * plusLen * valueLen, 
-                            y
-                        );
-                        offlinecanvas.lineTo(
-                            x + w * minusLen, 
-                            y
-                        );
-                        offlinecanvas.lineWidth = Store.devicePixelRatio;
-                        offlinecanvas.strokeStyle = format[0];
-                        offlinecanvas.stroke();
-                        offlinecanvas.closePath();
-                    }
-                }
-            }
-
-            let horizonAlignPos = space_width * Store.devicePixelRatio; //默认为1，左对齐
-            if(horizonAlign == "0"){ //居中对齐
-                horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
-            }
-            else if(horizonAlign == "2"){ //右对齐
-                horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - textMetrics;
-            }
-            
-            let verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - oneLineTextHeight; //默认为2，下对齐
-            let verticalAlignPos_text = (cellHeight - space_height) * Store.devicePixelRatio; //文本垂直方向基准线
-            offlinecanvas.textBaseline = "bottom";
-            if(verticalAlign == "0"){ //居中对齐 
-                verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (oneLineTextHeight / 2);
-                
-                verticalAlignPos_text = (cellHeight / 2) * Store.devicePixelRatio;
-                offlinecanvas.textBaseline = "middle";
-            }
-            else if(verticalAlign == "1"){ //上对齐
-                verticalAlignPos = space_height * Store.devicePixelRatio;
-                
-                verticalAlignPos_text = space_height * Store.devicePixelRatio;
-                offlinecanvas.textBaseline = "top";
-            }
-          
-            //若单元格有条件格式图标集
-            if(checksCF != null && checksCF["icons"] != null){
-                let l = checksCF["icons"]["left"];
-                let t = checksCF["icons"]["top"];
-
-                offlinecanvas.drawImage(
-                    luckysheet_CFiconsImg, 
-                    l * 42, 
-                    t * 32, 
-                    32, 
-                    32, 
-                    0, 
-                    verticalAlignPos,  
-                    oneLineTextHeight, 
-                    oneLineTextHeight
+        if(cell.tb == '1' && cellOverflow_colInObj.colIn){
+            //此单元格 为 溢出单元格渲染范围最后一列，绘制溢出单元格内容
+            if(cellOverflow_colInObj.colLast){
+                cellOverflowRender(
+                    cellOverflow_colInObj.rowIndex,
+                    cellOverflow_colInObj.colIndex,
+                    cellOverflow_colInObj.stc,
+                    cellOverflow_colInObj.edc
                 );
-                
-                if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
-                    horizonAlignPos = horizonAlignPos + oneLineTextHeight;
-                }
-            }
-
-            //单元格 文本颜色
-            offlinecanvas.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
-            
-            //若单元格有交替颜色 文本颜色
-            if(checksAF != null && checksAF[0] != null){ 
-                offlinecanvas.fillStyle = checksAF[0];
-            }
-            //若单元格有条件格式 文本颜色
-            if(checksCF != null && checksCF["textColor"] != null){ 
-                offlinecanvas.fillStyle = checksCF["textColor"];
-            }
-
-            //单元格是否有删除线
-            let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
-
-            if(cell.tb == '2'){
-                //自动换行
-                offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
-                
-                let strArr = [];//文本截断数组
-                strArr = getCellTextSplitArr(value.toString(), strArr, cellWidth - space_width * 2, offlinecanvas);
-
-                for(let i = 0; i < strArr.length; i++){
-                    let strV = strArr[i];
-
-                    let strWidth = offlinecanvas.measureText(strV).width;
-                    let strHeight = oneLineTextHeight;
-
-                    //水平对齐计算
-                    if(horizonAlign == "0"){
-                        horizonAlignPos = (cellWidth / 2) * Store.devicePixelRatio - (strWidth / 2);
-                    }
-                    else if(horizonAlign == "2"){
-                        horizonAlignPos = (cellWidth - space_width) * Store.devicePixelRatio - strWidth;
-                    }
-                    else{
-                        horizonAlignPos = space_width * Store.devicePixelRatio;
-                    }
-                    
-                    //垂直对齐计算
-                    if(verticalAlign == "0"){
-                        verticalAlignPos = (cellHeight / 2) * Store.devicePixelRatio - (strHeight / 2) * strArr.length;
-                    }
-                    else if(verticalAlign == "1"){
-                        verticalAlignPos = space_height * Store.devicePixelRatio;
-                    }
-                    else{
-                        verticalAlignPos = (cellHeight - space_height) * Store.devicePixelRatio - strHeight * strArr.length;
-                    }
-
-                    offlinecanvas.fillText(strV, horizonAlignPos, (verticalAlignPos + i * strHeight));
-
-                    if(cl == "1" && !isRealNull(strV)){
-                        offlinecanvas.beginPath();
-                        offlinecanvas.strokeStyle = "#000";
-                        offlinecanvas.moveTo(
-                            horizonAlignPos, 
-                            (verticalAlignPos + i * strHeight) + strHeight / 2
-                        );
-                        offlinecanvas.lineTo(
-                            horizonAlignPos + strWidth, 
-                            (verticalAlignPos + i * strHeight) + strHeight / 2
-                        );
-                        offlinecanvas.stroke();
-                        offlinecanvas.closePath();
-                    }
-                }
-            }
-            else if(cell.tr != null && cell.tr != '0'){
-                //旋转
-                offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
-
-                //单元格旋转属性
-                let tr = cell.tr;
-
-                //旋转重新计算水平、垂直方向坐标
-                if(cell.tr == "1" || cell.tr == "2"){
-                    let textW = 0.707 * (textMetrics + oneLineTextHeight);
-                    let textH = 0.707 * (textMetrics + oneLineTextHeight);
-
-                    let hAP = space_width * Store.devicePixelRatio;
-                    if(horizonAlign == "0"){
-                        hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                    }
-                    else if(horizonAlign == "2"){
-                        hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                    }
-
-                    let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                    if(verticalAlign == "0"){
-                        vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                    }
-                    else if(verticalAlign == "1"){
-                        vAP = space_height * Store.devicePixelRatio;
-                    }
-                    
-                    //向下倾斜（45 旋转）
-                    if(cell.tr == "1"){
-                        offlinecanvas.save();
-                        offlinecanvas.translate(hAP, vAP);
-                        offlinecanvas.rotate(45 * Math.PI / 180);
-                        offlinecanvas.translate(-hAP, -vAP);
-                        offlinecanvas.fillText(
-                            value == null ? "" : value, 
-                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
-                            vAP - (0.707 * 0.707 * oneLineTextHeight)
-                        );
-                        offlinecanvas.restore();
-                        
-                        if(cl == "1" && !isRealNull(value)){
-                            offlinecanvas.beginPath();
-                            offlinecanvas.strokeStyle = "#000";
-                            offlinecanvas.moveTo(
-                                hAP + oneLineTextHeight / 2, 
-                                vAP + oneLineTextHeight / 2
-                            );
-                            offlinecanvas.lineTo(
-                                hAP + textW - oneLineTextHeight / 2, 
-                                vAP + textH - oneLineTextHeight / 2
-                            );
-                            offlinecanvas.closePath();
-                            offlinecanvas.stroke();
-                        }
-                    }
-                    
-                    //向上倾斜（-45 旋转）
-                    if(cell.tr == "2"){
-                        offlinecanvas.save();
-                        offlinecanvas.translate(hAP, vAP + textH);
-                        offlinecanvas.rotate(-45 * Math.PI / 180);
-                        offlinecanvas.translate(-hAP, -(vAP + textH));
-                        offlinecanvas.fillText(
-                            value == null ? "" : value, 
-                            hAP + (0.707 * 0.707 * oneLineTextHeight), 
-                            vAP + textH - (0.707 * 0.707 * oneLineTextHeight)
-                        );
-                        offlinecanvas.restore();
-                        
-                        if(cl == "1" && !isRealNull(value)){
-                            offlinecanvas.beginPath();
-                            offlinecanvas.strokeStyle = "#000";
-                            offlinecanvas.moveTo(
-                                hAP + oneLineTextHeight / 2, 
-                                vAP + textH - oneLineTextHeight / 2
-                            );
-                            offlinecanvas.lineTo(
-                                hAP + textW - oneLineTextHeight / 2, 
-                                vAP + oneLineTextHeight / 2
-                            );
-                            offlinecanvas.closePath();
-                            offlinecanvas.stroke();
-                        }
-                    }
-                }
-                else if(cell.tr == "3"){
-                    if(!isRealNull(value)){
-                        value = value.toString();
-                        
-                        let vArr = [];
-                        if(value.length > 1){
-                            vArr = value.split("");    
-                        }
-                        else{
-                            vArr.push(value);
-                        }
-
-                        let textW_all = 0; //拆分后宽高度合计
-                        let textH_all = 0; 
-
-                        for(let i = 0; i < vArr.length; i++){
-                            let textW = offlinecanvas.measureText(vArr[i]).width;
-                            let textH = oneLineTextHeight;
-                            
-                            textW_all += textW;
-                            textH_all += textH;
-
-                            let hAP = space_width * Store.devicePixelRatio;
-                            if(horizonAlign == "0"){
-                                hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                            }
-                            else if(horizonAlign == "2"){
-                                hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                            }
-
-                            let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH * vArr.length;
-                            if(verticalAlign == "0"){
-                                vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2) * vArr.length;
-                            }
-                            else if(verticalAlign == "1"){
-                                vAP = space_height * Store.devicePixelRatio;
-                            }
-                            
-                            offlinecanvas.fillText(vArr[i], hAP, (vAP + i * textH));
-                        }
-
-                        if(cl == "1" && !isRealNull(value)){
-                            let textW = textW_all / vArr.length;
-                            let textH = textH_all;
-
-                            let hAP = space_width * Store.devicePixelRatio;
-                            if(horizonAlign == "0"){
-                                hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                            }
-                            else if(horizonAlign == "2"){
-                                hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                            }
-
-                            let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                            if(verticalAlign == "0"){
-                                vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                            }
-                            else if(verticalAlign == "1"){
-                                vAP = space_height * Store.devicePixelRatio;
-                            }
-
-                            offlinecanvas.beginPath();
-                            offlinecanvas.strokeStyle = "#000";
-                            offlinecanvas.moveTo(
-                                hAP + textW / 2, 
-                                vAP
-                            );
-                            offlinecanvas.lineTo(
-                                hAP + textW / 2, 
-                                vAP + textH
-                            );
-                            offlinecanvas.closePath();
-                            offlinecanvas.stroke();
-                        }
-                    }
-                }
-                else if(cell.tr == "4" || cell.tr == "5"){
-                    let textW = oneLineTextHeight;
-                    let textH = textMetrics;
-
-                    let hAP = space_width * Store.devicePixelRatio;
-                    if(horizonAlign == "0"){
-                        hAP = (cellWidth / 2) * Store.devicePixelRatio - (textW / 2);
-                    }
-                    else if(horizonAlign == "2"){
-                        hAP = (cellWidth - space_width) * Store.devicePixelRatio - textW;
-                    }
-
-                    let vAP = (cellHeight - space_height) * Store.devicePixelRatio - textH;
-                    if(verticalAlign == "0"){
-                        vAP = (cellHeight / 2) * Store.devicePixelRatio - (textH / 2);
-                    }
-                    else if(verticalAlign == "1"){
-                        vAP = space_height * Store.devicePixelRatio;
-                    }
-
-                    //向下90（90 旋转）
-                    if(tr == "4"){
-                        offlinecanvas.save();
-                        offlinecanvas.translate(hAP, vAP);
-                        offlinecanvas.rotate(90 * Math.PI / 180);
-                        offlinecanvas.translate(-hAP, -vAP);
-                        offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textW);
-                        offlinecanvas.restore();
-                    }
-                    
-                    //向上90（-90 旋转）
-                    if(tr == "5"){
-                        offlinecanvas.save();
-                        offlinecanvas.translate(hAP + textH, vAP);
-                        offlinecanvas.rotate(-90 * Math.PI / 180);
-                        offlinecanvas.translate(-(hAP + textH), -vAP);
-                        offlinecanvas.fillText(value == null ? "" : value, hAP, vAP - textH);
-                        offlinecanvas.restore();
-                    }
-
-                    if(cl == "1" && !isRealNull(value)){
-                        offlinecanvas.beginPath();
-                        offlinecanvas.strokeStyle = "#000";
-                        offlinecanvas.moveTo(hAP + textW / 2, vAP);
-                        offlinecanvas.lineTo(hAP + textW / 2, vAP + textH);
-                        offlinecanvas.closePath();
-                        offlinecanvas.stroke();
-                    }
-                }
             }
             else{
-                //单元格有下钻属性，文本颜色变成超链接的颜色
-                if(cell.dd != null){
-                    offlinecanvas.fillStyle = "#0000ff";
-
-                    offlinecanvas.beginPath();
-                    offlinecanvas.strokeStyle = "#0000ff";
-                    offlinecanvas.moveTo(
-                        horizonAlignPos, 
-                        verticalAlignPos + oneLineTextHeight
-                    );
-                    offlinecanvas.lineTo(
-                        horizonAlignPos + textMetrics, 
-                        verticalAlignPos + oneLineTextHeight
-                    );
-                    offlinecanvas.stroke();
-                    offlinecanvas.closePath();
-                }
-
-                offlinecanvas.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
-                    
-                if(cl == "1" && !isRealNull(value)){
-                    offlinecanvas.beginPath();
-                    offlinecanvas.strokeStyle = "#000";
-                    offlinecanvas.moveTo(
-                        horizonAlignPos, 
-                        verticalAlignPos + oneLineTextHeight / 2
-                    );
-                    offlinecanvas.lineTo(
-                        horizonAlignPos + textMetrics, 
-                        verticalAlignPos + oneLineTextHeight / 2
-                    );
-                    offlinecanvas.stroke();
-                    offlinecanvas.closePath();
-                }
+                cellOverflow_bd_r_render = false;
             }
-
-            //将离屏canvas 画到主表格canvas上
-            luckysheetTableContent.drawImage(
-                offlinecanvasElement, 
-                0, 
-                0, 
-                cellWidth * Store.devicePixelRatio, 
-                cellHeight * Store.devicePixelRatio, 
-                (start_c + offsetLeft) * Store.devicePixelRatio, 
-                (start_r + offsetTop) * Store.devicePixelRatio, 
-                cellWidth * Store.devicePixelRatio, 
-                cellHeight * Store.devicePixelRatio, 
-            );
         }
-        //走主表格canvas方法
+        //非溢出单元格
         else{
-            let pos_x = start_c + offsetLeft;
-            let pos_y = start_r + offsetTop + 1;
-
-            //若单元格有批注（单元格右上角红色小三角标示）
-            if(cell.ps != null){
-                let ps_w = 5, ps_h = 5; //红色小三角宽高
-
-                luckysheetTableContent.beginPath();
-                luckysheetTableContent.moveTo(
-                    Store.devicePixelRatio * (end_c + offsetLeft - ps_w), 
-                    start_r + offsetTop
-                );
-                luckysheetTableContent.lineTo(
-                    Store.devicePixelRatio * end_c + offsetLeft, 
-                    start_r + offsetTop
-                );
-                luckysheetTableContent.lineTo(
-                    Store.devicePixelRatio * end_c + offsetLeft, 
-                    Store.devicePixelRatio * (start_r + offsetTop + ps_h)
-                );
-                luckysheetTableContent.fillStyle = "#FC6666";
-                luckysheetTableContent.fill();
-                luckysheetTableContent.closePath();
-            }
-
             //若单元格有条件格式数据条
             if(checksCF != null && checksCF["dataBar"] != null){
                 let x = Store.devicePixelRatio * (start_c + offsetLeft + space_width);
@@ -1568,6 +1000,13 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 }
             }
 
+            let pos_x = start_c + offsetLeft;
+            let pos_y = start_r + offsetTop + 1;
+
+            luckysheetTableContent.save();
+            luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
+            luckysheetTableContent.clip();
+
             let horizonAlignPos = (pos_x + space_width) * Store.devicePixelRatio; //默认为1，左对齐
             if(horizonAlign == "0"){ //居中对齐
                 horizonAlignPos = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
@@ -1591,7 +1030,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 verticalAlignPos_text = (pos_y + space_height) * Store.devicePixelRatio;
                 luckysheetTableContent.textBaseline = "top";
             }
-          
+        
             //若单元格有条件格式图标集
             if(checksCF != null && checksCF["icons"] != null){
                 let l = checksCF["icons"]["left"];
@@ -1930,31 +1369,35 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     luckysheetTableContent.closePath();
                 }
             }
+
+            luckysheetTableContent.restore();
         }  
 
-        //右边框重绘
-        luckysheetTableContent.beginPath();
-        luckysheetTableContent.moveTo(
-            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-            Store.devicePixelRatio * (start_r + offsetTop - 2)
-        );
-        luckysheetTableContent.lineTo(
-            Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
-            Store.devicePixelRatio * (end_r + offsetTop - 2)
-        );
-        luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+        if(cellOverflow_bd_r_render){
+            //右边框
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.moveTo(
+                Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                Store.devicePixelRatio * (start_r + offsetTop - 2)
+            );
+            luckysheetTableContent.lineTo(
+                Store.devicePixelRatio * (end_c + offsetLeft - 2 + 0.5), 
+                Store.devicePixelRatio * (end_r + offsetTop - 2)
+            );
+            luckysheetTableContent.lineWidth = Store.devicePixelRatio;
 
-        if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
-            luckysheetTableContent.strokeStyle = "#000000";
+            if (!!Store.luckysheetcurrentisPivotTable && !pivotTable.drawPivotTable) {
+                luckysheetTableContent.strokeStyle = "#000000";
+            }
+            else{
+                luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
+            }
+            
+            luckysheetTableContent.stroke();
+            luckysheetTableContent.closePath();
         }
-        else{
-            luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
-        }
-        
-        luckysheetTableContent.stroke();
-        luckysheetTableContent.closePath();
 
-        //下边框重绘
+        //下边框
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
             Store.devicePixelRatio * (start_c + offsetLeft - 2), 
@@ -1975,6 +1418,124 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         
         luckysheetTableContent.stroke();
         luckysheetTableContent.closePath();
+    }
+
+    //溢出单元格渲染
+    let cellOverflowRender = function(r, c, stc, edc){
+        //溢出单元格 起止行列坐标
+        let start_r;
+        if (r == 0) {
+            start_r = -scrollHeight - 1;
+        }
+        else {
+            start_r = Store.visibledatarow[r - 1] - scrollHeight - 1;
+        }
+
+        let end_r = Store.visibledatarow[r] - scrollHeight;
+
+        let start_c;
+        if (stc == 0) {
+            start_c = -scrollWidth;
+        }
+        else {
+            start_c = Store.visibledatacolumn[stc - 1] - scrollWidth;
+        }
+
+        let end_c = Store.visibledatacolumn[edc] - scrollWidth;
+
+        //
+        let cell = Store.flowdata[r][c];
+        let cellWidth = end_c - start_c - 2;
+        let cellHeight = end_r - start_r - 2;
+        let space_width = 2, space_height = 2; //宽高方向 间隙
+
+        let fontset = luckysheetfontformat(cell);
+        luckysheetTableContent.font = fontset;
+        luckysheetTableContent.textBaseline = 'top';
+
+        //溢出单元格 值
+        let value = getcellvalue(r, c, null, "m");
+        if(value == null){
+            value = getcellvalue(r, c);
+        }
+
+        //文本单行 宽度和高度
+        let measureText = luckysheetTableContent.measureText(value);
+        let textMetrics = measureText.width;
+        let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+        
+        let pos_x = start_c + offsetLeft;
+        let pos_y = start_r + offsetTop + 1;
+
+        luckysheetTableContent.save();
+        luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
+        luckysheetTableContent.clip();
+        
+        //溢出单元格 水平对齐
+        let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c, "ht");
+        let horizonAlignPos = (pos_x + space_width) * Store.devicePixelRatio; //默认为1，左对齐
+        if(horizonAlign == "0"){ //居中对齐
+            horizonAlignPos = (pos_x + cellWidth / 2) * Store.devicePixelRatio - (textMetrics / 2);
+        }
+        else if(horizonAlign == "2"){ //右对齐
+            horizonAlignPos = (pos_x + cellWidth - space_width) * Store.devicePixelRatio - textMetrics;
+        }
+        
+        //溢出单元格 垂直对齐
+        let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c, "vt"); 
+        let verticalAlignPos = (pos_y + cellHeight - space_height) * Store.devicePixelRatio - oneLineTextHeight; //默认为2，下对齐
+        let verticalAlignPos_text = (pos_y + cellHeight - space_height) * Store.devicePixelRatio; //文本垂直方向基准线
+        luckysheetTableContent.textBaseline = "bottom";
+        if(verticalAlign == "0"){ //居中对齐 
+            verticalAlignPos = (pos_y + cellHeight / 2) * Store.devicePixelRatio - (oneLineTextHeight / 2);
+            
+            verticalAlignPos_text = (pos_y + cellHeight / 2) * Store.devicePixelRatio;
+            luckysheetTableContent.textBaseline = "middle";
+        }
+        else if(verticalAlign == "1"){ //上对齐
+            verticalAlignPos = (pos_y + space_height) * Store.devicePixelRatio;
+            
+            verticalAlignPos_text = (pos_y + space_height) * Store.devicePixelRatio;
+            luckysheetTableContent.textBaseline = "top";
+        }
+
+        //交替颜色
+        let checksAF = alternateformat.checksAF(r, c, af_compute); 
+        //条件格式
+        let checksCF = conditionformat.checksCF(r, c, cf_compute); 
+
+        //单元格 文本颜色
+        luckysheetTableContent.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
+            
+        //若单元格有交替颜色 文本颜色
+        if(checksAF != null && checksAF[0] != null){ 
+            luckysheetTableContent.fillStyle = checksAF[0];
+        }
+        //若单元格有条件格式 文本颜色
+        if(checksCF != null && checksCF["textColor"] != null){ 
+            luckysheetTableContent.fillStyle = checksCF["textColor"];
+        }
+
+        luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos_text);
+
+        luckysheetTableContent.restore();
+        
+        //单元格是否有删除线
+        let cl = menuButton.checkstatus(Store.flowdata, r, c , "cl");
+        if(cl == "1" && !isRealNull(value)){
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.strokeStyle = "#000";
+            luckysheetTableContent.moveTo(
+                horizonAlignPos, 
+                verticalAlignPos + oneLineTextHeight / 2
+            );
+            luckysheetTableContent.lineTo(
+                horizonAlignPos + textMetrics, 
+                verticalAlignPos + oneLineTextHeight / 2
+            );
+            luckysheetTableContent.stroke();
+            luckysheetTableContent.closePath();
+        }
     }
 
     let mcArr = [];
@@ -2243,6 +1804,224 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     }
 }
 
+//获取表格渲染范围 溢出单元格 
+function getCellOverflowMap(canvas, col_st, col_ed){
+    let map = {};
+
+    let data = Store.flowdata;
+
+    for(let r = 0; r < data.length; r++){
+        for(let c = 0; c < data[r].length; c++){
+            let cell = data[r][c];
+
+            if(cell != null && !isRealNull(cell.v) && cell.mc == null && cell.tb == '1'){
+                let fontset = luckysheetfontformat(cell);
+                canvas.font = fontset;
+
+                //水平对齐
+                let horizonAlign = menuButton.checkstatus(data, r, c, "ht");
+
+                //文本宽度
+                let value = getcellvalue(r, c, null, "m");
+                if(value == null){
+                    value = getcellvalue(r, c);
+                } 
+                let textMetrics = canvas.measureText(value).width;
+
+                let start_c = c - 1 < 0 ? 0 : Store.visibledatacolumn[c - 1];
+                let end_c = Store.visibledatacolumn[c];
+
+                let stc, edc;
+
+                if((end_c - start_c) < textMetrics){
+                    if(horizonAlign == '0'){//居中对齐
+                        let trace_forward = cellOverflow_trace(r, c, c - 1, 'forward', horizonAlign, textMetrics);
+                        let trace_backward = cellOverflow_trace(r, c, c + 1, 'backward', horizonAlign, textMetrics);
+                    
+                        if(trace_forward.success){
+                            stc = trace_forward.c;
+                        }
+                        else{
+                            stc = trace_forward.c + 1;
+                        }
+
+                        if(trace_backward.success){
+                            edc = trace_backward.c;
+                        }
+                        else{
+                            edc = trace_backward.c - 1;
+                        }
+                    }
+                    else if(horizonAlign == '1'){//左对齐
+                        let trace = cellOverflow_trace(r, c, c + 1, 'backward', horizonAlign, textMetrics);
+                        stc = c;
+
+                        if(trace.success){
+                            edc = trace.c;
+                        }
+                        else{
+                            edc = trace.c - 1;
+                        }
+                    }
+                    else if(horizonAlign == '2'){//右对齐
+                        let trace = cellOverflow_trace(r, c, c - 1, 'forward', horizonAlign, textMetrics);
+                        edc = c;
+
+                        if(trace.success){
+                            stc = trace.c;
+                        }
+                        else{
+                            stc = trace.c + 1;
+                        }
+                    }
+                }
+                else{
+                    stc = c;
+                    edc = c;
+                }
+
+                if(((stc >= col_st && stc <= col_ed) || (edc >= col_st && edc <= col_ed)) && stc < edc){
+                    map[r + '_' + c] = {
+                        r: r,
+                        stc: stc,
+                        edc: edc 
+                    }
+                }
+            }
+        }
+    }
+
+    return map;
+}
+
+function cellOverflow_trace(r, curC, traceC, traceDir, horizonAlign, textMetrics){
+    let data = Store.flowdata; 
+
+    //追溯单元格列超出数组范围 则追溯终止
+    if(traceDir == 'forward' && traceC < 0){
+        return {
+            success: false,
+            r: r,
+            c: traceC
+        }; 
+    }
+    
+    if(traceDir == 'backward' && traceC > data[r].length - 1){
+        return {
+            success: false,
+            r: r,
+            c: traceC
+        };
+    }
+
+    //追溯单元格是 非空单元格或合并单元格 则追溯终止
+    let cell = data[r][traceC];
+    if(cell != null && (!isRealNull(cell.v) || cell.mc != null)){
+        return {
+            success: false,
+            r: r,
+            c: traceC
+        };
+    }
+
+    let start_curC = curC - 1 < 0 ? 0 : Store.visibledatacolumn[curC - 1];
+    let end_curC = Store.visibledatacolumn[curC];
+
+    let w = textMetrics - (end_curC - start_curC);
+
+    if(horizonAlign == '0'){//居中对齐
+        start_curC -= w / 2;
+        end_curC += w / 2;
+    }
+    else if(horizonAlign == '1'){//左对齐
+        end_curC += w;
+    }
+    else if(horizonAlign == '2'){//右对齐
+        start_curC -= w;
+    }
+
+    let start_traceC = traceC - 1 < 0 ? 0 : Store.visibledatacolumn[traceC - 1];
+    let end_traceC = Store.visibledatacolumn[traceC];
+
+    if(traceDir == 'forward'){
+        if(start_curC < start_traceC){
+            return cellOverflow_trace(r, curC, traceC - 1, traceDir, horizonAlign, textMetrics);
+        }
+        else if(start_curC < end_traceC){
+            return {
+                success: true,
+                r: r,
+                c: traceC
+            }
+        }
+        else{
+            return {
+                success: false,
+                r: r,
+                c: traceC
+            }
+        }
+    }
+    
+    if(traceDir == 'backward'){
+        if(end_curC > end_traceC){
+            return cellOverflow_trace(r, curC, traceC + 1, traceDir, horizonAlign, textMetrics);
+        }
+        else if(end_curC > start_traceC){
+            return {
+                success: true,
+                r: r,
+                c: traceC
+            }
+        }
+        else{
+            return {
+                success: false,
+                r: r,
+                c: traceC
+            }
+        }
+    }
+}
+
+function cellOverflow_colIn(map, r, c, col_st, col_ed){
+    let colIn = false, //此单元格 是否在 某个溢出单元格的渲染范围
+        colLast = false, //此单元格 是否是 某个溢出单元格的渲染范围的最后一列
+        rowIndex, //溢出单元格 行下标 
+        colIndex, //溢出单元格 列下标
+        stc,
+        edc;
+
+    for(let key in map){
+        rowIndex = key.split('_')[0];
+        colIndex = key.split('_')[1];
+
+        stc = map[key].stc;
+        edc = map[key].edc;
+
+        if(rowIndex == r){
+            if(c >= stc && c <= edc){
+                colIn = true;
+
+                if(c == edc || c == col_ed){
+                    colLast = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    return {
+        colIn: colIn,
+        colLast: colLast,
+        rowIndex: rowIndex,
+        colIndex: colIndex,
+        stc: stc,
+        edc: edc
+    }
+}
+
+//获取有值单元格文本大小
 function getCellValueSize(cell, value, canvas, cellWidth, cellHeight, space_width, space_height){
     let textWidth, textHeight;
 
