@@ -115,6 +115,7 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
         if(server.allowUpdate){ //共享编辑模式
             server.historyParam(Store.flowdata, Store.currentSheetIndex, range[s]);
         }
+        Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1])
     }
 
     //刷新表格

@@ -39034,7 +39034,7 @@ function changeChartCellData(chart_id, chartData) {
   chart_json.defaultOption = defaultOption;
   src_store.dispatch('chartSetting/updateChartItemChartlist', chart_json);
   chartUtil_renderChart({
-    chartOptions: updateJson,
+    chartOptions: chart_json,
     chart_id: chart_id
   });
 }
@@ -40589,9 +40589,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   deleteChart: deleteChart,
   resizeChart: resizeChart,
   changeChartRange: changeChartRange,
-  changeChartCellData: changeChartCellData // ChartSetting,
-  // ChartRender
-
+  changeChartCellData: changeChartCellData,
+  renderChart: /* Cannot get final name for export "renderChart" in "./src/utils/exportUtil.js" (known exports: initChart createChart highlightChart deleteChart resizeChart resizeChartAll, known reexports: changeChartRange changeChartCellData) */ undefined
 }));
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

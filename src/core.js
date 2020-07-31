@@ -90,7 +90,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
     // Register plugins
-    initPlugins(extendsetting.plugins);
+    initPlugins(extendsetting.plugins , extendsetting.data);
 
     // Store formula information, including internationalization
     functionlist();

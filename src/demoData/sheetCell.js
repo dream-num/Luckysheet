@@ -1171,10 +1171,10 @@ const sheetCell = {
 		"row": "[1,3]",
 		"column": "[3,3]",
 		"chartStyle": "default",
-		"myWidth": "480",
-		"myHeight": "288",
-		"myLeft": "67",
-		"myTop": "11"
+		"width": "480",
+		"height": "288",
+		"left": "67",
+		"top": "11"
 	}],
 	"status": "1",
 	"order": "0",
