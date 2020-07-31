@@ -4,8 +4,9 @@ import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
 import { luckysheet_getcelldata } from '../../function/func';
-import { getSheetIndex, getRangetxt } from '../../methods/get'
+import { getSheetIndex, getRangetxt , getvisibledatacolumn , getvisibledatarow } from '../../methods/get'
 import { rowLocation, colLocation, mouseposition } from '../../global/location'
+import { setluckysheet_scroll_status } from '../../methods/set'
 import {
     luckysheetMoveHighlightCell,
     luckysheetMoveHighlightCell2,
@@ -15,7 +16,6 @@ import {
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import { getvisibledatarow, getvisibledatacolumn, setluckysheet_scroll_status } from '../../methods/get'
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
@@ -36,7 +36,7 @@ const dependLinks = [
 ]
 
 // Initialize the chart component
-function chart(data) {
+function chart(data , isDemo) {
     loadLinks(dependLinks);
 
     seriesLoadScripts(dependScripts, null, function () {
@@ -63,22 +63,24 @@ function chart(data) {
         chartInfo.resizeChart = chartmix.default.resizeChart
         chartInfo.changeChartRange = chartmix.default.changeChartRange
         chartInfo.changeChartCellData = chartmix.default.changeChartCellData
+        chartInfo.getChartJson = chartmix.default.getChartJson
         chartInfo.chart_selection = chart_selection()
         chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
         chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData
         chartInfo.chartparam.renderChart = chartmix.default.renderChart
+        chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
 
         // 初始化渲染图表
         for (let i = 0; i < data.length; i++) {
             if (data[i].status == '1') {
-                renderCharts(data[i].chart)
+                renderCharts(data[i].chart , isDemo)
             }
         }
     });
 }
 
 // rendercharts
-function renderCharts(chartLists) {
+function renderCharts(chartLists , isDemo) {
     for (let i = 0; i < chartLists.length; i++) {
         let chart = chartLists[i]
         let chart_id_c = chart.chart_id + '_c'
@@ -94,24 +96,30 @@ function renderCharts(chartLists) {
             })
         ).appendTo($('.luckysheet-cell-main'))
 
+        $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart.chart_id
+
         let container = document.getElementById(chart_id_c)
 
-        let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
-        chartInfo.currentChart = chart_json.chartOptions
-        console.dir(JSON.stringify(chart_json))
+        let chart_json
+        if(isDemo){
+            chart_json = chart.chartOptions
+        }else{
+            chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
+        }
+        chartInfo.chartparam.renderChart({chart_id: chart.chart_id , chartOptions: chart_json})
 
-        width = chart.width
-        height = chart.height
-        left = chart.left
-        top = chart.top
+        let width = chart.width
+        let height = chart.height
+        let left = chart.left
+        let top = chart.top
         container.style.width = width + 'px'
         container.style.height = height + 'px'
         container.style.position = 'absolute'
         container.style.background = '#fff'
         container.style.left = left + 'px'
         container.style.top = top + 'px'
-        render.style.width = '100%'
-        render.style.height = '100%'
+        // render.style.width = '100%'
+        // render.style.height = '100%'
         container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
         chartInfo.zIndex++
     }
@@ -553,7 +561,7 @@ function chart_selection() {
                 }
             }
 
-            chartInfo.chart_selection.create(chartInfo.currentChart)
+            chartInfo.chart_selection.create()
         },
         rangeMoveDragged: function () {
             chartInfo.chart_selection.rangeMove = false
@@ -875,10 +883,11 @@ function chart_selection() {
                 }
             }
 
-            chartInfo.chart_selection.create(chartInfo.currentChart)
+            chartInfo.chart_selection.create()
         },
         rangeResizeDragged: function () {
             chartInfo.chart_selection.rangeResize = null
+            var updateJson = chartInfo.currentChart
 
             updateJson.rangeTxt = getRangetxt(
                 chartInfo.currentSheetIndex,
@@ -1013,7 +1022,7 @@ function createLuckyChart(width, height, left, top) {
     let container = document.getElementById(chart_id_c)
 
     let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
-    chartInfo.currentChart = chart_json.chartOptions
+    // chartInfo.currentChart = chart_json.chartOptions
     console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
@@ -1195,14 +1204,18 @@ function delChart(chart_id) {
 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
 function showNeedRangeShow(chart_id) {
+    
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
+
     for (let chartId in chartLists) {
         // if (chartLists[chartId].sheetIndex == chartInfo.currentSheetIndex) {
-        //当前sheet的图表先设置为false
-        chartLists[chartId].needRangeShow = false
-        if (chartLists[chartId].chart_id == chart_id) {
-            chartLists[chartId].needRangeShow = true
-        }
+            //当前sheet的图表先设置为false
+            chartLists[chartId].needRangeShow = false
+            if (chartLists[chartId].chart_id == chart_id) {
+                chartLists[chartId].needRangeShow = true;
+
+                chartInfo.currentChart =  chartInfo.getChartJson(chart_id)
+            }
         // }
 
     }
@@ -1231,7 +1244,7 @@ function selectRangeBorderShow(chart_id) {
     let $t = $('#' + chart_id + '_c')
 
     // Highlight of data range
-    chartInfo.chart_selection.create(chart_id)
+    chartInfo.chart_selection.create()
 
     chartInfo.chartparam.luckysheetCurrentChartActive = true
     chartInfo.chartparam.luckysheetCurrentChartMoveObj = $t
