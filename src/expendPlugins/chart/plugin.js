@@ -137,7 +137,7 @@ function renderCharts(chartLists, isDemo) {
 
         // edit current chart
         $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-            showChartSettingComponent(chart_id)
+            showChartSettingComponent()
         })
 
         $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
@@ -1202,7 +1202,7 @@ function createLuckyChart(width, height, left, top) {
 
     // edit current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-        showChartSettingComponent(chart_id)
+        showChartSettingComponent()
     })
 
     $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
@@ -1423,13 +1423,6 @@ function showChartSettingComponent(refresh, chart_id) {
 
         //隐藏设置界面
         $('.chartSetting').show();
-        //.luckysheet-modal-dialog-resize为图表显示框的缩放框，.luckysheet-modal-dialog-controll为显示框右边的控制按钮
-        $("#luckysheet-cell-main .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-controll").show();
-
-        // 切换图表后再打开设置界面时候执行更新DOM
-        if (!!chart_id) {
-            chartInfo.currentChart = chartInfo.highlightChart(chart_id)
-        }
 
         $('#luckysheet-cell-main').find('.luckysheet-datavisual-selection-set div').show()
         chartInfo.chartparam.luckysheetCurrentChartActive = true

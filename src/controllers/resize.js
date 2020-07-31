@@ -52,8 +52,8 @@ export default function luckysheetsizeauto() {
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-pivot").outerWidth();
         } 
-        else if($("#luckysheet-data-visualization").is(":visible")){
-            gridW -= $("#luckysheet-data-visualization").outerWidth();
+        else if($(".chartSetting").is(":visible")){
+            gridW -= $(".chartSetting").outerWidth();
         }
         else if($("#luckysheet-modal-dialog-slider-alternateformat").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-alternateformat").outerWidth();
