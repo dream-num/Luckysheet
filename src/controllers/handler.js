@@ -16,7 +16,7 @@ import luckysheetsizeauto from './resize';
 import { 
     luckysheetMoveHighlightCell, 
 } from './sheetMove';
-import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show } from './select';
+import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import selection from './selection';
 import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
@@ -442,7 +442,7 @@ export default function luckysheetHandler() {
                         "column_focus": col_index
                     };
                 }
-
+                
                 formula.rangeSetValue({ "row": rowseleted, "column": columnseleted });
 
                 formula.rangestart = true;
@@ -857,7 +857,7 @@ export default function luckysheetHandler() {
             hideAllNeedRangeShow();
         }
 
-        $("#luckysheet-helpbox-cell").text(getRangetxt(Store.currentSheetIndex, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]));
+        // selectHelpboxFill();
 
         //数据透视表
         pivotTable.pivotclick(row_index, col_index, Store.currentSheetIndex);
@@ -1416,7 +1416,7 @@ export default function luckysheetHandler() {
                     selectHightlightShow();
                     luckysheetFreezen.scrollFreezen();
 
-                    $("#luckysheet-helpbox-cell").text(getRangetxt(Store.currentSheetIndex, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]));
+                    // selectHelpboxFill();
 
                     //交替颜色选择范围
                     if ($("#luckysheet-alternateformat-rangeDialog").is(":visible")) {

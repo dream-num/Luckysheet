@@ -3,7 +3,7 @@ import pivotTable from './pivotTable';
 import luckysheetPostil from './postil';
 import menuButton from './menuButton';
 import server from './server';
-import { selectHightlightShow, luckysheet_count_show } from './select';
+import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import { 
     getObjType, 
     showrightclickmenu, 
@@ -333,7 +333,7 @@ export function rowColumnOperationInitial(){
             }
         }
 
-        $("#luckysheet-helpbox-cell").text(getRangetxt(Store.currentSheetIndex, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]));
+        selectHelpboxFill();
 
         setTimeout(function () {
             clearTimeout(Store.countfuncTimeout);
@@ -700,7 +700,7 @@ export function rowColumnOperationInitial(){
             }
         }
         
-        $("#luckysheet-helpbox-cell").text(getRangetxt(Store.currentSheetIndex, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]));
+        selectHelpboxFill();
 
         setTimeout(function () {
             clearTimeout(Store.countfuncTimeout);

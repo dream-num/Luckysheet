@@ -14,6 +14,7 @@ import { getBorderInfoCompute } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 function luckysheetDrawgrid(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop) {
     if($("#luckysheetTableContent").length == 0){
@@ -673,7 +674,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     );
                     luckysheetTableContent.lineTo(
                         Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), 
-                        Store.devicePixelRatio * (end_r - 2 + offsetTop)
+                        Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop)
                     );
                     luckysheetTableContent.lineWidth = Store.devicePixelRatio;
                     luckysheetTableContent.strokeStyle = "#000000";
@@ -688,7 +689,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                         Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop)
                     );
                     luckysheetTableContent.lineTo(
-                        Store.devicePixelRatio * (end_c - 2 + offsetLeft), 
+                        Store.devicePixelRatio * (end_c - 2 + 0.5 + offsetLeft), 
                         Store.devicePixelRatio * (end_r - 2 + 0.5 + offsetTop)
                     );
                     luckysheetTableContent.lineWidth = Store.devicePixelRatio;
@@ -698,11 +699,16 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 }
 
                 if (r == 6 && c == 3) {
+                    luckysheetTableContent.save();
+                    luckysheetTableContent.font="bold 30px Arial";
+                    luckysheetTableContent.fillStyle = "#626675";
+                    luckysheetTableContent.textAlign="center";  
                     luckysheetTableContent.fillText(
-                        "Pivot Table", 
-                        Store.devicePixelRatio * (start_c + 4 + offsetLeft), 
+                        locale().pivotTable.title, 
+                        Store.devicePixelRatio * (start_c + (end_c - start_c) / 2 + 4 + offsetLeft), 
                         Store.devicePixelRatio *(start_r + (end_r - start_r) / 2 - 1 + offsetTop)
                     );
+                    luckysheetTableContent.restore();
                 }
             }
             else if (!!Store.luckysheetcurrentisPivotTable) {
@@ -714,7 +720,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     );
                     luckysheetTableContent.lineTo(
                         Store.devicePixelRatio*(end_c - 2 + 0.5 + offsetLeft), 
-                        Store.devicePixelRatio*(end_r - 2 + offsetTop)
+                        Store.devicePixelRatio*(end_r - 2 + 0.5 + offsetTop)
                     );
                     luckysheetTableContent.lineWidth = Store.devicePixelRatio;
                     luckysheetTableContent.strokeStyle = "#000000";
@@ -738,6 +744,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             }
         }
     }
+    
+
 
     //边框单独渲染
     if(Store.config["borderInfo"] != null && Store.config["borderInfo"].length > 0){

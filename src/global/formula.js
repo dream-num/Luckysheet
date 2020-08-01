@@ -2230,7 +2230,17 @@ const luckysheetformula = {
     rangeSetValue: function(selected, obj) {
         let _this = this;
 
-        let range = getRangetxt(Store.currentSheetIndex, selected, _this.rangetosheet);
+        let range="", rf = selected["row"][0], cf = selected["column"][0];
+        if(Store.config["merge"] != null && (rf + "_" + cf) in Store.config["merge"]){
+            range = getRangetxt(Store.currentSheetIndex, {
+                column:[cf, cf],
+                row:[rf, rf],
+            }, _this.rangetosheet);
+        }
+        else{
+            range = getRangetxt(Store.currentSheetIndex, selected, _this.rangetosheet);
+        }
+        
         let $editor;
 
         if (_this.rangestart || _this.rangedrag_column_start || _this.rangedrag_row_start) {

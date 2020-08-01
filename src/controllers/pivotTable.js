@@ -759,13 +759,15 @@ const pivotTable = {
             return;
         }
 
-        if (this.isPivotRange(row_index, col_index)) {
-            $("#luckysheet-modal-dialog-slider-pivot").show();
+        let slider = $("#luckysheet-modal-dialog-slider-pivot");
+        let isRangeClick = this.isPivotRange(row_index, col_index);
+        if (isRangeClick && slider.is(":hidden")) {
+            slider.show();
             luckysheetsizeauto();
             $("#luckysheet-sta-content").css("padding-right", 260);
         }
-        else {
-            $("#luckysheet-modal-dialog-slider-pivot").hide();
+        else if(!isRangeClick && slider.is(":visible")) {
+            slider.hide();
             luckysheetsizeauto();
             $("#luckysheet-sta-content").css("padding-right", 10);
         }
@@ -3009,7 +3011,7 @@ const pivotTable = {
             }
         }
 
-        if (values.length == 1 && column.length > 0) {
+        if (values.length == 1 && column.length > 0 && row.length > 0 ) {
             retdata[0][0] = values[0].fullname;
             retdata.splice(column.length, 1);
         }
