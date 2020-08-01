@@ -2899,7 +2899,7 @@ const pivotTable = {
         }
 
         let datacoltitle_index = datacoltitle;
-        datacoltitle = luckysheetArray.transpose(datacoltitle);
+        datacoltitle = luckysheetArray.transpose(datacoltitle, false);
 
         let valuenslen = values.length == 0 ? 0 : 1;
         let rowLen = (datacoltitle.length == 0 ? valuenslen : datacoltitle.length) + (datarowtitle.length == 0 ? valuenslen : datarowtitle.length), colLen = (datacoltitle.length == 0 ? valuenslen : datacoltitle[0].length) + (datarowtitle.length == 0 ? valuenslen : datarowtitle[0].length);
@@ -3014,6 +3014,28 @@ const pivotTable = {
         if (values.length == 1 && column.length > 0 && row.length > 0 ) {
             retdata[0][0] = values[0].fullname;
             retdata.splice(column.length, 1);
+        }
+        else if(values.length == 1 && column.length > 0){
+            // 0: (6) ["English", "foreign language", "mathematics", "science", "Sum", undefined]
+            // 1: (6) ["CountA:score", "CountA:score", "CountA:score", "CountA:score", "CountA:score", undefined]
+            // 2: (6) [3, 3, 3, 3, 12, ""]
+            //The above format does not meet viewing habits,Process retdata into the correct format
+            let titleRow = retdata.splice(column.length, 1);
+            let newRetdata = [];
+            for(let r=0;r<retdata.length;r++){
+                let row = [];
+                if(r==retdata.length-1){
+                    row.push(titleRow[0][0]);
+                }
+                else{
+                    row.push("");
+                }
+                for(let c=0;c<retdata[r].length-1;c++){
+                    row.push(retdata[r][c]);
+                }
+                newRetdata.push(row);
+            }
+            retdata = newRetdata;
         }
 
         _this.pivotDatas = retdata;

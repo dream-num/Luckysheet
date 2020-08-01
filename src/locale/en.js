@@ -951,7 +951,7 @@ export default {
         titleSelectionDataRange:"Select range",
         titleDataRange:"Data range",
 
-        valueSum:"Sum",
+        valueSum:"SUM",
 
         valueStatisticsSUM:"Sum",
         valueStatisticsCOUNT:"Count",
