@@ -106,7 +106,7 @@ luckysheet.create = function (setting) {
     let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
-        luckysheetsizeauto();
+        // luckysheetsizeauto();
         initialWorkBook();
     }
     else {
@@ -115,7 +115,7 @@ luckysheet.create = function (setting) {
             Store.luckysheetfile = data;
             
             sheetmanage.initialjfFile(menu, title);
-            luckysheetsizeauto();
+            // luckysheetsizeauto();
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接

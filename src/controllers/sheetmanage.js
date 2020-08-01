@@ -674,7 +674,7 @@ const sheetmanage = {
                     formula.execFunctionGroup();
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     
-                    luckysheetrefreshgrid(0, 0);
+                    // luckysheetrefreshgrid(0, 0);
                     $("#luckysheet_info_detail_save").html(locale_info.detailSave);
 
                     if (!!file.isPivotTable) {
@@ -787,7 +787,7 @@ const sheetmanage = {
 
         createFilterOptions(file["filter_select"], file["filter"]);
 
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -1210,7 +1210,7 @@ const sheetmanage = {
                 file.config.rowhidden =  {};
                 Store.config = file.config;
 
-                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
             }
 
             return;
@@ -1265,7 +1265,7 @@ const sheetmanage = {
         file.config["rowhidden"] = rowhidden;
         Store.config = file.config;
 
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
     },
     restorePivot: function(sheetIndex) {
         let index = this.getSheetIndex(sheetIndex);
@@ -1277,7 +1277,7 @@ const sheetmanage = {
 
         pivotTable.getCellData(sheetIndex);
         pivotTable.initialPivotManage(true);
-        pivotTable.refreshPivotTable();
+        pivotTable.refreshPivotTable(false);
     },
     restoreSheetAll: function(sheetIndex) {
         let _this= this;

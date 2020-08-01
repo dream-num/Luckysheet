@@ -8,7 +8,7 @@ import sheetmanage from './sheetmanage';
 let gridW = 0, 
     gridH = 0;
 
-export default function luckysheetsizeauto() {
+export default function luckysheetsizeauto(isRefreshCanvas=true) {
     if (!luckysheetConfigsetting.showinfobar) {
         Store.infobarHeight = 0;
         $("#luckysheet_info_detail").hide();
@@ -104,7 +104,9 @@ export default function luckysheetsizeauto() {
     .css({ "height": gridheight - 10 });
     
     luckysheetFreezen.createAssistCanvas();
-    luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
+    if(isRefreshCanvas){
+        luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
+    }
     const _locale = locale();
     const locale_toolbar = _locale.toolbar;
     let ismore = false, 

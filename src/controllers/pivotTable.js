@@ -669,7 +669,7 @@ const pivotTable = {
         _this.getCellData(index);
         _this.initialPivotManage(true);
     },
-    refreshPivotTable: function () {
+    refreshPivotTable: function (isRefreshCanvas=true) {
         let _this = this;
 
         let redo = {};
@@ -730,10 +730,10 @@ const pivotTable = {
         Store.clearjfundo = false;
         
         if (addr > 0 || addc > 0) {
-            jfrefreshgridall(data[0].length, data.length, data, null, Store.luckysheet_select_save, "datachangeAll");
+            jfrefreshgridall(data[0].length, data.length, data, null, Store.luckysheet_select_save, "datachangeAll", undefined, undefined,isRefreshCanvas);
         }
         else {
-            jfrefreshgrid(data, Store.luckysheet_select_save);
+            jfrefreshgrid(data, Store.luckysheet_select_save, isRefreshCanvas, undefined, undefined, undefined, false);
             selectHightlightShow();
         }
 
@@ -2345,7 +2345,7 @@ const pivotTable = {
         $("#luckysheet-dialog-pivotTable-range").html(getRangetxt(_this.pivotDataSheetIndex, _this.pivot_select_save));
         $("#luckysheet-modal-dialog-slider-pivot").show();
         
-        luckysheetsizeauto();
+        luckysheetsizeauto(false);
     },
     getComposeArray: function (data) {
         if (data.length == 0) {
