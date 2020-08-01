@@ -60,12 +60,14 @@ import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/p
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
+
+    const os = browser.detectOS(), isMac = os=="Mac"?true:false, scrollNum = isMac?1:3, isMobile = browser.mobilecheck();
+
     //移动端
-    if(browser.mobilecheck()){
+    if(isMobile){
         mobileinit();
     }
     
-    const os = browser.detectOS(), isMac = os=="Mac"?true:false, scrollNum = isMac?1:3;
 
     if (!Date.now)
     Date.now = function() { return new Date().getTime(); };
@@ -151,7 +153,8 @@ export default function luckysheetHandler() {
 
             $("#luckysheet-scrollbar-y").scrollTop(rowscroll);
         }
-        else if(event.deltaX != 0){
+        
+        if((isMobile || event.deltaY ==0) && event.deltaX != 0){
             let col_ed;
             
             if((isMac && event.deltaX >0 ) || (!isMac && event.deltaX < 0)){

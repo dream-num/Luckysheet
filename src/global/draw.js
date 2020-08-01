@@ -1315,7 +1315,8 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         let pos_y = start_r + offsetTop + 1;
 
         luckysheetTableContent.save();
-        luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.rect(pos_x * Store.devicePixelRatio, pos_y* Store.devicePixelRatio, cellWidth * Store.devicePixelRatio, cellHeight * Store.devicePixelRatio);
         luckysheetTableContent.clip();
 
         let horizonAlignPos = (pos_x + space_width) * Store.devicePixelRatio; //默认为1，左对齐
@@ -1772,7 +1773,8 @@ let cellOverflowRender = function(r, c, stc, edc,luckysheetTableContent,scrollHe
     let pos_y = start_r + offsetTop + 1;
 
     luckysheetTableContent.save();
-    luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
+    luckysheetTableContent.beginPath();
+    luckysheetTableContent.rect(pos_x* Store.devicePixelRatio, pos_y* Store.devicePixelRatio, cellWidth* Store.devicePixelRatio, cellHeight* Store.devicePixelRatio);
     luckysheetTableContent.clip();
     
     //溢出单元格 水平对齐
