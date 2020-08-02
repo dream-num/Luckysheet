@@ -873,6 +873,9 @@ const sheetmanage = {
             $("#luckysheet-modal-dialog-slider-pivot").hide();
             luckysheetsizeauto(false);
         }
+        else if(Store.luckysheetcurrentisPivotTable) {
+            Store.luckysheetcurrentisPivotTable = false;
+        }
 
         let load = file["load"];
         if (load != null) {
