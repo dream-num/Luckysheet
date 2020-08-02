@@ -327,8 +327,8 @@ function chart_selection() {
             $('#luckysheet-chart-rangeShow').empty()
             $('#luckysheet-cell-selected-boxs').hide()
             $('#luckysheet-cell-selected-focus').hide()
-            $('#luckysheet-rows-h-selected').hide()
-            $('#luckysheet-cols-h-selected').hide()
+            $('#luckysheet-rows-h-selected').empty()
+            $('#luckysheet-cols-h-selected').empty()
             $('#luckysheet-row-count-show').hide()
             $('#luckysheet-column-count-show').hide()
 
