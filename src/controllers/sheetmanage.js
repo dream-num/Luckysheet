@@ -899,12 +899,12 @@ const sheetmanage = {
                 _this.setSheetParam();
                 _this.showSheet();
 
-                // setTimeout(function () {
+                setTimeout(function () {
                     _this.restoreCache();
                     formula.execFunctionGroup();
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     luckysheetrefreshgrid();
-                // }, 1);
+                }, 1);
 
                 server.saveParam("shs", null, Store.currentSheetIndex);
             }
