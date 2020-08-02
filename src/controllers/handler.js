@@ -61,7 +61,7 @@ import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/p
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
 
-    const os = browser.detectOS(), isMac = os=="Mac"?true:false, scrollNum = isMac?1:3, isMobile = browser.mobilecheck();
+    const os = browser.detectOS(), isMobile = browser.mobilecheck();
 
     //移动端
     if(isMobile){
@@ -106,7 +106,7 @@ export default function luckysheetHandler() {
     const _locale = locale();
     const locale_drag = _locale.drag;
     const locale_info = _locale.info;
-
+    let prev
     $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
             scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
@@ -130,6 +130,7 @@ export default function luckysheetHandler() {
         let colscroll = 0;
         let rowscroll = 0;
 
+        let scrollNum = event.deltaFactor<40?1:(event.deltaFactor<80?2:3);
         //一次滚动三行或三列
         if(event.deltaY != 0){
             let row_ed;
@@ -153,11 +154,11 @@ export default function luckysheetHandler() {
 
             $("#luckysheet-scrollbar-y").scrollTop(rowscroll);
         }
-        
-        if((isMobile || event.deltaY ==0) && event.deltaX != 0){
+        else if(event.deltaX != 0){
             let col_ed;
             
-            if((isMac && event.deltaX >0 ) || (!isMac && event.deltaX < 0)){
+            // if((isMac && event.deltaX >0 ) || (!isMac && event.deltaX < 0)){
+            if(event.deltaX >0){
                 col_ed = col_st + scrollNum;
                 
                 if(col_ed >= visibledatacolumn_c.length){
@@ -179,18 +180,19 @@ export default function luckysheetHandler() {
     });
 
     $("#luckysheet-scrollbar-x").scroll(function(){
-        setTimeout(function(){
-            luckysheetscrollevent(true);
-        },10); 
+        // setTimeout(function(){
+            luckysheetscrollevent();
+        // },10); 
+
     })
     .mousewheel(function (event, delta) {
         event.preventDefault();
     });
 
     $("#luckysheet-scrollbar-y").scroll(function(){
-		setTimeout(function(){
-            luckysheetscrollevent(true);
-        },10);
+		// setTimeout(function(){
+            luckysheetscrollevent();
+        // },10);
     })
     .mousewheel(function (event, delta) {
         event.preventDefault();

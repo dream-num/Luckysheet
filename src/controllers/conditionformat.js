@@ -2288,7 +2288,7 @@ const conditionformat = {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="title">设置格式：</div>${textCellColorHtml}`;
+                                    <div class="title">${conditionformat_Text.setFormat}: </div>${textCellColorHtml}`;
                 break;
             case 2: //仅对排名靠前或靠后的数值设置格式
                 ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem3_title}：</div>

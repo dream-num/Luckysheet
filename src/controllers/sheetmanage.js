@@ -756,8 +756,8 @@ const sheetmanage = {
         file["luckysheet_select_save"] = $.extend(true, [], Store.luckysheet_select_save);
         file["luckysheet_selection_range"] = $.extend(true, [], Store.luckysheet_selection_range);
 
-        file["scrollLeft"] = $("#luckysheet-cell-main").scrollLeft();//列标题
-        file["scrollTop"] = $("#luckysheet-cell-main").scrollTop();//行标题
+        file["scrollLeft"] = $("#luckysheet-scrollbar-x").scrollLeft();//列标题
+        file["scrollTop"] = $("#luckysheet-scrollbar-y").scrollTop();//行标题
     },
     setSheetParam: function(isload) {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -786,6 +786,25 @@ const sheetmanage = {
         }
 
         createFilterOptions(file["filter_select"], file["filter"]);
+
+        Store.scrollRefreshSwitch = false;
+        if(file["scrollLeft"]!=null && file["scrollLeft"]>0){
+            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
+        }
+        else{
+            $("#luckysheet-scrollbar-x").scrollLeft(0);
+        }
+
+        if(file["scrollTop"]!=null && file["scrollTop"]>0){
+            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
+        }
+        else{
+            $("#luckysheet-scrollbar-y").scrollTop(0);
+        }
+        setTimeout(() => {
+            Store.scrollRefreshSwitch = true;
+        }, 0);
+        
 
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
     },
@@ -852,7 +871,7 @@ const sheetmanage = {
         else if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")) {
             Store.luckysheetcurrentisPivotTable = false;
             $("#luckysheet-modal-dialog-slider-pivot").hide();
-            luckysheetsizeauto();
+            luckysheetsizeauto(false);
         }
 
         let load = file["load"];

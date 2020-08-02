@@ -240,6 +240,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         return;
     }
 
+
+    // console.trace();
     clearTimeout(measureTextCacheTimeOut);
     
     //参数未定义处理

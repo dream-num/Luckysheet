@@ -1991,7 +1991,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     width: 16px;
     height: 16px;
     padding: 5px;
-    z-index: 10;
+    z-index: 100;
     pointer-events: auto;
     touch-action: auto;
 }
@@ -5468,7 +5468,7 @@ fieldset[disabled] a.btn {
     color: #fff;
 }
 .luckysheet-newEditorRule-dialog .ruleTypeBox .ruleTypeItem .icon{
-
+    font-family: Arial, Helvetica, sans-serif;
 }
 .luckysheet-newEditorRule-dialog .ruleExplainBox{
     border: 1px solid #d4d4d4;

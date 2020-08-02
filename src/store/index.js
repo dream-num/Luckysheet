@@ -111,7 +111,8 @@ const Store = {
     functionList:null, //function list explanation
     luckysheet_function:null,
     chart_selection: {},
-    currentChart: ''
+    currentChart: '',
+    scrollRefreshSwitch:true,
 }
 
 export default Store;
