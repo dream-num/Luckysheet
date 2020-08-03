@@ -1991,7 +1991,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     width: 16px;
     height: 16px;
     padding: 5px;
-    z-index: 10;
+    z-index: 100;
     pointer-events: auto;
     touch-action: auto;
 }
@@ -5468,7 +5468,7 @@ fieldset[disabled] a.btn {
     color: #fff;
 }
 .luckysheet-newEditorRule-dialog .ruleTypeBox .ruleTypeItem .icon{
-
+    font-family: Arial, Helvetica, sans-serif;
 }
 .luckysheet-newEditorRule-dialog .ruleExplainBox{
     border: 1px solid #d4d4d4;
@@ -6157,7 +6157,7 @@ fieldset[disabled] a.btn {
 }
 
 
-.jfgrid-modal-dialog {
+.luckysheet-modal-dialog {
     -webkit-box-shadow: 0 4px 16px rgba(0,0,0,.2);
     -moz-box-shadow: 0 4px 16px rgba(0,0,0,.2);
     box-shadow: 0 4px 16px rgba(0,0,0,.2);
@@ -6172,7 +6172,7 @@ fieldset[disabled] a.btn {
     z-index: 100002;
 }
 
-.jfgrid-modal-dialog-mask {
+.luckysheet-modal-dialog-mask {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -6186,7 +6186,7 @@ fieldset[disabled] a.btn {
 
 
 
-.jfgrid-modal-dialog-title {
+.luckysheet-modal-dialog-title {
     background-color: #fff;
     color: #000;
     cursor: default;
@@ -6196,7 +6196,7 @@ fieldset[disabled] a.btn {
     margin: 0 0 16px;
 }
 
-.jfgrid-modal-dialog-title-close {
+.luckysheet-modal-dialog-title-close {
     height: 11px;
     opacity: 0.7;
     padding: 17px;
@@ -6208,46 +6208,46 @@ fieldset[disabled] a.btn {
     outline: 0;
 }
 
-.jfgrid-modal-dialog-chart {
+.luckysheet-modal-dialog-chart {
     padding: 20px 10px;
     webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
-/*         .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title{
+/*         .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title{
              line-height:0px;
              margin: 0px;
              font-size: 12px;
          }
 
-        .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-close,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-max,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-min,.jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-restore, .jfgrid-modal-dialog-chart .jfgrid-modal-dialog-title-update {
+        .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-close,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-max,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-min,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-restore, .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-update {
              height: 5px;
              opacity: 0.7;
              padding: 12px;
          }
 
-         .jfgrid-modal-dialog-title-update {
+         .luckysheet-modal-dialog-title-update {
              right: 105px;
              color:#FC6666;
              font-size:14px;
              padding-top: 9px;
          }
 
-         .jfgrid-modal-dialog-title-min {
+         .luckysheet-modal-dialog-title-min {
              right: 70px;
              padding-top: 9px;
          }
 
-         .jfgrid-modal-dialog-title-max, .jfgrid-modal-dialog-title-restore {
+         .luckysheet-modal-dialog-title-max, .luckysheet-modal-dialog-title-restore {
              right: 35px;
          }
 
-         .jfgrid-modal-dialog-title-restore{
+         .luckysheet-modal-dialog-title-restore{
              display: none;
          }*/
 
-.jfgrid-modal-dialog-resize {
+.luckysheet-modal-dialog-resize {
     position: absolute;
     border: 2px solid #FC6666;
     margin: 0px;
@@ -6259,7 +6259,7 @@ fieldset[disabled] a.btn {
     pointer-events: none;
 }
 
-.jfgrid-modal-dialog-resize-item {
+.luckysheet-modal-dialog-resize-item {
     position: absolute;
     height: 6px;
     width: 6px;
@@ -6269,60 +6269,60 @@ fieldset[disabled] a.btn {
     border-radius: 6px;
 }
 
-.jfgrid-modal-dialog-resize-item-lt {
+.luckysheet-modal-dialog-resize-item-lt {
     left: -6px;
     top: -6px;
     cursor: se-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-mt {
+.luckysheet-modal-dialog-resize-item-mt {
     left: 50%;
     top: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rt {
+.luckysheet-modal-dialog-resize-item-rt {
     right: -6px;
     top: -6px;
     cursor: ne-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-lm {
+.luckysheet-modal-dialog-resize-item-lm {
     top: 50%;
     left: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rm {
+.luckysheet-modal-dialog-resize-item-rm {
     top: 50%;
     right: -6px;
     margin-top: -4px;
     cursor: w-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-lb {
+.luckysheet-modal-dialog-resize-item-lb {
     left: -6px;
     bottom: -6px;
     cursor: ne-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-mb {
+.luckysheet-modal-dialog-resize-item-mb {
     left: 50%;
     bottom: -6px;
     margin-left: -4px;
     cursor: s-resize;
 }
 
-.jfgrid-modal-dialog-resize-item-rb {
+.luckysheet-modal-dialog-resize-item-rb {
     right: -6px;
     bottom: -6px;
     cursor: se-resize;
 }
 
 
-.jfgrid-modal-dialog-controll {
+.luckysheet-modal-dialog-controll {
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -6332,7 +6332,7 @@ fieldset[disabled] a.btn {
     top: 0px;
 }
 
-.jfgrid-modal-controll-btn {
+.luckysheet-modal-controll-btn {
     height: 13px;
     /* opacity: 0.7; */
     padding: 8px;
@@ -6353,22 +6353,22 @@ fieldset[disabled] a.btn {
     -o-transition: all 0.2s;
 }
 
-    .jfgrid-modal-controll-btn:hover {
+    .luckysheet-modal-controll-btn:hover {
         border: 1px solid #A1A1A1;
         color: #FC6666;
     }
 
-    .jfgrid-modal-controll-btn:active {
+    .luckysheet-modal-controll-btn:active {
         border: 1px solid #BBBBBB;
         background: #EFEFEF;
         color: #FC6666;
     }
 
-.jfgrid-modal-controll-del {
+.luckysheet-modal-controll-del {
     font-size: 16px;
 }
 
-.jfgrid-modal-controll-max-close {
+.luckysheet-modal-controll-max-close {
     font-size: 22px;
     width: 42px;
     height: 42px;
@@ -6386,7 +6386,7 @@ fieldset[disabled] a.btn {
     text-align: center;
 }
 
-.jfgrid-modal-controll-max-close:hover {
+.luckysheet-modal-controll-max-close:hover {
     background: #FC6666;
     cursor: pointer;
 }

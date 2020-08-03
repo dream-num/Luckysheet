@@ -244,17 +244,7 @@ export function initialSheetBar(){
             }
         }
 
-        let winW = $(window).width();
-
-        let c_width = 0;
-        $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item:visible").each(function(){
-            c_width += $(this).outerWidth();
-        });
-
-        if (c_width >= winW * 0.7) {
-            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
-            $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
-        }
+        sheetmanage.sheetArrowShowAndHide();
 
         Store.luckysheetfile[index].name = txt;
         server.saveParam("all", Store.currentSheetIndex, txt, { "k": "name" });

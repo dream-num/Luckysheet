@@ -1,9 +1,9 @@
-import { columeHeader_word, columeHeader_word_index,luckysheetdefaultFont } from '../controllers/constant';
+import { columeHeader_word, columeHeader_word_index, luckysheetdefaultFont } from '../controllers/constant';
 import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
 import { hasChinaword } from '../global/validate';
 import Store from '../store';
-import locale from '../locale/locale';
+import locale from '../locale/locale'; 
 
 /**
  * Common tool methods

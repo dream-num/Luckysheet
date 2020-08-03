@@ -49,8 +49,6 @@ luckysheet.create = function (setting) {
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
-    Store.editMode = extendsetting.editMode;
-    
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
     server.updateUrl = extendsetting.updateUrl;
@@ -83,7 +81,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.enablePage = extendsetting.enablePage;
     luckysheetConfigsetting.pageInfo = extendsetting.pageInfo;
 
-    
+    luckysheetConfigsetting.editMode = extendsetting.editMode;
     luckysheetConfigsetting.chartConfigChange = extendsetting.chartConfigChange;
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
 
@@ -91,7 +89,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
     // Register plugins
-    initPlugins(extendsetting.plugins);
+    initPlugins(extendsetting.plugins , extendsetting.data);
 
     // Store formula information, including internationalization
     functionlist();
@@ -108,7 +106,7 @@ luckysheet.create = function (setting) {
     let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
-        luckysheetsizeauto();
+        // luckysheetsizeauto();
         initialWorkBook();
     }
     else {
@@ -117,7 +115,7 @@ luckysheet.create = function (setting) {
             Store.luckysheetfile = data;
             
             sheetmanage.initialjfFile(menu, title);
-            luckysheetsizeauto();
+            // luckysheetsizeauto();
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接

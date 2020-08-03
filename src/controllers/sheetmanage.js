@@ -21,6 +21,7 @@ import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
+import { renderChartShow } from '../expendPlugins/chart/plugin'
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -43,9 +44,12 @@ const sheetmanage = {
     generateRandomSheetName: function(file, isPivotTable) {
         let index = file.length;
 
+        const locale_pivotTable = locale().pivotTable;
+        const title = locale_pivotTable.title;
+
         for(let i = 0; i < file.length; i++){
-            if(file[i].name.indexOf("Sheet") > -1 || file[i].name.indexOf("数据透视表") > -1){
-                let suffix = parseFloat(file[i].name.replace("Sheet", "").replace("数据透视表", ""));
+            if(file[i].name.indexOf("Sheet") > -1 || file[i].name.indexOf(title) > -1){
+                let suffix = parseFloat(file[i].name.replace("Sheet", "").replace(title, ""));
 
                 if(suffix != "NaN" && Math.ceil(suffix) > index){
                     index = Math.ceil(suffix);
@@ -54,7 +58,7 @@ const sheetmanage = {
         }
 
         if(isPivotTable){
-            return "数据透视表" + (index + 1);
+            return title + (index + 1);
         }
         else{
             return "Sheet" + (index + 1);
@@ -670,7 +674,7 @@ const sheetmanage = {
                     formula.execFunctionGroup();
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     
-                    luckysheetrefreshgrid(0, 0);
+                    // luckysheetrefreshgrid(0, 0);
                     $("#luckysheet_info_detail_save").html(locale_info.detailSave);
 
                     if (!!file.isPivotTable) {
@@ -752,8 +756,8 @@ const sheetmanage = {
         file["luckysheet_select_save"] = $.extend(true, [], Store.luckysheet_select_save);
         file["luckysheet_selection_range"] = $.extend(true, [], Store.luckysheet_selection_range);
 
-        file["scrollLeft"] = $("#luckysheet-cell-main").scrollLeft();//列标题
-        file["scrollTop"] = $("#luckysheet-cell-main").scrollTop();//行标题
+        file["scrollLeft"] = $("#luckysheet-scrollbar-x").scrollLeft();//列标题
+        file["scrollTop"] = $("#luckysheet-scrollbar-y").scrollTop();//行标题
     },
     setSheetParam: function(isload) {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -783,7 +787,26 @@ const sheetmanage = {
 
         createFilterOptions(file["filter_select"], file["filter"]);
 
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        Store.scrollRefreshSwitch = false;
+        if(file["scrollLeft"]!=null && file["scrollLeft"]>0){
+            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
+        }
+        else{
+            $("#luckysheet-scrollbar-x").scrollLeft(0);
+        }
+
+        if(file["scrollTop"]!=null && file["scrollTop"]>0){
+            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
+        }
+        else{
+            $("#luckysheet-scrollbar-y").scrollTop(0);
+        }
+        setTimeout(() => {
+            Store.scrollRefreshSwitch = true;
+        }, 0);
+        
+
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -848,7 +871,10 @@ const sheetmanage = {
         else if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")) {
             Store.luckysheetcurrentisPivotTable = false;
             $("#luckysheet-modal-dialog-slider-pivot").hide();
-            luckysheetsizeauto();
+            luckysheetsizeauto(false);
+        }
+        else if(Store.luckysheetcurrentisPivotTable) {
+            Store.luckysheetcurrentisPivotTable = false;
         }
 
         let load = file["load"];
@@ -932,7 +958,7 @@ const sheetmanage = {
         $("#luckysheet-datavisual-selection-set-" + index).show();
 
         //隐藏其他sheet的图表，显示当前sheet的图表 chartMix
-        !!window.generator && generator.renderChartShow(index);
+        renderChartShow(index);
         
         luckysheetFreezen.initialFreezen(index);
         _this.restoreselect();
@@ -1034,9 +1060,34 @@ const sheetmanage = {
         if (formula.rangestart) {
             formula.createRangeHightlight();
         }
+        
+        this.sheetBarShowAndHide(index);
+    },
+    sheetArrowShowAndHide(){
+        let containerW = $("#luckysheet-sheet-container").width();
 
+        let c_width = 0;
+        $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item:visible").each(function(){
+            c_width += $(this).outerWidth();
+        });
+
+        if (c_width >= containerW) {
+            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+        }
+        else{
+            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "none");
+            $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
+        }
+    },
+    sheetBarShowAndHide(index){
         let $c = $("#luckysheet-sheet-container-c");
-        $c.scrollLeft($sheet.offset().left);
+
+        if(index!=null){
+            let $sheet = $("#luckysheet-sheets-item" + index);
+            $c.scrollLeft($sheet.offset().left);
+        }
+
 
         let c_width = $c.width(), c_srollwidth = $c[0].scrollWidth, scrollLeft = $c.scrollLeft();
 
@@ -1181,7 +1232,7 @@ const sheetmanage = {
                 file.config.rowhidden =  {};
                 Store.config = file.config;
 
-                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
             }
 
             return;
@@ -1236,7 +1287,7 @@ const sheetmanage = {
         file.config["rowhidden"] = rowhidden;
         Store.config = file.config;
 
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
     },
     restorePivot: function(sheetIndex) {
         let index = this.getSheetIndex(sheetIndex);
@@ -1248,7 +1299,7 @@ const sheetmanage = {
 
         pivotTable.getCellData(sheetIndex);
         pivotTable.initialPivotManage(true);
-        pivotTable.refreshPivotTable();
+        pivotTable.refreshPivotTable(false);
     },
     restoreSheetAll: function(sheetIndex) {
         let _this= this;

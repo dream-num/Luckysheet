@@ -3,11 +3,28 @@ import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 
+
+let scrollRequestAnimationFrameIni = true,scrollRequestAnimationFrame = false, scrollTimeOutCancel=null;
+
+function execScroll(){
+    let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
+        scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+    luckysheetrefreshgrid(scrollLeft, scrollTop);
+    scrollRequestAnimationFrame = window.requestAnimationFrame(execScroll);
+}
+
 //全局滚动事件
 export default function luckysheetscrollevent(isadjust) {
     let $t = $("#luckysheet-cell-main");
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
         scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+
+    clearTimeout(scrollTimeOutCancel);
+
+    scrollTimeOutCancel = setTimeout(() => {
+        scrollRequestAnimationFrameIni  = true;
+        window.cancelAnimationFrame(scrollRequestAnimationFrame);
+    }, 500);
 
     // if (!!isadjust) {
     //     let scrollHeight = $t.get(0).scrollHeight;
@@ -74,8 +91,15 @@ export default function luckysheetscrollevent(isadjust) {
         "top": (parseInt($("#luckysheet-input-box").css("top")) - 20) + "px", 
         "z-index": $("#luckysheet-input-box").css("z-index")
     }).show();
+
+    if(scrollRequestAnimationFrameIni && Store.scrollRefreshSwitch){
+        execScroll();
+        scrollRequestAnimationFrameIni = false;
+    }
+    // window.requestAnimationFrame(()=>{
+    //     luckysheetrefreshgrid(scrollLeft, scrollTop);
+    // });
     
-    luckysheetrefreshgrid(scrollLeft, scrollTop);
 
     $("#luckysheet-bottom-controll-row").css("left", scrollLeft + 10);
 

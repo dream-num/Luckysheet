@@ -1,7 +1,7 @@
 import { getcellvalue } from './getdata';
 
 const luckysheetArray = {
-    transpose: function (getdata) {
+    transpose: function (getdata, useGetcellValue=true) {
         let arr = [];
         if (getdata.length == 0) {
             return [];
@@ -16,7 +16,12 @@ const luckysheetArray = {
             for (let r = 0; r < getdata.length; r++) {
                 let value = "";
                 if (getdata[r] != null && getdata[r][c] != null) {
-                    value = getcellvalue(r, c, getdata);
+                    if(useGetcellValue){
+                        value = getcellvalue(r, c, getdata);
+                    }
+                    else{
+                        value = getdata[r][c];
+                    }
                 }
                 a.push(value);
             }

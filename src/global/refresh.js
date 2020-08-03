@@ -18,7 +18,7 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true) {
+function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true, isRefreshCanvas=true) {
     if(data == null){
         data = Store.flowdata;
     }
@@ -115,17 +115,24 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
         if(server.allowUpdate){ //共享编辑模式
             server.historyParam(Store.flowdata, Store.currentSheetIndex, range[s]);
         }
+        // 刷新图表
+        if(typeof(Store.chartparam.jfrefreshchartall)=="function"){
+            Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1]);
+        }
     }
 
     //刷新表格
-    setTimeout(function () {
-        luckysheetrefreshgrid();
-    }, 1);
+    if(isRefreshCanvas){
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+    
 
     window.luckysheet_getcelldata_cache = null;
 }
 
-function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlValue, cdformat, changeSize) {
+function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlValue, cdformat, isRefreshCanvas=true) {
     let redo = {};
 
     if (ctrlType == "cellRowChange") {
@@ -242,9 +249,12 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
     //行高、列宽 刷新  
     jfrefreshgrid_rhcw(rowheight, colwidth);
 
-    setTimeout(function () {
-        luckysheetrefreshgrid();
-    }, 1);
+    if(isRefreshCanvas){
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+    
 
     sheetmanage.storeSheetParamALL();
     
@@ -629,7 +639,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 }
 
 //行高、列宽改变 刷新表格
-function jfrefreshgrid_rhcw(rowheight, colwidth){
+function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
     rhchInit(rowheight, colwidth);
 
     sheetmanage.storeSheetParam();
@@ -782,9 +792,12 @@ function jfrefreshgrid_rhcw(rowheight, colwidth){
 
     sheetmanage.showSheet();
 
-    setTimeout(function () {
-        luckysheetrefreshgrid();
-    }, 1);
+    if(isRefreshCanvas){
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+   
 }
 
 //Refresh the canvas display data according to scrollHeight and scrollWidth

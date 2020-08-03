@@ -38,8 +38,9 @@ function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     formula.fucntionboxshow(curR, curC);
 
     if (type == "range") {
-        let p_startR = Store.luckysheet_shiftpositon["row"][0];
-        let p_startC = Store.luckysheet_shiftpositon["column"][0];
+        // need var
+        var p_startR = Store.luckysheet_shiftpositon["row"][0];
+        var p_startC = Store.luckysheet_shiftpositon["column"][0];
 
         let p_endR = Store.luckysheet_shiftpositon["row"][1];
         let p_endC = Store.luckysheet_shiftpositon["column"][1];
@@ -1762,30 +1763,32 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         let stValue = Store.flowdata[strIndex][focusIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
-            stNull = false;
-        }
-        else if(isRealNull(stValue)){
-            stNull = false;
-        }
-        else{
             stNull = true;
         }
+        else if(isRealNull(stValue)){
+            stNull = true;
+        }
+        else{
+            stNull = false;
+        }
+
+        console.log(stNull, "stNull");
 
         let cellNull = [], i = 0;
         for(let r = strIndex + 1; r <= endIndex; r++){
             let cell = Store.flowdata[r][focusIndex];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
-                cellNull.push(false);
-            }
-            else if(isRealNull(cell)){
-                cellNull.push(false);
-            }
-            else{
                 cellNull.push(true);
             }
+            else if(isRealNull(cell)){
+                cellNull.push(true);
+            }
+            else{
+                cellNull.push(false);
+            }
 
-            if(cellNull.length == 1 && stNull && cellNull[i] == false){
+            if(cellNull.length == 1 && stNull==true && cellNull[i] == false){
                 index = strIndex + i + 1;
                 break;
             }
@@ -1817,13 +1820,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         let stValue = Store.flowdata[endIndex][focusIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
-            stNull = false;
+            stNull = true;
         }
         else if(isRealNull(stValue)){
-            stNull = false;
+            stNull = true;
         }
         else{
-            stNull = true;
+            stNull = false;
         }
 
         let cellNull = [], i = 0;
@@ -1831,13 +1834,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
             let cell = Store.flowdata[r][focusIndex];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else if(isRealNull(cell)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else{
-                cellNull.push(true);
+                cellNull.push(false);
             }
 
             if(cellNull.length == 1 && stNull && cellNull[i] == false){
@@ -1872,13 +1875,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         let stValue = Store.flowdata[focusIndex][strIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
-            stNull = false;
+            stNull = true;
         }
         else if(isRealNull(stValue)){
-            stNull = false;
+            stNull = true;
         }
         else{
-            stNull = true;
+            stNull = false;
         }
 
         let cellNull = [], i = 0;
@@ -1886,13 +1889,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
             let cell = Store.flowdata[focusIndex][c];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else if(isRealNull(cell)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else{
-                cellNull.push(true);
+                cellNull.push(false);
             }
 
             if(cellNull.length == 1 && stNull && cellNull[i] == false){
@@ -1927,13 +1930,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
         let stValue = Store.flowdata[focusIndex][endIndex];
 
         if(getObjType(stValue) == "object" && isRealNull(stValue.v)){
-            stNull = false;
+            stNull = true;
         }
         else if(isRealNull(stValue)){
-            stNull = false;
+            stNull = true;
         }
         else{
-            stNull = true;
+            stNull = false;
         }
 
         let cellNull = [], i = 0;
@@ -1941,13 +1944,13 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
             let cell = Store.flowdata[focusIndex][c];
 
             if(getObjType(cell) == "object" && isRealNull(cell.v)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else if(isRealNull(cell)){
-                cellNull.push(false);
+                cellNull.push(true);
             }
             else{
-                cellNull.push(true);
+                cellNull.push(false);
             }
 
             if(cellNull.length == 1 && stNull && cellNull[i] == false){

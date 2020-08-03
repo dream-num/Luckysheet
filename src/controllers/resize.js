@@ -3,11 +3,12 @@ import luckysheetFreezen from './freezen';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 import locale from '../locale/locale';
+import sheetmanage from './sheetmanage';
 
 let gridW = 0, 
     gridH = 0;
 
-export default function luckysheetsizeauto() {
+export default function luckysheetsizeauto(isRefreshCanvas=true) {
     if (!luckysheetConfigsetting.showinfobar) {
         Store.infobarHeight = 0;
         $("#luckysheet_info_detail").hide();
@@ -52,8 +53,8 @@ export default function luckysheetsizeauto() {
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-pivot").outerWidth();
         } 
-        else if($("#luckysheet-data-visualization").is(":visible")){
-            gridW -= $("#luckysheet-data-visualization").outerWidth();
+        else if($(".chartSetting").is(":visible")){
+            gridW -= $(".chartSetting").outerWidth();
         }
         else if($("#luckysheet-modal-dialog-slider-alternateformat").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-alternateformat").outerWidth();
@@ -103,7 +104,9 @@ export default function luckysheetsizeauto() {
     .css({ "height": gridheight - 10 });
     
     luckysheetFreezen.createAssistCanvas();
-    luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
+    if(isRefreshCanvas){
+        luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
+    }
     const _locale = locale();
     const locale_toolbar = _locale.toolbar;
     let ismore = false, 
@@ -167,4 +170,7 @@ export default function luckysheetsizeauto() {
     }, function(){
         $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");
     });
+
+    sheetmanage.sheetArrowShowAndHide();
+    sheetmanage.sheetBarShowAndHide();
 }
