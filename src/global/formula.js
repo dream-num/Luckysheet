@@ -1312,6 +1312,8 @@ const luckysheetformula = {
             let defaultrowlen = 19;
 
             let offlinecanvas = $("#luckysheetTableContentF").get(0).getContext("2d");
+            offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+
             let fontset = luckysheetfontformat(d[r][c]);
             offlinecanvas.font = fontset;
 
@@ -1321,15 +1323,17 @@ const luckysheetformula = {
             }
 
             let strValue = getcellvalue(r, c, d).toString();
-            let tbWidth = offlinecanvas.measureText(strValue).width;
-            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 8;
+            let measureText = offlinecanvas.measureText(strValue);
 
-            if(tbWidth > cellWidth){
+            let textMetrics = measureText.width;
+            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4;
+            let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+
+            if(textMetrics > cellWidth){
                 let strArr = [];//文本截断数组
                 strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
 
-                let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
-                let computeRowlen = oneLineTextHeight * strArr.length;
+                let computeRowlen = oneLineTextHeight * strArr.length + 4;
                 //比较计算高度和当前高度取最大高度
                 if(computeRowlen > currentRowLen){
                     currentRowLen = computeRowlen;

@@ -955,9 +955,6 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
         let fontset = luckysheetdefaultFont();
         luckysheetTableContent.font = fontset;
 
-        // let textMetrics = luckysheetTableContent.measureText(value).width;
-        // let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
-
         //水平对齐 (默认为1，左对齐)
         let horizonAlignPos = (start_c + 4 + offsetLeft) * Store.devicePixelRatio;
 

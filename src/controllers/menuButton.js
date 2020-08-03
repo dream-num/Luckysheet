@@ -24,7 +24,7 @@ import { sortSelection } from '../global/sort';
 import luckysheetformula from '../global/formula';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import { isdatatypemulti } from '../global/datecontroll';
-import { getCellTextSplitArr } from '../global/getRowlen';
+import { rowlenByRange, getCellTextSplitArr } from '../global/getRowlen';
 import { setcellvalue } from '../global/setdata';
 import { countfunc } from '../global/count';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
@@ -848,6 +848,25 @@ const menuButton = {
             }
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         })
+        .find("input.luckysheet-toolbar-textinput").keyup(function(e){
+            if(e.keyCode != 13){//Enter
+                return;
+            }
+
+            let $this = $(this);
+
+            let itemvalue = parseInt($this.val());
+            let $menuButton = $("#luckysheet-icon-font-size-menuButton");
+            _this.focus($menuButton, itemvalue);
+            
+            let d = editor.deepCopyFlowData(Store.flowdata);
+            _this.updateFormat(d, "fs", itemvalue);
+            
+            luckysheet_fs_setTimeout = setTimeout(function(){
+                $menuButton.hide();
+                $this.blur();
+            }, 200);
+        });
 
         //边框设置
         $("#luckysheet-icon-border-all").click(function(){
@@ -2924,202 +2943,10 @@ const menuButton = {
                 }
             }
 
-            if(attr == "tb" && foucsStatus == "2"){
-                //自动换行
-                for (let r = row_st; r <= row_ed; r++) {
-                    if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-                        continue;
-                    }
-
-                    let currentRowLen = Store.defaultrowlen;
-                    if(cfg["rowlen"][r] != null){
-                        currentRowLen = cfg["rowlen"][r];
-                    }
-
-                    for (let c = col_st; c <= col_ed; c++) {
-                        let cell = d[r][c];
-
-                        if(cell != null && !isRealNull(cell.v)){
-                            let fontset = luckysheetfontformat(cell);
-                            let oneLineTextHeight = _this.getTextSize("田", fontset)[1];
-                            canvas.font = fontset;
-
-                            let strValue = cell.m.toString();
-                            let tbWidth = canvas.measureText(strValue).width;
-                            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 8;
-
-                            if(tbWidth > cellWidth){
-                                let strArr = [];//文本截断数组
-                                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, canvas);
-
-                                let computeRowlen = oneLineTextHeight * strArr.length;
-                                //比较计算高度和当前高度取最大高度
-                                if(computeRowlen > currentRowLen){
-                                    currentRowLen = computeRowlen;
-                                }
-                            }
-                        }
-                    }
-
-                    if(currentRowLen != Store.defaultrowlen){
-                        cfg["rowlen"][r] = currentRowLen;
-                    }
-                }
-            }
-            else if(attr == "tr"){
-                //文本旋转
-                for (let r = row_st; r <= row_ed; r++) {
-                    if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-                        continue;
-                    }
-
-                    let currentRowLen = Store.defaultrowlen;
-                    if(cfg["rowlen"][r] != null){
-                        currentRowLen = cfg["rowlen"][r];
-                    }
-
-                    for (let c = col_st; c <= col_ed; c++) {
-                        let cell = d[r][c];
-
-                        if(cell != null && !isRealNull(cell.v)){
-                            let fontset = luckysheetfontformat(cell);
-                            let oneLineTextHeight = _this.getTextSize("田", fontset)[1];
-                            canvas.font = fontset;
-                            
-                            let value = cell.m.toString();
-                            let textMetrics = canvas.measureText(value).width;
-
-                            let computeRowlen; //计算高度
-                            if(foucsStatus == "0"){
-                                //无旋转
-                                computeRowlen = oneLineTextHeight;    
-                            }
-                            else if(foucsStatus == "1" || foucsStatus == "2"){
-                                //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                                computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + 4;
-                            }
-                            else if(foucsStatus == "3"){
-                                //竖排文字
-                                computeRowlen = value.length * oneLineTextHeight + 4;
-                            }
-                            else if(foucsStatus == "4" || foucsStatus == "5"){
-                                //向下90（90 旋转）----向上90（-90 旋转）
-                                computeRowlen = textMetrics + 4;
-                            }
-                            computeRowlen = Math.round(computeRowlen);
-                            //比较计算高度和当前高度取最大高度
-                            if(computeRowlen > currentRowLen){
-                                currentRowLen = computeRowlen;
-                            }
-                        }
-                    }
-
-                    if(currentRowLen != Store.defaultrowlen){
-                        cfg["rowlen"][r] = currentRowLen;
-                    }
-                }
-            }
-            else if(attr == "fs"){
-                //字体大小
-                for (let r = row_st; r <= row_ed; r++) {
-                    if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-                        continue;
-                    }
-
-                    let currentRowLen = Store.defaultrowlen;
-                    if(cfg["rowlen"][r] != null){
-                        currentRowLen = cfg["rowlen"][r];
-                    }
-
-                    for (let c = col_st; c <= col_ed; c++) {
-                        let cell = d[r][c];
-
-                        if(cell == null){
-                            continue;
-                        }
-
-                        let fontset = luckysheetfontformat(cell);
-                        let oneLineTextHeight = _this.getTextSize("田", fontset)[1];
-                        canvas.font = fontset;
-
-                        //计算高度
-                        let computeRowlen;
-                        if(isRealNull(cell.v)){
-                            computeRowlen = oneLineTextHeight;
-                        }
-                        else{
-                            if(cell.tb == "2"){
-                                //单元格有自动换行标示
-                                let strValue = cell.m.toString();
-                                let tbWidth = canvas.measureText(strValue).width;
-                                let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 8;
-
-                                if(tbWidth > cellWidth){
-                                    let strArr = [];//文本截断数组
-
-                                    for(let strI = 1; strI <= strValue.length; strI++){
-                                        let strV = strValue.substring(strArr.join("").length, strI);
-                                        let strtextMetrics = canvas.measureText(strV).width;
-                                        
-                                        if(strtextMetrics > cellWidth){
-                                            strArr.push(strValue.substring(strArr.join("").length, strI-1));
-                                            strI = strI - 2;
-                                        }
-                                        else if(strtextMetrics <= cellWidth && strI == strValue.length){
-                                            strArr.push(strV);
-                                        }
-                                    }
-                                    
-                                    computeRowlen = oneLineTextHeight * strArr.length;
-                                }
-                                else{
-                                    computeRowlen = oneLineTextHeight;
-                                }
-                            }
-                            else if(cell.tr != null){
-                                //单元格有旋转标示
-                                let tr = cell.tr;
-                                let value = cell.m.toString();
-                                let textMetrics = canvas.measureText(value).width;
-
-                                if(tr == "0"){
-                                    //无旋转
-                                    computeRowlen = oneLineTextHeight;    
-                                }
-                                else if(tr == "1" || tr == "2"){
-                                    //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                                    computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + 4;
-                                }
-                                else if(tr == "3"){
-                                    //竖排文字
-                                    computeRowlen = value.length * oneLineTextHeight + 4;
-                                }
-                                else if(tr == "4" || tr == "5"){
-                                    //向下90（90 旋转）----向上90（-90 旋转）
-                                    computeRowlen = textMetrics + 4;
-                                }
-
-                                computeRowlen = Math.round(computeRowlen);
-                            }
-                            else{
-                                computeRowlen = oneLineTextHeight;
-                            }
-                        }
-
-                        //比较计算高度和当前高度取最大高度
-                        if(computeRowlen > currentRowLen){
-                            currentRowLen = computeRowlen;
-                        }
-                    }
-
-                    if(currentRowLen != Store.defaultrowlen){
-                        cfg["rowlen"][r] = currentRowLen;
-                    }
-                }
-            }
+            cfg = rowlenByRange(d, row_st, row_ed, cfg);
         }
 
-        if((attr == "tb" && foucsStatus == "2") || attr == "tr" || attr == "fs"){
+        if(attr == "tb" || attr == "tr" || attr == "fs"){
             jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
         }
         else{
