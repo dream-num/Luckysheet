@@ -1303,6 +1303,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     Store.devicePixelRatio * (end_r + offsetTop - 2)
                 );
                 luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+                luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
                 
                 luckysheetTableContent.stroke();
                 luckysheetTableContent.closePath();
@@ -1321,6 +1322,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 Store.devicePixelRatio * (end_r + offsetTop - 2 + 0.5)
             );
             luckysheetTableContent.lineWidth = Store.devicePixelRatio;
+            luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
             
             luckysheetTableContent.stroke();
             luckysheetTableContent.closePath();
