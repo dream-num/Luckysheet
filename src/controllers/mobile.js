@@ -227,7 +227,7 @@ export default function mobileinit(){
     $(document).on("touchstart", ".luckysheet-cs-touchhandle", function(event){
         luckysheet_touchhandle_status = true;
         luckysheet_touchmove_status = false;
-        console.log(1111111111);
+        // console.log(1111111111);
         event.stopPropagation();
     })  
 
