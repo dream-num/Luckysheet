@@ -20,13 +20,8 @@ function luckysheetDrawgrid(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     if($("#luckysheetTableContent").length == 0){
         return;
     }
-
-    // if(Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["isPivotTable"]){
-    //     luckysheetDrawMain_back(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop);  
-    // }
-    // else{
+    
     luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop);
-    // }
     
     $("#luckysheetTableContent").get(0).getContext("2d").clearRect(0, 0, 46, 20);
     
@@ -1053,10 +1048,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     let fontset = luckysheetfontformat(cell);
     luckysheetTableContent.font = fontset;
     luckysheetTableContent.textBaseline = 'top';
-
-    //文本计算 宽度和高度
-    // let cellValueSize = getCellValueSize(cell, value, luckysheetTableContent, cellWidth, cellHeight, space_width, space_height);
-
+    
     //水平对齐
     let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c, "ht");
     //垂直对齐
@@ -2065,73 +2057,11 @@ function cellOverflow_colIn(map, r, c, col_st, col_ed){
 }
 
 //获取有值单元格文本大小
-function getCellValueSize(cell, value, canvas, cellWidth, cellHeight, space_width, space_height){
-    let textWidth, textHeight;
-
-    value = value.toString();
-
-    let measureText = getMeasureText(value, canvas);
-    //canvas.measureText(value);
-    let textW = measureText.width;
-    let textH = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
-
-    if(cell.tb == '2' && textW > cellWidth - space_width * 2){
-        //自动换行 且 文本长度超出单元格长度
-        let strArr = [];//文本截断数组
-        strArr = getCellTextSplitArr(value, strArr, cellWidth - space_width * 2, canvas);
-
-        textWidth = cellWidth - space_width * 2;
-        textHeight = textH * strArr.length;
-    }
-    else if(cell.tr != null && cell.tr != '0'){
-        //旋转
-        if(cell.tr == '1' || cell.tr == '2'){
-            textWidth = 0.707 * (textW + textH);
-            textHeight = 0.707 * (textW + textH);
-        }
-        else if(cell.tr == '3'){
-            let vArr = [];
-
-            if(value.length > 1){
-                vArr = value.split('');
-            }
-            else{
-                vArr.push(value);
-            }
-
-            let textW_all, textH_all;
-
-            for(let i = 0; i < vArr.length; i++){
-                let measureText_i = getMeasureText(vArr[i], canvas);
-                //canvas.measureText(vArr[i]);
-                textW_all += measureText_i.width;
-                textH_all += measureText_i.actualBoundingBoxDescent - measureText_i.actualBoundingBoxAscent;
-            }
-
-            textWidth = textW_all / vArr.length;
-            textHeight = textH_all;
-        }
-        else if(cell.tr == '4' || cell.tr == '5'){
-            textWidth = textH;
-            textHeight = textW;
-        }
-    }
-    else{
-        textWidth = textW;
-        textHeight = textH;
-    }
-
-    return {
-        width: textWidth,
-        height: textHeight
-    }
-}
-
-
-let measureTextCache ={}, measureTextCacheTimeOut = null;
+let measureTextCache = {}, measureTextCacheTimeOut = null;
 function getMeasureText(value, ctx){
     let mtc = measureTextCache[value + "_" + ctx.font];
-    if(mtc!=null){
+
+    if(mtc != null){
         return mtc;
     }
     else{
@@ -2140,11 +2070,10 @@ function getMeasureText(value, ctx){
         cache.actualBoundingBoxDescent = measureText.actualBoundingBoxDescent;
         cache.actualBoundingBoxAscent = measureText.actualBoundingBoxAscent;
         measureTextCache[value + "_" + ctx.font] = cache;
+
         return cache;
     }
 }
-
-
 
 export {
     luckysheetDrawgrid,
