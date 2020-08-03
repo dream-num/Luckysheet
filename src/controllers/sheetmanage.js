@@ -215,7 +215,7 @@ const sheetmanage = {
             redo["type"] = "addSheet";
             redo["sheetconfig"] = $.extend(true, {}, sheetconfig);
             redo["index"] = index;
-            redo["Store.currentSheetIndex"] = Store.currentSheetIndex;
+            redo["currentSheetIndex"] = Store.currentSheetIndex;
             Store.jfredo.push(redo);
         }
 

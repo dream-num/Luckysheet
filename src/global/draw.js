@@ -1075,8 +1075,8 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     luckysheetTableContent.fillRect(
         (start_c + offsetLeft - 1) * Store.devicePixelRatio, 
         (start_r + offsetTop) * Store.devicePixelRatio, 
-        (end_c - start_c + 2) * Store.devicePixelRatio,
-        (end_r - start_r) * Store.devicePixelRatio
+        (end_c - start_c) * Store.devicePixelRatio,
+        (end_r - start_r - 1) * Store.devicePixelRatio
     )
 
     //若单元格有批注（单元格右上角红色小三角标示）

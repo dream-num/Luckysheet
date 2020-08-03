@@ -98,8 +98,6 @@ const selection = {
             clipboardData = e.originalEvent.clipboardData;
         }
 
-
-
         Store.luckysheet_selection_range = [];
         //copy范围
         let minR = Store.luckysheet_select_save[0].row[0], 

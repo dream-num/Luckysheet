@@ -1930,6 +1930,11 @@ const conditionformat = {
         const conditionformat_Text = locale().conditionformat; 
 
         let rule = _this.editorRule.data;
+
+        if(rule == null){
+            return;
+        }
+
         let ruleType = rule["type"], 
             ruleFormat = rule["format"], 
             conditionName = rule["conditionName"];

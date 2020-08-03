@@ -1204,7 +1204,7 @@ const luckysheetformula = {
         let curv = Store.flowdata[r][c];
 
         if(isRealNull(value)){
-            if(curv == null || isRealNull(curv.v)){
+            if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
                 _this.cancelNormalSelected();
                 return;
             }

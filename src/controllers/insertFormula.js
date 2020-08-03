@@ -428,10 +428,18 @@ const insertFormula = {
         let lvi = -1; //最后一个有值的参数索引
 
         let formulatxt = $("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-title-text").text();
+        let p = Store.luckysheet_function[formulatxt].p;
         
         $("#luckysheet-search-formula-parm .parmBox").each(function(i, e){
             let parmtxt = $(e).find(".txt input").val();
-            let parmRequire = Store.luckysheet_function[formulatxt].p[i].require;
+
+            let parmRequire;
+            if(i < p.length){
+                parmRequire = p[i].require;
+            }
+            else{
+                parmRequire = p[p.length - 1].require;
+            }
 
             if(parmtxt == "" && parmRequire == "m"){
                 isVal = false;
