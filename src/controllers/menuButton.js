@@ -29,7 +29,7 @@ import { setcellvalue } from '../global/setdata';
 import { countfunc } from '../global/count';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
-import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat } from '../utils/util';
+import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import { connect } from 'tls';
@@ -418,7 +418,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -436,7 +436,7 @@ const menuButton = {
                 $("#luckysheet-icon-fmtOtherSelf-menuButton").find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-fmtOtherSelf-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let itemvalue = $(this).attr("itemvalue");
 
@@ -482,7 +482,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), itemname = $t.attr("itemname");
                     _this.focus($menuButton, itemvalue);
@@ -581,13 +581,13 @@ const menuButton = {
                         _this.updateFormat(d, "fc", color);
 
                         $menuButton.hide();
-                        $("#" + Store.container).attr("tabindex", 0).focus();
+                        luckysheetContainerFocus();
                     },
                 });
 
                 $menuButton.find(".luckysheet-color-reset").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $input = $("#"+ menuButtonId).find(".luckysheet-color-selected");
                     $input.val("#000000");
@@ -602,7 +602,7 @@ const menuButton = {
                 //交替颜色
                 $menuButton.find(".luckysheet-icon-alternateformat").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
@@ -719,13 +719,13 @@ const menuButton = {
                         _this.updateFormat(d, "bg", color);
 
                         $menuButton.hide();
-                        $("#" + Store.container).attr("tabindex", 0).focus();
+                        luckysheetContainerFocus();
                     }
                 });
 
                 $menuButton.find(".luckysheet-color-reset").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $input = $("#" + menuButtonId).find(".luckysheet-color-selected");
                     $input.val("#ffffff");
@@ -740,7 +740,7 @@ const menuButton = {
                 //交替颜色
                 $menuButton.find(".luckysheet-icon-alternateformat").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     if(Store.luckysheet_select_save.length > 1){
                         if(isEditMode()){
@@ -819,7 +819,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), $input = $("#luckysheet-icon-font-size input");
                     $("#luckysheet-icon-font-size").attr("itemvalue", itemvalue);
@@ -1020,7 +1020,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     if(itemvalue == "borderColor" || itemvalue == "borderSize"){
@@ -1220,7 +1220,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     if(selectIsOverlap()){
                         if(isEditMode()){
@@ -1311,7 +1311,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
@@ -1367,7 +1367,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
@@ -1414,7 +1414,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
@@ -1464,7 +1464,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
@@ -1516,7 +1516,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
@@ -1780,7 +1780,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -1849,7 +1849,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -1977,7 +1977,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2264,7 +2264,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2343,7 +2343,7 @@ const menuButton = {
                 $(document).off("click.CFhighlightCellRule").on("click.CFhighlightCellRule", "#luckysheet-icon-highlightCellRule-menuButton .luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-highlightCellRule-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2461,7 +2461,7 @@ const menuButton = {
                 $(document).off("click.CFprojectSelectRule").on("click.CFprojectSelectRule", "#luckysheet-icon-projectSelectRule-menuButton .luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-projectSelectRule-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2565,7 +2565,7 @@ const menuButton = {
                 $(document).off("click.CFdataBar").on("click.CFdataBar", "#luckysheet-icon-dataBar-menuButton .luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-dataBar-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2581,7 +2581,7 @@ const menuButton = {
                 $(document).off("click.CFcolorGradation").on("click.CFcolorGradation", "#luckysheet-icon-colorGradation-menuButton .luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-colorGradation-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2597,7 +2597,7 @@ const menuButton = {
                 $(document).off("click.CFdeleteRule").on("click.CFdeleteRule", "#luckysheet-icon-deleteRule-menuButton .luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     $("#luckysheet-icon-deleteRule-menuButton").hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
 
@@ -2667,7 +2667,7 @@ const menuButton = {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
-                    $("#" + Store.container).attr("tabindex", 0).focus();
+                    luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     

@@ -383,6 +383,13 @@ function luckysheetactiveCell() {
     }
 }
 
+//单元格编辑聚焦
+function luckysheetContainerFocus() {
+    $("#" + Store.container).attr("tabindex", 0).focus({ 
+        preventScroll: true 
+    });
+}
+
 //数字格式
 function numFormat(num, type) {
     if (num == null || isNaN(parseFloat(num)) || hasChinaword(num) || num == -Infinity || num == Infinity) {
@@ -638,5 +645,6 @@ export {
     $$,
     seriesLoadScripts,
     parallelLoadScripts,
-    loadLinks
+    loadLinks,
+    luckysheetContainerFocus
 }

@@ -28,6 +28,7 @@ import {
     ArrayUnique,
     showrightclickmenu, 
     luckysheetactiveCell,
+    luckysheetContainerFocus,
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { 
@@ -867,7 +868,7 @@ export default function luckysheetHandler() {
         //数据透视表
         pivotTable.pivotclick(row_index, col_index, Store.currentSheetIndex);
 
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         //$("#luckysheet-cols-h-c .luckysheet-cols-h-cells-c .luckysheet-cols-h-cells-clip .luckysheet-cols-h-cell-sel").removeClass("luckysheet-cols-h-cell-sel").addClass("luckysheet-cols-h-cell-nosel");
 
@@ -3074,7 +3075,7 @@ export default function luckysheetHandler() {
     //底部添加行按钮
     $("#luckysheet-bottom-add-row").on("click", function (e) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         let $t = $(this), value = $("#luckysheet-bottom-add-row-input").val();
 
@@ -3549,7 +3550,7 @@ export default function luckysheetHandler() {
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
         }
 
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
     });
 
 

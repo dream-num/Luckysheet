@@ -6,7 +6,8 @@ import server from './server';
 import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import { 
     getObjType, 
-    showrightclickmenu, 
+    showrightclickmenu,
+    luckysheetContainerFocus, 
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { 
@@ -909,7 +910,7 @@ export function rowColumnOperationInitial(){
     //向左增加列，向上增加行
     $("#luckysheet-add-lefttop, #luckysheet-add-lefttop_t").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -951,7 +952,7 @@ export function rowColumnOperationInitial(){
     });
     $("#luckysheet-addTopRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -993,7 +994,7 @@ export function rowColumnOperationInitial(){
     })
     $("#luckysheet-addLeftCols").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
         
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -1037,7 +1038,7 @@ export function rowColumnOperationInitial(){
     //向右增加列，向下增加行
     $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -1080,7 +1081,7 @@ export function rowColumnOperationInitial(){
     });
     $("#luckysheet-addBottomRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -1123,7 +1124,7 @@ export function rowColumnOperationInitial(){
     });
     $("#luckysheet-addRightCols").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
@@ -1168,7 +1169,7 @@ export function rowColumnOperationInitial(){
     //删除选中行列
     $("#luckysheet-del-selected, #luckysheet-del-selected_t").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
@@ -1196,7 +1197,7 @@ export function rowColumnOperationInitial(){
     });
     $("#luckysheet-delRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
@@ -1224,7 +1225,7 @@ export function rowColumnOperationInitial(){
     })
     $("#luckysheet-delCols").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 1){
             if(Store.luckysheetRightHeadClickIs == "row"){
@@ -1254,7 +1255,7 @@ export function rowColumnOperationInitial(){
     //隐藏、显示行
     $("#luckysheet-hidRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["rowhidden"] == null){
@@ -1295,7 +1296,7 @@ export function rowColumnOperationInitial(){
     })
     $("#luckysheet-showHidRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["rowhidden"] == null){
@@ -1338,7 +1339,7 @@ export function rowColumnOperationInitial(){
     //清除单元格内容
     $("#luckysheet-delete-text").click(function(){
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         if(Store.luckysheet_select_save.length > 0){
             let d = editor.deepCopyFlowData(Store.flowdata);
@@ -1405,7 +1406,7 @@ export function rowColumnOperationInitial(){
     //行高列宽设置
     $("#luckysheet-rows-cols-changesize").click(function(){
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         let size = parseInt($(this).siblings("input[type='number']").val().trim());
 
