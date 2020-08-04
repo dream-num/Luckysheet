@@ -20,6 +20,7 @@ import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_co
 import selection from './selection';
 import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
+import { luckysheetdefaultstyle } from './constant';
 
 import { 
     replaceHtml,
@@ -28,6 +29,7 @@ import {
     ArrayUnique,
     showrightclickmenu, 
     luckysheetactiveCell,
+    luckysheetContainerFocus,
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { 
@@ -867,7 +869,7 @@ export default function luckysheetHandler() {
         //数据透视表
         pivotTable.pivotclick(row_index, col_index, Store.currentSheetIndex);
 
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         //$("#luckysheet-cols-h-c .luckysheet-cols-h-cells-c .luckysheet-cols-h-cells-clip .luckysheet-cols-h-cell-sel").removeClass("luckysheet-cols-h-cell-sel").addClass("luckysheet-cols-h-cell-nosel");
 
@@ -3074,7 +3076,7 @@ export default function luckysheetHandler() {
     //底部添加行按钮
     $("#luckysheet-bottom-add-row").on("click", function (e) {
         $("#luckysheet-rightclick-menu").hide();
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
 
         let $t = $(this), value = $("#luckysheet-bottom-add-row-input").val();
 
@@ -3259,7 +3261,7 @@ export default function luckysheetHandler() {
             return;
         }
 
-        //复制范围内包含部分合并单元格，提示
+        //截图范围内包含部分合并单元格，提示
         if (Store.config["merge"] != null) {
             let has_PartMC = false;
 
@@ -3292,14 +3294,6 @@ export default function luckysheetHandler() {
         let st_c = Store.luckysheet_select_save[0].column[0],
             ed_c = Store.luckysheet_select_save[0].column[1];
 
-        let shotData = datagridgrowth([], ed_r + 1, ed_c + 1);
-
-        for (let r = st_r; r <= ed_r; r++) {
-            for (let c = st_c; c <= ed_c; c++) {
-                shotData[r][c] = Store.flowdata[r][c];
-            }
-        }
-
         let scrollHeight, rh_height;
         if (st_r - 1 < 0) {
             scrollHeight = 0;
@@ -3325,13 +3319,37 @@ export default function luckysheetHandler() {
             height: Math.ceil(rh_height * devicePixelRatio)
         }).css({ width: ch_width, height: rh_height });
 
-        let d = Store.flowdata;
-        Store.flowdata = shotData;
-
         luckysheetDrawMain(scrollWidth, scrollHeight, ch_width, rh_height, 1, 1, null, null, newCanvas);
+        let ctx_newCanvas = newCanvas.get(0).getContext("2d");
 
-        Store.flowdata = d;
-        editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+        //补上 左边框和上边框
+        ctx_newCanvas.beginPath();
+        ctx_newCanvas.moveTo(
+            0, 
+            0
+        );
+        ctx_newCanvas.lineTo(
+            0, 
+            Store.devicePixelRatio * rh_height
+        );
+        ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
+        ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+        ctx_newCanvas.stroke();
+        ctx_newCanvas.closePath();
+
+        ctx_newCanvas.beginPath();
+        ctx_newCanvas.moveTo(
+            0, 
+            0
+        );
+        ctx_newCanvas.lineTo(
+            Store.devicePixelRatio * ch_width, 
+            0
+        );
+        ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
+        ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+        ctx_newCanvas.stroke();
+        ctx_newCanvas.closePath();
 
         let image = new Image();
         let url = newCanvas.get(0).toDataURL("image/png");
@@ -3549,7 +3567,7 @@ export default function luckysheetHandler() {
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
         }
 
-        $("#" + Store.container).attr("tabindex", 0).focus();
+        luckysheetContainerFocus();
     });
 
 

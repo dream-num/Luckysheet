@@ -108,6 +108,8 @@ const luckysheetLocationCell = {
     init: function(){
         let _this = this;
 
+        const locale_location = locale().findAndReplace;
+
         $(document).on("click", "#luckysheet-locationCell-dialog .listItem input:radio", function(e){
             $("#luckysheet-locationCell-dialog .listItem input:checkbox").prop("disabled", true);
             $("#luckysheet-locationCell-dialog .listItem .subbox label").css("color", "#666");
@@ -213,6 +215,7 @@ const luckysheetLocationCell = {
         });
     },
     apply: function(range, type, value){
+        const locale_location = locale().findAndReplace; 
         let rangeArr = [];
 
         if(type == "locationFormula" || type == "locationConstant" || type == "locationNull"){ //公式 常量 空值

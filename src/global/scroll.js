@@ -19,12 +19,12 @@ export default function luckysheetscrollevent(isadjust) {
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
         scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
 
-    clearTimeout(scrollTimeOutCancel);
+    // clearTimeout(scrollTimeOutCancel);
 
-    scrollTimeOutCancel = setTimeout(() => {
-        scrollRequestAnimationFrameIni  = true;
-        window.cancelAnimationFrame(scrollRequestAnimationFrame);
-    }, 500);
+    // scrollTimeOutCancel = setTimeout(() => {
+    //     scrollRequestAnimationFrameIni  = true;
+    //     window.cancelAnimationFrame(scrollRequestAnimationFrame);
+    // }, 500);
 
     // if (!!isadjust) {
     //     let scrollHeight = $t.get(0).scrollHeight;
@@ -92,13 +92,12 @@ export default function luckysheetscrollevent(isadjust) {
         "z-index": $("#luckysheet-input-box").css("z-index")
     }).show();
 
-    if(scrollRequestAnimationFrameIni && Store.scrollRefreshSwitch){
-        execScroll();
-        scrollRequestAnimationFrameIni = false;
-    }
-    // window.requestAnimationFrame(()=>{
-    //     luckysheetrefreshgrid(scrollLeft, scrollTop);
-    // });
+    // if(scrollRequestAnimationFrameIni && Store.scrollRefreshSwitch){
+    //     execScroll();
+    //     scrollRequestAnimationFrameIni = false;
+    // }
+
+    luckysheetrefreshgrid(scrollLeft, scrollTop);
     
 
     $("#luckysheet-bottom-controll-row").css("left", scrollLeft + 10);
