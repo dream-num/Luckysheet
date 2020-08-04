@@ -3,6 +3,11 @@
 ## Introduction
 Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
+## Demo
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
+
+![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+
 ## Features
 
 ### Formatting
@@ -83,11 +88,6 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
-
-![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
-
-## Demo
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
 ## Development model
 
@@ -211,6 +211,7 @@ You can see the complete settings
 |  SHIFT + UP/DOWN/LEFT/RIGHT | Adjust selection area |
 |  CTRL + Left mouse click | Multiple selection cell |
 |  SHIFT + Left mouse click | Adjust selection area |
-|  UP/DOWN/LEFT/RIGHT | Single move adjustment cell selection box |
+|  UP/DOWN/LEFT/RIGHT | Move cell selection box |
 |  ENTER | Edit cell |
+|  TAB | Move cell selection box to the right |
 |  DELETE | Clear cell data |

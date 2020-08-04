@@ -3,6 +3,11 @@
 ## 基本介绍
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
+## Demo
+[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
+
+![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+
 ## 特性
 
 ### 格式设置
@@ -83,11 +88,6 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 + **EXCEL,CSV,TXT 导入及导出** (专为luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
-
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
-
-## Demo
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
 ## 开发模式
 
@@ -211,6 +211,7 @@ luckysheetfile[0] =
 |  SHIFT + UP/DOWN/LEFT/RIGHT | 调整选区 |
 |  CTRL + 鼠标左击 | 多选单元格 |
 |  SHIFT + 鼠标左击 | 调整选区 |
-|  UP/DOWN/LEFT/RIGHT | 单个移动调整单元格选框 |
+|  UP/DOWN/LEFT/RIGHT | 移动单元格选框 |
 |  ENTER | 编辑单元格 |
+|  TAB | 向右移动单元格选框 |
 |  DELETE | 清除单元格数据 |

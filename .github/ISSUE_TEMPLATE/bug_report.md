@@ -25,7 +25,7 @@ If applicable, add screenshots or online demo to help explain your problem.We wi
 
 **Environment**
  - OS: [e.g. Windows,Mac,Linux]
- - Browser: [e.g. Chrome, Safari,Firefox,Edge]
+ - Browser Version: [e.g. Chrome Version 84.0.4147.105 (Official Build) (64-bit), Safari,Firefox,Edge]
  - Luckysheet Version: [e.g. 1.0.1,latest]
 
 **Additional context**

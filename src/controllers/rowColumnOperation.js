@@ -1618,3 +1618,19 @@ function luckysheetcolsdbclick() {
    
     jfrefreshgridall(Store.flowdata[0].length, Store.flowdata.length, Store.flowdata, cfg, Store.luckysheet_select_save, "resizeC", "columlen");
 }
+
+/**
+ * 
+ * @param {String} type:delete type, 
+ * @param {*} st_index 
+ * @param {*} ed_index 
+ */
+// Delete row api
+export function deleteRows(type, st_index, ed_index){
+    Store.luckysheetRightHeadClickIs = "column";
+}
+
+// Delete column api
+export function deleteColumns(){
+
+}

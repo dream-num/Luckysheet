@@ -12,6 +12,12 @@
 - Usage: Table's name
 
 ------------
+## lang
+- Type: String
+- Default: "en"
+- Usage: Internationalization settings, allowing to set the language of the table, temporarily supporting Chinese ("zh") and English ("en")
+
+------------
 ## column
 - Type: Number
 - Default: 60
@@ -30,7 +36,12 @@
 - Usage: Client sheet data `[shee1, sheet2, sheet3]`
 
 ------------
+## plugins
+- Type: Array
+- Default: []
+- Usage: Plug-in configuration, support chart: "chart"
 
+------------
 ## fullscreenmode
 - Type: Boolean
 - Default: true

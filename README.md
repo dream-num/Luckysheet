@@ -6,6 +6,13 @@ English| [简体中文](./README-zh.md)
 ## Introduction
 Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
+## Documentation
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
+
+[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
+
+![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+
 ## Features
 
 ### Formatting
@@ -86,13 +93,6 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
-
-![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
-
-## Documentation
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
-
-[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
 
 ## Requirements
 [Node.js](https://nodejs.org/en/) Version >= 6 

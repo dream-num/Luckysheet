@@ -25,7 +25,7 @@ assignees: ''
 
 **环境：**
   -操作系统：[例如 Windows，Mac，Linux]
-  -浏览器：[例如 Chrome，Safari，Firefox，Edge]
+  -浏览器 版本号：[例如 Chrome 版本 84.0.4147.105（正式版本） （64 位），Safari，Firefox，Edge]
   -Luckysheet版本：[例如 1.0.1，最新]
 
 **备注**

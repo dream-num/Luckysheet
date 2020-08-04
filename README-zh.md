@@ -4,6 +4,13 @@
 ## 介绍
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
+## 文档
+[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
+
+[在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
+
+![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+
 ## 特性
 
 ### 格式设置
@@ -84,13 +91,6 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 + **EXCEL,CSV,TXT 导入及导出** (专为luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
-
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
-
-## 文档
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
-
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
 
 ## 环境
 [Node.js](https://nodejs.org/en/) Version >= 6 
