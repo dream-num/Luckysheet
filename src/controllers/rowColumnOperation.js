@@ -8,6 +8,7 @@ import {
     getObjType, 
     showrightclickmenu,
     luckysheetContainerFocus, 
+    luckysheetfontformat,
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { 
@@ -1486,6 +1487,7 @@ export function rowColumnOperationInitial(){
 
 function luckysheetcolsdbclick() {
     Store.luckysheet_cols_change_size = false;
+
     $("#luckysheet-change-size-line").hide();
     $("#luckysheet-cols-change-size").css("opacity", 0);
     $("#luckysheet-sheettable, #luckysheet-cols-h-c, .luckysheet-cols-h-cells, .luckysheet-cols-h-cells canvas").css("cursor", "default");
@@ -1493,77 +1495,51 @@ function luckysheetcolsdbclick() {
     let mouse = mouseposition(event.pageX, event.pageY);
     let scrollLeft = $("#luckysheet-cols-h-c").scrollLeft();
     let x = mouse[0] + scrollLeft;
-    let winW = $(window).width();
+    
+    let colIndex = colLocation(x)[2];
+    let d = editor.deepCopyFlowData(Store.flowdata);
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
 
-    let row_index = Store.visibledatarow.length - 1, 
-        row = Store.visibledatarow[row_index], 
-        row_pre = 0;
-    let col_location = colLocation(x), 
-        col = col_location[1], 
-        col_pre = col_location[0], 
-        col_index = col_location[2];
-    Store.luckysheet_cols_change_size_start = [col_pre, col_index];
-    let dataflow = $("#luckysheetTableContent").get(0).getContext("2d");
     let cfg = $.extend(true, {}, Store.config);
+    if (cfg["columnlen"] == null) {
+        cfg["columnlen"] = {};
+    }
 
     let matchColumn = {};
     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
         let c1 = Store.luckysheet_select_save[s].column[0], 
             c2 = Store.luckysheet_select_save[s].column[1];
 
-        if (col_index < c1 || col_index > c2) {
-            if(col_index in matchColumn){//此列已计算过
+        if (colIndex < c1 || colIndex > c2) {
+            if(colIndex in matchColumn){//此列已计算过
                 continue;
             }
 
-            x = -Infinity;
-            let countret = 0;
-            let fontsize = 13;
-            for (let r = 0; r < Store.flowdata.length; r++) {
-                if (countret >= 15) {
-                    break;
-                }
+            let currentColLen = Store.defaultcollen;
 
-                let value = getcellvalue(r, Store.luckysheet_cols_change_size_start[1], Store.flowdata);
-                let mask = getcellvalue(r, Store.luckysheet_cols_change_size_start[1], Store.flowdata, "m");
-
-                if(mask != null){
-                    value = mask;
-                }
-
-                let cell = Store.flowdata[r][Store.luckysheet_cols_change_size_start[1]];
-                if(getObjType(cell) == "object" && ("fs" in cell)){
-                    if(cell.fs > fontsize){
-                        fontsize = cell.fs;
-                    }
-                }
-
-                if (value == null || value.toString().length == 0) {
-                    countret++;
+            for(let r = 0; r < d.length; r++){
+                let cell = d[r][colIndex];
+                
+                if(cell == null || isRealNull(cell.v)){
                     continue;
                 }
-                let textMetrics = dataflow.measureText(value).width;
-                if (textMetrics > x) {
-                    x = textMetrics;
+
+                let fontset = luckysheetfontformat(cell);
+                canvas.font = fontset;
+
+                let value = getcellvalue(r, colIndex, d).toString(); //单元格文本
+                let textMetrics = canvas.measureText(value).width; //文本宽度
+
+                if(textMetrics + 6 > currentColLen){
+                    currentColLen = textMetrics + 6;
                 }
             }
 
-            let size = x + fontsize * 1.5;
-            if ((x + 3) < 30) {
-                size = 30;
+            if(currentColLen != Store.defaultcollen){
+                cfg["columnlen"][colIndex] = currentColLen;
             }
 
-            if (x >= winW - 100 + scrollLeft) {
-                size = winW - 100 + scrollLeft;
-            }
-
-            if (cfg["columnlen"] == null) {
-                cfg["columnlen"] = {};
-            }
-
-            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
-
-            matchColumn[col_index] = 1;
+            matchColumn[colIndex] = 1;
         }
         else {
             for (let c = c1; c <= c2; c++) {
@@ -1571,46 +1547,29 @@ function luckysheetcolsdbclick() {
                     continue;
                 }
 
-                x = -Infinity;
-                let countret = 0;
-                let fontsize = 13;
-                for (let r = 0; r < Store.flowdata.length; r++) {
-                    if (countret >= 15) {
-                        break;
-                    }
-                    let value = getcellvalue(r, c, Store.flowdata);
+                let currentColLen = Store.defaultcollen;
 
-                    let cell = Store.flowdata[r][c];
-                    if(getObjType(cell) == "object" && ("fs" in cell)){
-                        if(cell.fs > fontsize){
-                            fontsize = cell.fs;
-                        }
-                    }
-
-                    if (isRealNull(value)) {
-                        countret++;
+                for(let r = 0; r < d.length; r++){
+                    let cell = d[r][c];
+                    
+                    if(cell == null || isRealNull(cell.v)){
                         continue;
                     }
 
-                    let textMetrics = dataflow.measureText(value).width;
-                    if (textMetrics > x) {
-                        x = textMetrics;
+                    let fontset = luckysheetfontformat(cell);
+                    canvas.font = fontset;
+
+                    let value = getcellvalue(r, c, d).toString(); //单元格文本
+                    let textMetrics = canvas.measureText(value).width; //文本宽度
+
+                    if(textMetrics + 6 > currentColLen){
+                        currentColLen = textMetrics + 6;
                     }
                 }
 
-                let size = x + fontsize*1.5;;
-                if ((x + 3) < 30) {
-                    size = 30;
+                if(currentColLen != Store.defaultcollen){
+                    cfg["columnlen"][c] = currentColLen;
                 }
-
-                if (x >= winW - 100 + scrollLeft) {
-                    size = winW - 100 + scrollLeft;
-                }
-
-                if (cfg["columnlen"] == null) {
-                    cfg["columnlen"] = {};
-                }
-                cfg["columnlen"][c] = Math.ceil(size);
 
                 matchColumn[c] = 1;
             }

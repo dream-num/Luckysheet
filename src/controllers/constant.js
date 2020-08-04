@@ -735,7 +735,7 @@ function menuToolBar (){
                 style="user-select: none;">
                     <div aria-posinset="4" aria-setsize="7" class="luckysheet-inline-block luckysheet-toolbar-combo-button-caption"
                     style="user-select: none;">
-                        <input aria-label="${toolbar.fontSize}" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput luckysheet-mousedown-cancel"
+                        <input aria-label="${toolbar.fontSize}" class="luckysheet-toolbar-combo-button-input luckysheet-toolbar-textinput"
                         role="combobox" style="user-select: none;" tabindex="-1" type="text" value="10"
                         />
                     </div>
