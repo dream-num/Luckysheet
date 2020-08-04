@@ -1146,7 +1146,7 @@ const sheetCell = {
 			"27": 20,
 			"28": 80
 		},
-		"columlen": {
+		"columnlen": {
 			"0": 97,
 			"2": 115,
 			"3": 128,

@@ -280,7 +280,7 @@ const server = {
 	            }, 1);
 	        }
 	    }
-	    else if(type == "cg"){ //config更新（rowhidden，rowlen，columlen，merge，borderInfo）
+	    else if(type == "cg"){ //config更新（rowhidden，rowlen，columnlen，merge，borderInfo）
 	        let k = item.k;
 
 	        if(k == "borderInfo"){
@@ -299,7 +299,7 @@ const server = {
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
 	            Store.config = file["config"];
 
-	            if(k == "rowlen" || k == "columlen" || k == "rowhidden"){
+	            if(k == "rowlen" || k == "columnlen" || k == "rowhidden"){
 	                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 	            }
 

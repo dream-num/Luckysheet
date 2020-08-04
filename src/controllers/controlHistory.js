@@ -108,7 +108,7 @@ const controlHistory = {
                 server.saveParam("cg", ctr.sheetIndex, ctr.config["rowlen"], { "k": "rowlen" });
             }
             else if(ctr.ctrlType == "resizeC"){
-                server.saveParam("cg", ctr.sheetIndex, ctr.config["columlen"], { "k": "columlen" });
+                server.saveParam("cg", ctr.sheetIndex, ctr.config["columnlen"], { "k": "columnlen" });
             }
 
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
@@ -359,7 +359,7 @@ const controlHistory = {
                 server.saveParam("cg", ctr.sheetIndex, ctr.curconfig["rowlen"], { "k": "rowlen" });
             }
             else if(ctr.ctrlType == "resizeC"){
-                server.saveParam("cg", ctr.sheetIndex, ctr.curconfig["columlen"], { "k": "columlen" });
+                server.saveParam("cg", ctr.sheetIndex, ctr.curconfig["columnlen"], { "k": "columnlen" });
             }
 
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);

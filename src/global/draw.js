@@ -405,9 +405,9 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             }
             else {
-                let firstcolumlen = Store.defaultcollen;
-                if (Store.config["columlen"] != null && Store.config["columlen"][c] != null) {
-                    firstcolumlen = Store.config["columlen"][c];
+                let firstcolumnlen = Store.defaultcollen;
+                if (Store.config["columnlen"] != null && Store.config["columnlen"][c] != null) {
+                    firstcolumnlen = Store.config["columnlen"][c];
                 }
 
                 if (Store.flowdata[r] != null && Store.flowdata[r][c] != null) {
@@ -438,7 +438,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                                     "start_r": start_r, 
                                     "end_r": end_r, 
                                     "end_c": end_c, 
-                                    "firstcolumlen": firstcolumlen, 
+                                    "firstcolumnlen": firstcolumnlen, 
                                 });
                             }
                             else{
@@ -448,7 +448,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                                 
                                 if(margeMain.r == r){
                                     margeMain.end_c += (end_c - start_c);
-                                    margeMain.firstcolumlen += firstcolumlen;
+                                    margeMain.firstcolumnlen += firstcolumnlen;
                                 }
                             }
 
@@ -464,7 +464,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     "start_c": start_c, 
                     "end_r": end_r, 
                     "end_c": end_c, 
-                    "firstcolumlen": firstcolumlen, 
+                    "firstcolumnlen": firstcolumnlen, 
                 });
                 borderOffset[r + "_" + c] = { 
                     "start_r": start_r, 
@@ -498,7 +498,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             start_c = item.start_c, 
             end_r = item.end_r, 
             end_c = item.end_c;
-        let firstcolumlen = item.firstcolumlen;
+        let firstcolumnlen = item.firstcolumnlen;
 
         if(Store.flowdata[r] == null){
             continue;
@@ -582,7 +582,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             start_c = item.start_c, 
             end_r = item.end_r, 
             end_c = item.end_c;
-        let firstcolumlen = item.firstcolumlen;
+        let firstcolumnlen = item.firstcolumnlen;
 
         let cell = Store.flowdata[r][c];
         let value = null, er = r, ec = c, end_ec = end_c;

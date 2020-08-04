@@ -192,12 +192,12 @@
             }
     ```
 
-    ### config.columlen
+    ### config.columnlen
     - Type：Object
     - Default：{}
     - Usage：The column width of each cell, example:
     ```js
-    "columlen": {
+    "columnlen": {
                 "0": 97,
                 "1": 115,
                 "2": 128

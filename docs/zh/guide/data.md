@@ -192,12 +192,12 @@
             }
     ```
 
-    ### config.columlen
+    ### config.columnlen
     - 类型：Object
     - 默认值：{}
     - 作用：每个单元格的列宽,示例：
     ```js
-    "columlen": {
+    "columnlen": {
                 "0": 97,
                 "1": 115,
                 "2": 128

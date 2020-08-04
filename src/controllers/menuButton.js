@@ -3816,8 +3816,8 @@ const menuButton = {
         else{
             let config = getluckysheetfile()[getSheetIndex(Store.currentSheetIndex)]["config"];
             
-            if (config["columlen"] != null && config["columlen"][cell_c] != null) {
-                width = config["columlen"][cell_c];
+            if (config["columnlen"] != null && config["columnlen"][cell_c] != null) {
+                width = config["columnlen"][cell_c];
             }
             
             if (config["rowlen"] != null && config["rowlen"][cell_r] != null) {

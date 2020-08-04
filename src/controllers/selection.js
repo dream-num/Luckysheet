@@ -183,11 +183,11 @@ const selection = {
                     let style = "", span = "";
 
                     if(r == minR){
-                        if(Store.config == null || Store.config["columlen"] == null || Store.config["columlen"][c.toString()] == null){
+                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
                         else {
-                            colgroup += '<colgroup width="'+ Store.config["columlen"][c.toString()] +'px"></colgroup>';
+                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
                         }
                     }
 
@@ -471,11 +471,11 @@ const selection = {
                     column += "";
 
                     if(r == minR){
-                        if(Store.config == null || Store.config["columlen"] == null || Store.config["columlen"][c.toString()] == null){
+                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
                         else {
-                            colgroup += '<colgroup width="'+ Store.config["columlen"][c.toString()] +'px"></colgroup>';
+                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
                         }
                     }
 

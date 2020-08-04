@@ -71,7 +71,7 @@ const sheetFormula = {
 			}
 		},
 		"rowlen": {},
-		"columlen": {
+		"columnlen": {
 			"0": 111,
 			"2": 105,
 			"3": 82,

@@ -138,7 +138,7 @@ const sheetConditionFormat = {
 			"28": 20,
 			"29": 20
 		},
-		"columlen": {
+		"columnlen": {
 			"0": 30,
 			"1": 30,
 			"2": 86,

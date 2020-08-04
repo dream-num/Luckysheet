@@ -23379,8 +23379,8 @@ const functionImplementation = {
                 case "width":
                     var cfg = file.config;
 
-                    if(cfg["columlen"] != null && col_index in cfg["columlen"]){
-                        return cfg["columlen"][col_index];
+                    if(cfg["columnlen"] != null && col_index in cfg["columnlen"]){
+                        return cfg["columnlen"][col_index];
                     }
 
                     return Store.defaultcollen;
@@ -25482,7 +25482,7 @@ const functionImplementation = {
             return temp1;
             // { 
             //     height:rowlen,
-            //     width:firstcolumlen,
+            //     width:firstcolumnlen,
             //     normalRangeMin:6,
             //     normalRangeMax:6,
             //     normalRangeColor:"#000" 
@@ -25627,7 +25627,7 @@ const functionImplementation = {
             return temp1;
             // { 
             //     height:rowlen,
-            //     width:firstcolumlen,
+            //     width:firstcolumnlen,
             //     normalRangeMin:6,
             //     normalRangeMax:6,
             //     normalRangeColor:"#000" 

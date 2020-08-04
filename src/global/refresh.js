@@ -652,14 +652,14 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
             Store.config["rowlen"] = {};
         }
 
-        if(Store.config["columlen"] == null){
-            Store.config["columlen"] = {};
+        if(Store.config["columnlen"] == null){
+            Store.config["columnlen"] = {};
         }            
 
         for(let i = 0; i < calcChain.length; i++){
             let r = calcChain[i].r, c = calcChain[i].c, index = calcChain[i].index;
 
-            if(index == Store.currentSheetIndex && Store.flowdata[r][c] != null && Store.flowdata[r][c].spl != null && ((r in Store.config["rowlen"]) || (c in Store.config["columlen"]))){
+            if(index == Store.currentSheetIndex && Store.flowdata[r][c] != null && Store.flowdata[r][c].spl != null && ((r in Store.config["rowlen"]) || (c in Store.config["columnlen"]))){
                 window.luckysheetCurrentRow = r;
                 window.luckysheetCurrentColumn = c;
                 window.luckysheetCurrentFunction = Store.flowdata[r][c].f;

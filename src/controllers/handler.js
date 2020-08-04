@@ -919,11 +919,11 @@ export default function luckysheetHandler() {
 
                 //列宽默认值
                 let cfg = $.extend(true, {}, Store.config);
-                if (cfg["columlen"] == null) {
-                    cfg["columlen"] = {};
+                if (cfg["columnlen"] == null) {
+                    cfg["columnlen"] = {};
                 }
 
-                let first_collen = cfg["columlen"][Store.luckysheet_select_save[0].column[0]] == null ? Store.defaultcollen : cfg["columlen"][Store.luckysheet_select_save[0].column[0]];
+                let first_collen = cfg["columnlen"][Store.luckysheet_select_save[0].column[0]] == null ? Store.defaultcollen : cfg["columnlen"][Store.luckysheet_select_save[0].column[0]];
                 let isSame = true;
 
                 for (let i = 0; i < Store.luckysheet_select_save.length; i++) {
@@ -931,7 +931,7 @@ export default function luckysheetHandler() {
                     let c1 = s.column[0], c2 = s.column[1];
 
                     for (let c = c1; c <= c2; c++) {
-                        let collen = cfg["columlen"][c] == null ? Store.defaultcollen : cfg["columlen"][c];
+                        let collen = cfg["columnlen"][c] == null ? Store.defaultcollen : cfg["columnlen"][c];
 
                         if (collen != first_collen) {
                             isSame = false;
@@ -2364,12 +2364,12 @@ export default function luckysheetHandler() {
 
             let size = (x + 3) - Store.luckysheet_cols_change_size_start[0];
 
-            let firstcolumlen = Store.defaultcollen;
-            if (Store.config["columlen"] != null && Store.config["columlen"][Store.luckysheet_cols_change_size_start[1]] != null) {
-                firstcolumlen = Store.config["columlen"][Store.luckysheet_cols_change_size_start[1]];
+            let firstcolumnlen = Store.defaultcollen;
+            if (Store.config["columnlen"] != null && Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]] != null) {
+                firstcolumnlen = Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]];
             }
 
-            if (Math.abs(size - firstcolumlen) < 3) {
+            if (Math.abs(size - firstcolumnlen) < 3) {
                 return;
             }
             if ((x + 3) - Store.luckysheet_cols_change_size_start[0] < 30) {
@@ -2381,11 +2381,11 @@ export default function luckysheetHandler() {
             }
 
             let cfg = $.extend(true, {}, Store.config);
-            if (cfg["columlen"] == null) {
-                cfg["columlen"] = {};
+            if (cfg["columnlen"] == null) {
+                cfg["columnlen"] = {};
             }
 
-            cfg["columlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
+            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
 
             if (Store.clearjfundo) {
                 Store.jfundo = [];
@@ -2403,7 +2403,7 @@ export default function luckysheetHandler() {
             Store.config = cfg;
             Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
 
-            server.saveParam("cg", Store.currentSheetIndex, cfg["columlen"], { "k": "columlen" });
+            server.saveParam("cg", Store.currentSheetIndex, cfg["columnlen"], { "k": "columnlen" });
 
             jfrefreshgrid_rhcw(null, Store.flowdata[0].length);
 

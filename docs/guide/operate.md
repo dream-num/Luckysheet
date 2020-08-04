@@ -75,8 +75,8 @@
        - Update: `luckysheetfile[3].config.["rowlen"]["3"] = 10`
 
     2. Examples of modifying column width:
-       - Enter: `{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columlen"}`
-       - Update: `luckysheetfile[1].config.["columlen"]["20"] = 74`
+       - Enter: `{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columnlen"}`
+       - Update: `luckysheetfile[1].config.["columnlen"]["20"] = 74`
         
     3. Examples of merged cells:
        - Enter: `{"t":"cg","i":1,"v":{"5_10":{row:[1,3], column:[3,5]},"k":" merge "}`

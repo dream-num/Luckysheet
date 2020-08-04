@@ -776,11 +776,11 @@ export function rowColumnOperationInitial(){
 
             //列宽默认值
             let cfg = $.extend(true, {}, Store.config);
-            if(cfg["columlen"] == null){
-                cfg["columlen"] = {};
+            if(cfg["columnlen"] == null){
+                cfg["columnlen"] = {};
             }
 
-            let first_collen = cfg["columlen"][Store.luckysheet_select_save[0].column[0]] == null ? Store.defaultcollen : cfg["columlen"][Store.luckysheet_select_save[0].column[0]];
+            let first_collen = cfg["columnlen"][Store.luckysheet_select_save[0].column[0]] == null ? Store.defaultcollen : cfg["columnlen"][Store.luckysheet_select_save[0].column[0]];
             let isSame = true;
 
             for(let i = 0; i < Store.luckysheet_select_save.length; i++){
@@ -788,7 +788,7 @@ export function rowColumnOperationInitial(){
                 let c1 = s.column[0], c2 = s.column[1];
 
                 for(let c = c1; c <= c2; c++){
-                    let collen = cfg["columlen"][c] == null ? Store.defaultcollen : cfg["columlen"][c];
+                    let collen = cfg["columnlen"][c] == null ? Store.defaultcollen : cfg["columnlen"][c];
 
                     if(collen != first_collen){
                         isSame = false;
@@ -1443,8 +1443,8 @@ export function rowColumnOperationInitial(){
         else if(Store.luckysheetRightHeadClickIs == "column"){
             type = "resizeC";
 
-            if(cfg["columlen"] == null){
-                cfg["columlen"] = {};
+            if(cfg["columnlen"] == null){
+                cfg["columnlen"] = {};
             }
 
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
@@ -1452,7 +1452,7 @@ export function rowColumnOperationInitial(){
                 let c2 = Store.luckysheet_select_save[s].column[1];
 
                 for(let c = c1; c <= c2; c++){
-                    cfg["columlen"][c] = size;
+                    cfg["columnlen"][c] = size;
                 }
             }
         }
@@ -1477,7 +1477,7 @@ export function rowColumnOperationInitial(){
             jfrefreshgrid_rhcw(Store.flowdata.length, null);
         }
         else if(Store.luckysheetRightHeadClickIs == "column"){
-            server.saveParam("cg", Store.currentSheetIndex, cfg["columlen"], { "k": "columlen" });
+            server.saveParam("cg", Store.currentSheetIndex, cfg["columnlen"], { "k": "columnlen" });
             jfrefreshgrid_rhcw(null, Store.flowdata[0].length);
         }
     });
@@ -1557,11 +1557,11 @@ function luckysheetcolsdbclick() {
                 size = winW - 100 + scrollLeft;
             }
 
-            if (cfg["columlen"] == null) {
-                cfg["columlen"] = {};
+            if (cfg["columnlen"] == null) {
+                cfg["columnlen"] = {};
             }
 
-            cfg["columlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
+            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
 
             matchColumn[col_index] = 1;
         }
@@ -1607,17 +1607,17 @@ function luckysheetcolsdbclick() {
                     size = winW - 100 + scrollLeft;
                 }
 
-                if (cfg["columlen"] == null) {
-                    cfg["columlen"] = {};
+                if (cfg["columnlen"] == null) {
+                    cfg["columnlen"] = {};
                 }
-                cfg["columlen"][c] = Math.ceil(size);
+                cfg["columnlen"][c] = Math.ceil(size);
 
                 matchColumn[c] = 1;
             }
         }
     }
    
-    jfrefreshgridall(Store.flowdata[0].length, Store.flowdata.length, Store.flowdata, cfg, Store.luckysheet_select_save, "resizeC", "columlen");
+    jfrefreshgridall(Store.flowdata[0].length, Store.flowdata.length, Store.flowdata, cfg, Store.luckysheet_select_save, "resizeC", "columnlen");
 }
 
 /**

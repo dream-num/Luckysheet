@@ -590,29 +590,29 @@ function luckysheetextendtable(type, index, value, direction) {
         type1 = "c";
 
         //行高配置变动
-        if(cfg["columlen"] != null){
-            let columlen_new = {};
+        if(cfg["columnlen"] != null){
+            let columnlen_new = {};
 
-            for(let c in cfg["columlen"]){
+            for(let c in cfg["columnlen"]){
                 c = parseFloat(c);
                 
                 if(c < index){
-                    columlen_new[c] = cfg["columlen"][c];
+                    columnlen_new[c] = cfg["columnlen"][c];
                 }
                 else if(c == index){
                     if(direction == "lefttop"){
-                        columlen_new[(c + value)] = cfg["columlen"][c];
+                        columnlen_new[(c + value)] = cfg["columnlen"][c];
                     }
                     else if(direction == "rightbottom"){
-                        columlen_new[c] = cfg["columlen"][c];
+                        columnlen_new[c] = cfg["columnlen"][c];
                     }
                 }
                 else{
-                    columlen_new[(c + value)] = cfg["columlen"][c];
+                    columnlen_new[(c + value)] = cfg["columnlen"][c];
                 }
             }
 
-            cfg["columlen"] = columlen_new;
+            cfg["columnlen"] = columnlen_new;
         }
 
         //空列模板
@@ -1377,21 +1377,21 @@ function luckysheetdeletetable(type, st, ed) {
         type1 = "c";
 
         //列宽配置变动
-        if(cfg["columlen"] == null){
-            cfg["columlen"] = {};
+        if(cfg["columnlen"] == null){
+            cfg["columnlen"] = {};
         }
 
-        let columlen_new = {};
-        for(let c in cfg["columlen"]){
+        let columnlen_new = {};
+        for(let c in cfg["columnlen"]){
             if(c < st){
-                columlen_new[c] = cfg["columlen"][c];
+                columnlen_new[c] = cfg["columnlen"][c];
             }
             else if(c > ed){
-                columlen_new[c - slen] = cfg["columlen"][c];
+                columnlen_new[c - slen] = cfg["columnlen"][c];
             }
         }
 
-        cfg["columlen"] = columlen_new;
+        cfg["columnlen"] = columnlen_new;
 
         //边框配置变动
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){

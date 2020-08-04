@@ -75,8 +75,8 @@
        - 更新：`luckysheetfile[3].config.["rowlen"]["3"] = 10`
 
     2. 修改列宽度举例：
-       - 输入：`{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columlen"}`
-       - 更新：`luckysheetfile[1].config.["columlen"]["20"] = 74`
+       - 输入：`{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columnlen"}`
+       - 更新：`luckysheetfile[1].config.["columnlen"]["20"] = 74`
         
     3. 合并单元格举例：
        - 输入：`{"t":"cg","i":1,"v":{"5_10":{row:[1,3], column:[3,5]},"k":" merge "}`

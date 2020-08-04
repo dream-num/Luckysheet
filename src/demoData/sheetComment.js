@@ -2,7 +2,7 @@ const sheetComment = {
 	"name": "Comment",
 	"color": "",
 	"config": {
-		"columlen": {
+		"columnlen": {
 			"2": 102
 		}
 	},

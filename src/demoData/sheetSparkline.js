@@ -355,7 +355,7 @@ const sheetSparkline = {
 			"56": 20,
 			"57": 20
 		},
-		"columlen": {
+		"columnlen": {
 			"0": 101,
 			"2": 131,
 			"3": 30,

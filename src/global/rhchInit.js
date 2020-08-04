@@ -33,43 +33,43 @@ export default function rhchInit(rowheight, colwidth) {
         Store.visibledatacolumn = [];
         Store.ch_width = 0;
 
-        let maxColumlen = 120;
+        let maxColumnlen = 120;
 
         for (let i = 0; i < colwidth; i++) {
-            let firstcolumlen = Store.defaultcollen;
+            let firstcolumnlen = Store.defaultcollen;
 
-            if (Store.config["columlen"] != null && Store.config["columlen"][i] != null) {
-                firstcolumlen = Store.config["columlen"][i];
+            if (Store.config["columnlen"] != null && Store.config["columnlen"][i] != null) {
+                firstcolumnlen = Store.config["columnlen"][i];
             }
             else {
                 if (Store.flowdata[0] != null && Store.flowdata[0][i] != null) {
-                    if (firstcolumlen > 300) {
-                        firstcolumlen = 300;
+                    if (firstcolumnlen > 300) {
+                        firstcolumnlen = 300;
                     }
-                    else if (firstcolumlen < Store.defaultcollen) {
-                        firstcolumlen = Store.defaultcollen;
+                    else if (firstcolumnlen < Store.defaultcollen) {
+                        firstcolumnlen = Store.defaultcollen;
                     }
 
-                    if (firstcolumlen != Store.defaultcollen) {
-                        if (Store.config["columlen"] == null) {
-                            Store.config["columlen"] = {};
+                    if (firstcolumnlen != Store.defaultcollen) {
+                        if (Store.config["columnlen"] == null) {
+                            Store.config["columnlen"] = {};
                         }
 
-                        Store.config["columlen"][i] = firstcolumlen;
+                        Store.config["columnlen"][i] = firstcolumnlen;
                     }
                 }
             }
 
-            Store.ch_width += firstcolumlen + 1;
+            Store.ch_width += firstcolumnlen + 1;
 
             Store.visibledatacolumn.push(Store.ch_width);//列的临时长度分布
 
-            if(maxColumlen < firstcolumlen + 1){
-                maxColumlen = firstcolumlen + 1;
+            if(maxColumnlen < firstcolumnlen + 1){
+                maxColumnlen = firstcolumnlen + 1;
             }
         }
         
         // Store.ch_width += 120;
-        Store.ch_width += maxColumlen;
+        Store.ch_width += maxColumnlen;
     }
 }
