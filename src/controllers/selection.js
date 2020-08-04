@@ -429,7 +429,7 @@ const selection = {
                     }
 
                     if(c_value == null){
-                        c_value = "";
+                        c_value = " ";
                     }
 
                     column += c_value;
@@ -488,7 +488,8 @@ const selection = {
                         }
                     }
 
-                    column = replaceHtml(column, {"style":style, "span":""});
+                    column = replaceHtml(column, {"style": style, "span": ""});
+                    column += " ";
                 }
 
                 column += '</td>';

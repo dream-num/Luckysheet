@@ -472,6 +472,8 @@ const ifFormulaGenerator = {
         $("#luckysheet-ifFormulaGenerator-multiRange-dialog").css({ "left": (winw + scrollLeft - myw) / 2, "top": (winh + scrollTop - myh) / 3 }).show();
     },
     getIfList: function(compareValue, smallRange, largeRange, method, methodVal){
+        const locale_formula = locale().formula;
+
         $("#luckysheet-ifFormulaGenerator-dialog .ifList").empty();
 
         smallRange = parseInt(smallRange);

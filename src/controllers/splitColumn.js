@@ -249,6 +249,10 @@ const luckysheetSplitColumn = {
                     value = getcellvalue(r, c, Store.flowdata);
                 }
 
+                if(value == null){
+                    value = "";
+                }
+
                 rowArr = value.toString().split(reg);
 
                 dataArr.push(rowArr);
@@ -285,6 +289,10 @@ const luckysheetSplitColumn = {
                 }
                 else{
                     value = getcellvalue(r, c, Store.flowdata);
+                }
+
+                if(value == null){
+                    value = "";
                 }
 
                 rowArr.push(value);

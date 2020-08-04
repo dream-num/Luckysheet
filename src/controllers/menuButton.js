@@ -2736,8 +2736,10 @@ const menuButton = {
     },
     getQKBorder: function(width, type, color){
         let bordertype = "";
+
         if(width.indexOf("pt") > -1){
-            let width = parseFloat(width);
+            width = parseFloat(width);
+            
             if(width < 1){
 
             }
@@ -2749,7 +2751,8 @@ const menuButton = {
             }
         }
         else{
-            let width = parseFloat(width);
+            width = parseFloat(width);
+            
             if(width < 2){
 
             }

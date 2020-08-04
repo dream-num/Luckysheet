@@ -584,7 +584,7 @@ export default {
         successTip:"已成功复制（如果粘贴失败，请在图片上右键点击'复制图片'）",
     },
     splitText:{
-        splitSymbol:"分割符号",
+        splitDelimiters:"分割符号",
         splitOther:"其它",
         splitContinueSymbol:"连续分隔符号视为单个处理",
         splitDataPreview:"数据预览",
