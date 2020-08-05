@@ -255,16 +255,58 @@
     There are two types of range: single cell and selection
     1. selection `rangeType: "range"`
 
-        - Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
-        - Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-        - Border color `color: Hexadecimal color value`
-        - Selection area `range: Row and column information array`
+       + Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
+       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border color `color: Hexadecimal color value`
+       + Selection area `range: Row and column information array`
     
     2. Single cell `rangeType："cell"` 
-    - Number of rows and columns `value.row_index: number,value.col_index: number`
-    - Four border objects `value.l:Left border,value.r:Right border,value.t:Top border,value.b:Bottom border`
-    - Border thickness `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-    - Border color `value.l.color: Hexadecimal color value`
+       + Number of rows and columns `value.row_index: number,value.col_index: number`
+       + Four border objects `value.l:Left border,value.r:Right border,value.t:Top border,value.b:Bottom border`
+       + Border thickness `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border color `value.l.color: Hexadecimal color value`
+
+    - 示例
+      + ```js
+        {
+            "rangeType": "range",
+            "borderType": "border-all",
+            "style": "3",
+            "color": "#0000ff",
+            "range": [{
+                "row": [7, 8],
+                "column": [2, 3]
+            }]
+        }
+        ```
+        Represents a selection with a setting range of `{"row": [7, 8], "column": [2, 3]}`, the type is all borders, the border thickness is `Dotted`, and the color is `"#0000ff"`
+
+      + ```js
+         {
+                "rangeType": "cell",
+                "value": {
+                    "row_index": 3,
+                    "col_index": 3,
+                    "l": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "r": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "t": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "b": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    }
+                }
+         }
+         ```
+         Means to set the cell `"D4"`, the upper border/lower border/left border/right border are all border thicknesses `"MediumDashDot"`, color is `"rgb(255, 0, 0)"`
 
     ### config.rowhidden
     - Type：Object

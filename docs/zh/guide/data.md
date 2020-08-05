@@ -210,61 +210,103 @@
     - 作用：单元格的边框信息,示例：
     ```js
     "borderInfo": [{
-                        "rangeType": "cell",
-                        "value": {
-                            "row_index": 3,
-                            "col_index": 3,
-                            "l": {
-                                "style": 10,
-                                "color": "rgb(255, 0, 0)"
-                            },
-                            "r": {
-                                "style": 10,
-                                "color": "rgb(255, 0, 0)"
-                            },
-                            "t": {
-                                "style": 10,
-                                "color": "rgb(255, 0, 0)"
-                            },
-                            "b": {
-                                "style": 10,
-                                "color": "rgb(255, 0, 0)"
-                            }
+                    "rangeType": "cell",
+                    "value": {
+                        "row_index": 3,
+                        "col_index": 3,
+                        "l": {
+                            "style": 10,
+                            "color": "rgb(255, 0, 0)"
+                        },
+                        "r": {
+                            "style": 10,
+                            "color": "rgb(255, 0, 0)"
+                        },
+                        "t": {
+                            "style": 10,
+                            "color": "rgb(255, 0, 0)"
+                        },
+                        "b": {
+                            "style": 10,
+                            "color": "rgb(255, 0, 0)"
                         }
-                    },
-                    {
-                        "rangeType": "range",
-                        "borderType": "border-all",
-                        "style": "3",
-                        "color": "#0000ff",
-                        "range": [{
-                            "row": [7, 8],
-                            "column": [2, 3]
-                        }]
-                    }, {
-                        "rangeType": "range",
-                        "borderType": "border-inside",
-                        "style": "3",
-                        "color": "#0000ff",
-                        "range": [{
-                            "row": [7, 8],
-                            "column": [8, 9]
-                        }]
+                    }
+                },
+                {
+                    "rangeType": "range",
+                    "borderType": "border-all",
+                    "style": "3",
+                    "color": "#0000ff",
+                    "range": [{
+                        "row": [7, 8],
+                        "column": [2, 3]
                     }]
+                }, {
+                    "rangeType": "range",
+                    "borderType": "border-inside",
+                    "style": "3",
+                    "color": "#0000ff",
+                    "range": [{
+                        "row": [7, 8],
+                        "column": [8, 9]
+                    }]
+                }]
     ```
     范围类型分单个单元格和选区两种情况
     1. 选区 `rangeType: "range"`
 
-        - 边框类型 `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`，
-        - 边框粗细 `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-        - 边框颜色 `color: 16进制颜色值`
-        - 选区范围 `range: 行列信息数组`
+       + 边框类型 `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`，
+       + 边框粗细 `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + 边框颜色 `color: 16进制颜色值`
+       + 选区范围 `range: 行列信息数组`
     
     2. 单个单元格 `rangeType："cell"` 
-    - 行数和列数 `value.row_index: 数字，value.col_index: 数字`
-    - 四个边框对象 `value.l:左边框，value.r:右边框，value.t:上边框，value.b:下边框`
-    - 边框粗细 `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-    - 边框颜色 `value.l.color: 16进制颜色值`
+       + 单元格的行数和列数索引 `value.row_index: 数字，value.col_index: 数字`
+       + 四个边框对象 `value.l:左边框，value.r:右边框，value.t:上边框，value.b:下边框`
+       + 边框粗细 `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + 边框颜色 `value.l.color: 16进制颜色值`
+
+    - 示例
+      + ```js
+        {
+            "rangeType": "range",
+            "borderType": "border-all",
+            "style": "3",
+            "color": "#0000ff",
+            "range": [{
+                "row": [7, 8],
+                "column": [2, 3]
+            }]
+        }
+        ```
+        表示设置范围为`{"row": [7, 8],"column": [2, 3]}`的选区，类型为所有边框，边框粗细为`Dotted`，颜色为`"#0000ff"`
+
+       + ```js
+         {
+                "rangeType": "cell",
+                "value": {
+                    "row_index": 3,
+                    "col_index": 3,
+                    "l": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "r": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "t": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    },
+                    "b": {
+                        "style": 10,
+                        "color": "rgb(255, 0, 0)"
+                    }
+                }
+         }
+         ```
+         表示设置单元格`"D4"`，上边框/下边框/左边框/右边框都是边框粗细为`"MediumDashDot"`,颜色为`"rgb(255, 0, 0)"`
 
     ### config.rowhidden
     - 类型：Object

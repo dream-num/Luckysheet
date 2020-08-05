@@ -149,7 +149,7 @@ const selection = {
 
         selectionCopyShow();
 
-        //qksheet内copy保存
+        //luckysheet内copy保存
         Store.luckysheet_copy_save = { 
             "dataSheetIndex": Store.currentSheetIndex, 
             "copyRange": copyRange, 
