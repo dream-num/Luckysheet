@@ -1,14 +1,20 @@
 import selection from './selection';
 import { 
-    numFormat,luckysheetContainerFocus,
+    getObjType,
+    chatatABC,
+    numFormat,
+    luckysheetContainerFocus,
 } from '../utils/util';
 import { hasPartMC, isEditMode } from '../global/validate';
 import { getdatabyselection, getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
+import locale from '../locale/locale';
 import Store from '../store';
 
 export function initialMatrixOperation(){
+    const locale_drag = locale().drag;
+
     //右键功能键
     //复制为json格式字符串，首行为标题
     $("#luckysheet-copy-json-head").click(function (event) {
@@ -641,11 +647,12 @@ export function initialMatrixOperation(){
             for (let c = 0; c < getdata[0].length; c++) {
                 let bool = false;
 
+                let v;
                 if(getObjType(getdata[r][c]) == "object"){
-                    let v = getdata[r][c].v;
+                    v = getdata[r][c].v;
                 }
                 else{
-                    let v = getdata[r][c];
+                    v = getdata[r][c];
                 }
 
                 if (v == null || v == "") {

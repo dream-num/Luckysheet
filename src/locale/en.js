@@ -523,7 +523,7 @@ export default {
         antiDiagonal: 'Anti-diagonal',
         diagonalOffset: 'Diagonal offset',
         offset: 'Offset',
-        Boolean: '布尔值',
+        boolean: 'Boolean',
         flip: 'Flip',
         upAndDown: 'Up and down',
         leftAndRight: 'Left and right',
