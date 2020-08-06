@@ -163,7 +163,7 @@ function getMeasureText(value, ctx){
     else{
         let measureText = ctx.measureText(value), cache = {};
         cache.width = measureText.width;
-        cache.actualBoundingBoxDescent = NaN;
+        cache.actualBoundingBoxDescent = measureText.actualBoundingBoxDescent;
         cache.actualBoundingBoxAscent = measureText.actualBoundingBoxAscent;
         if(cache.actualBoundingBoxDescent==null || cache.actualBoundingBoxAscent==null || isNaN(cache.actualBoundingBoxDescent) || isNaN(cache.actualBoundingBoxAscent)){
             let commonWord = "M"
