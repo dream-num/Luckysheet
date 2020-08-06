@@ -2,6 +2,7 @@ import { luckysheetfontformat } from '../utils/util';
 import menuButton from '../controllers/menuButton';
 import { getcellvalue } from './getdata';
 import { colLocationByIndex } from './location';
+import { hasChinaword } from './validate';
 import Store from '../store';
 
 //计算范围行高
@@ -38,13 +39,13 @@ function rowlenByRange(d, r1, r2, cfg) {
                 canvas.font = fontset;
 
                 let value = getcellvalue(r, c, d).toString(); //单元格文本
-                let measureText = canvas.measureText(value);
+                let measureText = getMeasureText(value, canvas);
 
                 let textMetrics = measureText.width; //文本宽度
-                let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+                let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
                 
                 let computeRowlen; //计算行高
-
+                let word_space_height = oneLineTextHeight/3;
                 if(cell.tb == "2"){
                     //自动换行
                     let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4; //单元格宽度
@@ -53,7 +54,7 @@ function rowlenByRange(d, r1, r2, cfg) {
                         let strArr = []; //文本截断数组
                         strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
 
-                        computeRowlen = oneLineTextHeight * strArr.length + 4;
+                        computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + 4;
                     }
                     else{
                         computeRowlen = oneLineTextHeight + 4;
@@ -132,7 +133,7 @@ function computeRowlenArr(rowHeight, cfg) {
 function getCellTextSplitArr(strValue, strArr, cellWidth, canvas){
     for(let strI = 1; strI <= strValue.length; strI++){
         let strV = strValue.substring(0, strI);
-        let strtextMetrics = canvas.measureText(strV).width;
+        let strtextMetrics = getMeasureText(strV, canvas).width;
 
         if(strtextMetrics > cellWidth){
             if(strI - 1 <= 0){
@@ -151,8 +152,39 @@ function getCellTextSplitArr(strValue, strArr, cellWidth, canvas){
     return strArr;
 }
 
+//获取有值单元格文本大小
+// let measureTextCache = {}, measureTextCacheTimeOut = null;
+function getMeasureText(value, ctx){
+    let mtc = Store.measureTextCache[value + "_" + ctx.font];
+
+    if(mtc != null){
+        return mtc;
+    }
+    else{
+        let measureText = ctx.measureText(value), cache = {};
+        cache.width = measureText.width;
+        cache.actualBoundingBoxDescent = NaN;
+        cache.actualBoundingBoxAscent = measureText.actualBoundingBoxAscent;
+        if(cache.actualBoundingBoxDescent==null || cache.actualBoundingBoxAscent==null || isNaN(cache.actualBoundingBoxDescent) || isNaN(cache.actualBoundingBoxAscent)){
+            let commonWord = "M"
+            if(hasChinaword(value)){
+                commonWord = "田";
+            }
+            let oneLineTextHeight = menuButton.getTextSize(commonWord, ctx.font)[1]*0.8;
+            cache.actualBoundingBoxDescent = oneLineTextHeight/2;
+            cache.actualBoundingBoxAscent = oneLineTextHeight/2;
+
+            //console.log(value, oneLineTextHeight, measureText.actualBoundingBoxDescent+measureText.actualBoundingBoxAscent,ctx.font);
+        }
+        Store.measureTextCache[value + "_" + ctx.font] = cache;
+
+        return cache;
+    }
+}
+
 export {
     rowlenByRange,
     computeRowlenArr,
     getCellTextSplitArr,
+    getMeasureText
 }

@@ -113,6 +113,9 @@ const Store = {
     chart_selection: {},
     currentChart: '',
     scrollRefreshSwitch:true,
+
+    measureTextCache:{},
+    measureTextCacheTimeOut:null,
 }
 
 export default Store;

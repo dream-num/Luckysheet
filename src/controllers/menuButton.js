@@ -3839,12 +3839,12 @@ const menuButton = {
         }
 
         if($("#luckysheetTextSizeTest").length == 0){
-            $('<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden">' + text + '</span>').appendTo($('body'));
+            $('<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden;margin:0;padding:0;">' + text + '</span>').appendTo($('body'));
         }
 
         let o = $("#luckysheetTextSizeTest").text(text).css({'font': f}),
-            w = o.width(), 
-            h = o.height();
+            w = o.innerWidth(), 
+            h = o.innerHeight();
 
         _this.getTextHeightCache[f] = [w, h];
        
