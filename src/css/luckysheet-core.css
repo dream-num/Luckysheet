@@ -1221,6 +1221,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     outline-style: none;
     position: relative;
     -webkit-user-select: none;
+    background: #f3f3f2;
 }
 
 .luckysheet-rows-h {
@@ -1234,6 +1235,7 @@ div.luckysheet-sheets-add:hover, div.luckysheet-sheets-m:hover {
     cursor: default;
     /*height: 472px;*/
     width: 38px;
+    background: #f3f3f2;
 }
 
 .luckysheet-cols-menu-btn {
@@ -1685,7 +1687,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     /*width: 400px;*/
     /* background: #000; */
     bottom: 68px;
-    left: 10px;
+    left: 0px;
     z-index: 1000;
 }
 
@@ -4484,8 +4486,8 @@ fieldset[disabled] a.btn {
 }
 
 .luckysheet-freezebar-vertical-drop-bar {
-    width: 4px;
-    background-color: #f3f3f2;
+    width: 2px;
+    background:rgba(0, 0, 0, 0.45);
     border-width: 2px 1px 2px 2px;
     margin-top: 19px;
     top: 0px;
@@ -4493,7 +4495,7 @@ fieldset[disabled] a.btn {
 }
 
 .luckysheet-freezebar-vertical-drop-title {
-    width: 4px;
+    width: 2px;
     background: #bcbdbc;
     /*            opacity: 0.80;
             filter: alpha(opacity=80);*/
@@ -4504,10 +4506,12 @@ fieldset[disabled] a.btn {
 
 .luckysheet-freezebar-hover .luckysheet-freezebar-vertical-drop-bar, .luckysheet-freezebar-active .luckysheet-freezebar-vertical-drop-bar {
     background: #C1C1C1;
+    width: 4px;
 }
 
 .luckysheet-freezebar-hover .luckysheet-freezebar-vertical-drop-title, .luckysheet-freezebar-active .luckysheet-freezebar-vertical-drop-title {
     background: #5D88DB;
+    width: 4px;
 }
 
 
@@ -4550,9 +4554,9 @@ fieldset[disabled] a.btn {
 }
 
 .luckysheet-freezebar-horizontal-drop-bar {
-    height: 4px;
+    height: 2px;
     overflow: hidden;
-    background-color: #f3f3f2;
+    background:rgba(0, 0, 0, 0.45);
     border-width: 2px 2px 1px 2px;
     margin-left: 45px;
     left: 0px;
@@ -4561,7 +4565,7 @@ fieldset[disabled] a.btn {
 
 
 .luckysheet-freezebar-horizontal-drop-title {
-    height: 4px;
+    height: 2px;
     background: #bcbdbc;
     /*            opacity: 0.80;
             filter: alpha(opacity=80);*/
@@ -4571,10 +4575,12 @@ fieldset[disabled] a.btn {
 
 .luckysheet-freezebar-hover .luckysheet-freezebar-horizontal-drop-bar, .luckysheet-freezebar-active .luckysheet-freezebar-horizontal-drop-bar {
     background: #C1C1C1;
+    height: 4px;
 }
 
 .luckysheet-freezebar-hover .luckysheet-freezebar-horizontal-drop-title, .luckysheet-freezebar-active .luckysheet-freezebar-horizontal-drop-title {
     background: #5D88DB;
+    height: 4px;
 }
 
 

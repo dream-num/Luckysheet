@@ -100,7 +100,7 @@ export default function luckysheetscrollevent(isadjust) {
     luckysheetrefreshgrid(scrollLeft, scrollTop);
     
 
-    $("#luckysheet-bottom-controll-row").css("left", scrollLeft + 10);
+    $("#luckysheet-bottom-controll-row").css("left", scrollLeft);
 
     //有选区且有冻结时，滚动适应
     if(luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null){

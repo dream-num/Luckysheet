@@ -4,7 +4,6 @@ import editor from './editor';
 import { setcellvalue } from './setdata';
 import { computeRowlenArr } from './getRowlen';
 import { 
-    luckysheetDrawgrid, 
     luckysheetDrawMain, 
     luckysheetDrawgridRowTitle, 
     luckysheetDrawgridColumnTitle 
@@ -875,19 +874,20 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
             );
 
             //标题
+            luckysheetDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, Store.rowHeaderWidth);
             luckysheetDrawgridColumnTitle(
                 scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
                 drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth
             );
-            luckysheetDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, Store.rowHeaderWidth);
             
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
             );
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+           
         }
         else if (luckysheetFreezen.freezenhorizontaldata != null) {
             freezen_horizon_px = luckysheetFreezen.freezenhorizontaldata[0];
@@ -916,12 +916,13 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
         
             luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, null);
             
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
             );
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+            
         }
         else if (luckysheetFreezen.freezenverticaldata != null) {
             freezen_vertical_px = luckysheetFreezen.freezenverticaldata[0];
@@ -950,16 +951,26 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
             
             luckysheetDrawgridRowTitle(scrollHeight, drawHeight, null);
             
+            luckysheetDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, Store.rowHeaderWidth);
             luckysheetDrawgridColumnTitle(
                 scrollWidth + freezen_vertical_px - freezen_vertical_scrollTop, 
                 drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth
             );
-            luckysheetDrawgridColumnTitle(freezen_vertical_scrollTop, freezen_vertical_px, Store.rowHeaderWidth);
+            
         }
     }
     else {
-        luckysheetDrawgrid(scrollWidth, scrollHeight);
+        if($("#luckysheetTableContent").length == 0){
+            return;
+        }
+
+        luckysheetDrawMain(scrollWidth, scrollHeight);
+    
+        $("#luckysheetTableContent").get(0).getContext("2d").clearRect(0, 0, 46, 20);
+        
+        luckysheetDrawgridColumnTitle(scrollWidth);
+        luckysheetDrawgridRowTitle(scrollHeight);
     }
 }
 
