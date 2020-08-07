@@ -24,7 +24,6 @@ export default function mobileinit(){
         luckysheet_touchmove_startPos = {
             x: touch.pageX,
             y: touch.pageY,
-            startTime:event.timeStamp, 
             vy:0, //vy可以理解为滑动的力度
             moveType:"y",
         }
@@ -60,25 +59,18 @@ export default function mobileinit(){
             if(scrollTop < 0){
                 scrollTop = 0;
             }
-
             
-            luckysheet_touchmove_startPos.startTime = event.timeStamp;//慢速滑动不产生力度，所以需要实时更新时间戳
-            
-            if(Math.abs(slideX) < Math.abs(slideY)){
-                // console.log("end",scrollTop, slideY,touch.pageY);
-                $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
+            $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
 
-                luckysheet_touchmove_startPos.vy = slideY;
-                luckysheet_touchmove_startPos.scrollTop = scrollTop;
-                luckysheet_touchmove_startPos.moveType = "y";
-            }
-            else{
-                $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
+            luckysheet_touchmove_startPos.vy_y = slideY;
+            luckysheet_touchmove_startPos.scrollTop = scrollTop;
 
-                luckysheet_touchmove_startPos.vy = slideX;
-                luckysheet_touchmove_startPos.moveType = "x";
-                luckysheet_touchmove_startPos.scrollLeft = scrollLeft;
-            }
+            $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
+
+            luckysheet_touchmove_startPos.vy_x = slideX;
+
+            luckysheet_touchmove_startPos.scrollLeft = scrollLeft;
+   
 
         }
         else if(luckysheet_touchhandle_status){//选区
@@ -180,32 +172,40 @@ export default function mobileinit(){
     })
     $(document).on("touchend", function(event){
         if(luckysheet_touchmove_status){
-            let vy = Math.abs(luckysheet_touchmove_startPos.vy), friction = ((vy >> 31) * 2 + 1) * 0.5;
-            if(vy>0){
+            let vy_x = Math.abs(luckysheet_touchmove_startPos.vy_x), friction_x = ((vy_x >> 31) * 2 + 1) * 0.25;
+
+            let vy_y = Math.abs(luckysheet_touchmove_startPos.vy_y), friction_y = ((vy_y >> 31) * 2 + 1) * 0.25;
+            if(vy_x>0 || vy_y>0){
                 _scrollTimer = setInterval(function () {//
-                    vy -= friction;//力度按 惯性的大小递减
-                    if(luckysheet_touchmove_startPos.moveType=="y"){
-                        if(luckysheet_touchmove_startPos.vy>0){
-                            luckysheet_touchmove_startPos.scrollTop -= vy;
-                        }
-                        else{
-                            luckysheet_touchmove_startPos.scrollTop += vy;
-                        }
-                        //luckysheet_touchmove_startPos.scrollTop += vy;
-                        $("#luckysheet-scrollbar-y").scrollTop(luckysheet_touchmove_startPos.scrollTop);
+                    vy_x -= friction_x;//力度按 惯性的大小递减
+                    vy_y -= friction_y;//力度按 惯性的大小递减
+
+                    if(vy_x<=0){
+                        vy_x = 0;
+                    }
+                    if(vy_y<=0){
+                        vy_y = 0;
+                    }
+         
+                    if(luckysheet_touchmove_startPos.vy_y>0){
+                        luckysheet_touchmove_startPos.scrollTop -= vy_y;
                     }
                     else{
-                        if(luckysheet_touchmove_startPos.vy>0){
-                            luckysheet_touchmove_startPos.scrollLeft -= vy;
-                        }
-                        else{
-                            luckysheet_touchmove_startPos.scrollLeft += vy;
-                        }
-                        // luckysheet_touchmove_startPos.scrollLeft += vy;
-                        $("#luckysheet-scrollbar-x").scrollLeft(luckysheet_touchmove_startPos.scrollLeft);
+                        luckysheet_touchmove_startPos.scrollTop += vy_y;
                     }
-
-                    if(vy<=0){
+            
+                    $("#luckysheet-scrollbar-y").scrollTop(luckysheet_touchmove_startPos.scrollTop);
+            
+                    if(luckysheet_touchmove_startPos.vy_x>0){
+                        luckysheet_touchmove_startPos.scrollLeft -= vy_x;
+                    }
+                    else{
+                        luckysheet_touchmove_startPos.scrollLeft += vy_x;
+                    }
+            
+                    $("#luckysheet-scrollbar-x").scrollLeft(luckysheet_touchmove_startPos.scrollLeft);
+         
+                    if(vy_x<=0 && vy_y<=0){
                         clearInterval(_scrollTimer);
                     }
                 }, 20); 
