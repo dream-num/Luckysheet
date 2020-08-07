@@ -46,8 +46,10 @@ export default function mobileinit(){
             let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft();
             let scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
 
-            scrollLeft -= slideX*3;
-            scrollTop -= slideY*3;
+            // console.log("start",scrollTop, slideY,touch.pageY);
+
+            scrollLeft -= slideX;
+            scrollTop -= slideY;
 
             // console.log(touch,touch.pageY, luckysheet_touchmove_startPos.y, slideY);
 
@@ -59,31 +61,24 @@ export default function mobileinit(){
                 scrollTop = 0;
             }
 
-            if (event.timeStamp - luckysheet_touchmove_startPos.startTime > 40) {//如果是慢速滑动，就不会产生力度，列表是跟着鼠标移动的
-                luckysheet_touchmove_startPos.startTime = event.timeStamp;//慢速滑动不产生力度，所以需要实时更新时间戳
-                
-                if(Math.abs(slideX) < Math.abs(slideY)){
-                    $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
-                }
-                else{
-                    $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
-                }
+            
+            luckysheet_touchmove_startPos.startTime = event.timeStamp;//慢速滑动不产生力度，所以需要实时更新时间戳
+            
+            if(Math.abs(slideX) < Math.abs(slideY)){
+                // console.log("end",scrollTop, slideY,touch.pageY);
+                $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
+
+                luckysheet_touchmove_startPos.vy = slideY;
+                luckysheet_touchmove_startPos.scrollTop = scrollTop;
+                luckysheet_touchmove_startPos.moveType = "y";
             }
             else{
-                if(Math.abs(slideX) < Math.abs(slideY)){
-                    // $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
-                    luckysheet_touchmove_startPos.vy = slideY;
-                    luckysheet_touchmove_startPos.scrollTop = scrollTop;
-                    luckysheet_touchmove_startPos.moveType = "y";
-                }
-                else{
-                    // $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
-                    luckysheet_touchmove_startPos.vy = slideX;
-                    luckysheet_touchmove_startPos.moveType = "x";
-                    luckysheet_touchmove_startPos.scrollLeft = scrollLeft;
-                }
-            }
+                $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
 
+                luckysheet_touchmove_startPos.vy = slideX;
+                luckysheet_touchmove_startPos.moveType = "x";
+                luckysheet_touchmove_startPos.scrollLeft = scrollLeft;
+            }
 
         }
         else if(luckysheet_touchhandle_status){//选区
