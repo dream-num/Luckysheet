@@ -217,24 +217,51 @@ const luckysheetFreezen = {
         }
 
         if (_this.freezenverticaldata != null) {
-            let freezen_colindex = _this.freezenverticaldata[1];
+            let freezen_colindex = _this.freezenverticaldata[1];            
+
             let offset = luckysheet_searcharray(_this.freezenverticaldata[3], $("#luckysheet-cell-main").scrollLeft());
 
+            let top = _this.freezenverticaldata[4];
+
             freezen_colindex += offset;
+
+            if(column>=Store.visibledatacolumn.length){
+                column = Store.visibledatacolumn.length - 1;
+            }
+
+            if(freezen_colindex>=Store.visibledatacolumn.length){
+                freezen_colindex = Store.visibledatacolumn.length - 1;
+            }
             
-            if (column <= freezen_colindex) {
-                setTimeout(function () { $("#luckysheet-scrollbar-x").scrollLeft(0); }, 10);
+            let column_px = Store.visibledatacolumn[column], freezen_px = Store.visibledatacolumn[freezen_colindex];
+
+            if (column_px <= freezen_px+top) {
+                console.log(1111);
+                setTimeout(function () { $("#luckysheet-scrollbar-x").scrollLeft(0); }, 100);
             }
         }
 
         if (_this.freezenhorizontaldata != null) {
             let freezen_rowindex = _this.freezenhorizontaldata[1];
+            
             let offset = luckysheet_searcharray(_this.freezenhorizontaldata[3], $("#luckysheet-cell-main").scrollTop());
+
+            let left = _this.freezenhorizontaldata[4];
 
             freezen_rowindex += offset;
 
-            if (row <= freezen_rowindex) {
-                setTimeout(function () { $("#luckysheet-scrollbar-y").scrollTop(0); }, 10);
+            if(row>=Store.visibledatarow.length){
+                row = Store.visibledatarow.length - 1;
+            }
+
+            if(freezen_rowindex>=Store.visibledatarow.length){
+                freezen_rowindex = Store.visibledatarow.length - 1;
+            }
+
+            let row_px = Store.visibledatarow[row], freezen_px = Store.visibledatarow[freezen_rowindex];
+
+            if (row_px <= freezen_px+left) {
+                setTimeout(function () {$("#luckysheet-scrollbar-y").scrollTop(0);}, 100);
             }
         }
     },

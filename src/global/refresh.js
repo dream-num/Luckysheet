@@ -964,13 +964,17 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
         if($("#luckysheetTableContent").length == 0){
             return;
         }
-
+        let luckysheetTableContent = $("#luckysheetTableContent").get(0).getContext("2d");
         luckysheetDrawMain(scrollWidth, scrollHeight);
     
-        $("#luckysheetTableContent").get(0).getContext("2d").clearRect(0, 0, 46, 20);
+        luckysheetTableContent.clearRect(0, 0, 46, 20);
         
         luckysheetDrawgridColumnTitle(scrollWidth);
         luckysheetDrawgridRowTitle(scrollHeight);
+
+        //清除canvas左上角区域 防止列标题栏序列号溢出显示
+        
+        luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth * Store.devicePixelRatio, Store.columeHeaderHeight * Store.devicePixelRatio);
     }
 }
 
