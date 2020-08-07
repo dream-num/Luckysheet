@@ -133,7 +133,7 @@ const pivotTable = {
         let rowhidden = {};
         if (_this.filterparm != null) {
             for (let f in _this.filterparm) {
-                for (h in _this.filterparm[f]) {
+                for (let h in _this.filterparm[f]) {
                     if (h.rowhidden != null) {
                         rowhidden = $.extend(true, rowhidden, h.rowhidden);
                     }
