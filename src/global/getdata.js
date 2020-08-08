@@ -160,7 +160,7 @@ export function getcellvalue(r, c, data, type) {
             retv = d_value["v"];
         }
         else if(d_value && d_value.ct && d_value.ct.fa == 'yyyy-MM-dd') {
-            retv = d_value.m
+            retv = d_value.m;
         }
     }
 

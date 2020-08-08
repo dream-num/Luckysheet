@@ -31,6 +31,8 @@ import { getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import locale from '../locale/locale';
+import {getMeasureText} from '../global/getRowlen';
+import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import Store from '../store';
 
 
@@ -1506,6 +1508,14 @@ function luckysheetcolsdbclick() {
     }
 
     let matchColumn = {};
+    let scrollTop = $("#luckysheet-cell-main").scrollTop(), drawHeight = Store.luckysheetTableContentHW[1];
+    let dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+    let dataset_row_ed = luckysheet_searcharray(Store.visibledatarow, scrollTop + drawHeight);
+    dataset_row_ed += dataset_row_ed - dataset_row_st;
+    if(dataset_row_ed>=d.length){
+        dataset_row_ed = d.length-1;
+    }
+
     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
         let c1 = Store.luckysheet_select_save[s].column[0], 
             c2 = Store.luckysheet_select_save[s].column[1];
@@ -1516,8 +1526,8 @@ function luckysheetcolsdbclick() {
             }
 
             let currentColLen = Store.defaultcollen;
-
-            for(let r = 0; r < d.length; r++){
+            
+            for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                 let cell = d[r][colIndex];
                 
                 if(cell == null || isRealNull(cell.v)){
@@ -1527,12 +1537,13 @@ function luckysheetcolsdbclick() {
                 let fontset = luckysheetfontformat(cell);
                 canvas.font = fontset;
 
-                let value = getcellvalue(r, colIndex, d).toString(); //单元格文本
-                let textMetrics = canvas.measureText(value).width; //文本宽度
+                let value = getcellvalue(r, colIndex, d, "m").toString(); //单元格文本
+                let textMetrics = getMeasureText(value, canvas).width; //文本宽度
 
                 if(textMetrics + 6 > currentColLen){
                     currentColLen = textMetrics + 6;
                 }
+
             }
 
             if(currentColLen != Store.defaultcollen){
@@ -1549,7 +1560,7 @@ function luckysheetcolsdbclick() {
 
                 let currentColLen = Store.defaultcollen;
 
-                for(let r = 0; r < d.length; r++){
+                for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                     let cell = d[r][c];
                     
                     if(cell == null || isRealNull(cell.v)){
@@ -1559,12 +1570,13 @@ function luckysheetcolsdbclick() {
                     let fontset = luckysheetfontformat(cell);
                     canvas.font = fontset;
 
-                    let value = getcellvalue(r, c, d).toString(); //单元格文本
-                    let textMetrics = canvas.measureText(value).width; //文本宽度
+                    let value = getcellvalue(r, c, d, "m").toString(); //单元格文本
+                    let textMetrics = getMeasureText(value, canvas).width; //文本宽度
 
                     if(textMetrics + 6 > currentColLen){
                         currentColLen = textMetrics + 6;
                     }
+
                 }
 
                 if(currentColLen != Store.defaultcollen){

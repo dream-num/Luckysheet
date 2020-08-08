@@ -153,6 +153,25 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
 
         server.saveParam("cg", Store.currentSheetIndex, setfield, { "k": "rowlen" });
     }
+    else if (ctrlType == "resizeC") {
+        redo["type"] = "resize";
+        redo["config"] = $.extend(true, {}, Store.config);
+        redo["curconfig"] = $.extend(true, {}, cfg);
+
+        redo["range"] = $.extend(true, [], Store.luckysheet_select_save);
+        redo["currange"] = range;
+
+        redo["ctrlType"] = ctrlType;
+        redo["ctrlValue"] = ctrlValue;
+
+        let setfield = cfg["columnlen"];
+
+        if(setfield == null){
+            setfield = {};
+        }
+
+        server.saveParam("cg", Store.currentSheetIndex, setfield, { "k": "columnlen" });
+    }
     else if (ctrlType.indexOf("extend")>-1) {
         redo["type"] = "extend";
         redo["config"] = $.extend(true, {}, Store.config);

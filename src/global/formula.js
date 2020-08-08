@@ -323,8 +323,8 @@ const luckysheetformula = {
 
         let d = Store.flowdata;
         let value = "";
-
-        if (d[r] != null && d[r][c] != null && d[r][c].v != null) {
+        // && d[r][c].v != null
+        if (d[r] != null && d[r][c] != null) {
             let cell = d[r][c];
 
             if(cell.f != null){
