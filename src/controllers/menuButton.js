@@ -11,7 +11,7 @@ import { createFilter } from './filter';
 import luckysheetSearchReplace from './searchReplace';
 import luckysheetLocationCell from './locationCell';
 import ifFormulaGenerator from './ifFormulaGenerator';
-import luckysheetupdateCell from './updateCell';
+import {luckysheetupdateCell} from './updateCell';
 import insertFormula from './insertFormula';
 import sheetmanage from './sheetmanage';
 import luckysheetPostil from './postil';
@@ -2024,12 +2024,8 @@ const menuButton = {
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
                         let row_index = last["row_focus"], col_index = last["column_focus"];
-                        let row = Store.visibledatarow[row_index], 
-                            row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-                        let col = Store.visibledatacolumn[col_index], 
-                            col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
-                        luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, Store.flowdata);
+                        luckysheetupdateCell(row_index, col_index, Store.flowdata);
                         
                         let cell = Store.flowdata[row_index][col_index];
                         if(cell != null && cell.f != null){
@@ -3857,10 +3853,7 @@ const menuButton = {
             isnull = false;
         }
 
-        let row_range = rowLocationByIndex(row_index);
-        let col_range = colLocationByIndex(col_index);
-
-        luckysheetupdateCell(row_range[1], row_range[0], row_index, col_range[1], col_range[0], col_index, Store.flowdata, true);
+        luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
 
         if(isnull){
             let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">'+ formula.toUpperCase() +'</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
@@ -4293,12 +4286,12 @@ const menuButton = {
                 }
             }
 
-            if(key == "vt" && value != "0"){
-                if(value == "1"){
-                    style += "vertical-align: top;";
+            if(key == "vt" && value != "1"){
+                if(value == "0"){
+                    style += "align-items: center;";
                 }
                 else if(value == "2"){
-                    style += "vertical-align: bottom;";
+                    style += "align-items: flex-end;";
                 }
             }
         }

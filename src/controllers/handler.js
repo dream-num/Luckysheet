@@ -10,7 +10,7 @@ import alternateformat from './alternateformat';
 import ifFormulaGenerator from './ifFormulaGenerator';
 import sheetmanage from './sheetmanage';
 import server from './server';
-import luckysheetupdateCell from './updateCell';
+import {luckysheetupdateCell} from './updateCell';
 import { luckysheet_searcharray } from './sheetSearch';
 import luckysheetsizeauto from './resize'; 
 import { 
@@ -1015,13 +1015,11 @@ export default function luckysheetHandler() {
         let y = mouse[1] + scrollTop;
 
         let row_location = rowLocation(y),
-            row = row_location[1],
-            row_pre = row_location[0],
+
             row_index = row_location[2];
 
         let col_location = colLocation(x),
-            col = col_location[1],
-            col_pre = col_location[0],
+
             col_index = col_location[2];
 
         if (pivotTable.isPivotRange(row_index, col_index)) {
@@ -1072,16 +1070,6 @@ export default function luckysheetHandler() {
             return;
         }
 
-        let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
-        if (!!margeset) {
-            row = margeset.row[1];
-            row_pre = margeset.row[0];
-            row_index = margeset.row[2];
-            col = margeset.column[1];
-            col_pre = margeset.column[0];
-            col_index = margeset.column[2];
-        }
-
         if ($("#luckysheet-search-formula-parm").is(":visible") || $("#luckysheet-search-formula-parm-select").is(":visible")) {
             //公式参数栏显示
             $("#luckysheet-cell-selected").hide();
@@ -1099,7 +1087,7 @@ export default function luckysheetHandler() {
                 menuButton.cancelPaintModel();
             }
 
-            luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, Store.flowdata);
+            luckysheetupdateCell(row_index, col_index, Store.flowdata);
         }
     });
 

@@ -2,7 +2,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
 import server from './server';
-import luckysheetupdateCell from './updateCell';
+import {luckysheetupdateCell,setCenterInputPosition} from './updateCell';
 import { keycode } from './constant';
 import { 
     luckysheetMoveHighlightCell, 
@@ -344,12 +344,8 @@ export function keyboardInitial(){
             let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
             let row_index = last["row_focus"], col_index = last["column_focus"];
-            let row = Store.visibledatarow[row_index], 
-                row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-            let col = Store.visibledatacolumn[col_index], 
-                col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
-            luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, Store.flowdata);
+            luckysheetupdateCell(row_index, col_index, Store.flowdata);
             event.preventDefault();
         }
         else if (kcode == keycode.F4 && parseInt($inputbox.css("top")) > 0) {
@@ -369,22 +365,8 @@ export function keyboardInitial(){
                 let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
                 let row_index = last["row_focus"], col_index = last["column_focus"];
-                let row = Store.visibledatarow[row_index], 
-                    row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-                let col = Store.visibledatacolumn[col_index], 
-                    col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
-                let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
-                if(!!margeset){
-                    row = margeset.row[1];
-                    row_pre = margeset.row[0];
-                    row_index = margeset.row[2];
-                    col = margeset.column[1];
-                    col_pre = margeset.column[0];
-                    col_index = margeset.column[2];
-                }
-
-                luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, Store.flowdata);
+                luckysheetupdateCell(row_index, col_index, Store.flowdata);
                 event.preventDefault();
             }
         }
@@ -787,22 +769,8 @@ export function keyboardInitial(){
                     let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
                     let row_index = last["row_focus"], col_index = last["column_focus"];
-                    let row = Store.visibledatarow[row_index], 
-                        row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-                    let col = Store.visibledatacolumn[col_index], 
-                        col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
-                    
-                    let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
-                    if(!!margeset){
-                        row = margeset.row[1];
-                        row_pre = margeset.row[0];
-                        row_index = margeset.row[2];
-                        col = margeset.column[1];
-                        col_pre = margeset.column[0];
-                        col_index = margeset.column[2];
-                    }
 
-                    luckysheetupdateCell(row, row_pre, row_index, col, col_pre, col_index, Store.flowdata, true);
+                    luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
                     if(kcode == 8){
                         $("#luckysheet-rich-text-editor").html("<br/>");
                     }
@@ -868,6 +836,7 @@ export function keyboardInitial(){
         }
         else if (!((kcode >= 112 && kcode <= 123) || kcode <= 46 || kcode == 144 || kcode == 108 || event.ctrlKey || event.altKey || (event.shiftKey && (kcode == 37 || kcode == 38 || kcode == 39 || kcode == 40))) || kcode == 8 || kcode == 32 || kcode == 46 || (event.ctrlKey && kcode == 86)) {
             formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
+            setCenterInputPosition(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1], Store.flowdata);
         }
     }).keyup(function (e) {
         let kcode = e.keyCode;
