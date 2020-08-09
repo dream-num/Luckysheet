@@ -1278,7 +1278,7 @@ const luckysheetdefaultstyle = {
 }
 
 const luckysheetdefaultFont = function(){
-    return  'normal normal normal '+ Math.ceil(10 * Store.devicePixelRatio) +'pt '+ locale().fontarray[0] +', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC",  "WenQuanYi Micro Hei", sans-serif';
+    return  'normal normal normal 10pt '+ locale().fontarray[0] +', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC",  "WenQuanYi Micro Hei", sans-serif';
 } 
 
 const luckysheet_CFiconsImg = new Image();

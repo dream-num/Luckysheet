@@ -318,10 +318,10 @@ function luckysheetfontformat(format) {
 
         //font-size/line-height
         if (!format.fs) {
-            font += Math.ceil(10 * Store.devicePixelRatio) + "pt ";
+            font += "10pt ";
         }
         else {
-            font += Math.ceil(format.fs * Store.devicePixelRatio) + "pt ";
+            font += Math.ceil(format.fs) + "pt ";
         }
 
         if (!format.ff) {

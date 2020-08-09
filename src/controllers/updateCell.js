@@ -175,6 +175,9 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 export function setCenterInputPosition(row_index, col_index, d){
 
     let cell = d[row_index][col_index];
+    if(cell==null){
+        return;
+    }
     let htValue = cell["ht"];
     if(cell!=null && htValue != "0"){//0 center, 1 left, 2 right
         return;

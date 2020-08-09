@@ -3474,8 +3474,6 @@ const menuButton = {
         };
 
         type = borderType[type.toString()];
-        
-        canvasborder.save();
 
     	try {
         	if(type == "Hair"){
@@ -3513,17 +3511,17 @@ const menuButton = {
             	canvasborder.lineTo(line_st - 0.5, line_ed);
         	}
             
-            canvasborder.lineWidth = 2 * Store.devicePixelRatio;
+            canvasborder.lineWidth = 2;
         }
         else if(type == "Thick"){
             canvasborder.moveTo(m_st, m_ed);
             canvasborder.lineTo(line_st, line_ed);
-            canvasborder.lineWidth = 3 * Store.devicePixelRatio;
+            canvasborder.lineWidth = 3;
         }
         else {
             canvasborder.moveTo(m_st, m_ed);
             canvasborder.lineTo(line_st, line_ed);
-            canvasborder.lineWidth = Store.devicePixelRatio;
+            canvasborder.lineWidth = 1;
         }
     },
     moveMergeData: function(d, offset_r, offset_c){

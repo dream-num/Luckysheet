@@ -1285,8 +1285,8 @@ const luckysheetSparkline = {
             this.canvasWidth = el.mergedOptions.width;
             this.canvasHeight = el.mergedOptions.height;
 
-            let barWidth = parseInt(options.get('barWidth'), 10)*Store.devicePixelRatio,
-                barSpacing = parseInt(options.get('barSpacing'), 10)*Store.devicePixelRatio;
+            let barWidth = parseInt(options.get('barWidth'), 10),
+                barSpacing = parseInt(options.get('barSpacing'), 10);
             //tristate._super.init.call(this, el, values, options, width, height);
 
             this.regionShapes = {};
@@ -1907,8 +1907,8 @@ const luckysheetSparkline = {
         _this.lastShapeId = null;
 
         _this.mergedOptions = $.extend({}, base, extendedOptions, userOptions);
-        _this.mergedOptions.width = Store.devicePixelRatio * _this.mergedOptions.width;
-        _this.mergedOptions.height = Store.devicePixelRatio * _this.mergedOptions.height;
+        _this.mergedOptions.width = _this.mergedOptions.width;
+        _this.mergedOptions.height = _this.mergedOptions.height;
         _this[_this.mergedOptions.type].render(_this, userValues);
 
         return { shapes:_this.shapes, shapeseq:_this.shapeseq, offsetX:_this.mergedOptions.offsetX, offsetY:_this.mergedOptions.offsetY, pixelWidth:_this.mergedOptions.width, pixelHeight:_this.mergedOptions.height};
