@@ -1344,6 +1344,10 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
+        if(Store.allowEdit===false){
+            return;
+        }
+
         if(Store.luckysheet_select_save.length > 0){
             let d = editor.deepCopyFlowData(Store.flowdata);
 
