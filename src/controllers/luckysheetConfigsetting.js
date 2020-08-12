@@ -28,7 +28,8 @@ const luckysheetConfigsetting = {
     chartConfigChange: null,
     beforeCreateDom: null,
     fireMousedown: null,
-    plugins:[]
+    plugins:[],
+    forceCaculation:false,//强制刷新公式，公式较多会有性能问题，慎用
 }
 
 export default luckysheetConfigsetting;

@@ -52,4 +52,5 @@ export default {
     fireMousedown: null, //单元格数据下钻
     lang: 'en', //language
     plugins: [], //plugins, e.g. ['chart']
+    forceCaculation:false,//强制刷新公式，公式较多会有性能问题，慎用
 }

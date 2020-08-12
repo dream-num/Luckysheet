@@ -4432,7 +4432,15 @@ const luckysheetformula = {
     execvertex: {},
     execFunctionGroupData: null,
     execFunctionExist: null,
-    execFunctionGroup: function(origin_r, origin_c, value, index, data) {
+    execFunctionGroupForce:function(isForce){
+        if(isForce){
+            this.execFunctionGroup(undefined, undefined, undefined, undefined, undefined,true);
+        }
+        else{
+            this.execFunctionGroup();
+        }
+    },
+    execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
         let _this = this;
         
         if (data == null) {
@@ -4489,7 +4497,10 @@ const luckysheetformula = {
                     vertex1["r" + item.r.toString() + "c" + item.c.toString()] = item;
                     _this.isFunctionRangeSave = false;
 
-                    if (origin_r != null && origin_c != null) {
+                    if(isForce){
+                        _this.isFunctionRangeSave = true;
+                    }
+                    else if (origin_r != null && origin_c != null) {
                         _this.isFunctionRange(item.func[2], origin_r, origin_c);
                     } 
                     else {
@@ -4522,7 +4533,12 @@ const luckysheetformula = {
 
                     vertex1["r" + item.r.toString() + "c" + item.c.toString()] = item;
                     _this.isFunctionRangeSave = false;
-                    _this.isFunctionRange(item.func[2], cell.r, cell.c);
+                    if(isForce){
+                        _this.isFunctionRangeSave = true;
+                    }
+                    else{
+                        _this.isFunctionRange(item.func[2], cell.r, cell.c);
+                    }
                     
                     if (_this.isFunctionRangeSave) {
                         stack.push(item);
