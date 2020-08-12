@@ -86,7 +86,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
-    luckysheetConfigsetting.forceCaculation = extendsetting.forceCaculation;
+    luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
     // Register plugins

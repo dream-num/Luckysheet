@@ -671,7 +671,7 @@ const sheetmanage = {
                     _this.restoreselect();
                     _this.CacheNotLoadControll = [];
                     _this.restoreCache();
-                    formula.execFunctionGroupForce(luckysheetConfigsetting.forceCaculation);
+                    formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     
                     // luckysheetrefreshgrid(0, 0);
@@ -901,7 +901,7 @@ const sheetmanage = {
 
                 setTimeout(function () {
                     _this.restoreCache();
-                    formula.execFunctionGroupForce(luckysheetConfigsetting.forceCaculation);
+                    formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
                     _this.restoreSheetAll(Store.currentSheetIndex);
                     luckysheetrefreshgrid();
                 }, 1);
@@ -944,7 +944,7 @@ const sheetmanage = {
 
                     setTimeout(function () {
                         _this.restoreCache();
-                        formula.execFunctionGroupForce(luckysheetConfigsetting.forceCaculation);
+                        formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
                         _this.restoreSheetAll(Store.currentSheetIndex);
                         luckysheetrefreshgrid();
                     }, 1);
