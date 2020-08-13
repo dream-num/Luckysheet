@@ -77,7 +77,9 @@ function setcellvalue(r, c, d, v) {
     else{
         if(cell.f != null && isRealNum(vupdate) && !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(vupdate)){
             cell.v = parseFloat(vupdate);
-            cell.ct = { "fa": "General", "t": "n" };
+            if(cell.ct==null){
+                cell.ct = { "fa": "General", "t": "n" };
+            }
 
             if(cell.v == Infinity || cell.v == -Infinity){
                 cell.m = cell.v.toString();
@@ -92,9 +94,17 @@ function setcellvalue(r, c, d, v) {
                     cell.m = cell.v.toExponential(len).toString();
                 }
                 else{
-                    let mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
+                    let v_p = Math.round(cell.v * 1000000000) / 1000000000;
+                    if(cell.ct==null){
+                        let mask = genarate(v_p);
+                        cell.m = mask[0].toString(); 
+                    }
+                    else{
+                        let mask = update(cell.ct.fa, v_p);
+                        cell.m = mask.toString();
+                    }
 
-                    cell.m = mask[0].toString(); 
+                    // cell.m = mask[0].toString();
                 }
             }
         }
