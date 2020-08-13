@@ -215,3 +215,8 @@ You can see the complete settings
 |  ENTER | Edit cell |
 |  TAB | Move cell selection box to the right |
 |  DELETE | Clear cell data |
+
+## warning
+::: danger
+The new API is being sorted out and may change at any time, please use it with caution!
+:::

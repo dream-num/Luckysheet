@@ -1,5 +1,13 @@
 # 表格操作
 
+每一次操作都会保存历史记录，用于撤销和重做，如果在表格初始化的时候设置了`allowUpdate`为`true`和`updateUrl`数据更新地址，则会通过websocket将操作实时更新到后台，并且支持共享编辑。
+
+> 源码 [`src/controllers/server.js`](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/server.js) 模块实现了后台保存功能
+
+通常，共享编辑（或者叫协同编辑）是需要和账户系统配合来控制权限的，开发者可以根据已有功能，配合自己的账户管理功能自行实现权限控制。
+
+以下为所有的支持传输到后台的操作类型。
+
 ## 单元格刷新
 
 - **格式**：
@@ -19,8 +27,8 @@
     |参数|说明|
     | ------------ | ------------ |
     |t|操作类型表示符号|
-    |i|当前sheet的index值|
-    |v|单元格的值|
+    |i|当前sheet的索引值|
+    |v|单元格的值，参考 [单元格属性表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/format.html#%E5%8D%95%E5%85%83%E6%A0%BC%E5%B1%9E%E6%80%A7%E8%A1%A8)|
     |r|单元格的行号|
     |c|单元格的列号|
 

@@ -1,4 +1,8 @@
-# Advanced Features
+# API
+
+::: danger
+The new API is being sorted out, please use it with caution!
+:::
 
 ## luckysheet.create(options)
 - **Parameter**：

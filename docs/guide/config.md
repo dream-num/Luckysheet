@@ -157,6 +157,12 @@
 - Usage: Form unique identifier
 
 ------------
+## allowUpdate
+- Type: Boolean
+- Default: false
+- Usage: Whether to allow back-end update after operating the table, used in conjunction with `updateUrl`
+
+------------
 ## loadUrl
 - Type: String
 - Default: ""
@@ -172,19 +178,13 @@
 ## updateUrl
 - Type: String
 - Default: ""
-- Usage: Update URL of table data
+- Usage: The back-end update address after operating the table will only be effective when `allowUpdate` is `true`
 
 ------------
 ## updateImageUrl
 - Type: String
 - Default: ""
 - Usage: Update URL of thumbnail
-
-------------
-## allowUpdate
-- Type: Boolean
-- Default: false
-- Usage: Whether to allow background updates after editing
 
 ------------
 ## functionButton

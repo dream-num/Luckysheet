@@ -17,8 +17,21 @@ luckysheet.buildGridData(luckysheetfile)
 ```
 
 ------------
+
 ## 单元格的类型有哪些？
 
 **<span style="font-size:20px;">A</span>** : 参考[单元格格式列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/format.html#%E5%8D%95%E5%85%83%E6%A0%BC%E6%A0%BC%E5%BC%8F),例举了可用的单元格格式
+
+------------
+
+## 如何在vue项目中使用Luckysheet？
+
+**<span style="font-size:20px;">A</span>** : 参考 [Luckysheet-vue-demo](https://github.com/Dushusir/vue-demo)
+
+------------
+
+## 为什么初始化后表格里面的公式不会被触发？
+
+**<span style="font-size:20px;">A</span>** : 参考 [表格数据格式](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#calcchain) ,设置单元格数据对应的calcChain即可。
 
 ------------

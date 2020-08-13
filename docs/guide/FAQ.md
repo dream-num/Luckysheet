@@ -17,8 +17,21 @@ luckysheet.buildGridData(luckysheetfile)
 ```
 
 ------------
+
 ## What are the cell types?
 
 **<span style="font-size:20px;">A</span>**: Refer to [Cell Format List](https://mengshukeji.github.io/LuckysheetDocs/guide/format.html), with examples of available cell formats
+
+------------
+
+## How to use Luckysheet in vue project?
+
+**<span style="font-size:20px;">A</span>** : Reference [Luckysheet-vue-demo](https://github.com/Dushusir/vue-demo)
+
+------------
+
+## Why will the formula in the table not be triggered after initialization?
+
+**<span style="font-size:20px;">A</span>** : Refer to [Table data format](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#calcchain) ,just set the calcChain corresponding to the cell data.
 
 ------------

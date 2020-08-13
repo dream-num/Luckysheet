@@ -28,7 +28,7 @@
         <td>ff</td>
         <td>fontfamily</td>
         <td>Font</td>
-        <td>0 Microsoft Yahei, 1 Song, 2 ST Heiti, 3 ST Kaiti, 4 ST FangSong, 5 ST Song, 6 Chinese New Wei, 7 Chinese Xingkai, 8 Chinese Lishu, 9 Arial, 10 Times New Roman, 11 Tahoma, 12 Verdana</td>
+        <td>0 Times New Roman, 1 Arial, 2 Tahoma, 3 Verdana, 4 Microsoft Yahei, 5 Song, 6 ST Heiti, 7 ST Kaiti, 8 ST FangSong, 9 ST Song, 10 Chinese New Wei, 11 Chinese Xingkai, 12 Chinese Lishu</td>
         <td>Style.Font object's Name property.</td>
     </tr>
     <tr>
@@ -183,7 +183,7 @@ The format is set to:
 The available settings are as follows:
 | Format | ct.fa | ct.t | Example of m value | Remarks |
 |----------|----------|-------------------------|------------------------- |------------------------- |
-| Automatic | General | g | Luckysheet ||
+| Automatic | General | g | Luckysheet |Automatic format, which is also the default format; When the cell content is a number, the value of `m` is `'n'`|
 | Plain text | @ | s | Luckysheet ||
 | <br><br><br>**Number Format** | | | | |
 | Integer | 0 | n | 1235 | 0 decimal places |

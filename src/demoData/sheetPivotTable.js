@@ -129,8 +129,6 @@ const sheetPivotTable = {
 		"c": 5,
 		"v": 12
 	}],
-	"visibledatarow": [],
-	"visibledatacolumn": [],
 	"ch_width": 4748,
 	"rh_height": 1790,
 	"luckysheet_select_save": [{

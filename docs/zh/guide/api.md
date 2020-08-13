@@ -1,4 +1,8 @@
-# 高级功能
+# API
+
+::: danger
+新的API正在整理，请谨慎使用！
+:::
 
 ## luckysheet.create(options)
 - **参数**：

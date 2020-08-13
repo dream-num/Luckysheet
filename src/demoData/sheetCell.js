@@ -5563,8 +5563,6 @@ const sheetCell = {
 			"v": "hidden2"
 		}
 	}],
-	"visibledatarow": [21, 42, 63, 84, 105, 126, 147, 168, 189, 210, 231, 252, 273, 294, 315, 336, 357, 389, 410, 431, 452, 473, 494, 515, 536, 616, 637, 658, 739, 759, 759, 759, 779, 799, 819, 839],
-	"visibledatacolumn": [98, 172, 288, 417, 554, 677, 816, 948, 1077, 1218, 1363, 1437, 1511, 1585, 1659, 1733, 1807, 1881, 1955, 2029, 2103, 2177],
 	"ch_width": 2322,
 	"rh_height": 949,
 	"luckysheet_select_save": [{
@@ -5582,7 +5580,7 @@ const sheetCell = {
 		"column_focus": 0
 	}],
 	"luckysheet_selection_range": [],
-	"scrollLeft": 0,
-	"scrollTop": 315
+	"scrollLeft": 300,
+	"scrollTop": 515
 }
 export default sheetCell

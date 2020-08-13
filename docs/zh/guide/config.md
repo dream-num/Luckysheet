@@ -157,6 +157,12 @@
 - 作用：表格唯一标识符
 
 ------------
+## allowUpdate
+- 类型：Boolean
+- 默认值：false
+- 作用：是否允许操作表格后的后台更新，与`updateUrl`配合使用
+
+------------
 ## loadUrl
 - 类型：String
 - 默认值：""
@@ -172,19 +178,13 @@
 ## updateUrl
 - 类型：String
 - 默认值：""
-- 作用：表格数据的更新地址
+- 作用：操作表格后的后台更新地址，在`allowUpdate`为`true`时才会有效
 
 ------------
 ## updateImageUrl
 - 类型：String
 - 默认值：""
 - 作用：缩略图的更新地址
-
-------------
-## allowUpdate
-- 类型：Boolean
-- 默认值：false
-- 作用：是否允许编辑后的后台更新
 
 ------------
 ## functionButton

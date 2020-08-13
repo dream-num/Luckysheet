@@ -350,7 +350,7 @@ export default {
         MicrosoftYaHei:"YaHei",
     },
     fontarray: ["Times New Roman","Arial","Tahoma","Verdana"],
-    fontjson: {"arial":1,"times new roman":0,"tahoma":2,"verdana":3},
+    fontjson: {"times new roman":0,"arial":1,"tahoma":2,"verdana":3},
     border:{
         borderTop:'borderTop',
         borderBottom:'borderBottom',

@@ -215,3 +215,8 @@ luckysheetfile[0] =
 |  ENTER | 编辑单元格 |
 |  TAB | 向右移动单元格选框 |
 |  DELETE | 清除单元格数据 |
+
+## 警告
+::: danger
+新的API正在整理，可能随时变动，请谨慎使用！
+:::

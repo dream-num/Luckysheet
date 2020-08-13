@@ -15,19 +15,22 @@
         {
             "name": "Cell", //Worksheet name
             "color": "", //Worksheet color
-            "config": {}, //Table row height, column width, merged cells, borders, hidden rows and other settings
             "index": "0", //Worksheet index
-            "chart": [], //Chart configuration
             "status": "1", //Activation status
             "order": "0", //The order of the worksheet
             "hide": 0,//whether to hide
-            "column": 18, //Number of columns
             "row": 36, //number of rows
-            "celldata": [], //Original cell data set
-            "visibledatarow": [], //The position of all rows
-            "visibledatacolumn": [], //The position of all columns
-            "ch_width": 2322, //The width of the worksheet area
-            "rh_height": 949, //The height of the worksheet area
+            "column": 18, //Number of columns
+            "config": {
+                "merge":{}, //merged cells
+                "rowlen":{}, //Table row height
+                "columnlen":{}, //Table column width
+                "rowhidden":{}, //hidden rows
+                "columnhidden":{}, //hidden columns
+                "borderInfo":{}, //borders
+            },
+            "celldata": [], //initialize the cell data used
+            "data": [], //Update and store the cell data used
             "scrollLeft": 0, //Left and right scroll bar position
             "scrollTop": 315, //Up and down scroll bar position
             "luckysheet_select_save": [], //selected area
@@ -38,7 +41,12 @@
             "filter_select": null,//Filter range
             "filter": null,//Filter configuration
             "luckysheet_alternateformat_save": [], //Alternate colors
-            "luckysheet_alternateformat_save_modelCustom": []//Customize alternate colors
+            "luckysheet_alternateformat_save_modelCustom": [], //Customize alternate colors
+            "chart": [], //Chart configuration
+            "visibledatarow": [], //The position of all rows
+            "visibledatacolumn": [], //The position of all columns
+            "ch_width": 2322, //The width of the worksheet area
+            "rh_height": 949, //The height of the worksheet area
         },
         {
             "name": "Sheet2",
@@ -62,7 +70,6 @@
     ```
 - **Explanation**：
            
-    ------------
     ## name
     - Type：String
     - Default："Sheet1"
@@ -90,7 +97,7 @@
     ## order
     - Type：Number
     - Default：0
-    - Usage： The order of the worksheets, it will increase when a worksheet is added, starting from 0
+    - Usage： The index of the worksheets, it will increase when a worksheet is added, starting from 0
     
     ------------
     ## hide
@@ -99,40 +106,16 @@
     - Usage： Whether to hide, `0` means not to hide, `1` means to hide
 
     ------------
-    ## column
-    - Type：Number
-    - Default：18
-    - Usage： Number of cell columns
-    
-    ------------
     ## row
     - Type：Number
     - Default：36
     - Usage： Number of cell rows
     
     ------------
-    ## visibledatarow
+    ## column
     - Type：Number
-    - Default：[]
-    - Usage： Position information of all rows, incremental row position data
-    
-    ------------
-    ## visibledatacolumn
-    - Type：Number
-    - Default：[]
-    - Usage： Position information of all columns, incremental column position data
-    
-    ------------
-    ## ch_width
-    - Type：Number
-    - Default：2322
-    - Usage：The width of the entire worksheet area (the gray area including the border)
-    
-    ------------
-    ## rh_height
-    - Type：Number
-    - Default：2322
-    - Usage：The height of the entire worksheet area (the gray area containing the border)
+    - Default：18
+    - Usage： Number of cell columns
     
     ------------
     ## scrollLeft
@@ -155,61 +138,93 @@
     ### config.merge
     - Type：Object
     - Default：{}
-    - Usage：Merge cell settings, example:
-    ```js
-    {
-            "13_5": {
-                "r": 13,
-                "c": 5,
-                "rs": 3,
-                "cs": 1
-            },
-            "13_7": {
-                "r": 13,
-                "c": 7,
-                "rs": 3,
-                "cs": 2
-            },
-            "14_2": {
-                "r": 14,
-                "c": 2,
-                "rs": 1,
-                "cs": 2
+    - Usage：Merge cell settings
+    - example:
+        ```js
+        {
+                "13_5": {
+                    "r": 13,
+                    "c": 5,
+                    "rs": 3,
+                    "cs": 1
+                },
+                "13_7": {
+                    "r": 13,
+                    "c": 7,
+                    "rs": 3,
+                    "cs": 2
+                },
+                "14_2": {
+                    "r": 14,
+                    "c": 2,
+                    "rs": 1,
+                    "cs": 2
+                }
             }
-        }
-    ```
+        ```
     The `key` in the object is the spliced value of `r +'_' + c`, and the `value` is the cell information in the upper left corner: r: number of rows, c: number of columns, rs: number of merged rows, cs: merge Number of columns
 
     ### config.rowlen
     - Type：Object
     - Default：{}
-    - Usage：The row height of each cell, example:
-    ```js
-    "rowlen": {
-                "0": 20,
-                "1": 20,
-                "2": 20
-            }
-    ```
+    - Usage：The row height of each cell 
+    - example:
+        ```js
+        "rowlen": {
+                    "0": 20,
+                    "1": 20,
+                    "2": 20
+                }
+        ```
 
     ### config.columnlen
     - Type：Object
     - Default：{}
-    - Usage：The column width of each cell, example:
-    ```js
-    "columnlen": {
-                "0": 97,
-                "1": 115,
-                "2": 128
-            }
-    ```
+    - Usage：The column width of each cell
+    -  example:
+        ```js
+        "columnlen": {
+                    "0": 97,
+                    "1": 115,
+                    "2": 128
+                }
+        ```
+    
+    ### config.rowhidden
+    - Type：Object
+    - Default：{}
+    - Usage：Hidden row information, Rows：`rowhidden[Rows]: 0`,
+        
+        `key` specify the number of rows,`value` is always `0`
+    - example:
+        ```js
+        "rowhidden": {
+                    "30": 0,
+                    "31": 0
+                }
+        ```
+        
+    ### config.columnhidden
+    - Type：Object
+    - Default：{}
+    - Usage：Hidden column information, Columns：`columnhidden[Columns]: 0`,
+        
+        `key` specify the number of columns,`value` is always `0`
+    - example:
+        ```js
+        "columnhidden": {
+                    "30": 0,
+                    "31": 0
+                }
+        ```
 
     ### config.borderInfo
     - Type：Object
     - Default：{}
-    - Usage：The border information of the cell, example:
-    ```js
-    "borderInfo": [{
+    - Usage：The border information of the cell
+    - example:
+        ```js
+        "borderInfo": [{
                         "rangeType": "cell",
                         "value": {
                             "row_index": 3,
@@ -251,7 +266,7 @@
                             "column": [8, 9]
                         }]
                     }]
-    ```
+        ```
     There are two types of range: single cell and selection
     1. selection `rangeType: "range"`
 
@@ -307,18 +322,6 @@
          }
          ```
          Means to set the cell `"D4"`, the upper border/lower border/left border/right border are all border thicknesses `"MediumDashDot"`, color is `"rgb(255, 0, 0)"`
-
-    ### config.rowhidden
-    - Type：Object
-    - Default：{}
-    - Usage：Hidden row information, example:
-    ```js
-    "rowhidden": {
-                "30": 0,
-                "31": 0
-            }
-    ```
-    - Rows：`rowhidden[Rows]: 0`,`key`Specify the number of rows,`value` is always `0`
 
     ------------
     ## celldata
@@ -735,6 +738,30 @@
     - Usage： Chart configuration (under development)
     
     ------------
+    ## visibledatarow
+    - Type：Number
+    - Default：[]
+    - Usage： Position information of all rows, incremental row position data, No need to set up for initialization
+    
+    ------------
+    ## visibledatacolumn
+    - Type：Number
+    - Default：[]
+    - Usage： Position information of all columns, incremental column position data, No need to set up for initialization
+    
+    ------------
+    ## ch_width
+    - Type：Number
+    - Default：2322
+    - Usage：The width of the entire worksheet area (the gray area including the border), No need to set up for initialization
+    
+    ------------
+    ## rh_height
+    - Type：Number
+    - Default：2322
+    - Usage：The height of the entire worksheet area (the gray area containing the border), No need to set up for initialization
+    
+    ------------
 
 ## Get sheet data
 
@@ -756,12 +783,6 @@
     `r` stands for row, `c` stands for column, and `v` stands for the value of the cell. The value can be a character, number, or json string.
     
     The data will only be loaded once, generally speaking, there is only one primary key, but considering that some formulas, charts and pivot tables will refer to the data of other sheets, the front desk will add a judgment, if the current sheet refers to the data of other sheets, then complete the data of the referenced sheet together.
-
-## Get range data
-
-- **Configuration**：
-
-    Configure the address of `loadCellUrl`, the parameters are `gridKey` (table primary key), `index` (sheet primary key), start row, end row, start column, end column. The backend gets the specified celldata data according to the range and returns it.
 
 ## Update data
 

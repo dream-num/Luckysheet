@@ -40,7 +40,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 
 ### Operation
 + **Undo/Redo**
-+ **Copy/Paste/Cut** (Copy from excel to luckysheet with format, vice versa)
++ **Copy/Paste/Cut** (Copy from excel to Luckysheet with format, vice versa)
 + **Hot key** (The operating experience is consistent with excel, if there are differences or missing, please feedback to us)
 + **Format Painter** (Similar to google sheet)
 + **Selection by drag and dropping** (Change the parameters of formula and chart through selection)
@@ -78,7 +78,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Comments** (Add, delete, update)
 + **Collaborate** (Simultaneous editing by multiple users)
 
-### LuckySheet
+### Luckysheet
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
@@ -90,7 +90,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
++ **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 
