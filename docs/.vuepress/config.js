@@ -49,10 +49,10 @@ module.exports = {
 					'/guide/': [
 						'',
 						'config',
-						'api',
 						'data',
+						'cell',
 						'operate',
-						'format',
+						'api',
 						'FAQ'
 					],
 				},
@@ -84,10 +84,10 @@ module.exports = {
 					'/zh/guide/': [
 						'',
 						'config',
-						'api',
 						'data',
+						'cell',
 						'operate',
-						'format',
+						'api',
 						'FAQ'
 					],
 				},

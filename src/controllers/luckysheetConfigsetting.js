@@ -25,7 +25,6 @@ const luckysheetConfigsetting = {
     
     
     editMode: false,
-    chartConfigChange: null,
     beforeCreateDom: null,
     fireMousedown: null,
     plugins:[],

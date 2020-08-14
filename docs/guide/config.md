@@ -18,6 +18,12 @@
 - Usage: Internationalization settings, allowing to set the language of the table, temporarily supporting Chinese ("zh") and English ("en")
 
 ------------
+## gridKey
+- Type: String
+- Default: ""
+- Usage: Form unique identifier
+
+------------
 ## column
 - Type: Number
 - Default: 60
@@ -84,7 +90,6 @@
 - Usage: Whether to display the bottom table name area
 
 ------------
-
 ## showstatisticBar
 - Type: Boolean
 - Default: true
@@ -109,24 +114,6 @@
 - Usage: Allow add column
 
 ------------
-## pointEdit
-- Type: Boolean
-- Default: false
-- Usage: Whether the editor inserts table mode
-
-------------
-## pointEditUpdate
-- Type: Function
-- Default: null
-- Usage: Editor table update function
-
-------------
-## pointEditZoom
-- Type: Number
-- Default: 1
-- Usage: Editor table scaling when editing
-
-------------
 ## userInfo
 - Type: String
 - Default: `'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
@@ -149,12 +136,6 @@
 - Type: Number
 - Default: window.devicePixelRatio
 - Usage: Device Pixel Ratio, the larger the ratio, the higher the table resolution
-
-------------
-## gridKey
-- Type: String
-- Default: ""
-- Usage: Form unique identifier
 
 ------------
 ## allowUpdate
@@ -203,12 +184,6 @@
 - Type: Boolean
 - Default: false
 - Usage: Allow next page to load
-
-------------
-## chartConfigChange
-- Type: Function
-- Default: null
-- Usage: Custom method for triggering chart update in chart plugin
 
 ------------
 ## beforeCreateDom

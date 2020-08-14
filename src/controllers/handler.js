@@ -4081,7 +4081,7 @@ export default function luckysheetHandler() {
             let totalPage = luckysheetConfigsetting.pageInfo.totalPage;
             let pageUrl = luckysheetConfigsetting.pageInfo.pageUrl;
 
-            // rptapp
+            
             method.addDataAjax({
                 "queryExps": queryExps,
                 "reportId": reportId,

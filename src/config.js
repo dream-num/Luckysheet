@@ -47,7 +47,6 @@ export default {
         "pageUrl":"",
     },
     editMode: false, //是否为编辑模式
-    chartConfigChange: null,//图表插件中图表更新触发的自定义方法
     beforeCreateDom: null,//表格创建之前的方法
     fireMousedown: null, //单元格数据下钻
     lang: 'en', //language

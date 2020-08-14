@@ -82,7 +82,6 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.pageInfo = extendsetting.pageInfo;
 
     luckysheetConfigsetting.editMode = extendsetting.editMode;
-    luckysheetConfigsetting.chartConfigChange = extendsetting.chartConfigChange;
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
