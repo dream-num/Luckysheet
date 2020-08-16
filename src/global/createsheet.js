@@ -15,6 +15,7 @@ export default function luckysheetcreatesheet(colwidth, rowheight, data, cfg, ac
     Store.visibledatacolumn = [];
     Store.ch_width = 0;
     Store.rh_height = 0;
+    Store.zoomRatio = 1;
 
     if(cfg != null){
         Store.config = cfg;

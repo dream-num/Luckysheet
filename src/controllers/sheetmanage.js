@@ -21,7 +21,7 @@ import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
-import { renderChartShow } from '../expendPlugins/chart/plugin'
+import { renderChartShow } from '../expendPlugins/chart/plugin';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -600,6 +600,8 @@ const sheetmanage = {
         Store.luckysheet_selection_range = file["luckysheet_selection_range"] == null ? [] : file["luckysheet_selection_range"];
         Store.config = file["config"] == null ? {} : file["config"];
 
+        Store.zoomRatio = file["zoomRatio"] == null ? 1 : file["zoomRatio"];
+
         let r2 = Store.luckysheet_select_save[0].row[1], 
             c2 = Store.luckysheet_select_save[0].column[1];
         
@@ -758,6 +760,8 @@ const sheetmanage = {
 
         file["scrollLeft"] = $("#luckysheet-scrollbar-x").scrollLeft();//列标题
         file["scrollTop"] = $("#luckysheet-scrollbar-y").scrollTop();//行标题
+
+        file["zoomRatio"] = Store.zoomRatio;
     },
     setSheetParam: function(isload) {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -785,18 +789,25 @@ const sheetmanage = {
             luckysheetFreezen.freezenverticaldata = file["freezen"].vertical == null ? null : file["freezen"].vertical.freezenverticaldata;
         }
 
+        if(file["zoomRatio"]!=null){
+            Store.zoomRatio = file["zoomRatio"];
+        }
+        else{
+            Store.zoomRatio = 1;
+        }
+
         createFilterOptions(file["filter_select"], file["filter"]);
 
         Store.scrollRefreshSwitch = false;
         if(file["scrollLeft"]!=null && file["scrollLeft"]>0){
-            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
+            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]*Store.zoomRatio);
         }
         else{
             $("#luckysheet-scrollbar-x").scrollLeft(0);
         }
 
         if(file["scrollTop"]!=null && file["scrollTop"]>0){
-            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
+            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]*Store.zoomRatio);
         }
         else{
             $("#luckysheet-scrollbar-y").scrollTop(0);

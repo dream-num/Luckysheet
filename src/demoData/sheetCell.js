@@ -1164,6 +1164,7 @@ const sheetCell = {
 		}
 	},
 	"index": "0",
+	"zoomRatio":1,
 	"chart": [],
 	"status": "1",
 	"order": "0",
@@ -1173,7 +1174,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1186,7 +1187,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1199,7 +1200,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1212,7 +1213,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1225,7 +1226,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1238,7 +1239,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1251,7 +1252,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1264,7 +1265,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1277,7 +1278,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1290,7 +1291,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1303,7 +1304,7 @@ const sheetCell = {
 		"r": 0,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1322,7 +1323,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Background",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -1335,7 +1336,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1361,7 +1362,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1387,7 +1388,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1400,7 +1401,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1413,7 +1414,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1426,7 +1427,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1439,7 +1440,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1452,7 +1453,7 @@ const sheetCell = {
 		"r": 1,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1465,7 +1466,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1478,7 +1479,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1491,7 +1492,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1504,7 +1505,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1517,7 +1518,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1530,7 +1531,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1543,7 +1544,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1556,7 +1557,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1569,7 +1570,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1582,7 +1583,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1595,7 +1596,7 @@ const sheetCell = {
 		"r": 2,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1614,7 +1615,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Border",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -1627,7 +1628,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1640,7 +1641,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1653,7 +1654,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1666,7 +1667,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1679,7 +1680,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1692,7 +1693,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1705,7 +1706,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1718,7 +1719,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1731,7 +1732,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1744,7 +1745,7 @@ const sheetCell = {
 		"r": 3,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1757,7 +1758,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1770,7 +1771,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1783,7 +1784,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1796,7 +1797,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1809,7 +1810,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1822,7 +1823,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1835,7 +1836,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1848,7 +1849,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1861,7 +1862,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1874,7 +1875,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1887,7 +1888,7 @@ const sheetCell = {
 		"r": 4,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1900,7 +1901,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1913,7 +1914,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1926,7 +1927,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1939,7 +1940,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1952,7 +1953,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1965,7 +1966,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1978,7 +1979,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1991,7 +1992,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2004,7 +2005,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2017,7 +2018,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2030,7 +2031,7 @@ const sheetCell = {
 		"r": 5,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2043,7 +2044,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2056,7 +2057,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2069,7 +2070,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2082,7 +2083,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2095,7 +2096,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2108,7 +2109,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2121,7 +2122,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2134,7 +2135,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2147,7 +2148,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2160,7 +2161,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2173,7 +2174,7 @@ const sheetCell = {
 		"r": 6,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2186,7 +2187,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2199,7 +2200,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2212,7 +2213,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2225,7 +2226,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2238,7 +2239,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2251,7 +2252,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2264,7 +2265,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2277,7 +2278,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2290,7 +2291,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2303,7 +2304,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2316,7 +2317,7 @@ const sheetCell = {
 		"r": 7,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2329,7 +2330,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2342,7 +2343,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2355,7 +2356,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2368,7 +2369,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2381,7 +2382,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2394,7 +2395,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2407,7 +2408,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2420,7 +2421,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2433,7 +2434,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2446,7 +2447,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2459,7 +2460,7 @@ const sheetCell = {
 		"r": 8,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2472,7 +2473,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2485,7 +2486,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2498,7 +2499,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2511,7 +2512,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2524,7 +2525,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2537,7 +2538,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2550,7 +2551,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2563,7 +2564,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2576,7 +2577,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2589,7 +2590,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2602,7 +2603,7 @@ const sheetCell = {
 		"r": 9,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2615,7 +2616,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2628,7 +2629,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2641,7 +2642,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2654,7 +2655,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2667,7 +2668,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2680,7 +2681,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2693,7 +2694,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2706,7 +2707,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2719,7 +2720,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2732,7 +2733,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2745,7 +2746,7 @@ const sheetCell = {
 		"r": 10,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2758,7 +2759,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2771,7 +2772,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2784,7 +2785,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2797,7 +2798,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2810,7 +2811,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2823,7 +2824,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2836,7 +2837,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2849,7 +2850,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2862,7 +2863,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2875,7 +2876,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2888,7 +2889,7 @@ const sheetCell = {
 		"r": 11,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2901,7 +2902,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2914,7 +2915,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2927,7 +2928,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2940,7 +2941,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2953,7 +2954,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2966,7 +2967,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2979,7 +2980,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2992,7 +2993,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3005,7 +3006,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3018,7 +3019,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3031,7 +3032,7 @@ const sheetCell = {
 		"r": 12,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3044,7 +3045,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3057,7 +3058,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3070,7 +3071,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3083,7 +3084,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3096,7 +3097,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3109,7 +3110,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3128,7 +3129,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3141,7 +3142,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3169,7 +3170,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3182,7 +3183,7 @@ const sheetCell = {
 		"r": 13,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3201,7 +3202,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Span",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -3214,7 +3215,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3227,7 +3228,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3255,7 +3256,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3277,7 +3278,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3308,7 +3309,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3321,7 +3322,7 @@ const sheetCell = {
 		"r": 14,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3334,7 +3335,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3347,7 +3348,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3360,7 +3361,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3373,7 +3374,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3386,7 +3387,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3408,7 +3409,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3439,7 +3440,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3452,7 +3453,7 @@ const sheetCell = {
 		"r": 15,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3465,7 +3466,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3478,7 +3479,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3491,7 +3492,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3504,7 +3505,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3517,7 +3518,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3530,7 +3531,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3543,7 +3544,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3556,7 +3557,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3569,7 +3570,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3582,7 +3583,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3595,7 +3596,7 @@ const sheetCell = {
 		"r": 16,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3614,7 +3615,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Font",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -3627,7 +3628,7 @@ const sheetCell = {
 		"r": 17,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3645,7 +3646,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3664,7 +3665,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3683,7 +3684,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3702,7 +3703,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3740,7 +3741,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3754,7 +3755,7 @@ const sheetCell = {
 		"r": 17,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3767,7 +3768,7 @@ const sheetCell = {
 		"r": 17,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3780,7 +3781,7 @@ const sheetCell = {
 		"r": 17,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3793,7 +3794,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3806,7 +3807,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3819,7 +3820,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3832,7 +3833,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3845,7 +3846,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3858,7 +3859,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3871,7 +3872,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3884,7 +3885,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3897,7 +3898,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3910,7 +3911,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3923,7 +3924,7 @@ const sheetCell = {
 		"r": 18,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3936,7 +3937,7 @@ const sheetCell = {
 		"r": 19,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3949,7 +3950,7 @@ const sheetCell = {
 		"r": 19,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3986,7 +3987,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -4005,7 +4006,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 1,
 			"ff": 0,
@@ -4024,7 +4025,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4043,7 +4044,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4061,7 +4062,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4074,7 +4075,7 @@ const sheetCell = {
 		"r": 19,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4087,7 +4088,7 @@ const sheetCell = {
 		"r": 19,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4100,7 +4101,7 @@ const sheetCell = {
 		"r": 19,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4113,7 +4114,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4126,7 +4127,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4139,7 +4140,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4152,7 +4153,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4165,7 +4166,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4178,7 +4179,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4191,7 +4192,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4204,7 +4205,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4217,7 +4218,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4230,7 +4231,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4243,7 +4244,7 @@ const sheetCell = {
 		"r": 20,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4262,7 +4263,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Format",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -4275,7 +4276,7 @@ const sheetCell = {
 		"r": 21,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4292,7 +4293,7 @@ const sheetCell = {
 				"fa": "##0.00",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4311,7 +4312,7 @@ const sheetCell = {
 				"fa": "$#,##0.00_);($#,##0.00)",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4330,7 +4331,7 @@ const sheetCell = {
 				"fa": "\"$\" 0.00",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4349,7 +4350,7 @@ const sheetCell = {
 				"fa": "0%",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4368,7 +4369,7 @@ const sheetCell = {
 				"fa": "# ?/?",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4383,7 +4384,7 @@ const sheetCell = {
 		"r": 21,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4396,7 +4397,7 @@ const sheetCell = {
 		"r": 21,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4409,7 +4410,7 @@ const sheetCell = {
 		"r": 21,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4422,7 +4423,7 @@ const sheetCell = {
 		"r": 21,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4435,7 +4436,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4448,7 +4449,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4461,7 +4462,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4474,7 +4475,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4487,7 +4488,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4500,7 +4501,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4513,7 +4514,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4526,7 +4527,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4539,7 +4540,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4552,7 +4553,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4565,7 +4566,7 @@ const sheetCell = {
 		"r": 22,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4578,7 +4579,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4591,7 +4592,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4608,7 +4609,7 @@ const sheetCell = {
 				"fa": "0.00E+00",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4629,7 +4630,7 @@ const sheetCell = {
 				"t": "n"
 			},
 			"m": "0.25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4646,7 +4647,7 @@ const sheetCell = {
 				"fa": "AM/PM h:mm:ss",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4665,7 +4666,7 @@ const sheetCell = {
 				"fa": "yyyy/MM/dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4684,7 +4685,7 @@ const sheetCell = {
 				"fa": "yyyy\"年\"M\"月\"d\"日\"",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4699,7 +4700,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4712,7 +4713,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4725,7 +4726,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4738,7 +4739,7 @@ const sheetCell = {
 		"r": 23,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4751,7 +4752,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4764,7 +4765,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4777,7 +4778,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4790,7 +4791,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4803,7 +4804,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4816,7 +4817,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4829,7 +4830,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4842,7 +4843,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4855,7 +4856,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4868,7 +4869,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4881,7 +4882,7 @@ const sheetCell = {
 		"r": 24,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4900,7 +4901,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Alignment",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -4913,7 +4914,7 @@ const sheetCell = {
 		"r": 25,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4932,7 +4933,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Top Left",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4951,7 +4952,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Top Center",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4970,7 +4971,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Top Right",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4989,7 +4990,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Center Left",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5008,7 +5009,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Center Center",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5027,7 +5028,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Center Right",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5046,7 +5047,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Bottom Left",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5065,7 +5066,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Bottom Center",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5084,7 +5085,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "Bottom Right",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5097,7 +5098,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5110,7 +5111,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5123,7 +5124,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5136,7 +5137,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5149,7 +5150,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5162,7 +5163,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5175,7 +5176,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5188,7 +5189,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5201,7 +5202,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5214,7 +5215,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5227,7 +5228,7 @@ const sheetCell = {
 		"r": 26,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5240,7 +5241,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5253,7 +5254,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5266,7 +5267,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5279,7 +5280,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5292,7 +5293,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5305,7 +5306,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5318,7 +5319,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5331,7 +5332,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5344,7 +5345,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5357,7 +5358,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5370,7 +5371,7 @@ const sheetCell = {
 		"r": 27,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5389,7 +5390,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "WordWrap",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -5402,7 +5403,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5421,7 +5422,7 @@ const sheetCell = {
 				"t": "g"
 			},
 			"m": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5439,7 +5440,7 @@ const sheetCell = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5453,7 +5454,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5466,7 +5467,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5479,7 +5480,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5492,7 +5493,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5505,7 +5506,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5518,7 +5519,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5531,7 +5532,7 @@ const sheetCell = {
 		"r": 28,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,

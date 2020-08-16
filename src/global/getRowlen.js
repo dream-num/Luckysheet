@@ -94,6 +94,8 @@ function rowlenByRange(d, r1, r2, cfg) {
             }
         }
 
+        currentRowLen = currentRowLen/Store.zoomRatio;
+
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
         }
@@ -176,6 +178,9 @@ function getMeasureText(value, ctx){
 
             //console.log(value, oneLineTextHeight, measureText.actualBoundingBoxDescent+measureText.actualBoundingBoxAscent,ctx.font);
         }
+        cache.width *= Store.zoomRatio;
+        cache.actualBoundingBoxDescent *= Store.zoomRatio;
+        cache.actualBoundingBoxAscent *= Store.zoomRatio;
         Store.measureTextCache[value + "_" + ctx.font] = cache;
 
         return cache;

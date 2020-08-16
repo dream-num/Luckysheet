@@ -116,6 +116,8 @@ const Store = {
 
     measureTextCache:{},
     measureTextCacheTimeOut:null,
+
+    zoomRatio:1,
 }
 
 export default Store;

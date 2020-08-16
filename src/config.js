@@ -52,4 +52,6 @@ export default {
     lang: 'en', //language
     plugins: [], //plugins, e.g. ['chart']
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用
+    rowHeaderWidth: 46,
+    columeHeaderHeight: 20,
 }

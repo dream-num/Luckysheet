@@ -34,12 +34,20 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     }
 
     let input_postition = {
-        "min-width": col - col_pre + 1 - 8, 
-        "min-height": row - row_pre + 1 - 4,  
-        "max-width": winW + scrollLeft - col_pre - 20 - Store.rowHeaderWidth, 
+        "min-width": col - col_pre+ 1- 8, 
+        "min-height": row - row_pre + 1- 4,  
+        
+        "max-width":winW + scrollLeft - col_pre - 20 - Store.rowHeaderWidth, 
         "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
         "left": col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2, 
         "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
+    }
+
+    let inputContentScale = {
+        "transform":"scale("+ Store.zoomRatio +")",
+        "transform-origin":"left top",
+        "width":(100 / Store.zoomRatio) + "%",
+        "height":(100 / Store.zoomRatio) + "%",
     }
 
     Store.luckysheetCellUpdate = [row_index, col_index];
@@ -69,27 +77,50 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     if (d[row_index] != null && d[row_index][col_index] != null) {
         let cell = d[row_index][col_index];
         let htValue = cell["ht"];
+        let leftOrigin = "left", topOrigin = "top";
         if(htValue == "0"){//0 center, 1 left, 2 right
             input_postition = { 
-                "min-width": col - col_pre + 1 - 8, 
-                "min-height": row - row_pre + 1 - 4, 
+                "min-width": col - col_pre + 1- 8, 
+                "min-height": row - row_pre + 1- 4, 
+                // "transform":"scale("+ Store.zoomRatio +")",
+                // "transform-origin":"center top",
                 "max-width": winW*2/3, 
                 "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
                 "left": col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2, 
                 "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
             }
+
+            if(Store.zoomRatio<1){
+                leftOrigin = "center";
+            }
+
             isCenter = true;
         }
         else if(htValue == "2"){
             input_postition = { 
-                "min-width": col - col_pre + 1 - 8, 
-                "min-height": row - row_pre + 1 - 4, 
-                "max-width": col + container_offset.left - scrollLeft - 8, 
+                "min-width": col - col_pre+ 1- 8, 
+                "min-height": row - row_pre + 1- 4, 
+                // "transform":"scale("+ Store.zoomRatio +")",
+                // "transform-origin":"right top",
+                "max-width": col + container_offset.left - scrollLeft  - 8, 
                 "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
-                "right": winW - (container_offset.left + Store.rowHeaderWidth - scrollLeft) - col, 
+                "right": winW - (container_offset.left + (Store.rowHeaderWidth-1) - scrollLeft) - col, 
                 "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
             }
+
+            if(Store.zoomRatio<1){
+                leftOrigin = "right";
+            }
         }
+
+        if(cell["vt"]=="0"){
+            topOrigin = "center";
+        }
+        else if(cell["vt"]=="2"){
+            topOrigin = "bottom";
+        }
+
+        inputContentScale["transform-origin"] = leftOrigin +" " + topOrigin;
 
         
         if (!cover) {
@@ -164,6 +195,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     }
 
     $("#luckysheet-input-box").css(input_postition);
+    $("#luckysheet-rich-text-editor").css(inputContentScale);
 
     formula.rangetosheet = Store.currentSheetIndex;
     formula.createRangeHightlight();

@@ -1,6 +1,8 @@
 import Store from '../store';
+import {zoomInitial} from '../controllers/zoom';
 
 export default function rhchInit(rowheight, colwidth) {
+    zoomInitial();//Zoom sheet on first load
     //行高
     if(rowheight != null){
         Store.visibledatarow = [];
@@ -19,7 +21,7 @@ export default function rhchInit(rowheight, colwidth) {
                 continue;
             }
             else {
-                Store.rh_height += rowlen + 1;
+                Store.rh_height += Math.round(rowlen*Store.zoomRatio) + 1;
             }
 
             Store.visibledatarow.push(Store.rh_height); //行的临时长度分布
@@ -60,7 +62,7 @@ export default function rhchInit(rowheight, colwidth) {
                 }
             }
 
-            Store.ch_width += firstcolumnlen + 1;
+            Store.ch_width += Math.round(firstcolumnlen*Store.zoomRatio) + 1;
 
             Store.visibledatacolumn.push(Store.ch_width);//列的临时长度分布
 

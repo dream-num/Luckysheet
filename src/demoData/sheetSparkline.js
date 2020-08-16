@@ -539,7 +539,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Mobile Phone Contrast",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -909,7 +909,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Size(inch)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -928,7 +928,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -946,7 +946,7 @@ const sheetSparkline = {
 				"fa": "0.0",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -960,7 +960,7 @@ const sheetSparkline = {
 		"r": 2,
 		"c": 12,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1078,7 +1078,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "RAM(G)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1097,7 +1097,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1116,7 +1116,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1129,7 +1129,7 @@ const sheetSparkline = {
 		"r": 3,
 		"c": 12,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1243,7 +1243,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Weight(g)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1262,7 +1262,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "149",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1281,7 +1281,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "129",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1294,7 +1294,7 @@ const sheetSparkline = {
 		"r": 4,
 		"c": 12,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1348,7 +1348,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "My Assets",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1413,7 +1413,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Checkbook Register",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1591,7 +1591,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1625,7 +1625,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "InitialValue",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -1644,7 +1644,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "815.25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -1663,7 +1663,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Σ",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1678,7 +1678,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1721,7 +1721,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Savings",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1739,7 +1739,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1753,7 +1753,7 @@ const sheetSparkline = {
 		"r": 8,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1841,7 +1841,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "12/11/2012",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1875,7 +1875,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "CVS",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1894,7 +1894,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "-200.00",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1913,7 +1913,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "615.25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1926,7 +1926,7 @@ const sheetSparkline = {
 		"r": 8,
 		"c": 11,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1994,7 +1994,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "401k",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2012,7 +2012,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2079,7 +2079,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "12/12/2012",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2113,7 +2113,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Bank",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2132,7 +2132,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "1,000.12",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2151,7 +2151,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "1,615.37",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2197,7 +2197,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Stocks",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2215,7 +2215,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2282,7 +2282,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "12/13/2012",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2316,7 +2316,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Starbucks",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2335,7 +2335,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "-500.43",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2354,7 +2354,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "1,114.94",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2400,7 +2400,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Sales by State",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2548,7 +2548,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student Grade Statistics",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2623,7 +2623,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2642,7 +2642,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Idaho",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2660,7 +2660,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2674,7 +2674,7 @@ const sheetSparkline = {
 		"r": 14,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2890,7 +2890,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Montana",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2908,7 +2908,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2951,7 +2951,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2970,7 +2970,7 @@ const sheetSparkline = {
 		"r": 15,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3238,7 +3238,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Oregon",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3256,7 +3256,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3375,7 +3375,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Washington",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3393,7 +3393,7 @@ const sheetSparkline = {
 				"fa": "\"$\" #",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3440,7 +3440,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student 1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3459,7 +3459,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "70",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3493,7 +3493,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "90",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3527,7 +3527,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "51",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3561,7 +3561,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "211",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3580,7 +3580,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student 2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3599,7 +3599,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "99",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3632,7 +3632,7 @@ const sheetSparkline = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3667,7 +3667,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "63",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3701,7 +3701,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "221",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3718,7 +3718,7 @@ const sheetSparkline = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3783,7 +3783,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student 3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3801,7 +3801,7 @@ const sheetSparkline = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3836,7 +3836,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "128",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3870,7 +3870,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "74",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3904,7 +3904,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "291",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3923,7 +3923,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Employee KPI",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3984,7 +3984,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student 4",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4003,7 +4003,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "93",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4037,7 +4037,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "61",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4071,7 +4071,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "53",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4105,7 +4105,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "207",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4215,7 +4215,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Student 5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4234,7 +4234,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "106",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4268,7 +4268,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "82",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4302,7 +4302,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "80",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4336,7 +4336,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "268",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4355,7 +4355,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Employee 1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4374,7 +4374,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "6",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4392,7 +4392,7 @@ const sheetSparkline = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4472,7 +4472,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Employee 2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4491,7 +4491,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "8",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4510,7 +4510,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "7",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4556,7 +4556,7 @@ const sheetSparkline = {
 				"t": "g"
 			},
 			"m": "Employee 3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4575,7 +4575,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "6",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4593,7 +4593,7 @@ const sheetSparkline = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4627,7 +4627,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4642,7 +4642,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4657,7 +4657,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4672,7 +4672,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4687,7 +4687,7 @@ const sheetSparkline = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4705,7 +4705,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4725,7 +4725,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "12",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4937,7 +4937,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4957,7 +4957,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "64",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4975,7 +4975,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4995,7 +4995,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "54",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5013,7 +5013,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5033,7 +5033,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "15",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5051,7 +5051,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5071,7 +5071,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "35",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5098,7 +5098,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5118,7 +5118,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "67",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5151,7 +5151,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5171,7 +5171,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "16",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5204,7 +5204,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5224,7 +5224,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "87",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5266,7 +5266,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5286,7 +5286,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "64",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5310,7 +5310,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5330,7 +5330,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "88",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5357,7 +5357,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5377,7 +5377,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5395,7 +5395,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5415,7 +5415,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "96",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5433,7 +5433,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5453,7 +5453,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "53",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5471,7 +5471,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5491,7 +5491,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "94",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5509,7 +5509,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5529,7 +5529,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "23",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5547,7 +5547,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5567,7 +5567,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "85",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5585,7 +5585,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5605,7 +5605,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "89",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5623,7 +5623,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5643,7 +5643,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "8",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5661,7 +5661,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5681,7 +5681,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "98",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5699,7 +5699,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5719,7 +5719,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "82",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5737,7 +5737,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5757,7 +5757,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "79",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5775,7 +5775,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5795,7 +5795,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "54",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5813,7 +5813,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5833,7 +5833,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "56",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5851,7 +5851,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5871,7 +5871,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "10",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5889,7 +5889,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5909,7 +5909,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "36",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5927,7 +5927,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5947,7 +5947,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5965,7 +5965,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5985,7 +5985,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "4",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6003,7 +6003,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6023,7 +6023,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "31",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6041,7 +6041,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6061,7 +6061,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "19",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6079,7 +6079,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6099,7 +6099,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "22",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6117,7 +6117,7 @@ const sheetSparkline = {
 				"fa": "yyyy-MM-dd",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6137,7 +6137,7 @@ const sheetSparkline = {
 				"t": "n"
 			},
 			"m": "78",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,

@@ -1,6 +1,7 @@
 const sheetConditionFormat = {
 	"name": "Conditional Format",
 	"color": "",
+	"zoomRatio":1,
 	"config": {
 		"merge": {
 			"8_10": {
@@ -165,7 +166,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -180,7 +181,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -195,7 +196,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -210,7 +211,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -225,7 +226,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -240,7 +241,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -255,7 +256,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -270,7 +271,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -285,7 +286,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -300,7 +301,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -315,7 +316,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -330,7 +331,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -345,7 +346,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -360,7 +361,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -379,7 +380,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Cell Value",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -394,7 +395,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -413,7 +414,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Specific Text",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -428,7 +429,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -447,7 +448,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Unique",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -462,7 +463,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -481,7 +482,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Duplicate",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -496,7 +497,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -515,7 +516,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Date Occurring",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -545,7 +546,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -560,7 +561,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -579,7 +580,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -594,7 +595,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -613,7 +614,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "test",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -628,7 +629,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -647,7 +648,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -662,7 +663,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -681,7 +682,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -696,7 +697,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -714,7 +715,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -748,7 +749,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -763,7 +764,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -782,7 +783,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -797,7 +798,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -816,7 +817,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "bad",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -831,7 +832,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -850,7 +851,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -865,7 +866,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -884,7 +885,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -899,7 +900,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -917,7 +918,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -951,7 +952,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -966,7 +967,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -985,7 +986,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1000,7 +1001,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1019,7 +1020,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "good",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1034,7 +1035,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1053,7 +1054,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "11",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1068,7 +1069,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1087,7 +1088,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "11",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1102,7 +1103,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1120,7 +1121,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1151,7 +1152,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1166,7 +1167,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1185,7 +1186,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1200,7 +1201,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1219,7 +1220,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "testing",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1234,7 +1235,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1253,7 +1254,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1268,7 +1269,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1287,7 +1288,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1302,7 +1303,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1320,7 +1321,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1351,7 +1352,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1366,7 +1367,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1385,7 +1386,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "4",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1400,7 +1401,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1419,7 +1420,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "tested",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1434,7 +1435,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1453,7 +1454,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1468,7 +1469,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1487,7 +1488,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1502,7 +1503,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1520,7 +1521,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1554,7 +1555,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1569,7 +1570,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1588,7 +1589,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1603,7 +1604,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1622,7 +1623,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "general",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1637,7 +1638,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1656,7 +1657,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "120",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1671,7 +1672,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1690,7 +1691,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "120",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1705,7 +1706,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1723,7 +1724,7 @@ const sheetConditionFormat = {
 				"fa": "yyyy-MM-dd hh:mm",
 				"t": "d"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1757,7 +1758,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1772,7 +1773,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1787,7 +1788,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1802,7 +1803,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1817,7 +1818,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1832,7 +1833,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1847,7 +1848,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1866,7 +1867,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1881,7 +1882,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1896,7 +1897,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1911,7 +1912,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1941,7 +1942,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1956,7 +1957,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1975,7 +1976,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Top/Bottom",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -1990,7 +1991,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2009,7 +2010,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Average",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -2024,7 +2025,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2043,7 +2044,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "2-Color Scale",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -2062,7 +2063,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "3-Color Scale",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -2077,7 +2078,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2096,7 +2097,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Data Bar",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -2126,7 +2127,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2141,7 +2142,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2160,7 +2161,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2175,7 +2176,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2194,7 +2195,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2209,7 +2210,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2262,7 +2263,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2281,7 +2282,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2311,7 +2312,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2326,7 +2327,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2345,7 +2346,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2360,7 +2361,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2379,7 +2380,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2394,7 +2395,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2447,7 +2448,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2466,7 +2467,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "15",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2496,7 +2497,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2511,7 +2512,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2530,7 +2531,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2545,7 +2546,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2564,7 +2565,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "100",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2579,7 +2580,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2632,7 +2633,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2651,7 +2652,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2681,7 +2682,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2696,7 +2697,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2715,7 +2716,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2730,7 +2731,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2749,7 +2750,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2764,7 +2765,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2817,7 +2818,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2836,7 +2837,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2866,7 +2867,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2881,7 +2882,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2900,7 +2901,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "4",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2915,7 +2916,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2934,7 +2935,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "60",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -2949,7 +2950,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3002,7 +3003,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3021,7 +3022,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-15",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3051,7 +3052,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3066,7 +3067,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3085,7 +3086,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "5",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3100,7 +3101,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3119,7 +3120,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3134,7 +3135,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3187,7 +3188,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3206,7 +3207,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3236,7 +3237,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3251,7 +3252,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3266,7 +3267,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3281,7 +3282,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3296,7 +3297,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3315,7 +3316,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3330,7 +3331,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3345,7 +3346,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3360,7 +3361,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3375,7 +3376,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3390,7 +3391,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3405,7 +3406,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3420,7 +3421,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3435,7 +3436,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3450,7 +3451,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3465,7 +3466,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3480,7 +3481,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3495,7 +3496,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3510,7 +3511,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3525,7 +3526,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3540,7 +3541,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3555,7 +3556,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3570,7 +3571,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3585,7 +3586,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3600,7 +3601,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3615,7 +3616,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3634,7 +3635,7 @@ const sheetConditionFormat = {
 				"t": "g"
 			},
 			"m": "Icon Set",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 0,
@@ -3763,7 +3764,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3778,7 +3779,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3797,7 +3798,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3816,7 +3817,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3835,7 +3836,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3854,7 +3855,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3873,7 +3874,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3892,7 +3893,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3911,7 +3912,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3930,7 +3931,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3949,7 +3950,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3968,7 +3969,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3983,7 +3984,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -3998,7 +3999,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4017,7 +4018,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4036,7 +4037,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4055,7 +4056,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4074,7 +4075,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4093,7 +4094,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4112,7 +4113,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4131,7 +4132,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4150,7 +4151,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4169,7 +4170,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4188,7 +4189,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4203,7 +4204,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4218,7 +4219,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4237,7 +4238,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4256,7 +4257,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4275,7 +4276,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4294,7 +4295,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4313,7 +4314,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4332,7 +4333,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4351,7 +4352,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4370,7 +4371,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4389,7 +4390,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4408,7 +4409,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4423,7 +4424,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4438,7 +4439,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4457,7 +4458,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4476,7 +4477,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4495,7 +4496,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4514,7 +4515,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4533,7 +4534,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4552,7 +4553,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4571,7 +4572,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4590,7 +4591,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4609,7 +4610,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4628,7 +4629,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4643,7 +4644,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4658,7 +4659,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4677,7 +4678,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4696,7 +4697,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4715,7 +4716,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4734,7 +4735,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4753,7 +4754,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4772,7 +4773,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4791,7 +4792,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4810,7 +4811,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4829,7 +4830,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4848,7 +4849,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4863,7 +4864,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4878,7 +4879,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -4893,7 +4894,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5004,7 +5005,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5019,7 +5020,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5038,7 +5039,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5057,7 +5058,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5076,7 +5077,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5095,7 +5096,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5114,7 +5115,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5133,7 +5134,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5152,7 +5153,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5171,7 +5172,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5190,7 +5191,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5209,7 +5210,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5224,7 +5225,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5239,7 +5240,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5258,7 +5259,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5277,7 +5278,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5296,7 +5297,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5315,7 +5316,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5334,7 +5335,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5353,7 +5354,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5372,7 +5373,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5391,7 +5392,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5410,7 +5411,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5429,7 +5430,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "-25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5444,7 +5445,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5459,7 +5460,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5478,7 +5479,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5497,7 +5498,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5516,7 +5517,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5535,7 +5536,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5554,7 +5555,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5573,7 +5574,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5592,7 +5593,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5611,7 +5612,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5630,7 +5631,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5649,7 +5650,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "0",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5664,7 +5665,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5679,7 +5680,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5698,7 +5699,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5717,7 +5718,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5736,7 +5737,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5755,7 +5756,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5774,7 +5775,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5793,7 +5794,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5812,7 +5813,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5831,7 +5832,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5850,7 +5851,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5869,7 +5870,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5884,7 +5885,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5899,7 +5900,7 @@ const sheetConditionFormat = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5918,7 +5919,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5937,7 +5938,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5956,7 +5957,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5975,7 +5976,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -5994,7 +5995,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6013,7 +6014,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6032,7 +6033,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6051,7 +6052,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6070,7 +6071,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -6089,7 +6090,7 @@ const sheetConditionFormat = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,

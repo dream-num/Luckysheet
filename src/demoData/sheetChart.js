@@ -10,7 +10,7 @@ const sheetChart = {
 		"v": {
 			"v": null,
 			"m": "",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -29,7 +29,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Mon",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -48,7 +48,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Tues",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -67,7 +67,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Wed",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -86,7 +86,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Thur",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -105,7 +105,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Fri",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -124,7 +124,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Sat",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -143,7 +143,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Sun",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -162,7 +162,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "BUS",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -181,7 +181,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "320",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -200,7 +200,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "302",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -219,7 +219,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "301",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -238,7 +238,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "334",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -257,7 +257,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "390",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -276,7 +276,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "330",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -295,7 +295,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "320",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -314,7 +314,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "UBER",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -333,7 +333,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "120",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -352,7 +352,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "132",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -371,7 +371,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "101",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -390,7 +390,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "134",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -409,7 +409,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "90",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -428,7 +428,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "230",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -447,7 +447,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "210",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -466,7 +466,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "TAXI",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -485,7 +485,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "220",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -504,7 +504,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "182",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -523,7 +523,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "191",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -542,7 +542,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "234",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -561,7 +561,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "290",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -580,7 +580,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "330",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -599,7 +599,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "310",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -618,7 +618,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "SUBWAY",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -637,7 +637,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "820",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -656,7 +656,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "832",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -675,7 +675,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "901",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -694,7 +694,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "934",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -713,7 +713,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "1290",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -732,7 +732,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "1330",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -751,7 +751,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "1320",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -770,7 +770,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "country",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -789,7 +789,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Population",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -808,7 +808,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "India",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -827,7 +827,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "1354051854",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -846,7 +846,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Pakistan",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -865,7 +865,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "200813818",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -884,7 +884,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "China",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -903,7 +903,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "1415045928",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -922,7 +922,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Japan",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -941,7 +941,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "127185332",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -960,7 +960,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "South-Eastern",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -979,7 +979,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "655636576",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -998,7 +998,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Western",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1017,7 +1017,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "272298399",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1036,7 +1036,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Eastern",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1055,7 +1055,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "433643132",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1074,7 +1074,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Western",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1093,7 +1093,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "381980688",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1112,7 +1112,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Northern",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1131,7 +1131,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "237784677",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1150,7 +1150,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Others",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1169,7 +1169,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "234512021",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1188,7 +1188,7 @@ const sheetChart = {
 				"t": "g"
 			},
 			"m": "Europe",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1207,7 +1207,7 @@ const sheetChart = {
 				"t": "n"
 			},
 			"m": "742648010",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 0,
@@ -1280,7 +1280,7 @@ const sheetChart = {
 				[{
 					"v": null,
 					"m": "",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1295,7 +1295,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Mon",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1310,7 +1310,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Tues",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1325,7 +1325,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Wed",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1340,7 +1340,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Thur",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1355,7 +1355,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Fri",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1370,7 +1370,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Sat",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1385,7 +1385,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Sun",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1401,7 +1401,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "BUS",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1416,7 +1416,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1431,7 +1431,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "302",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1446,7 +1446,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "301",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1461,7 +1461,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "334",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1476,7 +1476,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "390",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1491,7 +1491,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1506,7 +1506,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1522,7 +1522,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "UBER",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1537,7 +1537,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "120",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1552,7 +1552,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "132",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1567,7 +1567,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "101",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1582,7 +1582,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "134",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1597,7 +1597,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "90",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1612,7 +1612,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "230",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1627,7 +1627,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "210",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1643,7 +1643,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "TAXI",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1658,7 +1658,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "220",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1673,7 +1673,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "182",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1688,7 +1688,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "191",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1703,7 +1703,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "234",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1718,7 +1718,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "290",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1733,7 +1733,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1748,7 +1748,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "310",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1764,7 +1764,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "SUBWAY",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1779,7 +1779,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "820",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1794,7 +1794,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "832",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1809,7 +1809,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "901",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1824,7 +1824,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "934",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1839,7 +1839,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1290",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1854,7 +1854,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -1869,7 +1869,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2565,7 +2565,7 @@ const sheetChart = {
 				[{
 					"v": null,
 					"m": "",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2580,7 +2580,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Mon",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2595,7 +2595,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Tues",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2610,7 +2610,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Wed",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2625,7 +2625,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Thur",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2640,7 +2640,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Fri",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2655,7 +2655,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Sat",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2670,7 +2670,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Sun",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2686,7 +2686,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "BUS",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2701,7 +2701,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2716,7 +2716,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "302",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2731,7 +2731,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "301",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2746,7 +2746,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "334",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2761,7 +2761,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "390",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2776,7 +2776,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2791,7 +2791,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2807,7 +2807,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "UBER",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2822,7 +2822,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "120",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2837,7 +2837,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "132",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2852,7 +2852,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "101",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2867,7 +2867,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "134",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2882,7 +2882,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "90",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2897,7 +2897,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "230",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2912,7 +2912,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "210",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2928,7 +2928,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "TAXI",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2943,7 +2943,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "220",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2958,7 +2958,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "182",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2973,7 +2973,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "191",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -2988,7 +2988,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "234",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3003,7 +3003,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "290",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3018,7 +3018,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3033,7 +3033,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "310",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3049,7 +3049,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "SUBWAY",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3064,7 +3064,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "820",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3079,7 +3079,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "832",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3094,7 +3094,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "901",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3109,7 +3109,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "934",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3124,7 +3124,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1290",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3139,7 +3139,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1330",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3154,7 +3154,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1320",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3874,7 +3874,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "country",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3889,7 +3889,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Population",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3905,7 +3905,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "India",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3920,7 +3920,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1354051854",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3936,7 +3936,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Pakistan",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3951,7 +3951,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "200813818",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3967,7 +3967,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "China",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3982,7 +3982,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "1415045928",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -3998,7 +3998,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Japan",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4013,7 +4013,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "127185332",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4029,7 +4029,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "South-Eastern",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4044,7 +4044,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "655636576",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4060,7 +4060,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Western",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4075,7 +4075,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "272298399",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4091,7 +4091,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Eastern",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4106,7 +4106,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "433643132",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4122,7 +4122,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Western",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4137,7 +4137,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "381980688",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4153,7 +4153,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Northern",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4168,7 +4168,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "237784677",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4184,7 +4184,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Others",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4199,7 +4199,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "234512021",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4215,7 +4215,7 @@ const sheetChart = {
 						"t": "g"
 					},
 					"m": "Europe",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,
@@ -4230,7 +4230,7 @@ const sheetChart = {
 						"t": "n"
 					},
 					"m": "742648010",
-					"bg": "rgba(255,255,255)",
+					"bg": null,
 					"bl": 0,
 					"it": 0,
 					"ff": 0,

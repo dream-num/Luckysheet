@@ -94,7 +94,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -107,7 +107,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -120,7 +120,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -133,7 +133,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -146,7 +146,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -159,7 +159,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -172,7 +172,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -185,7 +185,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -198,7 +198,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -211,7 +211,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -224,7 +224,7 @@ const sheetFormula = {
 		"r": 0,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -243,7 +243,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Basic Function",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 9,
@@ -256,7 +256,7 @@ const sheetFormula = {
 		"r": 1,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -275,7 +275,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Name",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -294,7 +294,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Age",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -307,7 +307,7 @@ const sheetFormula = {
 		"r": 1,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -320,7 +320,7 @@ const sheetFormula = {
 		"r": 1,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -339,7 +339,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Indirect Function",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 9,
@@ -352,7 +352,7 @@ const sheetFormula = {
 		"r": 1,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -371,7 +371,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "J2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -390,7 +390,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -403,7 +403,7 @@ const sheetFormula = {
 		"r": 1,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -416,7 +416,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -429,7 +429,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -448,7 +448,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Jack",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -467,7 +467,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "17",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -480,7 +480,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -493,7 +493,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -506,7 +506,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -519,7 +519,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -538,7 +538,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "I",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -557,7 +557,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -570,7 +570,7 @@ const sheetFormula = {
 		"r": 2,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -583,7 +583,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -596,7 +596,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -615,7 +615,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Lily",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -634,7 +634,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "23",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -647,7 +647,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -660,7 +660,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -673,7 +673,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -686,7 +686,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -705,7 +705,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "J",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -724,7 +724,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "3",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -737,7 +737,7 @@ const sheetFormula = {
 		"r": 3,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -750,7 +750,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -763,7 +763,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -782,7 +782,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Bob",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -801,7 +801,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "30",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -814,7 +814,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -827,7 +827,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -840,7 +840,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -853,7 +853,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -866,7 +866,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -879,7 +879,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -892,7 +892,7 @@ const sheetFormula = {
 		"r": 4,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -905,7 +905,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -918,7 +918,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -937,7 +937,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Mary",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -956,7 +956,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "25",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -969,7 +969,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -982,7 +982,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -995,7 +995,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1008,7 +1008,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1027,7 +1027,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(\"I2\")",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1046,7 +1046,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "J2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1060,7 +1060,7 @@ const sheetFormula = {
 		"r": 5,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1073,7 +1073,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1086,7 +1086,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1105,7 +1105,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Average Age:",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1124,7 +1124,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "23.75",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1138,7 +1138,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1151,7 +1151,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1164,7 +1164,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1177,7 +1177,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1196,7 +1196,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(I2)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1215,7 +1215,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1229,7 +1229,7 @@ const sheetFormula = {
 		"r": 6,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1242,7 +1242,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1255,7 +1255,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1274,7 +1274,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Max Age:",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1293,7 +1293,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "30",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1307,7 +1307,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1320,7 +1320,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1333,7 +1333,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1346,7 +1346,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1365,7 +1365,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(\"I\"&(1+2))",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1384,7 +1384,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "I",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1398,7 +1398,7 @@ const sheetFormula = {
 		"r": 7,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1411,7 +1411,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1424,7 +1424,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1443,7 +1443,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Min Age:",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1462,7 +1462,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "17",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1476,7 +1476,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1489,7 +1489,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1502,7 +1502,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1515,7 +1515,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1534,7 +1534,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(I4&J3)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1553,7 +1553,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1567,7 +1567,7 @@ const sheetFormula = {
 		"r": 8,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1580,7 +1580,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1593,7 +1593,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1606,7 +1606,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1619,7 +1619,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1632,7 +1632,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1645,7 +1645,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1658,7 +1658,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1671,7 +1671,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1690,7 +1690,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(\"Formula!\"&I2)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1707,7 +1707,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1723,7 +1723,7 @@ const sheetFormula = {
 		"r": 9,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1736,7 +1736,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1749,7 +1749,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1762,7 +1762,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1775,7 +1775,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1788,7 +1788,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1801,7 +1801,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1814,7 +1814,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1827,7 +1827,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1846,7 +1846,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "=INDIRECT(\"Formula!I2\")",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1863,7 +1863,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1879,7 +1879,7 @@ const sheetFormula = {
 		"r": 10,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1892,7 +1892,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1905,7 +1905,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1918,7 +1918,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1931,7 +1931,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1944,7 +1944,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1957,7 +1957,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1970,7 +1970,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1983,7 +1983,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -1996,7 +1996,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2009,7 +2009,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2022,7 +2022,7 @@ const sheetFormula = {
 		"r": 11,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2041,7 +2041,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Array Formula",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 1,
 			"it": 0,
 			"ff": 9,
@@ -2054,7 +2054,7 @@ const sheetFormula = {
 		"r": 12,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2073,7 +2073,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Calculation",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2137,7 +2137,7 @@ const sheetFormula = {
 		"r": 12,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2150,7 +2150,7 @@ const sheetFormula = {
 		"r": 12,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2163,7 +2163,7 @@ const sheetFormula = {
 		"r": 12,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2176,7 +2176,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2189,7 +2189,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2202,7 +2202,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2221,7 +2221,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Match",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2240,7 +2240,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Physical",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2259,7 +2259,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Chemistry",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2278,7 +2278,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Alex",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2297,7 +2297,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Sum",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2310,7 +2310,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2323,7 +2323,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2336,7 +2336,7 @@ const sheetFormula = {
 		"r": 13,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2349,7 +2349,7 @@ const sheetFormula = {
 		"r": 14,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2362,7 +2362,7 @@ const sheetFormula = {
 		"r": 14,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2381,7 +2381,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Alice",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2399,7 +2399,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2418,7 +2418,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2438,7 +2438,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "53",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2457,7 +2457,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "43",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2474,7 +2474,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2490,7 +2490,7 @@ const sheetFormula = {
 		"r": 14,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2503,7 +2503,7 @@ const sheetFormula = {
 		"r": 14,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2516,7 +2516,7 @@ const sheetFormula = {
 		"r": 14,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2529,7 +2529,7 @@ const sheetFormula = {
 		"r": 15,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2542,7 +2542,7 @@ const sheetFormula = {
 		"r": 15,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2561,7 +2561,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "John",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2580,7 +2580,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "65",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2599,7 +2599,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "76",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2618,7 +2618,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "65",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2637,7 +2637,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "55",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2654,7 +2654,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "n"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2670,7 +2670,7 @@ const sheetFormula = {
 		"r": 15,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2687,7 +2687,7 @@ const sheetFormula = {
 		"r": 15,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2700,7 +2700,7 @@ const sheetFormula = {
 		"r": 15,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2713,7 +2713,7 @@ const sheetFormula = {
 		"r": 16,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2726,7 +2726,7 @@ const sheetFormula = {
 		"r": 16,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2745,7 +2745,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Bob",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2764,7 +2764,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "55",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2783,7 +2783,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "70",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2802,7 +2802,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "64",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2821,7 +2821,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "54",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2840,7 +2840,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "152",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2854,7 +2854,7 @@ const sheetFormula = {
 		"r": 16,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2867,7 +2867,7 @@ const sheetFormula = {
 		"r": 16,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2880,7 +2880,7 @@ const sheetFormula = {
 		"r": 16,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2893,7 +2893,7 @@ const sheetFormula = {
 		"r": 17,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2906,7 +2906,7 @@ const sheetFormula = {
 		"r": 17,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2925,7 +2925,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Jack",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2944,7 +2944,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "89",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2963,7 +2963,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "77",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -2982,7 +2982,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "73",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3001,7 +3001,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "73",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3020,7 +3020,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "541",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3034,7 +3034,7 @@ const sheetFormula = {
 		"r": 17,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3047,7 +3047,7 @@ const sheetFormula = {
 		"r": 17,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3060,7 +3060,7 @@ const sheetFormula = {
 		"r": 17,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3073,7 +3073,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3086,7 +3086,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3099,7 +3099,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3112,7 +3112,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3125,7 +3125,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3138,7 +3138,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3151,7 +3151,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3164,7 +3164,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3177,7 +3177,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3190,7 +3190,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3203,7 +3203,7 @@ const sheetFormula = {
 		"r": 18,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3216,7 +3216,7 @@ const sheetFormula = {
 		"r": 19,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3229,7 +3229,7 @@ const sheetFormula = {
 		"r": 19,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3248,7 +3248,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Search",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3312,7 +3312,7 @@ const sheetFormula = {
 		"r": 19,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3325,7 +3325,7 @@ const sheetFormula = {
 		"r": 19,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3338,7 +3338,7 @@ const sheetFormula = {
 		"r": 19,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3351,7 +3351,7 @@ const sheetFormula = {
 		"r": 20,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3364,7 +3364,7 @@ const sheetFormula = {
 		"r": 20,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3383,7 +3383,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "apple",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3402,7 +3402,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "apple",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3415,7 +3415,7 @@ const sheetFormula = {
 		"r": 20,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3428,7 +3428,7 @@ const sheetFormula = {
 		"r": 20,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3445,7 +3445,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "g"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3500,7 +3500,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3513,7 +3513,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3532,7 +3532,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "banana",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3551,7 +3551,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "pear",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3564,7 +3564,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3577,7 +3577,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3590,7 +3590,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3603,7 +3603,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3616,7 +3616,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3629,7 +3629,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3642,7 +3642,7 @@ const sheetFormula = {
 		"r": 21,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3655,7 +3655,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3668,7 +3668,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3687,7 +3687,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "pear",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3706,7 +3706,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "potato",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3719,7 +3719,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3732,7 +3732,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3751,7 +3751,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "ArrayFormula Result:",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3785,7 +3785,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "dumpling",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3799,7 +3799,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3816,7 +3816,7 @@ const sheetFormula = {
 		"r": 22,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3833,7 +3833,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3846,7 +3846,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3865,7 +3865,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "tomato",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3884,7 +3884,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "potato",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3897,7 +3897,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3910,7 +3910,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3929,7 +3929,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "NomalFormula Result:",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3961,7 +3961,7 @@ const sheetFormula = {
 				"fa": "General",
 				"t": "b"
 			},
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3977,7 +3977,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -3994,7 +3994,7 @@ const sheetFormula = {
 		"r": 23,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4007,7 +4007,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4020,7 +4020,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4039,7 +4039,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "potato",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4058,7 +4058,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "dumpling",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4071,7 +4071,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4084,7 +4084,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4097,7 +4097,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4110,7 +4110,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4123,7 +4123,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4140,7 +4140,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4153,7 +4153,7 @@ const sheetFormula = {
 		"r": 24,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4166,7 +4166,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4179,7 +4179,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4198,7 +4198,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "cake",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4211,7 +4211,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4224,7 +4224,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4237,7 +4237,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4250,7 +4250,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4263,7 +4263,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4276,7 +4276,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4289,7 +4289,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4302,7 +4302,7 @@ const sheetFormula = {
 		"r": 25,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4315,7 +4315,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4328,7 +4328,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4347,7 +4347,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "noodel",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4360,7 +4360,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4373,7 +4373,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4386,7 +4386,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4399,7 +4399,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4412,7 +4412,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4425,7 +4425,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4438,7 +4438,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4451,7 +4451,7 @@ const sheetFormula = {
 		"r": 26,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4464,7 +4464,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4477,7 +4477,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4490,7 +4490,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 2,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4503,7 +4503,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 3,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4516,7 +4516,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 4,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4529,7 +4529,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4542,7 +4542,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 6,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4555,7 +4555,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4568,7 +4568,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4581,7 +4581,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4594,7 +4594,7 @@ const sheetFormula = {
 		"r": 27,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4607,7 +4607,7 @@ const sheetFormula = {
 		"r": 28,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4620,7 +4620,7 @@ const sheetFormula = {
 		"r": 28,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4639,7 +4639,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Statistics",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4703,7 +4703,7 @@ const sheetFormula = {
 		"r": 28,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4716,7 +4716,7 @@ const sheetFormula = {
 		"r": 28,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4729,7 +4729,7 @@ const sheetFormula = {
 		"r": 28,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4742,7 +4742,7 @@ const sheetFormula = {
 		"r": 29,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4755,7 +4755,7 @@ const sheetFormula = {
 		"r": 29,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4774,7 +4774,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Product",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4793,7 +4793,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Salesman",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4812,7 +4812,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Units Sold",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4825,7 +4825,7 @@ const sheetFormula = {
 		"r": 29,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4844,7 +4844,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Summing Sales: Faxes Sold By Brown",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4881,7 +4881,7 @@ const sheetFormula = {
 		"r": 29,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4894,7 +4894,7 @@ const sheetFormula = {
 		"r": 29,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4907,7 +4907,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4920,7 +4920,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4939,7 +4939,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Fax",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4958,7 +4958,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Brown",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4977,7 +4977,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -4990,7 +4990,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5009,7 +5009,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "61",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5023,7 +5023,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5036,7 +5036,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5049,7 +5049,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5062,7 +5062,7 @@ const sheetFormula = {
 		"r": 30,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5075,7 +5075,7 @@ const sheetFormula = {
 		"r": 31,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5088,7 +5088,7 @@ const sheetFormula = {
 		"r": 31,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5107,7 +5107,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Phone",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5126,7 +5126,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Smith",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5145,7 +5145,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "10",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5158,7 +5158,7 @@ const sheetFormula = {
 		"r": 31,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5177,7 +5177,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Logical AND (Faxes And Brown)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5214,7 +5214,7 @@ const sheetFormula = {
 		"r": 31,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5227,7 +5227,7 @@ const sheetFormula = {
 		"r": 31,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5240,7 +5240,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5253,7 +5253,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5272,7 +5272,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Fax",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5291,7 +5291,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Jones",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5310,7 +5310,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "20",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5323,7 +5323,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5342,7 +5342,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "2",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5356,7 +5356,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5369,7 +5369,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5382,7 +5382,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5395,7 +5395,7 @@ const sheetFormula = {
 		"r": 32,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5408,7 +5408,7 @@ const sheetFormula = {
 		"r": 33,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5421,7 +5421,7 @@ const sheetFormula = {
 		"r": 33,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5440,7 +5440,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Fax",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5459,7 +5459,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Smith",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5478,7 +5478,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "30",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5491,7 +5491,7 @@ const sheetFormula = {
 		"r": 33,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5510,7 +5510,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Logical OR (Faxes Or Jones)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5547,7 +5547,7 @@ const sheetFormula = {
 		"r": 33,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5560,7 +5560,7 @@ const sheetFormula = {
 		"r": 33,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5573,7 +5573,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5586,7 +5586,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5605,7 +5605,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Phone",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5624,7 +5624,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Jones",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5643,7 +5643,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "40",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5656,7 +5656,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5675,7 +5675,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5689,7 +5689,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5702,7 +5702,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5715,7 +5715,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5728,7 +5728,7 @@ const sheetFormula = {
 		"r": 34,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5741,7 +5741,7 @@ const sheetFormula = {
 		"r": 35,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5754,7 +5754,7 @@ const sheetFormula = {
 		"r": 35,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5773,7 +5773,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "PC",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5792,7 +5792,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Smith",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5811,7 +5811,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "50",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5824,7 +5824,7 @@ const sheetFormula = {
 		"r": 35,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5843,7 +5843,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Logical XOR (Fax Or Jones but not both)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5880,7 +5880,7 @@ const sheetFormula = {
 		"r": 35,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5893,7 +5893,7 @@ const sheetFormula = {
 		"r": 35,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5906,7 +5906,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5919,7 +5919,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5938,7 +5938,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Fax",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5957,7 +5957,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Brown",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5976,7 +5976,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "60",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -5989,7 +5989,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6008,7 +6008,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6022,7 +6022,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 7,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6035,7 +6035,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 8,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6048,7 +6048,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6061,7 +6061,7 @@ const sheetFormula = {
 		"r": 36,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6074,7 +6074,7 @@ const sheetFormula = {
 		"r": 37,
 		"c": 0,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6087,7 +6087,7 @@ const sheetFormula = {
 		"r": 37,
 		"c": 1,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6106,7 +6106,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Phone",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6125,7 +6125,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Davis",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6144,7 +6144,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "70",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6157,7 +6157,7 @@ const sheetFormula = {
 		"r": 37,
 		"c": 5,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6176,7 +6176,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Logical NAND (All Sales Except Fax And Jones)",
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6213,7 +6213,7 @@ const sheetFormula = {
 		"r": 37,
 		"c": 9,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6226,7 +6226,7 @@ const sheetFormula = {
 		"r": 37,
 		"c": 10,
 		"v": {
-			"bg": "rgba(255,255,255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6239,7 +6239,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 0,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6252,7 +6252,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 1,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6271,7 +6271,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "PC",
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6290,7 +6290,7 @@ const sheetFormula = {
 				"t": "g"
 			},
 			"m": "Jones",
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6309,7 +6309,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "80",
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6322,7 +6322,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 5,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6341,7 +6341,7 @@ const sheetFormula = {
 				"t": "n"
 			},
 			"m": "1",
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6355,7 +6355,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 7,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6368,7 +6368,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 8,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,
@@ -6381,7 +6381,7 @@ const sheetFormula = {
 		"r": 38,
 		"c": 9,
 		"v": {
-			"bg": "rgb(255, 255, 255)",
+			"bg": null,
 			"bl": 0,
 			"it": 0,
 			"ff": 9,

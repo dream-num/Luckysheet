@@ -88,6 +88,9 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
+    luckysheetConfigsetting.rowHeaderWidth = extendsetting.rowHeaderWidth;
+    luckysheetConfigsetting.columeHeaderHeight = extendsetting.columeHeaderHeight;
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 

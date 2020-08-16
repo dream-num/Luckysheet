@@ -1293,8 +1293,8 @@ export default function luckysheetHandler() {
                         top = $("#luckysheet-scrollbar-y").scrollTop();
                     let x = mouse[0];
                     let y = mouse[1];
-                    let winH = $("#luckysheet-cell-main").height() - 20,
-                        winW = $("#luckysheet-cell-main").width() - 60;
+                    let winH = $("#luckysheet-cell-main").height() - 20*Store.zoomRatio,
+                        winW = $("#luckysheet-cell-main").width() - 60*Store.zoomRatio;
 
                     if (y < 0 || y > winH) {
                         let stop;
@@ -1315,6 +1315,7 @@ export default function luckysheetHandler() {
                         else {
                             sleft = left + (x - winW) / 2;
                         }
+
                         $("#luckysheet-scrollbar-x").scrollLeft(sleft);
                     }
                 }
@@ -2307,7 +2308,7 @@ export default function luckysheetHandler() {
                 cfg["rowlen"] = {};
             }
 
-            cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size);
+            cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 
             if (Store.clearjfundo) {
                 Store.jfundo = [];
@@ -2373,7 +2374,7 @@ export default function luckysheetHandler() {
                 cfg["columnlen"] = {};
             }
 
-            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size);
+            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 
             if (Store.clearjfundo) {
                 Store.jfundo = [];

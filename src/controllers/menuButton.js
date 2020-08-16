@@ -3154,19 +3154,20 @@ const menuButton = {
         Store.clearjfundo = true;
     },
     borderfix: function(d, r, c){
-        return [-1, -1, 2, 2];
+        // return [-1, -1, 2, 2];
 
         let cell = d[r][c];
         let bg = null;
         
         if(cell == null){
-            return [0, 0, 0, 0];
+            return [-1, 0, 0, -1];
         }
         else if(d[r][c].bg == null || d[r][c].bg == ""){
-            return [0, 0, 0, 0];
+            return [-1, 0, 0, -1];
         }
         else {
-            return [-1, -1, 2, 2];
+            return [-2, -1, 1, 0];
+            //return [-2, -2, 1, 0];
         }
     },
     menuButtonFocus: function(d, r, c){
@@ -3341,16 +3342,15 @@ const menuButton = {
         }
         else if(a == "bg"){
             if(foucsStatus == null){
-                foucsStatus = "#ffffff";
+                foucsStatus = null;
             }
             else{
                 foucsStatus = foucsStatus[a];
 
                 if(foucsStatus == null){
-                    foucsStatus = "#ffffff";
+                    foucsStatus = null;
                 }
-                
-                if(foucsStatus.toString().indexOf("rgba") > -1){
+                else if(foucsStatus.toString().indexOf("rgba") > -1){
                     foucsStatus = rgbTohex(foucsStatus);
                 }
             }
