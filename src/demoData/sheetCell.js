@@ -5581,7 +5581,7 @@ const sheetCell = {
 		"column_focus": 0
 	}],
 	"luckysheet_selection_range": [],
-	"scrollLeft": 300,
-	"scrollTop": 515
+	"scrollLeft": 0,
+	"scrollTop": 0
 }
 export default sheetCell
