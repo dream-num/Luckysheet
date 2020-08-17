@@ -63,47 +63,8 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
 
-    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
-    Store.cellmainWidth = gridW - Store.rowHeaderWidth;
+    changeSheetContainerSize(gridW,gridH)
     
-    $("#luckysheet-cols-h-c, #luckysheet-cell-main, #luckysheet-scrollbar-x").width(Store.cellmainWidth);
-    $("#luckysheet-cell-main").height(Store.cellmainHeight);
-    $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
-
-    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + 6);
-    $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
-    $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
-
-    Store.luckysheetTableContentHW = [
-        Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
-        Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize
-    ];
-
-    $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
-        width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
-        height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio) 
-    })
-    .css({ width: Store.luckysheetTableContentHW[0], height: Store.luckysheetTableContentHW[1] });
-
-    $("#" + Store.container).find("#luckysheet-grid-window-1").css("bottom", Store.sheetBarHeight);
-    $("#" + Store.container).find(".luckysheet-grid-window").css("bottom", Store.statisticBarHeight);
-
-    let gridwidth = $("#luckysheet-grid-window-1").width();
-    $("#luckysheet-freezebar-horizontal").find(".luckysheet-freezebar-horizontal-handle")
-    .css({ "width": gridwidth - 10 })
-    .end()
-    .find(".luckysheet-freezebar-horizontal-drop")
-    .css({ "width": gridwidth - 10 });
-
-    let gridheight = $("#luckysheet-grid-window-1").height();
-    $("#luckysheet-freezebar-vertical")
-    .find(".luckysheet-freezebar-vertical-handle")
-    .css({ "height": gridheight - 10 })
-    .end()
-    .find(".luckysheet-freezebar-vertical-drop")
-    .css({ "height": gridheight - 10 });
-    
-    luckysheetFreezen.createAssistCanvas();
     if(isRefreshCanvas){
         luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
     }
@@ -173,4 +134,58 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     sheetmanage.sheetArrowShowAndHide();
     sheetmanage.sheetBarShowAndHide();
+}
+
+
+export function changeSheetContainerSize(gridW, gridH){
+    if(gridW==null){
+        gridW = $("#" + Store.container).width();
+    }
+
+    if(gridH==null){
+        gridH = $("#" + Store.container).height();
+    }
+    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
+    Store.cellmainWidth = gridW - Store.rowHeaderWidth;
+    
+    $("#luckysheet-cols-h-c, #luckysheet-cell-main").width(Store.cellmainWidth);
+    $("#luckysheet-cell-main").height(Store.cellmainHeight);
+    $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
+
+    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columeHeaderHeight-Store.cellMainSrollBarSize-3);
+    $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
+    $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
+
+    $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left",Store.rowHeaderWidth-1);
+
+    Store.luckysheetTableContentHW = [
+        Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
+        Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize
+    ];
+
+    $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
+        width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
+        height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio) 
+    })
+    .css({ width: Store.luckysheetTableContentHW[0], height: Store.luckysheetTableContentHW[1] });
+
+    $("#" + Store.container).find("#luckysheet-grid-window-1").css("bottom", Store.sheetBarHeight);
+    $("#" + Store.container).find(".luckysheet-grid-window").css("bottom", Store.statisticBarHeight);
+
+    let gridwidth = $("#luckysheet-grid-window-1").width();
+    $("#luckysheet-freezebar-horizontal").find(".luckysheet-freezebar-horizontal-handle")
+    .css({ "width": gridwidth - 10 })
+    .end()
+    .find(".luckysheet-freezebar-horizontal-drop")
+    .css({ "width": gridwidth - 10 });
+
+    let gridheight = $("#luckysheet-grid-window-1").height();
+    $("#luckysheet-freezebar-vertical")
+    .find(".luckysheet-freezebar-vertical-handle")
+    .css({ "height": gridheight - 10 })
+    .end()
+    .find(".luckysheet-freezebar-vertical-drop")
+    .css({ "height": gridheight - 10 });
+    
+    luckysheetFreezen.createAssistCanvas();
 }

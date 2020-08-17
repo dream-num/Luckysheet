@@ -1,0 +1,113 @@
+.luckysheet-zoom-content{
+    position: absolute;
+    width:210px;
+    right: 0px;
+    height: 22px;
+    line-height: 22px;
+    text-align: right;
+    padding-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-minus{
+    position: absolute;
+    left: 0px;
+    width: 20px;
+    height:20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-minus-icon{
+    background-image:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIycHgiIHZpZXdCb3g9IjAgMCAxNCAyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA2MyAoOTI0NDUpIC0gaHR0cHM6Ly9za2V0Y2guY29tIC0tPgogICAgPHRpdGxlPnJpcWlxdWppYW7lpIfku70gNDU8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iMjAyMC8wOC8xNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IueUu+adv+Wkh+S7vS0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTcwNC4wMDAwMDAsIC0xMDY0LjAwMDAwMCkiIGZpbGw9IiM0NDRENUEiPgogICAgICAgICAgICA8ZyBpZD0icmlxaXF1amlhbuWkh+S7vS0xMjYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE2OTkuMDAwMDAwLCAxMDUzLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9Iue8lue7hCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNS4wMDAwMDAsIDExLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIHg9IjAiIHk9IjAiIHdpZHRoPSIxNCIgaGVpZ2h0PSIyIj48L3JlY3Q+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
+    width: 14px;
+    height: 2px;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-minus:hover{
+    background-color: #E1E4E8;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-slider{
+    position: absolute;
+    left: 25px;
+    width: 100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-line{
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: #E1E4E8;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-cursor{
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background: #B5BDB8;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-cursor:hover{
+    transform: scale(1.2);
+    transform-origin: center center;
+    background: rgb(160, 160, 160);
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-hundred{
+    position: absolute;
+    width: 2px;
+    height: 4px;
+    left: 49px;
+    background: #1E1E1F;
+}
+
+
+.luckysheet-zoom-content .luckysheet-zoom-plus{
+    position: absolute;
+    left: 130px;
+    width: 20px;
+    height:20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-plus .luckysheet-zoom-plus-icon{
+    background-image:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYzICg5MjQ0NSkgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+cmlxaXF1amlhbuWkh+S7vSA0NjwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSIyMDIwLzA4LzE0IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i55S75p2/5aSH5Lu9LTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xODQ4LjAwMDAwMCwgLTEwNTguMDAwMDAwKSIgZmlsbD0iIzQ0NEQ1QSI+CiAgICAgICAgICAgIDxnIGlkPSJyaXFpcXVqaWFu5aSH5Lu9LTExOSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTg0My4wMDAwMDAsIDEwNTMuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8ZyBpZD0i57yW57uEIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LjAwMDAwMCwgNS4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiB4PSIwIiB5PSI2IiB3aWR0aD0iMTQiIGhlaWdodD0iMiI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaLlpIfku70iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgcm90YXRlKC0yNzAuMDAwMDAwKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgeD0iMCIgeT0iNiIgd2lkdGg9IjE0IiBoZWlnaHQ9IjIiPjwvcmVjdD4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+');
+    width: 14px;
+    height: 14px;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-plus:hover{
+    background-color: #E1E4E8;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-ratioText{
+    position: absolute;
+    left: 155px;
+    width: 60px;
+    color: #1E1E1F;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.luckysheet-zoom-content .luckysheet-zoom-ratioText:hover{
+    background-color: #E1E4E8;
+}

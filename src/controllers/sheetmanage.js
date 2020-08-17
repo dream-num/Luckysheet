@@ -1033,7 +1033,7 @@ const sheetmanage = {
         $("#luckysheet-cols-h-cells_0").css("width", Store.ch_width); //width更新
 
         $("#luckysheet-scrollbar-x div").width(Store.ch_width);
-        $("#luckysheet-scrollbar-y div").height(Store.rh_height - 30);
+        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight-Store.cellMainSrollBarSize-3 );
     },
     setCurSheet: function(index) {
         for (let i = 0; i < Store.luckysheetfile.length; i++) {

@@ -7,166 +7,180 @@ const gridHTML = function(){
     const _locale = locale();
     const locale_info = _locale.info;
     
-    return '<div class="luckysheet">' +
-                    '<canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas>' + 
-                    '<div class="luckysheet-work-area luckysheet-noselected-text">' + 
-                        '<div class="luckysheet-share-logo" title="${logotitle}"></div>' + 
-                        '<div id ="luckysheet_info_detail" class="luckysheet_info_detail">' + 
-                            '<div data-tips="'+locale_info.return+'" id="luckysheet_info_detail_title" class="luckysheet_info_detail_title">' + 
-                                '<i style="margin-left: -2px;" class="fa fa-chevron-left" aria-hidden="true"></i>' + 
-                            '</div>' + 
-                            '<div>' + 
-                                '<input data-tips="'+locale_info.tips+'" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="'+locale_info.noName+'" tabindex="0" dir="ltr" aria-label="'+locale_info.rename+'" style="visibility: visible; width: 149px;" data-tooltip="'+locale_info.rename+'">' + 
-                            '</div>' + 
-                            '<div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> '+locale_info.detailUpdate+' </div>' + 
-                            '<div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> '+locale_info.wait+' </div>' + 
-                            '<div class="luckysheet_info_detail_user"> ${functionButton} <span id="luckysheet_info_detail_user"></span> </div>' + 
-                        '</div>' + 
-                        '<div id="luckysheet-wa-editor" class="luckysheet-wa-editor"> ${menu} </div>' + 
-                        '<div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate">' + 
-                            '<div class="luckysheet-wa-calculate-size" id="luckysheet-wa-calculate-size"></div>' + 
-                            '<div class="luckysheet-wa-calculate-help">' + 
-                                '<div class="luckysheet-wa-calculate-help-box">' + 
-                                    '<div spellcheck="false" aria-hidden="false" id="luckysheet-helpbox">' +
-                                        '<div id="luckysheet-helpbox-cell" class="luckysheet-helpbox-cell-input luckysheet-mousedown-cancel" tabindex="0" contenteditable="true" dir="ltr" aria-autocomplete="list"></div>' +
-                                    '</div>' + 
-                                '</div>' +  
-                                '<div class="luckysheet-wa-calculate-help-tool">' +
-                                    '<i class="fa fa-caret-down" aria-hidden="true" style="margin-top: 7px;"></i>' +
-                                '</div>' + 
-                            '</div>' + 
-                            '<div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">' +
-                                '<span><i class="fa fa-remove" aria-hidden="true"></i></span>' +
-                            '</div>' + 
-                            '<div id="luckysheet-wa-functionbox-confirm" class="luckysheet-wa-functionbox">' +
-                                '<span><i class="fa fa-check" aria-hidden="true"></i></span>' +
-                            '</div>' + 
-                            '<div id="luckysheet-wa-functionbox-fx" class="luckysheet-wa-functionbox">' + 
-                                '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfdBg4KFCeL2MAqAAACOUlEQVRYw+3Wy2+MURjH8U9Hp0VLVTTRUupWqfs9xEpE3ULSsLK0qVg0rJAgiD/A2kpCQkJC0rhEJMJampBSFYle0BYNMUNKTY+F0bi10zFjIZnvuzrPe57fc3mfnPeQI0eO/5+8tHaPVW22cn1aNYlnO5nlzmgzIAiazcm2/FoPBEHMY+2uKcqufKlGQcIt29RYYl6azU3JLh8E99VkuzHfKHZekHDw38hT5Zmg17L0XSMj2jVXGTq9+lcBZilAp1j6AfKHfVtmh1IDauWjQoPPIp64IpF+qD+xSKfw23PV6GxV0KdFHJWKJLwQR0SbgezkT1SFSivcE3SrM9U005WlIzF8Bf1eokAUMQ89T9oLjdWfPOwixssT1/9niZFMUakJ+Kg3uV7olKtOm4kx6jU6qzqTRq33VnBHIahy0z0dgmPy7NGjx23ThnIeSQUTlKA7OZrjNNvtHNaoc8hFm+33MpMK9giCU4PJFGKrz7o8dVnF8M6pK4iYDLoGh/MT2jw32TuHU+WeOkC+KQi/CPXqwA2PUueXigIz8UnnT9b5ZmF68sNnFKBEFbq9/sFW7bioLxYpzjzAamV4pAtElahwQtQRb1WaZ4rtxqVUGZLv/7IDyfVGl1zXbpOJmgTnXXBXZfrCk9RabKmTYoIWc5P2o2La1RslYr8OPe5a9zeZ7/TGMx0Sgvf2Dt4hamyxMnmCFVllgxl/15oGcUHwRYt9mdyBhrrdlFtgtkIvNGvN3vmfI0eO/5Ov+PeiZHME+tcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMDktMTdUMTU6MTk6MDcrMDg6MDARPBuqAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTA2LTE0VDEwOjIwOjM5KzA4OjAw59f0jAAAAE10RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNy4wLjEtNiBRMTYgeDg2XzY0IDIwMTYtMDktMTcgaHR0cDovL3d3dy5pbWFnZW1hZ2ljay5vcmfd2aVOAAAAGHRFWHRUaHVtYjo6RG9jdW1lbnQ6OlBhZ2VzADGn/7svAAAAF3RFWHRUaHVtYjo6SW1hZ2U6OkhlaWdodAA3Nkv1+ekAAAAWdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANzazWjlkAAAAGXRFWHRUaHVtYjo6TWltZXR5cGUAaW1hZ2UvcG5nP7JWTgAAABd0RVh0VGh1bWI6Ok1UaW1lADEzNzExNzY0MzntxStTAAAAEHRFWHRUaHVtYjo6U2l6ZQA5OTdClByG1AAAAF90RVh0VGh1bWI6OlVSSQBmaWxlOi8vL2hvbWUvd3d3cm9vdC9zaXRlL3d3dy5lYXN5aWNvbi5uZXQvY2RuLWltZy5lYXN5aWNvbi5jbi9zcmMvMTExNTkvMTExNTkzNy5wbmeOkn0GAAAAAElFTkSuQmCC" alt="" style="vertical-align:middle"/>' +
-                            '</div>' + 
-                            '<div id="luckysheet-functionbox-container" class="luckysheet-mousedown-cancel">' +
-                                '<div class="luckysheet-mousedown-cancel" dir="ltr">' +
-                                    '<div spellcheck="false" aria-hidden="false" id="luckysheet-functionbox">' +
-                                        '<div id="luckysheet-functionbox-cell" class="luckysheet-functionbox-cell-input luckysheet-mousedown-cancel" tabindex="0" contenteditable="true" dir="ltr" aria-autocomplete="list" aria-label="D4"></div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +   
-                        '</div>' + 
-                    '</div>' + 
-                    '<div class="luckysheet-grid-container luckysheet-scrollbars-enabled">' + 
-                        '<div class="luckysheet-grid-window">' + 
-                            '<div class="luckysheet-help-sub"></div>' + 
-                            '<div class="luckysheet-grid-window-1" id="luckysheet-grid-window-1">' +
-                                '<canvas id="luckysheetTableContent" class="luckysheetTableContent"></canvas>' + 
-                                '<table class="luckysheet-grid-window-2" cellspacing="0" cellpadding="0" dir="ltr" tabindex="-1" >' + 
-                                    '<tbody>' + 
-                                        '<tr>' + 
-                                            '<td valign="top" class="luckysheet-paneswrapper">' + 
-                                                '<div class="luckysheet-left-top" id="luckysheet-left-top"> </div>' + 
-                                            '</td>' + 
-                                            '<td valign="top" class="luckysheet-paneswrapper">' + 
-                                                '<div id="luckysheet-cols-h-c" class="luckysheet-cols-h-c">' +
-                                                    '<div class="luckysheet-cols-change-size" id="luckysheet-cols-change-size"></div>' +  
-                                                    '<div class="luckysheet-cols-menu-btn luckysheet-mousedown-cancel" id="luckysheet-cols-menu-btn"><i class="fa fa-caret-down luckysheet-mousedown-cancel" aria-hidden="true"></i></div>' +  
-                                                    '<div class="luckysheet-cols-h-hover" id="luckysheet-cols-h-hover"></div>' +  
-                                                    '<div id="luckysheet-cols-h-selected"></div>' +  
-                                                    '<div class="luckysheet-grdusedrange"></div>' +  
-                                                    '<div class="luckysheet-grdblkflowpush"></div>  ${columnHeader}' +
-                                                '</div>' +
-                                            '</td>' +
-                                        '</tr>' +
-                                        '<tr>' +
-                                            '<td valign="top" class="luckysheet-paneswrapper">' + 
-                                                '<div class="luckysheet-rows-h" id="luckysheet-rows-h">' + 
-                                                    '<div class="luckysheet-rows-change-size" id="luckysheet-rows-change-size"></div>' + 
-                                                    '<div class="luckysheet-rows-h-hover" id="luckysheet-rows-h-hover"></div>' + 
-                                                    '<div id="luckysheet-rows-h-selected"></div>' +  
-                                                    '<div class="luckysheet-grdusedrange"></div>' +  
-                                                    '<div class="luckysheet-grdblkflowpush"></div> ${rowHeader}' +
-                                                '</div>' + 
-                                            '</td>' +  
-                                            '<td valign="top" class="luckysheet-paneswrapper">' +
-                                                '<div class="luckysheet-cell-loading" id="luckysheet-cell-loading">' +
-                                                    '<div class="luckysheet-cell-loading-inner">' +
-                                                        '<i class="fa fa-circle-o-notch fa-spin"></i>' +
-                                                        '<span></span>' +
-                                                    '</div>' +
-                                                '</div>' + 
-                                                '<div class="luckysheet-cell-freezen"></div>' + 
-                                                '<div class="luckysheet-scrollbars luckysheet-scrollbar-ltr luckysheet-scrollbar-x" id="luckysheet-scrollbar-x"><div></div></div>' + 
-                                                '<div class="luckysheet-scrollbars luckysheet-scrollbar-ltr luckysheet-scrollbar-y" id="luckysheet-scrollbar-y"><div></div></div>' + 
-                                                '<div class="luckysheet-cell-main " id="luckysheet-cell-main">' +
-                                                    '<div id="luckysheet-formula-functionrange"></div>' +  
-                                                    '<div id="luckysheet-formula-functionrange-select" class="luckysheet-selection-copy luckysheet-formula-functionrange-select">' +
-                                                        '<div class="luckysheet-selection-copy-top luckysheet-copy"></div>' +
-                                                        '<div class="luckysheet-selection-copy-right luckysheet-copy"></div>' +
-                                                        '<div class="luckysheet-selection-copy-bottom luckysheet-copy"></div>' +
-                                                        '<div class="luckysheet-selection-copy-left luckysheet-copy"></div>' +
-                                                        '<div class="luckysheet-selection-copy-hc"></div>' +
-                                                    '</div>' +  
-                                                    '<div class="luckysheet-row-count-show luckysheet-count-show" id="luckysheet-row-count-show"></div>' +
-                                                    '<div class="luckysheet-column-count-show luckysheet-count-show" id="luckysheet-column-count-show"></div>' +
-                                                    '<div class="luckysheet-change-size-line" id="luckysheet-change-size-line"></div>' +  
-                                                    '<div class="luckysheet-cell-selected-focus" id="luckysheet-cell-selected-focus"></div>' +  
-                                                    '<div id="luckysheet-selection-copy"></div>' +  
-                                                    '<div id="luckysheet-chart-rangeShow"></div>' +
-                                                    '<div class="luckysheet-cell-selected-extend" id="luckysheet-cell-selected-extend"></div>' +  
-                                                    '<div class="luckysheet-cell-selected-move" id="luckysheet-cell-selected-move"></div>' +  
-                                                    '<div id="luckysheet-cell-selected-boxs">' +
-                                                        '<div id="luckysheet-cell-selected" class="luckysheet-cell-selected">' +
-                                                            '<div class="luckysheet-cs-inner-border"></div>' +
-                                                            '<div class="luckysheet-cs-fillhandle"></div>' +
-                                                            '<div class="luckysheet-cs-inner-border"></div>' +
-                                                            '<div class="luckysheet-cs-draghandle-top luckysheet-cs-draghandle"></div>' +
-                                                            '<div class="luckysheet-cs-draghandle-bottom luckysheet-cs-draghandle"></div>' +
-                                                            '<div class="luckysheet-cs-draghandle-left luckysheet-cs-draghandle"></div>' +
-                                                            '<div class="luckysheet-cs-draghandle-right luckysheet-cs-draghandle"></div>' +
-                                                            '<div class="luckysheet-cs-touchhandle luckysheet-cs-touchhandle-lt"><div class="luckysheet-cs-touchhandle-btn"></div></div>' +
-                                                            '<div class="luckysheet-cs-touchhandle luckysheet-cs-touchhandle-rb"><div class="luckysheet-cs-touchhandle-btn"></div></div>' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                    '<div id="luckysheet-postil-showBoxs"></div>' +
-                                                    '<div id="luckysheet-multipleRange-show"></div>' +  
-                                                    '<div id="luckysheet-dynamicArray-hightShow"></div>' +  
-                                                    '<div class="luckysheet-cell-copy"></div>' +  
-                                                    '<div class="luckysheet-grdblkflowpush"></div>  ${flow}' + 
-                                                '</div>' + 
-                                            '</td>' + 
-                                        '</tr>' + 
-                                    '</tbody>' + 
-                                '</table>' + 
-                            '</div>' + 
-                            '<div class="luckysheet-sheet-area luckysheet-noselected-text" id="luckysheet-sheet-area">' +
-                                '<div id="luckysheet-sheets-add" class="btn btn-default luckysheet-sheets-add"><i class="fa fa-plus"></i></div>' +
-                                '<div id="luckysheet-sheets-m" class="btn btn-default luckysheet-sheets-m"><i class="fa fa-bars"></i></div>' +
-                                '<div class="luckysheet-sheet-container" id="luckysheet-sheet-container">' +
-                                    '<div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">' +
-                                        '<div class="docs-sheet-fade3"></div>' +
-                                        '<div class="docs-sheet-fade2"></div>' +
-                                        '<div class="docs-sheet-fade1"></div>' +
-                                    '</div>' +
-                                    '<div class="docs-sheet-fade docs-sheet-fade-right" style="display: none;">' +
-                                        '<div class="docs-sheet-fade1"></div>' +
-                                        '<div class="docs-sheet-fade2"></div>' +
-                                        '<div class="docs-sheet-fade3"></div>' +
-                                    '</div>' +
-                                    '<div class="luckysheet-sheet-container-c" id="luckysheet-sheet-container-c"></div>' +
-                                '</div>' +
-                                '<div id="luckysheet-sheets-leftscroll" class="btn btn-default luckysheet-sheets-scroll"><i class="fa fa-caret-left"></i></div>' +
-                                '<div id="luckysheet-sheets-rightscroll" class="btn btn-default luckysheet-sheets-scroll"><i class="fa fa-caret-right"></i></div>' +
-                            '</div>' + 
-                        '</div>' + 
-                        '<div class="luckysheet-stat-area">' + 
-                            '<div class="luckysheet-sta-c">' +
-                                '<div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>' +  
-                                '<div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>' +  
-                            '</div>' + 
-                        '</div>' + 
-                    '</div>' +
-                    '<div id="luckysheet-copy-content" contenteditable="true"></div>' +
-                    '<input id="luckysheet-copy-btn" type="button" data-clipboard-target="luckysheet-copy-content">' +
-                    '<div id="testdpidiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>' +
-                  '</div>';
+    return `<div class="luckysheet">
+                    <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
+                    <div class="luckysheet-work-area luckysheet-noselected-text"> 
+                        <div class="luckysheet-share-logo" title="\${logotitle}"></div> 
+                        <div id ="luckysheet_info_detail" class="luckysheet_info_detail"> 
+                            <div data-tips="${locale_info.return}" id="luckysheet_info_detail_title" class="luckysheet_info_detail_title"> 
+                                <i style="margin-left: -2px;" class="fa fa-chevron-left" aria-hidden="true"></i> 
+                            </div> 
+                            <div> 
+                                <input data-tips="${locale_info.tips}" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="${locale_info.noName}" tabindex="0" dir="ltr" aria-label="${locale_info.rename}" style="visibility: visible; width: 149px;" data-tooltip="${locale_info.rename}"> 
+                            </div> 
+                            <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
+                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
+                            <div class="luckysheet_info_detail_user"> \${functionButton} <span id="luckysheet_info_detail_user"></span> </div> 
+                        </div> 
+                        <div id="luckysheet-wa-editor" class="luckysheet-wa-editor"> \${menu} </div> 
+                        <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 
+                            <div class="luckysheet-wa-calculate-size" id="luckysheet-wa-calculate-size"></div> 
+                            <div class="luckysheet-wa-calculate-help"> 
+                                <div class="luckysheet-wa-calculate-help-box"> 
+                                    <div spellcheck="false" aria-hidden="false" id="luckysheet-helpbox">
+                                        <div id="luckysheet-helpbox-cell" class="luckysheet-helpbox-cell-input luckysheet-mousedown-cancel" tabindex="0" contenteditable="true" dir="ltr" aria-autocomplete="list"></div>
+                                    </div> 
+                                </div>  
+                                <div class="luckysheet-wa-calculate-help-tool">
+                                    <i class="fa fa-caret-down" aria-hidden="true" style="margin-top: 7px;"></i>
+                                </div> 
+                            </div> 
+                            <div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">
+                                <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+                            </div> 
+                            <div id="luckysheet-wa-functionbox-confirm" class="luckysheet-wa-functionbox">
+                                <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                            </div> 
+                            <div id="luckysheet-wa-functionbox-fx" class="luckysheet-wa-functionbox"> 
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfdBg4KFCeL2MAqAAACOUlEQVRYw+3Wy2+MURjH8U9Hp0VLVTTRUupWqfs9xEpE3ULSsLK0qVg0rJAgiD/A2kpCQkJC0rhEJMJampBSFYle0BYNMUNKTY+F0bi10zFjIZnvuzrPe57fc3mfnPeQI0eO/5+8tHaPVW22cn1aNYlnO5nlzmgzIAiazcm2/FoPBEHMY+2uKcqufKlGQcIt29RYYl6azU3JLh8E99VkuzHfKHZekHDw38hT5Zmg17L0XSMj2jVXGTq9+lcBZilAp1j6AfKHfVtmh1IDauWjQoPPIp64IpF+qD+xSKfw23PV6GxV0KdFHJWKJLwQR0SbgezkT1SFSivcE3SrM9U005WlIzF8Bf1eokAUMQ89T9oLjdWfPOwixssT1/9niZFMUakJ+Kg3uV7olKtOm4kx6jU6qzqTRq33VnBHIahy0z0dgmPy7NGjx23ThnIeSQUTlKA7OZrjNNvtHNaoc8hFm+33MpMK9giCU4PJFGKrz7o8dVnF8M6pK4iYDLoGh/MT2jw32TuHU+WeOkC+KQi/CPXqwA2PUueXigIz8UnnT9b5ZmF68sNnFKBEFbq9/sFW7bioLxYpzjzAamV4pAtElahwQtQRb1WaZ4rtxqVUGZLv/7IDyfVGl1zXbpOJmgTnXXBXZfrCk9RabKmTYoIWc5P2o2La1RslYr8OPe5a9zeZ7/TGMx0Sgvf2Dt4hamyxMnmCFVllgxl/15oGcUHwRYt9mdyBhrrdlFtgtkIvNGvN3vmfI0eO/5Ov+PeiZHME+tcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMDktMTdUMTU6MTk6MDcrMDg6MDARPBuqAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTA2LTE0VDEwOjIwOjM5KzA4OjAw59f0jAAAAE10RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNy4wLjEtNiBRMTYgeDg2XzY0IDIwMTYtMDktMTcgaHR0cDovL3d3dy5pbWFnZW1hZ2ljay5vcmfd2aVOAAAAGHRFWHRUaHVtYjo6RG9jdW1lbnQ6OlBhZ2VzADGn/7svAAAAF3RFWHRUaHVtYjo6SW1hZ2U6OkhlaWdodAA3Nkv1+ekAAAAWdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANzazWjlkAAAAGXRFWHRUaHVtYjo6TWltZXR5cGUAaW1hZ2UvcG5nP7JWTgAAABd0RVh0VGh1bWI6Ok1UaW1lADEzNzExNzY0MzntxStTAAAAEHRFWHRUaHVtYjo6U2l6ZQA5OTdClByG1AAAAF90RVh0VGh1bWI6OlVSSQBmaWxlOi8vL2hvbWUvd3d3cm9vdC9zaXRlL3d3dy5lYXN5aWNvbi5uZXQvY2RuLWltZy5lYXN5aWNvbi5jbi9zcmMvMTExNTkvMTExNTkzNy5wbmeOkn0GAAAAAElFTkSuQmCC" alt="" style="vertical-align:middle"/>
+                            </div> 
+                            <div id="luckysheet-functionbox-container" class="luckysheet-mousedown-cancel">
+                                <div class="luckysheet-mousedown-cancel" dir="ltr">
+                                    <div spellcheck="false" aria-hidden="false" id="luckysheet-functionbox">
+                                        <div id="luckysheet-functionbox-cell" class="luckysheet-functionbox-cell-input luckysheet-mousedown-cancel" tabindex="0" contenteditable="true" dir="ltr" aria-autocomplete="list" aria-label="D4"></div>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div> 
+                    </div> 
+                    <div class="luckysheet-grid-container luckysheet-scrollbars-enabled"> 
+                        <div class="luckysheet-grid-window"> 
+                            <div class="luckysheet-help-sub"></div> 
+                            <div class="luckysheet-grid-window-1" id="luckysheet-grid-window-1">
+                                <canvas id="luckysheetTableContent" class="luckysheetTableContent"></canvas> 
+                                <table class="luckysheet-grid-window-2" cellspacing="0" cellpadding="0" dir="ltr" tabindex="-1" > 
+                                    <tbody> 
+                                        <tr> 
+                                            <td valign="top" class="luckysheet-paneswrapper"> 
+                                                <div class="luckysheet-left-top" id="luckysheet-left-top"> </div> 
+                                            </td> 
+                                            <td valign="top" class="luckysheet-paneswrapper"> 
+                                                <div id="luckysheet-cols-h-c" class="luckysheet-cols-h-c">
+                                                    <div class="luckysheet-cols-change-size" id="luckysheet-cols-change-size"></div>  
+                                                    <div class="luckysheet-cols-menu-btn luckysheet-mousedown-cancel" id="luckysheet-cols-menu-btn"><i class="fa fa-caret-down luckysheet-mousedown-cancel" aria-hidden="true"></i></div>  
+                                                    <div class="luckysheet-cols-h-hover" id="luckysheet-cols-h-hover"></div>  
+                                                    <div id="luckysheet-cols-h-selected"></div>  
+                                                    <div class="luckysheet-grdusedrange"></div>  
+                                                    <div class="luckysheet-grdblkflowpush"></div>  \${columnHeader}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" class="luckysheet-paneswrapper"> 
+                                                <div class="luckysheet-rows-h" id="luckysheet-rows-h"> 
+                                                    <div class="luckysheet-rows-change-size" id="luckysheet-rows-change-size"></div> 
+                                                    <div class="luckysheet-rows-h-hover" id="luckysheet-rows-h-hover"></div> 
+                                                    <div id="luckysheet-rows-h-selected"></div>  
+                                                    <div class="luckysheet-grdusedrange"></div>  
+                                                    <div class="luckysheet-grdblkflowpush"></div> \${rowHeader}
+                                                </div> 
+                                            </td>  
+                                            <td valign="top" class="luckysheet-paneswrapper">
+                                                <div class="luckysheet-cell-loading" id="luckysheet-cell-loading">
+                                                    <div class="luckysheet-cell-loading-inner">
+                                                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                                                        <span></span>
+                                                    </div>
+                                                </div> 
+                                                <div class="luckysheet-cell-freezen"></div> 
+                                                <div class="luckysheet-scrollbars luckysheet-scrollbar-ltr luckysheet-scrollbar-x" id="luckysheet-scrollbar-x"><div></div></div> 
+                                                <div class="luckysheet-scrollbars luckysheet-scrollbar-ltr luckysheet-scrollbar-y" id="luckysheet-scrollbar-y"><div></div></div> 
+                                                <div class="luckysheet-cell-main " id="luckysheet-cell-main">
+                                                    <div id="luckysheet-formula-functionrange"></div>  
+                                                    <div id="luckysheet-formula-functionrange-select" class="luckysheet-selection-copy luckysheet-formula-functionrange-select">
+                                                        <div class="luckysheet-selection-copy-top luckysheet-copy"></div>
+                                                        <div class="luckysheet-selection-copy-right luckysheet-copy"></div>
+                                                        <div class="luckysheet-selection-copy-bottom luckysheet-copy"></div>
+                                                        <div class="luckysheet-selection-copy-left luckysheet-copy"></div>
+                                                        <div class="luckysheet-selection-copy-hc"></div>
+                                                    </div>  
+                                                    <div class="luckysheet-row-count-show luckysheet-count-show" id="luckysheet-row-count-show"></div>
+                                                    <div class="luckysheet-column-count-show luckysheet-count-show" id="luckysheet-column-count-show"></div>
+                                                    <div class="luckysheet-change-size-line" id="luckysheet-change-size-line"></div>  
+                                                    <div class="luckysheet-cell-selected-focus" id="luckysheet-cell-selected-focus"></div>  
+                                                    <div id="luckysheet-selection-copy"></div>  
+                                                    <div id="luckysheet-chart-rangeShow"></div>
+                                                    <div class="luckysheet-cell-selected-extend" id="luckysheet-cell-selected-extend"></div>  
+                                                    <div class="luckysheet-cell-selected-move" id="luckysheet-cell-selected-move"></div>  
+                                                    <div id="luckysheet-cell-selected-boxs">
+                                                        <div id="luckysheet-cell-selected" class="luckysheet-cell-selected">
+                                                            <div class="luckysheet-cs-inner-border"></div>
+                                                            <div class="luckysheet-cs-fillhandle"></div>
+                                                            <div class="luckysheet-cs-inner-border"></div>
+                                                            <div class="luckysheet-cs-draghandle-top luckysheet-cs-draghandle"></div>
+                                                            <div class="luckysheet-cs-draghandle-bottom luckysheet-cs-draghandle"></div>
+                                                            <div class="luckysheet-cs-draghandle-left luckysheet-cs-draghandle"></div>
+                                                            <div class="luckysheet-cs-draghandle-right luckysheet-cs-draghandle"></div>
+                                                            <div class="luckysheet-cs-touchhandle luckysheet-cs-touchhandle-lt"><div class="luckysheet-cs-touchhandle-btn"></div></div>
+                                                            <div class="luckysheet-cs-touchhandle luckysheet-cs-touchhandle-rb"><div class="luckysheet-cs-touchhandle-btn"></div></div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="luckysheet-postil-showBoxs"></div>
+                                                    <div id="luckysheet-multipleRange-show"></div>  
+                                                    <div id="luckysheet-dynamicArray-hightShow"></div>  
+                                                    <div class="luckysheet-cell-copy"></div>  
+                                                    <div class="luckysheet-grdblkflowpush"></div>  \${flow} 
+                                                </div> 
+                                            </td> 
+                                        </tr> 
+                                    </tbody> 
+                                </table> 
+                            </div> 
+                            <div class="luckysheet-sheet-area luckysheet-noselected-text" id="luckysheet-sheet-area">
+                                <div id="luckysheet-sheets-add" class="btn btn-default luckysheet-sheets-add"><i class="fa fa-plus"></i></div>
+                                <div id="luckysheet-sheets-m" class="btn btn-default luckysheet-sheets-m"><i class="fa fa-bars"></i></div>
+                                <div class="luckysheet-sheet-container" id="luckysheet-sheet-container">
+                                    <div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">
+                                        <div class="docs-sheet-fade3"></div>
+                                        <div class="docs-sheet-fade2"></div>
+                                        <div class="docs-sheet-fade1"></div>
+                                    </div>
+                                    <div class="docs-sheet-fade docs-sheet-fade-right" style="display: none;">
+                                        <div class="docs-sheet-fade1"></div>
+                                        <div class="docs-sheet-fade2"></div>
+                                        <div class="docs-sheet-fade3"></div>
+                                    </div>
+                                    <div class="luckysheet-sheet-container-c" id="luckysheet-sheet-container-c"></div>
+                                </div>
+                                <div id="luckysheet-sheets-leftscroll" class="btn btn-default luckysheet-sheets-scroll"><i class="fa fa-caret-left"></i></div>
+                                <div id="luckysheet-sheets-rightscroll" class="btn btn-default luckysheet-sheets-scroll"><i class="fa fa-caret-right"></i></div>
+                            </div> 
+                        </div> 
+                        <div class="luckysheet-stat-area"> 
+                            <div class="luckysheet-sta-c">
+                                <div class="luckysheet-zoom-content" id="uckysheet-zoom-content">
+                                    <div class="luckysheet-zoom-minus" id="luckysheet-zoom-minus">
+                                        <div class="luckysheet-zoom-minus-icon"></div>
+                                    </div>
+                                    <div class="luckysheet-zoom-slider" id="luckysheet-zoom-slider">
+                                        <div class="luckysheet-zoom-line"></div>
+                                        <div class="luckysheet-zoom-cursor" id="luckysheet-zoom-cursor"></div>
+                                        <div class="luckysheet-zoom-hundred"></div>
+                                    </div>
+                                    <div class="luckysheet-zoom-plus" id="luckysheet-zoom-plus">
+                                        <div class="luckysheet-zoom-plus-icon"></div>
+                                    </div>
+                                    <div class="luckysheet-zoom-ratioText" id="luckysheet-zoom-ratioText">100%</div>
+                                </div>  
+                                <div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>  
+                                <div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>  
+                            </div> 
+                        </div> 
+                    </div>
+                    <div id="luckysheet-copy-content" contenteditable="true"></div>
+                    <input id="luckysheet-copy-btn" type="button" data-clipboard-target="luckysheet-copy-content">
+                    <div id="testdpidiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
+                  </div>`;
 }
 
 const    columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],

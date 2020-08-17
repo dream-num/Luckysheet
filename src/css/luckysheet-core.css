@@ -940,11 +940,12 @@
 }
 
 .luckysheet-sta-c .luckysheet-sta-content {
-    position: relative;
+    position: absolute;
+    left: 0px;
+    right: 220px;
     height: 22px;
     line-height: 22px;
     text-align: right;
-    padding-right: 10px;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -1686,7 +1687,7 @@ body:not(.ewa-ipad) .luckysheet-cols-h-cell-nosel:hover, body:not(.ewa-ipad) .lu
     height: 30px;
     /*width: 400px;*/
     /* background: #000; */
-    bottom: 68px;
+    bottom: 38px;
     left: 0px;
     z-index: 1000;
 }

@@ -1,8 +1,8 @@
 import Store from '../store';
-import {zoomInitial} from '../controllers/zoom';
+import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 
 export default function rhchInit(rowheight, colwidth) {
-    zoomInitial();//Zoom sheet on first load
+    zoomSetting();//Zoom sheet on first load
     //行高
     if(rowheight != null){
         Store.visibledatarow = [];
@@ -21,13 +21,13 @@ export default function rhchInit(rowheight, colwidth) {
                 continue;
             }
             else {
-                Store.rh_height += Math.round(rowlen*Store.zoomRatio) + 1;
+                Store.rh_height += Math.round((rowlen + 1)*Store.zoomRatio);
             }
 
             Store.visibledatarow.push(Store.rh_height); //行的临时长度分布
         }
 
-        Store.rh_height += 110;  //最底部增加空白
+        Store.rh_height += 80;  //最底部增加空白
     }
 
     //列宽
@@ -62,7 +62,7 @@ export default function rhchInit(rowheight, colwidth) {
                 }
             }
 
-            Store.ch_width += Math.round(firstcolumnlen*Store.zoomRatio) + 1;
+            Store.ch_width += Math.round((firstcolumnlen + 1)*Store.zoomRatio);
 
             Store.visibledatacolumn.push(Store.ch_width);//列的临时长度分布
 
@@ -74,4 +74,14 @@ export default function rhchInit(rowheight, colwidth) {
         // Store.ch_width += 120;
         Store.ch_width += maxColumnlen;
     }
+}
+
+
+export function zoomSetting(){
+    //zoom
+    Store.rowHeaderWidth = luckysheetConfigsetting.rowHeaderWidth * Store.zoomRatio;
+    Store.columeHeaderHeight = luckysheetConfigsetting.columeHeaderHeight *Store.zoomRatio;
+    $("#luckysheet-rows-h").width((Store.rowHeaderWidth-1.5));
+    $("#luckysheet-cols-h-c").height((Store.columeHeaderHeight-1.5));
+    $("#luckysheet-left-top").css({width:Store.rowHeaderWidth-1.5, height:Store.columeHeaderHeight-1.5});
 }

@@ -29,6 +29,7 @@ import { luckysheetlodingHTML } from './controllers/constant';
 import { getcellvalue, getdatabyselection } from './global/getdata';
 import { setcellvalue } from './global/setdata';
 import { selectHightlightShow } from './controllers/select';
+import {zoomInitial} from './controllers/zoom';
 import method from './global/method';
 
 let luckysheet = {};
@@ -138,6 +139,7 @@ function initialWorkBook(){
     rowColumnOperationInitial();//row and coloumn operate initialization
     keyboardInitial();//Keyboard operate initialization
     orderByInitial();//menu bar orderby function initialization
+    zoomInitial();//zoom method initialization
 }
 
 //获取所有表格数据
