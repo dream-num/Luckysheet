@@ -86,6 +86,7 @@ export function zoomInitial(){
 
     $("#luckysheet-zoom-cursor").mousedown(function(e){
         let curentX = e.pageX,cursorLeft = parseFloat($("#luckysheet-zoom-cursor").css("left"));
+        $("#luckysheet-zoom-cursor").css("transition","none");
         $(document).off("mousemove.zoomCursor").on("mousemove.zoomCursor",function(event){
             let moveX = event.pageX;
             let offsetX = moveX - curentX;
@@ -114,6 +115,7 @@ export function zoomInitial(){
 
         $(document).off("mouseup.zoomCursor").on("mouseup.zoomCursor",function(event){
             $(document).off(".zoomCursor");
+            $("#luckysheet-zoom-cursor").css("transition","all 0.3s");
         });
 
         e.stopPropagation();
