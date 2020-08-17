@@ -484,6 +484,7 @@ export default {
         filterDateFormatTip:"Date format",
 
         valueBlank:"(Null)",
+        mergeError:"There are merged cells in the filter selection, this operation cannot be performed!",
     },
     rightclick: {
         copy: 'Copy',

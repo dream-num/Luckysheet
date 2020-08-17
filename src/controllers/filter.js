@@ -100,11 +100,13 @@ function orderbydatafiler(str, stc, edr, edc, index, asc) {
     }
 
     if(hasMc){
+        const locale_filter = locale().filter;
+
         if(isEditMode()){
-            alert("筛选选区有合并单元格，无法执行此操作！");
+            alert(locale_filter.mergeError);
         }
         else{
-            tooltip.info("筛选选区有合并单元格，无法执行此操作！", "");
+            tooltip.info(locale_filter.mergeError, "");
         }
 
         return;
@@ -134,13 +136,15 @@ function createFilter() {
     if(Store.luckysheet_select_save.length > 1){
         $("#luckysheet-rightclick-menu").hide();
         $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
-        $("#" + container).attr("tabindex", 0).focus();
+        $("#" + Store.container).attr("tabindex", 0).focus();
+
+        const locale_splitText = locale().splitText;
 
         if(isEditMode()){
-            alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            alert(locale_splitText.tipNoMulti);
         }
         else{
-            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            tooltip.info(locale_splitText.tipNoMulti, "");
         }
 
         return;
@@ -276,8 +280,6 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
 
     file.filter_select = luckysheet_filter_save;
 }
-
-
 
 function initialFilterHandler(){
     //filter event handler

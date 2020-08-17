@@ -590,10 +590,16 @@ const sheetmanage = {
         Store.luckysheet_select_save = file["luckysheet_select_save"];
         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
             if(data[0] != null && data[0][0] != null && data[0][0].mc != null){
-                Store.luckysheet_select_save = [{ "row": [0, data[0][0].mc.rs - 1], "column": [0, data[0][0].mc.cs - 1] }];
+                Store.luckysheet_select_save = [{ 
+                    "row": [0, data[0][0].mc.rs - 1], 
+                    "column": [0, data[0][0].mc.cs - 1] 
+                }];
             }
             else{
-                Store.luckysheet_select_save = [{ "row": [0, 0], "column": [0, 0] }];
+                Store.luckysheet_select_save = [{ 
+                    "row": [0, 0], 
+                    "column": [0, 0] 
+                }];
             }
         }
 
@@ -687,6 +693,21 @@ const sheetmanage = {
                         Store.luckysheetcurrentisPivotTable = false;
                         $("#luckysheet-modal-dialog-slider-pivot").hide();
                         luckysheetsizeauto();
+
+                        //等待滚动条dom宽高加载完成后 初始化滚动位置
+                        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
+                            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"] * Store.zoomRatio);
+                        }
+                        else{
+                            $("#luckysheet-scrollbar-x").scrollLeft(0);
+                        }
+                
+                        if(file["scrollTop"] != null && file["scrollTop"] > 0){
+                            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"] * Store.zoomRatio);
+                        }
+                        else{
+                            $("#luckysheet-scrollbar-y").scrollTop(0);
+                        }
                     }
 
                     if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
@@ -758,8 +779,13 @@ const sheetmanage = {
         file["luckysheet_select_save"] = $.extend(true, [], Store.luckysheet_select_save);
         file["luckysheet_selection_range"] = $.extend(true, [], Store.luckysheet_selection_range);
 
-        file["scrollLeft"] = $("#luckysheet-scrollbar-x").scrollLeft();//列标题
-        file["scrollTop"] = $("#luckysheet-scrollbar-y").scrollTop();//行标题
+        if($("#luckysheet-scrollbar-x")[0].scrollWidth > $("#luckysheet-scrollbar-x")[0].offsetWidth){
+            file["scrollLeft"] = $("#luckysheet-scrollbar-x").scrollLeft(); //横向滚动条
+        }
+
+        if($("#luckysheet-scrollbar-y")[0].scrollHeight > $("#luckysheet-scrollbar-y")[0].offsetHeight){
+            file["scrollTop"] = $("#luckysheet-scrollbar-y").scrollTop(); //纵向滚动条
+        }
 
         file["zoomRatio"] = Store.zoomRatio;
     },
@@ -777,7 +803,22 @@ const sheetmanage = {
 
         Store.config = file["config"];
 
-        Store.luckysheet_select_save = file["luckysheet_select_save"] == null ? [] : file["luckysheet_select_save"];
+        Store.luckysheet_select_save = file["luckysheet_select_save"];
+        if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
+            if(Store.flowdata[0] != null && Store.flowdata[0][0] != null && Store.flowdata[0][0].mc != null){
+                Store.luckysheet_select_save = [{ 
+                    "row": [0, Store.flowdata[0][0].mc.rs - 1], 
+                    "column": [0, Store.flowdata[0][0].mc.cs - 1] 
+                }];
+            }
+            else{
+                Store.luckysheet_select_save = [{ 
+                    "row": [0, 0], 
+                    "column": [0, 0] 
+                }];
+            }
+        }
+
         Store.luckysheet_selection_range = file["luckysheet_selection_range"] == null ? [] : file["luckysheet_selection_range"];
 
         if(file["freezen"] == null){
@@ -789,7 +830,7 @@ const sheetmanage = {
             luckysheetFreezen.freezenverticaldata = file["freezen"].vertical == null ? null : file["freezen"].vertical.freezenverticaldata;
         }
 
-        if(file["zoomRatio"]!=null){
+        if(file["zoomRatio"] != null){
             Store.zoomRatio = file["zoomRatio"];
         }
         else{
@@ -799,15 +840,15 @@ const sheetmanage = {
         createFilterOptions(file["filter_select"], file["filter"]);
 
         Store.scrollRefreshSwitch = false;
-        if(file["scrollLeft"]!=null && file["scrollLeft"]>0){
-            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]*Store.zoomRatio);
+        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
+            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"] * Store.zoomRatio);
         }
         else{
             $("#luckysheet-scrollbar-x").scrollLeft(0);
         }
 
-        if(file["scrollTop"]!=null && file["scrollTop"]>0){
-            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]*Store.zoomRatio);
+        if(file["scrollTop"] != null && file["scrollTop"] > 0){
+            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"] * Store.zoomRatio);
         }
         else{
             $("#luckysheet-scrollbar-y").scrollTop(0);
@@ -816,8 +857,7 @@ const sheetmanage = {
             Store.scrollRefreshSwitch = true;
         }, 0);
         
-
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length, false);
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -879,13 +919,10 @@ const sheetmanage = {
                 pivotTable.changePivotTable(index);
             }
         }
-        else if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")) {
+        else{
             Store.luckysheetcurrentisPivotTable = false;
             $("#luckysheet-modal-dialog-slider-pivot").hide();
             luckysheetsizeauto(false);
-        }
-        else if(Store.luckysheetcurrentisPivotTable) {
-            Store.luckysheetcurrentisPivotTable = false;
         }
 
         let load = file["load"];

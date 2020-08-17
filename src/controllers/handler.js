@@ -185,7 +185,6 @@ export default function luckysheetHandler() {
         // setTimeout(function(){
             luckysheetscrollevent();
         // },10); 
-
     })
     .mousewheel(function (event, delta) {
         event.preventDefault();
