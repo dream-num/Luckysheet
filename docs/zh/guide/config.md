@@ -88,7 +88,7 @@ luckysheet.create(options)
 ### loadUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadUrl`的地址，Luckysheet会通过ajax请求整个表格数据，默认载入status为1的sheet数据中的所有`celldata`，其余的sheet载入除`celldata`字段外的所有字段
+- 作用：配置`loadUrl`的地址，Luckysheet会通过ajax请求整个表格数据，默认载入status为1的sheet数据中的所有`celldata`，其余的sheet载入除`celldata`字段外的所有字段。但是考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则把引用到的sheet的数据一并补全。
 
 ------------
 ### loadSheetUrl

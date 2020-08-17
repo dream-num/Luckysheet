@@ -501,6 +501,7 @@ export default {
         filterDateFormatTip:"日期格式",
 
         valueBlank:"(空白)",
+        mergeError:"筛选选区有合并单元格，无法执行此操作！",
     },
     rightclick: {
         copy: '复制',

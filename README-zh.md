@@ -1,4 +1,9 @@
-# Luckysheet
+<div align="center">
+
+![logo](/docs/.vuepress/public/img/logo_text.png)
+
+</div>
+
 简体中文 | [English](./README.md)
 
 ## 介绍
@@ -9,7 +14,7 @@
 
 [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
 
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
 ## 特性
 

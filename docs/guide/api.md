@@ -76,7 +76,7 @@ The new API is being sorted out, please use it with caution!
 	- {Object | String | Number} [v]：The value to be set; it can be an object, and the object is to conform to the cell object format.
 - **Usage**：
 
-	Set the value of a cell. Can be used with `luckysheet.luckysheetrefreshgrid()` to refresh and view cell value changes.
+	Set the value of a cell. Can be used with `luckysheet.jfrefreshgrid()` to refresh and view cell value changes.
 	```js
 	luckysheet.setcellvalue(0, 0, luckysheet.flowdata(), 'abc');
 	luckysheet.jfrefreshgrid();
