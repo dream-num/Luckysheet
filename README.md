@@ -1,5 +1,11 @@
-# Luckysheet
+<div align="center">
+
+![logo](/docs/.vuepress/public/img/logo_text.png)
+
 [![Join the chat at https://gitter.im/mengshukeji/Luckysheet](https://badges.gitter.im/mengshukeji/Luckysheet.svg)](https://gitter.im/mengshukeji/Luckysheet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+</div>
+
 
 English| [简体中文](./README-zh.md)
 
@@ -11,7 +17,7 @@ English| [简体中文](./README-zh.md)
 
 [Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
 
-![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
 ## Features
 
