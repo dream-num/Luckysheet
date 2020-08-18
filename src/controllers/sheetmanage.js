@@ -6,6 +6,7 @@ import luckysheetcreatedom from '../global/createdom';
 import tooltip from '../global/tooltip';
 import formula from '../global/formula';
 import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from '../global/refresh';
+import rhchInit from '../global/rhchInit';
 import editor from '../global/editor';
 import { luckysheetextendtable, luckysheetdeletetable } from '../global/extend';
 import { isRealNum } from '../global/validate';
@@ -840,26 +841,8 @@ const sheetmanage = {
         }
 
         createFilterOptions(file["filter_select"], file["filter"]);
-
-        Store.scrollRefreshSwitch = false;
-        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
-            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
-        }
-        else{
-            $("#luckysheet-scrollbar-x").scrollLeft(0);
-        }
-
-        if(file["scrollTop"] != null && file["scrollTop"] > 0){
-            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
-        }
-        else{
-            $("#luckysheet-scrollbar-y").scrollTop(0);
-        }
-        setTimeout(() => {
-            Store.scrollRefreshSwitch = true;
-        }, 0);
         
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length, false);
+        rhchInit(Store.flowdata.length, Store.flowdata[0].length);
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -1073,7 +1056,33 @@ const sheetmanage = {
         $("#luckysheet-cols-h-cells_0").css("width", Store.ch_width); //width更新
 
         $("#luckysheet-scrollbar-x div").width(Store.ch_width);
-        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight-Store.cellMainSrollBarSize-3 );
+        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
+
+        //等待滚动条dom宽高计算完成后 初始化该表格滚动位置
+        let index = this.getSheetIndex(Store.currentSheetIndex);
+        let file = Store.luckysheetfile[index];
+
+
+        Store.scrollRefreshSwitch = false;
+        
+        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
+            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"] * Store.zoomRatio);
+        }
+        else{
+            $("#luckysheet-scrollbar-x").scrollLeft(0);
+        }
+
+        if(file["scrollTop"] != null && file["scrollTop"] > 0){
+            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"] * Store.zoomRatio);
+        }
+        else{
+            $("#luckysheet-scrollbar-y").scrollTop(0);
+        }
+
+        setTimeout(() => {
+            Store.scrollRefreshSwitch = true;
+        }, 0);
+
         zoomNumberDomBind(Store.zoomRatio);
     },
     setCurSheet: function(index) {

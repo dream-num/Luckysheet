@@ -63,7 +63,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
 
-    changeSheetContainerSize(gridW,gridH)
+    changeSheetContainerSize(gridW, gridH)
     
     if(isRefreshCanvas){
         luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
@@ -152,11 +152,11 @@ export function changeSheetContainerSize(gridW, gridH){
     $("#luckysheet-cell-main").height(Store.cellmainHeight);
     $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columeHeaderHeight-Store.cellMainSrollBarSize-3);
+    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
     $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
     $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left",Store.rowHeaderWidth-1);
+    $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left", Store.rowHeaderWidth - 1);
 
     Store.luckysheetTableContentHW = [
         Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
