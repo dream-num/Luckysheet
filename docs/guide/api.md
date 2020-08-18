@@ -9,7 +9,7 @@ The new API is being sorted out, please use it with caution!
 	- {Object} [options]:All configuration information of the table
 - **Usage**：
 	
-	Initialize a luckysheet, which can contain multiple worksheets, refer to [Configuration List](https://mengshukeji.github.io/LuckysheetDocs/guide/config.html)
+	Initialize a luckysheet, which can contain multiple worksheets, refer to [Configuration List](/zh/guide/config.html)
 
 ------------
 ## luckysheet.getcellvalue([r] [,c] [,data] [,type])
@@ -33,7 +33,7 @@ The new API is being sorted out, please use it with caution!
 ## luckysheet.getluckysheetfile()
 - **Usage**：
 
-	Returns a one-dimensional array of all table data structures[luckysheetfile](https://mengshukeji.github.io/LuckysheetDocs/guide/data.html), `luckysheet.getluckysheetfile()[0]` can get all the information of the first worksheet.
+	Returns a one-dimensional array of all table data structures[luckysheetfile](/zh/guide/data.html), `luckysheet.getluckysheetfile()[0]` can get all the information of the first worksheet.
 
 ------------
 ## luckysheet.getconfig()
@@ -131,7 +131,7 @@ The new API is being sorted out, please use it with caution!
 ------------
 ## luckysheet.buildGridData(file)
 - **Parameter**：
-	- {Object} [file]：[luckysheetfile](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#%E8%8E%B7%E5%8F%96%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE)
+	- {Object} [file]：[luckysheetfile](/zh/guide/sheet.html)
 - **Usage**：
 	
 	Generate a two-dimensional array that the table can recognize

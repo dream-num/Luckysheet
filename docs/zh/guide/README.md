@@ -6,7 +6,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 ## Demo
 [在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-![演示](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+![演示](/img/LuckysheetDemo.gif)
 
 ## 特性
 
@@ -153,7 +153,7 @@ npm run build
 luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 相当于excel的3个sheet
 
-![excel sheet](https://minio.cnbabylon.com/public/luckysheet/excel.png)
+![excel sheet](/img/excel.png)
 
 文件中的一个sheet的数据`luckysheetfile[0]`的结构如下：
 ```json

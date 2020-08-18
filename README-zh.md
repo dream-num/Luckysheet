@@ -157,13 +157,13 @@ npm run build
 
 - 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
 
-  <img src="https://minio.cnbabylon.com/public/luckysheet/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
+  <img src="/docs/.vuepress/public/img/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
 或者
 
 - 加入Luckysheet开发者交流QQ群
   
-  <img src="https://minio.cnbabylon.com/public/luckysheet/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
+  <img src="/docs/.vuepress/public/img/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
 [英文社群](./README.md)
 

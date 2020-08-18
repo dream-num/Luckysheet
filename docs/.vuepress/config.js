@@ -84,7 +84,7 @@ module.exports = {
 					'/zh/guide/': [
 						'',
 						'config',
-						'data',
+						'sheet',
 						'cell',
 						'operate',
 						'api',

@@ -6,7 +6,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 ## Demo
 [Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
-![Demo](https://minio.cnbabylon.com/public/luckysheet/LuckysheetDemo.gif)
+![Demo](/img/LuckysheetDemo.gif)
 
 ## Features
 
@@ -153,7 +153,7 @@ An example of a Luckysheet file is as follows, the table contains 3 sheets:`
 luckysheetfile = [{sheet1 settings}, {sheet2 settings}, {sheet3 settings}]`
 Equivalent to 3 sheets of excel
 
-![excel sheet](https://minio.cnbabylon.com/public/luckysheet/excel.png)
+![excel sheet](/docs/.vuepress/public/img/excel.png)
 
 An example of a sheet in the file is as follows:
 ```javascript

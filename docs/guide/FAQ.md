@@ -2,7 +2,7 @@
 
 ## What is the difference between data and celldata in luckysheetfile?
 
-**<span style="font-size:20px;">A</span>**: Use one-dimensional array format [celldata](https://mengshukeji.github.io/LuckysheetDocs/guide/data.html), after the initialization is completed, the data converted into a two-dimensional array format is used for storage and update, and celldata is no longer used.
+**<span style="font-size:20px;">A</span>**: Use one-dimensional array format [celldata](/zh/guide/sheet.html#celldata), after the initialization is completed, the data converted into a two-dimensional array format is used for storage and update, and celldata is no longer used.
 
 If you need to take out data as initial data, you need to execute `luckysheet.getGridData(data)` to convert it to celldata data.
 Among them, the celldata in `{ r, c, v }` format is converted to a two-dimensional array using `luckysheet.buildGridData(luckysheetfile)`, and the input parameter is the table data object `luckysheetfile`
@@ -20,7 +20,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## What are the cell types?
 
-**<span style="font-size:20px;">A</span>**: Refer to [Cell Format List](https://mengshukeji.github.io/LuckysheetDocs/guide/format.html), with examples of available cell formats
+**<span style="font-size:20px;">A</span>**: Refer to [Cell Format List](/zh/guide/cell.html), with examples of available cell formats
 
 ------------
 
@@ -32,6 +32,6 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## Why will the formula in the table not be triggered after initialization?
 
-**<span style="font-size:20px;">A</span>** : Refer to [Table data format](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#calcchain) ,just set the calcChain corresponding to the cell data.
+**<span style="font-size:20px;">A</span>** : Refer to [Table data format](/zh/guide/sheet.html#calcchain) ,just set the calcChain corresponding to the cell data.
 
 ------------

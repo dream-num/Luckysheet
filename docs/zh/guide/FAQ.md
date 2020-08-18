@@ -2,7 +2,7 @@
 
 ## luckysheetfile中的data和celldata有什么区别？
 
-**<span style="font-size:20px;">A</span>** : 表格初始化时使用一维数组格式的 [celldata](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#celldata)，初始化完成后转化为二维数组格式的data作为存储更新使用，celldata不再使用。
+**<span style="font-size:20px;">A</span>** : 表格初始化时使用一维数组格式的 [celldata](/zh/guide/sheet.html#celldata)，初始化完成后转化为二维数组格式的data作为存储更新使用，celldata不再使用。
 
 如果需要将data拿出来作为初始化数据，则需要执行 `luckysheet.getGridData(data)`转换为celldata数据。
 其中`{ r, c, v }`格式的celldata转换为二维数组使用的是`luckysheet.buildGridData(luckysheetfile)`，传入参数为表格数据对象`luckysheetfile`
@@ -20,7 +20,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## 单元格的类型有哪些？
 
-**<span style="font-size:20px;">A</span>** : 参考[单元格格式列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/format.html#%E5%8D%95%E5%85%83%E6%A0%BC%E6%A0%BC%E5%BC%8F),例举了可用的单元格格式
+**<span style="font-size:20px;">A</span>** : 参考[单元格格式列表](/zh/guide/cell.html),例举了可用的单元格格式
 
 ------------
 
@@ -32,6 +32,6 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## 为什么初始化后表格里面的公式不会被触发？
 
-**<span style="font-size:20px;">A</span>** : 参考 [表格数据格式](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/data.html#calcchain) ,设置单元格数据对应的calcChain即可。
+**<span style="font-size:20px;">A</span>** : 参考 [表格数据格式](/zh/guide/sheet.html#calcchain) ,设置单元格数据对应的calcChain即可。
 
 ------------
