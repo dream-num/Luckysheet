@@ -22,6 +22,8 @@ import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
 import { renderChartShow } from '../expendPlugins/chart/plugin';
+import {changeSheetContainerSize} from './resize';
+import {zoomNumberDomBind} from './zoom';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -1064,6 +1066,7 @@ const sheetmanage = {
     	return ret;
     },
     showSheet: function() {
+        changeSheetContainerSize();
         $("#luckysheet-cell-flow_0").css({ "width": Store.ch_width, "top": "-1px" }); //width更新
         $("#luckysheet-sheettable_0").css({ "width": Store.ch_width - 1, "height": Store.rh_height });
         $("#luckysheetrowHeader_0").css("height", Store.rh_height);
@@ -1071,6 +1074,7 @@ const sheetmanage = {
 
         $("#luckysheet-scrollbar-x div").width(Store.ch_width);
         $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight-Store.cellMainSrollBarSize-3 );
+        zoomNumberDomBind(Store.zoomRatio);
     },
     setCurSheet: function(index) {
         for (let i = 0; i < Store.luckysheetfile.length; i++) {

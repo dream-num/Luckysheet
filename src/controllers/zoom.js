@@ -143,7 +143,7 @@ function zoomSlierDomBind(ratio){
     $("#luckysheet-zoom-cursor").css("left", domPos-4);
 }
 
-function zoomNumberDomBind(ratio){
+export function zoomNumberDomBind(ratio){
     let r = Math.round(ratio*100) + "%";
     $("#luckysheet-zoom-ratioText").html(r);
     zoomSlierDomBind(ratio);
