@@ -5,6 +5,9 @@ import {changeSheetContainerSize} from './resize';
 import { jfrefreshgrid_rhcw } from '../global/refresh';
 
 
+
+let luckysheetZoomTimeout = null;
+
 export function zoomChange(ratio){
     if(Store.flowdata==null || Store.flowdata.length==0){
         return;
@@ -12,9 +15,13 @@ export function zoomChange(ratio){
 
     Store.zoomRatio = ratio;
 
-    jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-
-    changeSheetContainerSize();
+    clearTimeout(luckysheetZoomTimeout);
+    luckysheetZoomTimeout = setTimeout(() => {
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        changeSheetContainerSize();
+    }, 100);
+    
+    
 }
 
 
@@ -30,6 +37,10 @@ export function zoomInitial(){
         }
 
         currentRatio = currentRatio-0.1;
+
+        if(currentRatio==Store.zoomRatio){
+            currentRatio = currentRatio-0.1;
+        }
 
         if(currentRatio<=0.1){
             currentRatio = 0.1;
@@ -51,6 +62,10 @@ export function zoomInitial(){
 
         currentRatio = currentRatio+0.1;
 
+        if(currentRatio==Store.zoomRatio){
+            currentRatio = currentRatio+0.1;
+        }
+
         if(currentRatio>=4){
             currentRatio = 4;
         }
@@ -71,6 +86,7 @@ export function zoomInitial(){
 
     $("#luckysheet-zoom-cursor").mousedown(function(e){
         let curentX = e.pageX,cursorLeft = parseFloat($("#luckysheet-zoom-cursor").css("left"));
+        $("#luckysheet-zoom-cursor").css("transition","none");
         $(document).off("mousemove.zoomCursor").on("mousemove.zoomCursor",function(event){
             let moveX = event.pageX;
             let offsetX = moveX - curentX;
@@ -99,6 +115,7 @@ export function zoomInitial(){
 
         $(document).off("mouseup.zoomCursor").on("mouseup.zoomCursor",function(event){
             $(document).off(".zoomCursor");
+            $("#luckysheet-zoom-cursor").css("transition","all 0.3s");
         });
 
         e.stopPropagation();

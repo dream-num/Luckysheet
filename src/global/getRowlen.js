@@ -181,7 +181,7 @@ function getMeasureText(value, ctx){
         cache.width *= Store.zoomRatio;
         cache.actualBoundingBoxDescent *= Store.zoomRatio;
         cache.actualBoundingBoxAscent *= Store.zoomRatio;
-        Store.measureTextCache[value + "_" + ctx.font] = cache;
+        Store.measureTextCache[value + "_" + Store.zoomRatio +  "_" + ctx.font] = cache;
 
         return cache;
     }
