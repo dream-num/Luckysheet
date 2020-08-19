@@ -3,6 +3,7 @@ import server from './server';
 import pivotTable from './pivotTable';
 import conditionformat from './conditionformat';
 import luckysheetPostil from './postil';
+import {zoomRefreshView,zoomNumberDomBind} from './zoom';
 import { createFilter, createFilterOptions, labelFilterOptionState } from './filter';
 import formula from '../global/formula';
 import json from '../global/json';
@@ -322,6 +323,12 @@ const controlHistory = {
                 }
             }
         }
+        else if (ctr.type=="zoomChange"){
+            Store.zoomRatio = ctr.zoomRatio;
+            server.saveParam("all", ctr.currentSheetIndex, ctr.zoomRatio, { "k": "zoomRatio" });
+            zoomNumberDomBind();
+            zoomRefreshView();
+        }
         
         cleargridelement(e);
         Store.clearjfundo = true;
@@ -541,6 +548,12 @@ const controlHistory = {
                     luckysheetPostil.buildPs(r, c, null);
                 }
             }
+        }
+        else if (ctr.type=="zoomChange"){
+            Store.zoomRatio = ctr.curZoomRatio;
+            server.saveParam("all", ctr.currentSheetIndex, ctr.curZoomRatio, { "k": "zoomRatio" });
+            zoomNumberDomBind();
+            zoomRefreshView();
         }
         
         Store.clearjfundo = true;
