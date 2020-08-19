@@ -3,6 +3,9 @@
 ![logo](/docs/.vuepress/public/img/logo_text.png)
 
 [![Join the chat at https://gitter.im/mengshukeji/Luckysheet](https://badges.gitter.im/mengshukeji/Luckysheet.svg)](https://gitter.im/mengshukeji/Luckysheet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<a href="https://twitter.com/intent/follow?screen_name=luckysheet">
+        <img src="https://img.shields.io/twitter/follow/luckysheet?style=social&logo=twitter"
+            alt="follow on Twitter"></a>
 
 </div>
 
