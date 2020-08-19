@@ -154,6 +154,9 @@ Create a table
     })
 </script>
 ```
+## Join the co-construction
+
+If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's RFC (https://github.com/mengshukeji/Luckysheet-rfcs) to operate, and submit the code after community discussion and improvement.
 
 ## Contact
 - Welcome to submit PR or [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
