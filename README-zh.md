@@ -150,7 +150,7 @@ npm run build
 ```
 ## 加入共建
 
-如果你想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 RFC(https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
+如果你想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
 
 ## 联系
 - 欢迎提交 PR 或者 [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
