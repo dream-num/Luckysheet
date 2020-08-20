@@ -3600,7 +3600,7 @@ const luckysheetformula = {
         "+": 2,
         "-": 2
     },
-    functionParser: function(txt) {
+    functionParser: function(txt, cellRangeFunction) {
         let _this = this;
 
         if (_this.operatorjson == null) {
@@ -3672,7 +3672,7 @@ const luckysheetformula = {
                 let bt = bracket.pop();
 
                 if(bracket.length == 0){
-                    function_str += _this.functionParser(str) + ")";
+                    function_str += _this.functionParser(str,cellRangeFunction) + ")";
                     str = "";
                 }
                 else{
@@ -3699,7 +3699,7 @@ const luckysheetformula = {
             } 
             else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if(bracket.length <= 1){
-                    function_str += _this.functionParser(str) + ",";
+                    function_str += _this.functionParser(str,cellRangeFunction) + ",";
                     str = "";
                 }
                 else{
@@ -3717,7 +3717,7 @@ const luckysheetformula = {
                 if ((s + s_next) in _this.operatorjson) {
                     if(bracket.length == 0){
                         if($.trim(str).length > 0){
-                            cal2.unshift(_this.functionParser($.trim(str)));
+                            cal2.unshift(_this.functionParser($.trim(str),cellRangeFunction));
                         }
                         else if($.trim(function_str).length > 0){
                             cal2.unshift($.trim(function_str));
@@ -3746,7 +3746,7 @@ const luckysheetformula = {
                 else {
                     if(bracket.length == 0){
                         if($.trim(str).length > 0){
-                            cal2.unshift(_this.functionParser($.trim(str)));
+                            cal2.unshift(_this.functionParser($.trim(str),cellRangeFunction));
                         }
                         else if($.trim(function_str).length > 0){
                             cal2.unshift($.trim(function_str));
@@ -3790,7 +3790,11 @@ const luckysheetformula = {
                 let endstr = "";
 
                 if (_this.iscelldata($.trim(str))) {
-                    endstr = "luckysheet_getcelldata('" + $.trim(str) + "')";
+                    let str_nb = $.trim(str);
+                    endstr = "luckysheet_getcelldata('" +str_nb + "')";
+                    if(typeof(cellRangeFunction)=="function"){
+                        cellRangeFunction(str_nb);
+                    }
                 } 
                 else {
                     str = $.trim(str);
