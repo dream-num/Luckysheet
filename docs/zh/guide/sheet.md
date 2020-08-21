@@ -37,7 +37,7 @@ options.data示例如下：
         "luckysheet_alternateformat_save": [], //交替颜色
         "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
         "luckysheet_conditionformat_save": {},//条件格式
-        "freezen": {}, //冻结行列
+        "frozen": {}, //冻结行列
         "chart": [], //图表配置
     },
     {
@@ -711,7 +711,7 @@ type: "default": 突出显示单元格规则和项目选区规则，
     ```
 
 ------------
-### frozen(TODO)
+### frozen
 - 类型：Array
 - 默认值：[]
 - 作用： 冻结行列设置，分为6种类型
@@ -721,7 +721,14 @@ type: "default": 突出显示单元格规则和项目选区规则，
     4. "rangeRow": 冻结行到选区
     5. "rangeColumn": 冻结列到选区
     6. "rangeBoth": 冻结行列到选区
-    当设置冻结到选区的时候，需要设置选区范围`range`，支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；如果已经设置了`luckysheet_select_save`，则直接取当前第一个选区，不用再设置选区。
+    7. "cancel": 取消冻结
+
+    当设置冻结到选区的时候，需要设置开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数。
+
+    sheet新的配置属性，存储更语义化的配置，用于初始化和传给后端。
+    
+    注意一点，luckysheetfile中还有一个配置freezen，其中的freezenhorizontaldata仍然用作本地数据，但是不发给后台存储，只做本地调试。
+
 - 示例：
     - 冻结首行
     ```json
@@ -729,18 +736,18 @@ type: "default": 突出显示单元格规则和项目选区规则，
         type: 'row'
     }
     ```
-    - 冻结行到`'B2'`选区
+    - 冻结行到`'A1'`选区
      ```json
     {
         type: 'rangeRow',
-        range: {row:[1,1],column:[1,1]}
+        range: {row_focus: 0, column_focus: 0}
     }
     ```
-    - 冻结行列到`'B3:D4'`选区
+    - 冻结行列到`'B2'`选区
      ```json
     {
         type: 'rangeBoth',
-        range: "B3:D4"
+        range: {row_focus: 1, column_focus: 1}
     }
     ```
 

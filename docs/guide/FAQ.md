@@ -39,3 +39,11 @@ luckysheet.buildGridData(luckysheetfile)
 ## **<span style="font-size:20px;">Q</span>** Is the remote loading data loadUrl or updateUrl?
 
 **<span style="font-size:20px;">A</span>**: [loadUrl](/zh/guide/config.html#loadurl). Configure loadUrl, Luckysheet will request the entire table data through ajax, and updateUrl will be used as the interface address for collaborative editing in real-time saving.
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** How to understand the `index` and `order` of each worksheet?
+
+**<span style="font-size:20px;">A</span>**: Each worksheet has a unique id, which is `index`, which can be incremented by numbers or a random string. And `order` is the order of all worksheets, starting from 0.
+
+------------

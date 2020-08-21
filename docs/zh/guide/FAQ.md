@@ -41,3 +41,9 @@ luckysheet.buildGridData(luckysheetfile)
 **<span style="font-size:20px;">A</span>** : [loadUrl](/zh/guide/config.html#loadurl)。配置了loadUrl，Luckysheet会通过ajax请求整个表格数据，而updateUrl会作为协同编辑实时保存的接口地址。
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** 如何理解每个sheet页的`index`和`order`？
+
+**<span style="font-size:20px;">A</span>** : 每个sheet页都有一个唯一id，就是`index`，可以用数字递增，也可以使用随机字符串，而`order`是所有的sheet的排序情况，从0开始，即为索引。
+
+------------

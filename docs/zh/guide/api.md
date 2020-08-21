@@ -159,7 +159,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"false"`: 冻结首行
 		+ `"true"`: 冻结行到选区
 	- {PlainObject} [setting]: 可选参数
-    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数；默认从当前选区最后的一个选区中取得
     	+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
 
@@ -167,7 +167,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	
 	冻结行操作
 
-	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`。
+	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
 
 - **示例**:
 
@@ -191,7 +191,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"false"`: 冻结首列
 		+ `"true"`: 冻结列到选区
 	- {PlainObject} [setting]: 可选参数
-    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数；默认从当前选区最后的一个选区中取得
     	+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
 
@@ -199,7 +199,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	
 	冻结列操作
 
-	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`。
+	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
 
 - **示例**:
 
@@ -219,7 +219,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"false"`: 冻结行列
 		+ `"true"`: 冻结行列到选区
 	- {PlainObject} [setting]: 可选参数
-    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+    	+ {Array | Object | String} [range]: `isRange`为`true`的时候设置，开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数；默认从当前选区最后的一个选区中取得
     	+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
 
@@ -227,7 +227,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	
 	冻结行列操作
 
-	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`。
+	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
 
 - **示例**:
 
@@ -257,7 +257,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-### insertRow( row [,setting])
+### insertRow(row [,setting])
 
 - **参数**：
 
