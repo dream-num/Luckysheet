@@ -124,7 +124,10 @@ const server = {
 
 	    let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), { to: "string" });
 
-	    _this.websocket.send(msg);
+		if(_this.websocket!=null){
+			_this.websocket.send(msg);
+		}
+	    
 	},
     websocket: null,
     wxErrorCount: 0,
