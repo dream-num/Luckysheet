@@ -223,28 +223,33 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
         // if(end_c > scrollWidth + drawWidth+1){
         //     break;
         // }
-
-        luckysheetTableContent.fillStyle = "#ffffff";
-        luckysheetTableContent.fillRect(
-            (start_c + offsetLeft - 1) , 
-            0, 
-            (end_c - start_c) ,
-            Store.columeHeaderHeight -1
-        )
-        luckysheetTableContent.fillStyle = "#000000";
-
-        //列标题栏序列号
-        luckysheetTableContent.save();//save scale before draw text
-        luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
-        let abc = chatatABC(c);
-        let textMetrics = getMeasureText(abc, luckysheetTableContent);
-        //luckysheetTableContent.measureText(abc);
-
-        let horizonAlignPos = Math.round((start_c + (end_c - start_c) / 2 + offsetLeft)  - textMetrics.width / 2);
-        let verticalAlignPos = Math.round(Store.columeHeaderHeight / 2 );
         
-        luckysheetTableContent.fillText(abc, horizonAlignPos/Store.zoomRatio, verticalAlignPos/Store.zoomRatio);
-        luckysheetTableContent.restore();//restore scale after draw text
+        if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
+
+        }
+        else {
+            luckysheetTableContent.fillStyle = "#ffffff";
+            luckysheetTableContent.fillRect(
+                (start_c + offsetLeft - 1) , 
+                0, 
+                (end_c - start_c) ,
+                Store.columeHeaderHeight -1
+            )
+            luckysheetTableContent.fillStyle = "#000000";
+
+            //列标题栏序列号
+            luckysheetTableContent.save();//save scale before draw text
+            luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
+            let abc = chatatABC(c);
+            let textMetrics = getMeasureText(abc, luckysheetTableContent);
+            //luckysheetTableContent.measureText(abc);
+
+            let horizonAlignPos = Math.round((start_c + (end_c - start_c) / 2 + offsetLeft)  - textMetrics.width / 2);
+            let verticalAlignPos = Math.round(Store.columeHeaderHeight / 2 );
+            
+            luckysheetTableContent.fillText(abc, horizonAlignPos/Store.zoomRatio, verticalAlignPos/Store.zoomRatio);
+            luckysheetTableContent.restore();//restore scale after draw text
+        }
 
         //列标题栏竖线 vertical
         luckysheetTableContent.beginPath();
@@ -465,6 +470,10 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         }
 
         let end_r = Store.visibledatarow[r] - scrollHeight;
+
+        if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
+            continue;
+        }
         
         for (let c = dataset_col_st; c <= dataset_col_ed; c++) {
             let start_c;
@@ -477,78 +486,77 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
 
             let end_c = Store.visibledatacolumn[c] - scrollWidth;
             
-            if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-
+            if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
+                continue
             }
-            else {
-                let firstcolumnlen = Store.defaultcollen;
-                if (Store.config["columnlen"] != null && Store.config["columnlen"][c] != null) {
-                    firstcolumnlen = Store.config["columnlen"][c];
-                }
+            
+            let firstcolumnlen = Store.defaultcollen;
+            if (Store.config["columnlen"] != null && Store.config["columnlen"][c] != null) {
+                firstcolumnlen = Store.config["columnlen"][c];
+            }
 
-                if (Store.flowdata[r] != null && Store.flowdata[r][c] != null) {
-                    let value = Store.flowdata[r][c];
+            if (Store.flowdata[r] != null && Store.flowdata[r][c] != null) {
+                let value = Store.flowdata[r][c];
 
-                    if(getObjType(value) == "object" && ("mc" in value)){
-                        borderOffset[r + "_" + c] = { 
-                            "start_r": start_r,
-                            "start_c": start_c, 
-                            "end_r": end_r, 
-                            "end_c": end_c 
-                        };
+                if(getObjType(value) == "object" && ("mc" in value)){
+                    borderOffset[r + "_" + c] = { 
+                        "start_r": start_r,
+                        "start_c": start_c, 
+                        "end_r": end_r, 
+                        "end_c": end_c 
+                    };
 
-                        if("rs" in value["mc"]){
-                            let key = "r"+ r + "c" + c;
+                    if("rs" in value["mc"]){
+                        let key = "r"+ r + "c" + c;
+                        mergeCache[key] = cellupdate.length;
+                    }
+                    else{
+                        let key = "r"+ value["mc"].r + "c" + value["mc"].c;
+                        let margeMain = cellupdate[mergeCache[key]];
+
+                        if(margeMain == null){
                             mergeCache[key] = cellupdate.length;
+                            cellupdate.push({
+                                "r": r, 
+                                "c": c, 
+                                "start_c": start_c, 
+                                "start_r": start_r, 
+                                "end_r": end_r, 
+                                "end_c": end_c, 
+                                "firstcolumnlen": firstcolumnlen, 
+                            });
                         }
                         else{
-                            let key = "r"+ value["mc"].r + "c" + value["mc"].c;
-                            let margeMain = cellupdate[mergeCache[key]];
-
-                            if(margeMain == null){
-                                mergeCache[key] = cellupdate.length;
-                                cellupdate.push({
-                                    "r": r, 
-                                    "c": c, 
-                                    "start_c": start_c, 
-                                    "start_r": start_r, 
-                                    "end_r": end_r, 
-                                    "end_c": end_c, 
-                                    "firstcolumnlen": firstcolumnlen, 
-                                });
+                            if(margeMain.c == c){
+                                margeMain.end_r += (end_r - start_r - 1);
                             }
-                            else{
-                                if(margeMain.c == c){
-                                    margeMain.end_r += (end_r - start_r - 1);
-                                }
-                                
-                                if(margeMain.r == r){
-                                    margeMain.end_c += (end_c - start_c);
-                                    margeMain.firstcolumnlen += firstcolumnlen;
-                                }
+                            
+                            if(margeMain.r == r){
+                                margeMain.end_c += (end_c - start_c);
+                                margeMain.firstcolumnlen += firstcolumnlen;
                             }
-
-                            continue;
                         }
+
+                        continue;
                     }
                 }
-
-                cellupdate.push({
-                    "r": r, 
-                    "c": c, 
-                    "start_r": start_r, 
-                    "start_c": start_c, 
-                    "end_r": end_r, 
-                    "end_c": end_c, 
-                    "firstcolumnlen": firstcolumnlen, 
-                });
-                borderOffset[r + "_" + c] = { 
-                    "start_r": start_r, 
-                    "start_c": start_c, 
-                    "end_r": end_r, 
-                    "end_c": end_c 
-                };
             }
+
+            cellupdate.push({
+                "r": r, 
+                "c": c, 
+                "start_r": start_r, 
+                "start_c": start_c, 
+                "end_r": end_r, 
+                "end_c": end_c, 
+                "firstcolumnlen": firstcolumnlen, 
+            });
+            borderOffset[r + "_" + c] = { 
+                "start_r": start_r, 
+                "start_c": start_c, 
+                "end_r": end_r, 
+                "end_c": end_c 
+            };
         }
     }
 

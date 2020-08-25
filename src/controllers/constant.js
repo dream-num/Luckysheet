@@ -395,6 +395,16 @@ function rightclickHTML(){
                         ${rightclick.showHide}${rightclick.row}
                     </div>
                 </div>
+                <div id="luckysheet-hidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.hideSelected}${rightclick.column}
+                    </div>
+                </div>
+                <div id="luckysheet-showHidCols" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.showHide}${rightclick.column}
+                    </div>
+                </div>
             </div>
             <div id="luckysheetCellsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div id="luckysheet-delCellsMoveLeft" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">

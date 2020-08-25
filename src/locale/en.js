@@ -496,7 +496,7 @@ export default {
         deleteSelected: 'Delete selected ',
         hide: 'Hide',
         hideSelected: 'Hide selected ',
-        showHide: 'Show hide',
+        showHide: 'Show hide ',
         to: 'Towards',
         left: 'Left',
         right: 'Right',

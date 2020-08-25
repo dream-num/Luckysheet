@@ -1295,9 +1295,7 @@ export function rowColumnOperationInitial(){
 
         for(let s = 0; s < Store.luckysheet_select_save.length; s++){
             let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1],
-                c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
+                r2 = Store.luckysheet_select_save[s].row[1];
 
             for(let r = r1; r <= r2; r++){
                 cfg["rowhidden"][r] = 0;
@@ -1336,9 +1334,7 @@ export function rowColumnOperationInitial(){
 
         for(let s = 0; s < Store.luckysheet_select_save.length; s++){
             let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1],
-                c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
+                r2 = Store.luckysheet_select_save[s].row[1];
 
             for(let r = r1; r <= r2; r++){
                 delete cfg["rowhidden"][r];
@@ -1362,6 +1358,86 @@ export function rowColumnOperationInitial(){
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
         server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
+
+    //隐藏、显示列
+    $("#luckysheet-hidCols").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["colhidden"] == null){
+            cfg["colhidden"] = {};
+        }
+
+        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+            let c1 = Store.luckysheet_select_save[s].column[0],
+                c2 = Store.luckysheet_select_save[s].column[1];
+
+            for(let c = c1; c <= c2; c++){
+                cfg["colhidden"][c] = 0;
+            }
+        }
+    
+        //保存撤销
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = "showHidCols";
+            redo["sheetIndex"] = Store.currentSheetIndex;
+            redo["config"] = $.extend(true, {}, Store.config);
+            redo["curconfig"] = cfg;
+    
+            Store.jfundo = [];
+            Store.jfredo.push(redo);
+        }
+    
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
+    $("#luckysheet-showHidCols").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["colhidden"] == null){
+            return;
+        }
+
+        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+            let c1 = Store.luckysheet_select_save[s].column[0],
+                c2 = Store.luckysheet_select_save[s].column[1];
+
+            for(let c = c1; c <= c2; c++){
+                delete cfg["colhidden"][c];
+            }
+        }
+    
+        //保存撤销
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = "showHidCols";
+            redo["sheetIndex"] = Store.currentSheetIndex;
+            redo["config"] = $.extend(true, {}, Store.config);
+            redo["curconfig"] = cfg;
+    
+            Store.jfundo = [];
+            Store.jfredo.push(redo);
+        }
+    
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
     
         //行高、列宽 刷新  
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);

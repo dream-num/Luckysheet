@@ -8,21 +8,19 @@ export default function rhchInit(rowheight, colwidth) {
         Store.visibledatarow = [];
         Store.rh_height = 0;
 
-        for (let i = 0; i < rowheight; i++) {
+        for (let r = 0; r < rowheight; r++) {
             let rowlen = Store.defaultrowlen;
 
-            if (Store.config["rowlen"] != null && Store.config["rowlen"][i] != null) {
-                rowlen = Store.config["rowlen"][i];
+            if (Store.config["rowlen"] != null && Store.config["rowlen"][r] != null) {
+                rowlen = Store.config["rowlen"][r];
             }
 
-            if (Store.config["rowhidden"] != null && Store.config["rowhidden"][i] != null) {
-                rowlen = Store.config["rowhidden"][i];
+            if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
                 Store.visibledatarow.push(Store.rh_height);
                 continue;
             }
-            else {
-                Store.rh_height += Math.round((rowlen + 1)*Store.zoomRatio);
-            }
+            
+            Store.rh_height += Math.round((rowlen + 1) * Store.zoomRatio);
 
             Store.visibledatarow.push(Store.rh_height); //行的临时长度分布
         }
@@ -37,14 +35,14 @@ export default function rhchInit(rowheight, colwidth) {
 
         let maxColumnlen = 120;
 
-        for (let i = 0; i < colwidth; i++) {
+        for (let c = 0; c < colwidth; c++) {
             let firstcolumnlen = Store.defaultcollen;
 
-            if (Store.config["columnlen"] != null && Store.config["columnlen"][i] != null) {
-                firstcolumnlen = Store.config["columnlen"][i];
+            if (Store.config["columnlen"] != null && Store.config["columnlen"][c] != null) {
+                firstcolumnlen = Store.config["columnlen"][c];
             }
             else {
-                if (Store.flowdata[0] != null && Store.flowdata[0][i] != null) {
+                if (Store.flowdata[0] != null && Store.flowdata[0][c] != null) {
                     if (firstcolumnlen > 300) {
                         firstcolumnlen = 300;
                     }
@@ -57,9 +55,14 @@ export default function rhchInit(rowheight, colwidth) {
                             Store.config["columnlen"] = {};
                         }
 
-                        Store.config["columnlen"][i] = firstcolumnlen;
+                        Store.config["columnlen"][c] = firstcolumnlen;
                     }
                 }
+            }
+
+            if(Store.config["colhidden"] != null && Store.config["colhidden"][c] != null){
+                Store.visibledatacolumn.push(Store.ch_width);
+                continue;
             }
 
             Store.ch_width += Math.round((firstcolumnlen + 1)*Store.zoomRatio);
