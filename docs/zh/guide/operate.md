@@ -8,30 +8,6 @@
 
 以下为所有的支持传输到后台的操作类型，并且以MongoDB做存储示例，讲解如何做前后端交互。
 
-## 格式
-- **配置**：
-
-    配置 `updateUrl` 的地址，发送到后台的参数为json的字符串。
-
-- **格式**：
-
-    ```json
-    {
-        compress: false, 
-        gridKey:10004,
-        data: [更新json数据]
-    }
-    ```
-
-- **说明**：
-
-    | 参数 | 说明 | 举例 |
-    | ------------ | ------------ | ------------ |
-    |  compress | Luckysheet采用客户端pako进行zlib参数压缩，如果浏览器支持压缩则为true，否则为false。后台可以根据此参数决定是否解压data中的内容  | 服务端获取参数过程：1. 序列化json字符串 2. 判断compress字段如果为TRUE则解压data字段 3. 解码data字符串URLDecoder.decode(utf-8) |
-    |  gridKey | Luckysheet文件的标识符 | 无 |
-    |  data | 一个包含更新数据的数组，数组中的参数格式请看下面的介绍。实例中：`t`表示更新类型、`i`为sheet的索引、`c`为列号、`r`为行号，`v`为值  | `data: [{ t : 'v', i:0, c : 0,  r : 0 , v: 2 }]` |
-
-
 ## 单元格刷新
 
 - **格式**：
@@ -39,10 +15,14 @@
     ```json
     {
         "t": "v",
-        "i": 3,
-        "v": "good",
-        "r": 5,
-        "c": 7
+        "i": "Sheet_0554kKiKl4M7_1597974810804",
+        "v": {
+            "v": 233,
+            "ct": { "fa": "General", "t": "n" },
+            "m": "233"
+        },
+        "r": 0,
+        "c": 1
     }
     ```
 
@@ -52,13 +32,13 @@
     | ------------ | ------------ |
     |t|操作类型表示符号|
     |i|当前sheet的索引值|
-    |v|单元格的值，参考 [单元格属性表](/zh/guide/cell.html#基本单元格)|
+    |v|单元格的值，数字、字符串或着对象格式，对象参考 [单元格属性表](/zh/guide/cell.html#基本单元格)|
     |r|单元格的行号|
     |c|单元格的列号|
 
 - **后台更新**：
 
-    前端维护luckysheetfile[i].data，而单元格更新到后台，继续维护`luckysheetfile[i].celldata` 参数，该参数是一个一维数组：
+    前端维护luckysheetfile[i].data，而单元格更新到后台，继续维护`luckysheetfile[i].celldata` 参数，celldata是一个一维数组：
     ```json
     [
         {r:0, c:1, v: "值1"},
@@ -66,25 +46,25 @@
         {r:10, c:11, v:{f:"=sum", v:"100"}}
     ]
     ```
-    后台在保存前台推送的数据时，首先需要把参数转换为 `{r:0, c:1:v:100}` 的格式，然后更新 `luckysheetfile[i].celldata` 字段，如果存在该单元格则更新，如果没有则添加，如果存在该单元格但是`v`为null则删除该单元格。
-
-- **前台查看**：
-
-    可以修改任意单元格的数值，然后到chrome控制台中查看`"t"=="v"`的操作。
+    后台在保存前台推送的数据时，会更新 `luckysheetfile[i].celldata` 字段，如果存在该单元格则更新，如果没有则添加，如果存在该单元格但是`v`为null则删除该单元格。
   
 ## config操作
 
 - **格式**：
 
   ```json
-  {
-    "t": "cg",
-    "i": 3,
-    "v": {
-        "7": 192
-    },
-    "k": "rowlen"
-  }
+    {
+        "t": "cg",
+        "i": "Sheet_0554kKiKl4M7_1597974810804",
+        "v": [ {
+                "rangeType": "range",
+                "borderType": "border-all",
+                "color": "#000",
+                "style": "1",
+                "range": [ {"row": [ 0, 1 ], "column": [ 1, 1 ] } ]
+            } ],
+        "k": "borderInfo"
+    }
   ```
 
 - **说明**：
@@ -93,40 +73,68 @@
     | ------------ | ------------ |
     |t|操作类型表示符号|
     |i|当前sheet的index值|
-    |v|需要更新的内部key-value|
-    |k|操作的key名称|
+    |v|需要更新value值|
+    |k|操作的key值，可选 边框：`'borderInfo'` / ：行隐藏：`'rowhidden'` / 列隐藏：`'columnhidden'` / 行高：`'rowlen'` / 列宽：`'columnlen'` |
 
 - **后台更新**：
 
-    更新 `luckysheetfile[i].config.[k][v.key] = v.value` ，如果`config`中不存在`k`，则新建一个`k`属性并设置为空，如果`k`中不存在`v.key`，则新建一个`v.key`再更新`v.value`。
+    更新 `luckysheetfile[i].config.[k] = v` ，如果`config`中不存在`k`，则新建一个`k`属性并设置为空。
 
-    1. 修改行高度举例：
-       - 输入：`{"t":"cg","i":3,"v":{"3":10, "5":70, "10":100},"k":" rowlen"}`
-       - 更新：`luckysheetfile[3].config.["rowlen"]["3"] = 10`
+    注意一点，修改config中的某个配置时，会把这个配置全部传输到后台，比如修改borderInfo，本来已经有一个含边框的单元格了，再新设置一个单元格边框，这时候会把这两个单元格边框信息都传输到后台，而不做更细颗粒的操作。
 
-    2. 修改列宽度举例：
-       - 输入：`{"t":"cg","i":1,"v":{"20":74, "15":170, "6":40},"k":" columnlen"}`
-       - 更新：`luckysheetfile[1].config.["columnlen"]["20"] = 74`
-        
-    3. 合并单元格举例：
-       - 输入：`{"t":"cg","i":1,"v":{"5_10":{row:[1,3], column:[3,5]},"k":" merge "}`
-       - 更新：`luckysheetfile[1].config.["merge"]["5_10"] = {row:[1,3], column:[3,5]}`
+    1. 行隐藏：
+       - 发送到后台：
+            ```json
+            {
+                "t": "cg",
+                "i": "Sheet_0554kKiKl4M7_1597974810804",
+                "v": { "5": 0, "6": 0, "13": 0, "14": 0 }, // 包含所有隐藏行信息
+                "k": "rowhidden"
+            }
+            ```
+       - 后台更新：`luckysheetfile["Sheet_0554kKiKl4M7_1597974810804"].config.["rowhidden"] = { "5": 0, "6": 0, "13": 0, "14": 0 }`
+    
+    2. 修改行高：
+       - 发送到后台：
+            ```json
+           {
+                "t": "cg",
+                "i": "Sheet_0554kKiKl4M7_1597974810804",
+                "v": { "9": 20, "11": 71, "15": 58 }, // 包含所有修改过高度的单元格信息
+                "k": "rowlen"
+            }
+            ```
+       - 后台更新：`luckysheetfile["Sheet_0554kKiKl4M7_1597974810804"].config.["rowlen"] = { "9": 20, "11": 71, "15": 58 }`
+    
+    3. 修改列宽：
+       - 发送到后台：
+            ```json
+           {
+                "t": "cg",
+                "i": "Sheet_0554kKiKl4M7_1597974810804",
+                "v": { "2": 135 },
+                "k": "columnlen"
+            }
+            ```
+       - 后台更新：`luckysheetfile["Sheet_0554kKiKl4M7_1597974810804"].config.["columnlen"] = { "2": 135 }`
  
 ## 通用保存
 
 - **格式**：
 
   ```json
-  {
-    "t": "all",
-    "i": 3,
-    "v": {
-        "v": 1,
-        "m":1,
-    },
-    "k": "freezen",
-    "s": false
-  }
+    {
+        "t": "all",
+        "i": 0,
+        "v": {
+            "type": "rangeRow",
+            "range": {
+                "row_focus": 1,
+                "column_focus": 1
+            }
+        },
+        "k": "frozen"
+    }
   ```
 
 - **说明**：
@@ -135,9 +143,8 @@
     | ------------ | ------------ |
     |t|操作类型表示符号|
     |i|当前sheet的index值|
-    |v|需要更新的内部key-value|
-    |k|需要保存的key-value中的`value`|
-    |s|如果是`true`则`v`保存为字符串，否则按照对象进行保存|
+    |v|需要更新value值|
+    |k|操作的key值|
 
 - **后台更新**：
 

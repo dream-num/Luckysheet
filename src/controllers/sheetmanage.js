@@ -151,6 +151,22 @@ const sheetmanage = {
         
         return Store.luckysheetfile[i];
     },
+    getSheetByName: function(name) {
+        let _this = this;
+
+        if(name == null){
+            return null;
+        }
+
+        for(let i=0;i<Store.luckysheetfile.length;i++){
+            let file = Store.luckysheetfile[i];
+            if(file.name==name){
+                return file;
+            }
+        }
+        
+        return null;
+    },
     getCurSheetnoset: function() {
         let curindex = 0;
 
@@ -731,7 +747,18 @@ const sheetmanage = {
 
                 let loadSheetUrl = server.loadSheetUrl;
                 
-                if(sheetindex.length == 0 || loadSheetUrl == ""){
+                if(sheetindex.length == 0 && loadSheetUrl == ""){
+                    execF();
+                }
+                else if(sheetindex.length>0 && loadSheetUrl == ""){
+                    for(let i = 0;i<sheetindex.length;i++){
+                        let item = sheetindex[i];
+                        let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+                        if(otherfile["load"] == null || otherfile["load"] == "0"){
+                            otherfile["data"] = _this.buildGridData(otherfile);
+                            otherfile["load"] = "1";
+                        }
+                    }
                     execF();
                 }
                 else{
@@ -1004,21 +1031,42 @@ const sheetmanage = {
     	let ret= [], cache = {};
     	ret.push(file.index);
     	cache[file.index.toString()] = 1;
-
         if(calchain != null){
+            let dataNameList = {};
         	for(let i = 0; i < calchain.length; i++){
-        		let func = calchain[i];
-        		let dataindex = func.index;
+        		let f = calchain[i];
+                let dataindex = f.index, func = f.func;
+
+                formula.functionParser(func[2], (str)=>{
+                    if(str.indexOf("!")>-1){
+                        let name = str.substr(0, str.indexOf('!'));
+                        dataNameList[name] = true;
+                    }
+                });
                 
                 if(dataindex == null){
                     continue;
                 }
-
+                
         		if(cache[dataindex.toString()] == null){
         			ret.push(dataindex);
         			cache[dataindex.toString()] = 1;
         		}
-        	}
+            }
+            
+            for(let n in dataNameList){
+                let sheet = this.getSheetByName(n);
+                if(sheet==null){
+                    continue;
+                }
+
+                let dataindex = sheet.index;
+
+                if(cache[dataindex.toString()] == null){
+        			ret.push(dataindex);
+        			cache[dataindex.toString()] = 1;
+        		}
+            }
         }
 
         if(chart != null){

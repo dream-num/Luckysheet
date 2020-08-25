@@ -1520,6 +1520,9 @@ const menuButton = {
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
 
+                    // store frozen
+                    luckysheetFreezen.saveFrozen(itemvalue);
+
                     if(itemvalue == "freezenRow"){ //首行冻结
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();
                         let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);

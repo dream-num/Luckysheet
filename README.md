@@ -3,6 +3,9 @@
 ![logo](/docs/.vuepress/public/img/logo_text.png)
 
 [![Join the chat at https://gitter.im/mengshukeji/Luckysheet](https://badges.gitter.im/mengshukeji/Luckysheet.svg)](https://gitter.im/mengshukeji/Luckysheet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<a href="https://twitter.com/intent/follow?screen_name=luckysheet">
+        <img src="https://img.shields.io/twitter/follow/luckysheet?style=social&logo=twitter"
+            alt="follow on Twitter"></a>
 
 </div>
 
@@ -151,6 +154,9 @@ Create a table
     })
 </script>
 ```
+## Join the co-construction
+
+If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) to operate, and submit the code after community discussion and improvement.
 
 ## Contact
 - Welcome to submit PR or [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)

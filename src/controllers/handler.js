@@ -3417,6 +3417,9 @@ export default function luckysheetHandler() {
     //冻结行列
     $("#luckysheet-freezen-btn-horizontal").click(function () {
         if ($.trim($(this).text()) == locale().freezen.freezenCancel) {
+
+            luckysheetFreezen.saveFrozen("freezenCancel");
+
             if (luckysheetFreezen.freezenverticaldata != null) {
                 luckysheetFreezen.cancelFreezenVertical();
                 luckysheetFreezen.createAssistCanvas();
@@ -3432,6 +3435,9 @@ export default function luckysheetHandler() {
             luckysheetFreezen.scrollAdapt();
         }
         else {
+
+            luckysheetFreezen.saveFrozen("freezenRow");
+
             if (luckysheetFreezen.freezenverticaldata != null) {
                 luckysheetFreezen.cancelFreezenVertical();
                 luckysheetFreezen.createAssistCanvas();
@@ -3447,10 +3453,16 @@ export default function luckysheetHandler() {
 
     $("#luckysheet-freezen-btn-vertical").click(function () {
         if (luckysheetFreezen.freezenverticaldata != null) {
+
+            luckysheetFreezen.saveFrozen("freezenCancel");
+
             luckysheetFreezen.cancelFreezenVertical();
             luckysheetrefreshgrid();
         }
         else {
+
+            luckysheetFreezen.saveFrozen("freezenColumn");
+
             luckysheetFreezen.createFreezenVertical();
         }
         luckysheetFreezen.createAssistCanvas();

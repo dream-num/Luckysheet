@@ -6594,7 +6594,8 @@ const sheetFormula = {
 	}],
 	"luckysheet_selection_range": [],
 	"scrollLeft": 0,
-	"scrollTop": 0
+	"scrollTop": 0,
+	"frozen": {"type":"row"}
 }
 
 export default sheetFormula

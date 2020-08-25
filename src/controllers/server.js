@@ -326,7 +326,11 @@ const server = {
 	        else if(k == "pivotTable"){ //PivotTable
 	            // luckysheet.pivotTable.changePivotTable(index);
 	        }
-	        else if(k == "freezen"){ //freezen row and column
+			else if(k == "frozen"){ //freezen row and column
+				
+				// tranform frozen
+				luckysheetFreezen.frozenTofreezen();
+
 	            if(index == Store.currentSheetIndex){
 					const _locale = locale();
 					const locale_freezen = _locale.freezen;

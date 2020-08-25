@@ -3,6 +3,7 @@ import locale from '../locale/locale';
 import { replaceHtml } from '../utils/util';
 import {changeSheetContainerSize} from './resize';
 import { jfrefreshgrid_rhcw } from '../global/refresh';
+import server from './server';
 
 
 
@@ -13,27 +14,39 @@ export function zoomChange(ratio){
         return;
     }
 
-    Store.zoomRatio = ratio;
-
     clearTimeout(luckysheetZoomTimeout);
     luckysheetZoomTimeout = setTimeout(() => {
+        if (Store.clearjfundo) {
+            Store.jfredo.push({ 
+                "type": "zoomChange", 
+                "zoomRatio": Store.zoomRatio, 
+                "curZoomRatio": ratio, 
+                "sheetIndex": Store.currentSheetIndex, 
+            });
+        }
+    
+        Store.zoomRatio = ratio;
+    
+        server.saveParam("all", Store.currentSheetIndex, Store.zoomRatio, { "k": "zoomRatio" });
         
-        let $scrollLeft = $("#luckysheet-scrollbar-x"), $scrollTop = $("#luckysheet-scrollbar-y");
-        let sl = $scrollLeft.scrollLeft(), st = $scrollTop.scrollTop();
-
-        let wp = $scrollLeft.find("div").width(), hp = $scrollTop.find("div").height();
-
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-        changeSheetContainerSize();
-
-        let wc = $scrollLeft.find("div").width(), hc = $scrollTop.find("div").height();
-
-        $scrollLeft.scrollLeft(sl+wc-wp);
-        $scrollTop.scrollTop(st+hc-hp);
-
+        zoomRefreshView();
     }, 100);
     
-    
+}
+
+export function zoomRefreshView(){
+    let $scrollLeft = $("#luckysheet-scrollbar-x"), $scrollTop = $("#luckysheet-scrollbar-y");
+    let sl = $scrollLeft.scrollLeft(), st = $scrollTop.scrollTop();
+
+    let wp = $scrollLeft.find("div").width(), hp = $scrollTop.find("div").height();
+
+    jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    changeSheetContainerSize();
+
+    let wc = $scrollLeft.find("div").width(), hc = $scrollTop.find("div").height();
+
+    $scrollLeft.scrollLeft(sl+wc-wp);
+    $scrollTop.scrollTop(st+hc-hp);
 }
 
 
@@ -58,7 +71,7 @@ export function zoomInitial(){
             currentRatio = 0.1;
         }
 
-        Store.zoomRatio = currentRatio;
+        // Store.zoomRatio = currentRatio;
         zoomChange(currentRatio);
         zoomNumberDomBind(currentRatio);
     });
@@ -82,16 +95,16 @@ export function zoomInitial(){
             currentRatio = 4;
         }
 
-        Store.zoomRatio = currentRatio;
+        // Store.zoomRatio = currentRatio;
         zoomChange(currentRatio);
         zoomNumberDomBind(currentRatio);
     });
 
-    $("#luckysheet-zoom-slider").click(function(e){
+    $("#luckysheet-zoom-slider").mousedown(function(e){
         let xoffset = $(this).offset().left, pageX = e.pageX;
 
         let currentRatio = positionToRatio(pageX-xoffset);
-        Store.zoomRatio = currentRatio;
+        // Store.zoomRatio = currentRatio;
         zoomChange(currentRatio);
         zoomNumberDomBind(currentRatio);
     });
@@ -118,7 +131,7 @@ export function zoomInitial(){
                 pos = 0;
             }
 
-            Store.zoomRatio = currentRatio;
+            // Store.zoomRatio = currentRatio;
             zoomChange(currentRatio);
             let r = Math.round(currentRatio*100) + "%";
             $("#luckysheet-zoom-ratioText").html(r);
@@ -136,7 +149,7 @@ export function zoomInitial(){
     });
 
     $("#luckysheet-zoom-ratioText").click(function(){
-        Store.zoomRatio = 1;
+        // Store.zoomRatio = 1;
         zoomChange(1);
         zoomNumberDomBind(1);
     });
