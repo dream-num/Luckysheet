@@ -312,10 +312,10 @@ const server = {
 	        let k = item.k;
 	        file[k] = value;
 
-	        if(k == "name"){ //表格名
+	        if(k == "name"){ //工作表名
 	            $("#luckysheet-sheet-container-c #luckysheet-sheets-item" + index).find("span.luckysheet-sheets-item-name").html(value);
 	        }
-	        else if(k == "color"){ //表格颜色
+	        else if(k == "color"){ //工作表颜色
 	            let currentSheetItem = $("#luckysheet-sheet-container-c #luckysheet-sheets-item" + index);
 	            currentSheetItem.find(".luckysheet-sheets-item-color").remove();
 

@@ -416,18 +416,8 @@ options.data示例如下：
     ```js
     {
         "pivot_select_save": {
-            "left": 0,
-            "width": 73,
-            "top": 0,
-            "height": 19,
-            "left_move": 0,
-            "width_move": 369,
-            "top_move": 0,
-            "height_move": 259,
             "row": [0, 12],
-            "column": [0, 4],
-            "row_focus": 0,
-            "column_focus": 0
+            "column": [0, 4]
         },
         "pivotDataSheetIndex": 6, //The sheet index where the source data is located
         "column": [{
@@ -469,24 +459,9 @@ options.data示例如下：
 - 示例：
     ```js
     {
-        "left": 74,
-        "width": 73,
-        "top": 40,
-        "height": 19,
-        "left_move": 74,
-        "width_move": 221,
-        "top_move": 40,
-        "height_move": 99,
-        "row": [
-            2,
-            6
-        ],
-        "column": [
-            1,
-            3
-        ],
-        "row_focus": 2,
-        "column_focus": 1
+        
+        "row": [ 2, 6 ],
+        "column": [ 1, 3 ]
     }
     ```
 
@@ -499,23 +474,22 @@ options.data示例如下：
     ```js
     {
         "0": {
-            "caljs": {},
-            "rowhidden": {
-                "3": 0,
-                "4": 0
+            "caljs": { // 条件筛选类型
+                "value": "cellnull",
+                "text": "Is empty",
+                "type": "0"
             },
-            "optionstate": true,
-            "str": 2,
-            "edr": 6,
-            "cindex": 1,
-            "stc": 1,
-            "edc": 3
+            "rowhidden": { "3": 0, "4": 0 }, // 隐藏行
+            "optionstate": true, //是否开启配置
+            "str": 2, // 范围，起始行
+            "edr": 6, // 范围，结束行
+            "cindex": 1, // 当前范围列索引
+            "stc": 1, // 范围，起始列
+            "edc": 3 // 范围，结束列
         },
         "1": {
             "caljs": {},
-            "rowhidden": {
-                "6": 0
-            },
+            "rowhidden": { "6": 0 },
             "optionstate": true,
             "str": 2,
             "edr": 6,
@@ -619,13 +593,13 @@ options.data示例如下：
 - 默认值：[]
 - 作用： 条件格式配置信息，包含多个条件格式配置对象的一维数组，
 
-type: "default": 突出显示单元格规则和项目选区规则，
+    type: "default": 突出显示单元格规则和项目选区规则，
 
-"dataBar":数据条，
+    "dataBar":数据条，
 
-"icons":图标集，
+    "icons":图标集，
 
-"colorGradation": 色阶
+    "colorGradation": 色阶
 
 - 示例：
     ```js
@@ -687,18 +661,8 @@ type: "default": 突出显示单元格规则和项目选区规则，
             "type": "colorGradation",
             "cellrange": [
                 {
-                    "left": 422,
-                    "width": 100,
-                    "top": 210,
-                    "height": 20,
-                    "left_move": 422,
-                    "width_move": 100,
-                    "top_move": 210,
-                    "height_move": 125,
                     "row": [ 10, 15 ],
-                    "column": [ 6, 6 ],
-                    "row_focus": 10,
-                    "column_focus": 6
+                    "column": [ 6, 6 ]
                 }
             ],
             "format": [
