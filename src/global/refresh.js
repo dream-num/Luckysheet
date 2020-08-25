@@ -519,6 +519,162 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 }
 
+//删除单元格 刷新表格
+function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf){
+    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+
+    //merge改变对应的单元格值改变
+    let mcData = [];
+    if(JSON.stringify(cfg["merge"]) == "{}"){
+        for(let r = 0; r < data.length; r++){
+            for(let c = 0; c < data[0].length; c++){
+                let cell = data[r][c];
+    
+                if(cell != null && cell.mc != null){
+                    delete cell.mc;
+                    mcData.push({ "r": r, "c": c });
+                }
+            }
+        }
+    }
+    else{
+        for(let m in cfg["merge"]){
+            let mc = cfg["merge"][m];
+    
+            for(let r = mc.r; r <= mc.r + mc.rs - 1; r++){
+                for(let c = mc.c; c <= mc.c + mc.cs - 1; c++){
+                    if(data[r][c] == null){
+                        data[r][c] = {};
+                    }
+    
+                    if(r == mc.r && c == mc.c){
+                        data[r][c].mc = mc;
+                    }
+                    else{
+                        data[r][c].mc = { "r": mc.r, "c": mc.c };
+                    }
+    
+                    mcData.push({ "r": r, "c": c });                       
+                }
+            }
+        }
+    }
+
+    //公式链中公式范围改变对应单元格值的改变
+    let funcData = [];
+    if(calc.length > 0){
+        formula.execFunctionGroupData = data;
+
+        for(let i = 0; i < calc.length; i++){
+            let clc = calc[i];
+            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr = clc.func[2];
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
+            clc.func = clc_result;
+
+            if(data[clc_r][clc_c].f == clc_funcStr){
+                setcellvalue(clc_r, clc_c, data, clc_result[1]);
+                funcData.push({ "r": clc_r, "c": clc_c });
+            }
+        }
+    }
+
+    if(Store.clearjfundo){
+        Store.jfundo = [];
+
+        Store.jfredo.push({
+            "type": "deleteCell",
+            "sheetIndex": Store.currentSheetIndex,
+            "ctrl": ctrl,
+            "data": Store.flowdata,
+            "curData": data,
+            "config": $.extend(true, {}, Store.config),
+            "curConfig": cfg,
+            "mcData": mcData,
+            "calc": $.extend(true, [], file.calcChain),
+            "curCalc": calc,
+            "funcData": funcData,
+            "filterObj": { "filter_select": $.extend(true, {}, file.filter_select), "filter": $.extend(true, {}, file.filter) },
+            "curFilterObj": filterObj,
+            "cf": $.extend(true, [], file.luckysheet_conditionformat_save),
+            "curCf": cf,
+        });
+    }
+
+    //Store.flowdata
+    Store.flowdata = data;
+    editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+    file.data = data;
+
+    //共享编辑模式
+    if(server.allowUpdate){
+        let type = ctrl.type,
+            str = ctrl.str,
+            edr = ctrl.edr,
+            stc = ctrl.stc,
+            edc = ctrl.edc;
+
+        let range;
+        if(type == 'moveUp'){
+            range = {
+                "row": [str, data.length - 1],
+                "column": [stc, edc]
+            }
+        }
+        else if(type == 'moveLeft'){
+            range = {
+                "row": [str, edr],
+                "column": [stc, data[0].length - 1]
+            };
+        }
+
+        server.historyParam(Store.flowdata, Store.currentSheetIndex, range);
+    }
+
+    //config
+    Store.config = cfg;
+    file.config = Store.config;
+    server.saveParam("all", Store.currentSheetIndex, cfg, { "k": "config" });
+
+    //mcData
+    for(let i = 0; i < mcData.length; i++){
+        let mcData_r = mcData[i].r,
+            mcData_c = mcData[i].c;
+
+        server.saveParam("v", Store.currentSheetIndex, Store.flowdata[mcData_r][mcData_c], { "r": mcData_r, "c": mcData_c });
+    }
+
+    //calc函数链
+    file.calcChain = calc;
+    server.saveParam("all", Store.currentSheetIndex, calc, { "k": "calcChain" });
+    for(let i = 0; i < funcData.length; i++){
+        let funcData_r = funcData[i].r,
+            funcData_c = funcData[i].c;
+
+        server.saveParam("v", Store.currentSheetIndex, Store.flowdata[funcData_r][funcData_c], { "r": funcData_r, "c": funcData_c });
+    }
+
+    //筛选配置
+    if(filterObj != null){
+        file.filter_select = filterObj.filter_select;
+        file.filter = filterObj.filter;
+    }
+    else{
+        file.filter_select = null;
+        file.filter = null;
+    }
+    createFilterOptions(file.filter_select, file.filter);
+    server.saveParam("all", Store.currentSheetIndex, file.filter_select, { "k": "filter_select" });
+    server.saveParam("all", Store.currentSheetIndex, file.filter, { "k": "filter" });
+
+    //条件格式配置
+    file.luckysheet_conditionformat_save = cf;
+    server.saveParam("all", Store.currentSheetIndex, file.luckysheet_conditionformat_save, { "k": "luckysheet_conditionformat_save" });
+
+    setTimeout(function () {
+        luckysheetrefreshgrid();
+    }, 1);
+}
+
 //复制剪切 刷新表格
 function jfrefreshgrid_pastcut(source, target, RowlChange){
     //单元格数据更新联动
@@ -1002,6 +1158,7 @@ export {
     jfrefreshgridall,
     jfrefreshrange,
     jfrefreshgrid_adRC,
+    jfrefreshgrid_deleteCell,
     jfrefreshgrid_pastcut,
     jfrefreshgrid_rhcw,
     luckysheetrefreshgrid,

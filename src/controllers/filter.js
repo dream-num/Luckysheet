@@ -745,6 +745,10 @@ function initialFilterHandler(){
     
                 //单元格颜色
                 let bg = menuButton.checkstatus(Store.flowdata, r, cindex , "bg");
+
+                if(bg == null){
+                    bg = "#ffffff";
+                }
     
                 let checksAF = alternateformat.checksAF(r, cindex, af_compute);
                 if(checksAF != null){//若单元格有交替颜色

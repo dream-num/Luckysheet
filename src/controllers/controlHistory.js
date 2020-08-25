@@ -13,6 +13,7 @@ import {
     jfrefreshrange, 
     jfrefreshgrid_rhcw, 
     jfrefreshgrid_adRC,
+    jfrefreshgrid_deleteCell,
     jfrefreshgrid_pastcut,
     luckysheetrefreshgrid 
 } from '../global/refresh';
@@ -138,6 +139,9 @@ const controlHistory = {
             ctrlValue.direction = "lefttop";
 
             jfrefreshgrid_adRC(ctr.data, ctr.config, "addRC", ctrlValue, ctr.calc, ctr.filterObj, ctr.cf, ctr.af, ctr.freezen);
+        }
+        else if (ctr.type == "deleteCell") { //删除单元格撤销操作
+            jfrefreshgrid_deleteCell(ctr.data, ctr.config, ctr.ctrl, ctr.calc, ctr.filterObj, ctr.cf);
         }
         else if (ctr.type == "showHidRows") { // 隐藏、显示行 撤销操作
             //config
@@ -380,6 +384,9 @@ const controlHistory = {
         }
         else if (ctr.type == "delRC") { //删除行列重做操作
             jfrefreshgrid_adRC(ctr.curData, ctr.curConfig, "delRC", ctr.ctrlValue, ctr.curCalc, ctr.curFilterObj, ctr.curCf, ctr.curAf, ctr.curFreezen);
+        }
+        else if (ctr.type == "deleteCell") { //删除单元格重做操作
+            jfrefreshgrid_deleteCell(ctr.curData, ctr.curConfig, ctr.ctrl, ctr.curCalc, ctr.curFilterObj, ctr.curCf);
         }
         else if (ctr.type == "showHidRows") { // 隐藏、显示行 重做操作
             //config

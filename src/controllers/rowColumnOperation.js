@@ -21,7 +21,7 @@ import {
 import { isRealNull, isRealNum, hasPartMC, isEditMode } from '../global/validate';
 import { countfunc } from '../global/count';
 import formula from '../global/formula';
-import { luckysheetextendtable, luckysheetdeletetable } from '../global/extend';
+import { luckysheetextendtable, luckysheetdeletetable, luckysheetDeleteCell } from '../global/extend';
 import { 
     jfrefreshgrid, 
     jfrefreshgridall, 
@@ -1366,6 +1366,54 @@ export function rowColumnOperationInitial(){
         //行高、列宽 刷新  
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
     })
+
+    //删除单元格（左移、上移）
+    $("#luckysheet-delCellsMoveLeft").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        const locale_drag = locale().drag;
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert(locale_drag.noMulti);
+            }
+            else{
+                tooltip.info(locale_drag.noMulti, ""); 
+            }
+            return;
+        }
+
+        let str = Store.luckysheet_select_save[0].row[0],
+            edr = Store.luckysheet_select_save[0].row[1],
+            stc = Store.luckysheet_select_save[0].column[0],
+            edc = Store.luckysheet_select_save[0].column[1];
+
+        luckysheetDeleteCell('moveLeft', str, edr, stc, edc);
+    });
+    $("#luckysheet-delCellsMoveUp").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        const locale_drag = locale().drag;
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(isEditMode()){
+                alert(locale_drag.noMulti);
+            }
+            else{
+                tooltip.info(locale_drag.noMulti, ""); 
+            }
+            return;
+        }
+
+        let str = Store.luckysheet_select_save[0].row[0],
+            edr = Store.luckysheet_select_save[0].row[1],
+            stc = Store.luckysheet_select_save[0].column[0],
+            edc = Store.luckysheet_select_save[0].column[1];
+
+        luckysheetDeleteCell('moveUp', str, edr, stc, edc);
+    });
 
     //清除单元格内容
     $("#luckysheet-delete-text").click(function(){
