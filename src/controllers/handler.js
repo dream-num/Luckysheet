@@ -108,7 +108,7 @@ export default function luckysheetHandler() {
     const _locale = locale();
     const locale_drag = _locale.drag;
     const locale_info = _locale.info;
-    let prev
+    let prev, mousewheelArrayUniqueTimeout;
     $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
             scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
@@ -123,8 +123,26 @@ export default function luckysheetHandler() {
             visibledatacolumn_c = luckysheetFreezen.freezenverticaldata[3];
         }
 
-        visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
-        visibledatarow_c = ArrayUnique(visibledatarow_c);
+        clearTimeout(mousewheelArrayUniqueTimeout);
+        
+        if(Store.visibledatacolumn_unique!=null){
+            visibledatacolumn_c = Store.visibledatacolumn_unique;
+        }
+        else{
+            visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
+            Store.visibledatacolumn_unique = visibledatacolumn_c;
+        }
+
+        if(Store.visibledatarow_unique!=null){
+            visibledatarow_c = Store.visibledatarow_unique;
+        }
+        else{
+            visibledatarow_c = ArrayUnique(visibledatarow_c);
+            Store.visibledatarow_unique = visibledatarow_c;
+        }
+
+        // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
+        // visibledatarow_c = ArrayUnique(visibledatarow_c);
 
         let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
@@ -179,6 +197,11 @@ export default function luckysheetHandler() {
 
             $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
         }
+
+        mousewheelArrayUniqueTimeout = setTimeout(() => {
+            Store.visibledatacolumn_unique = null;
+            Store.visibledatarow_unique = null;
+        }, 200);
     });
 
     $("#luckysheet-scrollbar-x").scroll(function(){
