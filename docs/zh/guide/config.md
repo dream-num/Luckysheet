@@ -43,9 +43,12 @@ luckysheet.create(options)
 - [accuracy](#accuracy)
 - [allowCopy](#allowCopy)
 - [showtoolbar](#showtoolbar)
+- [showtoolbarConfig](#showtoolbarConfig)
 - [showinfobar](#showinfobar)
 - [showsheetbar](#showsheetbar)
+- [showsheetbarConfig](#showsheetbarConfig)
 - [showstatisticBar](#showstatisticBar)
+- [showstatisticBarConfig](#showstatisticBarConfig)
 - [allowEdit](#allowEdit)
 - [enableAddRow](#enableAddRow)
 - [enableAddCol](#enableAddCol)
@@ -60,6 +63,7 @@ luckysheet.create(options)
 - [beforeCreateDom](#beforeCreateDom)
 - [fireMousedown](#fireMousedown)
 - [forceCalculation](#forceCalculation)
+- [rightClickConfig](#rightClickConfig)
 
 ### container
 - 类型：String
@@ -163,6 +167,48 @@ luckysheet.create(options)
 - 作用：是否第二列显示工具栏
 
 ------------
+#### showtoolbarConfig
+- 类型：Object
+- 默认值：{}
+- 作用：自定义配置工具栏
+- 格式：
+    ```json
+    {
+        undoRedo: false, //撤销重做
+        paintFormat: false, //格式刷
+        currencyFormat: false, //货币格式
+        percentageFormat: false, //百分比格式
+        numberDecrease: false, // '减少小数位数'
+        numberIncrease: false, // '增加小数位数
+        moreFormats: false, // '更多格式'
+        font: false, // '字体'
+        fontSize: false, // '字号大小'
+        bold: false, // '粗体 (Ctrl+B)'
+        italic: false, // '斜体 (Ctrl+I)'
+        strikethrough: false, // '删除线 (Alt+Shift+5)'
+        textColor: false, // '文本颜色'
+        fillColor: false, // '单元格颜色'
+        border: false, // '边框'
+        mergeCell: false, // '合并单元格'
+        horizontalAlignMode: false, // '水平对齐方式'
+        verticalAlignMode: false, // '垂直对齐方式'
+        textWrapMode: false, // '换行方式'
+        textRotateMode: false, // '文本旋转方式'
+        frozenMode: false, // '冻结方式'
+        sort: false, // '排序'
+        filter: false, // '筛选'
+        findAndReplace: false, // '查找替换'
+        function: false, // '公式'
+        conditionalFormat: false, // '条件格式'
+        postil:  false, //'批注'
+        pivotTable: false,  //'数据透视表'
+        chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
+        screenshot: false, // '截图'
+        splitColumn: false, // '分列'        
+    }
+    ```
+
+------------
 ### showinfobar
 - 类型：Boolean
 - 默认值：true
@@ -175,10 +221,36 @@ luckysheet.create(options)
 - 作用：是否显示底部表格名称区域
 
 ------------
+### showsheetbarConfig
+- 类型：Object
+- 默认值：{}
+- 作用：自定义配置底部表格名称区域
+- 格式：
+    ```json
+    {
+        add: false, //新增sheet  
+        menu: false, //sheet管理菜单
+        sheet: false //sheet页显示
+    }
+    ```
+
+------------
 ### showstatisticBar
 - 类型：Boolean
 - 默认值：true
 - 作用：是否显示底部计数栏
+
+------------
+### showstatisticBarConfig
+- 类型：Object
+- 默认值：{}
+- 作用：自定义配置底部计数栏
+- 格式：
+    ```json
+    {
+        count: false, // 计数栏
+        zoom: false // 缩放
+    }
 
 ------------
 ### allowEdit
@@ -269,5 +341,77 @@ luckysheet.create(options)
     如果公式关联到的单元格数据已经变化，或者公式所在的单元格数据结果改变了，则会导致关联单元格应该计算得出的结果和实际显示结果不一致，这是就需要开启公式刷新，保证数据实时计算的准确性。
     
     ⚠️提醒，公式较多时会有性能问题，慎用！
+
+------------
+### rightClickConfig
+- 类型：Object
+- 默认值：{}
+- 作用：自定义配置右击菜单
+- 格式：
+    ```json
+    {
+        copy:false, // '复制'
+        copyAs:false, // '复制为'
+        paste:false, // '粘贴',
+        insert:false, // '插入',
+        delete:false, // '删除',
+        hide:false, // '隐藏',
+        deleteCell:false, // '删除单元格',
+        clear:false, // '清除内容',
+        matrix:false, // '矩阵操作选区',
+        sort:false, // '排序选区',
+        filter:false, //'筛选选区',
+        chart:false, // '图表生成',
+    }
+
+## 钩子函数
+
+钩子函数应用于二次开发时，会在各个常用鼠标或者键盘操作时植入钩子，调用开发者传入的函数，起到扩展Luckysheet功能的作用。
+
+钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook
+
+### cellHover
+- 类型：Function
+- 默认值：null
+- 作用：鼠标移过单元格时(hover)触发
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
+
+------------
+
+### cellClickBefore
+- 类型：Function
+- 默认值：null
+- 作用：点击单元格前触发，即在点击单元格的时候，最先触发这个方法
+
+------------
+
+### cellClickAfter
+- 类型：Function
+- 默认值：null
+- 作用：点击单元格后触发，即在点击单元格的时候，最后触发这个方法
+
+------------
+
+### sheetClickBefore
+- 类型：Function
+- 默认值：null
+- 作用：点击sheet页前触发
+
+------------
+
+### sheetClickAfter
+- 类型：Function
+- 默认值：null
+- 作用：点击sheet页后触发
+
+------------
+
+### sheetClickAfter
+- 类型：Function
+- 默认值：null
+- 作用：点击sheet页后触发
 
 ------------

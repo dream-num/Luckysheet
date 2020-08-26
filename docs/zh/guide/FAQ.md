@@ -42,8 +42,32 @@ luckysheet.buildGridData(luckysheetfile)
 
 ------------
 
-## **<span style="font-size:20px;">Q</span>** 如何理解每个sheet页的`index`和`order`？
+## **<span style="font-size:20px;">Q</span>** 每个sheet页的`index`和`order`有什么区别？
 
-**<span style="font-size:20px;">A</span>** : 每个sheet页都有一个唯一id，就是`index`，可以用数字递增，也可以使用随机字符串，而`order`是所有的sheet的排序情况，从0开始，即为索引。
+**<span style="font-size:20px;">A</span>** : 每个sheet页都有一个唯一id，就是`index`，可以用数字递增，也可以使用随机字符串，而`order`是所有的sheet的排序情况，从0开始，只能为数字`0,1,2...`。
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** dist文件夹下为什么不能直接运行项目？
+
+**<span style="font-size:20px;">A</span>** :需要启动本地服务器
+
+- [Node搭建本地服务器](https://github.com/JacksonTian/anywhere)
+- [Python搭建本地服务器](https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/set_up_a_local_testing_server)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** excel导入导出怎么做？
+
+**<span style="font-size:20px;">A</span>** :现阶段可以参考以下案例
+- Luckysheet导入: https://www.cnblogs.com/DuShuSir/p/13179483.html
+- Luckysheet导出 : https://www.cnblogs.com/recode-hyh/p/13168226.html
+
+后期会另外开源一个导入导出库做适配，敬请期待！
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 初始化时合并单元格怎么做？
+
+**<span style="font-size:20px;">A</span>** :参考以下案例
+- Luckysheet初始化含合并单元格的数据: https://www.cnblogs.com/DuShuSir/p/13272397.html
