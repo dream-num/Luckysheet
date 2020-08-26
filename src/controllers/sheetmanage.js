@@ -694,6 +694,7 @@ const sheetmanage = {
                 }
 
                 let execF = function(){
+                    _this.mergeCalculation(file["index"]);
                     _this.storeSheetParam();
                     _this.restoreselect();
                     _this.CacheNotLoadControll = [];
@@ -903,6 +904,48 @@ const sheetmanage = {
         Store.luckysheetfile[index]["data"] = Store.flowdata;
         Store.luckysheetfile[index]["config"] = $.extend(true, {}, Store.config);
     },
+    mergeCalculationSheet:{},
+    mergeCalculation:function(index){
+        let file = Store.luckysheetfile[this.getSheetIndex(index)];
+        let config = file.config, data = file.data, mergeConfig = config.merge;
+        if(mergeConfig==null || index in this.mergeCalculationSheet || file["autoCalculationMerge"]===false){
+            return;
+        }
+
+        this.mergeCalculationSheet[index] = 1;
+
+        for(let x in mergeConfig){
+            let r = parseInt(x.substr(0, x.indexOf('_')));
+            let c = parseInt(x.substr(x.indexOf('_') + 1));
+            let mcInfo = mergeConfig[x];
+            if(data[r][c]==null){
+                data[r][c] = {};
+            }
+
+            data[r][c]["mc"] = {
+                r:r,
+                c:c,
+                rs:mcInfo.rs,
+                cs:mcInfo.cs,
+            }
+
+            for(let ir=r;ir<r+mcInfo.rs;ir++){
+                for(let ic=c;ic<c+mcInfo.cs;ic++){
+                    if(ir==r && ic==c){
+                        continue;
+                    }
+                    if(data[ir][ic]==null){
+                        data[ir][ic] = {};
+                    }
+                    data[ir][ic]["mc"] = {
+                        r:r,
+                        c:c,
+                    }
+                }
+            }
+
+        }
+    },
     changeSheet: function(index, isPivotInitial, isNewSheet) {
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
@@ -941,7 +984,7 @@ const sheetmanage = {
         if (load != null) {
             _this.setSheetParam(true);
             _this.showSheet();
-
+            _this.mergeCalculation(index);
             setTimeout(function () {
                 formula.execFunctionGroup();
                 luckysheetrefreshgrid();
@@ -958,7 +1001,7 @@ const sheetmanage = {
 
                 _this.setSheetParam();
                 _this.showSheet();
-
+                _this.mergeCalculation(index);
                 setTimeout(function () {
                     _this.restoreCache();
                     formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
@@ -1001,7 +1044,7 @@ const sheetmanage = {
 
                     _this.setSheetParam();
                     _this.showSheet();
-
+                    _this.mergeCalculation(index);
                     setTimeout(function () {
                         _this.restoreCache();
                         formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);

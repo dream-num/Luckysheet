@@ -278,17 +278,18 @@ function getByteLen(val) {
 
 //数组去重
 function ArrayUnique(dataArr) {
-    let arr = [];
-
+    let result = [];
+    let obj = {};
     if (dataArr.length > 0) {
         for (let i = 0; i < dataArr.length; i++) {
-            if (arr.indexOf(dataArr[i]) == -1) {
-                arr.push(dataArr[i]);
+            let item = dataArr[i];
+            if (!obj[item]) {
+                result.push(item);
+                obj[item] = 1;
             }
         }
     }
-
-    return arr;
+    return result
 }
 
 //获取字体配置

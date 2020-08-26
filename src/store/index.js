@@ -118,6 +118,9 @@ const Store = {
     measureTextCacheTimeOut:null,
 
     zoomRatio:1,
+
+    visibledatacolumn_unique:null,
+    visibledatarow_unique:null,
 }
 
 export default Store;
