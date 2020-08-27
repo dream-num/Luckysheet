@@ -37,8 +37,9 @@ options.data示例如下：
         "luckysheet_alternateformat_save": [], //交替颜色
         "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
         "luckysheet_conditionformat_save": {},//条件格式
-        "frozen": {}, //冻结行列
+        "frozen": {}, //冻结行列配置
         "chart": [], //图表配置
+        "allowEdit": true, //是否允许编辑
     },
     {
         "name": "Sheet2",
@@ -724,6 +725,12 @@ options.data示例如下：
 - 作用： 图表配置
 
 ------------
+### allowEdit
+- 类型：Boolean
+- 默认值：true
+- 作用： 此sheet页是否允许编辑
+
+------------
 
 ## 调试信息
 
@@ -765,7 +772,8 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "luckysheet_alternateformat_save": [], //交替颜色
         "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
         "luckysheet_conditionformat_save": {},//条件格式
-        "freezen": {}, //冻结行列
+        "frozen": {}, //冻结行列配置
+        "freezen": {}, //冻结行列的渲染数据存储
         "chart": [], //图表配置
 
         "visibledatarow": [], //所有行的位置

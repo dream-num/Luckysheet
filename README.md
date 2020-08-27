@@ -154,7 +154,7 @@ Create a table
     })
 </script>
 ```
-## Join the co-construction
+## Co-construction
 
 If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) to operate, and submit the code after community discussion and improvement.
 
@@ -169,7 +169,10 @@ If you want to implement an important function for Luckysheet, you need to write
 [Chinese community](./README-zh.md)
 
 ## Authors and acknowledgment
+- [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
+- [@swen-xiong](https://github.com/swen-xiong)
+- [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
 ## License
