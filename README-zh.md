@@ -150,11 +150,17 @@ npm run build
 ```
 ## 加入共建
 
-如果你想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
-
-## 联系
-- 欢迎提交 PR 或者 [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-- Email: mengshu@office2.cn
+1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
+2. 如果您想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
+3. 如果您对Luckysheet感兴趣，非常欢迎加入开发组，一起来完善这个插件（下方扫码添加小编微信备注：共建），有4类任务可以认领
+    - BUG修复
+    - 新功能添加
+    - 文档
+    - 推广
+  
+    您将收获：
+    - Luckysheet官方readme文档贡献者链接
+    - 参与大型开源项目，技术和视野提升
 
 ## 交流
 

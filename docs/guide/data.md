@@ -26,7 +26,7 @@
                 "rowlen":{}, //Table row height
                 "columnlen":{}, //Table column width
                 "rowhidden":{}, //hidden rows
-                "columnhidden":{}, //hidden columns
+                "colhidden":{}, //hidden columns
                 "borderInfo":{}, //borders
             },
             "celldata": [], //initialize the cell data used
@@ -204,15 +204,15 @@
                 }
         ```
         
-    ### config.columnhidden
+    ### config.colhidden
     - Type：Object
     - Default：{}
-    - Usage：Hidden column information, Columns：`columnhidden[Columns]: 0`,
+    - Usage：Hidden column information, Columns：`colhidden[Columns]: 0`,
         
         `key` specify the number of columns,`value` is always `0`
     - example:
         ```js
-        "columnhidden": {
+        "colhidden": {
                     "30": 0,
                     "31": 0
                 }

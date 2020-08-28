@@ -395,7 +395,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 
-## 钩子函数
+## 钩子函数（TODO）
 
 钩子函数应用于二次开发时，会在各个常用鼠标或者键盘操作时植入钩子，调用开发者传入的函数，起到扩展Luckysheet功能的作用。
 
@@ -416,67 +416,108 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Function
 - 默认值：null
 - 作用：点击单元格前触发，即在点击单元格的时候，最先触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
 ------------
 ### cellClicked
 - 类型：Function
 - 默认值：null
 - 作用：点击单元格后触发，即在点击单元格的时候，最后触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
 ------------
 ### cellEditBefore
 - 类型：Function
 - 默认值：null
 - 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最先触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
 ------------
 ### cellEdited
 - 类型：Function
 - 默认值：null
 - 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最后触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [oldV]: 修改前单元格对象
+	- {Object} [newV]: 修改后单元格对象
 
 ------------
 ### sheetClickBefore
 - 类型：Function
 - 默认值：null
 - 作用：点击sheet页前触发
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {Object} [sheet]: sheet页的配置
 
 ------------
 ### sheetClicked
 - 类型：Function
 - 默认值：null
 - 作用：点击sheet页后触发
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {Object} [sheet]: sheet页的配置
 
 ------------
 ### workbookCreateBefore
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之前触发。旧的钩子函数叫做`beforeCreateDom`
-
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
 ------------
 ### workbookCreated
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
-
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
 ------------
 ### workbookUpdated
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
-
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
 ------------
 ### workbookDestroyBefore
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
-
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
 ------------
 ### workbookDestroyed
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
-
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### updated
+- 类型：Function
+- 默认值：null
+- 作用：每次操作更新后执行的方法，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销时因为也算一次操作，当然也会触发此钩子函数。
+- 参数：
+	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
+    
 ------------
 ### fireMousedown
 - 类型：Function
