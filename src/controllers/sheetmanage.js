@@ -695,6 +695,7 @@ const sheetmanage = {
 
                 let execF = function(){
                     _this.mergeCalculation(file["index"]);
+                    editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
                     _this.storeSheetParam();
                     _this.restoreselect();
                     _this.CacheNotLoadControll = [];
@@ -981,10 +982,11 @@ const sheetmanage = {
         }
 
         let load = file["load"];
-        if (load != null) {
+        if (load != null) {            
+            _this.mergeCalculation(index);
             _this.setSheetParam(true);
             _this.showSheet();
-            _this.mergeCalculation(index);
+
             setTimeout(function () {
                 formula.execFunctionGroup();
                 luckysheetrefreshgrid();
@@ -998,10 +1000,10 @@ const sheetmanage = {
 
                 file["data"] = data;
                 file["load"] = "1";
-
+                _this.mergeCalculation(index);
                 _this.setSheetParam();
                 _this.showSheet();
-                _this.mergeCalculation(index);
+
                 setTimeout(function () {
                     _this.restoreCache();
                     formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
@@ -1041,10 +1043,10 @@ const sheetmanage = {
 
                     file["data"] = data;
                     file["load"] = "1";
-
+                    _this.mergeCalculation(index);
                     _this.setSheetParam();
                     _this.showSheet();
-                    _this.mergeCalculation(index);
+                   
                     setTimeout(function () {
                         _this.restoreCache();
                         formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);

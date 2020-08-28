@@ -50,8 +50,6 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     else {
         Store.flowdata = data;
     }
-
-    editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
     
     let flowHTML = flow;
     if(Store.config == null){
