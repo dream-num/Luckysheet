@@ -42,8 +42,32 @@ luckysheet.buildGridData(luckysheetfile)
 
 ------------
 
-## **<span style="font-size:20px;">Q</span>** How to understand the `index` and `order` of each worksheet?
+## **<span style="font-size:20px;">Q</span>** What is the difference between `index` and `order` for each sheet page?
 
-**<span style="font-size:20px;">A</span>**: Each worksheet has a unique id, which is `index`, which can be incremented by numbers or a random string. And `order` is the order of all worksheets, starting from 0.
+**<span style="font-size:20px;">A</span>**: Each sheet page has a unique id, which is `index`, which can be incremented by numbers or a random string. And `order` is the sorting situation of all sheets, starting from 0, can only be numbers `0,1,2...`.
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** Why can’t I run the project directly under the dist folder?
+
+**<span style="font-size:20px;">A</span>**: Need to start the local server
+
+- [Node build a local server](https://github.com/JacksonTian/anywhere)
+- [Python build local server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** How to import and export excel?
+
+**<span style="font-size:20px;">A</span>**: You can refer to the following cases at this stage
+- Luckysheet import: https://www.cnblogs.com/DuShuSir/p/13179483.html
+- Luckysheet export: https://www.cnblogs.com/recode-hyh/p/13168226.html
+
+Later, we will open another import and export library for adaptation, so stay tuned!
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** How to merge cells during initialization?
+
+**<span style="font-size:20px;">A</span>**: Refer to the following case
+- Luckysheet initializes data with merged cells: https://www.cnblogs.com/DuShuSir/p/13272397.html

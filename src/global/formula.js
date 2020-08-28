@@ -3845,7 +3845,7 @@ const luckysheetformula = {
 
             i++;
         }
-
+        console.log(function_str);
         return function_str;
     },
     addFunctionGroup: function(r, c, func, index) {

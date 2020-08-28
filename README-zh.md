@@ -171,7 +171,10 @@ npm run build
 [英文社群](./README.md)
 
 ## 贡献者和感谢
+- [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
+- [@swen-xiong](https://github.com/swen-xiong)
+- [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
 ## 版权信息

@@ -716,7 +716,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             let end_c = Store.visibledatacolumn[c] - scrollWidth;
 
 
-            //数据透视表\
+            //数据透视表
             if (!!Store.luckysheetcurrentisPivotTable && pivotTable.drawPivotTable) {
                 if ((c == 0 || c == 5) && r <= 11) {
                     luckysheetTableContent.beginPath();

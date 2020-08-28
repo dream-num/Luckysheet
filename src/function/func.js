@@ -1,24 +1,13 @@
 import func_methods from '../global/func_methods';
 import formula from '../global/formula';
 import tooltip from '../global/tooltip';
-import { isRealNum, valueIsError } from '../global/validate';
+import { isRealNum, valueIsError,error } from '../global/validate';
 import { getdatabyselectionD } from '../global/getdata';
 import { genarate } from '../global/format';
 import { inverse } from '../function/matrix_methods';
 import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
-
-const error = {
-    v: "#VALUE!",    //错误的参数或运算符
-    n: "#NAME?",     //公式名称错误
-    na: "#N/A",      //函数或公式中没有可用数值
-    r: "#REF!",      //删除了由其他公式引用的单元格
-    d: "#DIV/0!",    //除数是0或空单元格
-    nm: "#NUM!",     //当公式或函数中某个数字有问题时
-    nl: "#NULL!",    //交叉运算符（空格）使用不正确
-    sp: "#SPILL!"    //数组范围有其它值
-}
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {
@@ -89,7 +78,19 @@ function luckysheet_compareWith() {
         sp = "==";
     }
 
-    if(sp == "-" && fp == null){
+    if(fp==null && tp==null){
+        return "#INVERSE!";
+    }
+    else if(fp=="#INVERSE!"){
+        fp =0;
+        if(sp=="-"){
+            sp = "+";
+        }
+        else if(sp=="+"){
+            sp = "-";
+        }
+    }
+    else if(sp == "-" && fp == null){
         fp = 0;
     }
 
@@ -965,7 +966,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = eval(parseFloat(fp[n]) + sp + parseFloat(tp[n]));    
+                            value = eval(parseFloat(fp[n]) + sp + "(" + parseFloat(tp[n]) + ")" );    
                         }
                     }
                     else{
@@ -1096,7 +1097,7 @@ function luckysheet_compareWith() {
                     result = error.d;
                 }
                 else{
-                    result = eval(parseFloat(fp) + sp + parseFloat(tp));    
+                    result = eval(parseFloat(fp) + sp + "(" + parseFloat(tp) + ")");    
                 }
             }
             else{
