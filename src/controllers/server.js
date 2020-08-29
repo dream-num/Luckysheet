@@ -660,7 +660,7 @@ const server = {
 	            $("#luckysheet-sheets-item" + index).show();
 	        }
 	    }
-	    else if(type == "c"){ //图表操作
+	    else if(type == "c"){ //图表操作 TODO
 	        let op = item.op, cid = item.cid;
 
 	        if(op == "add"){ //插入

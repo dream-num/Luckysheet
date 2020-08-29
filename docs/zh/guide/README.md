@@ -171,7 +171,7 @@ luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 		"rowlen":{}, //表格行高
 		"columnlen":{}, //表格列宽
 		"rowhidden":{}, //隐藏行
-		"columnhidden":{}, //隐藏列
+		"colhidden":{}, //隐藏列
 		"borderInfo":{}, //边框
 	},
 	"celldata": [], //初始化使用的单元格数据

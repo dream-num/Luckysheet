@@ -154,13 +154,20 @@ Create a table
     })
 </script>
 ```
-## Join the co-construction
 
-If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) to operate, and submit the code after community discussion and improvement.
+## Co-construction
 
-## Contact
-- Welcome to submit PR or [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-- Email: mengshu@office2.cn
+1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
+2. If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) mechanism to operate, and only after community discussion and improvement, you can submit the code.
+3. If you are interested in Luckysheet, you are very welcome to join the development team to improve this plugin together (Email: alexads@foxmail.com), there are 4 types of tasks that can be claimed
+    - BUG
+    - New features
+    - Documentation
+    - Popularize
+  
+    You will gain:
+    - Luckysheet official readme document contributor link
+    - Participate in large open source projects, improve technology and vision
 
 ## Communication
 
@@ -169,7 +176,10 @@ If you want to implement an important function for Luckysheet, you need to write
 [Chinese community](./README-zh.md)
 
 ## Authors and acknowledgment
+- [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
+- [@swen-xiong](https://github.com/swen-xiong)
+- [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
 ## License

@@ -23,7 +23,7 @@ options.data示例如下：
             "rowlen":{}, //表格行高
             "columnlen":{}, //表格列宽
             "rowhidden":{}, //隐藏行
-            "columnhidden":{}, //隐藏列
+            "colhidden":{}, //隐藏列
             "borderInfo":{}, //边框
         },
         "scrollLeft": 0, //左右滚动条位置
@@ -37,8 +37,10 @@ options.data示例如下：
         "luckysheet_alternateformat_save": [], //交替颜色
         "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
         "luckysheet_conditionformat_save": {},//条件格式
-        "frozen": {}, //冻结行列
+        "frozen": {}, //冻结行列配置
         "chart": [], //图表配置
+        "allowEdit": true, //是否允许编辑
+        "zoomRatio":1, // 缩放比例
     },
     {
         "name": "Sheet2",
@@ -219,16 +221,16 @@ options.data示例如下：
             }
     ```
 
-#### config.columnhidden
+#### config.colhidden
 - 类型：Object
 - 默认值：{}
 - 作用：隐藏列
-    格式为：`columnhidden[列数]: 0`,
+    格式为：`colhidden[列数]: 0`,
 
         `key`指定列数即可，`value`总是为`0`
 - 示例：
     ```js
-    "columnhidden": {
+    "colhidden": {
                 "30": 0,
                 "31": 0
             }
@@ -383,11 +385,11 @@ options.data示例如下：
 - 示例：
     ```js
     [{
-        "r": 6,
-        "c": 3,
-        "index": 1,
-        "func": [true, 23.75, "=AVERAGE(D3:D6)"],
-        "color": "w",
+        "r": 6, //行数
+        "c": 3, //列数
+        "index": 1, //工作表id
+        "func": [true, 23.75, "=AVERAGE(D3:D6)"], //公式信息，包含公式计算结果和公式字符串
+        "color": "w", //"w"：采用深度优先算法 "b":普通计算
         "parent": null,
         "chidren": {},
         "times": 0
@@ -421,7 +423,7 @@ options.data示例如下：
             "row": [0, 12],
             "column": [0, 4]
         },
-        "pivotDataSheetIndex": 6, //The sheet index where the source data is located
+        "pivotDataSheetIndex": 6, //源数据所在的sheet页
         "column": [{
             "index": 3,
             "name": "subject",
@@ -441,7 +443,7 @@ options.data示例如下：
             "nameindex": 0
         }],
         "showType": "column",
-        "pivotDatas": [
+        "pivotDatas": [ //数据透视表的源数据
             ["count:score", "science", "mathematics", "foreign language", "English", "total"],
             ["Alex", 1, 1, 1, 1, 4],
             ["Joy", 1, 1, 1, 1, 4],
@@ -510,30 +512,30 @@ options.data示例如下：
 - 示例：
     ```js
     [{
-        "cellrange": {
+        "cellrange": { //单元格范围
             "row": [1, 6],
             "column": [1, 5]
         },
         "format": {
-            "head": {
+            "head": { //页眉颜色
                 "fc": "#000",
                 "bc": "#5ed593"
             },
-            "one": {
+            "one": { //第一种颜色
                 "fc": "#000",
                 "bc": "#ffffff"
             },
-            "two": {
+            "two": { //第二种颜色
                 "fc": "#000",
                 "bc": "#e5fbee"
             },
-            "foot": {
+            "foot": { //页脚颜色
                 "fc": "#000",
                 "bc": "#a5efcc"
             }
         },
-        "hasRowHeader": false,
-        "hasRowFooter": false
+        "hasRowHeader": false, //含有页眉
+        "hasRowFooter": false //含有页脚
     }, {
         "cellrange": {
             "row": [1, 6],
@@ -570,19 +572,19 @@ options.data示例如下：
 - 示例：
     ```js
     [{
-        "head": {
+        "head": { //页眉颜色
             "fc": "#6aa84f",
             "bc": "#ffffff"
         },
-        "one": {
+        "one": { //第一种颜色
             "fc": "#000",
             "bc": "#ffffff"
         },
-        "two": {
+        "two": { //第二种颜色
             "fc": "#000",
             "bc": "#e5fbee"
         },
-        "foot": {
+        "foot": { //页脚颜色
             "fc": "#000",
             "bc": "#a5efcc"
         }
@@ -603,22 +605,23 @@ options.data示例如下：
 
     "colorGradation": 色阶
 
+    API中对此设置也有介绍[API setRangeConditionalFormat](/zh/guide/api.html)
 - 示例：
     ```js
     [
         {
             "type": "default",
-            "cellrange": [
+            "cellrange": [ //应用的范围
                 {
                     "row": [ 2, 7 ],
                     "column": [ 2, 2 ]
                 }
             ],
-            "format": {
+            "format": { //type 为 default 时 应设置文本颜色和单元格颜色
                 "textColor": "#000000",
                 "cellColor": "#ff0000"
             },
-            "conditionName": "betweenness",
+            "conditionName": "betweenness", //类型
             "conditionRange": [
                 {
                     "row": [ 4, 4 ],
@@ -721,7 +724,486 @@ options.data示例如下：
 ### chart
 - 类型：Array
 - 默认值：[]
-- 作用： 图表配置
+- 作用： 图表配置，参照chartMix的配置格式，允许只设置想要的图表属性，一个完整的配置案例如下。
+- 示例：
+    :::::: details
+    ```json
+    {
+        "chart_id": "chart_p145W6i73otw_1596209943446",
+        "width": 400,
+        "height": 250,
+        "left": 20,
+        "top": 120,
+        "sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
+        "needRangeShow": true,
+        "chartOptions": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "chartAllType": "echarts|line|default",
+            "rangeArray": [ { "row": [ 0, 4 ], "column": [ 0, 7 ] } ],
+            "rangeColCheck": { "exits": true, "range": [ 0, 0 ] },
+            "rangeRowCheck": { "exits": true, "range": [ 0, 0 ] },
+            "rangeConfigCheck": false,
+            "defaultOption": {
+                "title": {
+                    "show": false,
+                    "text": "默认标题",
+                    "label": {
+                        "fontSize": 12,
+                        "color": "#333",
+                        "fontFamily": "sans-serif",
+                        "fontGroup": [],
+                        "cusFontSize": 12
+                    },
+                    "position": {
+                        "value": "left-top",
+                        "offsetX": 40,
+                        "offsetY": 50
+                    }
+                },
+                "subtitle": {
+                    "show": false,
+                    "text": "",
+                    "label": {
+                        "fontSize": 12,
+                        "color": "#333",
+                        "fontFamily": "sans-serif",
+                        "fontGroup": [],
+                        "cusFontSize": 12
+                    },
+                    "distance": {
+                        "value": "auto",
+                        "cusGap": 40
+                    }
+                },
+                "config": {
+                    "color": "transparent",
+                    "fontFamily": "Sans-serif",
+                    "grid": {
+                        "value": "normal",
+                        "top": 5,
+                        "left": 10,
+                        "right": 20,
+                        "bottom": 10
+                    }
+                },
+                "legend": {
+                    "show": true,
+                    "selectMode": "multiple",
+                    "selected": [
+                        {
+                            "seriesName": "衣服",
+                            "isShow": true
+                        },
+                        {
+                            "seriesName": "食材",
+                            "isShow": true
+                        },
+                        {
+                            "seriesName": "图书",
+                            "isShow": true
+                        }
+                    ],
+                    "label": {
+                        "fontSize": 12,
+                        "color": "#333",
+                        "fontFamily": "sans-serif",
+                        "fontGroup": [],
+                        "cusFontSize": 12
+                    },
+                    "position": {
+                        "value": "left-top",
+                        "offsetX": 40,
+                        "offsetY": 50,
+                        "direction": "horizontal"
+                    },
+                    "width": {
+                        "value": "auto",
+                        "cusSize": 25
+                    },
+                    "height": {
+                        "value": "auto",
+                        "cusSize": 14
+                    },
+                    "distance": {
+                        "value": "auto",
+                        "cusGap": 10
+                    },
+                    "itemGap": 10,
+                    "data": [
+                        "Mon",
+                        "Tues",
+                        "Wed",
+                        "Thur",
+                        "Fri",
+                        "Sat",
+                        "Sun"
+                    ]
+                },
+                "tooltip": {
+                    "show": true,
+                    "label": {
+                        "fontSize": 12,
+                        "color": "#333",
+                        "fontFamily": "sans-serif",
+                        "fontGroup": [],
+                        "cusFontSize": 12
+                    },
+                    "backgroundColor": "rgba(50,50,50,0.7)",
+                    "triggerOn": "mousemove",
+                    "triggerType": "item",
+                    "axisPointer": {
+                        "type": "line",
+                        "style": {
+                            "color": "#555",
+                            "width": "normal",
+                            "type": "solid"
+                        }
+                    },
+                    "format": [
+                        {
+                            "seriesName": "衣服",
+                            "prefix": "",
+                            "suffix": "",
+                            "ratio": 1,
+                            "digit": "auto"
+                        },
+                        {
+                            "seriesName": "食材",
+                            "prefix": "",
+                            "suffix": "",
+                            "ratio": 1,
+                            "digit": "auto"
+                        },
+                        {
+                            "seriesName": "图书",
+                            "prefix": "",
+                            "suffix": "",
+                            "ratio": 1,
+                            "digit": "auto"
+                        }
+                    ],
+                    "position": "auto"
+                },
+                "axis": {
+                    "axisType": "xAxisDown",
+                    "xAxisUp": {
+                        "show": false,
+                        "title": {
+                            "showTitle": false,
+                            "text": "",
+                            "nameGap": 15,
+                            "rotate": 0,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "fzPosition": "end"
+                        },
+                        "name": "显示X轴",
+                        "inverse": false,
+                        "tickLine": {
+                            "show": true,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tick": {
+                            "show": true,
+                            "position": "outside",
+                            "length": 5,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tickLabel": {
+                            "show": true,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "rotate": 0,
+                            "prefix": "",
+                            "suffix": "",
+                            "optimize": 0,
+                            "distance": 0,
+                            "min": "auto",
+                            "max": "auto",
+                            "ratio": 1,
+                            "digit": "auto"
+                        },
+                        "netLine": {
+                            "show": false,
+                            "width": 1,
+                            "type": "solid",
+                            "color": "auto",
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            }
+                        },
+                        "netArea": {
+                            "show": false,
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            },
+                            "colorOne": "auto",
+                            "colorTwo": "auto"
+                        },
+                        "axisLine": {
+                            "onZero": false
+                        }
+                    },
+                    "xAxisDown": {
+                        "show": true,
+                        "title": {
+                            "showTitle": false,
+                            "text": "",
+                            "nameGap": 15,
+                            "rotate": 0,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "fzPosition": "end"
+                        },
+                        "name": "显示X轴",
+                        "inverse": false,
+                        "tickLine": {
+                            "show": true,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tick": {
+                            "show": true,
+                            "position": "outside",
+                            "length": 5,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tickLabel": {
+                            "show": true,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "rotate": 0,
+                            "prefix": "",
+                            "suffix": "",
+                            "optimize": 0,
+                            "distance": 0,
+                            "min": null,
+                            "max": null,
+                            "ratio": 1,
+                            "digit": "auto"
+                        },
+                        "netLine": {
+                            "show": false,
+                            "width": 1,
+                            "type": "solid",
+                            "color": "auto",
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            }
+                        },
+                        "netArea": {
+                            "show": false,
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            },
+                            "colorOne": "auto",
+                            "colorTwo": "auto"
+                        },
+                        "data": [
+                            "BUS",
+                            "UBER",
+                            "TAXI",
+                            "SUBWAY"
+                        ],
+                        "type": "category"
+                    },
+                    "yAxisLeft": {
+                        "show": true,
+                        "title": {
+                            "showTitle": false,
+                            "text": "",
+                            "nameGap": 15,
+                            "rotate": 0,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "fzPosition": "end"
+                        },
+                        "name": "显示Y轴",
+                        "inverse": false,
+                        "tickLine": {
+                            "show": true,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tick": {
+                            "show": true,
+                            "position": "outside",
+                            "length": 5,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tickLabel": {
+                            "show": true,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "rotate": 0,
+                            "formatter": {
+                                "prefix": "",
+                                "suffix": "",
+                                "ratio": 1,
+                                "digit": "auto"
+                            },
+                            "split": 5,
+                            "min": null,
+                            "max": null,
+                            "prefix": "",
+                            "suffix": "",
+                            "ratio": 1,
+                            "digit": "auto",
+                            "distance": 0
+                        },
+                        "netLine": {
+                            "show": false,
+                            "width": 1,
+                            "type": "solid",
+                            "color": "auto",
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            }
+                        },
+                        "netArea": {
+                            "show": false,
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            },
+                            "colorOne": "auto",
+                            "colorTwo": "auto"
+                        },
+                        "type": "value"
+                    },
+                    "yAxisRight": {
+                        "show": false,
+                        "title": {
+                            "showTitle": false,
+                            "text": "",
+                            "nameGap": 15,
+                            "rotate": 0,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "fzPosition": "end"
+                        },
+                        "name": "显示Y轴",
+                        "inverse": false,
+                        "tickLine": {
+                            "show": true,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tick": {
+                            "show": true,
+                            "position": "outside",
+                            "length": 5,
+                            "width": 1,
+                            "color": "auto"
+                        },
+                        "tickLabel": {
+                            "show": true,
+                            "label": {
+                                "fontSize": 12,
+                                "color": "#333",
+                                "fontFamily": "sans-serif",
+                                "fontGroup": [],
+                                "cusFontSize": 12
+                            },
+                            "rotate": 0,
+                            "formatter": {
+                                "prefix": "",
+                                "suffix": "",
+                                "ratio": 1,
+                                "digit": "auto"
+                            },
+                            "split": 5,
+                            "min": null,
+                            "max": null,
+                            "prefix": "",
+                            "suffix": "",
+                            "ratio": 1,
+                            "digit": "auto",
+                            "distance": 0
+                        },
+                        "netLine": {
+                            "show": false,
+                            "width": 1,
+                            "type": "solid",
+                            "color": "auto",
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            }
+                        },
+                        "netArea": {
+                            "show": false,
+                            "interval": {
+                                "value": "auto",
+                                "cusNumber": 0
+                            },
+                            "colorOne": "auto",
+                            "colorTwo": "auto"
+                        }
+                    }
+                }
+            }
+        },
+        "isShow": true
+    }
+    ```
+    :::
+
+------------
+### allowEdit
+- 类型：Boolean
+- 默认值：true
+- 作用： 此sheet页是否允许编辑
+
+------------
+### zoomRatio
+- 类型：Number
+- 默认值：1
+- 作用： 此sheet页的缩放比例，为0~1之间的二位小数数字。比如`0.1`、`0.56`
 
 ------------
 
@@ -751,7 +1233,7 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
             "rowlen":{}, //表格行高
             "columnlen":{}, //表格列宽
             "rowhidden":{}, //隐藏行
-            "columnhidden":{}, //隐藏列
+            "colhidden":{}, //隐藏列
             "borderInfo":{}, //边框
         },
         "scrollLeft": 0, //左右滚动条位置
@@ -765,8 +1247,12 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "luckysheet_alternateformat_save": [], //交替颜色
         "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
         "luckysheet_conditionformat_save": {},//条件格式
-        "freezen": {}, //冻结行列
+        "frozen": {}, //冻结行列配置
+        "freezen": {}, //冻结行列的渲染数据存储
         "chart": [], //图表配置
+        "allowEdit": true, //是否允许编辑
+        "zoomRatio":1, // 缩放比例
+        
 
         "visibledatarow": [], //所有行的位置
         "visibledatacolumn": [], //所有列的位置

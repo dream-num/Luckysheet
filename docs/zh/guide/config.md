@@ -22,48 +22,59 @@ luckysheet.create(options)
 
 这里的`options`配置项会作用于整个表格，特别的，单个sheet的配置则需要在`options.data`数组中，分别设置对应更详细的参数，参考[工作表配置](/zh/guide/sheet.html)
 
+针对个性化的需求，除了允许配置名称栏（[showinfobar](#showinfobar)）、工具栏（[showtoolbar](#showtoolbar)）、底部sheet页（[showsheetbar](#showsheetbar)）、底部计数栏（[showstatisticBar](#showstatisticBar)）之外，
+Luckysheet开放了更细致的自定义配置选项，分别有
+
+- 自定义工具栏（[showtoolbarConfig](#showtoolbarConfig)）
+- 自定义底部sheet页（[showsheetbarConfig](#showsheetbarConfig)）
+- 自定义计数栏（[showstatisticBarConfig](#showstatisticBarConfig)）
+- 自定义添加行和回到顶部（[sheetBottomConfig](#sheetBottomConfig)）
+- 自定义单元格右键菜单（[cellRightClickConfig](#cellRightClickConfig)）
+- 自定义sheet页右击菜单（[sheetRightClickConfig](#sheetRightClickConfig)）
+
+
 ## 配置项
 
 以下为所有支持的设置参数
 
-- [container](#container)
-- [title](#title)
-- [lang](#lang)
-- [gridKey](#gridKey)
-- [loadUrl](#loadUrl)
-- [loadSheetUrl](#loadSheetUrl)
-- [allowUpdate](#allowUpdate)
-- [updateUrl](#updateUrl)
-- [updateImageUrl](#updateImageUrl)
-- [data](#data)
-- [plugins](#plugins)
-- [column](#column)
-- [row](#row)
-- [autoFormatw](#autoFormatw)
-- [accuracy](#accuracy)
-- [allowCopy](#allowCopy)
-- [showtoolbar](#showtoolbar)
-- [showtoolbarConfig](#showtoolbarConfig)
-- [showinfobar](#showinfobar)
-- [showsheetbar](#showsheetbar)
-- [showsheetbarConfig](#showsheetbarConfig)
-- [showstatisticBar](#showstatisticBar)
-- [showstatisticBarConfig](#showstatisticBarConfig)
-- [allowEdit](#allowEdit)
-- [enableAddRow](#enableAddRow)
-- [enableAddCol](#enableAddCol)
-- [userInfo](#userInfo)
-- [userMenuItem](#userMenuItem)
-- [myFolderUrl](#myFolderUrl)
-- [devicePixelRatio](#devicePixelRatio)
-- [functionButton](#functionButton)
-- [showConfigWindowResize](#showConfigWindowResize)
-- [enablePage](#enablePage)
-- [fullscreenmode](#fullscreenmode)
-- [beforeCreateDom](#beforeCreateDom)
-- [fireMousedown](#fireMousedown)
-- [forceCalculation](#forceCalculation)
-- [rightClickConfig](#rightClickConfig)
+- 容器ID [container](#container)
+- 工作簿名称 [title](#title)
+- 语言 [lang](#lang)
+- 唯一key [gridKey](#gridKey)
+- 加载整个工作簿 [loadUrl](#loadUrl)
+- 加载其它页celldata [loadSheetUrl](#loadSheetUrl)
+- 允许更新 [allowUpdate](#allowUpdate)
+- 更新地址 [updateUrl](#updateUrl)
+- 缩略图更新地址 [updateImageUrl](#updateImageUrl)
+- 工作表配置 [data](#data)
+- 插件 [plugins](#plugins)
+- 列数 [column](#column)
+- 行数 [row](#row)
+- 亿万格式 [autoFormatw](#autoFormatw)
+- 精度 [accuracy](#accuracy)
+- 允许复制 [allowCopy](#allowCopy)
+- 工具栏 [showtoolbar](#showtoolbar)
+- 自定义工具栏[showtoolbarConfig](#showtoolbarConfig)
+- 名称栏 [showinfobar](#showinfobar)
+- 底部sheet页 [showsheetbar](#showsheetbar)
+- 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
+- 底部计数栏 [showstatisticBar](#showstatisticBar)
+- 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
+- 自定义添加行和回到顶部 [sheetBottomConfig](#sheetBottomConfig)
+- 允许编辑 [allowEdit](#allowEdit)
+- 允许增加行 [enableAddRow](#enableAddRow)
+- 允许增加列 [enableAddCol](#enableAddCol)
+- 用户信息 [userInfo](#userInfo)
+- 用户信息菜单 [userMenuItem](#userMenuItem)
+- 返回按钮链接 [myFolderUrl](#myFolderUrl)
+- 比例 [devicePixelRatio](#devicePixelRatio)
+- 功能按钮 [functionButton](#functionButton)
+- 自动缩进界面 [showConfigWindowResize](#showConfigWindowResize)
+- 加载下一页 [enablePage](#enablePage)
+- 全屏模式 [fullscreenmode](#fullscreenmode)
+- 刷新公式 [forceCalculation](#forceCalculation)
+- 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
+- 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
 
 ### container
 - 类型：String
@@ -74,7 +85,7 @@ luckysheet.create(options)
 ### title
 - 类型：String
 - 默认值："Luckysheet Demo"
-- 作用：表格的名称
+- 作用：工作簿名称
 
 ------------
 ### lang
@@ -167,7 +178,7 @@ luckysheet.create(options)
 - 作用：是否第二列显示工具栏
 
 ------------
-#### showtoolbarConfig
+### showtoolbarConfig
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置工具栏
@@ -218,13 +229,13 @@ luckysheet.create(options)
 ### showsheetbar
 - 类型：Boolean
 - 默认值：true
-- 作用：是否显示底部表格名称区域
+- 作用：是否显示底部sheet页按钮
 
 ------------
 ### showsheetbarConfig
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部表格名称区域
+- 作用：自定义配置底部sheet页按钮
 - 格式：
     ```json
     {
@@ -250,6 +261,18 @@ luckysheet.create(options)
     {
         count: false, // 计数栏
         zoom: false // 缩放
+    }
+
+------------
+### sheetBottomConfig
+- 类型：Object
+- 默认值：{}
+- 作用：sheet页下方的添加行按钮和回到顶部按钮配置
+- 格式：
+    ```json
+    {
+        addRow: false, // 添加行按钮
+        backTop: false // 回到顶部
     }
 
 ------------
@@ -319,18 +342,6 @@ luckysheet.create(options)
 - 作用：是否全屏模式。非全屏模式下，标记框不会强制选中
 
 ------------
-### beforeCreateDom
-- 类型：Function
-- 默认值：null
-- 作用：表格创建之前自定义方法
-
-------------
-### fireMousedown
-- 类型：Function
-- 默认值：null
-- 作用：单元格数据下钻自定义方法
-
-------------
 ### forceCalculation
 - 类型：Boolean
 - 默认值：false
@@ -343,33 +354,54 @@ luckysheet.create(options)
     ⚠️提醒，公式较多时会有性能问题，慎用！
 
 ------------
-### rightClickConfig
+### cellRightClickConfig
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置右击菜单
+- 作用：自定义配置单元格右击菜单
 - 格式：
     ```json
     {
-        copy:false, // '复制'
-        copyAs:false, // '复制为'
-        paste:false, // '粘贴',
-        insert:false, // '插入',
-        delete:false, // '删除',
-        hide:false, // '隐藏',
-        deleteCell:false, // '删除单元格',
-        clear:false, // '清除内容',
-        matrix:false, // '矩阵操作选区',
-        sort:false, // '排序选区',
-        filter:false, //'筛选选区',
-        chart:false, // '图表生成',
+        copy: false, // '复制'
+        copyAs: false, // '复制为'
+        paste: false, // '粘贴'
+        insert: false, // '插入'
+        delete: false, // '删除'
+        hide: false, // '隐藏'
+        deleteCell: false, // '删除单元格'
+        clear: false, // '清除内容'
+        matrix: false, // '矩阵操作选区'
+        sort: false, // '排序选区'
+        filter: false, //'筛选选区'
+        chart: false // '图表生成'
     }
 
-## 钩子函数
+------------
+### sheetRightClickConfig
+- 类型：Object
+- 默认值：{}
+- 作用：自定义配置sheet页右击菜单
+- 格式：
+    ```json
+    {   
+        delete: false, // '删除'
+        copy: false, // '复制'
+        rename: false, //重命名
+        color: false, //更改颜色
+        hide: false, //隐藏
+        show: false, //取消隐藏
+        left: false, //向左移
+        right: false //向右移
+    }
+
+------------
+
+## 钩子函数（TODO）
 
 钩子函数应用于二次开发时，会在各个常用鼠标或者键盘操作时植入钩子，调用开发者传入的函数，起到扩展Luckysheet功能的作用。
 
-钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook
+钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook。
 
+------------
 ### cellHover
 - 类型：Function
 - 默认值：null
@@ -380,38 +412,116 @@ luckysheet.create(options)
 	- {Object} [v]: 单元格对象
 
 ------------
-
 ### cellClickBefore
 - 类型：Function
 - 默认值：null
 - 作用：点击单元格前触发，即在点击单元格的时候，最先触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
 ------------
-
-### cellClickAfter
+### cellClicked
 - 类型：Function
 - 默认值：null
 - 作用：点击单元格后触发，即在点击单元格的时候，最后触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
 ------------
+### cellEditBefore
+- 类型：Function
+- 默认值：null
+- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最先触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
 
+------------
+### cellEdited
+- 类型：Function
+- 默认值：null
+- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最后触发这个方法
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [oldV]: 修改前单元格对象
+	- {Object} [newV]: 修改后单元格对象
+
+------------
 ### sheetClickBefore
 - 类型：Function
 - 默认值：null
 - 作用：点击sheet页前触发
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {Object} [sheet]: sheet页的配置
 
 ------------
-
-### sheetClickAfter
+### sheetClicked
 - 类型：Function
 - 默认值：null
 - 作用：点击sheet页后触发
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {Object} [sheet]: sheet页的配置
 
 ------------
-
-### sheetClickAfter
+### workbookCreateBefore
 - 类型：Function
 - 默认值：null
-- 作用：点击sheet页后触发
+- 作用：表格创建之前触发。旧的钩子函数叫做`beforeCreateDom`
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### workbookCreated
+- 类型：Function
+- 默认值：null
+- 作用：表格创建之后触发
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### workbookUpdated
+- 类型：Function
+- 默认值：null
+- 作用：表格创建之后触发
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### workbookDestroyBefore
+- 类型：Function
+- 默认值：null
+- 作用：表格创建之后触发
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### workbookDestroyed
+- 类型：Function
+- 默认值：null
+- 作用：表格创建之后触发
+- 参数：
+	- {Object} [book]: 整个工作簿的配置（options）
+    
+------------
+### updated
+- 类型：Function
+- 默认值：null
+- 作用：每次操作更新后执行的方法，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销时因为也算一次操作，当然也会触发此钩子函数。
+- 参数：
+	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
+    
+------------
+### fireMousedown
+- 类型：Function
+- 默认值：null
+- 作用：单元格数据下钻自定义方法
 
 ------------
