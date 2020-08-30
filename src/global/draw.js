@@ -1142,11 +1142,11 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
             luckysheetTableContent.beginPath();
             luckysheetTableContent.moveTo(
                  (end_c + offsetLeft - 2 + bodrder05), 
-                 (start_r + offsetTop - 2)
+                 (start_r + offsetTop)
             );
             luckysheetTableContent.lineTo(
                  (end_c + offsetLeft - 2 + bodrder05), 
-                 (end_r + offsetTop - 2)
+                 (end_r + offsetTop)
             );
             luckysheetTableContent.lineWidth = 1;
 
@@ -1160,11 +1160,11 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
     if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
-             (start_c + offsetLeft - 2), 
+             (start_c + offsetLeft - 1), 
              (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineTo(
-             (end_c + offsetLeft - 2), 
+             (end_c + offsetLeft - 1), 
              (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineWidth = 1;
@@ -1993,11 +1993,11 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
             luckysheetTableContent.beginPath();
             luckysheetTableContent.moveTo(
                  (end_c + offsetLeft - 2 + bodrder05), 
-                 (start_r + offsetTop - 2)
+                 (start_r + offsetTop)
             );
             luckysheetTableContent.lineTo(
                  (end_c + offsetLeft - 2 + bodrder05), 
-                 (end_r + offsetTop - 2)
+                 (end_r + offsetTop)
             );
             luckysheetTableContent.lineWidth = 1;
             luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
@@ -2010,11 +2010,11 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
-             (start_c + offsetLeft - 2), 
+             (start_c + offsetLeft - 1), 
              (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineTo(
-             (end_c + offsetLeft - 2), 
+             (end_c + offsetLeft - 1), 
              (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineWidth = 1;
