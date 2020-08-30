@@ -873,10 +873,12 @@ const sheetmanage = {
             luckysheetFreezen.freezenhorizontaldata = file["freezen"].horizontal == null ? null : file["freezen"].horizontal.freezenhorizontaldata;
             luckysheetFreezen.freezenverticaldata = file["freezen"].vertical == null ? null : file["freezen"].vertical.freezenverticaldata;
         }
-
-        createFilterOptions(file["filter_select"], file["filter"]);
         
         rhchInit(Store.flowdata.length, Store.flowdata[0].length);
+        
+        createFilterOptions(file["filter_select"], file["filter"]);
+        
+
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
