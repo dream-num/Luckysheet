@@ -1144,8 +1144,10 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         luckysheetTableContent.fillStyle = fillStyle;
     }
 
-    let borderfix = menuButton.borderfix(Store.flowdata, r, c);
 
+
+    let borderfix = menuButton.borderfix(Store.flowdata, r, c);
+    // console.log(value, fillStyle,borderfix);
     let cellsize = [
         (start_c + offsetLeft + borderfix[0]), 
         (start_r + offsetTop  + borderfix[1]), 

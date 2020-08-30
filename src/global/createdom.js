@@ -116,4 +116,6 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
 
     //批注
     luckysheetPostil.buildAllPs(Store.flowdata);
+
+    $("#luckysheet_info_detail_input").val(luckysheetConfigsetting.title);
 }

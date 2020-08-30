@@ -53,7 +53,12 @@ const server = {
 	                let v_row = [];
 
 	                for(let c = c1; c <= c2; c++){
-	                    v_row.push(data[r][c]);
+						if(data[r]==null){
+							v_row.push(null);
+						}
+						else{
+							v_row.push(data[r][c]);
+						}
 	                }
 
 	                v.push(v_row);

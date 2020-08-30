@@ -95,6 +95,8 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.defaultColWidth = extendsetting.defaultColWidth;
     luckysheetConfigsetting.defaultRowHeight = extendsetting.defaultRowHeight;
 
+    luckysheetConfigsetting.title = extendsetting.title;
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 

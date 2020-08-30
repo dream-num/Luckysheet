@@ -160,6 +160,10 @@ const method = {
         $("#luckysheet-modal-dialog-mask, #luckysheetTextSizeTest, #luckysheet-icon-morebtn-div").remove();
         $("#luckysheet-input-box").parent().remove();
         $("#luckysheet-formula-help-c").remove();
+        $(".chartSetting").remove();
+
+        //document event release
+        $(document).off(".luckysheetEvent");
         
         //参数重置
         Store.jfredo = [];

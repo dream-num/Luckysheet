@@ -1115,7 +1115,7 @@ export default function luckysheetHandler() {
     });
 
     //表格mousemove
-    $(document).mousemove(function (event) {
+    $(document).on("mousemove.luckysheetEvent",function (event) {
         luckysheetPostil.overshow(event); //有批注显示
 
         window.cancelAnimationFrame(Store.jfautoscrollTimeout);
@@ -2181,7 +2181,7 @@ export default function luckysheetHandler() {
         }
     });
     //表格mouseup
-    $(document).mouseup(function (event) {
+    $(document).on("mouseup.luckysheetEvent",function (event) {
         //数据窗格主体
         if (Store.luckysheet_select_status) {
             clearTimeout(Store.countfuncTimeout);
@@ -3505,7 +3505,7 @@ export default function luckysheetHandler() {
     });
 
     //截图下载
-    $(document).on("click", "a.download", function () {
+    $(document).on("click.luckysheetEvent", "a.download", function () {
         let dataURI = $("#luckysheet-confirm-screenshot-save img").attr("src");
         const locale_screenshot = _locale.screenshot;
         let binStr = atob(dataURI.split(",")[1]),
@@ -3673,9 +3673,9 @@ export default function luckysheetHandler() {
         }
     }
 
-    $(document).on("visibilitychange webkitvisibilitychange msvisibilitychange", copychange).mouseleave(function () {
+    $(document).on("visibilitychange.luckysheetEvent webkitvisibilitychange.luckysheetEvent msvisibilitychange.luckysheetEvent", copychange).on("mouseleave.luckysheetEvent", function () {
         Store.iscopyself = false;
-    }).mousedown(function (event) {
+    }).on("mousedown.luckysheetEvent", function (event) {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -3722,7 +3722,7 @@ export default function luckysheetHandler() {
 
 
     //模态框拖动
-    $(document).on("mousedown", "div.luckysheet-modal-dialog", function (e) {
+    $(document).on("mousedown.luckysheetEvent", "div.luckysheet-modal-dialog", function (e) {
         if (!$(e.target).is(".luckysheet-modal-dialog")) {
             return;
         }
@@ -3735,7 +3735,7 @@ export default function luckysheetHandler() {
     });
 
     //模态框关闭
-    $(document).on("click", ".luckysheet-modal-dialog-title-close, .luckysheet-model-close-btn", function (e) {
+    $(document).on("click.luckysheetEvent", ".luckysheet-modal-dialog-title-close, .luckysheet-model-close-btn", function (e) {
         //选择文本颜色和单元格颜色弹出框取消
         if ($("#textcolorselect").is(":visible") || $("#cellcolorselect").is(":visible")) {
             $("#luckysheet-conditionformat-dialog").show();
@@ -3931,7 +3931,7 @@ export default function luckysheetHandler() {
     let dpi_y = document.getElementById('testdpidiv').offsetHeight * Store.devicePixelRatio;
 
     //粘贴事件处理
-    $(document).on("paste", function (e) {
+    $(document).on("paste.luckysheetEvent", function (e) {
         if (isEditMode()) {//此模式下禁用粘贴
             return;
         }
@@ -4081,7 +4081,7 @@ export default function luckysheetHandler() {
 
                             let bg = $td.css("background-color");
                             if (bg == "rgba(0, 0, 0, 0)") {
-                                bg = "rgba(255,255,255)";
+                                bg = null;
                             }
 
                             cell.bg = bg;
