@@ -43,7 +43,7 @@ function rowlenByRange(d, r1, r2, cfg) {
 
                 let textMetrics = measureText.width; //文本宽度
                 let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
-                
+                let spaceHeight = Math.ceil(oneLineTextHeight/3);
                 let computeRowlen; //计算行高
                 let word_space_height = oneLineTextHeight/3;
                 if(cell.tb == "2"){
@@ -54,10 +54,10 @@ function rowlenByRange(d, r1, r2, cfg) {
                         let strArr = []; //文本截断数组
                         strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
 
-                        computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + 4;
+                        computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + spaceHeight;
                     }
                     else{
-                        computeRowlen = oneLineTextHeight + 4;
+                        computeRowlen = oneLineTextHeight + spaceHeight;
                     }
                 }
                 else if(cell.tr != null){
@@ -66,25 +66,25 @@ function rowlenByRange(d, r1, r2, cfg) {
                                 
                     if(tr == "0"){
                         //无旋转
-                        computeRowlen = oneLineTextHeight + 4;    
+                        computeRowlen = oneLineTextHeight + spaceHeight;    
                     }
                     else if(tr == "1" || tr == "2"){
                         //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                        computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + 4;
+                        computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + spaceHeight;
                     }
                     else if(tr == "3"){
                         //竖排文字
-                        computeRowlen = value.length * oneLineTextHeight + 4;
+                        computeRowlen = value.length * oneLineTextHeight + spaceHeight;
                     }
                     else if(tr == "4" || tr == "5"){
                         //向下90（90 旋转）----向上90（-90 旋转）
-                        computeRowlen = textMetrics + 4;
+                        computeRowlen = textMetrics + spaceHeight;
                     }
 
                     computeRowlen = Math.round(computeRowlen);
                 }
                 else{
-                    computeRowlen = oneLineTextHeight + 4;
+                    computeRowlen = oneLineTextHeight + spaceHeight;
                 }
 
                 //比较计算高度和当前高度取最大高度

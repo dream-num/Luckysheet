@@ -363,7 +363,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
-            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr = clc.func[2];
+            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i);
             let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
             clc.func = clc_result;
 
@@ -567,7 +567,7 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf){
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
-            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr = clc.func[2];
+            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i);
             let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
             clc.func = clc_result;
 

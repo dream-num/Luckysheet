@@ -95,7 +95,7 @@ function luckysheetextendtable(type, index, value, direction) {
     if(calcChain != null && calcChain.length > 0){
         for(let i = 0; i < calcChain.length; i++){
             let calc = $.extend(true, {}, calcChain[i]);
-            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr = calc.func[2];
+            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr =  getcellFormula(calc_r, calc_c, calc_i);
 
             if(type == "row"){
                 let functionStr = "=" + formula.functionStrChange(calc_funcStr, "add", "row", direction, index, value);
@@ -104,7 +104,7 @@ function luckysheetextendtable(type, index, value, direction) {
                     d[calc_r][calc_c].f = functionStr;
                 }
 
-                calc.func[2] = functionStr;
+                // calc.func[2] = functionStr;
 
                 if(direction == "lefttop"){
                     if(calc_r >= index){
@@ -126,7 +126,7 @@ function luckysheetextendtable(type, index, value, direction) {
                     d[calc_r][calc_c].f = functionStr;
                 }
 
-                calc.func[2] = functionStr;
+                // calc.func[2] = functionStr;
 
                 if(direction == "lefttop"){
                     if(calc_c >= index){
@@ -882,7 +882,7 @@ function luckysheetdeletetable(type, st, ed) {
     if(calcChain != null && calcChain.length > 0){
         for(let i = 0; i < calcChain.length; i++){
             let calc = $.extend(true, {}, calcChain[i]);
-            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr = calc.func[2];
+            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr =  getcellFormula(calc_r, calc_c, calc_i);
 
             if(type == "row"){
                 if(calc_r < st || calc_r > ed){
@@ -892,7 +892,7 @@ function luckysheetdeletetable(type, st, ed) {
                         d[calc_r][calc_c].f = functionStr;
                     }
 
-                    calc.func[2] = functionStr;
+                    // calc.func[2] = functionStr;
 
                     if(calc_r > ed){
                         calc.r = calc_r - slen;
@@ -909,7 +909,7 @@ function luckysheetdeletetable(type, st, ed) {
                         d[calc_r][calc_c].f = functionStr;
                     }
 
-                    calc.func[2] = functionStr;
+                    // calc.func[2] = functionStr;
 
                     if(calc_c > ed){
                         calc.c = calc_c - slen;
@@ -1531,7 +1531,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc) {
     if(calcChain != null && calcChain.length > 0){
         for(let i = 0; i < calcChain.length; i++){
             let calc = $.extend(true, {}, calcChain[i]);
-            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr = calc.func[2];
+            let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr =  getcellFormula(calc_r, calc_c, calc_i);
 
             if((calc_r < str || calc_r > edr) && (calc_c < stc || calc_c > edc)){
                 let functionStr;
@@ -1555,7 +1555,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc) {
                     d[calc_r][calc_c].f = functionStr;
                 }
 
-                calc.func[2] = functionStr;
+                // calc.func[2] = functionStr;
 
                 newCalcChain.push(calc);
             }

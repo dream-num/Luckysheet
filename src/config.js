@@ -54,4 +54,6 @@ export default {
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用
     rowHeaderWidth: 46,
     columeHeaderHeight: 20,
+    defaultColWidth:73,
+    defaultRowHeight:19,
 }

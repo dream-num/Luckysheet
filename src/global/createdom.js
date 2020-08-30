@@ -110,6 +110,10 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
     $("body").append(sheetconfigHTML());
 
+    $("#luckysheet-rows-h").width((Store.rowHeaderWidth-1.5));
+    $("#luckysheet-cols-h-c").height((Store.columeHeaderHeight-1.5));
+    $("#luckysheet-left-top").css({width:Store.rowHeaderWidth-1.5, height:Store.columeHeaderHeight-1.5});
+
     //批注
     luckysheetPostil.buildAllPs(Store.flowdata);
 }

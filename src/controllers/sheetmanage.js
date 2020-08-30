@@ -1,6 +1,6 @@
 import { isEditMode } from '../global/validate';
 import cleargridelement from '../global/cleargridelement';
-import { getcellvalue, datagridgrowth } from '../global/getdata';
+import { getcellvalue, datagridgrowth,getcellFormula } from '../global/getdata';
 import { setcellvalue } from '../global/setdata';
 import luckysheetcreatedom from '../global/createdom';
 import tooltip from '../global/tooltip';
@@ -598,14 +598,7 @@ const sheetmanage = {
         
         return data;
     },
-    initialjfFile: function(menu, title) {
-        let _this = this;
-
-        _this.getCurSheet();
-        let file = Store.luckysheetfile[_this.getSheetIndex(Store.currentSheetIndex)];
-        _this.nulldata = datagridgrowth([], Store.defaultrowNum, Store.defaultcolumnNum);
-        let data = _this.buildGridData(file);
-
+    sheetParamRestore: function(file, data) {
         Store.luckysheet_select_save = file["luckysheet_select_save"];
         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
             if(data[0] != null && data[0][0] != null && data[0][0].mc != null){
@@ -626,6 +619,43 @@ const sheetmanage = {
         Store.config = file["config"] == null ? {} : file["config"];
 
         Store.zoomRatio = file["zoomRatio"] == null ? 1 : file["zoomRatio"];
+
+        if(file["defaultRowHeight"]!=null){
+            Store.defaultrowlen = parseFloat(file["defaultRowHeight"]);
+        }
+        else{
+            Store.defaultrowlen = luckysheetConfigsetting["defaultRowHeight"];
+        }
+
+        if(file["defaultColWidth"]!=null){
+            Store.defaultcollen = parseFloat(file["defaultColWidth"]);
+        }
+        else{
+            Store.defaultcollen = luckysheetConfigsetting["defaultColWidth"];
+        }
+
+        if(file["showGridLines"]!=null){
+            let showGridLines = file["showGridLines"];
+            if(showGridLines==0 || showGridLines==false){
+                Store.showGridLines = false;
+            }
+            else{
+                Store.showGridLines = true;
+            }
+        }
+        else{
+            Store.showGridLines = true;
+        }
+    },
+    initialjfFile: function(menu, title) {
+        let _this = this;
+
+        _this.getCurSheet();
+        let file = Store.luckysheetfile[_this.getSheetIndex(Store.currentSheetIndex)];
+        _this.nulldata = datagridgrowth([], Store.defaultrowNum, Store.defaultcolumnNum);
+        let data = _this.buildGridData(file);
+
+        this.sheetParamRestore(file, data);
 
         let r2 = Store.luckysheet_select_save[0].row[1], 
             c2 = Store.luckysheet_select_save[0].column[1];
@@ -833,25 +863,7 @@ const sheetmanage = {
 
         luckysheetPostil.buildAllPs(Store.flowdata);
 
-        Store.config = file["config"];
-
-        Store.luckysheet_select_save = file["luckysheet_select_save"];
-        if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
-            if(Store.flowdata[0] != null && Store.flowdata[0][0] != null && Store.flowdata[0][0].mc != null){
-                Store.luckysheet_select_save = [{ 
-                    "row": [0, Store.flowdata[0][0].mc.rs - 1], 
-                    "column": [0, Store.flowdata[0][0].mc.cs - 1] 
-                }];
-            }
-            else{
-                Store.luckysheet_select_save = [{ 
-                    "row": [0, 0], 
-                    "column": [0, 0] 
-                }];
-            }
-        }
-
-        Store.luckysheet_selection_range = file["luckysheet_selection_range"] == null ? [] : file["luckysheet_selection_range"];
+        this.sheetParamRestore(file, Store.flowdata);
 
         if(file["freezen"] == null){
             luckysheetFreezen.freezenhorizontaldata = null;
@@ -860,13 +872,6 @@ const sheetmanage = {
         else{
             luckysheetFreezen.freezenhorizontaldata = file["freezen"].horizontal == null ? null : file["freezen"].horizontal.freezenhorizontaldata;
             luckysheetFreezen.freezenverticaldata = file["freezen"].vertical == null ? null : file["freezen"].vertical.freezenverticaldata;
-        }
-
-        if(file["zoomRatio"] != null){
-            Store.zoomRatio = file["zoomRatio"];
-        }
-        else{
-            Store.zoomRatio = 1;
         }
 
         createFilterOptions(file["filter_select"], file["filter"]);
@@ -908,7 +913,11 @@ const sheetmanage = {
     mergeCalculationSheet:{},
     mergeCalculation:function(index){
         let file = Store.luckysheetfile[this.getSheetIndex(index)];
-        let config = file.config, data = file.data, mergeConfig = config.merge;
+        let config = file.config, data = file.data;
+        if(config==null){
+            return;
+        }
+        let mergeConfig = config.merge;
         if(mergeConfig==null || index in this.mergeCalculationSheet || file["autoCalculationMerge"]===false){
             return;
         }
@@ -1080,9 +1089,10 @@ const sheetmanage = {
             let dataNameList = {};
         	for(let i = 0; i < calchain.length; i++){
         		let f = calchain[i];
-                let dataindex = f.index, func = f.func;
+                let dataindex = f.index;
+                let formulaTxt = getcellFormula(f.r, f.c, dataindex);
 
-                formula.functionParser(func[2], (str)=>{
+                formula.functionParser(formulaTxt, (str)=>{
                     if(str.indexOf("!")>-1){
                         let name = str.substr(0, str.indexOf('!'));
                         dataNameList[name] = true;
@@ -1142,7 +1152,7 @@ const sheetmanage = {
     	return ret;
     },
     showSheet: function() {
-        changeSheetContainerSize();
+        // changeSheetContainerSize();
         $("#luckysheet-cell-flow_0").css({ "width": Store.ch_width, "top": "-1px" }); //width更新
         $("#luckysheet-sheettable_0").css({ "width": Store.ch_width - 1, "height": Store.rh_height });
         $("#luckysheetrowHeader_0").css("height", Store.rh_height);
@@ -1523,13 +1533,12 @@ const sheetmanage = {
             }
 
             let r = value.r, c = value.c;
-            let func = value.func;
 
             if(op == "del" ){
                 formula.delFunctionGroup(r, c, index);
             }
             else {
-                formula.insertUpdateFunctionGroup(r, c, func, index);
+                formula.insertUpdateFunctionGroup(r, c, index);
             }
         }
         else if(type == "cg"){

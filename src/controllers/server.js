@@ -404,7 +404,6 @@ const server = {
 	        }
 
 	        let r = value.r, c = value.c;
-	        let func = value.func;
 
 	        let calcChain = file["calcChain"] == null ? [] : file["calcChain"];
 
@@ -418,13 +417,13 @@ const server = {
 	                }
 	            }
 	        }
-	        else if(op == "update"){
-	            for(let a = 0; a < calcChain.length; a++){
-	                if(r == calcChain[a].r && c == calcChain[a].c && index == calcChain[a].index){
-	                    calcChain[a].func = func;
-	                }
-	            } 
-	        }
+	        // else if(op == "update"){
+	        //     for(let a = 0; a < calcChain.length; a++){
+	        //         if(r == calcChain[a].r && c == calcChain[a].c && index == calcChain[a].index){
+	        //             calcChain[a].func = func;
+	        //         }
+	        //     } 
+	        // }
 
 	        setTimeout(function () {
 	            luckysheetrefreshgrid();

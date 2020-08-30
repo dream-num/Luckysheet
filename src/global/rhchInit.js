@@ -69,9 +69,9 @@ export default function rhchInit(rowheight, colwidth) {
 
             Store.visibledatacolumn.push(Store.ch_width);//列的临时长度分布
 
-            if(maxColumnlen < firstcolumnlen + 1){
-                maxColumnlen = firstcolumnlen + 1;
-            }
+            // if(maxColumnlen < firstcolumnlen + 1){
+            //     maxColumnlen = firstcolumnlen + 1;
+            // }
         }
         
         // Store.ch_width += 120;
