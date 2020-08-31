@@ -1239,7 +1239,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
     //若单元格有批注（单元格右上角红色小三角标示）
     if(cell.ps != null){
-        let ps_w = 6*Store.zoomRatio, ps_h = 6*Store.zoomRatio; //红色小三角宽高
+        let ps_w = 8*Store.zoomRatio, ps_h = 8*Store.zoomRatio; //红色小三角宽高
 
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
@@ -1265,15 +1265,15 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
-             (start_c + offsetLeft + ps_w), 
+             (start_c + offsetLeft + ps_w-1), 
             (start_r + offsetTop)
         );
         luckysheetTableContent.lineTo(
-             (start_c + offsetLeft), 
+             (start_c + offsetLeft-1), 
             (start_r + offsetTop)
         );
         luckysheetTableContent.lineTo(
-             (start_c + offsetLeft), 
+             (start_c + offsetLeft-1), 
              (start_r + offsetTop + ps_h)
         );
         luckysheetTableContent.fillStyle = "#487f1e";
