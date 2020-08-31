@@ -7,7 +7,7 @@ import { luckysheetdefaultstyle, luckysheet_CFiconsImg,luckysheetdefaultFont } f
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { dynamicArrayCompute } from './dynamicArray';
 import browser from './browser';
-import { isRealNull } from './validate';
+import { isRealNull, isRealNum } from './validate';
 import { getCellTextSplitArr,getMeasureText } from './getRowlen';
 import { getcellvalue } from './getdata';
 import { getBorderInfoCompute } from './border';
@@ -1239,7 +1239,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
     //若单元格有批注（单元格右上角红色小三角标示）
     if(cell.ps != null){
-        let ps_w = 8*Store.zoomRatio, ps_h = 8*Store.zoomRatio; //红色小三角宽高
+        let ps_w = 6*Store.zoomRatio, ps_h = 6*Store.zoomRatio; //红色小三角宽高
 
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
@@ -1255,6 +1255,28 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
              (start_r + offsetTop + ps_h)
         );
         luckysheetTableContent.fillStyle = "#FC6666";
+        luckysheetTableContent.fill();
+        luckysheetTableContent.closePath();
+    }
+
+    //若单元格强制为字符串，则显示绿色小三角
+    if(cell.qp==1 && isRealNum(cell.v)){
+        let ps_w = 6*Store.zoomRatio, ps_h = 6*Store.zoomRatio; //红色小三角宽高
+
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.moveTo(
+             (start_c + offsetLeft + ps_w), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+             (start_c + offsetLeft), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+             (start_c + offsetLeft), 
+             (start_r + offsetTop + ps_h)
+        );
+        luckysheetTableContent.fillStyle = "#487f1e";
         luckysheetTableContent.fill();
         luckysheetTableContent.closePath();
     }

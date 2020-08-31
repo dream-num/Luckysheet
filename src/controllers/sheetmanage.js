@@ -442,7 +442,7 @@ const sheetmanage = {
             return true;
         }
     },
-    createSheetbydata: function(data, isrenew) {
+    createSheetbydata: function(data, isrenew, isBefore=true) {
         let _this = this;
 
         let colorset = '';
@@ -452,13 +452,15 @@ const sheetmanage = {
 
         $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset }));
 
-        let previndex = data.order;
-        if(previndex >= Store.luckysheetfile.length){
-            previndex = Store.luckysheetfile.length - 1;
-            $("#luckysheet-sheets-item" + data.index).insertAfter($("#luckysheet-sheets-item" + Store.luckysheetfile[previndex].index));
-        }
-        else{
-            $("#luckysheet-sheets-item" + data.index).insertBefore($("#luckysheet-sheets-item" + Store.luckysheetfile[previndex].index));
+        if(isBefore){
+            let previndex = data.order;
+            if(previndex >= Store.luckysheetfile.length){
+                previndex = Store.luckysheetfile.length - 1;
+                $("#luckysheet-sheets-item" + data.index).insertAfter($("#luckysheet-sheets-item" + Store.luckysheetfile[previndex].index));
+            }
+            else{
+                $("#luckysheet-sheets-item" + data.index).insertBefore($("#luckysheet-sheets-item" + Store.luckysheetfile[previndex].index));
+            }
         }
         
         Store.luckysheetfile.push(data);
@@ -1011,6 +1013,29 @@ const sheetmanage = {
 
                 file["data"] = data;
                 file["load"] = "1";
+
+                let sheetindexset = _this.checkLoadSheetIndex(file);
+                let sheetindex = [];
+        
+                for(let i = 0; i < sheetindexset.length; i++){
+                    let item = sheetindexset[i];
+        
+                    if(item == file["index"]){
+                        continue;
+                    }
+        
+                    sheetindex.push(item);
+                }
+
+                for(let i = 0;i<sheetindex.length;i++){
+                    let item = sheetindex[i];
+                    let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+                    if(otherfile["load"] == null || otherfile["load"] == "0"){
+                        otherfile["data"] = _this.buildGridData(otherfile);
+                        otherfile["load"] = "1";
+                    }
+                }
+
                 _this.mergeCalculation(index);
                 _this.setSheetParam();
                 _this.showSheet();

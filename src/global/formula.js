@@ -309,10 +309,8 @@ const luckysheetformula = {
     oldvalue: null,
     dontupdate: function() {
         let _this = this;
-
         Store.luckysheetCellUpdate.length = 0; //clear array
         $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(_this.oldvalue);
-
         _this.cancelNormalSelected();
         if (_this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -1209,7 +1207,7 @@ const luckysheetformula = {
                 return;
             }
         }
-        else{
+        else if(curv!=null && curv.qp != 1){
             if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
                 _this.cancelNormalSelected();
                 return;
@@ -1267,6 +1265,14 @@ const luckysheetformula = {
 
                 delete curv.f;
                 delete curv.spl;
+
+                if(curv.qp == 1 && value.substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                    curv.qp = 0;
+                    if(curv.ct!=null){
+                        curv.ct.fa = "General";
+                        curv.ct.t = "n";
+                    }
+                }
             }
 
             value = curv;
@@ -3614,7 +3620,10 @@ const luckysheetformula = {
             _this.operatorjson = op;
         }
 
-        if (txt.substr(0, 1) == "=") {
+        if (txt.substr(0, 2) == "=+") {
+            txt = txt.substr(2);
+        }
+        else if (txt.substr(0, 1) == "=") {
             txt = txt.substr(1);
         }
 
@@ -4483,8 +4492,11 @@ const luckysheetformula = {
 
             for (let i = 0; i < group.length; i++) {
                 let item = group[i];
-
-                let cell = luckysheetfile[getSheetIndex(item["index"])].data[item.r][item.c];
+                let file =luckysheetfile[getSheetIndex(item["index"])];
+                if(file==null){
+                    continue;
+                }
+                let cell = file.data[item.r][item.c];
                 let calc_funcStr = getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
                 if(cell != null && cell.f != null && cell.f == calc_funcStr){
                     if(!(item instanceof Object)){

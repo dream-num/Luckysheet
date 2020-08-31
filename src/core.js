@@ -180,6 +180,8 @@ luckysheet.setcellvalue = setcellvalue;
 // Get selection range value
 luckysheet.getdatabyselection = getdatabyselection;
 
+luckysheet.sheetmanage = sheetmanage;
+
 // Data of the current table
 luckysheet.flowdata = function () {
     return Store.flowdata;
