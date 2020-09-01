@@ -22,6 +22,10 @@ English| [简体中文](./README-zh.md)
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
+## Plugins
+- Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
+- Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
+
 ## Features
 
 ### 🛠️Formatting
@@ -91,6 +95,7 @@ English| [简体中文](./README-zh.md)
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
++ **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
 
 ### ⏱️Coming soon
 + **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
@@ -99,7 +104,6 @@ English| [简体中文](./README-zh.md)
 + **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 
