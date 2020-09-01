@@ -1,7 +1,7 @@
 import editor from './editor';
 import formula from './formula';
 import { jfrefreshgrid_adRC, jfrefreshgrid_deleteCell, jfrefreshgrid_rhcw } from './refresh';
-import { datagridgrowth } from './getdata';
+import { datagridgrowth, getcellFormula } from './getdata';
 import { setcellvalue } from './setdata';
 import conditionformat from '../controllers/conditionformat';
 import luckysheetFreezen from '../controllers/freezen';

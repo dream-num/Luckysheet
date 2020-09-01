@@ -2,6 +2,7 @@ import rhchInit from './rhchInit';
 import formula from './formula';
 import editor from './editor';
 import { setcellvalue } from './setdata';
+import { getcellFormula } from './getdata';
 import { computeRowlenArr } from './getRowlen';
 import { 
     luckysheetDrawMain, 
