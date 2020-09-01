@@ -50,13 +50,63 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **说明**：
 
-	设置某个单元格的值，也可以设置整个单元格对象，用于同时设置多个单元格属性
+	设置某个单元格的值，也可以设置整个单元格对象，用于同时设置多个单元格属性。
+	
+	如果需要更新公式，也可以在这里赋值，Luckysheet在内部会主动把这个公式做计算并加入到公式链中，最后重刷界面。
 
 - **示例**:
 
 	- 设置当前工作表"A1"单元格的值为"abc"
     	`luckysheet.setCellValue(0, 0, 'abc');`
 
+------------
+
+### clearCell(row, column [,setting])
+
+- **参数**：
+
+	- {Number} [row]: 单元格所在行数；从0开始的整数，0表示第一行
+	- {Number} [column]: 单元格所在列数；从0开始的整数，0表示第一列
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	清除指定工作表指定单元格的内容，返回清除掉的数据，不同于删除单元格的功能，不需要设定单元格移动情况
+
+- **示例**:
+
+    - 清空单元格`B2`内容
+      `luckysheet.clearCell(1,1)`
+    
+------------
+
+### deleteCell(move, row, column [,setting])
+
+- **参数**：
+	- {String} [move]: 删除后，右侧还是下方的单元格移动
+	
+		`move`可能的值有：
+		
+		+ `"left"`: 右侧单元格左移
+		+ `"up"`: 下方单元格上移
+	
+	- {Number} [row]: 单元格所在行数；从0开始的整数，0表示第一行
+	- {Number} [column]: 单元格所在列数；从0开始的整数，0表示第一列
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	删除指定工作表指定单元格，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移
+
+- **示例**:
+
+    - 删除当前单元格并且在删除后，右侧单元格左移
+      `luckysheet.deleteCell('left')`
+    
 ------------
 
 ### setCellFormat(row, column, attr, value [,setting])
@@ -909,6 +959,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 	
 	将一个单元格数组数据赋值到指定的区域，数据格式同`getRangeValue`方法取到的数据。
+
+	注意一点，通常`getRangeValue`方法只是取得选区数据，但是不包含边框和合并单元格信息，当执行`setRangeValue`的时候，会动态判断上一步是否执行过`getRangeValue`，如果执行过，会将边框和合并单元格信息一并从Luckysheet配置中取得。
 
 - **示例**:
 
