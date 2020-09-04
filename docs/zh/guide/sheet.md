@@ -622,7 +622,7 @@ options.data示例如下：
                 "cellColor": "#ff0000"
             },
             "conditionName": "betweenness", //类型
-            "conditionRange": [
+            "conditionRange": [ //条件值所在单元格
                 {
                     "row": [ 4, 4 ],
                     "column": [ 2, 2 ]
@@ -633,7 +633,7 @@ options.data示例如下：
                 }
             ],
             "conditionValue": [ 2, 4
-            ]
+            ] //自定义传入的条件值
         },
         {
             "type": "dataBar",

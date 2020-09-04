@@ -402,6 +402,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook。
 
 ------------
+### cellRenderAfter
+- 类型：Function
+- 默认值：null
+- 作用：单元格渲染结束后触发
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [v]: 单元格对象
+
+------------
 ### cellHover
 - 类型：Function
 - 默认值：null
