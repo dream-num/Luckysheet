@@ -10,7 +10,7 @@ import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/se
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
 import { getCellTextSplitArr } from '../global/getRowlen';
-import { getcellvalue } from './getdata';
+import { getcellvalue,getcellFormula } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
 import editor from './editor';
@@ -309,10 +309,8 @@ const luckysheetformula = {
     oldvalue: null,
     dontupdate: function() {
         let _this = this;
-
         Store.luckysheetCellUpdate.length = 0; //clear array
         $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(_this.oldvalue);
-
         _this.cancelNormalSelected();
         if (_this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -1209,7 +1207,7 @@ const luckysheetformula = {
                 return;
             }
         }
-        else{
+        else if(curv!=null && curv.qp != 1){
             if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
                 _this.cancelNormalSelected();
                 return;
@@ -1267,6 +1265,14 @@ const luckysheetformula = {
 
                 delete curv.f;
                 delete curv.spl;
+
+                if(curv.qp == 1 && value.substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                    curv.qp = 0;
+                    if(curv.ct!=null){
+                        curv.ct.fa = "General";
+                        curv.ct.t = "n";
+                    }
+                }
             }
 
             value = curv;
@@ -3614,7 +3620,10 @@ const luckysheetformula = {
             _this.operatorjson = op;
         }
 
-        if (txt.substr(0, 1) == "=") {
+        if (txt.substr(0, 2) == "=+") {
+            txt = txt.substr(2);
+        }
+        else if (txt.substr(0, 1) == "=") {
             txt = txt.substr(1);
         }
 
@@ -3845,7 +3854,7 @@ const luckysheetformula = {
 
             i++;
         }
-        console.log(function_str);
+        // console.log(function_str);
         return function_str;
     },
     addFunctionGroup: function(r, c, func, index) {
@@ -3887,7 +3896,7 @@ const luckysheetformula = {
 
         return file.calcChain;
     },
-    updateFunctionGroup: function(r, c, func, index) {
+    updateFunctionGroup: function(r, c, index) {
         if (index == null) {
             index = Store.currentSheetIndex;
         }
@@ -3900,7 +3909,6 @@ const luckysheetformula = {
             for (let i = 0; i < calcChain.length; i++) {
                 let calc = calcChain[i];
                 if (calc.r == r && calc.c == c && calc.index == index) {
-                    calcChain[i].func = func;
                     server.saveParam("fc", index, JSON.stringify(calc), {
                         "op": "update",
                         "pos": i
@@ -3912,15 +3920,16 @@ const luckysheetformula = {
 
         setluckysheetfile(luckysheetfile);
     },
-    insertUpdateFunctionGroup: function(r, c, func, index) {
+    insertUpdateFunctionGroup: function(r, c, index) {
         if (index == null) {
             index = Store.currentSheetIndex;
         }
 
-        if (func == null) {
-            this.delFunctionGroup(r, c, index);
-            return;
-        }
+        // let func = getcellFormula(r, c, index);
+        // if (func == null || func.length==0) {
+        //     this.delFunctionGroup(r, c, index);
+        //     return;
+        // }
 
         let luckysheetfile = getluckysheetfile();
         let file = luckysheetfile[getSheetIndex(index)];
@@ -3933,7 +3942,6 @@ const luckysheetformula = {
         for (let i = 0; i < calcChain.length; i++) {
             let calc = calcChain[i];
             if (calc.r == r && calc.c == c && calc.index == index) {
-                calc.func = func;
                 server.saveParam("fc", index, JSON.stringify(calc), {
                     "op": "update",
                     "pos": i
@@ -3945,8 +3953,7 @@ const luckysheetformula = {
         let cc = {
             "r": r,
             "c": c,
-            "index": index,
-            "func": func
+            "index": index
         };
         calcChain.push(cc);
         file.calcChain = calcChain;
@@ -4485,10 +4492,13 @@ const luckysheetformula = {
 
             for (let i = 0; i < group.length; i++) {
                 let item = group[i];
-
-                let cell = luckysheetfile[getSheetIndex(item["index"])].data[item.r][item.c];
-
-                if(cell != null && cell.f != null && cell.f == item.func[2]){
+                let file =luckysheetfile[getSheetIndex(item["index"])];
+                if(file==null){
+                    continue;
+                }
+                let cell = file.data[item.r][item.c];
+                let calc_funcStr = getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
+                if(cell != null && cell.f != null && cell.f == calc_funcStr){
                     if(!(item instanceof Object)){
                         item = eval('('+ item +')');
                     }
@@ -4505,10 +4515,10 @@ const luckysheetformula = {
                         _this.isFunctionRangeSave = true;
                     }
                     else if (origin_r != null && origin_c != null) {
-                        _this.isFunctionRange(item.func[2], origin_r, origin_c);
+                        _this.isFunctionRange(calc_funcStr, origin_r, origin_c);
                     } 
                     else {
-                        _this.isFunctionRange(item.func[2]);
+                        _this.isFunctionRange(calc_funcStr);
                     }
 
                     if (_this.isFunctionRangeSave) {
@@ -4529,7 +4539,7 @@ const luckysheetformula = {
 
                 for (let i = 0; i < group.length; i++) {
                     let item = group[i];
-
+                    let calc_funcStr =  getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
                     item.color = "w";
                     item.parent = null;
                     item.chidren = {};
@@ -4541,7 +4551,7 @@ const luckysheetformula = {
                         _this.isFunctionRangeSave = true;
                     }
                     else{
-                        _this.isFunctionRange(item.func[2], cell.r, cell.c);
+                        _this.isFunctionRange(calc_funcStr, cell.r, cell.c);
                     }
                     
                     if (_this.isFunctionRangeSave) {
@@ -4562,7 +4572,9 @@ const luckysheetformula = {
                 }
 
                 _this.isFunctionRangeSave = false;
-                _this.isFunctionRange(vertex1[name].func[2], u.r, u.c);
+                let item = vertex1[name];
+                let calc_funcStr =  getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
+                _this.isFunctionRange(calc_funcStr, u.r, u.c);
 
                 if (_this.isFunctionRangeSave) {
                     let v = vertex1[name];
@@ -4613,8 +4625,8 @@ const luckysheetformula = {
 
         u.color = "b";
         window.luckysheet_getcelldata_cache = null;
-
-        let v = _this.execfunction(u.func[2], u.r, u.c);
+        let calc_funcStr =  getcellFormula(u.r, u.c, u.index, _this.execFunctionGroupData);
+        let v = _this.execfunction(calc_funcStr, u.r, u.c);
 
         let value = _this.execFunctionGroupData[u.r][u.c];
         if(value == null){
@@ -4787,7 +4799,7 @@ const luckysheetformula = {
             if (isrefresh) {
                 _this.execFunctionGroup(r, c, result);
             }
-            _this.insertUpdateFunctionGroup(r, c, [true, result, txt]);
+            _this.insertUpdateFunctionGroup(r, c);
         }
 
         return [true, result, txt];
@@ -4920,7 +4932,7 @@ const luckysheetformula = {
             }
 
             if(!notInsertFunc){
-                _this.insertUpdateFunctionGroup(r, c, [true, result, txt]);
+                _this.insertUpdateFunctionGroup(r, c);
             }
         }
 

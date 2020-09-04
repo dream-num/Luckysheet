@@ -147,6 +147,15 @@
         </td>
         <td></td>
     </tr>
+    <tr>
+        <td>ae</td>
+        <td>allowEdit</td>
+        <td>是否允许编辑</td>
+        <td>
+        0: 只读，不可编辑 1：可以编辑，默认为 1
+        </td>
+        <td></td>
+    </tr>
 </table>
 
 一个规范的单元格对象如下：

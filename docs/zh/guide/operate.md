@@ -8,6 +8,8 @@
 
 以下为所有的支持传输到后台的操作类型，并且以MongoDB做存储示例，讲解如何做前后端交互。
 
+注意一点，对象中的i为当前sheet的index值，而不是order。
+
 ## 单元格刷新
 
 ### 单个单元格刷新
@@ -33,7 +35,7 @@
     |参数|说明|
     | ------------ | ------------ |
     |t|操作类型表示符号|
-    |i|当前sheet的索引值|
+    |i|当前sheet的index值|
     |v|单元格的值，数字、字符串或着对象格式，对象参考 [单元格属性表](/zh/guide/cell.html#基本单元格)|
     |r|单元格的行号|
     |c|单元格的列号|
@@ -113,7 +115,7 @@
     |t|操作类型表示符号|
     |i|当前sheet的index值|
     |v|需要更新value值|
-    |k|操作的key值，可选 边框：`'borderInfo'` / ：行隐藏：`'rowhidden'` / 列隐藏：`'columnhidden'` / 行高：`'rowlen'` / 列宽：`'columnlen'` |
+    |k|操作的key值，可选 边框：`'borderInfo'` / ：行隐藏：`'rowhidden'` / 列隐藏：`'colhidden'` / 行高：`'rowlen'` / 列宽：`'columnlen'` |
 
 - **后台更新**：
 
@@ -1080,3 +1082,187 @@
 - **后台更新**：
   
     Luckysheet配置，修改title为`"Luckysheet Demo1"`
+
+## 图表(TODO)
+
+图表操作类型有4种，分别为新增图表"add"、移动图表位置"xy"、缩放图表"wh"、修改图表配置"update"
+
+### 新增图表
+
+- **格式**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"add",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120,
+            "sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
+            "needRangeShow": true,
+            "chartOptions": {
+                "chart_id": "chart_p145W6i73otw_1596209943446",
+                "chartAllType": "echarts|line|default",
+                "rangeArray": [ { "row": [ 0, 4 ], "column": [ 0, 7 ] } ],
+                "rangeColCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeRowCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeConfigCheck": false,
+                "defaultOption": {
+                    "title": {
+                        "show": true,
+                        "text": "默认标题"
+                    }
+                }
+            },
+            "isShow": true
+        }
+    }
+    ```
+
+- **说明**：
+
+    |参数|说明|
+    | ------------ | ------------ |
+    |t|操作类型表示符号|
+    |i|当前sheet的index值|
+    |op|操作选项|
+    |v|图表的配置信息|
+
+- **后台更新**：
+  
+    更新对应sheet页中的图表设置，如果`luckysheetfile[i].chart`为null，则初始化为空数组 `[]`
+
+    ```json
+    luckysheetfile[0].chart.push(v)
+    ```
+
+### 移动图表位置
+
+- **格式**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"xy",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "left": 20,
+            "top": 120
+        }
+    }
+    ```
+
+- **说明**：
+
+    |参数|说明|
+    | ------------ | ------------ |
+    |t|操作类型表示符号|
+    |i|当前sheet的index值|
+    |op|操作选项|
+    |v|图表的配置信息|
+
+- **后台更新**：
+  
+    更新对应sheet页中的图表设置
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id].left = v.left;
+    luckysheetfile[0].chart[v.chart_id].top = v.top;
+    ```
+
+### 缩放图表
+
+- **格式**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"wh",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120
+        }
+    }
+    ```
+
+- **说明**：
+
+    |参数|说明|
+    | ------------ | ------------ |
+    |t|操作类型表示符号|
+    |i|当前sheet的index值|
+    |op|操作选项|
+    |v|图表的配置信息|
+
+- **后台更新**：
+  
+    更新对应sheet页中的图表设置
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id].left = v.left;
+    luckysheetfile[0].chart[v.chart_id].top = v.top;
+    luckysheetfile[0].chart[v.chart_id].width = v.width;
+    luckysheetfile[0].chart[v.chart_id].height = v.height;
+    ```
+
+### 修改图表配置
+
+- **格式**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"update",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120,
+            "sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
+            "needRangeShow": true,
+            "chartOptions": {
+                "chart_id": "chart_p145W6i73otw_1596209943446",
+                "chartAllType": "echarts|line|default",
+                "rangeArray": [ { "row": [ 0, 4 ], "column": [ 0, 7 ] } ],
+                "rangeColCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeRowCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeConfigCheck": false,
+                "defaultOption": {
+                    "title": {
+                        "show": true,
+                        "text": "默认标题"
+                    }
+                }
+            },
+            "isShow": true
+        }
+    }
+    ```
+
+- **说明**：
+
+    |参数|说明|
+    | ------------ | ------------ |
+    |t|操作类型表示符号|
+    |i|当前sheet的index值|
+    |op|操作选项|
+    |v|图表的配置信息|
+
+- **后台更新**：
+  
+    更新对应sheet页中的图表设置
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id] = v;
+    ```

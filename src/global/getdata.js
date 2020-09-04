@@ -4,6 +4,7 @@ import server from '../controllers/server';
 import formula from './formula';
 import editor from './editor';
 import { dynamicArrayCompute } from './dynamicArray';
+import sheetmanage from '../controllers/sheetmanage';
 import Store from '../store';
 
 //Get selection range value
@@ -218,4 +219,46 @@ export function datagridgrowth(data, addr, addc, iscallback) {
     }
 
     return data;
+}
+
+
+//Get the formula of the cell
+export function getcellFormula(r, c, i, data) {
+    let cell;
+    if(data!=null){
+        cell = data[r][c];
+    }
+    else{
+        cell = getOrigincell(r,c,i);
+    }
+
+    
+    if(cell==null){
+        return null;
+    }
+
+    return cell.f;
+}
+
+
+export function getOrigincell(r, c, i) {
+    if(r==null || c==null){
+        return;
+    }
+    let data;
+    if (i == null) {
+        data = Store.flowdata;
+    }
+    else{
+        let sheet = sheetmanage.getSheetByIndex(i);
+        data = sheet.data;
+    }
+
+    if(data==null){
+        return;
+    }
+
+    return data[r][c];
+
+
 }

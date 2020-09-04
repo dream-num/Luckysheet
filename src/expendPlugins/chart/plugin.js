@@ -1387,10 +1387,10 @@ function selectRangeBorderShow(chart_id) {
 
     //luckysheet取cell-main，后续扩展到其他的用户自定义元素
     $('#luckysheet-cell-main')
-        .find('.luckysheet-modal-dialog-resize')
+        .find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize')
         .hide()
     $('#luckysheet-cell-main')
-        .find('.luckysheet-modal-dialog-controll')
+        .find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll')
         .hide()
 
     $t.css('z-index', chartInfo.chartparam.luckysheetCurrentChartZIndexRank++)
@@ -1413,7 +1413,7 @@ function selectRangeBorderShow(chart_id) {
 //选择区域高亮隐藏
 function selectRangeBorderHide(settingShow) {
 
-    $('#luckysheet-cell-main .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-controll').hide()
+    $('#luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll').hide()
     $('#luckysheet-cell-main').find('.luckysheet-datavisual-selection-set div').remove()
     chartInfo.chartparam.luckysheetCurrentChartActive = false
 
@@ -1447,7 +1447,7 @@ function hideChartSettingComponent(refresh) {
         //隐藏设置界面
         $('.chartSetting').hide();
         //.luckysheet-modal-dialog-resize为图表显示框的缩放框，.luckysheet-modal-dialog-controll为显示框右边的控制按钮
-        $('#luckysheet-cell-main .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-controll').hide()
+        $('#luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll').hide()
 
         $('#luckysheet-cell-main').find('.luckysheet-datavisual-selection-set div').remove()
 

@@ -26,6 +26,7 @@ const Store = {
     sheetBarHeight: 27,
     statisticBarHeight: 23,
     luckysheetTableContentHW: [0, 0], 
+
     defaultcollen: 73,
     defaultrowlen: 19,
 
@@ -121,6 +122,9 @@ const Store = {
 
     visibledatacolumn_unique:null,
     visibledatarow_unique:null,
+
+    showGridLines:true,
+
 }
 
 export default Store;

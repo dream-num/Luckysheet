@@ -1171,6 +1171,8 @@ const sheetCell = {
 	},
 	"index": "0",
 	"zoomRatio":1,
+	// "defaultColWidth":20,
+	// "showGridLines":0,
 	"chart": [],
 	"status": "1",
 	"order": "0",

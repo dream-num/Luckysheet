@@ -93,6 +93,9 @@ function luckysheet_compareWith() {
     else if(sp == "-" && fp == null){
         fp = 0;
     }
+    else if(sp == "/" && (tp == 0 || tp == null)){
+        return error.d;
+    }
 
     //计算result
     function booleanOperation(a, operator, b){

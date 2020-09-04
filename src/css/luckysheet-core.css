@@ -6722,3 +6722,221 @@ fieldset[disabled] .btn-danger.focus {
     background: #FC6666;
     cursor: pointer;
 }
+
+/* 图片 */
+#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: move;
+}
+#luckysheet-modal-dialog-cropping::before{
+    content: "";
+    outline: 1px solid #fff;
+    position: absolute;
+    left: 33.3%;
+    right: 33.3%;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+#luckysheet-modal-dialog-cropping::after{
+    content: "";
+    outline: 1px solid #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 33.3%;
+    bottom: 33.3%;
+    z-index: 1;
+    pointer-events: none;
+}
+#luckysheet-modal-dialog-cropping .cropping-mask{
+    filter: brightness(.5);
+    position: absolute;
+    background-size: 100% 100%;
+    left: 0;
+    top: 0;
+}
+#luckysheet-modal-dialog-cropping .cropping-content{
+    position: absolute;
+    overflow: hidden;
+    background-position: 0 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#luckysheet-modal-dialog-cropping .luckysheet-modal-dialog-resize{
+    border: none;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+#luckysheet-modal-dialog-cropping .resize-item{
+    width: 0;
+    height: 0;
+    background: none;
+    border: none;
+    position: absolute;
+    z-index: 3;
+}
+#luckysheet-modal-dialog-cropping .resize-item::before{
+    content: "";
+    display: block;
+    position: absolute;
+    background: #000;
+}
+#luckysheet-modal-dialog-cropping .resize-item::after{
+    content: "";
+    display: block;
+    position: absolute;
+    background: #000;
+}
+#luckysheet-modal-dialog-cropping .lt{
+    left: 0;
+    top: 0;
+    cursor: nwse-resize;
+}
+#luckysheet-modal-dialog-cropping .lt::before{
+    width: 18px;
+    height: 4px;
+    left: 0;
+    top: 0;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .lt::after{
+    width: 4px;
+    height: 14px;
+    left: 0;
+    top: 4px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .mt{
+    left: 50%;
+    top: 0;
+    cursor: ns-resize;
+}
+#luckysheet-modal-dialog-cropping .mt::before{
+    width: 18px;
+    height: 4px;
+    left: -11px;
+    top: 0;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .rt{
+    right: 0;
+    top: 0;
+    cursor: nesw-resize;
+}
+#luckysheet-modal-dialog-cropping .rt::before{
+    width: 18px;
+    height: 4px;
+    right: 0;
+    top: 0;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .rt::after{
+    width: 4px;
+    height: 14px;
+    right: 0;
+    top: 4px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .lm{
+    left: 0;
+    top: 50%;
+    cursor: ew-resize;
+}
+#luckysheet-modal-dialog-cropping .lm::before{
+    width: 4px;
+    height: 18px;
+    left: 0;
+    top: -11px;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .rm{
+    right: 0;
+    top: 50%;
+    cursor: ew-resize;
+}
+#luckysheet-modal-dialog-cropping .rm::before{
+    width: 4px;
+    height: 18px;
+    right: 0;
+    top: -11px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .lb{
+    left: 0;
+    bottom: 0;
+    cursor: nesw-resize;
+}
+#luckysheet-modal-dialog-cropping .lb::before{
+    width: 18px;
+    height: 4px;
+    left: 0;
+    bottom: 0;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .lb::after{
+    width: 4px;
+    height: 14px;
+    left: 0;
+    bottom: 4px;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .rb{
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+}
+#luckysheet-modal-dialog-cropping .rb::before{
+    width: 18px;
+    height: 4px;
+    right: 0;
+    bottom: 0;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .rb::after{
+    width: 4px;
+    height: 14px;
+    right: 0;
+    bottom: 4px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+}
+#luckysheet-modal-dialog-cropping .mb{
+    left: 50%;
+    bottom: 0;
+    cursor: ns-resize;
+}
+#luckysheet-modal-dialog-cropping .mb::before{
+    width: 18px;
+    height: 4px;
+    left: -11px;
+    bottom: 0;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+}

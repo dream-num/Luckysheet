@@ -127,6 +127,57 @@ const gridHTML = function(){
                                                     <div id="luckysheet-postil-showBoxs"></div>
                                                     <div id="luckysheet-multipleRange-show"></div>  
                                                     <div id="luckysheet-dynamicArray-hightShow"></div>  
+                                                    <div id="luckysheet-image-showBoxs">
+                                                        <div id="luckysheet-modal-dialog-activeImage" class="luckysheet-modal-dialog" style="display:none;padding:0;position:absolute;z-index:300;">
+                                                            <div class="luckysheet-modal-dialog-content"></div>    
+                                                            <div class="luckysheet-modal-dialog-resize">
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt" data-type="lt"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt" data-type="mt"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm" data-type="lm"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm" data-type="rm"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt" data-type="rt"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb" data-type="lb"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb" data-type="mb"></div>
+                                                                <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb" data-type="rb"></div>
+                                                            </div>
+                                                            <div class="luckysheet-modal-dialog-controll">
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-crop" role="button" tabindex="0" aria-label="裁剪" title="裁剪">
+                                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-restore" role="button" tabindex="0" aria-label="恢复原图" title="恢复原图">
+                                                                    <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del" role="button" tabindex="0" aria-label="删除" title="删除">
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div id="luckysheet-modal-dialog-cropping" class="luckysheet-modal-dialog" style="display:none;padding:0;position:absolute;z-index:300;">
+                                                            <div class="cropping-mask"></div>
+                                                            <div class="cropping-content"></div>
+                                                            <div class="luckysheet-modal-dialog-resize">
+                                                                <div class="resize-item lt" data-type="lt"></div> 
+                                                                <div class="resize-item mt" data-type="mt"></div> 
+                                                                <div class="resize-item lm" data-type="lm"></div> 
+                                                                <div class="resize-item rm" data-type="rm"></div> 
+                                                                <div class="resize-item rt" data-type="rt"></div> 
+                                                                <div class="resize-item lb" data-type="lb"></div> 
+                                                                <div class="resize-item mb" data-type="mb"></div> 
+                                                                <div class="resize-item rb" data-type="rb"></div>
+                                                            </div>
+                                                            <div class="luckysheet-modal-dialog-controll">
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-crop" role="button" tabindex="0" aria-label="裁剪" title="裁剪">
+                                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-restore" role="button" tabindex="0" aria-label="恢复原图" title="恢复原图">
+                                                                    <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del" role="button" tabindex="0" aria-label="删除" title="删除">
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="luckysheet-cell-copy"></div>  
                                                     <div class="luckysheet-grdblkflowpush"></div>  \${flow} 
                                                 </div> 
@@ -1209,6 +1260,10 @@ function menuToolBar (){
             <i class="fa fa-gg">
             </i>
             ${toolbar.splitColumn}
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-insertImg-btn-title">
+            插入图片
+            <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;">
         </div>`;
 } 
 

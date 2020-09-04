@@ -7,7 +7,7 @@ import formula from '../global/formula';
 import func_methods from '../global/func_methods';
 import editor from '../global/editor';
 import { isdatetime, diff, isdatatype } from '../global/datecontroll';
-import { isRealNum, isRealNull, valueIsError } from '../global/validate';
+import { isRealNum, isRealNull, valueIsError,error } from '../global/validate';
 import { jfrefreshgrid } from '../global/refresh';
 import { genarate, update } from '../global/format';
 import { orderbydata } from '../global/sort';
@@ -19496,7 +19496,7 @@ const functionImplementation = {
 
             //结果为 TRUE 
             var value_if_true = func_methods.getFirstValue(arguments[1], "text");
-            if(valueIsError(value_if_true)){
+            if(valueIsError(value_if_true) && value_if_false!=error.d){
                 return value_if_true;
             }
 
@@ -19504,7 +19504,7 @@ const functionImplementation = {
             var value_if_false = "";
             if(arguments.length == 3){
                 value_if_false = func_methods.getFirstValue(arguments[2], "text");
-                if(valueIsError(value_if_false)){
+                if(valueIsError(value_if_false) && value_if_false!=error.d){
                     return value_if_false;
                 }
             }

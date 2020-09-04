@@ -53,7 +53,12 @@ const server = {
 	                let v_row = [];
 
 	                for(let c = c1; c <= c2; c++){
-	                    v_row.push(data[r][c]);
+						if(data[r]==null){
+							v_row.push(null);
+						}
+						else{
+							v_row.push(data[r][c]);
+						}
 	                }
 
 	                v.push(v_row);
@@ -124,7 +129,10 @@ const server = {
 
 	    let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), { to: "string" });
 
-	    _this.websocket.send(msg);
+		if(_this.websocket!=null){
+			_this.websocket.send(msg);
+		}
+	    
 	},
     websocket: null,
     wxErrorCount: 0,
@@ -401,7 +409,6 @@ const server = {
 	        }
 
 	        let r = value.r, c = value.c;
-	        let func = value.func;
 
 	        let calcChain = file["calcChain"] == null ? [] : file["calcChain"];
 
@@ -415,13 +422,13 @@ const server = {
 	                }
 	            }
 	        }
-	        else if(op == "update"){
-	            for(let a = 0; a < calcChain.length; a++){
-	                if(r == calcChain[a].r && c == calcChain[a].c && index == calcChain[a].index){
-	                    calcChain[a].func = func;
-	                }
-	            } 
-	        }
+	        // else if(op == "update"){
+	        //     for(let a = 0; a < calcChain.length; a++){
+	        //         if(r == calcChain[a].r && c == calcChain[a].c && index == calcChain[a].index){
+	        //             calcChain[a].func = func;
+	        //         }
+	        //     } 
+	        // }
 
 	        setTimeout(function () {
 	            luckysheetrefreshgrid();
@@ -657,7 +664,7 @@ const server = {
 	            $("#luckysheet-sheets-item" + index).show();
 	        }
 	    }
-	    else if(type == "c"){ //图表操作
+	    else if(type == "c"){ //图表操作 TODO
 	        let op = item.op, cid = item.cid;
 
 	        if(op == "add"){ //插入
