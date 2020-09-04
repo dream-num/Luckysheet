@@ -9,12 +9,12 @@ const gridHTML = function(){
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
                     <div class="luckysheet-work-area luckysheet-noselected-text"> 
-                        <div class="luckysheet-share-logo" title="\${logotitle}"></div> 
                         <div id ="luckysheet_info_detail" class="luckysheet_info_detail"> 
-                            <div data-tips="${locale_info.return}" id="luckysheet_info_detail_title" class="luckysheet_info_detail_title"> 
-                                <i style="margin-left: -2px;" class="fa fa-chevron-left" aria-hidden="true"></i> 
+                            <div data-tips="${locale_info.return}" id="luckysheet_info_detail_title" class="luckysheet_info_detail_back"> 
+                                <i style="color:#444D5A;" class="fa fa-angle-left fa-2x" aria-hidden="true"></i> 
                             </div> 
-                            <div> 
+                            <div class="luckysheet-share-logo" title="\${logotitle}"></div>
+                            <div class="sheet-name"> 
                                 <input data-tips="${locale_info.tips}" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="${locale_info.noName}" tabindex="0" dir="ltr" aria-label="${locale_info.rename}" style="visibility: visible; width: 149px;" data-tooltip="${locale_info.rename}"> 
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
