@@ -32,7 +32,12 @@ import { selectHightlightShow } from './controllers/select';
 import {zoomInitial} from './controllers/zoom';
 import method from './global/method';
 
+import * as api from './global/api';
+
 let luckysheet = {};
+
+// mount api
+luckysheet.api = api;
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {

@@ -731,7 +731,7 @@ function getBorderInfoCompute(sheetIndex) {
                                     if(data[bd_r] != null && getObjType(data[bd_r][bd_c]) == "object" && data[bd_r][bd_c].mc != null){
                                         let cell = data[bd_r][bd_c];
 
-                                        let mc = cfg["merge"][cell.mc.r + "_" + cell.mc.c];
+                                        let mc = cfg["merge"][cell.mc.r + "_" + cell.mc.c] || {};
 
                                         if(mc.c == bd_c){
                                             if(borderInfoCompute[bd_r + "_" + bd_c] == null){
@@ -823,7 +823,7 @@ function getBorderInfoCompute(sheetIndex) {
 
                     if(data[bd_r] != null && getObjType(data[bd_r][bd_c]) == "object" && data[bd_r][bd_c].mc != null){
                         let cell = data[bd_r][bd_c];
-                        let mc = cfg["merge"][cell.mc.r + "_" + cell.mc.c];
+                        let mc = cfg["merge"][cell.mc.r + "_" + cell.mc.c] || {};
 
                         if(value.l != null && bd_c == mc.c){ //左边框
                             borderInfoCompute[bd_r + "_" + bd_c].l = { "color": value.l.color, "style": value.l.style };

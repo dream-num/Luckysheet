@@ -1512,8 +1512,13 @@ const luckysheetFreezen = {
     /**
      * 
      * @param {string} operate  "freezenRow"/ "freezenColumn"......
+     * @param {Number | String} order 工作表索引；默认值为当前工作表索引
+     * @param {Object} focus 冻结选区时的focus单元格行列值构成的对象；格式为{ row_focus:0, column_focus:0 }
      */
-    saveFrozen: function(operate) {
+    saveFrozen: function(operate, order, focus = {}) {
+        if (order == null) {
+            order = getSheetIndex(Store.currentSheetIndex)
+        }
         
         // New configuration attribute of sheet: frozen, which stores more semantic configuration for initialization and transmission to the backend. freezenhorizontaldata is still used as local data
 
@@ -1523,8 +1528,8 @@ const luckysheetFreezen = {
         const column_focus = select_save["column_focus"] == null ? select_save["column"][0] : select_save["column_focus"];
 
         const range = {
-            row_focus: row_focus,
-            column_focus: column_focus
+            row_focus: focus.row_focus || row_focus,
+            column_focus: focus.column_focus || column_focus
         }
 
         const frozen = {
@@ -1555,7 +1560,7 @@ const luckysheetFreezen = {
         }
 
         // store frozen
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["frozen"] = frozen[operate];
+        Store.luckysheetfile[order]["frozen"] = frozen[operate];
     },
     frozenTofreezen: function() {
 
