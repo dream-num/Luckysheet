@@ -1175,6 +1175,345 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
     }
 }
 
+
+let cellRender1 = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
+
+    let cell = Store.flowdata[r][c];
+    let cellWidth = end_c - start_c - 2;
+    let cellHeight = end_r - start_r - 2;
+    let space_width = 2, space_height = 2; //宽高方向 间隙
+
+    //水平对齐
+    let horizonAlign = menuButton.checkstatus(Store.flowdata, r, c, "ht");
+    //垂直对齐
+    let verticalAlign = menuButton.checkstatus(Store.flowdata, r, c, "vt");
+
+    //交替颜色
+    let checksAF = alternateformat.checksAF(r, c, af_compute); 
+    //条件格式
+    let checksCF = conditionformat.checksCF(r, c, cf_compute); 
+
+    //单元格 背景颜色
+    let fillStyle = menuButton.checkstatus(Store.flowdata, r, c, "bg");
+    if(checksAF != null && checksAF[1] != null){ //若单元格有交替颜色 背景颜色
+        fillStyle = checksAF[1];
+    }
+    if(checksCF != null && checksCF["cellColor"] != null){ //若单元格有条件格式 背景颜色
+        fillStyle = checksCF["cellColor"];
+    }
+
+    if(fillStyle==null){
+        luckysheetTableContent.fillStyle = "#FFFFFF";
+    }
+    else{
+        luckysheetTableContent.fillStyle = fillStyle;
+    }
+
+    let borderfix = menuButton.borderfix(Store.flowdata, r, c);
+    // console.log(value, fillStyle,borderfix);
+    let cellsize = [
+        (start_c + offsetLeft + borderfix[0]), 
+        (start_r + offsetTop  + borderfix[1]), 
+        (end_c - start_c + borderfix[2]-(!!isMerge?1:0)), 
+        (end_r - start_r + borderfix[3])
+   ];
+   luckysheetTableContent.fillRect(cellsize[0], cellsize[1], cellsize[2], cellsize[3]);
+
+    //若单元格有批注（单元格右上角红色小三角标示）
+    if(cell.ps != null){
+        let ps_w = 8*Store.zoomRatio, ps_h = 8*Store.zoomRatio; //红色小三角宽高
+
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.moveTo(
+            (end_c + offsetLeft - ps_w), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (end_c + offsetLeft), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (end_c + offsetLeft), 
+            (start_r + offsetTop + ps_h)
+        );
+        luckysheetTableContent.fillStyle = "#FC6666";
+        luckysheetTableContent.fill();
+        luckysheetTableContent.closePath();
+    }
+
+    //若单元格强制为字符串，则显示绿色小三角
+    if(cell.qp==1 && isRealNum(cell.v)){
+        let ps_w = 6*Store.zoomRatio, ps_h = 6*Store.zoomRatio; //红色小三角宽高
+
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.moveTo(
+            (start_c + offsetLeft + ps_w-1), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (start_c + offsetLeft-1), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (start_c + offsetLeft-1), 
+            (start_r + offsetTop + ps_h)
+        );
+        luckysheetTableContent.fillStyle = "#487f1e";
+        luckysheetTableContent.fill();
+        luckysheetTableContent.closePath();
+    }
+
+
+    //溢出单元格
+    let cellOverflow_bd_r_render = true; //溢出单元格右边框是否需要绘制
+    let cellOverflow_colInObj = cellOverflow_colIn(cellOverflowMap, r, c, dataset_col_st, dataset_col_ed);
+
+    if(cell.tb == '1' && cellOverflow_colInObj.colIn){
+        //此单元格 为 溢出单元格渲染范围最后一列，绘制溢出单元格内容
+        if(cellOverflow_colInObj.colLast){
+            cellTextRender(
+                cellOverflow_colInObj.rowIndex,
+                cellOverflow_colInObj.colIndex,
+                cellOverflow_colInObj.stc,
+                cellOverflow_colInObj.edc,
+                luckysheetTableContent,
+                scrollHeight,
+                scrollWidth,offsetLeft,offsetTop,af_compute, cf_compute
+            );
+        }
+        else{
+            cellOverflow_bd_r_render = false;
+        }
+    }
+    else{
+        //若单元格有条件格式数据条
+        if(checksCF != null && checksCF["dataBar"] != null){
+            let x =  (start_c + offsetLeft + space_width);
+            let y =  (start_r + offsetTop + space_height);
+            let w =  (cellWidth - space_width * 2);
+            let h =  (cellHeight - space_height * 2);
+
+            let valueType = checksCF["dataBar"]["valueType"];
+            let valueLen = checksCF["dataBar"]["valueLen"];
+            let format = checksCF["dataBar"]["format"];
+
+            if(valueType == 'minus'){
+                //负数
+                let minusLen = checksCF["dataBar"]["minusLen"];
+                
+                if(format.length > 1){
+                    //渐变
+                    let my_gradient = luckysheetTableContent.createLinearGradient(
+                        x + w * minusLen * (1 - valueLen), 
+                        y, 
+                        x + w * minusLen, 
+                        y
+                    );
+                    my_gradient.addColorStop(0, "#ffffff");
+                    my_gradient.addColorStop(1, "#ff0000");
+
+                    luckysheetTableContent.fillStyle = my_gradient;
+                }
+                else{
+                    //单色
+                    luckysheetTableContent.fillStyle = "#ff0000";
+                }
+                
+                luckysheetTableContent.fillRect(
+                    x + w * minusLen * (1 - valueLen), 
+                    y, 
+                    w * minusLen * valueLen, 
+                    h
+                );
+
+                luckysheetTableContent.beginPath();
+                luckysheetTableContent.moveTo(
+                    x + w * minusLen * (1 - valueLen), 
+                    y
+                );
+                luckysheetTableContent.lineTo(
+                    x + w * minusLen * (1 - valueLen), 
+                    y + h
+                );
+                luckysheetTableContent.lineTo(
+                    x + w * minusLen, 
+                    y + h
+                );
+                luckysheetTableContent.lineTo(
+                    x + w * minusLen, 
+                    y
+                );
+                luckysheetTableContent.lineTo(
+                    x + w * minusLen * (1 - valueLen), 
+                    y
+                );
+                luckysheetTableContent.lineWidth = 1;
+                luckysheetTableContent.strokeStyle = "#ff0000";
+                luckysheetTableContent.stroke();
+                luckysheetTableContent.closePath();
+            }
+            else if(valueType == 'plus'){
+                //正数
+                let plusLen = checksCF["dataBar"]["plusLen"];
+
+                if(plusLen == 1){
+                    if(format.length > 1){
+                        //渐变
+                        let my_gradient = luckysheetTableContent.createLinearGradient(
+                            x, 
+                            y, 
+                            x + w * valueLen, 
+                            y
+                        );
+                        my_gradient.addColorStop(0, format[0]);
+                        my_gradient.addColorStop(1, format[1]);
+    
+                        luckysheetTableContent.fillStyle = my_gradient;
+                    }
+                    else{
+                        //单色
+                        luckysheetTableContent.fillStyle = format[0];
+                    }
+                    
+                    luckysheetTableContent.fillRect(
+                        x, 
+                        y, 
+                        w * valueLen, 
+                        h
+                    );
+
+                    luckysheetTableContent.beginPath();
+                    luckysheetTableContent.moveTo(
+                        x, 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x, 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * valueLen, 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * valueLen, 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x, 
+                        y
+                    );
+                    luckysheetTableContent.lineWidth = 1;
+                    luckysheetTableContent.strokeStyle = format[0];
+                    luckysheetTableContent.stroke();
+                    luckysheetTableContent.closePath();
+                }
+                else{
+                    let minusLen = checksCF["dataBar"]["minusLen"];
+
+                    if(format.length > 1){
+                        //渐变
+                        let my_gradient = luckysheetTableContent.createLinearGradient(
+                            x + w * minusLen, 
+                            y, 
+                            x + w * minusLen + w * plusLen * valueLen, 
+                            y
+                        );
+                        my_gradient.addColorStop(0, format[0]);
+                        my_gradient.addColorStop(1, format[1]);
+    
+                        luckysheetTableContent.fillStyle = my_gradient;
+                    }
+                    else{
+                        //单色
+                        luckysheetTableContent.fillStyle = format[0];
+                    }
+                    
+                    luckysheetTableContent.fillRect(
+                        x + w * minusLen, 
+                        y, 
+                        w * plusLen * valueLen, 
+                        h
+                    );
+
+                    luckysheetTableContent.beginPath();
+                    luckysheetTableContent.moveTo(
+                        x + w * minusLen, 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen, 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen + w * plusLen * valueLen, 
+                        y + h
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen + w * plusLen * valueLen, 
+                        y
+                    );
+                    luckysheetTableContent.lineTo(
+                        x + w * minusLen, 
+                        y
+                    );
+                    luckysheetTableContent.lineWidth = 1;
+                    luckysheetTableContent.strokeStyle = format[0];
+                    luckysheetTableContent.stroke();
+                    luckysheetTableContent.closePath();
+                }
+            }
+        }
+
+
+        cellOverflowRender(
+            cellOverflow_colInObj.rowIndex,
+            cellOverflow_colInObj.colIndex,
+            cellOverflow_colInObj.stc,
+            cellOverflow_colInObj.edc,
+            luckysheetTableContent,
+            scrollHeight,
+            scrollWidth,offsetLeft,offsetTop,af_compute, cf_compute
+        );
+    }
+
+    if(cellOverflow_bd_r_render){
+        //右边框
+        if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.moveTo(
+                 (end_c + offsetLeft - 2 + bodrder05), 
+                 (start_r + offsetTop)
+            );
+            luckysheetTableContent.lineTo(
+                 (end_c + offsetLeft - 2 + bodrder05), 
+                 (end_r + offsetTop)
+            );
+            luckysheetTableContent.lineWidth = 1;
+            luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
+            luckysheetTableContent.stroke();
+            luckysheetTableContent.closePath();
+        }
+    }
+
+    //下边框
+    if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.moveTo(
+             (start_c + offsetLeft - 1), 
+             (end_r + offsetTop - 2 + bodrder05)
+        );
+        luckysheetTableContent.lineTo(
+             (end_c + offsetLeft - 1), 
+             (end_r + offsetTop - 2 + bodrder05)
+        );
+        luckysheetTableContent.lineWidth = 1;
+        luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
+        luckysheetTableContent.stroke();
+        luckysheetTableContent.closePath();
+    }
+}
+
 //非空白单元格渲染
 let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
 
@@ -1567,13 +1906,14 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         if(cell.tb == '2'){
             //自动换行
             // luckysheetTableContent.textBaseline = 'top'; //textBaseline以top计算
-            
+            //Text rotation,0: 0、1: 45 、2: -45、3 Vertical text、4: 90 、5: -90,
             if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.sharedStrings!=null && cell.ct.sharedStrings.length>0){
                 let strArr = [],lineMaxHeight=[];
                 let sharedStrings = cell.ct.sharedStrings;
                 for(let i=0;i<cell.ct.sharedStrings.length;i++){
-
+                    
                 }
+
             }
             else{
                 let strArr = [];
