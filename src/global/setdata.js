@@ -58,6 +58,12 @@ function setcellvalue(r, c, d, v) {
         cell.m = vupdate.toString().substr(1);
         cell.ct = { "fa": "@", "t": "s" };
         cell.v = vupdate.toString().substr(1);
+        cell.qp = 1;
+    }
+    else if(cell.qp == 1){
+        cell.m = vupdate.toString();
+        cell.ct = { "fa": "@", "t": "s" };
+        cell.v = vupdate.toString();
     }
     else if(vupdate.toString().toUpperCase() === "TRUE"){
         cell.m = "TRUE";

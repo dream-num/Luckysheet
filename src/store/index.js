@@ -124,6 +124,7 @@ const Store = {
     visibledatarow_unique:null,
 
     showGridLines:true,
+
 }
 
 export default Store;

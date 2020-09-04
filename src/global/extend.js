@@ -1,7 +1,7 @@
 import editor from './editor';
 import formula from './formula';
 import { jfrefreshgrid_adRC, jfrefreshgrid_deleteCell, jfrefreshgrid_rhcw } from './refresh';
-import { datagridgrowth } from './getdata';
+import { datagridgrowth, getcellFormula } from './getdata';
 import { setcellvalue } from './setdata';
 import conditionformat from '../controllers/conditionformat';
 import luckysheetFreezen from '../controllers/freezen';
@@ -11,12 +11,13 @@ import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
 //增加行列
-function luckysheetextendtable(type, index, value, direction) {
-    let d = editor.deepCopyFlowData(Store.flowdata);
-    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+function luckysheetextendtable(type, index, value, direction, order) {
+    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[curOrder];
+    let d = file.data;
 
     value = Math.floor(value);
-    let cfg = $.extend(true, {}, Store.config);
+    let cfg = $.extend(true, {}, file.config);
 
     //合并单元格配置变动
     if(cfg["merge"] == null){
@@ -100,7 +101,7 @@ function luckysheetextendtable(type, index, value, direction) {
             if(type == "row"){
                 let functionStr = "=" + formula.functionStrChange(calc_funcStr, "add", "row", direction, index, value);
 
-                if(d[calc_r][calc_c].f == calc_funcStr){
+                if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                     d[calc_r][calc_c].f = functionStr;
                 }
 
@@ -122,7 +123,7 @@ function luckysheetextendtable(type, index, value, direction) {
             else if(type == "column"){
                 let functionStr = "=" + formula.functionStrChange(calc_funcStr, "add", "col", direction, index, value);
 
-                if(d[calc_r][calc_c].f == calc_funcStr){
+                if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                     d[calc_r][calc_c].f = functionStr;
                 }
 
@@ -715,17 +716,20 @@ function luckysheetextendtable(type, index, value, direction) {
         }
     }
 
-    jfrefreshgrid_adRC(
-        d, 
-        cfg, 
-        "addRC", 
-        { "index": index, "len": value, "direction": direction, "rc": type1, "restore": false }, 
-        newCalcChain, 
-        newFilterObj, 
-        newCFarr, 
-        newAFarr, 
-        newFreezen
-    );
+    // 修改当前sheet页时刷新
+    if (curOrder == Store.currentSheetIndex) {
+        jfrefreshgrid_adRC(
+            d, 
+            cfg, 
+            "addRC", 
+            { "index": index, "len": value, "direction": direction, "rc": type1, "restore": false }, 
+            newCalcChain, 
+            newFilterObj, 
+            newCFarr, 
+            newAFarr, 
+            newFreezen
+        );
+    }
     
     let range = null;
     if(type == "row"){
@@ -745,8 +749,11 @@ function luckysheetextendtable(type, index, value, direction) {
         }
     }
     
-    Store.luckysheet_select_save = range;
-    selectHightlightShow();
+    file.luckysheet_select_save = range;
+    if (curOrder == Store.currentSheetIndex) {
+        Store.luckysheet_select_save = range;
+        selectHightlightShow();
+    }
 
     if (type == "row"){
         let scrollLeft = $("#luckysheet-cell-main").scrollLeft(), 
@@ -810,12 +817,13 @@ function luckysheetextendData(rowlen, newData) {
 }
 
 //删除行列
-function luckysheetdeletetable(type, st, ed) {
-    let d = editor.deepCopyFlowData(Store.flowdata);
-    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+function luckysheetdeletetable(type, st, ed, order) {
+    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[curOrder];
+    let d = file.data;
 
     let slen = ed - st + 1;
-    let cfg = $.extend(true, {}, Store.config);
+    let cfg = $.extend(true, {}, file.config);
 
     //合并单元格配置变动
     if(cfg["merge"] == null){
@@ -888,7 +896,7 @@ function luckysheetdeletetable(type, st, ed) {
                 if(calc_r < st || calc_r > ed){
                     let functionStr = "=" + formula.functionStrChange(calc_funcStr, "del", "row", null, st, slen);
 
-                    if(d[calc_r][calc_c].f == calc_funcStr){
+                    if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                         d[calc_r][calc_c].f = functionStr;
                     }
 
@@ -905,7 +913,7 @@ function luckysheetdeletetable(type, st, ed) {
                 if(calc_c < st || calc_c > ed){
                     let functionStr = "=" + formula.functionStrChange(calc_funcStr, "del", "col", null, st, slen);
 
-                    if(d[calc_r][calc_c].f == calc_funcStr){
+                    if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                         d[calc_r][calc_c].f = functionStr;
                     }
 
@@ -1470,23 +1478,27 @@ function luckysheetdeletetable(type, st, ed) {
         }
     }
 
-    jfrefreshgrid_adRC(
-        d, 
-        cfg, 
-        "delRC", 
-        { "index": st, "len": ed - st + 1, "rc": type1 }, 
-        newCalcChain, 
-        newFilterObj, 
-        newCFarr, 
-        newAFarr, 
-        newFreezen
-    );
+    // 修改当前sheet页时刷新
+    if (curOrder == Store.currentSheetIndex) {
+        jfrefreshgrid_adRC(
+            d, 
+            cfg, 
+            "delRC", 
+            { "index": st, "len": ed - st + 1, "rc": type1 }, 
+            newCalcChain, 
+            newFilterObj, 
+            newCFarr, 
+            newAFarr, 
+            newFreezen
+        );
+    }
 }
 
 //删除单元格
-function luckysheetDeleteCell(type, str, edr, stc, edc) {
+function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
     let d = editor.deepCopyFlowData(Store.flowdata);
-    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[curOrder];
 
     let rlen = edr - str + 1;
     let clen = edc - stc + 1;
@@ -1551,7 +1563,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc) {
                     }
                 }
 
-                if(d[calc_r][calc_c].f == calc_funcStr){
+                if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                     d[calc_r][calc_c].f = functionStr;
                 }
 

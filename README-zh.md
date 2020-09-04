@@ -16,6 +16,10 @@
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
+## 插件
+- excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
+- 图表插件: [chartMix](https://github.com/mengshukeji/chartMix)
+
 ## 特性
 
 ### 🛠️格式设置
@@ -85,6 +89,7 @@
 + **矩阵计算** (通过右键菜单进行支持：对选区内的数据进行转置、旋转、数值计算)
 + **截图** (把选区的内容进行截图展示)
 + **复制到其他格式** (右键菜单的"复制为", 支持复制为json、array、对角线数据、去重等)
++ **EXCEL,CSV,TXT 导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
 
 ### ⏱️未来开发计划
 + **插入图表和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
@@ -93,7 +98,6 @@
 + **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
 + **树形菜单** (类似excel中的分级显示（分组）)
 + **表格新功能** (类似excel中表格的筛选器和切片器)
-+ **EXCEL,CSV,TXT 导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
 
