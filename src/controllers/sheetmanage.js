@@ -17,6 +17,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 import pivotTable from './pivotTable';
 import luckysheetsizeauto from './resize';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
 import luckysheetFreezen from './freezen';
 import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
@@ -861,7 +862,12 @@ const sheetmanage = {
         formula.execFunctionGroupData = null;
         window.luckysheet_getcelldata_cache = null;
 
+        //批注
         luckysheetPostil.buildAllPs(Store.flowdata);
+        
+        //图片
+        imageCtrl.images = file.images;
+        imageCtrl.allImagesShow();
 
         this.sheetParamRestore(file, Store.flowdata);
 

@@ -45,6 +45,7 @@ export default {
         chart: '图表',
         screenshot: '截图',
         splitColumn: '分列',
+        insertImage: '插入图片',
 
         clearText:"清除颜色选择",
         noColorSelectedText:"没有颜色被选择",
@@ -597,6 +598,24 @@ export default {
 
         tipNoMulti:"不能对多重选择区域执行此操作，请选择单个区域，然后再试",
         tipNoMultiColumn:"一次只能转换一列数据，选定区域可以有多行，但不能有多列，请在选定单列区域以后再试",
+    },
+    imageText:{
+        imageSetting: '图片设置',
+        close: '关闭',
+        conventional: '常规',
+        moveCell1: '移动并调整单元格大小',
+        moveCell2: '移动并且不调整单元格的大小',
+        moveCell3: '不要移动单元格并调整其大小',
+        fixedPos: '固定位置',
+        border: '边框',
+        width: '宽度',
+        radius: '半径',
+        style: '样式',
+        solid: '实线',
+        dashed: '虚线',
+        dotted: '点状',
+        double: '双线',
+        color: '颜色',
     },
     punctuation:{
         "tab":"Tab 键",

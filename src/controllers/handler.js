@@ -243,6 +243,11 @@ export default function luckysheetHandler() {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
+        //图片 active/cropping
+        if($("#luckysheet-modal-dialog-activeImage").is(":visible") || $("#luckysheet-modal-dialog-cropping").is(":visible")){
+            imageCtrl.cancelActiveImgItem();
+        }
+
         //luckysheetautoadjustmousedown = 1;
         let mouse = mouseposition(event.pageX, event.pageY);
         if (mouse[0] >= Store.cellmainWidth - Store.cellMainSrollBarSize || mouse[1] >= Store.cellmainHeight - Store.cellMainSrollBarSize) {
@@ -1114,6 +1119,29 @@ export default function luckysheetHandler() {
         }
     });
 
+    //监听拖拽 
+    document.getElementById('luckysheet-cell-main').addEventListener('drop', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        let files = e.dataTransfer.files;
+
+        //拖拽插入图片
+        if(files.length == 1 && files[0].type.indexOf('image') > -1){
+            let render = new FileReader();
+            render.readAsDataURL(files[0]);
+
+            render.onload = function(event){
+                let src = event.target.result;
+                imageCtrl.inserImg(src);
+            }
+        }
+    }, false);
+    document.getElementById('luckysheet-cell-main').addEventListener('dragover', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    }, false);
+
     //表格mousemove
     $(document).on("mousemove.luckysheetEvent",function (event) {
         luckysheetPostil.overshow(event); //有批注显示
@@ -1949,29 +1977,48 @@ export default function luckysheetHandler() {
                 //image move
                 else if (imageCtrl.move) {
                     let mouse = mouseposition(event.pageX, event.pageY);
+
                     let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
                     let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
 
-                    let myh = $("#luckysheet-modal-dialog-activeImage").outerHeight(),
-                        myw = $("#luckysheet-modal-dialog-activeImage").outerWidth();
+                    let imgItem = imageCtrl.images[imageCtrl.currentImgId];
+                    if(imgItem.isFixedPos){
+                        x = event.pageX;
+                        y = event.pageY;
+                    }
+
+                    let myh = $("#luckysheet-modal-dialog-activeImage").height(),
+                        myw = $("#luckysheet-modal-dialog-activeImage").width();
 
                     let top = y - imageCtrl.moveXY[1],
                         left = x - imageCtrl.moveXY[0];
 
-                    if (top < 0) {
-                        top = 0;
+                    let minTop = 0,
+                        maxTop = imageCtrl.currentWinH - myh - 42 - 6,
+                        minLeft = 0,
+                        maxLeft = imageCtrl.currentWinW - myw - 22 - 36;
+
+                    if(imgItem.isFixedPos){
+                        minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+                        maxTop = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - myh;
+                        minLeft = Store.rowHeaderWidth;
+                        maxLeft = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - myw;
                     }
 
-                    if (top + myh + 42 + 6 > imageCtrl.currentWinH) {
-                        top = imageCtrl.currentWinH - myh - 42 - 6;
+                    if (top < minTop) {
+                        top = minTop;
                     }
 
-                    if (left < 0) {
-                        left = 0;
+                    if (top > maxTop) {
+                        top = maxTop;
                     }
 
-                    if (left + myw + 22 + 36 > imageCtrl.currentWinW) {
-                        left = imageCtrl.currentWinW - myw - 22 - 36;
+                    if (left < minLeft) {
+                        left = minLeft;
+                    }
+
+                    if (left > maxLeft) {
+                        left = maxLeft;
                     }
 
                     $("#luckysheet-modal-dialog-activeImage").css({ "left": left, "top": top });
@@ -1979,8 +2026,10 @@ export default function luckysheetHandler() {
                 //image resize
                 else if (!!imageCtrl.resize) {
                     let mouse = mouseposition(event.pageX, event.pageY);
-                    let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
-                    let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
+                    let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                    let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                    let x = mouse[0] + scrollLeft;
+                    let y = mouse[1] + scrollTop;
 
                     if (x < 0 || y < 0) {
                         return false;
@@ -1997,54 +2046,226 @@ export default function luckysheetHandler() {
                         width = resizeXY[2];
 
                     let resize = imageCtrl.resize;
+                    let imgItem = imageCtrl.images[imageCtrl.currentImgId];
 
-                    if (resize == "lm" || resize == "lt" || resize == "lb") {
-                        left = x;
-                        width = resizeXY[2] - leftchange;
+                    if(imgItem.isFixedPos){
+                        let minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+                        let minLeft = Store.rowHeaderWidth;
 
-                        if (left > resizeXY[2] + resizeXY[4] - 60) {
-                            left = resizeXY[2] + resizeXY[4] - 60;
-                            width = resizeXY[2] - (resizeXY[2] + resizeXY[4] - 60 - resizeXY[0]);
+                        if(resize == 'lt'){//左上
+                            left = resizeXY[4] - resizeXY[6] + leftchange;
+
+                            if(left < minLeft){
+                                left = minLeft;
+                            }
+
+                            if(left > resizeXY[4] - resizeXY[6] + resizeXY[2] - 1){
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - 1;
+                            }
+
+                            width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
+
+                            top = resizeXY[5] - resizeXY[7] + topchange;
+
+                            if(top < minTop){
+                                top = minTop;
+                            }
+
+                            if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
+                                top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
+                            }
+
+                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
                         }
-                        else if (left <= 0) {
-                            left = 0;
-                            width = resizeXY[2] + resizeXY[0];
+                        else if(resize == 'lm'){//左中
+                            left = resizeXY[4] - resizeXY[6] + leftchange;
+
+                            if(left < minLeft){
+                                left = minLeft;
+                            }
+
+                            if(left > resizeXY[4] - resizeXY[6] + resizeXY[2] - 1){
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - 1;
+                            }
+
+                            width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
+
+                            top = resizeXY[5] - resizeXY[7];
+                            height = resizeXY[3];
+                        }
+                        else if(resize == 'lb'){//左下
+                            left = resizeXY[4] - resizeXY[6] + leftchange;
+
+                            if(left < minLeft){
+                                left = minLeft;
+                            }
+
+                            if(left > resizeXY[4] - resizeXY[6] + resizeXY[2] - 1){
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - 1;
+                            }
+
+                            width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
+
+                            top = resizeXY[5] - resizeXY[7];
+
+                            height = resizeXY[3] + topchange;
+
+                            if(height < 1){
+                                height = 1;
+                            }
+
+                            if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
+                                height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                            }
+                        }
+                        else if(resize == 'rt'){//右上
+                            left = resizeXY[4] - resizeXY[6];
+
+                            width = resizeXY[2] + leftchange;
+
+                            if(width < 1){
+                                width = 1;
+                            }
+
+                            if(width > minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left){
+                                width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
+                            }
+
+                            top = resizeXY[5] - resizeXY[7] + topchange;
+
+                            if(top < minTop){
+                                top = minTop;
+                            }
+
+                            if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
+                                top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
+                            }
+
+                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                        }
+                        else if(resize == 'rm'){//右中
+                            left = resizeXY[4] - resizeXY[6];
+
+                            width = resizeXY[2] + leftchange;
+
+                            if(width < 1){
+                                width = 1;
+                            }
+
+                            if(width > minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left){
+                                width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
+                            }
+
+                            top = resizeXY[5] - resizeXY[7];
+                            height = resizeXY[3];
+                        }
+                        else if(resize == 'rb'){//右下
+                            left = resizeXY[4] - resizeXY[6];
+
+                            width = resizeXY[2] + leftchange;
+
+                            if(width < 1){
+                                width = 1;
+                            }
+
+                            if(width > minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left){
+                                width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
+                            }
+
+                            top = resizeXY[5] - resizeXY[7];
+
+                            height = resizeXY[3] + topchange;
+
+                            if(height < 1){
+                                height = 1;
+                            }
+
+                            if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
+                                height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                            }
+                        }
+                        else if(resize == 'mt'){//中上
+                            left = resizeXY[4] - resizeXY[6];
+                            width = resizeXY[2];
+
+                            top = resizeXY[5] - resizeXY[7] + topchange;
+
+                            if(top < minTop){
+                                top = minTop;
+                            }
+
+                            if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
+                                top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
+                            }
+
+                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                        }
+                        else if(resize == 'mb'){//中下
+                            left = resizeXY[4] - resizeXY[6];
+                            width = resizeXY[2];
+
+                            top = resizeXY[5] - resizeXY[7];
+
+                            height = resizeXY[3] + topchange;
+
+                            if(height < 1){
+                                height = 1;
+                            }
+
+                            if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
+                                height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                            }
                         }
                     }
-
-                    if (resize == "rm" || resize == "rt" || resize == "rb") {
-                        width = resizeXY[2] + leftchange;
-
-                        if (width < 60) {
-                            width = 60;
+                    else{
+                        if (resize == "lm" || resize == "lt" || resize == "lb") {
+                            left = x;
+                            width = resizeXY[2] - leftchange;
+    
+                            if (left > resizeXY[2] + resizeXY[4] - 1) {
+                                left = resizeXY[2] + resizeXY[4] - 1;
+                                width = resizeXY[2] - (resizeXY[2] + resizeXY[4] - 1 - resizeXY[0]);
+                            }
+                            else if (left <= 0) {
+                                left = 0;
+                                width = resizeXY[2] + resizeXY[0];
+                            }
                         }
-                        else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
-                            width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+    
+                        if (resize == "rm" || resize == "rt" || resize == "rb") {
+                            width = resizeXY[2] + leftchange;
+    
+                            if (width < 1) {
+                                width = 1;
+                            }
+                            else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
+                                width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+                            }
                         }
-                    }
-
-                    if (resize == "mt" || resize == "lt" || resize == "rt") {
-                        top = y;
-                        height = resizeXY[3] - topchange;
-
-                        if (top > resizeXY[3] + resizeXY[5] - 60) {
-                            top = resizeXY[3] + resizeXY[5] - 60;
-                            height = resizeXY[3] - (resizeXY[3] + resizeXY[5] - 60 - resizeXY[1]);
+    
+                        if (resize == "mt" || resize == "lt" || resize == "rt") {
+                            top = y;
+                            height = resizeXY[3] - topchange;
+    
+                            if (top > resizeXY[3] + resizeXY[5] - 1) {
+                                top = resizeXY[3] + resizeXY[5] - 1;
+                                height = resizeXY[3] - (resizeXY[3] + resizeXY[5] - 1 - resizeXY[1]);
+                            }
+                            else if (top <= 0) {
+                                top = 0;
+                                height = resizeXY[3] + resizeXY[1];
+                            }
                         }
-                        else if (top <= 0) {
-                            top = 0;
-                            height = resizeXY[3] + resizeXY[1];
-                        }
-                    }
-
-                    if (resize == "mb" || resize == "lb" || resize == "rb") {
-                        height = resizeXY[3] + topchange;
-
-                        if (height < 60) {
-                            height = 60;
-                        }
-                        else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
-                            height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+    
+                        if (resize == "mb" || resize == "lb" || resize == "rb") {
+                            height = resizeXY[3] + topchange;
+    
+                            if (height < 1) {
+                                height = 1;
+                            }
+                            else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
+                                height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+                            }
                         }
                     }
 
@@ -2054,10 +2275,238 @@ export default function luckysheetHandler() {
                         "left": left, 
                         "top": top 
                     });
+                    
+                    let scaleX = width / imgItem.crop.width;
+                    let scaleY = height / imgItem.crop.height;
+                    let defaultWidth = Math.round(imgItem.default.width * scaleX);
+                    let defaultHeight = Math.round(imgItem.default.height * scaleY);
+                    let offsetLeft = Math.round(imgItem.crop.offsetLeft * scaleX);
+                    let offsetTop = Math.round(imgItem.crop.offsetTop * scaleY);
+                    
                     $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-                        "background-size": width + "px " + height + "px",
-                        "background-position": "0px 0px"
+                        "background-size": defaultWidth + "px " + defaultHeight + "px",
+                        "background-position": -offsetLeft + "px " + -offsetTop + "px"
                     })
+                }
+                //image cropChange
+                else if (!!imageCtrl.cropChange) {
+                    let mouse = mouseposition(event.pageX, event.pageY);
+                    let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
+                    let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
+
+                    if (x < 0 || y < 0) {
+                        return false;
+                    }
+
+                    let cropChangeXY = imageCtrl.cropChangeXY;
+
+                    let topchange = y - cropChangeXY[1],
+                        leftchange = x - cropChangeXY[0];
+
+                    let imgItem = imageCtrl.images[imageCtrl.currentImgId];
+                    let cropChange = imageCtrl.cropChange;
+                    let width, height, offsetLeft, offsetTop;
+
+                    if(cropChange == 'lt'){//左上
+                        offsetLeft = imgItem.crop.offsetLeft + leftchange;
+
+                        if(offsetLeft < 0){
+                            offsetLeft = 0;
+                        }
+
+                        if(offsetLeft > imgItem.crop.width + imgItem.crop.offsetLeft - 1){
+                            offsetLeft = imgItem.crop.width + imgItem.crop.offsetLeft - 1;
+                        }
+
+                        width = imgItem.crop.width + imgItem.crop.offsetLeft - offsetLeft;
+
+                        offsetTop = imgItem.crop.offsetTop + topchange;
+
+                        if(offsetTop < 0){
+                            offsetTop = 0;
+                        }
+
+                        if(offsetTop > imgItem.crop.height + imgItem.crop.offsetTop - 1){
+                            offsetTop = imgItem.crop.height + imgItem.crop.offsetTop - 1;
+                        }
+
+                        height = imgItem.crop.height + imgItem.crop.offsetTop - offsetTop;
+                    }
+                    else if(cropChange == 'lm'){//左中
+                        offsetLeft = imgItem.crop.offsetLeft + leftchange;
+
+                        if(offsetLeft < 0){
+                            offsetLeft = 0;
+                        }
+
+                        if(offsetLeft > imgItem.crop.width + imgItem.crop.offsetLeft - 1){
+                            offsetLeft = imgItem.crop.width + imgItem.crop.offsetLeft - 1;
+                        }
+
+                        width = imgItem.crop.width + imgItem.crop.offsetLeft - offsetLeft;
+
+                        offsetTop = imgItem.crop.offsetTop;
+                        height = imgItem.crop.height;
+                    }
+                    else if(cropChange == 'lb'){//左下
+                        offsetLeft = imgItem.crop.offsetLeft + leftchange;
+
+                        if(offsetLeft < 0){
+                            offsetLeft = 0;
+                        }
+
+                        if(offsetLeft > imgItem.crop.width + imgItem.crop.offsetLeft - 1){
+                            offsetLeft = imgItem.crop.width + imgItem.crop.offsetLeft - 1;
+                        }
+
+                        width = imgItem.crop.width + imgItem.crop.offsetLeft - offsetLeft;
+
+                        offsetTop = imgItem.crop.offsetTop;
+
+                        height = imgItem.crop.height + topchange;
+                        
+                        if(height < 1){
+                            height = 1;
+                        }
+
+                        if(height > imgItem.default.height - offsetTop){
+                            height = imgItem.default.height - offsetTop;
+                        }
+                    }
+                    else if(cropChange == 'rt'){//右上
+                        offsetLeft = imgItem.crop.offsetLeft;
+
+                        width = imgItem.crop.width + leftchange;
+
+                        if(width < 1){
+                            width = 1;
+                        }
+
+                        if(width > imgItem.default.width - offsetLeft){
+                            width = imgItem.default.width - offsetLeft;
+                        }
+
+                        offsetTop = imgItem.crop.offsetTop + topchange;
+
+                        if(offsetTop < 0){
+                            offsetTop = 0;
+                        }
+
+                        if(offsetTop > imgItem.crop.height + imgItem.crop.offsetTop - 1){
+                            offsetTop = imgItem.crop.height + imgItem.crop.offsetTop - 1;
+                        }
+
+                        height = imgItem.crop.height + imgItem.crop.offsetTop - offsetTop;
+                    }
+                    else if(cropChange == 'rm'){//右中
+                        offsetLeft = imgItem.crop.offsetLeft;
+
+                        width = imgItem.crop.width + leftchange;
+
+                        if(width < 1){
+                            width = 1;
+                        }
+
+                        if(width > imgItem.default.width - offsetLeft){
+                            width = imgItem.default.width - offsetLeft;
+                        }
+
+                        offsetTop = imgItem.crop.offsetTop;
+                        height = imgItem.crop.height;
+                    }
+                    else if(cropChange == 'rb'){//右下
+                        offsetLeft = imgItem.crop.offsetLeft;
+
+                        width = imgItem.crop.width + leftchange;
+
+                        if(width < 1){
+                            width = 1;
+                        }
+
+                        if(width > imgItem.default.width - offsetLeft){
+                            width = imgItem.default.width - offsetLeft;
+                        }
+
+                        offsetTop = imgItem.crop.offsetTop;
+
+                        height = imgItem.crop.height + topchange;
+
+                        if(height < 1){
+                            height = 1;
+                        }
+
+                        if(height > imgItem.default.height - offsetTop){
+                            height = imgItem.default.height - offsetTop;
+                        }
+                    }
+                    else if(cropChange == 'mt'){//中上
+                        offsetLeft = imgItem.crop.offsetLeft;
+                        width = imgItem.crop.width;
+
+                        offsetTop = imgItem.crop.offsetTop + topchange;
+
+                        if(offsetTop < 0){
+                            offsetTop = 0;
+                        }
+
+                        if(offsetTop > imgItem.crop.height + imgItem.crop.offsetTop - 1){
+                            offsetTop = imgItem.crop.height + imgItem.crop.offsetTop - 1;
+                        }
+
+                        height = imgItem.crop.height + imgItem.crop.offsetTop - offsetTop;
+                    }
+                    else if(cropChange == 'mb'){//中下
+                        offsetLeft = imgItem.crop.offsetLeft;
+                        width = imgItem.crop.width;
+
+                        offsetTop = imgItem.crop.offsetTop;
+
+                        height = imgItem.crop.height + topchange;
+
+                        if(height < 1){
+                            height = 1;
+                        }
+
+                        if(height > imgItem.default.height - offsetTop){
+                            height = imgItem.default.height - offsetTop;
+                        }
+                    }
+
+                    let left = imgItem.default.left + offsetLeft;
+                    let top = imgItem.default.top + offsetTop;
+
+                    if(imgItem.isFixedPos){
+                        left = imgItem.fixedLeft + offsetLeft;
+                        top = imgItem.fixedTop + offsetTop;
+                    }
+
+                    $("#luckysheet-modal-dialog-cropping").show().css({
+                        "width": width,
+                        "height": height,
+                        "left": left,
+                        "top": top
+                    });
+        
+                    $("#luckysheet-modal-dialog-cropping .cropping-mask").css({
+                        "width": imgItem.default.width,
+                        "height": imgItem.default.height,
+                        "background-image": "url(" + imgItem.src + ")",
+                        "left": -offsetLeft,
+                        "top": -offsetTop
+                    })
+        
+                    $("#luckysheet-modal-dialog-cropping .cropping-content").css({
+                        "background-image": "url(" + imgItem.src + ")",
+                        "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
+                        "background-position": -offsetLeft + "px " + -offsetTop + "px"
+                    })
+
+                    imageCtrl.cropChangeObj = {
+                        width: width,
+                        height: height,
+                        offsetLeft: offsetLeft,
+                        offsetTop: offsetTop
+                    }
                 }
                 else if (luckysheetPostil.move) {
                     let mouse = mouseposition(event.pageX, event.pageY);
@@ -2354,6 +2803,11 @@ export default function luckysheetHandler() {
         //image resize
         if (imageCtrl.resize) {
             imageCtrl.resizeImgItem();
+        }
+
+        //image cropChange
+        if (imageCtrl.cropChange) {
+            imageCtrl.cropChangeImgItem();
         }
 
         //批注框 移动
@@ -3576,33 +4030,10 @@ export default function luckysheetHandler() {
 
         render.onload = function(event){
             let src = event.target.result;
-
-            let rowIndex = Store.luckysheet_select_save[0].row_focus;
-            let colIndex = Store.luckysheet_select_save[0].column_focus;
-            let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
-            let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1];
-
-            let image = new Image();
-            image.onload = function(){
-                let width = image.width,
-                    height = image.height;
-
-                let img = {
-                    src: src,
-                    left: left,
-                    top: top,
-                    originWidth: width,
-                    originHeight: height
-                }
-
-                imageCtrl.addImgItem(img);
-                $("#luckysheet-imgUpload").val("");
-            }
-            image.src = src;
+            imageCtrl.inserImg(src);
+            $("#luckysheet-imgUpload").val("");
         }
     });
-
-    
 
     //冻结行列
     $("#luckysheet-freezen-btn-horizontal").click(function () {
@@ -3943,6 +4374,19 @@ export default function luckysheetHandler() {
             let clipboardData = window.clipboardData; //for IE
             if (!clipboardData) { // for chrome
                 clipboardData = e.originalEvent.clipboardData;
+            }
+
+            //复制的是图片
+            if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
+                let render = new FileReader();
+                render.readAsDataURL(clipboardData.files[0]);
+
+                render.onload = function(event){
+                    let src = event.target.result;
+                    imageCtrl.inserImg(src);
+                }
+
+                return;
             }
 
             let txtdata = clipboardData.getData("text/html");

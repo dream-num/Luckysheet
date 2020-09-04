@@ -1,6 +1,7 @@
 
 import pivotTable from './pivotTable';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
 import menuButton from './menuButton';
 import server from './server';
 import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
@@ -41,6 +42,11 @@ export function rowColumnOperationInitial(){
     $("#luckysheet-rows-h").mousedown(function (event) {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
+
+        //图片 active/cropping
+        if($("#luckysheet-modal-dialog-activeImage").is(":visible") || $("#luckysheet-modal-dialog-cropping").is(":visible")){
+            imageCtrl.cancelActiveImgItem();
+        }
 
         let mouse = mouseposition(event.pageX, event.pageY);
         let y = mouse[1] + $("#luckysheet-rows-h").scrollTop();
@@ -422,6 +428,11 @@ export function rowColumnOperationInitial(){
     $("#luckysheet-cols-h-c").mousedown(function (event) {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
+
+        //图片 active/cropping
+        if($("#luckysheet-modal-dialog-activeImage").is(":visible") || $("#luckysheet-modal-dialog-cropping").is(":visible")){
+            imageCtrl.cancelActiveImgItem();
+        }
 
         let mouse = mouseposition(event.pageX, event.pageY);
         let x = mouse[0] + $(this).scrollLeft();
@@ -810,6 +821,11 @@ export function rowColumnOperationInitial(){
     $("#luckysheet-rows-change-size").mousedown(function (event) {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
+
+        //图片 active/cropping
+        if($("#luckysheet-modal-dialog-activeImage").is(":visible") || $("#luckysheet-modal-dialog-cropping").is(":visible")){
+            imageCtrl.cancelActiveImgItem();
+        }
         
         $("#luckysheet-input-box").hide();
         $("#luckysheet-rows-change-size").css({ "opacity": 1 });
@@ -849,6 +865,11 @@ export function rowColumnOperationInitial(){
     $("#luckysheet-cols-change-size").mousedown(function (event) {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
+
+        //图片 active/cropping
+        if($("#luckysheet-modal-dialog-activeImage").is(":visible") || $("#luckysheet-modal-dialog-cropping").is(":visible")){
+            imageCtrl.cancelActiveImgItem();
+        }
 
         $("#luckysheet-input-box").hide();
         $("#luckysheet-cols-change-size").css({ "opacity": 1 });

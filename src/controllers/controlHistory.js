@@ -3,6 +3,7 @@ import server from './server';
 import pivotTable from './pivotTable';
 import conditionformat from './conditionformat';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
 import {zoomRefreshView,zoomNumberDomBind} from './zoom';
 import { createFilter, createFilterOptions, labelFilterOptionState } from './filter';
 import formula from '../global/formula';
@@ -337,6 +338,11 @@ const controlHistory = {
                 }
             }
         }
+        else if (ctr.type == "imageCtrl"){
+            imageCtrl.images = $.extend(true, {}, ctr.images);
+            imageCtrl.allImagesShow();
+            imageCtrl.ref();
+        }
         else if (ctr.type=="zoomChange"){
             Store.zoomRatio = ctr.zoomRatio;
             server.saveParam("all", ctr.currentSheetIndex, ctr.zoomRatio, { "k": "zoomRatio" });
@@ -575,6 +581,11 @@ const controlHistory = {
                     luckysheetPostil.buildPs(r, c, null);
                 }
             }
+        }
+        else if (ctr.type == "imageCtrl"){
+            imageCtrl.images = $.extend(true, {}, ctr.curImages);
+            imageCtrl.allImagesShow();
+            imageCtrl.ref();
         }
         else if (ctr.type=="zoomChange"){
             Store.zoomRatio = ctr.curZoomRatio;

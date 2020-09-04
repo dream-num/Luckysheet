@@ -129,7 +129,8 @@ const gridHTML = function(){
                                                     <div id="luckysheet-dynamicArray-hightShow"></div>  
                                                     <div id="luckysheet-image-showBoxs">
                                                         <div id="luckysheet-modal-dialog-activeImage" class="luckysheet-modal-dialog" style="display:none;padding:0;position:absolute;z-index:300;">
-                                                            <div class="luckysheet-modal-dialog-content"></div>    
+                                                            <div class="luckysheet-modal-dialog-border" style="position:absolute;"></div> 
+                                                            <div class="luckysheet-modal-dialog-content"></div>  
                                                             <div class="luckysheet-modal-dialog-resize">
                                                                 <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt" data-type="lt"></div>
                                                                 <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt" data-type="mt"></div>
@@ -155,6 +156,7 @@ const gridHTML = function(){
                                                         <div id="luckysheet-modal-dialog-cropping" class="luckysheet-modal-dialog" style="display:none;padding:0;position:absolute;z-index:300;">
                                                             <div class="cropping-mask"></div>
                                                             <div class="cropping-content"></div>
+                                                            <div class="luckysheet-modal-dialog-border" style="position:absolute;"></div>
                                                             <div class="luckysheet-modal-dialog-resize">
                                                                 <div class="resize-item lt" data-type="lt"></div> 
                                                                 <div class="resize-item mt" data-type="mt"></div> 
@@ -177,6 +179,7 @@ const gridHTML = function(){
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <div class="img-list"></div>
                                                     </div>
                                                     <div class="luckysheet-cell-copy"></div>  
                                                     <div class="luckysheet-grdblkflowpush"></div>  \${flow} 
@@ -1262,7 +1265,7 @@ function menuToolBar (){
             ${toolbar.splitColumn}
         </div>
         <div class="luckysheetfulltoolbar" id="luckysheet-insertImg-btn-title">
-            插入图片
+            ${toolbar.insertImage}
             <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;">
         </div>`;
 } 

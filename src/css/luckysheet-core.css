@@ -2922,7 +2922,7 @@ fieldset[disabled] a.btn {
     display: none;
     left: 0px;
     top: 0px;
-    z-index: 1004;
+    z-index: 1010;
 }
 
 
@@ -6188,7 +6188,7 @@ fieldset[disabled] a.btn {
     display: none;
     left: 0px;
     top: 0px;
-    z-index: 1004;
+    z-index: 1010;
 }
 
 
@@ -6454,6 +6454,7 @@ fieldset[disabled] a.btn {
     left: 0;
     bottom: 0;
     right: 0;
+    pointer-events: all;
 }
 #luckysheet-modal-dialog-cropping .resize-item{
     width: 0;
@@ -6614,4 +6615,77 @@ fieldset[disabled] a.btn {
     border-left: 2px solid #fff;
     border-right: 2px solid #fff;
     border-top: 2px solid #fff;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .luckysheet-modal-dialog-slider-content{
+    background-color: #fff;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box{
+    border-bottom: 1px solid #E1E4E8;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .slider-box-title{
+    padding: 10px 20px;
+    font-weight: 600;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .slider-box-radios{
+    padding: 10px 30px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .radio-item{
+    margin-bottom: 10px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .radio-item:last-child{
+    margin-bottom: 0;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .radio-item input{
+    vertical-align: sub;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .slider-box-checkbox{
+    padding: 10px 30px;
+    border-top: 1px solid #E1E4E8;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .slider-box-checkbox input{
+    vertical-align: middle;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .slider-box-borderConfig{
+    padding: 10px 30px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item{
+    margin-bottom: 10px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item:last-child{
+    margin-bottom: 0;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item label{
+    display: inline-block;
+    width: 40px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item input{
+    width: 130px;
+    padding: 5px;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item .imgItemBorderColor{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    border: 1px solid #E1E4E8;
+    vertical-align: middle;
+    cursor: pointer;
+}
+#luckysheet-modal-dialog-slider-imageCtrl .slider-box .border-item .imgItemBorderColor span{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+#luckysheet-imageCtrl-colorSelect-dialog .currenColor{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+#luckysheet-imageCtrl-colorSelect-dialog .currenColor span{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: solid 1px #d0d0d0;
+    margin-left: 5px;
+    margin-bottom: -5px;
+    cursor: pointer;
 }

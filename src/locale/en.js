@@ -45,6 +45,7 @@ export default {
         chart: 'Chart',
         screenshot: 'Screenshot',
         splitColumn: 'Split text',
+        insertImage: 'Insert image',
 
         clearText:"Clear color",
         noColorSelectedText:"No color is selected",
@@ -581,6 +582,24 @@ export default {
 
         tipNoMulti:"Cannot perform this operation on multiple selection areas, please select a single area and try again",
         tipNoMultiColumn:"Only one column of data can be converted at a time. The selected area can have multiple rows but not multiple columns. Please try again after selecting a single column range",
+    },
+    imageText:{
+        imageSetting: 'Image setting',
+        close: 'Close',
+        conventional: 'Conventional',
+        moveCell1: 'Move and resize cells',
+        moveCell2: 'Move and do not resize the cell',
+        moveCell3: 'Do not move and resize the cell',
+        fixedPos: 'Fixed position',
+        border: 'Border',
+        width: 'Width',
+        radius: 'Radius',
+        style: 'Style',
+        solid: 'Solid',
+        dashed: 'Dashed',
+        dotted: 'Dotted',
+        double: 'Double',
+        color: 'Color',
     },
     punctuation:{
         "tab":"Tab",
