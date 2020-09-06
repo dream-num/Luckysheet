@@ -17,7 +17,7 @@ const Store = {
 
     cellmainWidth: 0,
     cellmainHeight: 0,
-    toolbarHeight: 35,
+    toolbarHeight: 61,
     infobarHeight: 30,
     calculatebarHeight: 30,
     rowHeaderWidth: 46,

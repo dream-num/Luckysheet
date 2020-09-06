@@ -2905,19 +2905,19 @@ const menuButton = {
                         foucsStatus = "0";
                     }
                     else if(foucsStatus == "angleup"){
-                        foucsStatus = "2";
+                        foucsStatus = "1";
                     }
                     else if(foucsStatus == "angledown"){
-                        foucsStatus = "1";
+                        foucsStatus = "2";
                     }
                     else if(foucsStatus == "vertical"){
                         foucsStatus = "3";
                     }
                     else if(foucsStatus == "rotation-up"){
-                        foucsStatus = "5";
+                        foucsStatus = "4";
                     }
                     else if(foucsStatus == "rotation-down"){
-                        foucsStatus = "4";
+                        foucsStatus = "5";
                     }
                 }
 
@@ -3289,19 +3289,19 @@ const menuButton = {
                 let $t = $("luckysheet-icon-rotation"), itemvalue = "none";
                 
                 if(foucsStatus == "1"){
-                    itemvalue = "angledown";
+                    itemvalue = "angleup";
                 }
                 else if(foucsStatus == "2"){
-                    itemvalue = "angleup";
+                    itemvalue = "angledown";
                 }
                 else if(foucsStatus == "3"){
                     itemvalue = "vertical";
                 }
                 else if(foucsStatus == "4"){
-                    itemvalue = "rotation-down";
+                    itemvalue = "rotation-up";
                 }
                 else if(foucsStatus == "5"){
-                    itemvalue = "rotation-up";
+                    itemvalue = "rotation-down";
                 }
 
                 _this.focus($menuButton, itemvalue);
@@ -3312,8 +3312,8 @@ const menuButton = {
             }
         }
     },
-    checkstatus: function(d, r, c, a){
-        let foucsStatus = d[r][c];
+    checkstatusByCell:function(cell, a){
+        let foucsStatus =cell;
         let tf = {"bl":1, "it":1 , "ff":1, "cl":1};
 
         if(a in tf){
@@ -3454,8 +3454,23 @@ const menuButton = {
                 }
             }
         }
+        else if(a == "rt"){
+            if(foucsStatus == null){
+                foucsStatus = null;
+            }
+            else{
+                foucsStatus = foucsStatus[a];
+                if(foucsStatus == null){
+                    foucsStatus = null;
+                }
+            }
+        }
 
         return foucsStatus;
+    },
+    checkstatus: function(d, r, c, a){
+        let foucsStatus = d[r][c];
+        return this.checkstatusByCell(foucsStatus, a);
     },
     setLineDash: function(canvasborder, type, hv, m_st, m_ed, line_st, line_ed){
     	let borderType = {
