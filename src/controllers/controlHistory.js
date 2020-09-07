@@ -114,6 +114,12 @@ const controlHistory = {
                 server.saveParam("cg", ctr.sheetIndex, ctr.config["columnlen"], { "k": "columnlen" });
             }
 
+            let images = $.extend(true, {}, ctr.images);
+            Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].images = images;
+            server.saveParam("all", ctr.sheetIndex, images, { "k": "images" });
+            imageCtrl.images = images;
+            imageCtrl.allImagesShow();
+
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
         else if (ctr.type == "cellRowChange") {
@@ -388,6 +394,12 @@ const controlHistory = {
             else if(ctr.ctrlType == "resizeC"){
                 server.saveParam("cg", ctr.sheetIndex, ctr.curconfig["columnlen"], { "k": "columnlen" });
             }
+
+            let images = $.extend(true, {}, ctr.curImages);
+            Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].images = images;
+            server.saveParam("all", ctr.sheetIndex, images, { "k": "images" });
+            imageCtrl.images = images;
+            imageCtrl.allImagesShow();
 
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }

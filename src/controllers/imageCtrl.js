@@ -461,12 +461,17 @@ const imageCtrl = {
             e.stopPropagation();
         })
 
+        //image restore
+        $("#luckysheet-image-showBoxs").off("mousedown.restore").on("mousedown.restore", ".luckysheet-modal-controll-restore", function(e) {
+            _this.restoreImgItem();
+            e.stopPropagation();
+        })
+
         //image delete
         $("#luckysheet-image-showBoxs").off("mousedown.delete").on("mousedown.delete", ".luckysheet-modal-controll-del", function(e) {
             _this.removeImgItem();
             e.stopPropagation();
         })
-
     },
     configChange: function(type, value){
         let _this = this;
@@ -777,6 +782,42 @@ const imageCtrl = {
 
         _this.ref();
     },
+    restoreImgItem: function() {
+        let _this = this;
+        let imgItem = _this.images[_this.currentImgId];
+
+        imgItem.default.width = imgItem.originWidth;
+        imgItem.default.height = imgItem.originHeight;
+
+        imgItem.crop.width = imgItem.originWidth;
+        imgItem.crop.height = imgItem.originHeight;
+        imgItem.crop.offsetLeft = 0;
+        imgItem.crop.offsetTop = 0;
+
+        let imgItemParam = _this.getImgItemParam(imgItem);
+
+        let width = imgItemParam.width;
+        let height = imgItemParam.height;
+        let left = imgItemParam.left;
+        let top = imgItemParam.top;
+        let position = imgItemParam.position;
+        
+        $("#luckysheet-modal-dialog-activeImage").show().css({
+            "width": width,
+            "height": height,
+            "left": left,
+            "top": top,
+            "position": position
+        });
+
+        $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
+            "background-image": "url(" + imgItem.src + ")",
+            "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
+            "background-position": -imgItem.crop.offsetLeft + "px " + -imgItem.crop.offsetTop + "px"
+        })
+
+        _this.ref();
+    },
     removeImgItem: function() {
         let _this = this;
         
@@ -808,19 +849,71 @@ const imageCtrl = {
             $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
         }
     },
-    moveChangeSize: function(rc, index, changeSize) {
+    moveChangeSize: function(rc, index, size) {
         let _this = this;
         let images = $.extend(true, {}, _this.images);
 
         if(rc == "row"){
             let row = Store.visibledatarow[index], 
                 row_pre = index - 1 == -1 ? 0 : Store.visibledatarow[index - 1];
+            let changeSize = size - (row - row_pre - 1);
             
-            
+            for(let imgId in images){
+                let imgItem = images[imgId];
+                let imgItemParam = _this.getImgItemParam(imgItem);
+                let type = imgItem.type;
+
+                if(type == "1"){
+                    if(imgItemParam.top >= row){
+                        imgItem.default.top = imgItemParam.top + changeSize - imgItem.crop.offsetTop;
+                    }
+                    else{
+                        if(imgItemParam.top + imgItemParam.height > row){
+                            if(imgItemParam.top < row + changeSize){
+                                let scaleY = (imgItemParam.height + changeSize) / imgItemParam.height;
+                                imgItem.default.height = Math.round(imgItem.default.height * scaleY);
+                                imgItem.crop.height = Math.round(imgItem.crop.height * scaleY);
+                                imgItem.crop.offsetTop = Math.round(imgItem.crop.offsetTop * scaleY);
+                            }
+                            else{
+                                let scaleY = (imgItemParam.top + imgItemParam.height - row) / imgItemParam.height;
+                                imgItem.default.height = Math.round(imgItem.default.height * scaleY);
+                                imgItem.crop.height = Math.round(imgItem.crop.height * scaleY);
+                                imgItem.crop.offsetTop = Math.round(imgItem.crop.offsetTop * scaleY);
+                                imgItem.default.top = row + changeSize - imgItem.crop.offsetTop;
+                            }
+                        }
+                        else{
+                            if(imgItemParam.top > row + changeSize){
+                                let scaleY = 1 / imgItemParam.height;
+                                imgItem.default.height = Math.round(imgItem.default.height * scaleY);
+                                imgItem.crop.height = Math.round(imgItem.crop.height * scaleY);
+                                imgItem.crop.offsetTop = Math.round(imgItem.crop.offsetTop * scaleY);
+                                imgItem.default.top = row + changeSize - imgItem.crop.offsetTop;
+                            }
+                            else if(imgItemParam.top + imgItemParam.height > row + changeSize){
+                                let scaleY = (row + changeSize - imgItemParam.top) / imgItemParam.height;
+                                imgItem.default.height = Math.round(imgItem.default.height * scaleY);
+                                imgItem.crop.height = Math.round(imgItem.crop.height * scaleY);
+                                imgItem.crop.offsetTop = Math.round(imgItem.crop.offsetTop * scaleY);
+                            }
+                        }
+                    }
+                }
+                else if(type == "2"){
+                    if(imgItemParam.top >= row){
+                        imgItem.default.top = imgItemParam.top + changeSize - imgItem.crop.offsetTop;
+                    }
+                    else if(imgItemParam.top > row + changeSize){
+                        imgItem.default.top = row + changeSize - imgItem.crop.offsetTop;
+                    }
+                }
+            }
         }
         else if(rc == "column"){
             let col = Store.visibledatacolumn[index], 
                 col_pre = index - 1 == -1 ? 0 : Store.visibledatacolumn[index - 1];
+            let changeSize = size - (col - col_pre - 1);
 
             for(let imgId in images){
                 let imgItem = images[imgId];
@@ -829,22 +922,53 @@ const imageCtrl = {
 
                 if(type == "1"){
                     if(imgItemParam.left >= col){
-                        imgItem.default.left = imgItemParam.left + changeSize - item.crop.offsetLeft;
+                        imgItem.default.left = imgItemParam.left + changeSize - imgItem.crop.offsetLeft;
                     }
                     else{
                         if(imgItemParam.left + imgItemParam.width > col){
-                            let scaleX = obj.clientWidth / item.crop.width;
+                            if(imgItemParam.left < col + changeSize){
+                                let scaleX = (imgItemParam.width + changeSize) / imgItemParam.width;
+                                imgItem.default.width = Math.round(imgItem.default.width * scaleX);
+                                imgItem.crop.width = Math.round(imgItem.crop.width * scaleX);
+                                imgItem.crop.offsetLeft = Math.round(imgItem.crop.offsetLeft * scaleX);
+                            }
+                            else{
+                                let scaleX = (imgItemParam.left + imgItemParam.width - col) / imgItemParam.width;
+                                imgItem.default.width = Math.round(imgItem.default.width * scaleX);
+                                imgItem.crop.width = Math.round(imgItem.crop.width * scaleX);
+                                imgItem.crop.offsetLeft = Math.round(imgItem.crop.offsetLeft * scaleX);
+                                imgItem.default.left = col + changeSize - imgItem.crop.offsetLeft;
+                            }
                         }
                         else{
-
+                            if(imgItemParam.left > col + changeSize){
+                                let scaleX = 1 / imgItemParam.width;
+                                imgItem.default.width = Math.round(imgItem.default.width * scaleX);
+                                imgItem.crop.width = Math.round(imgItem.crop.width * scaleX);
+                                imgItem.crop.offsetLeft = Math.round(imgItem.crop.offsetLeft * scaleX);
+                                imgItem.default.left = col + changeSize - imgItem.crop.offsetLeft;
+                            }
+                            else if(imgItemParam.left + imgItemParam.width > col + changeSize){
+                                let scaleX = (col + changeSize - imgItemParam.left) / imgItemParam.width;
+                                imgItem.default.width = Math.round(imgItem.default.width * scaleX);
+                                imgItem.crop.width = Math.round(imgItem.crop.width * scaleX);
+                                imgItem.crop.offsetLeft = Math.round(imgItem.crop.offsetLeft * scaleX);
+                            }
                         }
                     }
                 }
                 else if(type == "2"){
-
+                    if(imgItemParam.left >= col){
+                        imgItem.default.left = imgItemParam.left + changeSize - imgItem.crop.offsetLeft;
+                    }
+                    else if(imgItemParam.left > col + changeSize){
+                        imgItem.default.left = col + changeSize - imgItem.crop.offsetLeft;
+                    }
                 }
             }
         }
+
+        return images;
     },
     ref: function() {
         let _this = this;

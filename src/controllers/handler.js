@@ -2911,15 +2911,19 @@ export default function luckysheetHandler() {
 
             cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 
+            let images = imageCtrl.moveChangeSize("row", Store.luckysheet_rows_change_size_start[1], size);
+
             if (Store.clearjfundo) {
                 Store.jfundo = [];
 
                 Store.jfredo.push({
                     "type": "resize",
                     "ctrlType": "resizeR",
+                    "sheetIndex": Store.currentSheetIndex,
                     "config": $.extend(true, {}, Store.config),
                     "curconfig": $.extend(true, {}, cfg),
-                    "sheetIndex": Store.currentSheetIndex
+                    "images": $.extend(true, {}, imageCtrl.images),
+                    "curImages": $.extend(true, {}, images) 
                 });
             }
 
@@ -2928,6 +2932,12 @@ export default function luckysheetHandler() {
             Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
 
             server.saveParam("cg", Store.currentSheetIndex, cfg["rowlen"], { "k": "rowlen" });
+
+            //images
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].images = images;
+            server.saveParam("all", Store.currentSheetIndex, images, { "k": "images" });
+            imageCtrl.images = images;
+            imageCtrl.allImagesShow();
 
             jfrefreshgrid_rhcw(Store.flowdata.length, null);
         }
@@ -2977,15 +2987,19 @@ export default function luckysheetHandler() {
 
             cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 
+            let images = imageCtrl.moveChangeSize("column", Store.luckysheet_cols_change_size_start[1], size);
+
             if (Store.clearjfundo) {
                 Store.jfundo = [];
 
                 Store.jfredo.push({
                     "type": "resize",
                     "ctrlType": "resizeC",
+                    "sheetIndex": Store.currentSheetIndex,
                     "config": $.extend(true, {}, Store.config),
                     "curconfig": $.extend(true, {}, cfg),
-                    "sheetIndex": Store.currentSheetIndex
+                    "images": $.extend(true, {}, imageCtrl.images),
+                    "curImages": $.extend(true, {}, images) 
                 });
             }
 
@@ -2994,6 +3008,12 @@ export default function luckysheetHandler() {
             Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
 
             server.saveParam("cg", Store.currentSheetIndex, cfg["columnlen"], { "k": "columnlen" });
+
+            //images
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].images = images;
+            server.saveParam("all", Store.currentSheetIndex, images, { "k": "images" });
+            imageCtrl.images = images;
+            imageCtrl.allImagesShow();
 
             jfrefreshgrid_rhcw(null, Store.flowdata[0].length);
 
