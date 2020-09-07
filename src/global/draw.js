@@ -1178,7 +1178,7 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
 }
 
 
-let cellRender1 = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
+let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
 
     let cell = Store.flowdata[r][c];
     let cellWidth = end_c - start_c - 2;
@@ -1203,7 +1203,7 @@ let cellRender1 = function(r, c, start_r, start_c, end_r, end_c, value, luckyshe
     if(checksCF != null && checksCF["cellColor"] != null){ //若单元格有条件格式 背景颜色
         fillStyle = checksCF["cellColor"];
     }
-    luckysheetTableContent.textBaseline = 'top';
+    // luckysheetTableContent.textBaseline = 'top';
     if(fillStyle==null){
         luckysheetTableContent.fillStyle = "#FFFFFF";
     }
@@ -1600,7 +1600,7 @@ let cellRender1 = function(r, c, start_r, start_c, end_r, end_c, value, luckyshe
 }
 
 //非空白单元格渲染
-let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
+let cellRender1 = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
 
     let cell = Store.flowdata[r][c];
     let cellWidth = end_c - start_c - 2;

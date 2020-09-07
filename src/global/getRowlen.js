@@ -156,7 +156,7 @@ function getCellTextSplitArr(strValue, strArr, cellWidth, canvas){
 
 //获取有值单元格文本大小
 // let measureTextCache = {}, measureTextCacheTimeOut = null;
-function getMeasureText(value, ctx){
+function getMeasureText(value, ctx, fontset){
     let mtc = Store.measureTextCache[value + "_" + ctx.font];
 
     if(mtc != null){
@@ -164,11 +164,12 @@ function getMeasureText(value, ctx){
     }
     else{
         let measureText = ctx.measureText(value), cache = {};
-        if(measureText.actualBoundingBoxLeft==null){
+        if(measureText.actualBoundingBoxRight==null){
             cache.width = measureText.width;
         }
         else{
-            cache.width = measureText.actualBoundingBoxLeft + measureText.actualBoundingBoxRight;
+            //measureText.actualBoundingBoxLeft + 
+            cache.width = measureText.actualBoundingBoxRight;
         }
         cache.actualBoundingBoxDescent = measureText.actualBoundingBoxDescent;
         cache.actualBoundingBoxAscent = measureText.actualBoundingBoxAscent;
@@ -190,6 +191,14 @@ function getMeasureText(value, ctx){
 
         return cache;
     }
+}
+
+function isSupportBoundingBox(ctx){
+    let measureText = ctx.measureText("田");
+    if(measureText.actualBoundingBoxAscent==null){
+        return false;
+    }
+    return true;
 }
 
 
@@ -254,6 +263,7 @@ function getCellTextInfo(cell , ctx, option){
 
     }
     else{
+        
         let fontset = luckysheetfontformat(cell);
         ctx.font = fontset;
 
@@ -266,12 +276,16 @@ function getCellTextInfo(cell , ctx, option){
             return null;
         }
 
-        let measureText = getMeasureText(value, ctx); 
-        //luckysheetTableContent.measureText(value);
-        let textWidth = measureText.width;
-        let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
+        // let measureText = getMeasureText(value, ctx); 
+        // //luckysheetTableContent.measureText(value);
+        // let textWidth = measureText.width;
+        // let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
         if(tr=="3"){//vertical text
+            ctx.textBaseline = 'top';
+            let measureText = getMeasureText(value, ctx); 
+            let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
+
             value = value.toString();
             
             let vArr = [];
@@ -382,6 +396,7 @@ function getCellTextInfo(cell , ctx, option){
             textContent.textHeightAll = textH_all;
         }
         else{
+            let supportBoundBox = isSupportBoundingBox(ctx);
             if(tb=="2"){//wrap
                 value = value.toString();
 
@@ -391,6 +406,12 @@ function getCellTextInfo(cell , ctx, option){
                 // let oneWordWidth =  getMeasureText(vArr[0], ctx).width;
                 let splitIndex=0, text_all_cache=0, text_all_split = {}, text_all_splitLen=[];
 
+                if(supportBoundBox){
+                    ctx.textBaseline = 'alphabetic';
+                }
+                else{
+                    ctx.textBaseline = 'bottom';
+                }
 
                 textContent.rotate = rt;
                 rt = Math.abs(rt);
@@ -411,6 +432,26 @@ function getCellTextInfo(cell , ctx, option){
                             text_all_splitLen.push(text_all_cache-textH);
                             text_all_cache = textH;
                             splitIndex +=1;
+
+                            anchor = i;
+
+                            if(i== value.length){
+                                textH_all_ColumnHeight.push(textH_all_cache);
+                            }
+        
+                            if(textH_all_Column[colIndex]==null){
+                                text_all_split[colIndex]= [];
+                            }
+        
+                            text_all_split[splitIndex].push({
+                                content:vArr[i],
+                                style:fontset,
+                                width:textW,
+                                height:textH,
+                                left:0,
+                                top:0,
+                                colIndex:colIndex,
+                            });
                         }
                     }
                     else{
@@ -494,7 +535,15 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.textHeightAll = textH_all;
             }
             else{
+                ctx.textBaseline = 'top';
+                let measureText = getMeasureText(value, ctx); 
+                let textWidth = measureText.width;
+                let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
+                // let centerFix = 0;
+                // if(supportBoundBox){
+                //     centerFix = measureText.actualBoundingBoxDescent/2;
+                // }
                 textContent.rotate = rt;
 
                 rt = Math.abs(rt);
