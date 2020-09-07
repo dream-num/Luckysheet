@@ -332,6 +332,11 @@ const imageCtrl = {
             $(this).hide();
 
             let id = $(this).attr("id");
+
+            if(_this.currentImgId != null && _this.currentImgId != id){
+                _this.cancelActiveImgItem();
+            }
+
             _this.currentImgId = id;
 
             let item = _this.images[id];
