@@ -416,91 +416,113 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.rotate = rt;
                 rt = Math.abs(rt);
 
-                let anchor = 0;
+                let anchor = 0, preHeight = 0, preWidth=0, preStr;
                 for(let i = 1; i <= value.length; i++){
-                    let str = value.substr(anchor, i);
+                    let str = value.substring(anchor, i);
                     let measureText =  getMeasureText(str, ctx);
-                    let textW = measureText.width;
-                    let textH = measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent;
+                    let textWidth = measureText.width;
+                    let textHeight = measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent;
+
+                    let width = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
+
+                    let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
                     
                     // textW_all += textW;
 
+                    if(text_all_split[splitIndex]==null){
+                        text_all_split[splitIndex]= [];
+                    }
 
                     if(rt!=0){
-                        text_all_cache += textH;
-                        if(text_all_cache>cellHeight && text_all_split[splitIndex]!=null){
-                            text_all_splitLen.push(text_all_cache-textH);
-                            text_all_cache = textH;
-                            splitIndex +=1;
-
-                            anchor = i;
-
-                            if(i== value.length){
-                                textH_all_ColumnHeight.push(textH_all_cache);
-                            }
-        
-                            if(textH_all_Column[colIndex]==null){
-                                text_all_split[colIndex]= [];
-                            }
-        
+                        if(height>cellHeight){
+                            anchor = i-1;
+    
                             text_all_split[splitIndex].push({
-                                content:vArr[i],
+                                content:preStr,
                                 style:fontset,
-                                width:textW,
-                                height:textH,
+                                width:preWidth,
+                                height:preHeight,
                                 left:0,
                                 top:0,
-                                colIndex:colIndex,
+                                splitIndex:splitIndex,
+                            });
+
+                            splitIndex +=1;
+                        }
+                        else if(i== value.length){
+        
+                            text_all_split[splitIndex].push({
+                                content:str,
+                                style:fontset,
+                                width:width,
+                                height:height,
+                                left:0,
+                                top:0,
+                                colIndex:splitIndex,
                             });
                         }
                     }
                     else{
+                        if(width>cellWidth){
 
+                            anchor = i-1;
+                
+                            text_all_split[splitIndex].push({
+                                content:preStr,
+                                style:fontset,
+                                width:preWidth,
+                                height:preHeight,
+                                left:0,
+                                top:0,
+                                splitIndex:splitIndex,
+                            });
+
+                            splitIndex +=1;
+                        }
+                        else if(i== value.length){
+        
+                            text_all_split[splitIndex].push({
+                                content:str,
+                                style:fontset,
+                                width:width,
+                                height:height,
+                                left:0,
+                                top:0,
+                                colIndex:splitIndex,
+                            });
+                        }
                     }
 
+                    preWidth = width;
+                    preHeight = height;
+                    preStr = str;
 
-                    if(i== vArr.length-1){
-                        textH_all_ColumnHeight.push(textH_all_cache);
-                    }
-
-                    if(textH_all_Column[colIndex]==null){
-                        text_all_split[colIndex]= [];
-                    }
-
-                    text_all_split[splitIndex].push({
-                        content:vArr[i],
-                        style:fontset,
-                        width:textW,
-                        height:textH,
-                        left:0,
-                        top:0,
-                        colIndex:colIndex,
-                    });
-                    
                 }
 
-                let textH_all_ColumWidth = [];
-                for(let i = 0; i < textH_all_ColumnHeight.length; i++){
-                    let columnHeight = textH_all_ColumnHeight[i];
-                    let col = textH_all_Column[i], colMaxW=0;
-                    for(let c=0;c<col.length;c++){
-                        let word = col[c];
-                        colMaxW = Math.max(colMaxW, word.width);
-                    }
-                    textH_all_ColumWidth.push(colMaxW);
-                    textW_all += colMaxW;
-                    textH_all = Math.max(textH_all, columnHeight);
-                }
+                // let textH_all_ColumWidth = [];
+                // for(let i = 0; i < text_all_split.length; i++){
+                //     let splitLen = text_all_split[i];
+                //     let col = splitLen[i], colMaxW=0;
+
+                //     if(rt!=0){
+
+                //     }
+                //     for(let c=0;c<col.length;c++){
+                //         let word = col[c];
+                //         colMaxW = Math.max(colMaxW, word.width);
+                //     }
+                //     textH_all_ColumWidth.push(colMaxW);
+                //     textW_all += colMaxW;
+                //     textH_all = Math.max(textH_all, columnHeight);
+                // }
                 
                 let cumColumnWidth = 0;
-                for(let i = 0; i < textH_all_ColumnHeight.length; i++){
-                    let columnHeight = textH_all_ColumnHeight[i];
-                    let columnWidth = textH_all_ColumWidth[i];
+                for(let i = 0; i < text_all_split.length; i++){
+                    let splitTexts = text_all_split[i];
 
-                    let col = textH_all_Column[i];
                     let cumWordHeight = 0;
-                    for(let c=0;c<col.length;c++){
-                        let word = col[c];
+                    for(let c=0;c<splitTexts.length;c++){
+                        let wordGroup = splitTexts[c];
                         
                         let left = space_width + cumColumnWidth;
                         if(horizonAlign == "0"){
@@ -530,7 +552,7 @@ function getCellTextInfo(cell , ctx, option){
 
                 }
 
-                textContent.type = "verticalWrap";
+                textContent.type = "plainWrap";
                 textContent.textWidthAll = textW_all;
                 textContent.textHeightAll = textH_all;
             }
