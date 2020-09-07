@@ -957,13 +957,15 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 let end_r = borderOffset[bd_r + "_" + bd_c].end_r;
                 let end_c = borderOffset[bd_r + "_" + bd_c].end_c;
 
+                let cellOverflow_colInObj = cellOverflow_colIn(cellOverflowMap, bd_r, bd_c, dataset_col_st, dataset_col_ed);
+
                 let borderLeft = borderInfoCompute[x].l;
-                if(borderLeft != null){
+                if(borderLeft != null && (!cellOverflow_colInObj.colIn || cellOverflow_colInObj.stc == bd_c)){
                     borderLeftRender(borderLeft.style, borderLeft.color, start_r, start_c, end_r, end_c, offsetLeft, offsetTop, luckysheetTableContent);
                 }
 
                 let borderRight = borderInfoCompute[x].r;
-                if(borderRight != null){
+                if(borderRight != null && (!cellOverflow_colInObj.colIn || cellOverflow_colInObj.colLast)){
                     borderRightRender(borderRight.style, borderRight.color, start_r, start_c, end_r, end_c, offsetLeft, offsetTop, luckysheetTableContent);
                 }
 
