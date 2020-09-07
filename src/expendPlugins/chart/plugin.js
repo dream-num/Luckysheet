@@ -102,6 +102,12 @@ function chart(data, isDemo) {
 
 // rendercharts
 function renderCharts(chartLists, isDemo) {
+
+    // no chart
+    if(chartLists == undefined){
+        return;
+    }
+
     for (let i = 0; i < chartLists.length; i++) {
         let chart = chartLists[i]
 
