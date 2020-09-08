@@ -416,7 +416,7 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.rotate = rt;
                 rt = Math.abs(rt);
 
-                let anchor = 0, preHeight = 0, preWidth=0, preStr;
+                let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight;
                 for(let i = 1; i <= value.length; i++){
                     let str = value.substring(anchor, i);
                     let measureText =  getMeasureText(str, ctx);
@@ -445,6 +445,7 @@ function getCellTextInfo(cell , ctx, option){
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
+                                textHeight:preTextHeight
                             });
 
                             splitIndex +=1;
@@ -458,7 +459,8 @@ function getCellTextInfo(cell , ctx, option){
                                 height:height,
                                 left:0,
                                 top:0,
-                                colIndex:splitIndex,
+                                splitIndex:splitIndex,
+                                textHeight:textHeight
                             });
                         }
                     }
@@ -488,7 +490,7 @@ function getCellTextInfo(cell , ctx, option){
                                 height:height,
                                 left:0,
                                 top:0,
-                                colIndex:splitIndex,
+                                splitIndex:splitIndex,
                             });
                         }
                     }
@@ -496,24 +498,36 @@ function getCellTextInfo(cell , ctx, option){
                     preWidth = width;
                     preHeight = height;
                     preStr = str;
+                    preTextHeight = textHeight;
 
                 }
 
                 let split_all_size = [];
                 for(let i = 0; i <= splitIndex; i++){
                     let splitLists = text_all_split[i];
-                    let sWidth = 0, sHeight=0;
+                    let sWidth = 0, sHeight=0, textHeight=0;
                     for(let s=0;s<splitLists.length;s++){
                         let sp = splitLists[i];
                         if(rt!=0){//rotate
                             sWidth += sp.width;
                             sHeight += sp.height;
+                            textHeight = Math.max(textHeight, sp.textHeight);
                         }
                         else{//plain
                             sWidth += sp.width;
                             sHeight = Math.max(sHeight, sp.height);
                         }
                     }
+
+                    if(rt!=0){//rotate
+                        textW_all +=  textHeight/Math.sin(rt);
+                        textH_all = Math.max(textH_all, sHeight);
+                    }
+                    else{//plain
+                        textW_all=Math.max(textW_all, sWidth);
+                        textH_all+=sHeight;
+                    }
+
 
                     split_all_size.push({
                         width:sWidth,
