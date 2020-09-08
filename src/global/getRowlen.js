@@ -433,7 +433,7 @@ function getCellTextInfo(cell , ctx, option){
                         text_all_split[splitIndex]= [];
                     }
 
-                    if(rt!=0){
+                    if(rt!=0){//rotate
                         if(height>cellHeight){
                             anchor = i-1;
     
@@ -462,7 +462,7 @@ function getCellTextInfo(cell , ctx, option){
                             });
                         }
                     }
-                    else{
+                    else{//plain
                         if(width>cellWidth){
 
                             anchor = i-1;
@@ -499,22 +499,27 @@ function getCellTextInfo(cell , ctx, option){
 
                 }
 
-                // let textH_all_ColumWidth = [];
-                // for(let i = 0; i < text_all_split.length; i++){
-                //     let splitLen = text_all_split[i];
-                //     let col = splitLen[i], colMaxW=0;
+                let split_all_size = [];
+                for(let i = 0; i <= splitIndex; i++){
+                    let splitLists = text_all_split[i];
+                    let sWidth = 0, sHeight=0;
+                    for(let s=0;s<splitLists.length;s++){
+                        let sp = splitLists[i];
+                        if(rt!=0){//rotate
+                            sWidth += sp.width;
+                            sHeight += sp.height;
+                        }
+                        else{//plain
+                            sWidth += sp.width;
+                            sHeight = Math.max(sHeight, sp.height);
+                        }
+                    }
 
-                //     if(rt!=0){
-
-                //     }
-                //     for(let c=0;c<col.length;c++){
-                //         let word = col[c];
-                //         colMaxW = Math.max(colMaxW, word.width);
-                //     }
-                //     textH_all_ColumWidth.push(colMaxW);
-                //     textW_all += colMaxW;
-                //     textH_all = Math.max(textH_all, columnHeight);
-                // }
+                    split_all_size.push({
+                        width:sWidth,
+                        height:sHeight
+                    });
+                }
                 
                 let cumColumnWidth = 0;
                 for(let i = 0; i < text_all_split.length; i++){
@@ -523,6 +528,8 @@ function getCellTextInfo(cell , ctx, option){
                     let cumWordHeight = 0;
                     for(let c=0;c<splitTexts.length;c++){
                         let wordGroup = splitTexts[c];
+                        
+
                         
                         let left = space_width + cumColumnWidth;
                         if(horizonAlign == "0"){
