@@ -39,7 +39,7 @@ eg: options.data：
         "luckysheet_conditionformat_save": {},//condition format
         "frozen": {}, //freeze row and column configuration
         "chart": [], //Chart configuration
-        "allowEdit": true, //is editble
+        "allowEdit": true, //is editable
         "zoomRatio":1, // zoom ratio
     },
     {
@@ -358,7 +358,7 @@ eg: options.data：
 ### luckysheet_select_save
 - type：Array
 - default：[]
-- usage： 选中的区域，支持多选，是一个包含多个选区对象的一维数组
+- usage： The selected area supports multiple selections and is a one-dimensional array containing multiple selection objects. 
 - example：
     ```js
     [
@@ -385,11 +385,11 @@ eg: options.data：
 - example：
     ```js
     [{
-        "r": 6, //行数
-        "c": 3, //列数
-        "index": 1, //工作表id
+        "r": 6, //the number of rows
+        "c": 3, //the number of columns
+        "index": 1, //sheet id
         "func": [true, 23.75, "=AVERAGE(D3:D6)"], //公式信息，包含公式计算结果和公式字符串
-        "color": "w", //"w"：采用深度优先算法 "b":普通计算
+        "color": "w", //"w"：use Depth-First-Search "b":Normal search
         "parent": null,
         "chidren": {},
         "times": 0
@@ -409,13 +409,13 @@ eg: options.data：
 ### isPivotTable
 - type：Boolean
 - default：false
-- usage： 是否数据透视表
+- usage： is PivotTable
 
 ------------
 ### pivotTable
 - type：Object
 - default：{}
-- usage： 数据透视表设置
+- usage： Pivot table settings
 - example：
     ```js
     {
@@ -459,7 +459,7 @@ eg: options.data：
 ### filter_select
 - type：Object
 - default：{}
-- usage： 筛选范围，一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`
+- usage： Filter range, a selection area, a sheet has only one filter range, similar to the `luckysheet_select_save`
 - example：
     ```js
     {
@@ -473,18 +473,18 @@ eg: options.data：
 ### filter
 - type：Object
 - default：{}
-- usage： 筛选的具体设置
+- usage： filter settings
 - example：
     ```js
     {
         "0": {
-            "caljs": { // 条件筛选type
+            "caljs": { // filter type
                 "value": "cellnull",
                 "text": "Is empty",
                 "type": "0"
             },
-            "rowhidden": { "3": 0, "4": 0 }, // 隐藏行
-            "optionstate": true, //是否开启配置
+            "rowhidden": { "3": 0, "4": 0 }, // the hidden rows
+            "optionstate": true, //is config active
             "str": 2, // 范围，起始行
             "edr": 6, // 范围，结束行
             "cindex": 1, // 当前范围列索引
@@ -508,7 +508,7 @@ eg: options.data：
 ### luckysheet_alternateformat_save
 - type：Array
 - default：[]
-- usage： 交替颜色配置
+- usage： Alternating color configuration
 - example：
     ```js
     [{
@@ -568,7 +568,7 @@ eg: options.data：
 ### luckysheet_alternateformat_save_modelCustom
 - type：Array
 - default：[]
-- usage：自定义交替颜色，包含多个自定义交替颜色的配置
+- usage：Custom alternate colors, including multiple custom alternate colors configuration
 - example：
     ```js
     [{
@@ -576,15 +576,15 @@ eg: options.data：
             "fc": "#6aa84f",
             "bc": "#ffffff"
         },
-        "one": { //第一种颜色
+        "one": { //The first color
             "fc": "#000",
             "bc": "#ffffff"
         },
-        "two": { //第二种颜色
+        "two": { //The second color
             "fc": "#000",
             "bc": "#e5fbee"
         },
-        "foot": { //页脚颜色
+        "foot": { //The footer color
             "fc": "#000",
             "bc": "#a5efcc"
         }
@@ -595,17 +595,17 @@ eg: options.data：
 ### luckysheet_conditionformat_save
 - type：Array
 - default：[]
-- usage： 条件格式配置信息，包含多个条件格式配置对象的一维数组，
+- usage： Conditional format configuration information, a one-dimensional array containing multiple conditional format configuration objects,
 
-    type: "default": 突出显示单元格规则和项目选区规则，
+    type: "default": Highlight cell rules and project selection rules,
 
-    "dataBar":数据条，
+    "dataBar":Data bar,
 
-    "icons":图标集，
+    "icons":Icon set,
 
-    "colorGradation": 色阶
+    "colorGradation": Color scale
 
-    API中对此设置也有介绍[API setRangeConditionalFormat](/zh/guide/api.html)
+    You can get more detail in this API page[API setRangeConditionalFormat](/zh/guide/api.html)
 - example：
     ```js
     [
@@ -683,14 +683,14 @@ eg: options.data：
 ### frozen
 - type：Array
 - default：[]
-- usage： 冻结行列设置，分为6种type
-    1. "row": 冻结首行
-    2. "column": 冻结首列
-    3. "both": 冻结行列
+- usage： the settings of freeze row and column which is divided into 6 types冻结行列设置，分为6种type
+    1. "row": the first freeze row
+    2. "column": the first freeze column
+    3. "both": the freeze rows and columns
     4. "rangeRow": 冻结行到选区
     5. "rangeColumn": 冻结列到选区
     6. "rangeBoth": 冻结行列到选区
-    7. "cancel": 取消冻结
+    7. "cancel": cancel freeze
 
     当设置冻结到选区的时候，需要设置开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数。
 
@@ -724,7 +724,7 @@ eg: options.data：
 ### chart
 - type：Array
 - default：[]
-- usage： 图表配置，参照chartMix的配置格式，允许只设置想要的图表属性，一个完整的配置案例如下。
+- usage： Chart configuration, plz refer to chartMix configuration. Allows you to set only the desired chart properties.
 - example：
     :::::: details
     ```json
@@ -746,7 +746,7 @@ eg: options.data：
             "defaultOption": {
                 "title": {
                     "show": false,
-                    "text": "默认标题",
+                    "text": "default title",
                     "label": {
                         "fontSize": 12,
                         "color": "#333",
@@ -1197,17 +1197,17 @@ eg: options.data：
 ### allowEdit
 - type：Boolean
 - default：true
-- usage： 此sheet页是否允许编辑
+- usage： is this sheet editable
 
 ------------
 ### zoomRatio
 - type：Number
 - default：1
-- usage： 此sheet页的缩放比例，为0~1之间的二位小数数字。比如`0.1`、`0.56`
+- usage： the zoom ratio of a sheet, which is a two decimal digit between 0~1, like `0.1`、`0.56`.
 
 ------------
 
-## 调试信息
+## debug information
 
 初始化所需要的参数，会从简洁的角度出发来考虑设计，但是本地存储的参数则不同。
 
@@ -1219,39 +1219,39 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
 ```json
 [
     {
-        "name": "Cell", //工作表名称
-        "color": "", //工作表颜色
-        "index": 0, //工作表索引
-        "status": 1, //激活状态
-        "order": 0, //工作表的顺序
-        "hide": 0,//是否隐藏
-        "row": 36, //行数
-        "column": 18, //列数
-        "celldata": [], //初始化使用的单元格数据
+        "name": "Cell", //Worksheet name
+        "color": "", //Worksheet color
+        "index": 0, //Worksheet index
+        "status": 1, //Worksheet active status
+        "order": 0, //The order of the worksheet
+        "hide": 0,//Whether worksheet hide 
+        "row": 36, //the number of rows in a sheet
+        "column": 18, //the number of columns in a sheet
+        "celldata": [], //Initial the cell data
         "config": {
-            "merge":{}, //合并单元格
-            "rowlen":{}, //表格行高
-            "columnlen":{}, //表格列宽
-            "rowhidden":{}, //隐藏行
-            "colhidden":{}, //隐藏列
-            "borderInfo":{}, //边框
+            "merge":{}, //merged cells
+            "rowlen":{}, //Table row height
+            "columnlen":{}, //Table column width
+            "rowhidden":{}, //hidden rows
+            "colhidden":{}, //hidden columns
+            "borderInfo":{}, //borders
         },
-        "scrollLeft": 0, //左右滚动条位置
-        "scrollTop": 315, //上下滚动条位置
-        "luckysheet_select_save": [], //选中的区域
-        "calcChain": [],//公式链
-        "isPivotTable":false,//是否数据透视表
-        "pivotTable":{},//数据透视表设置
-        "filter_select": {},//筛选范围
-        "filter": null,//筛选配置
-        "luckysheet_alternateformat_save": [], //交替颜色
-        "luckysheet_alternateformat_save_modelCustom": [], //自定义交替颜色	
-        "luckysheet_conditionformat_save": {},//条件格式
-        "frozen": {}, //冻结行列配置
+        "scrollLeft": 0, //Left and right scroll bar position
+        "scrollTop": 315, //Up and down scroll bar position
+        "luckysheet_select_save": [], //selected area
+        "calcChain": [],//Formula chain
+        "isPivotTable":false,//Whether is pivot table
+        "pivotTable":{},//Pivot table settings
+        "filter_select": {},//Filter range
+        "filter": null,//Filter configuration
+        "luckysheet_alternateformat_save": [], //Alternate colors
+        "luckysheet_alternateformat_save_modelCustom": [], //Customize alternate colors	
+        "luckysheet_conditionformat_save": {},//condition format
+        "frozen": {}, //freeze row and column configuration
         "freezen": {}, //冻结行列的渲染数据存储
-        "chart": [], //图表配置
-        "allowEdit": true, //是否允许编辑
-        "zoomRatio":1, // 缩放比例
+        "chart": [], //Chart configuration
+        "allowEdit": true, //is editable
+        "zoomRatio":1, // zoom ratio
         
 
         "visibledatarow": [], //所有行的位置
@@ -1286,39 +1286,39 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
 ### visibledatarow
 - type：Number
 - default：[]
-- usage： 所有行的位置信息，递增的行位置数据，初始化无需设置
+- usage： Position information of all rows, incremental row position data, No need to set up for initialization置
 
 ------------
 ### visibledatacolumn
 - type：Number
 - default：[]
-- usage： 所有列的位置信息，递增的列位置数据，初始化无需设置
+- usage： Position information of all columns, incremental column position data, No need to set up for initialization
 
 ------------
 ### ch_width
 - type：Number
 - default：2322
-- usage： 整个工作表区域的宽度(包含边界的灰色区域)，初始化无需设置
+- usage： The width of the entire worksheet area (the gray area including the border), No need to set up for initialization
 
 ------------
 ### rh_height
 - type：Number
 - default：2322
-- usage： 整个工作表区域的高度(包含边界的灰色区域)，初始化无需设置
+- usage： The height of the entire worksheet area (the gray area containing the border), No need to set up for initialization
 
 ------------
 ### load
 - type：Number
 - default：0
-- usage： 当前sheet是否加载过，内部标识，初始化无需设置
+- usage： Check whether the current sheet has been loaded, internal indicator, initialization does not need to be set
 
 ------------
 ### data
 - type：Array
 - default：[]
-- usage： 初始化时从celldata转换而来，后续操作表格的数据更新，会更新到这个data字段中，初始化无需设置
+- usage： conveted from celldata in initialization stage. `data` will have the update operation data.Initialization does not need to be set
 - example：
-    以下是一个二行二列的数据
+    Here is a two row, two column data
     ```json
     [
         [{

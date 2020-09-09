@@ -267,7 +267,7 @@
                         }]
                     }]
         ```
-    There are two types of range: single cell and selection
+    The range type can be divided into single cell and selected area
     1. selection `rangeType: "range"`
 
        + Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
