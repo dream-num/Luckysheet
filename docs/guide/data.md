@@ -91,13 +91,13 @@
     ## status
     - Type：Number
     - Default：1
-    - Usage： Active state, there is only one active worksheet, other worksheets are 0
+    - Usage：Active state, there is only one active worksheet which number will be 1 and the other worksheets are 0
     
     ------------
     ## order
     - Type：Number
     - Default：0
-    - Usage： The index of the worksheets, it will increase when a worksheet is added, starting from 0
+    - Usage： The index of the worksheets is starting from 0. it will increase when a worksheet is added.
     
     ------------
     ## hide
@@ -109,13 +109,13 @@
     ## row
     - Type：Number
     - Default：36
-    - Usage： Number of cell rows
+    - Usage： The number of cell rows
     
     ------------
     ## column
     - Type：Number
     - Default：18
-    - Usage： Number of cell columns
+    - Usage： The number of cell columns
     
     ------------
     ## scrollLeft
@@ -195,7 +195,7 @@
     - Default：{}
     - Usage：Hidden row information, Rows：`rowhidden[Rows]: 0`,
         
-        `key` specify the number of rows,`value` is always `0`
+        you should specify the number of rows by `key`,`value` is always `0`
     - example:
         ```js
         "rowhidden": {

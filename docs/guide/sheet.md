@@ -64,57 +64,57 @@ eg: options.data：
 ```
         
 ### name
-- 类型：String
-- 默认值："Sheet1"
-- 作用：工作表名称
+- type：String
+- default："Sheet1"
+- usage：the name of a sheet
 
 ------------
 ### color
-- 类型：String
-- 默认值："##f20e0e"
-- 作用：工作表颜色,工作表名称下方会有一条底部边框
+- type：String
+- default："##f20e0e"
+- usage：Sheet color, with a bottom border below the sheet name
 
 ------------
 ### index
-- 类型：Number
-- 默认值：0
-- 作用：工作表索引，从0开始
+- type：Number
+- default：0
+- usage：Worksheet index, starting from 0
 
 ------------
 ### status
-- 类型：Number
-- 默认值：1
-- 作用： 激活状态，仅有一个激活状态的工作表，其他工作表为 0
+- type：Number
+- default：1
+- usage：Active state, there is only one active worksheet which number will be 1 and the other worksheets are 0
 
 ------------
 ### order
-- 类型：Number
-- 默认值：0
-- 作用： 工作表的索引，新增工作表时会递增，从0开始
+- type：Number
+- default：0
+- usage： The index of the worksheets is starting from 0. it will increase when a worksheet is added.
 
 ------------
 ### hide
-- 类型：Number
-- 默认值：0
-- 作用： 是否隐藏，`0`为不隐藏，`1`为隐藏
+- type：Number
+- default：0
+- usage： is the sheet is hidden. `0` means not to hide, `1` means hide
 
 ------------
 ### row
-- 类型：Number
-- 默认值：36
-- 作用： 单元格行数
+- type：Number
+- default：36
+- usage： Number of cell rows
 
 ------------
 ### column
-- 类型：Number
-- 默认值：18
-- 作用： 单元格列数
+- type：Number
+- default：18
+- usage： The number of cell columns
 
 ------------
 ### celldata
-- 类型：Array
-- 默认值：[]
-- 作用： 原始单元格数据集，存储sheet中所有单元格中的值，是一个包含`{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}}}`格式单元格信息的一维数组，只在初始化的时候使用。
+- type：Array
+- default：[]
+- usage： 原始单元格数据集，存储sheet中所有单元格中的值，是一个包含`{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}}}`格式单元格信息的一维数组，只在初始化的时候使用。
 
     r代表行，c代表列，v代表该单元格的值，值可以是字符、数字或者对象。
 
@@ -122,7 +122,7 @@ eg: options.data：
 
     使用celldata初始化完表格后，数据转换为luckysheetfile中的字段[data](#data)，如`luckysheetfile[i].data`,后续操作表格的数据更新，会更新到这个data字段中，celldata不再使用。 
 
-- 示例：
+- example：
     ```js
     [{
         "r": 0,
@@ -146,17 +146,17 @@ eg: options.data：
 
 ------------
 ### config
-- 类型：Object
-- 默认值：{}
-- 作用：表格行高、列宽、合并单元格、边框、隐藏行等设置
-
-    注意，config如果为空,必须为空对象`{}`,不能为字符串或者null
+- type：Object
+- default：{}
+- usage：Table row height, column width, merged cells, borders, hidden rows and other settings
+        please be careful, config must be empty object `{}`, rather than empty string `""` or `null`
+    
 
 #### config.merge
-- 类型：Object
-- 默认值：{}
-- 作用：合并单元格设置
-- 示例：
+- type：Object
+- default：{}
+- usage：Merge cell settings
+- example：
     ```js
     {
             "13_5": {
@@ -179,13 +179,13 @@ eg: options.data：
             }
         }
     ```
-    对象中的`key`为`r + '_' + c`的拼接值，`value`为左上角单元格信息: r:行数，c:列数，rs：合并的行数，cs:合并的列数
+    The `key` in the object is the spliced value of `r +'_' + c`, and the `value` is the cell information in the upper left corner: r: number of rows, c: number of columns, rs: number of merged rows, cs: merge Number of columns
 
 #### config.rowlen
-- 类型：Object
-- 默认值：{}
-- 作用：每个单元格的行高
-- 示例：
+- type：Object
+- default：{}
+- usage：The row height of each cell
+- example：
     ```js
     "rowlen": {
                 "0": 20,
@@ -195,10 +195,10 @@ eg: options.data：
     ```
 
 #### config.columnlen
-- 类型：Object
-- 默认值：{}
-- 作用：每个单元格的列宽
-- 示例：
+- type：Object
+- default：{}
+- usage：The column width of each cell
+- example：
     ```js
     "columnlen": {
                 "0": 97,
@@ -208,12 +208,12 @@ eg: options.data：
     ```
 
 #### config.rowhidden
-- 类型：Object
-- 默认值：{}
-- 作用：隐藏行信息，格式为：`rowhidden[行数]: 0`,
+- type：Object
+- default：{}
+- usage：Hidden row information, Rows：`rowhidden[Rows]: 0`,
 
-    `key`指定行数即可，`value`总是为`0`
-- 示例：
+    you should specify the number of rows by `key`,`value` is always `0`
+- example：
     ```js
     "rowhidden": {
                 "30": 0,
@@ -222,13 +222,13 @@ eg: options.data：
     ```
 
 #### config.colhidden
-- 类型：Object
-- 默认值：{}
-- 作用：隐藏列
+- type：Object
+- default：{}
+- usage：Hidden row information, Rows：`rowhidden[Rows]: 0`,
     格式为：`colhidden[列数]: 0`,
 
         `key`指定列数即可，`value`总是为`0`
-- 示例：
+- example：
     ```js
     "colhidden": {
                 "30": 0,
@@ -237,10 +237,10 @@ eg: options.data：
     ```
 
 #### config.borderInfo
-- 类型：Object
-- 默认值：{}
-- 作用：单元格的边框信息
-- 示例：
+- type：Object
+- default：{}
+- usage：单元格的边框信息
+- example：
     ```js
     "borderInfo": [{
             "rangeType": "cell",
@@ -285,21 +285,21 @@ eg: options.data：
             }]
         }]
     ```
-    范围类型分单个单元格和选区两种情况
-    1. 选区 `rangeType: "range"`
+    The range type can be divided into single cell and selected area
+    1. selection `rangeType: "range"`
 
-        + 边框类型 `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`，
-        + 边框粗细 `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-        + 边框颜色 `color: 16进制颜色值`
-        + 选区范围 `range: 行列信息数组`
+       + Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
+       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border color `color: Hexadecimal color value`
+       + Selection area `range: Row and column information array`
 
-    2. 单个单元格 `rangeType："cell"` 
-        + 单元格的行数和列数索引 `value.row_index: 数字，value.col_index: 数字`
-        + 四个边框对象 `value.l:左边框，value.r:右边框，value.t:上边框，value.b:下边框`
-        + 边框粗细 `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
-        + 边框颜色 `value.l.color: 16进制颜色值`
+    2. Single cell `rangeType："cell"` 
+       + Number of rows and columns `value.row_index: number,value.col_index: number`
+       + Four border objects `value.l:Left border,value.r:Right border,value.t:Top border,value.b:Bottom border`
+       + Border thickness `value.l.style: 1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border color `value.l.color: Hexadecimal color value`
 
-    更多模板：
+    templates：
 
         + ```js
         {
@@ -313,7 +313,7 @@ eg: options.data：
             }]
         }
         ```
-        表示设置范围为`{"row": [7, 8],"column": [2, 3]}`的选区，类型为所有边框，边框粗细为`Dotted`，颜色为`"#0000ff"`
+        表示设置范围为`{"row": [7, 8],"column": [2, 3]}`的选区，type为所有边框，边框粗细为`Dotted`，颜色为`"#0000ff"`
 
         + ```js
             {
@@ -344,22 +344,22 @@ eg: options.data：
 
 ------------
 ### scrollLeft
-- 类型：Number
-- 默认值：0
-- 作用： 左右滚动条位置
+- type：Number
+- default：0
+- usage： Left and right scroll bar position
 
 ------------
 ### scrollTop
-- 类型：Number
-- 默认值：0
-- 作用： 上下滚动条位置
+- type：Number
+- default：0
+- usage： Up and down scroll bar position
 
 ------------
 ### luckysheet_select_save
-- 类型：Array
-- 默认值：[]
-- 作用： 选中的区域，支持多选，是一个包含多个选区对象的一维数组
-- 示例：
+- type：Array
+- default：[]
+- usage： 选中的区域，支持多选，是一个包含多个选区对象的一维数组
+- example：
     ```js
     [
         {
@@ -379,10 +379,10 @@ eg: options.data：
 
 ------------
 ### calcChain
-- 类型：Array
-- 默认值：[]
-- 作用： 公式链，用于公式所链接的单元格改变后，所有引用此单元格的公式都会联动刷新
-- 示例：
+- type：Array
+- default：[]
+- usage： 公式链，用于公式所链接的单元格改变后，所有引用此单元格的公式都会联动刷新
+- example：
     ```js
     [{
         "r": 6, //行数
@@ -407,16 +407,16 @@ eg: options.data：
 
 ------------
 ### isPivotTable
-- 类型：Boolean
-- 默认值：false
-- 作用： 是否数据透视表
+- type：Boolean
+- default：false
+- usage： 是否数据透视表
 
 ------------
 ### pivotTable
-- 类型：Object
-- 默认值：{}
-- 作用： 数据透视表设置
-- 示例：
+- type：Object
+- default：{}
+- usage： 数据透视表设置
+- example：
     ```js
     {
         "pivot_select_save": {
@@ -457,10 +457,10 @@ eg: options.data：
 
 ------------
 ### filter_select
-- 类型：Object
-- 默认值：{}
-- 作用： 筛选范围，一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`
-- 示例：
+- type：Object
+- default：{}
+- usage： 筛选范围，一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`
+- example：
     ```js
     {
         
@@ -471,14 +471,14 @@ eg: options.data：
 
 ------------
 ### filter
-- 类型：Object
-- 默认值：{}
-- 作用： 筛选的具体设置
-- 示例：
+- type：Object
+- default：{}
+- usage： 筛选的具体设置
+- example：
     ```js
     {
         "0": {
-            "caljs": { // 条件筛选类型
+            "caljs": { // 条件筛选type
                 "value": "cellnull",
                 "text": "Is empty",
                 "type": "0"
@@ -506,10 +506,10 @@ eg: options.data：
 
 ------------
 ### luckysheet_alternateformat_save
-- 类型：Array
-- 默认值：[]
-- 作用： 交替颜色配置
-- 示例：
+- type：Array
+- default：[]
+- usage： 交替颜色配置
+- example：
     ```js
     [{
         "cellrange": { //单元格范围
@@ -566,10 +566,10 @@ eg: options.data：
 
 ------------
 ### luckysheet_alternateformat_save_modelCustom
-- 类型：Array
-- 默认值：[]
-- 作用：自定义交替颜色，包含多个自定义交替颜色的配置
-- 示例：
+- type：Array
+- default：[]
+- usage：自定义交替颜色，包含多个自定义交替颜色的配置
+- example：
     ```js
     [{
         "head": { //页眉颜色
@@ -593,9 +593,9 @@ eg: options.data：
 
 ------------
 ### luckysheet_conditionformat_save
-- 类型：Array
-- 默认值：[]
-- 作用： 条件格式配置信息，包含多个条件格式配置对象的一维数组，
+- type：Array
+- default：[]
+- usage： 条件格式配置信息，包含多个条件格式配置对象的一维数组，
 
     type: "default": 突出显示单元格规则和项目选区规则，
 
@@ -606,7 +606,7 @@ eg: options.data：
     "colorGradation": 色阶
 
     API中对此设置也有介绍[API setRangeConditionalFormat](/zh/guide/api.html)
-- 示例：
+- example：
     ```js
     [
         {
@@ -621,7 +621,7 @@ eg: options.data：
                 "textColor": "#000000",
                 "cellColor": "#ff0000"
             },
-            "conditionName": "betweenness", //类型
+            "conditionName": "betweenness", //type
             "conditionRange": [ //条件值所在单元格
                 {
                     "row": [ 4, 4 ],
@@ -681,9 +681,9 @@ eg: options.data：
 
 ------------
 ### frozen
-- 类型：Array
-- 默认值：[]
-- 作用： 冻结行列设置，分为6种类型
+- type：Array
+- default：[]
+- usage： 冻结行列设置，分为6种type
     1. "row": 冻结首行
     2. "column": 冻结首列
     3. "both": 冻结行列
@@ -698,7 +698,7 @@ eg: options.data：
     
     注意一点，luckysheetfile中还有一个配置freezen，其中的freezenhorizontaldata仍然用作本地数据，但是不发给后台存储，只做本地调试。
 
-- 示例：
+- example：
     - 冻结首行
     ```json
     {
@@ -722,10 +722,10 @@ eg: options.data：
 
 ------------
 ### chart
-- 类型：Array
-- 默认值：[]
-- 作用： 图表配置，参照chartMix的配置格式，允许只设置想要的图表属性，一个完整的配置案例如下。
-- 示例：
+- type：Array
+- default：[]
+- usage： 图表配置，参照chartMix的配置格式，允许只设置想要的图表属性，一个完整的配置案例如下。
+- example：
     :::::: details
     ```json
     {
@@ -1195,15 +1195,15 @@ eg: options.data：
 
 ------------
 ### allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用： 此sheet页是否允许编辑
+- type：Boolean
+- default：true
+- usage： 此sheet页是否允许编辑
 
 ------------
 ### zoomRatio
-- 类型：Number
-- 默认值：1
-- 作用： 此sheet页的缩放比例，为0~1之间的二位小数数字。比如`0.1`、`0.56`
+- type：Number
+- default：1
+- usage： 此sheet页的缩放比例，为0~1之间的二位小数数字。比如`0.1`、`0.56`
 
 ------------
 
@@ -1211,7 +1211,7 @@ eg: options.data：
 
 初始化所需要的参数，会从简洁的角度出发来考虑设计，但是本地存储的参数则不同。
 
-Luckysheet在初始化完成之后进行的一系列操作，会将更多本地参数存储在luckysheetfile中，作为本地使用的参数，实现一些类似Store数据中心的作用。比如，freezen的参数格式也会变化。
+Luckysheet在初始化完成之后进行的一系列操作，会将更多本地参数存储在luckysheetfile中，作为本地使用的参数，实现一些类似Store数据中心的usage。比如，freezen的参数格式也会变化。
 
 此时的luckysheetfile包含很多非初始化使用的本地参数，可用于调试代码、本地状态分析。如下展示了更丰富luckysheetfile信息，可通过方法 `luckysheet.getluckysheetfile()`获得：
 
@@ -1284,40 +1284,40 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
 :::
 
 ### visibledatarow
-- 类型：Number
-- 默认值：[]
-- 作用： 所有行的位置信息，递增的行位置数据，初始化无需设置
+- type：Number
+- default：[]
+- usage： 所有行的位置信息，递增的行位置数据，初始化无需设置
 
 ------------
 ### visibledatacolumn
-- 类型：Number
-- 默认值：[]
-- 作用： 所有列的位置信息，递增的列位置数据，初始化无需设置
+- type：Number
+- default：[]
+- usage： 所有列的位置信息，递增的列位置数据，初始化无需设置
 
 ------------
 ### ch_width
-- 类型：Number
-- 默认值：2322
-- 作用： 整个工作表区域的宽度(包含边界的灰色区域)，初始化无需设置
+- type：Number
+- default：2322
+- usage： 整个工作表区域的宽度(包含边界的灰色区域)，初始化无需设置
 
 ------------
 ### rh_height
-- 类型：Number
-- 默认值：2322
-- 作用： 整个工作表区域的高度(包含边界的灰色区域)，初始化无需设置
+- type：Number
+- default：2322
+- usage： 整个工作表区域的高度(包含边界的灰色区域)，初始化无需设置
 
 ------------
 ### load
-- 类型：Number
-- 默认值：0
-- 作用： 当前sheet是否加载过，内部标识，初始化无需设置
+- type：Number
+- default：0
+- usage： 当前sheet是否加载过，内部标识，初始化无需设置
 
 ------------
 ### data
-- 类型：Array
-- 默认值：[]
-- 作用： 初始化时从celldata转换而来，后续操作表格的数据更新，会更新到这个data字段中，初始化无需设置
-- 示例：
+- type：Array
+- default：[]
+- usage： 初始化时从celldata转换而来，后续操作表格的数据更新，会更新到这个data字段中，初始化无需设置
+- example：
     以下是一个二行二列的数据
     ```json
     [
