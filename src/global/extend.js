@@ -105,8 +105,6 @@ function luckysheetextendtable(type, index, value, direction, order) {
                     d[calc_r][calc_c].f = functionStr;
                 }
 
-                // calc.func[2] = functionStr;
-
                 if(direction == "lefttop"){
                     if(calc_r >= index){
                         calc.r += value;
@@ -126,8 +124,6 @@ function luckysheetextendtable(type, index, value, direction, order) {
                 if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                     d[calc_r][calc_c].f = functionStr;
                 }
-
-                // calc.func[2] = functionStr;
 
                 if(direction == "lefttop"){
                     if(calc_c >= index){
@@ -900,8 +896,6 @@ function luckysheetdeletetable(type, st, ed, order) {
                         d[calc_r][calc_c].f = functionStr;
                     }
 
-                    // calc.func[2] = functionStr;
-
                     if(calc_r > ed){
                         calc.r = calc_r - slen;
                     }
@@ -916,8 +910,6 @@ function luckysheetdeletetable(type, st, ed, order) {
                     if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                         d[calc_r][calc_c].f = functionStr;
                     }
-
-                    // calc.func[2] = functionStr;
 
                     if(calc_c > ed){
                         calc.c = calc_c - slen;
@@ -1545,20 +1537,20 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
             let calc = $.extend(true, {}, calcChain[i]);
             let calc_r = calc.r, calc_c = calc.c, calc_i = calc.index, calc_funcStr =  getcellFormula(calc_r, calc_c, calc_i);
 
-            if((calc_r < str || calc_r > edr) && (calc_c < stc || calc_c > edc)){
+            if(calc_r < str || calc_r > edr || calc_c < stc || calc_c > edc){
                 let functionStr;
 
                 if(type == 'moveLeft'){
                     functionStr = "=" + formula.functionStrChange(calc_funcStr, "del", "col", null, stc, clen);
                 
-                    if(calc_c > edc){
+                    if(calc_c > edc && calc_r >= str && calc_r <= edr){
                         calc.c = calc_c - clen;
                     }
                 }
                 else if(type == 'moveUp'){
                     functionStr = "=" + formula.functionStrChange(calc_funcStr, "del", "row", null, str, rlen);
                 
-                    if(calc_r > edr){
+                    if(calc_r > edr && calc_c >= stc && calc_c <= edc){
                         calc.r = calc_r - rlen;
                     }
                 }
@@ -1566,8 +1558,6 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
                 if(d[calc_r][calc_c] && d[calc_r][calc_c].f == calc_funcStr){
                     d[calc_r][calc_c].f = functionStr;
                 }
-
-                // calc.func[2] = functionStr;
 
                 newCalcChain.push(calc);
             }

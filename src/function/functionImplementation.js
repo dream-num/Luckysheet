@@ -483,7 +483,7 @@ const functionImplementation = {
 
         try {
             //身份证号
-            var UUserCard = func_methods.getFirstValue(arguments[0]);
+            var UUserCard = func_methods.getFirstValue(arguments[0]).toString();
             if(valueIsError(UUserCard)){
                 return UUserCard;
             }
@@ -523,7 +523,7 @@ const functionImplementation = {
 
         try {
             //身份证号
-            var UUserCard = func_methods.getFirstValue(arguments[0]);
+            var UUserCard = func_methods.getFirstValue(arguments[0]).toString();
             if(valueIsError(UUserCard)){
                 return UUserCard;
             }
@@ -595,7 +595,7 @@ const functionImplementation = {
 
         try {
             //身份证号
-            var UUserCard = func_methods.getFirstValue(arguments[0]);
+            var UUserCard = func_methods.getFirstValue(arguments[0]).toString();
             if(valueIsError(UUserCard)){
                 return UUserCard;
             }
@@ -637,7 +637,7 @@ const functionImplementation = {
 
         try {
             //身份证号
-            var UUserCard = func_methods.getFirstValue(arguments[0]);
+            var UUserCard = func_methods.getFirstValue(arguments[0]).toString();
             if(valueIsError(UUserCard)){
                 return UUserCard;
             }
