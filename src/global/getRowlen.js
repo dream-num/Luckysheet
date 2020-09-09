@@ -416,7 +416,7 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.rotate = rt;
                 rt = Math.abs(rt);
 
-                let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight;
+                let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth;
                 for(let i = 1; i <= value.length; i++){
                     let str = value.substring(anchor, i);
                     let measureText =  getMeasureText(str, ctx);
@@ -434,7 +434,7 @@ function getCellTextInfo(cell , ctx, option){
                     }
 
                     if(rt!=0){//rotate
-                        if(height>cellHeight){
+                        if((height+space_height)>cellHeight){
                             anchor = i-1;
     
                             text_all_split[splitIndex].push({
@@ -445,7 +445,10 @@ function getCellTextInfo(cell , ctx, option){
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
-                                textHeight:preTextHeight
+                                textHeight:preTextHeight,
+                                textWidth:preTextWidth,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent
                             });
 
                             splitIndex +=1;
@@ -460,12 +463,15 @@ function getCellTextInfo(cell , ctx, option){
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
-                                textHeight:textHeight
+                                textHeight:textHeight,
+                                textWidth:textWidth,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent
                             });
                         }
                     }
                     else{//plain
-                        if(width>cellWidth){
+                        if((width+space_width)>cellWidth){
 
                             anchor = i-1;
                 
@@ -477,6 +483,8 @@ function getCellTextInfo(cell , ctx, option){
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent
                             });
 
                             splitIndex +=1;
@@ -491,6 +499,8 @@ function getCellTextInfo(cell , ctx, option){
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent
                             });
                         }
                     }
@@ -499,15 +509,21 @@ function getCellTextInfo(cell , ctx, option){
                     preHeight = height;
                     preStr = str;
                     preTextHeight = textHeight;
+                    preTextWidth = textWidth;
 
                 }
 
                 let split_all_size = [];
-                for(let i = 0; i <= splitIndex; i++){
+                console.log(splitIndex, text_all_split);
+                let splitLen = Object.keys(text_all_split).length;
+                for(let i = 0; i < splitLen; i++){
                     let splitLists = text_all_split[i];
+                    if(splitLists==null){
+                        continue;
+                    }
                     let sWidth = 0, sHeight=0, textHeight=0;
                     for(let s=0;s<splitLists.length;s++){
-                        let sp = splitLists[i];
+                        let sp = splitLists[s];
                         if(rt!=0){//rotate
                             sWidth += sp.width;
                             sHeight += sp.height;
@@ -515,15 +531,22 @@ function getCellTextInfo(cell , ctx, option){
                         }
                         else{//plain
                             sWidth += sp.width;
-                            sHeight = Math.max(sHeight, sp.height);
+                            sHeight = Math.max(sHeight, sp.height-(supportBoundBox?sp.desc:0));
                         }
                     }
 
                     if(rt!=0){//rotate
                         textW_all +=  textHeight/Math.sin(rt);
+                        if(i==splitIndex){
+                            textW_all += sWidth;
+                        }
+                        else{
+                            textW_all += space_width;
+                        }
                         textH_all = Math.max(textH_all, sHeight);
                     }
                     else{//plain
+                        sHeight+=sHeight/1.5;
                         textW_all=Math.max(textW_all, sWidth);
                         textH_all+=sHeight;
                     }
@@ -535,41 +558,86 @@ function getCellTextInfo(cell , ctx, option){
                     });
                 }
                 
-                let cumColumnWidth = 0;
-                for(let i = 0; i < text_all_split.length; i++){
-                    let splitTexts = text_all_split[i];
+                // let cumColumnWidth = 0;
+                let cumWordHeight = 0,cumColumnWidth = 0;
+                for(let i = 0; i < splitLen; i++){
+                    let splitLists = text_all_split[i];
+                    if(splitLists==null){
+                        continue;
+                    }
+                    let size = split_all_size[i];
 
-                    let cumWordHeight = 0;
-                    for(let c=0;c<splitTexts.length;c++){
-                        let wordGroup = splitTexts[c];
-                        
+                    if(rt!=0){//rotate
+                            
+                    }
+                    else{
+                        cumColumnWidth = 0;
+                    }
+                    
+                    for(let c=0;c<splitLists.length;c++){
+                        let wordGroup = splitLists[c];
+                        let left, top;
+                        if(rt!=0){//rotate
+                            left = space_width + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown; //默认为1，左对齐
+                            if(horizonAlign == "0"){ //居中对齐
+                                left = cellWidth / 2  - ( wordGroup.width / 2) + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
+                            }
+                            else if(horizonAlign == "2"){ //右对齐
+                                left = (cellWidth - space_width)  -  wordGroup.width + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
+                            }
+                            
+                            top = (cellHeight - space_height)  -  wordGroup.height + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为2，下对齐
+                            if(verticalAlign == "0"){ //居中对齐 
+                                top = cellHeight / 2  - ( wordGroup.height / 2) + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                            }
+                            else if(verticalAlign == "1"){ //上对齐
+                                top = space_height + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                            }
+                            // left+=10;
+                            // top=top+30;
 
-                        
-                        let left = space_width + cumColumnWidth;
-                        if(horizonAlign == "0"){
-                            left = cellWidth / 2 + cumColumnWidth - textW_all/2 + space_width*textH_all_ColumnHeight.length;
+                            if(c==0){
+                                textContent.textLeftAll = left;
+                                textContent.textTopAll = top;
+                            }
+
+                            console.log("plainWrap" ,left , top);
                         }
-                        else if(horizonAlign == "2"){
-                            left = cellWidth + cumColumnWidth - textW_all + space_width;
+                        else{//plain
+                            left = space_width + cumColumnWidth;
+                            if(horizonAlign == "0"){
+                                //+ space_width*textH_all_ColumnHeight.length
+                                left = cellWidth / 2 + cumColumnWidth - size.width/2;
+                            }
+                            else if(horizonAlign == "2"){
+                                left = cellWidth + cumColumnWidth - size.width;
+                            }
+    
+                            top = (cellHeight - space_height)  + cumWordHeight - textH_all - (supportBoundBox?wordGroup.desc:0) + wordGroup.height*2/1.5;
+                            if(verticalAlign == "0"){
+                                top = cellHeight / 2 + cumWordHeight - textH_all/2 + wordGroup.asc/2 + wordGroup.height*2/3;
+                            }
+                            else if(verticalAlign == "1"){
+                                top = space_height  + cumWordHeight+ wordGroup.asc;
+                            }
+    
+                            cumColumnWidth += wordGroup.width;
                         }
+                    
 
-                        let top = (cellHeight - space_height)  + cumWordHeight - columnHeight;
-                        if(verticalAlign == "0"){
-                            top = cellHeight / 2 + cumWordHeight - columnHeight/2;
-                        }
-                        else if(verticalAlign == "1"){
-                            top = space_height  + cumWordHeight;
-                        }
+                        wordGroup.left = left;
+                        wordGroup.top = top;
 
-                        cumWordHeight += word.height;
-
-                        word.left = left;
-                        word.top = top;
-
-                        textContent.values.push(word);
+                        textContent.values.push(wordGroup);
                     }
 
-                    cumColumnWidth+=columnWidth;
+                    if(rt!=0){//rotate
+                            
+                    }
+                    else{
+                        cumWordHeight += size.height;
+                    }
+                    // cumColumnWidth+=columnWidth;
 
                 }
 
@@ -625,6 +693,8 @@ function getCellTextInfo(cell , ctx, option){
 
                 textContent.textLeftAll = left;
                 textContent.textTopAll = top;
+
+                console.log("plain",left,top);
             }
         }
 
