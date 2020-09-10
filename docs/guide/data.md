@@ -29,15 +29,15 @@
                 "colhidden":{}, //hidden columns
                 "borderInfo":{}, //borders
             },
-            "celldata": [], //initialize the cell data used
-            "data": [], //Update and store the cell data used
+            "celldata": [], //initialize the cell data
+            "data": [], //Update and store the cell data 
             "scrollLeft": 0, //Left and right scroll bar position
             "scrollTop": 315, //Up and down scroll bar position
             "luckysheet_select_save": [], //selected area
             "luckysheet_conditionformat_save": {},//Conditional format
             "calcChain": [],//Formula chain
             "isPivotTable":false,//Whether to pivot table
-            "pivotTable":{},//Pivot table settings
+            "pivotTable":{},//Pivot table configuration
             "filter_select": null,//Filter range
             "filter": null,//Filter configuration
             "luckysheet_alternateformat_save": [], //Alternate colors

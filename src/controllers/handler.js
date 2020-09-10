@@ -4580,7 +4580,7 @@ export default function luckysheetHandler() {
                                 }
                             }
 
-                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / dpi_y) + 1;
+                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / 96) + 1;
                             cell.fs = fs;
 
                             let fc = $td.css("color");
