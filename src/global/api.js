@@ -1,8 +1,8 @@
 import Store from "../store";
-import { getObjType } from "../utils/util";
+import { getObjType, chatatABC } from "../utils/util";
 import formula from './formula';
 import { getSheetIndex, getluckysheet_select_save } from "../methods/get";
-import { isRealNull, valueIsError, isRealNum, isEditMode } from "./validate";
+import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
 import { genarate, update } from './format';
 import server from "../controllers/server";
 import luckysheetConfigsetting from "../controllers/luckysheetConfigsetting";
@@ -14,7 +14,12 @@ import locale from "../locale/locale";
 import tooltip from "./tooltip";
 import { luckysheet_searcharray } from "../controllers/sheetSearch";
 import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
-import { getdatabyselection } from "./getdata";
+import { getdatabyselection, getcellvalue } from "./getdata";
+import selection from "../controllers/selection";
+import json from "./json";
+import { orderbydata } from "./sort";
+import editor from "./editor";
+import { rowlenByRange } from "./getRowlen";
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
@@ -1164,5 +1169,1265 @@ function getRangeArray(dimensional, options = {}) {
         formula.getRangeArrayTwo(realRange)
     } else if (dimensional === 'custom') {
         // TODO
+    }
+}
+
+/**
+ * 复制指定工作表指定单元格区域的数据，返回json格式的数据
+ * @param {Boolean} isFirstRowTitle 是否首行为标题
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ */
+export function getRangeJson(isFirstRowTitle, options = {}) {
+    let curRange = Store.luckysheet_select_save;
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let {
+        range = curRange,
+        order = curSheetOrder
+    } = {...options}
+    let file = Store.luckysheetfile[order];
+    let config = file.config;
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    if (!range || range.length > 1) {
+        if(isEditMode()){
+            alert(locale_drag.noMulti);
+        } else{
+            tooltip.info(locale_drag.noMulti, "");   
+        }
+        return;
+    }
+
+    //复制范围内包含部分合并单元格，提示
+    if(config["merge"] != null) {
+        let has_PartMC = false;
+        let r1 = range[0].row[0],
+        r2 = range[0].row[1],
+        c1 = range[0].column[0],
+        c2 = range[0].column[1];
+        has_PartMC = hasPartMC(config, r1, r2, c1, c2);
+        
+        if(has_PartMC){
+            if(isEditMode()){
+                alert(locale().drag.noPartMerge);
+            } else{
+                tooltip.info(locale().drag.noPartMerge, ""); 
+            }
+            return;    
+        }
+    }
+    let getdata = getdatabyselection(range, order);
+    let arr = [];
+    if (getdata.length === 0) {
+        return;
+    }
+    if (isFirstRowTitle) {
+        if (getdata.length === 1) {
+            let obj = {};
+            for (let i = 0; i < getdata[0].length; i++) {
+                obj[getcellvalue(0, i, getdata)] = "";
+            }
+            arr.push(obj);
+        } else {
+            for (let r = 1; r < getdata.length; r++) {
+                let obj = {};
+                for (let c = 0; c < getdata[0].length; c++) {
+                    if(getcellvalue(0, c, getdata) == undefined){
+                        obj[""] = getcellvalue(r, c, getdata);
+                    }else{
+                        obj[getcellvalue(0, c, getdata)] = getcellvalue(r, c, getdata);
+                    }
+                }
+                arr.push(obj);
+            }
+        }
+    } else {
+        let st = range[0]["column"][0];
+        for (let r = 0; r < getdata.length; r++) {
+            let obj = {};
+            for (let c = 0; c < getdata[0].length; c++) {
+                obj[chatatABC(c + st)] = getcellvalue(r, c, getdata);
+            }
+            arr.push(obj);
+        }
+    }
+    selection.copybyformat(new Event(), JSON.stringify(arr));
+}
+
+/**
+ * 
+ * @param {String} type 对角线还是对角线偏移 "normal"-对角线  "anti"-反对角线
+"offset"-对角线偏移
+ * @param {Object} options 可选参数
+ * @param {Number} options.column type为offset的时候设置，对角偏移的列数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ */
+export function getRangeDiagonal(type, options = {}) {
+    let typeValues = ['normal', 'anti', 'offset'];
+    if (typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter must be included in [\'normal\', \'anti\', \'offset\']')
+    }
+
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let curRange = Store.luckysheet_select_save;
+    let {
+        column = 1,
+        range = curRange,
+        order = curSheetOrder
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+    let config = file.config;
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    if (!range || range.length > 1) {
+        if(isEditMode()){
+            alert(locale().drag.noMulti);
+        } else{
+            tooltip.info(locale().drag.noMulti, "");   
+        }
+        return;
+    }
+
+    //复制范围内包含部分合并单元格，提示
+    if(config["merge"] != null) {
+        let has_PartMC = false;
+        let r1 = range[0].row[0],
+        r2 = range[0].row[1],
+        c1 = range[0].column[0],
+        c2 = range[0].column[1];
+        has_PartMC = hasPartMC(config, r1, r2, c1, c2);
+        
+        if(has_PartMC){
+            if(isEditMode()){
+                alert(locale().drag.noPartMerge);
+            } else{
+                tooltip.info(locale().drag.noPartMerge, ""); 
+            }
+            return;    
+        }
+    }
+    let getdata = getdatabyselection(range, order);
+    let arr = [];
+    if (getdata.length === 0) {
+        return;
+    }
+
+    let clen = getdata[0].length;
+    switch (type) {
+        case 'normal':
+            for (let r = 0; r < getdata.length; r++) {
+                if (r >= clen) {
+                    break;
+                }
+                arr.push(getdata[r][r]);
+            }
+            break;
+        case 'anti':
+            for (let r = 0; r < getdata.length; r++) {
+                if (r >= clen) {
+                    break;
+                }
+                arr.push(getdata[r][clen - r - 1]);
+            }
+            break;
+        case 'offset':
+            if(column.toString() == "NaN"){
+                if(isEditMode()){
+                    alert(locale().drag.inputCorrect);
+                } else{
+                    tooltip.info(locale().drag.inputCorrect, "");
+                }
+                return;
+            }
+
+            if(column < 0){
+                if(isEditMode()){
+                    alert(locale().drag.offsetColumnLessZero);
+                } else{
+                    tooltip.info(locale().drag.offsetColumnLessZero, "");
+                }
+                return;
+            }
+
+            for (let r = 0; r < getdata.length; r++) {
+                if (r + column >= clen) {
+                    break;
+                }
+                arr.push(getdata[r][r + column]);
+            }
+            break;
+    }
+    selection.copybyformat(new Event(), JSON.stringify(arr));
+}
+
+/**
+ * 复制指定工作表指定单元格区域的数据，返回布尔值的数据
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引 
+ */
+export function getRangeBoolean(options = {}) {
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+    let config = file.config;
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+
+    if (!range || range.length > 1) {
+        if(isEditMode()){
+            alert(locale().drag.noMulti);
+        } else{
+            tooltip.info(locale().drag.noMulti, "");   
+        }
+        return;
+    }
+
+    //复制范围内包含部分合并单元格，提示
+    if(config["merge"] != null) {
+        let has_PartMC = false;
+        let r1 = range[0].row[0],
+        r2 = range[0].row[1],
+        c1 = range[0].column[0],
+        c2 = range[0].column[1];
+        has_PartMC = hasPartMC(config, r1, r2, c1, c2);
+        
+        if(has_PartMC){
+            if(isEditMode()){
+                alert(locale().drag.noPartMerge);
+            } else{
+                tooltip.info(locale().drag.noPartMerge, ""); 
+            }
+            return;    
+        }
+    }
+    let getdata = getdatabyselection(range, order);
+    let arr = [];
+    if (getdata.length === 0) {
+        return;
+    }
+    for (let r = 0; r < getdata.length; r++) {
+        let a = [];
+        for (let c = 0; c < getdata[0].length; c++) {
+            let bool = false;
+
+            let v;
+            if(getObjType(getdata[r][c]) == "object"){
+                v = getdata[r][c].v;
+            } else{
+                v = getdata[r][c];
+            }
+
+            if (v == null || v == "") {
+                bool = false;
+            } else {
+                v = parseInt(v);
+                if (v == null || v > 0) {
+                    bool = true;
+                } else {
+                    bool = false;
+                }
+            }
+            a.push(bool);
+        }
+        arr.push(a);
+    }
+
+    selection.copybyformat(event, JSON.stringify(arr));
+}
+
+/**
+ * 将一个单元格数组数据赋值到指定的区域，数据格式同getRangeValue方法取到的数据。
+ * @param {Array[Array]} data 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRangeValue(data, options = {}) {
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    if (data == null) {
+        return console.error('The data which will be set to range cannot be null.')
+    }
+    if (range instanceof Array) {
+        return console.error('setRangeValue only supports a single selection.')
+    }
+    if (typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    let rowCount = range.row[1] - range.row[0] + 1,
+        columnCount = range.column[1] - range.column[0] + 1;
+    if (data.length !== rowCount || data[0].length !== columnCount) {
+        return console.error('The data to be set does not match the selection.')
+    }
+
+    for (let i = 0; i < rowCount; i++) {
+        for (let j = 0; j < columnCount; j++) {
+            let row = range.row[0] + i,
+                column = range.column[0] + j;
+            setCellValue(row, column, data[i][j], {order: order})
+        }
+    }
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+/**
+ * 设置指定范围的单元格格式，一般用作处理格式，赋值操作推荐使用setRangeValue方法
+ * @param {String} attr 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
+ * @param {Number | String | Object} value 具体的设置值
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 设置参数的目标选区范围，支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ */
+export function setSingleRangeFormat(attr, value, options = {}) {
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder,
+    } = {...options}
+    if (attr == null) {
+        return console.error('Arguments attr cannot be null or undefined.')
+    }
+    if (range instanceof Array) {
+        return console.error('setRangeValue only supports a single selection.')
+    }
+    if (typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    let rowCount = range.row[1] - range.row[0] + 1,
+        columnCount = range.column[1] - range.column[0] + 1;
+    if (data.length !== rowCount || data[0].length !== columnCount) {
+        return console.error('The data to be set does not match the selection')
+    }
+
+    for (let i = 0; i < rowCount; i++) {
+        for (let j = 0; j < columnCount; j++) {
+            let row = range.row[0] + i,
+                column = range.column[0] + j;
+            setCellFormat(row, column, attr, value, {order: order})
+        }
+    }
+}
+
+/**
+ * 设置指定范围的单元格格式，一般用作处理格式。支持多选区设置
+ * @param {String} attr 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
+ * @param {Number | String | Object} value 具体的设置值
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 设置参数的目标选区范围，支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRangeFormat(attr, value, options = {}) {
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    if (range instanceof Array) {
+        for (let i = 0; i < range.length; i++) {
+            setSingleRangeFormat(range[i])
+        }
+    }
+    if (success && typeof success === 'function') {
+        success()
+    }
+}
+
+/**
+ * 为指定索引的工作表，选定的范围开启或关闭筛选功能
+ * @param {String} type 打开还是关闭筛选功能  open-打开筛选功能，返回当前筛选的范围对象；close-关闭筛选功能，返回关闭前筛选的范围对象 
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围
+ * @param {Number} options.order 
+ * @param {Object} options.success 
+ */
+function setRangeFilter(type, options = {}) {
+    let typeValues = ['open', 'close'];
+    if (typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter must be included in [\'open\', \'close\']')
+    }
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
+        curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    if(range > 1){
+        const locale_splitText = locale().splitText;
+        if(isEditMode()){
+            alert(locale_splitText.tipNoMulti);
+        } else{
+            tooltip.info(locale_splitText.tipNoMulti, "");
+        }
+        return;
+    }
+
+    if(Store.luckysheetfile[order].isPivotTable){
+        return;
+    }
+    // TODO to be continue
+}
+
+/**
+ * 为指定索引的工作表，选定的范围设定合并单元格
+ * @param {String} type 合并类型 all-全部合并  horizontal-水平合并  vertical-垂直合并
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Object} options.success 操作结束的回调函数
+ */
+export function setRangeMerge(type, options = {}) {
+    let typeValues = ['all', 'horizontal', 'vertical'];
+    if (typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter must be included in [\'all\', \'horizontal\', \'vertical\']')
+    }
+
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
+        curRange = Store.luckysheet_select_save;
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    let file = luckysheetfile[order],
+        cfg = file.config,
+        data = file.data;
+
+    if (!(range instanceof Array)) {
+        range = [range]
+    }
+
+    let isHasMc = false; //选区是否含有 合并的单元格
+    for (let i = 0; i < range.length; i++) {
+        let rangeItem = range[i];
+        if (rangeItem && typeof rangeItem === 'string' && formula.iscelldata(rangeItem)) {
+            rangeItem = formula.getcellrange(rangeItem)
+        }
+        let r1 = rangeItem.row[0],
+            r2 = rangeItem.row[1],
+            c1 = rangeItem.column[0],
+            c2 = rangeItem.column[1];
+
+        for(let r = r1; r <= r2; r++){
+            for(let c = c1; c <= c2; c++){
+                let cell = data[r][c];
+                if(getObjType(cell) == "object" && ("mc" in cell)){
+                    isHasMc = true;
+                    break;
+                }
+            }
+            if (isHasMc) {
+                break;
+            }
+        }
+        if (isHasMc) {
+            break;
+        }
+    }
+
+    if (isHasMc) {
+        cancelRangeMerge({
+            range: range,
+            order: order
+        })
+    } else {
+        for (let i = 0; i < range.length; i++) {
+            let rangeItem = range[i];
+            if (rangeItem && typeof rangeItem === 'string' && formula.iscelldata(rangeItem)) {
+                rangeItem = formula.getcellrange(rangeItem)
+            }
+            let r1 = rangeItem.row[0],
+                r2 = rangeItem.row[1],
+                c1 = rangeItem.column[0],
+                c2 = rangeItem.column[1];
+            
+            if (type === 'all') {
+                let fv = {}, 
+                    isfirst = false;
+                for(let r = r1; r <= r2; r++){
+                    for(let c = c1; c <= c2; c++){
+                        let cell = data[r][c];
+
+                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                            fv = $.extend(true, {}, cell);
+                            isfirst = true;
+                        }
+
+                        data[r][c] = { "mc": { "r": r1, "c": c1 } };
+                    }
+                }
+
+                data[r1][c1] = fv;
+                data[r1][c1].mc = { "r": r1, "c": c1, "rs": r2 - r1 + 1, "cs": c2 - c1 + 1 };
+
+                cfg["merge"][r1 + "_" + c1] = { "r": r1, "c": c1, "rs": r2 - r1 + 1, "cs": c2 - c1 + 1 };
+            } else if (type === 'vertical') {
+                for(let c = c1; c <= c2; c++){
+                    let fv = {}, 
+                        isfirst = false;
+
+                    for(let r = r1; r <= r2; r++){
+                        let cell = data[r][c];
+
+                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                            fv = $.extend(true, {}, cell);
+                            isfirst = true;
+                        }
+
+                        data[r][c] = { "mc": { "r": r1, "c": c } };
+                    }
+
+                    data[r1][c] = fv;
+                    data[r1][c].mc = { "r": r1, "c": c, "rs": r2 - r1 + 1, "cs": 1 };
+
+                    cfg["merge"][r1 + "_" + c] = { "r": r1, "c": c, "rs": r2 - r1 + 1, "cs": 1 };
+                }
+            } else if (type === 'horizontal') {
+                for(let r = r1; r <= r2; r++){
+                    let fv = {}, 
+                        isfirst = false;
+
+                    for(let c = c1; c <= c2; c++){
+                        let cell = data[r][c];
+
+                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                            fv = $.extend(true, {}, cell);
+                            isfirst = true;
+                        }
+
+                        data[r][c] = { "mc": { "r": r, "c": c1 } };
+                    }
+
+                    data[r][c1] = fv;
+                    data[r][c1].mc = { "r": r, "c": c1, "rs": 1, "cs": c2 - c1 + 1 };
+
+                    cfg["merge"][r + "_" + c1] = { "r": r, "c": c1, "rs": 1, "cs": c2 - c1 + 1 };
+                }
+            }
+        }
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+/**
+ * 为指定索引的工作表，选定的范围取消合并单元格
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 选区范围
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Object} options.success 操作结束的回调函数
+ */
+export function cancelRangeMerge(options = {}) {
+    let curRange = Store.luckysheet_select_save[0],
+        curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    let file = luckysheetfile[order],
+        cfg = file.config,
+        data = file.data;
+
+    if (!(range instanceof Array)) {
+        range = [range]
+    }
+
+    for (let i = 0; i < range.length; i++) {
+        let rangeItem = range[i];
+        if (rangeItem && typeof rangeItem === 'string' && formula.iscelldata(rangeItem)) {
+            rangeItem = formula.getcellrange(rangeItem)
+        }
+        let r1 = rangeItem.row[0],
+            r2 = rangeItem.row[1],
+            c1 = rangeItem.column[0],
+            c2 = rangeItem.column[1];
+        if (r1 == r2 && c1 == c2) {
+            continue;
+        }
+    
+        let fv = {}
+        for(let r = r1; r <= r2; r++){
+            for(let c = c1; c <= c2; c++){
+                let cell = data[r][c];
+    
+                if(cell != null && cell.mc != null){
+                    let mc_r = cell.mc.r, mc_c = cell.mc.c;
+    
+                    if("rs" in cell.mc){
+                        delete cell.mc;
+                        delete cfg["merge"][mc_r + "_" + mc_c];
+    
+                        fv[mc_r + "_" + mc_c] = $.extend(true, {}, cell);
+                    }
+                    else{
+                        let cell_clone = fv[mc_r + "_" + mc_c];
+                        delete cell_clone.v;
+                        delete cell_clone.m;
+                        delete cell_clone.ct;
+                        delete cell_clone.f;
+                        delete cell_clone.spl;
+                        data[r][c] = cell_clone;
+                    }
+                }
+            }
+        }
+    }
+
+    // 当前sheet页合并时刷新
+    if (order === curSheetOrder) {
+        jfrefreshgrid(data, range, cfg)
+    }
+}
+
+/**
+ * 为指定索引的工作表，选定的范围开启排序功能，返回选定范围排序后的数据。
+ * @param {String} type 排序类型 asc-升序 desc-降序
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRangeSort(type, options = {}) {
+    let typeValues = ['asc', 'desc']
+    if (typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter must be included in [\'asc\', \'desc\'')
+    }
+
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
+        curRange = Store.luckysheet_select_save[0];
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    let file = Store.luckysheetfile[order],
+        cfg = file.config,
+        fileData = file.data;
+
+    if(range instanceof Array && range.length > 1){
+        if(isEditMode()){
+            alert(locale().sort.noRangeError);
+        } else{
+            tooltip.info(locale().sort.noRangeError, "");
+        }
+        return;
+    }
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    let r1 = range.row[0],
+        r2 = range.row[1],
+        c1 = range.column[0],
+        c2 = range.column[1];
+        
+    let hasMc = false; //Whether the sort selection has merged cells
+    let data = [];
+    for(let r = r1; r <= r2; r++){
+        let data_row = [];
+        for(let c = c1; c <= c2; c++){
+            if(fileData[r][c] != null && fileData[r][c].mc != null){
+                hasMc = true;
+                break;
+            }
+            data_row.push(fileData[r][c]);
+        }
+        data.push(data_row);
+    }
+    if(hasMc){
+        if(isEditMode()){
+            alert(locale().sort.mergeError);
+        } else{
+            tooltip.info(locale().sort.mergeError, "");
+        }
+        return;
+    }
+    data = orderbydata([].concat(data), 0, type === 'asc');
+
+    for(let r = r1; r <= r2; r++){
+        for(let c = c1; c <= c2; c++){
+            fileData[r][c] = data[r - r1][c - c1];
+        }
+    }
+    if(cfg["rowlen"] != null){
+        let config = $.extend(true, {}, cfg);
+        config = rowlenByRange(fileData, r1, r2, config);
+        
+        if (order == Store.currentSheetIndex) {
+            jfrefreshgrid(fileData, [{ "row": [r1, r2], "column": [c1, c2] }], config, null, true);
+        }
+    } else{
+        if (order == Store.currentSheetIndex) {
+            jfrefreshgrid(fileData, [{ "row": [r1, r2], "column": [c1, c2] }]);
+        }
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+/**
+ * 为指定索引的工作表，选定的范围开启多列自定义排序功能，返回选定范围排序后的数据。
+ * @param {Boolean} hasTitle 数据是否具有标题行
+ * @param {Array} sort 列设置，设置需要排序的列索引和排序方式，格式如：[{ i:0,sort:'asc' },{ i:1,sort:'des' }]
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRangeSortMulti(hasTitle, sort, options = {}) {
+    if (!sort || !(sort instanceof Array)) {
+        return console.error('The sort parameter is invalid.')
+    }
+
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
+        curRange = Store.luckysheet_select_save[0];
+    let {
+        range = curRange,
+        order = curSheetOrder,
+        success
+    } = {...options}
+    let file = Store.luckysheetfile[order],
+        cfg = file.config,
+        fileData = file.data;
+
+    if(range instanceof Array && range.length > 1){
+        if(isEditMode()){
+            alert(locale().sort.noRangeError);
+        } else{
+            tooltip.info(locale().sort.noRangeError, "");
+        }
+        return;
+    }
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+    let r1 = range.row[0],
+        r2 = range.row[1],
+        c1 = range.column[0],
+        c2 = range.column[1];
+        
+    let str;
+    if(hasTitle){
+        str = r1 + 1;
+    } else{
+        str = r1;
+    }
+    let hasMc = false; //Whether the sort selection has merged cells
+    let data = [];
+    for(let r = str; r <= r2; r++){
+        let data_row = [];
+        for(let c = c1; c <= c2; c++){
+            if(fileData[r][c] != null && fileData[r][c].mc != null){
+                hasMc = true;
+                break;
+            }
+            data_row.push(fileData[r][c]);
+        }
+        data.push(data_row);
+    }
+    if(hasMc){
+        if(isEditMode()){
+            alert(locale().sort.mergeError);
+        } else{
+            tooltip.info(locale().sort.mergeError, "");
+        }
+        return;
+    }
+    sort.forEach(sortItem => {
+        let i = sortItem.i;
+        i -= c1;
+        data = orderbydata([].concat(data), i, sortItem.sort === 'asc');
+    })
+
+    for(let r = str; r <= r2; r++){
+        for(let c = c1; c <= c2; c++){
+            fileData[r][c] = data[r - str][c - c1];
+        }
+    }
+    if(cfg["rowlen"] != null){
+        let config = $.extend(true, {}, cfg);
+        config = rowlenByRange(fileData, str, r2, config);
+
+        if (order === Store.currentSheetIndex) {
+            jfrefreshgrid(fileData, [{ "row": [str, r2], "column": [c1, c2] }], config, null, true);
+        }
+    } else{
+        if (order === Store.currentSheetIndex) {
+            jfrefreshgrid(fileData, [{ "row": [str, r2], "column": [c1, c2] }]);
+        }
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+/**
+ * 
+ * @param {String} move 删除后，右侧还是下方的单元格移动
+ * @param {Object} options 可选参数
+ */
+function deleteRange(move, options = {}) {
+
+}
+
+/**
+ * 指定工作表指定单元格区域的数据进行矩阵操作，返回操作成功后的结果数据
+ * @param {String} type 矩阵操作的类型
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function matrixOperation(type, options = {}) {
+    let typeValues = [
+        'flipUpDown',               // 上下翻转
+        'flipLeftRight',            // 左右翻转
+        'flipClockwise',            // 顺时针旋转
+        'flipCounterClockwise',     // 逆时针旋转
+        'transpose',                // 转置
+        'deleteZeroByRow',          // 按行删除两端0值
+        'deleteZeroByColumn',       // 按列删除两端0值
+        'removeDuplicateByRow',     // 按行删除重复值
+        'removeDuplicateByColumn',  // 按列删除重复值
+        'newMatrix'                 // 生产新矩阵
+    ]
+    if (!type || typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter is invalid.')
+    }
+
+    let curRange = Store.luckysheet_select_save[0];
+    let {
+        range = curRange,
+        success
+    } = {...options}
+
+    if(range instanceof Array && range.length > 1){
+        if(isEditMode()){
+            alert(locale().drag.noMulti);
+        } else{
+            tooltip.info(locale().drag.noMulti, "");
+        }
+        return;
+    }
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+
+    let getdata = getdatabyselection(range);
+    let arr = [];
+    if (getdata.length === 0) {
+        return;
+    }
+
+    let getdatalen, collen, arr1;
+    switch (type) {
+        case 'flipUpDown':
+            for (let r = getdata.length - 1; r >= 0; r--) {
+                let a = [];
+                for (let c = 0; c < getdata[0].length; c++) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                    }
+                    a.push(value);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'flipLeftRight':
+            for (let r = 0; r < getdata.length; r++) {
+                let a = [];
+                for (let c = getdata[0].length - 1; c >= 0; c--) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                    }
+                    a.push(value);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'flipClockwise':
+            for (let c = 0; c < getdata[0].length; c++) {
+                let a = [];
+                for (let r = getdata.length - 1; r >= 0; r--) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                    }
+                    a.push(value);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'flipCounterClockwise':
+            for (let c = getdata[0].length - 1; c >= 0; c--) {
+                let a = [];
+                for (let r = 0; r < getdata.length; r++) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                    }
+                    a.push(value);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'transpose':
+            for (let c = 0; c < getdata[0].length; c++) {
+                let a = [];
+                for (let r = 0; r < getdata.length; r++) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                    }
+                    a.push(value);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'deleteZeroByRow':
+            getdatalen = getdata[0].length;
+            for (let r = 0; r < getdata.length; r++) {
+                let a = [], stdel = true, eddel = true;
+                for (let c = 0; c < getdatalen; c++) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                        if ((value.v == "0" || value.v == 0) && stdel) {
+                            continue;
+                        }
+                        else {
+                            stdel = false;
+                        }
+                    }
+                    a.push(value);
+                }
+    
+                let a1 = [];
+                if (a.length == getdatalen) {
+                    a1 = a;
+                } else {
+                    for (let c = a.length - 1; c >= 0; c--) {
+                        let value = "";
+                        if (a[c] != null) {
+                            value = a[c];
+                            if ((value.v == "0" || value.v == 0) && eddel) {
+                                continue;
+                            }
+                            else {
+                                eddel = false;
+                            }
+                        }
+                        a1.unshift(value);
+                    }
+    
+                    let l = getdatalen - a1.length;
+                    for (let c1 = 0; c1 < l; c1++) {
+                        a1.push("");
+                    }
+                }
+                arr.push(a1);
+            }
+            break;
+        case 'deleteZeroByColumn':
+            getdatalen = getdata.length;
+            collen = getdata[0].length;
+            for (let c = 0; c < collen; c++) {
+                let a = [], stdel = true, eddel = true;
+                for (let r = 0; r < getdatalen; r++) {
+                    let value = "";
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+                        if ((value.v == "0" || value.v == 0) && stdel) {
+                            continue;
+                        }
+                        else {
+                            stdel = false;
+                        }
+                    }
+                    a.push(value);
+                }
+
+                let a1 = [];
+                if (a.length == getdatalen) {
+                    a1 = a;
+                }
+                else {
+                    for (let r = a.length - 1; r >= 0; r--) {
+                        let value = "";
+                        if (a[r] != null) {
+                            value = a[r];
+                            if ((value.v == "0" || value.v == 0) && eddel) {
+                                continue;
+                            }
+                            else {
+                                eddel = false;
+                            }
+                        }
+                        a1.unshift(value);
+                    }
+
+                    let l = getdatalen - a1.length;
+                    for (let r1 = 0; r1 < l; r1++) {
+                        a1.push("");
+                    }
+                }
+                arr.push(a1);
+            }
+
+            arr1 = [];
+            for (let c = 0; c < arr[0].length; c++) {
+                let a = [];
+                for (let r = 0; r < arr.length; r++) {
+                    let value = "";
+                    if (arr[r] != null && arr[r][c] != null) {
+                        value = arr[r][c];
+                    }
+                    a.push(value);
+                }
+                arr1.push(a);
+            }
+            break;
+        case 'removeDuplicateByRow':
+            getdatalen = getdata[0].length;
+            for (let r = 0; r < getdata.length; r++) {
+                let a = [], repeat = {};
+
+                for (let c = 0; c < getdatalen; c++) {
+                    let value = null;
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+
+                        if(value.v in repeat){
+                            repeat[value.v].push(value);
+                        }
+                        else{
+                            repeat[value.v] = [];
+                            repeat[value.v].push(value);
+                        }
+                    }
+                }
+
+                for (let c = 0; c < getdatalen; c++) {
+                    let value = null;
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+
+                        if(repeat[value.v].length == 1){
+                            a.push(value);
+                        }
+                    }
+                }
+
+                let l = getdatalen - a.length;
+                for (let c1 = 0; c1 < l; c1++) {
+                    a.push(null);
+                }
+                arr.push(a);
+            }
+            break;
+        case 'removeDuplicateByColumn':
+            collen = getdata[0].length;
+            getdatalen = getdata.length;
+            for (let c = 0; c < collen; c++) {
+                let a = [], repeat = {};
+
+                for (let r = 0; r < getdatalen; r++) {
+                    let value = null;
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+
+                        if(value.v in repeat){
+                            repeat[value.v].push(value);
+                        }
+                        else{
+                            repeat[value.v] = [];
+                            repeat[value.v].push(value);
+                        }
+                    }
+                }
+
+                for (let r = 0; r < getdatalen; r++) {
+                    let value = null;
+                    if (getdata[r] != null && getdata[r][c] != null) {
+                        value = getdata[r][c];
+
+                        if(repeat[value.v].length == 1){
+                            a.push(value);
+                        }
+                    }
+                }
+
+                a1 = a;
+                let l = getdatalen - a1.length;
+                for (let r1 = 0; r1 < l; r1++) {
+                    a1.push(null);
+                }
+                arr.push(a1);
+            }
+
+            arr1 = [];
+            for (let c = 0; c < arr[0].length; c++) {
+                let a = [];
+                for (let r = 0; r < arr.length; r++) {
+                    let value = null;
+                    if (arr[r] != null && arr[r][c] != null) {
+                        value = arr[r][c];
+                    }
+                    a.push(value);
+                }
+                arr1.push(a);
+            }
+            break;
+        case 'newMatrix':
+            // TODO
+            console.log("TODO")
+            break;
+    }
+    editor.controlHandler(arr, range)
+    
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+/**
+ * 指定工作表指定单元格区域的数据进行矩阵计算，返回计算成功后的结果数据
+ * @param {String} type 计算方式
+ * @param {Number} number 计算数值
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function matrixCalculation(type, number, options = {}) {
+    let typeValues = [
+        'plus',     // 加
+        'minus',    // 减
+        'multiply', // 乘
+        'divided',  // 除
+        'power',    // 幂
+        'root',     // 次方根
+        'log'       // 对数log
+    ]
+    if (!type || typeValues.indexOf(type) < 0) {
+        return console.error('The type parameter is invalid.')
+    }
+    if(number.toString() == "NaN"){
+        return console.error('The number parameter is invalid.')
+    }
+
+    let curRange = Store.luckysheet_select_save[0];
+    let {
+        range = curRange,
+        success
+    } = {...options}
+
+    if(range instanceof Array && range.length > 1){
+        if(isEditMode()){
+            alert(locale().drag.noMulti);
+        } else{
+            tooltip.info(locale().drag.noMulti, "");
+        }
+        return;
+    }
+
+    if (range && typeof range === 'string' && formula.iscelldata(range)) {
+        range = formula.getcellrange(range)
+    }
+
+    let getdata = getdatabyselection(range);
+    if (getdata.length == 0) {
+        return;
+    }
+    let arr = [];
+    for (let r = 0; r < getdata.length; r++) {
+        let a = [];
+        for (let c = 0; c < getdata[0].length; c++) {
+            let value = "";
+            if (getdata[r] != null && getdata[r][c] != null) {
+                value = getdata[r][c];
+                if (parseInt(value) != null && getdata[r][c].ct != undefined && getdata[r][c].ct.t == "n") {
+                    if (type == "minus") {
+                        value.v = value.v - number;
+                    }
+                    else if (type == "multiply") {
+                        value.v = value.v * number;
+                    }
+                    else if (type == "divided") {
+                        value.v = numFormat(value.v / number, 4);
+                    }
+                    else if (type == "power") {
+                        value.v = Math.pow(value.v, number);
+                    }
+                    else if (type == "root") {
+                        if (number == 2) {
+                            value.v = numFormat(Math.sqrt(value.v), 4);
+                        }
+                        else if (number == 3 && Math.cbrt) {
+                            value.v = numFormat(Math.cbrt(value.v), 4);
+                        }
+                        else {
+                            value.v = numFormat(jfnqrt(value.v, number), 4);
+                        }
+                    }
+                    else if (type == "log") {
+                        value.v = numFormat(Math.log(value.v) * 10000 / Math.log(Math.abs(number)), 4);
+                    }
+                    else {
+                        value.v = value.v + number;
+                    }
+
+                    if(value.v == null){
+                        value.m = "";
+                    }
+                    else{
+                        value.m = value.v.toString();
+                    }
+                }
+            }
+            a.push(value);
+        }
+        arr.push(a);
+    }
+
+    editor.controlHandler(arr, range);
+
+    if (success && typeof success === 'function') {
+        success();
     }
 }
