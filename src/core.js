@@ -37,7 +37,8 @@ import * as api from './global/api';
 let luckysheet = {};
 
 // mount api
-luckysheet.api = api;
+// luckysheet.api = api;
+Object.assign(luckysheet, api);
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {

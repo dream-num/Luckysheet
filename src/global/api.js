@@ -20,6 +20,7 @@ import json from "./json";
 import { orderbydata } from "./sort";
 import editor from "./editor";
 import { rowlenByRange } from "./getRowlen";
+import luckysheetformula from './formula'
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
@@ -68,6 +69,9 @@ export function getCellValue(row, column, options = {}) {
 
 /**
  * 设置单元格的值
+ * 
+ * 关键点：如果设置了公式，则需要更新公式链insertUpdateFunctionGroup，如果设置了不是公式，判断之前是公式，则需要清除公式delFunctionGroup
+ * 
  * @param {Number} row 单元格所在行数；从0开始的整数，0表示第一行
  * @param {Number} column 单元格所在列数；从0开始的整数，0表示第一列
  * @param {Object | String | Number} value 要设置的值；可以为字符串或数字，或为符合Luckysheet单元格格式的对象
@@ -75,6 +79,156 @@ export function getCellValue(row, column, options = {}) {
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
+// export function setCellValue(row, column, value, options = {}) {
+//     if (row == null && column == null) {
+//         return console.error('Arguments row or column cannot be null or undefined.')
+//     }
+//     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+//     let {
+//         order = curSheetOrder,
+//         success
+//     } = {...options}
+//     let targetSheetData = Store.luckysheetfile[order].data;
+//     let cell = targetSheetData[row][column];
+//     let vupdate;
+
+//     if (getObjType(value) == 'object') {
+//         cell = value;
+
+//         if (getObjType(value.v) == 'object') {
+//             vupdate = vaule.v.v;
+//         } else {
+//             vupdate = value.v;
+//         }
+//     } else {
+//         vupdate = value;
+//     }
+
+//     if (isRealNull(vupdate)) {
+//         if (getObjType(cell) == 'object') {
+//             delete cell.m;
+//             delete cell.v;
+//         } else {
+//             cell = null;
+//         }
+//         return;
+//     }
+
+//     if (isRealNull(cell)) {
+//         cell = {}
+//     }
+
+//     if (vupdate.toString().substring(0, 1) == "'") {
+//         cell.m = vupdate.toString().substring(1);
+//         cell.ct = { "fa": "@", "t": "s" };
+//         cell.v = vupdate.toString().substring(1);
+//     } else if (vupdate.toString().toUpperCase() === 'TRUE') {
+//         cell.m = "TRUE";
+//         cell.ct = { "fa": "General", "t": "b" };
+//         cell.v = true;
+//     } else if (vupdate.toString().toUpperCase() === 'FALSE') {
+//         cell.m = "FALSE";
+//         cell.ct = { "fa": "General", "t": "b" };
+//         cell.v = false;
+//     } else if (valueIsError(vupdate)) {
+//         cell.m = vupdate.toString();
+//         cell.ct = { "fa": "General", "t": "e" };
+//         cell.v = vupdate;
+//     } else {
+//         if (cell.f != null && isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
+//             cell.v = parseFloat(vupdate);
+//             if (cell.ct == null) {
+//                 cell.ct = {
+//                     'fa': 'General',
+//                     't': 'n'
+//                 }
+//             }
+
+//             if (cell.v == Infinity || cell.v == -Infinity) {
+//                 cell.m = cell.v.toString();
+//             } else {
+//                 if (cell.v.toString().indexOf('e') > -1) {
+//                     let len = cell.v.toString().split('.')[1].split('e')[0].length;
+//                     if (len > 5) {
+//                         len = 5;
+//                     }
+
+//                     cell.m = cell.v.toExponential(len).toString();
+//                 } else {
+//                     let v_p = Math.round(cell.v * 1000000000) / 1000000000;
+//                     if (cell.ct == null) {
+//                         let mask = genarate(v_p);
+//                         cell.m = mask[0].toString();
+//                     } else {
+//                         let mask = update(cell.ct.fa, v_p);
+//                         cell.m = mask.toString();
+//                     }
+//                 }
+//             }
+//         } else if (cell.ct != null && cell.ct.fa == '@') {
+//             cell.m = vupdate.toString();
+//             cell.v = vupdate;
+//         } else if (cell.ct != null && cell.ct.fa != null && cell.ct.fa != 'General') {
+//             if (isRealNum(vupdate)) {
+//                 vupdate = parseFloat(vupdate);
+//             }
+
+//             let mask = update(cell.ct.fa, vupdate);
+
+//             if (mask === vupdate) {// 若原来单元格格式 应用不了 要更新的值，则获取更新值的 格式
+//                 mask = genarate(vupdate);
+
+//                 cell.m = mask[0].toString();
+//                 cell.ct = mask[1];
+//                 cell.v = mask[2];
+//             } else {
+//                 cell.m = mask.toString();
+//                 cell.v = vupdate;
+//             }
+//         } else {
+//             if (isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
+//                 vupdate = parseFloat(vupdate);
+//                 cell.v = parseFloat(vupdate);
+//                 cell.ct = {
+//                     'fa': 'General',
+//                     't': 'n'
+//                 }
+//                 if (cell.v == Infinity || cell.v == -Infinity) {
+//                     cell.m = cell.v.toString();
+//                 } else {
+//                     let mask = genarate(cell.v);
+//                     cell.m = mask[0].toString();
+//                 }
+//             } else {
+//                 let mask = genarate(vupdate);
+//                 cell.m = mask[0].toString();
+//                 cell.ct = mask[1];
+//                 cell.v = mask[2];
+//             }
+//         }
+//     }
+//     if (!server.allowUpdate && !luckysheetConfigsetting.pointEdit) {
+//         if (cell.ct != null && !/^(w|W)((0?)|(0\.0+))$/.test(cell.ct.fa) && cell.ct.t == 'n' && cell.v != null && parseInt(cell.v).toString().length > 4) {
+//             let autoFormatw = luckysheetConfigsetting.autoFormatw.toString().toUpperCase();
+//             let accuracy = luckysheetConfigsetting.accuracy;
+//             let sfmt = setAccuracy(autoFormatw, accuracy);
+
+//             if (sfmt != 'General') {
+//                 cell.ct.fa = sfmt;
+//                 cell.m = update(sfmt, cell.v);
+//             }
+//         }
+//     }
+//     // refresh
+//     jfrefreshgrid(targetSheetData, {
+//         row: [row],
+//         column: [column]
+//     })
+
+//     if (success && typeof success === 'function') {
+//         success();
+//     }
+// }
 export function setCellValue(row, column, value, options = {}) {
     if (row == null && column == null) {
         return console.error('Arguments row or column cannot be null or undefined.')
@@ -84,142 +238,10 @@ export function setCellValue(row, column, value, options = {}) {
         order = curSheetOrder,
         success
     } = {...options}
-    let targetSheetData = Store.luckysheetfile[order].data;
-    let cell = targetSheetData[row][column];
-    let vupdate;
-
-    if (getObjType(value) == 'object') {
-        cell = value;
-
-        if (getObjType(value.v) == 'object') {
-            vupdate = vaule.v.v;
-        } else {
-            vupdate = value.v;
-        }
-    } else {
-        vupdate = value;
-    }
-
-    if (isRealNull(vupdate)) {
-        if (getObjType(cell) == 'object') {
-            delete cell.m;
-            delete cell.v;
-        } else {
-            cell = null;
-        }
-        return;
-    }
-
-    if (isRealNull(cell)) {
-        cell = {}
-    }
-
-    if (vupdate.toString().substring(0, 1) == "'") {
-        cell.m = vupdate.toString().substring(1);
-        cell.ct = { "fa": "@", "t": "s" };
-        cell.v = vupdate.toString().substring(1);
-    } else if (vupdate.toString().toUpperCase() === 'TRUE') {
-        cell.m = "TRUE";
-        cell.ct = { "fa": "General", "t": "b" };
-        cell.v = true;
-    } else if (vupdate.toString().toUpperCase() === 'FALSE') {
-        cell.m = "FALSE";
-        cell.ct = { "fa": "General", "t": "b" };
-        cell.v = false;
-    } else if (valueIsError(vupdate)) {
-        cell.m = vupdate.toString();
-        cell.ct = { "fa": "General", "t": "e" };
-        cell.v = vupdate;
-    } else {
-        if (cell.f != null && isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
-            cell.v = parseFloat(vupdate);
-            if (cell.ct == null) {
-                cell.ct = {
-                    'fa': 'General',
-                    't': 'n'
-                }
-            }
-
-            if (cell.v == Infinity || cell.v == -Infinity) {
-                cell.m = cell.v.toString();
-            } else {
-                if (cell.v.toString().indexOf('e') > -1) {
-                    let len = cell.v.toString().split('.')[1].split('e')[0].length;
-                    if (len > 5) {
-                        len = 5;
-                    }
-
-                    cell.m = cell.v.toExponential(len).toString();
-                } else {
-                    let v_p = Math.round(cell.v * 1000000000) / 1000000000;
-                    if (cell.ct == null) {
-                        let mask = genarate(v_p);
-                        cell.m = mask[0].toString();
-                    } else {
-                        let mask = update(cell.ct.fa, v_p);
-                        cell.m = mask.toString();
-                    }
-                }
-            }
-        } else if (cell.ct != null && cell.ct.fa == '@') {
-            cell.m = vupdate.toString();
-            cell.v = vupdate;
-        } else if (cell.ct != null && cell.ct.fa != null && cell.ct.fa != 'General') {
-            if (isRealNum(vupdate)) {
-                vupdate = parseFloat(vupdate);
-            }
-
-            let mask = update(cell.ct.fa, vupdate);
-
-            if (mask === vupdate) {// 若原来单元格格式 应用不了 要更新的值，则获取更新值的 格式
-                mask = genarate(vupdate);
-
-                cell.m = mask[0].toString();
-                cell.ct = mask[1];
-                cell.v = mask[2];
-            } else {
-                cell.m = mask.toString();
-                cell.v = vupdate;
-            }
-        } else {
-            if (isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
-                vupdate = parseFloat(vupdate);
-                cell.v = parseFloat(vupdate);
-                cell.ct = {
-                    'fa': 'General',
-                    't': 'n'
-                }
-                if (cell.v == Infinity || cell.v == -Infinity) {
-                    cell.m = cell.v.toString();
-                } else {
-                    let mask = genarate(cell.v);
-                    cell.m = mask[0].toString();
-                }
-            } else {
-                let mask = genarate(vupdate);
-                cell.m = mask[0].toString();
-                cell.ct = mask[1];
-                cell.v = mask[2];
-            }
-        }
-    }
-    if (!server.allowUpdate && !luckysheetConfigsetting.pointEdit) {
-        if (cell.ct != null && !/^(w|W)((0?)|(0\.0+))$/.test(cell.ct.fa) && cell.ct.t == 'n' && cell.v != null && parseInt(cell.v).toString().length > 4) {
-            let autoFormatw = luckysheetConfigsetting.autoFormatw.toString().toUpperCase();
-            let accuracy = luckysheetConfigsetting.accuracy;
-            let sfmt = setAccuracy(autoFormatw, accuracy);
-
-            if (sfmt != 'General') {
-                cell.ct.fa = sfmt;
-                cell.m = update(sfmt, cell.v);
-            }
-        }
-    }
-    // refresh
-    jfrefreshgrid(targetSheetData, {
-        row: [row],
-        column: [column]
-    })
+    
+    
+    luckysheetformula.updatecell(row, column, value);
+    
 
     if (success && typeof success === 'function') {
         success();

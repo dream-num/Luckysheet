@@ -16,9 +16,10 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Documentation
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
 [Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
+
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/) / [Import excel demo](https://mengshukeji.github.io/LuckyexcelDemo/)
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
