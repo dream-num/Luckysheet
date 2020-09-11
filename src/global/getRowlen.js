@@ -35,57 +35,65 @@ function rowlenByRange(d, r1, r2, cfg) {
             }
 
             if(cell != null && cell.v != null){
-                let fontset = luckysheetfontformat(cell);
-                canvas.font = fontset;
 
-                let value = getcellvalue(r, c, d).toString(); //单元格文本
-                let measureText = getMeasureText(value, canvas);
+                let textInfo = getCellTextInfo(cell, canvas,{
+                    r:r,
+                    c:c,
+                });
 
-                let textMetrics = measureText.width; //文本宽度
-                let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
-                let spaceHeight = Math.ceil(oneLineTextHeight/3);
-                let computeRowlen; //计算行高
-                let word_space_height = oneLineTextHeight/3;
-                if(cell.tb == "2"){
-                    //自动换行
-                    let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4; //单元格宽度
+                let computeRowlen = textInfo.textHeightAll;
 
-                    if(textMetrics > cellWidth){
-                        let strArr = []; //文本截断数组
-                        strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
+                // let fontset = luckysheetfontformat(cell);
+                // canvas.font = fontset;
 
-                        computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + spaceHeight;
-                    }
-                    else{
-                        computeRowlen = oneLineTextHeight + spaceHeight;
-                    }
-                }
-                else if(cell.tr != null){
-                    //单元格有旋转标示
-                    let tr = cell.tr;
+                // let value = getcellvalue(r, c, d).toString(); //单元格文本
+                // let measureText = getMeasureText(value, canvas);
+
+                // let textMetrics = measureText.width; //文本宽度
+                // let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
+                // let spaceHeight = Math.ceil(oneLineTextHeight/3);
+                // let computeRowlen; //计算行高
+                // let word_space_height = oneLineTextHeight/3;
+                // if(cell.tb == "2"){
+                //     //自动换行
+                //     let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4; //单元格宽度
+
+                //     if(textMetrics > cellWidth){
+                //         let strArr = []; //文本截断数组
+                //         strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
+
+                //         computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + spaceHeight;
+                //     }
+                //     else{
+                //         computeRowlen = oneLineTextHeight + spaceHeight;
+                //     }
+                // }
+                // else if(cell.tr != null){
+                //     //单元格有旋转标示
+                //     let tr = cell.tr;
                                 
-                    if(tr == "0"){
-                        //无旋转
-                        computeRowlen = oneLineTextHeight + spaceHeight;    
-                    }
-                    else if(tr == "1" || tr == "2"){
-                        //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                        computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + spaceHeight;
-                    }
-                    else if(tr == "3"){
-                        //竖排文字
-                        computeRowlen = value.length * oneLineTextHeight + spaceHeight;
-                    }
-                    else if(tr == "4" || tr == "5"){
-                        //向下90（90 旋转）----向上90（-90 旋转）
-                        computeRowlen = textMetrics + spaceHeight;
-                    }
+                //     if(tr == "0"){
+                //         //无旋转
+                //         computeRowlen = oneLineTextHeight + spaceHeight;    
+                //     }
+                //     else if(tr == "1" || tr == "2"){
+                //         //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
+                //         computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + spaceHeight;
+                //     }
+                //     else if(tr == "3"){
+                //         //竖排文字
+                //         computeRowlen = value.length * oneLineTextHeight + spaceHeight;
+                //     }
+                //     else if(tr == "4" || tr == "5"){
+                //         //向下90（90 旋转）----向上90（-90 旋转）
+                //         computeRowlen = textMetrics + spaceHeight;
+                //     }
 
-                    computeRowlen = Math.round(computeRowlen);
-                }
-                else{
-                    computeRowlen = oneLineTextHeight + spaceHeight;
-                }
+                //     computeRowlen = Math.round(computeRowlen);
+                // }
+                // else{
+                //     computeRowlen = oneLineTextHeight + spaceHeight;
+                // }
 
                 //比较计算高度和当前高度取最大高度
                 if(computeRowlen > currentRowLen){
@@ -95,7 +103,7 @@ function rowlenByRange(d, r1, r2, cfg) {
         }
 
         currentRowLen = currentRowLen/Store.zoomRatio;
-
+        console.log(currentRowLen);
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
         }
@@ -179,8 +187,18 @@ function getMeasureText(value, ctx, fontset){
                 commonWord = "田";
             }
             let oneLineTextHeight = menuButton.getTextSize(commonWord, ctx.font)[1]*0.8;
-            cache.actualBoundingBoxDescent = oneLineTextHeight/2;
-            cache.actualBoundingBoxAscent = oneLineTextHeight/2;
+            if(ctx.textBaseline=="top"){
+                cache.actualBoundingBoxDescent = oneLineTextHeight;
+                cache.actualBoundingBoxAscent = 0;
+            }
+            else if(ctx.textBaseline=="middle"){
+                cache.actualBoundingBoxDescent = oneLineTextHeight/2;
+                cache.actualBoundingBoxAscent = oneLineTextHeight/2;
+            }
+            else{
+                cache.actualBoundingBoxDescent = 0;
+                cache.actualBoundingBoxAscent = oneLineTextHeight;
+            }
 
             //console.log(value, oneLineTextHeight, measureText.actualBoundingBoxDescent+measureText.actualBoundingBoxAscent,ctx.font);
         }
@@ -206,10 +224,28 @@ function isSupportBoundingBox(ctx){
 // let measureTextCache = {}, measureTextCacheTimeOut = null;
 // option {cellWidth,cellHeight,space_width,space_height}
 function getCellTextInfo(cell , ctx, option){
-    // let cell = Store.flowdata[r][c];
     let cellWidth = option.cellWidth;
     let cellHeight = option.cellHeight;
+    let isMode = "", isModeSplit = "";
+    if(cellWidth==null){
+        isMode = "onlyWidth";
+        isModeSplit = "_";
+    }
+    let textInfo = Store.measureTextCellInfoCache[option.r + "_" + option.c + isModeSplit + isMode];
+    if(textInfo != null){
+        return textInfo;
+    }
+
+    // let cell = Store.flowdata[r][c];
     let space_width = option.space_width, space_height = option.space_height; //宽高方向 间隙
+
+    if(space_width==null){
+        space_width = 2;
+    }
+
+    if(space_height==null){
+        space_height = 2;
+    }
 
     //水平对齐
     let horizonAlign = menuButton.checkstatusByCell(cell, "ht");
@@ -352,6 +388,14 @@ function getCellTextInfo(cell , ctx, option){
                 textW_all += colMaxW;
                 textH_all = Math.max(textH_all, columnHeight);
             }
+
+            textContent.type = "verticalWrap";
+            textContent.textWidthAll = textW_all;
+            textContent.textHeightAll = textH_all;
+
+            if(isMode=="onlyWidth"){
+                return textContent;
+            }
             
             let cumColumnWidth = 0;
             for(let i = 0; i < textH_all_ColumnHeight.length; i++){
@@ -390,10 +434,6 @@ function getCellTextInfo(cell , ctx, option){
                 cumColumnWidth+=columnWidth;
 
             }
-
-            textContent.type = "verticalWrap";
-            textContent.textWidthAll = textW_all;
-            textContent.textHeightAll = textH_all;
         }
         else{
             let supportBoundBox = isSupportBoundingBox(ctx);
@@ -416,8 +456,8 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.rotate = rt;
                 rt = Math.abs(rt);
 
-                let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth;
-                for(let i = 1; i <= value.length; i++){
+                let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth, i=0;
+                while(i <= value.length){
                     let str = value.substring(anchor, i);
                     let measureText =  getMeasureText(str, ctx);
                     let textWidth = measureText.width;
@@ -429,12 +469,10 @@ function getCellTextInfo(cell , ctx, option){
                     
                     // textW_all += textW;
 
-                    if(text_all_split[splitIndex]==null){
-                        text_all_split[splitIndex]= [];
-                    }
-
                     if(rt!=0){//rotate
-                        if((height+space_height)>cellHeight){
+                        console.log("all",anchor, i , str);
+                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null){
+                            console.log("cut",anchor, i , str);
                             anchor = i-1;
     
                             text_all_split[splitIndex].push({
@@ -454,7 +492,10 @@ function getCellTextInfo(cell , ctx, option){
                             splitIndex +=1;
                         }
                         else if(i== value.length){
-        
+                            console.log("last",anchor, i , str);
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
                             text_all_split[splitIndex].push({
                                 content:str,
                                 style:fontset,
@@ -468,10 +509,17 @@ function getCellTextInfo(cell , ctx, option){
                                 asc:measureText.actualBoundingBoxAscent,
                                 desc:measureText.actualBoundingBoxDescent
                             });
+                            break;
+                        }
+                        else{
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            i++;
                         }
                     }
                     else{//plain
-                        if((width+space_width)>cellWidth){
+                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null){
 
                             anchor = i-1;
                 
@@ -490,7 +538,9 @@ function getCellTextInfo(cell , ctx, option){
                             splitIndex +=1;
                         }
                         else if(i== value.length){
-        
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
                             text_all_split[splitIndex].push({
                                 content:str,
                                 style:fontset,
@@ -502,6 +552,14 @@ function getCellTextInfo(cell , ctx, option){
                                 asc:measureText.actualBoundingBoxAscent,
                                 desc:measureText.actualBoundingBoxDescent
                             });
+
+                            break;
+                        }
+                        else{
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            i++;
                         }
                     }
 
@@ -514,20 +572,19 @@ function getCellTextInfo(cell , ctx, option){
                 }
 
                 let split_all_size = [];
-                console.log(splitIndex, text_all_split);
+                // console.log(splitIndex, text_all_split);
                 let splitLen = Object.keys(text_all_split).length;
                 for(let i = 0; i < splitLen; i++){
                     let splitLists = text_all_split[i];
                     if(splitLists==null){
                         continue;
                     }
-                    let sWidth = 0, sHeight=0, textHeight=0;
+                    let sWidth = 0, sHeight=0;
                     for(let s=0;s<splitLists.length;s++){
                         let sp = splitLists[s];
                         if(rt!=0){//rotate
-                            sWidth += sp.width;
-                            sHeight += sp.height;
-                            textHeight = Math.max(textHeight, sp.textHeight);
+                            sWidth += sp.textWidth;
+                            sHeight = Math.max(sHeight, sp.textHeight-(supportBoundBox?sp.desc:0));
                         }
                         else{//plain
                             sWidth += sp.width;
@@ -536,14 +593,9 @@ function getCellTextInfo(cell , ctx, option){
                     }
 
                     if(rt!=0){//rotate
-                        textW_all +=  textHeight/Math.sin(rt);
-                        if(i==splitIndex){
-                            textW_all += sWidth;
-                        }
-                        else{
-                            textW_all += space_width;
-                        }
-                        textH_all = Math.max(textH_all, sHeight);
+                        sHeight+=sHeight/1.5;
+                        textW_all =  Math.max(textW_all, sWidth);
+                        textH_all += sHeight;
                     }
                     else{//plain
                         sHeight+=sHeight/1.5;
@@ -560,6 +612,22 @@ function getCellTextInfo(cell , ctx, option){
                 
                 // let cumColumnWidth = 0;
                 let cumWordHeight = 0,cumColumnWidth = 0;
+                let rw = textH_all/Math.sin(rt*Math.PI/180) + textW_all*Math.cos(rt*Math.PI/180);
+                let rh = textW_all*Math.sin(rt*Math.PI/180);
+
+                if(rt!=0){
+                    textContent.textWidthAll = rw;
+                    textContent.textHeightAll = rh;
+                }
+                else{
+                    textContent.textWidthAll = textW_all;
+                    textContent.textHeightAll = textH_all;
+                }
+
+                if(isMode=="onlyWidth"){
+                    return textContent;
+                }
+
                 for(let i = 0; i < splitLen; i++){
                     let splitLists = text_all_split[i];
                     if(splitLists==null){
@@ -567,38 +635,63 @@ function getCellTextInfo(cell , ctx, option){
                     }
                     let size = split_all_size[i];
 
-                    if(rt!=0){//rotate
-                            
-                    }
-                    else{
-                        cumColumnWidth = 0;
-                    }
+                    cumColumnWidth = 0;
                     
                     for(let c=0;c<splitLists.length;c++){
                         let wordGroup = splitLists[c];
                         let left, top;
                         if(rt!=0){//rotate
-                            left = space_width + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown; //默认为1，左对齐
-                            if(horizonAlign == "0"){ //居中对齐
-                                left = cellWidth / 2  - ( wordGroup.width / 2) + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
-                            }
-                            else if(horizonAlign == "2"){ //右对齐
-                                left = (cellWidth - space_width)  -  wordGroup.width + wordGroup.textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
-                            }
-                            
-                            top = (cellHeight - space_height)  -  wordGroup.height + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为2，下对齐
-                            if(verticalAlign == "0"){ //居中对齐 
-                                top = cellHeight / 2  - ( wordGroup.height / 2) + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
-                            }
-                            else if(verticalAlign == "1"){ //上对齐
-                                top = space_height + wordGroup.textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
-                            }
-                            // left+=10;
-                            // top=top+30;
 
-                            if(c==0){
+                            let x, y = cumWordHeight + wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
+                            if(isRotateUp=="1"){
+                                if(horizonAlign=="2"){
+                                    x = (cumWordHeight)/Math.tan(rt*Math.PI/180);
+                                }
+                                else{
+                                    x = (cumWordHeight - wordGroup.asc)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                }
+                            }
+                            else{
+                                if(horizonAlign=="2"){
+                                    x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                }
+                                else{
+                                    x = (textH_all-cumWordHeight-wordGroup.asc)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                }
+                            }
+
+                            x -= wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
+                            let leftOffset = textH_all/Math.sin(rt*Math.PI/180) - textH_all/Math.tan(rt*Math.PI/180);
+
+                            left = x + leftOffset;
+                            if(horizonAlign == "0"){
+                                //+ space_width*textH_all_ColumnHeight.length
+                                left = x + cellWidth / 2 + leftOffset - rw/2;
+                            }
+                            else if(horizonAlign == "2"){
+                                left = x + cumColumnWidth + cellWidth + leftOffset - rw;
+                            }
+
+                            //( textH_all/2 - rh/2 )
+                            let topOffset = (textH_all/2 - rh/2);
+    
+                            top = y + cellHeight - topOffset - rh - (supportBoundBox?wordGroup.desc:0);
+                            if(verticalAlign == "0"){
+                                top = y + cellHeight/2 - topOffset - rh/2 + wordGroup.asc/2;
+                            }
+                            else if(verticalAlign == "1"){
+                                top = y - topOffset + wordGroup.asc;
+                            }
+    
+                            cumColumnWidth += wordGroup.textWidth;
+
+                            if(c==0 && i==0 && isRotateUp=="1"){
                                 textContent.textLeftAll = left;
-                                textContent.textTopAll = top;
+                                textContent.textTopAll = top-wordGroup.asc;
+                            }
+                            else if(c==0 && i==(splitLen-1) && isRotateUp=="0"){
+                                textContent.textLeftAll = left;
+                                textContent.textTopAll = top+wordGroup.desc;
                             }
 
                             console.log("plainWrap" ,left , top);
@@ -613,9 +706,9 @@ function getCellTextInfo(cell , ctx, option){
                                 left = cellWidth + cumColumnWidth - size.width;
                             }
     
-                            top = (cellHeight - space_height)  + cumWordHeight - textH_all - (supportBoundBox?wordGroup.desc:0) + wordGroup.height*2/1.5;
+                            top = (cellHeight - space_height)  + cumWordHeight - textH_all - wordGroup.desc + wordGroup.height*2/1.5-1;
                             if(verticalAlign == "0"){
-                                top = cellHeight / 2 + cumWordHeight - textH_all/2 + wordGroup.asc/2 + wordGroup.height*2/3;
+                                top = cellHeight / 2 + cumWordHeight - textH_all/2 + wordGroup.height/2 + wordGroup.height/3+1;
                             }
                             else if(verticalAlign == "1"){
                                 top = space_height  + cumWordHeight+ wordGroup.asc;
@@ -631,54 +724,89 @@ function getCellTextInfo(cell , ctx, option){
                         textContent.values.push(wordGroup);
                     }
 
-                    if(rt!=0){//rotate
-                            
-                    }
-                    else{
-                        cumWordHeight += size.height;
-                    }
-                    // cumColumnWidth+=columnWidth;
+
+                    cumWordHeight += size.height;
+
 
                 }
 
                 textContent.type = "plainWrap";
-                textContent.textWidthAll = textW_all;
-                textContent.textHeightAll = textH_all;
+
+                if(rt!=0){
+                    // textContent.textWidthAll = rw;
+                    // textContent.textHeightAll = rh;
+
+                    let leftCenter = (textW_all + textH_all/Math.tan(rt*Math.PI/180))/2;
+                    let topCenter = textH_all/2;
+
+                    // let leftCenter = 0;
+                    // let topCenter = 0;
+
+                    if(isRotateUp=="1"){
+                        textContent.textLeftAll += leftCenter;
+                        textContent.textTopAll += topCenter;
+                    }
+                    else {
+                        textContent.textLeftAll += leftCenter;
+                        textContent.textTopAll -= topCenter;
+                    }
+
+                }
+                // else{
+                //     textContent.textWidthAll = textW_all;
+                //     textContent.textHeightAll = textH_all;
+                // }
+
             }
             else{
-                ctx.textBaseline = 'top';
+                if(supportBoundBox){
+                    ctx.textBaseline = 'alphabetic';
+                }
+                else{
+                    ctx.textBaseline = 'bottom';
+                }
+
                 let measureText = getMeasureText(value, ctx); 
                 let textWidth = measureText.width;
                 let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
-                // let centerFix = 0;
-                // if(supportBoundBox){
-                //     centerFix = measureText.actualBoundingBoxDescent/2;
-                // }
                 textContent.rotate = rt;
 
                 rt = Math.abs(rt);
 
-                textContent.textWidthAll = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
+                let textWidthAll = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
 
-                textContent.textHeightAll = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
+                let textHeightAll = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
 
-                let width = textContent.textWidthAll, height = textContent.textHeightAll;
+                if(rt!=0){
+                    textContent.textHeightAll = textHeightAll;
+                }
+                else{
+                    textContent.textHeightAll = textHeightAll+textHeight/1.5-measureText.actualBoundingBoxDescent-space_height;
+                }
+                textContent.textWidthAll = textWidthAll;
+                
+                console.log(textContent.textWidthAll , textContent.textHeightAll);
+                if(isMode=="onlyWidth"){
+                    return textContent;
+                }
 
-                let left = space_width + textHeight * Math.sin(rt*Math.PI/180)*isRotateDown; //默认为1，左对齐
+                let width = textWidthAll, height = textHeightAll;
+
+                let left = space_width + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为1，左对齐
                 if(horizonAlign == "0"){ //居中对齐
-                    left = cellWidth / 2  - (width / 2) + textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
+                    left = cellWidth / 2  - (width / 2) + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp;
                 }
                 else if(horizonAlign == "2"){ //右对齐
-                    left = (cellWidth - space_width)  - width + textHeight * Math.sin(rt*Math.PI/180)*isRotateDown;
+                    left = (cellWidth - space_width)  - width + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp;
                 }
                 
-                let top = (cellHeight - space_height)  - height + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为2，下对齐
+                let top = (cellHeight - space_height)  - height + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为2，下对齐
                 if(verticalAlign == "0"){ //居中对齐 
-                    top = cellHeight / 2  - (height / 2) + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                    top = cellHeight / 2  - (height / 2) + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
                 }
                 else if(verticalAlign == "1"){ //上对齐
-                    top = space_height + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                    top = space_height + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
                 }
 
                 textContent.type = "plain";

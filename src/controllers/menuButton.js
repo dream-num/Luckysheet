@@ -2937,9 +2937,9 @@ const menuButton = {
                             d[r][c][attr] = foucsStatus;
                         }
 
-                        if(attr == "tr" && d[r][c].tb != null){
-                            d[r][c].tb = "0";
-                        }
+                        // if(attr == "tr" && d[r][c].tb != null){
+                        //     d[r][c].tb = "0";
+                        // }
                     }
                 }
             }
