@@ -2054,6 +2054,43 @@ function cellTextRender(textInfo, ctx, option){
         let word = values[i];
         ctx.font = word.style;
         ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
+        
+        if(word.cancelLine!=null){
+            let c = word.cancelLine;
+            ctx.beginPath();
+            ctx.moveTo(
+                (pos_x +c.startX)/Store.zoomRatio ,
+                (pos_y+c.startY)/Store.zoomRatio
+            );
+            ctx.lineTo(
+                (pos_x +c.endX)/Store.zoomRatio,
+                (pos_y+c.endY)/Store.zoomRatio
+            );
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = ctx.fillStyle;
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        if(word.underLine!=null){
+            let underLines = word.underLine;
+            for(let a=0;a<underLines.length;a++){
+                let item = underLines[a];
+                ctx.beginPath();
+                ctx.moveTo(
+                    (pos_x +item.startX)/Store.zoomRatio ,
+                    (pos_y+item.startY)/Store.zoomRatio
+                );
+                ctx.lineTo(
+                    (pos_x +item.endX)/Store.zoomRatio,
+                    (pos_y+ item.endY)/Store.zoomRatio
+                );
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = ctx.fillStyle;
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
     }
     // ctx.fillStyle = "rgba(0,0,0,0.2)";
     // ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)

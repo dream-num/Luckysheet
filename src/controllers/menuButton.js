@@ -3314,7 +3314,7 @@ const menuButton = {
     },
     checkstatusByCell:function(cell, a){
         let foucsStatus =cell;
-        let tf = {"bl":1, "it":1 , "ff":1, "cl":1};
+        let tf = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1};
 
         if(a in tf){
             if(foucsStatus == null){
