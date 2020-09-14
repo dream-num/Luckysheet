@@ -294,6 +294,8 @@ function getCellTextInfo(cell , ctx, option){
         isRotateDown = 1;
     }
 
+    ctx.textAlign="start";
+
     let textContent = {};
     textContent.values = [];
 
@@ -667,84 +669,176 @@ function getCellTextInfo(cell , ctx, option){
                     return textContent;
                 }
 
-
-
-                for(let i = 0; i < splitLen; i++){
-                    let splitLists = text_all_split[i];
-                    if(splitLists==null){
-                        continue;
-                    }
-                    let size = split_all_size[i];
-
-                    cumColumnWidth = 0;
-                    
-                    for(let c=0;c<splitLists.length;c++){
-                        let wordGroup = splitLists[c];
-                        let left, top;
-                        if(rt!=0){//rotate
-                            let x, y = cumWordHeight+size.asc;
-                            if(isRotateUp=="1"){
-                                // x = (cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
-                                if(verticalAlign=="2"){
-                                    x = (cumWordHeight+size.height)/Math.tan(rtPI) + cumColumnWidth;
+                if(rt!=0 && isRotateUp=="1"){
+                    ctx.textAlign="end";
+                    for(let i = 0; i < splitLen; i++){
+                        let splitLists = text_all_split[i];
+                        if(splitLists==null){
+                            continue;
+                        }
+                        let size = split_all_size[i];
+    
+                        cumColumnWidth = 0;
+                        
+                        for(let c=splitLists.length-1;c>=0;c--){
+                            let wordGroup = splitLists[c];
+                            let left, top;
+                            if(rt!=0){//rotate
+                                let x, y = cumWordHeight+size.asc;
+                                if(isRotateUp=="1"){
+                                    // x = (cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
+                                    // if(verticalAlign=="2"){
+                                    //     x = (cumWordHeight)/Math.tan(rtPI) - cumColumnWidth + textW_all_inner;
+                                    // }
+                                    // else if(verticalAlign=="0"){
+                                    //     x = (cumWordHeight)/Math.tan(rtPI) - cumColumnWidth + textW_all_inner;
+                                    // }
+                                    // else{
+                                    //     x = (cumWordHeight)/Math.tan(rtPI) - cumColumnWidth + textW_all_inner;
+                                    // }
+    
+                                    if(horizonAlign == "0"){//center
+                                        let sh = textH_all/Math.sin(rtPI);
+                                        x = (cumWordHeight)/Math.tan(rt*Math.PI/180) - cumColumnWidth + textW_all_inner;
+                                        if(verticalAlign == "0"){//mid
+                                            
+                                            left = x + cellWidth/2 - (textW_all/2);
+                                            top = y + cellHeight/2 - textH_all/2;
+                                        }
+                                        else if(verticalAlign == "1"){//top
+                                            left = x + cellWidth/2 - textW_all/2- lastLineSpaceHeight*Math.cos(rtPI)/2;
+                                            top = y - (textH_all/2 - rh/2) + lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                        }
+                                        else if(verticalAlign == "2"){//bottom
+                                            left = x + cellWidth/2 - (textW_all/2);
+                                            top = y + cellHeight - rh/2-textH_all/2;
+                                        }
+                                    }
+                                    else if(horizonAlign == "1"){//left
+                                        x = (cumWordHeight)/Math.tan(rtPI) - cumColumnWidth + textW_all_inner;
+                                        if(verticalAlign == "0"){//mid
+                                            left = x - rh*Math.sin(rtPI)/2 + lastLineSpaceHeight*Math.cos(rtPI)/2;
+                                            top = y + cellHeight/2 + rh*Math.cos(rtPI)/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                        }
+                                        else if(verticalAlign == "1"){//top
+                                            left = x - rh*Math.sin(rtPI);
+                                            top = y + rh*Math.cos(rtPI);
+                                        }
+                                        else if(verticalAlign == "2"){//bottom
+                                            left = x + lastLineSpaceHeight*Math.cos(rtPI);
+                                            top = y + cellHeight - lastLineSpaceHeight*Math.sin(rtPI);
+                                        }
+                                    }
+                                    else if(horizonAlign == "2"){//right
+                                        x = (cumWordHeight)/Math.tan(rtPI) - cumColumnWidth + textW_all_inner;
+                                        if(verticalAlign == "0"){//mid
+                                            // left = x + cellWidth - ( textH_all/Math.tan(rtPI) + (rh/2)*Math.sin(rtPI));
+                                            // top = y + cellHeight/2  - (textH_all - (rh/2)*Math.cos(rtPI));
+                                            left = x + cellWidth - rw/2 - (textW_all_inner/2+(textH_all/2)/Math.tan(rtPI));
+                                            top = y + cellHeight/2 - textH_all/2;
+                                        }
+                                        else if(verticalAlign == "1"){//top fixOneLineLeft
+                                            left = x + cellWidth - textW_all + lastLine.height*Math.cos(rtPI)/2;
+                                            top = y - textH_all + lastLine.height*Math.sin(rtPI)/2;
+                                        }
+                                        else if(verticalAlign == "2"){//bottom
+                                            left = x + cellWidth - rw*Math.cos(rtPI) + lastLineSpaceHeight*Math.cos(rtPI);
+                                            top = y + cellHeight - rw*Math.sin(rtPI) - lastLineSpaceHeight*Math.sin(rtPI);
+                                        }
+                                    }
                                 }
-                                else if(verticalAlign=="0"){
-                                    x = (cumWordHeight+size.height/2)/Math.tan(rtPI) + cumColumnWidth;
-                                }
-                                else{
-                                    x = (cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
-                                }
-
-                                if(horizonAlign == "0"){//center
-                                    let sh = textH_all/Math.sin(rtPI);
-                                    x = (cumWordHeight+size.height)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                                    if(verticalAlign == "0"){//mid
-                                        
-                                        left = x + cellWidth/2 - (textW_all/2);
-                                        top = y + cellHeight/2 - textH_all/2;
-                                    }
-                                    else if(verticalAlign == "1"){//top
-                                        left = x + cellWidth/2 - textW_all/2- lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                        top = y - (textH_all/2 - rh/2) + lastLineSpaceHeight*Math.sin(rtPI)/2;
-                                    }
-                                    else if(verticalAlign == "2"){//bottom
-                                        left = x + cellWidth/2 - (textW_all/2);
-                                        top = y + cellHeight - rh/2-textH_all/2;
-                                    }
-                                }
-                                else if(horizonAlign == "1"){//left
-                                    if(verticalAlign == "0"){//mid
-                                        left = x - rh*Math.sin(rtPI)/2;
-                                        top = y + cellHeight/2 + rh*Math.cos(rtPI)/2;
-                                    }
-                                    else if(verticalAlign == "1"){//top
-                                        left = x - rh*Math.sin(rtPI);
-                                        top = y + rh*Math.cos(rtPI);
-                                    }
-                                    else if(verticalAlign == "2"){//bottom
-                                        left = x;
-                                        top = y + cellHeight;
-                                    }
-                                }
-                                else if(horizonAlign == "2"){//right
-                                    x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                                    if(verticalAlign == "0"){//mid
-                                        // left = x + cellWidth - ( textH_all/Math.tan(rtPI) + (rh/2)*Math.sin(rtPI));
-                                        // top = y + cellHeight/2  - (textH_all - (rh/2)*Math.cos(rtPI));
-                                        left = x + cellWidth - rw/2 - (textW_all/2+(textH_all/2)/Math.tan(rtPI));
-                                        top = y + cellHeight/2 - textH_all/2;
-                                    }
-                                    else if(verticalAlign == "1"){//top fixOneLineLeft
-                                        left = x + cellWidth - textW_all + lastLine.height*Math.cos(rtPI)/2;
-                                        top = y - textH_all + lastLine.height*Math.sin(rtPI)/2;
-                                    }
-                                    else if(verticalAlign == "2"){//bottom
-                                        left = x + cellWidth - rw*Math.cos(rtPI) + lastLineSpaceHeight*Math.cos(rtPI);
-                                        top = y + cellHeight - rw*Math.sin(rtPI) + lastLineSpaceHeight*Math.sin(rtPI);
-                                    }
-                                }
+                                
                             }
-                            else{
+                            
+                            wordGroup.left = left;
+                            wordGroup.top = top;
+    
+                            textContent.values.push(wordGroup);
+                        }
+    
+    
+                        cumWordHeight += size.height;
+    
+    
+                    }
+                }
+                else{
+                    for(let i = 0; i < splitLen; i++){
+                        let splitLists = text_all_split[i];
+                        if(splitLists==null){
+                            continue;
+                        }
+                        let size = split_all_size[i];
+    
+                        cumColumnWidth = 0;
+                        
+                        for(let c=0;c<splitLists.length;c++){
+                            let wordGroup = splitLists[c];
+                            let left, top;
+                            if(rt!=0){//rotate
+                                let x, y = cumWordHeight+size.asc;
+                                // if(isRotateUp=="1"){
+                                //     // x = (cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
+                                //     if(verticalAlign=="2"){
+                                //         x = (cumWordHeight+size.height)/Math.tan(rtPI) + cumColumnWidth;
+                                //     }
+                                //     else if(verticalAlign=="0"){
+                                //         x = (cumWordHeight+size.height/2)/Math.tan(rtPI) + cumColumnWidth;
+                                //     }
+                                //     else{
+                                //         x = (cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
+                                //     }
+    
+                                //     if(horizonAlign == "0"){//center
+                                //         let sh = textH_all/Math.sin(rtPI);
+                                //         x = (cumWordHeight+size.height)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //         if(verticalAlign == "0"){//mid
+                                            
+                                //             left = x + cellWidth/2 - (textW_all/2);
+                                //             top = y + cellHeight/2 - textH_all/2;
+                                //         }
+                                //         else if(verticalAlign == "1"){//top
+                                //             left = x + cellWidth/2 - textW_all/2- lastLineSpaceHeight*Math.cos(rtPI)/2;
+                                //             top = y - (textH_all/2 - rh/2) + lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                //         }
+                                //         else if(verticalAlign == "2"){//bottom
+                                //             left = x + cellWidth/2 - (textW_all/2);
+                                //             top = y + cellHeight - rh/2-textH_all/2;
+                                //         }
+                                //     }
+                                //     else if(horizonAlign == "1"){//left
+                                //         if(verticalAlign == "0"){//mid
+                                //             left = x - rh*Math.sin(rtPI)/2;
+                                //             top = y + cellHeight/2 + rh*Math.cos(rtPI)/2;
+                                //         }
+                                //         else if(verticalAlign == "1"){//top
+                                //             left = x - rh*Math.sin(rtPI);
+                                //             top = y + rh*Math.cos(rtPI);
+                                //         }
+                                //         else if(verticalAlign == "2"){//bottom
+                                //             left = x;
+                                //             top = y + cellHeight;
+                                //         }
+                                //     }
+                                //     else if(horizonAlign == "2"){//right
+                                //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //         if(verticalAlign == "0"){//mid
+                                //             // left = x + cellWidth - ( textH_all/Math.tan(rtPI) + (rh/2)*Math.sin(rtPI));
+                                //             // top = y + cellHeight/2  - (textH_all - (rh/2)*Math.cos(rtPI));
+                                //             left = x + cellWidth - rw/2 - (textW_all/2+(textH_all/2)/Math.tan(rtPI));
+                                //             top = y + cellHeight/2 - textH_all/2;
+                                //         }
+                                //         else if(verticalAlign == "1"){//top fixOneLineLeft
+                                //             left = x + cellWidth - textW_all + lastLine.height*Math.cos(rtPI)/2;
+                                //             top = y - textH_all + lastLine.height*Math.sin(rtPI)/2;
+                                //         }
+                                //         else if(verticalAlign == "2"){//bottom
+                                //             left = x + cellWidth - rw*Math.cos(rtPI) + lastLineSpaceHeight*Math.cos(rtPI);
+                                //             top = y + cellHeight - rw*Math.sin(rtPI) - lastLineSpaceHeight*Math.sin(rtPI);
+                                //         }
+                                //     }
+                                // }
+                                // else{
                                 x = (textH_all-cumWordHeight)/Math.tan(rtPI) + cumColumnWidth;
 
                                 if(horizonAlign == "0"){//center
@@ -795,102 +889,103 @@ function getCellTextInfo(cell , ctx, option){
                                         top = y + cellHeight - rw*Math.sin(rtPI);
                                     }
                                 }
+                                // }
+    
+                                // let x, y = cumWordHeight; //+ wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
+                                // if(isRotateUp=="1"){
+                                //     if(horizonAlign=="2"){
+                                //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                //     else if(horizonAlign=="0"){
+                                //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                //     else{
+                                //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                // }
+                                // else{
+                                //     if(horizonAlign=="2"){
+                                //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                //     else if(horizonAlign=="0"){
+                                //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                //     else{
+                                //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
+                                //     }
+                                // }
+    
+                                // // x -= wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
+                                // // x -= size.textHeight*2;
+                                // //textH_all/Math.sin(rt*Math.PI/180) - textH_all/Math.tan(rt*Math.PI/180);
+                                // let leftOffset = 0;
+    
+                                // left = x + leftOffset;
+                                // if(horizonAlign == "0"){
+                                //     //+ space_width*textH_all_ColumnHeight.length
+                                //     left = x + cellWidth / 2 + leftOffset - textW_all/2;
+                                // }
+                                // else if(horizonAlign == "2"){
+                                //     left = x + cellWidth + leftOffset - textW_all;
+                                // }
+    
+                                // //( textH_all/2 - rh/2 )
+                                // let topOffset = 0;
+        
+                                // top = y + cellHeight - topOffset - textH_all + wordGroup.asc +wordGroup.desc +(splitLen>1?(wordGroup.textHeight/1.5):0);
+                                // if(verticalAlign == "0"){
+                                //     top = y + cellHeight/2 - topOffset - textH_all/2 + wordGroup.asc+(splitLen>1?(wordGroup.textHeight/3):0);
+                                // }
+                                // else if(verticalAlign == "1"){
+                                //     top = y - topOffset + wordGroup.asc;
+                                // }
+        
+                                // cumColumnWidth += wordGroup.textWidth;
+    
+                                // if(c==0 && i==0 && isRotateUp=="1"){
+                                //     textContent.textLeftAll = left;
+                                //     textContent.textTopAll = top-wordGroup.asc;
+                                // }
+                                // else if(c==0 && i==(splitLen-1) && isRotateUp=="0"){
+                                //     textContent.textLeftAll = left;
+                                //     textContent.textTopAll = top+wordGroup.desc;
+                                // }
+    
+                                // console.log("plainWrap" ,left , top);
                             }
-
-                            // let x, y = cumWordHeight; //+ wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
-                            // if(isRotateUp=="1"){
-                            //     if(horizonAlign=="2"){
-                            //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            //     else if(horizonAlign=="0"){
-                            //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            //     else{
-                            //         x = (cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            // }
-                            // else{
-                            //     if(horizonAlign=="2"){
-                            //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            //     else if(horizonAlign=="0"){
-                            //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            //     else{
-                            //         x = (textH_all-cumWordHeight)/Math.tan(rt*Math.PI/180) + cumColumnWidth;
-                            //     }
-                            // }
-
-                            // // x -= wordGroup.textHeight / Math.sin(rt*Math.PI/180)*isRotateDown;
-                            // // x -= size.textHeight*2;
-                            // //textH_all/Math.sin(rt*Math.PI/180) - textH_all/Math.tan(rt*Math.PI/180);
-                            // let leftOffset = 0;
-
-                            // left = x + leftOffset;
-                            // if(horizonAlign == "0"){
-                            //     //+ space_width*textH_all_ColumnHeight.length
-                            //     left = x + cellWidth / 2 + leftOffset - textW_all/2;
-                            // }
-                            // else if(horizonAlign == "2"){
-                            //     left = x + cellWidth + leftOffset - textW_all;
-                            // }
-
-                            // //( textH_all/2 - rh/2 )
-                            // let topOffset = 0;
+                            else{//plain
+                                left = space_width + cumColumnWidth;
+                                if(horizonAlign == "0"){
+                                    //+ space_width*textH_all_ColumnHeight.length
+                                    left = cellWidth / 2 + cumColumnWidth - size.width/2;
+                                }
+                                else if(horizonAlign == "2"){
+                                    left = cellWidth + cumColumnWidth - size.width;
+                                }
+        
+                                top = (cellHeight - space_height)  + cumWordHeight - textH_all + wordGroup.asc+wordGroup.height/1.5-wordGroup.desc-1;
+                                if(verticalAlign == "0"){
+                                    top = cellHeight / 2 + cumWordHeight - textH_all/2 + wordGroup.asc+wordGroup.height/3-wordGroup.desc;
+                                }
+                                else if(verticalAlign == "1"){
+                                    top = space_height  + cumWordHeight+ wordGroup.asc;
+                                }
+        
+                                cumColumnWidth += wordGroup.width;
+                            }
+                        
     
-                            // top = y + cellHeight - topOffset - textH_all + wordGroup.asc +wordGroup.desc +(splitLen>1?(wordGroup.textHeight/1.5):0);
-                            // if(verticalAlign == "0"){
-                            //     top = y + cellHeight/2 - topOffset - textH_all/2 + wordGroup.asc+(splitLen>1?(wordGroup.textHeight/3):0);
-                            // }
-                            // else if(verticalAlign == "1"){
-                            //     top = y - topOffset + wordGroup.asc;
-                            // }
+                            wordGroup.left = left;
+                            wordGroup.top = top;
     
-                            // cumColumnWidth += wordGroup.textWidth;
-
-                            // if(c==0 && i==0 && isRotateUp=="1"){
-                            //     textContent.textLeftAll = left;
-                            //     textContent.textTopAll = top-wordGroup.asc;
-                            // }
-                            // else if(c==0 && i==(splitLen-1) && isRotateUp=="0"){
-                            //     textContent.textLeftAll = left;
-                            //     textContent.textTopAll = top+wordGroup.desc;
-                            // }
-
-                            // console.log("plainWrap" ,left , top);
+                            textContent.values.push(wordGroup);
                         }
-                        else{//plain
-                            left = space_width + cumColumnWidth;
-                            if(horizonAlign == "0"){
-                                //+ space_width*textH_all_ColumnHeight.length
-                                left = cellWidth / 2 + cumColumnWidth - size.width/2;
-                            }
-                            else if(horizonAlign == "2"){
-                                left = cellWidth + cumColumnWidth - size.width;
-                            }
     
-                            top = (cellHeight - space_height)  + cumWordHeight - textH_all + wordGroup.asc+wordGroup.height/1.5-wordGroup.desc-1;
-                            if(verticalAlign == "0"){
-                                top = cellHeight / 2 + cumWordHeight - textH_all/2 + wordGroup.asc+wordGroup.height/3-wordGroup.desc;
-                            }
-                            else if(verticalAlign == "1"){
-                                top = space_height  + cumWordHeight+ wordGroup.asc;
-                            }
     
-                            cumColumnWidth += wordGroup.width;
-                        }
-                    
-
-                        wordGroup.left = left;
-                        wordGroup.top = top;
-
-                        textContent.values.push(wordGroup);
+                        cumWordHeight += size.height;
+    
+    
                     }
-
-
-                    cumWordHeight += size.height;
-
-
                 }
 
                 textContent.type = "plainWrap";
