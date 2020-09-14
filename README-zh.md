@@ -124,23 +124,21 @@ npm run build
 ## 用法
 
 #### 第一步
-`npm run build`后`dist`文件夹下的所有文件复制到项目目录
+通过CDN引入依赖
 
+```
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+```
 #### 第二步
-引入依赖
-```
-<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='./plugins/plugins.css' />
-<link rel='stylesheet' href='./css/luckysheet.css' />
-<script src="./plugins/js/plugin.js"></script>
-<script src="./luckysheet.umd.js"></script>
-```
-#### 第三步
 指定一个表格容器
 ```
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-#### 第四步
+#### 第三步
 创建一个表格
 ```
 <script>

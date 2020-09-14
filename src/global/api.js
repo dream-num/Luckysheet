@@ -77,6 +77,7 @@ export function getCellValue(row, column, options = {}) {
  * @param {Object | String | Number} value 要设置的值；可以为字符串或数字，或为符合Luckysheet单元格格式的对象
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Boolean} options.isRefresh 是否刷新界面；默认为`true`
  * @param {Function} options.success 操作结束的回调函数
  */
 // export function setCellValue(row, column, value, options = {}) {

@@ -113,10 +113,24 @@ npm run build
 ## Steps for usage
 
 ### First step
-After `npm run build`, all files in the `dist` folder are copied to the project directory
 
-### Second step
-Introduce dependencies
+There are two ways to introduce dependencies
+
+#### CDN
+```html
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+```
+
+Note that `https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js` will pull the latest luckysheet code. If you want to specify the luckysheet version, please add the version number after the luckysheet , Such as: `https://cdn.jsdelivr.net/npm/luckysheet@2.0.0/dist/luckysheet.umd.js`
+
+If it is not convenient to access jsdelivr.net, you can also import it locally
+
+#### Import locally
+After `npm run build`, all files in the `dist` folder are copied to the project directory
 ```html
 <link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='./plugins/plugins.css' />
@@ -124,12 +138,12 @@ Introduce dependencies
 <script src="./plugins/js/plugin.js"></script>
 <script src="./luckysheet.umd.js"></script>
 ```
-### Third step
+### Second step
 Specify a table container
 ```html
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-### Fourth step
+### Third step
 Create a table
 ```javascript
 <script>
