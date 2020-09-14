@@ -1517,7 +1517,17 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
             
             let value = textInfo.values[0]
             let horizonAlignPos = pos_x +  value.left;
-            let verticalAlignPos = pos_y + value.top;
+            let verticalAlignPos = pos_y + value.top- textInfo.textHeightAll;
+
+            if(verticalAlign == "0"){ //居中对齐 
+                verticalAlignPos = pos_y + cellHeight/2 - textInfo.textHeightAll/2;
+            }
+            else if(verticalAlign == "1"){ //上对齐
+                verticalAlignPos = pos_y;
+            }
+            else if(verticalAlign == "2"){ //下对齐
+                verticalAlignPos =verticalAlignPos - textInfo.desc;
+            }
 
             verticalAlignPos = verticalAlignPos/Store.zoomRatio;
             horizonAlignPos = horizonAlignPos/Store.zoomRatio;
@@ -1530,12 +1540,12 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
                 32, 
                 pos_x/Store.zoomRatio , 
                 verticalAlignPos,  
-                textContent.textHeightAll/Store.zoomRatio, 
-                textContent.textHeightAll/Store.zoomRatio
+                textInfo.textHeightAll/Store.zoomRatio, 
+                textInfo.textHeightAll/Store.zoomRatio
             );
             
             if(horizonAlign != "0" && horizonAlign != "2"){ //左对齐时 文本渲染空出一个图标的距离
-                horizonAlignPos = horizonAlignPos + textContent.textHeightAll/Store.zoomRatio;
+                horizonAlignPos = horizonAlignPos + textInfo.textHeightAll/Store.zoomRatio;
             }
         }
 
@@ -1805,10 +1815,15 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
                 //     value = getcellvalue(r, c);
                 // } 
                 
-                let textMetrics = getCellTextInfo(cell, canvas,{
+                let textMetricsObj = getCellTextInfo(cell, canvas,{
                     r:r,
                     c:c,
-                }).textWidthAll;
+                });
+                let textMetrics = 0;
+                if(textMetricsObj!=null){
+                    textMetrics = textMetricsObj.textWidthAll;
+                }
+
                 //canvas.measureText(value).width;
 
                 let start_c = c - 1 < 0 ? 0 : Store.visibledatacolumn[c - 1];
@@ -2008,12 +2023,24 @@ function cellOverflow_colIn(map, r, c, col_st, col_ed){
 }
 
 function cellTextRender(textInfo, ctx, option){
+    if(textInfo==null){
+        return
+    }
     let values = textInfo.values;
     let pos_x = option.pos_x, pos_y = option.pos_y;
     if(values==null){
         return;
     }
-    console.log(textInfo, pos_x, pos_y, values[0].width, values[0].left, ctx);
+    // console.log(textInfo, pos_x, pos_y, values[0].width, values[0].left, ctx);
+
+    // for(let i=0;i<values.length;i++){
+    //     let word = values[i];
+    //     ctx.font = word.style;
+    //     ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
+    // }
+
+    // ctx.fillStyle = "rgba(255,255,0,0.2)";
+    // ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
 
     if(textInfo.rotate!=0 && textInfo.type!="verticalWrap"){
         ctx.save();
@@ -2022,13 +2049,16 @@ function cellTextRender(textInfo, ctx, option){
         ctx.translate(-(textInfo.textLeftAll+pos_x), -(pos_y+textInfo.textTopAll));
     }
 
-
+    // ctx.fillStyle = "rgb(0,0,0)";
     for(let i=0;i<values.length;i++){
         let word = values[i];
         ctx.font = word.style;
         ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
     }
-
+    // ctx.fillStyle = "rgba(0,0,0,0.2)";
+    // ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
+    // ctx.fillStyle = "rgba(255,0,0,1)";
+    // ctx.fillRect(pos_x+textInfo.textLeftAll-2, pos_y+textInfo.textTopAll-2, 4,4);
     if(textInfo.rotate!=0 && textInfo.type!="verticalWrap"){
         ctx.restore();
     }
