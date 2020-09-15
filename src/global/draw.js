@@ -9,7 +9,7 @@ import { dynamicArrayCompute } from './dynamicArray';
 import browser from './browser';
 import { isRealNull, isRealNum } from './validate';
 import { getCellTextSplitArr,getMeasureText,getCellTextInfo } from './getRowlen';
-import { getcellvalue } from './getdata';
+import { getcellvalue,getRealCellValue } from './getdata';
 import { getBorderInfoCompute } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
@@ -674,10 +674,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 // continue;
             }
             else{
-                value = getcellvalue(r, c, null, "m");
-                if(value == null){
-                    value = getcellvalue(r, c);
-                }
+                value = getRealCellValue(r,c);
             }  
 
             if(value == null || value.toString().length == 0){
@@ -718,11 +715,13 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         let value = null;
 
         let margeMaindata = cell["mc"];
-        value = getcellvalue(margeMaindata.r, margeMaindata.c, null, "m");
+        // value = getcellvalue(margeMaindata.r, margeMaindata.c, null, "m");
         
-        if(value == null){
-            value = getcellvalue(margeMaindata.r, margeMaindata.c);
-        }
+        // if(value == null){
+        //     value = getcellvalue(margeMaindata.r, margeMaindata.c);
+        // }
+
+        value = getRealCellValue(margeMaindata.r,margeMaindata.c);
 
         r = margeMaindata.r;
         c = margeMaindata.c;
@@ -2052,19 +2051,26 @@ function cellTextRender(textInfo, ctx, option){
     // ctx.fillStyle = "rgb(0,0,0)";
     for(let i=0;i<values.length;i++){
         let word = values[i];
-        ctx.font = word.style;
+        if(word.inline===true && word.style!=null){
+            ctx.font = word.style.fontset;
+            ctx.fillStyle = word.style.fc;
+        }
+        else{
+            ctx.font = word.style;
+        }
+        
         ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
         
         if(word.cancelLine!=null){
             let c = word.cancelLine;
             ctx.beginPath();
             ctx.moveTo(
-                (pos_x +c.startX)/Store.zoomRatio ,
-                (pos_y+c.startY)/Store.zoomRatio
+                Math.floor((pos_x +c.startX)/Store.zoomRatio)+0.5 ,
+                Math.floor((pos_y+c.startY)/Store.zoomRatio)+0.5 ,
             );
             ctx.lineTo(
-                (pos_x +c.endX)/Store.zoomRatio,
-                (pos_y+c.endY)/Store.zoomRatio
+                Math.floor((pos_x +c.endX)/Store.zoomRatio)+0.5 ,
+                Math.floor((pos_y+c.endY)/Store.zoomRatio)+0.5 ,
             );
             ctx.lineWidth = 1;
             ctx.strokeStyle = ctx.fillStyle;
@@ -2078,12 +2084,12 @@ function cellTextRender(textInfo, ctx, option){
                 let item = underLines[a];
                 ctx.beginPath();
                 ctx.moveTo(
-                    (pos_x +item.startX)/Store.zoomRatio ,
-                    (pos_y+item.startY)/Store.zoomRatio
+                    Math.floor((pos_x +item.startX)/Store.zoomRatio)+0.5 ,
+                    Math.floor((pos_y+item.startY)/Store.zoomRatio)
                 );
                 ctx.lineTo(
-                    (pos_x +item.endX)/Store.zoomRatio,
-                    (pos_y+ item.endY)/Store.zoomRatio
+                    Math.floor((pos_x +item.endX)/Store.zoomRatio)+0.5,
+                    Math.floor((pos_y+ item.endY)/Store.zoomRatio)+0.5
                 );
                 ctx.lineWidth = 1;
                 ctx.strokeStyle = ctx.fillStyle;

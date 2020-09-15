@@ -262,3 +262,18 @@ export function getOrigincell(r, c, i) {
 
 
 }
+
+export function getRealCellValue(r, c){
+    let value = getcellvalue(r, c, null, "m");
+    if(value == null){
+        value = getcellvalue(r, c);
+        if(value==null){
+            let ct = getcellvalue(r, c, null, "ct");
+            if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+                value = ct.s;
+            }
+        }
+    }
+
+    return value;
+}
