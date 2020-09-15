@@ -2937,9 +2937,9 @@ const menuButton = {
                             d[r][c][attr] = foucsStatus;
                         }
 
-                        if(attr == "tr" && d[r][c].tb != null){
-                            d[r][c].tb = "0";
-                        }
+                        // if(attr == "tr" && d[r][c].tb != null){
+                        //     d[r][c].tb = "0";
+                        // }
                     }
                 }
             }
@@ -2948,10 +2948,10 @@ const menuButton = {
         }
 
         if(attr == "tb" || attr == "tr" || attr == "fs"){
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
+            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true, false);
         }
         else{
-            jfrefreshgrid(d, Store.luckysheet_select_save);
+            jfrefreshgrid(d, Store.luckysheet_select_save, undefined, undefined,undefined,false);
         }
     },
     updateFormat_mc: function(d, foucsStatus){
@@ -3314,7 +3314,7 @@ const menuButton = {
     },
     checkstatusByCell:function(cell, a){
         let foucsStatus =cell;
-        let tf = {"bl":1, "it":1 , "ff":1, "cl":1};
+        let tf = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1};
 
         if(a in tf){
             if(foucsStatus == null){

@@ -16,9 +16,10 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Documentation
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
 
 [Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
+
+[Online demo](https://mengshukeji.github.io/LuckysheetDemo/) / [Import excel demo](https://mengshukeji.github.io/LuckyexcelDemo/)
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
@@ -129,23 +130,20 @@ npm run build
 ## Usage
 
 #### First step
-Copy all files in the `dist` folder after `npm run build` to the project directory
-
+Introduce dependencies through CDN
+```
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+```
 #### Second step
-Introduce dependencies
-```
-<link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='./plugins/plugins.css' />
-<link rel='stylesheet' href='./css/luckysheet.css' />
-<script src="./plugins/js/plugin.js"></script>
-<script src="./luckysheet.umd.js"></script>
-```
-#### Third step
 Specify a table container
 ```
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-#### Fourth step
+#### Third step
 Create a table
 ```
 <script>

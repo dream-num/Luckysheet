@@ -97,8 +97,15 @@
     <tr>
         <td>tr</td>
         <td>textrotate</td>
-        <td>文字旋转</td>
-        <td>0： 0、1： 45 、2：-45、3 竖排文字、4： 90 、5：-90</td>
+        <td>竖排文字</td>
+        <td>3</td>
+        <td>setRotationAngle</td>
+    </tr>
+    <tr>
+        <td>rt</td>
+        <td>rotatetext</td>
+        <td>文字旋转角度</td>
+        <td>介于0~180之间的整数，包含0和180</td>
         <td>setRotationAngle</td>
     </tr>
     <tr>

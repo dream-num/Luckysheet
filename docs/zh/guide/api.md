@@ -10,6 +10,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ## 单元格操作
 
 ### getCellValue(row, column [,setting])<div id='getCellValue'></div>
+ 
 
 - **参数**：
 
@@ -38,6 +39,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setCellValue(row, column, value [,setting])
+ 
 
 - **参数**：
 
@@ -46,6 +48,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	- {Object | String | Number} [value]: 要设置的值；可以为字符串或数字，或为符合Luckysheet单元格格式的对象，参考 [单元格属性表](/zh/guide/cell.html)
 	- {PlainObject} [setting]: 可选参数
 		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
+		+ {Boolean} [isRefresh]: 是否刷新界面；默认为`true`；用于多个单元格赋值时候控制节流，前面单元格赋值的时候应设置为	`false`，最后一个单元格赋值时设置为`true`。
 		+ {Function} [success]: 操作结束的回调函数
 
 - **说明**：
@@ -56,12 +59,23 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **示例**:
 
-	- 设置当前工作表"A1"单元格的值为"abc"
-    	`luckysheet.setCellValue(0, 0, 'abc');`
+	- 设置当前工作表"A1"单元格的值为"1"
+    	`luckysheet.setCellValue(0, 0, 1);`
+	
+	- 设置当前工作表"B1"单元格的值为公式"=sum(A1)"
+    	`luckysheet.setCellValue(0, 1, "=sum(A1)");`
+	
+	- 设置当前工作表"C1"单元格的值为公式"=sum(A1:B1"，并带有红色背景，单元格对象可以不带v和m值，Luckysheet会根据公式信息自动计算结果，如果带了未更新或者是非公式结果的v和m值，Luckysheet也仍然会根据公式实际关联的数据计算出准备的结果。
+    	`luckysheet.setCellValue(0, 2, {f: "=sum(A1:B1)", bg:"#FF0000"})`
+
+		再次设置"C1"单元格新的公式仍然可以生效
+		
+		`luckysheet.setCellValue(0, 2, {f: "=sum(A1)", bg:"#00FF00"})`
 
 ------------
 
 ### clearCell(row, column [,setting])
+ 
 
 - **参数**：
 
@@ -83,6 +97,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteCell(move, row, column [,setting])
+ 
 
 - **参数**：
 	- {String} [move]: 删除后，右侧还是下方的单元格移动
@@ -110,6 +125,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setCellFormat(row, column, attr, value [,setting])
+ 
 
 - **参数**：
 	
@@ -152,6 +168,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### find(content [,setting])
+ 
 
 - **参数**：
 	
@@ -174,6 +191,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### replace(content, replaceContent [,setting])
+ 
 
 - **参数**：
 	
@@ -200,6 +218,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ## 行和列操作
 
 ### setHorizontalFrozen(isRange [,setting])
+ 
 
 - **参数**：
 	
@@ -232,6 +251,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setVerticalFrozen(isRange [,setting])
+ 
 
 - **参数**：
 	
@@ -260,6 +280,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setBothFrozen(isRange [,setting])
+ 
 
 - **参数**：
 	
@@ -288,6 +309,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### cancelFrozen([setting])
+ 
 
 - **参数**：
 
@@ -308,6 +330,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### insertRow(row [,setting])
+ 
 
 - **参数**：
 
@@ -331,6 +354,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### insertColumn( column [,setting])
+ 
 
 - **参数**：
 
@@ -354,6 +378,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteRow(rowStart, rowEnd [,setting])
+ 
 
 - **参数**：
 	
@@ -379,6 +404,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteColumn(columnStart, columnEnd [,setting])
+ 
 
 - **参数**：
 	
@@ -404,6 +430,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### hideRow(rowStart, rowEnd [,setting])
+ 
 
 - **参数**：
 	
@@ -429,6 +456,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### hideColumn(columnStart, columnEnd [,setting])(TODO)
+ 
 
 - **参数**：
 	
@@ -454,6 +482,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### showRow(rowStart, rowEnd [,setting])
+ 
 
 - **参数**：
 	
@@ -477,6 +506,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### showColumn(columnStart, columnEnd [,setting])(TODO)
+ 
 
 - **参数**：
 	
@@ -502,6 +532,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ## 选区操作
 
 ### getRange()
+ 
 
 - **说明**：
 
@@ -524,6 +555,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getRangeValue([setting])
+ 
 
 - **参数**：
 
@@ -609,6 +641,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getRangeHtml([setting])
 
+[todo]
+
+
 - **参数**：
 
 	- {PlainObject} [setting]: 可选参数
@@ -656,6 +691,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getRangeJson(title [,setting])
+ 
 
 - **参数**：
 
@@ -701,6 +737,10 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getRangeArray(dimensional [,setting])
+
+[todo]
+
+
 
 - **参数**：
 
@@ -796,6 +836,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getRangeDiagonal(type [,setting])
+ 
 
 - **参数**：
 
@@ -875,6 +916,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getRangeBoolean([setting])
+ 
 
 - **参数**：
 
@@ -903,6 +945,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeShow(range [,setting])<div id='setRangeShow'></div>
+
+[todo]
+
 
 - **参数**：
 
@@ -942,6 +987,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeValue(data [,setting])
+ 
 
 - **参数**：
 
@@ -949,6 +995,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	- {PlainObject} [setting]: 可选参数
 		+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
 		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
+		+ {Boolean} [isRefresh]: 是否刷新界面；默认为`true`；用于多个单元格赋值时候控制节流，前面单元格赋值的时候应设置为	`false`，最后一个单元格赋值时设置为`true`。
 		+ {Function} [success]: 操作结束的回调函数
 
 - **说明**：
@@ -1006,6 +1053,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeFormat(attr, value [,setting])
+ 
 
 - **参数**：
 
@@ -1047,6 +1095,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setRangeFilter(type [,setting])
 
+[todo]
+
+
 - **参数**：
 	- {String} [type]: 打开还是关闭筛选功能
 	
@@ -1071,6 +1122,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeMerge(type [,setting])
+ 
 
 - **参数**：
 	
@@ -1124,6 +1176,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### cancelRangeMerge( [setting])
+ 
 
 - **参数**：
 	
@@ -1145,6 +1198,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeSort(type [,setting])
+ 
 
 - **参数**：
 
@@ -1173,6 +1227,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeSortMulti(title, sort [,setting])
+ 
 
 - **参数**：
 
@@ -1191,11 +1246,14 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **示例**:
 
    - 设置当前工作表当前选区为自定义排序，数据具有标题行，且按第一列升序第二列降序的规则进行排序
-   `luckysheet.setRangeSortMulti(true,{sort:[{ i:0,sort:'asc' },{ i:1,sort:'des' }]})`
+   `luckysheet.setRangeSortMulti(true,[{ i:0,sort:'asc' },{ i:1,sort:'des' }])`
 
 ------------
 
 ### setRangeConditionalFormatDefault(conditionName, conditionValue [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1298,6 +1356,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setRangeConditionalFormat(type [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1417,6 +1478,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### deleteRangeConditionalFormat(itemIndex [,setting])
 
+[todo]
+
+
 - **参数**：
 
 	- {Number} [itemIndex]: 条件格式规则索引
@@ -1439,6 +1503,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### clearRange([setting])
 
+[todo]
+
+
 - **参数**：
 
 	- {PlainObject} [setting]: 可选参数
@@ -1458,6 +1525,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteRange(move [,setting])
+
+[todo]
+
 
 - **参数**：
 	- {String} [move]: 删除后，右侧还是下方的单元格移动
@@ -1484,6 +1554,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### insertRange(move [,setting])
+
+[todo]
+
 
 - **参数**：
 	
@@ -1518,6 +1591,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### matrixOperation(type [,setting])
 
+[todo]
+
+
 - **参数**：
 	
 	- {String} [type]: 矩阵操作的类型
@@ -1536,7 +1612,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"newMatrix"`: 生产新矩阵
 	- {PlainObject} [setting]: 可选参数
     	+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
-    	+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
 
 - **说明**：
@@ -1560,6 +1635,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### matrixCalculation(type, number [,setting])
+
+[todo]
+
 
 - **参数**：
 	- {String} [type]: 计算方式
@@ -1603,6 +1681,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getAllSheets()
 
+[todo]
+
+
 - **说明**：
 	
 	返回所有工作表配置，格式同[工作表配置](/zh/guide/sheet.html)，得到的结果可用于表格初始化时作为`options.data`使用。
@@ -1617,6 +1698,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getLuckysheetfile()
+
+[todo]
+
 
 - **参数**：
 
@@ -1636,6 +1720,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getSheetData([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1648,6 +1735,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### getConfig([setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1662,6 +1752,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setConfig([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1675,6 +1768,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetAdd([setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1696,6 +1792,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetDelete([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1714,6 +1813,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetCopy([setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1734,6 +1836,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetHide([setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1756,6 +1861,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetShow([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1775,6 +1883,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetActive(order [,setting])
 
+[todo]
+
+
 - **参数**：
 
 	- {Number} [order]: 要激活的工作表索引
@@ -1793,6 +1904,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetName(name [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1814,6 +1928,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetColor(color [,setting])
 
+[todo]
+
+
 - **参数**：
 	
 	- {String} [color]: 工作表颜色
@@ -1833,6 +1950,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetMove(type [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1860,6 +1980,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetOrder(orderList [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1913,6 +2036,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### refresh([setting])
 
+[todo]
+
+
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
@@ -1921,6 +2047,19 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 	
 	刷新canvas
+
+------------
+
+### resize([setting])
+
+- **参数**：
+		
+	- {PlainObject} [setting]: 可选参数
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	根据窗口大小自动resize画布
 
 ------------
 
@@ -1939,6 +2078,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getScreenshot([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1952,6 +2094,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setWorkbookName(name [,setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1967,6 +2112,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### undo([setting])
 
+[todo]
+
+
 - **参数**：
 
 	- {PlainObject} [setting]: 可选参数
@@ -1979,6 +2127,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### redo([setting])
+
+[todo]
+
 
 - **参数**：
 
@@ -1995,6 +2146,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### insertChart([setting])
 
+[todo]
+
+
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -2009,6 +2163,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setChart(chartId, attr, value [,setting])
+
+[todo]
+
 
 - **参数**：
 	
@@ -2035,6 +2192,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getChart(chartId)
 
+[todo]
+
+
 - **参数**：
 	
 	- {String} [chartId]: 指定要获取的图表id
@@ -2046,6 +2206,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteChart(chartId [,setting])
+
+[todo]
+
 
 - **参数**：
 	
@@ -2064,6 +2227,9 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
 
+[todo]
+
+
 - **参数**：
 	
 	- {Array} [data]: data数据
@@ -2079,6 +2245,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### transToData(celldata [,setting])<div id='transToData'></div>
 
+[todo]
+
 - **参数**：
 	
 	- {Array} [celldata]: data数据
@@ -2093,6 +2261,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### toJson()
+
+[todo]
 
 - **说明**：
 	

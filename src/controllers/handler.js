@@ -4396,18 +4396,7 @@ export default function luckysheetHandler() {
                 clipboardData = e.originalEvent.clipboardData;
             }
 
-            //复制的是图片
-            if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
-                let render = new FileReader();
-                render.readAsDataURL(clipboardData.files[0]);
-
-                render.onload = function(event){
-                    let src = event.target.result;
-                    imageCtrl.inserImg(src);
-                }
-
-                return;
-            }
+            
 
             let txtdata = clipboardData.getData("text/html");
 
@@ -4725,6 +4714,18 @@ export default function luckysheetHandler() {
                     Store.luckysheet_selection_range = [];
                     selection.pasteHandler(data, borderInfo);
                     $("#luckysheet-copy-content").empty();
+                }
+                //复制的是图片
+                else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
+                    let render = new FileReader();
+                    render.readAsDataURL(clipboardData.files[0]);
+
+                    render.onload = function(event){
+                        let src = event.target.result;
+                        imageCtrl.inserImg(src);
+                    }
+
+                    return;
                 }
                 else {
                     txtdata = clipboardData.getData("text/plain");
