@@ -2050,6 +2050,19 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### resize([setting])
+
+- **参数**：
+		
+	- {PlainObject} [setting]: 可选参数
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	根据窗口大小自动resize画布
+
+------------
+
 ### destroy([setting])
 
 - **参数**：

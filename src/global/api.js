@@ -20,7 +20,8 @@ import json from "./json";
 import { orderbydata } from "./sort";
 import editor from "./editor";
 import { rowlenByRange } from "./getRowlen";
-import luckysheetformula from './formula'
+import luckysheetformula from './formula';
+import luckysheetsizeauto from '../controllers/resize';
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
@@ -2450,6 +2451,24 @@ export function matrixCalculation(type, number, options = {}) {
 
     editor.controlHandler(arr, range);
 
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 根据窗口大小自动resize画布
+ * 
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function resize(options = {}){
+    luckysheetsizeauto();
+
+    let {
+        success
+    } = {...options}
     if (success && typeof success === 'function') {
         success();
     }
