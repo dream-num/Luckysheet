@@ -15806,7 +15806,7 @@ const functionImplementation = {
                 values = values.concat(func_methods.getDataArr(data_values, false));
             }
             else if(getObjType(data_values) == "object" && data_values.startCell != null){
-                values = values.concat(func_methods.getCellDataArr(data_values, "number", false));
+                values = values.concat(func_methods.getCellDataArr(data_values, "number", true));
             }
             else{
                 values.push(data_values);
