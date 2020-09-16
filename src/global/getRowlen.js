@@ -325,12 +325,16 @@ function getCellTextInfo(cell , ctx, option){
             let scfontset = luckysheetfontformat(shareCell);
             let fc = shareCell.fc, cl=shareCell.cl,un = shareCell.un, v = shareCell.v;
             v = v.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_");
-            let splitArr = v.split("_x000D_");
+            let splitArr = v.split("_x000D_"), preNewValue=null;
             for(let x=0;x<splitArr.length;x++){
                 let newValue = splitArr[x];
-
+                
                 if(newValue==""){
                     inlineStringArr.push({
+                        fontset:scfontset,
+                        fc:fc==null?"#000":fc,
+                        cl:cl==null?0:cl,
+                        un:un==null?0:un,
                         wrap:true
                     });
                     similarIndex++;
@@ -351,13 +355,19 @@ function getCellTextInfo(cell , ctx, option){
                         
                     }
 
-                    // if(x!=splitArr.length-1){
-                    //     inlineStringArr.push({
-                    //         wrap:true
-                    //     });
-                    //     similarIndex++;
-                    // } 
+                    if(x!=splitArr.length-1 && preNewValue!=""){
+                        inlineStringArr.push({
+                            fontset:scfontset,
+                            fc:fc==null?"#000":fc,
+                            cl:cl==null?0:cl,
+                            un:un==null?0:un,
+                            wrap:true
+                        });
+                        similarIndex++;
+                    } 
                 }
+
+                preNewValue = newValue;
                 
             }
 
@@ -547,38 +557,65 @@ function getCellTextInfo(cell , ctx, option){
             textContent.rotate = rt;
             rt = Math.abs(rt);
 
-            let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth, i=1;
+            let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth, i=1, wrapStyle={};
             if(isInline){
                 while(i <= inlineStringArr.length){
                     let shareCells = inlineStringArr.slice(anchor, i);
                     if(shareCells[shareCells.length-1].wrap===true){
 
-                        anchor = i-1;
+                        anchor = i;
                         
-                        for(let s=0;s<shareCells.length-1;s++){
-                            let sc = shareCells[s];
-                            let item = {
-                                content:sc.v,
+                        if(shareCells.length>1){
+                            for(let s=0;s<shareCells.length-1;s++){
+                                let sc = shareCells[s];
+                                let item = {
+                                    content:sc.v,
+                                    style:sc,
+                                    width:sc.measureText.width,
+                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:sc.measureText.actualBoundingBoxAscent,
+                                    desc:sc.measureText.actualBoundingBoxDescent,
+                                    inline:true,
+                                }
+    
+                                // if(rt!=0){//rotate
+                                //     item.textHeight = sc.textHeight;
+                                //     item.textWidth = sc.textWidth;
+                                // }
+    
+                                text_all_split[splitIndex].push(item); 
+                            }
+                        }
+
+                        if(shareCells.length==1 || i==inlineStringArr.length){
+                            let sc = shareCells[0];
+                            let measureText = getMeasureText("M", ctx, sc.fontset);
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex] = [];
+                            }
+                            text_all_split[splitIndex].push({
+                                content:"",
                                 style:sc,
-                                width:sc.width,
-                                height:sc.height,
+                                width:measureText.width,
+                                height:measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent,
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
-                                asc:sc.measureText.actualBoundingBoxAscent,
-                                desc:sc.measureText.actualBoundingBoxDescent,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent,
                                 inline:true,
-                            }
-
-                            if(rt!=0){//rotate
-                                item.textHeight = sc.textHeight;
-                                item.textWidth = sc.textWidth;
-                            }
-
-                            text_all_split[splitIndex].push(item); 
+                                wrap:true,
+                            });
                         }
 
+
+
                         splitIndex +=1;
+
+                        i++;
 
                         continue;
                     }
@@ -601,7 +638,7 @@ function getCellTextInfo(cell , ctx, option){
     
                     if(rt!=0){//rotate
                         // console.log("all",anchor, i , str);
-                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null){
+                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && tb=="2"){
                             // console.log("cut",anchor, i , str);
                             anchor = i-1;
                             
@@ -610,13 +647,11 @@ function getCellTextInfo(cell , ctx, option){
                                 text_all_split[splitIndex].push({
                                     content:sc.v,
                                     style:sc,
-                                    width:sc.width,
-                                    height:sc.height,
+                                    width:sc.measureText.width,
+                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
                                     left:0,
                                     top:0,
                                     splitIndex:splitIndex,
-                                    textHeight:sc.textHeight,
-                                    textWidth:sc.textWidth,
                                     asc:sc.measureText.actualBoundingBoxAscent,
                                     desc:sc.measureText.actualBoundingBoxDescent,
                                     inline:true,
@@ -635,13 +670,11 @@ function getCellTextInfo(cell , ctx, option){
                                 text_all_split[splitIndex].push({
                                     content:sc.v,
                                     style:sc,
-                                    width:sc.width,
-                                    height:sc.height,
+                                    width:sc.measureText.width,
+                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
                                     left:0,
                                     top:0,
                                     splitIndex:splitIndex,
-                                    textHeight:sc.textHeight,
-                                    textWidth:sc.textWidth,
                                     asc:sc.measureText.actualBoundingBoxAscent,
                                     desc:sc.measureText.actualBoundingBoxDescent,
                                     inline:true,
@@ -657,7 +690,7 @@ function getCellTextInfo(cell , ctx, option){
                         }
                     }
                     else{//plain
-                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null){
+                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && tb=="2"){
     
                             anchor = i-1;
 
@@ -666,8 +699,8 @@ function getCellTextInfo(cell , ctx, option){
                                 text_all_split[splitIndex].push({
                                     content:sc.v,
                                     style:sc,
-                                    width:sc.width,
-                                    height:sc.height,
+                                    width:sc.measureText.width,
+                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
                                     left:0,
                                     top:0,
                                     splitIndex:splitIndex,
@@ -689,8 +722,8 @@ function getCellTextInfo(cell , ctx, option){
                                 text_all_split[splitIndex].push({
                                     content:sc.v,
                                     style:sc,
-                                    width:sc.width,
-                                    height:sc.height,
+                                    width:sc.measureText.width,
+                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
                                     left:0,
                                     top:0,
                                     splitIndex:splitIndex,
@@ -735,13 +768,11 @@ function getCellTextInfo(cell , ctx, option){
                             text_all_split[splitIndex].push({
                                 content:preStr,
                                 style:fontset,
-                                width:preWidth,
-                                height:preHeight,
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
-                                textHeight:preTextHeight,
-                                textWidth:preTextWidth,
+                                height:preTextHeight,
+                                width:preTextWidth,
                                 asc:measureText.actualBoundingBoxAscent,
                                 desc:measureText.actualBoundingBoxDescent
                             });
@@ -756,13 +787,11 @@ function getCellTextInfo(cell , ctx, option){
                             text_all_split[splitIndex].push({
                                 content:str,
                                 style:fontset,
-                                width:width,
-                                height:height,
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
-                                textHeight:textHeight,
-                                textWidth:textWidth,
+                                height:textHeight,
+                                width:textWidth,
                                 asc:measureText.actualBoundingBoxAscent,
                                 desc:measureText.actualBoundingBoxDescent
                             });
@@ -783,8 +812,8 @@ function getCellTextInfo(cell , ctx, option){
                             text_all_split[splitIndex].push({
                                 content:preStr,
                                 style:fontset,
-                                width:preWidth,
-                                height:preHeight,
+                                width:preTextWidth,
+                                height:preTextHeight,
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
@@ -801,8 +830,8 @@ function getCellTextInfo(cell , ctx, option){
                             text_all_split[splitIndex].push({
                                 content:str,
                                 style:fontset,
-                                width:width,
-                                height:height,
+                                width:textWidth,
+                                height:textHeight,
                                 left:0,
                                 top:0,
                                 splitIndex:splitIndex,
@@ -820,8 +849,6 @@ function getCellTextInfo(cell , ctx, option){
                         }
                     }
     
-                    preWidth = width;
-                    preHeight = height;
                     preStr = str;
                     preTextHeight = textHeight;
                     preTextWidth = textWidth;
@@ -841,8 +868,8 @@ function getCellTextInfo(cell , ctx, option){
                 for(let s=0;s<splitLists.length;s++){
                     let sp = splitLists[s];
                     if(rt!=0){//rotate
-                        sWidth += sp.textWidth;
-                        sHeight = Math.max(sHeight, sp.textHeight-(supportBoundBox?sp.desc:0));
+                        sWidth += sp.width;
+                        sHeight = Math.max(sHeight, sp.height-(supportBoundBox?sp.desc:0));
                     }
                     else{//plain
                         sWidth += sp.width;
@@ -878,7 +905,7 @@ function getCellTextInfo(cell , ctx, option){
                     wordCount: maxWordCount
                 });
             }
-            
+            // console.log(textH_all,textW_all,textW_all_inner);
             // let cumColumnWidth = 0;
             let cumWordHeight = 0,cumColumnWidth = 0;
             let rtPI = rt*Math.PI/180;               
@@ -978,9 +1005,9 @@ function getCellTextInfo(cell , ctx, option){
                         wordGroup.top = top;
 
                         drawLineInfo(wordGroup, cancelLine, underLine,{
-                            width:wordGroup.textWidth, 
-                            height:wordGroup.textHeight, 
-                            left:left-wordGroup.textWidth,
+                            width:wordGroup.width, 
+                            height:wordGroup.height, 
+                            left:left-wordGroup.width,
                             top:top,
                             asc:size.asc,
                             desc:size.desc
@@ -1059,8 +1086,8 @@ function getCellTextInfo(cell , ctx, option){
                             }
 
                             drawLineInfo(wordGroup, cancelLine, underLine,{
-                                width:wordGroup.textWidth, 
-                                height:wordGroup.textHeight, 
+                                width:wordGroup.width, 
+                                height:wordGroup.height, 
                                 left:left,
                                 top:top,
                                 asc:size.asc,
@@ -1323,6 +1350,10 @@ function getCellTextInfo(cell , ctx, option){
 
 function drawLineInfo(wordGroup, cancelLine,underLine,option){
     let left = option.left, top = option.top, width=option.width, height = option.height, asc = option.asc,desc = option.desc;
+
+    if(wordGroup.wrap===true){
+        return;
+    }
 
     if(wordGroup.inline==true && wordGroup.style!=null){
         cancelLine = wordGroup.style.cl;
