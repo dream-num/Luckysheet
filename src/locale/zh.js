@@ -46,6 +46,7 @@ export default {
         screenshot: '截图',
         splitColumn: '分列',
         insertImage: '插入图片',
+        dataVerification: '数据验证',
 
         clearText:"清除颜色选择",
         noColorSelectedText:"没有颜色被选择",

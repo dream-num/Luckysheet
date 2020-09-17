@@ -7014,3 +7014,175 @@ fieldset[disabled] .btn-danger.focus {
     margin-bottom: -5px;
     cursor: pointer;
 }
+/* 数据验证 */
+#luckysheet-dataVerification-dialog{
+    user-select: none;
+}
+#luckysheet-dataVerification-dialog .box{
+    font-size: 12px;
+}
+#luckysheet-dataVerification-dialog .box select{
+    width: 100%;
+    height: 30px;
+    border-color: #d4d4d4;
+    outline-style: none;
+}
+#luckysheet-dataVerification-dialog .box input::-webkit-input-placeholder { 
+    color: #d4d4d4; 
+} 
+#luckysheet-dataVerification-dialog .box input:-moz-placeholder { 
+    color: #d4d4d4; 
+} 
+#luckysheet-dataVerification-dialog .box input::-moz-placeholder { 
+    color: #d4d4d4; 
+} 
+#luckysheet-dataVerification-dialog .box input:-ms-input-placeholder { 
+    color: #d4d4d4; 
+}
+#luckysheet-dataVerification-dialog .box-item{
+    padding: 10px;
+    border-bottom: 1px solid #E1E4E8;
+}
+#luckysheet-dataVerification-dialog .box-item .box-item-title{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+#luckysheet-dataVerification-dialog .box-item .range{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #d4d4d4;
+}
+#luckysheet-dataVerification-dialog .box-item .range input{
+    width: calc(100% - 30px);
+    height: 30px;
+    padding: 0 10px;
+    float: left;
+    border: none;
+    outline-style: none;
+    box-sizing: border-box;
+}
+#luckysheet-dataVerification-dialog .box-item .range i.fa-table{
+    float: right;
+    margin-top: 9px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #6598F3;
+}
+#luckysheet-dataVerification-dialog .box-item .show-box{
+    margin-top: 10px;
+}
+#luckysheet-dataVerification-dialog .box-item .check-box{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+#luckysheet-dataVerification-dialog .box-item .check-box:last-child{
+    margin-bottom: 0;
+}
+#luckysheet-dataVerification-dialog .box-item .check-box input{
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+}
+#luckysheet-dataVerification-dialog .box-item .check{
+    line-height: 30px;
+}
+#luckysheet-dataVerification-dialog .box-item .check input{
+    vertical-align: text-top;
+}
+#luckysheet-dataVerification-dialog .box-item .input{
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+}
+#luckysheet-dataVerification-dialog .box-item .input input{
+    height: 30px;
+    padding: 4px 10px 4px 10px;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+}
+#luckysheet-dataVerification-dialog .box-item .input1 input{
+    width: 150px;
+}
+#luckysheet-dataVerification-dialog .box-item .input2 input{
+    width: 100%;
+}
+#luckysheet-dataVerification-dialog .box-item .input span{
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+}
+#luckysheet-dataVerification-dialog .data-verification-hint-text{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #d4d4d4;
+    margin-top: 10px;
+}
+#luckysheet-dataVerification-dialog .data-verification-hint-text input{
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    border: none;
+    outline-style: none;
+    box-sizing: border-box;
+}
+#luckysheet-dataVerification-dialog .show-box .show-box-item{
+    display: none;
+}
+#luckysheet-dataVerificationRange-dialog input{
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    outline-style: none;
+}
+#luckysheet-dataVerification-dropdown-btn{
+    display: none;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+}
+#luckysheet-dataVerification-dropdown-btn::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: url(arrow-down.png) center no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -5px;
+    margin-top: -5px;
+}
+#luckysheet-dataVerification-dropdown-List{
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+#luckysheet-dataVerification-dropdown-List .dropdown-List-item{
+    padding: 5px 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+#luckysheet-dataVerification-dropdown-List .dropdown-List-item:hover{
+    background-color: #E1E1E1;
+}
+#luckysheet-dataVerification-showHintBox{
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 1000;
+    user-select: none;
+    cursor: default;
+}

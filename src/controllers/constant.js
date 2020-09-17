@@ -181,6 +181,9 @@ const gridHTML = function(){
                                                         </div>
                                                         <div class="img-list"></div>
                                                     </div>
+                                                    <div id="luckysheet-dataVerification-dropdown-btn"></div>
+                                                    <div id="luckysheet-dataVerification-dropdown-List" class="luckysheet-mousedown-cancel"></div>
+                                                    <div id="luckysheet-dataVerification-showHintBox" class="luckysheet-mousedown-cancel"></div>
                                                     <div class="luckysheet-cell-copy"></div>  
                                                     <div class="luckysheet-grdblkflowpush"></div>  \${flow} 
                                                 </div> 
@@ -1267,6 +1270,9 @@ function menuToolBar (){
         <div class="luckysheetfulltoolbar" id="luckysheet-insertImg-btn-title">
             ${toolbar.insertImage}
             <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;">
+        </div>
+        <div class="luckysheetfulltoolbar" id="luckysheet-dataVerification-btn-title">
+            ${toolbar.dataVerification}
         </div>`;
 } 
 

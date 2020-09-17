@@ -13,12 +13,13 @@ import luckysheetFreezen from '../controllers/freezen';
 import server from '../controllers/server';
 import sheetmanage from '../controllers/sheetmanage';
 import luckysheetPostil from '../controllers/postil';
+import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import { selectHightlightShow, selectionCopyShow } from '../controllers/select';
 import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction=true, isRefreshCanvas=true) {
+function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification, isRunExecFunction=true, isRefreshCanvas=true) {
     if(data == null){
         data = Store.flowdata;
     }
@@ -58,6 +59,14 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
         else{
             curCdformat = cdformat;
         }
+
+        let curDataVerification;
+        if(dataVerification == null){
+            curDataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"])
+        }
+        else{
+            curDataVerification = dataVerification;
+        }
         
         Store.jfredo.push({ 
             "type": "datachange", 
@@ -69,7 +78,9 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
             "curConfig": curConfig,
             "cdformat":  $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
             "curCdformat": curCdformat,
-            "RowlChange": RowlChange
+            "RowlChange": RowlChange,
+            "dataVerification": $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]),
+            "curDataVerification": curDataVerification
         });
     }
 
@@ -95,6 +106,13 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] = cdformat;
 
         server.saveParam("all", Store.currentSheetIndex, cdformat, { "k": "luckysheet_conditionformat_save" });
+    }
+
+    //数据验证
+    if(dataVerification != null){
+        dataVerificationCtrl.dataVerification = dataVerification;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"] = dataVerification;
+        server.saveParam("all", Store.currentSheetIndex, dataVerification, { "k": "dataVerification" });
     }
 
     //更新数据的范围
@@ -127,7 +145,6 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, isRunExecFunction
             luckysheetrefreshgrid();
         }, 1);
     }
-    
 
     window.luckysheet_getcelldata_cache = null;
 }
@@ -331,7 +348,7 @@ function jfrefreshrange(data, range, cdformat) {
 }
 
 //删除、增加行列 刷新表格
-function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen){
+function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen, dataVerification){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
     //merge改变对应的单元格值改变
@@ -397,7 +414,9 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
             "af": $.extend(true, [], file.luckysheet_alternateformat_save),
             "curAf": af,
             "freezen": { "freezenhorizontaldata": luckysheetFreezen.freezenhorizontaldata, "freezenverticaldata": luckysheetFreezen.freezenverticaldata },
-            "curFreezen": freezen
+            "curFreezen": freezen,
+            "dataVerification": $.extend(true, {}, file.dataVerification),
+            "curDataVerification": dataVerification
         });
     }
 
@@ -516,12 +535,17 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
         luckysheetFreezen.freezenverticaldata = null;
     }
 
+    //数据验证
+    dataVerificationCtrl.dataVerification = dataVerification;
+    file.dataVerification = dataVerification;
+    server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
+
     //行高、列宽刷新
     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 }
 
 //删除单元格 刷新表格
-function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf){
+function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
     //merge改变对应的单元格值改变
@@ -598,6 +622,8 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf){
             "curFilterObj": filterObj,
             "cf": $.extend(true, [], file.luckysheet_conditionformat_save),
             "curCf": cf,
+            "dataVerification": $.extend(true, {}, file.dataVerification),
+            "curDataVerification": dataVerification
         });
     }
 
@@ -670,6 +696,11 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf){
     //条件格式配置
     file.luckysheet_conditionformat_save = cf;
     server.saveParam("all", Store.currentSheetIndex, file.luckysheet_conditionformat_save, { "k": "luckysheet_conditionformat_save" });
+
+    //数据验证
+    dataVerificationCtrl.dataVerification = dataVerification;
+    file.dataVerification = dataVerification;
+    server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
 
     setTimeout(function () {
         luckysheetrefreshgrid();
@@ -795,6 +826,16 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     Store.luckysheetfile[getSheetIndex(source["sheetIndex"])].luckysheet_conditionformat_save = source["curCdformat"];
     Store.luckysheetfile[getSheetIndex(target["sheetIndex"])].luckysheet_conditionformat_save = target["curCdformat"];
 
+    //数据验证
+    if(Store.currentSheetIndex == source["sheetIndex"]){
+        dataVerificationCtrl.dataVerification = source["curDataVerification"];
+    }
+    else if(Store.currentSheetIndex == target["sheetIndex"]){
+        dataVerificationCtrl.dataVerification = target["curDataVerification"]
+    }
+    Store.luckysheetfile[getSheetIndex(source["sheetIndex"])].dataVerification = source["curDataVerification"];
+    Store.luckysheetfile[getSheetIndex(target["sheetIndex"])].dataVerification = target["curDataVerification"];
+
     setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
@@ -811,6 +852,16 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     server.historyParam(source["curData"], source["sheetIndex"], {"row": source["range"]["row"], "column": source["range"]["column"]});
     //目的表
     server.historyParam(target["curData"], target["sheetIndex"], {"row": target["range"]["row"], "column": target["range"]["column"]});
+
+    //来源表
+    server.saveParam("all", source["sheetIndex"], source["curCdformat"], { "k": "luckysheet_conditionformat_save" });
+    //目的表
+    server.saveParam("all", target["sheetIndex"], target["curCdformat"], { "k": "luckysheet_conditionformat_save" });
+
+    //来源表
+    server.saveParam("all", source["sheetIndex"], source["curDataVerification"], { "k": "dataVerification" });
+    //目的表
+    server.saveParam("all", target["sheetIndex"], target["curDataVerification"], { "k": "dataVerification" });
 }
 
 //行高、列宽改变 刷新表格

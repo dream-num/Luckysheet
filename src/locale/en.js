@@ -46,6 +46,7 @@ export default {
         screenshot: 'Screenshot',
         splitColumn: 'Split text',
         insertImage: 'Insert image',
+        dataVerification: 'Data verification',
 
         clearText:"Clear color",
         noColorSelectedText:"No color is selected",

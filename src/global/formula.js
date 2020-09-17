@@ -1422,10 +1422,10 @@ const luckysheetformula = {
         }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, isRunExecFunction);
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, null, isRunExecFunction);
         }
         else {
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, isRunExecFunction);
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, undefined, isRunExecFunction);
         }
 
         // Store.luckysheetCellUpdate.length = 0; //clear array

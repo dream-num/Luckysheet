@@ -14,7 +14,7 @@ import Store from '../store';
 function luckysheetextendtable(type, index, value, direction, order) {
     let curOrder = order || getSheetIndex(Store.currentSheetIndex);
     let file = Store.luckysheetfile[curOrder];
-    let d = file.data;
+    let d = $.extend(true, [], file.data);
 
     value = Math.floor(value);
     let cfg = $.extend(true, {}, file.config);
@@ -457,6 +457,50 @@ function luckysheetextendtable(type, index, value, direction, order) {
         newFreezen.freezenverticaldata = luckysheetFreezen.freezenverticaldata;
     }
 
+    //数据验证配置变动
+    let dataVerification = file.dataVerification;
+    let newDataVerification = {};
+    if(dataVerification != null){
+        for(let key in dataVerification){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = dataVerification[key];
+            
+            if(type == "row"){
+                if(index < r){
+                    newDataVerification[(r + value) + "_" + c] = item;
+                }
+                else if(index == r){
+                    if(direction == "lefttop"){
+                        newDataVerification[(r + value) + "_" + c] = item;
+                    }
+                    else{
+                        newDataVerification[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newDataVerification[r + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(index < c){
+                    newDataVerification[r + "_" + (c + value)] = item;
+                }
+                else if(index == c){
+                    if(direction == "lefttop"){
+                        newDataVerification[r + "_" + (c + value)] = item;
+                    }
+                    else{
+                        newDataVerification[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newDataVerification[r + "_" + c] = item;
+                }
+            }
+        }
+    }
+
     let type1;
     if (type == "row") {
         type1 = "r";
@@ -713,7 +757,7 @@ function luckysheetextendtable(type, index, value, direction, order) {
     }
 
     // 修改当前sheet页时刷新
-    if (curOrder == Store.currentSheetIndex) {
+    if (file.index == Store.currentSheetIndex) {
         jfrefreshgrid_adRC(
             d, 
             cfg, 
@@ -723,8 +767,19 @@ function luckysheetextendtable(type, index, value, direction, order) {
             newFilterObj, 
             newCFarr, 
             newAFarr, 
-            newFreezen
+            newFreezen,
+            newDataVerification
         );
+    }
+    else{
+        file.data = d;
+        file.config = cfg;
+        file.calcChain = newCalcChain;
+        file.filter = newFilterObj.filter;
+        file.filter_select = newFilterObj.filter_select;
+        file.luckysheet_conditionformat_save = newCFarr;
+        file.luckysheet_alternateformat_save = newAFarr;
+        file.dataVerification = newDataVerification;
     }
     
     let range = null;
@@ -746,7 +801,7 @@ function luckysheetextendtable(type, index, value, direction, order) {
     }
     
     file.luckysheet_select_save = range;
-    if (curOrder == Store.currentSheetIndex) {
+    if (file.index == Store.currentSheetIndex) {
         Store.luckysheet_select_save = range;
         selectHightlightShow();
     }
@@ -816,7 +871,7 @@ function luckysheetextendData(rowlen, newData) {
 function luckysheetdeletetable(type, st, ed, order) {
     let curOrder = order || getSheetIndex(Store.currentSheetIndex);
     let file = Store.luckysheetfile[curOrder];
-    let d = file.data;
+    let d = $.extend(true, [], file.data);
 
     let slen = ed - st + 1;
     let cfg = $.extend(true, {}, file.config);
@@ -1280,6 +1335,34 @@ function luckysheetdeletetable(type, st, ed, order) {
         newFreezen.freezenverticaldata = luckysheetFreezen.freezenverticaldata;
     }
 
+    //数据验证配置变动
+    let dataVerification = file.dataVerification;
+    let newDataVerification = {};
+    if(dataVerification != null){
+        for(let key in dataVerification){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = dataVerification[key];
+            
+            if(type == "row"){
+                if(r < st){
+                    newDataVerification[r + "_" + c] = item;
+                }
+                else if(r > ed){
+                    newDataVerification[(r - slen) + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(c < st){
+                    newDataVerification[r + "_" + c] = item;
+                }
+                else if(c > ed){
+                    newDataVerification[r + "_" + (c - slen)] = item;
+                }
+            }
+        }
+    }
+
     //主逻辑
     let type1;
     if (type == "row") {
@@ -1471,7 +1554,7 @@ function luckysheetdeletetable(type, st, ed, order) {
     }
 
     // 修改当前sheet页时刷新
-    if (curOrder == Store.currentSheetIndex) {
+    if (file.index == Store.currentSheetIndex) {
         jfrefreshgrid_adRC(
             d, 
             cfg, 
@@ -1481,16 +1564,28 @@ function luckysheetdeletetable(type, st, ed, order) {
             newFilterObj, 
             newCFarr, 
             newAFarr, 
-            newFreezen
+            newFreezen,
+            newDataVerification
         );
+    }
+    else{
+        file.data = d;
+        file.config = cfg;
+        file.calcChain = newCalcChain;
+        file.filter = newFilterObj.filter;
+        file.filter_select = newFilterObj.filter_select;
+        file.luckysheet_conditionformat_save = newCFarr;
+        file.luckysheet_alternateformat_save = newAFarr;
+        file.dataVerification = newDataVerification;
     }
 }
 
 //删除单元格
 function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
-    let d = editor.deepCopyFlowData(Store.flowdata);
     let curOrder = order || getSheetIndex(Store.currentSheetIndex);
     let file = Store.luckysheetfile[curOrder];
+
+    let d = $.extend(true, [], file.data);
 
     let rlen = edr - str + 1;
     let clen = edc - stc + 1;
@@ -1835,6 +1930,36 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
         }
     }
 
+    //数据验证配置变动
+    let dataVerification = file.dataVerification;
+    let newDataVerification = {};
+    if(dataVerification != null){
+        for(let key in dataVerification){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = dataVerification[key];
+
+            if(r < str || r > edr || c < stc || c > edc){
+                if(type == "moveLeft"){
+                    if(c > edc && r >= str && r <= edr){
+                        newDataVerification[r + "_" + (c - clen)] = item;
+                    }
+                    else{
+                        newDataVerification[r + "_" + c] = item;
+                    }
+                }
+                else if(type == "moveUp"){
+                    if(r > edr && c >= stc && c <= edc){
+                        newDataVerification[(r - rlen) + "_" + c] = item;
+                    }
+                    else{
+                        newDataVerification[r + "_" + c] = item;
+                    }
+                }
+            }
+        }
+    }
+
     //边框配置变动
     if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
         let borderInfo = []; 
@@ -1948,14 +2073,26 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
         }
     }
 
-    jfrefreshgrid_deleteCell(
-        d,
-        cfg,
-        { type: type, 'str': str, 'edr': edr, 'stc': stc, 'edc': edc },
-        newCalcChain,
-        newFilterObj,
-        newCFarr
-    );
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid_deleteCell(
+            d,
+            cfg,
+            { type: type, 'str': str, 'edr': edr, 'stc': stc, 'edc': edc },
+            newCalcChain,
+            newFilterObj,
+            newCFarr,
+            newDataVerification
+        );
+    }
+    else{
+        file.data = d;
+        file.config = cfg;
+        file.calcChain = newCalcChain;
+        file.filter = newFilterObj.filter;
+        file.filter_select = newFilterObj.filter_select;
+        file.luckysheet_conditionformat_save = newCFarr;
+        file.dataVerification = newDataVerification;
+    }
 }
 
 export {
