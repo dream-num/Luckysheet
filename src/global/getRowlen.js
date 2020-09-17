@@ -1,6 +1,6 @@
 import { luckysheetfontformat } from '../utils/util';
 import menuButton from '../controllers/menuButton';
-import { getcellvalue } from './getdata';
+import { getcellvalue,checkstatusByCell } from './getdata';
 import { colLocationByIndex } from './location';
 import { hasChinaword, isRealNull } from './validate';
 import Store from '../store';
@@ -277,13 +277,13 @@ function getCellTextInfo(cell , ctx, option){
     }
 
     //水平对齐
-    let horizonAlign = menuButton.checkstatusByCell(cell, "ht");
+    let horizonAlign = checkstatusByCell(cell, "ht");
     //垂直对齐
-    let verticalAlign = menuButton.checkstatusByCell(cell, "vt");
+    let verticalAlign = checkstatusByCell(cell, "vt");
 
-    let tb = menuButton.checkstatusByCell(cell ,"tb");//wrap overflow
-    let tr = menuButton.checkstatusByCell(cell ,"tr");//rotate
-    let rt = menuButton.checkstatusByCell(cell ,"rt");//rotate angle
+    let tb = checkstatusByCell(cell ,"tb");//wrap overflow
+    let tr = checkstatusByCell(cell ,"tr");//rotate
+    let rt = checkstatusByCell(cell ,"rt");//rotate angle
 
     let isRotateUp = 1, isRotateDown=0;
 
@@ -388,8 +388,8 @@ function getCellTextInfo(cell , ctx, option){
         fontset = luckysheetfontformat(cell);
         ctx.font = fontset;
 
-        cancelLine = menuButton.checkstatusByCell(cell ,"cl");//cancelLine
-        underLine = menuButton.checkstatusByCell(cell ,"un");//underLine
+        cancelLine = checkstatusByCell(cell ,"cl");//cancelLine
+        underLine = checkstatusByCell(cell ,"un");//underLine
     
         if(cell instanceof Object){
             value = cell.m;

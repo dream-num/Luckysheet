@@ -6,7 +6,7 @@ import alternateformat from './alternateformat';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import { chatatABC } from '../utils/util';
 import { isEditMode } from '../global/validate';
-import { getcellvalue } from '../global/getdata';
+import { getcellvalue,getInlineStringStyle } from '../global/getdata';
 import { valueShowEs } from '../global/format';
 import formula from '../global/formula';
 import { luckysheetRangeLast } from '../global/cursorPos';
@@ -135,7 +135,10 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 
         
         if (!cover) {
-            if(cell.f!=null){
+            if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0){
+                value = getInlineStringStyle(row_index, col_index, d);
+            }
+            else if(cell.f!=null){
                 value = getcellvalue(row_index, col_index, d, "f");
             }
             else{

@@ -10,7 +10,7 @@ import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/se
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
 import { getCellTextSplitArr } from '../global/getRowlen';
-import { getcellvalue,getcellFormula } from './getdata';
+import { getcellvalue,getcellFormula,getInlineStringNoStyle } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
 import editor from './editor';
@@ -325,7 +325,10 @@ const luckysheetformula = {
         if (d[r] != null && d[r][c] != null) {
             let cell = d[r][c];
 
-            if(cell.f != null){
+            if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0){
+                value = getInlineStringNoStyle(r, c);
+            }
+            else if(cell.f != null){
                 value = getcellvalue(r, c, d, "f");
             }
             else{
