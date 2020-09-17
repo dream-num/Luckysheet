@@ -179,6 +179,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### showtoolbarConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置工具栏
@@ -233,6 +236,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### showsheetbarConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置底部sheet页按钮
@@ -253,6 +259,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### showstatisticBarConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置底部计数栏
@@ -265,6 +274,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetBottomConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：sheet页下方的添加行按钮和回到顶部按钮配置
@@ -355,6 +367,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### cellRightClickConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置单元格右击菜单
@@ -377,6 +392,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetRightClickConfig
+
+[todo]
+
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置sheet页右击菜单
@@ -401,7 +419,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook。
 
-------------
+## 单元格
+
 ### cellRenderAfter
 - 类型：Function
 - 默认值：null
@@ -422,26 +441,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [v]: 单元格对象
 
 ------------
-### cellClickBefore
-- 类型：Function
-- 默认值：null
-- 作用：点击单元格前触发，即在点击单元格的时候，最先触发这个方法
-- 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
-
-------------
-### cellClicked
-- 类型：Function
-- 默认值：null
-- 作用：点击单元格后触发，即在点击单元格的时候，最后触发这个方法
-- 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
-
-------------
 ### cellEditBefore
 - 类型：Function
 - 默认值：null
@@ -452,7 +451,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [v]: 单元格对象
 
 ------------
-### cellEdited
+### cellEditAfter
 - 类型：Function
 - 默认值：null
 - 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最后触发这个方法
@@ -463,24 +462,267 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [newV]: 修改后单元格对象
 
 ------------
-### sheetClickBefore
+### fireMousedown
 - 类型：Function
 - 默认值：null
-- 作用：点击sheet页前触发
-- 参数：
-	- {Number} [i]: sheet页的index
-	- {Object} [sheet]: sheet页的配置
+- 作用：单元格数据下钻自定义方法
 
 ------------
-### sheetClicked
+
+## 选区
+
+### rangeSelectBefore
 - 类型：Function
 - 默认值：null
-- 作用：点击sheet页后触发
+- 作用：框选或者设置选区前触发
 - 参数：
-	- {Number} [i]: sheet页的index
-	- {Object} [sheet]: sheet页的配置
+	- {Object || Array} [range]: 选区范围，可能为多个选区
 
 ------------
+### rangeSelectAfter
+- 类型：Function
+- 默认值：null
+- 作用：框选或者设置选区后触发
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+
+------------
+### rangeMoveBefore
+- 类型：Function
+- 默认值：null
+- 作用：移动选区前，包括单个单元格
+- 参数：
+	- {Array} [range]: 当前选区范围，只能为单个选区
+
+------------
+### rangeMoveAfter
+- 类型：Function
+- 默认值：null
+- 作用：移动选区后，包括单个单元格
+- 参数：
+	- {Array} [oldRange]: 移动前当前选区范围，只能为单个选区
+	- {Array} [newRange]: 移动后当前选区范围，只能为单个选区
+
+------------
+### rangeEditBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区修改前
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 选区范围所对应的数据
+
+------------
+### rangeEditAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区修改后
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+    - {Object} [oldData]: 修改前选区范围所对应的数据
+    - {Object} [newData]: 修改后选区范围所对应的数据
+
+------------
+### rangeCopyBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区复制前
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 选区范围所对应的数据
+
+------------
+### rangeCopyAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区复制后
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 选区范围所对应的数据
+
+------------
+### rangePasteBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区粘贴前
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 要被粘贴的选区范围所对应的数据
+
+------------
+### rangePasteAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区粘贴后
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [originData]: 要被粘贴的选区范围所对应的数据
+	- {Object} [pasteData]: 要粘贴的数据
+
+------------
+### rangeCutBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区剪切前
+- 参数：
+	- {Array} [range]: 选区范围，只能为单个范围
+	- {Object} [data]: 要被剪切的选区范围所对应的数据
+
+------------
+### rangeCutAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区剪切后
+- 参数：
+	- {Array} [range]: 选区范围，只能为单个范围
+	- {Object} [data]: 被剪切的选区范围所对应的数据
+
+------------
+### rangeDeleteBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区删除前
+- 参数：
+	- {Array} [range]: 选区范围，只能为单个范围
+	- {Object} [data]: 要被删除的选区范围所对应的数据
+
+------------
+### rangeDeleteAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区删除后
+- 参数：
+	- {Array} [range]: 选区范围，只能为单个范围
+	- {Object} [data]: 被删除的选区范围所对应的数据
+
+------------
+### rangeClearBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区清除前
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 要被清除的选区范围所对应的数据
+
+------------
+### rangeClearAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区清除后
+- 参数：
+	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [data]: 被清除的选区范围所对应的数据
+
+------------
+### rangePullBefore
+- 类型：Function
+- 默认值：null
+- 作用：选区下拉前
+- 参数：
+	- {Array} [range]: 当前选区范围，只能为单个范围
+
+------------
+### rangePullAfter
+- 类型：Function
+- 默认值：null
+- 作用：选区下拉后
+- 参数：
+	- {Array} [range]: 下拉后的选区范围，只能为单个范围
+
+------------
+
+## 工作表
+
+### sheetCreatekBefore
+- 类型：Function
+- 默认值：null
+- 作用：创建sheet页前触发，sheet页新建也包含数据透视表新建
+
+------------
+### sheetCreateAfter
+- 类型：Function
+- 默认值：null
+- 作用：创建sheet页后触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [sheet]: 当前新创建的sheet页的配置
+
+------------
+### sheetMoveBefore
+- 类型：Function
+- 默认值：null
+- 作用：sheet移动前
+- 参数：
+	- {Number} [i]: 当前sheet页的index
+	- {Number} [order]: 当前sheet页order
+
+------------
+### sheetMoveAfter
+- 类型：Function
+- 默认值：null
+- 作用：sheet移动后
+- 参数：
+	- {Number} [i]: 当前sheet页的index
+	- {Number} [oldOrder]: 修改前当前sheet页order
+	- {Number} [newOrder]: 修改后当前sheet页order
+
+------------
+### sheetDeleteBefore
+- 类型：Function
+- 默认值：null
+- 作用：sheet删除前
+- 参数：
+	- {Object} [sheet]: 要被删除sheet页的配置
+
+------------
+### sheetDeleteAfter
+- 类型：Function
+- 默认值：null
+- 作用：sheet删除后
+- 参数：
+	- {Object} [sheet]: 已被删除sheet页的配置
+
+------------
+### sheetEditNameBefore
+- 类型：Function
+- 默认值：null
+- 作用：sheet修改名称前
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {String} [name]: 当前sheet页名称
+
+------------
+### sheetEditNameAfter
+- 类型：Function
+- 默认值：null
+- 作用：sheet修改名称后
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {String} [oldName]: 修改前当前sheet页名称
+	- {String} [newName]: 修改后当前sheet页名称
+
+------------
+### sheetEditColorBefore
+- 类型：Function
+- 默认值：null
+- 作用：sheet修改颜色前
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {String} [color]: 当前sheet页颜色
+
+------------
+### sheetEditColorAfter
+- 类型：Function
+- 默认值：null
+- 作用：sheet修改颜色后
+- 参数：
+	- {Number} [i]: sheet页的index
+	- {String} [oldColor]: 修改前当前sheet页颜色
+	- {String} [newColor]: 修改后当前sheet页颜色
+
+------------
+
+## 工作簿
+
 ### workbookCreateBefore
 - 类型：Function
 - 默认值：null
@@ -489,21 +731,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [book]: 整个工作簿的配置（options）
     
 ------------
-### workbookCreated
+### workbookCreateAfter
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
 - 参数：
 	- {Object} [book]: 整个工作簿的配置（options）
-    
-------------
-### workbookUpdated
-- 类型：Function
-- 默认值：null
-- 作用：表格创建之后触发
-- 参数：
-	- {Object} [book]: 整个工作簿的配置（options）
-    
+     
 ------------
 ### workbookDestroyBefore
 - 类型：Function
@@ -513,7 +747,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [book]: 整个工作簿的配置（options）
     
 ------------
-### workbookDestroyed
+### workbookDestroyAfter
 - 类型：Function
 - 默认值：null
 - 作用：表格创建之后触发
@@ -524,14 +758,175 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### updated
 - 类型：Function
 - 默认值：null
-- 作用：每次操作更新后执行的方法，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销时因为也算一次操作，当然也会触发此钩子函数。
+- 作用：每次操作更新后执行的方法,在画布渲染之后执行，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销重做时因为也算一次操作，当然也会触发此钩子函数。
 - 参数：
 	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
     
 ------------
-### fireMousedown
+### resized
 - 类型：Function
 - 默认值：null
-- 作用：单元格数据下钻自定义方法
+- 作用：resize执行之后
+- 参数：
+	- {Object} [size]: 整个工作簿区域的宽高
+    
+------------
 
+## 图片
+
+### imageInsertBefore
+- 类型：Function
+- 默认值：null
+- 作用：图片插入之前
+- 参数：
+	- {Object} [url]: 图片地址
+    
+------------
+### imageInsertAfter
+- 类型：Function
+- 默认值：null
+- 作用：图片插入之后
+- 参数：
+	- {Object} [item]]: 图片地址、宽高、位置等信息
+    
+------------
+### imageUpdateBefore
+- 类型：Function
+- 默认值：null
+- 作用：图片修改之前，修改的内容包括宽高、位置、裁剪等操作
+- 参数：
+	- {Object} [item]]: 图片地址、宽高、位置等信息
+    
+------------
+### imageUpdateAfter
+- 类型：Function
+- 默认值：null
+- 作用：图片修改之后，修改的内容包括宽高、位置、裁剪等操作
+- 参数：
+	- {Object} [oldItem]]: 修改前图片地址、宽高、位置等信息
+	- {Object} [newItem]]: 修改后图片地址、宽高、位置等信息
+    
+------------
+### imageDeleteBefore
+- 类型：Function
+- 默认值：null
+- 作用：图片删除之前
+- 参数：
+	- {Object} [item]]: 图片地址、宽高、位置等信息
+    
+------------
+### imageDeleteAfter
+- 类型：Function
+- 默认值：null
+- 作用：图片删除之后
+- 参数：
+	- {Object} [item]]: 图片地址、宽高、位置等信息
+    
+------------
+
+## 批注
+
+### commentInsertBefore
+- 类型：Function
+- 默认值：null
+- 作用：插入批注之前
+- 参数：
+	- {Object} [cell]: 要插入的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+
+------------
+### commentInsertAfter
+- 类型：Function
+- 默认值：null
+- 作用：插入批注之后
+- 参数：
+	- {Object} [cell]: 被插入批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，包含批注信息
+    
+------------
+### commentDeleteBefore
+- 类型：Function
+- 默认值：null
+- 作用：删除批注之前
+- 参数：
+	- {Object} [cell]: 要删除的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+
+------------
+### commentDeleteAfter
+- 类型：Function
+- 默认值：null
+- 作用：删除批注之后
+- 参数：
+	- {Object} [cell]: 被删除批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+    
+------------
+### commentUpdateBefore
+- 类型：Function
+- 默认值：null
+- 作用：修改批注之前
+- 参数：
+	- {Object} [cell]: 批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+
+------------
+### commentUpdateAfter
+- 类型：Function
+- 默认值：null
+- 作用：修改批注之后
+- 参数：
+	- {Object} [oldCell]: 修改前批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Object} [newCell]: 修改后批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+    
+------------
+
+## 数据透视表
+
+### pivotTableEditBefore
+- 类型：Function
+- 默认值：null
+- 作用：修改数据透视表之前，操作如：拖动字段等
+- 参数：
+	- {Object} [sheet]: 数据透视表所在sheet页配置
+
+------------
+### pivotTableEditAfter
+- 类型：Function
+- 默认值：null
+- 作用：修改数据透视表之后，操作如：拖动字段等
+- 参数：
+	- {Object} [oldSheet]: 修改前数据透视表所在sheet页配置
+	- {Object} [newSheet]: 修改后数据透视表所在sheet页配置
+    
+------------
+
+## 冻结
+
+### frozenCreateBefore
+- 类型：Function
+- 默认值：null
+- 作用：设置冻结前
+- 参数：
+	- {Object} [frozen]: 冻结类型信息
+
+------------
+### frozenCreateAfter
+- 类型：Function
+- 默认值：null
+- 作用：设置冻结后
+- 参数：
+	- {Object} [frozen]: 冻结类型信息
+    
+------------
+### frozenCancelBefore
+- 类型：Function
+- 默认值：null
+- 作用：取消冻结前
+- 参数：
+	- {Object} [frozen]: 冻结类型信息
+
+------------
+### frozenCancelAfter
+- 类型：Function
+- 默认值：null
+- 作用：取消冻结后
+- 参数：
+	- {Object} [frozen]: 冻结类型信息
+    
 ------------

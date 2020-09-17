@@ -33,6 +33,10 @@ export function formulaBarInitial(){
 
             let row_index = last["row_focus"], col_index = last["column_focus"];
             
+            let $input = $("#luckysheet-rich-text-editor"),value = $input.text();
+            if(value) {
+                formula.updatecell(row_index, col_index);
+            }
             luckysheetupdateCell(row_index, col_index, Store.flowdata, null, true);
             formula.rangeResizeTo = $("#luckysheet-functionbox-cell");
         }

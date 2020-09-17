@@ -1189,11 +1189,13 @@ const luckysheetformula = {
             "opacity": "0.13"
         });
     },
-    updatecell: function(r, c) {
+    updatecell: function(r, c, value) {
         let _this = this;
 
-        let $input = $("#luckysheet-rich-text-editor"),
-            value = $input.text();
+        let $input = $("#luckysheet-rich-text-editor");
+        
+        // API, we get value from user
+        value = value || $input.text();
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -1218,7 +1220,7 @@ const luckysheetformula = {
             }
         }
 
-        if (value.slice(0, 1) == "=" && value.length > 1) {
+        if (getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1) {
 
         }
         else if(getObjType(curv) == "object" && curv.ct != null && curv.ct.fa != null && curv.ct.fa != "@" && !isRealNull(value)){
@@ -1257,6 +1259,42 @@ const luckysheetformula = {
                     }
                 }
             }
+            // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+            else if(getObjType(value) == "object"){
+                let valueFunction = value.f;
+
+                if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                    let v = _this.execfunction(valueFunction, r, c, true);
+
+                    // get v/m/ct
+                    curv = _this.execFunctionGroupData[r][c];
+
+                    // get f
+                    curv.f = v[2];
+
+                    // get other cell style attribute
+                    delete value.v;
+                    delete value.m;
+                    delete value.f;
+                    Object.assign(curv,value);
+
+                    //打进单元格的sparklines的配置串， 报错需要单独处理。
+                    if(v.length == 4 && v[3].type == "sparklines"){
+                        delete curv.m;
+                        delete curv.v;
+
+                        let curCalv = v[3].data;
+
+                        if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                            curv.v = curCalv[0];
+                        }
+                        else{
+                            curv.spl = v[3].data;
+                        }
+                    }
+                }
+                
+            }
             else{
                 _this.delFunctionGroup(r, c);
                 _this.execFunctionGroup(r, c, value);
@@ -1266,7 +1304,7 @@ const luckysheetformula = {
                 delete curv.f;
                 delete curv.spl;
 
-                if(curv.qp == 1 && value.substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                if(curv.qp == 1 && ('' + value).substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
                     curv.qp = 0;
                     if(curv.ct!=null){
                         curv.ct.fa = "General";
@@ -1298,6 +1336,36 @@ const luckysheetformula = {
                     }
                 }
             }
+            // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+            else if(getObjType(value) == "object"){
+                let valueFunction = value.f;
+
+                if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                    let v = _this.execfunction(valueFunction, r, c, true);
+
+                    // value = {
+                    //     "v": v[1],
+                    //     "f": v[2]
+                    // };
+
+                    // update attribute v
+                    value.v = v[1];
+                    value.f = v[2];
+
+                    //打进单元格的sparklines的配置串， 报错需要单独处理。
+                    if(v.length == 4 && v[3].type == "sparklines"){
+                        let curCalv = v[3].data;
+
+                        if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                            value.v = curCalv[0];
+                        }
+                        else{
+                            value.spl = v[3].data;
+                        }
+                    }
+                }
+                
+            }
             else{
                 _this.delFunctionGroup(r, c);
                 _this.execFunctionGroup(r, c, value);
@@ -1305,6 +1373,7 @@ const luckysheetformula = {
             }
         }
 
+        // value maybe an object
         setcellvalue(r, c, d, value);
         _this.cancelNormalSelected();
 
@@ -4451,6 +4520,7 @@ const luckysheetformula = {
             this.execFunctionGroup();
         }
     },
+    // When set origin_r and origin_c, that mean just refresh cell value link to [origin_r,origin_c] cell
     execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
         let _this = this;
         

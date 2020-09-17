@@ -116,6 +116,7 @@ const Store = {
     scrollRefreshSwitch:true,
 
     measureTextCache:{},
+    measureTextCellInfoCache:{},
     measureTextCacheTimeOut:null,
 
     zoomRatio:1,

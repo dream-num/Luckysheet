@@ -4813,7 +4813,7 @@ export default function luckysheetHandler() {
                                 }
                             }
 
-                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / dpi_y) + 1;
+                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / 96) + 1;
                             cell.fs = fs;
 
                             let fc = $td.css("color");
@@ -4963,12 +4963,11 @@ export default function luckysheetHandler() {
                 else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
                     let render = new FileReader();
                     render.readAsDataURL(clipboardData.files[0]);
-    
                     render.onload = function(event){
                         let src = event.target.result;
                         imageCtrl.inserImg(src);
                     }
-    
+
                     return;
                 }
                 else {

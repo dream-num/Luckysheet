@@ -24,9 +24,12 @@ luckysheet.buildGridData(luckysheetfile)
 
 ------------
 
-## **<span style="font-size:20px;">Q</span>** How to use Luckysheet in vue project?
+## **<span style="font-size:20px;">Q</span>** How to use Luckysheet in Vue/React project?
 
-**<span style="font-size:20px;">A</span>** : Reference [Luckysheet-vue-demo](https://github.com/Dushusir/vue-demo)
+**<span style="font-size:20px;">A</span>**:
+
+- Vue case: [luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue)
+- React case: [luckysheet-react](https://github.com/mengshukeji/luckysheet-react)
 
 ------------
 
