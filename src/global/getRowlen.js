@@ -12,6 +12,10 @@ function rowlenByRange(d, r1, r2, cfg) {
         cfg_clone["rowlen"] = {};
     }
 
+    if(cfg_clone["customHeight"] == null){
+        cfg_clone["customHeight"] = {};
+    }
+
     let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
     canvas.textBaseline = 'top'; //textBaseline以top计算
     
@@ -24,6 +28,10 @@ function rowlenByRange(d, r1, r2, cfg) {
         // if(cfg_clone["rowlen"][r] != null){
         //     currentRowLen = cfg_clone["rowlen"][r];
         // }
+
+        if(cfg_clone["customHeight"][r]==1){
+            continue;
+        }
 
         delete cfg_clone["rowlen"][r];
 
