@@ -423,11 +423,13 @@ function getCellTextInfo(cell , ctx, option){
                     showValue = "";
                     
                     
-                    if(!(preShareCell==null || preShareCell.wrap==true || (i==inlineStringArr.length-1))){
-                        console.log("wrap",i,shareCell, preShareCell);
+                    if( preShareCell!=null && preShareCell.wrap!==true && (i<inlineStringArr.length-1)){
+                        // console.log("wrap",i,colIndex,preShareCell.wrap);
                         textH_all_ColumnHeight.push(textH_all_cache);
                         textH_all_cache = 0;
                         colIndex +=1;
+
+                        preShareCell = shareCell;
                         continue;
                     }
                 }
@@ -445,7 +447,7 @@ function getCellTextInfo(cell , ctx, option){
                     if(textH_all_cache>cellHeight && textH_all_Column[colIndex]!=null){
                         // textW_all += textW;
                         // textH_all = Math.max(textH_all,textH_all_cache);
-                        console.log(">",i,shareCell, preShareCell);
+                        // console.log(">",i,colIndex);
                         textH_all_ColumnHeight.push(textH_all_cache-textH);
                         textH_all_cache = textH;
                         colIndex +=1;
@@ -478,7 +480,7 @@ function getCellTextInfo(cell , ctx, option){
                 }
     
                 textH_all_Column[colIndex].push(item);
-
+                console.log("normal",i,colIndex,shareCell, preShareCell, textH_all_Column);
                 preShareCell = shareCell;
                 
             }
@@ -596,9 +598,9 @@ function getCellTextInfo(cell , ctx, option){
                     width:columnWidth, 
                     height:word.height, 
                     left:left,
-                    top:top+word.height/2,
-                    asc:word.asc,
-                    desc:word.desc
+                    top:top+word.height-space_height,
+                    asc:word.height,
+                    desc:0
                 });
 
                 textContent.values.push(word);
