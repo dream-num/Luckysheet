@@ -3,6 +3,7 @@ import formula from '../global/formula';
 import { dynamicArrayHightShow } from '../global/dynamicArray';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import browser from '../global/browser';
+import dataVerificationCtrl from './dataVerificationCtrl';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
 import locale from '../locale/locale';
@@ -163,6 +164,8 @@ function selectHightlightShow() {
                 );
                 //左上角选择区域框
                 formula.fucntionboxshow(rf, cf);
+                //focus单元格数据验证
+                dataVerificationCtrl.cellFocus(rf, cf);
             }
         }
 

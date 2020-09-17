@@ -18,6 +18,7 @@ import pivotTable from './pivotTable';
 import luckysheetsizeauto from './resize';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
+import dataVerificationCtrl from './dataVerificationCtrl';
 import luckysheetFreezen from './freezen';
 import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
@@ -870,6 +871,9 @@ const sheetmanage = {
         //图片
         imageCtrl.images = file.images;
         imageCtrl.allImagesShow();
+
+        //数据验证
+        dataVerificationCtrl.dataVerification = file.dataVerification;
 
         this.sheetParamRestore(file, Store.flowdata);
 

@@ -450,6 +450,7 @@ const luckysheetDropCell = {
         
         let cfg = $.extend(true, {}, Store.config);
         let borderInfoCompute = getBorderInfoCompute();
+        let dataVerification = $.extend(true, {}, file["dataVerification"]);
 
         let direction = _this.direction;
         let type = _this.applyType;
@@ -563,6 +564,11 @@ const luckysheetDropCell = {
 
                             cfg["borderInfo"].push(bd_obj);
                         }
+
+                        //数据验证
+                        if(dataVerification[bd_r + "_" + bd_c]){
+                            dataVerification[j + "_" + i] = dataVerification[bd_r + "_" + bd_c];
+                        }
                     }
                 }
                 if(direction == "up"){
@@ -646,6 +652,11 @@ const luckysheetDropCell = {
                             }
 
                             cfg["borderInfo"].push(bd_obj);
+                        }
+
+                        //数据验证
+                        if(dataVerification[bd_r + "_" + bd_c]){
+                            dataVerification[j + "_" + i] = dataVerification[bd_r + "_" + bd_c];
                         }
                     }
                 }
@@ -741,6 +752,11 @@ const luckysheetDropCell = {
 
                             cfg["borderInfo"].push(bd_obj);
                         }
+
+                        //数据验证
+                        if(dataVerification[bd_r + "_" + bd_c]){
+                            dataVerification[i + "_" + j] = dataVerification[bd_r + "_" + bd_c];
+                        }
                     }
                 }
                 if(direction == "left"){
@@ -825,6 +841,11 @@ const luckysheetDropCell = {
 
                             cfg["borderInfo"].push(bd_obj);
                         }
+
+                        //数据验证
+                        if(dataVerification[bd_r + "_" + bd_c]){
+                            dataVerification[i + "_" + j] = dataVerification[bd_r + "_" + bd_c];
+                        }
                     }
                 }
             }
@@ -852,7 +873,7 @@ const luckysheetDropCell = {
         }
 
         //刷新一次表格
-        jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat);
+        jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, null, dataVerification);
 
         selectHightlightShow();
     },

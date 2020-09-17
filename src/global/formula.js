@@ -1195,7 +1195,7 @@ const luckysheetformula = {
         let $input = $("#luckysheet-rich-text-editor"),
             value = $input.text();
 
-        if (_this.rangetosheet != Store.currentSheetIndex) {
+        if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
         }
 
@@ -1353,10 +1353,10 @@ const luckysheetformula = {
         }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, isRunExecFunction);
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, null, isRunExecFunction);
         }
         else {
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, isRunExecFunction);
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, undefined, isRunExecFunction);
         }
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
