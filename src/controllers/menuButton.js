@@ -456,7 +456,9 @@ const menuButton = {
         });
 
         //字体设置
-        $("#luckysheet-icon-font-family").click(function(){
+        $("#luckysheet-icon-font-family").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let menuButtonId = $(this).attr("id")+"-menuButton";
             let $menuButton = $("#"+menuButtonId);
             if($menuButton.length == 0){
@@ -505,7 +507,9 @@ const menuButton = {
         });
 
         //字体颜色
-        $("#luckysheet-icon-text-color").click(function(){
+        $("#luckysheet-icon-text-color").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
             let color =  $(this).attr("color");
             if(color == null){
@@ -514,7 +518,9 @@ const menuButton = {
             _this.updateFormat(d, "fc", color);
         });
 
-        $("#luckysheet-icon-text-color-menu").click(function(){
+        $("#luckysheet-icon-text-color-menu").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#"+menuButtonId);
 
@@ -786,7 +792,9 @@ const menuButton = {
 
         //字体大小
         let luckysheet_fs_setTimeout = null;
-        $("#luckysheet-icon-font-size").click(function(){
+        $("#luckysheet-icon-font-size").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
             
@@ -848,7 +856,9 @@ const menuButton = {
             }
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         })
-        .find("input.luckysheet-toolbar-textinput").keyup(function(e){
+        .find("input.luckysheet-toolbar-textinput").keydown(function(e){
+            e.stopPropagation();
+        }).keyup(function(e){
             if(e.keyCode != 13){//Enter
                 return;
             }
@@ -2069,7 +2079,9 @@ const menuButton = {
         });
 
         //加粗
-        $("#luckysheet-icon-bold").click(function(){
+        $("#luckysheet-icon-bold").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(e){
             let d = editor.deepCopyFlowData(Store.flowdata);
             let row_index = Store.luckysheet_select_save[0]["row_focus"], 
                 col_index = Store.luckysheet_select_save[0]["column_focus"];
@@ -2087,7 +2099,9 @@ const menuButton = {
         });
 
         //斜体
-        $("#luckysheet-icon-italic").click(function(){
+        $("#luckysheet-icon-italic").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
             let row_index = Store.luckysheet_select_save[0]["row_focus"], 
                 col_index = Store.luckysheet_select_save[0]["column_focus"];
@@ -2105,7 +2119,9 @@ const menuButton = {
         });
 
         //删除线
-        $("#luckysheet-icon-strikethrough").click(function(){
+        $("#luckysheet-icon-strikethrough").mousedown(function(e){
+            e.stopPropagation();
+        }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
             let row_index = Store.luckysheet_select_save[0]["row_focus"], 
                 col_index = Store.luckysheet_select_save[0]["column_focus"];

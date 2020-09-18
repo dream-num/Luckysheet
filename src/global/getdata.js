@@ -333,10 +333,13 @@ export function getFontStyleByCell(cell,checksAF,checksCF){
             style += "font-style:italic;";
         }
 
-        if(key == "ff" && value != "0"){
+        if(key == "ff"){
             let f = value;
             if(!isNaN(parseInt(value))){
                 f = locale_fontarray[parseInt(value)];
+            }
+            else{
+                f = value;
             }
             style += "font-family: " + f + ";";
         }

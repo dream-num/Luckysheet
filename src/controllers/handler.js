@@ -4410,6 +4410,7 @@ export default function luckysheetHandler() {
 
         //点击功能栏时 如果是单元格编辑模式 则退出编辑模式 
         if ($(event.target).closest("#luckysheet-wa-editor").length > 0 && parseInt($("#luckysheet-input-box").css("top")) > 0) {
+            console.log(event);
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
         }

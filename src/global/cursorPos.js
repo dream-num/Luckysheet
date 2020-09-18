@@ -45,6 +45,19 @@ function getCursortPosition(textDom){
     return cursorPos;
 }
 
+function hideMenuByCancel(event){
+    if (!$(event.target).hasClass("luckysheet-mousedown-cancel") && $(event.target).filter("[class*='sp-palette']").length == 0 && $(event.target).filter("[class*='sp-thumb']").length == 0 && $(event.target).filter("[class*='sp-']").length == 0) {
+        $("#luckysheet-rightclick-menu").hide();
+        $("#luckysheet-cols-h-hover").hide();
+        $("#luckysheet-cols-menu-btn").hide();
+        $("#luckysheet-rightclick-menu").hide();
+        $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu").hide();
+        $("body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu").hide();
+        //$("body > luckysheet-menuButton").hide();
+        Store.luckysheet_cols_menu_status = false;
+    }
+}
+
 export {
     luckysheetRangeLast,
     getCursortPosition,
