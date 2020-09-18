@@ -1320,8 +1320,10 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
         luckysheetTableContent.clip();
         luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
-
-        textMetrics += 14;
+        
+        let measureText = getMeasureText(value, luckysheetTableContent);
+        let textMetrics = measureText.width + 14;
+        let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
         let horizonAlignPos = (pos_x + space_width) ; //默认为1，左对齐
         if(horizonAlign == "0"){ //居中对齐

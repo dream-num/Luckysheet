@@ -246,7 +246,9 @@ const columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
 
 //右键菜单dom
 function rightclickHTML(){
-    const rightclick = locale().rightclick;
+    const _locale = locale();
+    const rightclick = _locale.rightclick;
+    const toolbar = _locale.toolbar;
 
     return `<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">
                 <div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content">
@@ -348,6 +350,12 @@ function rightclickHTML(){
                     </div>
                     <div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.chartGeneration}</div>
+                    </div>
+                    <div id="luckysheetInsertImage" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.insertImage}</div>
+                    </div>
+                    <div id="luckysheetDataVerification" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.dataVerification}</div>
                     </div>
                 </div>
             </div>

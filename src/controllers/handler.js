@@ -4277,6 +4277,10 @@ export default function luckysheetHandler() {
     $("#luckysheet-insertImg-btn-title").click(function () {
         $("#luckysheet-imgUpload").click();    
     });
+    $("#luckysheetInsertImage").click(function () {
+        $("#luckysheet-imgUpload").click();
+        $("#luckysheet-rightclick-menu").hide();
+    })
     $("#luckysheet-imgUpload").click(function (e) {
         e.stopPropagation();
     });
@@ -4300,6 +4304,10 @@ export default function luckysheetHandler() {
 
         dataVerificationCtrl.createDialog();
         dataVerificationCtrl.init();
+    })
+    $("#luckysheetDataVerification").click(function () {
+        $("#luckysheet-dataVerification-btn-title").click();
+        $("#luckysheet-rightclick-menu").hide();
     })
 
     //冻结行列

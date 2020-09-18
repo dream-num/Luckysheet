@@ -2948,10 +2948,10 @@ const menuButton = {
         }
 
         if(attr == "tb" || attr == "tr" || attr == "fs"){
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true, false);
+            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true, null, false);
         }
         else{
-            jfrefreshgrid(d, Store.luckysheet_select_save, undefined, undefined,undefined,false);
+            jfrefreshgrid(d, Store.luckysheet_select_save, undefined, undefined,undefined,undefined,false);
         }
     },
     updateFormat_mc: function(d, foucsStatus){
