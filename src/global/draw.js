@@ -1897,7 +1897,7 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
                 continue
             }
 
-            if(cell != null && !isRealNull(cell.v) && cell.mc == null && cell.tb == '1'){
+            if(cell != null && (!isRealNull(cell.v) || (cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0) ) && cell.mc == null && cell.tb == '1'){
                 // let fontset = luckysheetfontformat(cell);
                 // canvas.font = fontset;
 

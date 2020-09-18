@@ -5,6 +5,7 @@ import formula from './formula';
 import editor from './editor';
 import { dynamicArrayCompute } from './dynamicArray';
 import sheetmanage from '../controllers/sheetmanage';
+import locale from '../locale/locale';
 import Store from '../store';
 
 //Get selection range value
@@ -276,4 +277,243 @@ export function getRealCellValue(r, c){
     }
 
     return value;
+}
+
+export function getInlineStringNoStyle(r, c){
+    let ct = getcellvalue(r, c, null, "ct");
+    if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+        let strings = ct.s, value="";
+        for(let i=0;i<strings.length;i++){
+            let strObj = strings[i];
+            if(strObj.v!=null){
+                value += strObj.v;
+            }
+        }
+        return value;
+    }
+
+    return "";
+}
+
+export function getInlineStringStyle(r, c, data){
+    let ct = getcellvalue(r, c, data, "ct");
+    if (data == null) {
+        data = Store.flowdata;
+    }
+    let cell = data[r][c];
+    if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+        let strings = ct.s, value="";
+        for(let i=0;i<strings.length;i++){
+            let strObj = strings[i];
+            if(strObj.v!=null){
+                let style = getFontStyleByCell(strObj);
+                value += "<span style='"+ style +"'>" + strObj.v + "</span>";
+            }
+        }
+        return value;
+    }
+
+    return "";
+}
+
+export function getFontStyleByCell(cell,checksAF,checksCF){
+    if(cell==null){
+        return;
+    }
+    let style = "";
+    const _locale = locale();
+    const locale_fontarray = _locale.fontarray;
+    for(let key in cell){
+        let value = checkstatusByCell(cell, key);
+        if(key == "bl" && value != "0"){
+            style += "font-weight: bold;";
+        }
+
+        if(key == "it" && value != "0"){
+            style += "font-style:italic;";
+        }
+
+        if(key == "ff" && value != "0"){
+            let f = value;
+            if(!isNaN(parseInt(value))){
+                f = locale_fontarray[parseInt(value)];
+            }
+            style += "font-family: " + f + ";";
+        }
+
+        if(key == "fs" && value != "10"){
+            style += "font-size: "+ value + "pt;";
+        }
+
+        if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
+            if(checksCF != null && checksCF["textColor"] != null){
+                style += "color: " + checksCF["textColor"] + ";";
+            }
+            else if(checksAF != null){
+                style += "color: " + checksAF[0] + ";";
+            }
+            else{
+                style += "color: " + value + ";";  
+            }
+        }
+
+    }
+    return style;
+}
+
+export function checkstatusByCell(cell, a){
+    let foucsStatus =cell;
+    let tf = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1};
+
+    if(a in tf){
+        if(foucsStatus == null){
+            foucsStatus = "0";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "0";
+            }
+        }
+    }
+    else if(a == "fc"){
+        if(foucsStatus == null){
+            foucsStatus = "#000000";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+
+            if(foucsStatus == null){
+                foucsStatus = "#000000";
+            }
+
+            if(foucsStatus.indexOf("rgba") > -1){
+                foucsStatus = rgbTohex(foucsStatus);
+            }
+        }
+    }
+    else if(a == "bg"){
+        if(foucsStatus == null){
+            foucsStatus = null;
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+
+            if(foucsStatus == null){
+                foucsStatus = null;
+            }
+            else if(foucsStatus.toString().indexOf("rgba") > -1){
+                foucsStatus = rgbTohex(foucsStatus);
+            }
+        }
+    }
+    else if(a.substr(0, 2) == "bs"){
+        if(foucsStatus == null){
+            foucsStatus = "none";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "none";
+            }
+        }
+    }
+    else if(a.substr(0, 2) == "bc"){
+        if(foucsStatus == null){
+            foucsStatus = "#000000";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "#000000";
+            }
+        }
+    }
+    else if(a == "ht"){
+        if(foucsStatus == null){
+            foucsStatus = "1";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "1";
+            }
+        }
+
+        if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
+            foucsStatus = "1";
+        }
+    }
+    else if(a == "vt"){
+        if(foucsStatus == null){
+            foucsStatus = "2";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "2";
+            }
+        }
+
+        if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
+            foucsStatus = "2";
+        }
+    }
+    else if(a == "ct"){
+        if(foucsStatus == null){
+            foucsStatus = null;
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = null;
+            }
+        }
+    }
+    else if(a == "fs"){
+        if(foucsStatus == null){
+            foucsStatus = "10";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "10";
+            }
+        }
+    }
+    else if(a == "tb"){
+        if(foucsStatus == null){
+            foucsStatus = "0";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "0";
+            }
+        }
+    }
+    else if(a == "tr"){
+        if(foucsStatus == null){
+            foucsStatus = "0";
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = "0";
+            }
+        }
+    }
+    else if(a == "rt"){
+        if(foucsStatus == null){
+            foucsStatus = null;
+        }
+        else{
+            foucsStatus = foucsStatus[a];
+            if(foucsStatus == null){
+                foucsStatus = null;
+            }
+        }
+    }
+
+    return foucsStatus;
 }

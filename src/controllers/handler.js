@@ -3146,6 +3146,12 @@ export default function luckysheetHandler() {
                 cfg["rowlen"] = {};
             }
 
+            if (cfg["customHeight"] == null) {
+                cfg["customHeight"] = {};
+            }
+
+            cfg["customHeight"][Store.luckysheet_rows_change_size_start[1]] = 1;
+
             cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 
             let images = imageCtrl.moveChangeSize("row", Store.luckysheet_rows_change_size_start[1], size);
@@ -3221,6 +3227,12 @@ export default function luckysheetHandler() {
             if (cfg["columnlen"] == null) {
                 cfg["columnlen"] = {};
             }
+
+            if (cfg["customWidth"] == null) {
+                cfg["customWidth"] = {};
+            }
+
+            cfg["customWidth"][Store.luckysheet_cols_change_size_start[1]] = 1;
 
             cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
 

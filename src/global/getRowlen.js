@@ -1,6 +1,6 @@
 import { luckysheetfontformat } from '../utils/util';
 import menuButton from '../controllers/menuButton';
-import { getcellvalue } from './getdata';
+import { getcellvalue,checkstatusByCell } from './getdata';
 import { colLocationByIndex } from './location';
 import { hasChinaword, isRealNull } from './validate';
 import Store from '../store';
@@ -10,6 +10,10 @@ function rowlenByRange(d, r1, r2, cfg) {
     let cfg_clone = $.extend(true, {}, cfg);
     if(cfg_clone["rowlen"] == null){
         cfg_clone["rowlen"] = {};
+    }
+
+    if(cfg_clone["customHeight"] == null){
+        cfg_clone["customHeight"] = {};
     }
 
     let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
@@ -24,6 +28,10 @@ function rowlenByRange(d, r1, r2, cfg) {
         // if(cfg_clone["rowlen"][r] != null){
         //     currentRowLen = cfg_clone["rowlen"][r];
         // }
+
+        if(cfg_clone["customHeight"][r]==1){
+            continue;
+        }
 
         delete cfg_clone["rowlen"][r];
 
@@ -269,13 +277,13 @@ function getCellTextInfo(cell , ctx, option){
     }
 
     //水平对齐
-    let horizonAlign = menuButton.checkstatusByCell(cell, "ht");
+    let horizonAlign = checkstatusByCell(cell, "ht");
     //垂直对齐
-    let verticalAlign = menuButton.checkstatusByCell(cell, "vt");
+    let verticalAlign = checkstatusByCell(cell, "vt");
 
-    let tb = menuButton.checkstatusByCell(cell ,"tb");//wrap overflow
-    let tr = menuButton.checkstatusByCell(cell ,"tr");//rotate
-    let rt = menuButton.checkstatusByCell(cell ,"rt");//rotate angle
+    let tb = checkstatusByCell(cell ,"tb");//wrap overflow
+    let tr = checkstatusByCell(cell ,"tr");//rotate
+    let rt = checkstatusByCell(cell ,"rt");//rotate angle
 
     let isRotateUp = 1, isRotateDown=0;
 
@@ -380,8 +388,8 @@ function getCellTextInfo(cell , ctx, option){
         fontset = luckysheetfontformat(cell);
         ctx.font = fontset;
 
-        cancelLine = menuButton.checkstatusByCell(cell ,"cl");//cancelLine
-        underLine = menuButton.checkstatusByCell(cell ,"un");//underLine
+        cancelLine = checkstatusByCell(cell ,"cl");//cancelLine
+        underLine = checkstatusByCell(cell ,"un");//underLine
     
         if(cell instanceof Object){
             value = cell.m;
@@ -423,11 +431,13 @@ function getCellTextInfo(cell , ctx, option){
                     showValue = "";
                     
                     
-                    if(!(preShareCell==null || preShareCell.wrap==true || (i==inlineStringArr.length-1))){
-                        console.log("wrap",i,shareCell, preShareCell);
+                    if( preShareCell!=null && preShareCell.wrap!==true && (i<inlineStringArr.length-1)){
+                        // console.log("wrap",i,colIndex,preShareCell.wrap);
                         textH_all_ColumnHeight.push(textH_all_cache);
                         textH_all_cache = 0;
                         colIndex +=1;
+
+                        preShareCell = shareCell;
                         continue;
                     }
                 }
@@ -445,7 +455,7 @@ function getCellTextInfo(cell , ctx, option){
                     if(textH_all_cache>cellHeight && textH_all_Column[colIndex]!=null){
                         // textW_all += textW;
                         // textH_all = Math.max(textH_all,textH_all_cache);
-                        console.log(">",i,shareCell, preShareCell);
+                        // console.log(">",i,colIndex);
                         textH_all_ColumnHeight.push(textH_all_cache-textH);
                         textH_all_cache = textH;
                         colIndex +=1;
@@ -478,7 +488,7 @@ function getCellTextInfo(cell , ctx, option){
                 }
     
                 textH_all_Column[colIndex].push(item);
-
+                console.log("normal",i,colIndex,shareCell, preShareCell, textH_all_Column);
                 preShareCell = shareCell;
                 
             }
@@ -596,9 +606,9 @@ function getCellTextInfo(cell , ctx, option){
                     width:columnWidth, 
                     height:word.height, 
                     left:left,
-                    top:top+word.height/2,
-                    asc:word.asc,
-                    desc:word.desc
+                    top:top+word.height-space_height,
+                    asc:word.height,
+                    desc:0
                 });
 
                 textContent.values.push(word);

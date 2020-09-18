@@ -26,6 +26,7 @@ import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import { isdatatypemulti } from '../global/datecontroll';
 import { rowlenByRange, getCellTextSplitArr } from '../global/getRowlen';
 import { setcellvalue } from '../global/setdata';
+import { getFontStyleByCell, checkstatusByCell} from '../global/getdata';
 import { countfunc } from '../global/count';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
@@ -3312,165 +3313,9 @@ const menuButton = {
             }
         }
     },
-    checkstatusByCell:function(cell, a){
-        let foucsStatus =cell;
-        let tf = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1};
-
-        if(a in tf){
-            if(foucsStatus == null){
-                foucsStatus = "0";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "0";
-                }
-            }
-        }
-        else if(a == "fc"){
-            if(foucsStatus == null){
-                foucsStatus = "#000000";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-
-                if(foucsStatus == null){
-                    foucsStatus = "#000000";
-                }
-
-                if(foucsStatus.indexOf("rgba") > -1){
-                    foucsStatus = rgbTohex(foucsStatus);
-                }
-            }
-        }
-        else if(a == "bg"){
-            if(foucsStatus == null){
-                foucsStatus = null;
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-
-                if(foucsStatus == null){
-                    foucsStatus = null;
-                }
-                else if(foucsStatus.toString().indexOf("rgba") > -1){
-                    foucsStatus = rgbTohex(foucsStatus);
-                }
-            }
-        }
-        else if(a.substr(0, 2) == "bs"){
-            if(foucsStatus == null){
-                foucsStatus = "none";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "none";
-                }
-            }
-        }
-        else if(a.substr(0, 2) == "bc"){
-            if(foucsStatus == null){
-                foucsStatus = "#000000";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "#000000";
-                }
-            }
-        }
-        else if(a == "ht"){
-            if(foucsStatus == null){
-                foucsStatus = "1";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "1";
-                }
-            }
-
-            if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
-                foucsStatus = "1";
-            }
-        }
-        else if(a == "vt"){
-            if(foucsStatus == null){
-                foucsStatus = "2";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "2";
-                }
-            }
-
-            if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
-                foucsStatus = "2";
-            }
-        }
-        else if(a == "ct"){
-            if(foucsStatus == null){
-                foucsStatus = null;
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = null;
-                }
-            }
-        }
-        else if(a == "fs"){
-            if(foucsStatus == null){
-                foucsStatus = "10";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "10";
-                }
-            }
-        }
-        else if(a == "tb"){
-            if(foucsStatus == null){
-                foucsStatus = "0";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "0";
-                }
-            }
-        }
-        else if(a == "tr"){
-            if(foucsStatus == null){
-                foucsStatus = "0";
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = "0";
-                }
-            }
-        }
-        else if(a == "rt"){
-            if(foucsStatus == null){
-                foucsStatus = null;
-            }
-            else{
-                foucsStatus = foucsStatus[a];
-                if(foucsStatus == null){
-                    foucsStatus = null;
-                }
-            }
-        }
-
-        return foucsStatus;
-    },
     checkstatus: function(d, r, c, a){
         let foucsStatus = d[r][c];
-        return this.checkstatusByCell(foucsStatus, a);
+        return checkstatusByCell(foucsStatus, a);
     },
     setLineDash: function(canvasborder, type, hv, m_st, m_ed, line_st, line_ed){
     	let borderType = {
@@ -4232,6 +4077,10 @@ const menuButton = {
         const locale_fontarray = locale().fontarray;
 
         let cell = d[r][c];
+        let ct = cell.ct, isInline=false;
+        if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+            isInline = true;
+        }
         for(let key in cell){
             let value = _this.checkstatus(d, r, c , key);
 
@@ -4260,37 +4109,39 @@ const menuButton = {
                 }
             }
 
-            if(key == "bl" && value != "0"){
-                style += "font-weight: bold;";
-            }
-
-            if(key == "it" && value != "0"){
-                style += "font-style:italic;";
-            }
-
-            if(key == "ff" && value != "0"){
-                let f = value;
-                if(!isNaN(parseInt(value))){
-                    f = locale_fontarray[parseInt(value)];
-                }
-                style += "font-family: " + f + ";";
-            }
-
-            if(key == "fs" && value != "10"){
-                style += "font-size: "+ value + "pt;";
-            }
-
-            if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
-                if(checksCF != null && checksCF["textColor"] != null){
-                    style += "color: " + checksCF["textColor"] + ";";
-                }
-                else if(checksAF != null){
-                    style += "color: " + checksAF[0] + ";";
-                }
-                else{
-                    style += "color: " + value + ";";  
-                }
-            }
+            // if(!isInline){
+            //     if(key == "bl" && value != "0"){
+            //         style += "font-weight: bold;";
+            //     }
+    
+            //     if(key == "it" && value != "0"){
+            //         style += "font-style:italic;";
+            //     }
+    
+            //     if(key == "ff" && value != "0"){
+            //         let f = value;
+            //         if(!isNaN(parseInt(value))){
+            //             f = locale_fontarray[parseInt(value)];
+            //         }
+            //         style += "font-family: " + f + ";";
+            //     }
+    
+            //     if(key == "fs" && value != "10"){
+            //         style += "font-size: "+ value + "pt;";
+            //     }
+    
+            //     if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
+            //         if(checksCF != null && checksCF["textColor"] != null){
+            //             style += "color: " + checksCF["textColor"] + ";";
+            //         }
+            //         else if(checksAF != null){
+            //             style += "color: " + checksAF[0] + ";";
+            //         }
+            //         else{
+            //             style += "color: " + value + ";";  
+            //         }
+            //     }
+            // }
 
             if(key == "ht" && value != "1"){
                 if(value == "0"){
@@ -4309,6 +4160,10 @@ const menuButton = {
                     style += "align-items: flex-end;";
                 }
             }
+        }
+
+        if(!isInline){
+            style += getFontStyleByCell(cell,checksAF,checksCF);
         }
 
         return style;
