@@ -18,6 +18,7 @@ import tooltip from './tooltip';
 import { rowLocation, colLocation, colLocationByIndex, mouseposition } from './location';
 import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
+import { isInlineStringCell } from '../controllers/inlineString';
 // import luckysheet_function from '../function/luckysheet_function';
 // import functionlist from '../function/functionlist';
 import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
@@ -325,7 +326,7 @@ const luckysheetformula = {
         if (d[r] != null && d[r][c] != null) {
             let cell = d[r][c];
 
-            if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0){
+            if(isInlineStringCell(cell)){
                 value = getInlineStringNoStyle(r, c);
             }
             else if(cell.f != null){

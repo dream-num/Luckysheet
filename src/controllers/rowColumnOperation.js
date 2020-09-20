@@ -34,6 +34,7 @@ import editor from '../global/editor';
 import locale from '../locale/locale';
 import {getMeasureText,getCellTextInfo} from '../global/getRowlen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
+import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 
 export function rowColumnOperationInitial(){
@@ -1711,7 +1712,7 @@ function luckysheetcolsdbclick() {
             for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                 let cell = d[r][colIndex];
                 
-                if(cell == null || (isRealNull(cell.v) && !(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0)) ){
+                if(cell == null || (isRealNull(cell.v) && !isInlineStringCell(cell)) ){
                     continue;
                 }
 
@@ -1759,7 +1760,7 @@ function luckysheetcolsdbclick() {
                 for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                     let cell = d[r][c];
                     
-                    if(cell == null || (isRealNull(cell.v) && !(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0)) ){
+                    if(cell == null || (isRealNull(cell.v) && !isInlineStringCell(cell)) ){
                         continue;
                     }
 

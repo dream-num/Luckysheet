@@ -1,3 +1,5 @@
+import Store from '../store';
+
 function luckysheetRangeLast(obj) {
     let range;
     
@@ -61,4 +63,5 @@ function hideMenuByCancel(event){
 export {
     luckysheetRangeLast,
     getCursortPosition,
+    hideMenuByCancel,
 }

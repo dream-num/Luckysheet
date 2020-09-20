@@ -11,6 +11,7 @@ import { valueShowEs } from '../global/format';
 import formula from '../global/formula';
 import { luckysheetRangeLast } from '../global/cursorPos';
 import cleargridelement from '../global/cleargridelement';
+import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 
 export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocus) {
@@ -135,7 +136,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 
         
         if (!cover) {
-            if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0){
+            if(isInlineStringCell(cell)){
                 value = getInlineStringStyle(row_index, col_index, d);
             }
             else if(cell.f!=null){

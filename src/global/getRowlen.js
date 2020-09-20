@@ -3,6 +3,7 @@ import menuButton from '../controllers/menuButton';
 import { getcellvalue,checkstatusByCell } from './getdata';
 import { colLocationByIndex } from './location';
 import { hasChinaword, isRealNull } from './validate';
+import { isInlineStringCell } from '../controllers/inlineString';
 import Store from '../store';
 
 //计算范围行高
@@ -326,7 +327,7 @@ function getCellTextInfo(cell , ctx, option){
     textContent.values = [];
 
     let fontset, cancelLine="0", underLine="0", isInline=false, value, inlineStringArr=[];
-    if(cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0){
+    if(isInlineStringCell(cell)){
         let sharedStrings = cell.ct.s, similarIndex = 0;
         for(let i=0;i<sharedStrings.length;i++){
             let shareCell = sharedStrings[i];

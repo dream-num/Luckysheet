@@ -126,6 +126,8 @@ const Store = {
 
     showGridLines:true,
 
+    inlineStringEditCache:null,
+
 }
 
 export default Store;

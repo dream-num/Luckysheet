@@ -22,6 +22,7 @@ import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_co
 import selection from './selection';
 import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
+import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
 
 import { 
@@ -230,6 +231,10 @@ export default function luckysheetHandler() {
         if(luckysheetDocument){
             luckysheetsizeauto();
         }            
+    });
+
+    $("#luckysheet-rich-text-editor").mouseup(function(e){
+        menuButton.inputMenuButtonFocus(e.target);
     });
 
     //表格mousedown
@@ -4397,16 +4402,7 @@ export default function luckysheetHandler() {
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
-        if (!$(event.target).hasClass("luckysheet-mousedown-cancel") && $(event.target).filter("[class*='sp-palette']").length == 0 && $(event.target).filter("[class*='sp-thumb']").length == 0 && $(event.target).filter("[class*='sp-']").length == 0) {
-            $("#luckysheet-rightclick-menu").hide();
-            $("#luckysheet-cols-h-hover").hide();
-            $("#luckysheet-cols-menu-btn").hide();
-            $("#luckysheet-rightclick-menu").hide();
-            $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu").hide();
-            $("body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu").hide();
-            //$("body > luckysheet-menuButton").hide();
-            Store.luckysheet_cols_menu_status = false;
-        }
+        hideMenuByCancel(event);
 
         //点击功能栏时 如果是单元格编辑模式 则退出编辑模式 
         if ($(event.target).closest("#luckysheet-wa-editor").length > 0 && parseInt($("#luckysheet-input-box").css("top")) > 0) {

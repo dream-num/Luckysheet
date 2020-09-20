@@ -28,8 +28,10 @@ import { rowlenByRange, getCellTextSplitArr } from '../global/getRowlen';
 import { setcellvalue } from '../global/setdata';
 import { getFontStyleByCell, checkstatusByCell} from '../global/getdata';
 import { countfunc } from '../global/count';
+import { hideMenuByCancel } from '../global/cursorPos';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
+import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList} from './inlineString';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
@@ -457,6 +459,7 @@ const menuButton = {
 
         //字体设置
         $("#luckysheet-icon-font-family").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let menuButtonId = $(this).attr("id")+"-menuButton";
@@ -508,6 +511,7 @@ const menuButton = {
 
         //字体颜色
         $("#luckysheet-icon-text-color").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
@@ -519,6 +523,7 @@ const menuButton = {
         });
 
         $("#luckysheet-icon-text-color-menu").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
@@ -793,6 +798,7 @@ const menuButton = {
         //字体大小
         let luckysheet_fs_setTimeout = null;
         $("#luckysheet-icon-font-size").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
@@ -857,6 +863,7 @@ const menuButton = {
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         })
         .find("input.luckysheet-toolbar-textinput").keydown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).keyup(function(e){
             if(e.keyCode != 13){//Enter
@@ -2080,6 +2087,7 @@ const menuButton = {
 
         //加粗
         $("#luckysheet-icon-bold").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(e){
             let d = editor.deepCopyFlowData(Store.flowdata);
@@ -2100,6 +2108,7 @@ const menuButton = {
 
         //斜体
         $("#luckysheet-icon-italic").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
@@ -2120,6 +2129,7 @@ const menuButton = {
 
         //删除线
         $("#luckysheet-icon-strikethrough").mousedown(function(e){
+            hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);
@@ -2825,6 +2835,17 @@ const menuButton = {
         let canvasElement = document.createElement('canvas');
         let canvas = canvasElement.getContext("2d");
 
+        if(attr in {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1} ){
+            if (parseInt($("#luckysheet-input-box").css("top")) > 0 ) {
+                let value = $("#luckysheet-input-box").text();
+                if(value.substr(0,1)!="="){
+                    let cell = d[Store.luckysheetCellUpdate[0]][Store.luckysheetCellUpdate[1]];
+                    updateInlineStringFormat(cell, attr, foucsStatus, luckysheetformula.rangeResizeTo);
+                    return;
+                }
+            }
+        }
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["rowlen"] == null){
             cfg["rowlen"] = {};
@@ -3190,143 +3211,165 @@ const menuButton = {
             //return [-2, -2, 1, 0];
         }
     },
+    changeMenuButtonDom:function(attr, foucsStatus, _locale){
+        let _this = this;
+        if(_locale==null){
+            _locale = locale();
+        }
+        
+        const locale_fontarray = _locale.fontarray;
+        const locale_fontjson = _locale.fontjson;
+
+        if(attr == "bl"){
+            if(foucsStatus != "0"){
+                $("#luckysheet-icon-bold").addClass("luckysheet-toolbar-button-hover");
+            }
+            else{
+                $("#luckysheet-icon-bold").removeClass("luckysheet-toolbar-button-hover");
+            }
+        }
+        else if(attr == "it"){
+            if(foucsStatus != "0"){
+                $("#luckysheet-icon-italic").addClass("luckysheet-toolbar-button-hover");
+            }
+            else{
+                $("#luckysheet-icon-italic").removeClass("luckysheet-toolbar-button-hover");
+            }
+        }
+        else if(attr == "cl"){
+            if(foucsStatus != "0"){
+                $("#luckysheet-icon-strikethrough").addClass("luckysheet-toolbar-button-hover");
+            }
+            else{
+                $("#luckysheet-icon-strikethrough").removeClass("luckysheet-toolbar-button-hover");
+            }
+        }
+        else if(attr == "ff"){
+            let menuButtonId = "luckysheet-icon-font-family-menuButton";
+            let $menuButton = $("#" + menuButtonId);
+            // const locale_fontarray = locale().fontarray;
+            let itemname = locale_fontarray[0], itemvalue = 0;
+            if(foucsStatus != null){
+                if(isdatatypemulti(foucsStatus)["num"]){
+                    itemvalue = parseInt(foucsStatus);
+                    itemname = locale_fontarray[itemvalue];
+                }
+                else{
+                    itemvalue = locale_fontjson[foucsStatus];
+                    itemname = locale_fontarray[itemvalue];
+                }   
+            }
+
+            _this.focus($menuButton, itemvalue);
+            $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" "+ itemname +" ");
+        }
+        else if(attr == "fs"){
+            let $menuButton = $("#luckysheet-icon-font-size-menuButton");
+            let itemvalue = foucsStatus, $input = $("#luckysheet-icon-font-size input");
+            _this.focus($menuButton, itemvalue);
+            $("#luckysheet-icon-font-size").attr("itemvalue", itemvalue);
+            $input.val(itemvalue);
+        }
+        else if(attr == "ht"){
+            let $menuButton = $("#luckysheet-icon-align-menu-menuButton");
+            let $t = $("luckysheet-icon-align"), itemvalue = "left";
+            
+            if(foucsStatus == "0"){
+                itemvalue = "center";
+            }
+            else if(foucsStatus == "2"){
+                itemvalue = "right";
+            }
+
+            _this.focus($menuButton, itemvalue);
+
+            let $icon = $("#luckysheet-icon-align").attr("type", itemvalue).find(".luckysheet-icon-img-container");
+            $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-" + itemvalue);
+            $menuButton.hide();
+        }
+        else if(attr == "vt"){
+            let $menuButton = $("#luckysheet-icon-valign-menu-menuButton");
+            let $t = $("luckysheet-icon-valign"), itemvalue = "bottom";
+            
+            if(foucsStatus == "1"){
+                itemvalue = "top";
+            }
+            else if(foucsStatus == "0"){
+                itemvalue = "middle";
+            }
+
+            _this.focus($menuButton, itemvalue);
+
+            let $icon = $("#luckysheet-icon-valign").attr("type", itemvalue).find(".luckysheet-icon-img-container");
+            $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-" + itemvalue);
+            $menuButton.hide();
+        }
+        else if(attr == "tb"){
+            let $menuButton = $("#luckysheet-icon-textwrap-menu-menuButton");
+            let $t = $("luckysheet-icon-textwrap"), itemvalue = "clip";
+            
+            if(foucsStatus == "1"){
+                itemvalue = "overflow";
+            }
+            else if(foucsStatus == "2"){
+                itemvalue = "wrap";
+            }
+
+            _this.focus($menuButton, itemvalue);
+
+            let $icon = $("#luckysheet-icon-textwrap").attr("type", itemvalue).find(".luckysheet-icon-img-container");
+            $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-" + itemvalue);
+            $menuButton.hide();
+        }
+        else if(attr == "tr"){
+            let $menuButton = $("#luckysheet-icon-rotation-menu-menuButton");
+            let $t = $("luckysheet-icon-rotation"), itemvalue = "none";
+            
+            if(foucsStatus == "1"){
+                itemvalue = "angleup";
+            }
+            else if(foucsStatus == "2"){
+                itemvalue = "angledown";
+            }
+            else if(foucsStatus == "3"){
+                itemvalue = "vertical";
+            }
+            else if(foucsStatus == "4"){
+                itemvalue = "rotation-up";
+            }
+            else if(foucsStatus == "5"){
+                itemvalue = "rotation-down";
+            }
+
+            _this.focus($menuButton, itemvalue);
+
+            let $icon = $("#luckysheet-icon-rotation").attr("type", itemvalue).find(".luckysheet-icon-img-container");
+            $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-" + itemvalue);
+            $menuButton.hide();
+        }
+    },
+    inputMenuButtonFocus:function(focusTarget){
+        var  w = window.getSelection(); 
+        var range = w.getRangeAt(0);
+        let startContainer = range.startContainer;
+        const _locale = locale();
+        if(startContainer.parentNode.tagName=="SPAN"){
+            let cssText = startContainer.parentNode.style.cssText;
+            let stylelist = convertCssToStyleList(cssText);
+            for(let key in stylelist){
+                this.changeMenuButtonDom(key, stylelist[key], _locale);
+            }
+        }
+    },
     menuButtonFocus: function(d, r, c){
         let _this = this;
         let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr"];
         const _locale = locale();
-        const locale_fontarray = _locale.fontarray;
-        const locale_fontjson = _locale.fontjson;
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];
             let foucsStatus = _this.checkstatus(d, r, c, attr);
 
-            if(attr == "bl"){
-                if(foucsStatus != "0"){
-                    $("#luckysheet-icon-bold").addClass("luckysheet-toolbar-button-hover");
-                }
-                else{
-                    $("#luckysheet-icon-bold").removeClass("luckysheet-toolbar-button-hover");
-                }
-            }
-            else if(attr == "it"){
-                if(foucsStatus != "0"){
-                    $("#luckysheet-icon-italic").addClass("luckysheet-toolbar-button-hover");
-                }
-                else{
-                    $("#luckysheet-icon-italic").removeClass("luckysheet-toolbar-button-hover");
-                }
-            }
-            else if(attr == "cl"){
-                if(foucsStatus != "0"){
-                    $("#luckysheet-icon-strikethrough").addClass("luckysheet-toolbar-button-hover");
-                }
-                else{
-                    $("#luckysheet-icon-strikethrough").removeClass("luckysheet-toolbar-button-hover");
-                }
-            }
-            else if(attr == "ff"){
-                let menuButtonId = "luckysheet-icon-font-family-menuButton";
-                let $menuButton = $("#" + menuButtonId);
-                // const locale_fontarray = locale().fontarray;
-                let itemname = locale_fontarray[0], itemvalue = 0;
-                if(foucsStatus != null){
-                    if(isdatatypemulti(foucsStatus)["num"]){
-                        itemvalue = parseInt(foucsStatus);
-                        itemname = locale_fontarray[itemvalue];
-                    }
-                    else{
-                        itemvalue = locale_fontjson[foucsStatus];
-                        itemname = locale_fontarray[itemvalue];
-                    }   
-                }
-
-                _this.focus($menuButton, itemvalue);
-                $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" "+ itemname +" ");
-            }
-            else if(attr == "fs"){
-                let $menuButton = $("#luckysheet-icon-font-size-menuButton");
-                let itemvalue = foucsStatus, $input = $("#luckysheet-icon-font-size input");
-                _this.focus($menuButton, itemvalue);
-                $("#luckysheet-icon-font-size").attr("itemvalue", itemvalue);
-                $input.val(itemvalue);
-            }
-            else if(attr == "ht"){
-                let $menuButton = $("#luckysheet-icon-align-menu-menuButton");
-                let $t = $("luckysheet-icon-align"), itemvalue = "left";
-                
-                if(foucsStatus == "0"){
-                    itemvalue = "center";
-                }
-                else if(foucsStatus == "2"){
-                    itemvalue = "right";
-                }
-
-                _this.focus($menuButton, itemvalue);
-
-                let $icon = $("#luckysheet-icon-align").attr("type", itemvalue).find(".luckysheet-icon-img-container");
-                $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-" + itemvalue);
-                $menuButton.hide();
-            }
-            else if(attr == "vt"){
-                let $menuButton = $("#luckysheet-icon-valign-menu-menuButton");
-                let $t = $("luckysheet-icon-valign"), itemvalue = "bottom";
-                
-                if(foucsStatus == "1"){
-                    itemvalue = "top";
-                }
-                else if(foucsStatus == "0"){
-                    itemvalue = "middle";
-                }
-
-                _this.focus($menuButton, itemvalue);
-
-                let $icon = $("#luckysheet-icon-valign").attr("type", itemvalue).find(".luckysheet-icon-img-container");
-                $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-" + itemvalue);
-                $menuButton.hide();
-            }
-            else if(attr == "tb"){
-                let $menuButton = $("#luckysheet-icon-textwrap-menu-menuButton");
-                let $t = $("luckysheet-icon-textwrap"), itemvalue = "clip";
-                
-                if(foucsStatus == "1"){
-                    itemvalue = "overflow";
-                }
-                else if(foucsStatus == "2"){
-                    itemvalue = "wrap";
-                }
-
-                _this.focus($menuButton, itemvalue);
-
-                let $icon = $("#luckysheet-icon-textwrap").attr("type", itemvalue).find(".luckysheet-icon-img-container");
-                $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-" + itemvalue);
-                $menuButton.hide();
-            }
-            else if(attr == "tr"){
-                let $menuButton = $("#luckysheet-icon-rotation-menu-menuButton");
-                let $t = $("luckysheet-icon-rotation"), itemvalue = "none";
-                
-                if(foucsStatus == "1"){
-                    itemvalue = "angleup";
-                }
-                else if(foucsStatus == "2"){
-                    itemvalue = "angledown";
-                }
-                else if(foucsStatus == "3"){
-                    itemvalue = "vertical";
-                }
-                else if(foucsStatus == "4"){
-                    itemvalue = "rotation-up";
-                }
-                else if(foucsStatus == "5"){
-                    itemvalue = "rotation-down";
-                }
-
-                _this.focus($menuButton, itemvalue);
-
-                let $icon = $("#luckysheet-icon-rotation").attr("type", itemvalue).find(".luckysheet-icon-img-container");
-                $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-" + itemvalue);
-                $menuButton.hide();
-            }
+            this.changeMenuButtonDom(attr, foucsStatus, _locale);
         }
     },
     checkstatus: function(d, r, c, a){
@@ -4094,7 +4137,7 @@ const menuButton = {
 
         let cell = d[r][c];
         let ct = cell.ct, isInline=false;
-        if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+        if(isInlineStringCell(cell)){
             isInline = true;
         }
         for(let key in cell){

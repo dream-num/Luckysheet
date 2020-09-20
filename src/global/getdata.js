@@ -5,6 +5,7 @@ import formula from './formula';
 import editor from './editor';
 import { dynamicArrayCompute } from './dynamicArray';
 import sheetmanage from '../controllers/sheetmanage';
+import { isInlineStringCT,isInlineStringCell } from '../controllers/inlineString';
 import locale from '../locale/locale';
 import Store from '../store';
 
@@ -270,7 +271,7 @@ export function getRealCellValue(r, c){
         value = getcellvalue(r, c);
         if(value==null){
             let ct = getcellvalue(r, c, null, "ct");
-            if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+            if(isInlineStringCT(ct)){
                 value = ct.s;
             }
         }
@@ -281,7 +282,7 @@ export function getRealCellValue(r, c){
 
 export function getInlineStringNoStyle(r, c){
     let ct = getcellvalue(r, c, null, "ct");
-    if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+    if(isInlineStringCT(ct)){
         let strings = ct.s, value="";
         for(let i=0;i<strings.length;i++){
             let strObj = strings[i];
@@ -301,13 +302,13 @@ export function getInlineStringStyle(r, c, data){
         data = Store.flowdata;
     }
     let cell = data[r][c];
-    if(ct!=null && ct.t=="inlineStr" && ct.s!=null && ct.s.length>0){
+    if(isInlineStringCT(ct)){
         let strings = ct.s, value="";
         for(let i=0;i<strings.length;i++){
             let strObj = strings[i];
             if(strObj.v!=null){
                 let style = getFontStyleByCell(strObj);
-                value += "<span style='"+ style +"'>" + strObj.v + "</span>";
+                value += "<span index='"+ i +"' style='"+ style +"'>" + strObj.v + "</span>";
             }
         }
         return value;
@@ -360,6 +361,14 @@ export function getFontStyleByCell(cell,checksAF,checksCF){
             }
         }
 
+        if(key == "cl" && value != "0"){
+            style += "text-decoration: line-through;";
+        }
+
+        if(key == "un" && (value == "1" || value == "3")){
+            style += "text-decoration: underline;";
+        }
+
     }
     return style;
 }
@@ -373,7 +382,14 @@ export function checkstatusByCell(cell, a){
             foucsStatus = "0";
         }
         else{
-            foucsStatus = foucsStatus[a];
+            if(isInlineStringCell(cell)){
+                foucsStatus = cell.ct.s[0][a];
+            }
+            else{
+                foucsStatus = foucsStatus[a];
+            }
+            
+            
             if(foucsStatus == null){
                 foucsStatus = "0";
             }
@@ -519,4 +535,11 @@ export function checkstatusByCell(cell, a){
     }
 
     return foucsStatus;
+}
+
+export function textTrim(x) {
+    if(x==null || x.length==0){
+        return x;
+    }
+    return x.replace(/^\s+|\s+$/gm,'');
 }

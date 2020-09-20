@@ -14,6 +14,7 @@ import { getcellvalue,getRealCellValue } from './getdata';
 import { getBorderInfoCompute } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
+import { isInlineStringCell } from '../controllers/inlineString';
 import Store from '../store';
 import locale from '../locale/locale';
 
@@ -1897,7 +1898,7 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
                 continue
             }
 
-            if(cell != null && (!isRealNull(cell.v) || (cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0) ) && cell.mc == null && cell.tb == '1'){
+            if(cell != null && (!isRealNull(cell.v) || isInlineStringCell(cell) ) && cell.mc == null && cell.tb == '1'){
                 // let fontset = luckysheetfontformat(cell);
                 // canvas.font = fontset;
 
