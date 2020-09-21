@@ -733,7 +733,7 @@ const pivotTable = {
             jfrefreshgridall(data[0].length, data.length, data, null, Store.luckysheet_select_save, "datachangeAll", undefined, undefined,isRefreshCanvas);
         }
         else {
-            jfrefreshgrid(data, Store.luckysheet_select_save, undefined, undefined, undefined, undefined, undefined,isRefreshCanvas);
+            jfrefreshgrid(data, Store.luckysheet_select_save, {}, null, isRefreshCanvas);
             selectHightlightShow();
         }
 

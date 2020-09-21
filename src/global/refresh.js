@@ -19,13 +19,15 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification, isRunExecFunction=true, isRefreshCanvas=true) {
+function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefreshCanvas = true) {
     if(data == null){
         data = Store.flowdata;
     }
+
     if(range == null){
         range = Store.luckysheet_select_save;
     }
+
     //单元格数据更新联动
     if (isRunExecFunction) {
         formula.execFunctionExist = [];
@@ -41,6 +43,19 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
         formula.execFunctionGroupData = null;
     }
 
+    //关联参数
+    if(allParam == null){
+        allParam = {};
+    }
+
+    let cfg = allParam["cfg"];  //config
+    let RowlChange = allParam["RowlChange"];  //行高改变
+    let cdformat = allParam["cdformat"];  //条件格式
+    let dataVerification = allParam["dataVerification"];  //数据验证
+    let dynamicArray = allParam["dynamicArray"];  //动态数组
+
+    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+
     if (Store.clearjfundo) {
         Store.jfundo = [];
 
@@ -54,7 +69,7 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
 
         let curCdformat;
         if(cdformat == null){
-            curCdformat = $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]);
+            curCdformat = $.extend(true, [], file["luckysheet_conditionformat_save"]);
         }
         else{
             curCdformat = cdformat;
@@ -62,10 +77,18 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
 
         let curDataVerification;
         if(dataVerification == null){
-            curDataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"])
+            curDataVerification = $.extend(true, {}, file["dataVerification"])
         }
         else{
             curDataVerification = dataVerification;
+        }
+
+        let curDynamicArray;
+        if(dynamicArray == null){
+            curDynamicArray = $.extend(true, [], file["dynamicArray"]);
+        }
+        else{
+            curDynamicArray = dynamicArray;
         }
         
         Store.jfredo.push({ 
@@ -76,23 +99,25 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
             "range": range, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
-            "cdformat":  $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
+            "cdformat":  $.extend(true, [], file["luckysheet_conditionformat_save"]),
             "curCdformat": curCdformat,
             "RowlChange": RowlChange,
-            "dataVerification": $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]),
-            "curDataVerification": curDataVerification
+            "dataVerification": $.extend(true, [], file["dataVerification"]),
+            "curDataVerification": curDataVerification,
+            "dynamicArray": $.extend(true, [], file["dynamicArray"]),
+            "curDynamicArray": curDynamicArray
         });
     }
 
     //Store.flowdata
     Store.flowdata = data;
     editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
-    Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].data = Store.flowdata;
+    file.data = Store.flowdata;
 
     //config
     if(cfg != null){
         Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        file.config = Store.config;
 
         server.saveParam("all", Store.currentSheetIndex, cfg, { "k": "config" });
 
@@ -103,7 +128,7 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
 
     //条件格式
     if(cdformat != null){
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] = cdformat;
+        file["luckysheet_conditionformat_save"] = cdformat;
 
         server.saveParam("all", Store.currentSheetIndex, cdformat, { "k": "luckysheet_conditionformat_save" });
     }
@@ -111,8 +136,15 @@ function jfrefreshgrid(data, range, cfg, cdformat, RowlChange, dataVerification,
     //数据验证
     if(dataVerification != null){
         dataVerificationCtrl.dataVerification = dataVerification;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"] = dataVerification;
+        file["dataVerification"] = dataVerification;
         server.saveParam("all", Store.currentSheetIndex, dataVerification, { "k": "dataVerification" });
+    }
+
+    //动态数组
+    if(dynamicArray != null){
+        file["dynamicArray"] = dynamicArray;
+
+        server.saveParam("all", Store.currentSheetIndex, dynamicArray, { "k": "dynamicArray" });
     }
 
     //更新数据的范围

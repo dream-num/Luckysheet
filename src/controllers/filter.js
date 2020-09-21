@@ -120,15 +120,18 @@ function orderbydatafiler(str, stc, edr, edc, index, asc) {
         }
     }
 
+    let allParam = {};
     if(Store.config["rowlen"] != null){
         let cfg = $.extend(true, {}, Store.config);
         cfg = rowlenByRange(d, str, edr, cfg);
 
-        jfrefreshgrid(d, [{ "row": [str, edr], "column": [stc, edc] }], cfg, null, true);
+        allParam = {
+            "cfg": cfg,
+            "RowlChange": true
+        }
     }
-    else{
-        jfrefreshgrid(d, [{ "row": [str, edr], "column": [stc, edc] }]);
-    }
+
+    jfrefreshgrid(d, [{ "row": [str, edr], "column": [stc, edc] }], allParam);
 }
 
 //创建筛选按钮

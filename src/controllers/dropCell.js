@@ -873,7 +873,12 @@ const luckysheetDropCell = {
         }
 
         //刷新一次表格
-        jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, null, dataVerification);
+        let allParam = {
+            "cfg": cfg,
+            "cdformat": cdformat,
+            "dataVerification": dataVerification
+        }
+        jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
 
         selectHightlightShow();
     },

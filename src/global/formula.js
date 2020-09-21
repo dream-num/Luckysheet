@@ -1240,6 +1240,7 @@ const luckysheetformula = {
         let isRunExecFunction = true;
         
         let d = editor.deepCopyFlowData(Store.flowdata);
+        let dynamicArrayItem = null;  //动态数组
 
         if (getObjType(curv) == "object") {
             if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
@@ -1261,6 +1262,9 @@ const luckysheetformula = {
                     else{
                         curv.spl = v[3].data;
                     }
+                }
+                else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                    dynamicArrayItem = v[3].data;
                 }
             }
             // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
@@ -1295,6 +1299,9 @@ const luckysheetformula = {
                         else{
                             curv.spl = v[3].data;
                         }
+                    }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
                     }
                 }
                 
@@ -1339,6 +1346,9 @@ const luckysheetformula = {
                         value.spl = v[3].data;
                     }
                 }
+                else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                    dynamicArrayItem = v[3].data;
+                }
             }
             // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
             else if(getObjType(value) == "object"){
@@ -1366,6 +1376,9 @@ const luckysheetformula = {
                         else{
                             value.spl = v[3].data;
                         }
+                    }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
                     }
                 }
                 
@@ -1424,13 +1437,28 @@ const luckysheetformula = {
                 RowlChange = true;
             }
         }
+
+        //动态数组
+        let dynamicArray = null;
+        if(!!dynamicArrayItem){
+            let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            dynamicArray = $.extend(true, [], file["dynamicArray"]);
+            dynamicArray.push(dynamicArrayItem);
+        }
+
+        let allParam = {
+            "dynamicArray": dynamicArray
+        }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, null, isRunExecFunction);
+            allParam = {
+                "cfg": cfg,
+                "dynamicArray": dynamicArray,
+                "RowlChange": RowlChange
+            }
         }
-        else {
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, undefined, isRunExecFunction);
-        }
+
+        jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
         _this.execFunctionGroupData = null; //销毁
@@ -4968,6 +4996,8 @@ const luckysheetformula = {
         }
 
         //公式结果是数组，分错误值 和 动态数组 两种情况
+        let dynamicArrayItem = null;
+
         if(getObjType(result) == "array"){
             let isErr = false; 
 
@@ -4980,14 +5010,7 @@ const luckysheetformula = {
                     result = result[0][0];
                 }
                 else{
-                    let luckysheetfile = getluckysheetfile();
-                    let file = luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-                    let dynamicArray = file["dynamicArray"] == null ? [] : file["dynamicArray"];
-                    dynamicArray.push({"r": r, "c": c, "f": txt, "data": result});
-                        
-                    file["dynamicArray"] = dynamicArray;
-                    setluckysheetfile(luckysheetfile);
-
+                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "data": result};
                     result = "";
                 }
             }
@@ -5012,6 +5035,10 @@ const luckysheetformula = {
 
         if(!!sparklines){
             return [true, result, txt, {type: "sparklines", data: sparklines}];
+        }
+
+        if(!!dynamicArrayItem){
+            return [true, result, txt, {type: "dynamicArrayItem", data: dynamicArrayItem}];
         }
 
         return [true, result, txt];
