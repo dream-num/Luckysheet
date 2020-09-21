@@ -1,4 +1,4 @@
-import { getObjType } from '../utils/util';
+import { getObjType,rgbTohex } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import server from '../controllers/server';
 import formula from './formula';
