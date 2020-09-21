@@ -43,7 +43,7 @@ function rowlenByRange(d, r1, r2, cfg) {
                 continue;
             }
 
-            if(cell != null && cell.v != null){
+            if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
                 let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
 
                 let textInfo = getCellTextInfo(cell, canvas,{
@@ -55,7 +55,7 @@ function rowlenByRange(d, r1, r2, cfg) {
                 let computeRowlen = 0;
                 // console.log("rowlen", textInfo);
                 if(textInfo!=null){
-                    computeRowlen = textInfo.textHeightAll;
+                    computeRowlen = textInfo.textHeightAll+2;
                 }
 
                 // let fontset = luckysheetfontformat(cell);
@@ -364,7 +364,7 @@ function getCellTextInfo(cell , ctx, option){
                         
                     }
 
-                    if(x!=splitArr.length-1 && preNewValue!=""){
+                    if(x!=splitArr.length-1 && !(preNewValue=="" && newValue=="") ){
                         inlineStringArr.push({
                             fontset:scfontset,
                             fc:fc==null?"#000":fc,

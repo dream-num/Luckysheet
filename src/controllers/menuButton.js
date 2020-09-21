@@ -798,6 +798,15 @@ const menuButton = {
         //字体大小
         let luckysheet_fs_setTimeout = null;
         $("#luckysheet-icon-font-size").mousedown(function(e){
+            if (parseInt($("#luckysheet-input-box").css("top")) > 0){
+                let w = window.getSelection();
+                if(w.type!="None"){
+                    let range = w.getRangeAt(0);
+                    if(!range.collapsed){
+                        Store.inlineStringEditRange = range.cloneRange();
+                    }
+                }
+            }
             hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
@@ -861,6 +870,8 @@ const menuButton = {
                 menuleft = menuleft - tlen + userlen;
             }
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
+
+
         })
         .find("input.luckysheet-toolbar-textinput").keydown(function(e){
             hideMenuByCancel(e);
@@ -2982,7 +2993,9 @@ const menuButton = {
                 }
             }
 
-            cfg = rowlenByRange(d, row_st, row_ed, cfg);
+            if(attr == "tb" || attr == "tr" || attr == "fs"){
+                cfg = rowlenByRange(d, row_st, row_ed, cfg);
+            }
         }
 
         if(attr == "tb" || attr == "tr" || attr == "fs"){
@@ -3352,6 +3365,7 @@ const menuButton = {
         var  w = window.getSelection(); 
         var range = w.getRangeAt(0);
         let startContainer = range.startContainer;
+        Store.inlineStringEditRange = null;
         const _locale = locale();
         if(startContainer.parentNode.tagName=="SPAN"){
             let cssText = startContainer.parentNode.style.cssText;

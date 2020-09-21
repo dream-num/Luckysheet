@@ -9,7 +9,7 @@ import luckysheetFreezen from '../controllers/freezen';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
-import { getCellTextSplitArr } from '../global/getRowlen';
+import { getCellTextSplitArr,getCellTextInfo } from '../global/getRowlen';
 import { getcellvalue,getcellFormula,getInlineStringNoStyle } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
@@ -18,7 +18,7 @@ import tooltip from './tooltip';
 import { rowLocation, colLocation, colLocationByIndex, mouseposition } from './location';
 import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
-import { isInlineStringCell } from '../controllers/inlineString';
+import { isInlineStringCell,convertSpanToShareString } from '../controllers/inlineString';
 // import luckysheet_function from '../function/luckysheet_function';
 // import functionlist from '../function/functionlist';
 import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
@@ -1197,41 +1197,70 @@ const luckysheetformula = {
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
-        
-        // API, we get value from user
-        value = value || $input.text();
+        let inputText = $input.text(), inputHtml = $input.html();
+
+
+
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
         }
 
         let curv = Store.flowdata[r][c];
-
-        if(isRealNull(value)){
-            if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
-                _this.cancelNormalSelected();
-                return;
+        let isPrevInline = isInlineStringCell(curv);
+        let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.indexOf("span")>-1);
+        if(!value && !isCurInline && isPrevInline){
+            delete curv.ct.s;
+            curv.ct.t = "g";
+            curv.ct.fa = "General";
+        }
+        else if(isCurInline){
+            if (getObjType(curv) != "object") {
+                curv = {};
             }
-        }
-        else if(curv!=null && curv.qp != 1){
-            if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
-                _this.cancelNormalSelected();
-                return;
-            } 
-            else if (value == curv) {
-                _this.cancelNormalSelected();
-                return;
+            delete curv.f;
+            delete curv.v;
+            delete curv.m;
+
+            if(curv.ct==null){
+                curv.ct = {};
+                curv.ct.fa = "General";
             }
+
+            curv.ct.t = "inlineStr";
+            curv.ct.s = convertSpanToShareString($input.find("span"));
         }
 
-        if (getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1) {
+        // API, we get value from user
+        value = value || $input.text();
 
-        }
-        else if(getObjType(curv) == "object" && curv.ct != null && curv.ct.fa != null && curv.ct.fa != "@" && !isRealNull(value)){
-            delete curv.m;//更新时间m处理 ， 会实际删除单元格数据的参数（flowdata时已删除）
-            if(curv.f != null){ //如果原来是公式，而更新的数据不是公式，则把公式删除
-                delete curv.f;
-                delete curv.spl; //删除单元格的sparklines的配置串
+        if(!isCurInline){
+            if(isRealNull(value)){
+                if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
+                    _this.cancelNormalSelected();
+                    return;
+                }
+            }
+            else if(curv!=null && curv.qp != 1){
+                if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
+                    _this.cancelNormalSelected();
+                    return;
+                } 
+                else if (value == curv) {
+                    _this.cancelNormalSelected();
+                    return;
+                }
+            }
+    
+            if (getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1) {
+    
+            }
+            else if(getObjType(curv) == "object" && curv.ct != null && curv.ct.fa != null && curv.ct.fa != "@" && !isRealNull(value)){
+                delete curv.m;//更新时间m处理 ， 会实际删除单元格数据的参数（flowdata时已删除）
+                if(curv.f != null){ //如果原来是公式，而更新的数据不是公式，则把公式删除
+                    delete curv.f;
+                    delete curv.spl; //删除单元格的sparklines的配置串
+                }
             }
         }
         
@@ -1242,53 +1271,20 @@ const luckysheetformula = {
         let d = editor.deepCopyFlowData(Store.flowdata);
 
         if (getObjType(curv) == "object") {
-            if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
-                let v = _this.execfunction(value, r, c, true);
-
-                curv = _this.execFunctionGroupData[r][c];
-                curv.f = v[2];
-
-                //打进单元格的sparklines的配置串， 报错需要单独处理。
-                if(v.length == 4 && v[3].type == "sparklines"){
-                    delete curv.m;
-                    delete curv.v;
-
-                    let curCalv = v[3].data;
-
-                    if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
-                        curv.v = curCalv[0];
-                    }
-                    else{
-                        curv.spl = v[3].data;
-                    }
-                }
-            }
-            // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
-            else if(getObjType(value) == "object"){
-                let valueFunction = value.f;
-
-                if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                    let v = _this.execfunction(valueFunction, r, c, true);
-
-                    // get v/m/ct
+            if(!isCurInline){
+                if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
+                    let v = _this.execfunction(value, r, c, true);
+    
                     curv = _this.execFunctionGroupData[r][c];
-
-                    // get f
                     curv.f = v[2];
-
-                    // get other cell style attribute
-                    delete value.v;
-                    delete value.m;
-                    delete value.f;
-                    Object.assign(curv,value);
-
+    
                     //打进单元格的sparklines的配置串， 报错需要单独处理。
                     if(v.length == 4 && v[3].type == "sparklines"){
                         delete curv.m;
                         delete curv.v;
-
+    
                         let curCalv = v[3].data;
-
+    
                         if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
                             curv.v = curCalv[0];
                         }
@@ -1297,22 +1293,57 @@ const luckysheetformula = {
                         }
                     }
                 }
-                
-            }
-            else{
-                _this.delFunctionGroup(r, c);
-                _this.execFunctionGroup(r, c, value);
-                isRunExecFunction = false;
-                curv = _this.execFunctionGroupData[r][c];
-
-                delete curv.f;
-                delete curv.spl;
-
-                if(curv.qp == 1 && ('' + value).substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
-                    curv.qp = 0;
-                    if(curv.ct!=null){
-                        curv.ct.fa = "General";
-                        curv.ct.t = "n";
+                // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+                else if(getObjType(value) == "object"){
+                    let valueFunction = value.f;
+    
+                    if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                        let v = _this.execfunction(valueFunction, r, c, true);
+    
+                        // get v/m/ct
+                        curv = _this.execFunctionGroupData[r][c];
+    
+                        // get f
+                        curv.f = v[2];
+    
+                        // get other cell style attribute
+                        delete value.v;
+                        delete value.m;
+                        delete value.f;
+                        Object.assign(curv,value);
+    
+                        //打进单元格的sparklines的配置串， 报错需要单独处理。
+                        if(v.length == 4 && v[3].type == "sparklines"){
+                            delete curv.m;
+                            delete curv.v;
+    
+                            let curCalv = v[3].data;
+    
+                            if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                                curv.v = curCalv[0];
+                            }
+                            else{
+                                curv.spl = v[3].data;
+                            }
+                        }
+                    }
+                    
+                }
+                else {
+                    _this.delFunctionGroup(r, c);
+                    _this.execFunctionGroup(r, c, value);
+                    isRunExecFunction = false;
+                    curv = _this.execFunctionGroupData[r][c];
+    
+                    delete curv.f;
+                    delete curv.spl;
+    
+                    if(curv.qp == 1 && ('' + value).substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                        curv.qp = 0;
+                        if(curv.ct!=null){
+                            curv.ct.fa = "General";
+                            curv.ct.t = "n";
+                        }
                     }
                 }
             }
@@ -1387,42 +1418,62 @@ const luckysheetformula = {
             cfg["rowlen"] = {};
         }
 
-        if(d[r][c].tb == "2" && d[r][c].v != null){//自动换行
-            let defaultrowlen = 19;
+        if((d[r][c].tb == "2" && d[r][c].v != null) || isInlineStringCell(d[r][c])){//自动换行
+            let defaultrowlen = Store.defaultrowlen;;
 
-            let offlinecanvas = $("#luckysheetTableContentF").get(0).getContext("2d");
-            offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+            let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+            // offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
 
-            let fontset = luckysheetfontformat(d[r][c]);
-            offlinecanvas.font = fontset;
+            // let fontset = luckysheetfontformat(d[r][c]);
+            // offlinecanvas.font = fontset;
 
-            let currentRowLen = defaultrowlen;
-            if(cfg["rowlen"][r] != null){
-                currentRowLen = cfg["rowlen"][r];
+            if(cfg["customHeight"] && cfg["customHeight"][r]==1){
+                
             }
-
-            let strValue = getcellvalue(r, c, d).toString();
-            let measureText = offlinecanvas.measureText(strValue);
-
-            let textMetrics = measureText.width;
-            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4;
-            let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
-
-            if(textMetrics > cellWidth){
-                let strArr = [];//文本截断数组
-                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
-
-                let computeRowlen = oneLineTextHeight * strArr.length + 4;
-                //比较计算高度和当前高度取最大高度
-                if(computeRowlen > currentRowLen){
-                    currentRowLen = computeRowlen;
+            else{
+                // let currentRowLen = defaultrowlen;
+                // if(cfg["rowlen"][r] != null){
+                //     currentRowLen = cfg["rowlen"][r];
+                // }
+    
+                let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+    
+                let textInfo = getCellTextInfo(d[r][c], canvas,{
+                    r:r,
+                    c:c,
+                    cellWidth:cellWidth
+                });
+    
+                let currentRowLen = defaultrowlen;
+                // console.log("rowlen", textInfo);
+                if(textInfo!=null){
+                    currentRowLen = textInfo.textHeightAll+2;
+                }
+    
+                // let strValue = getcellvalue(r, c, d).toString();
+                // let measureText = offlinecanvas.measureText(strValue);
+    
+                // let textMetrics = measureText.width;
+                // let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4;
+                // let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+    
+                // if(textMetrics > cellWidth){
+                //     let strArr = [];//文本截断数组
+                //     strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
+    
+                //     let computeRowlen = oneLineTextHeight * strArr.length + 4;
+                //     //比较计算高度和当前高度取最大高度
+                //     if(computeRowlen > currentRowLen){
+                //         currentRowLen = computeRowlen;
+                //     }
+                // }
+    
+                if(currentRowLen > defaultrowlen){
+                    cfg["rowlen"][r] = currentRowLen;
+                    RowlChange = true;
                 }
             }
 
-            if(currentRowLen != defaultrowlen){
-                cfg["rowlen"][r] = currentRowLen;
-                RowlChange = true;
-            }
         }
         
         if(RowlChange){
