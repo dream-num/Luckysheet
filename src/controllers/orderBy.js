@@ -212,15 +212,18 @@ export function orderByInitial(){
                     }
                 }
 
+                let allParam = {};
                 if(Store.config["rowlen"] != null){
                     let cfg = $.extend(true, {}, Store.config);
                     cfg = rowlenByRange(d, str, r2, cfg);
 
-                    jfrefreshgrid(d, [{ "row": [str, r2], "column": [c1, c2] }], cfg, null, true);
+                    allParam = {
+                        "cfg": cfg,
+                        "RowlChange": true
+                    }
                 }
-                else{
-                    jfrefreshgrid(d, [{ "row": [str, r2], "column": [c1, c2] }]);
-                }
+
+                jfrefreshgrid(d, [{ "row": [str, r2], "column": [c1, c2] }], allParam);
 
                 $("#luckysheet-sort-dialog").hide();
                 $("#luckysheet-modal-dialog-mask").hide();

@@ -721,11 +721,19 @@ const selection = {
 
             Store.luckysheet_select_save = [{ "row": [minh, maxh], "column": [minc, maxc] }];
             
+            
             if(addr > 0 || addc > 0 || RowlChange){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
+                let allParam = {
+                    "cfg": cfg,
+                    "RowlChange": true
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
             }
             else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg);
+                let allParam = {
+                    "cfg": cfg
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
                 selectHightlightShow();
             }
         }
@@ -790,7 +798,10 @@ const selection = {
             last["column"] = [curC, curC + clen - 1];
 
             if (addr > 0 || addc > 0) {
-                jfrefreshgrid(d, Store.luckysheet_select_save, null, null, true);
+                let allParam = {
+                    "RowlChange": true
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
             }
             else {
                 jfrefreshgrid(d, Store.luckysheet_select_save);
@@ -1521,10 +1532,23 @@ const selection = {
 
         if(copyRowlChange || addr > 0 || addc > 0){
             cfg = rowlenByRange(d, minh, maxh, cfg);
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, true, dataVerification);
+
+            let allParam = {
+                "cfg": cfg,
+                "RowlChange": true,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
+            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, null, dataVerification);
+            let allParam = {
+                "cfg": cfg,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
+            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
+            
             selectHightlightShow();
         }
     },
@@ -1752,10 +1776,23 @@ const selection = {
 
         if(copyRowlChange){
             cfg = rowlenByRange(d, minh, maxh, cfg);
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, true, dataVerification);
+
+            let allParam = {
+                "cfg": cfg,
+                "RowlChange": true,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
+            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, null, dataVerification);
+            let allParam = {
+                "cfg": cfg,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
+            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
+            
             selectHightlightShow();
         }
     },

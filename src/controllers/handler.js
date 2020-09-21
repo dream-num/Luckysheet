@@ -3511,7 +3511,13 @@ export default function luckysheetHandler() {
             last["row_focus"] = rf;
             last["column_focus"] = cf;
 
-            jfrefreshgrid(d, range, cfg, cdformat, RowlChange);
+            let allParam = {
+                "cfg": cfg,
+                "RowlChange": RowlChange,
+                "cdformat": cdformat
+            }
+
+            jfrefreshgrid(d, range, allParam);
 
             selectHightlightShow();
 

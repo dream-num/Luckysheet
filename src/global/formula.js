@@ -1269,22 +1269,25 @@ const luckysheetformula = {
         let isRunExecFunction = true;
         
         let d = editor.deepCopyFlowData(Store.flowdata);
+        let dynamicArrayItem = null;  //动态数组
 
         if (getObjType(curv) == "object") {
+
             if(!isCurInline){
+
                 if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
                     let v = _this.execfunction(value, r, c, true);
-    
+
                     curv = _this.execFunctionGroupData[r][c];
                     curv.f = v[2];
-    
+
                     //打进单元格的sparklines的配置串， 报错需要单独处理。
                     if(v.length == 4 && v[3].type == "sparklines"){
                         delete curv.m;
                         delete curv.v;
-    
+
                         let curCalv = v[3].data;
-    
+
                         if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
                             curv.v = curCalv[0];
                         }
@@ -1292,33 +1295,29 @@ const luckysheetformula = {
                             curv.spl = v[3].data;
                         }
                     }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
+                    }
                 }
                 // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
                 else if(getObjType(value) == "object"){
                     let valueFunction = value.f;
-    
+
                     if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
                         let v = _this.execfunction(valueFunction, r, c, true);
-    
+
                         // get v/m/ct
+
                         curv = _this.execFunctionGroupData[r][c];
-    
-                        // get f
                         curv.f = v[2];
-    
-                        // get other cell style attribute
-                        delete value.v;
-                        delete value.m;
-                        delete value.f;
-                        Object.assign(curv,value);
-    
+        
                         //打进单元格的sparklines的配置串， 报错需要单独处理。
                         if(v.length == 4 && v[3].type == "sparklines"){
                             delete curv.m;
                             delete curv.v;
-    
+        
                             let curCalv = v[3].data;
-    
+        
                             if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
                                 curv.v = curCalv[0];
                             }
@@ -1326,6 +1325,45 @@ const luckysheetformula = {
                                 curv.spl = v[3].data;
                             }
                         }
+                        else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                            dynamicArrayItem = v[3].data;
+                        }
+                    }
+                    // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+                    else if(getObjType(value) == "object"){
+                        let valueFunction = value.f;
+        
+                        if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                            let v = _this.execfunction(valueFunction, r, c, true);
+        
+                            // get v/m/ct
+                            curv = _this.execFunctionGroupData[r][c];
+        
+                            // get f
+                            curv.f = v[2];
+        
+                            // get other cell style attribute
+                            delete value.v;
+                            delete value.m;
+                            delete value.f;
+                            Object.assign(curv,value);
+        
+                            //打进单元格的sparklines的配置串， 报错需要单独处理。
+                            if(v.length == 4 && v[3].type == "sparklines"){
+                                delete curv.m;
+                                delete curv.v;
+        
+                                let curCalv = v[3].data;
+        
+                                if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                                    curv.v = curCalv[0];
+                                }
+                                else{
+                                    curv.spl = v[3].data;
+                                }
+                            }
+                        }
+                        
                     }
                     
                 }
@@ -1347,7 +1385,6 @@ const luckysheetformula = {
                     }
                 }
             }
-
             value = curv;
         } 
         else {
@@ -1369,6 +1406,9 @@ const luckysheetformula = {
                     else{
                         value.spl = v[3].data;
                     }
+                }
+                else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                    dynamicArrayItem = v[3].data;
                 }
             }
             // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
@@ -1397,6 +1437,9 @@ const luckysheetformula = {
                         else{
                             value.spl = v[3].data;
                         }
+                    }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
                     }
                 }
                 
@@ -1475,13 +1518,28 @@ const luckysheetformula = {
             }
 
         }
+
+        //动态数组
+        let dynamicArray = null;
+        if(!!dynamicArrayItem){
+            let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            dynamicArray = $.extend(true, [], file["dynamicArray"]);
+            dynamicArray.push(dynamicArrayItem);
+        }
+
+        let allParam = {
+            "dynamicArray": dynamicArray
+        }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, null, isRunExecFunction);
+            allParam = {
+                "cfg": cfg,
+                "dynamicArray": dynamicArray,
+                "RowlChange": RowlChange
+            }
         }
-        else {
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, undefined, isRunExecFunction);
-        }
+
+        jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
         _this.execFunctionGroupData = null; //销毁
@@ -3194,13 +3252,14 @@ const luckysheetformula = {
                 if(kcode != 46){//delete不执行此函数
                     _this.createRangeHightlight();
                 }
+
+                $functionbox.html(value);
             }
 
             _this.rangestart = false;
             _this.rangedrag_column_start = false;
             _this.rangedrag_row_start = false;
-
-            $functionbox.html(value);
+            
             _this.rangeHightlightselected($editer, kcode);
         }, 1);
     },
@@ -5019,6 +5078,8 @@ const luckysheetformula = {
         }
 
         //公式结果是数组，分错误值 和 动态数组 两种情况
+        let dynamicArrayItem = null;
+
         if(getObjType(result) == "array"){
             let isErr = false; 
 
@@ -5031,14 +5092,7 @@ const luckysheetformula = {
                     result = result[0][0];
                 }
                 else{
-                    let luckysheetfile = getluckysheetfile();
-                    let file = luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-                    let dynamicArray = file["dynamicArray"] == null ? [] : file["dynamicArray"];
-                    dynamicArray.push({"r": r, "c": c, "f": txt, "data": result});
-                        
-                    file["dynamicArray"] = dynamicArray;
-                    setluckysheetfile(luckysheetfile);
-
+                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "data": result};
                     result = "";
                 }
             }
@@ -5063,6 +5117,10 @@ const luckysheetformula = {
 
         if(!!sparklines){
             return [true, result, txt, {type: "sparklines", data: sparklines}];
+        }
+
+        if(!!dynamicArrayItem){
+            return [true, result, txt, {type: "dynamicArrayItem", data: dynamicArrayItem}];
         }
 
         return [true, result, txt];

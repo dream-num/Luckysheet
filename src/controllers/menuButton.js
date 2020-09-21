@@ -2998,12 +2998,15 @@ const menuButton = {
             }
         }
 
+        let allParam = {};
         if(attr == "tb" || attr == "tr" || attr == "fs"){
-            jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true, null, false);
+            allParam = {
+                "cfg": cfg,
+                "RowlChange": true
+            }
         }
-        else{
-            jfrefreshgrid(d, Store.luckysheet_select_save, undefined, undefined,undefined,undefined,false);
-        }
+
+        jfrefreshgrid(d, Store.luckysheet_select_save, allParam, false);
     },
     updateFormat_mc: function(d, foucsStatus){
         let cfg = $.extend(true, {}, Store.config);
@@ -3204,7 +3207,7 @@ const menuButton = {
         }
 
         Store.clearjfundo = false;
-        jfrefreshgrid(d, Store.luckysheet_select_save, cfg);
+        jfrefreshgrid(d, Store.luckysheet_select_save, {"cfg": cfg});
         Store.clearjfundo = true;
     },
     borderfix: function(d, r, c){

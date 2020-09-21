@@ -59,7 +59,15 @@ const controlHistory = {
             }
             formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
 
-            jfrefreshgrid(ctr.data, ctr.range, ctr.config, ctr.cdformat, ctr.RowlChange, ctr.dataVerification);
+            let allParam = {
+                "cfg": ctr.config,
+                "RowlChange": ctr.RowlChange,
+                "cdformat": ctr.cdformat,
+                "dataVerification": ctr.dataVerification,
+                "dynamicArray": ctr.dynamicArray
+            }
+
+            jfrefreshgrid(ctr.data, ctr.range, allParam);
         }
         else if (ctr.type == "pasteCut") {
             let s = {
@@ -320,7 +328,11 @@ const controlHistory = {
             server.saveParam("all", ctr.sheetIndex, ctr.oldcolor, { "k": "color" });
         }
         else if (ctr.type == "mergeChange") {
-            jfrefreshgrid(ctr.data, ctr.range, ctr.config);
+            let allParam = {
+                "cfg": ctr.config,
+            }
+
+            jfrefreshgrid(ctr.data, ctr.range, allParam);
         }
         else if (ctr.type == "updateDataVerification"){
             dataVerificationCtrl.ref(ctr.currentDataVerification, ctr.historyDataVerification, ctr.sheetIndex);
@@ -416,7 +428,15 @@ const controlHistory = {
         if (ctr.type == "datachange") {
             formula.execFunctionGroup();
 
-            jfrefreshgrid(ctr.curdata, ctr.range, ctr.curConfig, ctr.curCdformat, ctr.RowlChange, ctr.curDataVerification);
+            let allParam = {
+                "cfg": ctr.curConfig,
+                "RowlChange": ctr.RowlChange,
+                "cdformat": ctr.curCdformat,
+                "dataVerification": ctr.curDataVerification,
+                "dynamicArray": ctr.curDynamicArray
+            }
+
+            jfrefreshgrid(ctr.curdata, ctr.range, allParam);
         }
         else if (ctr.type == "pasteCut") {
             jfrefreshgrid_pastcut(ctr.source, ctr.target, ctr.RowlChange);
@@ -611,7 +631,11 @@ const controlHistory = {
             server.saveParam("all", ctr.sheetIndex, ctr.color, { "k": "color" });
         }
         else if (ctr.type == "mergeChange") {
-            jfrefreshgrid(ctr.curData, ctr.range, ctr.curConfig);
+            let allParam = {
+                "cfg": ctr.curConfig,
+            }
+
+            jfrefreshgrid(ctr.curData, ctr.range, allParam);
         }
         else if (ctr.type == "updateDataVerification"){
             dataVerificationCtrl.ref(ctr.historyDataVerification, ctr.currentDataVerification, ctr.sheetIndex);

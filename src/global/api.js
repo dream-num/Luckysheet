@@ -1829,7 +1829,7 @@ export function cancelRangeMerge(options = {}) {
 
     // 当前sheet页合并时刷新
     if (order === curSheetOrder) {
-        jfrefreshgrid(data, range, cfg)
+        jfrefreshgrid(data, range, {"cfg": cfg})
     }
 }
 
@@ -1903,17 +1903,20 @@ export function setRangeSort(type, options = {}) {
             fileData[r][c] = data[r - r1][c - c1];
         }
     }
+
+    let allParam = {};
     if(cfg["rowlen"] != null){
         let config = $.extend(true, {}, cfg);
         config = rowlenByRange(fileData, r1, r2, config);
-        
-        if (order == Store.currentSheetIndex) {
-            jfrefreshgrid(fileData, [{ "row": [r1, r2], "column": [c1, c2] }], config, null, true);
+
+        allParam = {
+            "cfg": config,
+            "RowlChange": true
         }
-    } else{
-        if (order == Store.currentSheetIndex) {
-            jfrefreshgrid(fileData, [{ "row": [r1, r2], "column": [c1, c2] }]);
-        }
+    }
+
+    if (file.index == Store.currentSheetIndex) {
+        jfrefreshgrid(fileData, [{ "row": [r1, r2], "column": [c1, c2] }], allParam);
     }
 
     if (success && typeof success === 'function') {
@@ -2001,17 +2004,21 @@ export function setRangeSortMulti(hasTitle, sort, options = {}) {
             fileData[r][c] = data[r - str][c - c1];
         }
     }
+
+
+    let allParam = {};
     if(cfg["rowlen"] != null){
         let config = $.extend(true, {}, cfg);
         config = rowlenByRange(fileData, str, r2, config);
 
-        if (order === Store.currentSheetIndex) {
-            jfrefreshgrid(fileData, [{ "row": [str, r2], "column": [c1, c2] }], config, null, true);
+        allParam = {
+            "cfg": config,
+            "RowlChange": true
         }
-    } else{
-        if (order === Store.currentSheetIndex) {
-            jfrefreshgrid(fileData, [{ "row": [str, r2], "column": [c1, c2] }]);
-        }
+    }
+
+    if (file.index === Store.currentSheetIndex) {
+        jfrefreshgrid(fileData, [{ "row": [str, r2], "column": [c1, c2] }], allParam);
     }
 
     if (success && typeof success === 'function') {

@@ -1428,18 +1428,18 @@ const sheetmanage = {
         let index = this.getSheetIndex(sheetIndex);
         let file = Store.luckysheetfile[index];
 
-        if($('#luckysheet-filter-selected-sheet' + sheetIndex).length > 0 || file.filter_select == null || JSON.stringify(file.filter_select) == "{}"){
-            if(file.config != null && file.config.rowhidden != null){
-                file.config.rowhidden =  {};
-                Store.config = file.config;
+        // if($('#luckysheet-filter-selected-sheet' + sheetIndex).length > 0 || file.filter_select == null || JSON.stringify(file.filter_select) == "{}"){
+        //     if(file.config != null && file.config.rowhidden != null){
+        //         file.config.rowhidden =  {};
+        //         Store.config = file.config;
 
-                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
-            }
+        //         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
+        //     }
 
-            return;
-        }
+        //     return;
+        // }
 
-        if(getObjType(file.filter_select) != "object"){
+        if(getObjType(file.filter_select) == "string"){
             file.filter_select = JSON.parse(file.filter_select);
         }
 
