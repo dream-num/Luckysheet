@@ -3171,13 +3171,14 @@ const luckysheetformula = {
                 if(kcode != 46){//delete不执行此函数
                     _this.createRangeHightlight();
                 }
+
+                $functionbox.html(value);
             }
 
             _this.rangestart = false;
             _this.rangedrag_column_start = false;
             _this.rangedrag_row_start = false;
-
-            $functionbox.html(value);
+            
             _this.rangeHightlightselected($editer, kcode);
         }, 1);
     },

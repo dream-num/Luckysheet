@@ -1253,9 +1253,6 @@ function initialFilterHandler(){
         $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide().find("input").val();
         $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text(locale_filter.conditionNone);
 
-        $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
-        $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
-
         let redo = {};
         redo["type"] = "datachangeAll_filter_clear";
         redo["sheetIndex"] = Store.currentSheetIndex;
@@ -1289,6 +1286,9 @@ function initialFilterHandler(){
 
         Store.jfundo = [];
         Store.jfredo.push(redo);
+
+        $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
+        $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
 
         //清除筛选发送给后台
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].filter = null;
