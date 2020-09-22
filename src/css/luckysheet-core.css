@@ -7185,4 +7185,5 @@ fieldset[disabled] .btn-danger.focus {
     z-index: 1000;
     user-select: none;
     cursor: default;
+    white-space: nowrap;
 }

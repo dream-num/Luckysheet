@@ -865,16 +865,6 @@ const sheetmanage = {
         formula.execFunctionGroupData = null;
         window.luckysheet_getcelldata_cache = null;
 
-        //批注
-        luckysheetPostil.buildAllPs(Store.flowdata);
-        
-        //图片
-        imageCtrl.images = file.images;
-        imageCtrl.allImagesShow();
-
-        //数据验证
-        dataVerificationCtrl.dataVerification = file.dataVerification;
-
         this.sheetParamRestore(file, Store.flowdata);
 
         if(file["freezen"] == null){
@@ -887,10 +877,18 @@ const sheetmanage = {
         }
         
         rhchInit(Store.flowdata.length, Store.flowdata[0].length);
+
+        //批注
+        luckysheetPostil.buildAllPs(Store.flowdata);
+
+        //图片
+        imageCtrl.images = file.images;
+        imageCtrl.allImagesShow();
+
+        //数据验证
+        dataVerificationCtrl.dataVerification = file.dataVerification;
         
         createFilterOptions(file["filter_select"], file["filter"]);
-        
-
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);

@@ -26,7 +26,7 @@ const selection = {
 
         Store.luckysheet_selection_range = [];
         selectionCopyShow();
-        Store.luckysheet_copy_save = {};
+        // Store.luckysheet_copy_save = {};
         
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content").css("visibility", "hidden");
