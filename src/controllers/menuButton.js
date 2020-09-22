@@ -31,7 +31,7 @@ import { countfunc } from '../global/count';
 import { hideMenuByCancel } from '../global/cursorPos';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
-import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList} from './inlineString';
+import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
@@ -798,6 +798,15 @@ const menuButton = {
         //字体大小
         let luckysheet_fs_setTimeout = null;
         $("#luckysheet-icon-font-size").mousedown(function(e){
+            if (parseInt($("#luckysheet-input-box").css("top")) > 0){
+                let w = window.getSelection();
+                if(w.type!="None"){
+                    let range = w.getRangeAt(0);
+                    if(!range.collapsed){
+                        Store.inlineStringEditRange = range.cloneRange();
+                    }
+                }
+            }
             hideMenuByCancel(e);
             e.stopPropagation();
         }).click(function(){
@@ -861,6 +870,8 @@ const menuButton = {
                 menuleft = menuleft - tlen + userlen;
             }
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
+
+
         })
         .find("input.luckysheet-toolbar-textinput").keydown(function(e){
             hideMenuByCancel(e);
@@ -2835,7 +2846,7 @@ const menuButton = {
         let canvasElement = document.createElement('canvas');
         let canvas = canvasElement.getContext("2d");
 
-        if(attr in {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1} ){
+        if(attr in inlineStyleAffectAttribute ){
             if (parseInt($("#luckysheet-input-box").css("top")) > 0 ) {
                 let value = $("#luckysheet-input-box").text();
                 if(value.substr(0,1)!="="){
@@ -2968,7 +2979,13 @@ const menuButton = {
                         let value = d[r][c];
                         
                         if (getObjType(value) == "object") {
-                            d[r][c][attr] = foucsStatus;
+                            if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
+                                updateInlineStringFormatOutside(value, attr, foucsStatus);
+                            }
+                            else{
+                                d[r][c][attr] = foucsStatus;
+                            }
+                            
                         }
                         else{
                             d[r][c] = { v: value };
@@ -2982,7 +2999,9 @@ const menuButton = {
                 }
             }
 
-            cfg = rowlenByRange(d, row_st, row_ed, cfg);
+            if(attr == "tb" || attr == "tr" || attr == "fs"){
+                cfg = rowlenByRange(d, row_st, row_ed, cfg);
+            }
         }
 
         let allParam = {};
@@ -3355,6 +3374,7 @@ const menuButton = {
         var  w = window.getSelection(); 
         var range = w.getRangeAt(0);
         let startContainer = range.startContainer;
+        Store.inlineStringEditRange = null;
         const _locale = locale();
         if(startContainer.parentNode.tagName=="SPAN"){
             let cssText = startContainer.parentNode.style.cssText;

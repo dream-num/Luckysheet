@@ -11,6 +11,8 @@ import { isEditMode } from '../global/validate';
 import formula from '../global/formula';
 import cleargridelement from '../global/cleargridelement';
 import tooltip from '../global/tooltip';
+    selectTextDom
+import {selectTextDom} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
 
@@ -206,16 +208,7 @@ export function initialSheetBar(){
         $t.attr("contenteditable", "true").addClass("luckysheet-mousedown-cancel").data("oldtxt", $t.text());
 
         setTimeout(function () {
-            if (document.selection) {
-                let range = document.body.createTextRange();
-                range.moveToElementText($t.get(0));
-                range.select();
-            } else if (window.getSelection) {
-                let range = document.createRange();
-                range.selectNodeContents($t.get(0));
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-            }
+            selectTextDom($t.get(0));
         }, 1);
     }
 

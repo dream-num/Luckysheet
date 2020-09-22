@@ -60,8 +60,64 @@ function hideMenuByCancel(event){
     }
 }
 
+function selectTextDom(ele){
+    if (window.getSelection) {
+        let range = document.createRange();
+        range.selectNodeContents(ele);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+    }
+    else if (document.selection) {
+        let range = document.body.createTextRange();
+        range.moveToElementText(ele);
+        range.select();
+    } 
+}
+
+function selectTextContent(ele){
+    if (window.getSelection) {
+        let range = document.createRange();
+        var content=ele.firstChild;
+        range.setStart(content,0);
+        range.setEnd(content,content.length);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+    }
+    else if (document.selection) {
+        let range = document.body.createTextRange();
+        range.moveToElementText(ele);
+        range.select();
+    } 
+}
+
+function selectTextContentCross(sEle, eEle){
+    if (window.getSelection) {
+        let range = document.createRange();
+        var sContent=sEle.firstChild, eContent=eEle.firstChild;
+        range.setStart(sContent,0);
+        range.setEnd(eContent,eContent.length);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+    }
+}
+
+function selectTextContentCollapse(sEle, index){
+    if (window.getSelection) {
+        let range = document.createRange();
+        var sContent=sEle.firstChild;
+        range.setStart(sContent,index);
+        range.collapse(true);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+    }
+}
+
 export {
     luckysheetRangeLast,
     getCursortPosition,
     hideMenuByCancel,
+    selectTextContent,
+    selectTextDom,
+    selectTextContentCross,
+    selectTextContentCollapse
 }

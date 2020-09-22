@@ -25,6 +25,7 @@ import formula from '../global/formula';
 import cleargridelement from '../global/cleargridelement';
 import tooltip from '../global/tooltip';
 import locale from '../locale/locale';
+import {enterKeyControll} from './inlineString';
 import Store from '../store';
 
 
@@ -300,10 +301,16 @@ export function keyboardInitial(){
             
             return;
         }
+
+
         
         let $inputbox = $("#luckysheet-input-box");
         
-        if (kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0) {
+        if((altKey || event.metaKey) && kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0){
+            enterKeyControll();
+            event.preventDefault();
+        }
+        else if (kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0) {
             if ($("#luckysheet-formula-search-c").is(":visible") && formula.searchFunctionCell != null) {
                 formula.searchFunctionEnter($("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item-active"));
             }
