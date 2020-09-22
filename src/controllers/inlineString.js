@@ -3,6 +3,8 @@ import {selectTextContent,selectTextContentCross,selectTextContentCollapse} from
 import locale from '../locale/locale';
 import Store from '../store';
 
+export const inlineStyleAffectAttribute = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1};
+
 export function isInlineStringCell(cell){
     let isIs = cell && cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0;
     return isIs; 
@@ -257,6 +259,14 @@ export function enterKeyControll(){
     }
 }
 
+export function updateInlineStringFormatOutside(cell, key, value){
+    let s = cell.ct.s;
+    for(let i=0;i<s.length;i++){
+        let item = s[i];
+        item[key] = value;
+    }
+}
+
 export function convertSpanToShareString($dom){
     let styles = [], preStyleList, preStyleListString=null;
     for(let i=0;i<$dom.length;i++){
@@ -341,17 +351,11 @@ export function convertCssToStyleList(cssText){
         }
 
         if(key=="text-decoration"){
-            if(value=="line-through"){
                 styleList["cl"] = 1;
-            }
-            else{
-                if(value=="underline"){
-                    styleList["un"] = 1;
-                }
-                else{
-                    styleList["cl"] = 0;
-                }
-            }
+        }
+
+        if(key=="border-bottom"){
+            styleList["un"] = 1;
         }
 
         if(key=="lucky-strike"){
@@ -374,7 +378,27 @@ const luckyToCssName = {
     "fs":"font-size",
     "fc":"color",
     "cl":"text-decoration",
-    "un":"text-decoration",
+    "un":"border-bottom",
+}
+
+function getClassWithcss(cssText, ukey){
+    let cssTextArray = cssText.split(";");
+    if(ukey==null || ukey.length==0){
+        return cssText;
+    }
+    if(cssText.indexOf(ukey)>-1){
+        for(let i=0;i<cssTextArray.length;i++){
+            let s = cssTextArray[i];
+            s = s.toLowerCase();
+            let key = textTrim(s.substr(0, s.indexOf(':')));
+            let value = textTrim(s.substr(s.indexOf(':') + 1));
+            if(key==ukey){
+                return value;
+            }
+        }
+    }
+
+    return "";
 }
 
 function upsetClassWithCss(cssText, ukey, uvalue){
@@ -439,6 +463,19 @@ function removeClassWidthCss(cssText, ukey){
 function getCssText(cssText, attr, value){
     let styleObj = {};
     styleObj[attr] = value;
+    if(attr=="un"){
+        let fontColor = getClassWithcss(cssText,"color");
+        if(fontColor==""){
+            fontColor = "#000000";
+        }
+        let fs = getClassWithcss(cssText,"font-size");
+        if(fs==""){
+            fs = 11;
+        }
+        fs = parseInt(fs);
+        styleObj["_fontSize"] = fs;
+        styleObj["_color"] = fontColor;
+    }
     let s = getFontStyleByCell(styleObj, undefined, undefined, false);
     let ukey = textTrim(s.substr(0, s.indexOf(':')));
     let uvalue = textTrim(s.substr(s.indexOf(':')+1));
@@ -450,6 +487,8 @@ function getCssText(cssText, attr, value){
 
     return cssText;
 }
+
+
 
 
 

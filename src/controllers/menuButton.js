@@ -31,7 +31,7 @@ import { countfunc } from '../global/count';
 import { hideMenuByCancel } from '../global/cursorPos';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
-import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList} from './inlineString';
+import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
@@ -2846,7 +2846,7 @@ const menuButton = {
         let canvasElement = document.createElement('canvas');
         let canvas = canvasElement.getContext("2d");
 
-        if(attr in {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1} ){
+        if(attr in inlineStyleAffectAttribute ){
             if (parseInt($("#luckysheet-input-box").css("top")) > 0 ) {
                 let value = $("#luckysheet-input-box").text();
                 if(value.substr(0,1)!="="){
@@ -2979,7 +2979,13 @@ const menuButton = {
                         let value = d[r][c];
                         
                         if (getObjType(value) == "object") {
-                            d[r][c][attr] = foucsStatus;
+                            if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
+                                updateInlineStringFormatOutside(value, attr, foucsStatus);
+                            }
+                            else{
+                                d[r][c][attr] = foucsStatus;
+                            }
+                            
                         }
                         else{
                             d[r][c] = { v: value };

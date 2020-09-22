@@ -369,7 +369,15 @@ export function getFontStyleByCell(cell,checksAF,checksCF, isCheck=true){
         }
 
         if(key == "un" && (value == "1" || value == "3")){
-            style += "text-decoration: underline;";
+            let color = cell["_color"];
+            if(color==null){
+                color = cell["fc"];
+            }
+            let fs = cell["_fontSize"];
+            if(fs==null){
+                fs = cell["fs"];
+            }
+            style += "border-bottom: "+ Math.floor(fs/9) +"px solid "+ color +";";
         }
 
     }
@@ -380,7 +388,7 @@ export function checkstatusByCell(cell, a){
     let foucsStatus =cell;
     let tf = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1};
 
-    if(a in tf){
+    if(a in tf || (a=="fs" && isInlineStringCell(cell)) ){
         if(foucsStatus == null){
             foucsStatus = "0";
         }
