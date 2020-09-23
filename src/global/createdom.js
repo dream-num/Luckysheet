@@ -19,6 +19,7 @@ import rhchInit from './rhchInit';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import {menuToolBarWidth} from '../controllers/resize'
 
 export default function luckysheetcreatedom(colwidth, rowheight, data, menu, title) {
     //最少30行
@@ -97,6 +98,9 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     gh = replaceHtml(gh, { "flow": flowHTML, "rowHeader": "<div style='height:" + Store.rh_height + "px' id='luckysheetrowHeader_0' class='luckysheetsheetchange'></div>", "columnHeader": colsheader, "functionButton": luckysheetConfigsetting.functionButton });//设置需要显示的菜单
 
     $("#" + Store.container).append(gh);
+
+    //统计工具栏按钮宽度值
+    menuToolBarWidth();
 
     $("#luckysheet-scrollbar-x div").width(Store.ch_width);
     $("#luckysheet-scrollbar-y div").height(Store.rh_height - 30);

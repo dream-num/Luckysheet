@@ -77,15 +77,15 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
-
-### Coming soon
++ **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
 + **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
 + **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Print** (Like excel print option, save to PDF)
 + **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
+
+### Coming soon
++ **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 

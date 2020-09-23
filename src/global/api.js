@@ -22,6 +22,7 @@ import editor from "./editor";
 import { rowlenByRange } from "./getRowlen";
 import luckysheetformula from './formula';
 import luckysheetsizeauto from '../controllers/resize';
+import sheetmanage from '../controllers/sheetmanage';
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
@@ -2472,4 +2473,33 @@ export function resize(options = {}){
     if (success && typeof success === 'function') {
         success();
     }
+}
+
+
+/**
+ * 根据index获取sheet页配置
+ * 
+ * @param {Object} options 可选参数
+ * @param {String} options.index 工作表index
+ * @param {Number} options.order 工作表order
+ * @param {String} options.name 工作表name
+ */
+export function getSheet(options = {}){
+
+    let {
+        index,
+        order,
+        name
+    } = {...options};
+
+    if(index != null){
+        return sheetmanage.getSheetByIndex(index);
+    }else if(order != null){
+        return Store.luckysheetfile[order];
+    }else if(name != null){
+        return sheetmanage.getSheetByName(name);
+    }
+
+    return sheetmanage.getSheetByIndex();
+
 }

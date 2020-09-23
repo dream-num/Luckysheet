@@ -54,6 +54,7 @@ export default {
         toolLess:"少于",
         toolClose:"收起",
         toolMoreTip:"更多功能",
+        moreOptions:"更多选项",
     },
     alternatingColors:{
         applyRange: '应用范围',

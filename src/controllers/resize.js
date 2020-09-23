@@ -14,7 +14,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         $("#luckysheet_info_detail").hide();
     }
     else {
-        Store.infobarHeight = 30;
+        Store.infobarHeight = 56;
         $("#luckysheet_info_detail").show();
     }
 
@@ -24,7 +24,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     }
     else {
         $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").show();
-        Store.toolbarHeight = 61;
+        Store.toolbarHeight = 72;
     }
 
     if (!luckysheetConfigsetting.showsheetbar) {
@@ -33,7 +33,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     }
     else {
         $("#" + Store.container).find("#luckysheet-sheet-area").show();
-        Store.sheetBarHeight = 27;
+        Store.sheetBarHeight = 31;
     }
 
     if (!luckysheetConfigsetting.showstatisticBar) {
@@ -72,31 +72,82 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     const locale_toolbar = _locale.toolbar;
     let ismore = false, 
         toolbarW = 0, 
-        morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="'+ locale_toolbar.toolMoreTip +'" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... </div> </div> </div> </div>',
-        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 2 + $("#" + Store.container).offset().top + $("body").scrollTop() ) +'px; right:0px;z-index:1003;padding-left:0px;display:none;height:auto;white-space:initial;"></div>';
+        // morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="'+ locale_toolbar.toolMoreTip +'" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... </div> </div> </div> </div>',
+        morebtn = `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${locale_toolbar.toolMoreTip}" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> 
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> 
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;">
+
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
+                        ${locale_toolbar.toolMore}
+                    </div> 
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige" style="user-select: none;font-size:12px;">
+                    </div>
+
+                </div> 
+            </div>
+         </div>`,
+        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 3 + $("#" + Store.container).offset().top + $("body").scrollTop() - $("#luckysheet-functionbox-container").height() ) +'px; right:0px;z-index:1003;padding:8px;display:none;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
         $("body").append(morediv);
     }
 
     $("#luckysheet-icon-morebtn-div").hide();
-    $("#luckysheet-icon-morebtn-div > div").appendTo($("#luckysheet-wa-editor"));
+    // $("#luckysheet-icon-morebtn-div > div").appendTo($("#luckysheet-wa-editor"));
+
+    $("#luckysheet-icon-morebtn-div > div").each(function(){
+        const $t = $(this)[0];
+        const $container =  $("#luckysheet-wa-editor")[0];
+        
+        $container.appendChild(document.createTextNode(" "));
+        $container.appendChild($t);
+    });
+
     // $("#luckysheet-wa-editor > div").trigger("create");
     // $("#luckysheet-icon-morebtn-div > div").trigger("create");
-    $("#luckysheet-icon-morebtn").prev().remove().end().remove();
+    $("#luckysheet-icon-morebtn").remove();
 
-    $("#luckysheet-wa-editor > div").each(function(){
-        let $t = $(this);
-        toolbarW += $t.outerWidth();
+    //计算前面按钮宽度加起来总和，超过 容器宽度-更多按钮，则剩下的按钮移动到展开的容器内，这种方式计算宽度不准确，且会导致下拉箭头和主按钮分离的情况，改为 计算left作为宽度依据，和容器宽度比较的方式
+    // $("#luckysheet-wa-editor > div").each(function(){
+    //     let $t = $(this);
+    //     // toolbarW += $t.outerWidth();
+    //     toolbarW += $t.outerWidth();
 
-        if(!ismore && toolbarW > gridW - 140){
+    //     if(!ismore && toolbarW > gridW - 140){
+    //         ismore = true;
+    //     }
+
+    //     if(ismore){
+    //         $("#luckysheet-icon-morebtn-div").append($(this));
+    //     }
+    // });
+
+    // 所有按钮宽度与元素定位
+    const toobarWidths = Store.toobarObject.toobarWidths;
+    const toobarElements = Store.toobarObject.toobarElements;
+    let moreButtonIndex = 0;
+
+    // 找到应该隐藏的起始元素位置
+    for (let index = toobarWidths.length - 1; index >= 0; index--) {
+        if(toobarWidths[index] < gridW - 90){
+            moreButtonIndex = index;
             ismore = true;
+            break;
         }
+    }
 
-        if(ismore){
-            $("#luckysheet-icon-morebtn-div").append($(this));
+    // 从起始位置开始，后面的元素统一挪到下方隐藏DIV中
+    for (let index = moreButtonIndex; index < toobarElements.length; index++) {
+        const element = toobarElements[index];
+        if(element instanceof Array){
+            for(const ele of element){
+                $("#luckysheet-icon-morebtn-div").append($(`${ele}`));
+            }
+        }else{
+            $("#luckysheet-icon-morebtn-div").append($(`${element}`));
         }
-    });
+        
+    }
 
     if(ismore){
         
@@ -107,19 +158,49 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
             let $txt = $(this).find(".luckysheet-toolbar-menu-button-caption");
             if($txt.text().indexOf(locale_toolbar.toolMore) > -1){
-                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> '+ locale_toolbar.toolClose +'... ');
+
+                const toolCloseHTML = `
+                <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
+                    ${locale_toolbar.toolClose}
+                </div> 
+                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-shangyige" style="user-select: none;font-size:12px;">
+                </div>
+                `
+                $(this).find(".luckysheet-toolbar-button-inner-box").html(toolCloseHTML);
             }
             else{
-                $(this).find(".luckysheet-toolbar-menu-button-caption").html('<i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... ');
+
+                const toolMoreHTML = `
+                <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
+                    ${locale_toolbar.toolMore}
+                </div> 
+                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige" style="user-select: none;font-size:12px;">
+                </div>
+                `
+
+                $(this).find(".luckysheet-toolbar-button-inner-box").html(toolMoreHTML);
             }
             
         });
         //$("#luckysheet-wa-editor div").trigger("create");
         
-        $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-menu-button").css("margin-right", -1);
-        $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-left").css("margin-right", -3);
-    }
+        // $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-menu-button").css("margin-right", -1);
+        // $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-left").css("margin-right", -3);
 
+        // “更多”容器中，联动hover效果
+        $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
+            $(this).next(".luckysheet-toolbar-button-split-right").addClass("luckysheet-toolbar-button-split-right-hover");
+        }, function(){
+            $(this).next(".luckysheet-toolbar-button-split-right").removeClass("luckysheet-toolbar-button-split-right-hover");
+        });
+
+        $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-right").off("hover").hover(function(){
+            $(this).prev(".luckysheet-toolbar-button-split-left").addClass("luckysheet-toolbar-button-hover");
+        }, function(){
+            $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");
+        });
+    }
+    
     $("#"+ Store.container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
         $(this).next(".luckysheet-toolbar-button-split-right").addClass("luckysheet-toolbar-button-split-right-hover");
     }, function(){
@@ -156,7 +237,7 @@ export function changeSheetContainerSize(gridW, gridH){
     $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
     $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left", Store.rowHeaderWidth - 1);
+    $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left", Store.rowHeaderWidth - 2);
 
     Store.luckysheetTableContentHW = [
         Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
@@ -188,4 +269,80 @@ export function changeSheetContainerSize(gridW, gridH){
     .css({ "height": gridheight - 10 });
     
     luckysheetFreezen.createAssistCanvas();
+}
+
+/**
+ * 统计工具栏各个按钮宽度值,用于计算哪些需要放到 更多按钮里
+ */
+export function menuToolBarWidth() {
+    const toobarObject = Store.toobarObject;
+    toobarObject.toobarWidths= [
+        $('#luckysheet-icon-undo').offset().left,
+        $('#luckysheet-icon-redo').offset().left,
+        $('#luckysheet-icon-paintformat').offset().left,
+        $('#luckysheet-icon-currency').offset().left,
+        $('#luckysheet-icon-percent').offset().left,
+        $('#luckysheet-icon-fmt-decimal-decrease').offset().left,
+        $('#luckysheet-icon-fmt-decimal-increase').offset().left,
+        $('#luckysheet-icon-fmt-other').offset().left,
+        $('#luckysheet-icon-font-family').offset().left,
+        $('#luckysheet-icon-font-size').offset().left,
+        $('#luckysheet-icon-bold').offset().left,
+        $('#luckysheet-icon-italic').offset().left,
+        $('#luckysheet-icon-strikethrough').offset().left,
+        $('#luckysheet-icon-text-color').offset().left,
+        $('#luckysheet-icon-cell-color').offset().left,
+        $('#luckysheet-icon-border-all').offset().left,
+        $('#luckysheet-icon-merge-button').offset().left,
+        $('#luckysheet-icon-align').offset().left,
+        $('#luckysheet-icon-valign').offset().left,
+        $('#luckysheet-icon-textwrap').offset().left,
+        $('#luckysheet-icon-rotation').offset().left,
+        $('#luckysheet-insertImg-btn-title').offset().left,
+        $('#luckysheet-chart-btn-title').offset().left,
+        $('#luckysheet-icon-postil').offset().left,
+        $('#luckysheet-pivot-btn-title').offset().left,
+        $('#luckysheet-icon-function').offset().left,
+        $('#luckysheet-freezen-btn-horizontal').offset().left,
+        $('#luckysheet-icon-autofilter').offset().left,
+        $('#luckysheet-icon-conditionformat').offset().left,
+        $('#luckysheet-splitColumn-btn-title').offset().left,
+        $('#luckysheet-chart-btn-screenshot').offset().left,
+        $('#luckysheet-icon-seachmore').offset().left,
+        $('#luckysheet-icon-seachmore').offset().left + $('#luckysheet-icon-seachmore').outerWidth() + 5,
+    ];
+    toobarObject.toobarElements = [
+        '#luckysheet-icon-undo',
+        '#luckysheet-icon-redo',
+        ['#luckysheet-icon-paintformat','#toolbar-separator-paint-format'],
+        '#luckysheet-icon-currency',
+        '#luckysheet-icon-percent',
+        '#luckysheet-icon-fmt-decimal-decrease',
+        '#luckysheet-icon-fmt-decimal-increase',
+        ['#luckysheet-icon-fmt-other','#toolbar-separator-more-format'],
+        ['#luckysheet-icon-font-family','#toolbar-separator-font-family'],
+        ['#luckysheet-icon-font-size','#toolbar-separator-font-size'],
+        '#luckysheet-icon-bold',
+        '#luckysheet-icon-italic',
+        '#luckysheet-icon-strikethrough',
+        ['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
+        ['#luckysheet-icon-cell-color','#luckysheet-icon-cell-color-menu'],
+        ['#luckysheet-icon-border-all','#luckysheet-icon-border-menu'],
+        ['#luckysheet-icon-merge-button','#luckysheet-icon-merge-menu','#toolbar-separator-merge-cell'],
+        ['#luckysheet-icon-align','#luckysheet-icon-align-menu'],
+        ['#luckysheet-icon-valign','#luckysheet-icon-valign-menu'],
+        ['#luckysheet-icon-textwrap','#luckysheet-icon-textwrap-menu'],
+        ['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
+        '#luckysheet-insertImg-btn-title',
+        '#luckysheet-chart-btn-title',
+        '#luckysheet-icon-postil',
+        ['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
+        ['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
+        ['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
+        '#luckysheet-icon-autofilter',
+        '#luckysheet-icon-conditionformat',
+        '#luckysheet-splitColumn-btn-title',
+        '#luckysheet-chart-btn-screenshot',
+        '#luckysheet-icon-seachmore'
+    ]
 }

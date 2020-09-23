@@ -386,15 +386,13 @@ function luckysheetactiveCell() {
 
 //单元格编辑聚焦
 function luckysheetContainerFocus() {
-    // $("#" + Store.container).attr("tabindex", 0).focus({ 
+    // $("#" + Store.container).focus({ 
     //     preventScroll: true 
     // });
-
+    
     // fix jquery error: Uncaught TypeError: ((n.event.special[g.origType] || {}).handle || g.handler).apply is not a function
 
-    $("#" + Store.container).focus({ 
-        preventScroll: true 
-    });
+    $("#" + Store.container).attr("tabindex", 0).focus();
 }
 
 //数字格式

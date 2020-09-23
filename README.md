@@ -97,12 +97,12 @@ English| [简体中文](./README-zh.md)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
 + **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
-
-### ⏱️Coming soon
 + **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
 + **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Print** (Like excel print option, save to PDF)
 + **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
+
+### ⏱️Coming soon
++ **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
 + **Documentation** (Improve documentation and API)

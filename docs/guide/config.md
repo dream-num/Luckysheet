@@ -72,6 +72,12 @@
 - Usage: Whether to allow copying
 
 ------------
+## showGridLines
+- Type: Number
+- Default: 1
+- Usage: Whether to show grid lines, `1` means show，`0` means hide
+
+------------
 ## showtoolbar
 - Type: Boolean
 - Default: true

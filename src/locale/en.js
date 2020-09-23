@@ -54,6 +54,7 @@ export default {
         toolLess:"Less",
         toolClose:"Close",
         toolMoreTip:"More features",
+        moreOptions:"More Options",
     },
     alternatingColors:{
         applyRange: 'Apply to range',
@@ -397,7 +398,7 @@ export default {
         "rotationDown":"Rotate down"
     },
     freezen:{
-        default:"Freezen",
+        default:"Freeze",
         freezenRow:"First Row",
         freezenColumn:"First column",
         freezenRC:"Both",
