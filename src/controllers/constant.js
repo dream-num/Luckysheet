@@ -1285,7 +1285,7 @@ function menuToolBar (){
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-dongjie"
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-dongjie1"
                             style="user-select: none;">
                             </div>
                         </div>
@@ -1534,9 +1534,9 @@ const iconfontObjects = {
         'border-none': ' iconfont icon-wubiankuang',
         'border-all': ' iconfont icon-quanjiabiankuang',
         'border-outside': ' iconfont icon-sizhoujiabiankuang',
-        'border-inside': ' iconfont icon-shangbiankuang',
-        'border-horizontal': ' iconfont icon-shangbiankuang',
-        'border-vertical': ' iconfont icon-shangbiankuang',
+        'border-inside': ' iconfont icon-neikuangxian',
+        'border-horizontal': ' iconfont icon-neikuanghengxian',
+        'border-vertical': ' iconfont icon-neikuangshuxian',
     },
     align:{
         'left': ' iconfont icon-wenbenzuoduiqi',
@@ -1547,7 +1547,7 @@ const iconfontObjects = {
         'bottom': ' iconfont icon-dibuduiqi',
     },
     textWrap:{
-        'overflow': ' iconfont icon-yichu',
+        'overflow': ' iconfont icon-yichu1',
         'wrap': ' iconfont icon-zidonghuanhang',
         'clip': ' iconfont icon-jieduan',
     },
@@ -1556,7 +1556,7 @@ const iconfontObjects = {
         'angleup': ' iconfont icon-xiangshangqingxie',
         'angledown': ' iconfont icon-xiangxiaqingxie',
         'vertical': ' iconfont icon-shupaiwenzi',
-        'rotation-up': ' iconfont icon-xiangshang90',
+        'rotation-up': ' iconfont icon-wenbenxiangshang',
         'rotation-down': ' iconfont icon-xiangxia90',
     }
 }

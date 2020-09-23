@@ -6,6 +6,90 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17392794",
+      "name": "冻结",
+      "font_class": "dongjie1",
+      "unicode": "e7e1",
+      "unicode_decimal": 59361
+    },
+    {
+      "icon_id": "17392795",
+      "name": "剪",
+      "font_class": "jian1",
+      "unicode": "e7e2",
+      "unicode_decimal": 59362
+    },
+    {
+      "icon_id": "17392796",
+      "name": "加",
+      "font_class": "jia1",
+      "unicode": "e7e3",
+      "unicode_decimal": 59363
+    },
+    {
+      "icon_id": "17392797",
+      "name": "溢出",
+      "font_class": "yichu1",
+      "unicode": "e7e4",
+      "unicode_decimal": 59364
+    },
+    {
+      "icon_id": "17392798",
+      "name": "升序",
+      "font_class": "shengxu1",
+      "unicode": "e7e5",
+      "unicode_decimal": 59365
+    },
+    {
+      "icon_id": "17392799",
+      "name": "内框线",
+      "font_class": "neikuangxian",
+      "unicode": "e7e6",
+      "unicode_decimal": 59366
+    },
+    {
+      "icon_id": "17392800",
+      "name": "清除筛选",
+      "font_class": "qingchushaixuan",
+      "unicode": "e7e7",
+      "unicode_decimal": 59367
+    },
+    {
+      "icon_id": "17392801",
+      "name": "文本向上",
+      "font_class": "wenbenxiangshang",
+      "unicode": "e7e8",
+      "unicode_decimal": 59368
+    },
+    {
+      "icon_id": "17392802",
+      "name": "降序",
+      "font_class": "jiangxu1",
+      "unicode": "e7e9",
+      "unicode_decimal": 59369
+    },
+    {
+      "icon_id": "17392803",
+      "name": "内框横线",
+      "font_class": "neikuanghengxian",
+      "unicode": "e7ea",
+      "unicode_decimal": 59370
+    },
+    {
+      "icon_id": "17392804",
+      "name": "内框竖线",
+      "font_class": "neikuangshuxian",
+      "unicode": "e7eb",
+      "unicode_decimal": 59371
+    },
+    {
+      "icon_id": "17392805",
+      "name": "自定义排序",
+      "font_class": "zidingyipaixu",
+      "unicode": "e7ec",
+      "unicode_decimal": 59372
+    },
+    {
       "icon_id": "16746498",
       "name": "logo2",
       "font_class": "logo2",
