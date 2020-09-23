@@ -476,6 +476,11 @@ const luckysheetSearchReplace = {
         const _locale = locale();
         const locale_findAndReplace = _locale.findAndReplace;
 
+        if(!Store.allowEdit){
+            tooltip.info(locale_findAndReplace.modeTip, "");
+            return;
+        }
+
         let searchText = $("#luckysheet-search-replace #searchInput input").val();
         if(searchText == "" || searchText == null){
             if(isEditMode()){
@@ -627,6 +632,11 @@ const luckysheetSearchReplace = {
 
         const _locale = locale();
         const locale_findAndReplace = _locale.findAndReplace;
+
+        if(!Store.allowEdit){
+            tooltip.info(locale_findAndReplace.modeTip, "");
+            return;
+        }
 
         let searchText = $("#luckysheet-search-replace #searchInput input").val();
         if(searchText == "" || searchText == null){

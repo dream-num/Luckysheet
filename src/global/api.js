@@ -1,31 +1,35 @@
 import Store from "../store";
-import { getObjType, chatatABC } from "../utils/util";
-import formula from './formula';
+import { replaceHtml, getObjType, chatatABC } from "../utils/util";
 import { getSheetIndex, getluckysheet_select_save } from "../methods/get";
-import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
-import { genarate, update } from './format';
-import server from "../controllers/server";
-import luckysheetConfigsetting from "../controllers/luckysheetConfigsetting";
-import { setAccuracy } from "./setdata";
-import func_methods from "./func_methods";
-import luckysheetFreezen from "../controllers/freezen";
-import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
 import locale from "../locale/locale";
+
+import formula from './formula';
+import func_methods from "./func_methods";
 import tooltip from "./tooltip";
+import json from "./json";
+import editor from "./editor";
+import luckysheetformula from './formula';
+import cleargridelement from './cleargridelement';
+import { genarate, update } from './format';
+import { setAccuracy } from "./setdata";
+import { orderbydata } from "./sort";
+import { rowlenByRange } from "./getRowlen";
+import { getdatabyselection, getcellvalue } from "./getdata";
+import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
+import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
+import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
+
+import server from "../controllers/server";
+import selection from "../controllers/selection";
+import luckysheetConfigsetting from "../controllers/luckysheetConfigsetting";
+import luckysheetFreezen from "../controllers/freezen";
+import luckysheetsizeauto from '../controllers/resize';
+import sheetmanage from '../controllers/sheetmanage';
 import { luckysheet_searcharray } from "../controllers/sheetSearch";
 import { selectIsOverlap } from '../controllers/select';
-import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
-import { getdatabyselection, getcellvalue } from "./getdata";
-import selection from "../controllers/selection";
-import json from "./json";
-import { orderbydata } from "./sort";
-import editor from "./editor";
-import { rowlenByRange } from "./getRowlen";
-import luckysheetformula from './formula';
-import luckysheetsizeauto from '../controllers/resize';
+import { sheetHTML } from '../controllers/constant';
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
-
 
 /**
  * 获取单元格的值
@@ -2688,6 +2692,116 @@ export function matrixCalculation(type, number, options = {}) {
     if (success && typeof success === 'function') {
         success();
     }
+}
+
+
+/**
+ * 新增一个sheet，返回新增的工作表对象
+ * @param {Object} options 可选参数
+ * @param {Object} options.sheetObject 新增的工作表的数据；默认值为空对象
+ * @param {Number} options.order 新增的工作表索引；默认值为最后一个索引位置
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetAdd(options = {}) {
+    let lastOrder = Store.luckysheetfile.length - 1;
+    let {
+        sheetObject = {},
+        order = lastOrder,
+        success
+    } = {...options}
+
+    if(!isRealNum(order)){
+        return tooltip.info("Parameter is not a table index", ""); 
+    }
+
+    order = Number(order);
+
+    let index = sheetmanage.generateRandomSheetIndex();
+
+    let sheetname = sheetmanage.generateRandomSheetName(Store.luckysheetfile, false);
+    if(!!sheetObject.name){
+        let sameName = false;
+
+        for(let i = 0; i < Store.luckysheetfile.length; i++){
+            if(Store.luckysheetfile[i].name == sheetObject.name){
+                sameName = true;
+                break;
+            }
+        }
+
+        if(!sameName){
+            sheetname = sheetObject.name;
+        }
+    }
+
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { 
+        "index": index, 
+        "active": "", 
+        "name": sheetname, 
+        "style": "",
+        "colorset": "" 
+    }));
+
+    let sheetconfig = { 
+        "name": "", 
+        "color": "", 
+        "status": "0", 
+        "order": "", 
+        "index": "", 
+        "celldata": [], 
+        "row": Store.defaultrowNum, 
+        "column": Store.defaultcolumnNum, 
+        "config": {}, 
+        "pivotTable": null, 
+        "isPivotTable": false 
+    };
+    sheetconfig = $.extend(true, sheetconfig, sheetObject);
+
+    sheetconfig.index = index;
+    sheetconfig.name = sheetname;
+    sheetconfig.order = order;
+
+    if(order <= 0){
+        let beforeIndex = Store.luckysheetfile[0].index;
+        let beforeObj = $("#luckysheet-sheets-item" + beforeIndex);
+        $("#luckysheet-sheets-item" + index).insertBefore(beforeObj);
+
+        Store.luckysheetfile.splice(0, 0, sheetconfig);
+    }
+    else{
+        if(order > Store.luckysheetfile.length){
+            order = Store.luckysheetfile.length;
+        }
+
+        let afterIndex = Store.luckysheetfile[order - 1].index;
+        let afterObj = $("#luckysheet-sheets-item" + afterIndex);
+        $("#luckysheet-sheets-item" + index).insertAfter(afterObj);
+
+        Store.luckysheetfile.splice(order, 0, sheetconfig);
+    }
+
+    Store.luckysheetfile.forEach((item, i, arr) => {
+        arr[i].order = i;
+    })
+
+    $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+    $("#luckysheet-sheets-item" + index).addClass("luckysheet-sheets-item-active");
+    $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + index + '" class="luckysheet-datavisual-selection-set"></div>');
+    cleargridelement(true);
+
+    server.saveParam("sha", null, $.extend(true, {}, sheetconfig));
+
+    if (Store.clearjfundo) {
+        Store.jfundo = [];
+        let redo = {};
+        redo["type"] = "addSheet";
+        redo["sheetconfig"] = $.extend(true, {}, sheetconfig);
+        redo["index"] = index;
+        redo["currentSheetIndex"] = Store.currentSheetIndex;
+        Store.jfredo.push(redo);
+    }
+
+    sheetmanage.changeSheetExec(index, false, true);
 }
 
 

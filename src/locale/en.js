@@ -639,6 +639,7 @@ export default {
         findBtn:"Find next",
 
         noFindTip:"The content was not found",
+        modeTip:"This operation is not available in this mode",
 
         searchTargetSheet:"Sheet",
         searchTargetCell:"Cell",

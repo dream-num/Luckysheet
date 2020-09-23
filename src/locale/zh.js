@@ -655,6 +655,7 @@ export default {
         findBtn:"查找下一个",
 
         noFindTip:"没有查找到该内容",
+        modeTip:"该模式下不可进行此操作",
 
         searchTargetSheet:"工作表",
         searchTargetCell:"单元格",
