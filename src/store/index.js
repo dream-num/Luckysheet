@@ -127,6 +127,8 @@ const Store = {
     showGridLines:true,
 
     toobarObject: {}, //toolbar constant
+    inlineStringEditCache:null,
+    inlineStringEditRange:null,
 
 }
 

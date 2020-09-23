@@ -714,15 +714,12 @@ const server = {
     multipleRangeShow: function(id, name, r, c) {
     	let _this = this;
 
-	    let r1 = r2 = r;
-	    let c1 = c2 = c;
+	    let row = Store.visibledatarow[r],
+	        row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1],
+	        col = Store.visibledatacolumn[c],
+	        col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
-	    let row = visibledatarow[r2],
-	        row_pre = r1 - 1 == -1 ? 0 : visibledatarow[r1 - 1],
-	        col = visibledatacolumn[c2],
-	        col_pre = c1 - 1 == -1 ? 0 : visibledatacolumn[c1 - 1];
-
-	    let margeset = menuButton.mergeborer(Store.flowdata, r1, c1);
+	    let margeset = menuButton.mergeborer(Store.flowdata, r, c);
 	    if(!!margeset){
 	        row = margeset.row[1];
 	        row_pre = margeset.row[0];

@@ -120,7 +120,7 @@ const editor = {
                 clen = ed_c - st_c + 1;
             
             if (rlen > 5000) {
-                jfrefreshgrid(d, st_r, ed_r, st_c, ed_c);
+                jfrefreshgrid(d, [{ "row": [st_r, ed_r], "column": [st_c, ed_c] }]);
             }
             else {
                 jfrefreshrange(d, { "row": [st_r, ed_r], "column": [st_c, ed_c] });

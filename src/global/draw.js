@@ -3,16 +3,18 @@ import conditionformat from '../controllers/conditionformat';
 import alternateformat from '../controllers/alternateformat';
 import luckysheetSparkline from '../controllers/sparkline';
 import menuButton from '../controllers/menuButton';
+import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import { luckysheetdefaultstyle, luckysheet_CFiconsImg,luckysheetdefaultFont } from '../controllers/constant';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { dynamicArrayCompute } from './dynamicArray';
 import browser from './browser';
 import { isRealNull, isRealNum } from './validate';
 import { getCellTextSplitArr,getMeasureText,getCellTextInfo } from './getRowlen';
-import { getcellvalue } from './getdata';
+import { getcellvalue,getRealCellValue } from './getdata';
 import { getBorderInfoCompute } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
+import { isInlineStringCell } from '../controllers/inlineString';
 import Store from '../store';
 import locale from '../locale/locale';
 
@@ -674,10 +676,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 // continue;
             }
             else{
-                value = getcellvalue(r, c, null, "m");
-                if(value == null){
-                    value = getcellvalue(r, c);
-                }
+                value = getRealCellValue(r,c);
             }  
 
             if(value == null || value.toString().length == 0){
@@ -718,11 +717,13 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         let value = null;
 
         let margeMaindata = cell["mc"];
-        value = getcellvalue(margeMaindata.r, margeMaindata.c, null, "m");
+        // value = getcellvalue(margeMaindata.r, margeMaindata.c, null, "m");
         
-        if(value == null){
-            value = getcellvalue(margeMaindata.r, margeMaindata.c);
-        }
+        // if(value == null){
+        //     value = getcellvalue(margeMaindata.r, margeMaindata.c);
+        // }
+
+        value = getRealCellValue(margeMaindata.r,margeMaindata.c);
 
         r = margeMaindata.r;
         c = margeMaindata.c;
@@ -1180,7 +1181,6 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
 
 
 let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05,isMerge){
-
     let cell = Store.flowdata[r][c];
     let cellWidth = end_c - start_c - 2;
     let cellHeight = end_r - start_r - 2;
@@ -1219,8 +1219,32 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         (start_r + offsetTop  + borderfix[1]), 
         (end_c - start_c + borderfix[2]-(!!isMerge?1:0)), 
         (end_r - start_r + borderfix[3])
-   ];
-   luckysheetTableContent.fillRect(cellsize[0], cellsize[1], cellsize[2], cellsize[3]);
+    ];
+    luckysheetTableContent.fillRect(cellsize[0], cellsize[1], cellsize[2], cellsize[3]);
+
+    let dataVerification = dataVerificationCtrl.dataVerification;
+
+    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(value, dataVerification[r + '_' + c])){
+        //单元格左上角红色小三角标示
+        let dv_w = 5 * Store.zoomRatio, dv_h = 5 * Store.zoomRatio; //红色小三角宽高
+
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.moveTo(
+            (start_c + offsetLeft), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (start_c + offsetLeft + dv_w), 
+            (start_r + offsetTop)
+        );
+        luckysheetTableContent.lineTo(
+            (start_c + offsetLeft), 
+            (start_r + offsetTop + dv_h)
+        );
+        luckysheetTableContent.fillStyle = "#FC6666";
+        luckysheetTableContent.fill();
+        luckysheetTableContent.closePath();
+    }
 
     //若单元格有批注（单元格右上角红色小三角标示）
     if(cell.ps != null){
@@ -1266,7 +1290,6 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         luckysheetTableContent.closePath();
     }
 
-
     //溢出单元格
     let cellOverflow_bd_r_render = true; //溢出单元格右边框是否需要绘制
     let cellOverflow_colInObj = cellOverflow_colIn(cellOverflowMap, r, c, dataset_col_st, dataset_col_ed);
@@ -1287,6 +1310,79 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         else{
             cellOverflow_bd_r_render = false;
         }
+    }
+    //数据验证 复选框
+    else if(dataVerification != null && dataVerification[r + '_' + c] != null && dataVerification[r + '_' + c].type == 'checkbox'){
+        let pos_x = start_c + offsetLeft;
+        let pos_y = start_r + offsetTop + 1;
+
+        luckysheetTableContent.save();
+        luckysheetTableContent.beginPath();
+        luckysheetTableContent.rect(pos_x, pos_y, cellWidth, cellHeight);
+        luckysheetTableContent.clip();
+        luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
+        
+        let measureText = getMeasureText(value, luckysheetTableContent);
+        let textMetrics = measureText.width + 14;
+        let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
+
+        let horizonAlignPos = (pos_x + space_width) ; //默认为1，左对齐
+        if(horizonAlign == "0"){ //居中对齐
+            horizonAlignPos = (pos_x + cellWidth / 2)  - (textMetrics / 2);
+        }
+        else if(horizonAlign == "2"){ //右对齐
+            horizonAlignPos = (pos_x + cellWidth - space_width)  - textMetrics;
+        }
+        
+        let verticalCellHeight = cellHeight > oneLineTextHeight ? cellHeight : oneLineTextHeight;
+
+        let verticalAlignPos_text = (pos_y + verticalCellHeight - space_height) ; //文本垂直方向基准线
+        luckysheetTableContent.textBaseline = "bottom";
+        let verticalAlignPos_checkbox = verticalAlignPos_text - 13;
+
+        if(verticalAlign == "0"){ //居中对齐 
+            verticalAlignPos_text = (pos_y + verticalCellHeight / 2);
+            luckysheetTableContent.textBaseline = "middle";
+            verticalAlignPos_checkbox = verticalAlignPos_text - 6;
+        }
+        else if(verticalAlign == "1"){ //上对齐
+            verticalAlignPos_text = (pos_y + space_height);
+            luckysheetTableContent.textBaseline = "top";
+            verticalAlignPos_checkbox = verticalAlignPos_text + 1;
+        }
+
+        horizonAlignPos = horizonAlignPos / Store.zoomRatio;
+        verticalAlignPos_text = verticalAlignPos_text / Store.zoomRatio;
+        verticalAlignPos_checkbox = verticalAlignPos_checkbox / Store.zoomRatio;
+
+        //复选框
+        luckysheetTableContent.lineWidth = 1;
+        luckysheetTableContent.strokeStyle = "#000";
+        luckysheetTableContent.strokeRect(horizonAlignPos, verticalAlignPos_checkbox, 10, 10);
+
+        if(dataVerification[r + '_' + c].checked){
+            luckysheetTableContent.beginPath();
+            luckysheetTableContent.lineTo(
+                horizonAlignPos + 1, 
+                verticalAlignPos_checkbox + 6
+            );
+            luckysheetTableContent.lineTo(
+                horizonAlignPos + 4, 
+                verticalAlignPos_checkbox + 9
+            );
+            luckysheetTableContent.lineTo(
+                horizonAlignPos + 9, 
+                verticalAlignPos_checkbox + 2
+            );
+            luckysheetTableContent.stroke();
+            luckysheetTableContent.closePath();
+        }
+
+        //文本
+        luckysheetTableContent.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
+        luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos + 14, verticalAlignPos_text);
+        
+        luckysheetTableContent.restore();
     }
     else{
         //若单元格有条件格式数据条
@@ -1802,7 +1898,7 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
                 continue
             }
 
-            if(cell != null && !isRealNull(cell.v) && cell.mc == null && cell.tb == '1'){
+            if(cell != null && (!isRealNull(cell.v) || isInlineStringCell(cell) ) && cell.mc == null && cell.tb == '1'){
                 // let fontset = luckysheetfontformat(cell);
                 // canvas.font = fontset;
 
@@ -2052,21 +2148,28 @@ function cellTextRender(textInfo, ctx, option){
     // ctx.fillStyle = "rgb(0,0,0)";
     for(let i=0;i<values.length;i++){
         let word = values[i];
-        ctx.font = word.style;
+        if(word.inline===true && word.style!=null){
+            ctx.font = word.style.fontset;
+            ctx.fillStyle = word.style.fc;
+        }
+        else{
+            ctx.font = word.style;
+        }
+        
         ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
         
         if(word.cancelLine!=null){
             let c = word.cancelLine;
             ctx.beginPath();
             ctx.moveTo(
-                (pos_x +c.startX)/Store.zoomRatio ,
-                (pos_y+c.startY)/Store.zoomRatio
+                Math.floor((pos_x +c.startX)/Store.zoomRatio)+0.5 ,
+                Math.floor((pos_y+c.startY)/Store.zoomRatio)+0.5 ,
             );
             ctx.lineTo(
-                (pos_x +c.endX)/Store.zoomRatio,
-                (pos_y+c.endY)/Store.zoomRatio
+                Math.floor((pos_x +c.endX)/Store.zoomRatio)+0.5 ,
+                Math.floor((pos_y+c.endY)/Store.zoomRatio)+0.5 ,
             );
-            ctx.lineWidth = 1;
+            ctx.lineWidth = Math.floor(c.fs/9);
             ctx.strokeStyle = ctx.fillStyle;
             ctx.stroke();
             ctx.closePath();
@@ -2078,14 +2181,14 @@ function cellTextRender(textInfo, ctx, option){
                 let item = underLines[a];
                 ctx.beginPath();
                 ctx.moveTo(
-                    (pos_x +item.startX)/Store.zoomRatio ,
-                    (pos_y+item.startY)/Store.zoomRatio
+                    Math.floor((pos_x +item.startX)/Store.zoomRatio)+0.5 ,
+                    Math.floor((pos_y+item.startY)/Store.zoomRatio)
                 );
                 ctx.lineTo(
-                    (pos_x +item.endX)/Store.zoomRatio,
-                    (pos_y+ item.endY)/Store.zoomRatio
+                    Math.floor((pos_x +item.endX)/Store.zoomRatio)+0.5,
+                    Math.floor((pos_y+ item.endY)/Store.zoomRatio)+0.5
                 );
-                ctx.lineWidth = 1;
+                ctx.lineWidth = Math.floor(item.fs/9);
                 ctx.strokeStyle = ctx.fillStyle;
                 ctx.stroke();
                 ctx.closePath();

@@ -3,18 +3,30 @@ import luckysheetFreezen from './freezen';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
 import alternateformat from './alternateformat';
+import dataVerificationCtrl from './dataVerificationCtrl';
 import { chatatABC } from '../utils/util';
 import { isEditMode } from '../global/validate';
-import { getcellvalue } from '../global/getdata';
+import { getcellvalue,getInlineStringStyle } from '../global/getdata';
 import { valueShowEs } from '../global/format';
 import formula from '../global/formula';
 import { luckysheetRangeLast } from '../global/cursorPos';
 import cleargridelement from '../global/cleargridelement';
+import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 
 export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocus) {
     if(isEditMode() || Store.allowEdit===false){//此模式下禁用单元格编辑
         return;
+    }
+
+    if(dataVerificationCtrl.dataVerification != null && dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1] != null){
+        let dataVerificationItem = dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1];
+        if(dataVerificationItem.type == 'dropdown'){
+            dataVerificationCtrl.dropdownListShow();
+        }
+        else if(dataVerificationItem.type == 'checkbox'){
+            return;
+        }
     }
 
     let size = getColumnAndRowSize(row_index1, col_index1, d);
@@ -124,7 +136,10 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 
         
         if (!cover) {
-            if(cell.f!=null){
+            if(isInlineStringCell(cell)){
+                value = getInlineStringStyle(row_index, col_index, d);
+            }
+            else if(cell.f!=null){
                 value = getcellvalue(row_index, col_index, d, "f");
             }
             else{

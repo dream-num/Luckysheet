@@ -181,6 +181,9 @@ const gridHTML = function(){
                                                         </div>
                                                         <div class="img-list"></div>
                                                     </div>
+                                                    <div id="luckysheet-dataVerification-dropdown-btn"></div>
+                                                    <div id="luckysheet-dataVerification-dropdown-List" class="luckysheet-mousedown-cancel"></div>
+                                                    <div id="luckysheet-dataVerification-showHintBox" class="luckysheet-mousedown-cancel"></div>
                                                     <div class="luckysheet-cell-copy"></div>  
                                                     <div class="luckysheet-grdblkflowpush"></div>  \${flow} 
                                                 </div> 
@@ -243,7 +246,9 @@ const columeHeader_word = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
 
 //右键菜单dom
 function rightclickHTML(){
-    const rightclick = locale().rightclick;
+    const _locale = locale();
+    const rightclick = _locale.rightclick;
+    const toolbar = _locale.toolbar;
 
     return `<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">
                 <div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content">
@@ -345,6 +350,12 @@ function rightclickHTML(){
                     </div>
                     <div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.chartGeneration}</div>
+                    </div>
+                    <div id="luckysheetInsertImage" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.insertImage}</div>
+                    </div>
+                    <div id="luckysheetDataVerification" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.dataVerification}</div>
                     </div>
                 </div>
             </div>
@@ -1331,6 +1342,24 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="${toolbar.dataVerification}" id="luckysheet-dataVerification-btn-title" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-shujuyanzheng"
+                            style="user-select: none;">
+                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.splitColumn}" id="luckysheet-splitColumn-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -1384,7 +1413,7 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
-       `;
+        `;
 } 
 
 const luckysheetlodingHTML = function(){ 

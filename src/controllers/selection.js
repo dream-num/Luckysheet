@@ -26,7 +26,7 @@ const selection = {
 
         Store.luckysheet_selection_range = [];
         selectionCopyShow();
-        Store.luckysheet_copy_save = {};
+        // Store.luckysheet_copy_save = {};
         
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content").css("visibility", "hidden");
@@ -721,11 +721,19 @@ const selection = {
 
             Store.luckysheet_select_save = [{ "row": [minh, maxh], "column": [minc, maxc] }];
             
+            
             if(addr > 0 || addc > 0 || RowlChange){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
+                let allParam = {
+                    "cfg": cfg,
+                    "RowlChange": true
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
             }
             else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg);
+                let allParam = {
+                    "cfg": cfg
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
                 selectHightlightShow();
             }
         }
@@ -790,7 +798,10 @@ const selection = {
             last["column"] = [curC, curC + clen - 1];
 
             if (addr > 0 || addc > 0) {
-                jfrefreshgrid(d, Store.luckysheet_select_save, null, null, true);
+                let allParam = {
+                    "RowlChange": true
+                }
+                jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
             }
             else {
                 jfrefreshgrid(d, Store.luckysheet_select_save);
@@ -799,9 +810,10 @@ const selection = {
         }
     },
     pasteHandlerOfCutPaste: function(copyRange){
-        if(Store.allowEdit===false){
+        if(Store.allowEdit === false){
             return;
         }
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -810,9 +822,14 @@ const selection = {
         //复制范围
         let copyHasMC = copyRange["HasMC"];
         let copyRowlChange = copyRange["RowlChange"];
-
         let copySheetIndex = copyRange["dataSheetIndex"];
-        let copyData = $.extend(true, [], getdatabyselection({"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, copySheetIndex));
+
+        let c_r1 = copyRange["copyRange"][0].row[0],
+            c_r2 = copyRange["copyRange"][0].row[1],
+            c_c1 = copyRange["copyRange"][0].column[0],
+            c_c2 = copyRange["copyRange"][0].column[1];
+
+        let copyData = $.extend(true, [], getdatabyselection({"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, copySheetIndex));
 
         let copyh = copyData.length, copyc = copyData[0].length;
 
@@ -847,11 +864,13 @@ const selection = {
         }
 
         let borderInfoCompute = getBorderInfoCompute(copySheetIndex);
+        let c_dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(copySheetIndex)]["dataVerification"]);
+        let dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]);
         
-        //剪切粘贴在当前表操作，删除剪切范围内数据和合并单元格
+        //剪切粘贴在当前表操作，删除剪切范围内数据、合并单元格和数据验证
         if(Store.currentSheetIndex == copySheetIndex){
-            for(let i = copyRange["copyRange"][0].row[0]; i <= copyRange["copyRange"][0].row[1]; i++){
-                for(let j = copyRange["copyRange"][0].column[0]; j <= copyRange["copyRange"][0].column[1]; j++){
+            for(let i = c_r1; i <= c_r2; i++){
+                for(let j = c_c1; j <= c_c2; j++){
                     let cell = d[i][j];
 
                     if(getObjType(cell) == "object" && ("mc" in cell)){
@@ -862,6 +881,8 @@ const selection = {
                     }
 
                     d[i][j] = null;
+
+                    delete dataVerification[i + "_" + j];
                 }
             }
 
@@ -877,7 +898,12 @@ const selection = {
                         let bd_emptyRange = [];
 
                         for(let j = 0; j < bd_range.length; j++){
-                            bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(bd_range[j], {"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, {"row": [minh, maxh], "column": [minc, maxc]}, "restPart"));
+                            bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(
+                                bd_range[j], 
+                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                                {"row": [minh, maxh], "column": [minc, maxc]}, 
+                                "restPart"
+                            ));
                         }
 
                         cfg["borderInfo"][i].range = bd_emptyRange;
@@ -888,7 +914,7 @@ const selection = {
                         let bd_r = cfg["borderInfo"][i].value.row_index;
                         let bd_c = cfg["borderInfo"][i].value.col_index;
 
-                        if(!(bd_r >= copyRange["copyRange"][0].row[0] && bd_r <= copyRange["copyRange"][0].row[1] && bd_c >= copyRange["copyRange"][0].column[0] && bd_c <= copyRange["copyRange"][0].column[1])){
+                        if(!(bd_r >= c_r1 && bd_r <= c_r2 && bd_c >= c_c1 && bd_c <= c_c2)){
                             source_borderInfo.push(cfg["borderInfo"][i]);
                         }
                     }
@@ -903,16 +929,16 @@ const selection = {
             let x = [].concat(d[h]);
 
             for (let c = minc; c <= maxc; c++) {
-                if(borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - minh) + "_" + (copyRange["copyRange"][0].column[0] + c - minc)]){
+                if(borderInfoCompute[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)]){
                     let bd_obj = {
                         "rangeType": "cell",
                         "value": {
                             "row_index": h,
                             "col_index": c,
-                            "l": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - minh) + "_" + (copyRange["copyRange"][0].column[0] + c - minc)].l,
-                            "r": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - minh) + "_" + (copyRange["copyRange"][0].column[0] + c - minc)].r,
-                            "t": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - minh) + "_" + (copyRange["copyRange"][0].column[0] + c - minc)].t,
-                            "b": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - minh) + "_" + (copyRange["copyRange"][0].column[0] + c - minc)].b
+                            "l": borderInfoCompute[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)].l,
+                            "r": borderInfoCompute[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)].r,
+                            "t": borderInfoCompute[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)].t,
+                            "b": borderInfoCompute[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)].b
                         }
                     }
 
@@ -940,6 +966,11 @@ const selection = {
                     }
 
                     cfg["borderInfo"].push(bd_obj);
+                }
+
+                //数据验证 剪切
+                if(c_dataVerification[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)]){
+                    dataVerification[h + "_" + c] = c_dataVerification[(c_r1 + h - minh) + "_" + (c_c1 + c - minc)];
                 }
 
                 if(getObjType(x[c]) == "object" && ("mc" in x[c])){
@@ -983,7 +1014,7 @@ const selection = {
                 cfg = rowlenByRange(d, minh, maxh, cfg);
             }
             else{
-                cfg = rowlenByRange(d, copyRange["copyRange"][0].row[0], copyRange["copyRange"][0].row[1], cfg);
+                cfg = rowlenByRange(d, c_r1, c_r2, cfg);
                 cfg = rowlenByRange(d, minh, maxh, cfg);
             }
         }
@@ -1000,13 +1031,8 @@ const selection = {
                 sourceCurConfig["merge"] = {};
             }
 
-            let source_r1 = copyRange["copyRange"][0].row[0], 
-                source_r2 = copyRange["copyRange"][0].row[1];
-            let source_c1 = copyRange["copyRange"][0].column[0], 
-                source_c2 = copyRange["copyRange"][0].column[1];
-
-            for(let source_r = source_r1; source_r <= source_r2; source_r++){
-                for(let source_c = source_c1; source_c <= source_c2; source_c++){
+            for(let source_r = c_r1; source_r <= c_r2; source_r++){
+                for(let source_c = c_c1; source_c <= c_c2; source_c++){
                     let cell = sourceCurData[source_r][source_c];
 
                     if(getObjType(cell) == "object" && ("mc" in cell)){
@@ -1020,7 +1046,7 @@ const selection = {
             }
 
             if(copyRowlChange){
-                sourceCurConfig = rowlenByRange(sourceCurData, source_r1, source_r2, sourceCurConfig);
+                sourceCurConfig = rowlenByRange(sourceCurData, c_r1, c_r2, sourceCurConfig);
             }
 
             //边框
@@ -1035,7 +1061,12 @@ const selection = {
                         let bd_emptyRange = [];
 
                         for(let j = 0; j < bd_range.length; j++){
-                            bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(bd_range[j], {"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, {"row": [minh, maxh], "column": [minc, maxc]}, "restPart"));
+                            bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(
+                                bd_range[j], 
+                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                                {"row": [minh, maxh], "column": [minc, maxc]}, 
+                                "restPart"
+                            ));
                         }
 
                         sourceCurConfig["borderInfo"][i].range = bd_emptyRange;
@@ -1046,7 +1077,7 @@ const selection = {
                         let bd_r = sourceCurConfig["borderInfo"][i].value.row_index;
                         let bd_c = sourceCurConfig["borderInfo"][i].value.col_index;
 
-                        if(!(bd_r >= copyRange["copyRange"][0].row[0] && bd_r <= copyRange["copyRange"][0].row[1] && bd_c >= copyRange["copyRange"][0].column[0] && bd_c <= copyRange["copyRange"][0].column[1])){
+                        if(!(bd_r >= c_r1 && bd_r <= c_r2 && bd_c >= c_c1 && bd_c <= c_c2)){
                             source_borderInfo.push(sourceCurConfig["borderInfo"][i]);
                         }
                     }
@@ -1066,10 +1097,22 @@ const selection = {
                     let emptyRange2 = [];
 
                     for(let j = 0; j < source_curCdformat_cellrange.length; j++){
-                        let range = conditionformat.CFSplitRange(source_curCdformat_cellrange[j], {"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, {"row": [minh, maxh], "column": [minc, maxc]}, "restPart");
+                        let range = conditionformat.CFSplitRange(
+                            source_curCdformat_cellrange[j], 
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            "restPart"
+                        );
+
                         emptyRange = emptyRange.concat(range);
 
-                        let range2 = conditionformat.CFSplitRange(source_curCdformat_cellrange[j], {"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, {"row": [minh, maxh], "column": [minc, maxc]}, "operatePart");
+                        let range2 = conditionformat.CFSplitRange(
+                            source_curCdformat_cellrange[j], 
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            "operatePart"
+                        );
+
                         if(range2.length > 0){
                             emptyRange2 = emptyRange2.concat(range2);
                         }
@@ -1091,6 +1134,13 @@ const selection = {
                 target_curCdformat = target_curCdformat.concat(ruleArr);
             }
 
+            //数据验证 
+            for(let i = c_r1; i <= c_r2; i++){
+                for(let j = c_c1; j <= c_c2; j++){
+                    delete c_dataVerification[i + "_" + j];
+                }
+            }
+
             source = {
                 "sheetIndex": copySheetIndex,
                 "data": sourceData,
@@ -1099,9 +1149,11 @@ const selection = {
                 "curConfig": sourceCurConfig,
                 "cdformat": source_cdformat,
                 "curCdformat": source_curCdformat,
+                "dataVerification": $.extend(true, {}, Store.luckysheetfile[getSheetIndex(copySheetIndex)]["dataVerification"]),
+                "curDataVerification": c_dataVerification,
                 "range": {
-                    "row": copyRange["copyRange"][0].row,
-                    "column": copyRange["copyRange"][0].column
+                    "row": [c_r1, c_r2],
+                    "column": [c_c1, c_c2]
                 }
             }
             target = {
@@ -1112,6 +1164,8 @@ const selection = {
                 "curConfig": cfg,
                 "cdformat": target_cdformat,
                 "curCdformat": target_curCdformat,
+                "dataVerification": $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]),
+                "curDataVerification": dataVerification,
                 "range": {
                     "row": [minh, maxh],
                     "column": [minc, maxc]
@@ -1128,7 +1182,13 @@ const selection = {
                     let emptyRange = [];
 
                     for(let j = 0; j < cellrange.length; j++){
-                        let range = conditionformat.CFSplitRange(cellrange[j], {"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, {"row": [minh, maxh], "column": [minc, maxc]}, "allPart");
+                        let range = conditionformat.CFSplitRange(
+                            cellrange[j], 
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            "allPart"
+                        );
+
                         emptyRange = emptyRange.concat(range);
                     }
 
@@ -1145,9 +1205,11 @@ const selection = {
                 "curConfig": cfg,
                 "cdformat": cdformat,
                 "curCdformat": curCdformat,
+                "dataVerification": $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]),
+                "curDataVerification": dataVerification,
                 "range": {
-                    "row": copyRange["copyRange"][0].row,
-                    "column": copyRange["copyRange"][0].column
+                    "row": [c_r1, c_r2],
+                    "column": [c_c1, c_c2]
                 }
             }
             target = {
@@ -1158,6 +1220,8 @@ const selection = {
                 "curConfig": cfg,
                 "cdformat": cdformat,
                 "curCdformat": curCdformat,
+                "dataVerification": $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]),
+                "curDataVerification": dataVerification,
                 "range": {
                     "row": [minh, maxh],
                     "column": [minc, maxc]
@@ -1183,11 +1247,16 @@ const selection = {
         let copyRowlChange = copyRange["RowlChange"];
         let copySheetIndex = copyRange["dataSheetIndex"];
 
+        let c_r1 = copyRange["copyRange"][0].row[0],
+            c_r2 = copyRange["copyRange"][0].row[1],
+            c_c1 = copyRange["copyRange"][0].column[0],
+            c_c2 = copyRange["copyRange"][0].column[1];
+
         let arr = [], isSameRow = false;
         for(let i = 0; i < copyRange["copyRange"].length; i++){
             let arrData = getdatabyselection({"row": copyRange["copyRange"][i].row, "column": copyRange["copyRange"][i].column}, copySheetIndex);
             if(copyRange["copyRange"].length > 1){
-                if(copyRange["copyRange"][0].row[0] == copyRange["copyRange"][1].row[0] && copyRange["copyRange"][0].row[1] == copyRange["copyRange"][1].row[1]){
+                if(c_r1 == copyRange["copyRange"][1].row[0] && c_r2 == copyRange["copyRange"][1].row[1]){
                     arrData = arrData[0].map(function(col, a){
                         return arrData.map(function(row){
                             return row[a];
@@ -1198,7 +1267,7 @@ const selection = {
 
                     isSameRow = true;
                 }
-                else if(copyRange["copyRange"][0].column[0] == copyRange["copyRange"][1].column[0] && copyRange["copyRange"][0].column[1] == copyRange["copyRange"][1].column[1]){
+                else if(c_c1 == copyRange["copyRange"][1].column[0] && c_c2 == copyRange["copyRange"][1].column[1]){
                     arr = arr.concat(arrData);
                 }
             }
@@ -1274,6 +1343,8 @@ const selection = {
         }
 
         let borderInfoCompute = getBorderInfoCompute(copySheetIndex);
+        let c_dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(copySheetIndex)].dataVerification);
+        let dataVerification = null;
 
         let mth = 0, mtc = 0, maxcellCahe = 0, maxrowCache = 0;
         for(let th = 1; th <= timesH; th++){
@@ -1284,24 +1355,24 @@ const selection = {
                 maxcellCahe = minc + tc * copyc;
 
                 //行列位移值 用于单元格有函数
-                let offsetRow = mth - copyRange["copyRange"][0].row[0];
-                let offsetCol = mtc - copyRange["copyRange"][0].column[0];
+                let offsetRow = mth - c_r1;
+                let offsetCol = mtc - c_c1;
 
                 let offsetMC = {};
                 for (let h = mth; h < maxrowCache; h++) {
                     let x = [].concat(d[h]);
 
                     for (let c = mtc; c < maxcellCahe; c++) {
-                        if(borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)]){
+                        if(borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)]){
                             let bd_obj = {
                                 "rangeType": "cell",
                                 "value": {
                                     "row_index": h,
                                     "col_index": c,
-                                    "l": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].l,
-                                    "r": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].r,
-                                    "t": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].t,
-                                    "b": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].b
+                                    "l": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].l,
+                                    "r": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].r,
+                                    "t": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].t,
+                                    "b": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].b
                                 }
                             }
 
@@ -1329,6 +1400,15 @@ const selection = {
                             }
 
                             cfg["borderInfo"].push(bd_obj);
+                        }
+
+                        //数据验证 复制
+                        if(c_dataVerification[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)]){
+                            if(dataVerification == null){
+                                dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].dataVerification)
+                            }
+
+                            dataVerification[h + "_" + c] = c_dataVerification[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)];
                         }
 
                         if(getObjType(x[c]) == "object" && "mc" in x[c]){
@@ -1401,21 +1481,17 @@ const selection = {
             }
         }
 
-        //复制范围 是否有 条件格式
-        let ruleArr_cf = [], cdformat = [];
+        //复制范围 是否有 条件格式和数据验证
+        let cdformat = null;
         if(copyRange["copyRange"].length == 1){
             let c_file = Store.luckysheetfile[getSheetIndex(copySheetIndex)];
             let a_file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-
-            let c_r1 = copyRange["copyRange"][0].row[0],
-                c_r2 = copyRange["copyRange"][0].row[1],
-                c_c1 = copyRange["copyRange"][0].column[0],
-                c_c2 = copyRange["copyRange"][0].column[1];
             
-            ruleArr_cf = $.extend(true, [], c_file["luckysheet_conditionformat_save"]);
-            cdformat = $.extend(true, [], a_file["luckysheet_conditionformat_save"]);
+            let ruleArr_cf = $.extend(true, [], c_file["luckysheet_conditionformat_save"]);
 
             if(ruleArr_cf != null && ruleArr_cf.length > 0){
+                cdformat = $.extend(true, [], a_file["luckysheet_conditionformat_save"]);
+
                 for(let i = 0; i < ruleArr_cf.length; i++){
                     let cf_range = ruleArr_cf[i].cellrange;
 
@@ -1429,7 +1505,13 @@ const selection = {
                             maxcellCahe = minc + tc * copyc;
 
                             for(let j = 0; j < cf_range.length; j++){
-                                let range = conditionformat.CFSplitRange(cf_range[j], {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, {"row": [mth, maxrowCache - 1], "column": [mtc, maxcellCahe - 1]}, "operatePart");
+                                let range = conditionformat.CFSplitRange(
+                                    cf_range[j], 
+                                    {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                                    {"row": [mth, maxrowCache - 1], "column": [mtc, maxcellCahe - 1]}, 
+                                    "operatePart"
+                                );
+
                                 if(range.length > 0){
                                     emptyRange = emptyRange.concat(range);
                                 }
@@ -1451,21 +1533,22 @@ const selection = {
         if(copyRowlChange || addr > 0 || addc > 0){
             cfg = rowlenByRange(d, minh, maxh, cfg);
 
-            if(copyRange["copyRange"].length == 1 && ruleArr_cf != null && ruleArr_cf.length > 0){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, true);
+            let allParam = {
+                "cfg": cfg,
+                "RowlChange": true,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
             }
-            else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
-            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
-            if(copyRange["copyRange"].length == 1 && ruleArr_cf != null && ruleArr_cf.length > 0){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat);
+            let allParam = {
+                "cfg": cfg,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
             }
-            else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg);
-            }
-
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
+            
             selectHightlightShow();
         }
     },
@@ -1478,9 +1561,14 @@ const selection = {
         //复制范围
         let copyHasMC = copyRange["HasMC"];
         let copyRowlChange = copyRange["RowlChange"];
-
         let copySheetIndex = copyRange["dataSheetIndex"];
-        let copyData = $.extend(true, [], getdatabyselection({"row": copyRange["copyRange"][0].row, "column": copyRange["copyRange"][0].column}, copySheetIndex));
+
+        let c_r1 = copyRange["copyRange"][0].row[0],
+            c_r2 = copyRange["copyRange"][0].row[1],
+            c_c1 = copyRange["copyRange"][0].column[0],
+            c_c2 = copyRange["copyRange"][0].column[1];
+        
+        let copyData = $.extend(true, [], getdatabyselection({"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, copySheetIndex));
 
         //应用范围
         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
@@ -1518,6 +1606,8 @@ const selection = {
         let rowMaxLength = d.length;
 
         let borderInfoCompute = getBorderInfoCompute(copySheetIndex);
+        let c_dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(copySheetIndex)].dataVerification);
+        let dataVerification = null;
 
         let mth = 0, mtc = 0, maxcellCahe = 0, maxrowCache = 0;
         for (let th = 1; th <= timesH; th++) {
@@ -1540,16 +1630,16 @@ const selection = {
                     let x = [].concat(d[h]);
 
                     for (let c = mtc; c < maxcellCahe; c++) {
-                        if(borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)]){
+                        if(borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)]){
                             let bd_obj = {
                                 "rangeType": "cell",
                                 "value": {
                                     "row_index": h,
                                     "col_index": c,
-                                    "l": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].l,
-                                    "r": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].r,
-                                    "t": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].t,
-                                    "b": borderInfoCompute[(copyRange["copyRange"][0].row[0] + h - mth) + "_" + (copyRange["copyRange"][0].column[0] + c - mtc)].b
+                                    "l": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].l,
+                                    "r": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].r,
+                                    "t": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].t,
+                                    "b": borderInfoCompute[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)].b
                                 }
                             }
 
@@ -1577,6 +1667,15 @@ const selection = {
                             }
 
                             cfg["borderInfo"].push(bd_obj);
+                        }
+
+                        //数据验证 复制
+                        if(c_dataVerification[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)]){
+                            if(dataVerification == null){
+                                dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].dataVerification)
+                            }
+
+                            dataVerification[h + "_" + c] = c_dataVerification[(c_r1 + h - mth) + "_" + (c_c1 + c - mtc)];
                         }
 
                         if(getObjType(x[c]) == "object" && ("mc" in x[c])){
@@ -1642,16 +1741,24 @@ const selection = {
         }
 
         //复制范围 是否有 条件格式
+        let cdformat = null;
         let ruleArr = $.extend(true, [], Store.luckysheetfile[getSheetIndex(copySheetIndex)]["luckysheet_conditionformat_save"]);
-        let cdformat = $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]);
 
         if(ruleArr != null && ruleArr.length > 0){
+            cdformat = $.extend(true, [], Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]);
+
             for(let i = 0; i < ruleArr.length; i++){
                 let cdformat_cellrange = ruleArr[i].cellrange;
                 let emptyRange = [];
 
                 for(let j = 0; j < cdformat_cellrange.length; j++){
-                    let range = conditionformat.CFSplitRange(cdformat_cellrange[j], {"row": copyRange["copyRange"][0]["row"], "column": copyRange["copyRange"][0]["column"]}, {"row": [minh, maxh], "column": [minc, maxc]}, "operatePart");
+                    let range = conditionformat.CFSplitRange(
+                        cdformat_cellrange[j], 
+                        {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
+                        {"row": [minh, maxh], "column": [minc, maxc]}, 
+                        "operatePart"
+                    );
+
                     if(range.length > 0){
                         emptyRange = emptyRange.concat(range);
                     }
@@ -1670,21 +1777,22 @@ const selection = {
         if(copyRowlChange){
             cfg = rowlenByRange(d, minh, maxh, cfg);
 
-            if(ruleArr != null && ruleArr.length > 0){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat, true);
+            let allParam = {
+                "cfg": cfg,
+                "RowlChange": true,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
             }
-            else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, null, true);
-            }
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
-            if(ruleArr != null && ruleArr.length > 0){
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg, cdformat);
+            let allParam = {
+                "cfg": cfg,
+                "cdformat": cdformat,
+                "dataVerification": dataVerification
             }
-            else{
-                jfrefreshgrid(d, Store.luckysheet_select_save, cfg);
-            }
-
+            jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
+            
             selectHightlightShow();
         }
     },

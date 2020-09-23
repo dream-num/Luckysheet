@@ -18,6 +18,7 @@ import pivotTable from './pivotTable';
 import luckysheetsizeauto from './resize';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
+import dataVerificationCtrl from './dataVerificationCtrl';
 import luckysheetFreezen from './freezen';
 import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
@@ -864,13 +865,6 @@ const sheetmanage = {
         formula.execFunctionGroupData = null;
         window.luckysheet_getcelldata_cache = null;
 
-        //批注
-        luckysheetPostil.buildAllPs(Store.flowdata);
-        
-        //图片
-        imageCtrl.images = file.images;
-        imageCtrl.allImagesShow();
-
         this.sheetParamRestore(file, Store.flowdata);
 
         if(file["freezen"] == null){
@@ -883,10 +877,18 @@ const sheetmanage = {
         }
         
         rhchInit(Store.flowdata.length, Store.flowdata[0].length);
+
+        //批注
+        luckysheetPostil.buildAllPs(Store.flowdata);
+
+        //图片
+        imageCtrl.images = file.images;
+        imageCtrl.allImagesShow();
+
+        //数据验证
+        dataVerificationCtrl.dataVerification = file.dataVerification;
         
         createFilterOptions(file["filter_select"], file["filter"]);
-        
-
     },
     restoreselect: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -1424,18 +1426,18 @@ const sheetmanage = {
         let index = this.getSheetIndex(sheetIndex);
         let file = Store.luckysheetfile[index];
 
-        if($('#luckysheet-filter-selected-sheet' + sheetIndex).length > 0 || file.filter_select == null || JSON.stringify(file.filter_select) == "{}"){
-            if(file.config != null && file.config.rowhidden != null){
-                file.config.rowhidden =  {};
-                Store.config = file.config;
+        // if($('#luckysheet-filter-selected-sheet' + sheetIndex).length > 0 || file.filter_select == null || JSON.stringify(file.filter_select) == "{}"){
+        //     if(file.config != null && file.config.rowhidden != null){
+        //         file.config.rowhidden =  {};
+        //         Store.config = file.config;
 
-                jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
-            }
+        //         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length,false);
+        //     }
 
-            return;
-        }
+        //     return;
+        // }
 
-        if(getObjType(file.filter_select) != "object"){
+        if(getObjType(file.filter_select) == "string"){
             file.filter_select = JSON.parse(file.filter_select);
         }
 

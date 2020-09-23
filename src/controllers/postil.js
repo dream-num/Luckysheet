@@ -825,7 +825,14 @@ const luckysheetPostil = {
             let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
             let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
 
-            _this.buildPs(r, c, Store.flowdata[r][c].ps);
+            let cell = Store.flowdata[r][c];
+            
+            if(cell != null && cell.ps != null){
+                _this.buildPs(r, c, cell.ps);
+            }
+            else{
+                $("#" + id).hide();
+            }
         });
     }
 }

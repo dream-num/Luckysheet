@@ -306,6 +306,7 @@ export function menuToolBarWidth() {
         $('#luckysheet-freezen-btn-horizontal').offset().left,
         $('#luckysheet-icon-autofilter').offset().left,
         $('#luckysheet-icon-conditionformat').offset().left,
+        $('#luckysheet-dataVerification-btn-title').offset().left,
         $('#luckysheet-splitColumn-btn-title').offset().left,
         $('#luckysheet-chart-btn-screenshot').offset().left,
         $('#luckysheet-icon-seachmore').offset().left,
@@ -341,6 +342,7 @@ export function menuToolBarWidth() {
         ['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
         '#luckysheet-icon-autofilter',
         '#luckysheet-icon-conditionformat',
+        '#luckysheet-dataVerification-btn-title',
         '#luckysheet-splitColumn-btn-title',
         '#luckysheet-chart-btn-screenshot',
         '#luckysheet-icon-seachmore'
