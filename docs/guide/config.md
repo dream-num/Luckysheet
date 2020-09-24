@@ -48,12 +48,6 @@
 - Usage: Plug-in configuration, support chart: "chart"
 
 ------------
-## fullscreenmode
-- Type: Boolean
-- Default: true
-- Usage: Whether full-screen mode. In non-full-screen mode, the marker box is not forced to be selected
-
-------------
 ## autoFormatw
 - Type: Boolean
 - Default: false

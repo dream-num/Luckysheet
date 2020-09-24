@@ -180,11 +180,19 @@ npm run build
 [英文社群](./README.md)
 
 ## 贡献者和感谢
+
+### 团队成员
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+
+### 活跃成员
+- [@danielcai1987](https://github.com/danielcai1987)
+- [@qq6690876](https://github.com/qq6690876)
+- [@javahuang](https://github.com/javahuang)
+- [@gsw945](https://github.com/gsw945)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

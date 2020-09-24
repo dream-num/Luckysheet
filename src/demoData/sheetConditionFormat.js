@@ -156,7 +156,7 @@ const sheetConditionFormat = {
 	},
 	"index": "2",
 	"chart": [],
-	"status": "0",
+	"status": 0,
 	"order": "2",
 	"column": 18,
 	"row": 36,

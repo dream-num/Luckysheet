@@ -126,13 +126,13 @@
 }
 
 .luckysheet-wa-editor {
-    height: 34px;
+    height: 32px;
     /* background: #f7f7f7; */
     background: #fafafc;
     position: relative;
     /* padding-left: 15px; */
     /* padding: 0px 0px 10px 15px; */
-    padding: 7px 0px 3px 15px;;
+    padding: 5px 0px 3px 15px;;
     border-bottom: 1px solid #d4d4d4;
     white-space: nowrap;
     transition: all 0.2s;
@@ -6597,7 +6597,7 @@ fieldset[disabled] .btn-danger.focus {
 
          .luckysheet-modal-dialog-title-update {
              right: 105px;
-             color:#FC6666;
+             color: #85c0fc;
              font-size:14px;
              padding-top: 9px;
          }
@@ -6617,7 +6617,7 @@ fieldset[disabled] .btn-danger.focus {
 
 .luckysheet-modal-dialog-resize {
     position: absolute;
-    border: 2px solid #FC6666;
+    border: 2px solid #85c0fc;
     margin: 0px;
     padding: 0px;
     top: -2px;
@@ -6632,7 +6632,7 @@ fieldset[disabled] .btn-danger.focus {
     height: 6px;
     width: 6px;
     background: #ffffff;
-    border: 2px solid #FC6666;
+    border: 2px solid #85c0fc;
     pointer-events: all;
     border-radius: 6px;
 }
@@ -6723,13 +6723,13 @@ fieldset[disabled] .btn-danger.focus {
 
 .luckysheet-modal-controll-btn:hover {
     border: 1px solid #A1A1A1;
-    color: #FC6666;
+    color: #85c0fc;
 }
 
 .luckysheet-modal-controll-btn:active {
     border: 1px solid #BBBBBB;
     background: #EFEFEF;
-    color: #FC6666;
+    color: #85c0fc;
 }
 
 .luckysheet-modal-controll-del {
@@ -6755,7 +6755,7 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheet-modal-controll-max-close:hover {
-    background: #FC6666;
+    background: #85c0fc;
     cursor: pointer;
 }
 

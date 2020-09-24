@@ -72,7 +72,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 功能按钮 [functionButton](#functionButton)
 - 自动缩进界面 [showConfigWindowResize](#showConfigWindowResize)
 - 加载下一页 [enablePage](#enablePage)
-- 全屏模式 [fullscreenmode](#fullscreenmode)
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
@@ -353,12 +352,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：false
 - 作用：允许加载下一页
-
-------------
-### fullscreenmode
-- 类型：Boolean
-- 默认值：true
-- 作用：是否全屏模式。非全屏模式下，标记框不会强制选中
 
 ------------
 ### forceCalculation

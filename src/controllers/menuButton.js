@@ -585,7 +585,9 @@ const menuButton = {
                         }
 
                         let oldcolor = null;
-                        $("#luckysheet-icon-text-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
+                        // $("#luckysheet-icon-text-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
+                        // 下边框换成了一个DIV
+                        $("#luckysheet-icon-text-color .text-color-bar").css("background-color", color);
                         $("#luckysheet-icon-text-color").attr("color", color);
 
                         let d = editor.deepCopyFlowData(Store.flowdata);
@@ -723,7 +725,9 @@ const menuButton = {
                         }
 
                         let oldcolor = null;
-                        $("#luckysheet-icon-cell-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
+                        // $("#luckysheet-icon-cell-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
+                        // 下边框换成了一个DIV
+                        $("#luckysheet-icon-cell-color .text-color-bar").css("background-color", color);
                         
                         $("#luckysheet-icon-cell-color").attr("color", color);
                         let d = editor.deepCopyFlowData(Store.flowdata);

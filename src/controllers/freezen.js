@@ -493,7 +493,13 @@ const luckysheetFreezen = {
 
         //有冻结时 图表框 滚动适应
         if($("#luckysheet-cell-main .luckysheet-data-visualization-chart").length > 0){
-            _this.scrollAdaptOfchart();
+
+            // 当前sheet有图表才需要滚动适应
+            const chart = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["chart"];
+            
+            if(chart != null && chart.length > 0){
+                _this.scrollAdaptOfchart();
+            }
         }
 
         //有冻结时 批注框 滚动适应

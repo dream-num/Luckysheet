@@ -60,7 +60,7 @@
     background-color: #E1E4E8;
 }
 
+/* more button border */
 #luckysheet-icon-morebtn-div{
-    border-left: 1px solid rgb(212, 212, 212);
-    border-right: 1px solid rgb(212, 212, 212);
+    border: 1px solid rgb(212, 212, 212);
 }

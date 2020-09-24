@@ -4,6 +4,7 @@ import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from './sheetmanage';
+import tooltip from '../global/tooltip'
 
 let gridW = 0, 
     gridH = 0;
@@ -14,8 +15,9 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         $("#luckysheet_info_detail").hide();
     }
     else {
-        Store.infobarHeight = 56;
         $("#luckysheet_info_detail").show();
+        // Store.infobarHeight = 56;
+        Store.infobarHeight = document.querySelector('#luckysheet_info_detail').offsetHeight;
     }
 
     if (!luckysheetConfigsetting.showtoolbar) {
@@ -24,7 +26,8 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     }
     else {
         $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").show();
-        Store.toolbarHeight = 72;
+        // Store.toolbarHeight = 72;
+        Store.toolbarHeight = document.querySelector('#' + Store.container +' .luckysheet-wa-editor').offsetHeight;
     }
 
     if (!luckysheetConfigsetting.showsheetbar) {
@@ -44,6 +47,9 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         $("#" + Store.container).find(".luckysheet-stat-area").show();
         Store.statisticBarHeight = 23;
     }
+
+    // 公式栏
+    Store.calculatebarHeight = document.querySelector('#luckysheet-wa-calculate').offsetHeight;
 
     $("#" + Store.container).find(".luckysheet-grid-container").css("top", Store.toolbarHeight + Store.infobarHeight + Store.calculatebarHeight);
 
@@ -86,7 +92,8 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 </div> 
             </div>
          </div>`,
-        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 3 + $("#" + Store.container).offset().top + $("body").scrollTop() - $("#luckysheet-functionbox-container").height() ) +'px; right:0px;z-index:1003;padding:8px;display:none;height:auto;white-space:initial;"></div>';
+        // morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 3 + $("#" + Store.container).offset().top + $("body").scrollTop() - $("#luckysheet-functionbox-container").height() ) +'px; right:0px;z-index:1003;padding:8px;display:none;height:auto;white-space:initial;"></div>';
+        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px; right:0px;z-index:1003;padding:5.5px;display:none;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
         $("body").append(morediv);
@@ -199,6 +206,9 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         }, function(){
             $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");
         });
+
+        // tooltip
+        tooltip.createHoverTip("#luckysheet-icon-morebtn-div" ,".luckysheet-toolbar-menu-button, .luckysheet-toolbar-button, .luckysheet-toolbar-combo-button");
     }
     
     $("#"+ Store.container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
