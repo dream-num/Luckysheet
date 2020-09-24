@@ -888,14 +888,16 @@ const luckysheetformula = {
         let $cell = _this.getrangeseleciton();
         _this.searchFunctionCell = $cell;
 
+        
+
         if ($cell == null || $editer == null) {
             return;
         }
-
+        let inputContent = $editer.text();
         let searchtxt = $cell.text().toUpperCase();
         let reg = /^[a-zA-Z]|[a-zA-Z_]+$/;
         
-        if (!reg.test(searchtxt)) {
+        if (!reg.test(searchtxt) || inputContent.substr(0, 1)!="=") {
             return;
         }
 

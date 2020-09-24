@@ -307,7 +307,9 @@ export function keyboardInitial(){
         let $inputbox = $("#luckysheet-input-box");
         
         if((altKey || event.metaKey) && kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0){
-            enterKeyControll();
+            let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
+            let row_index = last["row_focus"], col_index = last["column_focus"];
+            enterKeyControll(Store.flowdata[row_index][col_index]);
             event.preventDefault();
         }
         else if (kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0) {

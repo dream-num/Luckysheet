@@ -202,7 +202,7 @@ export function updateInlineStringFormat(cell, attr, value, $input){
     }
 }
 
-export function enterKeyControll(){
+export function enterKeyControll(cell){
     var  w = window.getSelection(); 
     
     if(w.type=="None"){
@@ -228,7 +228,12 @@ export function enterKeyControll(){
     
     if($textEditor.length>0){
         let startSpan = startContainer.parentNode;
-        let startSpanIndex = $textEditor.find("span").index(startSpan);
+        if(startContainer.id=="luckysheet-rich-text-editor"){
+            startSpan = $(startContainer).find("span");
+            startSpan = startSpan.get(startSpan.length-1);
+            startOffset = startSpan.innerHTML.length;
+        }
+        // let startSpanIndex = $textEditor.find("span").index(startSpan);
         if(range.collapsed===false){
             range.deleteContents();
         }
@@ -240,15 +245,48 @@ export function enterKeyControll(){
         sleft = startContent.substring(s1, s2);
         sright = startContent.substring(s2, startContent.length);
 
-        let cont = "<span style='"+ startSpan.style.cssText +"'>" + sleft + "\n" + sright + "</span>";
-        let spanIndex;
+        
+        let spanIndex,cont;
         if(startContainer.parentNode.tagName=="SPAN"){
-            spanIndex = $textEditor.find("span").index(startSpan);
+            let textSpan = $textEditor.find("span");
+            spanIndex = textSpan.index(startSpan);
+            if((spanIndex==textSpan.length-1) && sright==""){
+                let txt = textSpan[spanIndex].innerHTML;
+                if(txt.substr(txt.length-1, 1)=="\n"){
+                    cont = "<span style='"+ startSpan.style.cssText +"'>" + sleft + "\n" + "</span>";
+                }
+                else{
+                    cont = "<span style='"+ startSpan.style.cssText +"'>" + sleft + "\n\n" + "</span>";
+                }
+                
+            }
+            else{
+                cont = "<span style='"+ startSpan.style.cssText +"'>" + sleft + "\n" + sright + "</span>";
+            }
+            
             $(startSpan).replaceWith(cont);
         }
         else{
-            spanIndex = 0;
-            $(startSpan).html(cont);
+            
+            let cssText = getFontStyleByCell(cell);
+            if(sright==""){
+                cont = "<span style='"+ cssText +"'>" + sleft + "\n\n" + "</span>";
+            }
+            else{
+                cont = "<span style='"+ cssText +"'>" + sleft + "\n" + sright + "</span>";
+            }
+            
+            if(startContainer.id=="luckysheet-rich-text-editor"){
+                $(startSpan).replaceWith(cont);
+                let textSpan = $textEditor.find("span");
+                spanIndex = textSpan.length-1;
+                startOffset = textSpan.get(spanIndex).innerHTML.length-1;
+            }
+            else{
+                $(startSpan).html(cont);
+                spanIndex = 0;
+            }
+            
         }
 
         selectTextContentCollapse($textEditor.find("span").get(spanIndex), startOffset+1);
