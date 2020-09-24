@@ -1261,46 +1261,39 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	
 		`conditionName`可能的值有：
 		
-		+ `"greaterThan"`: 大于
-		+ `"lessThan"`: 小于
-		+ `"betweenness"`: 介于
-		+ `"equal"`: 等于
-		+ `"textContains"`: 文本包含
-		+ `"occurrenceDate"`: 发生日期
-		+ `"duplicateValue"`: 重复值
-		+ `"top"`: 前 N 项（可以在conditionValue中设置其他值）
-		+ `"topPercent"`: 前 N%（可以在conditionValue中设置其他值）
-		+ `"last"`: 后 N 项（可以在conditionValue中设置其他值）
-		+ `"lastPercent"`: 后 N%（可以在conditionValue中设置其他值）
-		+ `"AboveAverage"`: 高于平均值
-		+ `"SubAverage"`: 低于平均值
+		+ `"greaterThan"`: 大于（conditionValue值为 数值或单元格范围）
+		+ `"lessThan"`: 小于（conditionValue值为 数值或单元格范围）
+		+ `"betweenness"`: 介于（conditionValue值为 数值或单元格范围）
+		+ `"equal"`: 等于（conditionValue值为 数值或单元格范围）
+		+ `"textContains"`: 文本包含（conditionValue值为 文本或单元格范围）
+		+ `"occurrenceDate"`: 发生日期（conditionValue值为 日期）
+		+ `"duplicateValue"`: 重复值(conditionValue值为 '0':重复值, '1':唯一值)
+		+ `"top10"`: 前 N 项（conditionValue值为 1~1000）
+		+ `"top10%"`: 前 N%（conditionValue值为 1~1000）
+		+ `"last10"`: 后 N 项（conditionValue值为 1~1000）
+		+ `"last10%"`: 后 N%（conditionValue值为 1~1000）
+		+ `"AboveAverage"`: 高于平均值（conditionValue可为空数组）
+		+ `"SubAverage"`: 低于平均值（conditionValue可为空数组）
 		 
-	- {Object} [conditionValue]: 可以设置条件单元格或者条件值
-		取值规则
+	- {Array} [conditionValue]: 可以设置条件单元格或者条件值
+		取值规则 （条件值数组最少一个值，最多两个值）
 		```js
-		{
-			type: 'value',
-			content: [2]
-		}
+		[2]
 		```
-		或者
+		或者 （若值为单元格范围，则取左上角单元格值）
 		```js
-		{
-			type: 'range',
-			content: ['A1']
-		}
+		['A1']
 		```
 	
 	- {PlainObject} [setting]: 可选参数
 		
-      	+ {Object | Array} [format]: 颜色设置
+      	+ {Object} [format]: 颜色设置
       	  
-    		* `type`为`default`时，应设置文本颜色和单元格颜色；默认值为` {
+    		* 设置文本颜色和单元格颜色；默认值为` {
 				"textColor": "#000000",
 				"cellColor": "#ff0000"
 			}`
-		+ {Boolean} [isEdit]: 是否在修改条件格式规则；默认为 `false`
-    	+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
+    	+ {Array | Object | String} [cellrange]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
     	
 		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
@@ -1372,7 +1365,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		 
 	- {PlainObject} [setting]: 可选参数
 		
-      	+ {Object | Array} [format]: 颜色设置
+      	+ {Array | String} [format]: 颜色设置
     	 
 		 	* `type`为`dataBar`时，应设置渐变色；默认值为蓝-白渐变` ["#638ec6", "#ffffff"]`
 
@@ -1392,7 +1385,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 				["#d6007b"]   //紫色 数据条
 				```
 			
-			* `type`为`icons`时，应设置图标类型；默认值为"threeWayArrowColor"：三向箭头彩色，
+			* `type`为`icons`时，应设置图标类型；默认值为"threeWayArrowMultiColor"：三向箭头彩色，
 
 				可取值为：
 				
@@ -1459,8 +1452,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 				["rgb(255, 235, 132)", "rgb(99, 190, 123)"]   //黄-绿色阶
 				```
 			
-    	+ {Boolean} [isEdit]: 是否在修改条件格式规则；默认为 `false`
-		+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
+		+ {Array | Object | String} [cellrange]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
     	
 		+ {Number} [order]: 工作表索引；默认值为当前工作表索引
         + {Function} [success]: 操作结束的回调函数
