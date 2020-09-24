@@ -573,7 +573,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'number' || type == 'number_integer' || type == 'number_decimal'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-number-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-number .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-number .input:visible .data-verification-value1").val().trim();
                 
                 if(!isRealNum(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -581,7 +581,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-number .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-number .input:visible .data-verification-value2").val().trim();
                 
                     if(!isRealNum(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -605,7 +605,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'text_length'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-textLength-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input:visible .data-verification-value1").val().trim();
                 
                 if(!isRealNum(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -613,7 +613,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input:visible .data-verification-value2").val().trim();
                 
                     if(!isRealNum(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -628,7 +628,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'date'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-date-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-date .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-date .input:visible .data-verification-value1").val().trim();
                 
                 if(!isdatetime(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
@@ -636,7 +636,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-date .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-date .input:visible .data-verification-value2").val().trim();
                 
                     if(!isdatetime(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
@@ -1034,7 +1034,7 @@ const dataVerificationCtrl = {
         }
         
         //数据验证未通过
-        let cellValue = getcellvalue(r, c, null, 'm');
+        let cellValue = getcellvalue(r, c, null);
 
         if(cellValue == null || cellValue == ""){
             return;

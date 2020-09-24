@@ -1222,10 +1222,10 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     ];
     luckysheetTableContent.fillRect(cellsize[0], cellsize[1], cellsize[2], cellsize[3]);
 
+    //数据验证（单元格左上角红色小三角标示）
     let dataVerification = dataVerificationCtrl.dataVerification;
-
-    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(value, dataVerification[r + '_' + c])){
-        //单元格左上角红色小三角标示
+    let cellValue = getcellvalue(r, c, null);
+    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(cellValue, dataVerification[r + '_' + c])){
         let dv_w = 5 * Store.zoomRatio, dv_h = 5 * Store.zoomRatio; //红色小三角宽高
 
         luckysheetTableContent.beginPath();
