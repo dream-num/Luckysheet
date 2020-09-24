@@ -196,7 +196,9 @@ function getMeasureText(value, ctx, fontset){
         }
 
         let measureText = ctx.measureText(value), cache = {};
-        if(measureText.actualBoundingBoxRight==null){
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        if(measureText.actualBoundingBoxRight==null || re.test(value)){
             cache.width = measureText.width;
         }
         else{
