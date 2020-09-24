@@ -190,7 +190,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[m][n]) && isRealNum(tp[m][n])){
-                                value = parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[p][n]);//parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
                             }
                             else{
                                 value = error.v;
@@ -217,7 +217,7 @@ function luckysheet_compareWith() {
                                 tp[p][n] = booleanToNum(tp[p][n]);
 
                                 if(isRealNum(fp[m][p]) && isRealNum(tp[p][n])){
-                                    value += parseFloat(fp[m][p]) * parseFloat(tp[p][n]);
+                                    value += luckysheet_calcADPMM(fp[m][p], sp, tp[p][n]);//parseFloat(fp[m][p]) * parseFloat(tp[p][n]);
                                 }
                                 else{
                                     value += error.v;
@@ -249,7 +249,7 @@ function luckysheet_compareWith() {
                                 tp[m][p] = booleanToNum(tp[m][p]);
 
                                 if(isRealNum(tp[m][p]) && isRealNum(fp[p][n])){
-                                    value += parseFloat(tp[m][p]) * parseFloat(fp[p][n]);
+                                    value += luckysheet_calcADPMM(fp[p][n], sp, tp[m][p]);//parseFloat(tp[m][p]) * parseFloat(fp[p][n]);
                                 }
                                 else{
                                     value += error.v;
@@ -282,7 +282,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[m][n]) && isRealNum(tp[n])){
-                                value = parseFloat(fp[m][n]) * parseFloat(tp[n]);
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[n]);//parseFloat(fp[m][n]) * parseFloat(tp[n]);
                             }
                             else{
                                 value = error.v;
@@ -307,7 +307,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[m][0]) && isRealNum(tp[n])){
-                                value = parseFloat(fp[m][0]) * parseFloat(tp[n]);
+                                value = luckysheet_calcADPMM(fp[m][0], sp, tp[n]);// parseFloat(fp[m][0]) * parseFloat(tp[n]);
                             }
                             else{
                                 value = error.v;
@@ -335,7 +335,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[n]) && isRealNum(tp[m][n])){
-                                value = parseFloat(fp[n]) * parseFloat(tp[m][n]);
+                                value = luckysheet_calcADPMM(fp[n], sp, tp[m][n]);// parseFloat(fp[n]) * parseFloat(tp[m][n]);
                             }
                             else{
                                 value = error.v;
@@ -360,7 +360,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[n]) && isRealNum(tp[m][0])){
-                                value = parseFloat(fp[n]) * parseFloat(tp[m][0]);
+                                value = luckysheet_calcADPMM(fp[n], sp, tp[m][0]);//parseFloat(fp[n]) * parseFloat(tp[m][0]);
                             }
                             else{
                                 value = error.v;
@@ -388,7 +388,7 @@ function luckysheet_compareWith() {
 
                     let value;
                     if(isRealNum(fp[n]) && isRealNum(tp[n])){
-                        value = parseFloat(fp[n]) * parseFloat(tp[n]);
+                        value = luckysheet_calcADPMM(fp[n], sp, tp[n]);// parseFloat(fp[n]) * parseFloat(tp[n]);
                     }
                     else{
                         value = error.v;
@@ -414,7 +414,7 @@ function luckysheet_compareWith() {
 
                         let value;
                         if(isRealNum(fp[m][n]) && isRealNum(tp)){
-                            value = parseFloat(fp[m][n]) * parseFloat(tp);
+                            value = luckysheet_calcADPMM(fp[m][n], sp, tp);// parseFloat(fp[m][n]) * parseFloat(tp);
                         }
                         else{
                             value = error.v;
@@ -432,7 +432,7 @@ function luckysheet_compareWith() {
 
                     let value;
                     if(isRealNum(fp[n]) && isRealNum(tp)){
-                        value = parseFloat(fp[n]) * parseFloat(tp);
+                        value = luckysheet_calcADPMM(fp[n], sp, tp);// parseFloat(fp[n]) * parseFloat(tp);
                     }
                     else{
                         value = error.v;
@@ -458,7 +458,7 @@ function luckysheet_compareWith() {
 
                         let value;
                         if(isRealNum(fp) && isRealNum(tp[m][n])){
-                            value = parseFloat(fp) * parseFloat(tp[m][n]);
+                            value = luckysheet_calcADPMM(fp, sp, tp[m][n]);// parseFloat(fp) * parseFloat(tp[m][n]);
                         }
                         else{
                             value = error.v;
@@ -476,7 +476,7 @@ function luckysheet_compareWith() {
 
                     let value;
                     if(isRealNum(fp) && isRealNum(tp[n])){
-                        value = parseFloat(fp) * parseFloat(tp[n]);
+                        value = luckysheet_calcADPMM(fp, sp, tp[n]);//parseFloat(fp) * parseFloat(tp[n]);
                     }
                     else{
                         value = error.v;
@@ -494,7 +494,7 @@ function luckysheet_compareWith() {
 
             let result;
             if(isRealNum(fp) && isRealNum(tp)){
-                result = parseFloat(fp) * parseFloat(tp);
+                result = luckysheet_calcADPMM(fp, sp, tp);//parseFloat(fp) * parseFloat(tp);
             }
             else{
                 result = error.v;
@@ -523,7 +523,7 @@ function luckysheet_compareWith() {
                                     value = error.d;
                                 }
                                 else{
-                                    value = parseFloat(fp[m][n]) / parseFloat(tp[m][n]);    
+                                    value = luckysheet_calcADPMM(fp[m][n], sp, tp[m][n]);// parseFloat(fp[m][n]) / parseFloat(tp[m][n]);    
                                 }
                             }
                             else{
@@ -553,7 +553,7 @@ function luckysheet_compareWith() {
                                 tp_inverse[p][n] = booleanToNum(tp_inverse[p][n]);
 
                                 if(isRealNum(fp[m][p]) && isRealNum(tp_inverse[p][n])){
-                                    value += parseFloat(fp[m][p]) * parseFloat(tp_inverse[p][n]);
+                                    value += luckysheet_calcADPMM(fp[m][p], "*", tp_inverse[p][n]);// parseFloat(fp[m][p]) * parseFloat(tp_inverse[p][n]);
                                 }
                                 else{
                                     value += error.v;
@@ -590,7 +590,7 @@ function luckysheet_compareWith() {
                                     value = error.d;
                                 }
                                 else{
-                                    value = parseFloat(fp[m][n]) / parseFloat(tp[n]);
+                                    value = luckysheet_calcADPMM(fp[m][n], sp, tp[n]);// parseFloat(fp[m][n]) / parseFloat(tp[n]);
                                 }
                             }
                             else{
@@ -620,7 +620,7 @@ function luckysheet_compareWith() {
                                     value = error.d;
                                 }
                                 else{
-                                    value = parseFloat(fp[m][0]) / parseFloat(tp[n]);
+                                    value = luckysheet_calcADPMM(fp[m][0], sp, tp[n]);// parseFloat(fp[m][0]) / parseFloat(tp[n]);
                                 }
                             }
                             else{
@@ -653,7 +653,7 @@ function luckysheet_compareWith() {
                                     value = error.d;
                                 }
                                 else{
-                                    value = parseFloat(fp[n]) / parseFloat(tp[m][n]);
+                                    value = luckysheet_calcADPMM(fp[n], sp, tp[m][n]);//parseFloat(fp[n]) / parseFloat(tp[m][n]);
                                 }
                             }
                             else{
@@ -683,7 +683,7 @@ function luckysheet_compareWith() {
                                     value = error.d;
                                 }
                                 else{
-                                    value = parseFloat(fp[n]) / parseFloat(tp[m][0]);
+                                    value = luckysheet_calcADPMM(fp[n], sp, tp[m][0]);//parseFloat(fp[n]) / parseFloat(tp[m][0]);
                                 }
                             }
                             else{
@@ -716,7 +716,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = parseFloat(fp[n]) / parseFloat(tp[n]);
+                            value = luckysheet_calcADPMM(fp[n], sp, tp[n]);//parseFloat(fp[n]) / parseFloat(tp[n]);
                         }
                     }
                     else{
@@ -747,7 +747,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = parseFloat(fp[m][n]) / parseFloat(tp);
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp);//parseFloat(fp[m][n]) / parseFloat(tp);
                             }
                         }
                         else{
@@ -770,7 +770,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = parseFloat(fp[n]) / parseFloat(tp);
+                            value = luckysheet_calcADPMM(fp[n], sp, tp);//parseFloat(fp[n]) / parseFloat(tp);
                         }
                     }
                     else{
@@ -801,7 +801,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = parseFloat(fp) / parseFloat(tp[m][n]);
+                                value = luckysheet_calcADPMM(fp, sp, tp[m][n]);//parseFloat(fp) / parseFloat(tp[m][n]);
                             }
                         }
                         else{
@@ -824,7 +824,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = parseFloat(fp) / parseFloat(tp[n]);
+                            value = luckysheet_calcADPMM(fp, sp, tp[n]);//parseFloat(fp) / parseFloat(tp[n]);
                         }
                     }
                     else{
@@ -847,7 +847,7 @@ function luckysheet_compareWith() {
                     result = error.d;
                 }
                 else{
-                    result = parseFloat(fp) / parseFloat(tp);
+                    result = luckysheet_calcADPMM(fp, sp, tp);//parseFloat(fp) / parseFloat(tp);
                 }
             }
             else{
@@ -879,7 +879,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = eval(parseFloat(fp[m][n]) + sp + parseFloat(tp[m][n]));    
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[m][n]);// eval(parseFloat(fp[m][n]) + sp + parseFloat(tp[m][n]));    
                             }
                         }
                         else{
@@ -910,7 +910,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = eval(parseFloat(fp[m][n]) + sp + parseFloat(tp[n]));    
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[n]);//eval(parseFloat(fp[m][n]) + sp + parseFloat(tp[n]));    
                             }
                         }
                         else{
@@ -941,7 +941,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = eval(parseFloat(fp[n]) + sp + parseFloat(tp[m][n]));    
+                                value = luckysheet_calcADPMM(fp[n], sp, tp[m][n]);//eval(parseFloat(fp[n]) + sp + parseFloat(tp[m][n]));    
                             }
                         }
                         else{
@@ -969,7 +969,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = eval(parseFloat(fp[n]) + sp + "(" + parseFloat(tp[n]) + ")" );    
+                            value = luckysheet_calcADPMM(fp[n], sp, tp[n]);//eval(parseFloat(fp[n]) + sp + "(" + parseFloat(tp[n]) + ")" );    
                         }
                     }
                     else{
@@ -1000,7 +1000,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = eval(parseFloat(fp[m][n]) + sp + parseFloat(tp));    
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp);//eval(parseFloat(fp[m][n]) + sp + parseFloat(tp));    
                             }
                         }
                         else{
@@ -1023,7 +1023,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = eval(parseFloat(fp[n]) + sp + parseFloat(tp));    
+                            value = luckysheet_calcADPMM(fp[n], sp, tp);//eval(parseFloat(fp[n]) + sp + parseFloat(tp));    
                         }
                     }
                     else{
@@ -1054,7 +1054,7 @@ function luckysheet_compareWith() {
                                 value = error.d;
                             }
                             else{
-                                value = eval(parseFloat(fp) + sp + parseFloat(tp[m][n]));    
+                                value = luckysheet_calcADPMM(fp, sp, tp[m][n]);//eval(parseFloat(fp) + sp + parseFloat(tp[m][n]));    
                             }
                         }
                         else{
@@ -1077,7 +1077,7 @@ function luckysheet_compareWith() {
                             value = error.d;
                         }
                         else{
-                            value = eval(parseFloat(fp) + sp + parseFloat(tp[n]));    
+                            value = luckysheet_calcADPMM(fp, sp, tp[n]);//eval(parseFloat(fp) + sp + parseFloat(tp[n]));    
                         }
                     }
                     else{
@@ -1100,7 +1100,7 @@ function luckysheet_compareWith() {
                     result = error.d;
                 }
                 else{
-                    result = eval(parseFloat(fp) + sp + "(" + parseFloat(tp) + ")");    
+                    result = luckysheet_calcADPMM(fp, sp, tp);//eval(parseFloat(fp) + sp + "(" + parseFloat(tp) + ")");    
                 }
             }
             else{
@@ -1568,6 +1568,26 @@ function luckysheet_getarraydata() {
     return arr;
 }
 
+function luckysheet_calcADPMM(fp, sp, tp){
+    let value;
+    if(sp=="+"){
+        value = numeral(fp).add(tp).value();
+    }
+    else if(sp=="-"){
+        value = numeral(fp).subtract(tp).value();
+    }
+    else if(sp=="%"){
+        value = eval(parseFloat(fp) + sp+ "(" + parseFloat(tp) + ")");
+    }
+    else if(sp=="/"){
+        value = numeral(fp).divide(tp).value();
+    }
+    else if(sp=="*"){
+        value = numeral(fp).multiply(tp).value();
+    }
+    return value;
+}
+
 function luckysheet_getcelldata(txt) {
     if (window.luckysheet_getcelldata_cache == null) {
         window.luckysheet_getcelldata_cache = {};
@@ -1881,5 +1901,6 @@ export {
     luckysheet_getValue,
     luckysheet_indirect_check,
     luckysheet_indirect_check_return,
-    luckysheet_offset_check
+    luckysheet_offset_check,
+    luckysheet_calcADPMM
 }

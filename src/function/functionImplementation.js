@@ -80,7 +80,7 @@ const functionImplementation = {
                         continue;
                     }
 
-                    sum += parseFloat(dataArr[i]);
+                    sum = luckysheet_calcADPMM(sum, "+", dataArr[i]);// parseFloat(dataArr[i]);
                 }
             }
 
@@ -143,7 +143,7 @@ const functionImplementation = {
                     return formula.error.v;
                 }
 
-                sum += parseFloat(dataArr[i]);
+                sum = luckysheet_calcADPMM(sum, "+", dataArr[i]);// parseFloat(dataArr[i]);
                 count++;
             }
 
@@ -151,7 +151,7 @@ const functionImplementation = {
                 return formula.error.d;
             }
 
-            return sum / count;
+            return luckysheet_calcADPMM(sum, "/", count);// sum / count;
         } 
         catch (e) {
             var err = e;
@@ -1746,7 +1746,7 @@ const functionImplementation = {
                             continue;
                         }
 
-                        sum += parseFloat(sumRangeData[i]);
+                        sum = luckysheet_calcADPMM(sum, "+", sumRangeData[i]);// parseFloat(sumRangeData[i]);
                     }
                 }           
             }
@@ -1760,7 +1760,7 @@ const functionImplementation = {
                             continue;
                         }
 
-                        sum += parseFloat(v);
+                        sum = luckysheet_calcADPMM(sum, "", v);// parseFloat(v);
                     }
                 }
             }
@@ -4613,7 +4613,7 @@ const functionImplementation = {
 
             for(var i = 0; i < rangeData.length; i++){
                 if(results[i]){
-                    sum += parseFloat(rangeData[i]);
+                    sum = luckysheet_calcADPMM(sum, "+", rangeData[i]); //parseFloat(rangeData[i]);
                 }
             }
 

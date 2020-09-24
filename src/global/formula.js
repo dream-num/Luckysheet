@@ -21,7 +21,7 @@ import { jfrefreshgrid } from './refresh';
 import { isInlineStringCell,convertSpanToShareString } from '../controllers/inlineString';
 // import luckysheet_function from '../function/luckysheet_function';
 // import functionlist from '../function/functionlist';
-import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
+import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check,luckysheet_calcADPMM } from '../function/func';
 import Store from '../store';
 import locale from '../locale/locale';
 
@@ -4653,6 +4653,7 @@ const luckysheetformula = {
             window.luckysheet_indirect_check = luckysheet_indirect_check;
             window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
             window.luckysheet_offset_check = luckysheet_offset_check;
+            window.luckysheet_calcADPMM = luckysheet_calcADPMM;
         }
         
         _this.execFunctionGroupData = $.extend(true, [], data);
