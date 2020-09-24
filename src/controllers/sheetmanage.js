@@ -688,6 +688,8 @@ const sheetmanage = {
             colwidth = c2 + 1;
         }
 
+        Store.flowdata = data;
+
         luckysheetcreatedom(colwidth, rowheight, data, menu, title);
 
         setTimeout(function () {

@@ -1222,10 +1222,10 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     ];
     luckysheetTableContent.fillRect(cellsize[0], cellsize[1], cellsize[2], cellsize[3]);
 
-    //数据验证（单元格左上角红色小三角标示）
     let dataVerification = dataVerificationCtrl.dataVerification;
-    let cellValue = getcellvalue(r, c, null);
-    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(cellValue, dataVerification[r + '_' + c])){
+
+    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(value, dataVerification[r + '_' + c])){
+        //单元格左上角红色小三角标示
         let dv_w = 5 * Store.zoomRatio, dv_h = 5 * Store.zoomRatio; //红色小三角宽高
 
         luckysheetTableContent.beginPath();
@@ -2169,7 +2169,7 @@ function cellTextRender(textInfo, ctx, option){
                 Math.floor((pos_x +c.endX)/Store.zoomRatio)+0.5 ,
                 Math.floor((pos_y+c.endY)/Store.zoomRatio)+0.5 ,
             );
-            ctx.lineWidth = Math.floor(c.fs/9);
+            ctx.lineWidth = 1;
             ctx.strokeStyle = ctx.fillStyle;
             ctx.stroke();
             ctx.closePath();
@@ -2188,7 +2188,7 @@ function cellTextRender(textInfo, ctx, option){
                     Math.floor((pos_x +item.endX)/Store.zoomRatio)+0.5,
                     Math.floor((pos_y+ item.endY)/Store.zoomRatio)+0.5
                 );
-                ctx.lineWidth = Math.floor(item.fs/9);
+                ctx.lineWidth = 1;
                 ctx.strokeStyle = ctx.fillStyle;
                 ctx.stroke();
                 ctx.closePath();

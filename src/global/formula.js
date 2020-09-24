@@ -4862,6 +4862,7 @@ const luckysheetformula = {
             }
 
             editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+            _this.groupValuesRefreshData = [];
         }
     },
     delFunctionGroup: function(r, c, index) {
@@ -4996,7 +4997,7 @@ const luckysheetformula = {
 
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
-        console.log(txt,r,c)
+        // console.log(txt,r,c)
         if(txt.indexOf(_this.error.r) > -1){
             return [false, _this.error.r, txt];
         }

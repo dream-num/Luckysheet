@@ -1104,7 +1104,7 @@ function getCellTextInfo(cell , ctx, option){
                         wordGroup.left = left;
                         wordGroup.top = top;
 
-                        console.log(left, top,  cumWordHeight, size.height);
+                        // console.log(left, top,  cumWordHeight, size.height);
 
                         drawLineInfo(wordGroup, cancelLine, underLine,{
                             width:wordGroup.width, 
