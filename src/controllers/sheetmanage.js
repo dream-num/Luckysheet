@@ -976,13 +976,19 @@ const sheetmanage = {
             return;
         }
 
-        let _this = this;
+        let _this = this;        
+        
+        if(index==Store.currentSheetIndex){
+            return;
+        }
 
         if(server.allowUpdate){
             $("#luckysheet-cell-main #luckysheet-multipleRange-show").empty();
             server.multipleIndex = 0;
         }
         
+
+
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).hide();
         $('#luckysheet-filter-selected-sheet' + index + ', #luckysheet-filter-options-sheet' + index).show();
 
