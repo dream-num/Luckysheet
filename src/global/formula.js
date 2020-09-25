@@ -3238,7 +3238,7 @@ const luckysheetformula = {
             let value = $editer.text(),
                 valuetxt = value;
 
-            if (value.length > 0 && value.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
+            if (value.length > 0 && !(value1txt.substr(0, 1) != "=" && value1.indexOf("span")>-1) && (kcode != 229 || value.length == 1)) {
                 value = _this.functionHTMLGenerate(value);
                 value1 = _this.functionHTMLGenerate(value1txt);
 
@@ -3265,6 +3265,10 @@ const luckysheetformula = {
                     _this.createRangeHightlight();
                 }
 
+                $functionbox.html(value);
+            }
+            else if(value1txt.substr(0, 1) != "=" && value1.indexOf("span")>-1){
+                // $editer.html(value1);
                 $functionbox.html(value);
             }
 
