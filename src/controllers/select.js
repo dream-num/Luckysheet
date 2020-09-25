@@ -3,6 +3,7 @@ import formula from '../global/formula';
 import { dynamicArrayHightShow } from '../global/dynamicArray';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import browser from '../global/browser';
+import dataVerificationCtrl from './dataVerificationCtrl';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
 import locale from '../locale/locale';
@@ -163,6 +164,8 @@ function selectHightlightShow() {
                 );
                 //左上角选择区域框
                 formula.fucntionboxshow(rf, cf);
+                //focus单元格数据验证
+                dataVerificationCtrl.cellFocus(rf, cf);
             }
         }
 
@@ -283,15 +286,19 @@ function selectTitlesRange(map) {
 }
 
 //选区是否重叠
-function selectIsOverlap() {
+function selectIsOverlap(range) {
+    if(range == null){
+        range = Store.luckysheet_select_save;
+    }
+
     let overlap = false;
     let map = {};
 
-    for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-        let str_r = Store.luckysheet_select_save[s].row[0], 
-            end_r = Store.luckysheet_select_save[s].row[1];
-        let str_c = Store.luckysheet_select_save[s].column[0], 
-            end_c = Store.luckysheet_select_save[s].column[1];
+    for(let s = 0; s < range.length; s++){
+        let str_r = range[s].row[0], 
+            end_r = range[s].row[1];
+        let str_c = range[s].column[0], 
+            end_c = range[s].column[1];
 
         for(let r = str_r; r <= end_r; r++){
             for(let c = str_c; c <= end_c; c++){

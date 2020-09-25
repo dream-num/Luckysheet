@@ -32,8 +32,9 @@ import { getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import locale from '../locale/locale';
-import {getMeasureText} from '../global/getRowlen';
+import {getMeasureText,getCellTextInfo} from '../global/getRowlen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
+import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 
 export function rowColumnOperationInitial(){
@@ -1711,24 +1712,39 @@ function luckysheetcolsdbclick() {
             for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                 let cell = d[r][colIndex];
                 
-                if(cell == null || isRealNull(cell.v)){
+                if(cell == null || (isRealNull(cell.v) && !isInlineStringCell(cell)) ){
                     continue;
                 }
 
-                let fontset = luckysheetfontformat(cell);
-                canvas.font = fontset;
+                // let fontset = luckysheetfontformat(cell);
+                // canvas.font = fontset;
 
-                let value = getcellvalue(r, colIndex, d, "m").toString(); //单元格文本
-                let textMetrics = getMeasureText(value, canvas).width; //文本宽度
+                // let value = getcellvalue(r, colIndex, d, "m").toString(); //单元格文本
+                // let textMetrics = getMeasureText(value, canvas).width; //文本宽度
+                let cellWidth = colLocationByIndex(colIndex)[1] - colLocationByIndex(colIndex)[0] - 2;
+                let textInfo = getCellTextInfo(cell, canvas,{
+                    r:r,
+                    c:colIndex,
+                    cellWidth:cellWidth
+                });
 
-                if(textMetrics + 6 > currentColLen){
-                    currentColLen = textMetrics + 6;
+                let computeRowlen = 0;
+                // console.log("rowlen", textInfo);
+                if(textInfo!=null){
+                    computeRowlen = textInfo.textWidthAll;
+                }
+
+                if(computeRowlen + 6 > currentColLen){
+                    currentColLen = computeRowlen + 6;
                 }
 
             }
 
             if(currentColLen != Store.defaultcollen){
                 cfg["columnlen"][colIndex] = currentColLen;
+                if(cfg["customWidth"]){
+                    delete cfg["customWidth"][colIndex];
+                }
             }
 
             matchColumn[colIndex] = 1;
@@ -1744,24 +1760,44 @@ function luckysheetcolsdbclick() {
                 for(let r = dataset_row_st; r <= dataset_row_ed; r++){
                     let cell = d[r][c];
                     
-                    if(cell == null || isRealNull(cell.v)){
+                    if(cell == null || (isRealNull(cell.v) && !isInlineStringCell(cell)) ){
                         continue;
                     }
 
-                    let fontset = luckysheetfontformat(cell);
-                    canvas.font = fontset;
+                    // let fontset = luckysheetfontformat(cell);
+                    // canvas.font = fontset;
 
-                    let value = getcellvalue(r, c, d, "m").toString(); //单元格文本
-                    let textMetrics = getMeasureText(value, canvas).width; //文本宽度
+                    // let value = getcellvalue(r, c, d, "m").toString(); //单元格文本
+                    // let textMetrics = getMeasureText(value, canvas).width; //文本宽度
 
-                    if(textMetrics + 6 > currentColLen){
-                        currentColLen = textMetrics + 6;
+                    // if(textMetrics + 6 > currentColLen){
+                    //     currentColLen = textMetrics + 6;
+                    // }
+
+                    let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+                    let textInfo = getCellTextInfo(cell, canvas,{
+                        r:r,
+                        c:c,
+                        cellWidth:cellWidth
+                    });
+
+                    let computeRowlen = 0;
+                    // console.log("rowlen", textInfo);
+                    if(textInfo!=null){
+                        computeRowlen = textInfo.textWidthAll;
+                    }
+
+                    if(computeRowlen + 6 > currentColLen){
+                        currentColLen = computeRowlen + 6;
                     }
 
                 }
 
                 if(currentColLen != Store.defaultcollen){
                     cfg["columnlen"][c] = currentColLen;
+                    if(cfg["customWidth"]){
+                        delete cfg["customWidth"][c];
+                    }
                 }
 
                 matchColumn[c] = 1;

@@ -428,7 +428,7 @@ const conditionformat = {
                             }
                         }
                         else if(rangeArr.length == 0){
-                            if(isNaN(v) || v == ""){
+                            if(v == ""){
                                 _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                 return;
                             }
@@ -478,7 +478,7 @@ const conditionformat = {
                         return;
                     }
                     
-                    conditionValue.push(v);
+                    conditionValue.push(parseInt(v));
                 }
                 else if(index == 3){ //平均值
                     if(type1 == "AboveAverage"){
@@ -1418,6 +1418,8 @@ const conditionformat = {
     getRangeByTxt: function(txt){
         let range = [];
 
+        txt = txt.toString();
+
         if(txt.indexOf(",") != -1){
             let arr = txt.split(",");
             for(let i = 0; i < arr.length; i++){
@@ -1432,7 +1434,7 @@ const conditionformat = {
         }
         else{
             if(formula.iscelldata(txt)){
-                range.push(formula.getcellrange(txt));
+                range.push(formula.getcellrange(txt.tos));
             }
         }
 

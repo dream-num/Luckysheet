@@ -4,7 +4,7 @@ const sheetPivotTable = {
 	"config": {},
 	"index": "7",
 	"chart": [],
-	"status": "0",
+	"status": 0,
 	"order": "7",
 	"column": 18,
 	"row": 36,

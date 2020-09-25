@@ -48,12 +48,6 @@
 - Usage: Plug-in configuration, support chart: "chart"
 
 ------------
-## fullscreenmode
-- Type: Boolean
-- Default: true
-- Usage: Whether full-screen mode. In non-full-screen mode, the marker box is not forced to be selected
-
-------------
 ## autoFormatw
 - Type: Boolean
 - Default: false
@@ -70,6 +64,12 @@
 - Type: Boolean
 - Default: true
 - Usage: Whether to allow copying
+
+------------
+## showGridLines
+- Type: Number
+- Default: 1
+- Usage: Whether to show grid lines, `1` means show，`0` means hide
 
 ------------
 ## showtoolbar

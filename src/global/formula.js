@@ -9,8 +9,8 @@ import luckysheetFreezen from '../controllers/freezen';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
-import { getCellTextSplitArr } from '../global/getRowlen';
-import { getcellvalue,getcellFormula } from './getdata';
+import { getCellTextSplitArr,getCellTextInfo } from '../global/getRowlen';
+import { getcellvalue,getcellFormula,getInlineStringNoStyle } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
 import editor from './editor';
@@ -18,9 +18,10 @@ import tooltip from './tooltip';
 import { rowLocation, colLocation, colLocationByIndex, mouseposition } from './location';
 import { luckysheetRangeLast } from './cursorPos';
 import { jfrefreshgrid } from './refresh';
+import { isInlineStringCell,convertSpanToShareString } from '../controllers/inlineString';
 // import luckysheet_function from '../function/luckysheet_function';
 // import functionlist from '../function/functionlist';
-import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check } from '../function/func';
+import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_indirect_check, luckysheet_indirect_check_return, luckysheet_offset_check,luckysheet_calcADPMM } from '../function/func';
 import Store from '../store';
 import locale from '../locale/locale';
 
@@ -325,7 +326,10 @@ const luckysheetformula = {
         if (d[r] != null && d[r][c] != null) {
             let cell = d[r][c];
 
-            if(cell.f != null){
+            if(isInlineStringCell(cell)){
+                value = getInlineStringNoStyle(r, c);
+            }
+            else if(cell.f != null){
                 value = getcellvalue(r, c, d, "f");
             }
             else{
@@ -884,14 +888,16 @@ const luckysheetformula = {
         let $cell = _this.getrangeseleciton();
         _this.searchFunctionCell = $cell;
 
+        
+
         if ($cell == null || $editer == null) {
             return;
         }
-
+        let inputContent = $editer.text();
         let searchtxt = $cell.text().toUpperCase();
         let reg = /^[a-zA-Z]|[a-zA-Z_]+$/;
         
-        if (!reg.test(searchtxt)) {
+        if (!reg.test(searchtxt) || inputContent.substr(0, 1)!="=") {
             return;
         }
 
@@ -1193,41 +1199,70 @@ const luckysheetformula = {
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
-        
-        // API, we get value from user
-        value = value || $input.text();
+        let inputText = $input.text(), inputHtml = $input.html();
+
+
+
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
         }
 
         let curv = Store.flowdata[r][c];
-
-        if(isRealNull(value)){
-            if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
-                _this.cancelNormalSelected();
-                return;
+        let isPrevInline = isInlineStringCell(curv);
+        let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.indexOf("span")>-1);
+        if(!value && !isCurInline && isPrevInline){
+            delete curv.ct.s;
+            curv.ct.t = "g";
+            curv.ct.fa = "General";
+        }
+        else if(isCurInline){
+            if (getObjType(curv) != "object") {
+                curv = {};
             }
-        }
-        else if(curv!=null && curv.qp != 1){
-            if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
-                _this.cancelNormalSelected();
-                return;
-            } 
-            else if (value == curv) {
-                _this.cancelNormalSelected();
-                return;
+            delete curv.f;
+            delete curv.v;
+            delete curv.m;
+
+            if(curv.ct==null){
+                curv.ct = {};
+                curv.ct.fa = "General";
             }
+
+            curv.ct.t = "inlineStr";
+            curv.ct.s = convertSpanToShareString($input.find("span"));
         }
 
-        if (getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1) {
+        // API, we get value from user
+        value = value || $input.text();
 
-        }
-        else if(getObjType(curv) == "object" && curv.ct != null && curv.ct.fa != null && curv.ct.fa != "@" && !isRealNull(value)){
-            delete curv.m;//更新时间m处理 ， 会实际删除单元格数据的参数（flowdata时已删除）
-            if(curv.f != null){ //如果原来是公式，而更新的数据不是公式，则把公式删除
-                delete curv.f;
-                delete curv.spl; //删除单元格的sparklines的配置串
+        if(!isCurInline){
+            if(isRealNull(value)){
+                if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
+                    _this.cancelNormalSelected();
+                    return;
+                }
+            }
+            else if(curv!=null && curv.qp != 1){
+                if (getObjType(curv) == "object" && (value == curv.f || value == curv.v || value == curv.m)) {
+                    _this.cancelNormalSelected();
+                    return;
+                } 
+                else if (value == curv) {
+                    _this.cancelNormalSelected();
+                    return;
+                }
+            }
+    
+            if (getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1) {
+    
+            }
+            else if(getObjType(curv) == "object" && curv.ct != null && curv.ct.fa != null && curv.ct.fa != "@" && !isRealNull(value)){
+                delete curv.m;//更新时间m处理 ， 会实际删除单元格数据的参数（flowdata时已删除）
+                if(curv.f != null){ //如果原来是公式，而更新的数据不是公式，则把公式删除
+                    delete curv.f;
+                    delete curv.spl; //删除单元格的sparklines的配置串
+                }
             }
         }
         
@@ -1236,47 +1271,17 @@ const luckysheetformula = {
         let isRunExecFunction = true;
         
         let d = editor.deepCopyFlowData(Store.flowdata);
+        let dynamicArrayItem = null;  //动态数组
 
         if (getObjType(curv) == "object") {
-            if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
-                let v = _this.execfunction(value, r, c, true);
 
-                curv = _this.execFunctionGroupData[r][c];
-                curv.f = v[2];
+            if(!isCurInline){
 
-                //打进单元格的sparklines的配置串， 报错需要单独处理。
-                if(v.length == 4 && v[3].type == "sparklines"){
-                    delete curv.m;
-                    delete curv.v;
+                if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
+                    let v = _this.execfunction(value, r, c, true);
 
-                    let curCalv = v[3].data;
-
-                    if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
-                        curv.v = curCalv[0];
-                    }
-                    else{
-                        curv.spl = v[3].data;
-                    }
-                }
-            }
-            // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
-            else if(getObjType(value) == "object"){
-                let valueFunction = value.f;
-
-                if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                    let v = _this.execfunction(valueFunction, r, c, true);
-
-                    // get v/m/ct
                     curv = _this.execFunctionGroupData[r][c];
-
-                    // get f
                     curv.f = v[2];
-
-                    // get other cell style attribute
-                    delete value.v;
-                    delete value.m;
-                    delete value.f;
-                    Object.assign(curv,value);
 
                     //打进单元格的sparklines的配置串， 报错需要单独处理。
                     if(v.length == 4 && v[3].type == "sparklines"){
@@ -1292,27 +1297,96 @@ const luckysheetformula = {
                             curv.spl = v[3].data;
                         }
                     }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
+                    }
                 }
-                
-            }
-            else{
-                _this.delFunctionGroup(r, c);
-                _this.execFunctionGroup(r, c, value);
-                isRunExecFunction = false;
-                curv = _this.execFunctionGroupData[r][c];
+                // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+                else if(getObjType(value) == "object"){
+                    let valueFunction = value.f;
 
-                delete curv.f;
-                delete curv.spl;
+                    if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                        let v = _this.execfunction(valueFunction, r, c, true);
 
-                if(curv.qp == 1 && ('' + value).substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
-                    curv.qp = 0;
-                    if(curv.ct!=null){
-                        curv.ct.fa = "General";
-                        curv.ct.t = "n";
+                        // get v/m/ct
+
+                        curv = _this.execFunctionGroupData[r][c];
+                        curv.f = v[2];
+        
+                        //打进单元格的sparklines的配置串， 报错需要单独处理。
+                        if(v.length == 4 && v[3].type == "sparklines"){
+                            delete curv.m;
+                            delete curv.v;
+        
+                            let curCalv = v[3].data;
+        
+                            if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                                curv.v = curCalv[0];
+                            }
+                            else{
+                                curv.spl = v[3].data;
+                            }
+                        }
+                        else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                            dynamicArrayItem = v[3].data;
+                        }
+                    }
+                    // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
+                    else if(getObjType(value) == "object"){
+                        let valueFunction = value.f;
+        
+                        if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                            let v = _this.execfunction(valueFunction, r, c, true);
+        
+                            // get v/m/ct
+                            curv = _this.execFunctionGroupData[r][c];
+        
+                            // get f
+                            curv.f = v[2];
+        
+                            // get other cell style attribute
+                            delete value.v;
+                            delete value.m;
+                            delete value.f;
+                            Object.assign(curv,value);
+        
+                            //打进单元格的sparklines的配置串， 报错需要单独处理。
+                            if(v.length == 4 && v[3].type == "sparklines"){
+                                delete curv.m;
+                                delete curv.v;
+        
+                                let curCalv = v[3].data;
+        
+                                if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                                    curv.v = curCalv[0];
+                                }
+                                else{
+                                    curv.spl = v[3].data;
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                else {
+                    _this.delFunctionGroup(r, c);
+                    _this.execFunctionGroup(r, c, value);
+                    isRunExecFunction = false;
+                    curv = _this.execFunctionGroupData[r][c];
+    
+                    delete curv.f;
+                    delete curv.spl;
+    
+                    if(curv.qp == 1 && ('' + value).substr(0,1)!="'"){//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                        curv.qp = 0;
+                        if(curv.ct!=null){
+                            curv.ct.fa = "General";
+                            curv.ct.t = "n";
+                        }
                     }
                 }
             }
-
             value = curv;
         } 
         else {
@@ -1334,6 +1408,9 @@ const luckysheetformula = {
                     else{
                         value.spl = v[3].data;
                     }
+                }
+                else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                    dynamicArrayItem = v[3].data;
                 }
             }
             // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
@@ -1363,6 +1440,9 @@ const luckysheetformula = {
                             value.spl = v[3].data;
                         }
                     }
+                    else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
+                        dynamicArrayItem = v[3].data;
+                    }
                 }
                 
             }
@@ -1383,50 +1463,85 @@ const luckysheetformula = {
             cfg["rowlen"] = {};
         }
 
-        if(d[r][c].tb == "2" && d[r][c].v != null){//自动换行
-            let defaultrowlen = 19;
+        if((d[r][c].tb == "2" && d[r][c].v != null) || isInlineStringCell(d[r][c])){//自动换行
+            let defaultrowlen = Store.defaultrowlen;;
 
-            let offlinecanvas = $("#luckysheetTableContentF").get(0).getContext("2d");
-            offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
+            let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+            // offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
 
-            let fontset = luckysheetfontformat(d[r][c]);
-            offlinecanvas.font = fontset;
+            // let fontset = luckysheetfontformat(d[r][c]);
+            // offlinecanvas.font = fontset;
 
-            let currentRowLen = defaultrowlen;
-            if(cfg["rowlen"][r] != null){
-                currentRowLen = cfg["rowlen"][r];
+            if(cfg["customHeight"] && cfg["customHeight"][r]==1){
+                
             }
-
-            let strValue = getcellvalue(r, c, d).toString();
-            let measureText = offlinecanvas.measureText(strValue);
-
-            let textMetrics = measureText.width;
-            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4;
-            let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
-
-            if(textMetrics > cellWidth){
-                let strArr = [];//文本截断数组
-                strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
-
-                let computeRowlen = oneLineTextHeight * strArr.length + 4;
-                //比较计算高度和当前高度取最大高度
-                if(computeRowlen > currentRowLen){
-                    currentRowLen = computeRowlen;
+            else{
+                // let currentRowLen = defaultrowlen;
+                // if(cfg["rowlen"][r] != null){
+                //     currentRowLen = cfg["rowlen"][r];
+                // }
+    
+                let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+    
+                let textInfo = getCellTextInfo(d[r][c], canvas,{
+                    r:r,
+                    c:c,
+                    cellWidth:cellWidth
+                });
+    
+                let currentRowLen = defaultrowlen;
+                // console.log("rowlen", textInfo);
+                if(textInfo!=null){
+                    currentRowLen = textInfo.textHeightAll+2;
+                }
+    
+                // let strValue = getcellvalue(r, c, d).toString();
+                // let measureText = offlinecanvas.measureText(strValue);
+    
+                // let textMetrics = measureText.width;
+                // let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4;
+                // let oneLineTextHeight = measureText.actualBoundingBoxDescent - measureText.actualBoundingBoxAscent;
+    
+                // if(textMetrics > cellWidth){
+                //     let strArr = [];//文本截断数组
+                //     strArr = getCellTextSplitArr(strValue, strArr, cellWidth, offlinecanvas);
+    
+                //     let computeRowlen = oneLineTextHeight * strArr.length + 4;
+                //     //比较计算高度和当前高度取最大高度
+                //     if(computeRowlen > currentRowLen){
+                //         currentRowLen = computeRowlen;
+                //     }
+                // }
+    
+                if(currentRowLen > defaultrowlen){
+                    cfg["rowlen"][r] = currentRowLen;
+                    RowlChange = true;
                 }
             }
 
-            if(currentRowLen != defaultrowlen){
-                cfg["rowlen"][r] = currentRowLen;
-                RowlChange = true;
-            }
+        }
+
+        //动态数组
+        let dynamicArray = null;
+        if(!!dynamicArrayItem){
+            let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            dynamicArray = $.extend(true, [], file["dynamicArray"]);
+            dynamicArray.push(dynamicArrayItem);
+        }
+
+        let allParam = {
+            "dynamicArray": dynamicArray
         }
         
         if(RowlChange){
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], cfg, null, RowlChange, isRunExecFunction);
+            allParam = {
+                "cfg": cfg,
+                "dynamicArray": dynamicArray,
+                "RowlChange": RowlChange
+            }
         }
-        else {
-            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], undefined, undefined, undefined, isRunExecFunction);
-        }
+
+        jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
         _this.execFunctionGroupData = null; //销毁
@@ -3139,13 +3254,14 @@ const luckysheetformula = {
                 if(kcode != 46){//delete不执行此函数
                     _this.createRangeHightlight();
                 }
+
+                $functionbox.html(value);
             }
 
             _this.rangestart = false;
             _this.rangedrag_column_start = false;
             _this.rangedrag_row_start = false;
-
-            $functionbox.html(value);
+            
             _this.rangeHightlightselected($editer, kcode);
         }, 1);
     },
@@ -4537,6 +4653,7 @@ const luckysheetformula = {
             window.luckysheet_indirect_check = luckysheet_indirect_check;
             window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
             window.luckysheet_offset_check = luckysheet_offset_check;
+            window.luckysheet_calcADPMM = luckysheet_calcADPMM;
         }
         
         _this.execFunctionGroupData = $.extend(true, [], data);
@@ -4745,6 +4862,7 @@ const luckysheetformula = {
             }
 
             editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+            _this.groupValuesRefreshData = [];
         }
     },
     delFunctionGroup: function(r, c, index) {
@@ -4879,7 +4997,7 @@ const luckysheetformula = {
 
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
-        
+        // console.log(txt,r,c)
         if(txt.indexOf(_this.error.r) > -1){
             return [false, _this.error.r, txt];
         }
@@ -4964,6 +5082,8 @@ const luckysheetformula = {
         }
 
         //公式结果是数组，分错误值 和 动态数组 两种情况
+        let dynamicArrayItem = null;
+
         if(getObjType(result) == "array"){
             let isErr = false; 
 
@@ -4976,14 +5096,7 @@ const luckysheetformula = {
                     result = result[0][0];
                 }
                 else{
-                    let luckysheetfile = getluckysheetfile();
-                    let file = luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-                    let dynamicArray = file["dynamicArray"] == null ? [] : file["dynamicArray"];
-                    dynamicArray.push({"r": r, "c": c, "f": txt, "data": result});
-                        
-                    file["dynamicArray"] = dynamicArray;
-                    setluckysheetfile(luckysheetfile);
-
+                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "data": result};
                     result = "";
                 }
             }
@@ -5008,6 +5121,10 @@ const luckysheetformula = {
 
         if(!!sparklines){
             return [true, result, txt, {type: "sparklines", data: sparklines}];
+        }
+
+        if(!!dynamicArrayItem){
+            return [true, result, txt, {type: "dynamicArrayItem", data: dynamicArrayItem}];
         }
 
         return [true, result, txt];

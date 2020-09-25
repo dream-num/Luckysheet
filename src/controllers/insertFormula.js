@@ -15,7 +15,7 @@ const insertFormula = {
         let _this = this;
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
-        let locale_button = _locale.button
+        let locale_button = _locale.button;
 
         $(document).off("keyup.fxSFLI").on("keyup.fxSFLI", "#searchFormulaListInput", function(){
             $("#formulaTypeList").empty();

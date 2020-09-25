@@ -92,7 +92,13 @@ function setcellvalue(r, c, d, v) {
             }
             else{
                 if(cell.v.toString().indexOf("e") > -1){
-                    let len = cell.v.toString().split(".")[1].split("e")[0].length;
+                    let len;
+                    if(cell.v.toString().split(".").length==1){
+                        len = 0;
+                    }
+                    else{
+                        len = cell.v.toString().split(".")[1].split("e")[0].length;
+                    }
                     if(len > 5){
                         len = 5;
                     }
