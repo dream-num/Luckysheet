@@ -886,9 +886,11 @@ const sheetmanage = {
         //图片
         imageCtrl.images = file.images;
         imageCtrl.allImagesShow();
+        imageCtrl.init();
 
         //数据验证
         dataVerificationCtrl.dataVerification = file.dataVerification;
+        dataVerificationCtrl.init();
         
         createFilterOptions(file["filter_select"], file["filter"]);
     },

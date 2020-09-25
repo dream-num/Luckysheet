@@ -306,7 +306,7 @@ const imageCtrl = {
 
         //边框样式
         $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.borderStyle").on("change.borderStyle", "#imgItemBorderStyle", function() {
-            _this.configChange("border-radius", this.value);
+            _this.configChange("border-style", this.value);
         })
 
         //边框颜色 选择

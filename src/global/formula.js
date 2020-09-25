@@ -6,6 +6,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import menuButton from '../controllers/menuButton';
 import server from '../controllers/server';
 import luckysheetFreezen from '../controllers/freezen';
+import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
@@ -1201,11 +1202,20 @@ const luckysheetformula = {
         let $input = $("#luckysheet-rich-text-editor");
         let inputText = $input.text(), inputHtml = $input.html();
 
-
-
-
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
+        }
+
+        //数据验证 输入数据无效时禁止输入
+        if(dataVerificationCtrl.dataVerification != null){
+            let dvItem = dataVerificationCtrl.dataVerification[r + '_' + c];
+            
+            if(dvItem != null && dvItem.prohibitInput && !dataVerificationCtrl.validateCellData(inputText, dvItem)){
+                let failureText = dataVerificationCtrl.getFailureText(dvItem);
+                tooltip.info(failureText, '');
+                _this.cancelNormalSelected();
+                return;
+            }
         }
 
         let curv = Store.flowdata[r][c];
