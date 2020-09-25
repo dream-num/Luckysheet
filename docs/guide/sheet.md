@@ -116,11 +116,11 @@ eg: options.data：
 - default：[]
 - usage： The original cell data set is a set containing `{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}} }`The one-dimensional array of format cell information is only used during initialization.
 
-    `r` represents the row, `c` represents the column, and `v` represents the value of the cell. value could be char, number, or object
+    `r` represents the row, `c` represents the column, and `v` represents the value of the cell. value could be string, number, or object
 
     The luckysheet creates a sheet data based on the number of `options.data[i].row` and  `options.data[i].column`, then uses `data[r][c]=v` to fullfill tables. Empty data cells are represented as null.
 
-    After initializing the table with celldata,the data is converted to the field [data] (#data)in the luckyshetfile such as `luckysheetfile[i].data`. `data` stores the following update data and celldata will no longer be used.
+    After initializing the table with celldata,the data is converted to the field [data](#data)in the luckyshetfile such as `luckysheetfile[i].data`. `data` stores the following update data and celldata will no longer be used.
 
 - example：
     ```js
@@ -535,7 +535,7 @@ eg: options.data：
             }
         },
         "hasRowHeader": false, //is included header
-        "hasRowFooter": false //is included footers
+        "hasRowFooter": false //is included footer
     }, {
         "cellrange": {
             "row": [1, 6],
@@ -1257,7 +1257,7 @@ At this point, the lucky sheet file contains many local parameters that are not 
         "visibledatacolumn": [], //positions of all columns
         "ch_width": 2322, //The width of a sheet
         "rh_height": 949, //The height of a sheet
-        "load": "1", //check whether this sheed loaded
+        "load": "1", //check whether this sheed has been loaded
         "data": [], // store and update the cell data
     },
     {
