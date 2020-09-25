@@ -895,13 +895,13 @@
 
 
 #luckysheet-wa-functionbox-cancel {
-    left: 110px;
-    font-size: 18px;
+    left: 104px;
+    /* font-size: 18px; */
 }
 
 #luckysheet-wa-functionbox-confirm {
-    left: 136px;
-    font-size: 18px;
+    left: 130px;
+    /* font-size: 18px; */
 }
 
 
@@ -911,14 +911,18 @@
     transform: translateY(-50%);
     /*background-color: #fff;*/
     text-align: center;
-    left: 155px;
+    left: 156px;
     color: #d6d6d6;
 }
 
-.luckysheet-wa-functionbox img {
+.luckysheet-wa-functionbox span {
     vertical-align: middle;
     width: 30px;
     height: 30px;
+}
+
+.luckysheet-wa-functionbox i {
+    font-size: 24px;
 }
 
 
@@ -1012,7 +1016,7 @@
     /* margin-right: 6px;
     margin-top: 1px;
     padding: 1px 6px; */
-    padding: 6px 10px;
+    /* padding: 6px 10px; */
 }
 
 /* .luckysheet-sheet-area .luckysheet-sheets-add {

@@ -35,13 +35,13 @@ const gridHTML = function(){
                                 </div> 
                             </div> 
                             <div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">
-                                <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+                                <span><i class="iconfont icon-qingchu" aria-hidden="true"></i></span>
                             </div> 
                             <div id="luckysheet-wa-functionbox-confirm" class="luckysheet-wa-functionbox">
-                                <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                <span><i class="iconfont icon-yunhang" aria-hidden="true"></i></span>
                             </div> 
-                            <div id="luckysheet-wa-functionbox-fx" class="luckysheet-wa-functionbox"> 
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfdBg4KFCeL2MAqAAACOUlEQVRYw+3Wy2+MURjH8U9Hp0VLVTTRUupWqfs9xEpE3ULSsLK0qVg0rJAgiD/A2kpCQkJC0rhEJMJampBSFYle0BYNMUNKTY+F0bi10zFjIZnvuzrPe57fc3mfnPeQI0eO/5+8tHaPVW22cn1aNYlnO5nlzmgzIAiazcm2/FoPBEHMY+2uKcqufKlGQcIt29RYYl6azU3JLh8E99VkuzHfKHZekHDw38hT5Zmg17L0XSMj2jVXGTq9+lcBZilAp1j6AfKHfVtmh1IDauWjQoPPIp64IpF+qD+xSKfw23PV6GxV0KdFHJWKJLwQR0SbgezkT1SFSivcE3SrM9U005WlIzF8Bf1eokAUMQ89T9oLjdWfPOwixssT1/9niZFMUakJ+Kg3uV7olKtOm4kx6jU6qzqTRq33VnBHIahy0z0dgmPy7NGjx23ThnIeSQUTlKA7OZrjNNvtHNaoc8hFm+33MpMK9giCU4PJFGKrz7o8dVnF8M6pK4iYDLoGh/MT2jw32TuHU+WeOkC+KQi/CPXqwA2PUueXigIz8UnnT9b5ZmF68sNnFKBEFbq9/sFW7bioLxYpzjzAamV4pAtElahwQtQRb1WaZ4rtxqVUGZLv/7IDyfVGl1zXbpOJmgTnXXBXZfrCk9RabKmTYoIWc5P2o2La1RslYr8OPe5a9zeZ7/TGMx0Sgvf2Dt4hamyxMnmCFVllgxl/15oGcUHwRYt9mdyBhrrdlFtgtkIvNGvN3vmfI0eO/5Ov+PeiZHME+tcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMDktMTdUMTU6MTk6MDcrMDg6MDARPBuqAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTA2LTE0VDEwOjIwOjM5KzA4OjAw59f0jAAAAE10RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNy4wLjEtNiBRMTYgeDg2XzY0IDIwMTYtMDktMTcgaHR0cDovL3d3dy5pbWFnZW1hZ2ljay5vcmfd2aVOAAAAGHRFWHRUaHVtYjo6RG9jdW1lbnQ6OlBhZ2VzADGn/7svAAAAF3RFWHRUaHVtYjo6SW1hZ2U6OkhlaWdodAA3Nkv1+ekAAAAWdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANzazWjlkAAAAGXRFWHRUaHVtYjo6TWltZXR5cGUAaW1hZ2UvcG5nP7JWTgAAABd0RVh0VGh1bWI6Ok1UaW1lADEzNzExNzY0MzntxStTAAAAEHRFWHRUaHVtYjo6U2l6ZQA5OTdClByG1AAAAF90RVh0VGh1bWI6OlVSSQBmaWxlOi8vL2hvbWUvd3d3cm9vdC9zaXRlL3d3dy5lYXN5aWNvbi5uZXQvY2RuLWltZy5lYXN5aWNvbi5jbi9zcmMvMTExNTkvMTExNTkzNy5wbmeOkn0GAAAAAElFTkSuQmCC" alt="" style="vertical-align:middle"/>
+                            <div id="luckysheet-wa-functionbox-fx" class="luckysheet-wa-functionbox">
+                                <span><i class="iconfont icon-hanshu" aria-hidden="true" style="color:#333"></i></span> 
                             </div> 
                             <div id="luckysheet-functionbox-container" class="luckysheet-mousedown-cancel">
                                 <div class="luckysheet-mousedown-cancel" dir="ltr">
@@ -193,8 +193,8 @@ const gridHTML = function(){
                                 </table> 
                             </div> 
                             <div class="luckysheet-sheet-area luckysheet-noselected-text" id="luckysheet-sheet-area">
-                                <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="fa fa-plus"></i></div>
-                                <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="fa fa-bars"></i></div>
+                                <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="iconfont icon-jia1"></i></div>
+                                <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="iconfont icon-caidan2"></i></div>
                                 <div class="luckysheet-sheet-container" id="luckysheet-sheet-container">
                                     <div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">
                                         <div class="docs-sheet-fade3"></div>

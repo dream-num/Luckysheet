@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17444514",
+      "name": "转到",
+      "font_class": "zhuandao1",
+      "unicode": "e7f1",
+      "unicode_decimal": 59377
+    },
+    {
+      "icon_id": "17444503",
+      "name": "右箭头",
+      "font_class": "youjiantou",
+      "unicode": "e7ed",
+      "unicode_decimal": 59373
+    },
+    {
+      "icon_id": "17444507",
+      "name": "菜单",
+      "font_class": "caidan2",
+      "unicode": "e7ef",
+      "unicode_decimal": 59375
+    },
+    {
+      "icon_id": "17444508",
+      "name": "替换",
+      "font_class": "tihuan",
+      "unicode": "e7f0",
+      "unicode_decimal": 59376
+    },
+    {
       "icon_id": "17392794",
       "name": "冻结",
       "font_class": "dongjie1",

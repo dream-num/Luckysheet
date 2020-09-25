@@ -64,3 +64,16 @@
 #luckysheet-icon-morebtn-div{
     border: 1px solid rgb(212, 212, 212);
 }
+
+/* sheet bar add/menu button */
+/* #luckysheet-sheets-add, #luckysheet-sheets-m{
+    padding: 1px 3px;
+} */
+.luckysheet-sheets-add .iconfont, .luckysheet-sheets-m .iconfont{
+    font-size: 21px;
+}
+
+/* sheet bar left/right scroll */
+#luckysheet-sheets-leftscroll , #luckysheet-sheets-rightscroll{
+    padding:6px 10px;
+}
