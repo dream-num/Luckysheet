@@ -2140,9 +2140,9 @@ function cellTextRender(textInfo, ctx, option){
 
     if(textInfo.rotate!=0 && textInfo.type!="verticalWrap"){
         ctx.save();
-        ctx.translate(pos_x+textInfo.textLeftAll, pos_y+textInfo.textTopAll);
+        ctx.translate((pos_x+textInfo.textLeftAll)/Store.zoomRatio, (pos_y+textInfo.textTopAll)/Store.zoomRatio);
         ctx.rotate(-textInfo.rotate * Math.PI / 180);
-        ctx.translate(-(textInfo.textLeftAll+pos_x), -(pos_y+textInfo.textTopAll));
+        ctx.translate(-(textInfo.textLeftAll+pos_x)/Store.zoomRatio, -(pos_y+textInfo.textTopAll)/Store.zoomRatio);
     }
 
     // ctx.fillStyle = "rgb(0,0,0)";
@@ -2169,7 +2169,7 @@ function cellTextRender(textInfo, ctx, option){
                 Math.floor((pos_x +c.endX)/Store.zoomRatio)+0.5 ,
                 Math.floor((pos_y+c.endY)/Store.zoomRatio)+0.5 ,
             );
-            ctx.lineWidth = 1;
+            ctx.lineWidth = Math.floor(c.fs/9);
             ctx.strokeStyle = ctx.fillStyle;
             ctx.stroke();
             ctx.closePath();
@@ -2188,7 +2188,7 @@ function cellTextRender(textInfo, ctx, option){
                     Math.floor((pos_x +item.endX)/Store.zoomRatio)+0.5,
                     Math.floor((pos_y+ item.endY)/Store.zoomRatio)+0.5
                 );
-                ctx.lineWidth = 1;
+                ctx.lineWidth = Math.floor(item.fs/9);
                 ctx.strokeStyle = ctx.fillStyle;
                 ctx.stroke();
                 ctx.closePath();
