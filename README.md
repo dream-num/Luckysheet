@@ -97,12 +97,12 @@ English| [简体中文](./README-zh.md)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
 + **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
-
-### ⏱️Coming soon
 + **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
 + **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Print** (Like excel print option, save to PDF)
 + **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
+
+### ⏱️Coming soon
++ **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
 + **Documentation** (Improve documentation and API)
@@ -157,6 +157,10 @@ Create a table
 </script>
 ```
 
+## Partner project
+
+- [luban-h5](https://github.com/ly525/luban-h5)
+
 ## Co-construction
 
 1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
@@ -178,11 +182,19 @@ Create a table
 [Chinese community](./README-zh.md)
 
 ## Authors and acknowledgment
+
+### Team
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+
+### Active participants
+- [@danielcai1987](https://github.com/danielcai1987)
+- [@qq6690876](https://github.com/qq6690876)
+- [@javahuang](https://github.com/javahuang)
+- [@gsw945](https://github.com/gsw945)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

@@ -688,6 +688,8 @@ const sheetmanage = {
             colwidth = c2 + 1;
         }
 
+        Store.flowdata = data;
+
         luckysheetcreatedom(colwidth, rowheight, data, menu, title);
 
         setTimeout(function () {
@@ -884,9 +886,11 @@ const sheetmanage = {
         //图片
         imageCtrl.images = file.images;
         imageCtrl.allImagesShow();
+        imageCtrl.init();
 
         //数据验证
         dataVerificationCtrl.dataVerification = file.dataVerification;
+        dataVerificationCtrl.init();
         
         createFilterOptions(file["filter_select"], file["filter"]);
     },
@@ -974,13 +978,19 @@ const sheetmanage = {
             return;
         }
 
-        let _this = this;
+        let _this = this;        
+        
+        if(index==Store.currentSheetIndex){
+            return;
+        }
 
         if(server.allowUpdate){
             $("#luckysheet-cell-main #luckysheet-multipleRange-show").empty();
             server.multipleIndex = 0;
         }
         
+
+
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).hide();
         $('#luckysheet-filter-selected-sheet' + index + ', #luckysheet-filter-options-sheet' + index).show();
 

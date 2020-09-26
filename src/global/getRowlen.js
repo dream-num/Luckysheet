@@ -196,7 +196,9 @@ function getMeasureText(value, ctx, fontset){
         }
 
         let measureText = ctx.measureText(value), cache = {};
-        if(measureText.actualBoundingBoxRight==null){
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        if(measureText.actualBoundingBoxRight==null || re.test(value)){
             cache.width = measureText.width;
         }
         else{
@@ -338,7 +340,7 @@ function getCellTextInfo(cell , ctx, option){
             for(let x=0;x<splitArr.length;x++){
                 let newValue = splitArr[x];
                 
-                if(newValue==""){
+                if(newValue=="" && x!=splitArr.length-1){
                     inlineStringArr.push({
                         fontset:scfontset,
                         fc:fc==null?"#000":fc,
@@ -366,7 +368,7 @@ function getCellTextInfo(cell , ctx, option){
                         
                     }
 
-                    if(x!=splitArr.length-1 && !(preNewValue=="" && newValue=="") ){
+                    if(x!=splitArr.length-1 && preNewValue!="" ){
                         inlineStringArr.push({
                             fontset:scfontset,
                             fc:fc==null?"#000":fc,
@@ -1102,7 +1104,7 @@ function getCellTextInfo(cell , ctx, option){
                         wordGroup.left = left;
                         wordGroup.top = top;
 
-                        console.log(left, top,  cumWordHeight, size.height);
+                        // console.log(left, top,  cumWordHeight, size.height);
 
                         drawLineInfo(wordGroup, cancelLine, underLine,{
                             width:wordGroup.width, 

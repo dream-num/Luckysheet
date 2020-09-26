@@ -31,15 +31,25 @@ import Store from '../store';
 
 let luckysheet_shiftkeydown = false;
 
-function formulaMoveEvent(dir, ctrlKey, shiftKey){
-    if ($("#luckysheet-formula-search-c").is(":visible")) {
-        let $up = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item-active").next();
-        if ($up.length == 0) {
-            $up = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item").first();
+function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
+    if ($("#luckysheet-formula-search-c").is(":visible") && (dir=="up" || dir=="down") ) {
+        let $obj;
+        if(dir=="down"){
+            $obj = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item-active").next();
+            if ($obj.length == 0) {
+                $obj = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item").first();
+            }
         }
+        else if(dir=="up"){
+            $obj = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item-active").prev();
+            if ($obj.length == 0) {
+                $obj = $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item").last();
+            }
+        }
+        
 
         $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item").removeClass("luckysheet-formula-search-item-active");
-        $up.addClass("luckysheet-formula-search-item-active");
+        $obj.addClass("luckysheet-formula-search-item-active");
 
         event.preventDefault();
     }
@@ -77,6 +87,7 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey){
 
                 luckysheetMoveHighlightCell(dir_n, step, "rangeOfFormula");
             }   
+            event.preventDefault();
         }
         else if(formula.israngeseleciton()){
             let anchor = $(window.getSelection().anchorNode);
@@ -151,6 +162,7 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey){
                     luckysheetMoveHighlightCell(dir_n, step, "rangeOfFormula");
                 } 
             }
+            event.preventDefault();
         }
         else if(!ctrlKey && !shiftKey){
             let anchor = $(window.getSelection().anchorNode);
@@ -307,7 +319,9 @@ export function keyboardInitial(){
         let $inputbox = $("#luckysheet-input-box");
         
         if((altKey || event.metaKey) && kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0){
-            enterKeyControll();
+            let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
+            let row_index = last["row_focus"], col_index = last["column_focus"];
+            enterKeyControll(Store.flowdata[row_index][col_index]);
             event.preventDefault();
         }
         else if (kcode == keycode.ENTER && parseInt($inputbox.css("top")) > 0) {
@@ -830,16 +844,16 @@ export function keyboardInitial(){
             event.preventDefault();
         }
         else if (kcode == keycode.UP && parseInt($inputbox.css("top")) > 0) {
-            formulaMoveEvent("up", ctrlKey, shiftKey);
+            formulaMoveEvent("up", ctrlKey, shiftKey,event);
         }
         else if (kcode == keycode.DOWN && parseInt($inputbox.css("top")) > 0) {
-            formulaMoveEvent("down", ctrlKey, shiftKey);
+            formulaMoveEvent("down", ctrlKey, shiftKey,event);
         }
         else if (kcode == keycode.LEFT && parseInt($inputbox.css("top")) > 0) {
-            formulaMoveEvent("left", ctrlKey, shiftKey);
+            formulaMoveEvent("left", ctrlKey, shiftKey,event);
         }
         else if (kcode == keycode.RIGHT && parseInt($inputbox.css("top")) > 0) {
-            formulaMoveEvent("right", ctrlKey, shiftKey);
+            formulaMoveEvent("right", ctrlKey, shiftKey,event);
         }
         else if (!((kcode >= 112 && kcode <= 123) || kcode <= 46 || kcode == 144 || kcode == 108 || event.ctrlKey || event.altKey || (event.shiftKey && (kcode == 37 || kcode == 38 || kcode == 39 || kcode == 40 || kcode == keycode.WIN || kcode == keycode.WIN_R || kcode == keycode.MENU))) || kcode == 8 || kcode == 32 || kcode == 46 || (event.ctrlKey && kcode == 86)) {
             formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);

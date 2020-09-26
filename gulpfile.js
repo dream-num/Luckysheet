@@ -52,6 +52,7 @@ const paths = {
     // static resources,contains index.html, fonts and images,and extension plugins dependency
     staticHtml: ['src/*.html'],
     staticFonts: ['src/fonts/**'],
+    staticAssets: ['src/assets/**'],
     staticImages: ['src/plugins/images/*.png'],
     staticExpendPlugins: ['src/expendPlugins/**', '!src/expendPlugins/**/plugin.js'],
     staticDemoData: ['src/demoData/*.js'],
@@ -60,6 +61,7 @@ const paths = {
     // static resources dest
     destStaticHtml: ['dist'],
     destStaticFonts: ['dist/fonts'],
+    destStaticAssets: ['dist/assets'],
     destStaticImages: ['dist/plugins/images'],
     destStaticExpendPlugins: ['dist/expendPlugins'],
     destStaticDemoData: ['dist/demoData'],
@@ -133,6 +135,7 @@ function watcher(done) {
     // watch static
     watch(paths.staticHtml,{ delay: 500 }, series(copyStaticHtml, reloadBrowser));
     watch(paths.staticFonts,{ delay: 500 }, series(copyStaticFonts, reloadBrowser));
+    watch(paths.staticAssets,{ delay: 500 }, series(copyStaticAssets, reloadBrowser));
     watch(paths.staticImages,{ delay: 500 }, series(copyStaticImages, reloadBrowser));
     watch(paths.staticExpendPlugins,{ delay: 500 }, series(copyStaticExpendPlugins, reloadBrowser));
     watch(paths.staticDemoData,{ delay: 500 }, series(copyStaticDemoData, reloadBrowser));
@@ -222,6 +225,10 @@ function copyStaticFonts(){
     return src(paths.staticFonts)
         .pipe(dest(paths.destStaticFonts));
 }
+function copyStaticAssets(){
+    return src(paths.staticAssets)
+        .pipe(dest(paths.destStaticAssets));
+}
 function copyStaticImages(){
     return src(paths.staticImages)
         .pipe(dest(paths.destStaticImages));
@@ -239,8 +246,8 @@ function copyStaticCssImages(){
         .pipe(dest(paths.destStaticCssImages));
 }
 
-const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
-const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
+const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
+const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
 
 exports.dev = dev;
 exports.build = build;

@@ -86,7 +86,6 @@ const sheetFormula = {
 	},
 	"index": "1",
 	"chart": [],
-	"status": 1,
 	"order": "1",
 	"column": 18,
 	"row": 45,

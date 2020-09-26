@@ -114,13 +114,13 @@ eg: options.data：
 ### celldata
 - type：Array
 - default：[]
-- usage： 原始单元格数据集，存储sheet中所有单元格中的值，是一个包含`{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}}}`格式单元格信息的一维数组，只在初始化的时候使用。
+- usage： The original cell data set is a set containing `{r:0,c:0,v:{m:"value",v:"value",ct: {fa: "General", t: "g"}} }`The one-dimensional array of format cell information is only used during initialization.
 
-    r代表行，c代表列，v代表该单元格的值，值可以是字符、数字或者对象。
+    `r` represents the row, `c` represents the column, and `v` represents the value of the cell. value could be string, number, or object
 
-    Luckysheet在建立的时候会根据 `options.data[i].row` 和 `options.data[i].column` 的行列数量大小新建一个表格data，然后再使用 `data[r][c]=v` 的方式填充表格数据，空数据单元格以null表示。
+    The luckysheet creates a sheet data based on the number of `options.data[i].row` and  `options.data[i].column`, then uses `data[r][c]=v` to fullfill tables. Empty data cells are represented as null.
 
-    使用celldata初始化完表格后，数据转换为luckysheetfile中的字段[data](#data)，如`luckysheetfile[i].data`,后续操作表格的数据更新，会更新到这个data字段中，celldata不再使用。 
+    After initializing the table with celldata,the data is converted to the field [data](#data)in the luckyshetfile such as `luckysheetfile[i].data`. `data` stores the following update data and celldata will no longer be used.
 
 - example：
     ```js
@@ -142,7 +142,7 @@ eg: options.data：
         }
     }]
     ```
-> 详细了解 [单元格格式](/zh/guide/cell.html)
+> more detail [cell format](/zh/guide/cell.html)
 
 ------------
 ### config
@@ -225,9 +225,9 @@ eg: options.data：
 - type：Object
 - default：{}
 - usage：Hidden row information, Rows：`rowhidden[Rows]: 0`,
-    格式为：`colhidden[列数]: 0`,
+    format：`colhidden[Cols]: 0`,
 
-        `key`指定列数即可，`value`总是为`0`
+        `key` specify the number of columns,`value` is always `0`
 - example：
     ```js
     "colhidden": {
@@ -239,7 +239,7 @@ eg: options.data：
 #### config.borderInfo
 - type：Object
 - default：{}
-- usage：单元格的边框信息
+- usage：The border information of the cell
 - example：
     ```js
     "borderInfo": [{
@@ -313,7 +313,7 @@ eg: options.data：
             }]
         }
         ```
-        表示设置范围为`{"row": [7, 8],"column": [2, 3]}`的选区，type为所有边框，边框粗细为`Dotted`，颜色为`"#0000ff"`
+        Represents a selection with a setting range of `{"row": [7, 8], "column": [2, 3]}`, the type is all borders, the border thickness is `Dotted`, and the color is `"#0000ff"`
 
         + ```js
             {
@@ -340,7 +340,7 @@ eg: options.data：
                 }
             }
             ```
-            表示设置单元格`"D4"`，上边框/下边框/左边框/右边框都是边框粗细为`"MediumDashDot"`,颜色为`"rgb(255, 0, 0)"`
+         Means to set the cell `"D4"`, the upper border/lower border/left border/right border are all border thicknesses `"MediumDashDot"`, color is `"rgb(255, 0, 0)"`
 
 ------------
 ### scrollLeft
@@ -381,14 +381,14 @@ eg: options.data：
 ### calcChain
 - type：Array
 - default：[]
-- usage： 公式链，用于公式所链接的单元格改变后，所有引用此单元格的公式都会联动刷新
+- usage： Formula chain, used when the cell linked by the formula is changed, all formulas referencing this cell will be refreshed.
 - example：
     ```js
     [{
         "r": 6, //the number of rows
         "c": 3, //the number of columns
         "index": 1, //sheet id
-        "func": [true, 23.75, "=AVERAGE(D3:D6)"], //公式信息，包含公式计算结果和公式字符串
+        "func": [true, 23.75, "=AVERAGE(D3:D6)"], //Formula information, including formula calculation results and formula string
         "color": "w", //"w"：use Depth-First-Search "b":Normal search
         "parent": null,
         "chidren": {},
@@ -423,7 +423,7 @@ eg: options.data：
             "row": [0, 12],
             "column": [0, 4]
         },
-        "pivotDataSheetIndex": 6, //源数据所在的sheet页
+        "pivotDataSheetIndex": 6, //The sheet index where the source data is located
         "column": [{
             "index": 3,
             "name": "subject",
@@ -443,7 +443,7 @@ eg: options.data：
             "nameindex": 0
         }],
         "showType": "column",
-        "pivotDatas": [ //数据透视表的源数据
+        "pivotDatas": [ //Source data for PivotTable
             ["count:score", "science", "mathematics", "foreign language", "English", "total"],
             ["Alex", 1, 1, 1, 1, 4],
             ["Joy", 1, 1, 1, 1, 4],
@@ -485,11 +485,11 @@ eg: options.data：
             },
             "rowhidden": { "3": 0, "4": 0 }, // the hidden rows
             "optionstate": true, //is config active
-            "str": 2, // 范围，起始行
-            "edr": 6, // 范围，结束行
-            "cindex": 1, // 当前范围列索引
-            "stc": 1, // 范围，起始列
-            "edc": 3 // 范围，结束列
+            "str": 2, // the index of start row
+            "edr": 6, // the index of end row
+            "cindex": 1, // Current range column index
+            "stc": 1, // the index of start column
+            "edc": 3 // the index of end column
         },
         "1": {
             "caljs": {},
@@ -512,30 +512,30 @@ eg: options.data：
 - example：
     ```js
     [{
-        "cellrange": { //单元格范围
+        "cellrange": { //cell range
             "row": [1, 6],
             "column": [1, 5]
         },
         "format": {
-            "head": { //页眉颜色
+            "head": { //Header color
                 "fc": "#000",
                 "bc": "#5ed593"
             },
-            "one": { //第一种颜色
+            "one": { //The first color
                 "fc": "#000",
                 "bc": "#ffffff"
             },
-            "two": { //第二种颜色
+            "two": { //The second color
                 "fc": "#000",
                 "bc": "#e5fbee"
             },
-            "foot": { //页脚颜色
+            "foot": { //Footers color
                 "fc": "#000",
                 "bc": "#a5efcc"
             }
         },
-        "hasRowHeader": false, //含有页眉
-        "hasRowFooter": false //含有页脚
+        "hasRowHeader": false, //is included header
+        "hasRowFooter": false //is included footer
     }, {
         "cellrange": {
             "row": [1, 6],
@@ -572,7 +572,7 @@ eg: options.data：
 - example：
     ```js
     [{
-        "head": { //页眉颜色
+        "head": { //Header color
             "fc": "#6aa84f",
             "bc": "#ffffff"
         },
@@ -611,18 +611,18 @@ eg: options.data：
     [
         {
             "type": "default",
-            "cellrange": [ //应用的范围
+            "cellrange": [ //cell range
                 {
                     "row": [ 2, 7 ],
                     "column": [ 2, 2 ]
                 }
             ],
-            "format": { //type 为 default 时 应设置文本颜色和单元格颜色
+            "format": { //when type is default, you should set the text color and cell color 
                 "textColor": "#000000",
                 "cellColor": "#ff0000"
             },
             "conditionName": "betweenness", //type
-            "conditionRange": [ //条件值所在单元格
+            "conditionRange": [ //condition value in the cell 
                 {
                     "row": [ 4, 4 ],
                     "column": [ 2, 2 ]
@@ -633,7 +633,7 @@ eg: options.data：
                 }
             ],
             "conditionValue": [ 2, 4
-            ] //自定义传入的条件值
+            ] //Customize the condition value
         },
         {
             "type": "dataBar",
@@ -683,36 +683,36 @@ eg: options.data：
 ### frozen
 - type：Array
 - default：[]
-- usage： the settings of freeze row and column which is divided into 6 types冻结行列设置，分为6种type
+- usage： the settings of freeze row and column which is divided into 6 types
     1. "row": the first freeze row
     2. "column": the first freeze column
     3. "both": the freeze rows and columns
-    4. "rangeRow": 冻结行到选区
-    5. "rangeColumn": 冻结列到选区
-    6. "rangeBoth": 冻结行列到选区
+    4. "rangeRow": Freeze row to range
+    5. "rangeColumn": Freeze column to range
+    6. "rangeBoth": Freeze column and row to range
     7. "cancel": cancel freeze
 
-    当设置冻结到选区的时候，需要设置开启冻结的单元格位置，格式为`{ row_focus:0, column_focus:0 }`，意为当前激活的单元格的行数和列数。
+    When setting the freezing to the selected area, you need to set the cell position to turn on the freezing. The format should like this`{ row_focus:0, column_focus:0 }`，which mean the rows and cols of an active cell.
 
-    sheet新的配置属性，存储更语义化的配置，用于初始化和传给后端。
+    The new configuration property of sheet, which stores more semantic configuration, is used to initialize and pass to the server.
     
-    注意一点，luckysheetfile中还有一个配置freezen，其中的freezenhorizontaldata仍然用作本地数据，但是不发给后台存储，只做本地调试。
+    Be careful, you can find `freezenhorizontaldata` in the luckysheetfile that used for freezen, however `freezenhorizontaldata` is only for local debugging。
 
 - example：
-    - 冻结首行
+    - Freeze first line
     ```json
     {
         type: 'row'
     }
     ```
-    - 冻结行到`'A1'`选区
+    - Freeze row and column to `'A1'`
      ```json
     {
         type: 'rangeRow',
         range: {row_focus: 0, column_focus: 0}
     }
     ```
-    - 冻结行列到`'B2'`选区
+    - Freeze row and column to `'B2'`
      ```json
     {
         type: 'rangeBoth',
@@ -1208,12 +1208,11 @@ eg: options.data：
 ------------
 
 ## debug information
+The parameters required for initialization will be designed as simple as possible, but the parameters stored locally are different.
 
-初始化所需要的参数，会从简洁的角度出发来考虑设计，但是本地存储的参数则不同。
+After initialization, Luckysheet stores more and more local data in luckysheetfile as local parameter. It means that we can realize the usage of Store data center. For example, the format of Freezen's parameters will also change.
 
-Luckysheet在初始化完成之后进行的一系列操作，会将更多本地参数存储在luckysheetfile中，作为本地使用的参数，实现一些类似Store数据中心的usage。比如，freezen的参数格式也会变化。
-
-此时的luckysheetfile包含很多非初始化使用的本地参数，可用于调试代码、本地状态分析。如下展示了更丰富luckysheetfile信息，可通过方法 `luckysheet.getluckysheetfile()`获得：
+At this point, the lucky sheet file contains many local parameters that are not initialized and can be used to debug、analysis local status. you can use  `luckysheet.getluckysheetfile()` to get more information：
 
 ::: details
 ```json
@@ -1248,18 +1247,18 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "luckysheet_alternateformat_save_modelCustom": [], //Customize alternate colors	
         "luckysheet_conditionformat_save": {},//condition format
         "frozen": {}, //freeze row and column configuration
-        "freezen": {}, //冻结行列的渲染数据存储
+        "freezen": {}, //storage freeze row and column rendering data
         "chart": [], //Chart configuration
         "allowEdit": true, //is editable
         "zoomRatio":1, // zoom ratio
         
 
-        "visibledatarow": [], //所有行的位置
-        "visibledatacolumn": [], //所有列的位置
-        "ch_width": 2322, //工作表区域的宽度
-        "rh_height": 949, //工作表区域的高度
-        "load": "1", //已加载过此sheet的标识
-        "data": [], //更新和存储使用的单元格数据
+        "visibledatarow": [], //positions of all rows
+        "visibledatacolumn": [], //positions of all columns
+        "ch_width": 2322, //The width of a sheet
+        "rh_height": 949, //The height of a sheet
+        "load": "1", //check whether this sheed has been loaded
+        "data": [], // store and update the cell data
     },
     {
         "name": "Sheet2",
@@ -1286,7 +1285,7 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
 ### visibledatarow
 - type：Number
 - default：[]
-- usage： Position information of all rows, incremental row position data, No need to set up for initialization置
+- usage： Position information of all rows, incremental row position data, No need to set up for initialization
 
 ------------
 ### visibledatacolumn

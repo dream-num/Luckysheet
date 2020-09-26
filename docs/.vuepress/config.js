@@ -49,7 +49,7 @@ module.exports = {
 					'/guide/': [
 						'',
 						'config',
-						'data',
+						'sheet',
 						'cell',
 						'operate',
 						'api',

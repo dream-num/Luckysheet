@@ -17,13 +17,13 @@ const Store = {
 
     cellmainWidth: 0,
     cellmainHeight: 0,
-    toolbarHeight: 61,
-    infobarHeight: 30,
-    calculatebarHeight: 30,
+    toolbarHeight: 0,
+    infobarHeight: 0,
+    calculatebarHeight: 0,
     rowHeaderWidth: 46,
     columeHeaderHeight: 20,
     cellMainSrollBarSize: 12,
-    sheetBarHeight: 27,
+    sheetBarHeight: 31,
     statisticBarHeight: 23,
     luckysheetTableContentHW: [0, 0], 
 
@@ -126,6 +126,7 @@ const Store = {
 
     showGridLines:true,
 
+    toobarObject: {}, //toolbar constant
     inlineStringEditCache:null,
     inlineStringEditRange:null,
 

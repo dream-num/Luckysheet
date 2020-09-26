@@ -2169,7 +2169,7 @@ function cellTextRender(textInfo, ctx, option){
                 Math.floor((pos_x +c.endX)/Store.zoomRatio)+0.5 ,
                 Math.floor((pos_y+c.endY)/Store.zoomRatio)+0.5 ,
             );
-            ctx.lineWidth = Math.floor(c.fs/9);
+            ctx.lineWidth = 1;
             ctx.strokeStyle = ctx.fillStyle;
             ctx.stroke();
             ctx.closePath();
@@ -2188,7 +2188,7 @@ function cellTextRender(textInfo, ctx, option){
                     Math.floor((pos_x +item.endX)/Store.zoomRatio)+0.5,
                     Math.floor((pos_y+ item.endY)/Store.zoomRatio)+0.5
                 );
-                ctx.lineWidth = Math.floor(item.fs/9);
+                ctx.lineWidth = 1;
                 ctx.strokeStyle = ctx.fillStyle;
                 ctx.stroke();
                 ctx.closePath();

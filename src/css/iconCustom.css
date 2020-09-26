@@ -1,0 +1,79 @@
+.luckysheet-icon-img-container.iconfont,
+.luckysheet-submenu-arrow .iconfont
+{
+    font-size: 24px;
+}
+
+.luckysheet-toolbar-menu-button .icon-xiayige,
+.luckysheet-toolbar-combo-button .icon-xiayige
+{
+    font-size: 12px;
+    top: -8px;
+    left: -3px;
+}
+
+.luckysheet-toolbar-select .icon-xiayige{
+    margin-right: 4px;
+}
+
+#luckysheet-icon-morebtn{
+    position: absolute;
+    right: 30px;
+}
+
+
+.toolbar .luckysheet-icon-text-color,
+.toolbar .luckysheet-icon-cell-color,
+.toolbar .luckysheet-icon-border-all,
+.toolbar .luckysheet-icon-valign,
+.toolbar .luckysheet-icon-textwrap
+{
+    margin-right: -3px;
+}
+
+.toolbar .luckysheet-icon-merge-button,
+.toolbar .luckysheet-icon-align,
+.toolbar .luckysheet-icon-rotation,
+.toolbar .luckysheet-icon-function,
+.toolbar .luckysheet-freezen-btn-horizontal
+{
+    margin-right: -4px;
+}
+
+#luckysheet-icon-morebtn{
+    padding: 0 13px 0 5px;
+}
+#luckysheet-icon-morebtn .iconfont{
+    top:-9px;
+}
+
+
+/* custom common style */
+
+.lucky-button-custom{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lucky-button-custom:hover{
+    background-color: #E1E4E8;
+}
+
+/* more button border */
+#luckysheet-icon-morebtn-div{
+    border: 1px solid rgb(212, 212, 212);
+}
+
+/* sheet bar add/menu button */
+/* #luckysheet-sheets-add, #luckysheet-sheets-m{
+    padding: 1px 3px;
+} */
+.luckysheet-sheets-add .iconfont, .luckysheet-sheets-m .iconfont{
+    font-size: 21px;
+}
+
+/* sheet bar left/right scroll */
+#luckysheet-sheets-leftscroll , #luckysheet-sheets-rightscroll{
+    padding:6px 10px;
+}

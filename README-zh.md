@@ -11,9 +11,9 @@
 
 ## 文档
 
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
+[在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/)
 
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/) / [导入excel demo](https://mengshukeji.github.io/LuckyexcelDemo/)
+[在线demo](https://mengshukeji.gitee.io/luckysheetdemo/) / [导入excel demo](https://mengshukeji.gitee.io/luckyexceldemo/)
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
@@ -91,12 +91,12 @@
 + **截图** (把选区的内容进行截图展示)
 + **复制到其他格式** (右键菜单的"复制为", 支持复制为json、array、对角线数据、去重等)
 + **EXCEL,CSV,TXT 导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
++ **插入图片和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
++ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
++ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
 
 ### ⏱️未来开发计划
-+ **插入图表和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
-+ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
 + **打印及设置** (像excel一样进行打印设置，并导出为图片或者PDF)
-+ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
 + **树形菜单** (类似excel中的分级显示（分组）)
 + **表格新功能** (类似excel中表格的筛选器和切片器)
 + **文档** (完善文档和API)
@@ -151,6 +151,11 @@ npm run build
     })
 </script>
 ```
+
+## 合作项目
+
+- [鲁班h5](https://github.com/ly525/luban-h5)
+
 ## 加入共建
 
 1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
@@ -180,11 +185,19 @@ npm run build
 [英文社群](./README.md)
 
 ## 贡献者和感谢
+
+### 团队成员
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+
+### 活跃成员
+- [@danielcai1987](https://github.com/danielcai1987)
+- [@qq6690876](https://github.com/qq6690876)
+- [@javahuang](https://github.com/javahuang)
+- [@gsw945](https://github.com/gsw945)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

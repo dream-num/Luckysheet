@@ -445,7 +445,7 @@ const sheetSparkline = {
 	},
 	"index": "4",
 	"chart": [],
-	"status": 1,
+	"status": 0,
 	"order": "4",
 	"column": 18,
 	"row": 36,

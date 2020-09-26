@@ -6,7 +6,7 @@ const sheetPivotTableData = {
 	},
 	"index": "6",
 	"chart": [],
-	"status": "0",
+	"status": 0,
 	"order": "6",
 	"hide": 0,
 	"column": 18,

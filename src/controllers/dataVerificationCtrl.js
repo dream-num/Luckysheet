@@ -53,6 +53,28 @@ const dataVerificationCtrl = {
         'card': '身份证号码',
         'phone': '手机号'
     },
+    optionLabel_en: {
+        'number': 'numeric',
+        'number_integer': 'integer',
+        'number_decimal': 'decimal',
+        'bw': 'between',
+        'nb': 'not between',
+        'eq': 'equal to',
+        'ne': 'not equal to',
+        'gt': 'greater',
+        'lt': 'less than',
+        'gte': 'greater or equal to',
+        'lte': 'less than or equal to',
+        'include': 'include',
+        'exclude': 'not include',
+        'equal': 'equal to',
+        'bf': 'earlier than',
+        'nbf': 'not earlier than',
+        'af': 'later than',
+        'naf': 'not later than',
+        'card': 'identification number',
+        'phone': 'phone number'
+    },
     createDialog: function(){
         let _this = this;
 
@@ -573,7 +595,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'number' || type == 'number_integer' || type == 'number_decimal'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-number-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-number .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-number .input:visible .data-verification-value1").val().trim();
                 
                 if(!isRealNum(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -581,7 +603,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-number .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-number .input:visible .data-verification-value2").val().trim();
                 
                     if(!isRealNum(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -605,7 +627,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'text_length'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-textLength-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input:visible .data-verification-value1").val().trim();
                 
                 if(!isRealNum(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -613,7 +635,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input:visible .data-verification-value2").val().trim();
                 
                     if(!isRealNum(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
@@ -628,7 +650,7 @@ const dataVerificationCtrl = {
             }
             else if(type == 'date'){
                 type2 = $("#luckysheet-dataVerification-dialog #data-verification-date-select").val();
-                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-date .data-verification-value1").val().trim();
+                value1 = $("#luckysheet-dataVerification-dialog .show-box-item-date .input:visible .data-verification-value1").val().trim();
                 
                 if(!isdatetime(value1)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
@@ -636,7 +658,7 @@ const dataVerificationCtrl = {
                 }
 
                 if(type2 == 'bw' || type2 == 'nb'){
-                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-date .data-verification-value2").val().trim();
+                    value2 = $("#luckysheet-dataVerification-dialog .show-box-item-date .input:visible .data-verification-value2").val().trim();
                 
                     if(!isdatetime(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
@@ -976,11 +998,94 @@ const dataVerificationCtrl = {
 
         //提示语
         if(item.hintShow){
-            let hintText = item.hintText;
+            let hintText;
 
-            if(hintText.length == 0){
-                hintText += '<span style="color:#f5a623;">提示：</span>';
+            if(Store.lang == 'en'){
+                hintText = '<span style="color:#f5a623;">Hint: </span>';
+            }
+            else{
+                hintText = '<span style="color:#f5a623;">提示：</span>';
+            }
 
+            hintText += _this.getHintText(item);
+
+            $("#luckysheet-dataVerification-showHintBox").html(hintText).show().css({
+                'left': col_pre,
+                'top': row
+            });
+
+            return;
+        }
+        
+        //数据验证未通过
+        let cellValue = getcellvalue(r, c, null);
+
+        if(cellValue == null || cellValue == ""){
+            return;
+        }
+
+        let validate = _this.validateCellData(cellValue, item);
+
+        if(!validate){
+            let failureText;
+
+            if(Store.lang == 'en'){
+                failureText = '<span style="color:#f72626;">Failure: </span>';
+            }
+            else{
+                failureText = '<span style="color:#f72626;">失效：</span>';
+            }
+
+            failureText += _this.getFailureText(item);
+
+            $("#luckysheet-dataVerification-showHintBox").html(failureText).show().css({
+                'left': col_pre,
+                'top': row
+            });
+        }
+    },
+    getHintText: function(item) {
+        let _this = this;
+
+        let hintText = item.hintText || '';
+
+        if(hintText.length == 0){
+            if(Store.lang == 'en'){
+                if(item.type == 'dropdown'){
+                    hintText += 'please select an option in the drop-down list';
+                }
+                else if(item.type == 'checkbox'){
+
+                }
+                else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
+                    hintText += 'please enter a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+                        hintText += ' and ' + item.value2;
+                    }
+                }
+                else if(item.type == 'text_content'){
+                    hintText += 'please enter text ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+                }
+                else if(item.type == 'text_length'){
+                    hintText += 'please enter text with length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+                    
+                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+                        hintText += ' and ' + item.value2;
+                    }
+                }
+                else if(item.type == 'date'){
+                    hintText += 'please enter a date ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+                        hintText += ' and ' + item.value2;
+                    }
+                }
+                else if(item.type == 'validity'){
+                    hintText += 'please enter the correct ' + _this.optionLabel_en[item.type2];
+                }
+            }
+            else{
                 if(item.type == 'dropdown'){
                     hintText += '请选择下拉列表中的选项';
                 }
@@ -1021,75 +1126,93 @@ const dataVerificationCtrl = {
                     hintText += '请输入正确的' + _this.optionLabel[item.type2];
                 }
             }
-            else{
-                hintText = '<span style="color:#f5a623;">提示：</span>' + hintText;
-            }
-
-            $("#luckysheet-dataVerification-showHintBox").html(hintText).show().css({
-                'left': col_pre,
-                'top': row
-            });
-
-            return;
-        }
-        
-        //数据验证未通过
-        let cellValue = getcellvalue(r, c, null, 'm');
-
-        if(cellValue == null || cellValue == ""){
-            return;
         }
 
-        let validate = _this.validateCellData(cellValue, item);
+        return hintText;
+    },
+    getFailureText: function(item) {
+        let _this = this;
 
-        if(!validate){
-            let hintText = '<span style="color:#f72626;">失效：</span>';
+        let failureText = '';
 
+        if(Store.lang == 'en'){
             if(item.type == 'dropdown'){
-                hintText += '你选择的不是下拉列表中的选项';
+                failureText += 'what you selected is not an option in the drop-down list';
             }
             else if(item.type == 'checkbox'){
 
             }
             else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
-                hintText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
+                failureText += 'what you entered is not a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
 
                 if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    hintText += '和' + item.value2 + '之间';
+                    failureText += ' and ' + item.value2;
                 }
-
-                hintText += '的' + _this.optionLabel[item.type];
             }
             else if(item.type == 'text_content'){
-                hintText += '你输入的不是内容' + _this.optionLabel[item.type2] + item.value1 + '的文本';
+                failureText += 'what you entered is not text that ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
             }
             else if(item.type == 'text_length'){
-                hintText += '你输入的不是长度' + _this.optionLabel[item.type2] + item.value1;
+                failureText += 'the text you entered is not length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
                 
                 if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    hintText += '和' + item.value2 + '之间';
+                    failureText += ' and ' + item.value2;
                 }
-
-                hintText += '的文本';
             }
             else if(item.type == 'date'){
-                hintText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
+                failureText += 'the date you entered is not ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
 
                 if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    hintText += '和' + item.value2 + '之间';
+                    failureText += ' and ' + item.value2;
                 }
-
-                hintText += '的日期';
             }
             else if(item.type == 'validity'){
-                hintText += '你输入的不是一个正确的' + _this.optionLabel[item.type2];
+                failureText += 'what you entered is not a correct ' + _this.optionLabel_en[item.type2];
             }
-
-            $("#luckysheet-dataVerification-showHintBox").html(hintText).show().css({
-                'left': col_pre,
-                'top': row
-            });
         }
+        else{
+            if(item.type == 'dropdown'){
+                failureText += '你选择的不是下拉列表中的选项';
+            }
+            else if(item.type == 'checkbox'){
+
+            }
+            else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
+                failureText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
+
+                if(item.type2 == 'bw' || item.type2 == 'nb'){
+                    failureText += '和' + item.value2 + '之间';
+                }
+
+                failureText += '的' + _this.optionLabel[item.type];
+            }
+            else if(item.type == 'text_content'){
+                failureText += '你输入的不是内容' + _this.optionLabel[item.type2] + item.value1 + '的文本';
+            }
+            else if(item.type == 'text_length'){
+                failureText += '你输入的不是长度' + _this.optionLabel[item.type2] + item.value1;
+                
+                if(item.type2 == 'bw' || item.type2 == 'nb'){
+                    failureText += '和' + item.value2 + '之间';
+                }
+
+                failureText += '的文本';
+            }
+            else if(item.type == 'date'){
+                failureText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
+
+                if(item.type2 == 'bw' || item.type2 == 'nb'){
+                    failureText += '和' + item.value2 + '之间';
+                }
+
+                failureText += '的日期';
+            }
+            else if(item.type == 'validity'){
+                failureText += '你输入的不是一个正确的' + _this.optionLabel[item.type2];
+            }
+        }
+
+        return failureText;
     },
     validateCellData: function(cellValue, item){
         let _this = this;

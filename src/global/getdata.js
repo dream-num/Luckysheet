@@ -162,7 +162,7 @@ export function getcellvalue(r, c, data, type) {
         else if(type == "f") {
             retv = d_value["v"];
         }
-        else if(d_value && d_value.ct && d_value.ct.fa == 'yyyy-MM-dd') {
+        else if(d_value && d_value.ct && d_value.ct.t == 'd') {
             retv = d_value.m;
         }
     }

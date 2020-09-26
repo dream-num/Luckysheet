@@ -965,7 +965,10 @@ function initialFilterHandler(){
             if(checksCF != null && checksCF["cellColor"] != null){//若单元格有条件格式
                 bg = checksCF["cellColor"];
             }
-    
+            
+            // bg maybe null
+            bg = bg == null ? '#ffffff' : bg;
+
             if(bg.indexOf("rgb") > -1){
                 bg = rgbTohex(bg);
             }

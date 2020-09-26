@@ -53,6 +53,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 亿万格式 [autoFormatw](#autoFormatw)
 - 精度 [accuracy](#accuracy)
 - 允许复制 [allowCopy](#allowCopy)
+- 网格线 [showGridLines](#showGridLines)
 - 工具栏 [showtoolbar](#showtoolbar)
 - 自定义工具栏[showtoolbarConfig](#showtoolbarConfig)
 - 名称栏 [showinfobar](#showinfobar)
@@ -71,7 +72,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 功能按钮 [functionButton](#functionButton)
 - 自动缩进界面 [showConfigWindowResize](#showConfigWindowResize)
 - 加载下一页 [enablePage](#enablePage)
-- 全屏模式 [fullscreenmode](#fullscreenmode)
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
@@ -170,6 +170,12 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：true
 - 作用：是否允许拷贝
+
+------------
+### showGridLines
+- 类型：Number
+- 默认值：1
+- 作用：是否显示网格线，`1`表示显示，`0`表示隐藏
 
 ------------
 ### showtoolbar
@@ -346,12 +352,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：false
 - 作用：允许加载下一页
-
-------------
-### fullscreenmode
-- 类型：Boolean
-- 默认值：true
-- 作用：是否全屏模式。非全屏模式下，标记框不会强制选中
 
 ------------
 ### forceCalculation

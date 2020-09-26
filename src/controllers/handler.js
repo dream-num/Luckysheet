@@ -99,6 +99,36 @@ export default function luckysheetHandler() {
             window.cancelAnimationFrame = clearTimeout;
         }
     }());
+
+    
+
+    $("#luckysheet-sheet-container-c").mousewheel(function (event, delta) {
+        let scrollNum = event.deltaFactor<40?1:(event.deltaFactor<80?2:3);
+        let scrollLeft = $(this).scrollLeft();
+        if(event.deltaY != 0){
+            if(event.deltaY <0){
+                scrollLeft = scrollLeft + 10*scrollNum;
+                
+            }
+            else{
+                scrollLeft = scrollLeft - 10*scrollNum;
+            
+            }
+        }
+        else if(event.deltaX != 0){
+
+            if(event.deltaX >0){
+                scrollLeft = scrollLeft + 10*scrollNum;
+                
+            }
+            else{
+                scrollLeft = scrollLeft - 10*scrollNum;
+            
+            }
+        }
+        $(this).scrollLeft(scrollLeft);
+        event.preventDefault();
+    });
     
     //滚动监听
     $("#luckysheet-cell-main").scroll(function () {
@@ -128,20 +158,24 @@ export default function luckysheetHandler() {
 
         clearTimeout(mousewheelArrayUniqueTimeout);
         
-        if(Store.visibledatacolumn_unique!=null){
-            visibledatacolumn_c = Store.visibledatacolumn_unique;
-        }
-        else{
-            visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
-            Store.visibledatacolumn_unique = visibledatacolumn_c;
+        if(Store.visibledatacolumn.length!=visibledatacolumn_c.length){
+            if(Store.visibledatacolumn_unique!=null){
+                visibledatacolumn_c = Store.visibledatacolumn_unique;
+            }
+            else{
+                visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
+                Store.visibledatacolumn_unique = visibledatacolumn_c;
+            }
         }
 
-        if(Store.visibledatarow_unique!=null){
-            visibledatarow_c = Store.visibledatarow_unique;
-        }
-        else{
-            visibledatarow_c = ArrayUnique(visibledatarow_c);
-            Store.visibledatarow_unique = visibledatarow_c;
+        if(Store.visibledatarow.length!=visibledatarow_c.length){
+            if(Store.visibledatarow_unique!=null){
+                visibledatarow_c = Store.visibledatarow_unique;
+            }
+            else{
+                visibledatarow_c = ArrayUnique(visibledatarow_c);
+                Store.visibledatarow_unique = visibledatarow_c;
+            }
         }
 
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
@@ -204,7 +238,7 @@ export default function luckysheetHandler() {
         mousewheelArrayUniqueTimeout = setTimeout(() => {
             Store.visibledatacolumn_unique = null;
             Store.visibledatarow_unique = null;
-        }, 200);
+        }, 500);
     });
 
     $("#luckysheet-scrollbar-x").scroll(function(){
@@ -4635,15 +4669,16 @@ export default function luckysheetHandler() {
         }
     });
 
-    //toolbar菜单
-    $("#" + Store.container + " .luckysheet-wa-editor").on("click", ".luckysheet-toolbar-zoom-combobox", function (e) {
-        $(e.currentTarget).addClass("luckysheet-toolbar-combo-button-open");
-        $(e.currentTarget).find(".luckysheet-toolbar-combo-button-input").focus();
-    });
+    // 点击设置字体大小的下拉箭头，把自动聚焦输入框去除（认为下拉设置字体大小，不需要聚焦输入框）
+    // //toolbar菜单
+    // $("#" + Store.container + " .luckysheet-wa-editor").on("click", ".luckysheet-toolbar-zoom-combobox", function (e) {
+    //     $(e.currentTarget).addClass("luckysheet-toolbar-combo-button-open");
+    //     $(e.currentTarget).find(".luckysheet-toolbar-combo-button-input").focus();
+    // });
 
-    $("#" + Store.container + " .luckysheet-wa-editor").on("blur", ".luckysheet-toolbar-combo-button-input", function (e) {
-        $(e.currentTarget).closest(".luckysheet-toolbar-zoom-combobox").removeClass("luckysheet-toolbar-combo-button-open");
-    });
+    // $("#" + Store.container + " .luckysheet-wa-editor").on("blur", ".luckysheet-toolbar-combo-button-input", function (e) {
+    //     $(e.currentTarget).closest(".luckysheet-toolbar-zoom-combobox").removeClass("luckysheet-toolbar-combo-button-open");
+    // });
 
     //表格格式处理
     menuButton.initialMenuButton();

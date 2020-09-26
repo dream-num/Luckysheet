@@ -64,8 +64,10 @@ function selectTextDom(ele){
     if (window.getSelection) {
         let range = document.createRange();
         range.selectNodeContents(ele);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
+        if(range.startContainer && isInPage(range.startContainer)){
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
     }
     else if (document.selection) {
         let range = document.body.createTextRange();
@@ -80,8 +82,10 @@ function selectTextContent(ele){
         var content=ele.firstChild;
         range.setStart(content,0);
         range.setEnd(content,content.length);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
+        if(range.startContainer && isInPage(range.startContainer)){
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
     }
     else if (document.selection) {
         let range = document.body.createTextRange();
@@ -96,8 +100,10 @@ function selectTextContentCross(sEle, eEle){
         var sContent=sEle.firstChild, eContent=eEle.firstChild;
         range.setStart(sContent,0);
         range.setEnd(eContent,eContent.length);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
+        if(range.startContainer && isInPage(range.startContainer)){
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
     }
 }
 
@@ -105,11 +111,24 @@ function selectTextContentCollapse(sEle, index){
     if (window.getSelection) {
         let range = document.createRange();
         var sContent=sEle.firstChild;
+        if(index>sContent.length){
+            index=sContent.length;
+        }
+        else if(index<0){
+            index = 0;
+        }
         range.setStart(sContent,index);
         range.collapse(true);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
+        if(range.startContainer && isInPage(range.startContainer)){
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
+
     }
+}
+
+function isInPage(node) {
+    return (node === document.body) ? false : document.body.contains(node);
 }
 
 export {
