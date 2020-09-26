@@ -11,9 +11,9 @@
 
 ## 文档
 
-[在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)
+[在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/)
 
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/) / [导入excel demo](https://mengshukeji.github.io/LuckyexcelDemo/)
+[在线demo](https://mengshukeji.gitee.io/luckysheetdemo/) / [导入excel demo](https://mengshukeji.gitee.io/luckyexceldemo/)
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
@@ -151,6 +151,11 @@ npm run build
     })
 </script>
 ```
+
+## 合作项目
+
+- [鲁班h5](https://github.com/ly525/luban-h5)
+
 ## 加入共建
 
 1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
