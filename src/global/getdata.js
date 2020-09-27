@@ -393,26 +393,28 @@ export function checkstatusByCell(cell, a){
             foucsStatus = "0";
         }
         else{
-            var  w = window.getSelection(), isInlineEdit=false; 
-            if(w.type!="None"){
-                var range = w.getRangeAt(0);
-                let startContainer = range.startContainer;
-                if (parseInt($("#luckysheet-input-box").css("top")) > 0 && startContainer.parentNode.tagName=="SPAN" && !range.collapsed) {
-                    let span = startContainer.parentNode;
-                    let styleList = convertCssToStyleList(span.style.cssText);
-                    foucsStatus = styleList[a];
-                    isInlineEdit = true;
-                }
-            }
+            // var  w = window.getSelection(), isInlineEdit=false; 
+            // if(w.type!="None"){
+            //     var range = w.getRangeAt(0);
+            //     let startContainer = range.startContainer;
+            //     if (parseInt($("#luckysheet-input-box").css("top")) > 0 && startContainer.parentNode.tagName=="SPAN" && !range.collapsed) {
+            //         let span = startContainer.parentNode;
+            //         let styleList = convertCssToStyleList(span.style.cssText);
+            //         foucsStatus = styleList[a];
+            //         isInlineEdit = true;
+            //     }
+            // }
             
-            if(!isInlineEdit){       
-                if(isInlineStringCell(cell)){
-                    foucsStatus = cell.ct.s[0][a];
-                }
-                else{
-                    foucsStatus = foucsStatus[a];
-                }
-            }    
+            // if(!isInlineEdit){       
+            //     if(isInlineStringCell(cell)){
+            //         foucsStatus = cell.ct.s[0][a];
+            //     }
+            //     else{
+            //         foucsStatus = foucsStatus[a];
+            //     }
+            // }   
+            
+            foucsStatus = foucsStatus[a];
             
             if(foucsStatus == null){
                 foucsStatus = "0";
