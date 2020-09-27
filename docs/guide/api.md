@@ -1673,13 +1673,6 @@ Use note:
 
 ### getLuckysheetfile()
 
-[todo]
-
-- **Parameter**：
-
-	- {PlainObject} [setting]: optional parameters
-    	+ {Function} [success]: callback function for the end of the operation
-
 - **Explanation**：
 
 	Returns a one-dimensional array `luckysheetfile` of all table data structures. Unlike the `getAllSheets` method, the worksheet parameters obtained by this method will contain many internal variables. The most obvious difference is that the table data operation will maintain `luckysheetfile[i]. data`, and the initialization data uses `options.data[i].celldata`, so `luckysheetfile` can be used for debugging, but the initialization table is not applicable.
@@ -2208,9 +2201,6 @@ Use note:
 ## Public method
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
-
-[todo]
-
 
 - **Parameter**：
 	

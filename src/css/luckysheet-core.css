@@ -2272,9 +2272,10 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     user-select: none;
 }
 
+/* 右击菜单项目 hover背景色 */
 .luckysheet-cols-menu .luckysheet-cols-menuitem:hover,
 .luckysheet-cols-menu .luckysheet-cols-menuitem-hover {
-    background: #E1E1E1;
+    background: #EFEFEF;
 }
 
 .luckysheet-cols-menu .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {

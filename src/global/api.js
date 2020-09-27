@@ -1,6 +1,6 @@
 import Store from "../store";
 import { replaceHtml, getObjType, chatatABC } from "../utils/util";
-import { getSheetIndex, getluckysheet_select_save } from "../methods/get";
+import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 
 import formula from './formula';
@@ -3497,4 +3497,35 @@ export function getSheet(options = {}){
 
     return sheetmanage.getSheetByIndex();
 
+}
+
+/**
+ * 返回所有表格数据结构的一维数组luckysheetfile
+ */
+export function getLuckysheetfile(){
+    return getluckysheetfile();
+}
+
+/**
+ * data => celldata ，data二维数组数据转化成 {r, c, v}格式一维数组
+ * 
+ * @param {Array} data 二维数组数据
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function transToCellData(data, options = {}){
+
+    let {
+        success
+    } = {...options}
+
+    setTimeout(()=>{
+        
+        if (success && typeof success === 'function') {
+            success();
+        }
+        
+    },0)
+    
+    return sheetmanage.getGridData(data)
 }
