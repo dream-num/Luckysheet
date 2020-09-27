@@ -1434,7 +1434,7 @@ const conditionformat = {
         }
         else{
             if(formula.iscelldata(txt)){
-                range.push(formula.getcellrange(txt.tos));
+                range.push(formula.getcellrange(txt));
             }
         }
 
@@ -2825,8 +2825,12 @@ const conditionformat = {
             return null;
         }
     },
-    getComputeMap: function(){
+    getComputeMap: function(sheetIndex){
         let index = getSheetIndex(Store.currentSheetIndex);
+
+        if(sheetIndex != null){
+            index = getSheetIndex(sheetIndex);
+        }
 
         let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
         let data = Store.luckysheetfile[index]["data"];

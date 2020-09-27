@@ -100,41 +100,39 @@ const selection = {
 
         Store.luckysheet_selection_range = [];
         //copy范围
-        let minR = Store.luckysheet_select_save[0].row[0], 
-            maxR = Store.luckysheet_select_save[0].row[1];
-        let minC = Store.luckysheet_select_save[0].column[0], 
-            maxC = Store.luckysheet_select_save[0].column[1];
-
+        let rowIndexArr = [], colIndexArr = [];
         let copyRange = [], RowlChange = false, HasMC = false;
+
         for(let s = 0; s < Store.luckysheet_select_save.length; s++){
             let range = Store.luckysheet_select_save[s];
-            
-            if(range.row[0] < minR){
-                minR = range.row[0];
-            }
 
-            if(range.row[1] > maxR){
-                maxR = range.row[1];
-            }
+            let r1 = range.row[0],
+                r2 = range.row[1];
+            let c1 = range.column[0],
+                c2 = range.column[1];
 
-            if(range.column[0] < minC){
-                minC = range.column[0];
-            }
-
-            if(range.column[1] > maxC){
-                maxC = range.column[1];
-            }
-
-            for(let copyR = range.row[0]; copyR <= range.row[1]; copyR++){
+            for(let copyR = r1; copyR <= r2; copyR++){
                 if (Store.config["rowhidden"] != null && Store.config["rowhidden"][copyR] != null) {
                     continue;
+                }
+
+                if(!rowIndexArr.includes(copyR)){
+                    rowIndexArr.push(copyR);
                 }
 
                 if (Store.config["rowlen"] != null && (copyR in Store.config["rowlen"])){
                     RowlChange = true;
                 }
 
-                for(let copyC = range.column[0]; copyC <= range.column[1]; copyC++){
+                for(let copyC = c1; copyC <= c2; copyC++){
+                    if (Store.config["colhidden"] != null && Store.config["colhidden"][copyC] != null) {
+                        continue;
+                    }
+
+                    if(!colIndexArr.includes(copyC)){
+                        colIndexArr.push(copyC);
+                    }
+
                     let cell = Store.flowdata[copyR][copyC];
 
                     if(getObjType(cell) == "object" && ("mc" in cell) && cell.mc.rs != null){
@@ -169,20 +167,31 @@ const selection = {
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        for (let r = minR; r <= maxR; r++) {
+        rowIndexArr = rowIndexArr.sort(); 
+        colIndexArr = colIndexArr.sort();
+
+        for (let i = 0; i < rowIndexArr.length; i++) {
+            let r = rowIndexArr[i];
+
             if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
                 continue;
             }
 
             cpdata += '<tr>';
 
-            for (let c = minC; c <= maxC; c++) {
+            for (let j = 0; j < colIndexArr.length; j++) {
+                let c = colIndexArr[j];
+
+                if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
+                    continue;
+                }
+
                 let column = '<td ${span} style="${style}">';
 
                 if (d[r] != null && d[r][c] != null) {
                     let style = "", span = "";
 
-                    if(r == minR){
+                    if(r == rowIndexArr[0]){
                         if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
@@ -191,7 +200,7 @@ const selection = {
                         }
                     }
 
-                    if(c == minC){
+                    if(c == colIndexArr[0]){
                         if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
                             style += 'height:19px;';
                         }
@@ -470,7 +479,7 @@ const selection = {
 
                     column += "";
 
-                    if(r == minR){
+                    if(r == rowIndexArr[0]){
                         if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
@@ -479,7 +488,7 @@ const selection = {
                         }
                     }
 
-                    if(c == minC){
+                    if(c == colIndexArr[0]){
                         if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
                             style += 'height:19px;';
                         }
