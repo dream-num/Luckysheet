@@ -1136,6 +1136,10 @@ export function getRangeHtml(options = {}) {
         }];
     }
 
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", ""); 
+    }
+
     let file = Store.luckysheetfile[order];
 
     if(file == null){
@@ -3040,6 +3044,10 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         cellrange = [cellrange];
     }
 
+    if(getObjType(cellrange) != 'array'){
+        return tooltip.info('The cellrange parameter is invalid.', '');
+    }
+
     let rule = {
         "type": "default",
         "cellrange": cellrange,
@@ -3309,6 +3317,10 @@ export function setRangeConditionalFormat(type, options = {}) {
         cellrange = [cellrange];
     }
 
+    if(getObjType(cellrange) != 'array'){
+        return tooltip.info('The cellrange parameter is invalid.', '');
+    }
+
     let rule = {
         "type": type, 
         "cellrange": cellrange, 
@@ -3342,13 +3354,246 @@ export function setRangeConditionalFormat(type, options = {}) {
 
 
 /**
- * 
- * @param {String} move 删除后，右侧还是下方的单元格移动
+ * 为指定下标的工作表，删除条件格式规则，返回被删除的条件格式规则 
+ * @param {Number} itemIndex 条件格式规则索引
  * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
  */
-function deleteRange(move, options = {}) {
+export function deleteRangeConditionalFormat(itemIndex, options = {}) {
+    if(!isRealNum(itemIndex)){
+        return tooltip.info('The itemIndex parameter is invalid.', ''); 
+    }
 
+    itemIndex = Number(itemIndex);
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info('The order parameter is invalid.', ''); 
+    }
+
+    let cdformat = $.extend(true, [], file.luckysheet_conditionformat_save);
+
+    if(cdformat.length == 0){
+        return tooltip.info('This worksheet has no conditional format to delete', '');
+    }
+    else if(cdformat[itemIndex] == null){
+        return tooltip.info('The conditional format of the index cannot be found', '');
+    }
+
+    let cdformatItem = cdformat.splice(itemIndex, 1);
+
+    //保存之前的规则
+    let fileH = $.extend(true, [], Store.luckysheetfile);
+    let historyRules = conditionformat.getHistoryRules(fileH);
+
+    //保存当前的规则
+    file["luckysheet_conditionformat_save"] = cdformat;
+
+    let fileC = $.extend(true, [], Store.luckysheetfile);
+    let currentRules = conditionformat.getCurrentRules(fileC);
+
+    //刷新一次表格
+    conditionformat.ref(historyRules, currentRules);
+
+    //发送给后台
+    if(server.allowUpdate){
+        server.saveParam("all", file.index, ruleArr, { "k": "luckysheet_conditionformat_save" });
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return cdformatItem;
 }
+
+
+/**
+ * 清除指定工作表指定单元格区域的内容，不同于删除选区的功能，不需要设定单元格移动情况 
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 要清除的选区范围
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function clearRange(options = {}) {
+    let {
+        range = Store.luckysheet_select_save,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", ""); 
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    let has_PartMC = false;
+
+    for(let s = 0; s < range.length; s++){
+        let r1 = range[s].row[0],
+            r2 = range[s].row[1];
+        let c1 = range[s].column[0],
+            c2 = range[s].column[1];
+
+        has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
+
+        if(has_PartMC){
+            break;
+        }
+    }
+
+    if(has_PartMC){
+        return tooltip.info('Cannot perform this operation on partially merged cells', '');
+    }
+
+    let d = $.extend(true, [], file.data);
+
+    if(d.length == 0){
+        d = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
+
+    for(let s = 0; s < range.length; s++){
+        let r1 = range[s].row[0],
+            r2 = range[s].row[1];
+        let c1 = range[s].column[0],
+            c2 = range[s].column[1];
+
+        for(let r = r1; r <= r2; r++){
+            for(let c = c1; c <= c2; c++){
+                let cell = d[r][c];
+
+                if(getObjType(cell) == "object"){
+                    delete cell["m"];
+                    delete cell["v"];
+
+                    if(cell["f"] != null){
+                        delete cell["f"];
+                        formula.delFunctionGroup(r, c, file.index);
+
+                        delete cell["spl"];
+                    }
+
+                    if(cell["ct"] != null && cell["ct"].t == 'inlineStr'){
+                        delete cell["ct"];
+                    }
+                }
+                else{
+                    d[r][c] = null;
+                }
+            }
+        }
+    }
+
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid(d, range);
+    }
+    else{
+        file.data = d;
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 删除指定工作表指定单元格区域，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移 
+ * @param {String} move 删除后，单元格左移/上移
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 要删除的选区范围
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function deleteRange(move, options = {}) {
+    let moveList = ['left', 'up'];
+
+    if(!moveList.includes(move)){
+        return tooltip.info("The move parameter is invalid.", ""); 
+    }
+
+    let {
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options} 
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = {
+            "row": cellrange.row,
+            "column": cellrange.column
+        };
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let str = range.row[0],
+        edr = range.row[1],
+        stc = range.column[0],
+        edc = range.column[1];
+
+    if(move == 'left'){
+        luckysheetDeleteCell('moveLeft', str, edr, stc, edc, order);
+    }
+    else if(move == 'up'){
+        luckysheetDeleteCell('moveUp', str, edr, stc, edc, order);
+    }
+    
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
 
 /**
  * 指定工作表指定单元格区域的数据进行矩阵操作，返回操作成功后的结果数据
@@ -4031,6 +4276,93 @@ export function getSheet(options = {}){
 
     return sheetmanage.getSheetByIndex();
 
+}
+
+/**
+ * 快捷返回指定工作表的数据
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ */
+export function getSheetData(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex)
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let data = $.extend(true, [], file.data);
+
+    if(data == null || data.length == 0){
+        data = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
+
+    return data;
+}
+
+/**
+ * 快捷返回指定工作表的config配置 
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ */
+export function getConfig(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex)
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let config = $.extend(true, {}, file.config);
+
+    return config;
+}
+
+/**
+ * 快捷设置指定工作表config配置
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setConfig(cfg, options = {}) {
+    if(getObjType(cfg) != 'object'){
+        return tooltip.info("The cfg parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    file.config = cfg;
+
+    if(file.index == Store.currentSheetIndex){
+        Store.config = cfg;
+        
+        if("rowhidden" in cfg || "colhidden" in cfg || "rowlen" in cfg || "columnlen" in cfg){
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
+
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
 }
 
 /**
