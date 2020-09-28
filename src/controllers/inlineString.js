@@ -327,7 +327,13 @@ export function enterKeyControll(cell){
 }
 
 export function updateInlineStringFormatOutside(cell, key, value){
+    if(cell.ct==null){
+        return;
+    }
     let s = cell.ct.s;
+    if(s==null){
+        return;
+    }
     for(let i=0;i<s.length;i++){
         let item = s[i];
         item[key] = value;
