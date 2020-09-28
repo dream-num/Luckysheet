@@ -61,6 +61,10 @@ export function getdatabyselectionD(d, range) {
     let dynamicArray_compute = dynamicArrayCompute(Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray"]);
     let data = [];
 
+    if(d==null){
+        return data;
+    }
+
     for (let r = range["row"][0]; r <= range["row"][1]; r++) {
         if(d[r] == null){
             continue;

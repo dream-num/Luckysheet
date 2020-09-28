@@ -799,7 +799,7 @@ const luckysheetPostil = {
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].data = Store.flowdata;
-        formula.execFunctionGroupData = Store.flowdata;
+        // formula.execFunctionGroupData = Store.flowdata;
 
         //共享编辑模式
         if(server.allowUpdate){
