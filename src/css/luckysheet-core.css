@@ -1190,7 +1190,7 @@ div.luckysheet-sheets-m:hover {
     /* padding: 2px 8px; */
     height: 29px;
     line-height: 29px;
-    background-color: #fff;
+    background-color: #efefef;
     /* border-color: #aaa; */
     border-top-color: #fff;
     color: #222;
@@ -1202,7 +1202,7 @@ div.luckysheet-sheets-m:hover {
 }
 
 .luckysheet-sheet-area div.luckysheet-sheets-item-active:hover {
-    background-color: #fff;
+    background-color: #ececec;
     /* border-color: #aaa; */
     color: #222;
 }

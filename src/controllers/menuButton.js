@@ -2887,7 +2887,7 @@ const menuButton = {
                 if(value.substr(0,1)!="="){
                     let cell = d[Store.luckysheetCellUpdate[0]][Store.luckysheetCellUpdate[1]];
                     updateInlineStringFormat(cell, attr, foucsStatus, luckysheetformula.rangeResizeTo);
-                    return;
+                    // return;
                 }
             }
         }
@@ -3014,12 +3014,12 @@ const menuButton = {
                         let value = d[r][c];
                         
                         if (getObjType(value) == "object") {
-                            if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
+                            // if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
                                 updateInlineStringFormatOutside(value, attr, foucsStatus);
-                            }
-                            else{
+                            // }
+                            // else{
                                 d[r][c][attr] = foucsStatus;
-                            }
+                            // }
                             
                         }
                         else{

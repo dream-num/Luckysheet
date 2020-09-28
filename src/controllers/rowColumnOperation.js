@@ -1636,6 +1636,10 @@ export function rowColumnOperationInitial(){
 
                                 delete d[r][c]["spl"];
                             }
+
+                            if(d[r][c]["ct"] != null && d[r][c]["ct"].t == 'inlineStr'){
+                                delete d[r][c]["ct"];
+                            }
                         }
                         else{
                             d[r][c] = null;
