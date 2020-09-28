@@ -4266,25 +4266,50 @@ const luckysheetformula = {
         if(dynamicArray_compute==null){
             dynamicArray_compute = {};
         }
-
+        let _this = this;
+        let txt1 = txt.toUpperCase();
+        let isOffsetFunc = txt1.indexOf("INDIRECT")>-1 || txt1.indexOf("OFFSET")>-1;
         if(txt in this.formulaContainCellList){
             let cellList = this.formulaContainCellList[txt];
-            for(let cellStr in cellList){
-                this.isFunctionRangeSaveChange(cellStr, r, c, index, dynamicArray_compute);
+            if(isOffsetFunc){
+                let isoff = cellList["__LuckyisOff__"];
+                if(isoff==true){
+                    for(let cellStr in cellList){
+                        if(cellStr=="__LuckyisOff__"){
+                            continue;
+                        }
+                        this.isFunctionRangeSaveChange(cellStr, r, c, index, dynamicArray_compute);
+                    }
+                }
+                else{
+                    this.isFunctionRange(txt, r, c, index,dynamicArray_compute, function(str){
+                        _this.addToCellList(txt, str);
+                    });
+                    cellList["__LuckyisOff__"] = true;
+                }
             }
-
+            else{
+                
+                for(let cellStr in cellList){
+                    if(cellStr=="__LuckyisOff__"){
+                        continue;
+                    }
+                    this.isFunctionRangeSaveChange(cellStr, r, c, index, dynamicArray_compute);
+                }
+            }
+            
             return;
         }
 
-        let txt1 = txt.toUpperCase();
-        if(txt1.indexOf("INDIRECT")>-1 || txt1.indexOf("OFFSET")>-1){
+
+        if(isOffsetFunc){
             this.isFunctionRange(txt, r, c, index,dynamicArray_compute);
         }
         else{
             this.isFunctionRangeSimple(txt, r, c, index,dynamicArray_compute);
         }
     },
-    isFunctionRange: function (txt, r, c, index,dynamicArray_compute) {
+    isFunctionRange: function (txt, r, c, index,dynamicArray_compute, cellRangeFunction) {
         let _this = this;
 
         if (_this.operatorjson == null) {
@@ -4346,7 +4371,7 @@ const luckysheetformula = {
                 let bt = bracket.pop();
 
                 if (bracket.length == 0) {
-                    function_str += _this.isFunctionRange(str,r,c, index,dynamicArray_compute) + ")";
+                    function_str += _this.isFunctionRange(str,r,c, index,dynamicArray_compute,cellRangeFunction) + ")";
                     str = "";
                 }
                 else {
@@ -4373,7 +4398,7 @@ const luckysheetformula = {
             }
             else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (bracket.length <= 1) {
-                    function_str += _this.isFunctionRange(str, r, c, index,dynamicArray_compute) + ",";
+                    function_str += _this.isFunctionRange(str, r, c, index,dynamicArray_compute,cellRangeFunction) + ",";
                     str = "";
                 }
                 else {
@@ -4391,7 +4416,7 @@ const luckysheetformula = {
                 if ((s + s_next) in _this.operatorjson) {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute));
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute,cellRangeFunction));
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4420,7 +4445,7 @@ const luckysheetformula = {
                 else {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute));
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute,cellRangeFunction));
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4517,8 +4542,8 @@ const luckysheetformula = {
 
             i++;
         }
-        //console.log(function_str);
-        _this.checkSpecialFunctionRange(function_str, r, c, index, dynamicArray_compute);
+        // console.log(function_str);
+        _this.checkSpecialFunctionRange(function_str, r, c, index, dynamicArray_compute,cellRangeFunction);
         return function_str;
     },
     isFunctionRangeSaveChange: function (str, r, c, index, dynamicArray_compute) {
@@ -4527,9 +4552,9 @@ const luckysheetformula = {
             let range = _this.getcellrange($.trim(str));
             let row = range.row,
                 col = range.column,
-                index = range.sheetIndex;
+                sheetIndex = range.sheetIndex;
 
-            if ((r + "_" + c) in dynamicArray_compute && (Store.currentSheetIndex==index || index==null)) {
+            if ((r + "_" + c) in dynamicArray_compute && (index==sheetIndex || index==null)) {
                 let isd_range = false;
 
                 for (let d_r = row[0]; d_r <= row[1]; d_r++) {
@@ -4548,7 +4573,7 @@ const luckysheetformula = {
                 }
             }
             else {
-                if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1] && (Store.currentSheetIndex==index || index==null)) {
+                if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1] && (index==sheetIndex || index==null)) {
                     _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
                 }
                 else {
@@ -4569,7 +4594,7 @@ const luckysheetformula = {
             // }
         }
     },
-    checkSpecialFunctionRange: function (function_str, r, c, index, dynamicArray_compute) {
+    checkSpecialFunctionRange: function (function_str, r, c, index, dynamicArray_compute,cellRangeFunction) {
         if (function_str.substr(0, 20) == "luckysheet_function.") {
             let funcName = function_str.split(".")[1];
             if (funcName != null) {
@@ -4578,15 +4603,22 @@ const luckysheetformula = {
                     let tempFunc = "luckysheet_indirect_check" + function_str.substr(30, function_str.length);
 
                     //tempFunc = tempFunc.replace(/luckysheet_getcelldata/g, "luckysheet_indirect_check_return");
-
+                    
                     try {
+                        Store.calculateSheetIndex = index;
                         let str = eval(tempFunc);
+                        
                         if(str instanceof Object && str.data!=null){
                             str = str.data.v;
                         }
-                        if (this.iscelldata($.trim(str))) {
-                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
-                            //console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                        let str_nb = $.trim(str);
+                        // console.log(function_str, tempFunc,str, this.iscelldata(str_nb),this.isFunctionRangeSave,r,c);
+                        if (this.iscelldata(str_nb)) {
+                            if(typeof(cellRangeFunction)=="function"){
+                                cellRangeFunction(str_nb);
+                            }
+                            this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
+                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
                     catch{
@@ -4599,9 +4631,17 @@ const luckysheetformula = {
                     let tempFunc = "luckysheet_offset_check" + function_str.substr(28, function_str.length);
 
                     try {
+                        Store.calculateSheetIndex = index;
                         let str = eval(tempFunc);
-                        if (this.iscelldata($.trim(str))) {
-                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                        if(str instanceof Object && str.data!=null){
+                            str = str.data.v;
+                        }
+                        let str_nb = $.trim(str);
+                        if (this.iscelldata(str_nb)) {
+                            if(typeof(cellRangeFunction)=="function"){
+                                cellRangeFunction(str_nb);
+                            }
+                            this.isFunctionRangeSaveChange(str, r, c, index,dynamicArray_compute);
                             //console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
