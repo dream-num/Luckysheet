@@ -77,3 +77,11 @@
 #luckysheet-sheets-leftscroll , #luckysheet-sheets-rightscroll{
     padding:6px 10px;
 }
+
+input.luckysheet-mousedown-cancel{
+    border:1px solid #A1A1A1;
+}
+input.luckysheet-mousedown-cancel:focus{
+    border: 1px solid rgb(1, 136, 251);
+    outline: none;
+}

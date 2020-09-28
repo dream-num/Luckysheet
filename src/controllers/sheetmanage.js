@@ -972,6 +972,30 @@ const sheetmanage = {
 
         }
     },
+    loadOtherFile:function(file){
+        let _this = this;
+        let sheetindexset = _this.checkLoadSheetIndex(file);
+        let sheetindex = [];
+
+        for(let i = 0; i < sheetindexset.length; i++){
+            let item = sheetindexset[i];
+
+            if(item == file["index"]){
+                continue;
+            }
+
+            sheetindex.push(item);
+        }
+
+        for(let i = 0;i<sheetindex.length;i++){
+            let item = sheetindex[i];
+            let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+            if(otherfile["load"] == null || otherfile["load"] == "0"){
+                otherfile["data"] = _this.buildGridData(otherfile);
+                otherfile["load"] = "1";
+            }
+        }
+    },
     changeSheet: function(index, isPivotInitial, isNewSheet) {
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
@@ -1013,7 +1037,10 @@ const sheetmanage = {
         }
 
         let load = file["load"];
-        if (load != null) {            
+        if (load != null) {        
+            
+            _this.loadOtherFile(file);
+            
             _this.mergeCalculation(index);
             _this.setSheetParam(true);
             _this.showSheet();
@@ -1032,27 +1059,29 @@ const sheetmanage = {
                 file["data"] = data;
                 file["load"] = "1";
 
-                let sheetindexset = _this.checkLoadSheetIndex(file);
-                let sheetindex = [];
-        
-                for(let i = 0; i < sheetindexset.length; i++){
-                    let item = sheetindexset[i];
-        
-                    if(item == file["index"]){
-                        continue;
-                    }
-        
-                    sheetindex.push(item);
-                }
+                _this.loadOtherFile(file);
 
-                for(let i = 0;i<sheetindex.length;i++){
-                    let item = sheetindex[i];
-                    let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
-                    if(otherfile["load"] == null || otherfile["load"] == "0"){
-                        otherfile["data"] = _this.buildGridData(otherfile);
-                        otherfile["load"] = "1";
-                    }
-                }
+                // let sheetindexset = _this.checkLoadSheetIndex(file);
+                // let sheetindex = [];
+        
+                // for(let i = 0; i < sheetindexset.length; i++){
+                //     let item = sheetindexset[i];
+        
+                //     if(item == file["index"]){
+                //         continue;
+                //     }
+        
+                //     sheetindex.push(item);
+                // }
+
+                // for(let i = 0;i<sheetindex.length;i++){
+                //     let item = sheetindex[i];
+                //     let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+                //     if(otherfile["load"] == null || otherfile["load"] == "0"){
+                //         otherfile["data"] = _this.buildGridData(otherfile);
+                //         otherfile["load"] = "1";
+                //     }
+                // }
 
                 _this.mergeCalculation(index);
                 _this.setSheetParam();

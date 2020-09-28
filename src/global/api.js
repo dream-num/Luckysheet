@@ -1,6 +1,6 @@
 import Store from "../store";
 import { replaceHtml, getObjType, chatatABC } from "../utils/util";
-import { getSheetIndex, getluckysheet_select_save } from "../methods/get";
+import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 
 import formula from './formula';
@@ -19,8 +19,10 @@ import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refr
 import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
 import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
 import { isdatetime, diff } from "./datecontroll";
+import { getBorderInfoCompute } from './border';
 
 import server from "../controllers/server";
+import menuButton from '../controllers/menuButton';
 import selection from "../controllers/selection";
 import luckysheetConfigsetting from "../controllers/luckysheetConfigsetting";
 import luckysheetFreezen from "../controllers/freezen";
@@ -28,8 +30,9 @@ import luckysheetsizeauto from '../controllers/resize';
 import sheetmanage from '../controllers/sheetmanage';
 import conditionformat from '../controllers/conditionformat';
 import { luckysheet_searcharray } from "../controllers/sheetSearch";
-import { selectIsOverlap } from '../controllers/select';
+import { selectHightlightShow, selectIsOverlap } from '../controllers/select';
 import { sheetHTML } from '../controllers/constant';
+import { createFilterOptions } from '../controllers/filter';
 
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
@@ -89,156 +92,6 @@ export function getCellValue(row, column, options = {}) {
  * @param {Boolean} options.isRefresh 是否刷新界面；默认为`true`
  * @param {Function} options.success 操作结束的回调函数
  */
-// export function setCellValue(row, column, value, options = {}) {
-//     if (row == null && column == null) {
-//         return tooltip.info('Arguments row or column cannot be null or undefined.', '')
-//     }
-//     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-//     let {
-//         order = curSheetOrder,
-//         success
-//     } = {...options}
-//     let targetSheetData = Store.luckysheetfile[order].data;
-//     let cell = targetSheetData[row][column];
-//     let vupdate;
-
-//     if (getObjType(value) == 'object') {
-//         cell = value;
-
-//         if (getObjType(value.v) == 'object') {
-//             vupdate = vaule.v.v;
-//         } else {
-//             vupdate = value.v;
-//         }
-//     } else {
-//         vupdate = value;
-//     }
-
-//     if (isRealNull(vupdate)) {
-//         if (getObjType(cell) == 'object') {
-//             delete cell.m;
-//             delete cell.v;
-//         } else {
-//             cell = null;
-//         }
-//         return;
-//     }
-
-//     if (isRealNull(cell)) {
-//         cell = {}
-//     }
-
-//     if (vupdate.toString().substring(0, 1) == "'") {
-//         cell.m = vupdate.toString().substring(1);
-//         cell.ct = { "fa": "@", "t": "s" };
-//         cell.v = vupdate.toString().substring(1);
-//     } else if (vupdate.toString().toUpperCase() === 'TRUE') {
-//         cell.m = "TRUE";
-//         cell.ct = { "fa": "General", "t": "b" };
-//         cell.v = true;
-//     } else if (vupdate.toString().toUpperCase() === 'FALSE') {
-//         cell.m = "FALSE";
-//         cell.ct = { "fa": "General", "t": "b" };
-//         cell.v = false;
-//     } else if (valueIsError(vupdate)) {
-//         cell.m = vupdate.toString();
-//         cell.ct = { "fa": "General", "t": "e" };
-//         cell.v = vupdate;
-//     } else {
-//         if (cell.f != null && isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
-//             cell.v = parseFloat(vupdate);
-//             if (cell.ct == null) {
-//                 cell.ct = {
-//                     'fa': 'General',
-//                     't': 'n'
-//                 }
-//             }
-
-//             if (cell.v == Infinity || cell.v == -Infinity) {
-//                 cell.m = cell.v.toString();
-//             } else {
-//                 if (cell.v.toString().indexOf('e') > -1) {
-//                     let len = cell.v.toString().split('.')[1].split('e')[0].length;
-//                     if (len > 5) {
-//                         len = 5;
-//                     }
-
-//                     cell.m = cell.v.toExponential(len).toString();
-//                 } else {
-//                     let v_p = Math.round(cell.v * 1000000000) / 1000000000;
-//                     if (cell.ct == null) {
-//                         let mask = genarate(v_p);
-//                         cell.m = mask[0].toString();
-//                     } else {
-//                         let mask = update(cell.ct.fa, v_p);
-//                         cell.m = mask.toString();
-//                     }
-//                 }
-//             }
-//         } else if (cell.ct != null && cell.ct.fa == '@') {
-//             cell.m = vupdate.toString();
-//             cell.v = vupdate;
-//         } else if (cell.ct != null && cell.ct.fa != null && cell.ct.fa != 'General') {
-//             if (isRealNum(vupdate)) {
-//                 vupdate = parseFloat(vupdate);
-//             }
-
-//             let mask = update(cell.ct.fa, vupdate);
-
-//             if (mask === vupdate) {// 若原来单元格格式 应用不了 要更新的值，则获取更新值的 格式
-//                 mask = genarate(vupdate);
-
-//                 cell.m = mask[0].toString();
-//                 cell.ct = mask[1];
-//                 cell.v = mask[2];
-//             } else {
-//                 cell.m = mask.toString();
-//                 cell.v = vupdate;
-//             }
-//         } else {
-//             if (isRealNum(vupdate) && !IDCardReg.test(vupdate)) {
-//                 vupdate = parseFloat(vupdate);
-//                 cell.v = parseFloat(vupdate);
-//                 cell.ct = {
-//                     'fa': 'General',
-//                     't': 'n'
-//                 }
-//                 if (cell.v == Infinity || cell.v == -Infinity) {
-//                     cell.m = cell.v.toString();
-//                 } else {
-//                     let mask = genarate(cell.v);
-//                     cell.m = mask[0].toString();
-//                 }
-//             } else {
-//                 let mask = genarate(vupdate);
-//                 cell.m = mask[0].toString();
-//                 cell.ct = mask[1];
-//                 cell.v = mask[2];
-//             }
-//         }
-//     }
-//     if (!server.allowUpdate && !luckysheetConfigsetting.pointEdit) {
-//         if (cell.ct != null && !/^(w|W)((0?)|(0\.0+))$/.test(cell.ct.fa) && cell.ct.t == 'n' && cell.v != null && parseInt(cell.v).toString().length > 4) {
-//             let autoFormatw = luckysheetConfigsetting.autoFormatw.toString().toUpperCase();
-//             let accuracy = luckysheetConfigsetting.accuracy;
-//             let sfmt = setAccuracy(autoFormatw, accuracy);
-
-//             if (sfmt != 'General') {
-//                 cell.ct.fa = sfmt;
-//                 cell.m = update(sfmt, cell.v);
-//             }
-//         }
-//     }
-//     // refresh
-//     jfrefreshgrid(targetSheetData, {
-//         row: [row],
-//         column: [column]
-//     })
-
-//     if (success && typeof success === 'function') {
-//         success();
-//     }
-// }
 export function setCellValue(row, column, value, options = {}) {
     if (row == null && column == null) {
         return tooltip.info('Arguments row or column cannot be null or undefined.', '')
@@ -1223,7 +1076,7 @@ export function getRange() {
 
 /**
  * 返回指定工作表指定范围的单元格二维数组数据，每个单元格为一个对象
- * @param {Object} options 
+ * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  */
@@ -1247,9 +1100,521 @@ export function getRangeValue(options = {}) {
     }
 }
 
+
 /**
- * @todo 核心功能未实现，to be continue
- * @description 复制指定工作表指定单元格区域的数据，返回一维、二维或者自定义行列数的二维数组的数据。只有在dimensional设置为custom的时候，才需要设置setting中的row和column
+ * 复制指定工作表指定单元格区域的数据，返回包含`<table>`html格式的数据，可用于粘贴到excel中保持单元格样式。
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 选区范围
+ * @param {order} options.order 工作表下标
+ */
+export function getRangeHtml(options = {}) {
+    let {
+        range = Store.luckysheet_select_save,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    //复制范围内包含部分合并单元格，提示
+    let cfg = $.extend(true, {}, file.config);
+    if (cfg["merge"] != null) {
+        let has_PartMC = false;
+
+        for (let s = 0; s < range.length; s++) {
+            let r1 = range[s].row[0],
+                r2 = range[s].row[1];
+            let c1 = range[s].column[0],
+                c2 = range[s].column[1];
+
+            has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
+
+            if (has_PartMC) {
+                break;
+            }
+        }
+
+        if (has_PartMC) {
+            return tooltip.info("Cannot perform this operation on partially merged cells", "");
+        }
+    } 
+
+    //多重选区 有条件格式时 提示
+    let cdformat = $.extend(true, [], file.luckysheet_conditionformat_save);
+    if (range.length > 1 && cdformat.length > 0) {
+        let hasCF = false;
+        let cf_compute = conditionformat.getComputeMap(file.index);
+
+        for (let s = 0; s < range.length; s++) {
+            let r1 = range[s].row[0],
+                r2 = range[s].row[1];
+            let c1 = range[s].column[0],
+                c2 = range[s].column[1];
+
+            for (let r = r1; r <= r2; r++) {
+                for (let c = c1; c <= c2; c++) {
+                    if (conditionformat.checksCF(r, c, cf_compute) != null) {
+                        hasCF = true;
+                        break;
+                    }
+                }
+
+                if (hasCF) {
+                    break;
+                }
+            }
+
+            if (hasCF) {
+                break;
+            }
+        }
+
+        if (hasCF) {
+            return tooltip.info("Cannot perform this operation on multiple selection areas, please select a single area", "");
+        }
+    }
+
+    //多重选区 行不一样且列不一样时 提示       
+    if (range.length > 1) {
+        let isSameRow = true,
+            str_r = range[0].row[0],
+            end_r = range[0].row[1];
+        let isSameCol = true,
+            str_c = range[0].column[0],
+            end_c = range[0].column[1];
+
+        for (let s = 1; s < range.length; s++) {
+            if (range[s].row[0] != str_r || range[s].row[1] != end_r) {
+                isSameRow = false;
+            }
+
+            if (range[s].column[0] != str_c || range[s].column[1] != end_c) {
+                isSameCol = false;
+            }
+        }
+
+        if ((!isSameRow && !isSameCol) || selectIsOverlap(range)) {
+            return tooltip.info("Cannot perform this operation on multiple selection areas, please select a single area", "");
+        }
+    }
+
+    let rowIndexArr = [], colIndexArr = [];
+
+    for(let s = 0; s < range.length; s++){
+        let r1 = range[s].row[0],
+            r2 = range[s].row[1];
+        let c1 = range[s].column[0],
+            c2 = range[s].column[1];
+
+        for(let r = r1; r <= r2; r++){
+            if (cfg["rowhidden"] != null && cfg["rowhidden"][r] != null) {
+                continue;
+            }
+
+            if(!rowIndexArr.includes(r)){
+                rowIndexArr.push(r);
+            }
+
+            for(let c = c1; c <= c2; c++){
+                if (cfg["colhidden"] != null && cfg["colhidden"][c] != null) {
+                    continue;
+                }
+
+                if(!colIndexArr.includes(c)){
+                    colIndexArr.push(c);
+                }
+            }
+        }
+    }
+
+    let borderInfoCompute;
+    if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){ //边框
+        borderInfoCompute = getBorderInfoCompute(file.index);
+    }
+
+    let d = file.data;
+    if(d == null || d.length == 0){
+        d = sheetmanage.buildGridData(file);
+    }
+
+    let cpdata = ""; 
+    let colgroup = "";
+
+    rowIndexArr = rowIndexArr.sort(); 
+    colIndexArr = colIndexArr.sort();
+
+    for (let i = 0; i < rowIndexArr.length; i++) {
+        let r = rowIndexArr[i];
+
+        if (cfg["rowhidden"] != null && cfg["rowhidden"][r] != null) {
+            continue;
+        }
+
+        cpdata += '<tr>';
+
+        for (let j = 0; j < colIndexArr.length; j++) {
+            let c = colIndexArr[j];
+
+            if (cfg["colhidden"] != null && cfg["colhidden"][c] != null) {
+                continue;
+            }
+
+            let column = '<td ${span} style="${style}">';
+
+            if (d[r] != null && d[r][c] != null) {
+                let style = "", span = "";
+
+                if(r == rowIndexArr[0]){
+                    if(cfg["columnlen"] == null || cfg["columnlen"][c.toString()] == null){
+                        colgroup += '<colgroup width="72px"></colgroup>';
+                    }
+                    else {
+                        colgroup += '<colgroup width="'+ cfg["columnlen"][c.toString()] +'px"></colgroup>';
+                    }
+                }
+
+                if(c == colIndexArr[0]){
+                    if(cfg["rowlen"] == null || cfg["rowlen"][r.toString()] == null){
+                        style += 'height:19px;';
+                    }
+                    else {
+                        style += 'height:'+ cfg["rowlen"][r.toString()] + 'px;';
+                    }
+                }
+
+                let reg = /^(w|W)((0?)|(0\.0+))$/;
+                let c_value;
+                if(d[r][c].ct != null && d[r][c].ct.fa != null && d[r][c].ct.fa.match(reg)){
+                    c_value = getcellvalue(r, c, d);
+                }
+                else{
+                    c_value = getcellvalue(r, c, d, "m");
+                }
+
+                style += menuButton.getStyleByCell(d, r, c);
+
+                if(getObjType(d[r][c]) == "object" && ("mc" in d[r][c])){
+                    if("rs" in d[r][c]["mc"]){
+                        span = 'rowspan="'+ d[r][c]["mc"].rs +'" colspan="'+ d[r][c]["mc"].cs +'"';
+
+                        //边框
+                        if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
+                            let bl_obj = { "color": {}, "style": {} }, 
+                                br_obj = { "color": {}, "style": {} }, 
+                                bt_obj = { "color": {}, "style": {} }, 
+                                bb_obj = { "color": {}, "style": {} };
+
+                            for(let bd_r = r; bd_r < (r + d[r][c]["mc"].rs); bd_r++){
+                                for(let bd_c = c; bd_c < (c + d[r][c]["mc"].cs); bd_c++){
+                                    if(bd_r == r && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].t){
+                                        let linetype = borderInfoCompute[bd_r + "_" + bd_c].t.style;
+                                        let bcolor = borderInfoCompute[bd_r + "_" + bd_c].t.color;
+
+                                        if(bt_obj["style"][linetype] == null){
+                                            bt_obj["style"][linetype] = 1;
+                                        }
+                                        else{
+                                            bt_obj["style"][linetype] = bt_obj["style"][linetype] + 1;
+                                        }
+
+                                        if(bt_obj["color"][bcolor] == null){
+                                            bt_obj["color"][bcolor] = 1;
+                                        }
+                                        else{
+                                            bt_obj["color"][bcolor] = bt_obj["color"][bcolor] + 1;
+                                        }
+                                    }
+
+                                    if(bd_r == (r + d[r][c]["mc"].rs - 1) && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].b){
+                                        let linetype = borderInfoCompute[bd_r + "_" + bd_c].b.style;
+                                        let bcolor = borderInfoCompute[bd_r + "_" + bd_c].b.color;
+
+                                        if(bb_obj["style"][linetype] == null){
+                                            bb_obj["style"][linetype] = 1;
+                                        }
+                                        else{
+                                            bb_obj["style"][linetype] = bb_obj["style"][linetype] + 1;
+                                        }
+
+                                        if(bb_obj["color"][bcolor] == null){
+                                            bb_obj["color"][bcolor] = 1;
+                                        }
+                                        else{
+                                            bb_obj["color"][bcolor] = bb_obj["color"][bcolor] + 1;
+                                        }
+                                    }
+
+                                    if(bd_c == c && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].l){
+                                        let linetype = borderInfoCompute[r + "_" + c].l.style;
+                                        let bcolor = borderInfoCompute[bd_r + "_" + bd_c].l.color;
+                                        
+                                        if(bl_obj["style"][linetype] == null){
+                                            bl_obj["style"][linetype] = 1;
+                                        }
+                                        else{
+                                            bl_obj["style"][linetype] = bl_obj["style"][linetype] + 1;
+                                        }
+
+                                        if(bl_obj["color"][bcolor] == null){
+                                            bl_obj["color"][bcolor] = 1;
+                                        }
+                                        else{
+                                            bl_obj["color"][bcolor] = bl_obj["color"][bcolor] + 1;
+                                        }
+                                    }
+
+                                    if(bd_c == (c + d[r][c]["mc"].cs - 1) && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].r){
+                                        let linetype = borderInfoCompute[bd_r + "_" + bd_c].r.style;
+                                        let bcolor = borderInfoCompute[bd_r + "_" + bd_c].r.color;
+
+                                        if(br_obj["style"][linetype] == null){
+                                            br_obj["style"][linetype] = 1;
+                                        }
+                                        else{
+                                            br_obj["style"][linetype] = br_obj["style"][linetype] + 1;
+                                        }
+
+                                        if(br_obj["color"][bcolor] == null){
+                                            br_obj["color"][bcolor] = 1;
+                                        }
+                                        else{
+                                            br_obj["color"][bcolor] = br_obj["color"][bcolor] + 1;
+                                        }
+                                    }
+                                }
+                            }
+
+                            let rowlen = d[r][c]["mc"].rs, collen = d[r][c]["mc"].cs;
+
+                            if(JSON.stringify(bl_obj).length > 23){
+                                let bl_color = null, bl_style = null;
+
+                                for(let x in bl_obj.color){
+                                    if(bl_obj.color[x] >= (rowlen / 2)){
+                                        bl_color = x;
+                                    }
+                                }
+
+                                for(let x in bl_obj.style){
+                                    if(bl_obj.style[x] >= (rowlen / 2)){
+                                        bl_style = x;
+                                    }
+                                }
+
+                                if(bl_color != null && bl_style != null){
+                                    style += "border-left:" + selection.getHtmlBorderStyle(bl_style, bl_color);
+                                }
+                            }
+
+                            if(JSON.stringify(br_obj).length > 23){
+                                let br_color = null, br_style = null;
+
+                                for(let x in br_obj.color){
+                                    if(br_obj.color[x] >= (rowlen / 2)){
+                                        br_color = x;
+                                    }
+                                }
+
+                                for(let x in br_obj.style){
+                                    if(br_obj.style[x] >= (rowlen / 2)){
+                                        br_style = x;
+                                    }
+                                }
+
+                                if(br_color != null && br_style != null){
+                                    style += "border-right:" + selection.getHtmlBorderStyle(br_style, br_color);
+                                }
+                            }
+
+                            if(JSON.stringify(bt_obj).length > 23){
+                                let bt_color = null, bt_style = null;
+
+                                for(let x in bt_obj.color){
+                                    if(bt_obj.color[x] >= (collen / 2)){
+                                        bt_color = x;
+                                    }
+                                }
+
+                                for(let x in bt_obj.style){
+                                    if(bt_obj.style[x] >= (collen / 2)){
+                                        bt_style = x;
+                                    }
+                                }
+
+                                if(bt_color != null && bt_style != null){
+                                    style += "border-top:" + selection.getHtmlBorderStyle(bt_style, bt_color);
+                                }
+                            }
+
+                            if(JSON.stringify(bb_obj).length > 23){
+                                let bb_color = null, bb_style = null;
+
+                                for(let x in bb_obj.color){
+                                    if(bb_obj.color[x] >= (collen / 2)){
+                                        bb_color = x;
+                                    }
+                                }
+
+                                for(let x in bb_obj.style){
+                                    if(bb_obj.style[x] >= (collen / 2)){
+                                        bb_style = x;
+                                    }
+                                }
+
+                                if(bb_color != null && bb_style != null){
+                                    style += "border-bottom:" + selection.getHtmlBorderStyle(bb_style, bb_color);
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        continue;
+                    }
+                }
+                else{
+                    //边框
+                    if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
+                        //左边框
+                        if(borderInfoCompute[r + "_" + c].l){
+                            let linetype = borderInfoCompute[r + "_" + c].l.style;
+                            let bcolor = borderInfoCompute[r + "_" + c].l.color;
+                            style += "border-left:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                        }
+
+                        //右边框
+                        if(borderInfoCompute[r + "_" + c].r){
+                            let linetype = borderInfoCompute[r + "_" + c].r.style;
+                            let bcolor = borderInfoCompute[r + "_" + c].r.color;
+                            style += "border-right:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                        }
+
+                        //下边框
+                        if(borderInfoCompute[r + "_" + c].b){
+                            let linetype = borderInfoCompute[r + "_" + c].b.style;
+                            let bcolor = borderInfoCompute[r + "_" + c].b.color;
+                            style += "border-bottom:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                        }
+
+                        //上边框
+                        if(borderInfoCompute[r + "_" + c].t){
+                            let linetype = borderInfoCompute[r + "_" + c].t.style;
+                            let bcolor = borderInfoCompute[r + "_" + c].t.color;
+                            style += "border-top:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                        }
+                    }
+                }
+
+                column = replaceHtml(column, {"style": style, "span": span});
+
+                if(c_value == null){
+                    c_value = getcellvalue(r, c, d);
+                }
+
+                if(c_value == null){
+                    c_value = " ";
+                }
+
+                column += c_value;
+            }
+            else {
+                let style = "";
+                
+                //边框
+                if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
+                    //左边框
+                    if(borderInfoCompute[r + "_" + c].l){
+                        let linetype = borderInfoCompute[r + "_" + c].l.style;
+                        let bcolor = borderInfoCompute[r + "_" + c].l.color;
+                        style += "border-left:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                    }
+
+                    //右边框
+                    if(borderInfoCompute[r + "_" + c].r){
+                        let linetype = borderInfoCompute[r + "_" + c].r.style;
+                        let bcolor = borderInfoCompute[r + "_" + c].r.color;
+                        style += "border-right:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                    }
+
+                    //下边框
+                    if(borderInfoCompute[r + "_" + c].b){
+                        let linetype = borderInfoCompute[r + "_" + c].b.style;
+                        let bcolor = borderInfoCompute[r + "_" + c].b.color;
+                        style += "border-bottom:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                    }
+
+                    //上边框
+                    if(borderInfoCompute[r + "_" + c].t){
+                        let linetype = borderInfoCompute[r + "_" + c].t.style;
+                        let bcolor = borderInfoCompute[r + "_" + c].t.color;
+                        style += "border-top:" + selection.getHtmlBorderStyle(linetype, bcolor);
+                    }
+                }
+
+                column += "";
+
+                if(r == rowIndexArr[0]){
+                    if(cfg["columnlen"] == null || cfg["columnlen"][c.toString()] == null){
+                        colgroup += '<colgroup width="72px"></colgroup>';
+                    }
+                    else {
+                        colgroup += '<colgroup width="'+ cfg["columnlen"][c.toString()] +'px"></colgroup>';
+                    }
+                }
+
+                if(c == colIndexArr[0]){
+                    if(cfg["rowlen"] == null || cfg["rowlen"][r.toString()] == null){
+                        style += 'height:19px;';
+                    }
+                    else {
+                        style += 'height:'+ cfg["rowlen"][r.toString()] + 'px;';
+                    }
+                }
+
+                column = replaceHtml(column, {"style": style, "span": ""});
+                column += " ";
+            }
+
+            column += '</td>';
+            cpdata += column;
+        }
+
+        cpdata += "</tr>";
+    }
+
+    cpdata = '<table data-type="luckysheet_copy_action_table">' + colgroup + cpdata + '</table>';
+
+    return cpdata;
+}
+
+
+/**
+ * 复制指定工作表指定单元格区域的数据，返回一维、二维或者自定义行列数的二维数组的数据。只有在dimensional设置为custom的时候，才需要设置setting中的row和column
  * @param {String} dimensional 数组维度。可选值为：oneDimensional-一维数组；twoDimensional-二维数组； custom-自定义行列数的二维数组
  * @param {Object} options 可选参数
  * @param {Number} options.row dimensional为custom的时候设置，多维数组的行数
@@ -1257,36 +1622,80 @@ export function getRangeValue(options = {}) {
  * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  */
-function getRangeArray(dimensional, options = {}) {
-    let dimensionalArray = ['oneDimensional', 'twoDimensional', 'custom']
-    if (dimensionalArray.indexOf(dimensional) < 0) {
-        return tooltip.info('Argument dimensional is invalid, the value can be \'oneDimensional\', \'twoDimensional\', \'custom\'', '')
-    }
+export function getRangeArray(dimensional, options = {}) {
+    let dimensionalValues = ['oneDimensional', 'twoDimensional'];
 
+    if(!dimensionalValues.includes(dimensional)){
+        return tooltip.info("The dimensional parameter is invalid.", "");
+    }
+    
     let {
-        row,
-        column,
-        range,
-        order
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
     } = {...options}
 
-    let realRange = range;
+    let file = Store.luckysheetfile[order];
 
-    if (typeof range === 'string') {
-        if (formula.iscelldata(range)) {
-            realRange = formula.getcellrange(range)
-        } else {
-            return tooltip.info('The range is invalid, please check range parameter.', '')
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = formula.getcellrange(range);
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let r1 = range.row[0],
+        r2 = range.row[1];
+    let c1 = range.column[0],
+        c2 = range.column[1];
+
+    //复制范围内包含部分合并单元格，提示
+    let cfg = $.extend(true, {}, file.config);
+    if(cfg["merge"] != null){
+        let has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
+
+        if(has_PartMC){
+            return tooltip.info("Cannot perform this operation on partially merged cells", ""); 
         }
     }
 
-    if (dimensional === 'oneDimensional') {
-        formula.getRangeArray(realRange)
-    } else if (dimensional === 'twoDimensional') {
-        formula.getRangeArrayTwo(realRange)
-    } else if (dimensional === 'custom') {
-        // TODO
+    let data = file.data;
+    if(data == null || data.length == 0){
+        data = sheetmanage.buildGridData(file);
     }
+
+    let dataArr = [];
+    
+    if(dimensional == 'oneDimensional'){//一维数组
+        for(let r = r1; r <= r2; r++){
+            for(let c = c1; c <= c2; c++){
+                let cell = data[r][c];
+                dataArr.push(cell);
+            }
+        }
+    }
+    else if(dimensional == 'twoDimensional'){
+        for(let r = r1; r <= r2; r++){
+            let row = [];
+
+            for(let c = c1; c <= c2; c++){
+                let cell = data[r][c];
+                row.push(cell);
+            }
+
+            dataArr.push(row);
+        }
+    }
+
+    return dataArr;
 }
 
 /**
@@ -1569,6 +1978,76 @@ export function getRangeBoolean(options = {}) {
     selection.copybyformat(event, JSON.stringify(arr));
 }
 
+
+/**
+ * 指定工作表选中一个或多个选区为选中状态并选择是否高亮，支持多种格式设置。
+ * @param {Array | Object | String} range 选区范围
+ * @param {Object} options 可选参数
+ * @param {Boolean} options.show 是否显示高亮选中效果；默认值为 `true`
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRangeShow(range, options = {}) {
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", ""); 
+    }
+    
+    let {
+        show = true,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    file.luckysheet_select_save = range;
+
+    if(file.index == Store.currentSheetIndex){
+        Store.luckysheet_select_save = range;
+        selectHightlightShow();
+
+        if(!show){
+            $("#luckysheet-cell-selected-boxs").hide();
+            $("#luckysheet-cell-selected-focus").hide();
+            $("#luckysheet-row-count-show").hide();
+            $("#luckysheet-column-count-show").hide();
+            $("#luckysheet-rows-h-selected").empty();
+            $("#luckysheet-cols-h-selected").empty();
+        }
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
 /**
  * 将一个单元格数组数据赋值到指定的区域，数据格式同getRangeValue方法取到的数据。
  * @param {Array[Array]} data 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
@@ -1696,36 +2175,71 @@ export function setRangeFormat(attr, value, options = {}) {
  * @param {String} type 打开还是关闭筛选功能  open-打开筛选功能，返回当前筛选的范围对象；close-关闭筛选功能，返回关闭前筛选的范围对象 
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围
- * @param {Number} options.order 
- * @param {Object} options.success 
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Object} options.success 操作结束的回调函数
  */
-function setRangeFilter(type, options = {}) {
+export function setRangeFilter(type, options = {}) {
     let typeValues = ['open', 'close'];
-    if (typeValues.indexOf(type) < 0) {
-        return tooltip.info('The type parameter must be included in [\'open\', \'close\']', '')
+
+    if(!typeValues.includes(type)){
+        return tooltip.info("The type parameter is invalid.", "");
     }
-    let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
-        curRange = Store.luckysheet_select_save;
+
     let {
-        range = curRange,
-        order = curSheetOrder,
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
         success
     } = {...options}
 
-    if(range.length > 1){
-        const locale_splitText = locale().splitText;
-        if(isEditMode()){
-            alert(locale_splitText.tipNoMulti);
-        } else{
-            tooltip.info(locale_splitText.tipNoMulti, "");
-        }
-        return;
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
-    if(Store.luckysheetfile[order].isPivotTable){
-        return;
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = formula.getcellrange(range);
     }
-    // TODO to be continue
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    if(type == 'open'){
+        file.filter_select = range;
+
+        if(file.index == Store.currentSheetIndex){
+            createFilterOptions(range, file.filter);
+        }
+
+        return { 
+            "row": range.row,
+            "column": range.column
+        };
+    }
+    else if(type == 'close'){
+        let luckysheet_filter_save = $.extend(true, {}, file.filter_select);
+
+        file.filter_select = null;
+
+        $("#luckysheet-filter-selected-sheet" + file.index).remove();
+        $("#luckysheet-filter-options-sheet" + file.index).remove();
+
+        return { 
+            "row": luckysheet_filter_save.row,
+            "column": luckysheet_filter_save.column
+        };
+    }
 }
 
 /**
@@ -1753,6 +2267,10 @@ export function setRangeMerge(type, options = {}) {
     let file = Store.luckysheetfile[order],
         cfg = $.extend(true, {}, file.config),
         data = $.extend(true, [], file.data);
+
+    if(data.length == 0){
+        data = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
 
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -1958,6 +2476,10 @@ export function cancelRangeMerge(options = {}) {
     let file = Store.luckysheetfile[order],
         cfg = $.extend(true, {}, file.config),
         data = $.extend(true, [], file.data);
+
+    if(data.length == 0){
+        data = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
     
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -2099,6 +2621,10 @@ export function setRangeSort(type, options = {}) {
         cfg = $.extend(true, {}, file.config),
         fileData = $.extend(true, [], file.data);
 
+    if(fileData.length == 0){
+        fileData = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
+
     if(range instanceof Array && range.length > 1){
         tooltip.info(locale().sort.noRangeError, "");
         return;
@@ -2188,6 +2714,10 @@ export function setRangeSortMulti(hasTitle, sort, options = {}) {
     let file = Store.luckysheetfile[order],
         cfg = $.extend(true, {}, file.config),
         fileData = $.extend(true, [], file.data);
+
+    if(fileData.length == 0){
+        fileData = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
 
     if(range instanceof Array && range.length > 1){
         tooltip.info(locale().sort.noRangeError, "");
@@ -2312,6 +2842,10 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
     let file = Store.luckysheetfile[order];
     let data = file.data;
+
+    if(data == null || data.length == 0){
+        data = sheetmanage.buildGridData(file);
+    }
 
     if(file == null){
         return tooltip.info('Incorrect worksheet index', ''); 
@@ -3497,4 +4031,35 @@ export function getSheet(options = {}){
 
     return sheetmanage.getSheetByIndex();
 
+}
+
+/**
+ * 返回所有表格数据结构的一维数组luckysheetfile
+ */
+export function getLuckysheetfile(){
+    return getluckysheetfile();
+}
+
+/**
+ * data => celldata ，data二维数组数据转化成 {r, c, v}格式一维数组
+ * 
+ * @param {Array} data 二维数组数据
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function transToCellData(data, options = {}){
+
+    let {
+        success
+    } = {...options}
+
+    setTimeout(()=>{
+        
+        if (success && typeof success === 'function') {
+            success();
+        }
+        
+    },0)
+    
+    return sheetmanage.getGridData(data)
 }

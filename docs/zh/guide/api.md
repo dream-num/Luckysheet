@@ -634,8 +634,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getRangeHtml([setting])
 
-[todo]
-
 
 - **参数**：
 
@@ -731,7 +729,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getRangeArray(dimensional [,setting])
 
-[todo]
 
 - **参数**：
 
@@ -741,11 +738,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		
 		+ `"oneDimensional"`: 一维数组
 		+ `"twoDimensional"`: 二维数组
-		+ `"custom"`: 自定义行列数的二维数组
 	- {PlainObject} [setting]: 可选参数
-		+ {Number} [row]: `dimensional`为`custom`的时候设置，多维数组的行数
-		+ {Number} [column]: `dimensional`为`custom`的时候设置，多维数组的列数
-		+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+		+ {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
 
 - **说明**：
@@ -936,8 +930,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setRangeShow(range [,setting])<div id='setRangeShow'></div>
 
-[todo]
-
 
 - **参数**：
 
@@ -1084,8 +1076,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setRangeFilter(type [,setting])
 
-[todo]
-
 
 - **参数**：
 	
@@ -1096,7 +1086,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"open"`: 打开筛选功能，返回当前筛选的范围对象
 		+ `"close"`: 关闭筛选功能，返回关闭前筛选的范围对象
 	- {PlainObject} [setting]: 可选参数
-    	+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+    	+ {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
     	+ {Number} [order]: 工作表下标；默认值为当前工作表下标
         + {Function} [success]: 操作结束的回调函数
 
@@ -1675,13 +1665,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getLuckysheetfile()
 
-[todo]
-
-- **参数**：
-
-    - {PlainObject} [setting]: 可选参数
-		+ {Function} [success]: 操作结束的回调函数
-
 - **说明**：
 
 	返回所有表格数据结构的一维数组`luckysheetfile`，不同于`getAllSheets`方法，此方法得到的工作表参数会包含很多内部使用变量，最明显的区别是表格数据操作会维护`luckysheetfile[i].data`，而初始化数据采用的是`options.data[i].celldata`，所以`luckysheetfile`可用于调试使用，但是不适用初始化表格。
@@ -2211,9 +2194,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ## 公共方法
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
-
-[todo]
-
 
 - **参数**：
 	

@@ -38,7 +38,8 @@ import locale from '../locale/locale';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
-    "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
+    // "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
+    "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel ${iconClass}" style="user-select: none;"></span></div></div>',
     "split": '<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>',
     "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${resetColor}</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
     "coloritem": '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel ${class}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${name}</div></div>',
@@ -66,7 +67,9 @@ const menuButton = {
             }
             else{
                 if(item.example=="more"){
-                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
+                    // itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
+                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "sub": "luckysheet-cols-submenu", "iconClass": "iconfont icon-youjiantou"});
+
                 }
                 else{
                     itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": item.example, "sub": ""});
@@ -2884,7 +2887,7 @@ const menuButton = {
                 if(value.substr(0,1)!="="){
                     let cell = d[Store.luckysheetCellUpdate[0]][Store.luckysheetCellUpdate[1]];
                     updateInlineStringFormat(cell, attr, foucsStatus, luckysheetformula.rangeResizeTo);
-                    return;
+                    // return;
                 }
             }
         }
@@ -3011,12 +3014,12 @@ const menuButton = {
                         let value = d[r][c];
                         
                         if (getObjType(value) == "object") {
-                            if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
+                            // if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
                                 updateInlineStringFormatOutside(value, attr, foucsStatus);
-                            }
-                            else{
+                            // }
+                            // else{
                                 d[r][c][attr] = foucsStatus;
-                            }
+                            // }
                             
                         }
                         else{

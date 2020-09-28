@@ -22,23 +22,23 @@ const conditionformat = {
 
         return `<div class="ruleTypeBox">
                     <div class="ruleTypeItem">
-                        <span class="icon">► </span>
+                        <span class="icon iconfont icon-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem1}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon">► </span>
+                        <span class="icon iconfont icon-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem2}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon">► </span>
+                        <span class="icon iconfont icon-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem3}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon">► </span>
+                        <span class="icon iconfont icon-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem4}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon">► </span>
+                        <span class="icon iconfont icon-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem5}</span>
                     </div>
                 </div>`;
@@ -1434,7 +1434,7 @@ const conditionformat = {
         }
         else{
             if(formula.iscelldata(txt)){
-                range.push(formula.getcellrange(txt.tos));
+                range.push(formula.getcellrange(txt));
             }
         }
 
@@ -2825,8 +2825,12 @@ const conditionformat = {
             return null;
         }
     },
-    getComputeMap: function(){
+    getComputeMap: function(sheetIndex){
         let index = getSheetIndex(Store.currentSheetIndex);
+
+        if(sheetIndex != null){
+            index = getSheetIndex(sheetIndex);
+        }
 
         let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
         let data = Store.luckysheetfile[index]["data"];

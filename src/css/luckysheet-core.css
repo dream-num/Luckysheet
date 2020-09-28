@@ -1190,7 +1190,7 @@ div.luckysheet-sheets-m:hover {
     /* padding: 2px 8px; */
     height: 29px;
     line-height: 29px;
-    background-color: #fff;
+    background-color: #efefef;
     /* border-color: #aaa; */
     border-top-color: #fff;
     color: #222;
@@ -1202,7 +1202,7 @@ div.luckysheet-sheets-m:hover {
 }
 
 .luckysheet-sheet-area div.luckysheet-sheets-item-active:hover {
-    background-color: #fff;
+    background-color: #ececec;
     /* border-color: #aaa; */
     color: #222;
 }
@@ -2272,9 +2272,10 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     user-select: none;
 }
 
+/* 右击菜单项目 hover背景色 */
 .luckysheet-cols-menu .luckysheet-cols-menuitem:hover,
 .luckysheet-cols-menu .luckysheet-cols-menuitem-hover {
-    background: #E1E1E1;
+    background: #EFEFEF;
 }
 
 .luckysheet-cols-menu .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {

@@ -1220,11 +1220,12 @@ const luckysheetformula = {
 
         let curv = Store.flowdata[r][c];
         let isPrevInline = isInlineStringCell(curv);
-        let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.indexOf("span")>-1);
+        let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.substr(0,5) == "<span");
         if(!value && !isCurInline && isPrevInline){
             delete curv.ct.s;
             curv.ct.t = "g";
             curv.ct.fa = "General";
+            value = "";
         }
         else if(isCurInline){
             if (getObjType(curv) != "object") {
@@ -1247,7 +1248,7 @@ const luckysheetformula = {
         value = value || $input.text();
 
         if(!isCurInline){
-            if(isRealNull(value)){
+            if(isRealNull(value) && !isPrevInline){
                 if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
                     _this.cancelNormalSelected();
                     return;
@@ -3229,7 +3230,7 @@ const luckysheetformula = {
 
         let _this = this;
 
-        let $functionbox = $to,
+        let $copy = $to,
             $editer = $input;
         let value1 = $editer.html(),
             value1txt = $editer.text();
@@ -3238,7 +3239,7 @@ const luckysheetformula = {
             let value = $editer.text(),
                 valuetxt = value;
 
-            if (value.length > 0 && !(value1txt.substr(0, 1) != "=" && value1.indexOf("span")>-1) && (kcode != 229 || value.length == 1)) {
+            if (value.length > 0 && value1txt.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
                 value = _this.functionHTMLGenerate(value);
                 value1 = _this.functionHTMLGenerate(value1txt);
 
@@ -3265,18 +3266,53 @@ const luckysheetformula = {
                     _this.createRangeHightlight();
                 }
 
-                $functionbox.html(value);
+                $copy.html(value);
+                _this.rangestart = false;
+                _this.rangedrag_column_start = false;
+                _this.rangedrag_row_start = false;
+                
+                _this.rangeHightlightselected($editer, kcode);
+
             }
-            else if(value1txt.substr(0, 1) != "=" && value1.indexOf("span")>-1){
+            else if(value1txt.substr(0, 1) != "=" ){
+                //&& value1.indexOf("span")>-1
                 // $editer.html(value1);
-                $functionbox.html(value);
+
+                // let w = window.getSelection();
+                // if(w!=null && w.type!="None"){
+                //     let range = w.getRangeAt(0);
+                //     let c = range.startContainer;
+
+                //     if(c.id=="luckysheet-rich-text-editor" || $(c).closest("#luckysheet-rich-text-editor")){
+                //         $functionbox.html(value);
+                //     }
+                //     else if(c.id=="luckysheet-functionbox-cell" || $(c).closest("#luckysheet-functionbox-cell")){
+                //         if(value1.indexOf("span")>-1){
+
+                //         }
+                //         else{
+                //             $editer.html(value);
+                //         }
+                //     }
+                    
+                // }
+                // console.trace();
+                // console.log(value, $copy.attr("id"));
+
+                if($copy.attr("id")=="luckysheet-rich-text-editor"){
+                    if($copy.html().substr(0,5) == "<span"){
+
+                    }
+                    else{
+                        $copy.html(value);
+                    }
+                }
+                else{
+                    $copy.html(value);
+                }
             }
 
-            _this.rangestart = false;
-            _this.rangedrag_column_start = false;
-            _this.rangedrag_row_start = false;
-            
-            _this.rangeHightlightselected($editer, kcode);
+
         }, 1);
     },
     functionHTMLGenerate: function(txt) {

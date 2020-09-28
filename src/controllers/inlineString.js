@@ -2,8 +2,10 @@ import {getFontStyleByCell, textTrim} from "../global/getdata";
 import {selectTextContent,selectTextContentCross,selectTextContentCollapse} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
+import { connect } from "net";
 
 export const inlineStyleAffectAttribute = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1};
+export const inlineStyleAffectCssName = {"font-weight":1, "font-style":1 , "font-family":1, "text-decoration":1, "border-bottom":1,"font-size":1,"color":1};
 
 export function isInlineStringCell(cell){
     let isIs = cell && cell.ct!=null && cell.ct.t=="inlineStr" && cell.ct.s!=null && cell.ct.s.length>0;
@@ -68,10 +70,16 @@ export function updateInlineStringFormat(cell, attr, value, $input){
     let endOffset = range.endOffset, startOffset = range.startOffset;
 
     if($textEditor.length>0){
-         if(startContainer===endContainer){
-            let span = startContainer.parentNode, spanIndex;
+        if(startContainer===endContainer){
+            let span = startContainer.parentNode, spanIndex, inherit=false;
             
             let content = span.innerHTML;
+
+            let fullContent = $textEditor.html();
+            if(fullContent.substr(0,5) != "<span"){
+                inherit = true;
+            }
+
             let left="" , mid="" , right="";
             let s1=0, s2=startOffset, s3 = endOffset, s4=content.length;
             left = content.substring(s1, s2);
@@ -80,7 +88,14 @@ export function updateInlineStringFormat(cell, attr, value, $input){
 
             let cont = "";
             if(left!=""){
-                cont += "<span style='"+ span.style.cssText +"'>" + left + "</span>";
+                let cssText = span.style.cssText;
+                if(inherit){
+                    let box = $(span).closest("#luckysheet-input-box").get(0);
+                    if(box!=null){
+                        cssText = extendCssText(box.style.cssText, cssText);
+                    }
+                }
+                cont += "<span style='"+ cssText +"'>" + left + "</span>";
             }
 
             if(mid!=""){
@@ -94,12 +109,26 @@ export function updateInlineStringFormat(cell, attr, value, $input){
                 // cssText = removeClassWidthCss(cssText, attr);
 
                 let cssText = getCssText(span.style.cssText, attr, value);
+
+                if(inherit){
+                    let box = $(span).closest("#luckysheet-input-box").get(0);
+                    if(box!=null){
+                        cssText = extendCssText(box.style.cssText, cssText);
+                    }
+                }
                 
                 cont += "<span style='"+ cssText +"'>" + mid + "</span>";
             }
 
             if(right!=""){
-                cont += "<span style='"+ span.style.cssText +"'>" + right + "</span>";
+                let cssText = span.style.cssText;
+                if(inherit){
+                    let box = $(span).closest("#luckysheet-input-box").get(0);
+                    if(box!=null){
+                        cssText = extendCssText(box.style.cssText, cssText);
+                    }
+                }
+                cont += "<span style='"+ cssText +"'>" + right + "</span>";
             }
 
             if(startContainer.parentNode.tagName=="SPAN"){
@@ -121,8 +150,8 @@ export function updateInlineStringFormat(cell, attr, value, $input){
             }
 
             selectTextContent($textEditor.find("span").get(seletedNodeIndex));
-         }
-         else{
+        }
+        else{
             if(startContainer.parentNode.tagName=="SPAN" && endContainer.parentNode.tagName=="SPAN"){
                 let startSpan = startContainer.parentNode, startSpanIndex;
                 let endSpan = endContainer.parentNode, endSpanIndex;
@@ -195,7 +224,7 @@ export function updateInlineStringFormat(cell, attr, value, $input){
 
                 selectTextContentCross(spans.get(startSeletedNodeIndex), spans.get(endSeletedNodeIndex));
             }
-         }
+        }
     }
     else if($functionbox.length>0){
 
@@ -298,7 +327,13 @@ export function enterKeyControll(cell){
 }
 
 export function updateInlineStringFormatOutside(cell, key, value){
+    if(cell.ct==null){
+        return;
+    }
     let s = cell.ct.s;
+    if(s==null){
+        return;
+    }
     for(let i=0;i<s.length;i++){
         let item = s[i];
         item[key] = value;
@@ -524,6 +559,64 @@ function getCssText(cssText, attr, value){
     cssText = upsetClassWithCss(cssText, ukey, uvalue);
 
     return cssText;
+}
+
+function extendCssText(origin, cover, isLimit=true){
+    let originArray = origin.split(";");
+    let coverArray = cover.split(";");
+    let newCss = "";
+    
+    let addKeyList = {};
+    for(let i=0;i<originArray.length;i++){
+        let so = originArray[i], isAdd=true;
+        so = so.toLowerCase();
+        let okey = textTrim(so.substr(0, so.indexOf(':')));
+        let ovalue = textTrim(so.substr(so.indexOf(':') + 1));
+
+        if(isLimit){
+            if(!(okey in inlineStyleAffectCssName)){
+                continue;
+            }
+        }
+
+        for(let a=0;a<coverArray.length;a++){
+            let sc = coverArray[a];
+            sc = sc.toLowerCase();
+            let ckey = textTrim(sc.substr(0, sc.indexOf(':')));
+            let cvalue = textTrim(sc.substr(sc.indexOf(':') + 1));
+
+            if(okey==ckey){
+                newCss += ckey + ":" + cvalue + ";";
+                isAdd = false;
+                continue;
+            }
+        }
+
+        if(isAdd){
+            newCss += okey + ":" + ovalue + ";";
+        }
+
+        addKeyList[okey] = 1;
+    }
+
+    for(let a=0;a<coverArray.length;a++){
+        let sc = coverArray[a];
+        sc = sc.toLowerCase();
+        let ckey = textTrim(sc.substr(0, sc.indexOf(':')));
+        let cvalue = textTrim(sc.substr(sc.indexOf(':') + 1));
+
+        if(isLimit){
+            if(!(ckey in inlineStyleAffectCssName)){
+                continue;
+            }
+        }
+
+        if(!(ckey in addKeyList)){
+            newCss += ckey + ":" + cvalue + ";";
+        }
+    }
+
+    return newCss;
 }
 
 
