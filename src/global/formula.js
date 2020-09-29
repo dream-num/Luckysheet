@@ -676,7 +676,7 @@ const luckysheetformula = {
         num = num % d;
         return num;
     },
-    getcellrange: function(txt) {
+    getcellrange: function(txt, formulaIndex) {
         if(txt==null || txt.length==0){
             return;
         }
@@ -707,7 +707,11 @@ const luckysheetformula = {
             }
         } 
         else {
-            let index = getSheetIndex(Store.currentSheetIndex);
+            let i = formulaIndex;
+            if(i==null){
+                i = Store.currentSheetIndex;
+            }
+            let index = getSheetIndex(i);
             sheettxt = luckysheetfile[index].name;
             sheetIndex = luckysheetfile[index].index;
             sheetdata = Store.flowdata;
@@ -4553,7 +4557,7 @@ const luckysheetformula = {
     isFunctionRangeSaveChange: function (str, r, c, index, dynamicArray_compute) {
         let _this = this;
         if (r != null && c != null) {
-            let range = _this.getcellrange($.trim(str));
+            let range = _this.getcellrange($.trim(str), index);
             let row = range.row,
                 col = range.column,
                 sheetIndex = range.sheetIndex;
@@ -4822,7 +4826,7 @@ const luckysheetformula = {
         }
 
         // console.time("1");
-        let iii =0;
+
         while (stack.length > 0) {
             let u = stack.shift();
 

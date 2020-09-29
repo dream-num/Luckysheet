@@ -37,6 +37,8 @@ const controlHistory = {
             sheetmanage.changeSheetExec(ctr.sheetIndex);
         }
 
+        // formula.execFunctionExist = [];
+
         if (ctr.type == "datachange") {
             //如果有单元格为null,则对应公式应该删除
             for(let s = 0; s < ctr.range.length; s++){
@@ -50,14 +52,14 @@ const controlHistory = {
                         if(r > ctr.data.length - 1){
                             break;
                         }
-
+                        // formula.execFunctionExist.push({ "r": r, "c": c, "i": ctr.sheetIndex });
                         if(ctr.data[r][c] == null){
                             formula.delFunctionGroup(r,c);
                         }
                     }
                 }
             }
-            formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
+            
 
             let allParam = {
                 "cfg": ctr.config,
@@ -68,6 +70,7 @@ const controlHistory = {
             }
 
             jfrefreshgrid(ctr.data, ctr.range, allParam);
+            // formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
         }
         else if (ctr.type == "pasteCut") {
             let s = {
@@ -106,15 +109,17 @@ const controlHistory = {
 
                 for(let r = st_r;r < ed_r + 1; r++){
                     for(let c = st_c; c < ed_c +1; c++){
+                        // formula.execFunctionExist.push({ "r": r, "c": c, "i": ctr.sheetIndex });
                         if(ctr.data[r][c] == null){
                             formula.delFunctionGroup(r,c);
                         }
                     }
                 }
             }
-            formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
+            
             
             jfrefreshrange(ctr.data, ctr.range, ctr.cdformat);
+            // formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
         }
         else if (ctr.type == "resize") {
             Store.config = ctr.config;

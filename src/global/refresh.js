@@ -28,20 +28,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         range = Store.luckysheet_select_save;
     }
 
-    //单元格数据更新联动
-    if (isRunExecFunction) {
-        formula.execFunctionExist = [];
-        for(let s = 0; s < range.length; s++){
-            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
-                }
-            }
-        }
-        formula.execFunctionExist.reverse();
-        formula.execFunctionGroup(null, null, null, null, data);
-        formula.execFunctionGlobalData = null;
-    }
+
 
     //关联参数
     if(allParam == null){
@@ -170,7 +157,20 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1]);
         }
     }
-
+    //单元格数据更新联动
+    if (isRunExecFunction) {
+        formula.execFunctionExist = [];
+        for(let s = 0; s < range.length; s++){
+            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
+                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
+                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+                }
+            }
+        }
+        formula.execFunctionExist.reverse();
+        formula.execFunctionGroup(null, null, null, null, data);
+        formula.execFunctionGlobalData = null;
+    }
     //刷新表格
     if(isRefreshCanvas){
         setTimeout(function () {
@@ -330,18 +330,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
 }
 
 function jfrefreshrange(data, range, cdformat) {
-    //单元格数据更新联动
-    formula.execFunctionExist = [];
-    for(let s = 0; s < range.length; s++){
-        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
-            }
-        }
-    }
-    formula.execFunctionExist.reverse();
-    formula.execFunctionGroup(null, null, null, null, data);
-    formula.execFunctionGlobalData = null;
+    
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
@@ -367,6 +356,19 @@ function jfrefreshrange(data, range, cdformat) {
     if(cdformat != null){
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] = cdformat;
     }
+
+    //单元格数据更新联动
+    formula.execFunctionExist = [];
+    for(let s = 0; s < range.length; s++){
+        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
+            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
+                formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
+            }
+        }
+    }
+    formula.execFunctionExist.reverse();
+    formula.execFunctionGroup(null, null, null, null, data);
+    formula.execFunctionGlobalData = null;
 
     //刷新表格
     setTimeout(function () {
