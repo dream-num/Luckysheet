@@ -419,13 +419,13 @@ const menuButton = {
                 //luckysheet-icon-fmt-other-menuButton_sub
                 $("body").append(menu+submenu);
                 $menuButton = $("#" + menuButtonId).width(250);
-                _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
-                    let $t = $(this), itemvalue = $t.attr("itemvalue");
+                    let $t = $(this), itemvalue = $t.attr("itemvalue"),itemname = $t.attr("itemname");;
+                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").html(" "+ itemname +" ");
 
                     if(itemvalue == "fmtOtherSelf"){
                         return;
@@ -448,6 +448,12 @@ const menuButton = {
                     luckysheetMoreFormat.createDialog(itemvalue);
                     luckysheetMoreFormat.init();
                 })
+            } else {
+                const text =$(this).find(".luckysheet-toolbar-menu-button-caption").text().trim();
+                const format = locale_defaultFmt.find(f => f.text === text);
+                if(format) {
+                    _this.focus($menuButton, format.value);
+                }
             }
 
             let userlen = $(this).outerWidth();
@@ -3416,6 +3422,23 @@ const menuButton = {
             $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-" + itemvalue + iconfontObject[itemvalue]);
             $menuButton.hide();
         }
+        else if(attr == "ct") {
+            let $menuButton = $("#luckysheet-icon-fmt-other");
+            const _locale = locale();
+            const locale_defaultFmt = _locale.defaultFmt;
+            if(!foucsStatus) {
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ locale_defaultFmt[0].text +" ");
+                return;
+            }
+            const {fa} = foucsStatus;
+            const format = locale_defaultFmt.find(f => f.value === fa);
+            if(format) {
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ format.text +" ");
+            } else {
+                const otherFormat = locale_defaultFmt.find(f => f.value === "fmtOtherSelf");
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ otherFormat.text +" ");
+            }
+        }
     },
     inputMenuButtonFocus:function(focusTarget){
         var  w = window.getSelection(); 
@@ -3433,7 +3456,7 @@ const menuButton = {
     },
     menuButtonFocus: function(d, r, c){
         let _this = this;
-        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr"];
+        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr", "ct"];
         const _locale = locale();
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];

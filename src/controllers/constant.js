@@ -727,6 +727,7 @@ const luckysheetToolHTML = '<div id="luckysheet-tooltip-up" class="jfk-tooltip" 
 function menuToolBar (){
        const toolbar = locale().toolbar;
        const fontarray = locale().fontarray;
+       const defaultFmtArray = locale().defaultFmt;
        
        // <!-- undo -->
        return `<div class="luckysheet-toolbar-left-theme">
@@ -843,7 +844,7 @@ function menuToolBar (){
                 style="user-select: none;">
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
-                        123
+                        ${defaultFmtArray[0].text}
                     </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige"
                     style="user-select: none;">

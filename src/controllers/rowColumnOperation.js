@@ -1567,6 +1567,9 @@ export function rowColumnOperationInitial(){
                         if(getObjType(d[r][c]) == "object"){
                             delete d[r][c]["m"];
                             delete d[r][c]["v"];
+                            if(d[r][c]["ct"] != null) {
+                                delete d[r][c]["ct"]["s"]
+                            }
 
                             if(d[r][c]["f"] != null){
                                 delete d[r][c]["f"];

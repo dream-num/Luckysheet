@@ -573,6 +573,15 @@
     top: -1660px;
 } */
 
+#luckysheet-icon-fmt-other .luckysheet-toolbar-menu-button-caption {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 55px;
+    margin-left: 1px;
+    text-align: center;
+}
+
 #luckysheet-icon-font-family .luckysheet-toolbar-menu-button-caption {
     overflow: hidden;
     text-overflow: ellipsis;
