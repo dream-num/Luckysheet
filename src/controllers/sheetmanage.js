@@ -401,7 +401,7 @@ const sheetmanage = {
         let copyobject = $("#luckysheet-sheets-item" + copyindex);
         $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset }));
         $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
-        Store.luckysheetfile.splice(copyindex + 1, 0, copyjson);
+        Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
         $("#luckysheet-sheets-item" + index).addClass("luckysheet-sheets-item-active");

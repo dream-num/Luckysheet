@@ -196,18 +196,6 @@ luckysheet.flowdata = function () {
 // Set selection highlight
 luckysheet.selectHightlightShow = selectHightlightShow;
 
-// Set the worksheet to hide
-// Use the call method to change the `this` of the function to `this` of sheetmanage,
-// Prevent _this error in setSheetHide
-luckysheet.setSheetHide = function(index) {
-    return sheetmanage.setSheetHide.call(sheetmanage,index);
-}
-
-// Set the worksheet to show
-luckysheet.setSheetShow = function(index) {
-    return sheetmanage.setSheetShow.call(sheetmanage,index);
-}
-
 // Reset parameters after destroying the table
 luckysheet.destroy = method.destroy;
 

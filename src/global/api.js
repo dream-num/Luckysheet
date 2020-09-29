@@ -4139,6 +4139,316 @@ export function setSheetAdd(options = {}) {
 
 
 /**
+ * 删除指定下标的工作表，返回已删除的工作表对象 
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetDelete(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.deleteSheet(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 复制指定下标的工作表到指定下标位置
+ * @param {Object} options 可选参数
+ * @param {Number} options.targetOrder 新复制的工作表目标下标位置；默认值为当前工作表下标的下一个下标位置（递增）
+ * @param {Number} options.order 被复制的工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetCopy(options = {}) {
+    let {
+        targetOrder,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    if(targetOrder == null){
+        targetOrder = order + 1;
+    }
+
+    if(getObjType(targetOrder) != 'number'){
+        return tooltip.info("The targetOrder parameter is invalid.", "");
+    }
+
+    let copyindex = file.index;
+    let index = sheetmanage.generateRandomSheetIndex();
+    
+    let copyjson = $.extend(true, {}, file);
+    copyjson.order = Store.luckysheetfile.length;
+    copyjson.index = index;
+    copyjson.name = sheetmanage.generateCopySheetName(Store.luckysheetfile, copyjson.name);
+    
+    let colorset = '';
+    if(copyjson.color != null){
+        colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + copyjson.color + ';"></div>';
+    }
+
+    let afterObj = $("#luckysheet-sheets-item" + copyindex);
+    if(getObjType(targetOrder) == 'number'){
+        afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
+    }
+
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { 
+        "index": copyjson.index, 
+        "active": "", 
+        "name": copyjson.name, 
+        "order": copyjson.order, 
+        "style": "", 
+        "colorset": colorset 
+    }));
+    $("#luckysheet-sheets-item" + copyjson.index).insertAfter(afterObj);
+    Store.luckysheetfile.splice(targetOrder, 0, copyjson);
+
+    $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+    $("#luckysheet-sheets-item" + index).addClass("luckysheet-sheets-item-active");
+    $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + index + '" class="luckysheet-datavisual-selection-set"></div>');
+    cleargridelement(true);
+
+    server.saveParam("shc", index, { "copyindex": copyindex, "name": copyjson.name });
+
+    sheetmanage.changeSheetExec(index);
+    sheetmanage.reOrderAllSheet();
+
+    if (Store.clearjfundo) {
+        Store.jfredo.push({ 
+            "type": "copySheet", 
+            "copyindex": copyindex, 
+            "index": copyjson.index, 
+            "sheetIndex": copyjson.index 
+        });
+    }
+    else if (Store.jfredo.length > 0) {
+        let jfredostr = Store.jfredo[Store.jfredo.length - 1];
+
+        if (jfredostr.type == "copySheet") {
+            jfredostr.index = copyjson.index;
+            jfredostr.sheetIndex = copyjson.index;
+        }
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return copyjson;
+}
+
+
+/**
+ * 隐藏指定下标的工作表，返回被隐藏的工作表对象
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetHide(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.setSheetHide(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 取消隐藏指定下标的工作表，返回被取消隐藏的工作表对象
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetShow(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.setSheetShow(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 设置指定下标的工作表为当前工作表（激活态），即切换到指定的工作表，返回被激活的工作表对象
+ * @param {Number} order 要激活的工作表下标
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetActive(order, options = {}) {
+    if(order == null || getObjType(order) != 'number' || Store.luckysheetfile[order] == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    let {
+        success
+    } = {...options}
+
+    sheetmanage.changeSheet(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 修改工作表名称 
+ * @param {String} name 工作表名称
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetName(name, options = {}) {
+    if(getObjType(name) != 'string' || name.toString().length == 0){
+        return tooltip.info("The name parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let oldtxt = file.name;
+    file.name = name;
+
+    $("#luckysheet-sheets-item" + file.index + " .luckysheet-sheets-item-name").text(name);
+
+    server.saveParam("all", file.index, name, { "k": "name" });
+
+    if (Store.clearjfundo) {
+        let redo = {};
+        redo["type"] = "sheetName";
+        redo["sheetIndex"] = file.index;
+        
+        redo["oldtxt"] = oldtxt;
+        redo["txt"] = name;
+
+        Store.jfundo = [];
+        Store.jfredo.push(redo);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 设置工作表名称处的颜色 
+ * @param {String} color 工作表颜色
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetColor(color, options = {}) {
+    if(getObjType(color) != 'string' || color.toString().length == 0){
+        return tooltip.info("The color parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let oldcolor = file.color;
+    file.color = color;
+
+    $("#luckysheet-sheets-item" + file.index).find(".luckysheet-sheets-item-color").remove();
+    $("#luckysheet-sheets-item" + file.index).append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>');
+
+    server.saveParam("all", file.index, color, { "k": "color" });
+
+    if (Store.clearjfundo) {
+        let redo = {};
+        redo["type"] = "sheetColor";
+        redo["sheetIndex"] = file.index;
+        
+        redo["oldcolor"] = oldcolor;
+        redo["color"] = color;
+        
+        Store.jfundo = [];
+        Store.jfredo.push(redo);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
  * 指定工作表向左边或右边移动一个位置，或者指定索引，返回指定的工作表对象 
  * @param {String | Number} type 工作表移动方向或者移动的目标索引
  * @param {Object} options 可选参数
