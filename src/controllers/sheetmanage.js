@@ -864,7 +864,8 @@ const sheetmanage = {
         Store.flowdata = file["data"];
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
-        formula.execFunctionGroupData = null;
+        // formula.execFunctionGroupData = null;
+        formula.execFunctionGlobalData = null;
         window.luckysheet_getcelldata_cache = null;
 
         this.sheetParamRestore(file, Store.flowdata);
@@ -1152,7 +1153,7 @@ const sheetmanage = {
         _this.restoreselect();
     },
     checkLoadSheetIndex: function(file) {
-    	let calchain = file.calcChain; //index
+    	let calchain = formula.getAllFunctionGroup();//file.calcChain; //index
     	let chart = file.chart; //dataSheetIndex
     	let pivotTable = file.pivotTable; //pivotDataSheetIndex
 
@@ -1166,7 +1167,14 @@ const sheetmanage = {
                 let dataindex = f.index;
                 let formulaTxt = getcellFormula(f.r, f.c, dataindex);
 
+                if(formulaTxt==null){
+                    let file = Store.luckysheetfile[this.getSheetIndex(dataindex)];
+                    file.data = this.buildGridData(file);
+                    formulaTxt = getcellFormula(f.r, f.c, dataindex);
+                }
+
                 formula.functionParser(formulaTxt, (str)=>{
+                    formula.addToCellList(formulaTxt, str);
                     if(str.indexOf("!")>-1){
                         let name = str.substr(0, str.indexOf('!'));
                         dataNameList[name] = true;
@@ -1178,7 +1186,7 @@ const sheetmanage = {
                 }
                 
         		if(cache[dataindex.toString()] == null){
-        			ret.push(dataindex);
+        			// ret.push(dataindex);
         			cache[dataindex.toString()] = 1;
         		}
             }

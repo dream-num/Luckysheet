@@ -1451,7 +1451,7 @@ const selection = {
                                 func = "=" + formula.functionCopy(func, "left", Math.abs(offsetCol));
                             }
 
-                            let funcV = formula.execfunction(func, h, c, true);
+                            let funcV = formula.execfunction(func, h, c, undefined, true);
 
                             if(value.spl != null){
                                 value.f = funcV[2];

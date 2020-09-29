@@ -40,7 +40,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         }
         formula.execFunctionExist.reverse();
         formula.execFunctionGroup(null, null, null, null, data);
-        formula.execFunctionGroupData = null;
+        formula.execFunctionGlobalData = null;
     }
 
     //关联参数
@@ -157,7 +157,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             window.luckysheetCurrentColumn = c1;
             window.luckysheetCurrentFunction = Store.flowdata[r1][c1].f;
 
-            let fp = $.trim(formula.functionParser(Store.flowdata[r1][c1].f));
+            let fp = $.trim(formula.functionParserExe(Store.flowdata[r1][c1].f));
             let sparklines = eval(fp);
             Store.flowdata[r1][c1].spl = sparklines;
         }
@@ -260,7 +260,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
         }
         formula.execFunctionExist.reverse();
         formula.execFunctionGroup(null, null, null, null, data);
-        formula.execFunctionGroupData = null;
+        formula.execFunctionGlobalData = null;
 
         redo["type"] = "datachangeAll";
 
@@ -341,7 +341,7 @@ function jfrefreshrange(data, range, cdformat) {
     }
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, data);
-    formula.execFunctionGroupData = null;
+    formula.execFunctionGlobalData = null;
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
@@ -409,12 +409,12 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
     if(calc.length > 0){
-        formula.execFunctionGroupData = data;
+        // formula.execFunctionGroupData = data;
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
             let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
             clc.func = clc_result;
 
             if(data[clc_r][clc_c].f == clc_funcStr){
@@ -620,12 +620,12 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
     if(calc.length > 0){
-        formula.execFunctionGroupData = data;
+        // formula.execFunctionGroupData = data;
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
             let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
             clc.func = clc_result;
 
             if(data[clc_r][clc_c].f == clc_funcStr){
@@ -769,7 +769,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, target["curData"]);
-    formula.execFunctionGroupData = null;
+    formula.execFunctionGlobalData = null;
 
     if(Store.clearjfundo){
         Store.jfundo = [];
@@ -922,7 +922,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
                 window.luckysheetCurrentColumn = c;
                 window.luckysheetCurrentFunction = Store.flowdata[r][c].f;
 
-                let fp = $.trim(formula.functionParser(Store.flowdata[r][c].f));
+                let fp = $.trim(formula.functionParserExe(Store.flowdata[r][c].f));
                 let sparklines = eval(fp);
                 Store.flowdata[r][c].spl = sparklines;
 

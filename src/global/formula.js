@@ -11,7 +11,7 @@ import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/se
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
 import { isdatetime, isdatatype } from './datecontroll';
 import { getCellTextSplitArr,getCellTextInfo } from '../global/getRowlen';
-import { getcellvalue,getcellFormula,getInlineStringNoStyle } from './getdata';
+import { getcellvalue,getcellFormula,getInlineStringNoStyle, getOrigincell } from './getdata';
 import { setcellvalue } from './setdata';
 import { genarate, valueShowEs } from './format';
 import editor from './editor';
@@ -677,6 +677,14 @@ const luckysheetformula = {
         return num;
     },
     getcellrange: function(txt) {
+        if(txt==null || txt.length==0){
+            return;
+        }
+
+        if(txt in this.addToCellIndexList){
+           return this.addToCellIndexList[txt];
+        }
+
         let val = txt.split("!");
 
         let sheettxt = "",
@@ -711,11 +719,13 @@ const luckysheetformula = {
             let col = ABCatNum(rangetxt.replace(/[^A-Za-z]/g, ""));
 
             if (!isNaN(row) && !isNaN(col)) {
-                return {
+                let item = {
                     "row": [row, row],
                     "column": [col, col],
                     "sheetIndex": sheetIndex
                 };
+                this.addToCellIndexList(txt,item);
+                return item;
             }
             else {
                 return null;
@@ -747,11 +757,13 @@ const luckysheetformula = {
                 return null;
             }
 
-            return {
+            let item = {
                 "row": row,
                 "column": col,
                 "sheetIndex": sheetIndex
             };
+            this.addToCellIndexList(txt,item);
+            return item;
         }
     },
     rangeHightlightHTML: '<div id="luckysheet-formula-functionrange-highlight-${id}" rangeindex="${id}"  class="luckysheet-selection-highlight luckysheet-formula-functionrange-highlight"><div data-type="top" class="luckysheet-selection-copy-top luckysheet-copy"></div><div data-type="right" class="luckysheet-selection-copy-right luckysheet-copy"></div><div data-type="bottom" class="luckysheet-selection-copy-bottom luckysheet-copy"></div><div data-type="left" class="luckysheet-selection-copy-left luckysheet-copy"></div><div class="luckysheet-selection-copy-hc"></div><div data-type="lt" class="luckysheet-selection-highlight-topleft luckysheet-highlight"></div><div data-type="rt" class="luckysheet-selection-highlight-topright luckysheet-highlight"></div><div data-type="lb" class="luckysheet-selection-highlight-bottomleft luckysheet-highlight"></div><div data-type="rb" class="luckysheet-selection-highlight-bottomright luckysheet-highlight"></div></div>',
@@ -1289,9 +1301,10 @@ const luckysheetformula = {
             if(!isCurInline){
 
                 if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
-                    let v = _this.execfunction(value, r, c, true);
+                    let v = _this.execfunction(value, r, c, undefined, true);
                     isRunExecFunction = false;
-                    curv = _this.execFunctionGroupData[r][c];
+                    // curv = _this.execFunctionGroupData[r][c];
+                    curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
                     curv.f = v[2];
 
                     //打进单元格的sparklines的配置串， 报错需要单独处理。
@@ -1317,11 +1330,12 @@ const luckysheetformula = {
                     let valueFunction = value.f;
 
                     if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                        let v = _this.execfunction(valueFunction, r, c, true);
+                        let v = _this.execfunction(valueFunction, r, c, undefined, true);
                         isRunExecFunction = false;
                         // get v/m/ct
 
-                        curv = _this.execFunctionGroupData[r][c];
+                        // curv = _this.execFunctionGroupData[r][c];
+                        curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
                         curv.f = v[2];
         
                         //打进单元格的sparklines的配置串， 报错需要单独处理。
@@ -1347,10 +1361,11 @@ const luckysheetformula = {
                         let valueFunction = value.f;
         
                         if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                            let v = _this.execfunction(valueFunction, r, c, true);
+                            let v = _this.execfunction(valueFunction, r, c, undefined, true);
                             isRunExecFunction = false;
                             // get v/m/ct
-                            curv = _this.execFunctionGroupData[r][c];
+                            // curv = _this.execFunctionGroupData[r][c];
+                            curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
         
                             // get f
                             curv.f = v[2];
@@ -1384,7 +1399,9 @@ const luckysheetformula = {
                     _this.delFunctionGroup(r, c);
                     _this.execFunctionGroup(r, c, value);
                     isRunExecFunction = false;
-                    curv = _this.execFunctionGroupData[r][c];
+                    // curv = _this.execFunctionGroupData[r][c];
+
+                    curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
     
                     delete curv.f;
                     delete curv.spl;
@@ -1402,7 +1419,7 @@ const luckysheetformula = {
         } 
         else {
             if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
-                let v = _this.execfunction(value, r, c, true);
+                let v = _this.execfunction(value, r, c, undefined, true);
                 isRunExecFunction = false;
                 value = {
                     "v": v[1],
@@ -1429,7 +1446,7 @@ const luckysheetformula = {
                 let valueFunction = value.f;
 
                 if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                    let v = _this.execfunction(valueFunction, r, c, true);
+                    let v = _this.execfunction(valueFunction, r, c, undefined, true);
                     isRunExecFunction = false;
                     // value = {
                     //     "v": v[1],
@@ -1555,7 +1572,7 @@ const luckysheetformula = {
         jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
 
         // Store.luckysheetCellUpdate.length = 0; //clear array
-        _this.execFunctionGroupData = null; //销毁
+        _this.execFunctionGlobalData = null; //销毁
     },
     cancelNormalSelected: function() {
         let _this = this;
@@ -2514,7 +2531,7 @@ const luckysheetformula = {
                 
                 if(isVal){
                     //公式计算
-                    let fp = $.trim(_this.functionParser($("#luckysheet-rich-text-editor").text()));
+                    let fp = $.trim(_this.functionParserExe($("#luckysheet-rich-text-editor").text()));
                     let result = eval(fp);
                     $("#luckysheet-search-formula-parm .result span").text(result);
                 }
@@ -3239,7 +3256,7 @@ const luckysheetformula = {
             let value = $editer.text(),
                 valuetxt = value;
 
-            if (value.length > 0 && value1txt.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
+            if (value.length > 0 && value.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
                 value = _this.functionHTMLGenerate(value);
                 value1 = _this.functionHTMLGenerate(value1txt);
 
@@ -3630,138 +3647,6 @@ const luckysheetformula = {
 
         return {"fn": fn, "param": param};
     },
-    functionParser1: function(txt) {
-        let _this = this;
-
-        if (_this.operatorjson == null) {
-            let arr = _this.operator.split("|"),
-                op = {};
-
-            for (let i = 0; i < arr.length; i++) {
-                op[arr[i].toString()] = 1;
-            }
-
-            _this.operatorjson = op;
-        }
-
-        if (txt.substr(0, 1) == "=") {
-            txt = txt.substr(1);
-        }
-
-        let funcstack = txt.split("");
-        let i = 0,
-            str = "",
-            function_str = "",
-            ispassby = true;
-        let matchConfig = {
-            "bracket": 0,
-            "comma": 0,
-            "squote": 0,
-            "dquote": 0,
-            "compare":0
-        }
-
-        while (i < funcstack.length) {
-            let s = funcstack[i];
-
-            if (s == "(" && matchConfig.dquote == 0) {
-                matchConfig.bracket += 1;
-                
-                if (str.length > 0) {
-                    function_str += "luckysheet_function." + str.toUpperCase() + ".f(";
-                } 
-                else {
-                    function_str += "(";
-                }
-
-                str = "";
-            } 
-            else if (s == ")" && matchConfig.dquote == 0) {
-                matchConfig.bracket -= 1;
-                function_str += _this.functionParser(str);
-                
-                if(matchConfig.compare == 1){
-                    function_str += '))';
-                    matchConfig.compare = 0;
-                }
-                else{
-                    function_str += ')';
-                }
-
-                str = "";
-            }
-            else if (s == '"' && matchConfig.squote == 0) {
-                if (matchConfig.dquote > 0) {
-                    function_str += str + '"';
-                    matchConfig.dquote -= 1;
-                    str = "";
-                } 
-                else {
-                    matchConfig.dquote += 1;
-                    str += '"';
-                }
-            } 
-            else if (s == ',' && matchConfig.dquote == 0) {
-                //matchConfig.comma += 1;
-                function_str += _this.functionParser(str);
-                
-                if(matchConfig.compare == 1){
-                    function_str += '),';
-                    matchConfig.compare = 0;
-                }
-                else{
-                    function_str += ',';
-                }
-
-                str = "";
-            } 
-            else if (s in _this.operatorjson && matchConfig.dquote == 0) {
-                let s_next = "";
-                if ((i + 1) < funcstack.length) {
-                    s_next = funcstack[i + 1];
-                }
-
-                if ((s + s_next) in _this.operatorjson) {
-                    if (str.length > 0) {
-                        matchConfig.compare = 1;
-                        function_str += "luckysheet_compareWith(" + _this.functionParser(str) + ",'" + s + s_next + "', ";
-                        str = "";
-                    } 
-                    else {
-                        function_str += s + s_next;
-                    }
-
-                    i++;
-                } 
-                else {
-                    if (str.length > 0) {
-                        matchConfig.compare = 1;
-                        function_str += "luckysheet_compareWith(" + _this.functionParser(str) + ",'" + s + "', ";
-                        str = "";
-                    } 
-                    else {
-                        function_str += s;
-                    }
-                }
-            } 
-            else {
-                str += s;
-            }
-
-            if (i == funcstack.length - 1) {
-                if (_this.iscelldata($.trim(str))) {
-                    function_str += "luckysheet_getcelldata('" + $.trim(str) + "')";
-                } 
-                else {
-                    function_str += $.trim(str);
-                }
-            }
-
-            i++;
-        }
-
-        return function_str;
-    },
     calPostfixExpression: function(cal){
         if(cal.length == 0){
             return "";
@@ -3840,6 +3725,13 @@ const luckysheetformula = {
         "/": 1,
         "+": 2,
         "-": 2
+    },
+    functionParserExe:function(txt){
+        let _this = this;
+        // let txt1 = txt.toUpperCase();
+        return this.functionParser(txt, function(c){
+            _this.addToCellList(txt, c);
+        });
     },
     functionParser: function(txt, cellRangeFunction) {
         let _this = this;
@@ -4117,6 +4009,21 @@ const luckysheetformula = {
         });
         setluckysheetfile(luckysheetfile);
     },
+    getAllFunctionGroup: function() {
+        let luckysheetfile = getluckysheetfile();
+        let ret = [];
+        for(let i=0;i<luckysheetfile.length;i++){
+            let file = luckysheetfile[i];
+            let calcChain = file.calcChain;
+            if(calcChain==null){
+                calcChain = [];
+            }
+
+            ret = ret.concat(calcChain);
+        }
+
+        return ret;
+    },
     getFunctionGroup: function(index) {
         if (index == null) {
             index = Store.currentSheetIndex;
@@ -4200,7 +4107,7 @@ const luckysheetformula = {
         setluckysheetfile(luckysheetfile);
     },
     isFunctionRangeSave: false,
-    isFunctionRangeSimple: function(txt, r, c,dynamicArray_compute) {
+    isFunctionRangeSimple: function(txt, r, c, index,dynamicArray_compute) {
         let _this = this;
 
         if (_this.operatorjson == null) {
@@ -4251,12 +4158,12 @@ const luckysheetformula = {
             } 
             else if (s == ")" && matchConfig.dquote == 0) {
                 matchConfig.bracket -= 1;
-                function_str += _this.isFunctionRangeSimple(str, r, c,dynamicArray_compute) + ")";
+                function_str += _this.isFunctionRangeSimple(str, r, c, index,dynamicArray_compute) + ")";
                 str = "";
             } 
             else if (s == ',' && matchConfig.dquote == 0) {
                 //matchConfig.comma += 1;
-                function_str += _this.isFunctionRangeSimple(str, r, c,dynamicArray_compute) + ',';
+                function_str += _this.isFunctionRangeSimple(str, r, c, index,dynamicArray_compute) + ',';
                 str = "";
             } 
             else if (s in _this.operatorjson && matchConfig.dquote == 0) {
@@ -4268,7 +4175,7 @@ const luckysheetformula = {
 
                 if ((s + s_next) in _this.operatorjson) {
                     if (str.length > 0) {
-                        function_str += _this.isFunctionRangeSimple(str, r, c,dynamicArray_compute) + s + s_next;
+                        function_str += _this.isFunctionRangeSimple(str, r, c, index,dynamicArray_compute) + s + s_next;
                         str = "";
                     } 
                     else {
@@ -4279,7 +4186,7 @@ const luckysheetformula = {
                 } 
                 else {
                     if (str.length > 0) {
-                        function_str += _this.isFunctionRangeSimple(str, r, c,dynamicArray_compute) + s;
+                        function_str += _this.isFunctionRangeSimple(str, r, c, index,dynamicArray_compute) + s;
                         str = "";
                     } 
                     else {
@@ -4293,7 +4200,7 @@ const luckysheetformula = {
 
             if (i == funcstack.length - 1) {
                 if (_this.iscelldata($.trim(str))) {
-                    _this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                    _this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
                     // if (r != null && c != null) {
                         
                     //     let range = _this.getcellrange($.trim(str));
@@ -4348,19 +4255,61 @@ const luckysheetformula = {
         //console.log(function_str);
         return function_str;
     },
-    isFunctionRangeSelect:function(txt, r, c, dynamicArray_compute){
+    isFunctionRangeSelect:function(txt, r, c, index, dynamicArray_compute){
         if(txt==null || txt==""){
             return;
         }
+
+        if(index==null){
+            index = Store.currentSheetIndex;
+        }
+        if(dynamicArray_compute==null){
+            dynamicArray_compute = {};
+        }
+        let _this = this;
         let txt1 = txt.toUpperCase();
-        if(txt1.indexOf("INDIRECT")>-1 || txt1.indexOf("OFFSET")>-1){
-            this.isFunctionRange(txt, r, c, dynamicArray_compute);
+        let isOffsetFunc = txt1.indexOf("INDIRECT")>-1 || txt1.indexOf("OFFSET")>-1;
+        if(txt in this.formulaContainCellList){
+            let cellList = this.formulaContainCellList[txt];
+            if(isOffsetFunc){
+                let isoff = cellList["__LuckyisOff__"];
+                if(isoff==true){
+                    for(let cellStr in cellList){
+                        if(cellStr=="__LuckyisOff__"){
+                            continue;
+                        }
+                        this.isFunctionRangeSaveChange(cellStr, r, c, index, dynamicArray_compute);
+                    }
+                }
+                else{
+                    this.isFunctionRange(txt, r, c, index,dynamicArray_compute, function(str){
+                        _this.addToCellList(txt, str);
+                    });
+                    cellList["__LuckyisOff__"] = true;
+                }
+            }
+            else{
+                
+                for(let cellStr in cellList){
+                    if(cellStr=="__LuckyisOff__"){
+                        continue;
+                    }
+                    this.isFunctionRangeSaveChange(cellStr, r, c, index, dynamicArray_compute);
+                }
+            }
+            
+            return;
+        }
+
+
+        if(isOffsetFunc){
+            this.isFunctionRange(txt, r, c, index,dynamicArray_compute);
         }
         else{
-            this.isFunctionRangeSimple(txt, r, c, dynamicArray_compute);
+            this.isFunctionRangeSimple(txt, r, c, index,dynamicArray_compute);
         }
     },
-    isFunctionRange: function (txt, r, c, dynamicArray_compute) {
+    isFunctionRange: function (txt, r, c, index,dynamicArray_compute, cellRangeFunction) {
         let _this = this;
 
         if (_this.operatorjson == null) {
@@ -4422,7 +4371,7 @@ const luckysheetformula = {
                 let bt = bracket.pop();
 
                 if (bracket.length == 0) {
-                    function_str += _this.isFunctionRange(str,r,c,dynamicArray_compute) + ")";
+                    function_str += _this.isFunctionRange(str,r,c, index,dynamicArray_compute,cellRangeFunction) + ")";
                     str = "";
                 }
                 else {
@@ -4449,7 +4398,7 @@ const luckysheetformula = {
             }
             else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (bracket.length <= 1) {
-                    function_str += _this.isFunctionRange(str, r, c,dynamicArray_compute) + ",";
+                    function_str += _this.isFunctionRange(str, r, c, index,dynamicArray_compute,cellRangeFunction) + ",";
                     str = "";
                 }
                 else {
@@ -4467,7 +4416,7 @@ const luckysheetformula = {
                 if ((s + s_next) in _this.operatorjson) {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c,dynamicArray_compute));
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute,cellRangeFunction));
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4496,7 +4445,7 @@ const luckysheetformula = {
                 else {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c,dynamicArray_compute));
+                            cal2.unshift(_this.isFunctionRange($.trim(str), r, c, index,dynamicArray_compute,cellRangeFunction));
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4542,7 +4491,7 @@ const luckysheetformula = {
                 if (_this.iscelldata($.trim(str))) {
                     endstr = "luckysheet_getcelldata('" + $.trim(str) + "')";
 
-                    _this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                    _this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
                 }
                 else {
                     str = $.trim(str);
@@ -4593,19 +4542,19 @@ const luckysheetformula = {
 
             i++;
         }
-        //console.log(function_str);
-        _this.checkSpecialFunctionRange(function_str, r, c, dynamicArray_compute);
+        // console.log(function_str);
+        _this.checkSpecialFunctionRange(function_str, r, c, index, dynamicArray_compute,cellRangeFunction);
         return function_str;
     },
-    isFunctionRangeSaveChange: function (str, r, c, dynamicArray_compute) {
+    isFunctionRangeSaveChange: function (str, r, c, index, dynamicArray_compute) {
         let _this = this;
         if (r != null && c != null) {
             let range = _this.getcellrange($.trim(str));
             let row = range.row,
                 col = range.column,
-                index = range.sheetIndex;
+                sheetIndex = range.sheetIndex;
 
-            if ((r + "_" + c) in dynamicArray_compute && (Store.currentSheetIndex==index || index==null)) {
+            if ((r + "_" + c) in dynamicArray_compute && (index==sheetIndex || index==null)) {
                 let isd_range = false;
 
                 for (let d_r = row[0]; d_r <= row[1]; d_r++) {
@@ -4624,26 +4573,28 @@ const luckysheetformula = {
                 }
             }
             else {
-                if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1] && (Store.currentSheetIndex==index || index==null)) {
+                if (r >= row[0] && r <= row[1] && c >= col[0] && c <= col[1] && (index==sheetIndex || index==null)) {
                     _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;
                 }
                 else {
                     _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
                 }
             }
+
         }
         else {
-            let sheetlen = $.trim(str).split("!");
+            _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
+            // let sheetlen = $.trim(str).split("!");
 
-            if (sheetlen.length > 1) {
-                _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;//if change sheet, it must be true, but this is very slow
-            }
-            else {
-                _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
-            }
+            // if (sheetlen.length > 1) {
+            //     _this.isFunctionRangeSave = _this.isFunctionRangeSave || true;//if change sheet, it must be true, but this is very slow
+            // }
+            // else {
+            //     _this.isFunctionRangeSave = _this.isFunctionRangeSave || false;
+            // }
         }
     },
-    checkSpecialFunctionRange: function (function_str, r, c, dynamicArray_compute) {
+    checkSpecialFunctionRange: function (function_str, r, c, index, dynamicArray_compute,cellRangeFunction) {
         if (function_str.substr(0, 20) == "luckysheet_function.") {
             let funcName = function_str.split(".")[1];
             if (funcName != null) {
@@ -4652,15 +4603,22 @@ const luckysheetformula = {
                     let tempFunc = "luckysheet_indirect_check" + function_str.substr(30, function_str.length);
 
                     //tempFunc = tempFunc.replace(/luckysheet_getcelldata/g, "luckysheet_indirect_check_return");
-
+                    
                     try {
+                        Store.calculateSheetIndex = index;
                         let str = eval(tempFunc);
+                        
                         if(str instanceof Object && str.data!=null){
                             str = str.data.v;
                         }
-                        if (this.iscelldata($.trim(str))) {
-                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
-                            //console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                        let str_nb = $.trim(str);
+                        // console.log(function_str, tempFunc,str, this.iscelldata(str_nb),this.isFunctionRangeSave,r,c);
+                        if (this.iscelldata(str_nb)) {
+                            if(typeof(cellRangeFunction)=="function"){
+                                cellRangeFunction(str_nb);
+                            }
+                            this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
+                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
                     catch{
@@ -4673,9 +4631,17 @@ const luckysheetformula = {
                     let tempFunc = "luckysheet_offset_check" + function_str.substr(28, function_str.length);
 
                     try {
+                        Store.calculateSheetIndex = index;
                         let str = eval(tempFunc);
-                        if (this.iscelldata($.trim(str))) {
-                            this.isFunctionRangeSaveChange(str, r, c, dynamicArray_compute);
+                        if(str instanceof Object && str.data!=null){
+                            str = str.data.v;
+                        }
+                        let str_nb = $.trim(str);
+                        if (this.iscelldata(str_nb)) {
+                            if(typeof(cellRangeFunction)=="function"){
+                                cellRangeFunction(str_nb);
+                            }
+                            this.isFunctionRangeSaveChange(str, r, c, index,dynamicArray_compute);
                             //console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
@@ -4693,6 +4659,34 @@ const luckysheetformula = {
     execvertex: {},
     execFunctionGroupData: null,
     execFunctionExist: null,
+    formulaContainCellList:{},
+    cellTextToIndexList:{},
+    addToCellList:function(formulaTxt, cellstring){
+        if(formulaTxt==null || formulaTxt.length==0|| cellstring==null || cellstring.length==0){
+            return;
+        }
+        if(this.formulaContainCellList==null){
+            this.formulaContainCellList = {};
+        }
+
+        // formulaTxt = formulaTxt.toUpperCase();
+        if(this.formulaContainCellList[formulaTxt]==null){
+            this.formulaContainCellList[formulaTxt] = {};
+        }
+
+        this.formulaContainCellList[formulaTxt][cellstring] = 1;
+    },
+    addToCellIndexList:function(txt, infoObj){
+        if(txt==null || txt.length==0|| infoObj==null){
+            return;
+        }
+        if(this.cellTextToIndexList==null){
+            this.cellTextToIndexList = {};
+        }
+
+        this.cellTextToIndexList[txt] = infoObj;
+    },
+    execFunctionGlobalData:{},
     execFunctionGroupForce:function(isForce){
         if(isForce){
             this.execFunctionGroup(undefined, undefined, undefined, undefined, undefined,true);
@@ -4721,21 +4715,29 @@ const luckysheetformula = {
             window.luckysheet_calcADPMM = luckysheet_calcADPMM;
         }
 
-        _this.execFunctionGroupData = $.extend(true, [], data);
+        if(_this.execFunctionGlobalData==null){
+            _this.execFunctionGlobalData = {};
+        }
         let luckysheetfile = getluckysheetfile();
         let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
         
-        if (value != null) {
-            //此处setcellvalue 中this.execFunctionGroupData会保存想要更新的值，本函数结尾不要设为null,以备后续函数使用
-            setcellvalue(origin_r, origin_c, _this.execFunctionGroupData, value);
-        }
-
         if (index == null) {
             index = Store.currentSheetIndex;
         }
 
+        if (value != null) {
+            //此处setcellvalue 中this.execFunctionGroupData会保存想要更新的值，本函数结尾不要设为null,以备后续函数使用
+            // setcellvalue(origin_r, origin_c, _this.execFunctionGroupData, value);
+            let cellCache = [[{v:null}]];
+            setcellvalue(0, 0, cellCache, value);
+            _this.execFunctionGlobalData[origin_r+"_"+origin_c+"_"+index] = cellCache[0][0];
+            
+        }
+
+
+
         //{ "r": r, "c": c, "index": index, "func": func}
-        let group = _this.getFunctionGroup(index),
+        let group = _this.getAllFunctionGroup(),
             vertex1 = {},
             stack = [],
             count = 0;
@@ -4749,7 +4751,7 @@ const luckysheetformula = {
                     continue;
                 }
                 let cell = file.data[item.r][item.c];
-                let calc_funcStr = getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
+                let calc_funcStr = getcellFormula(item.r, item.c, item.index);
                 if(cell != null && cell.f != null && cell.f == calc_funcStr){
                     if(!(item instanceof Object)){
                         item = eval('('+ item +')');
@@ -4760,22 +4762,22 @@ const luckysheetformula = {
                     item.chidren = {};
                     item.times = 0;
 
-                    vertex1["r" + item.r.toString() + "c" + item.c.toString()] = item;
+                    vertex1["r" + item.r + "c" + item.c + "i" + item.index] = item;
                     _this.isFunctionRangeSave = false;
 
                     if(isForce){
                         _this.isFunctionRangeSave = true;
                     }
                     else if (origin_r != null && origin_c != null) {
-                        _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, dynamicArray_compute);
+                        _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index, dynamicArray_compute);
                     } 
-                    else {
-                        _this.isFunctionRangeSelect(calc_funcStr, undefined, undefined ,dynamicArray_compute);
-                    }
+                    // else {
+                    //     _this.isFunctionRangeSelect(calc_funcStr, undefined, undefined ,dynamicArray_compute);
+                    // }
 
                     if (_this.isFunctionRangeSave) {
                         stack.push(item);
-                        _this.execvertex["r" + item.r.toString() + "c" + item.c.toString()] = item;
+                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
                         count++;
                     }
                 }
@@ -4785,63 +4787,70 @@ const luckysheetformula = {
             for (let x = 0; x < _this.execFunctionExist.length; x++) {
                 let cell = _this.execFunctionExist[x];
 
-                if ("r" + cell.r.toString() + "c" + cell.c.toString() in vertex1) {
+                if ("r" + cell.r + "c" + cell.c + "i" + cell.i in vertex1) {
                     continue;
                 }
 
                 for (let i = 0; i < group.length; i++) {
                     let item = group[i];
-                    let calc_funcStr =  getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
+                    let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
                     item.color = "w";
                     item.parent = null;
                     item.chidren = {};
                     item.times = 0;
 
-                    vertex1["r" + item.r.toString() + "c" + item.c.toString()] = item;
+                    vertex1["r" + item.r + "c" + item.c + "i"+ item.index] = item;
                     _this.isFunctionRangeSave = false;
                     if(isForce){
                         _this.isFunctionRangeSave = true;
                     }
                     else{
-                        _this.isFunctionRangeSelect(calc_funcStr, cell.r, cell.c, dynamicArray_compute);
+                        _this.isFunctionRangeSelect(calc_funcStr, cell.r, cell.c, cell.i, dynamicArray_compute);
                     }
                     
                     if (_this.isFunctionRangeSave) {
                         stack.push(item);
-                        _this.execvertex["r" + item.r.toString() + "c" + item.c.toString()] = item;
+                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
                         count++;
                     }
                 }
             }
         }
 
+        // console.time("1");
+        let iii =0;
         while (stack.length > 0) {
             let u = stack.shift();
 
             for (let name in vertex1) {
-                if (u.r == vertex1[name].r && u.c == vertex1[name].c) {
+                let item = vertex1[name];
+                if(item==null){
+                    continue;
+                }
+                if (u.r == item.r && u.c == item.c && u.index == item.index) {
                     continue;
                 }
 
                 _this.isFunctionRangeSave = false;
-                let item = vertex1[name];
-                let calc_funcStr =  getcellFormula(item.r, item.c, item.index, _this.execFunctionGroupData);
-                _this.isFunctionRangeSelect(calc_funcStr, u.r, u.c, dynamicArray_compute);
+                
+                let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
+                _this.isFunctionRangeSelect(calc_funcStr, u.r, u.c, u.index, dynamicArray_compute);
 
                 if (_this.isFunctionRangeSave) {
-                    let v = vertex1[name];
-
                     if (!(name in _this.execvertex)) {
-                        stack.push(v);
-                        _this.execvertex[name] = v;
+                        stack.push(item);
+                        _this.execvertex[name] = item;
                     }
 
                     count++;
-                    _this.execvertex[name].chidren["r" + u.r.toString() + "c" + u.c.toString()] = 1;
+                    _this.execvertex[name].chidren["r" + u.r + "c" + u.c + "i" + u.index] = 1;
                 }
+                // console.log(iii++);
             }
         }
+        // console.timeEnd("1");
 
+        // console.time("2");
         _this.groupValuesRefreshData = [];
         let i = 0;
 
@@ -4857,7 +4866,8 @@ const luckysheetformula = {
                 }
             }
         }
-        
+        // console.timeEnd("2");
+        // console.log(this.formulaContainCellList);
         _this.execFunctionExist = null;
     },
     //深度优先算法，处理多级调用函数
@@ -4868,58 +4878,72 @@ const luckysheetformula = {
         for (let chd in u.chidren) {
             let v = _this.execvertex[chd];
             if (v.color == "w") {
-                v.parent = "r" + u.r.toString() + "c" + u.c.toString();
+                v.parent = "r" + u.r.toString() + "c" + u.c.toString() + "i" + u.index;
                 _this.functionDFS(v);
             }
         }
 
         u.color = "b";
         window.luckysheet_getcelldata_cache = null;
-        let calc_funcStr =  getcellFormula(u.r, u.c, u.index, _this.execFunctionGroupData);
+        let calc_funcStr =  getcellFormula(u.r, u.c, u.index);
 
-        let v = _this.execfunction(calc_funcStr, u.r, u.c);
+        let v = _this.execfunction(calc_funcStr, u.r, u.c, u.index);
 
-        let value = _this.execFunctionGroupData[u.r][u.c];
-        if(value == null){
-            value = {};
-        }
+        // let value = _this.execFunctionGroupData[u.r][u.c];
+        // if(value == null){
+        //     value = {};
+        // }
 
-        value.v = v[1];
-        value.f = v[2];
+        // value.v = v[1];
+        // value.f = v[2];
 
-        if(value.spl != null){
+        let cell = getOrigincell(u.r,u.c,u.index);
+
+        let spl;
+        if(cell.spl != null){
             window.luckysheetCurrentRow = u.r;
             window.luckysheetCurrentColumn = u.c;
-            window.luckysheetCurrentFunction = _this.execFunctionGroupData[u.r][u.c].f;
+            window.luckysheetCurrentIndex = u.index;
+            window.luckysheetCurrentFunction = calc_funcStr;
 
-            let fp = $.trim(_this.functionParser(_this.execFunctionGroupData[u.r][u.c].f));
+            let fp = $.trim(_this.functionParserExe(calc_funcStr));
             let sparklines = eval(fp);
-            value.spl = sparklines;
+            spl = sparklines;
         }
 
         _this.groupValuesRefreshData.push({
             "r": u.r,
             "c": u.c,
-            "v": value,
-            "i": Store.currentSheetIndex
+            "v": v[1],
+            "spl":spl,
+            "index": u.index
         });
 
-        _this.execFunctionGroupData[u.r][u.c] = value;
+        // _this.execFunctionGroupData[u.r][u.c] = value;
+        _this.execFunctionGlobalData[u.r+"_"+u.c+"_"+u.index] = {
+            v:v[1],
+            f:v[2]
+        };
     },
     groupValuesRefreshData: [],
     groupValuesRefresh: function() {
         let _this = this;
-
+        let luckysheetfile = getluckysheetfile();
         if(_this.groupValuesRefreshData.length > 0){
             for (let i = 0; i < _this.groupValuesRefreshData.length; i++) {
                 let item = _this.groupValuesRefreshData[i];
 
-                if(item.i != Store.currentSheetIndex){
+                // if(item.i != Store.currentSheetIndex){
+                //     continue;
+                // }
+
+                
+                let data = luckysheetfile[getSheetIndex(item.index)].data;
+                if(data==null){
                     continue;
                 }
-
-                setcellvalue(item.r, item.c, Store.flowdata, item.v);
-                server.saveParam("v", Store.currentSheetIndex, item.v, {
+                setcellvalue(item.r, item.c, data, item.v);
+                server.saveParam("v", item.index, item.v, {
                     "r": item.r,
                     "c": item.c
                 });
@@ -4954,109 +4978,7 @@ const luckysheetformula = {
 
         setluckysheetfile(luckysheetfile);
     },
-    execfunction1: function(txt, r, c, isrefresh) {
-        let _this = this;
-
-        let fp = $.trim(_this.functionParser(txt));
-        let funcf = fp.match(/luckysheet_function/g),
-            funcg = fp.match(/luckysheet_getcelldata/g),
-            funcc = fp.match(/luckysheet_compareWith/g),
-            funclen = 0;
-
-        if (isrefresh == null) {
-            isrefresh = false;
-        }
-
-        if (funcf != null) {
-            funclen += funcf.length;
-        }
-
-        if (funcg != null) {
-            funclen += funcg.length;
-        }
-
-        if (funcc != null) {
-            funclen += funcc.length;
-        }
-
-        let quota1 = fp.match(/\(/g),
-            quota2 = fp.match(/\)/g),
-            quotalen = 0;
-
-        if (quota1 != null) {
-            quotalen += quota1.length;
-        }
-
-        if (quota2 != null) {
-            quotalen += quota2.length;
-        }
-        
-        if ((fp.substr(0, 20) == "luckysheet_function." || fp.substr(0, 22) == "luckysheet_compareWith") && funclen != quotalen / 2) {
-            fp += ")";
-
-            if(fp.substr(0, 20) == "luckysheet_function."){
-                txt += ")";
-            }
-
-            _this.functionHTMLIndex = 0;
-            $("#luckysheet-functionbox-cell").html('<span dir="auto" class="luckysheet-formula-text-color">=</span>' + _this.functionHTML(txt));
-        }
-
-        if (!_this.testFunction(txt, fp)) {
-            tooltip.info("提示", "公式存在错误");
-            return [false, _this.error.n, txt];
-        }
-
-        let result = null;
-        window.luckysheetCurrentRow = r;
-        window.luckysheetCurrentColumn = c;
-        window.luckysheetCurrentFunction = txt;
-
-        try {
-            result = eval(fp);
-        } 
-        catch (e) {
-            let err = e;
-            //err错误提示处理
-            console.log(e);
-            err = _this.errorInfo(err);
-            result = [_this.error.n, err];
-        }
-
-        if (result instanceof Array) {
-            result = result[0];
-            //错误处理
-        }
-        else if(result instanceof Object){
-            result = result.data;
-            if (result instanceof Array) {
-                result = result[0];
-            }
-        }
-
-        window.luckysheetCurrentRow = null;
-        window.luckysheetCurrentColumn = null;
-        window.luckysheetCurrentFunction = null;
-
-        if (fp.substr(0, 19) == "luckysheet_getcelldata(") {
-            if (result instanceof Array) {
-                result = result.join(",");
-            } 
-            else if (result instanceof Object) {
-                result = result.v;
-            }
-        }
-
-        if (r != null && c != null) {
-            if (isrefresh) {
-                _this.execFunctionGroup(r, c, result);
-            }
-            _this.insertUpdateFunctionGroup(r, c);
-        }
-
-        return [true, result, txt];
-    },
-    execfunction: function(txt, r, c, isrefresh, notInsertFunc) {
+    execfunction: function(txt, r, c, index, isrefresh, notInsertFunc) {
         let _this = this;
 
         let _locale = locale();
@@ -5068,9 +4990,15 @@ const luckysheetformula = {
 
         if (!_this.checkBracketNum(txt)) {
             txt += ")";
+        }        
+        
+        if(index==null){
+            index = Store.currentSheetIndex;
         }
 
-        let fp = $.trim(_this.functionParser(txt));
+        Store.calculateSheetIndex = index;
+
+        let fp = $.trim(_this.functionParserExe(txt));
         
         if ((fp.substr(0, 20) == "luckysheet_function." || fp.substr(0, 22) == "luckysheet_compareWith") ) {
             _this.functionHTMLIndex = 0;
@@ -5081,9 +5009,12 @@ const luckysheetformula = {
             return [false, _this.error.n, txt];
         }
 
+
+
         let result = null;
         window.luckysheetCurrentRow = r;
         window.luckysheetCurrentColumn = c;
+        window.luckysheetCurrentIndex = index;
         window.luckysheetCurrentFunction = txt;
 
         let sparklines = null;
@@ -5100,7 +5031,7 @@ const luckysheetformula = {
                         return [true, _this.error.r, txt];
                     }
 
-                    if(funcgRange.sheetIndex == Store.currentSheetIndex && r >= funcgRange.row[0] && r <= funcgRange.row[1] && c >= funcgRange.column[0] && c <= funcgRange.column[1]){
+                    if(funcgRange.sheetIndex == Store.calculateSheetIndex && r >= funcgRange.row[0] && r <= funcgRange.row[1] && c >= funcgRange.column[0] && c <= funcgRange.column[1]){
                         if(isEditMode()){
                             alert(locale_formulaMore.execfunctionSelfError);
                         }
@@ -5171,15 +5102,16 @@ const luckysheetformula = {
 
         window.luckysheetCurrentRow = null;
         window.luckysheetCurrentColumn = null;
+        window.luckysheetCurrentIndex = null;
         window.luckysheetCurrentFunction = null;
 
         if (r != null && c != null) {
             if (isrefresh) {
-                _this.execFunctionGroup(r, c, result);
+                _this.execFunctionGroup(r, c, result, index);
             }
 
             if(!notInsertFunc){
-                _this.insertUpdateFunctionGroup(r, c);
+                _this.insertUpdateFunctionGroup(r, c, index);
             }
         }
 
