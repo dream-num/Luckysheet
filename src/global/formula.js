@@ -1303,8 +1303,8 @@ const luckysheetformula = {
                 if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
                     let v = _this.execfunction(value, r, c, undefined, true);
                     isRunExecFunction = false;
-                    // curv = _this.execFunctionGroupData[r][c];
-                    curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
+                    curv = d[r][c];
+                    curv.v = v[1];
                     curv.f = v[2];
 
                     //打进单元格的sparklines的配置串， 报错需要单独处理。
@@ -1334,8 +1334,8 @@ const luckysheetformula = {
                         isRunExecFunction = false;
                         // get v/m/ct
 
-                        // curv = _this.execFunctionGroupData[r][c];
-                        curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
+                        curv = d[r][c];
+                        curv.v = v[1];
                         curv.f = v[2];
         
                         //打进单元格的sparklines的配置串， 报错需要单独处理。
@@ -1364,9 +1364,8 @@ const luckysheetformula = {
                             let v = _this.execfunction(valueFunction, r, c, undefined, true);
                             isRunExecFunction = false;
                             // get v/m/ct
-                            // curv = _this.execFunctionGroupData[r][c];
-                            curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
-        
+                            curv = d[r][c];
+                            curv.v = v[1];
                             // get f
                             curv.f = v[2];
         
@@ -1399,9 +1398,13 @@ const luckysheetformula = {
                     _this.delFunctionGroup(r, c);
                     _this.execFunctionGroup(r, c, value);
                     isRunExecFunction = false;
-                    // curv = _this.execFunctionGroupData[r][c];
 
-                    curv.v = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex].v;
+                    curv = d[r][c];
+                    // let gd = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex];
+                    // if(gd!=null){
+                    //     curv.v = gd.v;
+                    // }
+                    curv.v = value;
     
                     delete curv.f;
                     delete curv.spl;
@@ -1425,6 +1428,7 @@ const luckysheetformula = {
                     "v": v[1],
                     "f": v[2]
                 };
+
 
                 //打进单元格的sparklines的配置串， 报错需要单独处理。
                 if(v.length == 4 && v[3].type == "sparklines"){
