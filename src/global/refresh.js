@@ -19,6 +19,7 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
+let refreshCanvasTimeOut = null;
 
 function runExecFunction(range, index, data){
     formula.execFunctionExist = [];
@@ -42,6 +43,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     if(range == null){
         range = Store.luckysheet_select_save;
     }
+
+    clearTimeout(refreshCanvasTimeOut);
 
 
 
@@ -178,7 +181,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     }
     //刷新表格
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }
@@ -188,7 +191,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
 
 function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlValue, cdformat, isRefreshCanvas=true) {
     let redo = {}, isRunExecFunction=false;
-
+    clearTimeout(refreshCanvasTimeOut);
     if (ctrlType == "cellRowChange") {
         redo["type"] = "cellRowChange";
         redo["config"] = $.extend(true, {}, Store.config);
@@ -318,7 +321,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
     jfrefreshgrid_rhcw(rowheight, colwidth);
 
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }
@@ -330,7 +333,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
 }
 
 function jfrefreshrange(data, range, cdformat) {
-    
+    clearTimeout(refreshCanvasTimeOut);
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
@@ -361,7 +364,7 @@ function jfrefreshrange(data, range, cdformat) {
     runExecFunction(range, Store.currentSheetIndex, data);
 
     //刷新表格
-    setTimeout(function () {
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 
@@ -571,7 +574,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 //删除单元格 刷新表格
 function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-
+    clearTimeout(refreshCanvasTimeOut);
     //merge改变对应的单元格值改变
     let mcData = [];
     if(JSON.stringify(cfg["merge"]) == "{}"){
@@ -726,7 +729,7 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     file.dataVerification = dataVerification;
     server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
 
-    setTimeout(function () {
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 }
@@ -736,7 +739,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     //单元格数据更新联动
     let execF_rc = {};
     formula.execFunctionExist = [];
-
+    clearTimeout(refreshCanvasTimeOut);
     for(let r = source["range"].row[0]; r <= source["range"].row[1]; r++){
         for(let c = source["range"].column[0]; c <= source["range"].column[1]; c++){
             if((r + "_" + c + "_" + source["sheetIndex"]) in execF_rc){
@@ -862,8 +865,8 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, target["curData"]);
     formula.execFunctionGlobalData = null;
-    
-    setTimeout(function () {
+
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 
@@ -894,7 +897,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 //行高、列宽改变 刷新表格
 function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
     rhchInit(rowheight, colwidth);
-
+    clearTimeout(refreshCanvasTimeOut);
     sheetmanage.storeSheetParam();
 
     //行高列宽改变时 重新计算sparklines
@@ -1046,7 +1049,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
     sheetmanage.showSheet();
 
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }

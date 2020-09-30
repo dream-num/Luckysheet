@@ -1212,7 +1212,7 @@ const luckysheetformula = {
             "opacity": "0.13"
         });
     },
-    updatecell: function(r, c, value) {
+    updatecell: function(r, c, value, isRefresh=true) {
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
@@ -1361,39 +1361,42 @@ const luckysheetformula = {
                         }
                     }
                     // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
-                    else if(getObjType(value) == "object"){
-                        let valueFunction = value.f;
-        
-                        if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                            let v = _this.execfunction(valueFunction, r, c, undefined, true);
-                            isRunExecFunction = false;
-                            // get v/m/ct
-                            curv = d[r][c];
-                            curv.v = v[1];
-                            // get f
-                            curv.f = v[2];
-        
-                            // get other cell style attribute
-                            delete value.v;
-                            delete value.m;
-                            delete value.f;
-                            Object.assign(curv,value);
-        
-                            //打进单元格的sparklines的配置串， 报错需要单独处理。
-                            if(v.length == 4 && v[3].type == "sparklines"){
-                                delete curv.m;
-                                delete curv.v;
-        
-                                let curCalv = v[3].data;
-        
-                                if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
-                                    curv.v = curCalv[0];
-                                }
-                                else{
-                                    curv.spl = v[3].data;
-                                }
-                            }
+                    else {
+                        for(let attr in value){
+                            curv[attr] = value[attr];
                         }
+                        // let valueFunction = value.f;
+        
+                        // if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                        //     let v = _this.execfunction(valueFunction, r, c, undefined, true);
+                        //     isRunExecFunction = false;
+                        //     // get v/m/ct
+                        //     curv = d[r][c];
+                        //     curv.v = v[1];
+                        //     // get f
+                        //     curv.f = v[2];
+        
+                        //     // get other cell style attribute
+                        //     delete value.v;
+                        //     delete value.m;
+                        //     delete value.f;
+                        //     Object.assign(curv,value);
+        
+                        //     //打进单元格的sparklines的配置串， 报错需要单独处理。
+                        //     if(v.length == 4 && v[3].type == "sparklines"){
+                        //         delete curv.m;
+                        //         delete curv.v;
+        
+                        //         let curCalv = v[3].data;
+        
+                        //         if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                        //             curv.v = curCalv[0];
+                        //         }
+                        //         else{
+                        //             curv.spl = v[3].data;
+                        //         }
+                        //     }
+                        // }
                         
                     }
                     
@@ -1478,6 +1481,12 @@ const luckysheetformula = {
                     }
                     else if(v.length == 4 && v[3].type == "dynamicArrayItem"){
                         dynamicArrayItem = v[3].data;
+                    }
+                }
+                else{
+                    let v = curv;
+                    if(value.v==null){
+                        value.v = v;
                     }
                 }
                 
@@ -1578,10 +1587,17 @@ const luckysheetformula = {
             }
         }
 
-        jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
-
-        // Store.luckysheetCellUpdate.length = 0; //clear array
-        _this.execFunctionGlobalData = null; //销毁
+        if(isRefresh){
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
+            // Store.luckysheetCellUpdate.length = 0; //clear array
+            _this.execFunctionGlobalData = null; //销毁
+        }
+        else{
+            return {
+                data:d,
+                allParam:allParam
+            };
+        }
     },
     cancelNormalSelected: function() {
         let _this = this;

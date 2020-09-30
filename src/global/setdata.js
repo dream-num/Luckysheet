@@ -26,6 +26,10 @@ function setcellvalue(r, c, d, v) {
             if(v.spl != null){
                 cell.spl = v.spl;
             }
+
+            if(v.ct != null){
+                cell.ct = v.ct;
+            }
         }
         
 
