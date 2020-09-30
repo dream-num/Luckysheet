@@ -1265,7 +1265,7 @@ const luckysheetformula = {
 
         if(!isCurInline){
             if(isRealNull(value) && !isPrevInline){
-                if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
+                if(curv == null || (isRealNull(curv.v) && curv.spl == null && curv.f == null)){
                     _this.cancelNormalSelected();
                     return;
                 }
@@ -1560,9 +1560,10 @@ const luckysheetformula = {
         //动态数组
         let dynamicArray = null;
         if(!!dynamicArrayItem){
-            let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-            dynamicArray = $.extend(true, [], file["dynamicArray"]);
-            dynamicArray.push(dynamicArrayItem);
+            // let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            dynamicArray = $.extend(true, [], this.insertUpdateDynamicArray(dynamicArrayItem));
+            // dynamicArray.push(dynamicArrayItem);
+
         }
 
         let allParam = {
@@ -3992,6 +3993,32 @@ const luckysheetformula = {
         // console.log(function_str);
         return function_str;
     },
+    insertUpdateDynamicArray: function(dynamicArrayItem) {
+        let r = dynamicArrayItem.r , c = dynamicArrayItem.c, index = dynamicArrayItem.index;
+        if (index == null) {
+            index = Store.currentSheetIndex;
+        }
+
+        let luckysheetfile = getluckysheetfile();
+        let file = luckysheetfile[getSheetIndex(index)];
+
+        let dynamicArray = file.dynamicArray;
+        if (dynamicArray == null) {
+            dynamicArray = [];
+        }
+
+        for (let i = 0; i < dynamicArray.length; i++) {
+            let calc = dynamicArray[i];
+            if (calc.r == r && calc.c == c && calc.index == index) {
+                calc.data = dynamicArrayItem.data;
+                calc.f = dynamicArrayItem.f;
+                return dynamicArray;
+            }
+        }
+
+        dynamicArray.push(dynamicArrayItem);
+        return dynamicArray
+    },
     addFunctionGroup: function(r, c, func, index) {
         if (index == null) {
             index = Store.currentSheetIndex;
@@ -4626,7 +4653,7 @@ const luckysheetformula = {
                                 cellRangeFunction(str_nb);
                             }
                             this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
-                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                            // console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
                     catch{
@@ -4905,25 +4932,27 @@ const luckysheetformula = {
         // value.v = v[1];
         // value.f = v[2];
 
-        let cell = getOrigincell(u.r,u.c,u.index);
+        // let cell = getOrigincell(u.r,u.c,u.index);
 
-        let spl;
-        if(cell.spl != null){
-            window.luckysheetCurrentRow = u.r;
-            window.luckysheetCurrentColumn = u.c;
-            window.luckysheetCurrentIndex = u.index;
-            window.luckysheetCurrentFunction = calc_funcStr;
-
-            let fp = $.trim(_this.functionParserExe(calc_funcStr));
-            let sparklines = eval(fp);
-            spl = sparklines;
-        }
+        // let spl;
+        // if(v[3]!=null){
+        //     if(v[3].type=="sparklines"){
+        //         window.luckysheetCurrentRow = u.r;
+        //         window.luckysheetCurrentColumn = u.c;
+        //         window.luckysheetCurrentIndex = u.index;
+        //         window.luckysheetCurrentFunction = calc_funcStr;
+    
+        //         let fp = $.trim(_this.functionParserExe(calc_funcStr));
+        //         let sparklines = eval(fp);
+        //         spl = sparklines;
+        //     }
+        // }
 
         _this.groupValuesRefreshData.push({
             "r": u.r,
             "c": u.c,
             "v": v[1],
-            "spl":spl,
+            "spe":v[3],
             "index": u.index
         });
 
@@ -4945,12 +4974,23 @@ const luckysheetformula = {
                 //     continue;
                 // }
 
-                
-                let data = luckysheetfile[getSheetIndex(item.index)].data;
+                let file = luckysheetfile[getSheetIndex(item.index)];
+                let data = file.data;
                 if(data==null){
                     continue;
                 }
-                setcellvalue(item.r, item.c, data, item.v);
+
+                let updateValue = {};
+                if(item.spe!=null){
+                    if(item.spe.type=="sparklines"){
+                        updateValue.spl = item.spe.data;
+                    }
+                    else if(item.spe.type=="dynamicArrayItem"){
+                        file.dynamicArray = _this.insertUpdateDynamicArray(item.spe.data);
+                    }
+                }
+                updateValue.v = item.v;
+                setcellvalue(item.r, item.c, data, updateValue);
                 server.saveParam("v", item.index, item.v, {
                     "r": item.r,
                     "c": item.c
@@ -4976,6 +5016,21 @@ const luckysheetformula = {
                 if (calc.r == r && calc.c == c && calc.index == index) {
                     calcChain.splice(i, 1);
                     server.saveParam("fc", index, null, {
+                        "op": "del",
+                        "pos": i
+                    });
+                    break;
+                }
+            }
+        }
+
+        let dynamicArray = file.dynamicArray;
+        if (dynamicArray != null) {
+            for (let i = 0; i < dynamicArray.length; i++) {
+                let calc = dynamicArray[i];
+                if (calc.r == r && calc.c == c && (calc.index==null || calc.index == index)) {
+                    dynamicArray.splice(i, 1);
+                    server.saveParam("ac", index, null, {
                         "op": "del",
                         "pos": i
                     });
@@ -5099,7 +5154,7 @@ const luckysheetformula = {
                     result = result[0][0];
                 }
                 else{
-                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "data": result};
+                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "index":index,"data": result};
                     result = "";
                 }
             }

@@ -15,15 +15,19 @@ function setcellvalue(r, c, d, v) {
     let vupdate;
 
     if(getObjType(v) == "object"){
-        cell = v;
-
-        if(v.f != null){
-            cell.f = v.f;
+        if(cell==null){
+            cell = v;
         }
-
-        if(v.spl != null){
-            cell.spl = v.spl;
+        else{
+            if(v.f != null){
+                cell.f = v.f;
+            }
+    
+            if(v.spl != null){
+                cell.spl = v.spl;
+            }
         }
+        
 
         if(getObjType(v.v) == "object"){
             vupdate = v.v.v;

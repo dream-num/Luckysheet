@@ -1891,6 +1891,9 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
     let data = Store.flowdata;
 
     for(let r = row_st; r <= row_end; r++){
+        if(data[r]==null){
+            continue;
+        }
         for(let c = 0; c < data[r].length; c++){
             let cell = data[r][c];
 
