@@ -7018,6 +7018,21 @@ fieldset[disabled] .btn-danger.focus {
     margin-bottom: -5px;
     cursor: pointer;
 }
+#luckysheet-modal-dialog-activeImage, #luckysheet-modal-dialog-cropping{
+    background: none;
+}
+
+.luckysheet-modal-dialog-image {
+    border: none;
+    box-shadow:none;
+    background: none;
+}
+
+.luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
+    background: none;
+}
+
+
 /* 数据验证 */
 #luckysheet-dataVerification-dialog{
     user-select: none;
@@ -7192,7 +7207,3 @@ fieldset[disabled] .btn-danger.focus {
     white-space: nowrap;
 }
 
-.luckysheet-modal-dialog-image {
-    border: none;
-    box-shadow:none;
-}
