@@ -4392,7 +4392,7 @@ const menuButton = {
                 ret.example = "";
                 itemdata.push(ret);
 
-                if(!document.fonts.check("12px "+fItem.fontName)){
+                if(document.fonts && !document.fonts.check("12px "+fItem.fontName)){
                     if(fItem.url){
                         const fontface = new FontFace(fItem.fontName, `url(${fItem.url})`);
                         document.fonts.add(fontface);
@@ -4401,7 +4401,7 @@ const menuButton = {
                 }
             }
 
-            document.fonts.ready.then(function() {
+            document.fonts && document.fonts.ready.then(function() {
                 // Any operation that needs to be done only after all the fonts
                 // have finished loading can go here.
                 console.log("font ready");
