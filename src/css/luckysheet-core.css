@@ -7020,12 +7020,14 @@ fieldset[disabled] .btn-danger.focus {
 }
 #luckysheet-modal-dialog-activeImage, #luckysheet-modal-dialog-cropping{
     background: none;
+    box-shadow: none;
 }
 
 .luckysheet-modal-dialog-image {
     border: none;
     box-shadow:none;
     background: none;
+    box-shadow:none;
 }
 
 .luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{

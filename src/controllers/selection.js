@@ -167,8 +167,8 @@ const selection = {
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        rowIndexArr = rowIndexArr.sort(); 
-        colIndexArr = colIndexArr.sort();
+        // rowIndexArr = rowIndexArr.sort(); 
+        // colIndexArr = colIndexArr.sort();
 
         for (let i = 0; i < rowIndexArr.length; i++) {
             let r = rowIndexArr[i];

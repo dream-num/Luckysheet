@@ -811,7 +811,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
             Store.visibledatarow.push(Store.rh_height);//行的临时长度分布
         }
         Store.rh_height += 110;
-        sheetmanage.showSheet();
+        // sheetmanage.showSheet();
 
         if(Store.currentSheetIndex == source["sheetIndex"]){
             let rowlenArr = computeRowlenArr(target["curData"].length, target["curConfig"]);
