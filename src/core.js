@@ -38,7 +38,11 @@ let luckysheet = {};
 
 // mount api
 // luckysheet.api = api;
-Object.assign(luckysheet, api);
+// Object.assign(luckysheet, api);
+
+luckysheet = common_extend(api,luckysheet);
+
+
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
@@ -56,6 +60,7 @@ luckysheet.create = function (setting) {
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
+    Store.fontList = extendsetting.fontList;
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
     server.updateUrl = extendsetting.updateUrl;

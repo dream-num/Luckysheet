@@ -27,6 +27,7 @@ import locale from '../locale/locale';
 import { renderChartShow } from '../expendPlugins/chart/plugin';
 import {changeSheetContainerSize} from './resize';
 import {zoomNumberDomBind} from './zoom';
+import menuButton from './menuButton';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -675,6 +676,8 @@ const sheetmanage = {
                 }
             }
         }
+
+        menuButton.fontInitial(Store.fontList);//initial font
 
         file.data = data;
 

@@ -152,6 +152,7 @@ export function setCellValue(row, column, value, options = {}) {
             if(value.m!=null){
                 curv.m = value.m;
             }
+            formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, curv);//update text value
         }
         for(let attr in value){
@@ -166,6 +167,7 @@ export function setCellValue(row, column, value, options = {}) {
             data = luckysheetformula.updatecell(row, column, value, false).data;//update formula value or convert inline string html to object
         }
         else{
+            formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, value);
         }
         

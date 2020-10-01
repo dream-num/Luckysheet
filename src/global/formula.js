@@ -681,8 +681,8 @@ const luckysheetformula = {
             return;
         }
 
-        if(txt in this.addToCellIndexList){
-           return this.addToCellIndexList[txt];
+        if(txt in this.cellTextToIndexList){
+           return this.cellTextToIndexList[txt];
         }
 
         let val = txt.split("!");
