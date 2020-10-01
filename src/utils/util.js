@@ -378,7 +378,7 @@ function luckysheetfontformat(format) {
                 // fontfamily = fontarray[fontjson[format.ff]];
                 fontfamily = format.ff;
 
-                if(fontfamily!=null && !document.fonts.check("12px "+fontfamily)){
+                if(fontfamily!=null && document.fonts && !document.fonts.check("12px "+fontfamily)){
                     menuButton.addFontTolist(fontfamily);
                 }
             }
