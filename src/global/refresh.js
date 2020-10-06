@@ -19,6 +19,22 @@ import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
+let refreshCanvasTimeOut = null;
+
+function runExecFunction(range, index, data){
+    formula.execFunctionExist = [];
+    for(let s = 0; s < range.length; s++){
+        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
+            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
+                formula.execFunctionExist.push({ "r": r, "c": c, "i": index });
+            }
+        }
+    }
+    formula.execFunctionExist.reverse();
+    formula.execFunctionGroup(null, null, null, null, data);
+    formula.execFunctionGlobalData = null;
+}
+
 function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefreshCanvas = true) {
     if(data == null){
         data = Store.flowdata;
@@ -28,20 +44,9 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         range = Store.luckysheet_select_save;
     }
 
-    //单元格数据更新联动
-    if (isRunExecFunction) {
-        formula.execFunctionExist = [];
-        for(let s = 0; s < range.length; s++){
-            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
-                }
-            }
-        }
-        formula.execFunctionExist.reverse();
-        formula.execFunctionGroup(null, null, null, null, data);
-        formula.execFunctionGroupData = null;
-    }
+    clearTimeout(refreshCanvasTimeOut);
+
+
 
     //关联参数
     if(allParam == null){
@@ -157,7 +162,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             window.luckysheetCurrentColumn = c1;
             window.luckysheetCurrentFunction = Store.flowdata[r1][c1].f;
 
-            let fp = $.trim(formula.functionParser(Store.flowdata[r1][c1].f));
+            let fp = $.trim(formula.functionParserExe(Store.flowdata[r1][c1].f));
             let sparklines = eval(fp);
             Store.flowdata[r1][c1].spl = sparklines;
         }
@@ -170,10 +175,13 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             Store.chartparam.jfrefreshchartall(Store.flowdata,range[s].row[0],range[s].row[1],range[s].column[0],range[s].column[1]);
         }
     }
-
+    //单元格数据更新联动
+    if (isRunExecFunction) {
+        runExecFunction(range, Store.currentSheetIndex, data);
+    }
     //刷新表格
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }
@@ -182,8 +190,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
 }
 
 function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlValue, cdformat, isRefreshCanvas=true) {
-    let redo = {};
-
+    let redo = {}, isRunExecFunction=false;
+    clearTimeout(refreshCanvasTimeOut);
     if (ctrlType == "cellRowChange") {
         redo["type"] = "cellRowChange";
         redo["config"] = $.extend(true, {}, Store.config);
@@ -249,19 +257,6 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
         server.saveParam("drc", Store.currentSheetIndex, {"index": ctrlValue.index, "len":ctrlValue.len, "mc": cfg.merge, "borderInfo": cfg.borderInfo }, { "rc": ctrlValue.type});
     }
     else {
-        //单元格数据更新联动
-        formula.execFunctionExist = [];
-        for(let s = 0; s < range.length; s++){
-            for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-                for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                    formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
-                }
-            }
-        }
-        formula.execFunctionExist.reverse();
-        formula.execFunctionGroup(null, null, null, null, data);
-        formula.execFunctionGroupData = null;
-
         redo["type"] = "datachangeAll";
 
         redo["range"] = $.extend(true, [], Store.luckysheet_select_save);
@@ -269,6 +264,8 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
 
         redo["ctrlType"] = ctrlType;
         redo["ctrlValue"] = ctrlValue;
+
+        isRunExecFunction = true;
 
         for(let s = 0; s < range.length; s++){
             server.historyParam(data, Store.currentSheetIndex, range[s]);    
@@ -314,11 +311,17 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
         selectHightlightShow();
     }
 
+
+    if(isRunExecFunction){
+        //单元格数据更新联动
+        runExecFunction(range, Store.currentSheetIndex, data);
+    }
+
     //行高、列宽 刷新  
     jfrefreshgrid_rhcw(rowheight, colwidth);
 
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }
@@ -330,18 +333,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
 }
 
 function jfrefreshrange(data, range, cdformat) {
-    //单元格数据更新联动
-    formula.execFunctionExist = [];
-    for(let s = 0; s < range.length; s++){
-        for(let r = range[s].row[0]; r <= range[s].row[1]; r++){
-            for(let c = range[s].column[0]; c <= range[s].column[1]; c++){
-                formula.execFunctionExist.push({ "r": r, "c": c, "i": Store.currentSheetIndex });
-            }
-        }
-    }
-    formula.execFunctionExist.reverse();
-    formula.execFunctionGroup(null, null, null, null, data);
-    formula.execFunctionGroupData = null;
+    clearTimeout(refreshCanvasTimeOut);
 
     if (Store.clearjfundo) {
         Store.jfundo = [];
@@ -368,8 +360,11 @@ function jfrefreshrange(data, range, cdformat) {
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] = cdformat;
     }
 
+    //单元格数据更新联动
+    runExecFunction(range, Store.currentSheetIndex, data);
+
     //刷新表格
-    setTimeout(function () {
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 
@@ -409,12 +404,12 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
     if(calc.length > 0){
-        formula.execFunctionGroupData = data;
+        // formula.execFunctionGroupData = data;
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
             let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
             clc.func = clc_result;
 
             if(data[clc_r][clc_c].f == clc_funcStr){
@@ -579,7 +574,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 //删除单元格 刷新表格
 function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-
+    clearTimeout(refreshCanvasTimeOut);
     //merge改变对应的单元格值改变
     let mcData = [];
     if(JSON.stringify(cfg["merge"]) == "{}"){
@@ -620,12 +615,12 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
     if(calc.length > 0){
-        formula.execFunctionGroupData = data;
+        // formula.execFunctionGroupData = data;
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
             let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, null, true);
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
             clc.func = clc_result;
 
             if(data[clc_r][clc_c].f == clc_funcStr){
@@ -734,7 +729,7 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     file.dataVerification = dataVerification;
     server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
 
-    setTimeout(function () {
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 }
@@ -744,7 +739,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     //单元格数据更新联动
     let execF_rc = {};
     formula.execFunctionExist = [];
-
+    clearTimeout(refreshCanvasTimeOut);
     for(let r = source["range"].row[0]; r <= source["range"].row[1]; r++){
         for(let c = source["range"].column[0]; c <= source["range"].column[1]; c++){
             if((r + "_" + c + "_" + source["sheetIndex"]) in execF_rc){
@@ -767,9 +762,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
         }
     }
 
-    formula.execFunctionExist.reverse();
-    formula.execFunctionGroup(null, null, null, null, target["curData"]);
-    formula.execFunctionGroupData = null;
+
 
     if(Store.clearjfundo){
         Store.jfundo = [];
@@ -818,7 +811,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
             Store.visibledatarow.push(Store.rh_height);//行的临时长度分布
         }
         Store.rh_height += 110;
-        sheetmanage.showSheet();
+        // sheetmanage.showSheet();
 
         if(Store.currentSheetIndex == source["sheetIndex"]){
             let rowlenArr = computeRowlenArr(target["curData"].length, target["curConfig"]);
@@ -867,8 +860,13 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     }
     Store.luckysheetfile[getSheetIndex(source["sheetIndex"])].dataVerification = source["curDataVerification"];
     Store.luckysheetfile[getSheetIndex(target["sheetIndex"])].dataVerification = target["curDataVerification"];
+    
+    
+    formula.execFunctionExist.reverse();
+    formula.execFunctionGroup(null, null, null, null, target["curData"]);
+    formula.execFunctionGlobalData = null;
 
-    setTimeout(function () {
+    refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
     }, 1);
 
@@ -899,7 +897,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 //行高、列宽改变 刷新表格
 function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
     rhchInit(rowheight, colwidth);
-
+    clearTimeout(refreshCanvasTimeOut);
     sheetmanage.storeSheetParam();
 
     //行高列宽改变时 重新计算sparklines
@@ -922,7 +920,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
                 window.luckysheetCurrentColumn = c;
                 window.luckysheetCurrentFunction = Store.flowdata[r][c].f;
 
-                let fp = $.trim(formula.functionParser(Store.flowdata[r][c].f));
+                let fp = $.trim(formula.functionParserExe(Store.flowdata[r][c].f));
                 let sparklines = eval(fp);
                 Store.flowdata[r][c].spl = sparklines;
 
@@ -1051,7 +1049,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
     sheetmanage.showSheet();
 
     if(isRefreshCanvas){
-        setTimeout(function () {
+        refreshCanvasTimeOut = setTimeout(function () {
             luckysheetrefreshgrid();
         }, 1);
     }

@@ -190,7 +190,7 @@ function luckysheet_compareWith() {
 
                             let value;
                             if(isRealNum(fp[m][n]) && isRealNum(tp[m][n])){
-                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[p][n]);//parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
+                                value = luckysheet_calcADPMM(fp[m][n], sp, tp[m][n]);//parseFloat(fp[m][n]) * parseFloat(tp[m][n]);
                             }
                             else{
                                 value = error.v;
@@ -1621,15 +1621,16 @@ function luckysheet_getcelldata(txt) {
         }
     } 
     else {
-        let index = getSheetIndex(Store.currentSheetIndex);
+        let index = getSheetIndex(Store.calculateSheetIndex);
         sheettxt = luckysheetfile[index].name;
         sheetIndex = luckysheetfile[index].index;
-        sheetdata = Store.flowdata;
+        // sheetdata = Store.flowdata;
+        sheetdata = luckysheetfile[index].data;
         rangetxt = val[0];
 
-        if (formula.execFunctionGroupData != null) {
-            sheetdata = formula.execFunctionGroupData;
-        }
+        // if (formula.execFunctionGroupData != null) {
+        //     sheetdata = formula.execFunctionGroupData;
+        // }
     }
 
     if (rangetxt.indexOf(":") == -1) {
@@ -1641,6 +1642,13 @@ function luckysheet_getcelldata(txt) {
                 "row": [row, row],
                 "column": [col, col]
             })[0][0];
+
+            if (formula.execFunctionGlobalData != null) {
+                let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+sheetIndex];
+                if(ef!=null){
+                    ret = ef;
+                }
+            }
 
             //范围的长宽
             let rowl = 1;
@@ -1700,6 +1708,18 @@ function luckysheet_getcelldata(txt) {
             "row": row,
             "column": col
         });
+
+        if(formula.execFunctionGlobalData!=null){
+            for(let r=row[0];r<=row[1];r++){
+                for(let c=col[0];c<=col[1];c++){
+                    let ef = formula.execFunctionGlobalData[r+"_"+c+"_"+sheetIndex];
+                    if(ef!=null){
+                        ret[r-row[0]][c-col[0]] = ef;
+                    }
+                }
+            }
+        }
+
         
         //范围的长宽
         let rowl = row[1] - row[0] + 1;
@@ -1887,7 +1907,7 @@ function luckysheet_offset_check() {
         return formula.error.r;
     }
 
-    return getRangetxt(Store.currentSheetIndex, {
+    return getRangetxt(Store.calculateSheetIndex, {
         row: [cellRow0, cellRow1],
         column: [cellCol0, cellCol1]
     });

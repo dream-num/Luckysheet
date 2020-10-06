@@ -6,7 +6,8 @@ const Store = {
     fullscreenmode: true,
     devicePixelRatio: 1,
 
-	currentSheetIndex: 0,
+    currentSheetIndex: 0,
+    calculateSheetIndex: 0,
 	flowdata: [],
     config: {},
 
@@ -129,6 +130,8 @@ const Store = {
     toobarObject: {}, //toolbar constant
     inlineStringEditCache:null,
     inlineStringEditRange:null,
+
+    fontList:[],
 
 }
 

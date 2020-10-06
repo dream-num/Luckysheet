@@ -27,6 +27,7 @@ import locale from '../locale/locale';
 import { renderChartShow } from '../expendPlugins/chart/plugin';
 import {changeSheetContainerSize} from './resize';
 import {zoomNumberDomBind} from './zoom';
+import menuButton from './menuButton';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -401,7 +402,7 @@ const sheetmanage = {
         let copyobject = $("#luckysheet-sheets-item" + copyindex);
         $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset }));
         $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
-        Store.luckysheetfile.splice(copyindex + 1, 0, copyjson);
+        Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
         $("#luckysheet-sheets-item" + index).addClass("luckysheet-sheets-item-active");
@@ -676,6 +677,8 @@ const sheetmanage = {
             }
         }
 
+        menuButton.fontInitial(Store.fontList);//initial font
+
         file.data = data;
 
         let rowheight = data.length;
@@ -864,7 +867,8 @@ const sheetmanage = {
         Store.flowdata = file["data"];
         editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
-        formula.execFunctionGroupData = null;
+        // formula.execFunctionGroupData = null;
+        formula.execFunctionGlobalData = null;
         window.luckysheet_getcelldata_cache = null;
 
         this.sheetParamRestore(file, Store.flowdata);
@@ -1152,7 +1156,7 @@ const sheetmanage = {
         _this.restoreselect();
     },
     checkLoadSheetIndex: function(file) {
-    	let calchain = file.calcChain; //index
+    	let calchain = formula.getAllFunctionGroup();//file.calcChain; //index
     	let chart = file.chart; //dataSheetIndex
     	let pivotTable = file.pivotTable; //pivotDataSheetIndex
 
@@ -1166,7 +1170,14 @@ const sheetmanage = {
                 let dataindex = f.index;
                 let formulaTxt = getcellFormula(f.r, f.c, dataindex);
 
+                if(formulaTxt==null){
+                    let file = Store.luckysheetfile[this.getSheetIndex(dataindex)];
+                    file.data = this.buildGridData(file);
+                    formulaTxt = getcellFormula(f.r, f.c, dataindex);
+                }
+
                 formula.functionParser(formulaTxt, (str)=>{
+                    formula.addToCellList(formulaTxt, str);
                     if(str.indexOf("!")>-1){
                         let name = str.substr(0, str.indexOf('!'));
                         dataNameList[name] = true;
@@ -1178,7 +1189,7 @@ const sheetmanage = {
                 }
                 
         		if(cache[dataindex.toString()] == null){
-        			ret.push(dataindex);
+        			// ret.push(dataindex);
         			cache[dataindex.toString()] = 1;
         		}
             }

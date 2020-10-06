@@ -167,8 +167,8 @@ const selection = {
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        rowIndexArr = rowIndexArr.sort(); 
-        colIndexArr = colIndexArr.sort();
+        // rowIndexArr = rowIndexArr.sort(); 
+        // colIndexArr = colIndexArr.sort();
 
         for (let i = 0; i < rowIndexArr.length; i++) {
             let r = rowIndexArr[i];
@@ -1451,7 +1451,7 @@ const selection = {
                                 func = "=" + formula.functionCopy(func, "left", Math.abs(offsetCol));
                             }
 
-                            let funcV = formula.execfunction(func, h, c, true);
+                            let funcV = formula.execfunction(func, h, c, undefined, true);
 
                             if(value.spl != null){
                                 value.f = funcV[2];

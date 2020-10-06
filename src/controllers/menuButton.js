@@ -47,6 +47,16 @@ const menuButton = {
     "rightclickmenu": null,
     "submenuhide": null,
     focus: function($obj, value){
+        if($obj.attr("id")=="luckysheet-icon-font-family-menuButton"){
+            if (isdatatypemulti(value)["num"]) {
+                 let  _locale = locale();
+                const locale_fontarray = _locale.fontarray;
+                value = locale_fontarray[parseInt(value)];
+                if(value==null){
+                    value = this.defualtFont[itemvalue];
+                }
+            }
+        }
         $obj.find(".luckysheet-cols-menuitem").find("span.icon").html("");
         if(value == null){
             $obj.find(".luckysheet-cols-menuitem").eq(0).find("span.icon").html('<i class="fa fa-check luckysheet-mousedown-cancel"></i>');
@@ -468,19 +478,19 @@ const menuButton = {
             let menuButtonId = $(this).attr("id")+"-menuButton";
             let $menuButton = $("#"+menuButtonId);
             if($menuButton.length == 0){
-                const locale_fontarray = locale().fontarray;
-                let itemdata = [];
+                // const locale_fontarray = locale().fontarray;
+                // let itemdata = [];
 
-                for(let a=0;a<locale_fontarray.length;a++){
-                    let fItem = locale_fontarray[a];
-                    let ret = {};
-                    ret.value = a;
-                    ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem+"'>"+fItem+"</span>";
-                    ret.example = "";
-                    itemdata.push(ret);
-                }
+                // for(let a=0;a<locale_fontarray.length;a++){
+                //     let fItem = locale_fontarray[a];
+                //     let ret = {};
+                //     ret.value = a;
+                //     ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem+"'>"+fItem+"</span>";
+                //     ret.example = "";
+                //     itemdata.push(ret);
+                // }
 
-                let itemset = _this.createButtonMenu(itemdata);
+                let itemset = _this.createButtonMenu(_this.fontSelectList);
 
                 let menu = replaceHtml(_this.menu, {"id": "font-family", "item": itemset, "subclass": "", "sub": ""});
 
@@ -488,7 +498,7 @@ const menuButton = {
                 $menuButton = $("#"+menuButtonId).width(200);
                 _this.focus($menuButton);
 
-                $menuButton.find(".luckysheet-cols-menuitem").click(function(){
+                $menuButton.on("click", ".luckysheet-cols-menuitem", function(){
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
@@ -2871,6 +2881,142 @@ const menuButton = {
         
         return [style, color];
     },
+    updateFormatCell:function(d, attr, foucsStatus,row_st, row_ed, col_st, col_ed){
+        if(d==null || attr==null){
+            return;
+        }
+        if(attr == "ct"){
+            for (let r = row_st; r <= row_ed; r++) {
+                if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
+                    continue;
+                }
+
+                for (let c = col_st; c <= col_ed; c++) {
+                    let cell = d[r][c], value = null;
+                    
+                    if (getObjType(cell) == "object") {
+                        value = d[r][c]["v"];
+                    }
+                    else{
+                        value = d[r][c];
+                    }
+
+                    if(foucsStatus != "@" && isRealNum(value)){
+                        value = parseFloat(value);
+                    }
+
+                    let mask = update(foucsStatus, value);
+                    let type = "n";
+                    
+                    if(is_date(foucsStatus) || foucsStatus === 14 || foucsStatus === 15 || foucsStatus === 16 || foucsStatus === 17 || foucsStatus === 18 || foucsStatus === 19 || foucsStatus === 20 || foucsStatus === 21 || foucsStatus === 22 || foucsStatus === 45 || foucsStatus === 46 || foucsStatus === 47){
+                        type = "d";
+                    }
+                    else if(foucsStatus == "@" || foucsStatus === 49){
+                        type = "s"
+                    }
+                    else if(foucsStatus == "General" || foucsStatus === 0){
+                        type = "g";
+                    }
+
+                    if (getObjType(cell) == "object") {
+                        d[r][c]["m"] = mask;
+                        if(d[r][c]["ct"] == null){
+                            d[r][c]["ct"] = {};
+                        }
+                        d[r][c]["ct"]["fa"] = foucsStatus;
+                        d[r][c]["ct"]["t"] = type;
+                    }
+                    else{
+                        d[r][c] = { "ct":{"fa":foucsStatus, "t":type}, "v": value, "m": mask };
+                    }
+                }
+            }
+        }
+        else{
+            if(attr == "ht"){
+                if(foucsStatus == "left"){
+                    foucsStatus = "1";
+                }
+                else if(foucsStatus == "center"){
+                    foucsStatus = "0";
+                }
+                else if(foucsStatus == "right"){
+                    foucsStatus = "2";
+                }
+            }
+            else if(attr == "vt"){
+                if(foucsStatus == "top"){
+                    foucsStatus = "1";
+                }
+                else if(foucsStatus == "middle"){
+                    foucsStatus = "0";
+                }
+                else if(foucsStatus == "bottom"){
+                    foucsStatus = "2";
+                }
+            }
+            else if(attr == "tb"){
+                if(foucsStatus == "overflow"){
+                    foucsStatus = "1";
+                }
+                else if(foucsStatus == "clip"){
+                    foucsStatus = "0";
+                }
+                else if(foucsStatus == "wrap"){
+                    foucsStatus = "2";
+                }
+            }
+            else if(attr == "tr"){
+                if(foucsStatus == "none"){
+                    foucsStatus = "0";
+                }
+                else if(foucsStatus == "angleup"){
+                    foucsStatus = "1";
+                }
+                else if(foucsStatus == "angledown"){
+                    foucsStatus = "2";
+                }
+                else if(foucsStatus == "vertical"){
+                    foucsStatus = "3";
+                }
+                else if(foucsStatus == "rotation-up"){
+                    foucsStatus = "4";
+                }
+                else if(foucsStatus == "rotation-down"){
+                    foucsStatus = "5";
+                }
+            }
+
+            for (let r = row_st; r <= row_ed; r++) {
+                if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
+                    continue;
+                }
+
+                for (let c = col_st; c <= col_ed; c++) {
+                    let value = d[r][c];
+                    
+                    if (getObjType(value) == "object") {
+                        // if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
+                            updateInlineStringFormatOutside(value, attr, foucsStatus);
+                        // }
+                        // else{
+                            d[r][c][attr] = foucsStatus;
+                        // }
+                        
+                    }
+                    else{
+                        d[r][c] = { v: value };
+                        d[r][c][attr] = foucsStatus;
+                    }
+
+                    // if(attr == "tr" && d[r][c].tb != null){
+                    //     d[r][c].tb = "0";
+                    // }
+                }
+            }
+        }
+
+    },
     updateFormat: function(d, attr, foucsStatus){
         let _this = this;
 
@@ -2903,136 +3049,7 @@ const menuButton = {
             let col_st = Store.luckysheet_select_save[s]["column"][0], 
                 col_ed = Store.luckysheet_select_save[s]["column"][1];
 
-            if(attr == "ct"){
-                for (let r = row_st; r <= row_ed; r++) {
-                    if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-                        continue;
-                    }
-
-                    for (let c = col_st; c <= col_ed; c++) {
-                        let cell = d[r][c], value = null;
-                        
-                        if (getObjType(cell) == "object") {
-                            value = d[r][c]["v"];
-                        }
-                        else{
-                            value = d[r][c];
-                        }
-
-                        if(foucsStatus != "@" && isRealNum(value)){
-                            value = parseFloat(value);
-                        }
-
-                        let mask = update(foucsStatus, value);
-                        let type = "n";
-                        
-                        if(is_date(foucsStatus) || foucsStatus === 14 || foucsStatus === 15 || foucsStatus === 16 || foucsStatus === 17 || foucsStatus === 18 || foucsStatus === 19 || foucsStatus === 20 || foucsStatus === 21 || foucsStatus === 22 || foucsStatus === 45 || foucsStatus === 46 || foucsStatus === 47){
-                            type = "d";
-                        }
-                        else if(foucsStatus == "@" || foucsStatus === 49){
-                            type = "s"
-                        }
-                        else if(foucsStatus == "General" || foucsStatus === 0){
-                            type = "g";
-                        }
-
-                        if (getObjType(cell) == "object") {
-                            d[r][c]["m"] = mask;
-                            if(d[r][c]["ct"] == null){
-                                d[r][c]["ct"] = {};
-                            }
-                            d[r][c]["ct"]["fa"] = foucsStatus;
-                            d[r][c]["ct"]["t"] = type;
-                        }
-                        else{
-                            d[r][c] = { "ct":{"fa":foucsStatus, "t":type}, "v": value, "m": mask };
-                        }
-                    }
-                }
-            }
-            else{
-                if(attr == "ht"){
-                    if(foucsStatus == "left"){
-                        foucsStatus = "1";
-                    }
-                    else if(foucsStatus == "center"){
-                        foucsStatus = "0";
-                    }
-                    else if(foucsStatus == "right"){
-                        foucsStatus = "2";
-                    }
-                }
-                else if(attr == "vt"){
-                    if(foucsStatus == "top"){
-                        foucsStatus = "1";
-                    }
-                    else if(foucsStatus == "middle"){
-                        foucsStatus = "0";
-                    }
-                    else if(foucsStatus == "bottom"){
-                        foucsStatus = "2";
-                    }
-                }
-                else if(attr == "tb"){
-                    if(foucsStatus == "overflow"){
-                        foucsStatus = "1";
-                    }
-                    else if(foucsStatus == "clip"){
-                        foucsStatus = "0";
-                    }
-                    else if(foucsStatus == "wrap"){
-                        foucsStatus = "2";
-                    }
-                }
-                else if(attr == "tr"){
-                    if(foucsStatus == "none"){
-                        foucsStatus = "0";
-                    }
-                    else if(foucsStatus == "angleup"){
-                        foucsStatus = "1";
-                    }
-                    else if(foucsStatus == "angledown"){
-                        foucsStatus = "2";
-                    }
-                    else if(foucsStatus == "vertical"){
-                        foucsStatus = "3";
-                    }
-                    else if(foucsStatus == "rotation-up"){
-                        foucsStatus = "4";
-                    }
-                    else if(foucsStatus == "rotation-down"){
-                        foucsStatus = "5";
-                    }
-                }
-
-                for (let r = row_st; r <= row_ed; r++) {
-                    if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-                        continue;
-                    }
-
-                    for (let c = col_st; c <= col_ed; c++) {
-                        let value = d[r][c];
-                        
-                        if (getObjType(value) == "object") {
-                            // if(attr in inlineStyleAffectAttribute && isInlineStringCell(value)){
-                                updateInlineStringFormatOutside(value, attr, foucsStatus);
-                            // }
-                            // else{
-                                d[r][c][attr] = foucsStatus;
-                            // }
-                            
-                        }
-                        else{
-                            d[r][c] = { v: value };
-                            d[r][c][attr] = foucsStatus;
-                        }
-
-                        // if(attr == "tr" && d[r][c].tb != null){
-                        //     d[r][c].tb = "0";
-                        // }
-                    }
-                }
-            }
+            this.updateFormatCell(d, attr, foucsStatus, row_st, row_ed, col_st, col_ed);
 
             if(attr == "tb" || attr == "tr" || attr == "fs"){
                 cfg = rowlenByRange(d, row_st, row_ed, cfg);
@@ -3310,10 +3327,20 @@ const menuButton = {
                 if(isdatatypemulti(foucsStatus)["num"]){
                     itemvalue = parseInt(foucsStatus);
                     itemname = locale_fontarray[itemvalue];
+
+                    if(itemname==null){
+                        itemvalue = _this.defualtFont[itemvalue];
+                        itemname = itemvalue;
+                        if(itemvalue!=null){
+                            _this.addFontTolist(itemvalue);
+                        }
+                    }
                 }
                 else{
-                    itemvalue = locale_fontjson[foucsStatus];
-                    itemname = locale_fontarray[itemvalue];
+                    itemvalue = foucsStatus;
+                    itemname = foucsStatus;
+
+                    _this.addFontTolist(itemvalue);
                 }   
             }
 
@@ -3443,6 +3470,10 @@ const menuButton = {
         }
     },
     checkstatus: function(d, r, c, a){
+        if(d==null || d[r]==null){
+            console.warn("It's incorrect data", r, c);
+            return null;
+        }
         let foucsStatus = d[r][c];
         return checkstatusByCell(foucsStatus, a);
     },
@@ -3576,13 +3607,26 @@ const menuButton = {
         return mergelist;
     },
     mergeborer: function(d, row_index, col_index){
+        if(d==null || d[row_index]==null){
+            console.warn("Merge info is null", row_index, col_index);
+            return null;
+        }
         let value = d[row_index][col_index];
         
         if(getObjType(value) == "object" && ("mc" in value)){
             let margeMaindata = value["mc"];
+            if(margeMaindata==null){
+                console.warn("Merge info is null", row_index, col_index);
+                return null;
+            }
             col_index = margeMaindata.c;
             row_index = margeMaindata.r;
 
+
+            if(d[row_index][col_index]==null){
+                console.warn("Main merge Cell info is null", row_index, col_index);
+                return null;
+            }
             let col_rs = d[row_index][col_index].mc.cs;
             let row_rs = d[row_index][col_index].mc.rs;
 
@@ -4296,6 +4340,75 @@ const menuButton = {
         }
 
         return style;
+    },
+    fontSelectList:[],
+    defualtFont:["Times New Roman","Arial","Tahoma","Verdana","微软雅黑","宋体","黑体","楷体","仿宋","新宋体","华文新魏","华文行楷","华文隶书"],
+    addFontTolist:function(fontName) {
+        let isNone = true;
+        for(let a=0;a<this.fontSelectList.length;a++){
+            let fItem = this.fontSelectList[a];
+            if(fItem.value == fontName){
+                isNone = false;
+                break
+            }
+        }
+
+        if(isNone){
+            let ret = {};
+            ret.value = fontName;
+            ret.index = this.fontSelectList.length;
+            ret.type = "userDefined";
+            ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fontName+"'>"+fontName+"</span>";
+            ret.example = "";
+            this.fontSelectList.push(ret);
+
+            let $menuButton = $("#luckysheet-icon-font-family-menuButton");
+            let itemset = this.createButtonMenu(this.fontSelectList);
+            $menuButton.html(itemset);
+        }
+    },
+    fontInitial:function(fontList) {
+        let itemdata = [];
+        const locale_fontarray = locale().fontarray;
+        for(let a=0;a<locale_fontarray.length;a++){
+            let fItem = locale_fontarray[a];
+            let ret = {};
+            ret.value = fItem;
+            ret.index = a;
+            ret.type = "inner";
+            ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem+"'>"+fItem+"</span>";
+            ret.example = "";
+            itemdata.push(ret);
+        }
+
+        if(fontList!=null){
+            for(let a=0;a<fontList.length;a++){
+                let fItem = fontList[a];
+                let ret = {};
+                ret.value = fItem.fontName;
+                ret.index = a;
+                ret.type = "userDefined";
+                ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem.fontName+"'>"+fItem.fontName+"</span>";
+                ret.example = "";
+                itemdata.push(ret);
+
+                if(document.fonts && !document.fonts.check("12px "+fItem.fontName)){
+                    if(fItem.url){
+                        const fontface = new FontFace(fItem.fontName, `url(${fItem.url})`);
+                        document.fonts.add(fontface);
+                        fontface.load();
+                    }
+                }
+            }
+
+            document.fonts && document.fonts.ready.then(function() {
+                // Any operation that needs to be done only after all the fonts
+                // have finished loading can go here.
+                console.log("font ready");
+            });
+        }
+
+        this.fontSelectList = itemdata;
     }
 }
 

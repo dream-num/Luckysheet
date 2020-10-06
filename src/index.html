@@ -33,53 +33,26 @@
 		import sheetPicture from './demoData/sheetPicture.js'
 		import sheetDataVerification from './demoData/sheetDataVerification.js'
 		$(function () {
-			// [sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart]
-			// [{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[
-			// 		{"r":0,"c":0,
-			// 			"v":{
-			// 				"ct":{
-			// 					"fa":"General",
-			// 					"t":"inlineStr",
-			// 					"s":[
-			// 						{
-			// 							"ff":"等线", //font family
-			// 							"fc":"#fff000",//font color
-			// 							"fs":12,//font size
-			// 							"cl":1,//strike
-			// 							"un":0,//underline
-			// 							"bl":0,//blod
-			// 							"it":1,//italic
-			// 							v:"我在\r\n"
-			// 						},
-			// 						{
-			// 							"ff":"等线", //font family
-			// 							"fc":"#ff0000",//font color
-			// 							"fs":14,//font size
-			// 							"cl":"1",//strike
-			// 							"un":"0",//underline
-			// 							"bl":"1",//blod
-			// 							"it":"0",//italic
-			// 							v:"马路边"
-			// 						},
-			// 					]
-			// 				},
-			// 				"fs":11,
-			// 				"ff":"等线",
-			// 				"vt":0,
-			// 				"tb":2,
-			// 				"v":"",
-			// 				"qp":1,
-			// 			}
-			// 		},
-			// 		{"r":17,"c":2,"v":{"v":"Luckysheet","ct":{"fa":"General","t":"g"},"bg":null,"bl":0,"it":0,"ff":0,"fs":"11","fc":"rgb(51, 51, 51)","ht":1,"vt":1,"m":"Luckysheet"}}
-			// 	],"calcChain":[]}]
-			
 			luckysheet.create({
 				container: 'luckysheet',
 				lang: 'en',
 				allowEdit:true,
 				forceCalculation:false,
 				plugins: ['chart'],
+				fontList:[
+					{
+					"fontName":"HanaleiFill",
+					"url":"./assets/iconfont/HanaleiFill-Regular.ttf"
+					},
+					{
+					"fontName":"Anton",
+					"url":"./assets/iconfont/Anton-Regular.ttf"
+					},
+					{
+					"fontName":"Pacifico",
+					"url":"./assets/iconfont/Pacifico-Regular.ttf"
+					}
+				],
 				data:  
 				[sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart,sheetPicture,sheetDataVerification]
 				// [{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[

@@ -10299,11 +10299,13 @@ const functionImplementation = {
                 }
             }
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
+            // sheetdata = Store.flowdata;
+            // if (formula.execFunctionGroupData != null) {
+            //     sheetdata = formula.execFunctionGroupData;
+            // }
 
             //计算
             if(A1){
@@ -10317,6 +10319,13 @@ const functionImplementation = {
 
                     if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
                         return 0;
+                    }
+
+                    if (formula.execFunctionGlobalData != null) {
+                        let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+Store.calculateSheetIndex];
+                        if(ef!=null){
+                            return ef.v;
+                        }
                     }
 
                     return sheetdata[row][col].v;
@@ -10336,6 +10345,13 @@ const functionImplementation = {
 
                     if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
                         return 0;
+                    }
+
+                    if (formula.execFunctionGlobalData != null) {
+                        let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+Store.calculateSheetIndex];
+                        if(ef!=null){
+                            return ef.v;
+                        }
                     }
 
                     return sheetdata[row][col].v;
@@ -10617,11 +10633,15 @@ const functionImplementation = {
             var cellRow1 = cellRow0 + height - 1;
             var cellCol1 = cellCol0 + width - 1;
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            // let sheetdata = null;
+            // sheetdata = Store.flowdata;
+            // if (formula.execFunctionGroupData != null) {
+            //     sheetdata = formula.execFunctionGroupData;
+            // }
+
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             if (cellRow0 < 0 || cellRow1 >= sheetdata.length || cellCol0 < 0 || cellCol1 >= sheetdata[0].length){
                 return formula.error.r;
@@ -10633,7 +10653,16 @@ const functionImplementation = {
                 var rowArr = [];
 
                 for(var c = cellCol0; c <= cellCol1; c++){
-                    if (sheetdata[r][c] != null && !isRealNull(sheetdata[r][c].v)){
+                    if(formula.execFunctionGlobalData != null && formula.execFunctionGlobalData[r+"_"+c+"_"+Store.calculateSheetIndex]!=null){
+                        let ef = formula.execFunctionGlobalData[r+"_"+c+"_"+Store.calculateSheetIndex];
+                        if(ef!=null){
+                            rowArr.push(ef.v);
+                        }
+                        else{
+                            rowArr.push(0);
+                        }
+                    }
+                    else if (sheetdata[r][c] != null && !isRealNull(sheetdata[r][c].v)){
                         rowArr.push(sheetdata[r][c].v);
                     }
                     else{
@@ -23300,10 +23329,28 @@ const functionImplementation = {
             var row_index = cellrange.row[0];
             var col_index = cellrange.column[0];
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
+            // let sheetdata = null;
+            // sheetdata = Store.flowdata;
+            // if (formula.execFunctionGroupData != null) {
+            //     sheetdata = formula.execFunctionGroupData;
+            // }
+
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
+
+            let value;
+            if(formula.execFunctionGlobalData != null && formula.execFunctionGlobalData[row_index+"_"+col_index+"_"+Store.calculateSheetIndex]!=null){
+                value = formula.execFunctionGlobalData[row_index+"_"+col_index+"_"+Store.calculateSheetIndex].v;
+            }
+            else if(sheetdata[row_index][col_index] != null && sheetdata[row_index][col_index].v != null && sheetdata[row_index][col_index].v !=""){
+                value = sheetdata[row_index][col_index];
+                if(value instanceof Object){
+                    value = value.v;
+                }
+            }
+            else {
+                value = 0;
             }
 
             switch(info_type){
@@ -23317,11 +23364,11 @@ const functionImplementation = {
                     return 0;
                     break;  
                 case "contents":
-                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
-                        return 0;
-                    }
+                    // if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
+                    //     value = 0;
+                    // }
 
-                    return sheetdata[row_index][col_index].v;
+                    return value;
                     break;
                 case "filename":
                     return file.name;
@@ -23346,7 +23393,7 @@ const functionImplementation = {
                     }
                     break;
                 case "prefix":
-                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].ht == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
+                    if (value==0){
                         return "";
                     }
 
@@ -23370,7 +23417,7 @@ const functionImplementation = {
                     return row_index + 1;
                     break;
                 case "type":
-                    if (sheetdata[row_index][col_index] == null || sheetdata[row_index][col_index].v == null || sheetdata[row_index][col_index].v ==""){
+                    if (value==0){
                         return "b";
                     }
 
@@ -25384,11 +25431,9 @@ const functionImplementation = {
             var minSpot = arguments[6];
             var spotRadius = arguments[7];
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
@@ -25530,11 +25575,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -25667,11 +25710,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -25816,11 +25857,9 @@ const functionImplementation = {
                 var offsetY = data[0].length;
             }
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
@@ -25908,11 +25947,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -26056,11 +26093,9 @@ const functionImplementation = {
                 var offsetY = data[0].length;
             }
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
             var width = cellSize[0];
@@ -26148,11 +26183,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -26239,11 +26272,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -26340,11 +26371,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -26435,11 +26464,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);
@@ -26527,11 +26554,9 @@ const functionImplementation = {
             //定义需要格式化data数据
             //var dataformat = formula.readCellDataToOneArray(rangeValue);
 
-            let sheetdata = null;
-            sheetdata = Store.flowdata;
-            if (formula.execFunctionGroupData != null) {
-                sheetdata = formula.execFunctionGroupData;
-            }
+            let luckysheetfile = getluckysheetfile();
+            let index = getSheetIndex(Store.calculateSheetIndex);
+            let sheetdata = luckysheetfile[index].data;
 
             //在下面获得该单元格的长度和宽度,同时考虑了合并单元格问题
             var cellSize = menuButton.getCellRealSize(sheetdata, cell_r, cell_c);

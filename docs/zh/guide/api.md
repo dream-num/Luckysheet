@@ -1444,9 +1444,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### deleteRangeConditionalFormat(itemIndex [,setting])
 
-[todo]
-
-
 - **参数**：
 
 	- {Number} [itemIndex]: 条件格式规则索引
@@ -1469,9 +1466,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### clearRange([setting])
 
-[todo]
-
-
 - **参数**：
 
 	- {PlainObject} [setting]: 可选参数
@@ -1481,7 +1475,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **说明**：
 	
-	清除指定工作表指定单元格区域的内容，返回清除掉的数据，不同于删除选区的功能，不需要设定单元格移动情况
+	清除指定工作表指定单元格区域的内容，不同于删除选区的功能，不需要设定单元格移动情况
 
 - **示例**:
 
@@ -1491,9 +1485,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### deleteRange(move [,setting])
-
-[todo]
-
 
 - **参数**：
 	
@@ -1505,13 +1496,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"up"`: 下方单元格上移
 		
 	- {PlainObject} [setting]: 可选参数
-		+ {Array | Object | String} [range]: 要删除的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
+		+ {Object | String} [range]: 要删除的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`；默认为当前选区
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
 		+ {Function} [success]: 操作结束的回调函数
 
 - **说明**：
 	
-	删除指定工作表指定单元格区域，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移
+	删除指定工作表指定单元格区域，同时，指定是右侧单元格左移还是下方单元格上移
 
 - **示例**:
 
@@ -1558,9 +1549,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### matrixOperation(type [,setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {String} [type]: 矩阵操作的类型
@@ -1602,9 +1590,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### matrixCalculation(type, number [,setting])
-
-[todo]
-
 
 - **参数**：
 	- {String} [type]: 计算方式
@@ -1678,8 +1663,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getSheet([setting])
 
-[todo]
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1695,9 +1678,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getSheetData([setting])
 
-[todo]
-
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1711,9 +1691,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getConfig([setting])
 
-[todo]
-
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1725,20 +1702,17 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-### setConfig([setting])
-
-[todo]
-
+### setConfig(cfg, [setting])
 
 - **参数**：
-
+	- {Object} [cfg]: config配置
     - {PlainObject} [setting]: 可选参数
     	+ {Number} [order]: 工作表下标；默认值为当前工作表下标
     	+ {Function} [success]: 操作结束的回调函数
 	
 - **说明**：
 
-	快捷设置当前工作表config配置
+	快捷设置指定工作表config配置
 
 ------------
 
@@ -1764,9 +1738,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetDelete([setting])
 
-[todo]
-
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1785,9 +1756,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetCopy([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -1809,9 +1777,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetHide([setting])
 
-[todo]
-
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
@@ -1825,16 +1790,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **示例**:
 
 	- 隐藏当前工作表
-	`luckysheet.setSheetHide(true)`
+	`luckysheet.setSheetHide()`
 	- 隐藏第三个工作表
 	`luckysheet.setSheetHide({order:2})`
 
 ------------
 
 ### setSheetShow([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -1855,9 +1817,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetActive(order [,setting])
 
-[todo]
-
-
 - **参数**：
 
 	- {Number} [order]: 要激活的工作表下标
@@ -1876,9 +1835,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetName(name [,setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -1899,8 +1855,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### setSheetColor(color [,setting])
-
-[todo]
 
 - **参数**：
 	

@@ -11,7 +11,7 @@ import editor from "./editor";
 import luckysheetformula from './formula';
 import cleargridelement from './cleargridelement';
 import { genarate, update } from './format';
-import { setAccuracy } from "./setdata";
+import { setAccuracy,setcellvalue } from "./setdata";
 import { orderbydata } from "./sort";
 import { rowlenByRange } from "./getRowlen";
 import { getdatabyselection, getcellvalue } from "./getdata";
@@ -98,16 +98,91 @@ export function setCellValue(row, column, value, options = {}) {
     }
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
+        index = Store.currentSheetIndex,
         order = curSheetOrder,
+        isRefresh = true,
         success
     } = {...options}
     
+    let luckysheetfile = getluckysheetfile();
+    let arrayIndex = getSheetIndex(index);
+    let data = luckysheetfile[arrayIndex].data;
     
-    luckysheetformula.updatecell(row, column, value);
-    
+    // luckysheetformula.updatecell(row, column, value);
+    let formatList = {
+        //ct:1, //celltype,Cell value format: text, time, etc.
+        bg: 1,//background,#fff000	
+        ff: 1,//fontfamily,
+        fc: 1,//fontcolor
+        bl: 1,//Bold
+        it: 1,//italic
+        fs: 1,//font size	
+        cl: 1,//Cancelline, 0 Regular, 1 Cancelline
+        un: 1,//underline, 0 Regular, 1 underlines, fonts
+        vt: 1,//Vertical alignment, 0 middle, 1 up, 2 down
+        ht: 1,//Horizontal alignment,0 center, 1 left, 2 right
+        mc: 1, //Merge Cells
+        tr: 1, //Text rotation,0: 0、1: 45 、2: -45、3 Vertical text、4: 90 、5: -90
+        tb: 1, //Text wrap,0 truncation, 1 overflow, 2 word wrap
+        //v: 1, //Original value	
+        //m: 1, //Display value	
+        rt:1, //text rotation angle 0-180 alignment
+        //f: 1, //formula
+        qp:1 //quotePrefix, show number as string
+    }
+    if(value instanceof Object){
+        let curv = {};
+        if(value.f!=null && value.v==null){
+            curv.f = value.f;
+            if(value.ct!=null){
+                curv.ct = value.ct;
+            } 
+            data = luckysheetformula.updatecell(row, column, curv, false).data;//update formula value
+        }
+        else{
+            if(value.ct!=null){
+                curv.ct = value.ct;
+            } 
+            if(value.f!=null){
+                curv.f = value.f;
+            } 
+            if(value.v!=null){
+                curv.v = value.v;
+            }
+            if(value.m!=null){
+                curv.m = value.m;
+            }
+            formula.delFunctionGroup(row, column);
+            setcellvalue(row, column, data, curv);//update text value
+        }
+        for(let attr in value){
+            let v = value[attr];
+            if(attr in formatList){
+                menuButton.updateFormatCell(data, attr, v, row, row, column, column);//change range format
+            }
+        }
+    }
+    else{
+        if(value.substr(0,1)=="=" || value.substr(0,5)=="<span"){
+            data = luckysheetformula.updatecell(row, column, value, false).data;//update formula value or convert inline string html to object
+        }
+        else{
+            formula.delFunctionGroup(row, column);
+            setcellvalue(row, column, data, value);
+        }
+        
+    }
+
+
+    if(isRefresh){
+        jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);//update data, meanwhile refresh canvas and store data to history
+    }
+    else{
+        luckysheetfile[arrayIndex] = data;//only update data
+    }
 
     if (success && typeof success === 'function') {
-        success();
+        success(data);
     }
 }
 
@@ -1134,6 +1209,10 @@ export function getRangeHtml(options = {}) {
             "row": range.row,
             "column": range.column
         }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", ""); 
     }
 
     let file = Store.luckysheetfile[order];
@@ -3040,6 +3119,10 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         cellrange = [cellrange];
     }
 
+    if(getObjType(cellrange) != 'array'){
+        return tooltip.info('The cellrange parameter is invalid.', '');
+    }
+
     let rule = {
         "type": "default",
         "cellrange": cellrange,
@@ -3309,6 +3392,10 @@ export function setRangeConditionalFormat(type, options = {}) {
         cellrange = [cellrange];
     }
 
+    if(getObjType(cellrange) != 'array'){
+        return tooltip.info('The cellrange parameter is invalid.', '');
+    }
+
     let rule = {
         "type": type, 
         "cellrange": cellrange, 
@@ -3342,13 +3429,246 @@ export function setRangeConditionalFormat(type, options = {}) {
 
 
 /**
- * 
- * @param {String} move 删除后，右侧还是下方的单元格移动
+ * 为指定下标的工作表，删除条件格式规则，返回被删除的条件格式规则 
+ * @param {Number} itemIndex 条件格式规则索引
  * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
  */
-function deleteRange(move, options = {}) {
+export function deleteRangeConditionalFormat(itemIndex, options = {}) {
+    if(!isRealNum(itemIndex)){
+        return tooltip.info('The itemIndex parameter is invalid.', ''); 
+    }
 
+    itemIndex = Number(itemIndex);
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info('The order parameter is invalid.', ''); 
+    }
+
+    let cdformat = $.extend(true, [], file.luckysheet_conditionformat_save);
+
+    if(cdformat.length == 0){
+        return tooltip.info('This worksheet has no conditional format to delete', '');
+    }
+    else if(cdformat[itemIndex] == null){
+        return tooltip.info('The conditional format of the index cannot be found', '');
+    }
+
+    let cdformatItem = cdformat.splice(itemIndex, 1);
+
+    //保存之前的规则
+    let fileH = $.extend(true, [], Store.luckysheetfile);
+    let historyRules = conditionformat.getHistoryRules(fileH);
+
+    //保存当前的规则
+    file["luckysheet_conditionformat_save"] = cdformat;
+
+    let fileC = $.extend(true, [], Store.luckysheetfile);
+    let currentRules = conditionformat.getCurrentRules(fileC);
+
+    //刷新一次表格
+    conditionformat.ref(historyRules, currentRules);
+
+    //发送给后台
+    if(server.allowUpdate){
+        server.saveParam("all", file.index, ruleArr, { "k": "luckysheet_conditionformat_save" });
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return cdformatItem;
 }
+
+
+/**
+ * 清除指定工作表指定单元格区域的内容，不同于删除选区的功能，不需要设定单元格移动情况 
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 要清除的选区范围
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function clearRange(options = {}) {
+    let {
+        range = Store.luckysheet_select_save,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", ""); 
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    let has_PartMC = false;
+
+    for(let s = 0; s < range.length; s++){
+        let r1 = range[s].row[0],
+            r2 = range[s].row[1];
+        let c1 = range[s].column[0],
+            c2 = range[s].column[1];
+
+        has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
+
+        if(has_PartMC){
+            break;
+        }
+    }
+
+    if(has_PartMC){
+        return tooltip.info('Cannot perform this operation on partially merged cells', '');
+    }
+
+    let d = $.extend(true, [], file.data);
+
+    if(d.length == 0){
+        d = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
+
+    for(let s = 0; s < range.length; s++){
+        let r1 = range[s].row[0],
+            r2 = range[s].row[1];
+        let c1 = range[s].column[0],
+            c2 = range[s].column[1];
+
+        for(let r = r1; r <= r2; r++){
+            for(let c = c1; c <= c2; c++){
+                let cell = d[r][c];
+
+                if(getObjType(cell) == "object"){
+                    delete cell["m"];
+                    delete cell["v"];
+
+                    if(cell["f"] != null){
+                        delete cell["f"];
+                        formula.delFunctionGroup(r, c, file.index);
+
+                        delete cell["spl"];
+                    }
+
+                    if(cell["ct"] != null && cell["ct"].t == 'inlineStr'){
+                        delete cell["ct"];
+                    }
+                }
+                else{
+                    d[r][c] = null;
+                }
+            }
+        }
+    }
+
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid(d, range);
+    }
+    else{
+        file.data = d;
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 删除指定工作表指定单元格区域，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移 
+ * @param {String} move 删除后，单元格左移/上移
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 要删除的选区范围
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function deleteRange(move, options = {}) {
+    let moveList = ['left', 'up'];
+
+    if(!moveList.includes(move)){
+        return tooltip.info("The move parameter is invalid.", ""); 
+    }
+
+    let {
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options} 
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = {
+            "row": cellrange.row,
+            "column": cellrange.column
+        };
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let str = range.row[0],
+        edr = range.row[1],
+        stc = range.column[0],
+        edc = range.column[1];
+
+    if(move == 'left'){
+        luckysheetDeleteCell('moveLeft', str, edr, stc, edc, order);
+    }
+    else if(move == 'up'){
+        luckysheetDeleteCell('moveUp', str, edr, stc, edc, order);
+    }
+    
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
 
 /**
  * 指定工作表指定单元格区域的数据进行矩阵操作，返回操作成功后的结果数据
@@ -3894,6 +4214,316 @@ export function setSheetAdd(options = {}) {
 
 
 /**
+ * 删除指定下标的工作表，返回已删除的工作表对象 
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetDelete(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.deleteSheet(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 复制指定下标的工作表到指定下标位置
+ * @param {Object} options 可选参数
+ * @param {Number} options.targetOrder 新复制的工作表目标下标位置；默认值为当前工作表下标的下一个下标位置（递增）
+ * @param {Number} options.order 被复制的工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetCopy(options = {}) {
+    let {
+        targetOrder,
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    if(targetOrder == null){
+        targetOrder = order + 1;
+    }
+
+    if(getObjType(targetOrder) != 'number'){
+        return tooltip.info("The targetOrder parameter is invalid.", "");
+    }
+
+    let copyindex = file.index;
+    let index = sheetmanage.generateRandomSheetIndex();
+    
+    let copyjson = $.extend(true, {}, file);
+    copyjson.order = Store.luckysheetfile.length;
+    copyjson.index = index;
+    copyjson.name = sheetmanage.generateCopySheetName(Store.luckysheetfile, copyjson.name);
+    
+    let colorset = '';
+    if(copyjson.color != null){
+        colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + copyjson.color + ';"></div>';
+    }
+
+    let afterObj = $("#luckysheet-sheets-item" + copyindex);
+    if(getObjType(targetOrder) == 'number'){
+        afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
+    }
+
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { 
+        "index": copyjson.index, 
+        "active": "", 
+        "name": copyjson.name, 
+        "order": copyjson.order, 
+        "style": "", 
+        "colorset": colorset 
+    }));
+    $("#luckysheet-sheets-item" + copyjson.index).insertAfter(afterObj);
+    Store.luckysheetfile.splice(targetOrder, 0, copyjson);
+
+    $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+    $("#luckysheet-sheets-item" + index).addClass("luckysheet-sheets-item-active");
+    $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + index + '" class="luckysheet-datavisual-selection-set"></div>');
+    cleargridelement(true);
+
+    server.saveParam("shc", index, { "copyindex": copyindex, "name": copyjson.name });
+
+    sheetmanage.changeSheetExec(index);
+    sheetmanage.reOrderAllSheet();
+
+    if (Store.clearjfundo) {
+        Store.jfredo.push({ 
+            "type": "copySheet", 
+            "copyindex": copyindex, 
+            "index": copyjson.index, 
+            "sheetIndex": copyjson.index 
+        });
+    }
+    else if (Store.jfredo.length > 0) {
+        let jfredostr = Store.jfredo[Store.jfredo.length - 1];
+
+        if (jfredostr.type == "copySheet") {
+            jfredostr.index = copyjson.index;
+            jfredostr.sheetIndex = copyjson.index;
+        }
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return copyjson;
+}
+
+
+/**
+ * 隐藏指定下标的工作表，返回被隐藏的工作表对象
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetHide(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.setSheetHide(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 取消隐藏指定下标的工作表，返回被取消隐藏的工作表对象
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetShow(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    sheetmanage.setSheetShow(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 设置指定下标的工作表为当前工作表（激活态），即切换到指定的工作表，返回被激活的工作表对象
+ * @param {Number} order 要激活的工作表下标
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetActive(order, options = {}) {
+    if(order == null || getObjType(order) != 'number' || Store.luckysheetfile[order] == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    let {
+        success
+    } = {...options}
+
+    sheetmanage.changeSheet(file.index);
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 修改工作表名称 
+ * @param {String} name 工作表名称
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetName(name, options = {}) {
+    if(getObjType(name) != 'string' || name.toString().length == 0){
+        return tooltip.info("The name parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let oldtxt = file.name;
+    file.name = name;
+
+    $("#luckysheet-sheets-item" + file.index + " .luckysheet-sheets-item-name").text(name);
+
+    server.saveParam("all", file.index, name, { "k": "name" });
+
+    if (Store.clearjfundo) {
+        let redo = {};
+        redo["type"] = "sheetName";
+        redo["sheetIndex"] = file.index;
+        
+        redo["oldtxt"] = oldtxt;
+        redo["txt"] = name;
+
+        Store.jfundo = [];
+        Store.jfredo.push(redo);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 设置工作表名称处的颜色 
+ * @param {String} color 工作表颜色
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetColor(color, options = {}) {
+    if(getObjType(color) != 'string' || color.toString().length == 0){
+        return tooltip.info("The color parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let oldcolor = file.color;
+    file.color = color;
+
+    $("#luckysheet-sheets-item" + file.index).find(".luckysheet-sheets-item-color").remove();
+    $("#luckysheet-sheets-item" + file.index).append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>');
+
+    server.saveParam("all", file.index, color, { "k": "color" });
+
+    if (Store.clearjfundo) {
+        let redo = {};
+        redo["type"] = "sheetColor";
+        redo["sheetIndex"] = file.index;
+        
+        redo["oldcolor"] = oldcolor;
+        redo["color"] = color;
+        
+        Store.jfundo = [];
+        Store.jfredo.push(redo);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
  * 指定工作表向左边或右边移动一个位置，或者指定索引，返回指定的工作表对象 
  * @param {String | Number} type 工作表移动方向或者移动的目标索引
  * @param {Object} options 可选参数
@@ -4031,6 +4661,93 @@ export function getSheet(options = {}){
 
     return sheetmanage.getSheetByIndex();
 
+}
+
+/**
+ * 快捷返回指定工作表的数据
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ */
+export function getSheetData(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex)
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let data = $.extend(true, [], file.data);
+
+    if(data == null || data.length == 0){
+        data = $.extend(true, [], sheetmanage.buildGridData(file));
+    }
+
+    return data;
+}
+
+/**
+ * 快捷返回指定工作表的config配置 
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ */
+export function getConfig(options = {}) {
+    let {
+        order = getSheetIndex(Store.currentSheetIndex)
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    let config = $.extend(true, {}, file.config);
+
+    return config;
+}
+
+/**
+ * 快捷设置指定工作表config配置
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setConfig(cfg, options = {}) {
+    if(getObjType(cfg) != 'object'){
+        return tooltip.info("The cfg parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}; 
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
+
+    file.config = cfg;
+
+    if(file.index == Store.currentSheetIndex){
+        Store.config = cfg;
+        
+        if("rowhidden" in cfg || "colhidden" in cfg || "rowlen" in cfg || "columnlen" in cfg){
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
+
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
 }
 
 /**

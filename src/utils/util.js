@@ -375,7 +375,12 @@ function luckysheetfontformat(format) {
             }
             else {
 
-                fontfamily = fontarray[fontjson[format.ff]];
+                // fontfamily = fontarray[fontjson[format.ff]];
+                fontfamily = format.ff;
+
+                if(fontfamily!=null && document.fonts && !document.fonts.check("12px "+fontfamily)){
+                    menuButton.addFontTolist(fontfamily);
+                }
             }
 
             if (fontfamily == null) {
@@ -661,7 +666,6 @@ function loadLinks(urls) {
         });
     }
 }
-
 
 
 export {

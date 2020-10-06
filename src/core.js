@@ -38,7 +38,11 @@ let luckysheet = {};
 
 // mount api
 // luckysheet.api = api;
-Object.assign(luckysheet, api);
+// Object.assign(luckysheet, api);
+
+luckysheet = common_extend(api,luckysheet);
+
+
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
@@ -56,6 +60,7 @@ luckysheet.create = function (setting) {
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
+    Store.fontList = extendsetting.fontList;
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
     server.updateUrl = extendsetting.updateUrl;
@@ -195,18 +200,6 @@ luckysheet.flowdata = function () {
 
 // Set selection highlight
 luckysheet.selectHightlightShow = selectHightlightShow;
-
-// Set the worksheet to hide
-// Use the call method to change the `this` of the function to `this` of sheetmanage,
-// Prevent _this error in setSheetHide
-luckysheet.setSheetHide = function(index) {
-    return sheetmanage.setSheetHide.call(sheetmanage,index);
-}
-
-// Set the worksheet to show
-luckysheet.setSheetShow = function(index) {
-    return sheetmanage.setSheetShow.call(sheetmanage,index);
-}
 
 // Reset parameters after destroying the table
 luckysheet.destroy = method.destroy;

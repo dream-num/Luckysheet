@@ -929,7 +929,14 @@ export function rowColumnOperationInitial(){
     });
 
     //向左增加列，向上增加行
-    $("#luckysheet-add-lefttop, #luckysheet-add-lefttop_t").click(function (event) {
+    // $("#luckysheet-add-lefttop, #luckysheet-add-lefttop_t").click(function (event) {
+    $("#luckysheet-top-left-add-selected").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
         
@@ -950,7 +957,7 @@ export function rowColumnOperationInitial(){
 
         
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -977,7 +984,16 @@ export function rowColumnOperationInitial(){
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
-    $("#luckysheet-addTopRows").click(function (event) {
+
+    // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
+    // $("#luckysheet-addTopRows").click(function (event) {
+    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -996,7 +1012,7 @@ export function rowColumnOperationInitial(){
             return;
         }
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -1022,8 +1038,24 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].row[0];
         luckysheetextendtable('row', st_index, value, "lefttop");
+
+        $("#luckysheetColsRowsHandleAdd_sub").hide();
     })
-    $("#luckysheet-addLeftCols").click(function (event) {
+
+    // // input输入时阻止冒泡，禁止父级元素的确认事件触发
+    // $("input.luckysheet-mousedown-cancel").click(function(event) {
+    //     event.stopPropagation;
+    // })
+
+
+    // $("#luckysheet-addLeftCols").click(function (event) {
+    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(3)").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -1042,7 +1074,7 @@ export function rowColumnOperationInitial(){
             return;
         }
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -1068,10 +1100,20 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].column[0];
         luckysheetextendtable('column', st_index, value, "lefttop");
+
+        $("#luckysheetColsRowsHandleAdd_sub").hide();
+        
     })
 
     //向右增加列，向下增加行
-    $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
+    // $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
+    $("#luckysheet-bottom-right-add-selected").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -1090,7 +1132,7 @@ export function rowColumnOperationInitial(){
             return;
         }
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -1118,7 +1160,15 @@ export function rowColumnOperationInitial(){
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
-    $("#luckysheet-addBottomRows").click(function (event) {
+
+    // $("#luckysheet-addBottomRows").click(function (event) {
+    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(2)").click(function (event) {
+
+         // Click input element, don't comfirm 
+         if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -1137,7 +1187,7 @@ export function rowColumnOperationInitial(){
             return;
         }
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -1164,8 +1214,17 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].row[1];
         luckysheetextendtable('row', st_index, value, "rightbottom");
+
+        $("#luckysheetColsRowsHandleAdd_sub").hide();
+
     });
-    $("#luckysheet-addRightCols").click(function (event) {
+    // $("#luckysheet-addRightCols").click(function (event) {
+    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(4)").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -1184,7 +1243,7 @@ export function rowColumnOperationInitial(){
             return;
         }
 
-        let $t = $(this), value = $t.parent().find("input").val();
+        let $t = $(this), value = $t.find("input").val();
         if (!isRealNum(value)) {
             if(isEditMode()){
                 alert(locale_info.tipInputNumber);
@@ -1211,6 +1270,9 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].column[1];
         luckysheetextendtable('column', st_index, value, "rightbottom");
+
+        $("#luckysheetColsRowsHandleAdd_sub").hide();
+
     });
     
     //删除选中行列
@@ -1574,6 +1636,10 @@ export function rowColumnOperationInitial(){
 
                                 delete d[r][c]["spl"];
                             }
+
+                            if(d[r][c]["ct"] != null && d[r][c]["ct"].t == 'inlineStr'){
+                                delete d[r][c]["ct"];
+                            }
                         }
                         else{
                             d[r][c] = null;
@@ -1587,11 +1653,19 @@ export function rowColumnOperationInitial(){
     });
 
     //行高列宽设置
-    $("#luckysheet-rows-cols-changesize").click(function(){
+    // $("#luckysheet-rows-cols-changesize").click(function(){
+    $("#luckysheet-column-row-width-selected").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+        
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
-        let size = parseInt($(this).siblings("input[type='number']").val().trim());
+        // let size = parseInt($(this).siblings("input[type='number']").val().trim());
+        let size = parseInt($(this).closest('.luckysheet-cols-menuitem').find("input[type='number']").val().trim());
 
         if(size < 0 || size > 255){
             const locale_info = locale().info;
