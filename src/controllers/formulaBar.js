@@ -274,6 +274,6 @@ export function formulaBarInitial(){
         formula.rangeResizeWinH = $("#luckysheet-cell-main")[0].scrollHeight;
         formula.rangeResizeWinW = $("#luckysheet-cell-main")[0].scrollWidth;
         Store.luckysheet_scroll_status = true;
-        event.stopPropagation();
+        e.stopPropagation();
     });
 }

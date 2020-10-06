@@ -3,7 +3,7 @@ import { isRealNull, isRealNum, valueIsError } from './validate';
 import { genarate, update } from './format';
 import server from '../controllers/server';
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
-import Store from '../store/index'
+import Store from '../store/index';
 
 //Set cell value
 function setcellvalue(r, c, d, v) {
