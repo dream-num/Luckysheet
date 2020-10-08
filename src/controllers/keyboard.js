@@ -748,7 +748,7 @@ export function keyboardInitial(){
 
                 selectHightlightShow();
             }
-            else if (kcode == keycode.DELETE) {
+            else if (kcode == keycode.DELETE || kcode == keycode.BACKSPACE) {
                 $("#luckysheet-delete-text").click();
 
                 event.preventDefault();
