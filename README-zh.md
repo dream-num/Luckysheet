@@ -21,6 +21,10 @@
 - excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - 图表插件: [chartMix](https://github.com/mengshukeji/chartMix)
 
+## 支持
+Luckysheet是MIT许可的开源项目，其持续的开发完全有赖于许多出色支持者的支持。如果您想加入他们，请考虑：
+- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
+
 ## 特性
 
 ### 🛠️格式设置

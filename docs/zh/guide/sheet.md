@@ -17,6 +17,8 @@ options.data示例如下：
         "hide": 0,//是否隐藏
         "row": 36, //行数
         "column": 18, //列数
+        "defaultRowHeight": 19, //自定义行高
+        "defaultColWidth": 73, //自定义列宽
         "celldata": [], //初始化使用的单元格数据
         "config": {
             "merge":{}, //合并单元格
@@ -110,6 +112,18 @@ options.data示例如下：
 - 类型：Number
 - 默认值：18
 - 作用： 单元格列数
+
+------------
+### defaultRowHeight
+- 类型：Number
+- 默认值：19
+- 作用： 自定义的默认行高，单位为px
+
+------------
+### defaultColWidth
+- 类型：Number
+- 默认值：73
+- 作用： 自定义的默认列宽，单位为px
 
 ------------
 ### celldata
