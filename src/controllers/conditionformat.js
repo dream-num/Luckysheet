@@ -11,6 +11,7 @@ import server from './server';
 import { selectionCopyShow } from './select';
 import sheetmanage from './sheetmanage';
 import locale from '../locale/locale';
+import {checkProtectionFormatCells} from './protection';
 import Store from '../store';
 
 //条件格式
@@ -110,6 +111,10 @@ const conditionformat = {
         });
 
         $(document).off("click.CFadministerRuleConfirm").on("click.CFadministerRuleConfirm", "#luckysheet-administerRule-dialog-confirm", function(){
+            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+                return;
+            }
+            
             //保存之前的规则
             let fileH = $.extend(true, [], Store.luckysheetfile);
             let historyRules = _this.getHistoryRules(fileH);
@@ -221,6 +226,11 @@ const conditionformat = {
         
         // 新建规则
         $(document).off("click.CFnewConditionRule").on("click.CFnewConditionRule", "#newConditionRule", function(){
+            let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
+            if(!checkProtectionFormatCells(sheetIndex)){
+                return;
+            }
+            
             if(Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
                     alert(conditionformat_Text.pleaseSelectRange);
@@ -234,6 +244,11 @@ const conditionformat = {
             _this.newConditionRuleDialog(1);
         });
         $(document).off("click.CFnewConditionRuleConfirm").on("click.CFnewConditionRuleConfirm", "#luckysheet-newConditionRule-dialog-confirm", function(){
+            
+            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+                return;
+            }
+            
             let index = $("#luckysheet-newConditionRule-dialog .ruleTypeItem.on").index();
             let type1 = $("#luckysheet-newConditionRule-dialog #type1 option:selected").val();
             let type2 = $("#luckysheet-newConditionRule-dialog ." + type1 + "Box #type2 option:selected").val();
@@ -586,7 +601,14 @@ const conditionformat = {
         
         // 编辑规则
         $(document).off("click.CFeditorConditionRule").on("click.CFeditorConditionRule", "#editorConditionRule", function(){
+
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
+            
+            if(!checkProtectionFormatCells(sheetIndex)){
+                return;
+            }
+            
+
             let itemIndex = $("#luckysheet-administerRule-dialog .ruleList .listBox .item.on").attr("data-item");
             let rule = {
                 "sheetIndex": sheetIndex,
@@ -979,6 +1001,11 @@ const conditionformat = {
         // 删除规则
         $(document).off("click.CFdeleteConditionRule").on("click.CFdeleteConditionRule", "#deleteConditionRule", function(){
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
+            
+            if(!checkProtectionFormatCells(sheetIndex)){
+                return;
+            }
+            
             let itemIndex = $("#luckysheet-administerRule-dialog .ruleList .listBox .item.on").attr("data-item");
             _this.fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"].splice(itemIndex, 1);
             _this.administerRuleDialog();
@@ -986,6 +1013,11 @@ const conditionformat = {
         
         // 规则子菜单弹出层 点击确定修改样式
         $(document).off("click.CFdefault").on("click.CFdefault", "#luckysheet-conditionformat-dialog-confirm", function(){
+            
+            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+                return;
+            }
+            
             //条件名称
             let conditionName = $("#luckysheet-conditionformat-dialog .box").attr("data-itemvalue");
             
@@ -1668,6 +1700,7 @@ const conditionformat = {
         this.getConditionRuleList(index);
     },
     getConditionRuleList: function(index){
+
         let _this = this;
 
         $("#luckysheet-administerRule-dialog .ruleList .listBox").empty();
@@ -3636,6 +3669,10 @@ const conditionformat = {
         return computeMap;
     },
     updateItem: function(type, cellrange, format){
+        if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+            return;
+        }
+
         let _this = this;
         let index = getSheetIndex(Store.currentSheetIndex);
 

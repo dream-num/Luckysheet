@@ -24,6 +24,8 @@ import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
 import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
+import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
+import { openCellFormatModel } from './cellFormat';
 
 import { 
     replaceHtml,
@@ -571,7 +573,9 @@ export default function luckysheetHandler() {
             }
         }
         else {
-            Store.luckysheet_select_status = true;
+            if(checkProtectionSelectLockedOrUnLockedCells(row_index, col_index, Store.currentSheetIndex)){
+                Store.luckysheet_select_status = true;
+            }
         }
 
         //条件格式 应用范围可选择多个单元格
@@ -1305,10 +1309,15 @@ export default function luckysheetHandler() {
         e.preventDefault();
         e.stopPropagation();
 
+
+
         let files = e.dataTransfer.files;
 
         //拖拽插入图片
-        if(files.length == 1 && files[0].type.indexOf('image') > -1){
+        if(files.length == 1 && files[0].type.indexOf('image') > -1){        
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+                return;
+            }
             let render = new FileReader();
             render.readAsDataURL(files[0]);
 
@@ -1564,6 +1573,12 @@ export default function luckysheetHandler() {
                         col = col_location[1],
                         col_pre = col_location[0],
                         col_index = col_location[2];
+
+
+                    if(!checkProtectionSelectLockedOrUnLockedCells(row_index, col_index, Store.currentSheetIndex)){
+                        // Store.luckysheet_select_status = false;
+                        return;
+                    }
 
                     let last = $.extend(true, {}, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]);
 
@@ -3321,6 +3336,10 @@ export default function luckysheetHandler() {
             Store.luckysheet_cell_selected_move = false;
             let mouse = mouseposition(event.pageX, event.pageY);
 
+            if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+                return;
+            }
+
             let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
             let scrollTop = $("#luckysheet-cell-main").scrollTop();
 
@@ -3368,6 +3387,10 @@ export default function luckysheetHandler() {
                 row_e = last["row"][1] - row_index_original + row_index;
             let col_s = last["column"][0] - col_index_original + col_index,
                 col_e = last["column"][1] - col_index_original + col_index;
+
+            if(!checkProtectionLockedRangeList([{row:[row_s, row_e], column:[col_s, col_e]}], Store.currentSheetIndex)){
+                return;
+            }
 
             if (row_s < 0 || y < 0) {
                 row_s = 0;
@@ -3572,8 +3595,14 @@ export default function luckysheetHandler() {
 
         //选区下拉
         if (Store.luckysheet_cell_selected_extend) {
+
+            
             Store.luckysheet_cell_selected_extend = false;
             $("#luckysheet-cell-selected-extend").hide();
+
+            if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+                return;
+            }
 
             let mouse = mouseposition(event.pageX, event.pageY);
             let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
@@ -4138,6 +4167,9 @@ export default function luckysheetHandler() {
 
     //菜单栏 数据透视表
     $("#luckysheet-pivot-btn-title").click(function (e) {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "usePivotTablereports")){
+            return;
+        }
         pivotTable.createPivotTable(e);
     });
 
@@ -4310,6 +4342,10 @@ export default function luckysheetHandler() {
 
     //菜单栏 分列按钮
     $("#luckysheet-splitColumn-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
         if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
             return;
         }
@@ -4332,9 +4368,15 @@ export default function luckysheetHandler() {
 
     //菜单栏 插入图片按钮
     $("#luckysheet-insertImg-btn-title").click(function () {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+            return;
+        }
         $("#luckysheet-imgUpload").click();    
     });
     $("#luckysheetInsertImage").click(function () {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+            return;
+        }
         $("#luckysheet-imgUpload").click();
         $("#luckysheet-rightclick-menu").hide();
     })
@@ -4342,6 +4384,9 @@ export default function luckysheetHandler() {
         e.stopPropagation();
     });
     $("#luckysheet-imgUpload").on("change", function(e){
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+            return;
+        }
         let file = e.currentTarget.files[0];
         let render = new FileReader();
         render.readAsDataURL(file);
@@ -4355,17 +4400,26 @@ export default function luckysheetHandler() {
 
     //菜单栏 数据验证按钮
     $("#luckysheet-dataVerification-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
         if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
             return;
         }
 
         dataVerificationCtrl.createDialog();
         dataVerificationCtrl.init();
-    })
+    });
     $("#luckysheetDataVerification").click(function () {
         $("#luckysheet-dataVerification-btn-title").click();
         $("#luckysheet-rightclick-menu").hide();
-    })
+    });
+
+    //Cell format
+    $("#luckysheetCellFormatRightClickMenu").click(function () {
+        openCellFormatModel();
+    });
 
     //冻结行列
     $("#luckysheet-freezen-btn-horizontal").click(function () {
@@ -4454,6 +4508,10 @@ export default function luckysheetHandler() {
 
     //表格左上角点击 全选表格
     $("#luckysheet-left-top").mousedown(function (event) {
+        if(!checkProtectionAllSelected(Store.currentSheetIndex)){
+            return;
+        }
+
         $("#luckysheet-wa-functionbox-confirm").click();
         Store.luckysheet_select_status = false;
 

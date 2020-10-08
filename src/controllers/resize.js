@@ -55,7 +55,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     gridW = $("#" + Store.container).width(), gridH = $("#" + Store.container).height();
 
-    if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色
+    if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色 Protection
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-pivot").outerWidth();
         } 
@@ -65,6 +65,9 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         else if($("#luckysheet-modal-dialog-slider-alternateformat").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-alternateformat").outerWidth();
         }
+        if($("#luckysheet-modal-dialog-slider-protection").is(":visible")){
+            gridW -= $("#luckysheet-modal-dialog-slider-protection").outerWidth();
+        } 
     }
 
     $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
@@ -319,6 +322,7 @@ export function menuToolBarWidth() {
         $('#luckysheet-dataVerification-btn-title').offset().left,
         $('#luckysheet-splitColumn-btn-title').offset().left,
         $('#luckysheet-chart-btn-screenshot').offset().left,
+        $('#luckysheet-icon-protection').offset().left,
         $('#luckysheet-icon-seachmore').offset().left,
         $('#luckysheet-icon-seachmore').offset().left + $('#luckysheet-icon-seachmore').outerWidth() + 5,
     ];
@@ -355,6 +359,7 @@ export function menuToolBarWidth() {
         '#luckysheet-dataVerification-btn-title',
         '#luckysheet-splitColumn-btn-title',
         '#luckysheet-chart-btn-screenshot',
-        '#luckysheet-icon-seachmore'
+        '#luckysheet-icon-seachmore',
+        '#luckysheet-icon-protection',
     ]
 }

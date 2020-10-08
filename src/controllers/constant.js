@@ -354,6 +354,9 @@ function rightclickHTML(){
                     <div id="luckysheetDataVerification" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.dataVerification}</div>
                     </div>
+                    <div id="luckysheetCellFormatRightClickMenu" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.cellFormat}</div>
+                    </div>
                 </div>
             </div>
             <div id="luckysheetcopyfor_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
@@ -1345,7 +1348,6 @@ function menuToolBar (){
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                             <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-shujuyanzheng"
                             style="user-select: none;">
-                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
                             </div>
                         </div>
                     </div>
@@ -1363,7 +1365,6 @@ function menuToolBar (){
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                             <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-wenbenfenge"
                             style="user-select: none;">
-                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
                             </div>
                         </div>
                     </div>
@@ -1381,7 +1382,6 @@ function menuToolBar (){
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                             <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-jieping"
                             style="user-select: none;">
-                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
                             </div>
                         </div>
                     </div>
@@ -1402,6 +1402,23 @@ function menuToolBar (){
                     </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige"
                     style="user-select: none;margin-left: 0px;margin-right: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="${toolbar.protection}" id="luckysheet-icon-protection" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-quanping"
+                            style="user-select: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

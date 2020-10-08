@@ -147,7 +147,7 @@ const sheetmanage = {
         let _this = this;
 
         if(index == null){
-            index = _this.getSheetIndex(Store.currentSheetIndex);
+            index = Store.currentSheetIndex;
         }
 
         let i = _this.getSheetIndex(index);
@@ -719,19 +719,6 @@ const sheetmanage = {
 
                 _this.createSheet();
 
-                let sheetindexset = _this.checkLoadSheetIndex(file);
-                let sheetindex = [];
-
-                for(let i = 0; i < sheetindexset.length; i++){
-                    let item = sheetindexset[i];
-
-                    if(item == file["index"]){
-                        continue;
-                    }
-
-                    sheetindex.push(item);
-                }
-
                 let execF = function(){
                     _this.mergeCalculation(file["index"]);
                     editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
@@ -788,21 +775,39 @@ const sheetmanage = {
 
                 let loadSheetUrl = server.loadSheetUrl;
                 
-                if(sheetindex.length == 0 && loadSheetUrl == ""){
-                    execF();
-                }
-                else if(sheetindex.length>0 && loadSheetUrl == ""){
-                    for(let i = 0;i<sheetindex.length;i++){
-                        let item = sheetindex[i];
-                        let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
-                        if(otherfile["load"] == null || otherfile["load"] == "0"){
-                            otherfile["data"] = _this.buildGridData(otherfile);
-                            otherfile["load"] = "1";
-                        }
-                    }
+                if(loadSheetUrl == ""){
+                //     execF();
+                // }
+                // else if(sheetindex.length>0 && loadSheetUrl == ""){
+                    // for(let i = 0;i<Store.luckysheetfile.length;i++){
+                    //     let otherfile = Store.luckysheetfile[i];
+                    //     if(otherfile.index == file.index){
+                    //         continue;
+                    //     }
+                    //     // let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+                    //     if(otherfile["load"] == null || otherfile["load"] == "0"){
+                    //         otherfile["data"] = _this.buildGridData(otherfile);
+                    //         otherfile["load"] = "1";
+                    //     }
+                    // }
+
+                    _this.loadOtherFile(file);
                     execF();
                 }
                 else{
+                    let sheetindexset = _this.checkLoadSheetIndex(file);
+                    let sheetindex = [];
+    
+                    for(let i = 0; i < sheetindexset.length; i++){
+                        let item = sheetindexset[i];
+    
+                        if(item == file["index"]){
+                            continue;
+                        }
+    
+                        sheetindex.push(item);
+                    }
+
                     $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
                         let dataset = eval("(" + d + ")");
                         
@@ -978,22 +983,34 @@ const sheetmanage = {
     },
     loadOtherFile:function(file){
         let _this = this;
-        let sheetindexset = _this.checkLoadSheetIndex(file);
-        let sheetindex = [];
+        // let sheetindexset = _this.checkLoadSheetIndex(file);
+        // let sheetindex = [];
 
-        for(let i = 0; i < sheetindexset.length; i++){
-            let item = sheetindexset[i];
+        // for(let i = 0; i < sheetindexset.length; i++){
+        //     let item = sheetindexset[i];
 
-            if(item == file["index"]){
+        //     if(item == file["index"]){
+        //         continue;
+        //     }
+
+        //     sheetindex.push(item);
+        // }
+
+        // for(let i = 0;i<sheetindex.length;i++){
+        //     let item = sheetindex[i];
+        //     let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+        //     if(otherfile["load"] == null || otherfile["load"] == "0"){
+        //         otherfile["data"] = _this.buildGridData(otherfile);
+        //         otherfile["load"] = "1";
+        //     }
+        // }
+
+        for(let i = 0;i<Store.luckysheetfile.length;i++){
+            let otherfile = Store.luckysheetfile[i];
+            if(otherfile.index == file.index){
                 continue;
             }
-
-            sheetindex.push(item);
-        }
-
-        for(let i = 0;i<sheetindex.length;i++){
-            let item = sheetindex[i];
-            let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
+            // let otherfile = Store.luckysheetfile[_this.getSheetIndex(item)]; 
             if(otherfile["load"] == null || otherfile["load"] == "0"){
                 otherfile["data"] = _this.buildGridData(otherfile);
                 otherfile["load"] = "1";
@@ -1043,7 +1060,7 @@ const sheetmanage = {
         let load = file["load"];
         if (load != null) {        
             
-            _this.loadOtherFile(file);
+            // _this.loadOtherFile(file);
             
             _this.mergeCalculation(index);
             _this.setSheetParam(true);
@@ -1155,16 +1172,23 @@ const sheetmanage = {
         luckysheetFreezen.initialFreezen(index);
         _this.restoreselect();
     },
+    checkLoadSheetIndexToDataIndex:{},
     checkLoadSheetIndex: function(file) {
     	let calchain = formula.getAllFunctionGroup();//file.calcChain; //index
     	let chart = file.chart; //dataSheetIndex
     	let pivotTable = file.pivotTable; //pivotDataSheetIndex
 
-    	let ret= [], cache = {};
+        let ret= [], cache = {};
+        
+        if(file.index in this.checkLoadSheetIndexToDataIndex){
+            return [];
+        }
+
     	ret.push(file.index);
-    	cache[file.index.toString()] = 1;
+        cache[file.index.toString()] = 1;
+        this.checkLoadSheetIndexToDataIndex[file.index] = 1;
         if(calchain != null){
-            let dataNameList = {};
+            let dataIndexList = {};
         	for(let i = 0; i < calchain.length; i++){
         		let f = calchain[i];
                 let dataindex = f.index;
@@ -1174,37 +1198,71 @@ const sheetmanage = {
                     let file = Store.luckysheetfile[this.getSheetIndex(dataindex)];
                     file.data = this.buildGridData(file);
                     formulaTxt = getcellFormula(f.r, f.c, dataindex);
-                }
 
-                formula.functionParser(formulaTxt, (str)=>{
-                    formula.addToCellList(formulaTxt, str);
-                    if(str.indexOf("!")>-1){
-                        let name = str.substr(0, str.indexOf('!'));
-                        dataNameList[name] = true;
+                    if(formulaTxt==null){
+                        continue;
                     }
-                });
+                }
+                
+                if(formulaTxt.indexOf("!")==-1){
+                    // dataIndexList[dataindex] = 1;
+                    formula.addToSheetIndexList(formulaTxt, dataindex);
+                }
+                else if(formula.formulaContainSheetList!=null && formula.formulaContainSheetList[formulaTxt]!=null){
+                    for(let dataSheetIndex in formula.formulaContainSheetList[formulaTxt]){
+                        dataIndexList[dataSheetIndex] = 1;
+                    }
+                }
+                else{
+                    formula.functionParser(formulaTxt, (str)=>{
+                        formula.addToCellList(formulaTxt, str);
+                        if(str.indexOf("!")>-1){
+                            let name = str.substr(0, str.indexOf('!'));
+                            // dataNameList[name] = true;
+    
+                            let sheet = this.getSheetByName(name);
+                            if(sheet!=null){
+                                let dataSheetIndex = sheet.index;
+                                dataIndexList[dataSheetIndex] = 1;
+    
+                                formula.addToSheetIndexList(formulaTxt, dataSheetIndex);
+                            }
+                        }
+                    });
+
+                    if(formula.formulaContainSheetList[formulaTxt]==null){
+                        // dataIndexList[dataindex] = 1;
+                        formula.addToSheetIndexList(formulaTxt, dataindex);
+                    }
+                }
                 
                 if(dataindex == null){
                     continue;
                 }
                 
-        		if(cache[dataindex.toString()] == null){
-        			// ret.push(dataindex);
-        			cache[dataindex.toString()] = 1;
-        		}
+        		// if(cache[dataindex.toString()] == null){
+        		// 	// ret.push(dataindex);
+                //     cache[dataindex.toString()] = 1;
+                //     this.checkLoadSheetIndexToDataIndex[dataindex] = 1;
+        		// }
             }
             
-            for(let n in dataNameList){
-                let sheet = this.getSheetByName(n);
-                if(sheet==null){
-                    continue;
-                }
+            for(let index in dataIndexList){
+                // let sheet = this.getSheetByName(n);
+                // if(sheet==null){
+                //     continue;
+                // }
 
-                let dataindex = sheet.index;
+                // if(index == Store.currentSheetIndex){
+                //     continue;
+                // }
+
+                let dataindex = index;
 
                 if(cache[dataindex.toString()] == null){
         			ret.push(dataindex);
-        			cache[dataindex.toString()] = 1;
+                    cache[dataindex.toString()] = 1;
+                    this.checkLoadSheetIndexToDataIndex[dataindex] = 1;
         		}
             }
         }

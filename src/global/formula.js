@@ -6,6 +6,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import menuButton from '../controllers/menuButton';
 import server from '../controllers/server';
 import luckysheetFreezen from '../controllers/freezen';
+import {checkProtectionLocked,checkProtectionCellHidden}  from '../controllers/protection';
 import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
@@ -319,6 +320,12 @@ const luckysheetformula = {
         }
     },
     fucntionboxshow: function(r, c) {
+
+        if(!checkProtectionCellHidden(r, c, Store.currentSheetIndex)){
+            $("#luckysheet-functionbox-cell").html("");
+            return;
+        }
+        
         let _this = this;
 
         let d = Store.flowdata;
@@ -1220,6 +1227,10 @@ const luckysheetformula = {
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
+        }
+
+        if(!checkProtectionLocked(r, c, Store.currentSheetIndex)){
+            return
         }
 
         //数据验证 输入数据无效时禁止输入
@@ -3772,6 +3783,10 @@ const luckysheetformula = {
             _this.operatorjson = op;
         }
 
+        if(txt==null){
+            return "";
+        }
+
         if (txt.substr(0, 2) == "=+") {
             txt = txt.substr(2);
         }
@@ -4710,6 +4725,7 @@ const luckysheetformula = {
     execvertex: {},
     execFunctionGroupData: null,
     execFunctionExist: null,
+    formulaContainSheetList:{},
     formulaContainCellList:{},
     cellTextToIndexList:{},
     addToCellList:function(formulaTxt, cellstring){
@@ -4736,6 +4752,29 @@ const luckysheetformula = {
         }
 
         this.cellTextToIndexList[txt] = infoObj;
+    },
+    addToSheetIndexList:function(formulaTxt, sheetIndex, obIndex){
+        if(formulaTxt==null || formulaTxt.length==0){
+            return;
+        }
+
+        if(sheetIndex==null || sheetIndex.length==0){
+            sheetIndex = Store.currentSheetIndex;
+        }
+
+        if(obIndex==null || obIndex.length==0){
+            obIndex = "";
+        }
+
+        if(this.formulaContainSheetList==null){
+            this.formulaContainSheetList = {};
+        }
+
+        if(this.formulaContainSheetList[formulaTxt]==null){
+            this.formulaContainSheetList[formulaTxt] = {};
+        }
+
+        this.formulaContainSheetList[formulaTxt][sheetIndex] = obIndex;
     },
     execFunctionGlobalData:{},
     execFunctionGroupForce:function(isForce){

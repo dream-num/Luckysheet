@@ -265,7 +265,15 @@ export function deleteCell(move, row, column, options = {}) {
     } = {...options}
 
     let moveType = 'move' + move.replace(move[0], move[0].toUpperCase()); // left-moveLeft;  up-moveUp
-    luckysheetDeleteCell(moveType, row, row, column, column, order);
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+
+    luckysheetDeleteCell(moveType, row, row, column, column, sheetIndex);
 
     if (success && typeof success === 'function') {
         success()
@@ -881,7 +889,14 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
     }
 
     // 默认在行上方增加行，列左侧增加列
-    luckysheetextendtable(type, index, number, "lefttop", order);
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    
+    luckysheetextendtable(type, index, number, "lefttop", sheetIndex);
 
     if (success && typeof success === 'function') {
         success();
@@ -932,7 +947,14 @@ export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
         success
     } = {...options}
     
-    luckysheetdeletetable(type, startIndex, endIndex, order)
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    luckysheetdeletetable(type, startIndex, endIndex, sheetIndex);
     
     if (success && typeof success === 'function') {
         success()
