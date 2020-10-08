@@ -25,7 +25,7 @@ import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
 import { renderChartShow } from '../expendPlugins/chart/plugin';
-import {changeSheetContainerSize} from './resize';
+import {changeSheetContainerSize, menuToolBarWidth} from './resize';
 import {zoomNumberDomBind} from './zoom';
 
 const sheetmanage = {
@@ -749,6 +749,10 @@ const sheetmanage = {
                     else {
                         Store.luckysheetcurrentisPivotTable = false;
                         $("#luckysheet-modal-dialog-slider-pivot").hide();
+
+                        // Store toolbar button width value
+                        menuToolBarWidth();
+
                         luckysheetsizeauto();
 
                         //等待滚动条dom宽高加载完成后 初始化滚动位置

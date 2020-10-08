@@ -531,7 +531,7 @@ const selection = {
     copybyformat: function (e, txt) {//copy事件
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) { // for chrome
-            clipboardData = e.originalEvent.clipboardData;
+            clipboardData = e.originalEvent && e.originalEvent.clipboardData;
         }
 
         Store.luckysheet_selection_range = [{ "row": Store.luckysheet_select_save[0].row, "column": Store.luckysheet_select_save[0].column }];

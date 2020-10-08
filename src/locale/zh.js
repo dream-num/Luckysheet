@@ -408,7 +408,7 @@ export default {
         "clip":"截断",
     },
     rotation:{
-        "none":"无选装",
+        "none":"无旋转",
         "angleup":"向上倾斜",
         "angledown":"向下倾斜",
         "vertical":"竖排文字",

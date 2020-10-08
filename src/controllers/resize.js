@@ -136,13 +136,17 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     // 找到应该隐藏的起始元素位置
     for (let index = toobarWidths.length - 1; index >= 0; index--) {
+
+        // #luckysheet-icon-morebtn button width plus right is 83px
         if(toobarWidths[index] < gridW - 90){
             moreButtonIndex = index;
-            ismore = true;
+            if(moreButtonIndex !== 33){
+
+                ismore = true;
+            }
             break;
         }
     }
-
     // 从起始位置开始，后面的元素统一挪到下方隐藏DIV中
     for (let index = moreButtonIndex; index < toobarElements.length; index++) {
         const element = toobarElements[index];
