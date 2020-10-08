@@ -11,7 +11,7 @@ import editor from "./editor";
 import luckysheetformula from './formula';
 import cleargridelement from './cleargridelement';
 import { genarate, update } from './format';
-import { setAccuracy } from "./setdata";
+import { setAccuracy,setcellvalue } from "./setdata";
 import { orderbydata } from "./sort";
 import { rowlenByRange } from "./getRowlen";
 import { getdatabyselection, getcellvalue } from "./getdata";
@@ -98,16 +98,91 @@ export function setCellValue(row, column, value, options = {}) {
     }
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
+        index = Store.currentSheetIndex,
         order = curSheetOrder,
+        isRefresh = true,
         success
     } = {...options}
     
+    let luckysheetfile = getluckysheetfile();
+    let arrayIndex = getSheetIndex(index);
+    let data = luckysheetfile[arrayIndex].data;
     
-    luckysheetformula.updatecell(row, column, value);
-    
+    // luckysheetformula.updatecell(row, column, value);
+    let formatList = {
+        //ct:1, //celltype,Cell value format: text, time, etc.
+        bg: 1,//background,#fff000	
+        ff: 1,//fontfamily,
+        fc: 1,//fontcolor
+        bl: 1,//Bold
+        it: 1,//italic
+        fs: 1,//font size	
+        cl: 1,//Cancelline, 0 Regular, 1 Cancelline
+        un: 1,//underline, 0 Regular, 1 underlines, fonts
+        vt: 1,//Vertical alignment, 0 middle, 1 up, 2 down
+        ht: 1,//Horizontal alignment,0 center, 1 left, 2 right
+        mc: 1, //Merge Cells
+        tr: 1, //Text rotation,0: 0、1: 45 、2: -45、3 Vertical text、4: 90 、5: -90
+        tb: 1, //Text wrap,0 truncation, 1 overflow, 2 word wrap
+        //v: 1, //Original value	
+        //m: 1, //Display value	
+        rt:1, //text rotation angle 0-180 alignment
+        //f: 1, //formula
+        qp:1 //quotePrefix, show number as string
+    }
+    if(value instanceof Object){
+        let curv = {};
+        if(value.f!=null && value.v==null){
+            curv.f = value.f;
+            if(value.ct!=null){
+                curv.ct = value.ct;
+            } 
+            data = luckysheetformula.updatecell(row, column, curv, false).data;//update formula value
+        }
+        else{
+            if(value.ct!=null){
+                curv.ct = value.ct;
+            } 
+            if(value.f!=null){
+                curv.f = value.f;
+            } 
+            if(value.v!=null){
+                curv.v = value.v;
+            }
+            if(value.m!=null){
+                curv.m = value.m;
+            }
+            formula.delFunctionGroup(row, column);
+            setcellvalue(row, column, data, curv);//update text value
+        }
+        for(let attr in value){
+            let v = value[attr];
+            if(attr in formatList){
+                menuButton.updateFormatCell(data, attr, v, row, row, column, column);//change range format
+            }
+        }
+    }
+    else{
+        if(value.substr(0,1)=="=" || value.substr(0,5)=="<span"){
+            data = luckysheetformula.updatecell(row, column, value, false).data;//update formula value or convert inline string html to object
+        }
+        else{
+            formula.delFunctionGroup(row, column);
+            setcellvalue(row, column, data, value);
+        }
+        
+    }
+
+
+    if(isRefresh){
+        jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);//update data, meanwhile refresh canvas and store data to history
+    }
+    else{
+        luckysheetfile[arrayIndex] = data;//only update data
+    }
 
     if (success && typeof success === 'function') {
-        success();
+        success(data);
     }
 }
 
@@ -190,7 +265,15 @@ export function deleteCell(move, row, column, options = {}) {
     } = {...options}
 
     let moveType = 'move' + move.replace(move[0], move[0].toUpperCase()); // left-moveLeft;  up-moveUp
-    luckysheetDeleteCell(moveType, row, row, column, column, order);
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+
+    luckysheetDeleteCell(moveType, row, row, column, column, sheetIndex);
 
     if (success && typeof success === 'function') {
         success()
@@ -806,7 +889,14 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
     }
 
     // 默认在行上方增加行，列左侧增加列
-    luckysheetextendtable(type, index, number, "lefttop", order);
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    
+    luckysheetextendtable(type, index, number, "lefttop", sheetIndex);
 
     if (success && typeof success === 'function') {
         success();
@@ -857,7 +947,14 @@ export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
         success
     } = {...options}
     
-    luckysheetdeletetable(type, startIndex, endIndex, order)
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    luckysheetdeletetable(type, startIndex, endIndex, sheetIndex);
     
     if (success && typeof success === 'function') {
         success()

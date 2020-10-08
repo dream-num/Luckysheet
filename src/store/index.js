@@ -131,6 +131,8 @@ const Store = {
     inlineStringEditCache:null,
     inlineStringEditRange:null,
 
+    fontList:[],
+
 }
 
 export default Store;

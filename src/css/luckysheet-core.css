@@ -6541,7 +6541,7 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 
-.luckysheet-modal-dialog {
+/* .luckysheet-modal-dialog {
     -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
     -moz-box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
     box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
@@ -6598,38 +6598,6 @@ fieldset[disabled] .btn-danger.focus {
     -moz-box-shadow: none;
     box-shadow: none;
 }
-
-/*         .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title{
-             line-height:0px;
-             margin: 0px;
-             font-size: 12px;
-         }
-
-        .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-close,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-max,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-min,.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-restore, .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-title-update {
-             height: 5px;
-             opacity: 0.7;
-             padding: 12px;
-         }
-
-         .luckysheet-modal-dialog-title-update {
-             right: 105px;
-             color: #85c0fc;
-             font-size:14px;
-             padding-top: 9px;
-         }
-
-         .luckysheet-modal-dialog-title-min {
-             right: 70px;
-             padding-top: 9px;
-         }
-
-         .luckysheet-modal-dialog-title-max, .luckysheet-modal-dialog-title-restore {
-             right: 35px;
-         }
-
-         .luckysheet-modal-dialog-title-restore{
-             display: none;
-         }*/
 
 .luckysheet-modal-dialog-resize {
     position: absolute;
@@ -6711,18 +6679,13 @@ fieldset[disabled] .btn-danger.focus {
     margin: 0px;
     padding: 0px;
     right: -35px;
-    /* width: 60px; */
     font-size: 14px;
     top: 0px;
 }
 
 .luckysheet-modal-controll-btn {
     height: 13px;
-    /* opacity: 0.7; */
     padding: 8px;
-    /* position: relative; */
-    /* right: 0px; */
-    /* top: 0px; */
     width: 13px;
     color: #d4d4d4;
     outline: 0;
@@ -6773,7 +6736,7 @@ fieldset[disabled] .btn-danger.focus {
 .luckysheet-modal-controll-max-close:hover {
     background: #85c0fc;
     cursor: pointer;
-}
+} */
 
 /* 图片 */
 #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
@@ -7066,6 +7029,23 @@ fieldset[disabled] .btn-danger.focus {
     margin-bottom: -5px;
     cursor: pointer;
 }
+#luckysheet-modal-dialog-activeImage, #luckysheet-modal-dialog-cropping{
+    background: none;
+    box-shadow: none;
+}
+
+.luckysheet-modal-dialog-image {
+    border: none;
+    box-shadow:none;
+    background: none;
+    box-shadow:none;
+}
+
+.luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
+    background: none;
+}
+
+
 /* 数据验证 */
 #luckysheet-dataVerification-dialog{
     user-select: none;
@@ -7239,3 +7219,4 @@ fieldset[disabled] .btn-danger.focus {
     cursor: default;
     white-space: nowrap;
 }
+

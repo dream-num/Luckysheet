@@ -198,13 +198,15 @@ function getMeasureText(value, ctx, fontset){
         let measureText = ctx.measureText(value), cache = {};
         var regu = "^[ ]+$";
         var re = new RegExp(regu);
-        if(measureText.actualBoundingBoxRight==null || re.test(value)){
-            cache.width = measureText.width;
-        }
-        else{
-            //measureText.actualBoundingBoxLeft + 
-            cache.width = measureText.actualBoundingBoxRight;
-        }
+        // if(measureText.actualBoundingBoxRight==null || re.test(value)){
+        //     cache.width = measureText.width;
+        // }
+        // else{
+        //     //measureText.actualBoundingBoxLeft + 
+        //     cache.width = measureText.actualBoundingBoxRight;
+        // }
+
+        cache.width = measureText.width;
 
         if(fontset!=null){
             ctx.font = fontset;
@@ -237,7 +239,7 @@ function getMeasureText(value, ctx, fontset){
         cache.actualBoundingBoxDescent *= Store.zoomRatio;
         cache.actualBoundingBoxAscent *= Store.zoomRatio;
         Store.measureTextCache[value + "_" + Store.zoomRatio +  "_" + ctx.font] = cache;
-
+        // console.log(measureText, value);
         return cache;
     }
 }

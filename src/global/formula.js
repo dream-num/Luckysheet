@@ -6,6 +6,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import menuButton from '../controllers/menuButton';
 import server from '../controllers/server';
 import luckysheetFreezen from '../controllers/freezen';
+import {checkProtectionLocked,checkProtectionCellHidden}  from '../controllers/protection';
 import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import { seletedHighlistByindex, luckysheet_count_show } from '../controllers/select';
 import { isRealNum, isRealNull, valueIsError, isEditMode } from './validate';
@@ -319,6 +320,12 @@ const luckysheetformula = {
         }
     },
     fucntionboxshow: function(r, c) {
+
+        if(!checkProtectionCellHidden(r, c, Store.currentSheetIndex)){
+            $("#luckysheet-functionbox-cell").html("");
+            return;
+        }
+        
         let _this = this;
 
         let d = Store.flowdata;
@@ -681,8 +688,8 @@ const luckysheetformula = {
             return;
         }
 
-        if(txt in this.addToCellIndexList){
-           return this.addToCellIndexList[txt];
+        if(txt in this.cellTextToIndexList){
+           return this.cellTextToIndexList[txt];
         }
 
         let val = txt.split("!");
@@ -1212,7 +1219,7 @@ const luckysheetformula = {
             "opacity": "0.13"
         });
     },
-    updatecell: function(r, c, value) {
+    updatecell: function(r, c, value, isRefresh=true) {
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
@@ -1220,6 +1227,10 @@ const luckysheetformula = {
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
+        }
+
+        if(!checkProtectionLocked(r, c, Store.currentSheetIndex)){
+            return
         }
 
         //数据验证 输入数据无效时禁止输入
@@ -1265,7 +1276,7 @@ const luckysheetformula = {
 
         if(!isCurInline){
             if(isRealNull(value) && !isPrevInline){
-                if(curv == null || (isRealNull(curv.v) && curv.spl == null)){
+                if(curv == null || (isRealNull(curv.v) && curv.spl == null && curv.f == null)){
                     _this.cancelNormalSelected();
                     return;
                 }
@@ -1361,39 +1372,42 @@ const luckysheetformula = {
                         }
                     }
                     // from API setCellValue,luckysheet.setCellValue(0, 0, {f: "=sum(D1)", bg:"#0188fb"}),value is an object, so get attribute f as value
-                    else if(getObjType(value) == "object"){
-                        let valueFunction = value.f;
-        
-                        if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
-                            let v = _this.execfunction(valueFunction, r, c, undefined, true);
-                            isRunExecFunction = false;
-                            // get v/m/ct
-                            curv = d[r][c];
-                            curv.v = v[1];
-                            // get f
-                            curv.f = v[2];
-        
-                            // get other cell style attribute
-                            delete value.v;
-                            delete value.m;
-                            delete value.f;
-                            Object.assign(curv,value);
-        
-                            //打进单元格的sparklines的配置串， 报错需要单独处理。
-                            if(v.length == 4 && v[3].type == "sparklines"){
-                                delete curv.m;
-                                delete curv.v;
-        
-                                let curCalv = v[3].data;
-        
-                                if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
-                                    curv.v = curCalv[0];
-                                }
-                                else{
-                                    curv.spl = v[3].data;
-                                }
-                            }
+                    else {
+                        for(let attr in value){
+                            curv[attr] = value[attr];
                         }
+                        // let valueFunction = value.f;
+        
+                        // if(getObjType(valueFunction) == "string" && valueFunction.slice(0, 1) == "=" && valueFunction.length > 1){
+                        //     let v = _this.execfunction(valueFunction, r, c, undefined, true);
+                        //     isRunExecFunction = false;
+                        //     // get v/m/ct
+                        //     curv = d[r][c];
+                        //     curv.v = v[1];
+                        //     // get f
+                        //     curv.f = v[2];
+        
+                        //     // get other cell style attribute
+                        //     delete value.v;
+                        //     delete value.m;
+                        //     delete value.f;
+                        //     Object.assign(curv,value);
+        
+                        //     //打进单元格的sparklines的配置串， 报错需要单独处理。
+                        //     if(v.length == 4 && v[3].type == "sparklines"){
+                        //         delete curv.m;
+                        //         delete curv.v;
+        
+                        //         let curCalv = v[3].data;
+        
+                        //         if(getObjType(curCalv) == "array" && getObjType(curCalv[0]) != "object"){
+                        //             curv.v = curCalv[0];
+                        //         }
+                        //         else{
+                        //             curv.spl = v[3].data;
+                        //         }
+                        //     }
+                        // }
                         
                     }
                     
@@ -1480,6 +1494,12 @@ const luckysheetformula = {
                         dynamicArrayItem = v[3].data;
                     }
                 }
+                else{
+                    let v = curv;
+                    if(value.v==null){
+                        value.v = v;
+                    }
+                }
                 
             }
             else{
@@ -1560,9 +1580,10 @@ const luckysheetformula = {
         //动态数组
         let dynamicArray = null;
         if(!!dynamicArrayItem){
-            let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-            dynamicArray = $.extend(true, [], file["dynamicArray"]);
-            dynamicArray.push(dynamicArrayItem);
+            // let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            dynamicArray = $.extend(true, [], this.insertUpdateDynamicArray(dynamicArrayItem));
+            // dynamicArray.push(dynamicArrayItem);
+
         }
 
         let allParam = {
@@ -1577,10 +1598,17 @@ const luckysheetformula = {
             }
         }
 
-        jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
-
-        // Store.luckysheetCellUpdate.length = 0; //clear array
-        _this.execFunctionGlobalData = null; //销毁
+        if(isRefresh){
+            jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
+            // Store.luckysheetCellUpdate.length = 0; //clear array
+            _this.execFunctionGlobalData = null; //销毁
+        }
+        else{
+            return {
+                data:d,
+                allParam:allParam
+            };
+        }
     },
     cancelNormalSelected: function() {
         let _this = this;
@@ -3755,6 +3783,10 @@ const luckysheetformula = {
             _this.operatorjson = op;
         }
 
+        if(txt==null){
+            return "";
+        }
+
         if (txt.substr(0, 2) == "=+") {
             txt = txt.substr(2);
         }
@@ -3991,6 +4023,32 @@ const luckysheetformula = {
         }
         // console.log(function_str);
         return function_str;
+    },
+    insertUpdateDynamicArray: function(dynamicArrayItem) {
+        let r = dynamicArrayItem.r , c = dynamicArrayItem.c, index = dynamicArrayItem.index;
+        if (index == null) {
+            index = Store.currentSheetIndex;
+        }
+
+        let luckysheetfile = getluckysheetfile();
+        let file = luckysheetfile[getSheetIndex(index)];
+
+        let dynamicArray = file.dynamicArray;
+        if (dynamicArray == null) {
+            dynamicArray = [];
+        }
+
+        for (let i = 0; i < dynamicArray.length; i++) {
+            let calc = dynamicArray[i];
+            if (calc.r == r && calc.c == c && calc.index == index) {
+                calc.data = dynamicArrayItem.data;
+                calc.f = dynamicArrayItem.f;
+                return dynamicArray;
+            }
+        }
+
+        dynamicArray.push(dynamicArrayItem);
+        return dynamicArray
     },
     addFunctionGroup: function(r, c, func, index) {
         if (index == null) {
@@ -4626,7 +4684,7 @@ const luckysheetformula = {
                                 cellRangeFunction(str_nb);
                             }
                             this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
-                            console.log(function_str, str, this.isFunctionRangeSave,r,c);
+                            // console.log(function_str, str, this.isFunctionRangeSave,r,c);
                         }
                     }
                     catch{
@@ -4667,6 +4725,7 @@ const luckysheetformula = {
     execvertex: {},
     execFunctionGroupData: null,
     execFunctionExist: null,
+    formulaContainSheetList:{},
     formulaContainCellList:{},
     cellTextToIndexList:{},
     addToCellList:function(formulaTxt, cellstring){
@@ -4693,6 +4752,29 @@ const luckysheetformula = {
         }
 
         this.cellTextToIndexList[txt] = infoObj;
+    },
+    addToSheetIndexList:function(formulaTxt, sheetIndex, obIndex){
+        if(formulaTxt==null || formulaTxt.length==0){
+            return;
+        }
+
+        if(sheetIndex==null || sheetIndex.length==0){
+            sheetIndex = Store.currentSheetIndex;
+        }
+
+        if(obIndex==null || obIndex.length==0){
+            obIndex = "";
+        }
+
+        if(this.formulaContainSheetList==null){
+            this.formulaContainSheetList = {};
+        }
+
+        if(this.formulaContainSheetList[formulaTxt]==null){
+            this.formulaContainSheetList[formulaTxt] = {};
+        }
+
+        this.formulaContainSheetList[formulaTxt][sheetIndex] = obIndex;
     },
     execFunctionGlobalData:{},
     execFunctionGroupForce:function(isForce){
@@ -4905,25 +4987,27 @@ const luckysheetformula = {
         // value.v = v[1];
         // value.f = v[2];
 
-        let cell = getOrigincell(u.r,u.c,u.index);
+        // let cell = getOrigincell(u.r,u.c,u.index);
 
-        let spl;
-        if(cell.spl != null){
-            window.luckysheetCurrentRow = u.r;
-            window.luckysheetCurrentColumn = u.c;
-            window.luckysheetCurrentIndex = u.index;
-            window.luckysheetCurrentFunction = calc_funcStr;
-
-            let fp = $.trim(_this.functionParserExe(calc_funcStr));
-            let sparklines = eval(fp);
-            spl = sparklines;
-        }
+        // let spl;
+        // if(v[3]!=null){
+        //     if(v[3].type=="sparklines"){
+        //         window.luckysheetCurrentRow = u.r;
+        //         window.luckysheetCurrentColumn = u.c;
+        //         window.luckysheetCurrentIndex = u.index;
+        //         window.luckysheetCurrentFunction = calc_funcStr;
+    
+        //         let fp = $.trim(_this.functionParserExe(calc_funcStr));
+        //         let sparklines = eval(fp);
+        //         spl = sparklines;
+        //     }
+        // }
 
         _this.groupValuesRefreshData.push({
             "r": u.r,
             "c": u.c,
             "v": v[1],
-            "spl":spl,
+            "spe":v[3],
             "index": u.index
         });
 
@@ -4945,12 +5029,23 @@ const luckysheetformula = {
                 //     continue;
                 // }
 
-                
-                let data = luckysheetfile[getSheetIndex(item.index)].data;
+                let file = luckysheetfile[getSheetIndex(item.index)];
+                let data = file.data;
                 if(data==null){
                     continue;
                 }
-                setcellvalue(item.r, item.c, data, item.v);
+
+                let updateValue = {};
+                if(item.spe!=null){
+                    if(item.spe.type=="sparklines"){
+                        updateValue.spl = item.spe.data;
+                    }
+                    else if(item.spe.type=="dynamicArrayItem"){
+                        file.dynamicArray = _this.insertUpdateDynamicArray(item.spe.data);
+                    }
+                }
+                updateValue.v = item.v;
+                setcellvalue(item.r, item.c, data, updateValue);
                 server.saveParam("v", item.index, item.v, {
                     "r": item.r,
                     "c": item.c
@@ -4976,6 +5071,21 @@ const luckysheetformula = {
                 if (calc.r == r && calc.c == c && calc.index == index) {
                     calcChain.splice(i, 1);
                     server.saveParam("fc", index, null, {
+                        "op": "del",
+                        "pos": i
+                    });
+                    break;
+                }
+            }
+        }
+
+        let dynamicArray = file.dynamicArray;
+        if (dynamicArray != null) {
+            for (let i = 0; i < dynamicArray.length; i++) {
+                let calc = dynamicArray[i];
+                if (calc.r == r && calc.c == c && (calc.index==null || calc.index == index)) {
+                    dynamicArray.splice(i, 1);
+                    server.saveParam("ac", index, null, {
                         "op": "del",
                         "pos": i
                     });
@@ -5099,7 +5209,7 @@ const luckysheetformula = {
                     result = result[0][0];
                 }
                 else{
-                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "data": result};
+                    dynamicArrayItem = {"r": r, "c": c, "f": txt, "index":index,"data": result};
                     result = "";
                 }
             }

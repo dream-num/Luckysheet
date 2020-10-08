@@ -47,6 +47,7 @@ export default {
         splitColumn: 'Split text',
         insertImage: 'Insert image',
         dataVerification: 'Data verification',
+        protection:"Protection the sheet",
 
         clearText:"Clear color",
         noColorSelectedText:"No color is selected",
@@ -56,6 +57,8 @@ export default {
         toolClose:"Close",
         toolMoreTip:"More features",
         moreOptions:"More Options",
+
+        cellFormat:"Cell format config",
     },
     alternatingColors:{
         applyRange: 'Apply to range',
@@ -80,7 +83,10 @@ export default {
     button: {
         confirm: 'OK',
         cancel: 'Cancel',
-        close:"Close"
+        close:"Close",
+        update:"Update",
+        delete:"Delete",
+        insert:"Insert",
     },
     paint:{
         start: 'Paint format start',
@@ -122,7 +128,8 @@ export default {
         tipInputNumber:"Please enter the number",
         tipInputNumberLimit:"The increase range is limited to 1-100",
 
-        tipRowHeightLimit:"The value must be between 0 ~ 255",
+        tipRowHeightLimit:"Row height must be between 0 ~ 545",
+        tipColumnWidthLimit:"The column width must be between 0 ~ 2038",
         pageInfoFull:'Total ${total}，${totalPage} page，All data displayed',
     },
     currencyDetail:{
@@ -1007,6 +1014,10 @@ export default {
         inputCorrect:"Please enter the correct value",
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
+
+        pasteMustKeybordAlert:"在表格中进行复制粘贴: Ctrl + C 进行复制, Ctrl + V 进行粘贴, Ctrl + X 进行剪切",
+        pasteMustKeybordAlertHTMLTitle:"在表格中进行复制粘贴",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
     },
     pivotTable:{
         title:"PivotTable",
@@ -1074,6 +1085,76 @@ export default {
         month:"Month",
         year:"Year",
         chineseNumber:"Chinese numbers",
+    },
+    imageCtrl:{
+        borderTile:"Image border color",
+        borderCur:"Color",
+    },
+    protection:{
+        protectiontTitle:"Protection",
+        enterPassword:"Enter a password(optional)",
+        enterHintTitle:"Prompt when editing is prohibited(optional)",
+        enterHint:"The cell or chart you are trying to change is in a protected worksheet. If you want to change it, please unprotect the worksheet. You may need to enter a password",
+        swichProtectionTip:"Protect the sheet and contents of locked cells",
+        authorityTitle:"Allow users of this sheet to:",
+        selectLockedCells:"Select locked cells",
+        selectunLockedCells:"Select unlocked cells",
+        formatCells:"Format cells",
+        formatColumns:"Format columns",
+        formatRows:"Format rows",
+        insertColumns:"Insert columns",
+        insertRows:"Insert rows",
+        insertHyperlinks:"Insert hyperlinks",
+        deleteColumns:"Delete columns",
+        deleteRows:"Delete rows",
+        sort:"Sort",
+        filter:"Filter",
+        usePivotTablereports:"Use PivotTable reports",
+        editObjects:"Edit objects",
+        editScenarios:"Edit scenarios",
+
+        allowRangeTitle:"Allow users of range to:",
+        allowRangeAdd:"New...",
+
+        allowRangeAddTitle:"Title",
+        allowRangeAddSqrf:"Reference",
+        selectCellRange: 'Click to select cell range',
+        selectCellRangeHolder:"Cell range",
+        allowRangeAddTitlePassword:"Password",
+        allowRangeAddTitleHint:"Prompt",
+        allowRangeAddTitleHintTitle:"Prompt when password is set(optional)",
+        allowRangeAddtitleDefault:"Input range name",
+
+        rangeItemDblclick:"Double click to edit",
+        rangeItemHasPassword:"Has password",
+
+        rangeItemErrorTitleNull:"Title is null",
+        rangeItemErrorRangeNull:"Reference is null",
+        rangeItemErrorRange:"Reference is error",
+
+        validationTitle:"Password validation",
+        validationTips:"Need to enter a password to unlock the protection of the worksheet",
+        validationInputHint:"Enter a password",
+
+        checkPasswordNullalert:"Password is required!",
+        checkPasswordWrongalert:"Incorrect password, please try again!",
+
+        checkPasswordSucceedalert:"Unlock Succeed!",
+        defaultRangeHintText:"The cell is being password protected.",
+        defaultSheetHintText:"The cell or chart is in a protected worksheet. To make changes, please unprotect the worksheet. You may need to enter a password",
+    },
+    cellFormat:{
+        cellFormatTitle:"Format cells",
+        protection:"Protection",
+        locked:"Locked",
+        hidden:"Hidden",
+        protectionTips:"To lock cells or hide formulas, protect the wordsheet. On the toolbar, Click Protect Sheet Button",
+        tipsPart:"Partial checked",
+        tipsAll:"All checked",
+
+        selectionIsNullAlert:"Selection is required!",
+        sheetDataIsNullAlert:"error, Data is none!",
+
     }
   };
   

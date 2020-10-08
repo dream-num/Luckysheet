@@ -1,0 +1,255 @@
+
+#luckysheet-modal-dialog-slider-protection .luckysheet-modal-dialog-slider-content{
+    background: #fff;
+}
+
+.luckysheet-slider-protection-config{
+    position: absolute;
+    width: 100%;
+}
+
+.luckysheet-slider-protection-row{
+    position: relative;
+    width: 98%;
+    height: 35px;
+    left: 1%;
+}
+
+.luckysheet-slider-protection-column{
+    position: absolute;
+    height: 100%;
+}
+
+
+.luckysheet-slider-protection-config input, .luckysheet-slider-protection-config textarea, .luckysheet-protection-rangeItem-dialog input, .luckysheet-protection-rangeItem-dialog textarea, .luckysheet-protection-sheet-validation input{
+    border: 1px solid #d4d4d4;
+    outline: none;
+}
+
+.luckysheet-slider-protection-config input:focus, .luckysheet-slider-protection-config textarea:focus, .luckysheet-protection-rangeItem-dialog input:focus, .luckysheet-protection-rangeItem-dialog textarea:focus,.luckysheet-protection-sheet-validation input:focus{
+    border: 1px solid #0389FB;
+    outline: none;
+}
+
+.luckysheet-protection-input{
+    width: 100%;
+    height: 19px;
+    position: relative;
+}
+
+.luckysheet-protection-textarea{
+    width: 100%;
+    height: 47px;
+    position: relative;
+    resize:none;
+}
+
+.luckysheet-protection-column-2x{
+    width: 20%;
+}
+
+.luckysheet-protection-column-3x{
+    width: 30%;
+}
+
+.luckysheet-protection-column-4x{
+    width: 40%;
+}
+
+.luckysheet-protection-column-5x{
+    width: 50%;
+}
+
+.luckysheet-protection-column-6x{
+    width: 60%;
+}
+
+.luckysheet-protection-column-7x{
+    width: 70%;
+}
+
+.luckysheet-protection-column-8x{
+    width: 80%;
+}
+
+.luckysheet-protection-column-9x{
+    width: 90%;
+}
+
+.luckysheet-protection-column-10x{
+    width: 100%;
+}
+
+.luckysheet-protection-column-left{
+    text-align: left;
+}
+
+.luckysheet-protection-column-center{
+    text-align: center;
+}
+
+.luckysheet-protection-column-right{
+    text-align: right;
+}
+
+.luckysheet-slider-protection-ok{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #0188fb;
+    color: #fff;
+    text-align: center;
+    line-height: 45px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.luckysheet-slider-protection-ok:hover{
+    background: #0181EE;
+}
+
+.luckysheet-slider-protection-ok:active{
+    background: #0074da;
+}
+
+.luckysheet-slider-protection-cancel{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #e6e6e6;
+    color: #353535;
+    text-align: center;
+    line-height: 45px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.luckysheet-slider-protection-cancel:hover{
+    background: #d6d6d6;
+}
+
+.luckysheet-slider-protection-cancel:active{
+    background: #c7c7c7;
+}
+
+.luckysheet-slider-protection-addRange{
+    line-height: 23px;
+    font-size: 12px;
+    top: 2px;
+    height: 23px;
+}
+
+
+.luckysheet-protection-rangeItem{
+    position: relative;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.luckysheet-protection-rangeItem:hover{
+    background: #D5D5D5;
+}
+
+.luckysheet-protection-rangeItem > div{
+    position: absolute;
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-del{
+    left: 5px;
+    top:5px;
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-name{
+    left: 30px;
+    width: 80px;
+    text-align: left;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-range{
+    left: 110px;
+    width: 120px;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-update{
+    left: 230px;
+    width: 30px;
+    font-size: 14px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-del:hover, .luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-update:hover{
+    background: #0181EE;
+    color: #fff;
+}
+
+.luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-del:active, .luckysheet-protection-rangeItem .luckysheet-protection-rangeItem-update:active{
+    background: #0074da;
+    color: #fff;
+}
+
+
+.luckysheet-protection-rangeItem-content{
+    position: relative;
+    width: 350px;
+    height: 270px;
+}
+
+
+#luckysheet-protection-rangeItem-dialog .luckysheet-slider-protection-column .range {
+    width: 100%;
+    height: 30px;
+    border: 1px solid #d4d4d4;
+}
+
+#luckysheet-protection-rangeItem-dialog .luckysheet-slider-protection-column .range input {
+    width: calc(100% - 30px);
+    height: 30px;
+    padding: 0 10px;
+    float: left;
+    border: none;
+    outline-style: none;
+    box-sizing: border-box;
+}
+
+#luckysheet-protection-rangeItem-dialog .luckysheet-slider-protection-column .range i.fa-table {
+    float: right;
+    margin-top: 9px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #6598F3;
+}
+
+.luckysheet-protection-rangeItemTextarea{
+    width: 100%;
+    height: 120px;
+    position: relative;
+    resize:none;
+}
+
+.luckysheet-protection-rangeItemiInput{
+    width: 100%;
+    height: 23px;
+    position: relative;
+}
+
+
+.luckysheet-protection-sheet-validation{
+    width: 390px;
+    height: 180px;
+    display: none;
+}
