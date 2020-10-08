@@ -27,6 +27,10 @@ English| [简体中文](./README-zh.md)
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
 
+## Support
+Luckysheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of many awesome backers. If you'd like to join them, please consider:
+- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
+
 ## Features
 
 ### 🛠️Formatting

@@ -47,6 +47,7 @@ export default {
         splitColumn: '分列',
         insertImage: '插入图片',
         dataVerification: '数据验证',
+        protection:"保护工作表内容",
 
         clearText:"清除颜色选择",
         noColorSelectedText:"没有颜色被选择",
@@ -56,6 +57,8 @@ export default {
         toolClose:"收起",
         toolMoreTip:"更多功能",
         moreOptions:"更多选项",
+
+        cellFormat:"设置单元格格式",
     },
     alternatingColors:{
         applyRange: '应用范围',
@@ -80,7 +83,10 @@ export default {
     button: {
         confirm: '确定',
         cancel: '取消',
-        close:"关闭"
+        close:"关闭",
+        update:"Update",
+        delete:"Delete",
+        insert:"新建",
     },
     paint: {
         start: '格式刷开启',
@@ -122,7 +128,8 @@ export default {
         tipInputNumber:"请输入数字",
         tipInputNumberLimit:"增加范围限制在1-100",
 
-        tipRowHeightLimit:"数值必须在0 ~ 255之间",
+        tipRowHeightLimit:"行高必须在0 ~ 545之间",
+        tipColumnWidthLimit:"列宽必须在0 ~ 2038之间",
         pageInfoFull:'共${total}条，${totalPage}页，已显示全部数据',
 
     },
@@ -408,7 +415,7 @@ export default {
         "clip":"截断",
     },
     rotation:{
-        "none":"无选装",
+        "none":"无旋转",
         "angleup":"向上倾斜",
         "angledown":"向下倾斜",
         "vertical":"竖排文字",
@@ -1025,6 +1032,10 @@ export default {
         inputCorrect:"请输入正确的数值",
         notLessOne:"行列数不能小于1",
         offsetColumnLessZero:"偏移列不能为负数！",
+
+        pasteMustKeybordAlert:"Copy and paste in the Sheet: Ctrl + C to copy, Ctrl + V to paste, Ctrl + X to cut",
+        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the Sheet",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;to copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;to paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;to cut",
     },
     pivotTable:{
         title:"数据透视表",
@@ -1092,5 +1103,72 @@ export default {
         month:"以月填充",
         year:"以年填充",
         chineseNumber:"以中文小写数字填充"
+    },
+    imageCtrl:{
+        borderTile:"图片边框颜色选择",
+        borderCur:"当前颜色",
+    },
+    protection:{
+        protectiontTitle:"保护工作表",
+        enterPassword:"请输入密码（可留空）",
+        enterHint:"您试图更改的单元格或图表位于受保护的工作表中。若要更改，请取消工作表保护。您可能需要输入密码",
+        swichProtectionTip:"保护工作表及锁定的单元格内容",
+        authorityTitle:"允许此工作表的用户进行:",
+        selectLockedCells:"选定锁定单元格",
+        selectunLockedCells:"选定解除锁定的单元格",
+        formatCells:"设置单元格格式",
+        formatColumns:"设置列格式",
+        formatRows:"设置行格式",
+        insertColumns:"插入列",
+        insertRows:"插入行",
+        insertHyperlinks:"插入超链接",
+        deleteColumns:"删除列",
+        deleteRows:"删除行",
+        sort:"排序",
+        filter:"使用自动筛选",
+        usePivotTablereports:"使用数据透视表和报表",
+        editObjects:"编辑对象",
+        editScenarios:"编辑方案",
+
+        allowRangeTitle:"允许用户编辑区域",
+        allowRangeAdd:"新建...",
+
+        allowRangeAddTitle:"标题",
+        allowRangeAddSqrf:"引用单元格",
+        selectCellRange: '点击选择单元格范围',
+        selectCellRangeHolder:"请输入单元格范围",
+        allowRangeAddTitlePassword:"密码",
+        allowRangeAddTitleHint:"提示",
+        allowRangeAddTitleHintTitle:"设置密码后，提示用户输入密码(可留空)",
+        allowRangeAddtitleDefault:"请输入区域名称",
+
+        rangeItemDblclick:"双击进行编辑",
+        rangeItemHasPassword:"已设置密码",
+
+        rangeItemErrorTitleNull:"标题不能为空",
+        rangeItemErrorRangeNull:"单元格范围不能为空",
+        rangeItemErrorRange:"单元格范围格式错误",
+
+        validationTitle:"验证提示",
+        validationTips:"需要输入密码来撤销工作表的保护",
+        validationInputHint:"请输入密码",
+
+        checkPasswordNullalert:"密码不能为空！",
+        checkPasswordWrongalert:"密码错误，请重试！",
+
+        checkPasswordSucceedalert:"解锁成功，可以编辑该区域!",
+        defaultRangeHintText:"该单元格正在受密码保护。",
+        defaultSheetHintText:"该单元格或图表位于受保护的工作表中，若要进行更改，请取消工作表保护，您可能需要输入密码。",
+    },
+    cellFormat:{
+        cellFormatTitle:"设置单元格格式",
+        protection:"保护",
+        locked:"锁定单元格",
+        hidden:"隐藏公式",
+        protectionTips:"只有保护工作表功能(在菜单栏点击保护工作表按钮进行设置)开启后，锁定单元格或隐藏公式才能生效",
+        tipsPart:"部分选中",
+        tipsAll:"全部选中",
+        selectionIsNullAlert:"请选择一个范围！",
+        sheetDataIsNullAlert:"数据为空无法设置！",
     }
 };

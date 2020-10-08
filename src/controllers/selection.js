@@ -1,6 +1,7 @@
 import { selectHightlightShow, selectionCopyShow } from './select';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
+import {checkProtectionLockedRangeList} from './protection';
 import editor from '../global/editor';
 import tooltip from '../global/tooltip';
 import formula from '../global/formula';
@@ -13,6 +14,7 @@ import { genarate, update } from '../global/format';
 import { getSheetIndex } from '../methods/get';
 import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
+import locale from '../locale/locale';
 
 const selection = {
     clearcopy: function (e) {
@@ -531,7 +533,7 @@ const selection = {
     copybyformat: function (e, txt) {//copy事件
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) { // for chrome
-            clipboardData = e.originalEvent.clipboardData;
+            clipboardData = e.originalEvent && e.originalEvent.clipboardData;
         }
 
         Store.luckysheet_selection_range = [{ "row": Store.luckysheet_select_save[0].row, "column": Store.luckysheet_select_save[0].column }];
@@ -563,6 +565,9 @@ const selection = {
             return;
         }
 
+        const _locale = locale();
+        const local_drag = _locale.drag;
+
         let textarea = $("#luckysheet-copy-content");
         textarea.focus();
         textarea.select();
@@ -586,15 +591,20 @@ const selection = {
             }
             else {
                 if(isEditMode()){
-                    alert("在表格中进行复制粘贴: Ctrl + C 进行复制, Ctrl + V 进行粘贴, Ctrl + X 进行剪切");
+                    alert(local_drag.pasteMustKeybordAlert);
                 }
                 else{
-                    tooltip.info("在表格中进行复制粘贴", "<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切");
+                    tooltip.info(local_drag.pasteMustKeybordAlertHTMLTitle, local_drag.pasteMustKeybordAlertHTML);
                 }
             }
         }, 10);
     },
     pasteHandler: function (data, borderInfo) {
+
+        if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+            return;
+        }
+
         if(Store.allowEdit===false){
             return;
         }
@@ -819,6 +829,9 @@ const selection = {
         }
     },
     pasteHandlerOfCutPaste: function(copyRange){
+        if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+            return;
+        }
         if(Store.allowEdit === false){
             return;
         }
@@ -1246,6 +1259,9 @@ const selection = {
         }
     },
     pasteHandlerOfCopyPaste: function(copyRange){
+        if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+            return;
+        }
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -1562,6 +1578,9 @@ const selection = {
         }
     },
     pasteHandlerOfPaintModel: function(copyRange){
+        if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+            return;
+        }
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};

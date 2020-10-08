@@ -2,7 +2,10 @@ import {getFontStyleByCell, textTrim} from "../global/getdata";
 import {selectTextContent,selectTextContentCross,selectTextContentCollapse} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
+<<<<<<< HEAD
 //import { connect } from "net";
+=======
+>>>>>>> 146c96de66190c5f29e1e257d1575afd644e5088
 
 export const inlineStyleAffectAttribute = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1};
 export const inlineStyleAffectCssName = {"font-weight":1, "font-style":1 , "font-family":1, "text-decoration":1, "border-bottom":1,"font-size":1,"color":1};
@@ -259,6 +262,10 @@ export function enterKeyControll(cell){
         let startSpan = startContainer.parentNode;
         if(startContainer.id=="luckysheet-rich-text-editor"){
             startSpan = $(startContainer).find("span");
+            if(startSpan.length==0){
+                startContainer.innerHTML = "<span></span>";
+                startSpan = $(startContainer).find("span");
+            }
             startSpan = startSpan.get(startSpan.length-1);
             startOffset = startSpan.innerHTML.length;
         }

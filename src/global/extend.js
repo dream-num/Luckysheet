@@ -7,12 +7,22 @@ import conditionformat from '../controllers/conditionformat';
 import luckysheetFreezen from '../controllers/freezen';
 import { selectHightlightShow } from '../controllers/select';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
+import {checkProtectionAuthorityNormal,checkProtectionNotEnable} from '../controllers/protection';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
 //增加行列
-function luckysheetextendtable(type, index, value, direction, order) {
-    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+function luckysheetextendtable(type, index, value, direction, sheetIndex) {
+    sheetIndex = sheetIndex || Store.currentSheetIndex;
+
+    if(type=='row' && !checkProtectionAuthorityNormal(sheetIndex, "insertRows")){
+        return;
+    }
+    else if(type=='column' && !checkProtectionAuthorityNormal(sheetIndex, "insertColumns")){
+        return;
+    }
+
+    let curOrder = getSheetIndex(sheetIndex);
     let file = Store.luckysheetfile[curOrder];
     let d = $.extend(true, [], file.data);
 
@@ -868,8 +878,19 @@ function luckysheetextendData(rowlen, newData) {
 }
 
 //删除行列
-function luckysheetdeletetable(type, st, ed, order) {
-    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+function luckysheetdeletetable(type, st, ed, sheetIndex) {
+
+    sheetIndex = sheetIndex || Store.currentSheetIndex;
+    
+    if(type=='row' && !checkProtectionAuthorityNormal(sheetIndex, "deleteRows")){
+        return;
+    }
+    else if(type=='column' && !checkProtectionAuthorityNormal(sheetIndex, "deleteColumns")){
+        return;
+    }
+
+    let curOrder = getSheetIndex(sheetIndex);
+
     let file = Store.luckysheetfile[curOrder];
     let d = $.extend(true, [], file.data);
 
@@ -1581,8 +1602,13 @@ function luckysheetdeletetable(type, st, ed, order) {
 }
 
 //删除单元格
-function luckysheetDeleteCell(type, str, edr, stc, edc, order) {
-    let curOrder = order || getSheetIndex(Store.currentSheetIndex);
+function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
+    sheetIndex = sheetIndex || Store.currentSheetIndex;
+    if(!checkProtectionNotEnable(sheetIndex)){
+        return;
+    }
+
+    let curOrder = getSheetIndex(sheetIndex);
     let file = Store.luckysheetfile[curOrder];
 
     let d = $.extend(true, [], file.data);

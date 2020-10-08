@@ -17,6 +17,8 @@ eg: options.data：
         "hide": 0,//Whether worksheet hide 
         "row": 36, //the number of rows in a sheet
         "column": 18, //the number of columns in a sheet
+        "defaultRowHeight": 19, //Customized default row height
+        "defaultColWidth": 73, //Customized default column width
         "celldata": [], //Initial the cell data
         "config": {
             "merge":{}, //merged cells
@@ -108,7 +110,19 @@ eg: options.data：
 ### column
 - type：Number
 - default：18
-- usage： The number of cell columns
+- usage： Number of cell columns
+
+------------
+### defaultRowHeight
+- type：Number
+- default：19
+- usage： Customized default row height, unit is px
+
+------------
+### defaultColWidth
+- type：Number
+- default：73
+- usage： Customized default column width, unit is px
 
 ------------
 ### celldata
