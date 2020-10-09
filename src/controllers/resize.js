@@ -143,7 +143,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         // #luckysheet-icon-morebtn button width plus right is 83px
         if(toobarWidths[index] < gridW - 90){
             moreButtonIndex = index;
-            if(moreButtonIndex !== 33){
+            if(moreButtonIndex < toobarWidths.length - 1){
 
                 ismore = true;
             }
@@ -290,6 +290,8 @@ export function changeSheetContainerSize(gridW, gridH){
 
 /**
  * 统计工具栏各个按钮宽度值,用于计算哪些需要放到 更多按钮里
+ * 
+ * 注意：每增加一个工具栏按钮，都要在toobarWidths和toobarElements这两个数组里加上按钮的统计数据
  */
 export function menuToolBarWidth() {
     const toobarObject = Store.toobarObject;
@@ -326,9 +328,9 @@ export function menuToolBarWidth() {
         $('#luckysheet-dataVerification-btn-title').offset().left,
         $('#luckysheet-splitColumn-btn-title').offset().left,
         $('#luckysheet-chart-btn-screenshot').offset().left,
-        $('#luckysheet-icon-protection').offset().left,
         $('#luckysheet-icon-seachmore').offset().left,
-        $('#luckysheet-icon-seachmore').offset().left + $('#luckysheet-icon-seachmore').outerWidth() + 5,
+        $('#luckysheet-icon-protection').offset().left,
+        $('#luckysheet-icon-protection').offset().left + $('#luckysheet-icon-protection').outerWidth() + 5,
     ];
     toobarObject.toobarElements = [
         '#luckysheet-icon-undo',
