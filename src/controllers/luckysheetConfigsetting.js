@@ -26,6 +26,8 @@ const luckysheetConfigsetting = {
     
     editMode: false,
     beforeCreateDom: null,
+    workbookCreateBefore: null,
+    workbookCreateAfter: null,
     fireMousedown: null,
     plugins:[],
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用

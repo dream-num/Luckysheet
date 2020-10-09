@@ -17,6 +17,8 @@ eg: options.data：
         "hide": 0,//Whether worksheet hide 
         "row": 36, //the number of rows in a sheet
         "column": 18, //the number of columns in a sheet
+        "defaultRowHeight": 19, //Customized default row height
+        "defaultColWidth": 73, //Customized default column width
         "celldata": [], //Initial the cell data
         "config": {
             "merge":{}, //merged cells
@@ -76,9 +78,9 @@ eg: options.data：
 
 ------------
 ### index
-- type：Number
-- default：0
-- usage：Worksheet index, starting from 0
+- type：String
+- default：""
+- usage：The worksheet index is used as a unique key value, and a random string is automatically assigned when a worksheet is added. Note that `index` is not the order of worksheets, and is distinguished from `order`.
 
 ------------
 ### status
@@ -90,7 +92,7 @@ eg: options.data：
 ### order
 - type：Number
 - default：0
-- usage： The index of the worksheets is starting from 0. it will increase when a worksheet is added.
+- usage：The subscript of the worksheet represents the order in which the worksheet is displayed in the sheet bar at the bottom. It will increase when a worksheet is added, starting from 0
 
 ------------
 ### hide
@@ -108,7 +110,19 @@ eg: options.data：
 ### column
 - type：Number
 - default：18
-- usage： The number of cell columns
+- usage： Number of cell columns
+
+------------
+### defaultRowHeight
+- type：Number
+- default：19
+- usage： Customized default row height, unit is px
+
+------------
+### defaultColWidth
+- type：Number
+- default：73
+- usage： Customized default column width, unit is px
 
 ------------
 ### celldata
