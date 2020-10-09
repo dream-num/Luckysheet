@@ -2323,9 +2323,21 @@ const luckysheetDropCell = {
             let lastTxt = _this.isExtendNumber(last)[1];
             let lastNum = _this.isExtendNumber(last)[2];
 
-            let num = Math.abs(Number(lastNum) + step * i);
-            d["v"] = lastTxt + num.toString();
-            d["m"] = lastTxt + num.toString();
+            if(lastNum==""){
+                let num = Math.abs(Number(lastTxt) + step * i);
+                if(lastTxt.substr(0,1)=="0"){
+                    if(lastTxt.length>num.toString().length){
+                        num = "0" + num.toString();
+                    }
+                }
+                d["v"] = num.toString();
+                d["m"] = num.toString();
+            }
+            else{
+                let num = Math.abs(Number(lastNum) + step * i);
+                d["v"] = lastTxt + num.toString();
+                d["m"] = lastTxt + num.toString();
+            }
 
             applyData.push(d);
         }

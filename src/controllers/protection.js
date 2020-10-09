@@ -300,7 +300,13 @@ function initialEvent(file){
         }
 
         if(aut.algorithmName!=null && aut.algorithmName!="None"){
-            password = CryptoApi.hash(aut.algorithmName, password);
+            if(aut.saltValue!=null && aut.saltValue.length>0){
+                var hasher = CryptoApi.getHasher(aut.algorithmName);
+                password =CryptoApi.hmac(aut.saltValue, password, hasher);
+            }
+            else{
+                password = CryptoApi.hash(aut.algorithmName, password);
+            }
         }
 
         if(password==aut.password){
@@ -829,7 +835,14 @@ function openRangePasswordModal(rangeAut) {
         }
 
         if(rangeAut.algorithmName!=null && rangeAut.algorithmName!="None"){
-            password = CryptoApi.hash(rangeAut.algorithmName, password);
+            // password = CryptoApi.hash(rangeAut.algorithmName, password);
+            if(rangeAut.saltValue!=null && rangeAut.saltValue.length>0){
+                var hasher = CryptoApi.getHasher(rangeAut.algorithmName);
+                password =CryptoApi.hmac(rangeAut.saltValue, password, hasher);
+            }
+            else{
+                password = CryptoApi.hash(rangeAut.algorithmName, password);
+            }
         }
 
         if(password==rangeAut.password){

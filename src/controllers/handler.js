@@ -160,7 +160,7 @@ export default function luckysheetHandler() {
 
         clearTimeout(mousewheelArrayUniqueTimeout);
         
-        if(Store.visibledatacolumn.length!=visibledatacolumn_c.length){
+        // if(Store.visibledatacolumn.length!=visibledatacolumn_c.length){
             if(Store.visibledatacolumn_unique!=null){
                 visibledatacolumn_c = Store.visibledatacolumn_unique;
             }
@@ -168,9 +168,9 @@ export default function luckysheetHandler() {
                 visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
                 Store.visibledatacolumn_unique = visibledatacolumn_c;
             }
-        }
+        // }
 
-        if(Store.visibledatarow.length!=visibledatarow_c.length){
+        // if(Store.visibledatarow.length!=visibledatarow_c.length){
             if(Store.visibledatarow_unique!=null){
                 visibledatarow_c = Store.visibledatarow_unique;
             }
@@ -178,7 +178,7 @@ export default function luckysheetHandler() {
                 visibledatarow_c = ArrayUnique(visibledatarow_c);
                 Store.visibledatarow_unique = visibledatarow_c;
             }
-        }
+        // }
 
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
         // visibledatarow_c = ArrayUnique(visibledatarow_c);

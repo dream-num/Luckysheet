@@ -688,12 +688,6 @@ const luckysheetformula = {
             return;
         }
 
-        if(txt in this.cellTextToIndexList){
-           return this.cellTextToIndexList[txt];
-        }
-
-        let val = txt.split("!");
-
         let sheettxt = "",
             rangetxt = "",
             sheetIndex = null,
@@ -701,9 +695,16 @@ const luckysheetformula = {
         
         let luckysheetfile = getluckysheetfile();
 
-        if (val.length > 1) {
+        if (txt.indexOf("!") > -1) {
+            if(txt in this.cellTextToIndexList){
+                return this.cellTextToIndexList[txt];
+            }
+
+            let val = txt.split("!");
             sheettxt = val[0];
             rangetxt = val[1];
+
+            
             
             for (let i in luckysheetfile) {
                 if (sheettxt == luckysheetfile[i].name) {
@@ -718,11 +719,14 @@ const luckysheetformula = {
             if(i==null){
                 i = Store.currentSheetIndex;
             }
+            if(txt+"_" + i in this.cellTextToIndexList){
+                return this.cellTextToIndexList[txt+"_" + i];
+             }
             let index = getSheetIndex(i);
             sheettxt = luckysheetfile[index].name;
             sheetIndex = luckysheetfile[index].index;
             sheetdata = Store.flowdata;
-            rangetxt = val[0];
+            rangetxt = txt;
         }
         
         if (rangetxt.indexOf(":") == -1) {
@@ -4751,7 +4755,14 @@ const luckysheetformula = {
             this.cellTextToIndexList = {};
         }
 
-        this.cellTextToIndexList[txt] = infoObj;
+        if(txt.indexOf("!")>-1){
+            this.cellTextToIndexList[txt] = infoObj;
+        }
+        else{
+            this.cellTextToIndexList[txt+"_"+infoObj.sheetIndex] = infoObj;
+        }
+
+        
     },
     addToSheetIndexList:function(formulaTxt, sheetIndex, obIndex){
         if(formulaTxt==null || formulaTxt.length==0){
