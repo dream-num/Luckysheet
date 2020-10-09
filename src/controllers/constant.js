@@ -5,6 +5,7 @@ import Store from '../store';
 const gridHTML = function(){ 
     const _locale = locale();
     const locale_info = _locale.info;
+    const locale_print = _locale.print;
     
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
@@ -214,7 +215,7 @@ const gridHTML = function(){
                         </div> 
                         <div class="luckysheet-stat-area"> 
                             <div class="luckysheet-sta-c">
-                                <div class="luckysheet-zoom-content" id="uckysheet-zoom-content">
+                                <div class="luckysheet-zoom-content" id="luckysheet-zoom-content">
                                     <div class="luckysheet-zoom-minus" id="luckysheet-zoom-minus">
                                         <div class="luckysheet-zoom-minus-icon"></div>
                                     </div>
@@ -227,7 +228,12 @@ const gridHTML = function(){
                                         <div class="luckysheet-zoom-plus-icon"></div>
                                     </div>
                                     <div class="luckysheet-zoom-ratioText" id="luckysheet-zoom-ratioText">100%</div>
-                                </div>  
+                                </div>
+                                <div class="luckysheet-print-viewList">
+                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewNormal luckysheet-print-viewBtn-active" title="${locale_print.normalBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewLayout" title="${locale_print.layoutBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                </div>
                                 <div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>  
                                 <div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>  
                             </div> 

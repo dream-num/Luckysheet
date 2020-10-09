@@ -1170,5 +1170,11 @@ export default {
         tipsAll:"全部选中",
         selectionIsNullAlert:"请选择一个范围！",
         sheetDataIsNullAlert:"数据为空无法设置！",
+    },
+    print:{
+        normalBtn:"常规视图",
+        layoutBtn:"页面布局",
+        pageBtn:"分页预览",
     }
+
 };

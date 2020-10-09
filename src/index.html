@@ -80,6 +80,7 @@
 				// 						"un":"1",//underline
 				// 						"bl":"1",//blod
 				// 						"it":"0",//italic
+				//                      "ss":0,//0 none 1sup 2sub
 				// 						v:"交给警\r\n察叔叔\r\n"
 				// 					},
 				// 				]
@@ -143,21 +144,21 @@
 							},
 							headerFooter:{
 								firstFooter:{
-									left:[
+									left:[//&L
 										{
-											"ff":"Arial", //font family
-											"fc":"#fff000",//font color
-											"fs":12,//font size
+											"ff":"Arial", //font family &"-,Regular" or &"font name,font type"
+											"fc":"#fff000",//font color &K
+											"fs":12,//font size &font-size
 											"cl":0,//strike
-											"un":0,//underline
-											"bl":0,//blod
-											"it":0,//italic
-											"ss":0,//0 none 1sup 2sub
+											"un":0,//underline &E double,  &U single
+											"bl":0,//blod &B
+											"it":0,//italic &I
+											"ss":0,//0 none 1sup &X,  2sub &Y
 											v:"我在马路\r\n边捡到\r\n\r\n一分钱"
 										}
 									],
-									center:[],
-									right:[],
+									center:[],//&C
+									right:[],//&R
 								}, //First Page Footer
 								firstHeader:null, //First Page Header
 								oddFooter:"&C第 &P 页&R&G", //Odd Page Footer

@@ -1,6 +1,16 @@
 import { jsPDF } from "jspdf";
 
-
+let ExcelPlaceholder = {
+    "[tabName]":"&A",
+    "[CurrentDate]":"&D",
+    "[fileName]":"&F",
+    "[background]":"&G",
+    "[Shadow]":"&H",
+    "[TotalPages]":"&N",
+    "[pageNumber]":"&P",
+    "[CurrentTime]":"&T",
+    "[filePath]":"&Z",
+}
 
 // Get the pixel value per millimeter
 function getOneMmsPx (){

@@ -1155,6 +1155,11 @@ export default {
         selectionIsNullAlert:"Selection is required!",
         sheetDataIsNullAlert:"error, Data is none!",
 
+    },
+    print:{
+        normalBtn:"Normal",
+        layoutBtn:"Page Layout",
+        pageBtn:"Page break preview",
     }
   };
   
