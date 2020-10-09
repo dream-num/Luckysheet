@@ -48,7 +48,10 @@ const imageCtrl = {
     cropChange: null,  
     cropChangeXY: null,
     cropChangeObj: null,
+    copyImgItemObj: null,
     inserImg: function(src){
+        let _this = this;
+
         let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
         let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
         let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
@@ -67,7 +70,7 @@ const imageCtrl = {
                 originHeight: height
             }
 
-            imageCtrl.addImgItem(img);
+            _this.addImgItem(img);
         }
         image.src = src;
     },
@@ -615,6 +618,8 @@ const imageCtrl = {
             "top": -imgItem.border.width,
             "bottom": -imgItem.border.width,
         })
+
+        _this.currentImgId = null;
     },
     addImgItem: function(img) {
         let _this = this;
@@ -854,6 +859,64 @@ const imageCtrl = {
         _this.currentImgId = null;
 
         _this.ref();
+    },
+    copyImgItem: function(e) {
+        let _this = this;
+
+        _this.copyImgItemObj = $.extend(true, {}, _this.images[_this.currentImgId]);
+
+        let clipboardData = window.clipboardData; //for IE
+        if (!clipboardData) { // for chrome
+            clipboardData = e.originalEvent.clipboardData;
+        }
+
+        let cpdata = '<table data-type="luckysheet_copy_action_image"><tr><td><td></tr></table>';
+
+        if (!clipboardData) {
+            let textarea = $("#luckysheet-copy-content");
+            textarea.html(cpdata);
+            textarea.focus();
+            textarea.select();
+            document.execCommand("selectAll");
+            document.execCommand("Copy");
+            // 等50毫秒，keyPress事件发生了再去处理数据
+            setTimeout(function () { 
+                $("#luckysheet-copy-content").blur(); 
+            }, 10);
+        }
+        else {
+            clipboardData.setData('Text', cpdata);
+            return false;//否则设不生效
+        }
+    },
+    pasteImgItem: function() {
+        let _this = this;
+
+        let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
+        let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
+        let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
+        let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1];
+
+        let img = $.extend(true, {}, _this.copyImgItemObj);
+        
+        img.default.left = left - img.crop.offsetLeft;
+        img.default.top = top - img.crop.offsetTop;
+
+        let scrollTop = $("#luckysheet-cell-main").scrollTop(), 
+            scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+
+        img.fixedLeft = img.default.left - scrollLeft + Store.rowHeaderWidth;
+        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+
+        let id = _this.generateRandomId();
+        let modelHtml = _this.modelHtml(id, img);
+
+        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
+
+        _this.images[id] = img;
+        _this.ref();
+
+        _this.init();
     },
     allImagesShow: function() {
         let _this = this;

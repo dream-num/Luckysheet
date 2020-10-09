@@ -4853,6 +4853,9 @@ export default function luckysheetHandler() {
                     selection.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
             }
+            else if(txtdata.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
+            }
             else {
                 if (txtdata.indexOf("table") > -1) {
                     $("#luckysheet-copy-content").html(txtdata);

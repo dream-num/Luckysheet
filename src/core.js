@@ -95,6 +95,8 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.editMode = extendsetting.editMode;
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
+    luckysheetConfigsetting.workbookCreateBefore = extendsetting.workbookCreateBefore;
+    luckysheetConfigsetting.workbookCreateAfter = extendsetting.workbookCreateAfter;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;

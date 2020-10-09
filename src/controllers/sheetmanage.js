@@ -761,8 +761,13 @@ const sheetmanage = {
                         }
                     }
 
+                    //钩子函数 表格创建之前触发
                     if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
                         luckysheetConfigsetting.beforeCreateDom(luckysheet);
+                    }
+
+                    if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
+                        luckysheetConfigsetting.workbookCreateBefore(luckysheet);
                     }
 
                     if(luckysheetConfigsetting.pointEdit){
