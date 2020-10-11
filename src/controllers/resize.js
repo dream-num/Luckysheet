@@ -330,7 +330,8 @@ export function menuToolBarWidth() {
         $('#luckysheet-chart-btn-screenshot').offset().left,
         $('#luckysheet-icon-seachmore').offset().left,
         $('#luckysheet-icon-protection').offset().left,
-        $('#luckysheet-icon-protection').offset().left + $('#luckysheet-icon-protection').outerWidth() + 5,
+        $('#luckysheet-icon-print').offset().left,
+        $('#luckysheet-icon-print').offset().left + $('#luckysheet-icon-protection').outerWidth() + 5,
     ];
     toobarObject.toobarElements = [
         '#luckysheet-icon-undo',
@@ -367,5 +368,6 @@ export function menuToolBarWidth() {
         '#luckysheet-chart-btn-screenshot',
         '#luckysheet-icon-seachmore',
         '#luckysheet-icon-protection',
+        '#luckysheet-icon-print',
     ]
 }

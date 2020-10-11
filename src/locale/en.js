@@ -59,6 +59,7 @@ export default {
         moreOptions:"More Options",
 
         cellFormat:"Cell format config",
+        print:"Print",
     },
     alternatingColors:{
         applyRange: 'Apply to range',
@@ -1160,6 +1161,11 @@ export default {
         normalBtn:"Normal",
         layoutBtn:"Page Layout",
         pageBtn:"Page break preview",
+
+        menuItemPrint:"Print(Ctrl+P)",
+        menuItemAreas:"Print areas",
+        menuItemRows:"Print title rows",
+        menuItemColumns:"Print title columns",
     }
   };
   

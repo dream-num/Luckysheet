@@ -2801,6 +2801,53 @@ const menuButton = {
             openProtectionModal(sheetFile);
         });
 
+        //print
+        $("#luckysheet-icon-print").click(function(){
+            let menuButtonId = $(this).attr("id") + "-menuButton";
+            let $menuButton = $("#" + menuButtonId);
+            const _locale = locale();
+            const locale_print = _locale.print;
+            if($menuButton.length == 0){
+                let itemdata = [
+                    {"text": locale_print.menuItemPrint, "value": "print", "example": '<i class="iconfont icon-sousuo" aria-hidden="true"></i>'},
+                    {"text": "", "value": "split", "example": ""},
+                    {"text": locale_print.menuItemAreas, "value": "areas", "example": '<i class="iconfont icon-tihuan" aria-hidden="true"></i>'},
+                    {"text": locale_print.menuItemRows, "value": "rows", "example": '<i class="iconfont icon-zhuandao1" aria-hidden="true"></i>'},
+                    {"text": locale_print.menuItemColumns, "value": "columns", "example": '<i class="iconfont icon-dingwei" aria-hidden="true"></i>'},
+                ];
+
+                let itemset = _this.createButtonMenu(itemdata);
+
+                let menu = replaceHtml(_this.menu, { "id": "print", "item": itemset, "subclass": "", "sub": "" });
+
+                $("body").append(menu);
+                $menuButton = $("#" + menuButtonId).width(180);
+
+                $menuButton.find(".luckysheet-cols-menuitem").click(function(){
+                    $menuButton.hide();
+                    luckysheetContainerFocus();
+
+                    let $t = $(this), itemvalue = $t.attr("itemvalue");
+
+                    if(itemvalue == "print"){ //Print config
+                        alert("print");
+                    }
+                    else if(itemvalue == "areas" || itemvalue == "rows" || itemvalue == "columns"){ //range
+                        alert("areas");
+                    }
+                });
+            }
+
+            let userlen = $(this).outerWidth();
+            let tlen = $menuButton.outerWidth();
+
+            let menuleft = $(this).offset().left;
+            if(tlen > userlen && (tlen + menuleft) > $("#" + Store.container).width()){
+                menuleft = menuleft - tlen + userlen;
+            }
+            mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
+        });
+
         $("body").on("mouseover mouseleave",".luckysheet-menuButton .luckysheet-cols-submenu", function(e){
             let $t = $(this), attrid = $t.attr("itemvalue"), 
                 $attr = $("#luckysheet-icon-" + attrid + "-menuButton");

@@ -1423,6 +1423,24 @@ function menuToolBar (){
                 </div>
             </div>
         </div>
+        <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.print}"
+        id="luckysheet-icon-print" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont icon-shezhi"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige"
+                    style="user-select: none;margin-left: 0px;margin-right: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
         `;
 } 
 
