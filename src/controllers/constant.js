@@ -230,9 +230,9 @@ const gridHTML = function(){
                                     <div class="luckysheet-zoom-ratioText" id="luckysheet-zoom-ratioText">100%</div>
                                 </div>
                                 <div class="luckysheet-print-viewList">
-                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewNormal luckysheet-print-viewBtn-active" title="${locale_print.normalBtn}"><i class="icon iconfont icon-caidan1"></i></div>
-                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewLayout" title="${locale_print.layoutBtn}"><i class="icon iconfont icon-caidan1"></i></div>
-                                    <div class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div type="viewNormal" class="luckysheet-print-viewBtn luckysheet-print-viewNormal luckysheet-print-viewBtn-active" title="${locale_print.normalBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div type="viewLayout" class="luckysheet-print-viewBtn luckysheet-print-viewLayout" title="${locale_print.layoutBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div type="viewPage" class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-caidan1"></i></div>
                                 </div>
                                 <div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>  
                                 <div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>  

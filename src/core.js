@@ -30,6 +30,7 @@ import { getcellvalue, getdatabyselection } from './global/getdata';
 import { setcellvalue } from './global/setdata';
 import { selectHightlightShow } from './controllers/select';
 import {zoomInitial} from './controllers/zoom';
+import {printInitial} from './controllers/print';
 import method from './global/method';
 
 import * as api from './global/api';
@@ -109,6 +110,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.defaultRowHeight = extendsetting.defaultRowHeight;
 
     luckysheetConfigsetting.title = extendsetting.title;
+    luckysheetConfigsetting.container = extendsetting.container;
 
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
@@ -158,6 +160,7 @@ function initialWorkBook(){
     keyboardInitial();//Keyboard operate initialization
     orderByInitial();//menu bar orderby function initialization
     zoomInitial();//zoom method initialization
+    printInitial();//print initialization
 }
 
 //获取所有表格数据
