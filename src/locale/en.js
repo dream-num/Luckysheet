@@ -443,8 +443,7 @@ export default {
 
     },
     filter:{
-       "filter":"create filter", 
-       "clearFilter":"Cancel filter", 
+       filter:"create filter",
 
        sortByAsc:"Sort A-Z",
        sortByDesc:"Sort Z-A",
