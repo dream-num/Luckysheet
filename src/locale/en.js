@@ -38,16 +38,16 @@ export default {
         findAndReplace: 'Find and replace',
         sum: 'SUM',
         autoSum: 'Auto SUM',
-        moreFunction: 'More function',
+        moreFunction: 'More functions',
         conditionalFormat: 'Conditional format',
         postil: 'Comment',
-        pivotTable: 'PivotTable',
+        pivotTable: 'Pivot Table',
         chart: 'Chart',
         screenshot: 'Screenshot',
         splitColumn: 'Split text',
         insertImage: 'Insert image',
         dataVerification: 'Data verification',
-        protection:"Protection the sheet",
+        protection:"Protect the sheet",
 
         clearText:"Clear color",
         noColorSelectedText:"No color is selected",
@@ -56,7 +56,7 @@ export default {
         toolLess:"Less",
         toolClose:"Close",
         toolMoreTip:"More features",
-        moreOptions:"More Options",
+        moreOptions:"More options",
 
         cellFormat:"Cell format config",
         print:"Print",
@@ -94,7 +94,7 @@ export default {
         end: 'ESC',
 
         tipSelectRange:"Please select the range to be copied",
-        tipNotMulti:"Cannot perform this operation on multiple selection range",
+        tipNotMulti:"Cannot perform this operation on multiple selection ranges",
     },
     format:{
         moreCurrency: 'More currency formats',
@@ -379,7 +379,7 @@ export default {
     merge:{
         mergeAll:"Merge all",
         mergeV:"Vertically",
-        mergeH:"Horizentally",
+        mergeH:"Horizontally",
         mergeCancel:"Unmerge",
         overlappingError:"Cannot merge overlapping areas",
         partiallyError:"Cannot perform this operation on partially merged cells",
@@ -401,15 +401,15 @@ export default {
     rotation:{
         "none":"None",
         "angleup":"Tilt Up",
-        "angledown":"Tilt down",
+        "angledown":"Tilt Down",
         "vertical":"Stack Vertically",
         "rotationUp":"Rotate Up",
-        "rotationDown":"Rotate down"
+        "rotationDown":"Rotate Down"
     },
     freezen:{
         default:"Freeze",
         freezenRow:"First Row",
-        freezenColumn:"First column",
+        freezenColumn:"First Column",
         freezenRC:"Both",
         freezenRowRange:"Freezen row range",
         freezenColumnRange:"Freezen column range",
@@ -423,7 +423,7 @@ export default {
         "desc":"Descending ",
         "custom":"Custom sort",
 
-        "hasTitle":"Data has header row",
+        "hasTitle":"Data has a header row",
         "sortBy":"Sort by",
         "addOthers":"Add another sort column",
         "close":"close",
@@ -443,8 +443,7 @@ export default {
 
     },
     filter:{
-       "filter":"create filter", 
-       "clearFilter":"Cancel filter", 
+       filter:"create filter",
 
        sortByAsc:"Sort A-Z",
        sortByDesc:"Sort Z-A",
@@ -507,7 +506,7 @@ export default {
         deleteSelected: 'Delete selected ',
         hide: 'Hide',
         hideSelected: 'Hide selected ',
-        showHide: 'Show hide ',
+        showHide: 'Show hidden ',
         to: 'Towards',
         left: 'Left',
         right: 'Right',
@@ -577,9 +576,9 @@ export default {
 
         downLoadClose:"Close",
         downLoadCopy:"Copy to clipboard",
-        downLoadBtn:"DownLoad",
+        downLoadBtn:"Download",
         browserNotTip:"not supported by IE browser!",
-        rightclickTip:"Please right click \"copy\" on the picture",
+        rightclickTip:"Please right-click \"copy\" on the picture",
         successTip:"Successfully (if pasting fails, please right-click on the image to \"copy image\")",
     },
     splitText:{
@@ -621,7 +620,7 @@ export default {
     findAndReplace:{
         find:"Find",
         replace:"Replace",
-        goto:"Goto",
+        goto:"Go to",
         location:"Location",
         formula:"Formula",
         date:"Date",
@@ -664,7 +663,7 @@ export default {
         locationConstant:"Constant",
         locationFormula:"Formula",
         locationDate:"Date",
-        locationDigital:"number",
+        locationDigital:"Number",
         locationString:"String",
         locationBool:"Logical",
         locationError:"Error",
@@ -673,7 +672,7 @@ export default {
         locationRowSpan:"Row span",
         locationColumnSpan:"Column span",
 
-        locationTiplessTwoRow:"Please select at least two Row",
+        locationTiplessTwoRow:"Please select at least two rows",
         locationTiplessTwoColumn:"Please select at least two columns",
         locationTipNotFindCell:"Cell not found"
     
@@ -767,9 +766,9 @@ export default {
         close: 'Close',
         clearColorSelect: 'Clear color select',
         sheet: 'Sheet',
-        currentSheet: 'CurrentSheet',
-        dataBar: 'dataBar',
-        dataBarColor: 'dataBar color',
+        currentSheet: 'Current Sheet',
+        dataBar: 'data bar',
+        dataBarColor: 'data bar color',
         gradientDataBar_1: 'Blue-white gradient data bar',
         gradientDataBar_2: 'Green-white gradient data bar',
         gradientDataBar_3: 'Red-white gradient data bar',
@@ -782,7 +781,7 @@ export default {
         solidColorDataBar_4: 'Orange data bar',
         solidColorDataBar_5: 'Light blue data bar',
         solidColorDataBar_6: 'Purple data bar',
-        colorGradation: 'colorGradation',
+        colorGradation: 'color gradation',
         colorGradation_1: 'Green-yellow-red color gradation',
         colorGradation_2: 'Red-yellow-green color gradation',
         colorGradation_3: 'Green-white-red color gradation',
@@ -811,11 +810,11 @@ export default {
         duplicateValue: 'Duplicate value',
         uniqueValue: 'Unique value',
         top: 'Top',
-        top10: 'Top10',
-        top10_percent: 'Top10%',
+        top10: 'Top 10',
+        top10_percent: 'Top 10%',
         last: 'Last',
-        last10: 'Last10',
-        last10_percent: 'Last10%',
+        last10: 'Last 10',
+        last10_percent: 'Last 10%',
         oneself: '',
         above: 'Above',
         aboveAverage: 'Above average',
@@ -878,7 +877,7 @@ export default {
     },
     dataVerification: {
         cellRange: 'Cell range',
-        selectCellRange: 'Click to select cell range',
+        selectCellRange: 'Click to select a cell range',
         selectCellRange2: 'Please select a range of cells',
         verificationCondition: 'Verification condition',
         dropdown: 'drop-down list',
@@ -915,7 +914,7 @@ export default {
         phoneNumber: 'Phone number',
         remote: 'Automatic remote acquisition option',
         prohibitInput: 'Prohibit input when input data is invalid',
-        hintShow: 'Show prompt when cell is selected',
+        hintShow: 'Show prompt when the cell is selected',
         deleteVerification: 'Delete verification',
         tooltipInfo1: 'The drop-down list option cannot be empty',
         tooltipInfo2: 'Checkbox content cannot be empty',
@@ -983,7 +982,7 @@ export default {
         "Parser":"Parser",
         "Statistical":"Statistical",
         "Text":"Text",
-        "dataMining":"DataMining",
+        "dataMining":"Data Mining",
 
         "selectFunctionTitle":"Select a function",
         "calculationResult":"Result",
@@ -997,7 +996,7 @@ export default {
         "helpAbstract":"Abstract",
 
         "execfunctionError":'Error in the formula',
-        "execfunctionSelfError":'Formula cannot refer to its own cell',
+        "execfunctionSelfError":'The formula cannot refer to its own cell',
         "execfunctionSelfErrorResult":'The formula cannot refer to its own cell, which will lead to inaccurate calculation results',
 
         "allowRepeatText":"Repeat",
@@ -1021,7 +1020,7 @@ export default {
         pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
     },
     pivotTable:{
-        title:"PivotTable",
+        title:"Pivot Table",
         closePannel:"Close",
         editRange:"Range",
         tipPivotFieldSelected:"Select the fields",
@@ -1041,8 +1040,8 @@ export default {
 
         valueStatisticsSUM:"Sum",
         valueStatisticsCOUNT:"Count",
-        valueStatisticsCOUNTA:"CountA",
-        valueStatisticsCOUNTUNIQUE:"CountUnique",
+        valueStatisticsCOUNTA:"Count A",
+        valueStatisticsCOUNTUNIQUE:"Count Unique",
         valueStatisticsAVERAGE:"Average",
         valueStatisticsMAX:"Max",
         valueStatisticsMIN:"Min",
@@ -1082,7 +1081,7 @@ export default {
         onlyFormat:"Only format",
         noFormat:"Not format",
         day:"Day",
-        workDay:"WorkDay",
+        workDay:"Work Day",
         month:"Month",
         year:"Year",
         chineseNumber:"Chinese numbers",
@@ -1093,8 +1092,8 @@ export default {
     },
     protection:{
         protectiontTitle:"Protection",
-        enterPassword:"Enter a password(optional)",
-        enterHintTitle:"Prompt when editing is prohibited(optional)",
+        enterPassword:"Enter a password (optional)",
+        enterHintTitle:"Prompt when editing is prohibited (optional)",
         enterHint:"The cell or chart you are trying to change is in a protected worksheet. If you want to change it, please unprotect the worksheet. You may need to enter a password",
         swichProtectionTip:"Protect the sheet and contents of locked cells",
         authorityTitle:"Allow users of this sheet to:",
@@ -1110,7 +1109,7 @@ export default {
         deleteRows:"Delete rows",
         sort:"Sort",
         filter:"Filter",
-        usePivotTablereports:"Use PivotTable reports",
+        usePivotTablereports:"Use Pivot Table reports",
         editObjects:"Edit objects",
         editScenarios:"Edit scenarios",
 
@@ -1119,11 +1118,11 @@ export default {
 
         allowRangeAddTitle:"Title",
         allowRangeAddSqrf:"Reference",
-        selectCellRange: 'Click to select cell range',
+        selectCellRange: 'Click to select a cell range',
         selectCellRangeHolder:"Cell range",
         allowRangeAddTitlePassword:"Password",
         allowRangeAddTitleHint:"Prompt",
-        allowRangeAddTitleHintTitle:"Prompt when password is set(optional)",
+        allowRangeAddTitleHintTitle:"Prompt when a password is set (optional)",
         allowRangeAddtitleDefault:"Input range name",
 
         rangeItemDblclick:"Double click to edit",
@@ -1149,7 +1148,7 @@ export default {
         protection:"Protection",
         locked:"Locked",
         hidden:"Hidden",
-        protectionTips:"To lock cells or hide formulas, protect the wordsheet. On the toolbar, Click Protect Sheet Button",
+        protectionTips:"To lock cells or hide formulas, protect the worksheet. On the toolbar, Click Protect Sheet Button",
         tipsPart:"Partial checked",
         tipsAll:"All checked",
 
@@ -1162,7 +1161,7 @@ export default {
         layoutBtn:"Page Layout",
         pageBtn:"Page break preview",
 
-        menuItemPrint:"Print(Ctrl+P)",
+        menuItemPrint:"Print (Ctrl+P)",
         menuItemAreas:"Print areas",
         menuItemRows:"Print title rows",
         menuItemColumns:"Print title columns",
