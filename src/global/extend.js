@@ -265,7 +265,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
     }
 
     if(newFilterObj != null && newFilterObj.filter != null){
-        cfg["rowhidden"] = {};
+        if(cfg["rowhidden"] == null){
+            cfg["rowhidden"] = {};
+        }
 
         for(let k in newFilterObj.filter){
             let f_rowhidden = newFilterObj.filter[k].rowhidden;
@@ -274,9 +276,6 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 cfg["rowhidden"][n] = 0;
             }
         }
-    }
-    else{
-        delete cfg["rowhidden"];
     }
 
     //条件格式配置变动
@@ -541,6 +540,32 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["rowlen"] = rowlen_new;
         }
 
+        //隐藏行配置变动
+        if(cfg["rowhidden"] != null){
+            let rowhidden_new = {};
+
+            for(let r in cfg["rowhidden"]){
+                r = parseFloat(r);
+
+                if(r < index){
+                    rowhidden_new[r] = cfg["rowhidden"][r];
+                }
+                else if(r == index){
+                    if(direction == "lefttop"){
+                        rowhidden_new[(r + value)] = cfg["rowhidden"][r];
+                    }
+                    else if(direction == "rightbottom"){
+                        rowhidden_new[r] = cfg["rowhidden"][r];
+                    }
+                }
+                else{
+                    rowhidden_new[(r + value)] = cfg["rowhidden"][r];
+                }
+            }
+
+            cfg["rowhidden"] = rowhidden_new;
+        }
+
         //空行模板
         let row = [];
         for(let c = 0; c < d[0].length; c++){
@@ -665,6 +690,32 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
 
             cfg["columnlen"] = columnlen_new;
+        }
+
+        //隐藏列配置变动
+        if(cfg["colhidden"] != null){
+            let colhidden_new = {};
+
+            for(let c in cfg["colhidden"]){
+                c = parseFloat(c);
+                
+                if(c < index){
+                    colhidden_new[c] = cfg["colhidden"][c];
+                }
+                else if(c == index){
+                    if(direction == "lefttop"){
+                        colhidden_new[(c + value)] = cfg["colhidden"][c];
+                    }
+                    else if(direction == "rightbottom"){
+                        colhidden_new[c] = cfg["colhidden"][c];
+                    }
+                }
+                else{
+                    colhidden_new[(c + value)] = cfg["colhidden"][c];
+                }
+            }
+
+            cfg["colhidden"] = colhidden_new;
         }
 
         //空列模板
@@ -1114,7 +1165,9 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
     }
 
     if(newFilterObj != null && newFilterObj.filter != null){
-        cfg["rowhidden"] = {};
+        if(cfg["rowhidden"] == null){
+            cfg["rowhidden"] = {};
+        }
 
         for(let k in newFilterObj.filter){
             let f_rowhidden = newFilterObj.filter[k].rowhidden;
@@ -1123,9 +1176,6 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
                 cfg["rowhidden"][n] = 0;
             }
         }
-    }
-    else{
-        delete cfg["rowhidden"];
     }
 
     //条件格式配置变动
@@ -1406,6 +1456,23 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
 
         cfg["rowlen"] = rowlen_new;
 
+        //隐藏行配置变动
+        if(cfg["rowhidden"] == null){
+            cfg["rowhidden"] = {};
+        }
+
+        let rowhidden_new = {};
+        for(let r in cfg["rowhidden"]){
+            if(r < st){
+                rowhidden_new[r] = cfg["rowhidden"][r];
+            }
+            else if(r > ed){
+                rowhidden_new[r - slen] = cfg["rowhidden"][r];
+            }
+        }
+
+        cfg["rowhidden"] = rowhidden_new;
+
         //边框配置变动
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
             let borderInfo = []; 
@@ -1498,6 +1565,23 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         }
 
         cfg["columnlen"] = columnlen_new;
+
+        //隐藏列配置变动
+        if(cfg["colhidden"] == null){
+            cfg["colhidden"] = {};
+        }
+
+        let colhidden_new = {};
+        for(let c in cfg["colhidden"]){
+            if(c < st){
+                colhidden_new[c] = cfg["colhidden"][c];
+            }
+            else if(c > ed){
+                colhidden_new[c - slen] = cfg["colhidden"][c];
+            }
+        }
+
+        cfg["colhidden"] = colhidden_new;
 
         //边框配置变动
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
@@ -1918,7 +2002,9 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
     }
 
     if(newFilterObj != null && newFilterObj.filter != null){
-        cfg["rowhidden"] = {};
+        if(cfg["rowhidden"] == null){
+            cfg["rowhidden"] = {};
+        }
 
         for(let k in newFilterObj.filter){
             let f_rowhidden = newFilterObj.filter[k].rowhidden;
@@ -1927,9 +2013,6 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
                 cfg["rowhidden"][n] = 0;
             }
         }
-    }
-    else{
-        delete cfg["rowhidden"];
     }
 
     //条件格式配置变动

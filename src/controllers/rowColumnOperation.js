@@ -1696,6 +1696,7 @@ export function rowColumnOperationInitial(){
 
         let cfg = $.extend(true, {}, Store.config);
         let type;
+        let images = null;
 
         if(Store.luckysheetRightHeadClickIs == "row"){
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
@@ -1724,6 +1725,8 @@ export function rowColumnOperationInitial(){
 
                 for(let r = r1; r <= r2; r++){
                     cfg["rowlen"][r] = size;
+
+                    images = imageCtrl.moveChangeSize("row", r, size);
                 }
             }
         }
@@ -1754,6 +1757,8 @@ export function rowColumnOperationInitial(){
 
                 for(let c = c1; c <= c2; c++){
                     cfg["columnlen"][c] = size;
+
+                    images = imageCtrl.moveChangeSize("column", c, size);
                 }
             }
         }
@@ -1763,15 +1768,23 @@ export function rowColumnOperationInitial(){
             Store.jfredo.push({
                 "type": "resize",
                 "ctrlType": type,
+                "sheetIndex": Store.currentSheetIndex,
                 "config": $.extend(true, {}, Store.config),
                 "curconfig": $.extend(true, {}, cfg),
-                "sheetIndex": Store.currentSheetIndex
+                "images": $.extend(true, {}, imageCtrl.images),
+                "curImages": $.extend(true, {}, images) 
             });
         }
 
         //config
         Store.config = cfg;
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+
+        //images
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].images = images;
+        server.saveParam("all", Store.currentSheetIndex, images, { "k": "images" });
+        imageCtrl.images = images;
+        imageCtrl.allImagesShow();
 
         if(Store.luckysheetRightHeadClickIs == "row"){
             server.saveParam("cg", Store.currentSheetIndex, cfg["rowlen"], { "k": "rowlen" });

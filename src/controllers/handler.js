@@ -2356,17 +2356,24 @@ export default function luckysheetHandler() {
 
                             width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
 
-                            top = resizeXY[5] - resizeXY[7] + topchange;
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[5] - resizeXY[7] + resizeXY[3] - height;
 
                             if(top < minTop){
                                 top = minTop;
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
 
                             if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
                                 top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
-                            }
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
 
-                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
+                            }
                         }
                         else if(resize == 'lm'){//左中
                             left = resizeXY[4] - resizeXY[6] + leftchange;
@@ -2397,16 +2404,22 @@ export default function luckysheetHandler() {
 
                             width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
 
-                            top = resizeXY[5] - resizeXY[7];
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
 
-                            height = resizeXY[3] + topchange;
+                            top = resizeXY[5] - resizeXY[7];
 
                             if(height < 1){
                                 height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
 
                             if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
                                 height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                                
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
                         }
                         else if(resize == 'rt'){//右上
@@ -2422,17 +2435,22 @@ export default function luckysheetHandler() {
                                 width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
                             }
 
-                            top = resizeXY[5] - resizeXY[7] + topchange;
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[5] - resizeXY[7] + resizeXY[3] - height;
 
                             if(top < minTop){
                                 top = minTop;
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
 
                             if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
                                 top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
-                            }
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
 
-                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
                         }
                         else if(resize == 'rm'){//右中
                             left = resizeXY[4] - resizeXY[6];
@@ -2463,16 +2481,19 @@ export default function luckysheetHandler() {
                                 width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
                             }
 
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
                             top = resizeXY[5] - resizeXY[7];
-
-                            height = resizeXY[3] + topchange;
 
                             if(height < 1){
                                 height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
 
                             if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
                                 height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                            
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
                         }
                         else if(resize == 'mt'){//中上
@@ -2509,21 +2530,105 @@ export default function luckysheetHandler() {
                         }
                     }
                     else{
-                        if (resize == "lm" || resize == "lt" || resize == "lb") {
+                        if(resize == 'lt'){//左上
                             left = x;
                             width = resizeXY[2] - leftchange;
     
                             if (left > resizeXY[2] + resizeXY[4] - 1) {
                                 left = resizeXY[2] + resizeXY[4] - 1;
-                                width = resizeXY[2] - (resizeXY[2] + resizeXY[4] - 1 - resizeXY[0]);
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
+                            }
+                            else if (left <= 0) {
+                                left = 0;
+                                width = resizeXY[2] + resizeXY[0];
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[3] + resizeXY[1] - height;
+    
+                            if (top > resizeXY[3] + resizeXY[5] - 1) {
+                                top = resizeXY[3] + resizeXY[5] - 1;
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                            else if (top <= 0) {
+                                top = 0;
+                                height = resizeXY[3] + resizeXY[1];
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                        }
+                        else if(resize == 'lm'){//左中
+                            left = x;
+                            width = resizeXY[2] - leftchange;
+    
+                            if (left > resizeXY[2] + resizeXY[4] - 1) {
+                                left = resizeXY[2] + resizeXY[4] - 1;
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
                             }
                             else if (left <= 0) {
                                 left = 0;
                                 width = resizeXY[2] + resizeXY[0];
                             }
                         }
+                        else if(resize == 'lb'){//左下
+                            left = x;
+                            width = resizeXY[2] - leftchange;
     
-                        if (resize == "rm" || resize == "rt" || resize == "rb") {
+                            if (left > resizeXY[2] + resizeXY[4] - 1) {
+                                left = resizeXY[2] + resizeXY[4] - 1;
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
+                            }
+                            else if (left <= 0) {
+                                left = 0;
+                                width = resizeXY[2] + resizeXY[0];
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+
+                            if (height < 1) {
+                                height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                            else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
+                                height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                        }
+                        else if(resize == 'rt'){//右上
+                            width = resizeXY[2] + leftchange;
+    
+                            if (width < 1) {
+                                width = 1;
+                            }
+                            else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
+                                width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[3] + resizeXY[1] - height;
+    
+                            if (top > resizeXY[3] + resizeXY[5] - 1) {
+                                top = resizeXY[3] + resizeXY[5] - 1;
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                            else if (top <= 0) {
+                                top = 0;
+                                height = resizeXY[3] + resizeXY[1];
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                        }
+                        else if(resize == 'rm'){//右中
                             width = resizeXY[2] + leftchange;
     
                             if (width < 1) {
@@ -2533,22 +2638,43 @@ export default function luckysheetHandler() {
                                 width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
                             }
                         }
+                        else if(resize == 'rb'){//右下
+                            width = resizeXY[2] + leftchange;
     
-                        if (resize == "mt" || resize == "lt" || resize == "rt") {
+                            if (width < 1) {
+                                width = 1;
+                            }
+                            else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
+                                width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+    
+                            if (height < 1) {
+                                height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                            else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
+                                height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                        }
+                        else if(resize == 'mt'){//中上
                             top = y;
                             height = resizeXY[3] - topchange;
     
                             if (top > resizeXY[3] + resizeXY[5] - 1) {
                                 top = resizeXY[3] + resizeXY[5] - 1;
-                                height = resizeXY[3] - (resizeXY[3] + resizeXY[5] - 1 - resizeXY[1]);
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
                             }
                             else if (top <= 0) {
                                 top = 0;
                                 height = resizeXY[3] + resizeXY[1];
                             }
                         }
-    
-                        if (resize == "mb" || resize == "lb" || resize == "rb") {
+                        else if(resize == 'mb'){//中下
                             height = resizeXY[3] + topchange;
     
                             if (height < 1) {

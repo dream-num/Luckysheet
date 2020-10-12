@@ -59,6 +59,7 @@ export default {
         moreOptions:"更多选项",
 
         cellFormat:"设置单元格格式",
+        print:"打印",
     },
     alternatingColors:{
         applyRange: '应用范围',
@@ -1175,6 +1176,11 @@ export default {
         normalBtn:"常规视图",
         layoutBtn:"页面布局",
         pageBtn:"分页预览",
+
+        menuItemPrint:"打印(Ctrl+P)",
+        menuItemAreas:"打印区域",
+        menuItemRows:"打印标题行",
+        menuItemColumns:"打印标题列",
     }
 
 };
