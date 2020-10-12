@@ -194,7 +194,6 @@ npm run build
 ### 团队成员
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
-- [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
@@ -203,6 +202,7 @@ npm run build
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
+- [@swen-xiong](https://github.com/swen-xiong)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

@@ -191,7 +191,6 @@ Create a table
 ### Team
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
-- [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
@@ -200,6 +199,7 @@ Create a table
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
+- [@swen-xiong](https://github.com/swen-xiong)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
