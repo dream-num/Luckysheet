@@ -1,10 +1,12 @@
 import en from './en'
 import zh from './zh'
+import es from './es'
 import Store from '../store';
 
 const localeObj = {
     'en':en,
-    'zh':zh
+    'zh':zh,
+    'es':es
 }
 
 function locale(){
