@@ -59,13 +59,16 @@ export function formulaBarInitial(){
                 formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
                 Store.luckysheet_select_save = [{ "row": [Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[0]], "column": [Store.luckysheetCellUpdate[1], Store.luckysheetCellUpdate[1]], "row_focus": Store.luckysheetCellUpdate[0], "column_focus": Store.luckysheetCellUpdate[1] }];
                 luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
-                $("#luckysheet-functionbox-cell").blur();
+                //$("#luckysheet-functionbox-cell").blur();
+                $("#luckysheet-rich-text-editor").focus();
             }
             event.preventDefault();
         }
         else if (kcode == keycode.ESC && parseInt($inputbox.css("top")) > 0) {
             formula.dontupdate();
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
+            //$("#luckysheet-functionbox-cell").blur();
+            $("#luckysheet-rich-text-editor").focus();
             event.preventDefault();
         }
         else if (kcode == keycode.F4 && parseInt($inputbox.css("top")) > 0) {
