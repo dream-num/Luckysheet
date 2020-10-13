@@ -227,11 +227,11 @@ export function formulaBarInitial(){
         event.stopPropagation();
     });
 
-    $("#luckysheet-formula-functionrange").on("mousedown", ".luckysheet-highlight", function (e) {
+    $("#luckysheet-formula-functionrange").on("mousedown", ".luckysheet-highlight", function (event) {
         formula.rangeResize = $(this).data("type");//开始状态resize
         formula.rangeResizeIndex = $(this).parent().attr("rangeindex");
         
-        let mouse = mouseposition(e.pageX, e.pageY), 
+        let mouse = mouseposition(event.pageX, event.pageY), 
             scrollLeft = $("#luckysheet-cell-main").scrollLeft(), 
             scrollTop = $("#luckysheet-cell-main").scrollTop();
         let x = mouse[0] + scrollLeft;
