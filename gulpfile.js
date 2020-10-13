@@ -173,7 +173,9 @@ async function core() {
         file: 'dist/luckysheet.umd.js',
         format: 'umd',
         name: 'luckysheet',
-        sourcemap: true
+        sourcemap: true,
+        inlineDynamicImports:true,
+
     });
 
     if(production){

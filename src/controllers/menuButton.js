@@ -2809,7 +2809,7 @@ const menuButton = {
             const locale_print = _locale.print;
             if($menuButton.length == 0){
                 let itemdata = [
-                    {"text": locale_print.menuItemPrint, "value": "print", "example": '<i class="iconfont icon-sousuo" aria-hidden="true"></i>'},
+                    {"text": locale_print.menuItemPrint, "value": "print", "example": '<i class="iconfont icon-dayin" aria-hidden="true"></i>'},
                     {"text": "", "value": "split", "example": ""},
                     {"text": locale_print.menuItemAreas, "value": "areas", "example": '<i class="iconfont icon-tihuan" aria-hidden="true"></i>'},
                     {"text": locale_print.menuItemRows, "value": "rows", "example": '<i class="iconfont icon-zhuandao1" aria-hidden="true"></i>'},

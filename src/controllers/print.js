@@ -3,7 +3,7 @@ import {zoomChange} from './zoom';
 import sheetmanage from './sheetmanage';
 import server from './server';
 import Store from '../store';
-// import { jsPDF } from "jspdf";
+import { jsPDF } from "jspdf";
 
 let ExcelPlaceholder = {
     "[tabName]":"&A",
@@ -70,6 +70,8 @@ export function viewChange(curType, preType){
     // Store.zoomRatio = curZoom;
     // server.saveParam("all", Store.currentSheetIndex, curZoom, { "k": "zoomRatio" });
     server.saveParam("cg", Store.currentSheetIndex, curType, { "k": "curentsheetView" });
+
+    Store.currentSheetView = curType;
 
     zoomChange(curZoom);
 }

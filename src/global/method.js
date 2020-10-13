@@ -2,6 +2,8 @@ import server from '../controllers/server';
 import { luckysheetlodingHTML, luckyColor } from '../controllers/constant';
 import sheetmanage from '../controllers/sheetmanage';
 import luckysheetformula from './formula';
+import imageCtrl from '../controllers/imageCtrl';
+import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import pivotTable from '../controllers/pivotTable';
 import luckysheetFreezen from '../controllers/freezen';
 import { getSheetIndex } from '../methods/get';
@@ -146,9 +148,11 @@ const defaultConfig = {
         inlineStringEditRange:null,
     
         fontList:[],
+
+        currentSheetView:"viewNormal",
     
     },    
-    defualtFormula:{
+    defaultFormula:{
         searchFunctionCell: null,
         functionlistPosition: {},
         rangechangeindex: null,
@@ -192,14 +196,14 @@ const defaultConfig = {
         functionResizeTimeout: null,
         data_parm_index: 0  //选择公式后参数索引标记
     },
-    defualtSheet:{
+    defaultSheet:{
         sheetMaxIndex: 0,
         nulldata: null,
         mergeCalculationSheet:{},
         checkLoadSheetIndexToDataIndex:{},
         CacheNotLoadControll:[],
     },
-    defualtPivotTable:{
+    defaultPivotTable:{
         pivotDatas: null,
         pivotSheetIndex: 0,
         pivotDataSheetIndex: 0,
@@ -224,6 +228,64 @@ const defaultConfig = {
         movesave: {},
         drawPivotTable: true,
         pivotTableBoundary: [12, 6],
+    },
+    defaultImage:{
+        imgItem: {
+            type: '3',  //1移动并调整单元格大小 2移动并且不调整单元格的大小 3不要移动单元格并调整其大小
+            src: '',  //图片url
+            originWidth: null,  //图片原始宽度
+            originHeight: null,  //图片原始高度
+            default: {
+                width: null,  //图片 宽度
+                height: null,  //图片 高度
+                left: null,  //图片离表格左边的 位置
+                top: null,  //图片离表格顶部的 位置
+            },
+            crop: {
+                width: null,  //图片裁剪后 宽度
+                height: null,  //图片裁剪后 高度
+                offsetLeft: 0,  //图片裁剪后离未裁剪时 左边的位移
+                offsetTop: 0,  //图片裁剪后离未裁剪时 顶部的位移
+            },
+            isFixedPos: false,  //固定位置
+            fixedLeft: null,  //固定位置 左位移
+            fixedTop: null,  //固定位置 右位移
+            border: {
+                width: 0,  //边框宽度
+                radius: 0,  //边框半径
+                style: 'solid',  //边框类型
+                color: '#000',  //边框颜色
+            }
+        },
+        images: null,
+        currentImgId: null,
+        currentWinW: null,
+        currentWinH: null,
+        resize: null,  
+        resizeXY: null,
+        move: false,
+        moveXY: null,
+        cropChange: null,  
+        cropChangeXY: null,
+        cropChangeObj: null,
+        copyImgItemObj: null,
+    },
+    defaultDataVerification:{
+        defaultItem: {
+            type: 'dropdown',  //类型
+            type2: null,  //
+            value1: '',  //
+            value2: '',  //
+            checked: false,
+            remote: false,  //自动远程获取选项
+            prohibitInput: false,  //输入数据无效时禁止输入
+            hintShow: false,  //选中单元格时显示提示语
+            hintText: '',  //
+        },
+        curItem: null,
+        dataVerification: null,
+        selectRange: [],
+        selectStatus: false,
     }
 }
 
@@ -396,26 +458,43 @@ const method = {
             }
         }
 
-        let defualtFormula = $.extend(true, {}, defaultConfig.defualtFormula);
-        for(let key in defualtFormula){
+        let defaultFormula = $.extend(true, {}, defaultConfig.defaultFormula);
+        for(let key in defaultFormula){
             if(key in luckysheetformula){
-                luckysheetformula[key] = defualtFormula[key];
+                luckysheetformula[key] = defaultFormula[key];
             }
         }
 
-        let defualtSheet = $.extend(true, {}, defaultConfig.defualtSheet);
-        for(let key in defualtSheet){
+        let defaultSheet = $.extend(true, {}, defaultConfig.defaultSheet);
+        for(let key in defaultSheet){
             if(key in sheetmanage){
-                sheetmanage[key] = defualtSheet[key];
+                sheetmanage[key] = defaultSheet[key];
             }
         }
 
-        let defualtPivotTable = $.extend(true, {}, defaultConfig.defualtPivotTable);
-        for(let key in defualtPivotTable){
+        let defaultPivotTable = $.extend(true, {}, defaultConfig.defaultPivotTable);
+        for(let key in defaultPivotTable){
             if(key in pivotTable){
-                pivotTable[key] = defualtPivotTable[key];
+                pivotTable[key] = defaultPivotTable[key];
             }
         }
+
+        let defaultImage = $.extend(true, {}, defaultConfig.defaultImage);
+        for(let key in defaultImage){
+            if(key in imageCtrl){
+                imageCtrl[key] = defaultImage[key];
+            }
+        }
+
+        let defaultDataVerification = $.extend(true, {}, defaultConfig.defaultDataVerification);
+        for(let key in defaultDataVerification){
+            if(key in dataVerificationCtrl){
+                dataVerificationCtrl[key] = defaultDataVerification[key];
+            }
+        }
+
+        
+
     },
     editorChart:function(c){
         let chart_selection_color = luckyColor[0];
