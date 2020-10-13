@@ -70,9 +70,9 @@ export function getdatabyselectionD(d, range) {
             continue;
         }
 
-        if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
-            continue;
-        }
+        // if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
+        //     continue;
+        // }
 
         let row = [];
 

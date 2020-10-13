@@ -131,6 +131,10 @@ const Store = {
     inlineStringEditCache:null,
     inlineStringEditRange:null,
 
+    fontList:[],
+
+    currentSheetView:"viewNormal",
+
 }
 
 export default Store;

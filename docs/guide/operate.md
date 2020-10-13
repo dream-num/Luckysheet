@@ -1,16 +1,28 @@
 # Table Operation
+`luckysheet` stores all operations in the history to `undo` and `redo`. If `allowupdate` is set to true and `updateURL` is available in initial, operations will be updated on the backend in real-time via webSocket. And every one can edit same sheet on the same time.
 
+>Source code [`src/controllers/server.js`] (https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/server.js) The module shows us the function of background saving.
+
+In general, shared editing(or collaborative editing) is controled by the account system created by developers to control permissions.
+
+The following are all types of operations that support transferring to the background. In this case, I use mongodb as a storage example to explain how front-end and back-end interacts with eachother.
+
+Pay attention, `i` in the object is the `index` of the sheet rather than `order`.
 ## Cell refresh
-
+### single cell refresh
 - **Format**：
 
     ```json
     {
         "t": "v",
-        "i": 3,
-        "v": "asdf",
-        "r": 5,
-        "c": 7
+        "i": "Sheet_0554kKiKl4M7_1597974810804",
+        "v": {
+            "v": 233,
+            "ct": { "fa": "General", "t": "n" },
+            "m": "233"
+        },
+        "r": 0,
+        "c": 1
     }
     ```
 
@@ -20,7 +32,7 @@
     | ------------ | ------------ |
     |t|Operation type symbol|
     |i|The index value of the current sheet|
-    |v|Cell value|
+    |v|Cell value, refer to [单元格属性表](/zh/guide/cell.html#基本单元格)|
     |r|Row number of cell|
     |c|The column number of the cell|
 
@@ -515,6 +527,43 @@
   
     Delete the sheet whose index is the value corresponding to `deleIndex`.
 
+### restore from a deleted sheet
+
+- **format**：
+
+  ```json
+  {
+    "t": "shre",
+    "i": null,
+    "v": {
+        "reIndex": "0"
+    }
+  }
+  ```
+
+- **Explanation**：
+
+    <table>
+        <tr>
+            <td colspan="2">Parameter</td> 
+            <td>Explanation</td> 
+        </tr>
+        <tr>
+            <td colspan="2">t</td> 
+            <td>Operation type symbol</td> 
+        </tr>
+        <tr>
+            <td rowspan="2">v</td> 
+            <td>deleIndex</td> 
+            <td>需要恢复的sheet索引</td> 
+        </tr>
+                
+    </table>
+
+- **Backend update**：
+  
+    restore the sheet whose index is the number of `reIndex`.
+
 ### Position
 
 - **Format**：
@@ -522,8 +571,17 @@
   ```json
   {
     "t": "shr",
+    "i": null,
     "v": {
-        "index": "positon"
+        "0": 1,
+        "1": 0,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "Sheet_6az6nei65t1i_1596209937084": 8
     }
   }
   ```
@@ -542,6 +600,31 @@
     `luckysheetfile[key1].order = value1`
     `luckysheetfile[key2].order = value2`
     `luckysheetfile[key3].order = value3`
+
+### switch to the specified sheet
+
+- **format**：
+
+  ```json
+  {
+    "t": "shs",
+    "i": null,
+    "v": 1
+  }
+  ```
+
+- **Explanation**：
+
+    |Parameter|Explanation|
+    | ------------ | ------------ |
+    |t|Operation type symbol|
+    |v|index of the specified sheet|
+
+- **Backend update**：
+  
+    setting the `status` = `1`, when the `index` of a sheet is eaqul to `v`：
+
+    `luckysheetfile[v].status = 1`
 
 ## Sheet attributes (hide or show)
 
@@ -619,3 +702,187 @@
 - **Backend update**：
   
     According to gridkey, update the thumbnail field of the table in mysql to the img value, and update the status field of the sheet whose index is the curindex value to 1, and set the status value of other sheets to 0.
+    
+## Chart(TODO)
+
+There are four types of chart operations: add new chart -"add", move chart position-"xy", zoom chart-"wh", and update chart configuration-"update".
+
+### new chart
+
+- **format**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"add",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120,
+            "sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
+            "needRangeShow": true,
+            "chartOptions": {
+                "chart_id": "chart_p145W6i73otw_1596209943446",
+                "chartAllType": "echarts|line|default",
+                "rangeArray": [ { "row": [ 0, 4 ], "column": [ 0, 7 ] } ],
+                "rangeColCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeRowCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeConfigCheck": false,
+                "defaultOption": {
+                    "title": {
+                        "show": true,
+                        "text": "default title"
+                    }
+                }
+            },
+            "isShow": true
+        }
+    }
+    ```
+
+- **Explanation**：
+
+    |Parameter|Explanation|
+    | ------------ | ------------ |
+    |t|Operation type symbol|
+    |i|The index value of the current sheet|
+    |op|Operation options include hide and show|
+    |v|configuration information of charts|
+
+- **Backend update**：
+  
+    update the chart settings in the current sheet,if`luckysheetfile[i].chart` is null，the array should be `[]` on initial.
+
+    ```json
+    luckysheetfile[0].chart.push(v)
+    ```
+
+### move chart position
+
+- **format**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"xy",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "left": 20,
+            "top": 120
+        }
+    }
+    ```
+
+- **Explanation**：
+
+    |Parameter|Explanation|
+    | ------------ | ------------ |
+    |t|Operation type symbol|
+    |i|The index value of the current sheet|
+    |op|Operation options include hide and show|
+    |v|configuration information of charts|
+
+- **Backend update**：
+  
+    update the chart settings in the current sheet
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id].left = v.left;
+    luckysheetfile[0].chart[v.chart_id].top = v.top;
+    ```
+
+### zoom chart
+
+- **format**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"wh",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120
+        }
+    }
+    ```
+
+- **Explanation**：
+
+    |Parameter|Explanation|
+    | ------------ | ------------ |
+    |t|Operation type symbol|
+    |i|The index value of the current sheet|
+    |op|Operation options include hide and show|
+    |v|configuration information of charts|
+
+- **Backend update**：
+  
+    update the chart settings in the current sheet
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id].left = v.left;
+    luckysheetfile[0].chart[v.chart_id].top = v.top;
+    luckysheetfile[0].chart[v.chart_id].width = v.width;
+    luckysheetfile[0].chart[v.chart_id].height = v.height;
+    ```
+
+### change the configuration of charts
+
+- **format**：
+
+    ```json
+    {
+        "t": "c",
+        "i": 0,
+        "op":"update",
+        "v": {
+            "chart_id": "chart_p145W6i73otw_1596209943446",
+            "width": 400,
+            "height": 250,
+            "left": 20,
+            "top": 120,
+            "sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
+            "needRangeShow": true,
+            "chartOptions": {
+                "chart_id": "chart_p145W6i73otw_1596209943446",
+                "chartAllType": "echarts|line|default",
+                "rangeArray": [ { "row": [ 0, 4 ], "column": [ 0, 7 ] } ],
+                "rangeColCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeRowCheck": { "exits": true, "range": [ 0, 0 ] },
+                "rangeConfigCheck": false,
+                "defaultOption": {
+                    "title": {
+                        "show": true,
+                        "text": "default title"
+                    }
+                }
+            },
+            "isShow": true
+        }
+    }
+    ```
+
+- **Explanation**：
+
+    |Parameter|Explanation|
+    | ------------ | ------------ |
+    |t|Operation type symbol|
+    |i|The index value of the current sheet|
+    |op|Operation options include hide and show|
+    |v|configuration information of charts|
+
+- **Backend update**：
+  
+    update the chart settings in the current sheet
+
+    ```js
+    luckysheetfile[0].chart[v.chart_id] = v;
+    ```

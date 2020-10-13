@@ -2,6 +2,7 @@ import { mouseposition } from '../global/location';
 import server from './server';
 import luckysheetsizeauto from './resize';
 import { modelHTML } from './constant';
+import {checkProtectionAuthorityNormal} from './protection';
 import { getSheetIndex } from '../methods/get';
 import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
@@ -47,7 +48,10 @@ const imageCtrl = {
     cropChange: null,  
     cropChangeXY: null,
     cropChangeObj: null,
+    copyImgItemObj: null,
     inserImg: function(src){
+        let _this = this;
+
         let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
         let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
         let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
@@ -66,7 +70,7 @@ const imageCtrl = {
                 originHeight: height
             }
 
-            imageCtrl.addImgItem(img);
+            _this.addImgItem(img);
         }
         image.src = src;
     },
@@ -201,6 +205,7 @@ const imageCtrl = {
         const _locale = locale();
         const locale_button = _locale.button;
         const locale_toolbar = _locale.toolbar;
+        const locale_imageCtrl = _locale.imageCtrl;
 
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
@@ -208,13 +213,13 @@ const imageCtrl = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": "luckysheet-imageCtrl-colorSelect-dialog", 
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
-            "title": "图片边框颜色选择", 
+            "title": locale_imageCtrl.borderTile, 
             "content": `<div class="currenColor">
-                            当前颜色：<span title="${currenColor}" style="background-color:${currenColor}"></span>
+                            ${locale_imageCtrl.borderCur}:<span title="${currenColor}" style="background-color:${currenColor}"></span>
                         </div>
                         <div class="colorshowbox"></div>`, 
-            "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">确定</button>
-                        <button class="btn btn-default luckysheet-model-close-btn">取消</button>`, 
+            "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">${locale_button.confirm}</button>
+                        <button class="btn btn-default luckysheet-model-close-btn">${locale_button.cancel}</button>`, 
             "style": "z-index:100003" 
         }));
         let $t = $("#luckysheet-imageCtrl-colorSelect-dialog")
@@ -329,8 +334,13 @@ const imageCtrl = {
 
         //image active
         $("#luckysheet-image-showBoxs").off("mousedown.active").on("mousedown.active", ".luckysheet-modal-dialog-image", function(e) {
-            $(this).hide();
+            
 
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+                return;
+            }
+
+            $(this).hide();
             let id = $(this).attr("id");
 
             if(_this.currentImgId != null && _this.currentImgId != id){
@@ -380,6 +390,10 @@ const imageCtrl = {
 
         //image move
         $("#luckysheet-modal-dialog-activeImage").off("mousedown.move").on("mousedown.move", ".luckysheet-modal-dialog-content", function(e) {
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+                return;
+            }
+            
             if(!$("#luckysheet-modal-dialog-slider-imageCtrl").is(":visible")){
                 _this.sliderHtmlShow();
             }
@@ -403,6 +417,10 @@ const imageCtrl = {
 
         //image resize
         $("#luckysheet-modal-dialog-activeImage").off("mousedown.resize").on("mousedown.resize", ".luckysheet-modal-dialog-resize-item", function(e) {
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+                return;
+            }
+            
             _this.currentWinW = $("#luckysheet-cell-main")[0].scrollWidth;
             _this.currentWinH = $("#luckysheet-cell-main")[0].scrollHeight;
 
@@ -600,6 +618,8 @@ const imageCtrl = {
             "top": -imgItem.border.width,
             "bottom": -imgItem.border.width,
         })
+
+        _this.currentImgId = null;
     },
     addImgItem: function(img) {
         let _this = this;
@@ -699,6 +719,10 @@ const imageCtrl = {
     croppingEnter: function() {
         let _this = this;
         _this.cropping = true;
+
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+            return;
+        }
 
         $("#luckysheet-modal-dialog-activeImage").hide();
         $("#luckysheet-modal-dialog-slider-imageCtrl").hide();
@@ -835,6 +859,64 @@ const imageCtrl = {
         _this.currentImgId = null;
 
         _this.ref();
+    },
+    copyImgItem: function(e) {
+        let _this = this;
+
+        _this.copyImgItemObj = $.extend(true, {}, _this.images[_this.currentImgId]);
+
+        let clipboardData = window.clipboardData; //for IE
+        if (!clipboardData) { // for chrome
+            clipboardData = e.originalEvent.clipboardData;
+        }
+
+        let cpdata = '<table data-type="luckysheet_copy_action_image"><tr><td><td></tr></table>';
+
+        if (!clipboardData) {
+            let textarea = $("#luckysheet-copy-content");
+            textarea.html(cpdata);
+            textarea.focus();
+            textarea.select();
+            document.execCommand("selectAll");
+            document.execCommand("Copy");
+            // 等50毫秒，keyPress事件发生了再去处理数据
+            setTimeout(function () { 
+                $("#luckysheet-copy-content").blur(); 
+            }, 10);
+        }
+        else {
+            clipboardData.setData('Text', cpdata);
+            return false;//否则设不生效
+        }
+    },
+    pasteImgItem: function() {
+        let _this = this;
+
+        let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
+        let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
+        let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
+        let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1];
+
+        let img = $.extend(true, {}, _this.copyImgItemObj);
+        
+        img.default.left = left - img.crop.offsetLeft;
+        img.default.top = top - img.crop.offsetTop;
+
+        let scrollTop = $("#luckysheet-cell-main").scrollTop(), 
+            scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+
+        img.fixedLeft = img.default.left - scrollLeft + Store.rowHeaderWidth;
+        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+
+        let id = _this.generateRandomId();
+        let modelHtml = _this.modelHtml(id, img);
+
+        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
+
+        _this.images[id] = img;
+        _this.ref();
+
+        _this.init();
     },
     allImagesShow: function() {
         let _this = this;

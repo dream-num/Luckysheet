@@ -21,6 +21,10 @@
 - excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - 图表插件: [chartMix](https://github.com/mengshukeji/chartMix)
 
+## 支持
+Luckysheet是MIT许可的开源项目，其持续的开发完全有赖于许多出色支持者的支持。如果您想加入他们，请考虑：
+- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
+
 ## 特性
 
 ### 🛠️格式设置
@@ -130,6 +134,7 @@ npm run build
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
@@ -189,7 +194,6 @@ npm run build
 ### 团队成员
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
-- [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
@@ -198,6 +202,7 @@ npm run build
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
+- [@swen-xiong](https://github.com/swen-xiong)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

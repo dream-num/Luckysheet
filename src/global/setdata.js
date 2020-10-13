@@ -15,15 +15,23 @@ function setcellvalue(r, c, d, v) {
     let vupdate;
 
     if(getObjType(v) == "object"){
-        cell = v;
-
-        if(v.f != null){
-            cell.f = v.f;
+        if(cell==null){
+            cell = v;
         }
+        else{
+            if(v.f != null){
+                cell.f = v.f;
+            }
+    
+            if(v.spl != null){
+                cell.spl = v.spl;
+            }
 
-        if(v.spl != null){
-            cell.spl = v.spl;
+            if(v.ct != null){
+                cell.ct = v.ct;
+            }
         }
+        
 
         if(getObjType(v.v) == "object"){
             vupdate = v.v.v;
@@ -77,7 +85,13 @@ function setcellvalue(r, c, d, v) {
     }
     else if(valueIsError(vupdate)){
         cell.m = vupdate.toString();
-        cell.ct = { "fa": "General", "t": "e" };
+        // cell.ct = { "fa": "General", "t": "e" };
+        if(cell.ct!=null){
+            cell.ct.t = "e";
+        }
+        else{
+            cell.ct = { "fa": "General", "t": "e" };
+        }
         cell.v = vupdate;
     }
     else{

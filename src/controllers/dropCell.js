@@ -7,6 +7,7 @@ import { jfrefreshgrid } from '../global/refresh';
 import editor from '../global/editor';
 import formula from '../global/formula';
 import conditionformat from './conditionformat';
+import {checkProtectionLockedRangeList} from './protection';
 import { selectHightlightShow } from './select';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, replaceHtml } from '../utils/util';
@@ -440,6 +441,10 @@ const luckysheetDropCell = {
     }, 
     update: function(){
         let _this = this;
+
+        if(!checkProtectionLockedRangeList([_this.applyRange], Store.currentSheetIndex)){
+            return;
+        }
 
         if(Store.allowEdit===false){
             return;
@@ -2318,9 +2323,21 @@ const luckysheetDropCell = {
             let lastTxt = _this.isExtendNumber(last)[1];
             let lastNum = _this.isExtendNumber(last)[2];
 
-            let num = Math.abs(Number(lastNum) + step * i);
-            d["v"] = lastTxt + num.toString();
-            d["m"] = lastTxt + num.toString();
+            if(lastNum==""){
+                let num = Math.abs(Number(lastTxt) + step * i);
+                if(lastTxt.substr(0,1)=="0"){
+                    if(lastTxt.length>num.toString().length){
+                        num = "0" + num.toString();
+                    }
+                }
+                d["v"] = num.toString();
+                d["m"] = num.toString();
+            }
+            else{
+                let num = Math.abs(Number(lastNum) + step * i);
+                d["v"] = lastTxt + num.toString();
+                d["m"] = lastTxt + num.toString();
+            }
 
             applyData.push(d);
         }

@@ -27,6 +27,10 @@ English| [简体中文](./README-zh.md)
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
 
+## Support
+Luckysheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of many awesome backers. If you'd like to join them, please consider:
+- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
+
 ## Features
 
 ### 🛠️Formatting
@@ -135,6 +139,7 @@ Introduce dependencies through CDN
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
@@ -186,7 +191,6 @@ Create a table
 ### Team
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
-- [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 
@@ -195,6 +199,7 @@ Create a table
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
+- [@swen-xiong](https://github.com/swen-xiong)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

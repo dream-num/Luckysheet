@@ -1,0 +1,53 @@
+.luckysheet-print-viewList{
+    position: absolute;
+    width:126px;
+    right: 222px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.luckysheet-print-viewBtn {
+    position: absolute;
+    left: 0px;
+    width: 42px;
+    height:22px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.luckysheet-print-viewBtn .iconfont{
+    font-size: 22px;
+}
+
+.luckysheet-print-viewBtn:hover{
+    background: #E1E4E8;
+}
+
+.luckysheet-print-viewBtn-active{
+    background: #dcdcdc;
+    cursor: default;
+}
+
+.luckysheet-print-viewBtn-active:hover{
+    background: #dcdcdc;
+}
+
+.luckysheet-print-viewNormal{
+    left: 0px;
+}
+
+.luckysheet-print-viewLayout{
+    left: 42px;
+}
+
+.luckysheet-print-viewPage{
+    left: 84px;
+}
+

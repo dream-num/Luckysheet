@@ -30,6 +30,7 @@ import { getcellvalue, getdatabyselection } from './global/getdata';
 import { setcellvalue } from './global/setdata';
 import { selectHightlightShow } from './controllers/select';
 import {zoomInitial} from './controllers/zoom';
+import {printInitial} from './controllers/print';
 import method from './global/method';
 
 import * as api from './global/api';
@@ -38,7 +39,11 @@ let luckysheet = {};
 
 // mount api
 // luckysheet.api = api;
-Object.assign(luckysheet, api);
+// Object.assign(luckysheet, api);
+
+luckysheet = common_extend(api,luckysheet);
+
+
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
@@ -56,6 +61,7 @@ luckysheet.create = function (setting) {
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
+    Store.fontList = extendsetting.fontList;
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
     server.updateUrl = extendsetting.updateUrl;
@@ -90,6 +96,8 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.editMode = extendsetting.editMode;
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
+    luckysheetConfigsetting.workbookCreateBefore = extendsetting.workbookCreateBefore;
+    luckysheetConfigsetting.workbookCreateAfter = extendsetting.workbookCreateAfter;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
@@ -102,6 +110,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.defaultRowHeight = extendsetting.defaultRowHeight;
 
     luckysheetConfigsetting.title = extendsetting.title;
+    luckysheetConfigsetting.container = extendsetting.container;
 
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
@@ -151,6 +160,7 @@ function initialWorkBook(){
     keyboardInitial();//Keyboard operate initialization
     orderByInitial();//menu bar orderby function initialization
     zoomInitial();//zoom method initialization
+    printInitial();//print initialization
 }
 
 //获取所有表格数据
@@ -195,18 +205,6 @@ luckysheet.flowdata = function () {
 
 // Set selection highlight
 luckysheet.selectHightlightShow = selectHightlightShow;
-
-// Set the worksheet to hide
-// Use the call method to change the `this` of the function to `this` of sheetmanage,
-// Prevent _this error in setSheetHide
-luckysheet.setSheetHide = function(index) {
-    return sheetmanage.setSheetHide.call(sheetmanage,index);
-}
-
-// Set the worksheet to show
-luckysheet.setSheetShow = function(index) {
-    return sheetmanage.setSheetShow.call(sheetmanage,index);
-}
 
 // Reset parameters after destroying the table
 luckysheet.destroy = method.destroy;
