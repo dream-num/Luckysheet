@@ -18,7 +18,9 @@
 
 #luckysheet-icon-morebtn{
     position: absolute;
-    right: 30px;
+    right: 15px;
+    transform: translate(0,-50%);
+    top: 50%;
 }
 
 
