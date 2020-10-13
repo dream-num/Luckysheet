@@ -160,6 +160,7 @@ npm run build
 ## 合作项目
 
 - [鲁班h5](https://github.com/ly525/luban-h5)
+- [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 
 ## 加入共建
 
@@ -196,6 +197,7 @@ npm run build
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@c19c19i](https://weibo.com/u/3884623955)
 
 ### 活跃成员
 - [@danielcai1987](https://github.com/danielcai1987)

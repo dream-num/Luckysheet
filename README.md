@@ -165,6 +165,7 @@ Create a table
 ## Partner project
 
 - [luban-h5](https://github.com/ly525/luban-h5)
+- [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 
 ## Co-construction
 
@@ -193,6 +194,7 @@ Create a table
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@c19c19i](https://weibo.com/u/3884623955)
 
 ### Active participants
 - [@danielcai1987](https://github.com/danielcai1987)
