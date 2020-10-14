@@ -372,20 +372,20 @@ export function convertCssToStyleList(cssText){
         return {};
     }
     let cssTextArray = cssText.split(";");
+
+
+    const _locale = locale();
+    const locale_fontarray = _locale.fontarray;
+    const locale_fontjson = _locale.fontjson;
     let styleList = {    
-        "ff":"Arial", //font family
+        "ff":locale_fontarray[0], //font family
         "fc":"#000000",//font color
-        "fs":12,//font size
+        "fs":10,//font size
         "cl":0,//strike
         "un":0,//underline
         "bl":0,//blod
         "it":0,//italic
     };
-
-    const _locale = locale();
-    const locale_fontarray = _locale.fontarray;
-    const locale_fontjson = _locale.fontjson;
-    
     cssTextArray.forEach(s => {
         s = s.toLowerCase();
         let key = textTrim(s.substr(0, s.indexOf(':')));

@@ -917,7 +917,7 @@ const sheetmanage = {
         let file = Store.luckysheetfile[index];
 
         //选区
-        selectHightlightShow();
+        selectHightlightShow(true);
 
         //复制选区虚线框
         selectionCopyShow();
