@@ -27,10 +27,6 @@ English| [简体中文](./README-zh.md)
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
 
-## Support
-Luckysheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of many awesome backers. If you'd like to join them, please consider:
-- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
-
 ## Features
 
 ### 🛠️Formatting
@@ -202,6 +198,17 @@ Create a table
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+
+## Donate
+
+If you find this project useful, you can buy author a glass of juice:
+
+|  WeChat  | Alipay |
+|---|---|
+| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+
+[Paypal Me](https://www.paypal.me/wbfsa)
+
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

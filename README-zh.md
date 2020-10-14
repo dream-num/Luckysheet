@@ -21,10 +21,6 @@
 - excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - 图表插件: [chartMix](https://github.com/mengshukeji/chartMix)
 
-## 支持
-Luckysheet是MIT许可的开源项目，其持续的开发完全有赖于许多出色支持者的支持。如果您想加入他们，请考虑：
-- [kickstarter](https://www.kickstarter.com/projects/luckysheet/luckysheet)
-
 ## 特性
 
 ### 🛠️格式设置
@@ -205,6 +201,16 @@ npm run build
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+
+## 捐赠
+
+如果你感觉这个项目对你有用或者有所启发，可以请作者喝杯果汁：
+
+|  微信  | 支付宝 |
+|---|---|
+| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+
+[Paypal Me](https://www.paypal.me/wbfsa)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)
