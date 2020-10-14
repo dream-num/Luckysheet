@@ -151,6 +151,9 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
             }
             else{
                 value = valueShowEs(row_index, col_index, d);
+                if(cell.qp=="1"){
+                    value = "'" + value;
+                }
             }
         }
         
