@@ -52,7 +52,6 @@ The following are all supported setting parameters
 - Billion format [autoFormatw](#autoFormatw)
 - Accuracy [accuracy](#accuracy)
 - Allow copying [allowCopy](#allowCopy)
-- Grid Lines [showGridLines](#showGridLines)
 - Toolbar [showtoolbar](#showtoolbar)
 - Customize Toolbar [showtoolbarConfig](#showtoolbarConfig)
 - Information bar [showinfobar](#showinfobar)
@@ -74,6 +73,10 @@ The following are all supported setting parameters
 - Refresh formula [forceCalculation](#forceCalculation)
 - Custom cell right-click menu [cellRightClickConfig](#cellRightClickConfig)
 - Customize the right-click menu of the bottom sheet bar [sheetRightClickConfig](#sheetRightClickConfig)
+- Whether to show the row number area [showRowBar](#showRowBar)
+- Whether to show the column number area [showColumnBar](#showColumnBar)
+- Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
+- Initialize the default font size [defaultFontSize](#defaultFontSize)
 
 ### container
 - Type: String
@@ -175,12 +178,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: Whether to allow copy
 
 ------------
-### showGridLines
-- Type: Number
-- Default: 1
-- Usage: Whether to display grid lines, `1` means display, `0` means hidden
-
-------------
 ### showtoolbar
 - Type: Boolean
 - Default: true
@@ -251,7 +248,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Type: Object
 - Default: {}
 - Usage: Custom configuration bottom sheet button
-- 格式：
+- Format: 
     ```json
     {
         add: false, //Add worksheet
@@ -274,7 +271,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Type: Object
 - Default: {}
 - Usage: Customize the bottom count bar
-- 格式：
+- Format: 
     ```json
     {
         count: false, // Count bar
@@ -289,7 +286,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Type: Object
 - Default: {}
 - Usage: Add row button and back to top button configuration below the worksheet
-- 格式：
+- Format: 
     ```json
     {
         addRow: false, // Add row button
@@ -376,7 +373,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Type: Object
 - Default: {}
 - Usage: Custom configuration cell right-click menu
-- 格式：
+- Format: 
     ```json
     {
         copy: false, //Copy
@@ -401,7 +398,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Type: Object
 - Default: {}
 - Usage: Customize the right-click menu of the bottom sheet bar
-- 格式：
+- Format: 
     ```json
     {   
         delete: false, //Delete
@@ -413,6 +410,30 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         left: false, //Move to the left
         right: false //Move to the right
     }
+
+------------
+### showRowBar
+- Type: Boolean
+- Default: true
+- Usage: Whether to show the row number area
+
+------------
+### showColumnBar
+- Type: Boolean
+- Default: true
+- Usage: Whether to show the column number area
+
+------------
+### sheetFormulaBar
+- Type: Boolean
+- Default: true
+- Usage: Whether to show the formula bar
+
+------------
+### defaultFontSize
+- Type：Number
+- Default：11
+- Usage：Initialize the default font size
 
 ------------
 

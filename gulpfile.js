@@ -183,7 +183,8 @@ async function core() {
             file: 'dist/luckysheet.esm.js',
             format: 'esm',
             name: 'luckysheet',
-            sourcemap: true
+            sourcemap: true,
+            inlineDynamicImports:true,
         });
     }
     

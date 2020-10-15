@@ -43,6 +43,8 @@ eg: options.data：
         "chart": [], //Chart configuration
         "allowEdit": true, //is editable
         "zoomRatio":1, // zoom ratio
+        "image":[], //image
+        "showGridLines": 1, //Whether to show grid lines
     },
     {
         "name": "Sheet2",
@@ -1218,6 +1220,48 @@ eg: options.data：
 - type：Number
 - default：1
 - usage： the zoom ratio of a sheet, which is a two decimal digit between 0~1, like `0.1`、`0.56`.
+
+------------
+### image
+- type：Array
+- default：[]
+- usage： Insert the picture information in the table, including picture address, width and height, position, cropping and other information
+- example：
+    The following is an example of `imageItem`, usually there may be multiple images in a worksheet, so the format of `image` is array `[imageItem,imageItem,...]`
+    ```json
+    {
+        type: '3', //1 Move and resize the cell 2 Move and do not resize the cell 3 Don't move and resize the cell
+        src:'', //image url
+        originWidth: 1484, //The original width of the picture
+        originHeight: 834, //The original height of the picture
+        default: {
+            width: 293, //image width
+            height: 196, //image height
+            left: 409, //The position of the picture from the left of the table
+            top: 248, //The position of the picture from the top of the table
+        },
+        crop: {
+            width: 293, //The width of the picture after cropping
+            height: 196, //The height of the picture after cropping
+            offsetLeft: 0, //Displacement from the left of the picture after cropping
+            offsetTop: 0, //Displacement from the left of the picture after cropping
+        },
+        isFixedPos: false, //Fixed position
+        fixedLeft: 507, //Fixed position left displacement
+        fixedTop: 141, //fixed position right displacement
+        border: {
+            width: 0, //border width
+            radius: 0, //Border radius
+            style:'solid', //border type
+            color:'#000', //Border color
+        }
+    }
+    ```
+------------
+### showGridLines
+- Type: Number
+- Default: 1
+- Usage: Whether to show grid lines, `1` means show, `0` means hidden
 
 ------------
 

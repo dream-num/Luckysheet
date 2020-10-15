@@ -212,6 +212,25 @@ Use note:
 
 ------------
 
+### exitEditMode([,setting])
+ 
+
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Exit edit mode. After double-clicking the cell with the mouse, it will enter the cell editing mode. After the editing is completed, when the mouse clicks on the input box elsewhere to lose focus, the editing mode will be exited, and the value of the cell will be saved. This Api is the operation of automatically exiting the editing mode, mainly to trigger the automatic saving of cells.
+
+- **Usage**:
+
+   - Manually trigger to exit edit mode
+   		`luckysheet.exitEditMode()`
+
+------------
+
 ## Row and column operations
 
 ### setHorizontalFrozen(isRange [,setting])
@@ -1994,6 +2013,48 @@ Use note:
 
 ------------
 
+### showGridLines([setting])
+
+- **Parameter**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: The subscript of the worksheet that needs to show the grid lines; the default value is the subscript of the current worksheet
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Show the grid lines of the specified subscript worksheet, and return the worksheet object of the operation
+
+- **Usage**:
+
+	- Show the grid lines of the current worksheet
+	`luckysheet.showGridLines()`
+	- Show the grid lines of the third worksheet
+	`luckysheet.showGridLines({order:2})`
+
+------------
+
+### hideGridLines([setting])
+
+- **Parameter**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: The subscript of the worksheet that needs to hdie the grid lines; the default value is the subscript of the current worksheet
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Hide the grid lines of the specified subscript worksheet, and return the worksheet object of the operation
+
+- **Usage**:
+
+	- Hide grid lines of current worksheet
+	`luckysheet.hideGridLines()`
+	- Hide the grid lines of the third worksheet
+	`luckysheet.hideGridLines({order:2})`
+
+------------
+
 ## Workbook operations
 
 ### create(options [,setting])
@@ -2136,7 +2197,23 @@ Use note:
 
 ------------
 
-## chart
+### refreshFormula([setting])
+
+[todo]
+
+- **Parameter**：
+
+	- {PlainObject} [setting]: optional parameters
+        + {Object | String} [range]: Set the target selection range of the parameter. The supported selection format is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1], column:[0,1]}`, allows an array of multiple selections; the default is the current selection ;The default is the entire current worksheet
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Force refresh formula. When you directly modify the values of multiple cells without triggering a refresh, and these cells are associated with formulas, you can use this API to force a formula refresh to be triggered at the end. It is generally recommended to specify the affected cell range to prevent For performance issues, if you can't determine it, leave it blank to keep the entire worksheet traversed and refreshed.
+
+------------
+
+## Chart
 
 ### insertChart([setting])
 
