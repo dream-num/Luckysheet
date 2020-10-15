@@ -24,6 +24,8 @@ import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
 import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
+import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
+import { openCellFormatModel } from './cellFormat';
 
 import { 
     replaceHtml,
@@ -158,7 +160,7 @@ export default function luckysheetHandler() {
 
         clearTimeout(mousewheelArrayUniqueTimeout);
         
-        if(Store.visibledatacolumn.length!=visibledatacolumn_c.length){
+        // if(Store.visibledatacolumn.length!=visibledatacolumn_c.length){
             if(Store.visibledatacolumn_unique!=null){
                 visibledatacolumn_c = Store.visibledatacolumn_unique;
             }
@@ -166,9 +168,9 @@ export default function luckysheetHandler() {
                 visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
                 Store.visibledatacolumn_unique = visibledatacolumn_c;
             }
-        }
+        // }
 
-        if(Store.visibledatarow.length!=visibledatarow_c.length){
+        // if(Store.visibledatarow.length!=visibledatarow_c.length){
             if(Store.visibledatarow_unique!=null){
                 visibledatarow_c = Store.visibledatarow_unique;
             }
@@ -176,7 +178,7 @@ export default function luckysheetHandler() {
                 visibledatarow_c = ArrayUnique(visibledatarow_c);
                 Store.visibledatarow_unique = visibledatarow_c;
             }
-        }
+        // }
 
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
         // visibledatarow_c = ArrayUnique(visibledatarow_c);
@@ -571,7 +573,9 @@ export default function luckysheetHandler() {
             }
         }
         else {
-            Store.luckysheet_select_status = true;
+            if(checkProtectionSelectLockedOrUnLockedCells(row_index, col_index, Store.currentSheetIndex)){
+                Store.luckysheet_select_status = true;
+            }
         }
 
         //条件格式 应用范围可选择多个单元格
@@ -1305,10 +1309,15 @@ export default function luckysheetHandler() {
         e.preventDefault();
         e.stopPropagation();
 
+
+
         let files = e.dataTransfer.files;
 
         //拖拽插入图片
-        if(files.length == 1 && files[0].type.indexOf('image') > -1){
+        if(files.length == 1 && files[0].type.indexOf('image') > -1){        
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+                return;
+            }
             let render = new FileReader();
             render.readAsDataURL(files[0]);
 
@@ -1564,6 +1573,12 @@ export default function luckysheetHandler() {
                         col = col_location[1],
                         col_pre = col_location[0],
                         col_index = col_location[2];
+
+
+                    if(!checkProtectionSelectLockedOrUnLockedCells(row_index, col_index, Store.currentSheetIndex)){
+                        // Store.luckysheet_select_status = false;
+                        return;
+                    }
 
                     let last = $.extend(true, {}, Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1]);
 
@@ -2341,17 +2356,24 @@ export default function luckysheetHandler() {
 
                             width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
 
-                            top = resizeXY[5] - resizeXY[7] + topchange;
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[5] - resizeXY[7] + resizeXY[3] - height;
 
                             if(top < minTop){
                                 top = minTop;
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
 
                             if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
                                 top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
-                            }
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
 
-                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
+                            }
                         }
                         else if(resize == 'lm'){//左中
                             left = resizeXY[4] - resizeXY[6] + leftchange;
@@ -2382,16 +2404,22 @@ export default function luckysheetHandler() {
 
                             width = resizeXY[4] - resizeXY[6] + resizeXY[2] - left;
 
-                            top = resizeXY[5] - resizeXY[7];
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
 
-                            height = resizeXY[3] + topchange;
+                            top = resizeXY[5] - resizeXY[7];
 
                             if(height < 1){
                                 height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
 
                             if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
                                 height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                                
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[4] - resizeXY[6] + resizeXY[2] - width;
                             }
                         }
                         else if(resize == 'rt'){//右上
@@ -2407,17 +2435,22 @@ export default function luckysheetHandler() {
                                 width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
                             }
 
-                            top = resizeXY[5] - resizeXY[7] + topchange;
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[5] - resizeXY[7] + resizeXY[3] - height;
 
                             if(top < minTop){
                                 top = minTop;
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
 
                             if(top > resizeXY[5] - resizeXY[7] + resizeXY[3] - 1){
                                 top = resizeXY[5] - resizeXY[7] + resizeXY[3] - 1;
-                            }
+                                height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
 
-                            height = resizeXY[5] - resizeXY[7] + resizeXY[3] - top;
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
                         }
                         else if(resize == 'rm'){//右中
                             left = resizeXY[4] - resizeXY[6];
@@ -2448,16 +2481,19 @@ export default function luckysheetHandler() {
                                 width = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - left;
                             }
 
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
                             top = resizeXY[5] - resizeXY[7];
-
-                            height = resizeXY[3] + topchange;
 
                             if(height < 1){
                                 height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
 
                             if(height > minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top){
                                 height = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - top;
+                            
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
                             }
                         }
                         else if(resize == 'mt'){//中上
@@ -2494,21 +2530,105 @@ export default function luckysheetHandler() {
                         }
                     }
                     else{
-                        if (resize == "lm" || resize == "lt" || resize == "lb") {
+                        if(resize == 'lt'){//左上
                             left = x;
                             width = resizeXY[2] - leftchange;
     
                             if (left > resizeXY[2] + resizeXY[4] - 1) {
                                 left = resizeXY[2] + resizeXY[4] - 1;
-                                width = resizeXY[2] - (resizeXY[2] + resizeXY[4] - 1 - resizeXY[0]);
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
+                            }
+                            else if (left <= 0) {
+                                left = 0;
+                                width = resizeXY[2] + resizeXY[0];
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[3] + resizeXY[1] - height;
+    
+                            if (top > resizeXY[3] + resizeXY[5] - 1) {
+                                top = resizeXY[3] + resizeXY[5] - 1;
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                            else if (top <= 0) {
+                                top = 0;
+                                height = resizeXY[3] + resizeXY[1];
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                        }
+                        else if(resize == 'lm'){//左中
+                            left = x;
+                            width = resizeXY[2] - leftchange;
+    
+                            if (left > resizeXY[2] + resizeXY[4] - 1) {
+                                left = resizeXY[2] + resizeXY[4] - 1;
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
                             }
                             else if (left <= 0) {
                                 left = 0;
                                 width = resizeXY[2] + resizeXY[0];
                             }
                         }
+                        else if(resize == 'lb'){//左下
+                            left = x;
+                            width = resizeXY[2] - leftchange;
     
-                        if (resize == "rm" || resize == "rt" || resize == "rb") {
+                            if (left > resizeXY[2] + resizeXY[4] - 1) {
+                                left = resizeXY[2] + resizeXY[4] - 1;
+                                width = resizeXY[2] + resizeXY[0] - (resizeXY[2] + resizeXY[4] - 1);
+                            }
+                            else if (left <= 0) {
+                                left = 0;
+                                width = resizeXY[2] + resizeXY[0];
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+
+                            if (height < 1) {
+                                height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                            else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
+                                height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                                left = resizeXY[2] + resizeXY[0] - width;
+                            }
+                        }
+                        else if(resize == 'rt'){//右上
+                            width = resizeXY[2] + leftchange;
+    
+                            if (width < 1) {
+                                width = 1;
+                            }
+                            else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
+                                width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+                            top = resizeXY[3] + resizeXY[1] - height;
+    
+                            if (top > resizeXY[3] + resizeXY[5] - 1) {
+                                top = resizeXY[3] + resizeXY[5] - 1;
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                            else if (top <= 0) {
+                                top = 0;
+                                height = resizeXY[3] + resizeXY[1];
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                        }
+                        else if(resize == 'rm'){//右中
                             width = resizeXY[2] + leftchange;
     
                             if (width < 1) {
@@ -2518,22 +2638,43 @@ export default function luckysheetHandler() {
                                 width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
                             }
                         }
+                        else if(resize == 'rb'){//右下
+                            width = resizeXY[2] + leftchange;
     
-                        if (resize == "mt" || resize == "lt" || resize == "rt") {
+                            if (width < 1) {
+                                width = 1;
+                            }
+                            else if (width >= imageCtrl.currentWinW - resizeXY[4] - 22 - 36) {
+                                width = imageCtrl.currentWinW - resizeXY[4] - 22 - 36;
+                            }
+
+                            height = Math.round(width * (resizeXY[3] / resizeXY[2]));
+    
+                            if (height < 1) {
+                                height = 1;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                            else if (height >= imageCtrl.currentWinH - resizeXY[5] - 42 - 6) {
+                                height = imageCtrl.currentWinH - resizeXY[5] - 42 - 6;
+
+                                width = Math.round(height * (resizeXY[2] / resizeXY[3]));
+                            }
+                        }
+                        else if(resize == 'mt'){//中上
                             top = y;
                             height = resizeXY[3] - topchange;
     
                             if (top > resizeXY[3] + resizeXY[5] - 1) {
                                 top = resizeXY[3] + resizeXY[5] - 1;
-                                height = resizeXY[3] - (resizeXY[3] + resizeXY[5] - 1 - resizeXY[1]);
+                                height = resizeXY[3] + resizeXY[1] - (resizeXY[3] + resizeXY[5] - 1);
                             }
                             else if (top <= 0) {
                                 top = 0;
                                 height = resizeXY[3] + resizeXY[1];
                             }
                         }
-    
-                        if (resize == "mb" || resize == "lb" || resize == "rb") {
+                        else if(resize == 'mb'){//中下
                             height = resizeXY[3] + topchange;
     
                             if (height < 1) {
@@ -3321,6 +3462,10 @@ export default function luckysheetHandler() {
             Store.luckysheet_cell_selected_move = false;
             let mouse = mouseposition(event.pageX, event.pageY);
 
+            if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+                return;
+            }
+
             let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
             let scrollTop = $("#luckysheet-cell-main").scrollTop();
 
@@ -3368,6 +3513,10 @@ export default function luckysheetHandler() {
                 row_e = last["row"][1] - row_index_original + row_index;
             let col_s = last["column"][0] - col_index_original + col_index,
                 col_e = last["column"][1] - col_index_original + col_index;
+
+            if(!checkProtectionLockedRangeList([{row:[row_s, row_e], column:[col_s, col_e]}], Store.currentSheetIndex)){
+                return;
+            }
 
             if (row_s < 0 || y < 0) {
                 row_s = 0;
@@ -3572,8 +3721,14 @@ export default function luckysheetHandler() {
 
         //选区下拉
         if (Store.luckysheet_cell_selected_extend) {
+
+            
             Store.luckysheet_cell_selected_extend = false;
             $("#luckysheet-cell-selected-extend").hide();
+
+            if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
+                return;
+            }
 
             let mouse = mouseposition(event.pageX, event.pageY);
             let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
@@ -4138,6 +4293,9 @@ export default function luckysheetHandler() {
 
     //菜单栏 数据透视表
     $("#luckysheet-pivot-btn-title").click(function (e) {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "usePivotTablereports")){
+            return;
+        }
         pivotTable.createPivotTable(e);
     });
 
@@ -4310,6 +4468,10 @@ export default function luckysheetHandler() {
 
     //菜单栏 分列按钮
     $("#luckysheet-splitColumn-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
         if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
             return;
         }
@@ -4332,9 +4494,15 @@ export default function luckysheetHandler() {
 
     //菜单栏 插入图片按钮
     $("#luckysheet-insertImg-btn-title").click(function () {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+            return;
+        }
         $("#luckysheet-imgUpload").click();    
     });
     $("#luckysheetInsertImage").click(function () {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
+            return;
+        }
         $("#luckysheet-imgUpload").click();
         $("#luckysheet-rightclick-menu").hide();
     })
@@ -4342,6 +4510,9 @@ export default function luckysheetHandler() {
         e.stopPropagation();
     });
     $("#luckysheet-imgUpload").on("change", function(e){
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
+            return;
+        }
         let file = e.currentTarget.files[0];
         let render = new FileReader();
         render.readAsDataURL(file);
@@ -4355,17 +4526,26 @@ export default function luckysheetHandler() {
 
     //菜单栏 数据验证按钮
     $("#luckysheet-dataVerification-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
         if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
             return;
         }
 
         dataVerificationCtrl.createDialog();
         dataVerificationCtrl.init();
-    })
+    });
     $("#luckysheetDataVerification").click(function () {
         $("#luckysheet-dataVerification-btn-title").click();
         $("#luckysheet-rightclick-menu").hide();
-    })
+    });
+
+    //Cell format
+    $("#luckysheetCellFormatRightClickMenu").click(function () {
+        openCellFormatModel();
+    });
 
     //冻结行列
     $("#luckysheet-freezen-btn-horizontal").click(function () {
@@ -4454,6 +4634,10 @@ export default function luckysheetHandler() {
 
     //表格左上角点击 全选表格
     $("#luckysheet-left-top").mousedown(function (event) {
+        if(!checkProtectionAllSelected(Store.currentSheetIndex)){
+            return;
+        }
+
         $("#luckysheet-wa-functionbox-confirm").click();
         Store.luckysheet_select_status = false;
 
@@ -4794,6 +4978,9 @@ export default function luckysheetHandler() {
                 else {
                     selection.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
+            }
+            else if(txtdata.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
             }
             else {
                 if (txtdata.indexOf("table") > -1) {

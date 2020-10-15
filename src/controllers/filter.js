@@ -11,6 +11,7 @@ import Store from '../store';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
 import alternateformat from './alternateformat';
+import {checkProtectionAuthorityNormal} from './protection';
 import { 
     rgbTohex, 
     showrightclickmenu, 
@@ -136,6 +137,11 @@ function orderbydatafiler(str, stc, edr, edc, index, asc) {
 
 //创建筛选按钮
 function createFilter() {
+
+    if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "filter")){
+        return;
+    }
+
     if(Store.luckysheet_select_save.length > 1){
         $("#luckysheet-rightclick-menu").hide();
         $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
@@ -423,6 +429,9 @@ function initialFilterHandler(){
 
     //筛选按钮点击事件
     $("#luckysheet-cell-main").on("click", ".luckysheet-filter-options", function (e) {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "filter")){
+            return;
+        }
         let $t = $(e.currentTarget), 
             toffset = $t.offset(), 
             $menu = $("#luckysheet-filter-menu"), 
@@ -1253,6 +1262,10 @@ function initialFilterHandler(){
 
     //清除筛选
     $("#luckysheet-filter-initial").click(function () {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "filter")){
+            return;
+        }
+
         $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide().find("input").val();
         $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text(locale_filter.conditionNone);
 

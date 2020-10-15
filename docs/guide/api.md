@@ -2026,6 +2026,26 @@ Use note:
 
 ------------
 
+### scroll([setting])
+
+[todo]
+
+
+- **参数**：
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [scrollWidth]: horizontal scroll value. The default is the current horizontal scroll position.
+		+ {Number} [scrollHeight]: Vertical scroll value. The default is the current vertical scroll position.
+		+ {Number} [targetRow]: Scroll vertically to the specified row number. The default is the current vertical scroll position.
+		+ {Number} [targetColumn]: scroll horizontally to the specified column number. The default is the current horizontal scroll position.
+		+ {Function} [success]: The callback function after the table is refreshed successfully
+
+- **说明**：
+	
+	Scroll current worksheet position
+
+------------
+
 ### resize([setting])
 
 - **Parameter**：

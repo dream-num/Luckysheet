@@ -1,0 +1,67 @@
+.luckysheet-cellFormat-config{
+    display: none;
+}
+
+.luckysheet-cellFormat-config .luckysheet-modal-dialog-content{
+    position: relative;
+    height: 550px;
+    width: 600px;
+}
+
+.luckysheet-cellFormat-menu-c{
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #d4d4d4;
+    font-size: 12px;
+}
+
+.luckysheet-cellFormat-menu{
+    position: relative;
+    display: inline-block;
+    height: 30px;
+    width: 80px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    background: #F0F0F0;
+    cursor: pointer;
+}
+
+.luckysheet-cellFormat-menu:hover{
+    background: #e7e7e7;
+}
+
+
+.luckysheet-cellFormat-menu-active{
+    background: #fff;
+    cursor: default;
+}
+
+.luckysheet-cellFormat-menu-active:hover{
+    background: #fff;
+}
+
+
+.luckysheet-cellFormat-content{
+    position: absolute;
+    top:30px;
+    bottom: 0px;
+    width: 100%;
+    border: 1px solid #d4d4d4;
+    border-top: none;
+}
+
+.luckysheet-cellFormat-protection{
+    position: relative;
+    margin-top: 30px;
+    margin-left: 40px;
+}
+
+.luckysheet-cellFormat-protection span{
+    font-size: 12px;
+    color:#ff2929;
+    padding-left: 12px;
+}

@@ -18,7 +18,9 @@
 
 #luckysheet-icon-morebtn{
     position: absolute;
-    right: 30px;
+    right: 15px;
+    transform: translate(0,-50%);
+    top: 50%;
 }
 
 
@@ -41,7 +43,7 @@
 }
 
 #luckysheet-icon-morebtn{
-    padding: 0 13px 0 5px;
+    padding: 2px 13px 0 5px;
 }
 #luckysheet-icon-morebtn .iconfont{
     top:-9px;

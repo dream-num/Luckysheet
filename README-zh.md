@@ -130,6 +130,7 @@ npm run build
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
@@ -155,6 +156,7 @@ npm run build
 ## 合作项目
 
 - [鲁班h5](https://github.com/ly525/luban-h5)
+- [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 
 ## 加入共建
 
@@ -189,15 +191,26 @@ npm run build
 ### 团队成员
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
-- [@swen-xiong](https://github.com/swen-xiong)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@c19c19i](https://weibo.com/u/3884623955)
 
 ### 活跃成员
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@gsw945](https://github.com/gsw945)
+- [@swen-xiong](https://github.com/swen-xiong)
+
+## 捐赠
+
+如果你感觉这个项目对你有用或者有所启发，可以请作者喝杯果汁：
+
+|  微信  | 支付宝 |
+|---|---|
+| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+
+[Paypal Me](https://www.paypal.me/wbfsa)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

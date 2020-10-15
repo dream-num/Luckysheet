@@ -93,20 +93,26 @@ export function getCellValue(row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
-    if (row == null && column == null) {
-        return tooltip.info('Arguments row or column cannot be null or undefined.', '')
+    if (getObjType(row) != "number" || getObjType(column) != "number") {
+        return tooltip.info('The row or column parameter is invalid.', '');
     }
-    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+
     let {
-        index = Store.currentSheetIndex,
-        order = curSheetOrder,
+        order = getSheetIndex(Store.currentSheetIndex),
         isRefresh = true,
         success
     } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", ""); 
+    }
     
-    let luckysheetfile = getluckysheetfile();
-    let arrayIndex = getSheetIndex(index);
-    let data = luckysheetfile[arrayIndex].data;
+    let data = $.extend(true, [], file.data);
+    if(data.length == 0){
+        data = sheetmanage.buildGridData(file);
+    }
     
     // luckysheetformula.updatecell(row, column, value);
     let formatList = {
@@ -130,7 +136,12 @@ export function setCellValue(row, column, value, options = {}) {
         //f: 1, //formula
         qp:1 //quotePrefix, show number as string
     }
-    if(value instanceof Object){
+
+    if(value == null || value.toString().length == 0){
+        formula.delFunctionGroup(row, column);
+        setcellvalue(row, column, data, value);
+    }
+    else if(value instanceof Object){
         let curv = {};
         if(value.f!=null && value.v==null){
             curv.f = value.f;
@@ -163,22 +174,20 @@ export function setCellValue(row, column, value, options = {}) {
         }
     }
     else{
-        if(value.substr(0,1)=="=" || value.substr(0,5)=="<span"){
+        if(value.toString().substr(0,1)=="=" || value.toString().substr(0,5)=="<span"){
             data = luckysheetformula.updatecell(row, column, value, false).data;//update formula value or convert inline string html to object
         }
         else{
             formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, value);
         }
-        
     }
 
-
-    if(isRefresh){
+    if(file.index == Store.currentSheetIndex && isRefresh){
         jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);//update data, meanwhile refresh canvas and store data to history
     }
     else{
-        luckysheetfile[arrayIndex] = data;//only update data
+        file.data = data;//only update data
     }
 
     if (success && typeof success === 'function') {
@@ -265,7 +274,15 @@ export function deleteCell(move, row, column, options = {}) {
     } = {...options}
 
     let moveType = 'move' + move.replace(move[0], move[0].toUpperCase()); // left-moveLeft;  up-moveUp
-    luckysheetDeleteCell(moveType, row, row, column, column, order);
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+
+    luckysheetDeleteCell(moveType, row, row, column, column, sheetIndex);
 
     if (success && typeof success === 'function') {
         success()
@@ -881,7 +898,14 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
     }
 
     // 默认在行上方增加行，列左侧增加列
-    luckysheetextendtable(type, index, number, "lefttop", order);
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    
+    luckysheetextendtable(type, index, number, "lefttop", sheetIndex);
 
     if (success && typeof success === 'function') {
         success();
@@ -932,7 +956,14 @@ export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
         success
     } = {...options}
     
-    luckysheetdeletetable(type, startIndex, endIndex, order)
+
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+    luckysheetdeletetable(type, startIndex, endIndex, sheetIndex);
     
     if (success && typeof success === 'function') {
         success()

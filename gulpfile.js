@@ -89,7 +89,8 @@ const paths = {
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
         'src/plugins/js/daterangepicker.js',
-        'src/plugins/js/jstat.min.js'
+        'src/plugins/js/jstat.min.js',
+        'src/plugins/js/crypto-api.min.js'
     ],
 
     //plugins concat
@@ -172,7 +173,9 @@ async function core() {
         file: 'dist/luckysheet.umd.js',
         format: 'umd',
         name: 'luckysheet',
-        sourcemap: true
+        sourcemap: true,
+        inlineDynamicImports:true,
+
     });
 
     if(production){

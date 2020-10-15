@@ -85,7 +85,13 @@ function setcellvalue(r, c, d, v) {
     }
     else if(valueIsError(vupdate)){
         cell.m = vupdate.toString();
-        cell.ct = { "fa": "General", "t": "e" };
+        // cell.ct = { "fa": "General", "t": "e" };
+        if(cell.ct!=null){
+            cell.ct.t = "e";
+        }
+        else{
+            cell.ct = { "fa": "General", "t": "e" };
+        }
         cell.v = vupdate;
     }
     else{

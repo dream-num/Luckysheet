@@ -269,6 +269,12 @@ export function initialMatrixOperation(){
 
     //复制为多维数组
     $("#luckysheet-copy-arraymore-confirm").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+
         $("body .luckysheet-cols-menu").hide();
 
         if(Store.luckysheet_select_save.length > 1){
@@ -509,6 +515,12 @@ export function initialMatrixOperation(){
 
     //复制为对角偏移n列
     $("#luckysheet-copy-diagonaloffset").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT'){
+            return;
+        }
+        
         $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
@@ -870,6 +882,12 @@ export function initialMatrixOperation(){
 
     //矩阵操作选区 矩阵计算
     $("#luckysheet-matrix-cal-confirm").click(function (event) {
+
+        // Click input element, don't comfirm 
+        if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'SELECT'){
+            return;
+        }
+
         $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 

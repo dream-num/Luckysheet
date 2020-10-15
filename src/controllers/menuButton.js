@@ -33,13 +33,14 @@ import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
 import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
+import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
     // "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
-    "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel ${iconClass}" style="user-select: none;"></span></div></div>',
+    "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel ${iconClass}" style="user-select: none;">${example}</span></div></div>',
     "split": '<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>',
     "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${resetColor}</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
     "coloritem": '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel ${class}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${name}</div></div>',
@@ -78,11 +79,11 @@ const menuButton = {
             else{
                 if(item.example=="more"){
                     // itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
-                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "sub": "luckysheet-cols-submenu", "iconClass": "iconfont icon-youjiantou"});
+                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "", "sub": "luckysheet-cols-submenu", "iconClass": "iconfont icon-youjiantou"});
 
                 }
                 else{
-                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": item.example, "sub": ""});
+                    itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": item.example, "sub": "", "iconClass": ""});
                 }
             }
         }
@@ -429,13 +430,13 @@ const menuButton = {
                 //luckysheet-icon-fmt-other-menuButton_sub
                 $("body").append(menu+submenu);
                 $menuButton = $("#" + menuButtonId).width(250);
-                _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
-                    let $t = $(this), itemvalue = $t.attr("itemvalue");
+                    let $t = $(this), itemvalue = $t.attr("itemvalue"),itemname = $t.attr("itemname");;
+                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").html(" "+ itemname +" ");
 
                     if(itemvalue == "fmtOtherSelf"){
                         return;
@@ -458,6 +459,12 @@ const menuButton = {
                     luckysheetMoreFormat.createDialog(itemvalue);
                     luckysheetMoreFormat.init();
                 })
+            } else {
+                const text =$(this).find(".luckysheet-toolbar-menu-button-caption").text().trim();
+                const format = locale_defaultFmt.find(f => f.text === text);
+                if(format) {
+                    _this.focus($menuButton, format.value);
+                }
             }
 
             let userlen = $(this).outerWidth();
@@ -915,6 +922,11 @@ const menuButton = {
 
         //边框设置
         $("#luckysheet-icon-border-all").click(function(){
+
+            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+                return;
+            }
+
             let d = editor.deepCopyFlowData(Store.flowdata);
 
             let type = $(this).attr("type");
@@ -1076,6 +1088,10 @@ const menuButton = {
                         return;
                     }
 
+                    if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+                        return;
+                    }
+
                     let d = editor.deepCopyFlowData(Store.flowdata);
 
                     let color = $("#"+ subcolormenuid).find(".luckysheet-color-selected").val();
@@ -1205,6 +1221,11 @@ const menuButton = {
 
         //合并单元格
         $("#luckysheet-icon-merge-button").click(function(){
+
+            if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+                return;
+            }
+
             if(selectIsOverlap()){
                 if(isEditMode()){
                     alert("不能合并重叠区域");
@@ -2780,6 +2801,59 @@ const menuButton = {
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         });
         
+        //sheet protection
+        $("#luckysheet-icon-protection").click(function(){
+            let sheetFile = sheetmanage.getSheetByIndex();
+            openProtectionModal(sheetFile);
+        });
+
+        //print
+        $("#luckysheet-icon-print").click(function(){
+            let menuButtonId = $(this).attr("id") + "-menuButton";
+            let $menuButton = $("#" + menuButtonId);
+            const _locale = locale();
+            const locale_print = _locale.print;
+            if($menuButton.length == 0){
+                let itemdata = [
+                    {"text": locale_print.menuItemPrint, "value": "print", "example": '<i class="iconfont icon-dayin" aria-hidden="true"></i>'},
+                    {"text": "", "value": "split", "example": ""},
+                    {"text": locale_print.menuItemAreas, "value": "areas", "example": '<i class="iconfont icon-tihuan" aria-hidden="true"></i>'},
+                    {"text": locale_print.menuItemRows, "value": "rows", "example": '<i class="iconfont icon-zhuandao1" aria-hidden="true"></i>'},
+                    {"text": locale_print.menuItemColumns, "value": "columns", "example": '<i class="iconfont icon-dingwei" aria-hidden="true"></i>'},
+                ];
+
+                let itemset = _this.createButtonMenu(itemdata);
+
+                let menu = replaceHtml(_this.menu, { "id": "print", "item": itemset, "subclass": "", "sub": "" });
+
+                $("body").append(menu);
+                $menuButton = $("#" + menuButtonId).width(180);
+
+                $menuButton.find(".luckysheet-cols-menuitem").click(function(){
+                    $menuButton.hide();
+                    luckysheetContainerFocus();
+
+                    let $t = $(this), itemvalue = $t.attr("itemvalue");
+
+                    if(itemvalue == "print"){ //Print config
+                        alert("print");
+                    }
+                    else if(itemvalue == "areas" || itemvalue == "rows" || itemvalue == "columns"){ //range
+                        alert("areas");
+                    }
+                });
+            }
+
+            let userlen = $(this).outerWidth();
+            let tlen = $menuButton.outerWidth();
+
+            let menuleft = $(this).offset().left;
+            if(tlen > userlen && (tlen + menuleft) > $("#" + Store.container).width()){
+                menuleft = menuleft - tlen + userlen;
+            }
+            mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
+        });
+
         $("body").on("mouseover mouseleave",".luckysheet-menuButton .luckysheet-cols-submenu", function(e){
             let $t = $(this), attrid = $t.attr("itemvalue"), 
                 $attr = $("#luckysheet-icon-" + attrid + "-menuButton");
@@ -3020,6 +3094,10 @@ const menuButton = {
     updateFormat: function(d, attr, foucsStatus){
         let _this = this;
 
+        if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+            return;
+        }
+
         if(Store.allowEdit===false){
             return;
         }
@@ -3070,6 +3148,10 @@ const menuButton = {
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
+        }
+
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
         }
 
         if(foucsStatus == "mergeCancel"){
@@ -3337,6 +3419,7 @@ const menuButton = {
                     }
                 }
                 else{
+                    foucsStatus = foucsStatus.replace(/"/g, "").replace(/'/g, "");
                     itemvalue = foucsStatus;
                     itemname = foucsStatus;
 
@@ -3443,6 +3526,23 @@ const menuButton = {
             $icon.removeAttr("class").addClass("luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-" + itemvalue + iconfontObject[itemvalue]);
             $menuButton.hide();
         }
+        else if(attr == "ct") {
+            let $menuButton = $("#luckysheet-icon-fmt-other");
+            const _locale = locale();
+            const locale_defaultFmt = _locale.defaultFmt;
+            if(!foucsStatus) {
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ locale_defaultFmt[0].text +" ");
+                return;
+            }
+            const {fa} = foucsStatus;
+            const format = locale_defaultFmt.find(f => f.value === fa);
+            if(format) {
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ format.text +" ");
+            } else {
+                const otherFormat = locale_defaultFmt.find(f => f.value === "fmtOtherSelf");
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" "+ otherFormat.text +" ");
+            }
+        }
     },
     inputMenuButtonFocus:function(focusTarget){
         var  w = window.getSelection(); 
@@ -3460,7 +3560,7 @@ const menuButton = {
     },
     menuButtonFocus: function(d, r, c){
         let _this = this;
-        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr"];
+        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr", "ct"];
         const _locale = locale();
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];
@@ -4344,6 +4444,7 @@ const menuButton = {
     fontSelectList:[],
     defualtFont:["Times New Roman","Arial","Tahoma","Verdana","微软雅黑","宋体","黑体","楷体","仿宋","新宋体","华文新魏","华文行楷","华文隶书"],
     addFontTolist:function(fontName) {
+        fontName = fontName.replace(/"/g, "").replace(/'/g, "");
         let isNone = true;
         for(let a=0;a<this.fontSelectList.length;a++){
             let fItem = this.fontSelectList[a];
@@ -4351,6 +4452,12 @@ const menuButton = {
                 isNone = false;
                 break
             }
+        }
+
+        let  _locale = locale();
+        const locale_fontjson = _locale.fontjson;
+        if(fontName in locale_fontjson){
+            isNone = false;
         }
 
         if(isNone){

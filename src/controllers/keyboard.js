@@ -14,6 +14,7 @@ import { selectHightlightShow, selectIsOverlap } from './select';
 import selection from './selection';
 import searchReplace from './searchReplace';
 import controlHistory from './controlHistory';
+import imageCtrl from './imageCtrl';
 
 import { 
     getByteLen,
@@ -313,8 +314,6 @@ export function keyboardInitial(){
             
             return;
         }
-
-
         
         let $inputbox = $("#luckysheet-input-box");
         
@@ -433,6 +432,11 @@ export function keyboardInitial(){
                     $("#luckysheet-icon-bold").click();
                 }
                 else if (kcode == 67) {//Ctrl + C  复制
+                    if(imageCtrl.currentImgId != null){
+                        imageCtrl.copyImgItem(event);
+                        return;
+                    }
+
                     //复制时存在格式刷状态，取消格式刷
                     if(menuButton.luckysheetPaintModelOn){
                         menuButton.cancelPaintModel();
@@ -748,9 +752,18 @@ export function keyboardInitial(){
 
                 selectHightlightShow();
             }
-            else if (kcode == keycode.DELETE) {
-                $("#luckysheet-delete-text").click();
+            else if (kcode == keycode.DELETE || kcode == keycode.BACKSPACE) {
+                if(imageCtrl.currentImgId != null){
+                    imageCtrl.removeImgItem();
+                }
+                else{
+                    $("#luckysheet-delete-text").click();
+                }
 
+                event.preventDefault();
+            }
+            else if(kcode == 8 && imageCtrl.currentImgId != null){
+                imageCtrl.removeImgItem();
                 event.preventDefault();
             }
             else if (kcode == keycode.UP) {

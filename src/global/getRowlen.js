@@ -982,7 +982,7 @@ function getCellTextInfo(cell , ctx, option){
                     maxWordCount++;
                 }
 
-                lineHeight = sHeight/1.5;
+                lineHeight = sHeight/2;
                 oneLinemaxWordCount = Math.max(oneLinemaxWordCount, maxWordCount);
                 if(rt!=0){//rotate
                     sHeight+=lineHeight;
@@ -1061,7 +1061,7 @@ function getCellTextInfo(cell , ctx, option){
                                 if(verticalAlign == "0"){//mid
                                     
                                     left = x + cellWidth/2 - (textW_all/2) + lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top
                                     left = x + cellWidth/2 - textW_all/2;
@@ -1069,13 +1069,13 @@ function getCellTextInfo(cell , ctx, option){
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x + cellWidth/2 - (textW_all/2)+lastLineSpaceHeight*Math.cos(rtPI);
-                                    top = y + cellHeight - rh/2 - textH_all/2 - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y + cellHeight - rh/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
                             else if(horizonAlign == "1"){//left
                                 if(verticalAlign == "0"){//mid
                                     left = x - rh*Math.sin(rtPI)/2 + lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y + cellHeight/2 + rh*Math.cos(rtPI)/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y + cellHeight/2 + rh*Math.cos(rtPI)/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top
                                     left = x - rh*Math.sin(rtPI);
@@ -1083,13 +1083,13 @@ function getCellTextInfo(cell , ctx, option){
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x + lastLineSpaceHeight*Math.cos(rtPI);
-                                    top = y + cellHeight - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y + cellHeight - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
                             else if(horizonAlign == "2"){//right
                                 if(verticalAlign == "0"){//mid
                                     left = x + cellWidth - rw/2 - (textW_all_inner/2+(textH_all/2)/Math.tan(rtPI))+ lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top fixOneLineLeft
                                     left = x + cellWidth - textW_all + fixOneLineLeft;
@@ -1097,7 +1097,7 @@ function getCellTextInfo(cell , ctx, option){
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x + cellWidth - rw*Math.cos(rtPI) + lastLineSpaceHeight*Math.cos(rtPI);
-                                    top = y + cellHeight - rw*Math.sin(rtPI) - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y + cellHeight - rw*Math.sin(rtPI) - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
                             
@@ -1152,21 +1152,21 @@ function getCellTextInfo(cell , ctx, option){
                                 if(verticalAlign == "0"){//mid
                                     
                                     left = x + cellWidth/2 - (textW_all/2) - lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y + cellHeight/2 - textH_all/2 + lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y + cellHeight/2 - textH_all/2 + lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top
                                     left = x + cellWidth/2 - textW_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y - (textH_all/2 - rh/2)+lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y - (textH_all/2 - rh/2)+lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x + cellWidth/2 - (textW_all/2)-lastLineSpaceHeight*Math.cos(rtPI);
-                                    top = y + cellHeight - rh/2 - textH_all/2 - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y + cellHeight - rh/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
                             else if(horizonAlign == "1"){//left
                                 if(verticalAlign == "0"){//mid
                                     left = x - rh*Math.sin(rtPI)/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y - textH_all + cellHeight/2 - rh*Math.cos(rtPI)/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y - textH_all + cellHeight/2 - rh*Math.cos(rtPI)/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top
                                     left = x;
@@ -1174,13 +1174,13 @@ function getCellTextInfo(cell , ctx, option){
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x - rh*Math.sin(rtPI) - lastLineSpaceHeight*Math.cos(rtPI);
-                                    top = y - textH_all + cellHeight - rh*Math.cos(rtPI) - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y - textH_all + cellHeight - rh*Math.cos(rtPI) - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
                             else if(horizonAlign == "2"){//right
                                 if(verticalAlign == "0"){//mid
                                     left = x + cellWidth - rw/2 - textW_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
-                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.sin(rtPI)/2;
+                                    top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
                                 else if(verticalAlign == "1"){//top fixOneLineLeft
                                     left = x + cellWidth - rw*Math.cos(rtPI);
@@ -1188,7 +1188,7 @@ function getCellTextInfo(cell , ctx, option){
                                 }
                                 else if(verticalAlign == "2"){//bottom
                                     left = x + cellWidth - textW_all - lastLineSpaceHeight*Math.cos(rtPI) + fixOneLineLeft;
-                                    top = y + cellHeight - lastLineSpaceHeight*Math.sin(rtPI);
+                                    top = y + cellHeight - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
 
@@ -1324,16 +1324,17 @@ function getCellTextInfo(cell , ctx, option){
             textContent.rotate = rt;
 
             rt = Math.abs(rt);
+            let rtPI = rt*Math.PI/180;
 
-            let textWidthAll = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
+            let textWidthAll = textWidth * Math.cos(rtPI) + textHeight * Math.sin(rtPI);//consider text box wdith and line height
 
-            let textHeightAll = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
+            let textHeightAll = textWidth * Math.sin(rtPI) + textHeight * Math.cos(rtPI);//consider text box wdith and line height
 
             if(rt!=0){
                 textContent.textHeightAll = textHeightAll;
             }
             else{
-                textContent.textHeightAll = textHeightAll+textHeight/1.5-measureText.actualBoundingBoxDescent-space_height;
+                textContent.textHeightAll = textHeightAll+textHeight/2-measureText.actualBoundingBoxDescent-space_height;
             }
             textContent.textWidthAll = textWidthAll;
             
@@ -1345,20 +1346,20 @@ function getCellTextInfo(cell , ctx, option){
 
             let width = textWidthAll, height = textHeightAll;
 
-            let left = space_width + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为1，左对齐
+            let left = space_width + textHeight * Math.sin(rtPI)*isRotateUp; //默认为1，左对齐
             if(horizonAlign == "0"){ //居中对齐
-                left = cellWidth / 2  - (width / 2) + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp;
+                left = cellWidth / 2  - (width / 2) + textHeight * Math.sin(rtPI)*isRotateUp;
             }
             else if(horizonAlign == "2"){ //右对齐
-                left = (cellWidth - space_width)  - width + textHeight * Math.sin(rt*Math.PI/180)*isRotateUp;
+                left = (cellWidth - space_width)  - width + textHeight * Math.sin(rtPI)*isRotateUp;
             }
             
-            let top = (cellHeight - space_height)  - height + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp; //默认为2，下对齐
+            let top = (cellHeight - space_height)  - height + measureText.actualBoundingBoxAscent * Math.cos(rtPI) + textWidth * Math.sin(rtPI)*isRotateUp; //默认为2，下对齐
             if(verticalAlign == "0"){ //居中对齐 
-                top = cellHeight / 2  - (height / 2) + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                top = cellHeight / 2  - (height / 2) + measureText.actualBoundingBoxAscent* Math.cos(rtPI) + textWidth * Math.sin(rtPI)*isRotateUp;
             }
             else if(verticalAlign == "1"){ //上对齐
-                top = space_height + measureText.actualBoundingBoxAscent + textWidth * Math.sin(rt*Math.PI/180)*isRotateUp;
+                top = space_height + measureText.actualBoundingBoxAscent* Math.cos(rtPI) + textWidth * Math.sin(rtPI)*isRotateUp;
             }
 
             textContent.type = "plain";

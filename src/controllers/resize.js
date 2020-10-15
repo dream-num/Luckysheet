@@ -55,7 +55,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     gridW = $("#" + Store.container).width(), gridH = $("#" + Store.container).height();
 
-    if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色
+    if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色 Protection
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-pivot").outerWidth();
         } 
@@ -65,6 +65,9 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         else if($("#luckysheet-modal-dialog-slider-alternateformat").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-alternateformat").outerWidth();
         }
+        if($("#luckysheet-modal-dialog-slider-protection").is(":visible")){
+            gridW -= $("#luckysheet-modal-dialog-slider-protection").outerWidth();
+        } 
     }
 
     $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
@@ -136,13 +139,17 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
 
     // 找到应该隐藏的起始元素位置
     for (let index = toobarWidths.length - 1; index >= 0; index--) {
+
+        // #luckysheet-icon-morebtn button width plus right is 83px
         if(toobarWidths[index] < gridW - 90){
             moreButtonIndex = index;
-            ismore = true;
+            if(moreButtonIndex < toobarWidths.length - 1){
+
+                ismore = true;
+            }
             break;
         }
     }
-
     // 从起始位置开始，后面的元素统一挪到下方隐藏DIV中
     for (let index = moreButtonIndex; index < toobarElements.length; index++) {
         const element = toobarElements[index];
@@ -283,6 +290,8 @@ export function changeSheetContainerSize(gridW, gridH){
 
 /**
  * 统计工具栏各个按钮宽度值,用于计算哪些需要放到 更多按钮里
+ * 
+ * 注意：每增加一个工具栏按钮，都要在toobarWidths和toobarElements这两个数组里加上按钮的统计数据
  */
 export function menuToolBarWidth() {
     const toobarObject = Store.toobarObject;
@@ -320,7 +329,9 @@ export function menuToolBarWidth() {
         $('#luckysheet-splitColumn-btn-title').offset().left,
         $('#luckysheet-chart-btn-screenshot').offset().left,
         $('#luckysheet-icon-seachmore').offset().left,
-        $('#luckysheet-icon-seachmore').offset().left + $('#luckysheet-icon-seachmore').outerWidth() + 5,
+        $('#luckysheet-icon-protection').offset().left,
+        $('#luckysheet-icon-print').offset().left,
+        $('#luckysheet-icon-print').offset().left + $('#luckysheet-icon-protection').outerWidth() + 5,
     ];
     toobarObject.toobarElements = [
         '#luckysheet-icon-undo',
@@ -355,6 +366,8 @@ export function menuToolBarWidth() {
         '#luckysheet-dataVerification-btn-title',
         '#luckysheet-splitColumn-btn-title',
         '#luckysheet-chart-btn-screenshot',
-        '#luckysheet-icon-seachmore'
+        '#luckysheet-icon-seachmore',
+        '#luckysheet-icon-protection',
+        '#luckysheet-icon-print',
     ]
 }
