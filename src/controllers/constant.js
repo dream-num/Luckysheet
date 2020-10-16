@@ -230,9 +230,9 @@ const gridHTML = function(){
                                     <div class="luckysheet-zoom-ratioText" id="luckysheet-zoom-ratioText">100%</div>
                                 </div>
                                 <div class="luckysheet-print-viewList">
-                                    <div type="viewNormal" class="luckysheet-print-viewBtn luckysheet-print-viewNormal luckysheet-print-viewBtn-active" title="${locale_print.normalBtn}"><i class="icon iconfont icon-caidan1"></i></div>
-                                    <div type="viewLayout" class="luckysheet-print-viewBtn luckysheet-print-viewLayout" title="${locale_print.layoutBtn}"><i class="icon iconfont icon-caidan1"></i></div>
-                                    <div type="viewPage" class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-caidan1"></i></div>
+                                    <div type="viewNormal" class="luckysheet-print-viewBtn luckysheet-print-viewNormal luckysheet-print-viewBtn-active" title="${locale_print.normalBtn}"><i class="icon iconfont icon-putong"></i></div>
+                                    <div type="viewLayout" class="luckysheet-print-viewBtn luckysheet-print-viewLayout" title="${locale_print.layoutBtn}"><i class="icon iconfont icon-yemianbuju"></i></div>
+                                    <div type="viewPage" class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-fenyeyulan"></i></div>
                                 </div>
                                 <div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>  
                                 <div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>  
@@ -723,6 +723,7 @@ const luckysheetToolHTML = '<div id="luckysheet-tooltip-up" class="jfk-tooltip" 
 function menuToolBar (){
        const toolbar = locale().toolbar;
        const fontarray = locale().fontarray;
+       const defaultFmtArray = locale().defaultFmt;
        
        // <!-- undo -->
        return `<div class="luckysheet-toolbar-left-theme">
@@ -839,7 +840,7 @@ function menuToolBar (){
                 style="user-select: none;">
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
-                        123
+                        ${defaultFmtArray[0].text}
                     </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige"
                     style="user-select: none;">
@@ -1415,7 +1416,7 @@ function menuToolBar (){
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-quanping"
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-biaogesuoding"
                             style="user-select: none;">
                             </div>
                         </div>
@@ -1431,7 +1432,7 @@ function menuToolBar (){
                 style="user-select: none;">
 
                     <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont icon-shezhi"
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont icon-dayin"
                         style="user-select: none;">
                         </div>
                     </div>

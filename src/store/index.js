@@ -133,6 +133,8 @@ const Store = {
 
     fontList:[],
 
+    currentSheetView:"viewNormal",
+
 }
 
 export default Store;

@@ -22,7 +22,7 @@ luckysheet.create(options)
 
 这里的`options`配置项会作用于整个表格，特别的，单个sheet的配置则需要在`options.data`数组中，分别设置对应更详细的参数，参考[工作表配置](/zh/guide/sheet.html)
 
-针对个性化的需求，除了允许配置名称栏（[showinfobar](#showinfobar)）、工具栏（[showtoolbar](#showtoolbar)）、底部sheet页（[showsheetbar](#showsheetbar)）、底部计数栏（[showstatisticBar](#showstatisticBar)）之外，
+针对个性化的需求，除了允许配置信息栏（[showinfobar](#showinfobar)）、工具栏（[showtoolbar](#showtoolbar)）、底部sheet页（[showsheetbar](#showsheetbar)）、底部计数栏（[showstatisticBar](#showstatisticBar)）之外，
 Luckysheet开放了更细致的自定义配置选项，分别有
 
 - 自定义工具栏（[showtoolbarConfig](#showtoolbarConfig)）
@@ -30,7 +30,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义计数栏（[showstatisticBarConfig](#showstatisticBarConfig)）
 - 自定义添加行和回到顶部（[sheetBottomConfig](#sheetBottomConfig)）
 - 自定义单元格右键菜单（[cellRightClickConfig](#cellRightClickConfig)）
-- 自定义sheet页右击菜单（[sheetRightClickConfig](#sheetRightClickConfig)）
+- 自定义底部sheet页右击菜单（[sheetRightClickConfig](#sheetRightClickConfig)）
 
 
 ## 配置项
@@ -53,10 +53,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 亿万格式 [autoFormatw](#autoFormatw)
 - 精度 [accuracy](#accuracy)
 - 允许复制 [allowCopy](#allowCopy)
-- 网格线 [showGridLines](#showGridLines)
 - 工具栏 [showtoolbar](#showtoolbar)
 - 自定义工具栏[showtoolbarConfig](#showtoolbarConfig)
-- 名称栏 [showinfobar](#showinfobar)
+- 信息栏 [showinfobar](#showinfobar)
 - 底部sheet页 [showsheetbar](#showsheetbar)
 - 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
@@ -75,6 +74,10 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
+- 是否显示行号区域 [showRowBar](#showRowBar)
+- 是否显示列号区域 [showColumnBar](#showColumnBar)
+- 是否显示公式栏 [sheetFormulaBar](#sheetFormulaBar)
+- 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
 
 ### container
 - 类型：String
@@ -103,13 +106,15 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### loadUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadUrl`的地址，Luckysheet会通过ajax请求整个表格数据，默认载入status为1的sheet数据中的所有`celldata`，其余的sheet载入除`celldata`字段外的所有字段。但是考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则把引用到的sheet的数据一并补全。
+- 作用：配置`loadUrl`的地址，与`loadSheetUrl`配合使用，一般用于大数据量的时候。也可以不用Luckysheet提供的接口参数，使用[data](#data)参数可以提前准备好所有表格数据用于初始化。
+
+	Luckysheet会通过ajax请求整个表格数据，默认载入status为1的sheet数据中的所有`celldata`，其余的sheet载入除`celldata`字段外的所有字段。但是考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则会通过`loadSheetUrl`配置的接口地址请求数据，把引用到的sheet的数据一并补全。因为	`loadUrl`只负责当前页数据，所以还需要配置`loadSheetUrl`作为异步加载数据的接口。
 
 ------------
 ### loadSheetUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadSheetUrl`的地址，参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`[1,2,3]`），返回的数据为sheet的`celldata`字段数据集合
+- 作用：配置`loadSheetUrl`的地址，参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`），返回的数据为sheet的`celldata`字段数据集合。为了加载性能考虑，除了第一次加载当前页的`celldata`数据之外，其余sheet的数据，是在切换到那个sheet页的时候，才会请求那一页的数据。
 
 ------------
 ### allowUpdate
@@ -121,7 +126,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### updateUrl
 - 类型：String
 - 默认值：""
-- 作用：操作表格后的后台更新地址，在`allowUpdate`为`true`时才会有效
+- 作用：操作表格后的后台更新地址，在`allowUpdate`为`true`时才会有效，此接口也是共享编辑的接口地址。
+
+注意，还需要配置`loadUrl`和`loadSheetUrl`才能生效
 
 ------------
 ### updateImageUrl
@@ -172,16 +179,10 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：是否允许拷贝
 
 ------------
-### showGridLines
-- 类型：Number
-- 默认值：1
-- 作用：是否显示网格线，`1`表示显示，`0`表示隐藏
-
-------------
 ### showtoolbar
 - 类型：Boolean
 - 默认值：true
-- 作用：是否第二列显示工具栏
+- 作用：是否显示工具栏
 
 ------------
 ### showtoolbarConfig
@@ -232,7 +233,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### showinfobar
 - 类型：Boolean
 - 默认值：true
-- 作用：是否显示顶部名称栏
+- 作用：是否显示顶部信息栏
 
 ------------
 ### showsheetbar
@@ -376,18 +377,18 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 格式：
     ```json
     {
-        copy: false, // '复制'
-        copyAs: false, // '复制为'
-        paste: false, // '粘贴'
-        insert: false, // '插入'
-        delete: false, // '删除'
-        hide: false, // '隐藏'
-        deleteCell: false, // '删除单元格'
-        clear: false, // '清除内容'
-        matrix: false, // '矩阵操作选区'
-        sort: false, // '排序选区'
-        filter: false, //'筛选选区'
-        chart: false // '图表生成'
+        copy: false, // 复制
+        copyAs: false, // 复制为
+        paste: false, // 粘贴
+        insert: false, // 插入
+        delete: false, // 删除
+        hide: false, // 隐藏
+        deleteCell: false, // 删除单元格
+        clear: false, // 清除内容
+        matrix: false, // 矩阵操作选区
+        sort: false, // 排序选区
+        filter: false, // 筛选选区
+        chart: false // 图表生成
     }
 
 ------------
@@ -401,8 +402,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 格式：
     ```json
     {   
-        delete: false, // '删除'
-        copy: false, // '复制'
+        delete: false, // 删除
+        copy: false, // 复制
         rename: false, //重命名
         color: false, //更改颜色
         hide: false, //隐藏
@@ -410,6 +411,30 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         left: false, //向左移
         right: false //向右移
     }
+
+------------
+### showRowBar
+- 类型：Boolean
+- 默认值：true
+- 作用：是否显示行号区域
+
+------------
+### showColumnBar
+- 类型：Boolean
+- 默认值：true
+- 作用：是否显示列号区域
+
+------------
+### sheetFormulaBar
+- 类型：Boolean
+- 默认值：true
+- 作用：是否显示公示栏
+
+------------
+### defaultFontSize
+- 类型：Number
+- 默认值：11
+- 作用：初始化默认字体大小
 
 ------------
 
@@ -652,8 +677,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：sheet移动前
 - 参数：
-	- {Number} [i]: 当前sheet页的index
-	- {Number} [order]: 当前sheet页order
+	- {Number} [i]: 当前sheet页的`index`
+	- {Number} [order]: 当前sheet页`order`
 
 ------------
 ### sheetMoveAfter
@@ -661,9 +686,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：sheet移动后
 - 参数：
-	- {Number} [i]: 当前sheet页的index
-	- {Number} [oldOrder]: 修改前当前sheet页order
-	- {Number} [newOrder]: 修改后当前sheet页order
+	- {Number} [i]: 当前sheet页的`index`
+	- {Number} [oldOrder]: 修改前当前sheet页`order`
+	- {Number} [newOrder]: 修改后当前sheet页`order`
 
 ------------
 ### sheetDeleteBefore
@@ -687,7 +712,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：sheet修改名称前
 - 参数：
-	- {Number} [i]: sheet页的index
+	- {Number} [i]: sheet页的`index`
 	- {String} [name]: 当前sheet页名称
 
 ------------
@@ -706,7 +731,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：sheet修改颜色前
 - 参数：
-	- {Number} [i]: sheet页的index
+	- {Number} [i]: sheet页的`index`
 	- {String} [color]: 当前sheet页颜色
 
 ------------
@@ -715,7 +740,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：sheet修改颜色后
 - 参数：
-	- {Number} [i]: sheet页的index
+	- {Number} [i]: sheet页的`index`
 	- {String} [oldColor]: 修改前当前sheet页颜色
 	- {String} [newColor]: 修改后当前sheet页颜色
 
@@ -742,7 +767,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### workbookDestroyBefore
 - 类型：Function
 - 默认值：null
-- 作用：表格创建之后触发
+- 作用：表格销毁之前触发
 - 参数：
 	- {Object} [book]: 整个工作簿的配置（options）
     
@@ -750,7 +775,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### workbookDestroyAfter
 - 类型：Function
 - 默认值：null
-- 作用：表格创建之后触发
+- 作用：表格销毁之后触发
 - 参数：
 	- {Object} [book]: 整个工作簿的配置（options）
     

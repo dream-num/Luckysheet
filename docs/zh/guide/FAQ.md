@@ -42,6 +42,7 @@ luckysheet.buildGridData(luckysheetfile)
 ## **<span style="font-size:20px;">Q</span>** 远端加载数据是loadUrl还是updateUrl？
 
 **<span style="font-size:20px;">A</span>** : [loadUrl](/zh/guide/config.html#loadurl)。配置了loadUrl，Luckysheet会通过ajax请求整个表格数据，而updateUrl会作为协同编辑实时保存的接口地址。
+注意：初始化数据需要配置loadUrl和loadSheetUrl参数，而协同编辑则在配置loadUrl和loadSheetUrl的基础上，还要配置updateUrl和allowUpdate才能生效。
 
 ------------
 

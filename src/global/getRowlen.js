@@ -982,7 +982,7 @@ function getCellTextInfo(cell , ctx, option){
                     maxWordCount++;
                 }
 
-                lineHeight = sHeight/1.5;
+                lineHeight = sHeight/2;
                 oneLinemaxWordCount = Math.max(oneLinemaxWordCount, maxWordCount);
                 if(rt!=0){//rotate
                     sHeight+=lineHeight;
@@ -1334,7 +1334,7 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.textHeightAll = textHeightAll;
             }
             else{
-                textContent.textHeightAll = textHeightAll+textHeight/1.5-measureText.actualBoundingBoxDescent-space_height;
+                textContent.textHeightAll = textHeightAll+textHeight/2-measureText.actualBoundingBoxDescent-space_height;
             }
             textContent.textWidthAll = textWidthAll;
             

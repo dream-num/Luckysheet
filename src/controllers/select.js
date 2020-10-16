@@ -24,7 +24,7 @@ function seletedHighlistByindex(id, r1, r2, c1, c2) {
 }
 
 //Set selection highlight
-function selectHightlightShow() {
+function selectHightlightShow(isRestore=false) {
     $("#luckysheet-cell-selected-boxs").show();
     $("#luckysheet-cell-selected-boxs #luckysheet-cell-selected").siblings(".luckysheet-cell-selected").remove();
 
@@ -170,7 +170,7 @@ function selectHightlightShow() {
         }
 
         //行列标题栏
-        selectTitlesShow(Store.luckysheet_select_save);
+        selectTitlesShow(Store.luckysheet_select_save,isRestore);
 
         //左上角范围显示
         selectHelpboxFill();
@@ -185,13 +185,24 @@ function selectHightlightShow() {
 }
 
 //选区标题栏
-function selectTitlesShow(rangeArr) {
+function selectTitlesShow(rangeArr,isRestore=false) {
     let s = $.extend(true, [], rangeArr);
 
     let rowTitleMap = {}, columnTitleMap = {};
     for(let i = 0; i < s.length; i++){
         let r1 = s[i]["row"][0], r2 = s[i]["row"][1], c1 = s[i]["column"][0], c2 = s[i]["column"][1];
         
+        // if(isRestore){
+        //     let margeset = menuButton.mergeborer(Store.flowdata, r1, c1);
+        //     if(!!margeset){
+        //         r1 = margeset.row[2];
+        //         r2 = margeset.row[3];
+                
+        //         c1 = margeset.column[2];
+        //         c2 = margeset.column[3];
+        //     }
+        // }
+
         //行、列标题栏
         rowTitleMap = selectTitlesMap(rowTitleMap, r1, r2);
         columnTitleMap = selectTitlesMap(columnTitleMap, c1, c2);

@@ -3,7 +3,7 @@ import {zoomChange} from './zoom';
 import sheetmanage from './sheetmanage';
 import server from './server';
 import Store from '../store';
-// import { jsPDF } from "jspdf";
+import { jsPDF } from "jspdf";
 
 let ExcelPlaceholder = {
     "[tabName]":"&A",
@@ -20,10 +20,11 @@ let ExcelPlaceholder = {
 // Get the pixel value per millimeter
 function getOneMmsPx (){
     let div = document.createElement("div");
-    div.id = "mm";
     div.style.width = "1mm";
     document.querySelector("body").appendChild(div);
-    let mm1 = document.getElementById("mm").getBoundingClientRect();
+    let mm1 = div.getBoundingClientRect();
+    let w = mm1.width;
+    $(div).remove();
     return mm1.width;
 }
 
@@ -70,6 +71,8 @@ export function viewChange(curType, preType){
     // Store.zoomRatio = curZoom;
     // server.saveParam("all", Store.currentSheetIndex, curZoom, { "k": "zoomRatio" });
     server.saveParam("cg", Store.currentSheetIndex, curType, { "k": "curentsheetView" });
+
+    Store.currentSheetView = curType;
 
     zoomChange(curZoom);
 }
