@@ -705,7 +705,9 @@ const luckysheetformula = {
             rangetxt = val[1];
 
             
-            
+            if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
+                sheettxt = sheettxt.substring(1,sheettxt.length-1);
+            }
             for (let i in luckysheetfile) {
                 if (sheettxt == luckysheetfile[i].name) {
                     sheetIndex = luckysheetfile[i].index;
@@ -1210,6 +1212,7 @@ const luckysheetformula = {
         $("#luckysheet-formula-search-c, #luckysheet-formula-help-c").hide();
         _this.helpFunctionExe($editer, currSelection);
         
+        console.log(currSelection, $(currSelection).closest(".luckysheet-formula-functionrange-cell").length);
         if ($(currSelection).closest(".luckysheet-formula-functionrange-cell").length == 0) {
             _this.searchFunction($editer);
             return;
@@ -3877,6 +3880,16 @@ const luckysheetformula = {
                     matchConfig.dquote += 1;
                 }
             } 
+            else if (s == "'") {
+                str += "'";
+                
+                if (matchConfig.squote > 0) {
+                    matchConfig.squote -= 1;
+                } 
+                else {
+                    matchConfig.squote += 1;
+                }
+            } 
             else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if(bracket.length <= 1){
                     function_str += _this.functionParser(str,cellRangeFunction) + ",";
@@ -3958,7 +3971,7 @@ const luckysheetformula = {
                 }
             } 
             else {
-                if (matchConfig.dquote == 0) {
+                if (matchConfig.dquote == 0 && matchConfig.squote==0) {
                     str += $.trim(s);
                 } 
                 else {
@@ -3971,7 +3984,7 @@ const luckysheetformula = {
 
                 if (_this.iscelldata($.trim(str))) {
                     let str_nb = $.trim(str);
-                    endstr = "luckysheet_getcelldata('" +str_nb + "')";
+                    endstr = "luckysheet_getcelldata('" +str_nb.replace(/'/g, "\\'") + "')";
                     if(typeof(cellRangeFunction)=="function"){
                         cellRangeFunction(str_nb);
                     }
@@ -4025,7 +4038,7 @@ const luckysheetformula = {
 
             i++;
         }
-        // console.log(function_str);
+        console.log(function_str);
         return function_str;
     },
     insertUpdateDynamicArray: function(dynamicArrayItem) {

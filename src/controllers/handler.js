@@ -469,7 +469,14 @@ export default function luckysheetHandler() {
                 }
                 else if (event.ctrlKey && $("#luckysheet-rich-text-editor").find("span").last().text() != ",") {
                     //按住ctrl 选择选区时  先处理上一个选区
-                    let vText = $("#luckysheet-rich-text-editor").text() + ",";
+                    let vText = $("#luckysheet-rich-text-editor").text();
+                    
+                    if(vText.length > 0){
+                        let lastWord = vText.substr(vText.length-1,1);
+                        if(lastWord!="," && lastWord!="=" && lastWord!="("){
+                            vText += ",";
+                        }
+                    }
                     if (vText.length > 0 && vText.substr(0, 1) == "=") {
                         vText = formula.functionHTMLGenerate(vText);
 

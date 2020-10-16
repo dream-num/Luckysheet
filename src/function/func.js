@@ -1607,6 +1607,10 @@ function luckysheet_getcelldata(txt) {
     if (val.length > 1) {
         sheettxt = val[0];
         rangetxt = val[1];
+
+        if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
+            sheettxt = sheettxt.substring(1,sheettxt.length-1);
+        }
         
         for (let i in luckysheetfile) {
             if (sheettxt == luckysheetfile[i].name) {

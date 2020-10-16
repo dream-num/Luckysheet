@@ -9508,6 +9508,7 @@ export default {
         redoDelete:"Se puede deshacer con Ctrl+Z",
         noHide:"No se puede ocultar, al menos conserva una etiqueta de hoja",
         chartEditNoOpt:"¡Esta operación no está permitida en el modo de edición de gráficos!",
+        sheetNameSpecCharError:"El nombre no puede contener:[ ] : \ ? * / ' \"",
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',

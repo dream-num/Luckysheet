@@ -222,7 +222,12 @@ export function initialSheetBar(){
         }
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
-        
+        var reg1 = new RegExp("[\\[\\]:\\?*\/'\"]");
+        if(reg1.test(txt)){
+            alert(locale_sheetconfig.sheetNameSpecCharError);
+            return;
+        }
+
         let index = getSheetIndex(Store.currentSheetIndex);
         for (let i = 0; i < Store.luckysheetfile.length; i++) {
             if (index != i && Store.luckysheetfile[i].name == txt) {

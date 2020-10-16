@@ -9752,7 +9752,7 @@ export default {
         redoDelete:"可以通过Ctrl+Z撤销删除",
         noHide:"不能隐藏, 至少保留一个sheet标签",
         chartEditNoOpt:"图表编辑模式下不允许该操作！",
-
+        sheetNameSpecCharError:"名称不能包含:[ ] : \ ? * / ' \"",
     },
     conditionformat: {
         conditionformat_greaterThan: '条件格式——大于',
