@@ -4038,7 +4038,7 @@ const luckysheetformula = {
 
             i++;
         }
-        console.log(function_str);
+        // console.log(function_str);
         return function_str;
     },
     insertUpdateDynamicArray: function(dynamicArrayItem) {
