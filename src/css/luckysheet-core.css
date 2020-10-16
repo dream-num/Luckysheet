@@ -4346,7 +4346,6 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheet-modal-dialog-slider-list-title {
-    width: 100%;
     height: 20px;
     line-height: 25px;
     padding: 0px 5px;
@@ -4480,7 +4479,6 @@ fieldset[disabled] .btn-danger.focus {
     font-size: 13px;
     height: 20px;
     line-height: 20px;
-    width: 100%;
     padding-left: 5px;
 }
 
@@ -6755,7 +6753,12 @@ fieldset[disabled] .btn-danger.focus {
     left: 0;
     top: 0;
     cursor: move;
+    image-rendering: -moz-crisp-edges; /* Firefox */     
+    image-rendering: -o-crisp-edges; /* Opera */      
+    image-rendering: -webkit-optimize-contrast; /*Webkit (non-standard naming) */ 
+    image-rendering: crisp-edges;
 }
+
 #luckysheet-modal-dialog-cropping::before{
     content: "";
     outline: 1px solid #fff;
@@ -7048,6 +7051,10 @@ fieldset[disabled] .btn-danger.focus {
     box-shadow:none;
     background: none;
     box-shadow:none;
+    image-rendering: -moz-crisp-edges; /* Firefox */     
+    image-rendering: -o-crisp-edges; /* Opera */      
+    image-rendering: -webkit-optimize-contrast; /*Webkit (non-standard naming) */ 
+    image-rendering: crisp-edges;
 }
 
 .luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{

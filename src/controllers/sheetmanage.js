@@ -691,7 +691,7 @@ const sheetmanage = {
             colwidth = c2 + 1;
         }
 
-        Store.flowdata = data;
+        // Store.flowdata = data;
 
         luckysheetcreatedom(colwidth, rowheight, data, menu, title);
 
@@ -721,7 +721,8 @@ const sheetmanage = {
 
                 let execF = function(){
                     _this.mergeCalculation(file["index"]);
-                    editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
+                    _this.setSheetParam(false);
+                    // editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
                     _this.storeSheetParam();
                     _this.restoreselect();
                     _this.CacheNotLoadControll = [];
@@ -874,7 +875,7 @@ const sheetmanage = {
 
         file["zoomRatio"] = Store.zoomRatio;
     },
-    setSheetParam: function(isload) {
+    setSheetParam: function(isload=true) {
         let index = this.getSheetIndex(Store.currentSheetIndex);
         let file = Store.luckysheetfile[index];
 
@@ -896,7 +897,9 @@ const sheetmanage = {
             luckysheetFreezen.freezenverticaldata = file["freezen"].vertical == null ? null : file["freezen"].vertical.freezenverticaldata;
         }
         
-        rhchInit(Store.flowdata.length, Store.flowdata[0].length);
+        if(isload){
+            rhchInit(Store.flowdata.length, Store.flowdata[0].length);
+        }
 
         //批注
         luckysheetPostil.buildAllPs(Store.flowdata);

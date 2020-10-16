@@ -80,19 +80,10 @@ function selectHightlightShow(isRestore=false) {
             Store.luckysheet_select_save[i]["top"] = row_pre_f;
             Store.luckysheet_select_save[i]["height"] = row_f - row_pre_f - 1;
 
-            if(isRestore){
-                Store.luckysheet_select_save[i]["left_move"] = col_pre_f;
-                Store.luckysheet_select_save[i]["width_move"] = col_f - col_pre_f - 1;
-                Store.luckysheet_select_save[i]["top_move"] = row_pre_f;
-                Store.luckysheet_select_save[i]["height_move"] = row_f - row_pre_f - 1;
-            }
-            else{
-
-                Store.luckysheet_select_save[i]["left_move"] = col_pre;
-                Store.luckysheet_select_save[i]["width_move"] = col - col_pre - 1;
-                Store.luckysheet_select_save[i]["top_move"] = row_pre;
-                Store.luckysheet_select_save[i]["height_move"] = row - row_pre - 1;
-            }
+            Store.luckysheet_select_save[i]["left_move"] = col_pre;
+            Store.luckysheet_select_save[i]["width_move"] = col - col_pre - 1;
+            Store.luckysheet_select_save[i]["top_move"] = row_pre;
+            Store.luckysheet_select_save[i]["height_move"] = row - row_pre - 1;
 
             if(i == 0){
                 if(Store.luckysheet_select_save.length == 1){
@@ -201,16 +192,16 @@ function selectTitlesShow(rangeArr,isRestore=false) {
     for(let i = 0; i < s.length; i++){
         let r1 = s[i]["row"][0], r2 = s[i]["row"][1], c1 = s[i]["column"][0], c2 = s[i]["column"][1];
         
-        if(isRestore){
-            let margeset = menuButton.mergeborer(Store.flowdata, r1, c1);
-            if(!!margeset){
-                r1 = margeset.row[2];
-                r2 = margeset.row[3];
+        // if(isRestore){
+        //     let margeset = menuButton.mergeborer(Store.flowdata, r1, c1);
+        //     if(!!margeset){
+        //         r1 = margeset.row[2];
+        //         r2 = margeset.row[3];
                 
-                c1 = margeset.column[2];
-                c2 = margeset.column[3];
-            }
-        }
+        //         c1 = margeset.column[2];
+        //         c2 = margeset.column[3];
+        //     }
+        // }
 
         //行、列标题栏
         rowTitleMap = selectTitlesMap(rowTitleMap, r1, r2);

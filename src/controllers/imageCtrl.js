@@ -97,17 +97,19 @@ const imageCtrl = {
         let src = imgItem.src;
         let imgItemParam = _this.getImgItemParam(imgItem);
 
-        let width = imgItemParam.width;
-        let height = imgItemParam.height;
-        let left = imgItemParam.left;
-        let top = imgItemParam.top;
+        let width = imgItemParam.width*Store.zoomRatio;
+        let height = imgItemParam.height*Store.zoomRatio;
+        let left = imgItemParam.left*Store.zoomRatio;
+        let top = imgItemParam.top*Store.zoomRatio;
         let position = imgItemParam.position;
+
+        let borderWidth = imgItem.border.width;
 
         return  `<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
                     <div class="luckysheet-modal-dialog-content" style="width:100%;height:100%;overflow:hidden;position:relative;">
-                        <img src="${src}" style="position:absolute;width:${imgItem.default.width}px;height:${imgItem.default.height}px;left:${-imgItem.crop.offsetLeft}px;top:${-imgItem.crop.offsetTop}px;" />
+                        <img src="${src}" style="position:absolute;width:${imgItem.default.width*Store.zoomRatio}px;height:${imgItem.default.height*Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft*Store.zoomRatio}px;top:${-imgItem.crop.offsetTop*Store.zoomRatio}px;" />
                     </div>
-                    <div class="luckysheet-modal-dialog-border" style="border:${imgItem.border.width}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius}px;position:absolute;left:${-imgItem.border.width}px;right:${-imgItem.border.width}px;top:${-imgItem.border.width}px;bottom:${-imgItem.border.width}px;"></div>
+                    <div class="luckysheet-modal-dialog-border" style="border:${borderWidth}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius*Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
                 </div>`;
     },
     getSliderHtml: function() {
@@ -352,10 +354,10 @@ const imageCtrl = {
             let item = _this.images[id];
             let imgItemParam = _this.getImgItemParam(item);
 
-            let width = imgItemParam.width;
-            let height = imgItemParam.height;
-            let left = imgItemParam.left;
-            let top = imgItemParam.top;
+            let width = imgItemParam.width*Store.zoomRatio;
+            let height = imgItemParam.height*Store.zoomRatio;
+            let left = imgItemParam.left*Store.zoomRatio;
+            let top = imgItemParam.top*Store.zoomRatio;
             let position = imgItemParam.position;
         
             $("#luckysheet-modal-dialog-activeImage").show().css({
@@ -368,19 +370,19 @@ const imageCtrl = {
 
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
                 "background-image": "url(" + item.src + ")",
-                "background-size": item.default.width + "px " + item.default.height + "px",
-                "background-position": -item.crop.offsetLeft + "px " + -item.crop.offsetTop + "px"
+                "background-size": item.default.width*Store.zoomRatio + "px " + item.default.height*Store.zoomRatio + "px",
+                "background-position": -item.crop.offsetLeft*Store.zoomRatio + "px " + -item.crop.offsetTop*Store.zoomRatio + "px"
             })
 
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css({
-                "border-width": item.border.width,
+                "border-width": item.border.width*Store.zoomRatio,
                 "border-style": item.border.style,
                 "border-color": item.border.color,
-                "border-radius": item.border.radius,
-                "left": -item.border.width,
-                "right": -item.border.width,
-                "top": -item.border.width,
-                "bottom": -item.border.width,
+                "border-radius": item.border.radius*Store.zoomRatio,
+                "left": -item.border.width*Store.zoomRatio,
+                "right": -item.border.width*Store.zoomRatio,
+                "top": -item.border.width*Store.zoomRatio,
+                "bottom": -item.border.width*Store.zoomRatio,
             })
 
             _this.sliderHtmlShow();
@@ -589,10 +591,10 @@ const imageCtrl = {
         let imgItem = _this.images[_this.currentImgId];
         let imgItemParam = _this.getImgItemParam(imgItem);
 
-        let width = imgItemParam.width;
-        let height = imgItemParam.height;
-        let left = imgItemParam.left;
-        let top = imgItemParam.top;
+        let width = imgItemParam.width*Store.zoomRatio;
+        let height = imgItemParam.height*Store.zoomRatio;
+        let left = imgItemParam.left*Store.zoomRatio;
+        let top = imgItemParam.top*Store.zoomRatio;
         let position = imgItemParam.position;
 
         $("#" + _this.currentImgId).show().css({
@@ -603,20 +605,20 @@ const imageCtrl = {
             "position": position
         });
         $("#" + _this.currentImgId + " img").css({
-            "width": imgItem.default.width,
-            "height": imgItem.default.height,
-            "left": -imgItem.crop.offsetLeft,
-            "top": -imgItem.crop.offsetTop
+            "width": imgItem.default.width*Store.zoomRatio,
+            "height": imgItem.default.height*Store.zoomRatio,
+            "left": -imgItem.crop.offsetLeft*Store.zoomRatio,
+            "top": -imgItem.crop.offsetTop*Store.zoomRatio
         });
         $("#" + _this.currentImgId + " .luckysheet-modal-dialog-border").css({
-            "border-width": imgItem.border.width,
+            "border-width": imgItem.border.width*Store.zoomRatio,
             "border-style": imgItem.border.style,
             "border-color": imgItem.border.color,
-            "border-radius": imgItem.border.radius,
-            "left": -imgItem.border.width,
-            "right": -imgItem.border.width,
-            "top": -imgItem.border.width,
-            "bottom": -imgItem.border.width,
+            "border-radius": imgItem.border.radius*Store.zoomRatio,
+            "left": -imgItem.border.width*Store.zoomRatio,
+            "right": -imgItem.border.width*Store.zoomRatio,
+            "top": -imgItem.border.width*Store.zoomRatio,
+            "bottom": -imgItem.border.width*Store.zoomRatio,
         })
 
         _this.currentImgId = null;
@@ -955,7 +957,7 @@ const imageCtrl = {
                         imgItem.default.top = imgItemParam.top + changeSize - imgItem.crop.offsetTop;
                     }
                     else{
-                        if(imgItemParam.top + imgItemParam.height > row){
+                        if(imgItemParam.top + imgItemParam.height >= row-2){
                             if(imgItemParam.top < row + changeSize){
                                 let scaleY = (imgItemParam.height + changeSize) / imgItemParam.height;
                                 imgItem.default.height = Math.round(imgItem.default.height * scaleY);
@@ -1012,7 +1014,7 @@ const imageCtrl = {
                         imgItem.default.left = imgItemParam.left + changeSize - imgItem.crop.offsetLeft;
                     }
                     else{
-                        if(imgItemParam.left + imgItemParam.width > col){
+                        if(imgItemParam.left + imgItemParam.width >= col-2){
                             if(imgItemParam.left < col + changeSize){
                                 let scaleX = (imgItemParam.width + changeSize) / imgItemParam.width;
                                 imgItem.default.width = Math.round(imgItem.default.width * scaleX);

@@ -114,8 +114,8 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     $("#luckysheet-cols-h-c").height((Store.columeHeaderHeight-1.5));
     $("#luckysheet-left-top").css({width:Store.rowHeaderWidth-1.5, height:Store.columeHeaderHeight-1.5});
 
-    //批注
-    luckysheetPostil.buildAllPs(Store.flowdata);
+    // //批注
+    // luckysheetPostil.buildAllPs(Store.flowdata);
 
     $("#luckysheet_info_detail_input").val(luckysheetConfigsetting.title);
 }

@@ -5,6 +5,7 @@ import sheetmanage from './sheetmanage';
 import {changeSheetContainerSize} from './resize';
 import { jfrefreshgrid_rhcw } from '../global/refresh';
 import server from './server';
+import imageCtrl from './imageCtrl';
 
 
 
@@ -29,6 +30,12 @@ export function zoomChange(ratio){
         Store.zoomRatio = ratio;
 
         let currentSheet = sheetmanage.getSheetByIndex();
+
+        //图片
+        imageCtrl.images = currentSheet.images;
+        imageCtrl.allImagesShow();
+        imageCtrl.init();
+
         if(currentSheet.config==null){
             currentSheet.config = {};
         }
