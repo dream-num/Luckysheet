@@ -27,6 +27,7 @@ eg: options.data：
             "rowhidden":{}, //hidden rows
             "colhidden":{}, //hidden columns
             "borderInfo":{}, //borders
+            "authority":{}, //Worksheet protection
         },
         "scrollLeft": 0, //Left and right scroll bar position
         "scrollTop": 315, //Up and down scroll bar position
@@ -358,6 +359,44 @@ eg: options.data：
             ```
          Means to set the cell `"D4"`, the upper border/lower border/left border/right border are all border thicknesses `"MediumDashDot"`, color is `"rgb(255, 0, 0)"`
 
+#### config.authority
+- type：Object
+- default：{}
+- usage：Worksheet protection, you can set that the entire worksheet is not allowed to be edited or some areas are not editable. If you want to apply for editing permission, you need to enter a password, and customize the types of operations that users can operate.
+- example：
+    ```js        
+    "authority":{//Permission configuration of the current worksheet
+        selectLockedCells:1, //Select locked cells
+        selectunLockedCells:1, //Select unlocked cells
+        formatCells:1, //Format cells
+        formatColumns:1, //Format columns
+        formatRows:1, //Format rows
+        insertColumns:1, //Insert columns
+        insertRows:1, //Insert rows
+        insertHyperlinks:1, //Insert hyperlinks
+        deleteColumns:1, //Delete columns
+        deleteRows:1, //Delete rows
+        sort:1, //Sort
+        filter:1, //Filter
+        usePivotTablereports:1, //Use Pivot Table reports
+        editObjects:1, //Edit objects
+        editScenarios:1, //Edit scenarios   
+        sheet:1, //If it is 1 or true, the worksheet is protected; if it is 0 or false, the worksheet is not protected.
+        hintText:"", //The text of the pop-up prompt
+        algorithmName:"None",//Encryption scheme: MD2,MD4,MD5,RIPEMD-128,RIPEMD-160,SHA-1,SHA-256,SHA-384,SHA-512,WHIRLPOOL
+        saltValue:null, //The salt parameter for password decryption is a random value set by yourself
+        
+        allowRangeList:[{ //Range protection
+            name:"area", //Name
+            password:"1", //Password
+            hintText:"", //Prompt text
+            algorithmName:"None",//Encryption scheme: MD2,MD4,MD5,RIPEMD-128,RIPEMD-160,SHA-1,SHA-256,SHA-384,SHA-512,WHIRLPOOL
+            saltValue:null, //The salt parameter for password decryption is a random value set by yourself
+            sqref:"$C$1:$D$5" //Protected range
+        }],
+    },
+    ```
+
 ------------
 ### scrollLeft
 - type：Number
@@ -475,7 +514,7 @@ eg: options.data：
 ### filter_select
 - type：Object
 - default：{}
-- usage： Filter range, a selection area, a sheet has only one filter range, similar to the `luckysheet_select_save`
+- usage：Filter range. A selection and a sheet have only one filter range, similar to `luckysheet_select_save`. If you just create a selection to turn on the filter function, you can configure this range. If you need to set further detailed filter conditions, you need to configure the [filter](#filter) property of the same level.
 - example：
     ```js
     {
@@ -489,36 +528,64 @@ eg: options.data：
 ### filter
 - type：Object
 - default：{}
-- usage： filter settings
-- example：
+- usage：The specific settings of the filter match with the filter range of `filter_select`. When you create a filter area on the first sheet, you can also see the filter configuration information of the first sheet through `luckysheet.getLuckysheetfile()[0].filter`.
+
+    The following is a complete filter configuration example
     ```js
-    {
+    {   
+        //"0" means the first column
         "0": {
-            "caljs": { // filter type
-                "value": "cellnull",
-                "text": "Is empty",
-                "type": "0"
+            "caljs": { // Filter by condition
+                "value": "cellnull", // Filter type
+                "text": "Is empty", // Type description
+                "type": "0" // Filter categories
             },
-            "rowhidden": { "3": 0, "4": 0 }, // the hidden rows
-            "optionstate": true, //is config active
-            "str": 2, // the index of start row
-            "edr": 6, // the index of end row
-            "cindex": 1, // Current range column index
-            "stc": 1, // the index of start column
-            "edc": 3 // the index of end column
+            "rowhidden": { "3": 0, "4": 0 }, // Hidden row information
+            "optionstate": true, // Whether to enable configuration
+            "cindex": 1, // The current range column order, here is the first column
+            "str": 2, // Range, start row
+            "edr": 6, // Range, end row
+            "stc": 1, // Range, start column
+            "edc": 3 // Range, end column
         },
+        //"1" means the second column
         "1": {
             "caljs": {},
-            "rowhidden": { "6": 0 },
+            "rowhidden": { "1": 0},
             "optionstate": true,
+            "cindex": 2, // The current range column order, here is the second column
             "str": 2,
             "edr": 6,
-            "cindex": 2,
             "stc": 1,
             "edc": 3
         }
     }
     ```
+    1. The `key` value of `filter[key]` means the column index, starting from 0, the `cindex` in the specific setting item starts from 1, which has the same meaning as the `key` here.
+    2. `caljs` is used to set the filter type and the corresponding value. After the setting takes effect, the hidden row information will be calculated and stored in `rowhidden`. The following are all the types that can be set, among which `value1` and `value2` are the text information filled in by the user:
+       + `caljs:{value: null, text: "None", type: "0"}`
+       + `caljs:{value: "cellnull", text: "Is empty", type: "0"}`
+       + `caljs:{value: "cellnonull", text: "Is not empty", type: "0"}`
+       + `caljs:{value: "textinclude", text: "Text contains", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textnotinclude", text: "Text does not contain", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textstart", text: "Text starts with", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textend", text: "Text ends with", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textequal", text: "Text is exactly", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "dateequal", text: "Date is", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "datelessthan", text: "Date is before", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "datemorethan", text: "Date is after", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "morethan", text: "Greater than", type: "1", value1: "10"}`
+       + `caljs:{value: "moreequalthan", text: "Greater than or equal to", type: "1", value1: "10"}`
+       + `caljs:{value: "lessthan", text: "Less than", type: "1", value1: "10"}`
+       + `caljs:{value: "lessequalthan", text: "Less than or equal to", type: "1", value1: "10"}`
+       + `caljs:{value: "equal", text: "Is equal to", type: "1", value1: "10"}`
+       + `caljs:{value: "noequal", text: "Is not equal to", type: "1", value1: "10"}`
+       + `caljs:{value: "include", text: "Is between", type: "2", value1: "15", value2: "25"}`
+       + `caljs:{value: "noinclude", text: "Is not between", type: "2", value1: "15", value2: "25"}`
+    3. `rowhidden` is stored hidden row information, but if `caljs` is not set to filter by conditions, it means that color filtering (if there is a color distinction between the rows) and filtering by value are set. So it can be seen that the priority of `caljs` is greater than that of `rowhidden`.
+    4. `optionstate` indicates whether to enable the configuration, this is an internal flag, just set `true` directly.
+    5. `cindex` represents the column order currently set, counting from 1 and corresponding to the `key` value of `filter[key]`, and the result is `key`+1.
+    6. `str` is the start row, `edr` is the end row, `stc` is the start column, and `edc` is the end column. The four numbers represent the entire filter range, which should be consistent with the content of `filter_select`.
 
 ------------
 ### luckysheet_alternateformat_save
@@ -1282,20 +1349,21 @@ At this point, the lucky sheet file contains many local parameters that are not 
         "status": 1, //Worksheet active status
         "order": 0, //The order of the worksheet
         "hide": 0,//Whether worksheet hide 
-        "row": 36, //the number of rows in a sheet
-        "column": 18, //the number of columns in a sheet
+        "row": 36, //The number of rows in a sheet
+        "column": 18, //The number of columns in a sheet
         "celldata": [], //Initial the cell data
         "config": {
-            "merge":{}, //merged cells
+            "merge":{}, //Merged cells
             "rowlen":{}, //Table row height
             "columnlen":{}, //Table column width
-            "rowhidden":{}, //hidden rows
-            "colhidden":{}, //hidden columns
-            "borderInfo":{}, //borders
+            "rowhidden":{}, //Hidden rows
+            "colhidden":{}, //Hidden columns
+            "borderInfo":{}, //Borders
+            "authority":{}, //Worksheet protection
         },
         "scrollLeft": 0, //Left and right scroll bar position
         "scrollTop": 315, //Up and down scroll bar position
-        "luckysheet_select_save": [], //selected area
+        "luckysheet_select_save": [], //Selected area
         "calcChain": [],//Formula chain
         "isPivotTable":false,//Whether is pivot table
         "pivotTable":{},//Pivot table settings
@@ -1303,20 +1371,22 @@ At this point, the lucky sheet file contains many local parameters that are not 
         "filter": null,//Filter configuration
         "luckysheet_alternateformat_save": [], //Alternate colors
         "luckysheet_alternateformat_save_modelCustom": [], //Customize alternate colors	
-        "luckysheet_conditionformat_save": {},//condition format
-        "frozen": {}, //freeze row and column configuration
-        "freezen": {}, //storage freeze row and column rendering data
+        "luckysheet_conditionformat_save": {},//Condition format
+        "frozen": {}, //Freeze row and column configuration
+        "freezen": {}, //Storage freeze row and column rendering data
         "chart": [], //Chart configuration
-        "allowEdit": true, //is editable
-        "zoomRatio":1, // zoom ratio
+        "allowEdit": true, //Editable
+        "zoomRatio":1, // Zoom ratio
+        "image":[], //image
+        "showGridLines": 1, //Whether to show grid lines
         
 
-        "visibledatarow": [], //positions of all rows
-        "visibledatacolumn": [], //positions of all columns
+        "visibledatarow": [], //Positions of all rows
+        "visibledatacolumn": [], //Positions of all columns
         "ch_width": 2322, //The width of a sheet
-        "rh_height": 949, //The height of a sheet
-        "load": "1", //check whether this sheed has been loaded
-        "data": [], // store and update the cell data
+        "rh_height": 949, //The heighSt of a sheet
+        "load": "1", //Check whether this sheed has been loaded
+        "data": [], // Store and update the cell data
     },
     {
         "name": "Sheet2",
