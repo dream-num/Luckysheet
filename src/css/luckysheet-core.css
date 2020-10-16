@@ -4346,7 +4346,6 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheet-modal-dialog-slider-list-title {
-    width: 100%;
     height: 20px;
     line-height: 25px;
     padding: 0px 5px;
@@ -4480,7 +4479,6 @@ fieldset[disabled] .btn-danger.focus {
     font-size: 13px;
     height: 20px;
     line-height: 20px;
-    width: 100%;
     padding-left: 5px;
 }
 
