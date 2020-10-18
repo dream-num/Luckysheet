@@ -180,7 +180,6 @@ const defaultConfig = {
         execFunctionGroupData: null,
         execFunctionExist: null,
         formulaContainSheetList:{},
-        formulaContainCellList:{},
         cellTextToIndexList:{},
         isFunctionRangeSave: false,
         execvertex: {},

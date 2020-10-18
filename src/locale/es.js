@@ -3126,7 +3126,7 @@ export default {
         "t": 2,
         "d": "Returns the content of a cell, specified by row and column offset.",
         "a": "Content of cell specified by row and column offset.",
-        "m": [3, 3],
+        "m": [2, 3],
         "p": [{
             "name": "reference",
             "detail": "The array of cells to be offset into.",
