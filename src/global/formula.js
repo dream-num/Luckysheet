@@ -4067,7 +4067,7 @@ const luckysheetformula = {
 
             i++;
         }
-        // console.log(function_str);
+        console.log(function_str);
         return function_str;
     },
     insertUpdateDynamicArray: function(dynamicArrayItem) {
@@ -5081,7 +5081,7 @@ const luckysheetformula = {
 
                 let ukey ="r" + u.r + "c" + u.c + "i" + u.index;
 
-                // if ((u.r == item.r && u.c == item.c && u.index == item.index) || name in _this.execvertex[ukey].chidren  ) {
+                // if ((u.r == item.r && u.c == item.c && u.index == item.index) ) {
                 //     continue;
                 // }
 
@@ -5429,6 +5429,8 @@ const luckysheetformula = {
         if(!!dynamicArrayItem){
             return [true, result, txt, {type: "dynamicArrayItem", data: dynamicArrayItem}];
         }
+
+        console.log(result, txt);
 
         return [true, result, txt];
     },
