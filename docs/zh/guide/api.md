@@ -216,7 +216,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### exitEditMode([,setting])
- 
 
 - **参数**：
 	
@@ -2036,14 +2035,11 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### scroll([setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
-		+ {Number} [scrollWidth]：横向滚动值。默认为当前横向滚动位置。
-		+ {Number} [scrollHeight]：纵向滚动值。默认为当前纵向滚动位置。
+		+ {Number} [scrollLeft]：横向滚动值。默认为当前横向滚动位置。
+		+ {Number} [scrollTop]：纵向滚动值。默认为当前纵向滚动位置。
 		+ {Number} [targetRow]：纵向滚动到指定的行号。默认为当前纵向滚动位置。
 		+ {Number} [targetColumn]：横向滚动到指定的列号。默认为当前横向滚动位置。
 		+ {Function} [success]: 表格刷新成功后的回调函数

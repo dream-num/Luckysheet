@@ -56,4 +56,5 @@ export default {
     columeHeaderHeight: 20,
     defaultColWidth:73,
     defaultRowHeight:19,
+    defaultFontSize:10,
 }
