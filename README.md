@@ -15,11 +15,11 @@ English| [简体中文](./README-zh.md)
 ## Introduction
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
-## Documentation
-
-[Online documentation](https://mengshukeji.github.io/LuckysheetDocs/)
-
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/) / [Import excel demo](https://mengshukeji.github.io/LuckyexcelDemo/)
+## Links
+ | Source Code   | Documentation | Demo | Plugins Demo |
+ | ------ | -------- | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) |
+ | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
