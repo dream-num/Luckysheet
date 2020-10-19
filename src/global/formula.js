@@ -4067,7 +4067,7 @@ const luckysheetformula = {
 
             i++;
         }
-        console.log(function_str);
+        // console.log(function_str);
         return function_str;
     },
     insertUpdateDynamicArray: function(dynamicArrayItem) {
@@ -5058,14 +5058,9 @@ const luckysheetformula = {
         }
 
 
-        // while (stack.length > 0) {
-        //     let u = stack.shift();
-
-        // }
-
-        console.time("1");
-        console.log(group.length);
-        let iii = 0, ii=0;
+        // console.time("1");
+        // console.log(group.length);
+        // let iii = 0, ii=0;
         //先进先出法，构建逆向执行结构树
         while (stack.length > 0) {
             let u = stack.shift();
@@ -5430,7 +5425,7 @@ const luckysheetformula = {
             return [true, result, txt, {type: "dynamicArrayItem", data: dynamicArrayItem}];
         }
 
-        console.log(result, txt);
+        // console.log(result, txt);
 
         return [true, result, txt];
     },
