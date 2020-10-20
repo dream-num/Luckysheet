@@ -8,7 +8,7 @@ import formula from '../global/formula';
 import { getBorderInfoCompute } from '../global/border';
 import { getdatabyselection, getcellvalue, datagridgrowth } from '../global/getdata';
 import { rowlenByRange } from '../global/getRowlen';
-import { isEditMode, hasPartMC } from '../global/validate';
+import { isEditMode, hasPartMC, isRealNum } from '../global/validate';
 import { jfrefreshgrid, jfrefreshgrid_pastcut } from '../global/refresh';
 import { genarate, update } from '../global/format';
 import { getSheetIndex } from '../methods/get';
@@ -801,14 +801,36 @@ const selection = {
             for (let r = 0; r < rlen; r++) {
                 let x = [].concat(d[r + curR]);
                 for (let c = 0; c < clen; c++) {
-                    let cell = {};
+                    
+                    let value = dataChe[r][c];
+                    if(isRealNum(value)){
+                        value = parseFloat(value);
+                    }
+                    let originCell = x[c + curC];
+                    if(originCell instanceof Object){
+                        originCell.v = value;
+                        if(originCell.ct!=null && originCell.ct.fa!=null){
+                            originCell.m = update(originCell["ct"]["fa"], value);
+                        }
+                        else{
+                            originCell.m = value;
+                        }
+                        
+                        if(originCell.f!=null && originCell.f.length>0){
+                            originCell.f = "";
+                            formula.delFunctionGroup(r + curR,c + curC,Store.currentSheetIndex);
+                        }
+                    }
+                    else{
+                        let cell = {};
+                        let mask = genarate(value);
+                        cell.v = mask[2];
+                        cell.ct = mask[1];
+                        cell.m = mask[0];
 
-                    let mask = genarate(dataChe[r][c]);
-                    cell.v = mask[2];
-                    cell.ct = mask[1];
-                    cell.m = mask[0];
-
-                    x[c + curC] = cell;
+                        x[c + curC] = cell;
+                    }
+                    
                 }
                 d[r + curR] = x;
             }

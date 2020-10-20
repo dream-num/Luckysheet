@@ -215,6 +215,24 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### exitEditMode([,setting])
+
+- **参数**：
+	
+	- {PlainObject} [setting]: 可选参数
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	退出编辑模式。鼠标双击单元格后，会进入单元格编辑模式，编辑完成后，当鼠标再次点击别的地方输入框失焦的时候，则会退出编辑模式，随即单元格的值会进行保存。此Api就是自动退出编辑模式的操作，主要是为了触发自动保存单元格。
+
+- **示例**:
+
+   - 手动触发退出编辑模式
+   		`luckysheet.exitEditMode()`
+
+------------
+
 ## 行和列操作
 
 ### setHorizontalFrozen(isRange [,setting])
@@ -1941,6 +1959,48 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### showGridLines([setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: 可选参数
+    	+ {Number} [order]: 需要显示网格线的工作表下标；默认值为当前工作表下标
+    	+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	显示指定下标工作表的网格线，返回操作的工作表对象
+
+- **示例**:
+
+	- 显示当前工作表的网格线
+	`luckysheet.showGridLines()`
+	- 显示第三个工作表的网格线
+	`luckysheet.showGridLines({order:2})`
+
+------------
+
+### hideGridLines([setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: 可选参数
+    	+ {Number} [order]: 需要隐藏网格线的工作表下标；默认值为当前工作表下标
+    	+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	隐藏指定下标工作表的网格线，返回操作的工作表对象
+
+- **示例**:
+
+	- 隐藏当前工作表的网格线
+	`luckysheet.hideGridLines()`
+	- 隐藏第三个工作表的网格线
+	`luckysheet.hideGridLines({order:2})`
+
+------------
+
 ## 工作簿操作
 
 ### create(options [,setting])
@@ -1975,14 +2035,11 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### scroll([setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
-		+ {Number} [scrollWidth]：横向滚动值。默认为当前横向滚动位置。
-		+ {Number} [scrollHeight]：纵向滚动值。默认为当前纵向滚动位置。
+		+ {Number} [scrollLeft]：横向滚动值。默认为当前横向滚动位置。
+		+ {Number} [scrollTop]：纵向滚动值。默认为当前纵向滚动位置。
 		+ {Number} [targetRow]：纵向滚动到指定的行号。默认为当前纵向滚动位置。
 		+ {Number} [targetColumn]：横向滚动到指定的列号。默认为当前横向滚动位置。
 		+ {Function} [success]: 表格刷新成功后的回调函数
@@ -2080,6 +2137,22 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 	
 	重做当前操作，返回刚刚重做的操作对象
+
+------------
+
+### refreshFormula([setting])
+
+[todo]
+
+- **参数**：
+
+	- {PlainObject} [setting]: 可选参数
+        + {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为整个当前工作表
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	强制刷新公式。当你直接修改了多个单元格的值，且没有触发刷新，且这些单元格跟公式相关联，则可以使用这个api最后强制触发一次公式刷新，一般是建议指定受影响的单元格范围便于防止性能问题，如果无法确定，则留空保持整个工作表遍历刷新。
 
 ------------
 

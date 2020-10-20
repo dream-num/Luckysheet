@@ -27,6 +27,8 @@ options.data示例如下：
             "rowhidden":{}, //隐藏行
             "colhidden":{}, //隐藏列
             "borderInfo":{}, //边框
+            "authority":{}, //工作表保护
+            
         },
         "scrollLeft": 0, //左右滚动条位置
         "scrollTop": 315, //上下滚动条位置
@@ -44,6 +46,7 @@ options.data示例如下：
         "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
         "image":[], //图片
+        "showGridLines": 1, //是否显示网格线
     },
     {
         "name": "Sheet2",
@@ -357,6 +360,44 @@ options.data示例如下：
             ```
             表示设置单元格`"D4"`，上边框/下边框/左边框/右边框都是边框粗细为`"MediumDashDot"`,颜色为`"rgb(255, 0, 0)"`
 
+#### config.authority
+- 类型：Object
+- 默认值：{}
+- 作用：工作表保护，可以设置当前整个工作表不允许编辑或者部分区域不可编辑，如果要申请编辑权限需要输入密码，自定义配置用户可以操作的类型等。
+- 示例：
+    ```js        
+    "authority":{//当前工作表的权限配置
+        selectLockedCells:1, //选定锁定单元格
+        selectunLockedCells:1, //选定解除锁定的单元格
+        formatCells:1, //设置单元格格式
+        formatColumns:1, //设置列格式
+        formatRows:1, //设置行格式
+        insertColumns:1, //插入列
+        insertRows:1, //插入行
+        insertHyperlinks:1, //插入超链接
+        deleteColumns:1, //删除列
+        deleteRows:1, //删除行
+        sort:1, //排序
+        filter:1, //使用自动筛选
+        usePivotTablereports:1, //使用数据透视表和报表
+        editObjects:1, //编辑对象
+        editScenarios:1, //编辑方案    
+        sheet:1, //如果为1或true，则该工作表受到保护；如果为0或false，则该工作表不受保护。
+        hintText:"", //弹窗提示的文字
+        algorithmName:"None",//加密方案：MD2,MD4,MD5,RIPEMD-128,RIPEMD-160,SHA-1,SHA-256,SHA-384,SHA-512,WHIRLPOOL
+        saltValue:null, //密码解密的盐参数，为一个自己定的随机数值
+        
+        allowRangeList:[{ //区域保护
+            name:"area", //名称
+            password:"1", //密码
+            hintText:"", //提示文字
+            algorithmName:"None",//加密方案：MD2,MD4,MD5,RIPEMD-128,RIPEMD-160,SHA-1,SHA-256,SHA-384,SHA-512,WHIRLPOOL
+            saltValue:null, //密码解密的盐参数，为一个自己定的随机数值
+            sqref:"$C$1:$D$5" //区域范围
+        }],
+    },
+    ```
+
 ------------
 ### scrollLeft
 - 类型：Number
@@ -477,7 +518,7 @@ options.data示例如下：
 ### filter_select
 - 类型：Object
 - 默认值：{}
-- 作用： 筛选范围，一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`
+- 作用： 筛选范围。一个选区，一个sheet只有一个筛选范围，类似`luckysheet_select_save`。如果仅仅只是创建一个选区打开筛选功能，则配置这个范围即可，如果还需要进一步设置详细的筛选条件，则需要另外配置同级的 [filter](#filter) 属性。
 - 示例：
     ```js
     {
@@ -491,36 +532,64 @@ options.data示例如下：
 ### filter
 - 类型：Object
 - 默认值：{}
-- 作用： 筛选的具体设置
-- 示例：
+- 作用： 筛选的具体设置，跟`filter_select`筛选范围是互相搭配的。当你在第一个sheet页创建了一个筛选区域，通过`luckysheet.getLuckysheetfile()[0].filter`也可以看到第一个sheet的筛选配置信息。
+
+    以下是一个完整的筛选配置案例
     ```js
-    {
+    {   
+        //"0"表示第一列
         "0": {
-            "caljs": { // 条件筛选类型
-                "value": "cellnull",
-                "text": "Is empty",
-                "type": "0"
+            "caljs": { // 按条件筛选
+                "value": "cellnull", // 筛选类型
+                "text": "Is empty", // 类型说明
+                "type": "0" // 筛选大类
             },
-            "rowhidden": { "3": 0, "4": 0 }, // 隐藏行
-            "optionstate": true, //是否开启配置
+            "rowhidden": { "3": 0, "4": 0 }, // 隐藏行信息
+            "optionstate": true, // 是否开启配置
+            "cindex": 1, // 当前范围列顺序，这里表示第一列
             "str": 2, // 范围，起始行
             "edr": 6, // 范围，结束行
-            "cindex": 1, // 当前范围列索引
             "stc": 1, // 范围，起始列
             "edc": 3 // 范围，结束列
         },
+        //"1"表示第二列
         "1": {
             "caljs": {},
-            "rowhidden": { "6": 0 },
+            "rowhidden": { "1": 0},
             "optionstate": true,
+            "cindex": 2, // 当前范围列顺序，这里表示第二列
             "str": 2,
             "edr": 6,
-            "cindex": 2,
             "stc": 1,
             "edc": 3
         }
     }
     ```
+    1. `filter[key]`的`key`值，表示是列索引，从0开始，具体设置项中的`cindex`是从1开始，和这里的`key`是同一个意思。
+    2. `caljs`用来设置按条件筛选的类型和对应的值，设置生效后，会计算隐藏行信息存储在`rowhidden`中。以下是全部的可设置的类型，其中`value1`和`value2`就是用户自己填的文本信息：
+       + `caljs:{value: null, text: "无", type: "0"}`
+       + `caljs:{value: "cellnull", text: "单元格为空", type: "0"}`
+       + `caljs:{value: "cellnonull", text: "单元格有数据", type: "0"}`
+       + `caljs:{value: "textinclude", text: "文本包含", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textnotinclude", text: "文本不包含", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textstart", text: "文本开头为", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textend", text: "文本结尾为", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "textequal", text: "文本等于", type: "1", value1: "Lucky"}`
+       + `caljs:{value: "dateequal", text: "日期等于", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "datelessthan", text: "日期早于", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "datemorethan", text: "日期晚于", type: "1", value1: "2020-10-16"}`
+       + `caljs:{value: "morethan", text: "大于", type: "1", value1: "10"}`
+       + `caljs:{value: "moreequalthan", text: "大于等于", type: "1", value1: "10"}`
+       + `caljs:{value: "lessthan", text: "小于", type: "1", value1: "10"}`
+       + `caljs:{value: "lessequalthan", text: "小于等于", type: "1", value1: "10"}`
+       + `caljs:{value: "equal", text: "等于", type: "1", value1: "10"}`
+       + `caljs:{value: "noequal", text: "不等于", type: "1", value1: "10"}`
+       + `caljs:{value: "include", text: "介于", type: "2", value1: "15", value2: "25"}`
+       + `caljs:{value: "noinclude", text: "不在其中", type: "2", value1: "15", value2: "25"}`
+    3. `rowhidden`是存储的隐藏行信息，但是如果没有设置`caljs`按条件筛选，则表明是设置了按颜色筛选（如果行之间有颜色区分的话）和按值进行筛选。所以可以看出，`caljs`的优先级大于`rowhidden`。
+    4. `optionstate`表示是否开启配置，这是一个内部标识，直接设置`true`即可。
+    5. `cindex`表示当前设置的列顺序，从1开始计数，和`filter[key]`的`key`值形成对应，结果是`key`+1。
+    6. `str`是起始行，`edr`是结束行，`stc`是起始列，`edc`是结束列，四个数字代表整个筛选范围，与`filter_select`的内容保持一致即可。
 
 ------------
 ### luckysheet_alternateformat_save
@@ -1260,7 +1329,12 @@ options.data示例如下：
     }
     ```
 ------------
+### showGridLines
+- 类型：Number
+- 默认值：1
+- 作用：是否显示网格线，`1`表示显示，`0`表示隐藏
 
+------------
 ## 调试信息
 
 初始化所需要的参数，会从简洁的角度出发来考虑设计，但是本地存储的参数则不同。
@@ -1289,6 +1363,7 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
             "rowhidden":{}, //隐藏行
             "colhidden":{}, //隐藏列
             "borderInfo":{}, //边框
+            "authority":{}, //工作表保护
         },
         "scrollLeft": 0, //左右滚动条位置
         "scrollTop": 315, //上下滚动条位置
@@ -1306,6 +1381,8 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "chart": [], //图表配置
         "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
+        "image":[], //图片
+        "showGridLines": 1, //是否显示网格线
         
 
         "visibledatarow": [], //所有行的位置

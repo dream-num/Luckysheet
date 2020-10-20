@@ -1,6 +1,6 @@
 import { replaceHtml } from '../utils/util';
 import formula from '../global/formula';
-import { isRealNum } from '../global/validate';
+import { isRealNum, isRealNull } from '../global/validate';
 import { isdatetime, diff } from '../global/datecontroll';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import tooltip from '../global/tooltip';
@@ -1020,7 +1020,7 @@ const dataVerificationCtrl = {
         //数据验证未通过
         let cellValue = getcellvalue(r, c, null);
 
-        if(cellValue == null || cellValue == ""){
+        if(isRealNull(cellValue)){
             return;
         }
 

@@ -3126,7 +3126,7 @@ export default {
         't': 2,
         'd': '返回表格或中的元素值，此元素由行号和列号的索引值给定。',
         'a': '返回表格或中的元素值，此元素由行号和列号的索引值给定。',
-        'm': [3, 3],
+        'm': [2, 3],
         'p': [{
             'name': 'array',
             'detail': '单元格区域或数组常量。',
@@ -9752,7 +9752,7 @@ export default {
         redoDelete:"可以通过Ctrl+Z撤销删除",
         noHide:"不能隐藏, 至少保留一个sheet标签",
         chartEditNoOpt:"图表编辑模式下不允许该操作！",
-
+        sheetNameSpecCharError:"名称不能包含:[ ] : \ ? * / ' \"",
     },
     conditionformat: {
         conditionformat_greaterThan: '条件格式——大于',

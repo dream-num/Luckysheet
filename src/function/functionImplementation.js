@@ -1,6 +1,6 @@
 import { luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue } from './func';
 import { inverse } from './matrix_methods';
-import { getSheetIndex, getluckysheetfile } from '../methods/get';
+import { getSheetIndex, getluckysheetfile,getRangetxt } from '../methods/get';
 import menuButton from '../controllers/menuButton';
 import luckysheetSparkline from '../controllers/sparkline';
 import formula from '../global/formula';
@@ -3098,6 +3098,7 @@ const functionImplementation = {
 
                 return compute(function_num);
             }
+
             
             function compute(function_num){
                 switch(function_num){
@@ -10301,7 +10302,8 @@ const functionImplementation = {
 
             let luckysheetfile = getluckysheetfile();
             let index = getSheetIndex(Store.calculateSheetIndex);
-            let sheetdata = luckysheetfile[index].data;
+            let currentSheet = luckysheetfile[index];
+            let sheetdata = currentSheet.data;
             // sheetdata = Store.flowdata;
             // if (formula.execFunctionGroupData != null) {
             //     sheetdata = formula.execFunctionGroupData;
@@ -10309,56 +10311,45 @@ const functionImplementation = {
 
             //计算
             if(A1){
-                if(formula.iscelldata(ref_text)){
-                    let cellrange = formula.getcellrange(ref_text);
-                    let row = cellrange.row[0], col = cellrange.column[0];
 
-                    if (row < 0 || row >= sheetdata.length || col < 0 || col >= sheetdata[0].length){
-                        return formula.error.r;
-                    }
-
-                    if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
-                        return 0;
-                    }
-
-                    if (formula.execFunctionGlobalData != null) {
-                        let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+Store.calculateSheetIndex];
-                        if(ef!=null){
-                            return ef.v;
-                        }
-                    }
-
-                    return sheetdata[row][col].v;
-                }
-                else{
-                    return formula.error.r;
-                }
             }
             else{
-                if(formula.iscelldata(ref_text)){
-                    let cellrange = formula.getcellrange(ref_text);
-                    let row = cellrange.row[0], col = cellrange.column[0];
 
-                    if (row < 0 || row >= sheetdata.length || col < 0 || col >= sheetdata[0].length){
-                        return formula.error.r;
-                    }
+            }
 
-                    if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
-                        return 0;
-                    }
+            if(formula.iscelldata(ref_text)){
+                let cellrange = formula.getcellrange(ref_text);
+                let row = cellrange.row[0], col = cellrange.column[0];
 
-                    if (formula.execFunctionGlobalData != null) {
-                        let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+Store.calculateSheetIndex];
-                        if(ef!=null){
-                            return ef.v;
-                        }
-                    }
-
-                    return sheetdata[row][col].v;
-                }
-                else{
+                if (row < 0 || row >= sheetdata.length || col < 0 || col >= sheetdata[0].length){
                     return formula.error.r;
                 }
+
+                if (sheetdata[row][col] == null || isRealNull(sheetdata[row][col].v)){
+                    return 0;
+                }
+
+                let value = sheetdata[row][col].v;
+                if (formula.execFunctionGlobalData != null) {
+                    let ef = formula.execFunctionGlobalData[row+"_"+col+"_"+Store.calculateSheetIndex];
+                    if(ef!=null){
+                        value = ef.v;
+                    }
+                }
+
+
+                let retAll= {
+                    "sheetName": currentSheet.name,
+                    "startCell": ref_text,
+                    "rowl": row,
+                    "coll": col,
+                    "data": value
+                };
+    
+                return retAll;
+            }
+            else{
+                return formula.error.r;
             }
         } 
         catch (e) {
@@ -10563,6 +10554,7 @@ const functionImplementation = {
             }
 
             var reference = arguments[0].startCell;
+            let sheetName = arguments[0].sheetName;
 
             //要偏移的行数
             var rows = func_methods.getFirstValue(arguments[1]);
@@ -10673,7 +10665,19 @@ const functionImplementation = {
                 result.push(rowArr);
             }
 
-            return result;
+
+            let retAll= {
+                "sheetName": sheetName,
+                "startCell": getRangetxt(Store.calculateSheetIndex, {
+                    row: [cellRow0, cellRow1],
+                    column: [cellCol0, cellCol1]
+                }),
+                "rowl": cellRow0,
+                "coll": cellCol0,
+                "data": result
+            };
+
+            return retAll;
         }
         catch (e) {
             var err = e;
@@ -11192,7 +11196,7 @@ const functionImplementation = {
             //单元格区域或数组常量
             var data_array = arguments[0];
             var array = [];
-
+            let isReference = false;
             if(getObjType(data_array) == "array"){
                 if(getObjType(data_array[0]) == "array" && !func_methods.isDyadicArr(data_array)){
                     return formula.error.v;
@@ -11202,6 +11206,7 @@ const functionImplementation = {
             }
             else if(getObjType(data_array) == "object" && data_array.startCell != null){
                 array = func_methods.getCellDataDyadicArr(data_array, "number");
+                isReference = true;
             }
 
             var rowlen = array.length, collen = array[0].length; 
@@ -11224,22 +11229,87 @@ const functionImplementation = {
                 return column_num;
             }
 
-            if(!isRealNum(column_num)){
+
+
+            if(row_num < 0 || (isRealNum(column_num) && column_num < 0)){
                 return formula.error.v;
             }
 
-            column_num = parseInt(column_num);
-
-            if(row_num <= 0 || column_num <= 0){
-                return formula.error.v;
-            }
-
-            if(row_num > rowlen || column_num > collen){
+            if(row_num > rowlen || (isRealNum(column_num) && column_num > collen)){
                 return formula.error.r;
             }
 
-            //计算
-            return array[row_num - 1][column_num - 1];
+            if(isReference){
+
+                var cellrange = formula.getcellrange(data_array.startCell);
+                var cellRow0 = cellrange["row"][0]; 
+                var cellCol0 = cellrange["column"][0];
+
+                
+                let data = array;
+                if(row_num == 0 || column_num == 0){
+                    if(row_num==0){
+                        data = array[0];
+                        row_num = 1;
+                    }
+                    else{
+                        data = array[row_num-1];
+                    }
+
+                    if(isRealNum(column_num)){
+                        if(column_num==0){
+                            data = data[0];
+                            column_num = 1;
+                        }
+                        else{
+                            data = data[column_num-1]
+                        }
+                    }
+                    else{
+                        column_num = 1;
+                    }
+                }
+                else{
+                    if(!isRealNum(row_num)){
+                        row_num = 1;
+                    }
+
+                    if(!isRealNum(column_num)){
+                        column_num = 1;
+                    }
+                    data = array[row_num - 1][column_num - 1];
+                }
+
+                let row_index = cellRow0 + row_num - 1, column_index = cellCol0 + column_num - 1;
+
+                let retAll= {
+                    "sheetName": data_array.sheetName,
+                    "startCell": getRangetxt(Store.calculateSheetIndex, {
+                        row: [row_index, row_index],
+                        column: [column_index, column_index]
+                    }),
+                    "rowl": row_index,
+                    "coll": column_index,
+                    "data": data
+                };
+                return retAll;
+            }
+            else{
+                //计算   
+                
+                if(!isRealNum(column_num)){
+                    return formula.error.v;
+                }
+    
+                column_num = parseInt(column_num);
+                
+                if(row_num <= 0 || column_num <= 0){
+                    return formula.error.v;
+                }
+                return array[row_num - 1][column_num - 1];
+            }
+
+            
         }
         catch (e) {
             var err = e;
@@ -20785,7 +20855,7 @@ const functionImplementation = {
         }
 
         try {
-            //包含要提取的字符的文本字符串
+            //包含要提取���字符的文本字符串
             var text = func_methods.getFirstValue(arguments[0], "text");
             if(valueIsError(text)){
                 return text;
@@ -26457,7 +26527,7 @@ const functionImplementation = {
             var cell_r = window.luckysheetCurrentRow;
             var cell_c = window.luckysheetCurrentColumn;
             var cell_fp = window.luckysheetCurrentFunction;
-            //色表，接下来会用到
+            //色表，接下来���用到
             var colorList = formula.colorList;
             var rangeValue = arguments[0];
 

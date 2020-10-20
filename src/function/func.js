@@ -1607,6 +1607,10 @@ function luckysheet_getcelldata(txt) {
     if (val.length > 1) {
         sheettxt = val[0];
         rangetxt = val[1];
+
+        if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
+            sheettxt = sheettxt.substring(1,sheettxt.length-1);
+        }
         
         for (let i in luckysheetfile) {
             if (sheettxt == luckysheetfile[i].name) {
@@ -1913,6 +1917,40 @@ function luckysheet_offset_check() {
     });
 }
 
+
+function luckysheet_getSpecialReference(isCellFirst, param1, param2) {
+    let functionRange, rangeTxt;
+    if(isCellFirst){
+        rangeTxt = param1;
+        functionRange = param2;
+    }
+    else{
+        functionRange = param1;
+        rangeTxt = param2;
+    }
+
+    if(functionRange.startCell.indexOf(":")>-1 || rangeTxt.indexOf(":")>-1){
+        return error.v;
+    }
+
+
+    if(isCellFirst){
+        return luckysheet_getcelldata(rangeTxt + ":" +functionRange.startCell);
+    }
+    else{
+        let rangeT = rangeTxt, sheetName="";
+        if(rangeTxt.indexOf("!")>-1){
+            let rangetxtArr = rangeTxt.split("!");
+            sheetName = rangetxtArr[0] + "!";
+            rangeT = rangetxtArr[1];
+        }
+        return luckysheet_getcelldata(sheetName + functionRange.startCell + ":" + rangeT);
+    }
+
+    
+
+}
+
 export {
     luckysheet_compareWith,
     luckysheet_getarraydata,
@@ -1922,5 +1960,6 @@ export {
     luckysheet_indirect_check,
     luckysheet_indirect_check_return,
     luckysheet_offset_check,
-    luckysheet_calcADPMM
+    luckysheet_calcADPMM,
+    luckysheet_getSpecialReference
 }

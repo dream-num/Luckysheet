@@ -433,6 +433,21 @@ export function replace(content, replaceContent, options = {}) {
     return matchCells;
 }
 
+
+/**
+ * 手动触发退出编辑模式 
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function exitEditMode(options = {}){
+    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+
+    if (options.success && typeof options.success === 'function') {
+        options.success();
+    }
+}
+
+
 /**
  * 冻结首行
  * 若设置冻结的sheet不是当前sheet页，只设置参数不渲染
@@ -4640,6 +4655,143 @@ export function setSheetMove(type, options = {}) {
     })
 
     server.saveParam("shr", null, orders);
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 显示指定下标工作表的网格线，返回操作的工作表对象
+ * @param {Object} options 可选参数 
+ * @param {Number} options.order 需要显示网格线的工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function showGridLines(options = {}){
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    file.showGridLines = true;
+
+    if(file.index == Store.currentSheetIndex){
+        Store.showGridLines = true;
+
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 隐藏指定下标工作表的网格线，返回操作的工作表对象
+ * @param {Object} options 可选参数 
+ * @param {Number} options.order 需要显示网格线的工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function hideGridLines(options = {}){
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    file.showGridLines = false;
+
+    if(file.index == Store.currentSheetIndex){
+        Store.showGridLines = false;
+
+        setTimeout(function () {
+            luckysheetrefreshgrid();
+        }, 1);
+    }
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+
+    return file;
+}
+
+
+/**
+ * 滚动当前工作表位置
+ * @param {Object} options 可选参数
+ * @param {Number} options.scrollLeft 横向滚动值
+ * @param {Number} options.scrollTop 纵向滚动值
+ * @param {Number} options.targetRow 纵向滚动到指定的行号
+ * @param {Number} options.targetColumn 横向滚动到指定的列号
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function scroll(options = {}){
+    let {
+        scrollLeft,
+        scrollTop,
+        targetRow,
+        targetColumn,
+        success
+    } = {...options}
+
+    if(scrollLeft != null){
+        if(getObjType(scrollLeft) != 'number'){
+            return tooltip.info("The scrollLeft parameter is invalid.", "");
+        }
+
+        $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
+    }
+    else if(targetColumn != null){
+        if(getObjType(targetColumn) != 'number'){
+            return tooltip.info("The targetColumn parameter is invalid.", "");
+        }
+        
+        let col = Store.visibledatacolumn[targetColumn], 
+            col_pre = targetColumn <= 0 ? 0 : Store.visibledatacolumn[targetColumn - 1];
+
+        $("#luckysheet-scrollbar-x").scrollLeft(col_pre);
+    }
+    
+    
+    if(scrollTop != null){
+        if(getObjType(scrollTop) != 'number'){
+            return tooltip.info("The scrollTop parameter is invalid.", "");
+        }
+
+        $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
+    }
+    else if(targetRow != null){
+        if(getObjType(targetRow) != 'number'){
+            return tooltip.info("The targetRow parameter is invalid.", "");
+        }
+
+        let row = Store.visibledatarow[targetRow], 
+            row_pre = targetRow <= 0 ? 0 : Store.visibledatarow[targetRow - 1];
+
+        $("#luckysheet-scrollbar-y").scrollTop(row_pre);
+    }
 
     if (success && typeof success === 'function') {
         success();

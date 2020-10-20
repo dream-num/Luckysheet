@@ -92,7 +92,7 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
         }
         else if(formula.israngeseleciton()){
             let anchor = $(window.getSelection().anchorNode);
-            
+            // console.log(anchor.parent().next().text());
             if(anchor.parent().next().text() == null || anchor.parent().next().text() == ""){
                 let vText = $("#luckysheet-input-box #luckysheet-input-box-index").text();
                 let range = formula.getcellrange(vText);
@@ -162,8 +162,10 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
                     
                     luckysheetMoveHighlightCell(dir_n, step, "rangeOfFormula");
                 } 
+
+                event.preventDefault();
             }
-            event.preventDefault();
+
         }
         else if(!ctrlKey && !shiftKey){
             let anchor = $(window.getSelection().anchorNode);
@@ -228,6 +230,9 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
 
                     event.preventDefault();
                 }
+                else{
+                    formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
+                }
             }
             else if(dir == 'right'){
                 if(anchor.parent().is("span") && anchor.parent().next().length == 0 && anchorOffset > 0){
@@ -248,6 +253,9 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
 
                     event.preventDefault();
                 }
+                else{
+                    formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
+                }
             }
         }
     }
@@ -261,10 +269,6 @@ export function keyboardInitial(){
     $("#luckysheet-input-box").click(function () {
         formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
     }).add("#" + Store.container).on("keydown", function (event) {
-        if ($("#luckysheet-modal-dialog-mask").is(":visible") || $(event.target).hasClass("luckysheet-mousedown-cancel") || $(event.target).hasClass("formulaInputFocus")) {
-            return;
-        }
-
         let ctrlKey = event.ctrlKey;
         let altKey = event.altKey;
         let shiftKey = event.shiftKey;
@@ -312,6 +316,10 @@ export function keyboardInitial(){
                 }
             }
             
+            return;
+        }
+
+        if ($("#luckysheet-modal-dialog-mask").is(":visible") || $(event.target).hasClass("luckysheet-mousedown-cancel") || $(event.target).hasClass("formulaInputFocus")) {
             return;
         }
         

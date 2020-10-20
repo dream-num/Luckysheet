@@ -188,6 +188,12 @@ function hasPartMC(cfg, r1, r2, c1, c2) {
     return hasPartMC;
 }
 
+//获取单个字符的字节数
+function checkWordByteLength(value) {
+    return Math.ceil(value.charCodeAt().toString(2).length / 8);
+ }
+ 
+
 export {
     isRealNull,
     isRealNum,
@@ -195,4 +201,5 @@ export {
     hasChinaword,
     isEditMode,
     hasPartMC,
+    checkWordByteLength
 }

@@ -33,8 +33,14 @@ const func_methods = {
             if(getObjType(rangeObj.data) == "array"){
                 for(let i = 0; i < rangeObj.data.length; i++){
                     for(let j = 0; j < rangeObj.data[i].length; j++){
-                        if(rangeObj.data[i][j] != null && !isRealNull(rangeObj.data[i][j].v)){
-                            dataArr.push(rangeObj.data[i][j].v);
+                        if(rangeObj.data[i][j] != null){
+                            let datav = rangeObj.data[i][j];
+                            if(datav instanceof Object){
+                                dataArr.push(datav.v);
+                            }
+                            else{
+                                dataArr.push(datav);
+                            }
                         }
                         else{
                             if(!isNeglectNullCell){
@@ -92,8 +98,14 @@ const func_methods = {
                     for(let j = 0; j < rangeObj.data[i].length; j++){
                         let value;
 
-                        if(rangeObj.data[i][j] != null && !isRealNull(rangeObj.data[i][j].v)){
-                            value = rangeObj.data[i][j].v;
+                        if(rangeObj.data[i][j] != null){
+                            let datav = rangeObj.data[i][j];
+                            if(datav instanceof Object){
+                                value = datav.v;
+                            }
+                            else{
+                                value = datav;
+                            }
                         }
                         else{
                             if(nullCellType == "number"){
