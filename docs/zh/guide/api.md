@@ -1651,8 +1651,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getAllSheets()
 
-[todo]
-
 - **说明**：
 
 	返回所有工作表配置，格式同工作表配置，得到的结果可用于表格初始化时作为options.data使用。
@@ -1922,9 +1920,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetOrder(orderList [,setting])
 
-[todo]
-
-
 - **参数**：
 
     - {Array} [orderList]: 工作表顺序，设置工作表的index和order来指定位置，如：
@@ -2019,9 +2014,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### refresh([setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
@@ -2078,27 +2070,22 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getScreenshot([setting])
 
-[todo]
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
-		+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
-		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
 
 - **说明**：
 	
-	返回指定选区截图后生成的base64格式的图片
+	返回当前表格指定选区截图后生成的base64格式的图片
 
 ------------
 
 ### setWorkbookName(name [,setting])
 
-[todo]
-
 - **参数**：
 
-    - {Number} [name]: 工作簿名称
+    - {String} [name]: 工作簿名称
     - {PlainObject} [setting]: 可选参数
     	+ {Function} [success]: 操作结束的回调函数
 
@@ -2109,9 +2096,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### undo([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -2125,9 +2109,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### redo([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -2256,8 +2237,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### transToData(celldata [,setting])<div id='transToData'></div>
-
-[todo]
 
 - **参数**：
 	
