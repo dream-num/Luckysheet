@@ -22,6 +22,7 @@ import {
 } from '../global/refresh';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import { selectHightlightShow } from './select';
 
 function formulaHistoryHanddler(ctr, type="redo"){
     if(ctr==null){
@@ -82,7 +83,6 @@ const controlHistory = {
                 "dataVerification": ctr.dataVerification,
                 "dynamicArray": ctr.dynamicArray
             }
-
             jfrefreshgrid(ctr.data, ctr.range, allParam);
             // formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
         }
@@ -414,6 +414,10 @@ const controlHistory = {
         }
         
         cleargridelement(e);
+        if (ctr.range) {
+            Store.luckysheet_select_save = ctr.range;
+            selectHightlightShow();
+        }
         Store.clearjfundo = true;
     },
     undo: function () {
@@ -713,7 +717,11 @@ const controlHistory = {
             zoomNumberDomBind();
             zoomRefreshView();
         }
-        
+
+        if (ctr.range) {
+            Store.luckysheet_select_save = ctr.range;
+            selectHightlightShow();
+        }
         Store.clearjfundo = true;
     }
 };

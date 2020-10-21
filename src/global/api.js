@@ -323,10 +323,32 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     // 特殊格式
     if (attr == 'ct' && (!value || !value.hasOwnProperty('fa') || !value.hasOwnProperty('t'))) {
         return new TypeError('While set attribute \'ct\' to cell, the value must have property \'fa\' and \'t\'')
-        cellData.m = update(value.fa, cellData.v)
     }
 
-    cellData[attr] = value;
+    if (attr == 'bd') {
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["borderInfo"] == null){
+            cfg["borderInfo"] = [];
+        }
+
+        let borderInfo = {
+            rangeType: "range",
+            borderType: "border-all",
+            color: "#000",
+            style: "1",
+            range: [{
+                column: [column, column],
+                row: [row, row]
+            }],
+            ...value,
+        }
+
+        cfg["borderInfo"].push(borderInfo);
+        Store.config = cfg;
+    } else {
+        cellData[attr] = value;
+    }
+    
     // refresh
     jfrefreshgrid(targetSheetData, {
         row: [row],
@@ -897,6 +919,8 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
         success
     } = {...options}
 
+    let _locale = locale();
+    let locale_info = _locale.info;
     if (!isRealNum(number)) {
         if(isEditMode()){
             alert(locale_info.tipInputNumber);
