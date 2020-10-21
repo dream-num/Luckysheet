@@ -5,6 +5,7 @@ import sheetmanage from './sheetmanage';
 import {changeSheetContainerSize} from './resize';
 import { jfrefreshgrid_rhcw } from '../global/refresh';
 import server from './server';
+import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
 
 
@@ -30,6 +31,9 @@ export function zoomChange(ratio){
         Store.zoomRatio = ratio;
 
         let currentSheet = sheetmanage.getSheetByIndex();
+
+        //批注
+        luckysheetPostil.buildAllPs(currentSheet.data);
 
         //图片
         imageCtrl.images = currentSheet.images;

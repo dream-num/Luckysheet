@@ -1112,7 +1112,7 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
 
     //若单元格有批注
     if(Store.flowdata[r][c] != null && Store.flowdata[r][c].ps != null){
-        let ps_w = 5*Store.zoomRatio, ps_h = 5*Store.zoomRatio; 
+        let ps_w = 8*Store.zoomRatio, ps_h = 8*Store.zoomRatio; 
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo( (end_c + offsetLeft - 1- ps_w),  (start_r + offsetTop));
         luckysheetTableContent.lineTo( (end_c + offsetLeft - 1),  (start_r + offsetTop));
@@ -1338,17 +1338,17 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
         let verticalAlignPos_text = (pos_y + verticalCellHeight - space_height) ; //文本垂直方向基准线
         luckysheetTableContent.textBaseline = "bottom";
-        let verticalAlignPos_checkbox = verticalAlignPos_text - 13;
+        let verticalAlignPos_checkbox = verticalAlignPos_text - 13 * Store.zoomRatio;
 
         if(verticalAlign == "0"){ //居中对齐 
             verticalAlignPos_text = (pos_y + verticalCellHeight / 2);
             luckysheetTableContent.textBaseline = "middle";
-            verticalAlignPos_checkbox = verticalAlignPos_text - 6;
+            verticalAlignPos_checkbox = verticalAlignPos_text - 6 * Store.zoomRatio;
         }
         else if(verticalAlign == "1"){ //上对齐
             verticalAlignPos_text = (pos_y + space_height);
             luckysheetTableContent.textBaseline = "top";
-            verticalAlignPos_checkbox = verticalAlignPos_text + 1;
+            verticalAlignPos_checkbox = verticalAlignPos_text + 1 * Store.zoomRatio;
         }
 
         horizonAlignPos = horizonAlignPos / Store.zoomRatio;
