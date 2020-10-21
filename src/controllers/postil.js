@@ -208,18 +208,21 @@ const luckysheetPostil = {
         let toX = col;
         let toY = row_pre;
 
-        let fromX = toX + 18;
-        let fromY = toY - 18;
+        let fromX = toX + 18 * Store.zoomRatio;
+        let fromY = toY - 18 * Store.zoomRatio;
 
         if(fromY < 0){
             fromY = 2;
         }
 
+        let width = _this.defaultWidth * Store.zoomRatio
+        let height = _this.defaultHeight * Store.zoomRatio
+
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
         let html =  '<div id="luckysheet-postil-overshow">' +
                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
-                        '<div style="width:132px;min-height:72px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ value +'</div>' +
+                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ value +'</div>' +
                     '</div>';
 
         $(html).appendTo($("#luckysheet-cell-main"));
@@ -349,10 +352,10 @@ const luckysheetPostil = {
             let toX = col;
             let toY = row_pre;
 
-            let left = postil["left"] == null ? toX + 18 : postil["left"];
-            let top = postil["top"] == null ? toY - 18 : postil["top"];
-            let width = postil["width"] == null ? _this.defaultWidth : postil["width"];
-            let height = postil["height"] == null ? _this.defaultHeight : postil["height"];
+            let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
+            let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
+            let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+            let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
             let value = postil["value"] == null ? "" : postil["value"];
 
             if(top < 0){
@@ -418,18 +421,21 @@ const luckysheetPostil = {
         let toX = col;
         let toY = row_pre;
 
-        let fromX = toX + 18;
-        let fromY = toY - 18;
+        let fromX = toX + 18 * Store.zoomRatio;
+        let fromY = toY - 18 * Store.zoomRatio;
 
         if(fromY < 0){
             fromY = 2;
         }
 
+        let width = _this.defaultWidth * Store.zoomRatio;
+        let height = _this.defaultHeight * Store.zoomRatio;
+
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
         let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show luckysheet-postil-show-active">' +
                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
-                        '<div class="luckysheet-postil-show-main" style="width:144px;height:84px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;box-sizing:border-box;z-index:100;">' +
+                        '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;box-sizing:border-box;z-index:100;">' +
                             '<div class="luckysheet-postil-dialog-move">' +
                                 '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-t" data-type="t"></div>' +
                                 '<div class="luckysheet-postil-dialog-move-item luckysheet-postil-dialog-move-item-r" data-type="r"></div>' +
@@ -507,10 +513,10 @@ const luckysheetPostil = {
             let toX = col;
             let toY = row_pre;
 
-            let left = postil["left"] == null ? toX + 18 : postil["left"];
-            let top = postil["top"] == null ? toY - 18 : postil["top"];
-            let width = postil["width"] == null ? _this.defaultWidth : postil["width"];
-            let height = postil["height"] == null ? _this.defaultHeight : postil["height"];
+            let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
+            let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
+            let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+            let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
             let value = postil["value"] == null ? "" : postil["value"];
 
             if(top < 0){
@@ -609,10 +615,10 @@ const luckysheetPostil = {
             let toX = col;
             let toY = row_pre;
 
-            let left = postil["left"] == null ? toX + 18 : postil["left"];
-            let top = postil["top"] == null ? toY - 18 : postil["top"];
-            let width = postil["width"] == null ? _this.defaultWidth : postil["width"];
-            let height = postil["height"] == null ? _this.defaultHeight : postil["height"];
+            let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
+            let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
+            let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+            let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
             let value = postil["value"] == null ? "" : postil["value"];
 
             if(top < 0){
@@ -723,10 +729,10 @@ const luckysheetPostil = {
                         let toX = col;
                         let toY = row_pre;
 
-                        let left = postil["left"] == null ? toX + 18 : postil["left"];
-                        let top = postil["top"] == null ? toY - 18 : postil["top"];
-                        let width = postil["width"] == null ? _this.defaultWidth : postil["width"];
-                        let height = postil["height"] == null ? _this.defaultHeight : postil["height"];
+                        let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
+                        let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
+                        let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+                        let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
                         let value = postil["value"] == null ? "" : postil["value"];
 
                         if(top < 0){
