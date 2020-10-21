@@ -62,6 +62,7 @@ luckysheet.create = function (setting) {
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
     Store.fontList = extendsetting.fontList;
+    Store.defaultFontSize = extendsetting.defaultFontSize;
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
     server.updateUrl = extendsetting.updateUrl;
@@ -104,7 +105,9 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
     luckysheetConfigsetting.rowHeaderWidth = extendsetting.rowHeaderWidth;
+    Store.rowHeaderWidth = extendsetting.rowHeaderWidth;
     luckysheetConfigsetting.columeHeaderHeight = extendsetting.columeHeaderHeight;
+    Store.columeHeaderHeight = extendsetting.columeHeaderHeight;
 
     luckysheetConfigsetting.defaultColWidth = extendsetting.defaultColWidth;
     luckysheetConfigsetting.defaultRowHeight = extendsetting.defaultRowHeight;

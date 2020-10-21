@@ -530,9 +530,6 @@ function rightclickHTML(){
                         <button id="luckysheet-matrix-delerpt-column" class="btn btn-primary luckysheet-mousedown-cancel" style="margin-left:5px;padding:2px 3px;line-height:12px;font-size:12px;">${rightclick.byCol}</button>
                     </div>
                 </div>
-                <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
-                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.generateNewMatrix}</div>
-                </div>
             </div>`;
 }
 
@@ -1548,7 +1545,7 @@ const luckysheetdefaultstyle = {
 }
 
 const luckysheetdefaultFont = function(){
-    return  'normal normal normal 10pt '+ locale().fontarray[0] +', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC",  "WenQuanYi Micro Hei", sans-serif';
+    return  'normal normal normal '+ Store.defaultFontSize +'pt '+ locale().fontarray[0] +', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC",  "WenQuanYi Micro Hei", sans-serif';
 } 
 
 const luckysheet_CFiconsImg = new Image();
