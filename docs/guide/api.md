@@ -541,6 +541,154 @@ Use note:
 
 ------------
 
+### setRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Object} [rowInfo]: Correspondence between number of rows and height
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the height of the specified ~~row~~
+
+- **Usage**:
+
+   - Set the height of the first row to 50px and the height of the second row to 60px
+
+		`luckysheet.setRowHeight({0：50，1：60})`
+
+------------
+
+### setColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Number} [columnInfo]: Correspondence between the number of columns and the width
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the width of the specified column
+
+- **Usage**:
+
+   - Set the width of the first column to 50px and the width of the second column to 60px
+
+		`luckysheet.setColumnWidth({0：50，1：60})`
+
+------------
+
+### getRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [rowInfo]: The number of rows
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the height of the specified row, get the object corresponding to the number of rows and height
+
+- **Usage**:
+
+   - The height of the first row is 50px, the height of the second row is 60px, get these values
+
+		`luckysheet.getRowHeight([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [columnInfo]: The number of columns
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the width of the specified column, get the object of the corresponding relationship between the number of columns and the width
+
+- **Usage**:
+
+   - The width of the first column is 50px, the width of the second column is 60px, get these values
+
+		`luckysheet.getColumnWidth([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default row height of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default row height of the current worksheet
+
+		`luckysheet.getDefaultRowHeight()`
+		Return to get
+		`19`
+
+------------
+
+### getDefaultColumnWidth([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+		
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default column width of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default column width of the current worksheet
+
+		`luckysheet.getDefaultColumnWidth()`
+		Return to get
+		`73`
+
+------------
+
 ## Selection operation
 
 ### getRange()
@@ -2013,6 +2161,32 @@ Use note:
 
 ------------
 
+### setSheetZoom(zoom [,setting])
+
+[todo]
+
+
+- **Parameter**：
+
+    - {Number} [zoom]: Worksheet zoom ratio
+
+	- {PlainObject} [setting]: optional parameters
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set worksheet zoom ratio
+
+
+- **Usage**:
+
+	- Set the current worksheet zoom ratio to 0.5
+	```js
+	luckysheet.setSheetZoom(0.5)
+	```
+
+------------
+
 ### showGridLines([setting])
 
 - **Parameter**：
@@ -2292,6 +2466,63 @@ Use note:
 - **Explanation**：
 	
 	Delete the chart with the specified id and return the parameters of the deleted chart
+
+------------
+
+## Data Verification
+
+### setDataVerification(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for data verification
+    - {PlainObject} [setting]: optional parameters
+        + {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to set the data verification function and set the parameters
+
+------------
+
+### deleteDataVerification([setting])
+
+[todo, to be confirmed whether it is reasonable]
+
+- **Parameter**：
+	
+    - {PlainObject} [setting]: optional parameters
+		+ {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to delete the data verification function
+
+------------
+
+## Worksheet Protection
+
+
+### setProtection(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for worksheet protection
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet to set the worksheet protection
 
 ------------
 

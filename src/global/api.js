@@ -1,5 +1,5 @@
 import Store from "../store";
-import { replaceHtml, getObjType, chatatABC } from "../utils/util";
+import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
 import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 
@@ -20,6 +20,7 @@ import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } fr
 import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
+import { luckysheetDrawMain } from './draw';
 
 import server from "../controllers/server";
 import menuButton from '../controllers/menuButton';
@@ -31,8 +32,11 @@ import sheetmanage from '../controllers/sheetmanage';
 import conditionformat from '../controllers/conditionformat';
 import { luckysheet_searcharray } from "../controllers/sheetSearch";
 import { selectHightlightShow, selectIsOverlap } from '../controllers/select';
-import { sheetHTML } from '../controllers/constant';
+import { sheetHTML, luckysheetdefaultstyle } from '../controllers/constant';
 import { createFilterOptions } from '../controllers/filter';
+import controlHistory from '../controllers/controlHistory';
+import { zoomRefreshView, zoomNumberDomBind } from '../controllers/zoom';
+import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
 
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
@@ -1173,6 +1177,113 @@ export function hideColumn(startIndex, endIndex, options = {}) {
 export function showColumn(startIndex, endIndex, options = {}) {
     showRowOrColumn('column', startIndex, endIndex, options);
 }
+
+
+/**
+ * 设置指定行的高度 
+ * @param {Object} rowInfo 行数和高度对应关系
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setRowHeight(rowInfo, options = {}) {
+    if(getObjType(rowInfo) != 'object'){
+        return tooltip.info("The rowInfo parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    if(cfg['rowlen'] == null){
+        cfg['rowlen'] = {};
+    }
+
+    for(let r in rowInfo){
+        if(parseInt(r) >= 0){
+            let len = rowInfo[r];
+
+            if(Number(len) >= 0){
+                cfg['rowlen'][parseInt(r)] = Number(len);
+            }
+        }
+    }
+
+    file.config = cfg;
+
+    server.saveParam("cg", file.index, cfg["rowlen"], { "k": "rowlen" });
+
+    if(file.index == Store.currentSheetIndex){
+        Store.config = cfg;
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    }
+
+    if (success && typeof success === 'function') {
+        success()
+    }
+}
+
+
+/**
+ * 设置指定列的宽度 
+ * @param {Object} columnInfo 行数和高度对应关系
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setColumnWidth(columnInfo, options = {}) {
+    if(getObjType(columnInfo) != 'object'){
+        return tooltip.info("The columnInfo parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    if(cfg['columnlen'] == null){
+        cfg['columnlen'] = {};
+    }
+
+    for(let c in columnInfo){
+        if(parseInt(c) >= 0){
+            let len = columnInfo[c];
+
+            if(Number(len) >= 0){
+                cfg['columnlen'][parseInt(c)] = Number(len);
+            }
+        }
+    }
+
+    file.config = cfg;
+
+    server.saveParam("cg", file.index, cfg["columnlen"], { "k": "columnlen" });
+
+    if(file.index == Store.currentSheetIndex){
+        Store.config = cfg;
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    }
+
+    if (success && typeof success === 'function') {
+        success()
+    }
+}
+
 
 /**
  * 返回当前选区对象的数组，可能存在多个选区。
@@ -4663,6 +4774,104 @@ export function setSheetMove(type, options = {}) {
 
 
 /**
+ * 重新排序所有工作表的位置，指定工作表顺序的数组。
+ * @param {Array} orderList 工作表顺序，设置工作表的index和order来指定位置
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetOrder(orderList, options = {}) {
+    if(orderList == null || orderList.length == 0){
+        return tooltip.info("Type orderList not available", "");
+    }
+
+    let orderListMap = {};
+    orderList.forEach((item) => {
+        orderListMap[item.index.toString()] = item.order;
+    })
+
+    Store.luckysheetfile.sort((x, y) => {
+        let order_x = orderListMap[x.index.toString()];
+        let order_y = orderListMap[y.index.toString()];
+
+        if(order_x != null && order_y != null){
+            return order_x - order_y;
+        }
+        else if(order_x != null){
+            return -1;
+        }
+        else if(order_y != null){
+            return 1;
+        }
+        else{
+            return 1;
+        }
+    })
+
+    let orders = {};
+
+    Store.luckysheetfile.forEach((item, i, arr) => {
+        arr[i].order = i;
+        orders[item.index.toString()] = i;
+
+        if(i > 0){
+            let preIndex = arr[i - 1].index;
+            $("#luckysheet-sheets-item" + item.index).insertAfter($("#luckysheet-sheets-item" + preIndex));
+        }
+    })
+
+    server.saveParam("shr", null, orders);
+
+    let {
+        success
+    } = {...options}
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 设置工作表缩放比例 
+ * @param {Number} zoom 工作表缩放比例，值范围为0.1 ~ 4；
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setSheetZoom(zoom, options = {}) {
+    if(getObjType(zoom) != 'number' && (zoom < 0.1 || zoom > 4)){
+        return tooltip.info("The zoom parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    file["zoomRatio"] = zoom;
+
+    server.saveParam("all", file.index, zoom, { "k": "zoomRatio" });
+
+    if(file.index == Store.currentSheetIndex){
+        Store.zoomRatio = zoom;
+        
+        zoomNumberDomBind();
+        zoomRefreshView();
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
  * 显示指定下标工作表的网格线，返回操作的工作表对象
  * @param {Object} options 可选参数 
  * @param {Number} options.order 需要显示网格线的工作表下标；默认值为当前工作表下标
@@ -4739,6 +4948,24 @@ export function hideGridLines(options = {}){
 
 
 /**
+ * 刷新canvas
+ * @param {Object} options 可选参数 
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function refresh(options = {}) {
+    luckysheetrefreshgrid();
+
+    let {
+        success
+    } = {...options}
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
  * 滚动当前工作表位置
  * @param {Object} options 可选参数
  * @param {Number} options.scrollLeft 横向滚动值
@@ -4801,7 +5028,6 @@ export function scroll(options = {}){
 
 /**
  * 根据窗口大小自动resize画布
- * 
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -4815,6 +5041,200 @@ export function resize(options = {}){
     if (success && typeof success === 'function') {
         success();
     }
+}
+
+
+/**
+ * 返回指定选区截图后生成的base64格式的图片
+ * @param {Object} options 可选参数
+ * @param {Object | String} options.range 选区范围，只能为单个选区；默认为当前选区
+ */
+export function getScreenshot(options = {}) {
+    let {
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+    } = {...options} 
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = {
+            "row": cellrange.row,
+            "column": cellrange.column
+        };
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let str = range.row[0],
+        edr = range.row[1],
+        stc = range.column[0],
+        edc = range.column[1];
+
+    let has_PartMC = hasPartMC(Store.config, str, edr, stc, edc);
+
+    if(has_PartMC){
+        return tooltip.info('Cannot perform this operation on partially merged cells', '');
+    }
+
+    let visibledatarow = Store.visibledatarow;
+    let visibledatacolumn = Store.visibledatacolumn;
+
+    let scrollHeight, rh_height;
+    if (str - 1 < 0) {
+        scrollHeight = 0;
+        rh_height = visibledatarow[edr];
+    }
+    else {
+        scrollHeight = visibledatarow[str - 1];
+        rh_height = visibledatarow[edr] - visibledatarow[str - 1];
+    }
+
+    let scrollWidth, ch_width;
+    if (stc - 1 < 0) {
+        scrollWidth = 0;
+        ch_width = visibledatacolumn[edc];
+    }
+    else {
+        scrollWidth = visibledatacolumn[stc - 1];
+        ch_width = visibledatacolumn[edc] - visibledatacolumn[stc - 1];
+    }
+
+    let newCanvas = $("<canvas>").attr({
+        width: Math.ceil(ch_width * Store.devicePixelRatio),
+        height: Math.ceil(rh_height * Store.devicePixelRatio)
+    }).css({ width: ch_width, height: rh_height });
+
+    luckysheetDrawMain(scrollWidth, scrollHeight, ch_width, rh_height, 1, 1, null, null, newCanvas);
+    let ctx_newCanvas = newCanvas.get(0).getContext("2d");
+
+    //补上 左边框和上边框
+    ctx_newCanvas.beginPath();
+    ctx_newCanvas.moveTo(
+        0, 
+        0
+    );
+    ctx_newCanvas.lineTo(
+        0, 
+        Store.devicePixelRatio * rh_height
+    );
+    ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
+    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+    ctx_newCanvas.stroke();
+    ctx_newCanvas.closePath();
+
+    ctx_newCanvas.beginPath();
+    ctx_newCanvas.moveTo(
+        0, 
+        0
+    );
+    ctx_newCanvas.lineTo(
+        Store.devicePixelRatio * ch_width, 
+        0
+    );
+    ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
+    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+    ctx_newCanvas.stroke();
+    ctx_newCanvas.closePath();
+
+    let url = newCanvas.get(0).toDataURL("image/png");
+
+    return url;
+}
+
+
+/**
+ * 设置工作簿名称 
+ * @param {String} name 工作簿名称
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setWorkbookName(name, options = {}) {
+    if(name == null || name.toString().length == 0){
+        return tooltip.info("The name parameter is invalid.", ""); 
+    }
+
+    $("#luckysheet_info_detail_input").val(name);
+
+    let {
+        success
+    } = {...options}
+    
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 撤销当前操作，返回刚刚撤销的操作对象 
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function undo(options = {}) {
+    let ctr = $.extend(true, {}, Store.jfredo[Store.jfredo.length - 1]);
+
+    controlHistory.redo(new Event('custom'));
+    luckysheetactiveCell();
+
+    let {
+        success
+    } = {...options}
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+    
+    return ctr;
+}
+
+
+/**
+ * 重做当前操作，返回刚刚重做的操作对象 
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function redo(options = {}) {
+    let ctr = $.extend(true, {}, Store.jfundo[Store.jfundo.length - 1]);
+
+    controlHistory.undo(new Event('custom'));
+    luckysheetactiveCell();
+
+    let {
+        success
+    } = {...options}
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+    
+    return ctr;
+}
+
+
+/**
+ * 返回所有工作表配置 
+ */
+export function getAllSheets() {
+    let data = $.extend(true, [], Store.luckysheetfile);
+
+    data.forEach((item, index, arr) => {
+        if(item.data != null && item.data.length > 0){
+            item.celldata = sheetmanage.getGridData(item.data);
+        }
+
+        delete item.load;
+    })
+
+    return data;
 }
 
 
@@ -4940,6 +5360,304 @@ export function getLuckysheetfile(){
     return getluckysheetfile();
 }
 
+
+/**
+ * 指定工作表范围设置数据验证功能，并设置参数
+ * @param {Object} optionItem 数据验证的配置信息
+ * @param {String} optionItem.type 类型
+ * @param {String | Null} optionItem.type2 条件类型
+ * @param {String | Number} optionItem.value1 条件值1
+ * @param {String | Number} optionItem.value2 条件值2
+ * @param {Boolean} optionItem.checked 选中状态
+ * @param {Boolean} optionItem.remote 自动远程获取选项
+ * @param {Boolean} optionItem.prohibitInput 输入数据无效时禁止输入
+ * @param {Boolean} optionItem.hintShow 选中单元格时显示提示语
+ * @param {String} optionItem.hintText 提示语文本
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 选区范围；默认为当前选区
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function setDataVerification(optionItem, options = {}) {
+    if(getObjType(optionItem) != 'object'){
+        return tooltip.info("The optionItem parameter is invalid.", "");
+    }
+
+    let {
+        type,
+        type2 = null,
+        value1 = '',
+        value2 = '',
+        remote = false,
+        prohibitInput = false,
+        hintShow = false,
+        hintText = ''
+    } = {...optionItem}
+
+    let typeValues = ["dropdown", "checkbox", "number", "number_integer", "number_decimal", "text_content", "text_length", "date", "validity"];
+    let type2Values_1 = ["bw", "nb", "eq", "ne", "gt", "lt", "gte", "lte"];
+    let type2Values_2 = ["include", "exclude", "equal"];
+    let type2Values_3 = ["bw", "nb", "eq", "ne", "bf", "nbf", "af", "naf"];
+    let type2Values_4 = ["card", "phone"];
+
+    if(!typeValues.includes(type)){
+        return tooltip.info("The optionItem.type parameter is invalid.", "");
+    }
+
+    let dvText = locale().dataVerification;
+
+    if(type == 'dropdown'){
+        if(value1.length == 0){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo1);
+            return;
+        }
+    }
+    else if(type == 'checkbox'){
+        if(value1.length == 0 || value2.length == 0){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo2);
+            return;
+        }
+    }
+    else if(type == 'number' || type == 'number_integer' || type == 'number_decimal'){
+        if(!type2Values_1.includes(type2)){
+            return tooltip.info("The optionItem.type2 parameter is invalid.", "");
+        }
+
+        if(!isRealNum(value1)){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
+            return;
+        }
+
+        if(type2 == 'bw' || type2 == 'nb'){
+            if(!isRealNum(value2)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
+                return;
+            }
+
+            if(Number(value2) < Number(value1)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo4);
+                return;
+            }
+        }
+    }
+    else if(type == 'text_content'){
+        if(!type2Values_2.includes(type2)){
+            return tooltip.info("The optionItem.type2 parameter is invalid.", "");
+        }
+
+        if(value1.length == 0){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo5);
+            return;
+        }
+    }
+    else if(type == 'text_length'){
+        if(!type2Values_1.includes(type2)){
+            return tooltip.info("The optionItem.type2 parameter is invalid.", "");
+        }
+
+        if(!isRealNum(value1)){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
+            return;
+        }
+
+        if(type2 == 'bw' || type2 == 'nb'){
+            if(!isRealNum(value2)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
+                return;
+            }
+
+            if(Number(value2) < Number(value1)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo4);
+                return;
+            }
+        }
+    }
+    else if(type == 'date'){
+        if(!type2Values_3.includes(type2)){
+            return tooltip.info("The optionItem.type2 parameter is invalid.", "");
+        }
+
+        if(!isdatetime(value1)){
+            tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
+            return;
+        }
+
+        if(type2 == 'bw' || type2 == 'nb'){
+            if(!isdatetime(value2)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo6);
+                return;
+            }
+
+            if(diff(value1, value2) > 0){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo7);
+                return;
+            }
+        }
+    }
+    else if(type == 'validity'){
+        if(!type2Values_4.includes(type2)){
+            return tooltip.info("The optionItem.type2 parameter is invalid.", "");
+        }
+    }
+
+    if(getObjType(remote) != 'boolean'){
+        return tooltip.info("The optionItem.remote parameter is invalid.", "");
+    }
+
+    if(getObjType(prohibitInput) != 'boolean'){
+        return tooltip.info("The optionItem.prohibitInput parameter is invalid.", "");
+    }
+
+    if(getObjType(hintShow) != 'boolean'){
+        return tooltip.info("The optionItem.hintShow parameter is invalid.", "");
+    }
+
+    let {
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = {
+            "row": cellrange.row,
+            "column": cellrange.column
+        };
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let item = {
+        type: type,
+        type2: type2,  
+        value1: value1,  
+        value2: value2, 
+        checked: false, 
+        remote: remote, 
+        prohibitInput: prohibitInput,  
+        hintShow: hintShow, 
+        hintText: hintText,
+    }
+
+    let currentDataVerification = $.extend(true, {}, file.dataVerification);
+    
+    let data = $.extend(true, [], file.data);
+    if(data.length == 0){
+        data = sheetmanage.buildGridData(file);
+    }
+
+    let str = range.row[0],
+        edr = range.row[1],
+        stc = range.column[0],
+        edc = range.column[1];
+
+    for(let r = str; r <= edr; r++){
+        for(let c = stc; c <= edc; c++){
+            currentDataVerification[r + '_' + c] = item;
+
+            if(type == 'checkbox'){
+                setcellvalue(r, c, data, item.value2);
+            }
+        }
+    }
+
+    if(file.index == Store.currentSheetIndex){
+        let historyDataVerification = $.extend(true, {}, file.dataVerification);
+
+        if(type == 'checkbox'){
+            dataVerificationCtrl.refOfCheckbox(historyDataVerification, currentDataVerification, Store.currentSheetIndex, data, range);
+        }
+        else{
+            dataVerificationCtrl.ref(historyDataVerification, currentDataVerification, Store.currentSheetIndex);
+        }
+    }
+    else{
+        file.dataVerification = currentDataVerification;
+        file.data = data;
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
+/**
+ * 指定工作表范围删除数据验证功能 
+ * @param {Object} options 可选参数
+ * @param {Array | Object | String} options.range 选区范围；默认为当前选区
+ * @param {Number} options.order 工作表下标；默认值为当前工作表下标
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function deleteDataVerification(options = {}) {
+    let {
+        range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        let cellrange = formula.getcellrange(range);
+        range = {
+            "row": cellrange.row,
+            "column": cellrange.column
+        };
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let currentDataVerification = $.extend(true, {}, file.dataVerification);
+
+    let str = range.row[0],
+        edr = range.row[1],
+        stc = range.column[0],
+        edc = range.column[1];
+
+    for(let r = str; r <= edr; r++){
+        for(let c = stc; c <= edc; c++){
+            delete currentDataVerification[r + '_' + c];
+        }
+    }
+
+    if(file.index == Store.currentSheetIndex){
+        let historyDataVerification = $.extend(true, {}, file.dataVerification);
+        dataVerificationCtrl.ref(historyDataVerification, currentDataVerification, Store.currentSheetIndex);
+    }
+    else{
+        file.dataVerification = currentDataVerification;
+    }
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
+
+
 /**
  * data => celldata ，data二维数组数据转化成 {r, c, v}格式一维数组
  * 
@@ -4948,18 +5666,39 @@ export function getLuckysheetfile(){
  * @param {Function} options.success 操作结束的回调函数
  */
 export function transToCellData(data, options = {}){
-
     let {
         success
     } = {...options}
 
     setTimeout(()=>{
-        
         if (success && typeof success === 'function') {
             success();
         }
-        
     },0)
     
     return sheetmanage.getGridData(data)
+}
+
+
+/**
+ * celldata => data ，celldata一维数组数据转化成表格所需二维数组
+ * 
+ * @param {Array} celldata 二维数组数据
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function transToData(celldata, options = {}){
+    let {
+        success
+    } = {...options}
+
+    setTimeout(()=>{
+        if (success && typeof success === 'function') {
+            success();
+        }
+    },0)
+    
+    return sheetmanage.buildGridData({
+        celldata: celldata
+    })
 }
