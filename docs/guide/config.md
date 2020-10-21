@@ -744,6 +744,25 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {String} [newColor]: After modification, the current worksheet color
 
 ------------
+### sheetZoomBefore
+- Type: Function
+- Default: null
+- Usage: Before worksheet zoom
+- Parameter: 
+	- {Number} [i]: `index` of current worksheet
+	- {String} [zoom]: Current worksheet zoom ratio
+
+------------
+### sheetZoomAfter
+- Type: Function
+- Default: null
+- Usage: After worksheet zoom
+- Parameter: 
+	- {Number} [i]: `index` of current worksheet
+	- {String} [oldZoom]: Before modification, the current worksheet zoom ratio
+	- {String} [newZoom]: After modification, the current worksheet zoom ratio
+
+------------
 
 ## Workbook
 

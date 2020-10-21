@@ -543,6 +543,54 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### setRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **参数**：
+	
+	- {Object} [rowInfo]: 行数和高度对应关系
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置指定行的高度
+
+- **示例**:
+
+   - 设置第一行高度为50px，第二行高度为60px
+
+		`luckysheet.setRowHeight({0：50，1：60})`
+
+------------
+
+### setColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **参数**：
+	
+	- {Number} [columnInfo]: 列数和宽度对应关系
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置指定列的宽度
+
+- **示例**:
+
+   - 设置第一列宽度为50px，第二列宽度为60px
+
+		`luckysheet.setColumnWidth({0：50，1：60})`
+
+------------
+
 ## 选区操作
 
 ### getRange()
@@ -1960,6 +2008,32 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### setSheetZoom(zoom [,setting])
+
+[todo]
+
+
+- **参数**：
+
+    - {Number} [zoom]: 工作表缩放比例
+
+	- {PlainObject} [setting]: 可选参数
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置工作表缩放比例
+
+
+- **示例**:
+
+	- 设置当前工作表缩放比例为0.5
+	```js
+	luckysheet.setSheetZoom(0.5)
+	```
+
+------------
+
 ### showGridLines([setting])
 
 - **参数**：
@@ -2242,6 +2316,63 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+## 数据验证
+
+### setDataVerification(option, [setting])
+
+[todo]
+
+- **参数**：
+	
+	- {Object} [option]: 数据验证的配置信息
+    - {PlainObject} [setting]: 可选参数
+        + {Array | Object | String} [range]: 数据验证的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表范围设置数据验证功能，并设置参数
+
+------------
+
+### deleteDataVerification([setting])
+
+[todo，待确认是否合理]
+
+- **参数**：
+	
+    - {PlainObject} [setting]: 可选参数
+		+ {Array | Object | String} [range]: 数据验证的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表范围删除数据验证功能
+
+------------
+
+## 工作表保护
+
+
+### setProtection(option, [setting])
+
+[todo]
+
+- **参数**：
+	
+	- {Object} [option]: 工作表保护的配置信息
+    - {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表设置工作表保护功能
+
+------------
+
 ## 公共方法
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
@@ -2285,6 +2416,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用，使用场景在用户自己操作表格后想要手动保存全部的参数，再去别处初始化这个表格使用，类似一个luckysheet专有格式的导入导出。
 
 ------------
+
 
 ## 旧版API
 
