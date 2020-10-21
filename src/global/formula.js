@@ -1238,7 +1238,7 @@ const luckysheetformula = {
         }
 
         if(!checkProtectionLocked(r, c, Store.currentSheetIndex)){
-            return
+            return;
         }
 
         //数据验证 输入数据无效时禁止输入
@@ -5188,6 +5188,7 @@ const luckysheetformula = {
             "r": u.r,
             "c": u.c,
             "v": v[1],
+            "f": v[2],
             "spe":v[3],
             "index": u.index
         });
@@ -5226,6 +5227,7 @@ const luckysheetformula = {
                     }
                 }
                 updateValue.v = item.v;
+                updateValue.f = item.f;
                 setcellvalue(item.r, item.c, data, updateValue);
                 server.saveParam("v", item.index, item.v, {
                     "r": item.r,

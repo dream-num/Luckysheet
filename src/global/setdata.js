@@ -22,9 +22,9 @@ function setcellvalue(r, c, d, v) {
             if(v.f != null){
                 cell.f = v.f;
             }
-            else{
-                delete cell.f;
-            }
+            // else{
+            //     delete cell.f;
+            // }
     
             if(v.spl != null){
                 cell.spl = v.spl;
