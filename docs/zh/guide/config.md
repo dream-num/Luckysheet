@@ -745,6 +745,25 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {String} [newColor]: 修改后当前sheet页颜色
 
 ------------
+### sheetZoomBefore
+- 类型：Function
+- 默认值：null
+- 作用：sheet缩放前
+- 参数：
+	- {Number} [i]: sheet页的`index`
+	- {String} [zoom]: 当前sheet页缩放比例
+
+------------
+### sheetZoomAfter
+- 类型：Function
+- 默认值：null
+- 作用：sheet缩放后
+- 参数：
+	- {Number} [i]: sheet页的`index`
+	- {String} [oldZoom]: 修改前当前sheet页缩放比例
+	- {String} [newZoom]: 修改后当前sheet页缩放比例
+
+------------
 
 ## 工作簿
 
