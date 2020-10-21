@@ -137,6 +137,7 @@ npm run build
 <link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='./plugins/plugins.css' />
 <link rel='stylesheet' href='./css/luckysheet.css' />
+<link rel='stylesheet' href='./assets/iconfont/iconfont.css' />
 <script src="./plugins/js/plugin.js"></script>
 <script src="./luckysheet.umd.js"></script>
 ```
