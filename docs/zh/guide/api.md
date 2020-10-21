@@ -590,6 +590,106 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### getRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **参数**：
+	
+	- {Array} [rowInfo]: 行数
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定行的高度，得到行数和高度对应关系的对象
+
+- **示例**:
+
+   - 第一行高度为50px，第二行高度为60px，获取这些值
+
+		`luckysheet.getRowHeight([0,1])`
+		返回得到
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **参数**：
+	
+	- {Array} [columnInfo]: 列数
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定列的宽度，得到列数和宽度对应关系的对象
+
+- **示例**:
+
+   - 第一列宽度为50px，第二列宽度为60px，获取这些值
+
+		`luckysheet.getColumnWidth([0,1])`
+		返回得到
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+(TODO)
+ 
+- **参数**：
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定工作表的默认行高
+
+- **示例**:
+
+   - 返回当前工作表的默认行高
+
+		`luckysheet.getDefaultRowHeight()`
+		返回得到
+		`19`
+
+------------
+
+### getDefaultColumnWidth([,setting])
+
+(TODO)
+ 
+- **参数**：
+		
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定工作表的默认列宽
+
+- **示例**:
+
+   - 返回当前工作表的默认列宽
+
+		`luckysheet.getDefaultColumnWidth()`
+		返回得到
+		`73`
+
+------------
+
 ## 选区操作
 
 ### getRange()

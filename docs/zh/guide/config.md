@@ -106,15 +106,52 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### loadUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadUrl`的地址，与`loadSheetUrl`配合使用，一般用于大数据量的时候。也可以不用Luckysheet提供的接口参数，使用[data](#data)参数可以提前准备好所有表格数据用于初始化。
+- 作用：配置`loadUrl`的地址，与`loadSheetUrl`配合使用。
 
-	Luckysheet会通过ajax请求整个表格数据，默认载入status为1的sheet数据中的所有`celldata`，其余的sheet载入除`celldata`字段外的所有字段。但是考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则会通过`loadSheetUrl`配置的接口地址请求数据，把引用到的sheet的数据一并补全。因为	`loadUrl`只负责当前页数据，所以还需要配置`loadSheetUrl`作为异步加载数据的接口。
+	Luckysheet会通过ajax请求（POST）整个表格的数据，默认载入status为1的sheet数据中的`celldata`，其余的sheet载入除`celldata`字段外的所有配置字段。特别是在数据量大的时候，`loadUrl`只负责当前页单元格数据，配置`loadSheetUrl`作为其它工作表异步加载单元格数据的接口，可以提高性能。
+	
+	一个合格的接口返回的json数据为：
+
+	```js
+	"[	
+		//status为1的sheet页，重点是需要提供初始化的数据celldata
+		{
+			"name": "Cell",
+			"index": "sheet_001",
+			"order":  0,
+			"status": 1,
+			"celldata": [{"r":0,"c":0,"v":{"bg":null,"bl":0,"it":0,"ff":0,"fs":11,"fc":"rgb(51, 51, 51)","ht":1,"vt":1,"v":1,"ct":{"fa":"General","t":"n"},"m":"1"}}]
+		},
+		//其他status为0的sheet页，无需提供celldata，只需要配置项即可
+		{
+			"name": "Data",
+			"index": "sheet_002",
+			"order":  1,
+			"status": 0
+		},
+		{
+			"name": "Picture",
+			"index": "sheet_003",
+			"order":  2,
+			"status": 0
+		}
+	]"
+	```
+	有几个注意点
+	+ 这是一个字符串，类似于JSON.stringify()处理后的json数据，压缩数据便于传输
+	+ loadUrl是一个post请求，也是为了支持大数据量
+	+ 考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则会通过`loadSheetUrl`配置的接口地址请求数据，把引用到的sheet的数据一并补全，而不用等切换到其它页的时候再请求。
+	+ 当数据量小的时候，也可以不用Luckysheet提供的此接口，直接使用[data](#data)参数可以提前准备好所有表格数据用于初始化。
 
 ------------
 ### loadSheetUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadSheetUrl`的地址，参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`），返回的数据为sheet的`celldata`字段数据集合。为了加载性能考虑，除了第一次加载当前页的`celldata`数据之外，其余sheet的数据，是在切换到那个sheet页的时候，才会请求那一页的数据。
+- 作用：配置`loadSheetUrl`的地址，参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`），返回的数据为sheet的`celldata`字段数据集合。
+
+为了加载性能考虑，除了第一次加载当前页的`celldata`数据之外，其余sheet的数据，是在切换到那个sheet页的时候，才会请求那一页的数据。
+
+	注意：loadSheetUrl是一个post请求，是为了支持大数据量
 
 ------------
 ### allowUpdate

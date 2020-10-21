@@ -589,6 +589,106 @@ Use note:
 
 ------------
 
+### getRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [rowInfo]: The number of rows
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the height of the specified row, get the object corresponding to the number of rows and height
+
+- **Usage**:
+
+   - The height of the first row is 50px, the height of the second row is 60px, get these values
+
+		`luckysheet.getRowHeight([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [columnInfo]: The number of columns
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the width of the specified column, get the object of the corresponding relationship between the number of columns and the width
+
+- **Usage**:
+
+   - The width of the first column is 50px, the width of the second column is 60px, get these values
+
+		`luckysheet.getColumnWidth([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default row height of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default row height of the current worksheet
+
+		`luckysheet.getDefaultRowHeight()`
+		Return to get
+		`19`
+
+------------
+
+### getDefaultColumnWidth([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+		
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default column width of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default column width of the current worksheet
+
+		`luckysheet.getDefaultColumnWidth()`
+		Return to get
+		`73`
+
+------------
+
 ## Selection operation
 
 ### getRange()
