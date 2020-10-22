@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/mengshukeji/Luckysheet/compare/v2.1.2...v2.1.3) (2020-10-22)
+
+
+### Features
+
+* **api add:** getRowHeight getColumnWidth getDefaultRowHeight getDefaultColumnWidth ([a72f38b](https://github.com/mengshukeji/Luckysheet/commit/a72f38b641a999bdf15281029777222e0bf79e85))
+* **api add:** setRowHeight setColumnWidth setSheetZoom setDataVerification deleteDataVerification ([0fd06cc](https://github.com/mengshukeji/Luckysheet/commit/0fd06cc4d7f465967b3bcc91e0b2484ba61b71f6))
+* **api add:** setSheetOrder refresh getScreenshot setWorkbookName undo redo ([b2a4617](https://github.com/mengshukeji/Luckysheet/commit/b2a46171c2cfcd9682537a801a1ea68e7e2d3ba0))
+* **api and config:** api exitEditMode() scroll() config defaultFontSize ([5eedc48](https://github.com/mengshukeji/Luckysheet/commit/5eedc48a764727bebe09fd626087b158b2979c1e))
+* **support spanish:** support Spanish ([41c527c](https://github.com/mengshukeji/Luckysheet/commit/41c527c6f39a8cb3a99d3fc70603f29ab7ba0a82))
+
+
+### Bug Fixes
+
+* **api:** api ([14d72eb](https://github.com/mengshukeji/Luckysheet/commit/14d72ebe56a2f87f0df5d14595c60e41fe9af077))
+* **bug:** postil image zoom ([76dbb5c](https://github.com/mengshukeji/Luckysheet/commit/76dbb5cc613c8290696e917c554aff934050b6a2))
+* **destroy function repaire:** repair ([02b9fe7](https://github.com/mengshukeji/Luckysheet/commit/02b9fe75f28a87a475bd0593522b20d030d31b85))
+* **event name:** fix ([f64ba54](https://github.com/mengshukeji/Luckysheet/commit/f64ba54455e2a757c72fb4c0110fef2cc5ccdaab))
+* **fix focus after formula edit:** fix ([0ee5f31](https://github.com/mengshukeji/Luckysheet/commit/0ee5f31f5ce84c1a7fab2af17ff102790603e3bb))
+* **fix text whole text wrap bug:** fix ([ef3d324](https://github.com/mengshukeji/Luckysheet/commit/ef3d324e80bc648080b1e5a53108b30dccf74520))
+* **function array value error:** fix it ([31e4b3d](https://github.com/mengshukeji/Luckysheet/commit/31e4b3d9e4cf16f005f8cede059b7cb1cab05031))
+* **function update fix:** fix bug ([28835bb](https://github.com/mengshukeji/Luckysheet/commit/28835bb7533087eb16866b4cdaebe94231c7832b))
+* **image:** resize and change row or column size ([05c49a2](https://github.com/mengshukeji/Luckysheet/commit/05c49a2fad21706ee7e232fe75d213fed3724109))
+* **image fuzzy:** fix it ([8fb1a88](https://github.com/mengshukeji/Luckysheet/commit/8fb1a88669d772a0067edb614e5974ada7301c9c))
+* **image zoom:** fix ([1337178](https://github.com/mengshukeji/Luckysheet/commit/1337178a991b4aa99a6e255e50d69e2c8ca47b82))
+* **index offset indirect fix:** improve the overall execution efficiency of the function ([7a2f8d0](https://github.com/mengshukeji/Luckysheet/commit/7a2f8d02daf2cc0180adc56dafcfb1d1f6d022ec))
+* **inline style:** inline style cell delete bug ([8067a01](https://github.com/mengshukeji/Luckysheet/commit/8067a012ec59a39c5a389d357c3ba2c19bc6acb9))
+* **lineheight change to 0.5:** similar to excel ([760378b](https://github.com/mengshukeji/Luckysheet/commit/760378b369b9bf71da0182ea3b413a0accb23c38))
+* **more btn:** fix more btn align middle ([c5112e9](https://github.com/mengshukeji/Luckysheet/commit/c5112e9700cd89d4820cbbbefdc0e1d3d0ed940a))
+* **more formats toolbar:** fix more formats toolbar can't sync with cell, fix mac delete button can't delete cell, fix can't delete cell with inline-style ([23fcb13](https://github.com/mengshukeji/Luckysheet/commit/23fcb137cb594cfb4bc6dfe2ac86d306c42427f9))
+* **selection bug:** fix it ([b83447d](https://github.com/mengshukeji/Luckysheet/commit/b83447d61805192d0310b20e97821eb01b790fb7))
+* **setcellvalue delete function fix:** fix it ([00b351f](https://github.com/mengshukeji/Luckysheet/commit/00b351fa0dc01c32cf9c6b8852937e7d2ceb292d))
+* **sheet name contains squotes bug:** formla can not execute, when sheet name contains squotes ([fc1dd83](https://github.com/mengshukeji/Luckysheet/commit/fc1dd837d4a3d1639914923201e853e55a865143))
+* **text wrap postion bug:** wrap and rotation postion wrong ([9538972](https://github.com/mengshukeji/Luckysheet/commit/9538972f910ed77e02ccb55c0b96386fcf87297b))
+* **the bug with first word is space:** fix ti ([6ae8319](https://github.com/mengshukeji/Luckysheet/commit/6ae83196cb50fafbf5657104babd124fac27b818))
+* **update number add quote automatically:** similar to excel ([05b01a6](https://github.com/mengshukeji/Luckysheet/commit/05b01a6c95a5d0736c51c5c1ca41e9eb463122d8))
+* **validation of "0" values:** fix ([7255c51](https://github.com/mengshukeji/Luckysheet/commit/7255c51d7b46523ff423ee5560b78d18f8535821))
+
 ## [2.1.0](https://github.com/mengshukeji/Luckysheet/compare/v2.0.0...v2.1.0) (2020-10-10)
 
 
