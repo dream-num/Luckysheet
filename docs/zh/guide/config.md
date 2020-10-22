@@ -106,11 +106,17 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### loadUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadUrl`的地址，与`loadSheetUrl`配合使用。
+- 作用：配置`loadUrl`接口地址，加载所有工作表的配置，并包含当前页单元格数据，与`loadSheetUrl`配合使用。参数为`gridKey`（表格主键）。
+
+	源码的请求写法是：
+	```js
+	$.post(loadurl, {"gridKey" : server.gridKey}, function (d) {})
+	```
+	> 参见源码 [`src/core.js`](https://github.com/mengshukeji/Luckysheet/blob/master/src/core.js)
 
 	Luckysheet会通过ajax请求（POST）整个表格的数据，默认载入status为1的sheet数据中的`celldata`，其余的sheet载入除`celldata`字段外的所有配置字段。特别是在数据量大的时候，`loadUrl`只负责当前页单元格数据，配置`loadSheetUrl`作为其它工作表异步加载单元格数据的接口，可以提高性能。
 	
-	一个合格的接口返回的json数据为：
+	一个合格的接口返回的json字符串数据为：
 
 	```js
 	"[	
@@ -120,7 +126,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 			"index": "sheet_001",
 			"order":  0,
 			"status": 1,
-			"celldata": [{"r":0,"c":0,"v":{"bg":null,"bl":0,"it":0,"ff":0,"fs":11,"fc":"rgb(51, 51, 51)","ht":1,"vt":1,"v":1,"ct":{"fa":"General","t":"n"},"m":"1"}}]
+			"celldata": [{"r":0,"c":0,"v":{"v":1,"m":"1","ct":{"fa":"General","t":"n"}}}]
 		},
 		//其他status为0的sheet页，无需提供celldata，只需要配置项即可
 		{
@@ -138,34 +144,76 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	]"
 	```
 	有几个注意点
-	+ 这是一个字符串，类似于JSON.stringify()处理后的json数据，压缩数据便于传输
+	+ 这是一个字符串，类似于JSON.stringify()处理后的json数据，压缩后的数据便于传输
 	+ loadUrl是一个post请求，也是为了支持大数据量
-	+ 考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则会通过`loadSheetUrl`配置的接口地址请求数据，把引用到的sheet的数据一并补全，而不用等切换到其它页的时候再请求。
-	+ 当数据量小的时候，也可以不用Luckysheet提供的此接口，直接使用[data](#data)参数可以提前准备好所有表格数据用于初始化。
+	+ 考虑到一些公式、图表及数据透视表会引用其他sheet的数据，所以前台会加一个判断，如果该当前sheet引用了其他sheet的数据则会通过`loadSheetUrl`配置的接口地址请求数据，把引用到的sheet的数据一并补全，而不用等切换到其它页的时候再请求
+	+ 当数据量小的时候，也可以不用Luckysheet提供的此接口，直接使用[data](#data)参数可以提前准备好所有表格数据用于初始化
 
 ------------
 ### loadSheetUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadSheetUrl`的地址，参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`），返回的数据为sheet的`celldata`字段数据集合。
+- 作用：配置`loadSheetUrl`接口地址，用于异步加载其它单元格数据。参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`）。
 
-为了加载性能考虑，除了第一次加载当前页的`celldata`数据之外，其余sheet的数据，是在切换到那个sheet页的时候，才会请求那一页的数据。
+	源码的请求写法是：
+	```js
+	$.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {})
+	```
+	> 参见源码 [`src/controllers/sheetmanage.js`](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/sheetmanage.js)
 
-	注意：loadSheetUrl是一个post请求，是为了支持大数据量
+	返回的数据为sheet的`celldata`字段数据集合。
+
+	一个合格的接口返回的json字符串数据为：
+
+	```js
+	"{
+		"sheet_01": [
+			{
+				"r": 0,
+				"c": 0,
+				"v": { "v": 1, "m": "1", "ct": { "fa": "General", "t": "n" } }
+			}
+		],
+		"sheet_02": [
+			{
+				"r": 0,
+				"c": 0,
+				"v": { "v": 1, "m": "1", "ct": { "fa": "General", "t": "n" } }
+			}
+		],
+		"sheet_0": [
+			{
+				"r": 0,
+				"c": 0,
+				"v": { "v": 1, "m": "1", "ct": { "fa": "General", "t": "n" } }
+			}
+		]
+	}"
+	```
+	同`loadUrl`类似，`loadSheetUrl`也要注意这几点：
+	+ 这是一个字符串格式数据
+	+ 这是一个post请求
+	+ 这个接口会在两种情况下自动调用，一是在`loadUrl`加载的当前页数据时发现当前工作表引用了其他工作表，二是切换到一个未曾加载过数据的工作表时
 
 ------------
 ### allowUpdate
 - 类型：Boolean
 - 默认值：false
-- 作用：是否允许操作表格后的后台更新，与`updateUrl`配合使用
+- 作用：是否允许操作表格后的后台更新，与`updateUrl`配合使用。如果要开启共享编辑，此参数必须设置为`true`。
 
 ------------
 ### updateUrl
 - 类型：String
 - 默认值：""
-- 作用：操作表格后的后台更新地址，在`allowUpdate`为`true`时才会有效，此接口也是共享编辑的接口地址。
+- 作用：操作表格后，实时保存数据的websocket地址，此接口也是共享编辑的接口地址。
+	
+	有个注意点，要想开启共享编辑，必须满足以下四个条件：
+	+ `allowUpdate`为`true`
+	+ 配置了`loadUrl`
+	+ 配置了`loadSheetUrl`
+	+ 配置了`updateUrl`
 
-注意，还需要配置`loadUrl`和`loadSheetUrl`才能生效
+	通过共享编辑功能，可以实现Luckysheet实时保存数据和多人同步数据，每一次操作都会发送不同的参数到后台，具体的操作类型和参数参见[表格操作](/zh/guide/operate.html)
 
 ------------
 ### updateImageUrl

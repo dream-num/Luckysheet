@@ -928,14 +928,16 @@ function getCellTextInfo(cell , ctx, option){
                     let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
                     let lastWord = str.substr(str.length-1,1);
                     if(lastWord==" " || checkWordByteLength(lastWord)==2){
-                        spaceOrTwoByte = {
-                            index:i,
-                            str:preStr,
-                            width:preTextWidth,
-                            height:preTextHeight,
-                            asc:preMeasureText.actualBoundingBoxAscent,
-                            desc:preMeasureText.actualBoundingBoxDescent,
-                        };
+                        if(preMeasureText!=null){
+                            spaceOrTwoByte = {
+                                index:i,
+                                str:preStr,
+                                width:preTextWidth,
+                                height:preTextHeight,
+                                asc:preMeasureText.actualBoundingBoxAscent,
+                                desc:preMeasureText.actualBoundingBoxDescent,
+                            };
+                        }
 
                     }
                     // textW_all += textW;
