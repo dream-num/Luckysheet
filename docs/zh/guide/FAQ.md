@@ -1,4 +1,6 @@
-# FAQ
+# 常见问题
+
+本章内容搜集了大家反馈的常见问题，如果官方文档和此列表都不能解答您的疑问，推荐到[官方论坛](https://support.qq.com/product/288322)反馈
 
 ## **<span style="font-size:20px;">Q</span>** luckysheetfile中的data和celldata有什么区别？
 
@@ -42,7 +44,7 @@ luckysheet.buildGridData(luckysheetfile)
 ## **<span style="font-size:20px;">Q</span>** 远端加载数据是loadUrl还是updateUrl？
 
 **<span style="font-size:20px;">A</span>** : [loadUrl](/zh/guide/config.html#loadurl)。配置了loadUrl，Luckysheet会通过ajax请求整个表格数据，而updateUrl会作为协同编辑实时保存的接口地址。
-注意：初始化数据需要配置loadUrl和loadSheetUrl参数，而协同编辑则在配置loadUrl和loadSheetUrl的基础上，还要配置updateUrl和allowUpdate才能生效。
+注意：初始化数据需要配置loadUrl和loadSheetUrl参数，而协同编辑则在配置loadUrl、loadSheetUrl、updateUrl和allowUpdate四个参数才能生效。
 
 ------------
 
@@ -63,11 +65,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## **<span style="font-size:20px;">Q</span>** excel导入导出怎么做？
 
-**<span style="font-size:20px;">A</span>** :现阶段可以参考以下案例
-- Luckysheet导入: https://www.cnblogs.com/DuShuSir/p/13179483.html
-- Luckysheet导出 : https://www.cnblogs.com/recode-hyh/p/13168226.html
-
-后期会另外开源一个导入导出库做适配，敬请期待！
+**<span style="font-size:20px;">A</span>** :配合Luckysheet开发的excel导入导出库-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel)已经实现了excel导入功能，导出功能正在开发当中。现阶段excel导出可以参考这篇博文： https://www.cnblogs.com/recode-hyh/p/13168226.html。
 
 ------------
 
@@ -75,3 +73,109 @@ luckysheet.buildGridData(luckysheetfile)
 
 **<span style="font-size:20px;">A</span>** :参考以下案例
 - Luckysheet初始化含合并单元格的数据: https://www.cnblogs.com/DuShuSir/p/13272397.html
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Luckysheet如何把表格里的数据保存到数据库？有没有服务端存储和协作的解决方案？
+
+**<span style="font-size:20px;">A</span>** :有两个方案：
+
+- 一是表格操作完成后，使用`luckysheet.getAllSheets()`方法获取到全部的工作表数据，全部发送到后台存储。
+- 二是开启协同编辑功能，实时传输数据给后端。
+具体的操作步骤参考这篇文章：https://www.cnblogs.com/DuShuSir/p/13857874.html
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何监听单元格hover或者点击事件？`cellRenderAfter`如何实时监听变化？
+
+**<span style="font-size:20px;">A</span>** ：我们搜集到需要针对单元格事件的二次开发需求，规划了单元格相关的钩子函数，参考[单元格钩子函数](/zh/guide/config.html#cellrenderafter)（显示的TODO的暂未开放）
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 顶部的工具栏不支持自定义配置？
+
+**<span style="font-size:20px;">A</span>** ：
+顶部工具栏的自定义配置使用初始[options.showtoolbarconfig](/zh/guide/config.html#showtoolbarconfig)(如果标注TODO表示暂未开发)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 项目使用了jQuery吗？
+
+**<span style="font-size:20px;">A</span>** ：是的。Luckysheet内部启动时间比开源的时间早很多，所以用到了jQuery。打包工具会把jQuery集成到打包目录的`./plugins/js/plugin.js`文件中。
+
+如果您的项目中（比如React/Vue）也自己全局引用了jQuery，且造成了冲突，可以尝试去掉一个jQuery。
+
+要想在Luckysheet里去除jQuery，需要在源码根目录下的`gulpfile.js`文件中找到打包jQuery的地方：[src/plugins/js/jquery.min.js](https://github.com/mengshukeji/Luckysheet/blob/master/gulpfile.js)，删除jQuery相关的信息即可。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何为单元格对象新增字段？
+
+**<span style="font-size:20px;">A</span>** 首先参考[单元格对象格式](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/cell.html)，然后参照源码批注的部分[src/controllers/postil.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/postil.js)。批注是一个加在单元格对象上的一个配置。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 工具栏图标加载不出来？
+
+**<span style="font-size:20px;">A</span>** 工具栏及其他部分图标采用了iconfont图标，加载不出来是因为缺少了iconfont.css的引入，之前旧版官方文档未写清楚这一点对大家造成误导，很抱歉。
+
+详细的Luckysheet使用教程参考已经更新的[官方文档](/zh/guide/#使用步骤)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Luckyexcel打包后不动？
+
+**<span style="font-size:20px;">A</span>** 打包的终端命令行不显示结束，但是如果`dist`文件夹内已经有了结果文件`luckyexcel.js`，则表明是正常的。
+
+Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧版打包工具有点问题在命令行显示这块有些问题，待修复完这个问题就不会出现了。
+
+更多详细信息关注：[Luckyexcel](https://github.com/mengshukeji/Luckyexcel/)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 单元格不可编辑如何控制？表格保护怎么操作？
+
+**<span style="font-size:20px;">A</span>** 单元格不可编辑属于工作表保护的功能范畴，需要配置在每个sheet页中`config.authority`，最新的设置参数请参考[工作表保护](/zh/guide/sheet.html#config-authority)。
+
+为了大家便于理解工作表保护的功能使用，下方的视频演示了如何让当前整个工作表不可编辑，但是允许某一列单元格可编辑的功能：
+
+<iframe frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=g3162sacwn6" allowFullScreen="true"></iframe>
+
+跟着演示操作一下本地的工作表，然后打开浏览器控制台，使用`luckysheet.getLuckysheetfile()[0].config.authority`就可以获取到第一个工作表的工作表保护参数。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 数据验证怎么配置？
+
+**<span style="font-size:20px;">A</span>** 最新文档已经提供了数据验证的配置信息，参考[数据验证配置](/zh/guide/sheet.html#dataVerification)。官方也提供了API方法 [setDataVerification](/zh/guide/api.html#setdataverification-optionitem-setting)，用于动态设置数据验证功能。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Luckysheet通过引入CDN有案例吗？
+
+**<span style="font-size:20px;">A</span>** Luckysheet支持CDN方式引入，参考：[本地HTML采用cdn加载方式引入Luckysheet的案例](https://www.cnblogs.com/DuShuSir/p/13859103.html)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 请问一下图片怎么限制在单元格里面自适应高度？
+
+**<span style="font-size:20px;">A</span>** 首先需要对图片设置移动并调整单元格大小，然后有以下几种情况：
+
+- 如果图片位置完全在单元格内部时，当拉长单元格的宽度或高度的时候，图片不会随着单元格的变大而伸缩变大
+- 如果图片位置完全在单元格内部时，当拉短单元格的宽度或高度，贴到图片的边时，图片会随着单元格的变小而伸缩变小
+- 当这个图片超过单元格的边框时，图片可以跟随单元格大小变化
+
+根据图片的第二个特性，可以操作得到图片位置信息，原理就是将图片的位置设置成和单元格边框重叠（源码中，需要重叠超过2px），以下演示视频展示了怎么将图片限制在单元格里面自适应宽高。
+
+<iframe frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=y3163ya0q6c" allowFullScreen="true"></iframe>
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何获取工作表默认的行高列宽？
+
+**<span style="font-size:20px;">A</span>** 有两种方式可以获取
+
+- 一是使用`luckysheet.getLuckysheetfile()`获取到所有工作表配置后，在各个工作表的配置中直接取得默认行高`defaultRowHeight`和默认列宽`defaultColWidth`。
+- 二是开放了API可以获取到工作表默认的行高[getDefaultRowHeight](/zh/guide/api.html#getdefaultrowheight-setting)和列宽[getDefaultColWidth](/zh/guide/api.html#getdefaultcolwidth-setting)
+
+------------

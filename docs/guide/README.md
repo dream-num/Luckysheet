@@ -232,7 +232,26 @@ You can see the complete settings
 |  TAB | Move cell selection box to the right |
 |  DELETE | Clear cell data |
 
-## warning
-::: danger
-The new API is being sorted out and may change at any time, please use it with caution!
-:::
+## Guide
+
+If you encounter problems with Luckysheet, follow the steps below to find the answer
+
+1. Use Doge or Google to search for common technical issues
+2. For Luckysheet related issues, please view [Luckysheet Official Document](https://mengshukeji.github.io/LuckysheetDocs/)(Note that the function of marking TODO has not yet been implemented)
+3. Search [FAQ List](https://mengshukeji.github.io/LuckysheetDocs/guide/FAQ.html)
+4. Search [Official Forum](https://groups.google.com/g/luckysheet) to see if anyone has encountered it
+5. Try to check or experiment by yourself to find the answer
+6. Please try to read the source code to find the answer,
+
+If none of the above methods solve your problem, you can consider:
+
+- Go to [Official Forum](https://groups.google.com/g/luckysheet) to ask questions
+- Go to [Gitter](https://gitter.im/mengshukeji/Luckysheet) to ask questions
+- If there are obvious problems or the needs cannot be met, please submit [issues](https://github.com/mengshukeji/Luckysheet/issues)
+
+> Recommended reading [How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)
+
+At the same time, we strongly recommend you to help us enrich the Luckysheet community
+
+- If you find a problem with the documentation or code, you can contribute by submitting a PR. All reasonable changes, optimizations, amendments, or document amendments or updates related to submissions will be accepted
+- When you have some experience in using or secondary developing Luckysheet, we encourage you to share it through blog posts

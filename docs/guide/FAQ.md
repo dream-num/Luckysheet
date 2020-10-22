@@ -42,7 +42,7 @@ luckysheet.buildGridData(luckysheetfile)
 ## **<span style="font-size:20px;">Q</span>** Is the remote loading data loadUrl or updateUrl?
 
 **<span style="font-size:20px;">A</span>**: [loadUrl](/zh/guide/config.html#loadurl). Configure loadUrl, Luckysheet will request the entire table data through ajax, and updateUrl will be used as the interface address for collaborative editing in real-time saving.
-Note: Initial data needs to be configured with loadUrl and loadSheetUrl parameters, while for collaborative editing, in addition to the configuration of loadUrl and loadSheetUrl, updateUrl and allowUpdate must be configured to take effect.
+Note: Initial data needs to be configured with loadUrl and loadSheetUrl parameters, while for collaborative editing, the four parameters of loadUrl, loadSheetUrl, updateUrl and allowUpdate can be configured to take effect.
 
 ------------
 
@@ -63,11 +63,7 @@ Note: Initial data needs to be configured with loadUrl and loadSheetUrl paramete
 
 ## **<span style="font-size:20px;">Q</span>** How to import and export excel?
 
-**<span style="font-size:20px;">A</span>**: You can refer to the following cases at this stage
-- Luckysheet import: https://www.cnblogs.com/DuShuSir/p/13179483.html
-- Luckysheet export: https://www.cnblogs.com/recode-hyh/p/13168226.html
-
-Later, we will open another import and export library for adaptation, so stay tuned!
+**<span style="font-size:20px;">A</span>**: The excel import and export library developed with Luckysheet-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel) has realized the excel import function, and the export function is under development. You can refer to this blog post for excel export at this stage: https://www.cnblogs.com/recode-hyh/p/13168226.html.
 
 ------------
 

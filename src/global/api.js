@@ -5391,7 +5391,8 @@ export function setDataVerification(optionItem, options = {}) {
         remote = false,
         prohibitInput = false,
         hintShow = false,
-        hintText = ''
+        hintText = '',
+        checked = false
     } = {...optionItem}
 
     let typeValues = ["dropdown", "checkbox", "number", "number_integer", "number_decimal", "text_content", "text_length", "date", "validity"];
@@ -5545,7 +5546,7 @@ export function setDataVerification(optionItem, options = {}) {
         type2: type2,  
         value1: value1,  
         value2: value2, 
-        checked: false, 
+        checked: checked, 
         remote: remote, 
         prohibitInput: prohibitInput,  
         hintShow: hintShow, 
@@ -5569,7 +5570,7 @@ export function setDataVerification(optionItem, options = {}) {
             currentDataVerification[r + '_' + c] = item;
 
             if(type == 'checkbox'){
-                setcellvalue(r, c, data, item.value2);
+                item.checked ? setcellvalue(r, c, data, item.value1) : setcellvalue(r, c, data, item.value2);
             }
         }
     }

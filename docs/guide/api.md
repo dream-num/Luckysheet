@@ -665,7 +665,7 @@ Use note:
 
 ------------
 
-### getDefaultColumnWidth([,setting])
+### getDefaultColWidth([,setting])
 
 (TODO)
  
@@ -683,7 +683,7 @@ Use note:
 
    - Returns the default column width of the current worksheet
 
-		`luckysheet.getDefaultColumnWidth()`
+		`luckysheet.getDefaultColWidth()`
 		Return to get
 		`73`
 

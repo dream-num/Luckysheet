@@ -241,3 +241,27 @@ luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 |  ENTER | 编辑单元格 |
 |  TAB | 向右移动单元格选框 |
 |  DELETE | 清除单元格数据 |
+
+## 指引
+
+如果您使用Luckysheet遇到了问题，按以下步骤来寻找答案
+
+1. 使用多吉或者Google搜索常见技术问题
+2. Luckysheet相关的问题优先查看[Luckysheet官方文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)（注意标注TODO的功能暂未实现）
+3. 搜索[常见问题列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/FAQ.html)
+4. 搜索[官方论坛](https://support.qq.com/product/288322)，看看有没有人已经遇到过
+5. 尝试自己检查或试验以找到答案
+6. 请尝试阅读源代码以找到答案，
+
+如果以上方法都没有解决您的问题，可以考虑：
+
+- 去[官方论坛](https://support.qq.com/product/288322)提问
+- 去Luckysheet官方微信群或者QQ群提问
+- 发现有明显问题的或者需求无法满足的，直接提交[issues](https://github.com/mengshukeji/Luckysheet/issues)
+
+> 推荐阅读 [提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md)
+
+同时，我们强烈推荐您帮助我们丰富Luckysheet社区
+
+- 如果您发现文档或者代码有问题，您可以通过提交PR来贡献。所有合理的改动、优化、修正，或者文档的修正、更新相关的提交都会被接受
+- 当您有了一部分使用或者二次开发Luckysheet的经验，我们鼓励您通过博文分享出来

@@ -662,7 +662,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-### getDefaultColumnWidth([,setting])
+### getDefaultColWidth([,setting])
 
 (TODO)
  
@@ -680,7 +680,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
    - 返回当前工作表的默认列宽
 
-		`luckysheet.getDefaultColumnWidth()`
+		`luckysheet.getDefaultColWidth()`
 		返回得到
 		`73`
 
@@ -2393,15 +2393,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **参数**：
 	
-	- {Object} [optionItem]: 数据验证的配置信息
-		+ {String} [type]: 类型；值可为`"dropdown"`(下拉列表)、`"checkbox"`(复选框)、`"number"`(数字)、`"number_integer"`(数字-整数)、`"number_decimal"`(数字-小数)、`"text_content"`(文本-内容)、`"text_length"`(文本-长度)、`"date"`(日期)、`"validity"`(有效性)；
-		+ {String | Null} [type2]: 条件类型；类型`type`值为`"dropdown"`、`"checkbox"`时，`type2`值可为`null`；类型`type`值为`"number"`、`"number_integer"`、`"number_decimal"`、`"text_length"`时，`type2`值可为`"bw"`(介于)、`"nb"`(不介于)、`"eq"`(等于)、`"ne"`(不等于)、`"gt"`(大于)、`"lt"`(小于)、`"gte"`(大于等于)、`"lte"`(小于等于)；类型`type`值为`"text_content"`时，`type2`值可为`"include"`(包括)、`"exclude"`(不包括)、`"equal"`(等于)；类型`type`值为`"date"`时，`type2`值可为`"bw"`(介于)、`"nb"`(不介于)、`"eq"`(等于)、`"ne"`(不等于)、`"bf"`(早于)、`"nbf"`(不早于)、`"af"`(晚于)、`"naf"`(不晚于)；类型`type`值为`"validity"`时，`type2`值可为`"card"`(身份证号码)、`"phone"`(手机号)；
-		+ {String | Number} [value1]: 条件值1；类型`type`值为`"dropdown"`时，`value1`值可为选区或以英文逗号隔开的字符串，如`"1,2,3"`或者`"A1:B2"`；类型`type`值为`"validity"`时，`value1`值可为空；其他类型时`value1`值为数值或字符串；
-		+ {String | Number} [value2]: 条件值2；类型`type`值为`"checkbox"`或者条件类型`type2`值为`"bw"`、`"nb"`时有`value2`值，条件值为数值或日期时，条件值2要大于等于条件值1；其它情况可为空；
-		+ {Boolean} [remote]: 自动远程获取选项；默认为`false`；
-		+ {Boolean} [prohibitInput]: 输入数据无效时禁止输入；默认为`false`；
-		+ {Boolean} [hintShow]: 选中单元格时显示提示语；默认为`false`；
-		+ {String} [hintText]: 提示语文本；`hintShow`为`true`时需配置；
+	- {Object} [optionItem]: 数据验证的配置信息，具体详细的配置信息参考[dataVerification](/zh/guide/sheet.html#dataVerification)
+		
     - {PlainObject} [setting]: 可选参数
         + {Object | String} [range]: 数据验证的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
