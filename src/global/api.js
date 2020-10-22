@@ -1286,6 +1286,136 @@ export function setColumnWidth(columnInfo, options = {}) {
 
 
 /**
+ * 获取指定工作表指定行的高度，得到行号和高度对应关系的对象 
+ * @param {Array} rowInfo 行号下标组成的数组；行号下标从0开始；
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function getRowHeight(rowInfo, options = {}) {
+    if(getObjType(rowInfo) != 'array' || rowInfo.length == 0){
+        return tooltip.info("The rowInfo parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    let rowlen = cfg["rowlen"] || {};
+
+    let rowlenObj = {};
+
+    rowInfo.forEach((item) => {
+        if(parseInt(item) >= 0){
+            let size = rowlen[parseInt(item)] || Store.defaultrowlen;
+            rowlenObj[parseInt(item)] = size;
+        }
+    })
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success()
+        }
+    }, 1)
+
+    return rowlenObj;
+}
+
+
+/**
+ * 获取指定工作表指定列的宽度，得到列号和宽度对应关系的对象
+ * @param {Array} columnInfo 行号下标组成的数组；行号下标从0开始；
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function getColumnWidth(columnInfo, options = {}) {
+    if(getObjType(columnInfo) != 'array' || columnInfo.length == 0){
+        return tooltip.info("The columnInfo parameter is invalid.", "");
+    }
+
+    let {
+        order = getSheetIndex(Store.currentSheetIndex),
+        success
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let cfg = $.extend(true, {}, file.config);
+    let columnlen = cfg["columnlen"] || {};
+
+    let columnlenObj = {};
+
+    columnInfo.forEach((item) => {
+        if(parseInt(item) >= 0){
+            let size = columnlen[parseInt(item)] || Store.defaultcollen;
+            columnlenObj[parseInt(item)] = size;
+        }
+    })
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success()
+        }
+    }, 1)
+
+    return columnlenObj;
+}
+
+
+/**
+ * 获取工作表的默认行高
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function getDefaultRowHeight(options = {}) {
+    let {
+        success
+    } = {...options}
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success()
+        }
+    }, 1)
+
+    return Store.defaultrowlen;
+}
+
+
+/**
+ * 获取工作表的默认列宽
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function getDefaultColumnWidth(options = {}) {
+    let {
+        success
+    } = {...options}
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success()
+        }
+    }, 1)
+
+    return Store.defaultcollen;
+}
+
+
+/**
  * 返回当前选区对象的数组，可能存在多个选区。
  * 每个选区的格式为row/column信息组成的对象{row:[0,1],column:[0,1]}
  * @returns {Array}
