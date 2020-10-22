@@ -1378,10 +1378,12 @@ export function getColumnWidth(columnInfo, options = {}) {
 /**
  * 获取工作表的默认行高
  * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
 export function getDefaultRowHeight(options = {}) {
     let {
+        order = getSheetIndex(Store.currentSheetIndex),
         success
     } = {...options}
 
@@ -1391,17 +1393,19 @@ export function getDefaultRowHeight(options = {}) {
         }
     }, 1)
 
-    return Store.defaultrowlen;
+    return Store.luckysheetfile[order].defaultRowHeight;
 }
 
 
 /**
  * 获取工作表的默认列宽
  * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
-export function getDefaultColumnWidth(options = {}) {
+export function getDefaultColWidth(options = {}) {
     let {
+        order = getSheetIndex(Store.currentSheetIndex),
         success
     } = {...options}
 
@@ -1411,7 +1415,7 @@ export function getDefaultColumnWidth(options = {}) {
         }
     }, 1)
 
-    return Store.defaultcollen;
+    return Store.luckysheetfile[order].defaultColWidth;
 }
 
 

@@ -639,6 +639,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
         + {Function} [success]: 操作结束的回调函数
 
 - **说明**：
@@ -660,7 +661,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **参数**：
 		
 	- {PlainObject} [setting]: 可选参数
-        + {Function} [success]: 操作结束的回调函数
+        + {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
 
 - **说明**：
 	
