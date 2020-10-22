@@ -17,5 +17,6 @@ git commit -m 'deploy Luckysheet docs'
 git push -f origin master:gh-pages
 
 
-
-
+npm run release -- --release-as patch
+git push --follow-tags origin master
+npm publish

@@ -111,7 +111,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## **<span style="font-size:20px;">Q</span>** 如何为单元格对象新增字段？
 
-**<span style="font-size:20px;">A</span>** 首先参考[单元格对象格式](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/cell.html)，然后参照源码批注的部分[src/controllers/postil.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/postil.js)。批注是一个加在单元格对象上的一个配置。
+**<span style="font-size:20px;">A</span>** 首先参考[单元格对象格式](/zh/guide/cell.html)，然后参照源码批注的部分[src/controllers/postil.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/postil.js)。批注是一个加在单元格对象上的一个配置。
 
 ------------
 
@@ -127,7 +127,10 @@ luckysheet.buildGridData(luckysheetfile)
 
 **<span style="font-size:20px;">A</span>** 打包的终端命令行不显示结束，但是如果`dist`文件夹内已经有了结果文件`luckyexcel.js`，则表明是正常的。
 
-Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧版打包工具有点问题在命令行显示这块有些问题，待修复完这个问题就不会出现了。
+Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧版打包工具有点问题在命令行显示这块有些问题，问题已经修复。请还出现此问题的小伙伴做如下更新操作：
+1. pull最新代码
+2. `npm i`
+3. `npm run build`
 
 更多详细信息关注：[Luckyexcel](https://github.com/mengshukeji/Luckyexcel/)
 
