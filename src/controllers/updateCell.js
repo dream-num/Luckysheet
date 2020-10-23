@@ -3,6 +3,7 @@ import luckysheetFreezen from './freezen';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
 import alternateformat from './alternateformat';
+import cellDatePickerCtrl from './cellDatePickerCtrl';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import {checkProtectionLocked,checkProtectionCellHidden}  from './protection';
 import { chatatABC } from '../utils/util';
@@ -26,6 +27,9 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         return;
     }
 
+    
+
+    //数据验证
     if(dataVerificationCtrl.dataVerification != null && dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1] != null){
         let dataVerificationItem = dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1];
         if(dataVerificationItem.type == 'dropdown'){
@@ -226,6 +230,11 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 
     $("#luckysheet-input-box").css(input_postition);
     $("#luckysheet-rich-text-editor").css(inputContentScale);
+
+    //日期
+    if(d[row_index1][col_index1] && d[row_index1][col_index1].ct && d[row_index1][col_index1].ct.t == 'd'){
+        cellDatePickerCtrl.cellFocus(row_index1, col_index1, d[row_index1][col_index1].m);
+    }
 
     formula.rangetosheet = Store.currentSheetIndex;
     formula.createRangeHightlight();

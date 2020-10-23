@@ -1225,9 +1225,16 @@ const dataVerificationCtrl = {
         if(type == 'dropdown'){
             let list = _this.getDropdownList(value1);
 
-            if(!list.includes(cellValue)){
-                return false;
+            let result = false;
+
+            for(let i = 0; i < list.length; i++){
+                if(list[i] == cellValue){
+                    result = true;
+                    break;
+                }
             }
+
+            return result;
         }
         else if(type == 'checkbox'){
 

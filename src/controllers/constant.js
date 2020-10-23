@@ -181,6 +181,9 @@ const gridHTML = function(){
                                                             </div>
                                                         </div>
                                                         <div class="img-list"></div>
+                                                        <div class="cell-date-picker">
+                                                            <input id="cellDatePickerBtn" class="formulaInputFocus" readonly="readonly"/>
+                                                        </div>
                                                     </div>
                                                     <div id="luckysheet-dataVerification-dropdown-btn"></div>
                                                     <div id="luckysheet-dataVerification-dropdown-List" class="luckysheet-mousedown-cancel"></div>

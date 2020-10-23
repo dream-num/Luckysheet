@@ -1746,6 +1746,10 @@ const selection = {
                             delete value["f"];
                             delete value["spl"];
 
+                            if(value.ct && value.ct.t == 'inlineStr'){
+                                delete value.ct;
+                            }
+
                             if(getObjType(x[c]) == "object"){
 
                             }

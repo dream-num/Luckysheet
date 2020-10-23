@@ -50,7 +50,7 @@ const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  */
 export function getCellValue(row, column, options = {}) {
-    if (row == null && column == null) {
+    if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('Arguments row or column cannot be null or undefined.', '')
     }
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
@@ -97,7 +97,7 @@ export function getCellValue(row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
-    if (getObjType(row) != "number" || getObjType(column) != "number") {
+    if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('The row or column parameter is invalid.', '');
     }
 
@@ -208,7 +208,7 @@ export function setCellValue(row, column, value, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function clearCell(row, column, options = {}) {
-    if (row == null || column == null) {
+    if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('Arguments row and column cannot be null or undefined.', '')
     }
 
@@ -267,7 +267,7 @@ export function deleteCell(move, row, column, options = {}) {
         return tooltip.info('Arguments move cannot be null or undefined and its value must be \'left\' or \'up\'', '')
     }
 
-    if (row == null || column == null) {
+    if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('Arguments row and column cannot be null or undefined.', '')
     }
 
@@ -304,7 +304,7 @@ export function deleteCell(move, row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数, callback参数为改变后的cell对象
  */
 export function setCellFormat(row, column, attr, value, options = {}) {
-    if (row == null && column == null) {
+    if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('Arguments row or column cannot be null or undefined.', '')
     }
 
@@ -890,6 +890,10 @@ export function setBothFrozen(isRange, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function insertRowOrColumn(type, index = 0, options = {}) {
+    if(!isRealNum(index)){
+        return tooltip.info('The index parameter is invalid.', '');
+    }
+
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
         number = 1,
@@ -965,7 +969,7 @@ export function insertColumn(column = 0, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
-    if (startIndex == null || endIndex == null) {
+    if (!isRealNum(startIndex) || !isRealNum(endIndex)) {
         return tooltip.info('Please enter the index for deleting rows or columns correctly.', '')
     }
 
@@ -1023,7 +1027,7 @@ export function deleteColumn(columnStart, columnEnd, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
-    if (startIndex == null || endIndex == null) {
+    if (!isRealNum(startIndex) || !isRealNum(endIndex)) {
         return tooltip.info('Please enter the index for deleting rows or columns correctly.', '')
     }
 
@@ -1081,7 +1085,7 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function showRowOrColumn(type, startIndex, endIndex, options = {}) {
-    if (startIndex == null || endIndex == null) {
+    if (!isRealNum(startIndex) || !isRealNum(endIndex)) {
         return tooltip.info('Please enter the index for deleting rows or columns correctly.', '')
     }
 
@@ -4303,7 +4307,7 @@ export function matrixCalculation(type, number, options = {}) {
         return tooltip.info('The type parameter is invalid.', '')
     }
 
-    if(number.toString() == "NaN"){
+    if(!isRealNum(number)){
         return tooltip.info('The number parameter is invalid.', '')
     }
 
@@ -4558,7 +4562,7 @@ export function setSheetCopy(options = {}) {
         targetOrder = order + 1;
     }
 
-    if(getObjType(targetOrder) != 'number'){
+    if(!isRealNum(targetOrder)){
         return tooltip.info("The targetOrder parameter is invalid.", "");
     }
 
@@ -4576,7 +4580,7 @@ export function setSheetCopy(options = {}) {
     }
 
     let afterObj = $("#luckysheet-sheets-item" + copyindex);
-    if(getObjType(targetOrder) == 'number'){
+    if(isRealNum(targetOrder)){
         afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
     }
 
@@ -4695,7 +4699,7 @@ export function setSheetShow(options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setSheetActive(order, options = {}) {
-    if(order == null || getObjType(order) != 'number' || Store.luckysheetfile[order] == null){
+    if(order == null || !isRealNum(order) || Store.luckysheetfile[order] == null){
         return tooltip.info("The order parameter is invalid.", ""); 
     }
 
@@ -4973,7 +4977,7 @@ export function setSheetOrder(orderList, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setSheetZoom(zoom, options = {}) {
-    if(getObjType(zoom) != 'number' && (zoom < 0.1 || zoom > 4)){
+    if(!isRealNum(zoom) || zoom < 0.1 || zoom > 4){
         return tooltip.info("The zoom parameter is invalid.", "");
     }
 
@@ -5118,14 +5122,14 @@ export function scroll(options = {}){
     } = {...options}
 
     if(scrollLeft != null){
-        if(getObjType(scrollLeft) != 'number'){
+        if(!isRealNum(scrollLeft)){
             return tooltip.info("The scrollLeft parameter is invalid.", "");
         }
 
         $("#luckysheet-scrollbar-x").scrollLeft(scrollLeft);
     }
     else if(targetColumn != null){
-        if(getObjType(targetColumn) != 'number'){
+        if(!isRealNum(targetColumn)){
             return tooltip.info("The targetColumn parameter is invalid.", "");
         }
         
@@ -5137,14 +5141,14 @@ export function scroll(options = {}){
     
     
     if(scrollTop != null){
-        if(getObjType(scrollTop) != 'number'){
+        if(!isRealNum(scrollTop)){
             return tooltip.info("The scrollTop parameter is invalid.", "");
         }
 
         $("#luckysheet-scrollbar-y").scrollTop(scrollTop);
     }
     else if(targetRow != null){
-        if(getObjType(targetRow) != 'number'){
+        if(!isRealNum(targetRow)){
             return tooltip.info("The targetRow parameter is invalid.", "");
         }
 

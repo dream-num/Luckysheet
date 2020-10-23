@@ -7060,8 +7060,11 @@ fieldset[disabled] .btn-danger.focus {
 .luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
     background: none;
 }
-
-
+/* 单元格日期选择 */
+.cell-date-picker{
+    position: absolute;
+    display: none;
+}
 /* 数据验证 */
 #luckysheet-dataVerification-dialog{
     user-select: none;
