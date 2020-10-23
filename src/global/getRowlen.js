@@ -721,7 +721,7 @@ function getCellTextInfo(cell , ctx, option){
                             sc.measureText = getMeasureText(sc.v, ctx, sc.fontset);
                         }
                         textWidth += sc.measureText.width;
-                        textHeight += sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent;
+                        textHeight = Math.max(sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent);
                         // console.log(sc.v,sc.measureText.width,sc.measureText.actualBoundingBoxAscent,sc.measureText.actualBoundingBoxDescent);
                     }
     
@@ -740,7 +740,7 @@ function getCellTextInfo(cell , ctx, option){
     
                     if(rt!=0){//rotate
                         // console.log("all",anchor, i , str);
-                        // console.log(height,space_height, cellHeight);
+                        console.log(height,space_height, cellHeight, shareCells,(height+space_height)>cellHeight);
                         if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && tb=="2" && i!= inlineStringArr.length){
                             // console.log("cut",anchor, i , str);
 
