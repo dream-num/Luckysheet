@@ -61,7 +61,7 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     luckysheetTableContent.save();
     luckysheetTableContent.beginPath();
     luckysheetTableContent.rect(0, offsetTop-1, Store.rowHeaderWidth -1, drawHeight-2);
-    // luckysheetTableContent.clip();
+    luckysheetTableContent.clip();
 
     let end_r, start_r;
     let bodrder05 = 0.5;//Default 0.5
@@ -242,7 +242,7 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
     luckysheetTableContent.save();
     luckysheetTableContent.beginPath();
     luckysheetTableContent.rect(offsetLeft-1, 0, drawWidth, Store.columeHeaderHeight -1);
-    // luckysheetTableContent.clip();
+    luckysheetTableContent.clip();
 
     // console.log(offsetLeft, 0, drawWidth, Store.columeHeaderHeight -1);
 
@@ -1570,7 +1570,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         luckysheetTableContent.save();
         luckysheetTableContent.beginPath();
         luckysheetTableContent.rect(pos_x , pos_y, cellWidth , cellHeight );
-        // luckysheetTableContent.clip();
+        luckysheetTableContent.clip();
         luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
 
         // let horizonAlignPos = (pos_x + space_width) ; //默认为1，左对齐
@@ -2132,14 +2132,14 @@ function cellTextRender(textInfo, ctx, option){
     }
     // console.log(textInfo, pos_x, pos_y, values[0].width, values[0].left, ctx);
 
-    for(let i=0;i<values.length;i++){
-        let word = values[i];
-        ctx.font = word.style;
-        ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
-    }
+    // for(let i=0;i<values.length;i++){
+    //     let word = values[i];
+    //     ctx.font = word.style;
+    //     ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
+    // }
 
-    ctx.fillStyle = "rgba(255,255,0,0.2)";
-    ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
+    // ctx.fillStyle = "rgba(255,255,0,0.2)";
+    // ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
 
     if(textInfo.rotate!=0 && textInfo.type!="verticalWrap"){
         ctx.save();
@@ -2148,7 +2148,7 @@ function cellTextRender(textInfo, ctx, option){
         ctx.translate(-(textInfo.textLeftAll+pos_x)/Store.zoomRatio, -(pos_y+textInfo.textTopAll)/Store.zoomRatio);
     }
 
-    ctx.fillStyle = "rgb(0,0,0)";
+    // ctx.fillStyle = "rgb(0,0,0)";
     for(let i=0;i<values.length;i++){
         let word = values[i];
         if(word.inline===true && word.style!=null){
@@ -2198,10 +2198,10 @@ function cellTextRender(textInfo, ctx, option){
             }
         }
     }
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
-    ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
-    ctx.fillStyle = "rgba(255,0,0,1)";
-    ctx.fillRect(pos_x+textInfo.textLeftAll-2, pos_y+textInfo.textTopAll-2, 4,4);
+    // ctx.fillStyle = "rgba(0,0,0,0.2)";
+    // ctx.fillRect((pos_x + values[0].left)/Store.zoomRatio, (pos_y+values[0].top-values[0].asc)/Store.zoomRatio, textInfo.textWidthAll, textInfo.textHeightAll)
+    // ctx.fillStyle = "rgba(255,0,0,1)";
+    // ctx.fillRect(pos_x+textInfo.textLeftAll-2, pos_y+textInfo.textTopAll-2, 4,4);
     if(textInfo.rotate!=0 && textInfo.type!="verticalWrap"){
         ctx.restore();
     }
