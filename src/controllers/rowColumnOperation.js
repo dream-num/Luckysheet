@@ -1374,7 +1374,85 @@ export function rowColumnOperationInitial(){
         luckysheetdeletetable('column', st_index, ed_index);
     })
 
-    //隐藏、显示行
+    //隐藏选中行列
+    $("#luckysheet-hide-selected").click(function (event) {
+        if(Store.luckysheetRightHeadClickIs == 'row' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+            return;
+        }
+
+        if(Store.luckysheetRightHeadClickIs == 'column' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+            return;
+        }
+
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        let cfg = $.extend(true, {}, Store.config);
+
+        if(Store.luckysheetRightHeadClickIs == 'row'){
+            if(cfg["rowhidden"] == null){
+                cfg["rowhidden"] = {};
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let r1 = Store.luckysheet_select_save[s].row[0],
+                    r2 = Store.luckysheet_select_save[s].row[1];
+    
+                for(let r = r1; r <= r2; r++){
+                    cfg["rowhidden"][r] = 0;
+                }
+            }
+
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidRows";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+
+            server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        }
+        else if(Store.luckysheetRightHeadClickIs == 'column'){
+            if(cfg["colhidden"] == null){
+                cfg["colhidden"] = {};
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let c1 = Store.luckysheet_select_save[s].column[0],
+                    c2 = Store.luckysheet_select_save[s].column[1];
+    
+                for(let c = c1; c <= c2; c++){
+                    cfg["colhidden"][c] = 0;
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidCols";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        }
+
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
     $("#luckysheet-hidRows").click(function (event) {
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
             return;
@@ -1418,50 +1496,6 @@ export function rowColumnOperationInitial(){
         //行高、列宽 刷新  
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
     })
-    $("#luckysheet-showHidRows").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
-
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["rowhidden"] == null){
-            return;
-        }
-
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1];
-
-            for(let r = r1; r <= r2; r++){
-                delete cfg["rowhidden"][r];
-            }
-        }
-    
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidRows";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
-    
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
-    
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
-    
-        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
-    
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-
-    //隐藏、显示列
     $("#luckysheet-hidCols").click(function (event) {
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
             return;
@@ -1500,6 +1534,128 @@ export function rowColumnOperationInitial(){
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
         server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
+
+    //显示选中行列
+    $("#luckysheet-show-selected").click(function (event) {
+        if(Store.luckysheetRightHeadClickIs == 'row' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+            return;
+        }
+
+        if(Store.luckysheetRightHeadClickIs == 'column' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+            return;
+        }
+
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        let cfg = $.extend(true, {}, Store.config);
+
+        if(Store.luckysheetRightHeadClickIs == 'row'){
+            if(cfg["rowhidden"] == null){
+                return;
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let r1 = Store.luckysheet_select_save[s].row[0],
+                    r2 = Store.luckysheet_select_save[s].row[1];
+    
+                for(let r = r1; r <= r2; r++){
+                    delete cfg["rowhidden"][r];
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidRows";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        }
+        else if(Store.luckysheetRightHeadClickIs == 'column'){
+            if(cfg["colhidden"] == null){
+                return;
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let c1 = Store.luckysheet_select_save[s].column[0],
+                    c2 = Store.luckysheet_select_save[s].column[1];
+    
+                for(let c = c1; c <= c2; c++){
+                    delete cfg["colhidden"][c];
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidCols";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        }
+
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+
+        //行高、列宽 刷新  
+        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    })
+    $("#luckysheet-showHidRows").click(function (event) {
+        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+            return;
+        }
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["rowhidden"] == null){
+            return;
+        }
+
+        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+            let r1 = Store.luckysheet_select_save[s].row[0],
+                r2 = Store.luckysheet_select_save[s].row[1];
+
+            for(let r = r1; r <= r2; r++){
+                delete cfg["rowhidden"][r];
+            }
+        }
+    
+        //保存撤销
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = "showHidRows";
+            redo["sheetIndex"] = Store.currentSheetIndex;
+            redo["config"] = $.extend(true, {}, Store.config);
+            redo["curconfig"] = cfg;
+    
+            Store.jfundo = [];
+            Store.jfredo.push(redo);
+        }
+    
+        //config
+        Store.config = cfg;
+        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
     
         //行高、列宽 刷新  
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
