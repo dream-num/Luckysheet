@@ -2,12 +2,15 @@
 
 ![logo](/docs/.vuepress/public/img/logo_text.png)
 
+
 </div>
 
 简体中文 | [English](./README.md)
 
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
+
+> Luckysheet最近参加了“2020年度OSC中国开源项目评选”，为了支持Luckysheet更好的得到关注和发展，请大家帮忙投票: [https://www.oschina.net/p/luckysheet](https://www.oschina.net/p/luckysheet)。
 
 ## 相关链接
  | 源码   | 文档 | Demo | 插件Demo | 论坛 |
