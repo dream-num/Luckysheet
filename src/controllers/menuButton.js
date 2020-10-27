@@ -2225,6 +2225,27 @@ const menuButton = {
             _this.menuButtonFocus(d, row_index, col_index);
         });
 
+        //下划线
+        $("#luckysheet-icon-underline").mousedown(function(e){
+            hideMenuByCancel(e);
+            e.stopPropagation();
+        }).click(function(){
+            let d = editor.deepCopyFlowData(Store.flowdata);
+            let row_index = Store.luckysheet_select_save[0]["row_focus"], 
+                col_index = Store.luckysheet_select_save[0]["column_focus"];
+            let foucsStatus = _this.checkstatus(d, row_index, col_index, "un");
+
+            if(foucsStatus == 1){
+                foucsStatus = 0;
+            }
+            else{
+                foucsStatus = 1;
+            }
+
+            _this.updateFormat(d, "un", foucsStatus);
+            _this.menuButtonFocus(d, row_index, col_index);
+        });
+
         //条件格式
         $("#luckysheet-icon-conditionformat").click(function(){
             let menuButtonId = $(this).attr("id") + "-menuButton";
@@ -3372,7 +3393,6 @@ const menuButton = {
         if(_locale==null){
             _locale = locale();
         }
-        
         const locale_fontarray = _locale.fontarray;
         const locale_fontjson = _locale.fontjson;
 
@@ -3398,6 +3418,14 @@ const menuButton = {
             }
             else{
                 $("#luckysheet-icon-strikethrough").removeClass("luckysheet-toolbar-button-hover");
+            }
+        }
+        else if(attr == "un"){
+            if(foucsStatus != "0"){
+                $("#luckysheet-icon-underline").addClass("luckysheet-toolbar-button-hover");
+            }
+            else{
+                $("#luckysheet-icon-underline").removeClass("luckysheet-toolbar-button-hover");
             }
         }
         else if(attr == "ff"){
@@ -3560,7 +3588,7 @@ const menuButton = {
     },
     menuButtonFocus: function(d, r, c){
         let _this = this;
-        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr", "ct"];
+        let foucsList = ["bl", "it", "cl", "ff", "ht", "vt", "fs", "tb", "tr", "ct", "un"];
         const _locale = locale();
         for(let i = 0; i < foucsList.length; i++){
             let attr = foucsList[i];
