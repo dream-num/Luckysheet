@@ -482,9 +482,17 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == r){
                     if(direction == "lefttop"){
                         newDataVerification[(r + value) + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i) + "_" + c] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i + 1) + "_" + c] = item;
+                        }
                     }
                 }
                 else{
@@ -498,9 +506,17 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == c){
                     if(direction == "lefttop"){
                         newDataVerification[r + "_" + (c + value)] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i)] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i + 1)] = item;
+                        }
                     }
                 }
                 else{
@@ -2112,20 +2128,20 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
                 let row_index = cfg["borderInfo"][i].value.row_index;
                 let col_index = cfg["borderInfo"][i].value.col_index;
 
-                if(row_index < str || col_index < stc){
-                    borderInfo.push(cfg["borderInfo"][i]);
-                }
-                else if(row_index > edr || col_index > edc){
-                    if(row_index > edr){
-                        row_index -= rlen;
-                        cfg["borderInfo"][i].value.row_index = row_index;
+                if(row_index < str || row_index > edr || col_index < stc || col_index > edc){
+                    if(type == 'moveLeft'){
+                        if(col_index > edc && row_index >= str && row_index <= edr){
+                            col_index -= clen;
+                            cfg["borderInfo"][i].value.col_index = col_index;
+                        }
                     }
-
-                    if(col_index > edc){
-                        col_index -= clen;
-                        cfg["borderInfo"][i].value.col_index = col_index;
+                    else if(type == 'moveUp'){
+                        if(row_index > edr && col_index >= stc && col_index <= edc){
+                            row_index -= rlen;
+                            cfg["borderInfo"][i].value.row_index = row_index;
+                        }
                     }
-
+    
                     borderInfo.push(cfg["borderInfo"][i]);
                 }
             }

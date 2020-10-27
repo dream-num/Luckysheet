@@ -314,6 +314,24 @@ const sheetmanage = {
         });
 
         server.saveParam("shr", null, orders);
+
+        Store.luckysheetfile.sort((x, y) => {
+            let order_x = x.order;
+            let order_y = y.order;
+    
+            if(order_x != null && order_y != null){
+                return order_x - order_y;
+            }
+            else if(order_x != null){
+                return -1;
+            }
+            else if(order_y != null){
+                return 1;
+            }
+            else{
+                return 1;
+            }
+        })
     },
     createSheet: function() { //修复拖动sheet更新后台后，重新打开显示错误
         let _this = this;

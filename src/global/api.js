@@ -4709,6 +4709,9 @@ export function setSheetActive(order, options = {}) {
         success
     } = {...options}
 
+    $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+    $("#luckysheet-sheets-item" + file.index).addClass("luckysheet-sheets-item-active");
+
     sheetmanage.changeSheet(file.index);
 
     setTimeout(() => {

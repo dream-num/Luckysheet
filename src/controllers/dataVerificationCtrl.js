@@ -573,6 +573,28 @@ const dataVerificationCtrl = {
                 return;
             }
 
+            let str = range[range.length - 1].row[0],
+                edr = range[range.length - 1].row[1],
+                stc = range[range.length - 1].column[0],
+                edc = range[range.length - 1].column[1];
+            let d = editor.deepCopyFlowData(Store.flowdata);
+
+            if(str < 0){
+                str = 0;
+            }
+
+            if(edr > d.length - 1){
+                edr = d.length - 1;
+            }
+
+            if(stc < 0){
+                stc = 0;
+            }
+
+            if(edc > d[0].length - 1){
+                edc = d[0].length - 1;
+            }
+
             let type = $("#luckysheet-dataVerification-dialog #data-verification-type-select").val();
             let type2 = null, value1 = "", value2 = "";
 
@@ -698,13 +720,6 @@ const dataVerificationCtrl = {
            
             let historyDataVerification = $.extend(true, {}, _this.dataVerification);
             let currentDataVerification = $.extend(true, {}, _this.dataVerification);
-
-            let str = range[range.length - 1].row[0],
-                edr = range[range.length - 1].row[1],
-                stc = range[range.length - 1].column[0],
-                edc = range[range.length - 1].column[1];
-
-            let d = editor.deepCopyFlowData(Store.flowdata);
 
             for(let r = str; r <= edr; r++){
                 for(let c = stc; c <= edc; c++){
