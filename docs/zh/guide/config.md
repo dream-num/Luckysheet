@@ -358,11 +358,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showsheetbarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部sheet页按钮
+- 作用：自定义配置底部sheet页按钮，可以与showsheetbar配合使用，`showsheetbarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
@@ -371,6 +369,30 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         sheet: false //sheet页显示
     }
     ```
+- 示例：
+	- 仅显示新增sheet按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: false,
+				showsheetbarConfig:{
+					add: true,
+				}
+			}
+		```
+	- 仅隐藏新增sheet和管理按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: true, // 默认就是true，可以不设置
+				showsheetbarConfig:{
+					add: false,
+					menu: false,
+				}
+			}
+		```
 
 ------------
 ### showstatisticBar

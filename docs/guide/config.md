@@ -188,7 +188,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 - Type: Object
 - Default: {}
-- Usage: Custom configuration toolbar,can be used in conjunction with showtoolbar, `showtoolbarConfig` has a higher priority.
+- Usage: Custom configuration toolbar,can be used in conjunction with `showtoolbar`, `showtoolbarConfig` has a higher priority.
 - Format:
     ```json
     {
@@ -247,7 +247,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 		```js
 			//options
 			{
-				showtoolbar: true, // 默认就是true，可以不设置
+				showtoolbar: true, // The default is true, you can leave it unset
 				showtoolbarConfig:{
 					image: false,
 					print: false,
@@ -270,11 +270,9 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showsheetbarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Custom configuration bottom sheet button
+- Usage: Custom configuration bottom sheet button, can be used in conjunction with `showsheetbar`, `showsheetbarConfig` has a higher priority.
 - Format: 
     ```json
     {
@@ -283,6 +281,30 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         sheet: false //Worksheet display
     }
     ```
+- Example:
+	- Only display the `Add worksheet` button:
+		
+		```js
+			//options
+			{
+				showsheetbar: false,
+				showsheetbarConfig:{
+					add: true,
+				}
+			}
+		```
+	- Only hide the `Add worksheet` and `Worksheet management menu` buttons:
+		
+		```js
+			//options
+			{
+				showsheetbar: true, // The default is true, you can leave it unset
+				showsheetbarConfig:{
+					add: false,
+					menu: false,
+				}
+			}
+		```
 
 ------------
 ### showstatisticBar

@@ -20,16 +20,6 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         Store.infobarHeight = document.querySelector('#luckysheet_info_detail').offsetHeight;
     }
 
-    //
-    // if (!luckysheetConfigsetting.showtoolbar) {
-    //     $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").hide();
-    //     Store.toolbarHeight = 0;
-    // }
-    // else {
-    //     $("#" + Store.container).find(".luckysheet-wa-editor, .luckysheet-share-logo").show();
-    //     // Store.toolbarHeight = 72;
-    //     Store.toolbarHeight = document.querySelector('#' + Store.container +' .luckysheet-wa-editor').offsetHeight;
-    // }
     if (Store.toobarObject.toobarElements.length === 0) {
         $("#" + Store.container).find(".luckysheet-wa-editor").hide();
         Store.toolbarHeight = 0;
@@ -40,17 +30,17 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         Store.toolbarHeight = document.querySelector('#' + Store.container +' .luckysheet-wa-editor').offsetHeight;
     }
 
-    // customToolbarConfig(luckysheetConfigsetting.showtoolbar,luckysheetConfigsetting.showtoolbarConfig);
+    // if (!luckysheetConfigsetting.showsheetbar) {
+    //     $("#" + Store.container).find("#luckysheet-sheet-area").hide();
+    //     Store.sheetBarHeight = 0;
+    // }
+    // else {
+    //     $("#" + Store.container).find("#luckysheet-sheet-area").show();
+    //     Store.sheetBarHeight = 31;
+    // }
 
-
-    if (!luckysheetConfigsetting.showsheetbar) {
-        $("#" + Store.container).find("#luckysheet-sheet-area").hide();
-        Store.sheetBarHeight = 0;
-    }
-    else {
-        $("#" + Store.container).find("#luckysheet-sheet-area").show();
-        Store.sheetBarHeight = 31;
-    }
+    
+    customSheetbarConfig();
 
     if (!luckysheetConfigsetting.showstatisticBar) {
         $("#" + Store.container).find(".luckysheet-stat-area").hide();
@@ -565,4 +555,71 @@ export function menuToolBarWidth() {
 
     });
     
+}
+
+function customSheetbarConfig() {
+
+    if(!luckysheetConfigsetting.initShowsheetbarConfig){
+
+        luckysheetConfigsetting.initShowsheetbarConfig = true;
+
+        const config = {
+            add: true, //新增sheet  
+            menu: true, //sheet管理菜单
+            sheet: true //sheet页显示
+        }
+    
+        if(!luckysheetConfigsetting.showsheetbar){
+            for(let s in config){
+                config[s] = false;
+            }
+        }
+    
+        // showsheetbarConfig determines the final result
+        if(JSON.stringify(luckysheetConfigsetting.showsheetbarConfig) !== '{}'){
+            Object.assign(config,luckysheetConfigsetting.showsheetbarConfig);
+        }
+    
+        luckysheetConfigsetting.showsheetbarConfig = config;
+
+    }
+
+    const config = luckysheetConfigsetting.showsheetbarConfig;
+
+    let isHide = 0;
+
+    for (let s in config) {
+        if(!config[s]){
+            switch (s) {
+                case 'add':
+                    $('#luckysheet-sheets-add').hide();
+                    isHide++;
+                    break;
+            
+                case 'menu':
+                    $('#luckysheet-sheets-m').hide();
+                    isHide++;
+                    break;
+            
+                case 'sheet':
+                    $('#luckysheet-sheet-container').hide();
+                    $('#luckysheet-sheets-leftscroll').hide();
+                    $('#luckysheet-sheets-rightscroll').hide();
+                    isHide++;
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (isHide === 3) {
+        $("#" + Store.container).find("#luckysheet-sheet-area").hide();
+        Store.sheetBarHeight = 0;
+    }
+    else {
+        $("#" + Store.container).find("#luckysheet-sheet-area").show();
+        Store.sheetBarHeight = 31;
+    }
 }
