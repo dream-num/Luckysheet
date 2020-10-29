@@ -339,9 +339,6 @@ export default function luckysheetHandler() {
         //数据验证 单元格聚焦
         dataVerificationCtrl.cellFocus(row_index, col_index, true);
 
-        //链接 单元格聚焦
-        hyperlinkCtrl.cellFocus(row_index, col_index);
-
         //若点击单元格部分不在视图内
         if (col_pre < $("#luckysheet-cell-main").scrollLeft()) {
             $("#luckysheet-scrollbar-x").scrollLeft(col_pre);
@@ -375,6 +372,12 @@ export default function luckysheetHandler() {
                 luckysheetConfigsetting.fireMousedown(Store.flowdata[row_index][col_index].dd);
                 return;
             }
+        }
+
+        //链接 单元格聚焦
+        if(hyperlinkCtrl.hyperlink && hyperlinkCtrl.hyperlink[row_index + "_" + col_index] && event.which != "3"){
+            hyperlinkCtrl.cellFocus(row_index, col_index);
+            return;
         }
 
         Store.luckysheet_scroll_status = true;
@@ -1346,6 +1349,7 @@ export default function luckysheetHandler() {
     //表格mousemove
     $(document).on("mousemove.luckysheetEvent",function (event) {
         luckysheetPostil.overshow(event); //有批注显示
+        hyperlinkCtrl.overshow(event); //链接提示显示
 
         window.cancelAnimationFrame(Store.jfautoscrollTimeout);
         

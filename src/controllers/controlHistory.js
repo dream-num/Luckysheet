@@ -167,7 +167,8 @@ const controlHistory = {
                 ctr.cf, 
                 ctr.af, 
                 ctr.freezen,
-                ctr.dataVerification
+                ctr.dataVerification,
+                ctr.hyperlink
             );
         }
         else if (ctr.type == "delRC") { //删除行列撤销操作
@@ -185,7 +186,8 @@ const controlHistory = {
                 ctr.cf, 
                 ctr.af, 
                 ctr.freezen,
-                ctr.dataVerification
+                ctr.dataVerification,
+                ctr.hyperlink
             );
         }
         else if (ctr.type == "deleteCell") { //删除单元格撤销操作
@@ -196,7 +198,8 @@ const controlHistory = {
                 ctr.calc, 
                 ctr.filterObj, 
                 ctr.cf,
-                ctr.dataVerification
+                ctr.dataVerification,
+                ctr.hyperlink
             );
         }
         else if (ctr.type == "showHidRows") { // 隐藏、显示行 撤销操作
@@ -497,7 +500,8 @@ const controlHistory = {
                 ctr.curCf, 
                 ctr.curAf, 
                 ctr.curFreezen,
-                ctr.curDataVerification
+                ctr.curDataVerification,
+                ctr.curHyperlink
             );
         }
         else if (ctr.type == "delRC") { //删除行列重做操作
@@ -511,7 +515,8 @@ const controlHistory = {
                 ctr.curCf, 
                 ctr.curAf, 
                 ctr.curFreezen,
-                ctr.curDataVerification
+                ctr.curDataVerification,
+                ctr.curHyperlink
             );
         }
         else if (ctr.type == "deleteCell") { //删除单元格重做操作
@@ -522,7 +527,8 @@ const controlHistory = {
                 ctr.curCalc, 
                 ctr.curFilterObj, 
                 ctr.curCf,
-                ctr.curDataVerification
+                ctr.curDataVerification,
+                ctr.curHyperlink
             );
         }
         else if (ctr.type == "showHidRows") { // 隐藏、显示行 重做操作

@@ -526,6 +526,50 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
     }
 
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(index < r){
+                    newHyperlink[(r + value) + "_" + c] = item;
+                }
+                else if(index == r){
+                    if(direction == "lefttop"){
+                        newHyperlink[(r + value) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(index < c){
+                    newHyperlink[r + "_" + (c + value)] = item;
+                }
+                else if(index == c){
+                    if(direction == "lefttop"){
+                        newHyperlink[r + "_" + (c + value)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
+                }
+            }
+        }
+    }
+
     let type1;
     if (type == "row") {
         type1 = "r";
@@ -845,7 +889,8 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -857,6 +902,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
     
     let range = null;
@@ -1450,6 +1496,34 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         }
     }
 
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(r < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(r > ed){
+                    newHyperlink[(r - slen) + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(c < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(c > ed){
+                    newHyperlink[r + "_" + (c - slen)] = item;
+                }
+            }
+        }
+    }
+
     //主逻辑
     let type1;
     if (type == "row") {
@@ -1686,7 +1760,8 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -1698,6 +1773,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 
@@ -2089,6 +2165,36 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         }
     }
 
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+
+            if(r < str || r > edr || c < stc || c > edc){
+                if(type == "moveLeft"){
+                    if(c > edc && r >= str && r <= edr){
+                        newHyperlink[r + "_" + (c - clen)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else if(type == "moveUp"){
+                    if(r > edr && c >= stc && c <= edc){
+                        newHyperlink[(r - rlen) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+            }
+        }
+    }
+
     //边框配置变动
     if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
         let borderInfo = []; 
@@ -2200,7 +2306,8 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
             newCalcChain,
             newFilterObj,
             newCFarr,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -2211,6 +2318,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         file.filter_select = newFilterObj.filter_select;
         file.luckysheet_conditionformat_save = newCFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 

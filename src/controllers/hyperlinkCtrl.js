@@ -1,11 +1,16 @@
 import { replaceHtml } from '../utils/util';
 import { getcellvalue } from '../global/getdata';
 import { luckysheetrefreshgrid } from '../global/refresh';
+import { rowLocation, colLocation, mouseposition } from '../global/location';
 import formula from '../global/formula';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import { modelHTML } from './constant';
+import { selectHightlightShow } from './select';
 import server from './server';
+import sheetmanage from './sheetmanage';
+import luckysheetFreezen from './freezen';
+import menuButton from './menuButton';
 import { getSheetIndex } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
@@ -224,7 +229,98 @@ const hyperlinkCtrl = {
             return;
         }
 
-        
+        let item = _this.hyperlink[r + '_' + c];
+
+        if(item.linkType == 'external'){
+            window.open(item.linkAddress);
+        }
+        else{
+            let cellrange = formula.getcellrange(item.linkAddress);
+            let sheetIndex = cellrange.sheetIndex;
+            let range = [{
+                row: cellrange.row,
+                column: cellrange.column
+            }];
+
+            if(sheetIndex != Store.currentSheetIndex){
+                $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+                $("#luckysheet-sheets-item" + sheetIndex).addClass("luckysheet-sheets-item-active");
+
+                sheetmanage.changeSheet(sheetIndex);
+            }
+
+            Store.luckysheet_select_save = range;
+            selectHightlightShow(true);
+
+            let row_pre = cellrange.row[0] - 1 == -1 ? 0 : Store.visibledatarow[cellrange.row[0] - 1];
+            let col_pre = cellrange.column[0] - 1 == -1 ? 0 : Store.visibledatacolumn[cellrange.column[0] - 1];
+
+            $("#luckysheet-scrollbar-x").scrollLeft(col_pre);
+            $("#luckysheet-scrollbar-y").scrollTop(row_pre);
+        }
+    },
+    overshow: function(event){
+        let _this = this;
+
+        $("#luckysheet-hyperlink-overshow").remove();
+
+        if($(event.target).closest("#luckysheet-cell-main").length == 0){
+            return;
+        }
+
+        let mouse = mouseposition(event.pageX, event.pageY);
+        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+        let scrollTop = $("#luckysheet-cell-main").scrollTop();
+        let x = mouse[0] + scrollLeft;
+        let y = mouse[1] + scrollTop;
+
+        if(luckysheetFreezen.freezenverticaldata != null && mouse[0] < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+            return;
+        }
+
+        if(luckysheetFreezen.freezenhorizontaldata != null && mouse[1] < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+            return;
+        }
+
+        let row_index = rowLocation(y)[2];
+        let col_index = colLocation(x)[2];
+
+        let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
+        if(!!margeset){
+            row_index = margeset.row[2];
+            col_index = margeset.column[2];
+        }
+
+        if(_this.hyperlink == null || _this.hyperlink[row_index + "_" + col_index] == null){
+            return;
+        }
+
+        let item = _this.hyperlink[row_index + "_" + col_index];
+        let linkTooltip = item.linkTooltip;
+
+        if(linkTooltip == null || linkTooltip.replace(/\s/g, '') == ''){
+            linkTooltip = item.linkAddress;
+        }
+
+        let row = Store.visibledatarow[row_index], 
+            row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
+        let col = Store.visibledatacolumn[col_index], 
+            col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
+
+        if(!!margeset){
+            row = margeset.row[1];
+            row_pre = margeset.row[0];
+            
+            col = margeset.column[1];
+            col_pre = margeset.column[0];
+        }
+
+        let html = `<div id="luckysheet-hyperlink-overshow" style="background:#fff;padding:5px 10px;border:1px solid #000;box-shadow:2px 2px #999;position:absolute;left:${col_pre}px;top:${row + 5}px;z-index:100;">
+                        <div>${linkTooltip}</div>
+                        <div>单击鼠标可以追踪</div>
+                    </div>`;
+
+        $(html).appendTo($("#luckysheet-cell-main"));
     },
     ref: function(historyHyperlink, currentHyperlink, sheetIndex, d, range){
         let _this = this;
