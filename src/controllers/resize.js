@@ -402,137 +402,64 @@ export function menuToolBarWidth() {
 		image:{
             ele:'#luckysheet-insertImg-btn-title',
             index:21,
-        }, // 'Insert picture'
+        }, //'Insert link'
+		link:{
+            ele:'#luckysheet-insertLink-btn-title',
+            index:22,
+        }, //'Insert picture'
         chart: {
             ele:'#luckysheet-chart-btn-title',
-            index:22,
+            index:23,
         }, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
         postil: {
             ele:'#luckysheet-icon-postil',
-            index:23,
+            index:24,
         }, //'comment'
         pivotTable: {
             ele:['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
-            index:24,
+            index:25,
         }, //'PivotTable'
         function: {
             ele:['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
-            index:25,
+            index:26,
         }, //'formula'
         frozenMode: {
             ele:['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
-            index:26,
+            index:27,
         }, //'freeze mode'
         sortAndFilter: {
             ele:'#luckysheet-icon-autofilter',
-            index:27,
+            index:28,
         }, //'sort and filter'
         conditionalFormat: {
             ele:'#luckysheet-icon-conditionformat',
-            index:28,
+            index:29,
         }, //'Conditional Format'
         dataVerification: {
             ele:'#luckysheet-dataVerification-btn-title',
-            index:29,
+            index:30,
         }, // 'Data Verification'
         splitColumn: {
             ele:'#luckysheet-splitColumn-btn-title',
-            index:30,
+            index:31,
         }, //'Split column' 
         screenshot: {
             ele:'#luckysheet-chart-btn-screenshot',
-            index:31,
+            index:32,
         }, //'screenshot'
         findAndReplace: {
             ele:'#luckysheet-icon-seachmore',
-            index:32,
+            index:33,
         }, //'Find and Replace'
         protection:{
             ele:'#luckysheet-icon-protection',
-            index:33,
+            index:34,
         }, // 'Worksheet protection'
 		print:{
             ele:'#luckysheet-icon-print',
-            index:34,
+            index:35,
         }, // 'print'
-		// link:false, // 'Insert link'
     };
-    // toobarObject.toobarWidths= [
-    //     $('#luckysheet-icon-undo').offset().left,
-    //     $('#luckysheet-icon-redo').offset().left,
-    //     $('#luckysheet-icon-paintformat').offset().left,
-    //     $('#luckysheet-icon-currency').offset().left,
-    //     $('#luckysheet-icon-percent').offset().left,
-    //     $('#luckysheet-icon-fmt-decimal-decrease').offset().left,
-    //     $('#luckysheet-icon-fmt-decimal-increase').offset().left,
-    //     $('#luckysheet-icon-fmt-other').offset().left,
-    //     $('#luckysheet-icon-font-family').offset().left,
-    //     $('#luckysheet-icon-font-size').offset().left,
-    //     $('#luckysheet-icon-bold').offset().left,
-    //     $('#luckysheet-icon-italic').offset().left,
-    //     $('#luckysheet-icon-strikethrough').offset().left,
-    //     $('#luckysheet-icon-text-color').offset().left,
-    //     $('#luckysheet-icon-cell-color').offset().left,
-    //     $('#luckysheet-icon-border-all').offset().left,
-    //     $('#luckysheet-icon-merge-button').offset().left,
-    //     $('#luckysheet-icon-align').offset().left,
-    //     $('#luckysheet-icon-valign').offset().left,
-    //     $('#luckysheet-icon-textwrap').offset().left,
-    //     $('#luckysheet-icon-rotation').offset().left,
-    //     $('#luckysheet-insertImg-btn-title').offset().left,
-    //     $('#luckysheet-chart-btn-title').offset().left,
-    //     $('#luckysheet-icon-postil').offset().left,
-    //     $('#luckysheet-pivot-btn-title').offset().left,
-    //     $('#luckysheet-icon-function').offset().left,
-    //     $('#luckysheet-freezen-btn-horizontal').offset().left,
-    //     $('#luckysheet-icon-autofilter').offset().left,
-    //     $('#luckysheet-icon-conditionformat').offset().left,
-    //     $('#luckysheet-dataVerification-btn-title').offset().left,
-    //     $('#luckysheet-splitColumn-btn-title').offset().left,
-    //     $('#luckysheet-chart-btn-screenshot').offset().left,
-    //     $('#luckysheet-icon-seachmore').offset().left,
-    //     $('#luckysheet-icon-protection').offset().left,
-    //     $('#luckysheet-icon-print').offset().left,
-    //     $('#luckysheet-icon-print').offset().left + $('#luckysheet-icon-protection').outerWidth() + 5,
-    // ];
-
-    // toobarObject.toobarElements = [
-    //     '#luckysheet-icon-undo',
-    //     '#luckysheet-icon-redo',
-    //     ['#luckysheet-icon-paintformat','#toolbar-separator-paint-format'],
-    //     '#luckysheet-icon-currency',
-    //     '#luckysheet-icon-percent',
-    //     '#luckysheet-icon-fmt-decimal-decrease',
-    //     '#luckysheet-icon-fmt-decimal-increase',
-    //     ['#luckysheet-icon-fmt-other','#toolbar-separator-more-format'],
-    //     ['#luckysheet-icon-font-family','#toolbar-separator-font-family'],
-    //     ['#luckysheet-icon-font-size','#toolbar-separator-font-size'],
-    //     '#luckysheet-icon-bold',
-    //     '#luckysheet-icon-italic',
-    //     '#luckysheet-icon-strikethrough',
-    //     ['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
-    //     ['#luckysheet-icon-cell-color','#luckysheet-icon-cell-color-menu'],
-    //     ['#luckysheet-icon-border-all','#luckysheet-icon-border-menu'],
-    //     ['#luckysheet-icon-merge-button','#luckysheet-icon-merge-menu','#toolbar-separator-merge-cell'],
-    //     ['#luckysheet-icon-align','#luckysheet-icon-align-menu'],
-    //     ['#luckysheet-icon-valign','#luckysheet-icon-valign-menu'],
-    //     ['#luckysheet-icon-textwrap','#luckysheet-icon-textwrap-menu'],
-    //     ['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
-    //     '#luckysheet-insertImg-btn-title',
-    //     '#luckysheet-chart-btn-title',
-    //     '#luckysheet-icon-postil',
-    //     ['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
-    //     ['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
-    //     ['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
-    //     '#luckysheet-icon-autofilter',
-    //     '#luckysheet-icon-conditionformat',
-    //     '#luckysheet-dataVerification-btn-title',
-    //     '#luckysheet-splitColumn-btn-title',
-    //     '#luckysheet-chart-btn-screenshot',
-    //     '#luckysheet-icon-seachmore',
-    //     '#luckysheet-icon-protection',
-    //     '#luckysheet-icon-print',
-    // ]
 
     const config = {
         undo: true, //Undo

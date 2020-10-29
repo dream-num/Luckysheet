@@ -213,6 +213,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         textWrapMode: false, //'Wrap mode'
         textRotateMode: false, //'Text Rotation Mode'
 		image:false, // 'Insert picture'
+		link:false, // 'Insert link'
 		chart: false, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
 		postil: false, //'comment'
 		pivotTable: false, //'PivotTable'
@@ -226,7 +227,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 		findAndReplace: false, //'Find and Replace'
 		protection:false, // 'Worksheet protection'
 		print:false, // 'print'
-		//link:false, // 'Insert link'(TODO)
     }
     ```
 - Example:

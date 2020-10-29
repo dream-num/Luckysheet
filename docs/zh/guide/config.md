@@ -301,6 +301,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         textWrapMode: false, // '换行方式'
         textRotateMode: false, // '文本旋转方式'
 		image:false, // '插入图片'
+		link:false, // '插入链接'
         chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
         postil:  false, //'批注'
         pivotTable: false,  //'数据透视表'
@@ -314,7 +315,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         findAndReplace: false, // '查找替换'
 		protection:false, // '工作表保护'
 		print:false, // '打印'
-		// link:false, // '插入链接'（TODO）
     }
     ```
 - 示例：

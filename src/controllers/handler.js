@@ -5,6 +5,7 @@ import pivotTable from './pivotTable';
 import luckysheetDropCell from './dropCell';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
@@ -337,6 +338,9 @@ export default function luckysheetHandler() {
 
         //数据验证 单元格聚焦
         dataVerificationCtrl.cellFocus(row_index, col_index, true);
+
+        //链接 单元格聚焦
+        hyperlinkCtrl.cellFocus(row_index, col_index);
 
         //若点击单元格部分不在视图内
         if (col_pre < $("#luckysheet-cell-main").scrollLeft()) {
@@ -4530,6 +4534,24 @@ export default function luckysheetHandler() {
             $("#luckysheet-imgUpload").val("");
         }
     });
+
+    //菜单栏 插入链接按钮
+    $("#luckysheet-insertLink-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
+        if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
+            return;
+        }
+
+        hyperlinkCtrl.createDialog();
+        hyperlinkCtrl.init();
+    })
+    $("#luckysheetInsertLink").click(function () {
+        $("#luckysheet-insertLink-btn-title").click();
+        $("#luckysheet-rightclick-menu").hide();
+    })
 
     //菜单栏 数据验证按钮
     $("#luckysheet-dataVerification-btn-title").click(function () {
