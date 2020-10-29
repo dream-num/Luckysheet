@@ -357,7 +357,7 @@ function luckysheetfontformat(format) {
 
         //font-size/line-height
         if (!format.fs) {
-            font += Store.luckysheetfontformat + "pt ";
+            font += Store.defaultFontSize + "pt ";
         }
         else {
             font += Math.ceil(format.fs) + "pt ";
