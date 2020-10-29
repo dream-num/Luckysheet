@@ -4,16 +4,16 @@
 
 **<span style="font-size:20px;">A</span>**: Use one-dimensional array format [celldata](/zh/guide/sheet.html#celldata), after the initialization is completed, the data converted into a two-dimensional array format is used for storage and update, and celldata is no longer used.
 
-If you need to take out data as initial data, you need to execute `luckysheet.getGridData(data)` to convert it to celldata data.
-Among them, the celldata in `{ r, c, v }` format is converted to a two-dimensional array using `luckysheet.buildGridData(luckysheetfile)`, and the input parameter is the table data object `luckysheetfile`
+If you need to take out `data` as initial data, you need to execute [transToCellData(data)](/guide/api.html#transtocelldata-data-setting) to convert it to celldata data.
+Among them, the celldata in `{ r, c, v }` format is converted to a two-dimensional array using [transToData(celldata)](/guide/api.html#transtodata-celldata-setting)
 
 Summarized as follows:
 ```js
-// data => celldata two-dimensional array data is converted into {r, c, v} format one-dimensional array, the input parameter is two-dimensional data
-luckysheet.getGridData(data)
+// data => celldata two-dimensional array data into {r, c, v} format one-dimensional array
+luckysheet.transToCellData(data)
 
-// celldata => data The two-dimensional array required to generate the table, the input parameter is the table data object file
-luckysheet.buildGridData(luckysheetfile)
+// celldata => data to generate the two-dimensional array required for the table
+luckysheet.transToData(celldata)
 ```
 
 ------------
@@ -63,14 +63,17 @@ Note: Initial data needs to be configured with loadUrl and loadSheetUrl paramete
 
 ## **<span style="font-size:20px;">Q</span>** How to import and export excel?
 
-**<span style="font-size:20px;">A</span>**: The excel import and export library developed with Luckysheet-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel) has realized the excel import function, and the export function is under development. You can refer to this blog post for excel export at this stage: https://www.cnblogs.com/recode-hyh/p/13168226.html.
+**<span style="font-size:20px;">A</span>**: The excel import and export library developed with Luckysheet-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel) has realized the excel import function, and the export function is under development.You can refer to these 2 blog posts for excel export at this stage:
+
+- [Development of Excel download function based on LuckySheet online form](https://www.cnblogs.com/recode-hyh/p/13168226.html)
+- [Use exceljs to export luckysheet form](https://blog.csdn.net/csdn_lsy/article/details/107179708)
 
 ------------
 
 ## **<span style="font-size:20px;">Q</span>** How to merge cells during initialization?
 
-**<span style="font-size:20px;">A</span>**: Refer to the following case
-- Luckysheet initializes data with merged cells: https://www.cnblogs.com/DuShuSir/p/13272397.html
+**<span style="font-size:20px;">A</span>**: Refer to the following case:
+- [How Luckysheet initializes the data with merged cells](https://www.cnblogs.com/DuShuSir/p/13272397.html)
 
 ------------
 
@@ -80,7 +83,8 @@ Note: Initial data needs to be configured with loadUrl and loadSheetUrl paramete
 
 - 1. after the table operation is completed, you can use `luckysheet.getAllSheets()` to get all sheet data that stroed in the back-end.
 - 2. enable the collaborative editing function to transmit data to the back-end in real-time.
-refer this article：https://www.cnblogs.com/DuShuSir/p/13857874.html
+refer this article：
+[How Luckysheet saves the data in the table to the database](https://www.cnblogs.com/DuShuSir/p/13857874.html)
 
 ------------
 

@@ -1880,13 +1880,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
-    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象
+    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象，工作表数据格式参考[options.data](/zh/guide/sheet.html#初始化配置)
     	+ {Number} [order]: 新增的工作表下标；默认值为最后一个下标位置
     	+ {Function} [success]: 操作结束的回调函数
 	
 - **说明**：
 
-	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表
+	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表。
 
 - **示例**:
 

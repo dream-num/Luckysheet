@@ -5844,3 +5844,27 @@ export function transToData(celldata, options = {}){
         celldata: celldata
     })
 }
+
+/**
+ * 导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用
+ * 
+ */
+export function toJson(){
+    
+    const toJsonOptions = Store.toJsonOptions;
+
+    // Workbook name
+    toJsonOptions.title = $("#luckysheet_info_detail_input").val();
+
+    toJsonOptions.data = getAllSheets();
+    
+    // row and column
+    getluckysheetfile().forEach((file,index)=>{
+
+        toJsonOptions.data[index].row = file.data.length;
+        toJsonOptions.data[index].column = file.data[0].length;
+        
+    })
+
+    return toJsonOptions;
+}

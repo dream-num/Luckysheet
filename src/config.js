@@ -57,4 +57,17 @@ export default {
     defaultColWidth:73,
     defaultRowHeight:19,
     defaultFontSize:10,
+
+    showRowBar:true, //是否显示行号区域
+    showColumnBar:true, //是否显示列号区域
+    sheetFormulaBar:true, //是否显示公式栏
+    showtoolbarConfig:{}, //自定义工具栏
+    showsheetbarConfig:{}, //自定义底部sheet页
+    showstatisticBarConfig:{}, //自定义计数栏
+    sheetBottomConfig:{}, //自定义添加行和回到顶部
+    cellRightClickConfig:{}, //自定义单元格右键菜单
+    sheetRightClickConfig:{}, //自定义底部sheet页右击菜单
+
+
+
 }

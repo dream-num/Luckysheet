@@ -1928,7 +1928,7 @@ Use note:
 - **Parameter**：
 
     - {PlainObject} [setting]: optional parameters
-        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object
+        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object.Worksheet data format reference [options.data](/guide/sheet.html#initial)
         + {Number} [order]: New worksheet subscript; the default value is the last subscript
         + {Function} [success]: callback function for the end of the operation
 	

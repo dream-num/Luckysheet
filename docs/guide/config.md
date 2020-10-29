@@ -186,11 +186,9 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showtoolbarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Custom configuration toolbar
+- Usage: Custom configuration toolbar,can be used in conjunction with showtoolbar, `showtoolbarConfig` has a higher priority.
 - Format:
     ```json
     {
@@ -214,19 +212,48 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         verticalAlignMode: false, //'Vertical alignment'
         textWrapMode: false, //'Wrap mode'
         textRotateMode: false, //'Text Rotation Mode'
-        frozenMode: false, //'freeze mode'
-        sort: false, //'sort'
-        filter: false, //'filter'
-        findAndReplace: false, //'Find and Replace'
-        function: false, //'formula'
-        conditionalFormat: false, //'Conditional Format'
-        postil: false, //'comment'
-        pivotTable: false, //'PivotTable'
-        chart: false, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-        screenshot: false, //'screenshot'
-        splitColumn: false, //'Split column'     
+		image:false, // 'Insert picture'
+		chart: false, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
+		postil: false, //'comment'
+		pivotTable: false, //'PivotTable'
+		function: false, //'formula'
+		frozenMode: false, //'freeze mode'
+		sortAndFilter: false, //'Sort and filter'
+		conditionalFormat: false, //'Conditional Format'
+		dataVerification: false, // 'Data Verification'
+		splitColumn: false, //'Split column'
+		screenshot: false, //'screenshot'
+		findAndReplace: false, //'Find and Replace'
+		protection:false, // 'Worksheet protection'
+		print:false, // 'print'
+		//link:false, // 'Insert link'(TODO)
     }
     ```
+- Example:
+	- Show only the `undo/redo` and `font` buttons:
+		
+		```js
+			//options
+			{
+				showtoolbar: false,
+				showtoolbarConfig:{
+					undoRedo: true,
+					font: true,
+				}
+			}
+		```
+	- Hide only the `image` and `print` buttons:
+		
+		```js
+			//options
+			{
+				showtoolbar: true, // 默认就是true，可以不设置
+				showtoolbarConfig:{
+					image: false,
+					print: false,
+				}
+			}
+		```
 
 ------------
 ### showinfobar
