@@ -2876,6 +2876,7 @@ const menuButton = {
                 $attr.css({ "top": top, "left": left }).show();
                 _this.rightclickmenu = $t;
             } else {
+                clearTimeout(_this.submenuhide);
                 _this.submenuhide = setTimeout(function () { $attr.hide(); }, 200);
             }
         }).on("mouseover mouseleave",".luckysheet-menuButton-sub", function(e){
