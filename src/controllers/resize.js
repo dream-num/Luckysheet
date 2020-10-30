@@ -42,21 +42,23 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     
     customSheetbarConfig();
 
-    if (!luckysheetConfigsetting.showstatisticBar) {
-        $("#" + Store.container).find(".luckysheet-stat-area").hide();
-        Store.statisticBarHeight = 0;
-    }
-    else {
-        $("#" + Store.container).find(".luckysheet-stat-area").show();
-        Store.statisticBarHeight = 23;
-    }
+    // if (!luckysheetConfigsetting.showstatisticBar) {
+    //     $("#" + Store.container).find(".luckysheet-stat-area").hide();
+    //     Store.statisticBarHeight = 0;
+    // }
+    // else {
+    //     $("#" + Store.container).find(".luckysheet-stat-area").show();
+    //     Store.statisticBarHeight = 23;
+    // }
+
+    customStatisticBarConfig();
 
     // 公式栏
     Store.calculatebarHeight = document.querySelector('#luckysheet-wa-calculate').offsetHeight;
 
     $("#" + Store.container).find(".luckysheet-grid-container").css("top", Store.toolbarHeight + Store.infobarHeight + Store.calculatebarHeight);
 
-    gridW = $("#" + Store.container).width(), gridH = $("#" + Store.container).height();
+    gridW = $("#" + Store.container).width();
 
     if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色 Protection
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
@@ -73,18 +75,10 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         } 
     }
 
-    $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
-
-    changeSheetContainerSize(gridW, gridH)
-    
-    if(isRefreshCanvas){
-        luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
-    }
     const _locale = locale();
     const locale_toolbar = _locale.toolbar;
     let ismore = false, 
-        toolbarW = 0, 
-        // morebtn = '<div class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"> </div><div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="'+ locale_toolbar.toolMoreTip +'" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;"> <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;color:#0188fb;"><i class="fa fa-list-ul"></i> '+ locale_toolbar.toolMore +'... </div> </div> </div> </div>',
+        toolbarW = 0,
         morebtn = `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${locale_toolbar.toolMoreTip}" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> 
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> 
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;">
@@ -98,7 +92,6 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 </div> 
             </div>
          </div>`,
-        // morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + 3 + $("#" + Store.container).offset().top + $("body").scrollTop() - $("#luckysheet-functionbox-container").height() ) +'px; right:0px;z-index:1003;padding:8px;display:none;height:auto;white-space:initial;"></div>';
         morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px; right:0px;z-index:1003;padding:5.5px;display:none;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
@@ -116,24 +109,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         $container.appendChild($t);
     });
 
-    // $("#luckysheet-wa-editor > div").trigger("create");
-    // $("#luckysheet-icon-morebtn-div > div").trigger("create");
     $("#luckysheet-icon-morebtn").remove();
-
-    //计算前面按钮宽度加起来总和，超过 容器宽度-更多按钮，则剩下的按钮移动到展开的容器内，这种方式计算宽度不准确，且会导致下拉箭头和主按钮分离的情况，改为 计算left作为宽度依据，和容器宽度比较的方式
-    // $("#luckysheet-wa-editor > div").each(function(){
-    //     let $t = $(this);
-    //     // toolbarW += $t.outerWidth();
-    //     toolbarW += $t.outerWidth();
-
-    //     if(!ismore && toolbarW > gridW - 140){
-    //         ismore = true;
-    //     }
-
-    //     if(ismore){
-    //         $("#luckysheet-icon-morebtn-div").append($(this));
-    //     }
-    // });
 
     // 所有按钮宽度与元素定位
     const toobarWidths = Store.toobarObject.toobarWidths;
@@ -232,6 +208,17 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     }, function(){
         $(this).prev(".luckysheet-toolbar-button-split-left").removeClass("luckysheet-toolbar-button-hover");
     });
+
+    // When adding elements to the luckysheet-icon-morebtn-div element of the toolbar, it will affect the height of the entire workbook area, so the height is obtained here
+    gridH = $("#" + Store.container).height();
+
+    $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
+
+    changeSheetContainerSize(gridW, gridH)
+    
+    if(isRefreshCanvas){
+        luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
+    }
 
     sheetmanage.sheetArrowShowAndHide();
     sheetmanage.sheetBarShowAndHide();
@@ -557,6 +544,9 @@ export function menuToolBarWidth() {
     
 }
 
+/**
+ *Custom configuration bottom sheet button
+ */
 function customSheetbarConfig() {
 
     if(!luckysheetConfigsetting.initShowsheetbarConfig){
@@ -564,9 +554,9 @@ function customSheetbarConfig() {
         luckysheetConfigsetting.initShowsheetbarConfig = true;
 
         const config = {
-            add: true, //新增sheet  
-            menu: true, //sheet管理菜单
-            sheet: true //sheet页显示
+            add: true, //Add worksheet
+            menu: true, //Worksheet management menu
+            sheet: true //Worksheet display
         }
     
         if(!luckysheetConfigsetting.showsheetbar){
@@ -622,4 +612,73 @@ function customSheetbarConfig() {
         $("#" + Store.container).find("#luckysheet-sheet-area").show();
         Store.sheetBarHeight = 31;
     }
+}
+
+
+/**
+ * Customize the bottom count bar
+ */
+function customStatisticBarConfig() {
+    if(!luckysheetConfigsetting.initStatisticBarConfig){
+
+        luckysheetConfigsetting.initStatisticBarConfig = true;
+
+        const config = {
+            count: true, // Count bar
+            view: true, // print view
+            zoom: true // Zoom
+        }
+    
+        if(!luckysheetConfigsetting.showstatisticBar){
+            for(let s in config){
+                config[s] = false;
+            }
+        }
+    
+        // showstatisticBarConfig determines the final result
+        if(JSON.stringify(luckysheetConfigsetting.showstatisticBarConfig) !== '{}'){
+            Object.assign(config,luckysheetConfigsetting.showstatisticBarConfig);
+        }
+    
+        luckysheetConfigsetting.showstatisticBarConfig = config;
+
+    }
+
+    const config = luckysheetConfigsetting.showstatisticBarConfig;
+
+    let isHide = 0;
+
+    for (let s in config) {
+        if(!config[s]){
+            switch (s) {
+                case 'count':
+                    $('#luckysheet-sta-content').hide();
+                    isHide++;
+                    break;
+            
+                case 'view':
+                    $('.luckysheet-print-viewList').hide();
+                    isHide++;
+                    break;
+
+                case 'zoom':
+                    $('#luckysheet-zoom-content').hide();
+                    isHide++;
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (isHide === 3) {
+        $("#" + Store.container).find(".luckysheet-stat-area").hide();
+        Store.statisticBarHeight = 0;
+    }
+    else {
+        $("#" + Store.container).find(".luckysheet-stat-area").show();
+        Store.statisticBarHeight = 23;
+    }
+
 }

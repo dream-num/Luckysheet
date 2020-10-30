@@ -403,17 +403,40 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showstatisticBarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部计数栏
+- 作用：自定义配置底部计数栏，可以与showstatisticBar配合使用，`showstatisticBarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
         count: false, // 计数栏
-        zoom: false // 缩放
+		view: false, // 打印视图
+        zoom: false, // 缩放
     }
+	```
+- 示例：
+	- 仅显示缩放按钮：
+		
+		```js
+			//options
+			{
+				showstatisticBar: false,
+				showstatisticBarConfig:{
+					zoom: true,
+				}
+			}
+		```
+	- 仅隐藏打印视图按钮：
+		
+		```js
+			//options
+			{
+				showstatisticBar: true, // 默认就是true，可以不设置
+				showstatisticBarConfig:{
+					view: false,
+				}
+			}
+		```
 
 ------------
 ### sheetBottomConfig
@@ -585,26 +608,40 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ## 单元格
 
-### cellRenderAfter
-（TODO）
+### cellRenderBefore
+
 - 类型：Function
 - 默认值：null
-- 作用：单元格渲染结束后触发
+- 作用：单元格渲染前触发，`return false` 则不渲染该单元格
 - 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
 
 ------------
-### cellHover
-（TODO）
+### cellRenderAfter
+
 - 类型：Function
 - 默认值：null
-- 作用：鼠标移过单元格时(hover)触发
+- 作用：单元格渲染结束后触发，`return false` 则不渲染该单元格
 - 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
 
 ------------
 ### cellEditBefore
@@ -630,11 +667,175 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [newV]: 修改后单元格对象
 
 ------------
-### fireMousedown
-（TODO）
+### rowTitleCellRenderBefore
+
 - 类型：Function
 - 默认值：null
-- 作用：单元格数据下钻自定义方法
+- 作用：行标题单元格渲染前触发，`return false` 则不渲染行标题
+- 参数：
+	- {String} [rowNum]:行号
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [top]:单元格左上角的垂直坐标
+		+ {Number} [width]:单元格宽度
+		+ {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### rowTitleCellRenderAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：行标题单元格渲染后触发，`return false` 则不渲染行标题
+- 参数：
+	- {String} [rowNum]:行号
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [top]:单元格左上角的垂直坐标
+		+ {Number} [width]:单元格宽度
+		+ {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### columnTitleCellRenderBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：列标题单元格渲染前触发，`return false` 则不渲染列标题
+- 参数：
+	- {Object} [columnAbc]:列标题字符
+	- {Object} [postion]:
+		- {Number} [c]:单元格所在列号
+		- {Number} [left]:单元格左上角的水平坐标
+		- {Number} [width]:单元格宽度
+		- {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### columnTitleCellRenderAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：列标题单元格渲染后触发，`return false` 则不渲染列标题
+- 参数：
+	- {Object} [columnAbc]:列标题字符
+	- {Object} [postion]:
+		- {Number} [c]:单元格所在列号
+		- {Number} [left]:单元格左上角的水平坐标
+		- {Number} [width]:单元格宽度
+		- {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+
+## 鼠标钩子
+
+### cellMousedownBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格点击前的事件，`return false`则终止之后的点击操作
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### cellMousedown
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格点击后的事件，`return false`则终止之后的点击操作
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### sheetMousemove
+
+- 类型：Function
+- 默认值：null
+- 作用：鼠标移动事件，可通过cell判断鼠标停留在哪个单元格
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
+		+ {Boolean} [functionResizeStatus]:工具栏拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
+		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
+		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
+		+ {Boolean} [selectStatus]:鼠标移动框选数据
+		+ {Boolean} [rowsSelectedStatus]:通过行标题来选择整行操作
+		+ {Boolean} [colsSelectedStatus]:通过列标题来选择整列操作
+		+ {Boolean} [cellSelectedMove]:选框的移动
+		+ {Boolean} [cellSelectedExtend]:选框下拉填充
+		+ {Boolean} [colsChangeSize]:拖拽改变列宽
+		+ {Boolean} [rowsChangeSize]:拖拽改变行高
+		+ {Boolean} [chartMove]:图表移动
+		+ {Boolean} [chartResize]:图表改变大小
+		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
+		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### sheetMouseup
+
+- 类型：Function
+- 默认值：null
+- 作用：鼠标按钮释放事件，可通过cell判断鼠标停留在哪个单元格
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
+		+ {Boolean} [functionResizeStatus]:工具栏拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
+		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
+		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
+		+ {Boolean} [selectStatus]:鼠标移动框选数据
+		+ {Boolean} [rowsSelectedStatus]:通过行标题来选择整行操作
+		+ {Boolean} [colsSelectedStatus]:通过列标题来选择整列操作
+		+ {Boolean} [cellSelectedMove]:选框的移动
+		+ {Boolean} [cellSelectedExtend]:选框下拉填充
+		+ {Boolean} [colsChangeSize]:拖拽改变列宽
+		+ {Boolean} [rowsChangeSize]:拖拽改变行高
+		+ {Boolean} [chartMove]:图表移动
+		+ {Boolean} [chartResize]:图表改变大小
+		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
+		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+	- {Object} [ctx]: 当前画布的context
 
 ------------
 
@@ -1171,4 +1372,14 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 参数：
 	- {Object} [frozen]: 冻结类型信息
     
+------------
+
+## 旧版钩子函数
+
+### fireMousedown
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格数据下钻自定义方法，注意此钩子函数是挂载在options下：`options.fireMousedown`
+
 ------------

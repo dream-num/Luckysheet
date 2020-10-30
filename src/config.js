@@ -67,7 +67,4 @@ export default {
     sheetBottomConfig:{}, //自定义添加行和回到顶部
     cellRightClickConfig:{}, //自定义单元格右键菜单
     sheetRightClickConfig:{}, //自定义底部sheet页右击菜单
-
-
-
 }

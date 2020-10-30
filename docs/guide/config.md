@@ -226,7 +226,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 		screenshot: false, //'screenshot'
 		findAndReplace: false, //'Find and Replace'
 		protection:false, // 'Worksheet protection'
-		print:false, // 'print'
+		print:false, // 'Print'
     }
     ```
 - Example:
@@ -315,18 +315,40 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showstatisticBarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Customize the bottom count bar
+- Usage: Customize the bottom count bar, can be used in conjunction with `showstatisticBar`, `showstatisticBarConfig` has a higher priority.
 - Format: 
     ```json
     {
-        count: false, // Count bar
+		count: false, // Count bar
+		view: false, // Print view
         zoom: false // Zoom
     }
-
+	```
+- Example:
+	- Only display the `Zoom` button:
+		
+		```js
+			//options
+			{
+				showstatisticBar: false,
+				showstatisticBarConfig:{
+					zoom: true,
+				}
+			}
+		```
+	- Only hide the `print view` button:
+		
+		```js
+			//options
+			{
+				showstatisticBar: true, // The default is true, you can leave it unset
+				showstatisticBarConfig:{
+					view: false,
+				}
+			}
+		```	
 ------------
 ### sheetBottomConfig
 
@@ -533,12 +555,6 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Number} [c]: Column number of cell
 	- {Object} [oldV]: Cell object before Modified
 	- {Object} [newV]: Cell object after Modified
-
-------------
-### fireMousedown
-- Type: Function
-- Default: null
-- Usage: Customized method of drilling down cell data
 
 ------------
 
@@ -1021,4 +1037,13 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Parameter: 
 	- {Object} [frozen]: Freeze type information
     
+------------
+
+#### Legacy Hook Function
+
+### fireMousedown
+- Type: Function
+- Default: null
+- Usage: Customized method of drilling down cell data, note that this hook function is mounted under options: `options.fireMousedown`
+
 ------------

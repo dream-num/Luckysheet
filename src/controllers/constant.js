@@ -238,7 +238,7 @@ const gridHTML = function(){
                                     <div type="viewPage" class="luckysheet-print-viewBtn luckysheet-print-viewPage" title="${locale_print.pageBtn}"><i class="icon iconfont icon-fenyeyulan"></i></div>
                                 </div>
                                 <div class="luckysheet-sta-content" id="luckysheet-sta-content"></div>  
-                                <div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div>  
+                                <!--<div class="luckysheet-bottom-content" id="luckysheet-bottom-content-show"></div> -->
                             </div> 
                         </div> 
                     </div>
