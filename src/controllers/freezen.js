@@ -1176,60 +1176,72 @@ const luckysheetFreezen = {
                 let show = true;
                 let show2 = true;
 
-                if(postil_top + postil_height < freezenTop){
+                if(r >= _this.freezenhorizontaldata[1]){
+                    if(postil_top + postil_height < freezenTop){
+                        $(e).show().find(".luckysheet-postil-show-main").css("top", postil_top + offTop);
+                        $(e).show().find(".arrowCanvas").css("top", size[1] + offTop);
+                    }
+                    else{
+                        if(postil_top < freezenTop + offTop){
+                            if(postil_top + postil_height <= freezenTop + offTop){
+                                show = false;
+                            }
+                            else{
+                                $(e).show().find(".luckysheet-postil-show-main").css({ "top": freezenTop + offTop, "height": postil_height - (freezenTop + offTop - postil_top) });
+                                $(e).show().find(".formulaInputFocus").css("margin-top", -(freezenTop + offTop - postil_top));
+                                $(e).show().find(".arrowCanvas").hide(); 
+
+                                show2 = false;
+                            }
+                        }
+                        else{
+                            $(e).show().find(".luckysheet-postil-show-main").css({
+                                "top": postil_top,
+                                "height": postil_height
+                            });
+                            $(e).show().find(".formulaInputFocus").css("margin-top", 0);
+                            $(e).show().find(".arrowCanvas").css("top", size[1]);
+                            // luckysheetPostil.buildPs(r, c, postil);
+                        }
+                    }
+                }
+                else{
                     $(e).show().find(".luckysheet-postil-show-main").css("top", postil_top + offTop);
                     $(e).show().find(".arrowCanvas").css("top", size[1] + offTop);
                 }
-                else{
-                    if(postil_top < freezenTop + offTop){
-                        if(postil_top + postil_height <= freezenTop + offTop){
-                            show = false;
-                        }
-                        else{
-                            $(e).show().find(".luckysheet-postil-show-main").css({ "top": freezenTop + offTop, "height": postil_height - (freezenTop + offTop - postil_top) });
-                            $(e).show().find(".formulaInputFocus").css("margin-top", -(freezenTop + offTop - postil_top));
-                            $(e).show().find(".arrowCanvas").hide(); 
 
-                            show2 = false;
-                        }
+                if(c >= _this.freezenverticaldata[1]){
+                    if(postil_left + postil_width < freezenLeft){
+                        $(e).show().find(".luckysheet-postil-show-main").css("left", postil_left + offLeft);
+                        $(e).show().find(".arrowCanvas").css("left", size[0] + offLeft);
                     }
                     else{
-                        $(e).show().find(".luckysheet-postil-show-main").css({
-                            "top": postil_top,
-                            "height": postil_height
-                        });
-                        $(e).show().find(".formulaInputFocus").css("margin-top", 0);
-                        $(e).show().find(".arrowCanvas").css("top", size[1]);
-                        // luckysheetPostil.buildPs(r, c, postil);
+                        if(postil_left < freezenLeft + offLeft){
+                            if(postil_left + postil_width <= freezenLeft + offLeft){
+                                show = false;
+                            }
+                            else{
+                                $(e).show().find(".luckysheet-postil-show-main").css({ "left": freezenLeft + offLeft, "width": postil_width - (freezenLeft + offLeft - postil_left) });
+                                $(e).show().find(".formulaInputFocus").css("margin-left", -(freezenLeft + offLeft - postil_left));
+                                $(e).show().find(".arrowCanvas").hide(); 
+
+                                show2 = false;
+                            }
+                        }
+                        else{
+                            $(e).show().find(".luckysheet-postil-show-main").css({
+                                "left": postil_left,
+                                "width": postil_width   
+                            });
+                            $(e).show().find(".formulaInputFocus").css("margin-left", 0);
+                            $(e).show().find(".arrowCanvas").css("left", size[0]);
+                            // luckysheetPostil.buildPs(r, c, postil);
+                        }
                     }
                 }
-
-                if(postil_left + postil_width < freezenLeft){
+                else{
                     $(e).show().find(".luckysheet-postil-show-main").css("left", postil_left + offLeft);
                     $(e).show().find(".arrowCanvas").css("left", size[0] + offLeft);
-                }
-                else{
-                    if(postil_left < freezenLeft + offLeft){
-                        if(postil_left + postil_width <= freezenLeft + offLeft){
-                            show = false;
-                        }
-                        else{
-                            $(e).show().find(".luckysheet-postil-show-main").css({ "left": freezenLeft + offLeft, "width": postil_width - (freezenLeft + offLeft - postil_left) });
-                            $(e).show().find(".formulaInputFocus").css("margin-left", -(freezenLeft + offLeft - postil_left));
-                            $(e).show().find(".arrowCanvas").hide(); 
-
-                            show2 = false;
-                        }
-                    }
-                    else{
-                        $(e).show().find(".luckysheet-postil-show-main").css({
-                            "left": postil_left,
-                            "width": postil_width   
-                        });
-                        $(e).show().find(".formulaInputFocus").css("margin-left", 0);
-                        $(e).show().find(".arrowCanvas").css("left", size[0]);
-                        // luckysheetPostil.buildPs(r, c, postil);
-                    }
                 }
 
                 if(!show){
@@ -1281,24 +1293,30 @@ const luckysheetFreezen = {
 
                 let size = luckysheetPostil.getArrowCanvasSize(postil_left, postil_top, toX, toY);
 
-                if(postil_top + postil_height < freezenTop){
-                    $(e).show().find(".luckysheet-postil-show-main").css("top", postil_top + offTop);
-                    $(e).show().find(".arrowCanvas").css("top", size[1] + offTop);
-                }
-                else{
-                    if(postil_top < freezenTop + offTop){
-                        if(postil_top + postil_height <= freezenTop + offTop){
-                            $(e).hide();
-                        }
-                        else{
-                            $(e).show().find(".luckysheet-postil-show-main").css({ "top": freezenTop + offTop, "height": postil_height - (freezenTop + offTop - postil_top) });
-                            $(e).show().find(".formulaInputFocus").css("margin-top", -(freezenTop + offTop - postil_top));
-                            $(e).show().find(".arrowCanvas").hide(); 
-                        }
+                if(r >= _this.freezenhorizontaldata[1]){
+                    if(postil_top + postil_height < freezenTop){
+                        $(e).show().find(".luckysheet-postil-show-main").css("top", postil_top + offTop);
+                        $(e).show().find(".arrowCanvas").css("top", size[1] + offTop);
                     }
                     else{
-                        luckysheetPostil.buildPs(r, c, postil);
+                        if(postil_top < freezenTop + offTop){
+                            if(postil_top + postil_height <= freezenTop + offTop){
+                                $(e).hide();
+                            }
+                            else{
+                                $(e).show().find(".luckysheet-postil-show-main").css({ "top": freezenTop + offTop, "height": postil_height - (freezenTop + offTop - postil_top) });
+                                $(e).show().find(".formulaInputFocus").css("margin-top", -(freezenTop + offTop - postil_top));
+                                $(e).show().find(".arrowCanvas").hide(); 
+                            }
+                        }
+                        else{
+                            luckysheetPostil.buildPs(r, c, postil);
+                        }
                     }
+                }
+                else{
+                    $(e).show().find(".luckysheet-postil-show-main").css("top", postil_top + offTop);
+                    $(e).show().find(".arrowCanvas").css("top", size[1] + offTop);
                 }
             })
         }
@@ -1342,24 +1360,30 @@ const luckysheetFreezen = {
 
                 let size = luckysheetPostil.getArrowCanvasSize(postil_left, postil_top, toX, toY);
 
-                if(postil_left + postil_width < freezenLeft){
-                    $(e).show().find(".luckysheet-postil-show-main").css("left", postil_left + offLeft);
-                    $(e).show().find(".arrowCanvas").css("left", size[0] + offLeft);
-                }
-                else{
-                    if(postil_left < freezenLeft + offLeft){
-                        if(postil_left + postil_width <= freezenLeft + offLeft){
-                            $(e).hide();
-                        }
-                        else{
-                            $(e).show().find(".luckysheet-postil-show-main").css({ "left": freezenLeft + offLeft, "width": postil_width - (freezenLeft + offLeft - postil_left) });
-                            $(e).show().find(".formulaInputFocus").css("margin-left", -(freezenLeft + offLeft - postil_left));
-                            $(e).show().find(".arrowCanvas").hide(); 
-                        }
+                if(c >= _this.freezenverticaldata[1]){
+                    if(postil_left + postil_width < freezenLeft){
+                        $(e).show().find(".luckysheet-postil-show-main").css("left", postil_left + offLeft);
+                        $(e).show().find(".arrowCanvas").css("left", size[0] + offLeft);
                     }
                     else{
-                        luckysheetPostil.buildPs(r, c, postil);
+                        if(postil_left < freezenLeft + offLeft){
+                            if(postil_left + postil_width <= freezenLeft + offLeft){
+                                $(e).hide();
+                            }
+                            else{
+                                $(e).show().find(".luckysheet-postil-show-main").css({ "left": freezenLeft + offLeft, "width": postil_width - (freezenLeft + offLeft - postil_left) });
+                                $(e).show().find(".formulaInputFocus").css("margin-left", -(freezenLeft + offLeft - postil_left));
+                                $(e).show().find(".arrowCanvas").hide(); 
+                            }
+                        }
+                        else{
+                            luckysheetPostil.buildPs(r, c, postil);
+                        }
                     }
+                }
+                else{
+                    $(e).show().find(".luckysheet-postil-show-main").css("left", postil_left + offLeft);
+                    $(e).show().find(".arrowCanvas").css("left", size[0] + offLeft);
                 }
             })
         }

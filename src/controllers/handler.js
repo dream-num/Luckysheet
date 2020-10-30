@@ -5,6 +5,7 @@ import pivotTable from './pivotTable';
 import luckysheetDropCell from './dropCell';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
@@ -186,6 +187,10 @@ export default function luckysheetHandler() {
         let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
+        if (luckysheetFreezen.freezenhorizontaldata != null) {
+            row_st = luckysheet_searcharray(visibledatarow_c, scrollTop + luckysheetFreezen.freezenhorizontaldata[0]);
+        }
+
         let colscroll = 0;
         let rowscroll = 0;
 
@@ -210,6 +215,10 @@ export default function luckysheetHandler() {
             }
 
             rowscroll = row_ed == 0 ? 0 : visibledatarow_c[row_ed - 1];
+
+            if (luckysheetFreezen.freezenhorizontaldata != null) {
+                rowscroll -= luckysheetFreezen.freezenhorizontaldata[0];
+            }
 
             $("#luckysheet-scrollbar-y").scrollTop(rowscroll);
         }
@@ -386,6 +395,12 @@ export default function luckysheetHandler() {
                 luckysheetConfigsetting.fireMousedown(Store.flowdata[row_index][col_index].dd);
                 return;
             }
+        }
+
+        //链接 单元格聚焦
+        if(hyperlinkCtrl.hyperlink && hyperlinkCtrl.hyperlink[row_index + "_" + col_index] && event.which != "3"){
+            hyperlinkCtrl.cellFocus(row_index, col_index);
+            return;
         }
 
         Store.luckysheet_scroll_status = true;
@@ -1258,6 +1273,14 @@ export default function luckysheetHandler() {
         let x = mouse[0] + scrollLeft;
         let y = mouse[1] + scrollTop;
 
+        if(luckysheetFreezen.freezenverticaldata != null && mouse[0] < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+            x = mouse[0] + luckysheetFreezen.freezenverticaldata[2];
+        }
+
+        if(luckysheetFreezen.freezenhorizontaldata != null && mouse[1] < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+            y = mouse[1] + luckysheetFreezen.freezenhorizontaldata[2];
+        }
+
         let row_location = rowLocation(y),
 
             row_index = row_location[2];
@@ -1366,6 +1389,7 @@ export default function luckysheetHandler() {
     //表格mousemove
     $(document).on("mousemove.luckysheetEvent",function (event) {
         luckysheetPostil.overshow(event); //有批注显示
+        hyperlinkCtrl.overshow(event); //链接提示显示
 
         window.cancelAnimationFrame(Store.jfautoscrollTimeout);
 
@@ -4679,6 +4703,24 @@ export default function luckysheetHandler() {
             $("#luckysheet-imgUpload").val("");
         }
     });
+
+    //菜单栏 插入链接按钮
+    $("#luckysheet-insertLink-btn-title").click(function () {
+        if(!checkProtectionNotEnable(Store.currentSheetIndex)){
+            return;
+        }
+
+        if (Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0) {
+            return;
+        }
+
+        hyperlinkCtrl.createDialog();
+        hyperlinkCtrl.init();
+    })
+    $("#luckysheetInsertLink").click(function () {
+        $("#luckysheet-insertLink-btn-title").click();
+        $("#luckysheet-rightclick-menu").hide();
+    })
 
     //菜单栏 数据验证按钮
     $("#luckysheet-dataVerification-btn-title").click(function () {

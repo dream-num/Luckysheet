@@ -992,62 +992,90 @@ export function rowColumnOperationInitial(){
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
 
-    // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
-    // $("#luckysheet-addTopRows").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
-
+    // When you right-click a cell, a row is inserted before the row by default
+    $("#luckysheetColsRowsHandleAdd_row").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
-        
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
-
-            return;
-        }
-
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, "");
-            }
-
-            return;
-        }
-
-        value = parseInt(value);
-
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, ""); 
-            }
+        if(Store.allowEdit===false){
             return;
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
-        luckysheetextendtable('row', st_index, value, "lefttop");
+        luckysheetextendtable('row', st_index, 1, "lefttop");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+
     })
+    $("#luckysheetColsRowsHandleAdd_column").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        if(Store.allowEdit===false){
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].column[0];
+        luckysheetextendtable('column', st_index, 1, "lefttop");
+
+
+    })
+    // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
+    // $("#luckysheet-addTopRows").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
+
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
+
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
+
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
+        
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
+
+    //         return;
+    //     }
+
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, "");
+    //         }
+
+    //         return;
+    //     }
+
+    //     value = parseInt(value);
+
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, ""); 
+    //         }
+    //         return;
+    //     }
+
+    //     let st_index = Store.luckysheet_select_save[0].row[0];
+    //     luckysheetextendtable('row', st_index, value, "lefttop");
+
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
+    // })
 
     // // input输入时阻止冒泡，禁止父级元素的确认事件触发
     // $("input.luckysheet-mousedown-cancel").click(function(event) {
@@ -1056,61 +1084,61 @@ export function rowColumnOperationInitial(){
 
 
     // $("#luckysheet-addLeftCols").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(3)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(3)").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
 
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
         
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, "");
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, ""); 
-            }
-            return;
-        }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, ""); 
+    //         }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].column[0];
-        luckysheetextendtable('column', st_index, value, "lefttop");
+    //     let st_index = Store.luckysheet_select_save[0].column[0];
+    //     luckysheetextendtable('column', st_index, value, "lefttop");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
         
-    })
+    // })
 
     //向右增加列，向下增加行
     // $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
@@ -1169,118 +1197,118 @@ export function rowColumnOperationInitial(){
     });
 
     // $("#luckysheet-addBottomRows").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(2)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(2)").click(function (event) {
 
-         // Click input element, don't comfirm 
-         if(event.target.nodeName === 'INPUT'){
-            return;
-        }
+    //      // Click input element, don't comfirm 
+    //      if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
 
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
 
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, ""); 
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, ""); 
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, "");
-            }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].row[1];
-        luckysheetextendtable('row', st_index, value, "rightbottom");
+    //     let st_index = Store.luckysheet_select_save[0].row[1];
+    //     luckysheetextendtable('row', st_index, value, "rightbottom");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
 
-    });
+    // });
     // $("#luckysheet-addRightCols").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(4)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(4)").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
 
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, ""); 
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, ""); 
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, "");
-            }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].column[1];
-        luckysheetextendtable('column', st_index, value, "rightbottom");
+    //     let st_index = Store.luckysheet_select_save[0].column[1];
+    //     luckysheetextendtable('column', st_index, value, "rightbottom");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
 
-    });
+    // });
     
     //删除选中行列
     $("#luckysheet-del-selected, #luckysheet-del-selected_t").click(function (event) {
@@ -1376,33 +1404,54 @@ export function rowColumnOperationInitial(){
 
     //隐藏选中行列
     $("#luckysheet-hide-selected").click(function (event) {
-        if(Store.luckysheetRightHeadClickIs == 'row' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
 
-        if(Store.luckysheetRightHeadClickIs == 'column' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-
+       
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
+        const locale_drag = locale().drag;
 
-        if(Store.luckysheetRightHeadClickIs == 'row'){
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, "");
+                }
+            }
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, ""); 
+                }
+            }
+            return;
+        }
+
+        // 隐藏行
+        if(Store.luckysheetRightHeadClickIs == "row"){
+            
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+                return;
+            }
+            
+            let cfg = $.extend(true, {}, Store.config);
             if(cfg["rowhidden"] == null){
                 cfg["rowhidden"] = {};
             }
-    
+
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let r1 = Store.luckysheet_select_save[s].row[0],
                     r2 = Store.luckysheet_select_save[s].row[1];
-    
+
                 for(let r = r1; r <= r2; r++){
                     cfg["rowhidden"][r] = 0;
                 }
             }
-
+        
             //保存撤销
             if(Store.clearjfundo){
                 let redo = {};
@@ -1414,18 +1463,33 @@ export function rowColumnOperationInitial(){
                 Store.jfundo = [];
                 Store.jfredo.push(redo);
             }
-
+        
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
             server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+
         }
-        else if(Store.luckysheetRightHeadClickIs == 'column'){
+        // 隐藏列
+        else if(Store.luckysheetRightHeadClickIs == "column"){
+
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+                return;
+            }
+            
+            let cfg = $.extend(true, {}, Store.config);
             if(cfg["colhidden"] == null){
                 cfg["colhidden"] = {};
             }
-    
+
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let c1 = Store.luckysheet_select_save[s].column[0],
                     c2 = Store.luckysheet_select_save[s].column[1];
-    
+
                 for(let c = c1; c <= c2; c++){
                     cfg["colhidden"][c] = 0;
                 }
@@ -1443,118 +1507,53 @@ export function rowColumnOperationInitial(){
                 Store.jfredo.push(redo);
             }
         
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
             server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
+        
+    });
 
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
-
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-hidRows").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
+     //取消隐藏选中行列
+     $("#luckysheet-show-selected").click(function (event) {
 
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["rowhidden"] == null){
-            cfg["rowhidden"] = {};
-        }
+        const locale_drag = locale().drag;
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1];
-
-            for(let r = r1; r <= r2; r++){
-                cfg["rowhidden"][r] = 0;
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, "");
+                }
             }
-        }
-    
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidRows";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
-    
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
-    
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
-    
-        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
-    
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-hidCols").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
-
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["colhidden"] == null){
-            cfg["colhidden"] = {};
-        }
-
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
-
-            for(let c = c1; c <= c2; c++){
-                cfg["colhidden"][c] = 0;
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, ""); 
+                }
             }
-        }
-    
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidCols";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
-    
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
-    
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
-    
-        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
-    
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-
-    //显示选中行列
-    $("#luckysheet-show-selected").click(function (event) {
-        if(Store.luckysheetRightHeadClickIs == 'row' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
             return;
         }
 
-        if(Store.luckysheetRightHeadClickIs == 'column' && !checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
-
-        let cfg = $.extend(true, {}, Store.config);
-
-        if(Store.luckysheetRightHeadClickIs == 'row'){
+        // 取消隐藏行
+        if(Store.luckysheetRightHeadClickIs == "row"){
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+                return;
+            }
+    
+            let cfg = $.extend(true, {}, Store.config);
             if(cfg["rowhidden"] == null){
                 return;
             }
@@ -1580,9 +1579,21 @@ export function rowColumnOperationInitial(){
                 Store.jfredo.push(redo);
             }
         
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
             server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
-        else if(Store.luckysheetRightHeadClickIs == 'column'){
+        else if(Store.luckysheetRightHeadClickIs == "column"){
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+                return;
+            }
+    
+            let cfg = $.extend(true, {}, Store.config);
             if(cfg["colhidden"] == null){
                 return;
             }
@@ -1608,100 +1619,189 @@ export function rowColumnOperationInitial(){
                 Store.jfredo.push(redo);
             }
         
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
             server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
 
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+     })
+    //隐藏、显示行
+    // $("#luckysheet-hidRows").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+    //         return;
+    //     }
 
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-showHidRows").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["rowhidden"] == null){
-            return;
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["rowhidden"] == null){
+    //         cfg["rowhidden"] = {};
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let r1 = Store.luckysheet_select_save[s].row[0],
+    //             r2 = Store.luckysheet_select_save[s].row[1];
 
-            for(let r = r1; r <= r2; r++){
-                delete cfg["rowhidden"][r];
-            }
-        }
+    //         for(let r = r1; r <= r2; r++){
+    //             cfg["rowhidden"][r] = 0;
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidRows";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidRows";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-showHidCols").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
+    // $("#luckysheet-showHidRows").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["colhidden"] == null){
-            return;
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["rowhidden"] == null){
+    //         return;
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let r1 = Store.luckysheet_select_save[s].row[0],
+    //             r2 = Store.luckysheet_select_save[s].row[1];
 
-            for(let c = c1; c <= c2; c++){
-                delete cfg["colhidden"][c];
-            }
-        }
+    //         for(let r = r1; r <= r2; r++){
+    //             delete cfg["rowhidden"][r];
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidCols";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidRows";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
+
+    //隐藏、显示列
+    // $("#luckysheet-hidCols").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
+
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["colhidden"] == null){
+    //         cfg["colhidden"] = {};
+    //     }
+
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let c1 = Store.luckysheet_select_save[s].column[0],
+    //             c2 = Store.luckysheet_select_save[s].column[1];
+
+    //         for(let c = c1; c <= c2; c++){
+    //             cfg["colhidden"][c] = 0;
+    //         }
+    //     }
+    
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidCols";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
+    
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
+    
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
+    // $("#luckysheet-showHidCols").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
+
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["colhidden"] == null){
+    //         return;
+    //     }
+
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let c1 = Store.luckysheet_select_save[s].column[0],
+    //             c2 = Store.luckysheet_select_save[s].column[1];
+
+    //         for(let c = c1; c <= c2; c++){
+    //             delete cfg["colhidden"][c];
+    //         }
+    //     }
+    
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidCols";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
+    
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
+    
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
 
     //删除单元格（左移、上移）
     $("#luckysheet-delCellsMoveLeft").click(function (event) {

@@ -24,5 +24,8 @@ npm publish
 
 # only publish
 npm run build
+git add .
+npm run commit
 npm version patch
+git push -u origin master
 npm publish

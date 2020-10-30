@@ -14,6 +14,7 @@ import server from '../controllers/server';
 import sheetmanage from '../controllers/sheetmanage';
 import luckysheetPostil from '../controllers/postil';
 import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
+import hyperlinkCtrl from '../controllers/hyperlinkCtrl';
 import { selectHightlightShow, selectionCopyShow } from '../controllers/select';
 import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
@@ -375,7 +376,7 @@ function jfrefreshrange(data, range, cdformat) {
 }
 
 //删除、增加行列 刷新表格
-function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen, dataVerification){
+function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen, dataVerification, hyperlink){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
     //merge改变对应的单元格值改变
@@ -443,7 +444,9 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
             "freezen": { "freezenhorizontaldata": luckysheetFreezen.freezenhorizontaldata, "freezenverticaldata": luckysheetFreezen.freezenverticaldata },
             "curFreezen": freezen,
             "dataVerification": $.extend(true, {}, file.dataVerification),
-            "curDataVerification": dataVerification
+            "curDataVerification": dataVerification,
+            "hyperlink": $.extend(true, {}, file.hyperlink),
+            "curHyperlink": hyperlink
         });
     }
 
@@ -567,12 +570,17 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     file.dataVerification = dataVerification;
     server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
 
+    //超链接
+    hyperlinkCtrl.hyperlink = hyperlink;
+    file.hyperlink = hyperlink;
+    server.saveParam("all", Store.currentSheetIndex, file.hyperlink, { "k": "hyperlink" });
+
     //行高、列宽刷新
     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
 }
 
 //删除单元格 刷新表格
-function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification){
+function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification, hyperlink){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
     clearTimeout(refreshCanvasTimeOut);
     //merge改变对应的单元格值改变
@@ -650,7 +658,9 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
             "cf": $.extend(true, [], file.luckysheet_conditionformat_save),
             "curCf": cf,
             "dataVerification": $.extend(true, {}, file.dataVerification),
-            "curDataVerification": dataVerification
+            "curDataVerification": dataVerification,
+            "hyperlink": $.extend(true, {}, file.hyperlink),
+            "curHyperlink": hyperlink
         });
     }
 
@@ -728,6 +738,11 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     dataVerificationCtrl.dataVerification = dataVerification;
     file.dataVerification = dataVerification;
     server.saveParam("all", Store.currentSheetIndex, file.dataVerification, { "k": "dataVerification" });
+
+    //超链接
+    hyperlinkCtrl.hyperlink = hyperlink;
+    file.hyperlink = hyperlink;
+    server.saveParam("all", Store.currentSheetIndex, file.hyperlink, { "k": "hyperlink" });
 
     refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();

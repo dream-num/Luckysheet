@@ -7065,6 +7065,40 @@ fieldset[disabled] .btn-danger.focus {
     position: absolute;
     display: none;
 }
+/* 插入链接 */
+#luckysheet-insertLink-dialog{
+    user-select: none;
+}
+#luckysheet-insertLink-dialog .box{
+    font-size: 12px;
+}
+#luckysheet-insertLink-dialog .box-item{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+#luckysheet-insertLink-dialog .box-item label{
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    margin-right: 10px;
+}
+#luckysheet-insertLink-dialog .box-item input{
+    width: 200px;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    outline-style: none;
+    box-sizing: border-box;
+}
+#luckysheet-insertLink-dialog .box-item select{
+    width: 200px;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid #d4d4d4;
+    outline-style: none;
+    box-sizing: border-box;
+}
 /* 数据验证 */
 #luckysheet-dataVerification-dialog{
     user-select: none;

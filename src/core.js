@@ -47,6 +47,15 @@ luckysheet = common_extend(api,luckysheet);
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
+
+    // Store original parameters for api: toJson
+    Store.toJsonOptions = {}
+    for(let c in setting){
+        if(c !== 'data'){
+            Store.toJsonOptions[c] = setting[c];
+        }
+    }
+
     let extendsetting = common_extend(defaultSetting, setting);
 
     let loadurl = extendsetting.loadUrl,
@@ -76,8 +85,10 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.allowCopy = extendsetting.allowCopy;
     luckysheetConfigsetting.showtoolbar = extendsetting.showtoolbar;
+    luckysheetConfigsetting.showtoolbarConfig = extendsetting.showtoolbarConfig;
     luckysheetConfigsetting.showinfobar = extendsetting.showinfobar;
     luckysheetConfigsetting.showsheetbar = extendsetting.showsheetbar;
+    luckysheetConfigsetting.showsheetbarConfig = extendsetting.showsheetbarConfig;
     luckysheetConfigsetting.showstatisticBar = extendsetting.showstatisticBar;
     luckysheetConfigsetting.pointEdit = extendsetting.pointEdit;
     luckysheetConfigsetting.pointEditUpdate = extendsetting.pointEditUpdate;

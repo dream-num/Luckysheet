@@ -162,6 +162,7 @@ Create a table
 
 - [luban-h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
+- [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
 ## Co-construction
 
@@ -183,6 +184,30 @@ Create a table
 
 [Chinese community](./README-zh.md)
 
+## Sponsor
+
+If you find this project useful, you can buy author a glass of juice:
+
+Note:
+1. Please note the payment message: nickname, your website address
+2. By default, you will be added to the sponsor list below. If you want to sponsor anonymously, please leave a note on payment: anonymous
+3. If you forget your nickname or website address, please contact the editor email: alexads@foxmail.com or WeChat: dushusir2.
+
+|  WeChat  | Alipay |
+|---|---|
+| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+
+### [Paypal Me](https://www.paypal.me/wbfsa)
+
+## Sponsors List
+(Sort by time)
+- *勇 ¥ 30
+- 虚我 ¥ 200
+- 甜党 ¥ 50
+- Alphabet(Google)-gcf ¥ 1
+- **平 ¥ 100
+- **东 ¥ 10
+
 ## Authors and acknowledgment
 
 ### Team
@@ -202,13 +227,6 @@ Create a table
 
 ## Donate
 
-If you find this project useful, you can buy author a glass of juice:
-
-|  WeChat  | Alipay |
-|---|---|
-| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
-
-[Paypal Me](https://www.paypal.me/wbfsa)
 
 
 ## License

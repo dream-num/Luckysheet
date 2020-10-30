@@ -1823,7 +1823,6 @@ Use note:
 
 ### getAllSheets()
 
-[todo]
 
 - **Explanation**：
 
@@ -1843,6 +1842,13 @@ Use note:
 - **Explanation**：
 
 	Returns a one-dimensional array `luckysheetfile` of all table data structures. Unlike the `getAllSheets` method, the worksheet parameters obtained by this method will contain many internal variables. The most obvious difference is that the table data operation will maintain `luckysheetfile[i]. data`, and the initialization data uses `options.data[i].celldata`, so `luckysheetfile` can be used for debugging, but the initialization table is not applicable.
+
+	In addition, a `load = 1` will be added to the loaded worksheet parameters, this parameter needs to be set to 0 when initializing the data. Therefore, to initialize the workbook with the data obtained by `getLuckysheetfile()`, two tasks need to be done:
+
+    - Convert celldata to data, refer to: [transToData](/zh/guide/api.html#transtodata-celldata-setting)
+    - Load reset to 0 or delete this field
+
+	Now there is `getAllSheets` to complete this work, no need to manually convert the data.
 
 - **Usage**:
 
@@ -1922,7 +1928,7 @@ Use note:
 - **Parameter**：
 
     - {PlainObject} [setting]: optional parameters
-        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object
+        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object.Worksheet data format reference [options.data](/guide/sheet.html#initial)
         + {Number} [order]: New worksheet subscript; the default value is the last subscript
         + {Function} [success]: callback function for the end of the operation
 	

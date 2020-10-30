@@ -273,21 +273,33 @@ function rightclickHTML(){
                 </div>
                 <div id="luckysheet-cols-rows-handleincell">
                     <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
-                    <div id="luckysheetColsRowsHandleAdd" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                    <div id="luckysheetColsRowsHandleAdd_row" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
-                            ${rightclick.insert}<span class="luckysheet-submenu-arrow iconfont icon-youjiantou" style="user-select: none;"></span>
+                            ${rightclick.insert}${rightclick.row}<span class="luckysheet-submenu-arrow" style="user-select: none;"></span>
                         </div>
                     </div>
-                    <div id="luckysheetColsRowsHandleDel" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                    <div id="luckysheetColsRowsHandleAdd_column" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
-                            ${rightclick.delete}<span class="luckysheet-submenu-arrow iconfont icon-youjiantou" style="user-select: none;"></span>
+                            ${rightclick.insert}${rightclick.column}<span class="luckysheet-submenu-arrow" style="user-select: none;"></span>
                         </div>
                     </div>
+                    <div id="luckysheet-delRows" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.deleteSelected}${rightclick.row}<span class="luckysheet-submenu-arrow" style="user-select: none;"></span>
+                        </div>
+                    </div>
+                    <div id="luckysheet-delCols" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${rightclick.deleteSelected}${rightclick.column}<span class="luckysheet-submenu-arrow" style="user-select: none;"></span>
+                        </div>
+                    </div>
+                    <!-- cell right click remove hide button
                     <div id="luckysheetColsRowsHandleHid" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             ${rightclick.hide}<span class="luckysheet-submenu-arrow iconfont icon-youjiantou" style="user-select: none;"></span>
                         </div>
                     </div>
+                    -->
                     <div id="luckysheetCellsHandleDel" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             ${rightclick.deleteCell}<span class="luckysheet-submenu-arrow iconfont icon-youjiantou" style="user-select: none;"></span>
@@ -322,8 +334,8 @@ function rightclickHTML(){
                     </div>
                     <div id="luckysheet-hide-selected" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
-                            ${rightclick.hideSelected}
-                            <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
+                        ${rightclick.hideSelected}
+                        <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
                         </div>
                     </div>
                     <div id="luckysheet-show-selected" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
@@ -372,6 +384,9 @@ function rightclickHTML(){
                     <div id="luckysheetInsertImage" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.insertImage}</div>
                     </div>
+                    <div id="luckysheetInsertLink" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                        <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.insertLink}</div>
+                    </div>
                     <div id="luckysheetDataVerification" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.dataVerification}</div>
                     </div>
@@ -419,6 +434,9 @@ function rightclickHTML(){
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.boolean}</div>
                 </div>
             </div>
+            
+            <!-- Revision: modeled on google sheet
+            
             <div id="luckysheetColsRowsHandleAdd_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
@@ -449,6 +467,11 @@ function rightclickHTML(){
                     </div>
                 </div>
             </div>
+            
+            -->
+
+            <!-- delete row or column
+            
             <div id="luckysheetColsRowsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div id="luckysheet-delRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
@@ -461,6 +484,10 @@ function rightclickHTML(){
                     </div>
                 </div>
             </div>
+            
+            -->
+
+            <!--
             <div id="luckysheetColsRowsHandleHid_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div id="luckysheet-hidRows" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
@@ -483,6 +510,9 @@ function rightclickHTML(){
                     </div>
                 </div>
             </div>
+
+            -->
+
             <div id="luckysheetCellsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div id="luckysheet-delCellsMoveLeft" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
@@ -1202,6 +1232,23 @@ function menuToolBar (){
             </div>
         </div>
         <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="${toolbar.insertLink}" id="luckysheet-insertLink-btn-title" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-lianjie"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.chart}" id="luckysheet-chart-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -1212,7 +1259,6 @@ function menuToolBar (){
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                             <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-tubiao"
                             style="user-select: none;">
-                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
                             </div>
                         </div>
                     </div>
@@ -1245,7 +1291,6 @@ function menuToolBar (){
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                             <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont icon-shujutoushi"
                             style="user-select: none;">
-                                <input id="luckysheet-imgUpload" type="file" accept="image/*" style="display:none;"></input>
                             </div>
                         </div>
                     </div>

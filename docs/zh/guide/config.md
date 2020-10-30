@@ -213,6 +213,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	+ 配置了`loadSheetUrl`
 	+ 配置了`updateUrl`
 
+	注意，发送给后端的数据默认是经过pako压缩过后的。后台拿到数据需要先解压。
+
 	通过共享编辑功能，可以实现Luckysheet实时保存数据和多人同步数据，每一次操作都会发送不同的参数到后台，具体的操作类型和参数参见[表格操作](/zh/guide/operate.html)
 
 ------------
@@ -272,15 +274,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showtoolbarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置工具栏
+- 作用：自定义配置工具栏，可以与showtoolbar配合使用，`showtoolbarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
-        undoRedo: false, //撤销重做
+        undoRedo: false, //撤销重做，注意撤消重做是两个按钮，由这一个配置决定显示还是隐藏
         paintFormat: false, //格式刷
         currencyFormat: false, //货币格式
         percentageFormat: false, //百分比格式
@@ -300,19 +300,48 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         verticalAlignMode: false, // '垂直对齐方式'
         textWrapMode: false, // '换行方式'
         textRotateMode: false, // '文本旋转方式'
-        frozenMode: false, // '冻结方式'
-        sort: false, // '排序'
-        filter: false, // '筛选'
-        findAndReplace: false, // '查找替换'
-        function: false, // '公式'
-        conditionalFormat: false, // '条件格式'
+		image:false, // '插入图片'
+		link:false, // '插入链接'
+        chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
         postil:  false, //'批注'
         pivotTable: false,  //'数据透视表'
-        chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
+        function: false, // '公式'
+        frozenMode: false, // '冻结方式'
+        sortAndFilter: false, // '排序和筛选'
+        conditionalFormat: false, // '条件格式'
+		dataVerification: false, // '数据验证'
+        splitColumn: false, // '分列'
         screenshot: false, // '截图'
-        splitColumn: false, // '分列'        
+        findAndReplace: false, // '查找替换'
+		protection:false, // '工作表保护'
+		print:false, // '打印'
     }
     ```
+- 示例：
+	- 仅显示撤消重做和字体按钮：
+		
+		```js
+			//options
+			{
+				showtoolbar: false,
+				showtoolbarConfig:{
+					undoRedo: true,
+					font: true,
+				}
+			}
+		```
+	- 仅隐藏图片和打印按钮：
+		
+		```js
+			//options
+			{
+				showtoolbar: true, // 默认就是true，可以不设置
+				showtoolbarConfig:{
+					image: false,
+					print: false,
+				}
+			}
+		```
 
 ------------
 ### showinfobar
@@ -329,11 +358,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showsheetbarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部sheet页按钮
+- 作用：自定义配置底部sheet页按钮，可以与showsheetbar配合使用，`showsheetbarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
@@ -342,6 +369,30 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         sheet: false //sheet页显示
     }
     ```
+- 示例：
+	- 仅显示新增sheet按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: false,
+				showsheetbarConfig:{
+					add: true,
+				}
+			}
+		```
+	- 仅隐藏新增sheet和管理按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: true, // 默认就是true，可以不设置
+				showsheetbarConfig:{
+					add: false,
+					menu: false,
+				}
+			}
+		```
 
 ------------
 ### showstatisticBar

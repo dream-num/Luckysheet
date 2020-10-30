@@ -6,16 +6,16 @@
 
 **<span style="font-size:20px;">A</span>** : 表格初始化时使用一维数组格式的 [celldata](/zh/guide/sheet.html#celldata)，初始化完成后转化为二维数组格式的data作为存储更新使用，celldata不再使用。
 
-如果需要将data拿出来作为初始化数据，则需要执行 `luckysheet.getGridData(data)`转换为celldata数据。
-其中`{ r, c, v }`格式的celldata转换为二维数组使用的是`luckysheet.buildGridData(luckysheetfile)`，传入参数为表格数据对象`luckysheetfile`
+如果需要将`data`拿出来作为初始化数据，则需要执行 [transToCellData(data)](/zh/guide/api.html#transtocelldata-data-setting)转换为celldata数据。
+其中`{ r, c, v }`格式的celldata转换为二维数组使用的是[transToData(celldata)](/zh/guide/api.html#transtodata-celldata-setting)
 
 总结如下：
 ```js
-// data => celldata 二维数组数据 转化成 {r, c, v}格式 一维数组，传入参数为二维数据data
-luckysheet.getGridData(data)
+// data => celldata 二维数组数据 转化成 {r, c, v}格式 一维数组
+luckysheet.transToCellData(data)
 
-// celldata => data 生成表格所需二维数组，传入参数为表格数据对象file
-luckysheet.buildGridData(luckysheetfile)
+// celldata => data 生成表格所需二维数组
+luckysheet.transToData(celldata)
 ```
 
 ------------
@@ -65,14 +65,17 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## **<span style="font-size:20px;">Q</span>** excel导入导出怎么做？
 
-**<span style="font-size:20px;">A</span>** :配合Luckysheet开发的excel导入导出库-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel)已经实现了excel导入功能，导出功能正在开发当中。现阶段excel导出可以参考这篇博文： https://www.cnblogs.com/recode-hyh/p/13168226.html。
+**<span style="font-size:20px;">A</span>** :配合Luckysheet开发的excel导入导出库-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel)已经实现了excel导入功能，导出功能正在开发当中。现阶段excel导出可以参考这2篇博文： 
+
+- [基于LuckySheet在线表格的Excel下载功能开发](https://www.cnblogs.com/recode-hyh/p/13168226.html)
+- [使用exceljs导出luckysheet表格](https://blog.csdn.net/csdn_lsy/article/details/107179708)
 
 ------------
 
 ## **<span style="font-size:20px;">Q</span>** 初始化时合并单元格怎么做？
 
 **<span style="font-size:20px;">A</span>** :参考以下案例
-- Luckysheet初始化含合并单元格的数据: https://www.cnblogs.com/DuShuSir/p/13272397.html
+- [Luckysheet如何初始化含合并单元格的数据](https://www.cnblogs.com/DuShuSir/p/13272397.html)
 
 ------------
 
@@ -82,7 +85,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 - 一是表格操作完成后，使用`luckysheet.getAllSheets()`方法获取到全部的工作表数据，全部发送到后台存储。
 - 二是开启协同编辑功能，实时传输数据给后端。
-具体的操作步骤参考这篇文章：https://www.cnblogs.com/DuShuSir/p/13857874.html
+具体的操作步骤参考这篇文章：[Luckysheet如何把表格里的数据保存到数据库](https://www.cnblogs.com/DuShuSir/p/13857874.html)
 
 ------------
 
