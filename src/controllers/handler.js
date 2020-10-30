@@ -187,6 +187,10 @@ export default function luckysheetHandler() {
         let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
+        if (luckysheetFreezen.freezenhorizontaldata != null) {
+            row_st = luckysheet_searcharray(visibledatarow_c, scrollTop + luckysheetFreezen.freezenhorizontaldata[0]);
+        }
+
         let colscroll = 0;
         let rowscroll = 0;
 
@@ -211,6 +215,10 @@ export default function luckysheetHandler() {
             }
 
             rowscroll = row_ed == 0 ? 0 : visibledatarow_c[row_ed - 1];
+
+            if (luckysheetFreezen.freezenhorizontaldata != null) {
+                rowscroll -= luckysheetFreezen.freezenhorizontaldata[0];
+            }
 
             $("#luckysheet-scrollbar-y").scrollTop(rowscroll);
         }
@@ -1240,6 +1248,14 @@ export default function luckysheetHandler() {
             scrollTop = $("#luckysheet-cell-main").scrollTop();
         let x = mouse[0] + scrollLeft;
         let y = mouse[1] + scrollTop;
+
+        if(luckysheetFreezen.freezenverticaldata != null && mouse[0] < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+            x = mouse[0] + luckysheetFreezen.freezenverticaldata[2];
+        }
+
+        if(luckysheetFreezen.freezenhorizontaldata != null && mouse[1] < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+            y = mouse[1] + luckysheetFreezen.freezenhorizontaldata[2];
+        }
 
         let row_location = rowLocation(y),
 
