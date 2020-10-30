@@ -59,12 +59,12 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     }
 
     let left = col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2;
-    if(col_index1 <= luckysheetFreezen.freezenverticaldata[1]){
+    if(luckysheetFreezen.freezenverticaldata != null && col_index1 <= luckysheetFreezen.freezenverticaldata[1]){
         left = col_pre + container_offset.left + Store.rowHeaderWidth - 2;
     }
 
     let top = row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2;
-    if(row_index1 <= luckysheetFreezen.freezenhorizontaldata[1]){
+    if(luckysheetFreezen.freezenhorizontaldata != null && row_index1 <= luckysheetFreezen.freezenhorizontaldata[1]){
         top = row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - 2;
     }
 
