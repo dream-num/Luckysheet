@@ -15,8 +15,10 @@ import { getBorderInfoCompute } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
 import { isInlineStringCell } from '../controllers/inlineString';
+import method from './method';
 import Store from '../store';
 import locale from '../locale/locale';
+import sheetmanage from '../controllers/sheetmanage';
 
 function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     if (scrollHeight == null) {
@@ -79,14 +81,21 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
         // if(end_r > scrollHeight + drawHeight){
         //     break;
         // }
+        let firstOffset = (dataset_row_st==r)?-2:0;
+        let lastOffset = (dataset_row_ed==r)?-2:0;
+        //列标题单元格渲染前触发，return false 则不渲染该单元格
+        if(!method.createHookFunction("rowTitleCellRenderBefore", r+1, {
+            r:r,
+            top:(start_r + offsetTop + firstOffset),
+            width:Store.rowHeaderWidth -1,
+            height:(end_r - start_r + 1+lastOffset-firstOffset)
+        }, luckysheetTableContent)){ continue; }
 
         if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
 
         }
         else {
             luckysheetTableContent.fillStyle = "#ffffff";
-            let firstOffset = (dataset_row_st==r)?-2:0;
-            let lastOffset = (dataset_row_ed==r)?-2:0;
             luckysheetTableContent.fillRect(
                 0,
                 (start_r + offsetTop + firstOffset) , 
@@ -173,6 +182,14 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
         }
 
         preEndR = end_r;
+
+        //列标题单元格渲染前触发，return false 则不渲染该单元格
+        method.createHookFunction("rowTitleCellRenderAfter", r+1, {
+            r:r,
+            top:(start_r + offsetTop + firstOffset),
+            width:Store.rowHeaderWidth -1,
+            height:(end_r - start_r + 1+lastOffset-firstOffset)
+        }, luckysheetTableContent)
 
     }
 
@@ -262,6 +279,14 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
         // if(end_c > scrollWidth + drawWidth+1){
         //     break;
         // }
+        let abc = chatatABC(c);
+        //列标题单元格渲染前触发，return false 则不渲染该单元格
+        if(!method.createHookFunction("columnTitleCellRenderBefore", abc, {
+            c:c,
+            left:(start_c + offsetLeft - 1),
+            width:(end_c - start_c),
+            height:Store.columeHeaderHeight -1
+        }, luckysheetTableContent)){ continue; }
         
         if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
 
@@ -279,7 +304,7 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
             //列标题栏序列号
             luckysheetTableContent.save();//save scale before draw text
             luckysheetTableContent.scale(Store.zoomRatio,Store.zoomRatio);
-            let abc = chatatABC(c);
+            
             let textMetrics = getMeasureText(abc, luckysheetTableContent);
             //luckysheetTableContent.measureText(abc);
 
@@ -357,6 +382,13 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
         luckysheetTableContent.closePath();
 
         preEndC = end_c;
+
+        method.createHookFunction("columnTitleCellRenderAfter", abc, {
+            c:c,
+            left:(start_c + offsetLeft - 1),
+            width:(end_c - start_c),
+            height:Store.columeHeaderHeight -1
+        }, luckysheetTableContent)
     }
 
     //列标题栏横线
@@ -387,6 +419,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         return;
     }
 
+    let sheetFile = sheetmanage.getSheetByIndex();
 
     // console.trace();
     clearTimeout(Store.measureTextCacheTimeOut);
@@ -571,6 +604,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 firstcolumnlen = Store.config["columnlen"][c];
             }
 
+
+
             if (Store.flowdata[r] != null && Store.flowdata[r][c] != null) {
                 let value = Store.flowdata[r][c];
 
@@ -617,6 +652,18 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     }
                 }
             }
+            else{
+                //空单元格渲染前
+                if(!method.createHookFunction("cellRenderBefore", Store.flowdata[r][c], {
+                    r:r,
+                    c:c,
+                    "start_r": start_r,
+                    "start_c": start_c, 
+                    "end_r": end_r, 
+                    "end_c": end_c 
+                }, sheetFile,luckysheetTableContent)){ continue; }
+            }
+
 
             cellupdate.push({
                 "r": r, 
@@ -663,6 +710,16 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         if(Store.flowdata[r] == null){
             continue;
         }
+
+        //有值单元格渲染前
+        if(!method.createHookFunction("cellRenderBefore", Store.flowdata[r][c], {
+            r:r,
+            c:c,
+            "start_r": start_r,
+            "start_c": start_c, 
+            "end_r": end_r, 
+            "end_c": end_c 
+        }, sheetFile,luckysheetTableContent)){ continue; }
         
         if(Store.flowdata[r][c] == null){ //空单元格
             nullCellRender(r, c, start_r, start_c, end_r, end_c,luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05);
@@ -700,6 +757,15 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                 cellRender(r, c, start_r, start_c, end_r, end_c, value,luckysheetTableContent,af_compute, cf_compute,offsetLeft,offsetTop,dynamicArray_compute,cellOverflowMap, dataset_col_st, dataset_col_ed,scrollHeight,scrollWidth,bodrder05);
             }
         }
+
+        method.createHookFunction("cellRenderAfter", Store.flowdata[r][c], {
+            r:r,
+            c:c,
+            "start_r": start_r,
+            "start_c": start_c, 
+            "end_r": end_r, 
+            "end_c": end_c 
+        }, sheetFile,luckysheetTableContent)
     }
 
     //合并单元格再处理
