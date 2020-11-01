@@ -1,3 +1,4 @@
+import pako from 'pako'
 import { showloading, hideloading } from '../global/loading';
 import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from '../global/refresh';
 import { sheetHTML, luckyColor } from './constant';
@@ -69,7 +70,7 @@ const server = {
 	            if(i == n - 1){
 	                _this.saveParam("rv_end", sheetIndex, null);
 	            }
-	        }  
+	        }
 	    }
 	},
     saveParam: function (type, index, value, params) {
@@ -132,7 +133,7 @@ const server = {
 		if(_this.websocket!=null){
 			_this.websocket.send(msg);
 		}
-	    
+
 	},
     websocket: null,
     wxErrorCount: 0,
@@ -169,12 +170,12 @@ const server = {
 	            }
 	            else if(type == 3){ //多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
 	                let id = data.id;
-	                let username = data.username; 
+	                let username = data.username;
 	                let item = JSON.parse(data.data);
 
 	                let type = item.t,
 	                    index = item.i,
-	                    value = item.v; 
+	                    value = item.v;
 
 	                if(getObjType(value) != "array"){
 	                    value = JSON.parse(value);
@@ -189,7 +190,7 @@ const server = {
 	            }
 	            else if(type == 4){ //批量指令更新
 	                let items = JSON.parse(data.data);
-	                
+
 	                for(let i = 0; i < items.length; i++){
 	                    _this.wsUpdateMsg(item[i]);
 	                }
@@ -213,7 +214,7 @@ const server = {
 	        _this.websocket.onclose = function(){
 	            console.info('WebSocket连接关闭');
 	            alert("服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！");
-	        }                
+	        }
 	    }
 	    else{
 	        alert('当前浏览器 Not Support WebSocket');
@@ -224,7 +225,7 @@ const server = {
 	        index = item.i,
 	        value = item.v;
 
-	    let file = Store.luckysheetfile[getSheetIndex(index)]; 
+	    let file = Store.luckysheetfile[getSheetIndex(index)];
 
 	    if(file == null){
 	        return;
@@ -335,7 +336,7 @@ const server = {
 	            // luckysheet.pivotTable.changePivotTable(index);
 	        }
 			else if(k == "frozen"){ //freezen row and column
-				
+
 				// tranform frozen
 				luckysheetFreezen.frozenTofreezen();
 
@@ -427,7 +428,7 @@ const server = {
 	        //         if(r == calcChain[a].r && c == calcChain[a].c && index == calcChain[a].index){
 	        //             calcChain[a].func = func;
 	        //         }
-	        //     } 
+	        //     }
 	        // }
 
 	        setTimeout(function () {
@@ -439,10 +440,10 @@ const server = {
 	            return;
 	        }
 
-	        let rc = item.rc, 
-	        	st_i = value.index, 
-	        	len = value.len, 
-	        	mc = value.mc, 
+	        let rc = item.rc,
+	        	st_i = value.index,
+	        	len = value.len,
+	        	mc = value.mc,
 	        	borderInfo = value.borderInfo;
 	        let data = file.data;
 
@@ -457,7 +458,7 @@ const server = {
 	                row.push(null);
 	            }
 
-	            //删除多少行，增加多少行空白行                
+	            //删除多少行，增加多少行空白行
 	            for (let r = 0; r < len; r++) {
 	                data.push(row);
 	            }
@@ -502,11 +503,11 @@ const server = {
 	            return;
 	        }
 
-	        let rc = item.rc, 
-	        	st_i = value.index, 
-	        	len = value.len, 
-	        	addData = value.data, 
-	        	mc = value.mc, 
+	        let rc = item.rc,
+	        	st_i = value.index,
+	        	len = value.len,
+	        	addData = value.data,
+	        	mc = value.mc,
 	        	borderInfo = value.borderInfo;
 	        let data = file.data;
 
@@ -599,8 +600,8 @@ const server = {
 	        let copyindex = value.copyindex, name = value.name;
 
 	        let copyarrindex = getSheetIndex(copyindex);
-	        let copyjson = $.extend(true, {}, Store.luckysheetfile[copyarrindex]); 
-	            
+	        let copyjson = $.extend(true, {}, Store.luckysheetfile[copyarrindex]);
+
 	        copyjson.index = index;
 	        copyjson.name = name;
 
@@ -699,7 +700,7 @@ const server = {
 	                    file.chart.splice(i, 1);
 
 	                    $("#" + cid).remove();
-	                    sheetmanage.delChart($("#" + cid).attr("chart_id"), $("#" + cid).attr("sheetIndex")); 
+	                    sheetmanage.delChart($("#" + cid).attr("chart_id"), $("#" + cid).attr("sheetIndex"));
 
 	                    return;
 	                }
@@ -723,7 +724,7 @@ const server = {
 	    if(!!margeset){
 	        row = margeset.row[1];
 	        row_pre = margeset.row[0];
-	        
+
 	        col = margeset.column[1];
 	        col_pre = margeset.column[0];
 	    }
@@ -760,14 +761,14 @@ const server = {
     submitTimeout: function(){
         let _this = this;
         clearTimeout(_this.requestTimeOut);
-        
+
         //console.log(_this.requestlast, moment(), (_this.requestlast!=null && _this.requestlast.add(10, 'seconds').isBefore(moment()) ) );
         if(!_this.requestLock && (_this.requestlast!=null && _this.requestlast.clone().add(1, 'seconds').isBefore(moment()) ) ){
             _this.request();
         }
-    
+
         // if(!_this.imageRequestLock && (_this.imageRequestLast==null || _this.imageRequestLast.clone().add(30, 'seconds').isBefore(moment()) ) ){
-            
+
         // }
 
         _this.requestTimeOut = setTimeout(function(){
@@ -782,7 +783,7 @@ const server = {
         let _this = this;
         let key = this.gridKey;
         let cahce_key = key + "__qkcache";
-        
+
         _this.cachelocaldata(function(cahce_key, params){
             if(params.length==0){
                 return;
@@ -814,7 +815,7 @@ const server = {
                     _this.requestlast = moment();
                     _this.requestLock = false;
                 });
-             }   
+             }
         });
     },
     imageRequestLast: null,
@@ -822,7 +823,7 @@ const server = {
     imageRequestTimeout: null,
     imageRequest: function(){
         let _this = this;
-        
+
         html2canvas($("#" + container).find(".luckysheet-grid-window").get(0), {
           onrendered: function(canvas) {
             //let imgcut = $("#luckysheet-cell-main").find(".luckysheet-grid-window");
@@ -832,7 +833,7 @@ const server = {
             let newwidth = old.width();
             let newheight = old.height();
             let imageData = old.get(0).getContext("2d").getImageData(0, 0, newwidth, newheight);
-            
+
             let cutW = newwidth, cutH = newheight;
             if(cutW*0.54 > cutH){
                 cutW = cutH / 0.54;
@@ -871,7 +872,7 @@ const server = {
                     _this.imageRequestLock =true;
                 });
             }
-            
+
           }
         });
     },
@@ -901,14 +902,14 @@ const server = {
         //let d = $.extend(true, [], data); //原来
         let d = data;
         let _this = this;
-        
+
         if(value instanceof Array){
             for(let i = 0; i < value.length; i++){
                 let vitem = value[i];
 
                 for(let a = 0; a < d.length; a++){
                     let ditem = data[i]; //let ditem = data[a];?
-                    
+
                     if(_this.matchOpt(vitem, ditem)){
                         delete d[a];
                     }
@@ -918,7 +919,7 @@ const server = {
         else{
             for(let a = 0; a < d.length; a++){
                 let ditem = d[a];
-                
+
                 if(_this.matchOpt(value, ditem)){
                     delete d[a];
                 }
@@ -955,7 +956,7 @@ const server = {
 
             _this.localdata = data;
             func(_this.localdata);
-            
+
             //console.log(value);
             // localforage.setItem(key, data).then(function () {
             //     console.log(data);
@@ -1043,10 +1044,10 @@ const server = {
         let cahce_key = key + "__qkcache";
         //store.remove(key);
         localforage.removeItem(cahce_key, function(err,value) {
-            if(func && typeof(func)=="function"){ 
+            if(func && typeof(func)=="function"){
                 func();
             }
-            
+
         });
     },
     restorecachelocaldata: function(func){
@@ -1066,7 +1067,7 @@ const server = {
                 if(func instanceof Function){
                     func(_this.localdata);
                 }
-                
+
                 // localforage.setItem(key, newdata).then(function () {
                 //     func(newdata);
                 // }).catch(function (err) {

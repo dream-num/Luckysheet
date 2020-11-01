@@ -29,7 +29,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "jspdf": "^2.1.1"
+    "dayjs": "^1.9.4",
+    "jquery": "^3.5.1",
+    "jspdf": "^2.1.1",
+    "pako": "^1.0.11"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production gulp build",

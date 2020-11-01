@@ -82,7 +82,8 @@ const paths = {
     plugins: ['src/plugins/*.css'],
     css:['src/css/*.css'],
     pluginsJs:[
-        'src/plugins/js/jquery.min.js',
+        'node_modules/jquery/dist/jquery.min.js',
+        //'src/plugins/js/jquery.min.js',
         'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
@@ -92,7 +93,7 @@ const paths = {
         'src/plugins/js/moment-msdate.js',
         'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
-        'src/plugins/js/pako.min.js',
+        //'src/plugins/js/pako.min.js',
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
         'src/plugins/js/daterangepicker.js',
