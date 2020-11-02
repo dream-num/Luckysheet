@@ -37,6 +37,7 @@ English| [简体中文](./README-zh.md)
 + **Data types** 
 	+ **currency, percentages, decimals, dates** 
 	+ **Custom** (E.g `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
 
 ### 🧬Cells
 + **Move cells by drag and dropping** (Operate on selection)
@@ -46,6 +47,7 @@ English| [简体中文](./README-zh.md)
 + **Find and replace** (Such as a particular number or text string, Support regular expression, whole word, case sensitive)
 + **Location** (Cells can be selected according to the data type)
 + **Merge cells**
++ **Data validation**  (Checkbox, drop-down list, datePicker)
 
 ### 🖱️Row & columns
 + **Hide, Insert, Delete rows and columns** 
@@ -92,19 +94,22 @@ English| [简体中文](./README-zh.md)
 + **Comments** (Add, delete, update)
 + **Collaborate** (Simultaneous editing by multiple users)
 
+### 📚Insert object
++ **Insert picture** (JPG,PNG,SVG and so on)
+
 ### ⚡Luckysheet
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
-+ **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
-+ **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
++ **EXCEL import/export** (Specially adapted to Luckysheet, export is under development)
+
 
 ### ⏱️Coming soon
 + **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
++ **CSV,TXT import/export** (Specially adapted to Luckysheet)
++ **Insert Shapes** ([Pen tool](https://github.com/mengshukeji/Pentool) Shapes)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 
@@ -207,6 +212,7 @@ Note:
 - Alphabet(Google)-gcf ¥ 1
 - **平 ¥ 100
 - **东 ¥ 10
+- debugger ¥ 20
 
 ## Authors and acknowledgment
 
