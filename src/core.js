@@ -32,6 +32,7 @@ import { selectHightlightShow } from './controllers/select';
 import {zoomInitial} from './controllers/zoom';
 import {printInitial} from './controllers/print';
 import method from './global/method';
+import formula from './global/formula';
 
 import * as api from './global/api';
 
@@ -64,7 +65,7 @@ luckysheet.create = function (setting) {
 
     let container = extendsetting.container;
     Store.container = container;
-    Store.luckysheetfile = extendsetting.data;
+    // Store.luckysheetfile = extendsetting.data;
     Store.defaultcolumnNum = extendsetting.column;
     Store.defaultrowNum = extendsetting.row;
     Store.fullscreenmode = extendsetting.fullscreenmode;
@@ -126,8 +127,26 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
-    // Register plugins
-    initPlugins(extendsetting.plugins , extendsetting.data);
+    let workbook = extendsetting.workbook;
+    if(workbook!=null){
+        if(workbook.sheets==null || workbook.sheets.length==0){
+            Store.luckysheetfile = defaultSetting.data;
+        }
+        else{
+            Store.luckysheetfile = workbook.sheets;
+        }
+        Store.calcChain = workbook.calcChain;
+    }
+    else{
+        Store.luckysheetfile = extendsetting.data;
+        if(Store.luckysheetfile==null){
+            Store.luckysheetfile = defaultSetting.data;
+        }
+        Store.calcChain = extendsetting.calcChain;
+        if(Store.calcChain){
+            Store.calcChain  = formula.getCalcChain();
+        }
+    }
 
     // Store formula information, including internationalization
     functionlist();
@@ -143,6 +162,8 @@ luckysheet.create = function (setting) {
 
     let data = [];
     if (loadurl == "") {
+        // Register plugins
+        initPlugins(extendsetting.plugins , Store.luckysheetfile);
         sheetmanage.initialjfFile(menu, title);
         // luckysheetsizeauto();
         initialWorkBook();
@@ -150,6 +171,18 @@ luckysheet.create = function (setting) {
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
             let data = eval("(" + d + ")");
+
+            if(data instanceof Array){
+                Store.luckysheetfile = data;
+                if(Store.calcChain){
+                    Store.calcChain  = formula.getCalcChain();
+                }
+            }
+            else if(data instanceof Object){
+                Store.luckysheetfile = data.sheets;
+                Store.calcChain = data.calcChain;
+            }
+
             Store.luckysheetfile = data;
             
             sheetmanage.initialjfFile(menu, title);

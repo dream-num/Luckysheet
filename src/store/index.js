@@ -1,6 +1,7 @@
 const Store = {
     container: null, 
     luckysheetfile: null, 
+    calcChain:null,
     defaultcolumnNum: 60, 
     defaultrowNum: 84, 
     fullscreenmode: true,

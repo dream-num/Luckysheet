@@ -10167,6 +10167,7 @@ export default {
     protection:{
         protectiontTitle:"保护工作表",
         enterPassword:"请输入密码（可留空）",
+        enterHintTitle:"当不可编辑时的提示文字 (可留空)",
         enterHint:"您试图更改的单元格或图表位于受保护的工作表中。若要更改，请取消工作表保护。您可能需要输入密码",
         swichProtectionTip:"保护工作表及锁定的单元格内容",
         authorityTitle:"允许此工作表的用户进行:",

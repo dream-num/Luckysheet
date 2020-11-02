@@ -4121,7 +4121,7 @@ const luckysheetformula = {
         });
         setluckysheetfile(luckysheetfile);
     },
-    getAllFunctionGroup: function() {
+    getCalcChain: function() {
         let luckysheetfile = getluckysheetfile();
         let ret = [];
         for(let i=0;i<luckysheetfile.length;i++){
@@ -4977,7 +4977,7 @@ const luckysheetformula = {
 
 
         //{ "r": r, "c": c, "index": index, "func": func}
-        let group = _this.getAllFunctionGroup(),
+        let group = Store.calcChain,
             vertex1 = {},
             stack = [],
             count = 0;
