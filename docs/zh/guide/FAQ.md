@@ -185,3 +185,28 @@ Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧�
 - 二是开放了API可以获取到工作表默认的行高[getDefaultRowHeight](/zh/guide/api.html#getdefaultrowheight-setting)和列宽[getDefaultColWidth](/zh/guide/api.html#getdefaultcolwidth-setting)
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** 如何隐藏工作表下方的添加行按钮和回到顶部按钮？
+
+**<span style="font-size:20px;">A</span>** 已开放配置
+- 允许添加行 [enableAddRow](/zh/guide/config.html#enableaddrow)
+- 允许回到顶部 [enableAddBackTop](/zh/guide/config.html#enableAddBackTop)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何隐藏工作表的行标题和列标题？
+
+**<span style="font-size:20px;">A</span>** 已开放配置
+- 行标题区域的宽度 [rowHeaderWidth](/zh/guide/config.html#rowheaderwidth)
+- 列标题区域的高度 [columeHeaderHeight](/zh/guide/config.html#columeheaderheight)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 调用什么方法能设置`config.merge`？
+
+**<span style="font-size:20px;">A</span>** 三个方法
+- 界面操作
+- 用API：[setRangeMerge](/zh/guide/api.html#setrangemerge-type-setting)
+- 手动组装merge参数
+
+------------

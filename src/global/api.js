@@ -5373,6 +5373,8 @@ export function getAllSheets() {
         }
 
         delete item.load;
+        delete item.freezen;
+        
     })
 
     return data;

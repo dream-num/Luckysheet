@@ -28,7 +28,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义工具栏（[showtoolbarConfig](#showtoolbarConfig)）
 - 自定义底部sheet页（[showsheetbarConfig](#showsheetbarConfig)）
 - 自定义计数栏（[showstatisticBarConfig](#showstatisticBarConfig)）
-- 自定义添加行和回到顶部（[sheetBottomConfig](#sheetBottomConfig)）
 - 自定义单元格右键菜单（[cellRightClickConfig](#cellRightClickConfig)）
 - 自定义底部sheet页右击菜单（[sheetRightClickConfig](#sheetRightClickConfig)）
 
@@ -60,10 +59,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
-- 自定义添加行和回到顶部 [sheetBottomConfig](#sheetBottomConfig)
 - 允许编辑 [allowEdit](#allowEdit)
-- 允许增加行 [enableAddRow](#enableAddRow)
-- 允许增加列 [enableAddCol](#enableAddCol)
+- 允许添加行 [enableAddRow](#enableAddRow)
+- 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
 - 用户信息菜单 [userMenuItem](#userMenuItem)
 - 返回按钮链接 [myFolderUrl](#myFolderUrl)
@@ -74,8 +72,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
-- 是否显示行号区域 [showRowBar](#showRowBar)
-- 是否显示列号区域 [showColumnBar](#showColumnBar)
+- 行标题区域的宽度 [rowHeaderWidth](#rowHeaderWidth)
+- 列标题区域的高度 [columeHeaderHeight](#columeHeaderHeight)
 - 是否显示公式栏 [sheetFormulaBar](#sheetFormulaBar)
 - 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
 
@@ -439,21 +437,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		```
 
 ------------
-### sheetBottomConfig
-
-[todo]
-
-- 类型：Object
-- 默认值：{}
-- 作用：sheet页下方的添加行按钮和回到顶部按钮配置
-- 格式：
-    ```json
-    {
-        addRow: false, // 添加行按钮
-        backTop: false // 回到顶部
-    }
-
-------------
 ### allowEdit
 - 类型：Boolean
 - 默认值：true
@@ -463,13 +446,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### enableAddRow
 - 类型：Boolean
 - 默认值：true
-- 作用：允许增加行
+- 作用：允许添加行
 
 ------------
-### enableAddCol
+### enableAddBackTop
 - 类型：Boolean
 - 默认值：true
-- 作用：允许增加列
+- 作用：允许回到顶部
 
 ------------
 ### userInfo
@@ -528,8 +511,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### cellRightClickConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置单元格右击菜单
@@ -539,16 +520,51 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         copy: false, // 复制
         copyAs: false, // 复制为
         paste: false, // 粘贴
-        insert: false, // 插入
-        delete: false, // 删除
-        hide: false, // 隐藏
+        insertRow: false, // 插入行
+        insertColumn: false, // 插入列
+        deleteRow: false, // 删除选中行
+        deleteColumn: false, // 删除选中列
         deleteCell: false, // 删除单元格
+        hideRow: false, // 隐藏选中行和显示选中行
+        hideColumn: false, // 隐藏选中列和显示选中列
+        rowHeight: false, // 行高
+        columnWidth: false, // 列宽
         clear: false, // 清除内容
         matrix: false, // 矩阵操作选区
         sort: false, // 排序选区
         filter: false, // 筛选选区
-        chart: false // 图表生成
+        chart: false, // 图表生成
+        image: false, // 插入图片
+        link: false, // 插入链接
+        data: false, // 数据验证
+		cellFormat: false // 设置单元格格式
     }
+	```
+	除了单元格，这里的配置还包括行标题右击菜单、列标题右击菜单和列标题下拉箭头的菜单，具体配置关系如下表格：
+	
+	|右击菜单配置|单元格|行标题|列标题|列箭头|
+    | ------------ | ------------ | ------------ | ------------ | ------------ |
+    |copy|复制|复制|复制|复制|
+    |copyAs|复制为|复制为|复制为|复制为|
+    |paste|粘贴|粘贴|粘贴|粘贴|
+    |insertRow|插入行|向上增加N行，向下增加N行|-|-|
+    |insertColumn|插入列|-|向左增加N列，向右增加N列|向左增加N列，向右增加N列|
+    |deleteRow|删除选中行|删除选中行|-|-|
+    |deleteColumn|删除选中列|-|删除选中列|删除选中列|
+    |hideRow|隐藏选中行和显示选中行|隐藏选中行和显示选中行|-|-|
+    |hideColumn|隐藏选中列和显示选中列|-|隐藏选中列和显示选中列|隐藏选中列和显示选中列|
+    |rowHeight|-|行高|-|-|
+    |columnWidth|-|-|列宽|列宽|
+    |clear|清除内容|清除内容|清除内容|-|
+    |matrix|矩阵操作选区|矩阵操作选区|矩阵操作选区|-|
+    |sort|排序选区|排序选区|排序选区|A-Z排序和Z-A排序|
+    |filter|筛选选区|筛选选区|筛选选区|-|
+    |chart|图表生成|图表生成|图表生成|-|
+    |image|插入图片|插入图片|插入图片|-|
+    |link|插入链接|插入链接|插入链接|-|
+    |data|数据验证|数据验证|数据验证|-|
+    |cellFormat|设置单元格格式|设置单元格格式|设置单元格格式|-|
+
 
 ------------
 ### sheetRightClickConfig
@@ -572,22 +588,22 @@ Luckysheet开放了更细致的自定义配置选项，分别有
     }
 
 ------------
-### showRowBar
-[todo]
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示行号区域
+### rowHeaderWidth
+
+- 类型：Number
+- 默认值：46
+- 作用：行标题区域的宽度，如果设置为0，则表示隐藏行标题
 
 ------------
-### showColumnBar
-[todo]
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示列号区域
+### columeHeaderHeight
+
+- 类型：Number
+- 默认值：20
+- 作用：列标题区域的高度，如果设置为0，则表示隐藏列标题
 
 ------------
 ### sheetFormulaBar
-[todo]
+
 - 类型：Boolean
 - 默认值：true
 - 作用：是否显示公式栏

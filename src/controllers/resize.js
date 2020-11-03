@@ -54,7 +54,15 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     customStatisticBarConfig();
 
     // 公式栏
-    Store.calculatebarHeight = document.querySelector('#luckysheet-wa-calculate').offsetHeight;
+    const formulaEle = document.querySelector("#" + Store.container + ' .luckysheet-wa-calculate');
+    if (!luckysheetConfigsetting.sheetFormulaBar) {
+        formulaEle.style.display = 'none';
+        Store.calculatebarHeight = 0;
+    }
+    else {
+        formulaEle.style.display = 'block';
+        Store.calculatebarHeight = formulaEle.offsetHeight;
+    }
 
     $("#" + Store.container).find(".luckysheet-grid-container").css("top", Store.toolbarHeight + Store.infobarHeight + Store.calculatebarHeight);
 

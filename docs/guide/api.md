@@ -1828,7 +1828,7 @@ Use note:
 
 	Return all worksheet configurations, the format is the same as the worksheet configuration, and the results obtained can be used as options.data when the form is initialized.
 
-	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, you can use [toJson](#toJson())
+	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, it is recommended to use [toJson](#toJson()), and it can be directly used to initialize Luckysheet.
 
 - **Usage**:
 
@@ -2567,8 +2567,6 @@ Use note:
 ------------
 
 ### toJson()
-
-[todo]
 
 - **Explanation**：
 	
