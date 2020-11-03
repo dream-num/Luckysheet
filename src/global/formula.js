@@ -4977,7 +4977,7 @@ const luckysheetformula = {
 
 
         //{ "r": r, "c": c, "index": index, "func": func}
-        let group = Store.calcChain,
+        let group = _this.getCalcChain(),
             vertex1 = {},
             stack = [],
             count = 0;

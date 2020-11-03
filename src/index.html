@@ -62,13 +62,41 @@
 					"url":"./assets/iconfont/Pacifico-Regular.ttf"
 					}
 				],
-				// calcChain:[],
-				workbook:{
-					calcChain:[],
-					sheets:[],
+				hook:{
+					rowTitleCellRenderBefore:function(rowNum,postion,ctx){
+						// console.log(rowNum);
+					},
+					rowTitleCellRenderAfter:function(rowNum,postion,ctx){
+						// console.log(ctx);
+					},
+					columnTitleCellRenderBefore:function(columnAbc,postion,ctx){
+						// console.log(columnAbc);
+					},
+					columnTitleCellRenderAfter:function(columnAbc,postion,ctx){
+						// console.log(postion);
+					},
+					cellRenderBefore:function(cell,postion,sheetFile,ctx){
+						// console.log(cell,postion,sheetFile,ctx);
+					},
+					cellRenderAfter:function(cell,postion,sheetFile,ctx){
+						// console.log(postion);
+					},
+					cellMousedownBefore:function(cell,postion,sheetFile,ctx){
+						// console.log(postion);
+					},
+					cellMousedown:function(cell,postion,sheetFile,ctx){
+						// console.log(sheetFile);
+					},
+					sheetMousemove:function(cell,postion,sheetFile,moveState,ctx){
+						// console.log(cell,postion,sheetFile,moveState,ctx);
+					},
+					sheetMouseup:function(cell,postion,sheetFile,moveState,ctx){
+						// console.log(cell,postion,sheetFile,moveState,ctx);
+					},
+
 				},
-				// data: 
-				// [sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart,sheetPicture,sheetDataVerification]
+				data: 
+				[sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart,sheetPicture,sheetDataVerification]
 				/*[{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[
 					{"r":0,"c":0,
 						"v":{
