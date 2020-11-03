@@ -4412,7 +4412,12 @@ export function setSheetAdd(options = {}) {
     order = Number(order);
 
     let index = sheetmanage.generateRandomSheetIndex();
-
+    // calcChain公式链里的index也要跟着变化
+    if (sheetObject.calcChain.length > 0) {
+        sheetObject.calcChain.forEach((item) => {
+            item.index = index
+        })
+    }
     let sheetname = sheetmanage.generateRandomSheetName(Store.luckysheetfile, false);
     if(!!sheetObject.name){
         let sameName = false;
