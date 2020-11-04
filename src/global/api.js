@@ -37,7 +37,7 @@ import { createFilterOptions } from '../controllers/filter';
 import controlHistory from '../controllers/controlHistory';
 import { zoomRefreshView, zoomNumberDomBind } from '../controllers/zoom';
 import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
-
+import dayjs from "dayjs";
 
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
@@ -85,9 +85,9 @@ export function getCellValue(row, column, options = {}) {
 
 /**
  * 设置单元格的值
- * 
+ *
  * 关键点：如果设置了公式，则需要更新公式链insertUpdateFunctionGroup，如果设置了不是公式，判断之前是公式，则需要清除公式delFunctionGroup
- * 
+ *
  * @param {Number} row 单元格所在行数；从0开始的整数，0表示第一行
  * @param {Number} column 单元格所在列数；从0开始的整数，0表示第一列
  * @param {Object | String | Number} value 要设置的值；可以为字符串或数字，或为符合Luckysheet单元格格式的对象
@@ -110,23 +110,23 @@ export function setCellValue(row, column, value, options = {}) {
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
-    
+
     let data = $.extend(true, [], file.data);
     if(data.length == 0){
         data = sheetmanage.buildGridData(file);
     }
-    
+
     // luckysheetformula.updatecell(row, column, value);
     let formatList = {
         //ct:1, //celltype,Cell value format: text, time, etc.
-        bg: 1,//background,#fff000	
+        bg: 1,//background,#fff000
         ff: 1,//fontfamily,
         fc: 1,//fontcolor
         bl: 1,//Bold
         it: 1,//italic
-        fs: 1,//font size	
+        fs: 1,//font size
         cl: 1,//Cancelline, 0 Regular, 1 Cancelline
         un: 1,//underline, 0 Regular, 1 underlines, fonts
         vt: 1,//Vertical alignment, 0 middle, 1 up, 2 down
@@ -134,8 +134,8 @@ export function setCellValue(row, column, value, options = {}) {
         mc: 1, //Merge Cells
         tr: 1, //Text rotation,0: 0、1: 45 、2: -45、3 Vertical text、4: 90 、5: -90
         tb: 1, //Text wrap,0 truncation, 1 overflow, 2 word wrap
-        //v: 1, //Original value	
-        //m: 1, //Display value	
+        //v: 1, //Original value
+        //m: 1, //Display value
         rt:1, //text rotation angle 0-180 alignment
         //f: 1, //formula
         qp:1 //quotePrefix, show number as string
@@ -151,16 +151,16 @@ export function setCellValue(row, column, value, options = {}) {
             curv.f = value.f;
             if(value.ct!=null){
                 curv.ct = value.ct;
-            } 
+            }
             data = luckysheetformula.updatecell(row, column, curv, false).data;//update formula value
         }
         else{
             if(value.ct!=null){
                 curv.ct = value.ct;
-            } 
+            }
             if(value.f!=null){
                 curv.f = value.f;
-            } 
+            }
             if(value.v!=null){
                 curv.v = value.v;
             }
@@ -239,7 +239,7 @@ export function clearCell(row, column, options = {}) {
     // 若操作为当前sheet页，则刷新当前sheet页
     if (order === curSheetOrder) {
         jfrefreshgrid(targetSheetData, [{
-            row: [row, row], 
+            row: [row, row],
             column: [column, column]
         }])
     }
@@ -297,7 +297,7 @@ export function deleteCell(move, row, column, options = {}) {
  * 设置某个单元格的属性，如果要设置单元格的值或者同时设置多个单元格属性，推荐使用setCellValue
  * @param {Number} row 单元格所在行数；从0开始的整数，0表示第一行
  * @param {Number} column 单元格所在列数；从0开始的整数，0表示第一列
- * @param {String} attr 
+ * @param {String} attr
  * @param {Number | String | Object} value 具体的设置值，一个属性会对应多个值，参考 单元格属性表的值示例，特殊情况：如果属性类型attr是单元格格式ct，则设置值value应提供ct.fa，比如设置A1单元格的格式为百分比格式：luckysheet.setCellFormat(0, 0, "ct", "0.00%")
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -367,12 +367,12 @@ export function find(content, options = {}) {
 
         for (let j = 0; j < rowArr.length; j++) {
             const cell = rowArr[j];
-            
+
             if (!cell) {
                 continue;
             }
 
-            // 添加cell的row, column属性   
+            // 添加cell的row, column属性
             // replace方法中的setCellValue中需要使用该属性
             cell.row = i;
             cell.column = j;
@@ -439,7 +439,7 @@ export function replace(content, replaceContent, options = {}) {
 
 
 /**
- * 手动触发退出编辑模式 
+ * 手动触发退出编辑模式
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -464,7 +464,7 @@ export function frozenFirstRow(order) {
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
         let scrollTop = $("#luckysheet-cell-main").scrollTop();
-        
+
         let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
         if(row_st == -1){
             row_st = 0;
@@ -472,10 +472,10 @@ export function frozenFirstRow(order) {
 
         let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
         let freezenhorizontaldata = [
-            Store.visibledatarow[row_st], 
-            row_st + 1, 
-            scrollTop, 
-            luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), 
+            Store.visibledatarow[row_st],
+            row_st + 1,
+            scrollTop,
+            luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
             top
         ];
         luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
@@ -504,7 +504,7 @@ export function frozenFirstColumn(order) {
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-        
+
         let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
         if(col_st == -1){
             col_st = 0;
@@ -512,10 +512,10 @@ export function frozenFirstColumn(order) {
 
         let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
         let freezenverticaldata = [
-            Store.visibledatacolumn[col_st], 
-            col_st + 1, 
-            scrollLeft, 
-            luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), 
+            Store.visibledatacolumn[col_st],
+            col_st + 1,
+            scrollLeft,
+            luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
             left
         ];
         luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
@@ -573,10 +573,10 @@ export function frozenRowRange(range, order) {
 
         let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
         let freezenhorizontaldata = [
-            Store.visibledatarow[row_st], 
-            row_st + 1, 
-            scrollTop, 
-            luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), 
+            Store.visibledatarow[row_st],
+            row_st + 1,
+            scrollTop,
+            luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
             top
         ];
         luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
@@ -602,7 +602,7 @@ export function frozenRowRange(range, order) {
 export function frozenColumnRange(range, order) {
     const locale_frozen = locale().freezen;
     let isStringRange = typeof range === 'string' && formula.iscelldata(range);
-    
+
     if (!range || (!range.hasOwnProperty('column_focus') && !isStringRange)) {
         if(isEditMode()){
             alert(locale_frozen.noSeletionError);
@@ -636,10 +636,10 @@ export function frozenColumnRange(range, order) {
 
         let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
         let freezenverticaldata = [
-            Store.visibledatacolumn[col_st], 
-            col_st + 1, 
-            scrollLeft, 
-            luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), 
+            Store.visibledatacolumn[col_st],
+            col_st + 1,
+            scrollLeft,
+            luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
             left
         ];
         luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
@@ -658,7 +658,7 @@ export function frozenColumnRange(range, order) {
 
 /**
  * 取消冻结
- * @param {Number | String} order 
+ * @param {Number | String} order
  */
 export function cancelFrozen(order) {
     luckysheetFreezen.saveFrozen("freezenCancel", order);
@@ -771,10 +771,10 @@ export function setBothFrozen(isRange, options = {}) {
             }
             let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
             let freezenhorizontaldata = [
-                Store.visibledatarow[row_st], 
-                row_st + 1, 
-                scrollTop, 
-                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), 
+                Store.visibledatarow[row_st],
+                row_st + 1,
+                scrollTop,
+                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
                 top
             ];
             luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
@@ -788,10 +788,10 @@ export function setBothFrozen(isRange, options = {}) {
             }
             let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
             let freezenverticaldata = [
-                Store.visibledatacolumn[col_st], 
-                col_st + 1, 
-                scrollLeft, 
-                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), 
+                Store.visibledatacolumn[col_st],
+                col_st + 1,
+                scrollLeft,
+                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
                 left
             ];
             luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
@@ -832,17 +832,17 @@ export function setBothFrozen(isRange, options = {}) {
             if(row_focus > row_st){
                 row_st = row_focus;
             }
-            
+
             if(row_st == -1){
                 row_st = 0;
             }
 
             let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
             let freezenhorizontaldata = [
-                Store.visibledatarow[row_st], 
-                row_st + 1, 
-                scrollTop, 
-                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), 
+                Store.visibledatarow[row_st],
+                row_st + 1,
+                scrollTop,
+                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
                 top
             ];
             luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
@@ -861,19 +861,19 @@ export function setBothFrozen(isRange, options = {}) {
             if(col_st == -1){
                 col_st = 0;
             }
-            
+
             let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
             let freezenverticaldata = [
-                Store.visibledatacolumn[col_st], 
-                col_st + 1, 
-                scrollLeft, 
-                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), 
+                Store.visibledatacolumn[col_st],
+                col_st + 1,
+                scrollLeft,
+                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
                 left
             ];
             luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
             luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
-            
+
             luckysheetFreezen.createAssistCanvas();
             luckysheetrefreshgrid();
         }
@@ -915,7 +915,7 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
         if(isEditMode()){
             alert(locale_info.tipInputNumberLimit);
         } else{
-            tooltip.info(locale_info.tipInputNumberLimit, ""); 
+            tooltip.info(locale_info.tipInputNumberLimit, "");
         }
         return;
     }
@@ -927,7 +927,7 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
             sheetIndex = Store.luckysheetfile[order].index;
         }
     }
-    
+
     luckysheetextendtable(type, index, number, "lefttop", sheetIndex);
 
     if (success && typeof success === 'function') {
@@ -978,7 +978,7 @@ export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
         order = curSheetOrder,
         success
     } = {...options}
-    
+
 
     let sheetIndex;
     if(order){
@@ -987,7 +987,7 @@ export function deleteRowOrColumn(type, startIndex, endIndex, options = {}) {
         }
     }
     luckysheetdeletetable(type, startIndex, endIndex, sheetIndex);
-    
+
     if (success && typeof success === 'function') {
         success()
     }
@@ -1059,11 +1059,11 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
         Store.jfundo = [];
         Store.jfredo.push(redo);
     }
-    
+
     Store.luckysheetfile[order].config = cfg;
     server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
-    
-    // 若操作sheet为当前sheet页，行高、列宽 刷新  
+
+    // 若操作sheet为当前sheet页，行高、列宽 刷新
     if (order == curSheetOrder) {
         //config
         Store.config = cfg;
@@ -1123,7 +1123,7 @@ export function showRowOrColumn(type, startIndex, endIndex, options = {}) {
 
     server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
 
-    // 若操作sheet为当前sheet页，行高、列宽 刷新  
+    // 若操作sheet为当前sheet页，行高、列宽 刷新
     if (order === curSheetOrder) {
         Store.config = cfg;
         jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
@@ -1184,7 +1184,7 @@ export function showColumn(startIndex, endIndex, options = {}) {
 
 
 /**
- * 设置指定行的高度 
+ * 设置指定行的高度
  * @param {Object} rowInfo 行数和高度对应关系
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1237,7 +1237,7 @@ export function setRowHeight(rowInfo, options = {}) {
 
 
 /**
- * 设置指定列的宽度 
+ * 设置指定列的宽度
  * @param {Object} columnInfo 行数和高度对应关系
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1290,7 +1290,7 @@ export function setColumnWidth(columnInfo, options = {}) {
 
 
 /**
- * 获取指定工作表指定行的高度，得到行号和高度对应关系的对象 
+ * 获取指定工作表指定行的高度，得到行号和高度对应关系的对象
  * @param {Array} rowInfo 行号下标组成的数组；行号下标从0开始；
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1507,13 +1507,13 @@ export function getRangeHtml(options = {}) {
     }
 
     if(getObjType(range) != 'array'){
-        return tooltip.info("The range parameter is invalid.", ""); 
+        return tooltip.info("The range parameter is invalid.", "");
     }
 
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
     //复制范围内包含部分合并单元格，提示
@@ -1537,7 +1537,7 @@ export function getRangeHtml(options = {}) {
         if (has_PartMC) {
             return tooltip.info("Cannot perform this operation on partially merged cells", "");
         }
-    } 
+    }
 
     //多重选区 有条件格式时 提示
     let cdformat = $.extend(true, [], file.luckysheet_conditionformat_save);
@@ -1574,7 +1574,7 @@ export function getRangeHtml(options = {}) {
         }
     }
 
-    //多重选区 行不一样且列不一样时 提示       
+    //多重选区 行不一样且列不一样时 提示
     if (range.length > 1) {
         let isSameRow = true,
             str_r = range[0].row[0],
@@ -1637,10 +1637,10 @@ export function getRangeHtml(options = {}) {
         d = sheetmanage.buildGridData(file);
     }
 
-    let cpdata = ""; 
+    let cpdata = "";
     let colgroup = "";
 
-    rowIndexArr = rowIndexArr.sort(); 
+    rowIndexArr = rowIndexArr.sort();
     colIndexArr = colIndexArr.sort();
 
     for (let i = 0; i < rowIndexArr.length; i++) {
@@ -1699,9 +1699,9 @@ export function getRangeHtml(options = {}) {
 
                         //边框
                         if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
-                            let bl_obj = { "color": {}, "style": {} }, 
-                                br_obj = { "color": {}, "style": {} }, 
-                                bt_obj = { "color": {}, "style": {} }, 
+                            let bl_obj = { "color": {}, "style": {} },
+                                br_obj = { "color": {}, "style": {} },
+                                bt_obj = { "color": {}, "style": {} },
                                 bb_obj = { "color": {}, "style": {} };
 
                             for(let bd_r = r; bd_r < (r + d[r][c]["mc"].rs); bd_r++){
@@ -1747,7 +1747,7 @@ export function getRangeHtml(options = {}) {
                                     if(bd_c == c && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].l){
                                         let linetype = borderInfoCompute[r + "_" + c].l.style;
                                         let bcolor = borderInfoCompute[bd_r + "_" + bd_c].l.color;
-                                        
+
                                         if(bl_obj["style"][linetype] == null){
                                             bl_obj["style"][linetype] = 1;
                                         }
@@ -1918,7 +1918,7 @@ export function getRangeHtml(options = {}) {
             }
             else {
                 let style = "";
-                
+
                 //边框
                 if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
                     //左边框
@@ -2002,7 +2002,7 @@ export function getRangeArray(dimensional, options = {}) {
     if(!dimensionalValues.includes(dimensional)){
         return tooltip.info("The dimensional parameter is invalid.", "");
     }
-    
+
     let {
         range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
         order = getSheetIndex(Store.currentSheetIndex),
@@ -2037,7 +2037,7 @@ export function getRangeArray(dimensional, options = {}) {
         let has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
 
         if(has_PartMC){
-            return tooltip.info("Cannot perform this operation on partially merged cells", ""); 
+            return tooltip.info("Cannot perform this operation on partially merged cells", "");
         }
     }
 
@@ -2047,7 +2047,7 @@ export function getRangeArray(dimensional, options = {}) {
     }
 
     let dataArr = [];
-    
+
     if(dimensional == 'oneDimensional'){//一维数组
         for(let r = r1; r <= r2; r++){
             for(let c = c1; c <= c2; c++){
@@ -2097,7 +2097,7 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
         if(isEditMode()){
             alert(locale_drag.noMulti);
         } else{
-            tooltip.info(locale_drag.noMulti, "");   
+            tooltip.info(locale_drag.noMulti, "");
         }
         return;
     }
@@ -2110,14 +2110,14 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
         c1 = range[0].column[0],
         c2 = range[0].column[1];
         has_PartMC = hasPartMC(config, r1, r2, c1, c2);
-        
+
         if(has_PartMC){
             if(isEditMode()){
                 alert(locale().drag.noPartMerge);
             } else{
-                tooltip.info(locale().drag.noPartMerge, ""); 
+                tooltip.info(locale().drag.noPartMerge, "");
             }
-            return;    
+            return;
         }
     }
     let getdata = getdatabyselection(range, order);
@@ -2159,7 +2159,7 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
 }
 
 /**
- * 
+ *
  * @param {String} type 对角线还是对角线偏移 "normal"-对角线  "anti"-反对角线
 "offset"-对角线偏移
  * @param {Object} options 可选参数
@@ -2192,7 +2192,7 @@ export function getRangeDiagonal(type, options = {}) {
         if(isEditMode()){
             alert(locale().drag.noMulti);
         } else{
-            tooltip.info(locale().drag.noMulti, "");   
+            tooltip.info(locale().drag.noMulti, "");
         }
         return;
     }
@@ -2205,14 +2205,14 @@ export function getRangeDiagonal(type, options = {}) {
         c1 = range[0].column[0],
         c2 = range[0].column[1];
         has_PartMC = hasPartMC(config, r1, r2, c1, c2);
-        
+
         if(has_PartMC){
             if(isEditMode()){
                 alert(locale().drag.noPartMerge);
             } else{
-                tooltip.info(locale().drag.noPartMerge, ""); 
+                tooltip.info(locale().drag.noPartMerge, "");
             }
-            return;    
+            return;
         }
     }
     let getdata = getdatabyselection(range, order);
@@ -2273,7 +2273,7 @@ export function getRangeDiagonal(type, options = {}) {
  * 复制指定工作表指定单元格区域的数据，返回布尔值的数据
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
- * @param {Number} options.order 工作表索引；默认值为当前工作表索引 
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  */
 export function getRangeBoolean(options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
@@ -2294,7 +2294,7 @@ export function getRangeBoolean(options = {}) {
         if(isEditMode()){
             alert(locale().drag.noMulti);
         } else{
-            tooltip.info(locale().drag.noMulti, "");   
+            tooltip.info(locale().drag.noMulti, "");
         }
         return;
     }
@@ -2307,14 +2307,14 @@ export function getRangeBoolean(options = {}) {
         c1 = range[0].column[0],
         c2 = range[0].column[1];
         has_PartMC = hasPartMC(config, r1, r2, c1, c2);
-        
+
         if(has_PartMC){
             if(isEditMode()){
                 alert(locale().drag.noPartMerge);
             } else{
-                tooltip.info(locale().drag.noPartMerge, ""); 
+                tooltip.info(locale().drag.noPartMerge, "");
             }
-            return;    
+            return;
         }
     }
     let getdata = getdatabyselection(range, order);
@@ -2385,9 +2385,9 @@ export function setRangeShow(range, options = {}) {
     }
 
     if(getObjType(range) != 'array'){
-        return tooltip.info("The range parameter is invalid.", ""); 
+        return tooltip.info("The range parameter is invalid.", "");
     }
-    
+
     let {
         show = true,
         order = getSheetIndex(Store.currentSheetIndex),
@@ -2546,7 +2546,7 @@ export function setRangeFormat(attr, value, options = {}) {
 
 /**
  * 为指定索引的工作表，选定的范围开启或关闭筛选功能
- * @param {String} type 打开还是关闭筛选功能  open-打开筛选功能，返回当前筛选的范围对象；close-关闭筛选功能，返回关闭前筛选的范围对象 
+ * @param {String} type 打开还是关闭筛选功能  open-打开筛选功能，返回当前筛选的范围对象；close-关闭筛选功能，返回关闭前筛选的范围对象
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -2596,7 +2596,7 @@ export function setRangeFilter(type, options = {}) {
             createFilterOptions(range, file.filter);
         }
 
-        return { 
+        return {
             "row": range.row,
             "column": range.column
         };
@@ -2609,7 +2609,7 @@ export function setRangeFilter(type, options = {}) {
         $("#luckysheet-filter-selected-sheet" + file.index).remove();
         $("#luckysheet-filter-options-sheet" + file.index).remove();
 
-        return { 
+        return {
             "row": luckysheet_filter_save.row,
             "column": luckysheet_filter_save.column
         };
@@ -2678,9 +2678,9 @@ export function setRangeMerge(type, options = {}) {
         let has_PartMC = false;
 
         for(let s = 0; s < range.length; s++){
-            let r1 = range[s].row[0], 
+            let r1 = range[s].row[0],
                 r2 = range[s].row[1];
-            let c1 = range[s].column[0], 
+            let c1 = range[s].column[0],
                 c2 = range[s].column[1];
 
             has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
@@ -2691,17 +2691,17 @@ export function setRangeMerge(type, options = {}) {
         }
 
         if(has_PartMC){
-            return tooltip.info('Cannot perform this operation on partially merged cells', '');    
+            return tooltip.info('Cannot perform this operation on partially merged cells', '');
         }
     }
 
     //选区是否含有 合并的单元格
-    let isHasMc = false; 
+    let isHasMc = false;
 
     for(let i = 0; i < range.length; i++){
-        let r1 = range[i].row[0], 
+        let r1 = range[i].row[0],
             r2 = range[i].row[1];
-        let c1 = range[i].column[0], 
+        let c1 = range[i].column[0],
             c2 = range[i].column[1];
 
         for(let r = r1; r <= r2; r++){
@@ -2728,9 +2728,9 @@ export function setRangeMerge(type, options = {}) {
     }
     else{
         for(let i = 0; i < range.length; i++){
-            let r1 = range[i].row[0], 
+            let r1 = range[i].row[0],
                 r2 = range[i].row[1];
-            let c1 = range[i].column[0], 
+            let c1 = range[i].column[0],
                 c2 = range[i].column[1];
 
             if(r1 == r2 && c1 == c2){
@@ -2815,7 +2815,7 @@ export function setRangeMerge(type, options = {}) {
                     "curConfig": cfg
                 });
             }
-    
+
             Store.clearjfundo = false;
             jfrefreshgrid(data, range, {"cfg": cfg});
             Store.clearjfundo = true;
@@ -2854,7 +2854,7 @@ export function cancelRangeMerge(options = {}) {
     if(data.length == 0){
         data = $.extend(true, [], sheetmanage.buildGridData(file));
     }
-    
+
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
             return tooltip.info('Incorrect selection format', '');
@@ -2887,9 +2887,9 @@ export function cancelRangeMerge(options = {}) {
         let has_PartMC = false;
 
         for(let s = 0; s < range.length; s++){
-            let r1 = range[s].row[0], 
+            let r1 = range[s].row[0],
                 r2 = range[s].row[1];
-            let c1 = range[s].column[0], 
+            let c1 = range[s].column[0],
                 c2 = range[s].column[1];
 
             has_PartMC = hasPartMC(cfg, r1, r2, c1, c2);
@@ -2900,14 +2900,14 @@ export function cancelRangeMerge(options = {}) {
         }
 
         if(has_PartMC){
-            return tooltip.info('Cannot perform this operation on partially merged cells', '');    
+            return tooltip.info('Cannot perform this operation on partially merged cells', '');
         }
     }
 
     for(let i = 0; i < range.length; i++){
-        let r1 = range[i].row[0], 
+        let r1 = range[i].row[0],
             r2 = range[i].row[1];
-        let c1 = range[i].column[0], 
+        let c1 = range[i].column[0],
             c2 = range[i].column[1];
 
         if(r1 == r2 && c1 == c2){
@@ -3012,7 +3012,7 @@ export function setRangeSort(type, options = {}) {
         r2 = range.row[1],
         c1 = range.column[0],
         c2 = range.column[1];
-        
+
     let hasMc = false; //Whether the sort selection has merged cells
     let data = [];
     for(let r = r1; r <= r2; r++){
@@ -3106,7 +3106,7 @@ export function setRangeSortMulti(hasTitle, sort, options = {}) {
         r2 = range.row[1],
         c1 = range.column[0],
         c2 = range.column[1];
-        
+
     let str;
     if(hasTitle){
         str = r1 + 1;
@@ -3201,7 +3201,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
 
     if(getObjType(conditionValue) != 'array' || conditionValue.length == 0){
-        return tooltip.info('The conditionValue parameter is invalid.', ''); 
+        return tooltip.info('The conditionValue parameter is invalid.', '');
     }
 
     let {
@@ -3222,7 +3222,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
 
     if(file == null){
-        return tooltip.info('Incorrect worksheet index', ''); 
+        return tooltip.info('Incorrect worksheet index', '');
     }
 
     const conditionformat_Text = locale().conditionformat;
@@ -3245,7 +3245,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
             if(r1 == r2 && c1 == c2){
                 v1 = getcellvalue(r1, c1, data);
-                
+
                 conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
                 conditionValue2.push(v1);
             }
@@ -3275,7 +3275,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
             if(r1 == r2 && c1 == c2){
                 v2 = getcellvalue(r1, c1, data);
-                
+
                 conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
                 conditionValue2.push(v2);
             }
@@ -3296,7 +3296,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
     else if(conditionName == 'greaterThan' || conditionName == 'lessThan' || conditionName == 'equal'){
         let v = conditionValue[0];
-        
+
         //条件值是否是选区
         let rangeArr = conditionformat.getRangeByTxt(v);
         if(rangeArr.length > 1){
@@ -3309,7 +3309,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
             if(r1 == r2 && c1 == c2){
                 v = getcellvalue(r1, c1, data);
-                
+
                 conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                 conditionValue2.push(v);
             }
@@ -3343,7 +3343,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
             if(r1 == r2 && c1 == c2){
                 v = getcellvalue(r1, c1, data);
-                
+
                 conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                 conditionValue2.push(v);
             }
@@ -3372,10 +3372,10 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
 
         let v;
         if(diff(v1, v2) > 0){
-            v = moment(v2).format("YYYY/MM/DD") + "-" + moment(v1).format("YYYY/MM/DD");
+            v = dayjs(v2).format("YYYY/MM/DD") + "-" + dayjs(v1).format("YYYY/MM/DD");
         }
         else{
-            v = moment(v1).format("YYYY/MM/DD") + "-" + moment(v2).format("YYYY/MM/DD");
+            v = dayjs(v1).format("YYYY/MM/DD") + "-" + dayjs(v2).format("YYYY/MM/DD");
         }
 
         conditionValue2.push(v);
@@ -3384,19 +3384,19 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         let v = conditionValue[0];
 
         if(v != '0' || v != '1'){
-            return tooltip.info('The conditionValue parameter is invalid.', '');  
+            return tooltip.info('The conditionValue parameter is invalid.', '');
         }
 
         conditionValue2.push(v);
     }
     else if(conditionName == 'top10' || conditionName == 'top10%' || conditionName == 'last10' || conditionName == 'last10%'){
         let v = conditionValue[0];
-        
+
         if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
             conditionformat.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
             return;
         }
-        
+
         conditionValue2.push(parseInt(v));
     }
     else if(conditionName == 'AboveAverage' || conditionName == 'SubAverage'){
@@ -3404,7 +3404,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
 
     if(!format.hasOwnProperty("textColor") || !format.hasOwnProperty("cellColor")){
-        return tooltip.info('The format parameter is invalid.', ''); 
+        return tooltip.info('The format parameter is invalid.', '');
     }
 
     if(getObjType(cellrange) == 'string'){
@@ -3421,10 +3421,10 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     let rule = {
         "type": "default",
         "cellrange": cellrange,
-        "format": format, 
-        "conditionName": conditionName, 
-        "conditionRange": conditionRange, 
-        "conditionValue": conditionValue2 
+        "format": format,
+        "conditionName": conditionName,
+        "conditionRange": conditionRange,
+        "conditionValue": conditionValue2
     };
 
     //保存之前的规则
@@ -3483,7 +3483,7 @@ export function setRangeConditionalFormat(type, options = {}) {
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info('Incorrect worksheet index', ''); 
+        return tooltip.info('Incorrect worksheet index', '');
     }
 
     if(type == 'dataBar'){
@@ -3539,140 +3539,140 @@ export function setRangeConditionalFormat(type, options = {}) {
         switch (format) {
             case 'threeWayArrowMultiColor':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 0
                 };
                 break;
             case 'threeTriangles':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 1
                 };
                 break;
             case 'fourWayArrowMultiColor':
                 format = {
-                    "len": 4, 
+                    "len": 4,
                     "leftMin": 0,
                     "top": 2
                 };
                 break;
             case 'fiveWayArrowMultiColor':
                 format = {
-                    "len": 5, 
+                    "len": 5,
                     "leftMin": 0,
                     "top": 3
                 };
                 break;
             case 'threeWayArrowGrayColor':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 5,
                     "top": 0
                 };
                 break;
             case 'fourWayArrowGrayColor':
                 format = {
-                    "len": 4, 
+                    "len": 4,
                     "leftMin": 5,
                     "top": 1
                 };
                 break;
             case 'fiveWayArrowGrayColor':
                 format = {
-                    "len": 5, 
+                    "len": 5,
                     "leftMin": 5,
                     "top": 2
                 };
                 break;
             case 'threeColorTrafficLightRimless':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 4
                 };
                 break;
             case 'threeSigns':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 5
                 };
                 break;
             case 'greenRedBlackGradient':
                 format = {
-                    "len": 4, 
+                    "len": 4,
                     "leftMin": 0,
                     "top": 6
                 };
                 break;
             case 'threeColorTrafficLightBordered':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 5,
                     "top": 4
                 };
                 break;
             case 'fourColorTrafficLight':
                 format = {
-                    "len": 4, 
+                    "len": 4,
                     "leftMin": 5,
                     "top": 5
                 };
                 break;
             case 'threeSymbolsCircled':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 7
                 };
                 break;
             case 'tricolorFlag':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 8
                 };
                 break;
             case 'threeSymbolsnoCircle':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 5,
                     "top": 7
                 };
                 break;
             case 'threeStars':
                 format = {
-                    "len": 3, 
+                    "len": 3,
                     "leftMin": 0,
                     "top": 9
                 };
                 break;
             case 'fiveQuadrantDiagram':
                 format = {
-                    "len": 5, 
+                    "len": 5,
                     "leftMin": 0,
                     "top": 10
                 };
                 break;
             case 'fiveBoxes':
                 format = {
-                    "len": 5, 
+                    "len": 5,
                     "leftMin": 0,
                     "top": 11
                 };
                 break;
             case 'grade4':
                 format = {
-                    "len": 4, 
+                    "len": 4,
                     "leftMin": 5,
                     "top": 9
                 };
                 break;
             case 'grade5':
                 format = {
-                    "len": 5, 
+                    "len": 5,
                     "leftMin": 5,
                     "top": 10
                 };
@@ -3692,8 +3692,8 @@ export function setRangeConditionalFormat(type, options = {}) {
     }
 
     let rule = {
-        "type": type, 
-        "cellrange": cellrange, 
+        "type": type,
+        "cellrange": cellrange,
         "format": format
     };
 
@@ -3724,7 +3724,7 @@ export function setRangeConditionalFormat(type, options = {}) {
 
 
 /**
- * 为指定下标的工作表，删除条件格式规则，返回被删除的条件格式规则 
+ * 为指定下标的工作表，删除条件格式规则，返回被删除的条件格式规则
  * @param {Number} itemIndex 条件格式规则索引
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -3732,7 +3732,7 @@ export function setRangeConditionalFormat(type, options = {}) {
  */
 export function deleteRangeConditionalFormat(itemIndex, options = {}) {
     if(!isRealNum(itemIndex)){
-        return tooltip.info('The itemIndex parameter is invalid.', ''); 
+        return tooltip.info('The itemIndex parameter is invalid.', '');
     }
 
     itemIndex = Number(itemIndex);
@@ -3745,7 +3745,7 @@ export function deleteRangeConditionalFormat(itemIndex, options = {}) {
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info('The order parameter is invalid.', ''); 
+        return tooltip.info('The order parameter is invalid.', '');
     }
 
     let cdformat = $.extend(true, [], file.luckysheet_conditionformat_save);
@@ -3788,7 +3788,7 @@ export function deleteRangeConditionalFormat(itemIndex, options = {}) {
 
 
 /**
- * 清除指定工作表指定单元格区域的内容，不同于删除选区的功能，不需要设定单元格移动情况 
+ * 清除指定工作表指定单元格区域的内容，不同于删除选区的功能，不需要设定单元格移动情况
  * @param {Object} options 可选参数
  * @param {Array | Object | String} options.range 要清除的选区范围
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -3824,7 +3824,7 @@ export function clearRange(options = {}) {
     }
 
     if(getObjType(range) != 'array'){
-        return tooltip.info("The range parameter is invalid.", ""); 
+        return tooltip.info("The range parameter is invalid.", "");
     }
 
     let file = Store.luckysheetfile[order];
@@ -3905,7 +3905,7 @@ export function clearRange(options = {}) {
 
 
 /**
- * 删除指定工作表指定单元格区域，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移 
+ * 删除指定工作表指定单元格区域，返回删除掉的数据，同时，指定是右侧单元格左移还是下方单元格上移
  * @param {String} move 删除后，单元格左移/上移
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 要删除的选区范围
@@ -3916,14 +3916,14 @@ export function deleteRange(move, options = {}) {
     let moveList = ['left', 'up'];
 
     if(!moveList.includes(move)){
-        return tooltip.info("The move parameter is invalid.", ""); 
+        return tooltip.info("The move parameter is invalid.", "");
     }
 
     let {
         range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
         order = getSheetIndex(Store.currentSheetIndex),
         success
-    } = {...options} 
+    } = {...options}
 
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -3958,7 +3958,7 @@ export function deleteRange(move, options = {}) {
     else if(move == 'up'){
         luckysheetDeleteCell('moveUp', str, edr, stc, edc, order);
     }
-    
+
     if (success && typeof success === 'function') {
         success();
     }
@@ -4095,7 +4095,7 @@ export function matrixOperation(type, options = {}) {
                     }
                     a.push(value);
                 }
-    
+
                 let a1 = [];
                 if (a.length == getdatalen) {
                     a1 = a;
@@ -4113,7 +4113,7 @@ export function matrixOperation(type, options = {}) {
                         }
                         a1.unshift(value);
                     }
-    
+
                     let l = getdatalen - a1.length;
                     for (let c1 = 0; c1 < l; c1++) {
                         a1.push("");
@@ -4278,7 +4278,7 @@ export function matrixOperation(type, options = {}) {
             break;
     }
     editor.controlHandler(arr, range)
-    
+
     if (success && typeof success === 'function') {
         success();
     }
@@ -4406,7 +4406,7 @@ export function setSheetAdd(options = {}) {
     } = {...options}
 
     if(!isRealNum(order)){
-        return tooltip.info("Parameter is not a table index", ""); 
+        return tooltip.info("Parameter is not a table index", "");
     }
 
     order = Number(order);
@@ -4429,26 +4429,26 @@ export function setSheetAdd(options = {}) {
         }
     }
 
-    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { 
-        "index": index, 
-        "active": "", 
-        "name": sheetname, 
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+        "index": index,
+        "active": "",
+        "name": sheetname,
         "style": "",
-        "colorset": "" 
+        "colorset": ""
     }));
 
-    let sheetconfig = { 
-        "name": "", 
-        "color": "", 
-        "status": "0", 
-        "order": "", 
-        "index": "", 
-        "celldata": [], 
-        "row": Store.defaultrowNum, 
-        "column": Store.defaultcolumnNum, 
-        "config": {}, 
-        "pivotTable": null, 
-        "isPivotTable": false 
+    let sheetconfig = {
+        "name": "",
+        "color": "",
+        "status": "0",
+        "order": "",
+        "index": "",
+        "celldata": [],
+        "row": Store.defaultrowNum,
+        "column": Store.defaultcolumnNum,
+        "config": {},
+        "pivotTable": null,
+        "isPivotTable": false
     };
     sheetconfig = $.extend(true, sheetconfig, sheetObject);
 
@@ -4509,7 +4509,7 @@ export function setSheetAdd(options = {}) {
 
 
 /**
- * 删除指定下标的工作表，返回已删除的工作表对象 
+ * 删除指定下标的工作表，返回已删除的工作表对象
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
  * @param {Function} options.success 操作结束的回调函数
@@ -4568,12 +4568,12 @@ export function setSheetCopy(options = {}) {
 
     let copyindex = file.index;
     let index = sheetmanage.generateRandomSheetIndex();
-    
+
     let copyjson = $.extend(true, {}, file);
     copyjson.order = Store.luckysheetfile.length;
     copyjson.index = index;
     copyjson.name = sheetmanage.generateCopySheetName(Store.luckysheetfile, copyjson.name);
-    
+
     let colorset = '';
     if(copyjson.color != null){
         colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + copyjson.color + ';"></div>';
@@ -4584,13 +4584,13 @@ export function setSheetCopy(options = {}) {
         afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
     }
 
-    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { 
-        "index": copyjson.index, 
-        "active": "", 
-        "name": copyjson.name, 
-        "order": copyjson.order, 
-        "style": "", 
-        "colorset": colorset 
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+        "index": copyjson.index,
+        "active": "",
+        "name": copyjson.name,
+        "order": copyjson.order,
+        "style": "",
+        "colorset": colorset
     }));
     $("#luckysheet-sheets-item" + copyjson.index).insertAfter(afterObj);
     Store.luckysheetfile.splice(targetOrder, 0, copyjson);
@@ -4606,11 +4606,11 @@ export function setSheetCopy(options = {}) {
     sheetmanage.reOrderAllSheet();
 
     if (Store.clearjfundo) {
-        Store.jfredo.push({ 
-            "type": "copySheet", 
-            "copyindex": copyindex, 
-            "index": copyjson.index, 
-            "sheetIndex": copyjson.index 
+        Store.jfredo.push({
+            "type": "copySheet",
+            "copyindex": copyindex,
+            "index": copyjson.index,
+            "sheetIndex": copyjson.index
         });
     }
     else if (Store.jfredo.length > 0) {
@@ -4700,7 +4700,7 @@ export function setSheetShow(options = {}) {
  */
 export function setSheetActive(order, options = {}) {
     if(order == null || !isRealNum(order) || Store.luckysheetfile[order] == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
     let file = Store.luckysheetfile[order];
@@ -4725,7 +4725,7 @@ export function setSheetActive(order, options = {}) {
 
 
 /**
- * 修改工作表名称 
+ * 修改工作表名称
  * @param {String} name 工作表名称
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -4758,7 +4758,7 @@ export function setSheetName(name, options = {}) {
         let redo = {};
         redo["type"] = "sheetName";
         redo["sheetIndex"] = file.index;
-        
+
         redo["oldtxt"] = oldtxt;
         redo["txt"] = name;
 
@@ -4773,7 +4773,7 @@ export function setSheetName(name, options = {}) {
 
 
 /**
- * 设置工作表名称处的颜色 
+ * 设置工作表名称处的颜色
  * @param {String} color 工作表颜色
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -4807,10 +4807,10 @@ export function setSheetColor(color, options = {}) {
         let redo = {};
         redo["type"] = "sheetColor";
         redo["sheetIndex"] = file.index;
-        
+
         redo["oldcolor"] = oldcolor;
         redo["color"] = color;
-        
+
         Store.jfundo = [];
         Store.jfredo.push(redo);
     }
@@ -4822,7 +4822,7 @@ export function setSheetColor(color, options = {}) {
 
 
 /**
- * 指定工作表向左边或右边移动一个位置，或者指定索引，返回指定的工作表对象 
+ * 指定工作表向左边或右边移动一个位置，或者指定索引，返回指定的工作表对象
  * @param {String | Number} type 工作表移动方向或者移动的目标索引
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -4858,7 +4858,7 @@ export function setSheetMove(type, options = {}) {
 
         let prevIndex = Store.luckysheetfile[order - 1].index;
         $("#luckysheet-sheets-item" + sheetIndex).insertBefore($("#luckysheet-sheets-item" + prevIndex));
-    
+
         Store.luckysheetfile.splice(order, 1);
         Store.luckysheetfile.splice(order - 1, 0, file);
     }
@@ -4869,7 +4869,7 @@ export function setSheetMove(type, options = {}) {
 
         let nextIndex = Store.luckysheetfile[order + 1].index;
         $("#luckysheet-sheets-item" + sheetIndex).insertAfter($("#luckysheet-sheets-item" + nextIndex));
-    
+
         Store.luckysheetfile.splice(order, 1);
         Store.luckysheetfile.splice(order + 1, 0, file);
     }
@@ -4888,7 +4888,7 @@ export function setSheetMove(type, options = {}) {
 
         if(type < order){
             let prevIndex = Store.luckysheetfile[type].index;
-            $("#luckysheet-sheets-item" + sheetIndex).insertBefore($("#luckysheet-sheets-item" + prevIndex)); 
+            $("#luckysheet-sheets-item" + sheetIndex).insertBefore($("#luckysheet-sheets-item" + prevIndex));
         }
         else{
             let nextIndex = Store.luckysheetfile[type].index;
@@ -4973,7 +4973,7 @@ export function setSheetOrder(orderList, options = {}) {
 
 
 /**
- * 设置工作表缩放比例 
+ * 设置工作表缩放比例
  * @param {Number} zoom 工作表缩放比例，值范围为0.1 ~ 4；
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -5001,7 +5001,7 @@ export function setSheetZoom(zoom, options = {}) {
 
     if(file.index == Store.currentSheetIndex){
         Store.zoomRatio = zoom;
-        
+
         zoomNumberDomBind();
         zoomRefreshView();
     }
@@ -5014,7 +5014,7 @@ export function setSheetZoom(zoom, options = {}) {
 
 /**
  * 显示指定下标工作表的网格线，返回操作的工作表对象
- * @param {Object} options 可选参数 
+ * @param {Object} options 可选参数
  * @param {Number} options.order 需要显示网格线的工作表下标；默认值为当前工作表下标
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -5052,7 +5052,7 @@ export function showGridLines(options = {}){
 
 /**
  * 隐藏指定下标工作表的网格线，返回操作的工作表对象
- * @param {Object} options 可选参数 
+ * @param {Object} options 可选参数
  * @param {Number} options.order 需要显示网格线的工作表下标；默认值为当前工作表下标
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -5090,7 +5090,7 @@ export function hideGridLines(options = {}){
 
 /**
  * 刷新canvas
- * @param {Object} options 可选参数 
+ * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
 export function refresh(options = {}) {
@@ -5135,14 +5135,14 @@ export function scroll(options = {}){
         if(!isRealNum(targetColumn)){
             return tooltip.info("The targetColumn parameter is invalid.", "");
         }
-        
-        let col = Store.visibledatacolumn[targetColumn], 
+
+        let col = Store.visibledatacolumn[targetColumn],
             col_pre = targetColumn <= 0 ? 0 : Store.visibledatacolumn[targetColumn - 1];
 
         $("#luckysheet-scrollbar-x").scrollLeft(col_pre);
     }
-    
-    
+
+
     if(scrollTop != null){
         if(!isRealNum(scrollTop)){
             return tooltip.info("The scrollTop parameter is invalid.", "");
@@ -5155,7 +5155,7 @@ export function scroll(options = {}){
             return tooltip.info("The targetRow parameter is invalid.", "");
         }
 
-        let row = Store.visibledatarow[targetRow], 
+        let row = Store.visibledatarow[targetRow],
             row_pre = targetRow <= 0 ? 0 : Store.visibledatarow[targetRow - 1];
 
         $("#luckysheet-scrollbar-y").scrollTop(row_pre);
@@ -5178,7 +5178,7 @@ export function resize(options = {}){
     let {
         success
     } = {...options}
-    
+
     if (success && typeof success === 'function') {
         success();
     }
@@ -5193,7 +5193,7 @@ export function resize(options = {}){
 export function getScreenshot(options = {}) {
     let {
         range = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1],
-    } = {...options} 
+    } = {...options}
 
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -5256,29 +5256,29 @@ export function getScreenshot(options = {}) {
     //补上 左边框和上边框
     ctx_newCanvas.beginPath();
     ctx_newCanvas.moveTo(
-        0, 
+        0,
         0
     );
     ctx_newCanvas.lineTo(
-        0, 
+        0,
         Store.devicePixelRatio * rh_height
     );
     ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
-    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;
     ctx_newCanvas.stroke();
     ctx_newCanvas.closePath();
 
     ctx_newCanvas.beginPath();
     ctx_newCanvas.moveTo(
-        0, 
+        0,
         0
     );
     ctx_newCanvas.lineTo(
-        Store.devicePixelRatio * ch_width, 
+        Store.devicePixelRatio * ch_width,
         0
     );
     ctx_newCanvas.lineWidth = Store.devicePixelRatio * 2;
-    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;        
+    ctx_newCanvas.strokeStyle = luckysheetdefaultstyle.strokeStyle;
     ctx_newCanvas.stroke();
     ctx_newCanvas.closePath();
 
@@ -5289,14 +5289,14 @@ export function getScreenshot(options = {}) {
 
 
 /**
- * 设置工作簿名称 
+ * 设置工作簿名称
  * @param {String} name 工作簿名称
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setWorkbookName(name, options = {}) {
     if(name == null || name.toString().length == 0){
-        return tooltip.info("The name parameter is invalid.", ""); 
+        return tooltip.info("The name parameter is invalid.", "");
     }
 
     $("#luckysheet_info_detail_input").val(name);
@@ -5304,7 +5304,7 @@ export function setWorkbookName(name, options = {}) {
     let {
         success
     } = {...options}
-    
+
     if (success && typeof success === 'function') {
         success();
     }
@@ -5312,7 +5312,7 @@ export function setWorkbookName(name, options = {}) {
 
 
 /**
- * 撤销当前操作，返回刚刚撤销的操作对象 
+ * 撤销当前操作，返回刚刚撤销的操作对象
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -5331,13 +5331,13 @@ export function undo(options = {}) {
             success();
         }
     }, 1);
-    
+
     return ctr;
 }
 
 
 /**
- * 重做当前操作，返回刚刚重做的操作对象 
+ * 重做当前操作，返回刚刚重做的操作对象
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -5356,13 +5356,13 @@ export function redo(options = {}) {
             success();
         }
     }, 1);
-    
+
     return ctr;
 }
 
 
 /**
- * 返回所有工作表配置 
+ * 返回所有工作表配置
  */
 export function getAllSheets() {
     let data = $.extend(true, [], Store.luckysheetfile);
@@ -5381,7 +5381,7 @@ export function getAllSheets() {
 
 /**
  * 根据index获取sheet页配置
- * 
+ *
  * @param {Object} options 可选参数
  * @param {String} options.index 工作表index
  * @param {Number} options.order 工作表order
@@ -5415,12 +5415,12 @@ export function getSheet(options = {}){
 export function getSheetData(options = {}) {
     let {
         order = getSheetIndex(Store.currentSheetIndex)
-    } = {...options}; 
+    } = {...options};
 
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
     let data = $.extend(true, [], file.data);
@@ -5433,19 +5433,19 @@ export function getSheetData(options = {}) {
 }
 
 /**
- * 快捷返回指定工作表的config配置 
+ * 快捷返回指定工作表的config配置
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
  */
 export function getConfig(options = {}) {
     let {
         order = getSheetIndex(Store.currentSheetIndex)
-    } = {...options}; 
+    } = {...options};
 
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
     let config = $.extend(true, {}, file.config);
@@ -5467,19 +5467,19 @@ export function setConfig(cfg, options = {}) {
     let {
         order = getSheetIndex(Store.currentSheetIndex),
         success
-    } = {...options}; 
+    } = {...options};
 
     let file = Store.luckysheetfile[order];
 
     if(file == null){
-        return tooltip.info("The order parameter is invalid.", ""); 
+        return tooltip.info("The order parameter is invalid.", "");
     }
 
     file.config = cfg;
 
     if(file.index == Store.currentSheetIndex){
         Store.config = cfg;
-        
+
         if("rowhidden" in cfg || "colhidden" in cfg || "rowlen" in cfg || "columnlen" in cfg){
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
@@ -5684,18 +5684,18 @@ export function setDataVerification(optionItem, options = {}) {
 
     let item = {
         type: type,
-        type2: type2,  
-        value1: value1,  
-        value2: value2, 
-        checked: checked, 
-        remote: remote, 
-        prohibitInput: prohibitInput,  
-        hintShow: hintShow, 
+        type2: type2,
+        value1: value1,
+        value2: value2,
+        checked: checked,
+        remote: remote,
+        prohibitInput: prohibitInput,
+        hintShow: hintShow,
         hintText: hintText,
     }
 
     let currentDataVerification = $.extend(true, {}, file.dataVerification);
-    
+
     let data = $.extend(true, [], file.data);
     if(data.length == 0){
         data = sheetmanage.buildGridData(file);
@@ -5738,7 +5738,7 @@ export function setDataVerification(optionItem, options = {}) {
 
 
 /**
- * 指定工作表范围删除数据验证功能 
+ * 指定工作表范围删除数据验证功能
  * @param {Object} options 可选参数
  * @param {Array | Object | String} options.range 选区范围；默认为当前选区
  * @param {Number} options.order 工作表下标；默认值为当前工作表下标
@@ -5802,7 +5802,7 @@ export function deleteDataVerification(options = {}) {
 
 /**
  * data => celldata ，data二维数组数据转化成 {r, c, v}格式一维数组
- * 
+ *
  * @param {Array} data 二维数组数据
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
@@ -5817,14 +5817,14 @@ export function transToCellData(data, options = {}){
             success();
         }
     },0)
-    
+
     return sheetmanage.getGridData(data)
 }
 
 
 /**
  * celldata => data ，celldata一维数组数据转化成表格所需二维数组
- * 
+ *
  * @param {Array} celldata 二维数组数据
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
@@ -5839,7 +5839,7 @@ export function transToData(celldata, options = {}){
             success();
         }
     },0)
-    
+
     return sheetmanage.buildGridData({
         celldata: celldata
     })
@@ -5847,23 +5847,23 @@ export function transToData(celldata, options = {}){
 
 /**
  * 导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用
- * 
+ *
  */
 export function toJson(){
-    
+
     const toJsonOptions = Store.toJsonOptions;
 
     // Workbook name
     toJsonOptions.title = $("#luckysheet_info_detail_input").val();
 
     toJsonOptions.data = getAllSheets();
-    
+
     // row and column
     getluckysheetfile().forEach((file,index)=>{
 
         toJsonOptions.data[index].row = file.data.length;
         toJsonOptions.data[index].column = file.data[0].length;
-        
+
     })
 
     return toJsonOptions;

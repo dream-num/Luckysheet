@@ -1,6 +1,9 @@
 import menuButton from './menuButton';
 import formula from '../global/formula';
 import Store from '../store';
+import flatpickr from 'flatpickr'
+import dayjs from "dayjs";
+import {Mandarin} from "flatpickr/dist/l10n/zh"
 
 const cellDatePickerCtrl = {
     cellFocus: function(r, c, value){
@@ -13,7 +16,7 @@ const cellDatePickerCtrl = {
         if(!!margeset){
             row = margeset.row[1];
             row_pre = margeset.row[0];
-            
+
             col = margeset.column[1];
             col_pre = margeset.column[0];
         }
@@ -25,14 +28,21 @@ const cellDatePickerCtrl = {
             top: row_pre
         })
 
-        $("#cellDatePickerBtn").daterangepicker({
-            singleDatePicker: true,
-            startDate: moment(value),
-            endDate: moment(value)
-        }, function(start) {
-            $("#luckysheet-rich-text-editor").html(start.format('YYYY-MM-DD'));
-            formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-        })
+        flatpickr('#cellDatePickerBtn',{
+            locale: Mandarin,
+            dateFormat: "YYYY-MM-DD",
+            parseDate: (datestr, format) => {
+                return dayjs(datestr).toDate();
+            },
+            formatDate: (date, format, locale) => {
+                return dayjs(date).format(format);
+            },
+            onChange: function (selectedDates, dateStr, instance) {
+                console.log(selectedDates, dateStr)
+                $("#luckysheet-rich-text-editor").html(dateStr);
+                formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+            }
+        });
 
         $("#cellDatePickerBtn").click();
     },

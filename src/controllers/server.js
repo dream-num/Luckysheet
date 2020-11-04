@@ -11,6 +11,7 @@ import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import locale from '../locale/locale';
+import dayjs from "dayjs";
 
 const server = {
     gridKey: null,
@@ -762,12 +763,12 @@ const server = {
         let _this = this;
         clearTimeout(_this.requestTimeOut);
 
-        //console.log(_this.requestlast, moment(), (_this.requestlast!=null && _this.requestlast.add(10, 'seconds').isBefore(moment()) ) );
-        if(!_this.requestLock && (_this.requestlast!=null && _this.requestlast.clone().add(1, 'seconds').isBefore(moment()) ) ){
+        //console.log(_this.requestlast, dayjs(), (_this.requestlast!=null && _this.requestlast.add(10, 'seconds').isBefore(dayjs()) ) );
+        if(!_this.requestLock && (_this.requestlast!=null && _this.requestlast.clone().add(1, 'seconds').isBefore(dayjs()) ) ){
             _this.request();
         }
 
-        // if(!_this.imageRequestLock && (_this.imageRequestLast==null || _this.imageRequestLast.clone().add(30, 'seconds').isBefore(moment()) ) ){
+        // if(!_this.imageRequestLock && (_this.imageRequestLast==null || _this.imageRequestLast.clone().add(30, 'seconds').isBefore(dayjs()) ) ){
 
         // }
 
@@ -804,7 +805,7 @@ const server = {
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
                     let re = eval('('+ data +')')
                     if(re.status){
-                        $("#luckysheet_info_detail_update").html("最近存档时间:"+ moment().format("M-D H:m:s"));
+                        $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
                         $("#luckysheet_info_detail_save").html("同步成功");
                         _this.clearcachelocaldata();
                     }
@@ -812,7 +813,7 @@ const server = {
                         $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>同步失败</span>");
                         _this.restorecachelocaldata();
                     }
-                    _this.requestlast = moment();
+                    _this.requestlast = dayjs();
                     _this.requestLock = false;
                 });
              }
@@ -864,7 +865,7 @@ const server = {
                 $.post(_this.updateImageUrl, { compress: false, gridKey: _this.gridKey, data:data1  }, function (data) {
                     let re = eval('('+ data +')')
                     if(re.status){
-                        imageRequestLast = moment();
+                        imageRequestLast = dayjs();
                     }
                     else{
                         $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>网络不稳定</span>");

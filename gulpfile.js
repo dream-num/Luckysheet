@@ -80,7 +80,7 @@ const paths = {
      //plugins src
     pluginsCss: ['src/plugins/css/*.css'],
     plugins: ['src/plugins/*.css'],
-    css:['src/css/*.css'],
+    css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
         'node_modules/jquery/dist/jquery.min.js',
         //'src/plugins/js/jquery.min.js',
@@ -88,12 +88,9 @@ const paths = {
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
         'src/plugins/js/jquery.mousewheel.min.js',
-        'src/plugins/js/moment.min.js',
-        'src/plugins/js/moment-timezone-with-data.min.js',
-        'src/plugins/js/moment-msdate.js',
         'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
-        //'src/plugins/js/pako.min.js',
+        'src/plugins/js/pako.min.js',
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
         'src/plugins/js/daterangepicker.js',
