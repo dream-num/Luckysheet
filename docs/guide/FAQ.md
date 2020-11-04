@@ -207,4 +207,31 @@ if you want to get the position of the picture, you can overlap the picture with
 - Interface operation
 - Use API: [setRangeMerge](/guide/api.html#setrangemerge-type-setting)
 - Manually assemble merge parameters
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Why is the official new feature ineffective?
+
+**<span style="font-size:20px;">A</span>** The first step is to check whether you have used CDN to import,
+
+The CDN link used in the Luckysheet tutorial is the service provided by [jsdelivr](https://www.jsdelivr.com/package/npm/luckysheet), and the code is from [npmjs.com](https://www.npmjs.com/) automatically sync the past, not from [Github](https://github.com/mengshukeji/Luckysheet/). Because our newly submitted code still needs to be tested for a period of time, it will not be released to npm immediately, causing the npm code to lag behind Github.
+
+If you need to try the latest code, we strongly recommend that you pull the code from the [Luckysheet Github](https://github.com/mengshukeji/Luckysheet/) main repository. After our version is stable, we will consider releasing the npm package in real time.
+
+The second step, if it is to import the packaged code of the github repository, test to determine whether there is a bug, you can find the problem and try to fix it, and then [submit a PR](https://github.com/mengshukeji/Luckysheet/pulls), if can't fix it, please [submit issues](https://github.com/mengshukeji/Luckysheet/issues).
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** `npm run dev` reported an error: ʻError: Cannot find module'rollup'`?
+
+**<span style="font-size:20px;">A</span>** It may be a problem with the npm package installation, try the following steps:
+1. `npm cache clean --force`
+2. `npm i rimraf -g`
+3. `rimraf node_modules`
+4. Delete the package-lock.json file
+5. `npm i`
+6. `npm run dev`
+
+Tip: Most other npm installation problems can also be solved by trying above steps.
+
 ------------

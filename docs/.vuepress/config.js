@@ -16,8 +16,9 @@ module.exports = {
 		
 	},
 	themeConfig: {
+		domain: 'https://mengshukeji.github.io/LuckysheetDemo',
 		logo: '/img/logo.png',
-		
+		author: 'Luckysheet',
 		// 仓库地址
 		repo: 'mengshukeji/Luckysheet',
 		// 允许编辑链接文字
@@ -53,6 +54,7 @@ module.exports = {
 						'cell',
 						'operate',
 						'api',
+						'resource',
 						'FAQ'
 					],
 				},
@@ -88,6 +90,7 @@ module.exports = {
 						'cell',
 						'operate',
 						'api',
+						'resource',
 						'FAQ'
 					],
 				},
@@ -95,4 +98,24 @@ module.exports = {
 			
 		},	
 	},
+	plugins: {
+		'vuepress-plugin-baidu-autopush': {},
+		'sitemap': {
+			hostname: 'https://mengshukeji.github.io/LuckysheetDocs'
+		},
+		'vuepress-plugin-code-copy': true,
+		'seo': {
+			siteTitle: (_, $site) => $site.title,
+			title: $page => $page.title,
+			description: $page => $page.frontmatter.description,
+			author: (_, $site) => $site.themeConfig.author,
+			tags: $page => $page.frontmatter.tags,
+			twitterCard: _ => 'summary_large_image',
+			type: $page => ['guide'].some(folder => $page.regularPath.startsWith('/' + folder)) ? 'article' : 'website',
+			url: (_, $site, path) => ($site.themeConfig.domain || '') + path,
+			image: ($page, $site) => $page.frontmatter.image && (($site.themeConfig.domain && !$page.frontmatter.image.startsWith('http') || '') + $page.frontmatter.image),
+			publishedAt: $page => $page.frontmatter.date && new Date($page.frontmatter.date),
+			modifiedAt: $page => $page.lastUpdated && new Date($page.lastUpdated),
+		}
+	}
 }

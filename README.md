@@ -103,7 +103,6 @@ English| [简体中文](./README-zh.md)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
 + **EXCEL import/export** (Specially adapted to Luckysheet, export is under development)
 
-
 ### ⏱️Coming soon
 + **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)

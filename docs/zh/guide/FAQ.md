@@ -210,3 +210,29 @@ Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧�
 - 手动组装merge参数
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** 为什么官方公布的新功能没有效果？
+
+**<span style="font-size:20px;">A</span>** 第一步，检查下您是否使用了CDN的方式引入，
+
+Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/package/npm/luckysheet) 提供的服务，代码是从 [npmjs.com](https://www.npmjs.com/) 自动同步过去的，不是从 [Github](https://github.com/mengshukeji/Luckysheet/) 同步过去的。因为我们新提交的代码，还需要经过一段时间的测试，所以不会立即发布到npm使用，导致了npm的代码稍滞后于Github。
+
+如果需要尝试最新代码，我们强烈建议您从 [Luckysheet Github](https://github.com/mengshukeji/Luckysheet/) 主仓库拉取代码。后续我们版本稳定了，会考虑实时发布npm包。
+
+第二步，如果是引用github仓库打包后的代码，测试判断是否有bug，您可以查找问题并尝试修复，再[提交PR](https://github.com/mengshukeji/Luckysheet/pulls)，如果修复不了，请[提交issues](https://github.com/mengshukeji/Luckysheet/issues)。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** `npm run dev`报错：`Error: Cannot find module 'rollup'`？
+
+**<span style="font-size:20px;">A</span>** 可能是npm包安装问题，尝试以下步骤：
+1. `npm cache clean --force`
+2. `npm i rimraf -g`
+3. `rimraf node_modules`
+4. 删除package-lock.json文件
+5. `npm i`
+6. `npm run dev`
+
+提示：大多数的其他npm安装问题，也可以尝试此步骤来解决。
+
+------------
