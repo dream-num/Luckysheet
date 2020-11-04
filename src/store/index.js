@@ -119,8 +119,7 @@ const Store = {
     measureTextCache:{},
     measureTextCellInfoCache:{},
     measureTextCacheTimeOut:null,
-    borderInfoCache:null,
-    cellOverflowMapCache:null,
+    cellOverflowMapCache:{},
 
     zoomRatio:1,
 

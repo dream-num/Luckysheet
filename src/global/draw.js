@@ -11,7 +11,7 @@ import browser from './browser';
 import { isRealNull, isRealNum } from './validate';
 import { getCellTextSplitArr,getMeasureText,getCellTextInfo } from './getRowlen';
 import { getcellvalue,getRealCellValue } from './getdata';
-import { getBorderInfoCompute } from './border';
+import { getBorderInfoComputeRange } from './border';
 import { getSheetIndex } from '../methods/get';
 import { getObjType, chatatABC, luckysheetfontformat } from '../utils/util';
 import { isInlineStringCell } from '../controllers/inlineString';
@@ -1010,7 +1010,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             canvas.restore();
         }
 
-        let borderInfoCompute = getBorderInfoCompute();
+        let borderInfoCompute = getBorderInfoComputeRange(dataset_row_st,dataset_row_ed,dataset_col_st,dataset_col_ed);
         
         for(let x in borderInfoCompute){
             //let bd_r = x.split("_")[0], bd_c = x.split("_")[1];
@@ -1018,9 +1018,9 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             let bd_r = x.substr(0, x.indexOf('_'));
             let bd_c = x.substr(x.indexOf('_') + 1);
 
-            if(bd_r < dataset_row_st || bd_r > dataset_row_ed || bd_c < dataset_col_st || bd_c > dataset_col_ed){
-                continue;
-            }
+            // if(bd_r < dataset_row_st || bd_r > dataset_row_ed || bd_c < dataset_col_st || bd_c > dataset_col_ed){
+            //     continue;
+            // }
 
             if(borderOffset[bd_r + "_" + bd_c]){
                 let start_r = borderOffset[bd_r + "_" + bd_c].start_r;
@@ -1068,8 +1068,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     Store.measureTextCacheTimeOut = setTimeout(() => {
         Store.measureTextCache = {};
         Store.measureTextCellInfoCache = {};
-        Store.borderInfoCache = null;
-        Store.cellOverflowMapCache = null;
+        Store.cellOverflowMapCache = {};
     }, 2000);
 }
 
@@ -1960,18 +1959,27 @@ let cellOverflowRender = function(r, c, stc, edc,luckysheetTableContent,scrollHe
 function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
     let map = {};
 
-    if(Store.cellOverflowMapCache!=null){
-        return Store.cellOverflowMapCache;
-    }
-
     let data = Store.flowdata;
 
     for(let r = row_st; r <= row_end; r++){
         if(data[r]==null){
             continue;
         }
+
+        if(Store.cellOverflowMapCache[r]!=null){
+            map[r] = Store.cellOverflowMapCache[r];
+            continue;
+        }
+
+        let hasCellOver = false;
+
         for(let c = 0; c < data[r].length; c++){
             let cell = data[r][c];
+
+            // if(Store.cellOverflowMapCache[r + '_' + c]!=null){
+            //     map[r + '_' + c] = Store.cellOverflowMapCache[r + '_' + c];
+            //     continue;
+            // }
 
             if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
                 continue
@@ -2055,17 +2063,30 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
 
                 // if(((stc >= col_st && stc <= col_ed) || (edc >= col_st && edc <= col_ed)) && stc < edc){
                 if(((stc <= col_ed) || (edc >= col_st)) && stc < edc){
-                    map[r + '_' + c] = {
+                    let item = {
                         r: r,
                         stc: stc,
                         edc: edc 
                     }
+
+                    if(map[r]==null){
+                        map[r] = {};
+                    }
+
+                    map[r][c] = item;
+
+                    // Store.cellOverflowMapCache[r + '_' + c] = item;
+
+                    hasCellOver = true;
                 }
             }
         }
-    }
 
-    Store.cellOverflowMapCache = map;
+        if(hasCellOver){
+            Store.cellOverflowMapCache[r] = map[r];
+        }
+
+    }
 
     return map;
 }
@@ -2168,24 +2189,30 @@ function cellOverflow_colIn(map, r, c, col_st, col_ed){
         stc,
         edc;
 
-    for(let key in map){
-        // rowIndex = key.split('_')[0];
-        // colIndex = key.split('_')[1];
-        rowIndex = key.substr(0, key.indexOf('_'));
-        colIndex = key.substr(key.indexOf('_') + 1);
+    for(let rkey in map){
+        for(let ckey in map[rkey]){
+            rowIndex = rkey;
+            colIndex = ckey;
+            // rowIndex = key.substr(0, key.indexOf('_'));
+            // colIndex = key.substr(key.indexOf('_') + 1);
+            let mapItem = map[rkey][ckey];
+            stc = mapItem.stc;
+            edc = mapItem.edc;
 
-        stc = map[key].stc;
-        edc = map[key].edc;
+            if(rowIndex == r){
+                if(c >= stc && c <= edc){
+                    colIn = true;
 
-        if(rowIndex == r){
-            if(c >= stc && c <= edc){
-                colIn = true;
-
-                if(c == edc || c == col_ed){
-                    colLast = true;
-                    break;
+                    if(c == edc || c == col_ed){
+                        colLast = true;
+                        break;
+                    }
                 }
             }
+        }
+
+        if(colLast){
+            break;
         }
     }
 
