@@ -135,6 +135,8 @@ const defaultConfig = {
         measureTextCache:{},
         measureTextCellInfoCache:{},
         measureTextCacheTimeOut:null,
+        borderInfoCache:null,
+        cellOverflowMapCache:null,
     
         zoomRatio:1,
     

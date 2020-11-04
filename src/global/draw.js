@@ -1018,6 +1018,10 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
             let bd_r = x.substr(0, x.indexOf('_'));
             let bd_c = x.substr(x.indexOf('_') + 1);
 
+            if(bd_r < dataset_row_st || bd_r > dataset_row_ed || bd_c < dataset_col_st || bd_c > dataset_col_ed){
+                continue;
+            }
+
             if(borderOffset[bd_r + "_" + bd_c]){
                 let start_r = borderOffset[bd_r + "_" + bd_c].start_r;
                 let start_c = borderOffset[bd_r + "_" + bd_c].start_c;
@@ -1064,6 +1068,8 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     Store.measureTextCacheTimeOut = setTimeout(() => {
         Store.measureTextCache = {};
         Store.measureTextCellInfoCache = {};
+        Store.borderInfoCache = null;
+        Store.cellOverflowMapCache = null;
     }, 2000);
 }
 
@@ -1954,6 +1960,10 @@ let cellOverflowRender = function(r, c, stc, edc,luckysheetTableContent,scrollHe
 function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
     let map = {};
 
+    if(Store.cellOverflowMapCache!=null){
+        return Store.cellOverflowMapCache;
+    }
+
     let data = Store.flowdata;
 
     for(let r = row_st; r <= row_end; r++){
@@ -2054,6 +2064,8 @@ function getCellOverflowMap(canvas, col_st, col_ed, row_st, row_end){
             }
         }
     }
+
+    Store.cellOverflowMapCache = map;
 
     return map;
 }

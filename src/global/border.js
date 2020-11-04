@@ -6,6 +6,10 @@ import Store from '../store';
 function getBorderInfoCompute(sheetIndex) {
     let borderInfoCompute = {};
 
+    if(Store.borderInfoCache!=null){
+        return Store.borderInfoCache;
+    }
+
     let cfg, data; 
     if(sheetIndex == null){
         cfg = Store.config;
@@ -1025,6 +1029,8 @@ function getBorderInfoCompute(sheetIndex) {
             }
         }
     }
+
+    Store.borderInfoCache = borderInfoCompute;
 
     return borderInfoCompute;
 }
