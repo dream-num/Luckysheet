@@ -623,33 +623,55 @@ const sheetHTML = '<div style="${style}" id="luckysheet-sheets-item${index}" dat
 function sheetconfigHTML(){
     const sheetconfig = locale().sheetconfig;
 
-    return `<div id="luckysheet-rightclick-sheet-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel"> 
-                <div id="luckysheetsheetconfigdelete" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+    const config = customSheetRightClickConfig();
+
+    let hideTopMenuseparator = true;
+    let moveTopMenuseparator = true;
+
+    // 1. 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
+    if(!config.delete && !config.copy && !config.rename && !config.color){
+        hideTopMenuseparator = false;
+        if(!config.hide){
+            moveTopMenuseparator = false;
+        }
+    }
+
+    // 2. 当一个功能菜单块内所有的按钮都隐藏的时候，它顶部的分割线也需要隐藏掉
+    if(!config.hide){
+        hideTopMenuseparator = false;
+    }
+    if(!config.move){
+        moveTopMenuseparator = false;
+    }
+
+
+    const sheetconfigModel = `<div id="luckysheet-rightclick-sheet-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigdelete" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.delete ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.delete}</div>
                 </div> 
-                <div id="luckysheetsheetconfigcopy" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigcopy" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.copy ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.copy}</div> 
                 </div> 
-                <div id="luckysheetsheetconfigrename" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigrename" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.rename ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.rename}</div> 
                 </div> 
-                <div id="luckysheetsheetconfigcolor" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigcolor" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel" style="display:${config.color ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> 
                         ${sheetconfig.changeColor} <span class="luckysheet-submenu-arrow iconfont icon-youjiantou" style="user-select: none;"></span> 
                     </div> 
                 </div> 
-                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> 
-                <div id="luckysheetsheetconfighide" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator" style="display:${hideTopMenuseparator ? 'block' : 'none'};"></div> 
+                <div id="luckysheetsheetconfighide" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.hide ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.hide}</div> 
                 </div> 
-                <div id="luckysheetsheetconfigshow" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigshow" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.hide ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.unhide}</div> 
                 </div> 
-                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> 
-                <div id="luckysheetsheetconfigmoveleft" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator" style="display:${moveTopMenuseparator ? 'block' : 'none'};"></div> 
+                <div id="luckysheetsheetconfigmoveleft" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.move ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.moveLeft}</div> 
                 </div> 
-                <div id="luckysheetsheetconfigmoveright" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"> 
+                <div id="luckysheetsheetconfigmoveright" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.move ? 'block' : 'none'};"> 
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${sheetconfig.moveRight}</div> 
                 </div> 
             </div> 
@@ -663,6 +685,8 @@ function sheetconfigHTML(){
                     </div> 
                 </div> 
             </div>`;
+
+            return sheetconfigModel;
 }
 
 const luckysheetPivotTableHTML = function(){
@@ -1700,6 +1724,28 @@ function customCellRightClickConfig() {
     }
     console.info('=======cellRightClickConfig======'),
     luckysheetConfigsetting.cellRightClickConfig = config;
+    return config;
+}
+
+/**
+ *sheet页右击菜单配置
+ *
+ */
+function customSheetRightClickConfig() {
+    const config = {
+        delete: true, //Delete
+        copy: true, //Copy
+        rename: true, //Rename
+        color: true, //Change color
+        hide: true, //Hide, unhide
+        move: true, //Move to the left, move to the right
+	}
+
+    // sheetRightClickConfig determines the final result
+    if(JSON.stringify(luckysheetConfigsetting.sheetRightClickConfig) !== '{}'){
+        Object.assign(config,luckysheetConfigsetting.sheetRightClickConfig);
+    }
+    luckysheetConfigsetting.sheetRightClickConfig = config;
     return config;
 }
 

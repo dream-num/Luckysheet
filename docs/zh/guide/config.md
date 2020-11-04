@@ -551,8 +551,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
     |insertColumn|插入列|-|向左增加N列，向右增加N列|向左增加N列，向右增加N列|
     |deleteRow|删除选中行|删除选中行|-|-|
     |deleteColumn|删除选中列|-|删除选中列|删除选中列|
-    |hideRow|隐藏选中行和显示选中行|隐藏选中行和显示选中行|-|-|
-    |hideColumn|隐藏选中列和显示选中列|-|隐藏选中列和显示选中列|隐藏选中列和显示选中列|
+    |deleteCell|删除单元格|-|-|-|
+    |hideRow|-|隐藏选中行和显示选中行|-|-|
+    |hideColumn|-|-|隐藏选中列和显示选中列|隐藏选中列和显示选中列|
     |rowHeight|-|行高|-|-|
     |columnWidth|-|-|列宽|列宽|
     |clear|清除内容|清除内容|清除内容|-|
@@ -569,8 +570,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### sheetRightClickConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置sheet页右击菜单
@@ -581,10 +580,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         copy: false, // 复制
         rename: false, //重命名
         color: false, //更改颜色
-        hide: false, //隐藏
-        show: false, //取消隐藏
-        left: false, //向左移
-        right: false //向右移
+        hide: false, //隐藏，取消隐藏
+        move: false, //向左移，向右移
     }
 
 ------------

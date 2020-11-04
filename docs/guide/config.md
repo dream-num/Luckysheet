@@ -464,8 +464,8 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 	|deleteRow|Delete selected row|Delete selected row|-|-|
 	|deleteColumn|Delete selected column|-|Delete selected column|Delete selected column|
 	|deleteCell|Delete cell|-|-|-|
-	|hideRow|Hide the selected row and show the selected row|Hide the selected row and show the selected row|-|-|
-	|hideColumn|Hide the selected column and show the selected column|-|Hide the selected column and show the selected column|Hide the selected column and show the selected column|
+	|hideRow|-|Hide the selected row and show the selected row|-|-|
+	|hideColumn|-|-|Hide the selected column and show the selected column|Hide the selected column and show the selected column|
 	|rowHeight|-|row height|-|-|
 	|columnWidth|-|-|Column Width|Column Width|
 	|clear|clear content|clear content|clear content|-|
@@ -481,8 +481,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### sheetRightClickConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
 - Usage: Customize the right-click menu of the bottom sheet bar
@@ -493,10 +491,8 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         copy: false, //Copy
         rename: false, //Rename
         color: false, //Change color
-        hide: false, //Hide
-        show: false, //Unhide
-        left: false, //Move to the left
-        right: false //Move to the right
+        hide: false, //Hide, unhide
+        move: false, //Move to the left, move to the right
     }
 
 ------------

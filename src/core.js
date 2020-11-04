@@ -93,6 +93,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.showstatisticBarConfig = extendsetting.showstatisticBarConfig;
     luckysheetConfigsetting.sheetFormulaBar = extendsetting.sheetFormulaBar;
     luckysheetConfigsetting.cellRightClickConfig = extendsetting.cellRightClickConfig;
+    luckysheetConfigsetting.sheetRightClickConfig = extendsetting.sheetRightClickConfig;
     luckysheetConfigsetting.pointEdit = extendsetting.pointEdit;
     luckysheetConfigsetting.pointEditUpdate = extendsetting.pointEditUpdate;
     luckysheetConfigsetting.pointEditZoom = extendsetting.pointEditZoom;

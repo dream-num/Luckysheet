@@ -15,7 +15,7 @@ import tooltip from '../global/tooltip';
 import {selectTextDom} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
-
+import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 
 
@@ -109,6 +109,13 @@ function showsheetconfigmenu() {
     }
 
     $("#luckysheetsheetconfigcolorur").parent().find("span, div, button, input, a").addClass("luckysheet-mousedown-cancel");
+
+    // 如果全部按钮设置了隐藏，则不显示
+    const config = luckysheetConfigsetting.sheetRightClickConfig;
+    if(!config.delete && !config.copy && !config.rename && !config.color && !config.hide && !config.move){
+        return;
+    }
+
     setTimeout(function(){
         mouseclickposition($("#luckysheet-rightclick-sheet-menu"), luckysheetcurrentSheetitem.offset().left + luckysheetcurrentSheetitem.width(), luckysheetcurrentSheetitem.offset().top - 18, "leftbottom");
     },1);
