@@ -197,7 +197,7 @@ if you want to get the position of the picture, you can overlap the picture with
 
 **<span style="font-size:20px;">A</span>** Configuration is open
 - The width of the row header area [rowHeaderWidth](/guide/config.html#rowheaderwidth)
-- The height of the column header area [columeHeaderHeight](/guide/config.html#columeheaderheight)
+- The height of the column header area [columnHeaderHeight](/guide/config.html#columnHeaderHeight)
 
 ------------
 

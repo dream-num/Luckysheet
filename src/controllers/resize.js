@@ -20,7 +20,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         Store.infobarHeight = document.querySelector('#luckysheet_info_detail').offsetHeight;
     }
 
-    if (Store.toobarObject.toobarElements.length === 0) {
+    if (!!Store.toobarObject && !!Store.toobarObject.toobarElements && Store.toobarObject.toobarElements.length === 0) {
         $("#" + Store.container).find(".luckysheet-wa-editor").hide();
         Store.toolbarHeight = 0;
     }
@@ -241,14 +241,14 @@ export function changeSheetContainerSize(gridW, gridH){
     if(gridH==null){
         gridH = $("#" + Store.container).height();
     }
-    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
+    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
     Store.cellmainWidth = gridW - Store.rowHeaderWidth;
     
     $("#luckysheet-cols-h-c, #luckysheet-cell-main").width(Store.cellmainWidth);
     $("#luckysheet-cell-main").height(Store.cellmainHeight);
     $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
+    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
     $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
     $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
 
@@ -256,7 +256,7 @@ export function changeSheetContainerSize(gridW, gridH){
 
     Store.luckysheetTableContentHW = [
         Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
-        Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize
+        Store.cellmainHeight + Store.columnHeaderHeight - Store.cellMainSrollBarSize
     ];
 
     $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 

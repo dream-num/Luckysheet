@@ -38,7 +38,7 @@ const defaultConfig = {
         infobarHeight: 0,
         calculatebarHeight: 0,
         rowHeaderWidth: 46,
-        columeHeaderHeight: 20,
+        columnHeaderHeight: 20,
         cellMainSrollBarSize: 12,
         sheetBarHeight: 31,
         statisticBarHeight: 23,
@@ -321,7 +321,6 @@ const method = {
 
                 let dataset = d.data;
                 
-                // rptapp
                 let newData = dataset.celldata;
                 luckysheetextendData(dataset["row"], newData);
 

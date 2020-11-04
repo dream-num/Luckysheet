@@ -377,7 +377,7 @@ const luckysheetFreezen = {
                 dataset_row_st = 0;
             }
 
-            top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+            top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
             freezenhorizontaldata = [
                 Store.visibledatarow[dataset_row_st], 
                 dataset_row_st + 1, 
@@ -437,11 +437,11 @@ const luckysheetFreezen = {
                 freezen_vertical_scrollTop = _this.freezenverticaldata[2];
 
                 //3
-                _this.createCanvas("freezen_3", freezen_vertical_px - freezen_vertical_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + 1, Store.rowHeaderWidth - 1, Store.columeHeaderHeight - 1);
+                _this.createCanvas("freezen_3", freezen_vertical_px - freezen_vertical_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + 1, Store.rowHeaderWidth - 1, Store.columnHeaderHeight - 1);
                 //4
-                _this.createCanvas("freezen_4", drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + 1, freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth - 1, Store.columeHeaderHeight - 1);
+                _this.createCanvas("freezen_4", drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, freezen_horizon_px - freezen_horizon_scrollTop + 1, freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth - 1, Store.columnHeaderHeight - 1);
                 //7
-                _this.createCanvas("freezen_7", freezen_vertical_px - freezen_vertical_scrollTop, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop - Store.columeHeaderHeight, Store.rowHeaderWidth - 1, freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight - 1);
+                _this.createCanvas("freezen_7", freezen_vertical_px - freezen_vertical_scrollTop, drawHeight - freezen_horizon_px + freezen_horizon_scrollTop - Store.columnHeaderHeight, Store.rowHeaderWidth - 1, freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight - 1);
             }
             //水平freezen
             else if (_this.freezenhorizontaldata != null) {
@@ -449,7 +449,7 @@ const luckysheetFreezen = {
                 freezen_horizon_ed = _this.freezenhorizontaldata[1];
                 freezen_horizon_scrollTop = _this.freezenhorizontaldata[2];
 
-                _this.createCanvas("freezen_h", drawWidth, freezen_horizon_px - freezen_horizon_scrollTop + 1, Store.rowHeaderWidth - 1, Store.columeHeaderHeight - 1);
+                _this.createCanvas("freezen_h", drawWidth, freezen_horizon_px - freezen_horizon_scrollTop + 1, Store.rowHeaderWidth - 1, Store.columnHeaderHeight - 1);
             }
             //垂直freezen
             else if (_this.freezenverticaldata != null) {
@@ -457,7 +457,7 @@ const luckysheetFreezen = {
                 freezen_vertical_ed = _this.freezenverticaldata[1];
                 freezen_vertical_scrollTop = _this.freezenverticaldata[2];
 
-                _this.createCanvas("freezen_v", freezen_vertical_px - freezen_vertical_scrollTop, drawHeight, Store.rowHeaderWidth - 1, Store.columeHeaderHeight - 1);
+                _this.createCanvas("freezen_v", freezen_vertical_px - freezen_vertical_scrollTop, drawHeight, Store.rowHeaderWidth - 1, Store.columnHeaderHeight - 1);
             }
 
             _this.scrollAdapt();
@@ -1672,7 +1672,7 @@ const luckysheetFreezen = {
                 if(row_st == -1){
                     row_st = 0;
                 }
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
                 let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
                 
                 freezen = {
@@ -1705,7 +1705,7 @@ const luckysheetFreezen = {
                 if(row_st == -1){
                     row_st = 0;
                 }
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
                 let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
                 
                 let scrollLeft = 0;
@@ -1742,7 +1742,7 @@ const luckysheetFreezen = {
                     row_st = 0;
                 }
 
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
                 let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
 
                 freezen = {
@@ -1792,7 +1792,7 @@ const luckysheetFreezen = {
                     row_st = 0;
                 }
 
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
                 let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
 
                 let scrollLeft = 0;

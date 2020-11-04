@@ -67,12 +67,11 @@ The following are all supported setting parameters
 - Ratio [devicePixelRatio](#devicePixelRatio)
 - Function Button [functionButton](#functionButton)
 - Auto-indent interface [showConfigWindowResize](#showConfigWindowResize)
-- Load the next page [enablePage](#enablePage)
 - Refresh formula [forceCalculation](#forceCalculation)
 - Custom cell right-click menu [cellRightClickConfig](#cellRightClickConfig)
 - Customize the right-click menu of the bottom sheet bar [sheetRightClickConfig](#sheetRightClickConfig)
 - The width of the row header area [rowHeaderWidth](#rowHeaderWidth)
-- The height of the column header area [columeHeaderHeight](#columeHeaderHeight)
+- The height of the column header area [columnHeaderHeight](#columnHeaderHeight)
 - Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
 - Initialize the default font size [defaultFontSize](#defaultFontSize)
 
@@ -402,12 +401,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: The configuration of the chart or pivot table will pop up on the right, set whether the workbook will be automatically indented after popping up
 
 ------------
-### enablePage
-- Type: Boolean
-- Default: false
-- Usage: Allow to load next page
-
-------------
 ### forceCalculation
 - Type: Boolean
 - Default: false
@@ -502,7 +495,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: The width of the row header area, if set to 0, it means to hide the row header
 
 ------------
-### columeHeaderHeight
+### columnHeaderHeight
 - Type: Number
 - Default: 20
 - Usage: The height of the column header area, if set to 0, it means hide the column header

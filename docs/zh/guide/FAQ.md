@@ -198,7 +198,7 @@ Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧�
 
 **<span style="font-size:20px;">A</span>** 已开放配置
 - 行标题区域的宽度 [rowHeaderWidth](/zh/guide/config.html#rowheaderwidth)
-- 列标题区域的高度 [columeHeaderHeight](/zh/guide/config.html#columeheaderheight)
+- 列标题区域的高度 [columnHeaderHeight](/zh/guide/config.html#columnHeaderHeight)
 
 ------------
 

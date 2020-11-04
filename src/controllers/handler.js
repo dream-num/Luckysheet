@@ -1585,10 +1585,10 @@ export default function luckysheetHandler() {
                 row = row_location[1],
                 row_pre = row_location[0],
                 row_index = row_location[2];
-            let top = mouse[1] + Store.columeHeaderHeight;
+            let top = mouse[1] + Store.columnHeaderHeight;
 
-            if (top < Store.columeHeaderHeight) {
-                top = Store.columeHeaderHeight;
+            if (top < Store.columnHeaderHeight) {
+                top = Store.columnHeaderHeight;
             }
 
             if (top > luckysheetFreezen.windowHeight - 4) {
@@ -1597,12 +1597,12 @@ export default function luckysheetHandler() {
 
             $("#luckysheet-freezebar-horizontal").find(".luckysheet-freezebar-horizontal-handle").css({ "top": top });
 
-            if (top + scrollTop - Store.columeHeaderHeight >= row_pre + (row - row_pre) / 2) {
-                top = row - 2 - scrollTop + Store.columeHeaderHeight;
+            if (top + scrollTop - Store.columnHeaderHeight >= row_pre + (row - row_pre) / 2) {
+                top = row - 2 - scrollTop + Store.columnHeaderHeight;
                 luckysheetFreezen.freezenhorizontaldata = [row, row_index + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_index + 1), top];
             }
             else {
-                top = row_pre - 2 - scrollTop + Store.columeHeaderHeight;
+                top = row_pre - 2 - scrollTop + Store.columnHeaderHeight;
                 luckysheetFreezen.freezenhorizontaldata = [row_pre, row_index, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_index), top];
             }
 
@@ -2498,7 +2498,7 @@ export default function luckysheetHandler() {
                         maxLeft = imageCtrl.currentWinW - myw - 22 - 36;
 
                     if(imgItem.isFixedPos){
-                        minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+                        minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
                         maxTop = minTop + Store.cellmainHeight - Store.cellMainSrollBarSize - myh;
                         minLeft = Store.rowHeaderWidth;
                         maxLeft = minLeft + Store.cellmainWidth - Store.cellMainSrollBarSize - myw;
@@ -2548,7 +2548,7 @@ export default function luckysheetHandler() {
                     let imgItem = imageCtrl.images[imageCtrl.currentImgId];
 
                     if(imgItem.isFixedPos){
-                        let minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+                        let minTop = Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
                         let minLeft = Store.rowHeaderWidth;
 
                         if(resize == 'lt'){//左上
@@ -3361,7 +3361,7 @@ export default function luckysheetHandler() {
             luckysheetFreezen.horizontalmovestate = false;
             $("#luckysheet-freezebar-horizontal").removeClass("luckysheet-freezebar-active");
             $("#luckysheet-freezebar-horizontal").find(".luckysheet-freezebar-horizontal-handle").css("cursor", "-webkit-grab");
-            if (luckysheetFreezen.freezenhorizontaldata[4] <= Store.columeHeaderHeight) {
+            if (luckysheetFreezen.freezenhorizontaldata[4] <= Store.columnHeaderHeight) {
                 luckysheetFreezen.cancelFreezenHorizontal();
             }
             luckysheetFreezen.createAssistCanvas();
@@ -5515,7 +5515,6 @@ export default function luckysheetHandler() {
     //是否允许加载下一页
     if (luckysheetConfigsetting.enablePage) {
         $("#luckysheet-bottom-page-next").click(function () {
-            // rptapp
             let queryExps = luckysheetConfigsetting.pageInfo.queryExps;
             let reportId = luckysheetConfigsetting.pageInfo.reportId;
             let fields = luckysheetConfigsetting.pageInfo.fields;

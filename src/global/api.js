@@ -470,7 +470,7 @@ export function frozenFirstRow(order) {
             row_st = 0;
         }
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -571,7 +571,7 @@ export function frozenRowRange(range, order) {
             row_st = 0;
         }
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -769,7 +769,7 @@ export function setBothFrozen(isRange, options = {}) {
             if(row_st == -1){
                 row_st = 0;
             }
-            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
             let freezenhorizontaldata = [
                 Store.visibledatarow[row_st], 
                 row_st + 1, 
@@ -837,7 +837,7 @@ export function setBothFrozen(isRange, options = {}) {
                 row_st = 0;
             }
 
-            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
             let freezenhorizontaldata = [
                 Store.visibledatarow[row_st], 
                 row_st + 1, 

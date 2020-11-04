@@ -68,12 +68,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 比例 [devicePixelRatio](#devicePixelRatio)
 - 功能按钮 [functionButton](#functionButton)
 - 自动缩进界面 [showConfigWindowResize](#showConfigWindowResize)
-- 加载下一页 [enablePage](#enablePage)
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
 - 行标题区域的宽度 [rowHeaderWidth](#rowHeaderWidth)
-- 列标题区域的高度 [columeHeaderHeight](#columeHeaderHeight)
+- 列标题区域的高度 [columnHeaderHeight](#columnHeaderHeight)
 - 是否显示公式栏 [sheetFormulaBar](#sheetFormulaBar)
 - 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
 
@@ -491,12 +490,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：图表或数据透视表的配置会在右侧弹出，设置弹出后表格是否会自动缩进
 
 ------------
-### enablePage
-- 类型：Boolean
-- 默认值：false
-- 作用：允许加载下一页
-
-------------
 ### forceCalculation
 - 类型：Boolean
 - 默认值：false
@@ -592,7 +585,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：行标题区域的宽度，如果设置为0，则表示隐藏行标题
 
 ------------
-### columeHeaderHeight
+### columnHeaderHeight
 
 - 类型：Number
 - 默认值：20

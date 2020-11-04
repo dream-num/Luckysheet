@@ -970,7 +970,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
         let scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
         let scrollLeft = luckysheetFreezen.freezenverticaldata[2];
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -996,7 +996,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
         let row_st = luckysheetFreezen.freezenhorizontaldata[1] - 1;
         let scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -1142,7 +1142,7 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
 
             //标题
@@ -1153,11 +1153,11 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth
             );
             
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columnHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
            
         }
@@ -1183,16 +1183,16 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 drawWidth, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 null, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
         
             luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, null);
             
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columnHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
             
         }
@@ -1246,7 +1246,7 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
 
         //清除canvas左上角区域 防止列标题栏序列号溢出显示
         
-        luckysheetTableContent.clearRect(0, 0, (Store.rowHeaderWidth* Store.devicePixelRatio-1) , (Store.columeHeaderHeight* Store.devicePixelRatio-1) );
+        luckysheetTableContent.clearRect(0, 0, (Store.rowHeaderWidth* Store.devicePixelRatio-1) , (Store.columnHeaderHeight* Store.devicePixelRatio-1) );
     }
 }
 
