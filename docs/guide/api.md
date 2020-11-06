@@ -541,6 +541,154 @@ Use note:
 
 ------------
 
+### setRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Object} [rowInfo]: Correspondence between number of rows and height
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the height of the specified ~~row~~
+
+- **Usage**:
+
+   - Set the height of the first row to 50px and the height of the second row to 60px
+
+		`luckysheet.setRowHeight({0：50，1：60})`
+
+------------
+
+### setColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Number} [columnInfo]: Correspondence between the number of columns and the width
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the width of the specified column
+
+- **Usage**:
+
+   - Set the width of the first column to 50px and the width of the second column to 60px
+
+		`luckysheet.setColumnWidth({0：50，1：60})`
+
+------------
+
+### getRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [rowInfo]: The number of rows
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the height of the specified row, get the object corresponding to the number of rows and height
+
+- **Usage**:
+
+   - The height of the first row is 50px, the height of the second row is 60px, get these values
+
+		`luckysheet.getRowHeight([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [columnInfo]: The number of columns
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the width of the specified column, get the object of the corresponding relationship between the number of columns and the width
+
+- **Usage**:
+
+   - The width of the first column is 50px, the width of the second column is 60px, get these values
+
+		`luckysheet.getColumnWidth([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default row height of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default row height of the current worksheet
+
+		`luckysheet.getDefaultRowHeight()`
+		Return to get
+		`19`
+
+------------
+
+### getDefaultColWidth([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+		
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default column width of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default column width of the current worksheet
+
+		`luckysheet.getDefaultColWidth()`
+		Return to get
+		`73`
+
+------------
+
 ## Selection operation
 
 ### getRange()
@@ -1675,13 +1823,12 @@ Use note:
 
 ### getAllSheets()
 
-[todo]
 
 - **Explanation**：
 
 	Return all worksheet configurations, the format is the same as the worksheet configuration, and the results obtained can be used as options.data when the form is initialized.
 
-	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, you can use [toJson](#toJson())
+	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, it is recommended to use [toJson](#toJson()), and it can be directly used to initialize Luckysheet.
 
 - **Usage**:
 
@@ -1695,6 +1842,13 @@ Use note:
 - **Explanation**：
 
 	Returns a one-dimensional array `luckysheetfile` of all table data structures. Unlike the `getAllSheets` method, the worksheet parameters obtained by this method will contain many internal variables. The most obvious difference is that the table data operation will maintain `luckysheetfile[i]. data`, and the initialization data uses `options.data[i].celldata`, so `luckysheetfile` can be used for debugging, but the initialization table is not applicable.
+
+	In addition, a `load = 1` will be added to the loaded worksheet parameters, this parameter needs to be set to 0 when initializing the data. Therefore, to initialize the workbook with the data obtained by `getLuckysheetfile()`, two tasks need to be done:
+
+    - Convert celldata to data, refer to: [transToData](/zh/guide/api.html#transtodata-celldata-setting)
+    - Load reset to 0 or delete this field
+
+	Now there is `getAllSheets` to complete this work, no need to manually convert the data.
 
 - **Usage**:
 
@@ -1774,7 +1928,7 @@ Use note:
 - **Parameter**：
 
     - {PlainObject} [setting]: optional parameters
-        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object
+        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object.Worksheet data format reference [options.data](/guide/sheet.html#initial)
         + {Number} [order]: New worksheet subscript; the default value is the last subscript
         + {Function} [success]: callback function for the end of the operation
 	
@@ -2009,6 +2163,32 @@ Use note:
 		{index:'sheet_02',order: 1},
 		{index:'sheet_03',order: 0},
 	])
+	```
+
+------------
+
+### setSheetZoom(zoom [,setting])
+
+[todo]
+
+
+- **Parameter**：
+
+    - {Number} [zoom]: Worksheet zoom ratio
+
+	- {PlainObject} [setting]: optional parameters
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set worksheet zoom ratio
+
+
+- **Usage**:
+
+	- Set the current worksheet zoom ratio to 0.5
+	```js
+	luckysheet.setSheetZoom(0.5)
 	```
 
 ------------
@@ -2295,6 +2475,63 @@ Use note:
 
 ------------
 
+## Data Verification
+
+### setDataVerification(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for data verification
+    - {PlainObject} [setting]: optional parameters
+        + {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to set the data verification function and set the parameters
+
+------------
+
+### deleteDataVerification([setting])
+
+[todo, to be confirmed whether it is reasonable]
+
+- **Parameter**：
+	
+    - {PlainObject} [setting]: optional parameters
+		+ {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to delete the data verification function
+
+------------
+
+## Worksheet Protection
+
+
+### setProtection(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for worksheet protection
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet to set the worksheet protection
+
+------------
+
 ## Public method
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
@@ -2330,8 +2567,6 @@ Use note:
 ------------
 
 ### toJson()
-
-[todo]
 
 - **Explanation**：
 	

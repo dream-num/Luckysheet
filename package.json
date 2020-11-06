@@ -1,14 +1,15 @@
 {
   "name": "luckysheet",
-  "version": "2.1.2",
+  "version": "2.1.5",
   "main": "dist/luckysheet.cjs.js",
   "module": "dist/luckysheet.esm.js",
   "browser": "dist/luckysheet.umd.js",
   "devDependencies": {
     "@babel/preset-env": "^7.10.2",
+    "@babel/runtime-corejs3": "^7.12.1",
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
-    "@rollup/plugin-babel": "^5.0.3",
+    "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.0.1",
     "browser-sync": "^2.26.7",
@@ -21,12 +22,17 @@
     "gulp-if": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^4.0.1",
-    "rollup": "^2.16.1",
+    "rollup": "^2.32.1",
     "rollup-plugin-terser": "^6.1.0",
     "standard-version": "^8.0.2",
-    "vuepress": "^1.5.0"
+    "vuepress": "^1.5.0",
+    "vuepress-plugin-baidu-autopush": "^1.0.1",
+    "vuepress-plugin-code-copy": "^1.0.6",
+    "vuepress-plugin-seo": "^0.1.4",
+    "vuepress-plugin-sitemap": "^2.3.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.12.1",
     "jspdf": "^2.1.1"
   },
   "scripts": {

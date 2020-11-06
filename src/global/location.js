@@ -59,7 +59,7 @@ function mouseposition(x, y) {
     let container_offset = $("#" + Store.container).offset();
     
     let newX = x - container_offset.left - Store.rowHeaderWidth,
-        newY = y - container_offset.top - Store.infobarHeight - Store.toolbarHeight - Store.calculatebarHeight - Store.columeHeaderHeight;
+        newY = y - container_offset.top - Store.infobarHeight - Store.toolbarHeight - Store.calculatebarHeight - Store.columnHeaderHeight;
 
     return [newX, newY];
 }

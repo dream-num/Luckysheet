@@ -9085,6 +9085,7 @@ export default {
         screenshot: '截图',
         splitColumn: '分列',
         insertImage: '插入图片',
+        insertLink: '插入链接',
         dataVerification: '数据验证',
         protection:"保护工作表内容",
 
@@ -9390,19 +9391,19 @@ export default {
         },
         {
             "name": "下午01:30",
-            "value": 'AM/PM hh:mm'
+            "value": '上午/下午 hh:mm'
         },
         {
             "name": "下午1:30",
-            "value": 'AM/PM h:mm'
+            "value": '上午/下午 h:mm'
         },
         {
             "name": "下午1:30:30",
-            "value": 'AM/PM h:mm:ss'
+            "value": '上午/下午 h:mm:ss'
         },
         {
             "name": "08-05 下午01:30",
-            "value": "MM-dd AM/PM hh:mm"
+            "value": "MM-dd 上午/下午 hh:mm"
         },
         // {
         //     "name": "1930年8月5日星期二",
@@ -9932,6 +9933,21 @@ export default {
         threeStars: '3个星形',
         fiveQuadrantDiagram: '五象限图',
         fiveBoxes: '5个框',
+    },
+    insertLink: {
+        linkText: "文本",
+        linkType: "链接类型",
+        external: "外部链接",
+        internal: "内部链接",
+        linkAddress: "链接地址",
+        linkSheet: "工作表",
+        linkCell: "单元格引用",
+        linkTooltip: "提示",
+        placeholder1: "请输入网页链接地址",
+        placeholder2: "请输入要引用的单元格，例A1",
+        placeholder3: "请输入提示内容",
+        tooltipInfo1: "请输入有效的链接",
+        tooltipInfo2: "请输入正确的单元格引用",
     },
     dataVerification: {
         cellRange: '单元格范围',

@@ -38,7 +38,7 @@ const defaultConfig = {
         infobarHeight: 0,
         calculatebarHeight: 0,
         rowHeaderWidth: 46,
-        columeHeaderHeight: 20,
+        columnHeaderHeight: 20,
         cellMainSrollBarSize: 12,
         sheetBarHeight: 31,
         statisticBarHeight: 23,
@@ -135,6 +135,7 @@ const defaultConfig = {
         measureTextCache:{},
         measureTextCellInfoCache:{},
         measureTextCacheTimeOut:null,
+        cellOverflowMapCache:{},
     
         zoomRatio:1,
     
@@ -321,7 +322,6 @@ const method = {
 
                 let dataset = d.data;
                 
-                // rptapp
                 let newData = dataset.celldata;
                 luckysheetextendData(dataset["row"], newData);
 
@@ -506,7 +506,29 @@ const method = {
         luckysheet.insertChartTosheet(c.sheetIndex, c.dataSheetIndex, c.option, c.chartType, c.selfOption, c.defaultOption, c.row, c.column, chart_selection_color, chart_id, chart_selection_id, c.chartStyle, c.rangeConfigCheck, c.rangeRowCheck, c.rangeColCheck, c.chartMarkConfig, c.chartTitleConfig, c.winWidth, c.winHeight, c.scrollLeft, c.scrollTop, chartTheme, c.myWidth, c.myHeight, c.myLeft!=null?parseFloat(c.myLeft):null, c.myTop!=null?parseFloat(c.myTop):null, c.myindexrank, true);
 
         $("#"+chart_id).find(".luckysheet-modal-controll-update").click();
+    },
+    /**
+     * 获取单元格的值
+     * @param {name} 函数名称
+     * @param {arguments} 函数参数
+     */
+    createHookFunction:function(){
+        let hookName = arguments[0];
+        if(luckysheetConfigsetting.hook && luckysheetConfigsetting.hook[hookName]!=null && (typeof luckysheetConfigsetting.hook[hookName] == "function")){
+            var args = Array.prototype.slice.apply(arguments);
+            args.shift();
+            let ret = luckysheetConfigsetting.hook[hookName].apply(this, args);
+            if(ret===false){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
+        return true;
     }
+
 }
 
 export default method;

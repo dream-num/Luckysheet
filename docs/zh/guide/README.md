@@ -10,7 +10,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 
 ## 特性
 
-### 格式设置
+### 🛠️格式设置
 + **样式** (修改字体样式，字号，颜色或者其他通用的样式)
 + **条件格式** (突出显示所关注的单元格或单元格区域；强调异常值；使用数据栏、色阶和图标集（与数据中的特定变体对应）直观地显示数据)
 + **文本对齐及旋转** 
@@ -18,8 +18,9 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 + **数据类型** 
 	+ **货币, 百分比, 数字, 日期** 
 	+ **Custom** (和excel保持一致，例如： `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
 
-### 单元格
+### 🧬单元格
 + **拖拽选取来修改单元格** (对选区进行操作，可以拖动四边来移动选区，也可以在右下角对选区进行下拉填充操作)
 + **选取下拉填充** (对于一个1,2,3,4,5的序列，将会按照间隔为1进行下拉填充，而对2,4,6,8将会以2作为间隔。支持等差数列，等比数列，日期，周，天，月，年，中文数字填充)
 + **自动填充选项** (下拉填充后，会出现填充选项的菜单，支持选择复制，序列，仅格式，只填充格式，天，月，年的选择)
@@ -27,20 +28,21 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 + **查找和替换** (对内容进行查找替换，支持正则表达式，整词，大小写敏感)
 + **定位** (可以根据单元格的数据类型进行自动定位并选中，选中后可以批量进行格式等操作)
 + **合并单元格**
++ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
 
-### 行和列操作
+### 🖱️行和列操作
 + **隐藏，插入，删除行或列** 
 + **冻结行或列** (支持冻结首行和首列，冻结到选区，冻结调节杆可以进行拖动操作)
 + **文本分列** (可以把文本根据不同符号进行拆分，和excel的分列功能类似)
 
-### 操作体验
+### 🔨操作体验
 + **撤销/重做**
-+ **复制/粘贴/剪切操作** (支持luckysheet到excel和excel到luckysheet带格式的互相拷贝)
++ **复制/粘贴/剪切操作** (支持Luckysheet到excel和excel到Luckysheet带格式的互相拷贝)
 + **快捷键支持** (快捷键操作保持与excel一致，如果有不同或者缺失请反馈给我们)
 + **格式刷** (与google sheet类似)
 + **任意选区拖拽** (选择单元格，输入公式，插入图表，会与选区相关，可以通过任意拖动和放大缩小选区来改变与之关联的参数)
 
-### 公式和函数
+### ⚙️公式和函数
 + **内置公式**
 	+ 数学 (SUMIFS, AVERAGEIFS, SUMIF, SUM, etc.)
 	+ 文本 (CONCATENATE, REGEXMATCH, MID)
@@ -53,39 +55,41 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 + **远程公式** (DM_TEXT_TFIDF, DM_TEXT_TEXTRANK,DATA_CN_STOCK_CLOSE etc. Need remote interface, can realize complex calculation)
 + **自定义公式**  (根据身份证识别年龄，性别，生日，省份，城市等. AGE_BY_IDCARD, SEX_BY_IDCARD, BIRTHDAY_BY_IDCARD, PROVINCE_BY_IDCARD, CITY_BY_IDCARD, etc. 可以任意加入自己的公式哦)
 
-### 表格操作
+### 📐表格操作
 + **筛选** (支持颜色、数字、字符、日期的筛选)
 + **排序** (同时加入多个字段进行排序)
 
-### 数据透视表
+### 📈数据透视表
 + **字段拖拽** (操作方式与excel类似，拖动字段到行、列、数值、筛选等4个区域)
 + **聚合方式**  (支持汇总、计数、去重计数、平均、最大、最小、中位数、协方差、标准差、方差等计算)
 + **筛选数据** (可对字段进行筛选后再进行汇总)
 + **数据透视表下钻** (双击数据透视表中的数据，可以下钻查看到明细，操作方式与excel一致)
 + **根据数据透视表新建图表** (数据透视表产生的数据也可以进行图表的制作)
 
-### 图表
+### 📊图表
 + **支持的图表类型** (目前折线图、柱状图、面积图、条形图、饼图可以使用，散点图、雷达图、仪表盘、漏斗图正在接入，其他图表正在陆续开发中，请大家给予建议) 
 + **关于图表插件**  (图表使用了一个中间插件[ChartMix](https://github.com/mengshukeji/chartMix)(MIT协议): 目前支持ECharts，正在逐步接入Highcharts、阿里G2、amCharts、googleChart、chart.js)
 + **Sparklines小图** (以公式的形式进行设置和展示，目前支持：折线图、面积图、柱状图、累积图、条形图、离散图、三态图、饼图、箱线图等)
 
-### 分享及写作
+### ✍️分享及写作
 + **评论** (评论的删除、添加、修改、隐藏)
 + **共享编辑** (支持多用户共享编辑，内置API)
 
-### LuckySheet专有
+### 📚插入对象
++ **插入图片** (支持JPG,PNG,SVG的插入、修改和删除，并且随表格的变动而产生变化)
+
+### ⚡Luckysheet专有
 + **矩阵计算** (通过右键菜单进行支持：对选区内的数据进行转置、旋转、数值计算)
 + **截图** (把选区的内容进行截图展示)
 + **复制到其他格式** (右键菜单的"复制为", 支持复制为json、array、对角线数据、去重等)
-+ **EXCEL,CSV,TXT 导入及导出** (专为luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
-+ **插入图片和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
-+ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
-+ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
++ **EXCEL导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出，导出正在开发)
 
-### 未来开发计划
+### ⏱️未来开发计划
 + **打印及设置** (像excel一样进行打印设置，并导出为图片或者PDF)
 + **树形菜单** (类似excel中的分级显示（分组）)
 + **表格新功能** (类似excel中表格的筛选器和切片器)
++ **CSV,TXT导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
++ **插入svg形状** (支持[Pen tool](https://github.com/mengshukeji/Pentool)的插入、修改和删除，并且随表格的变动而产生变化)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
 
@@ -137,6 +141,7 @@ npm run build
 <link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='./plugins/plugins.css' />
 <link rel='stylesheet' href='./css/luckysheet.css' />
+<link rel='stylesheet' href='./assets/iconfont/iconfont.css' />
 <script src="./plugins/js/plugin.js"></script>
 <script src="./luckysheet.umd.js"></script>
 ```
@@ -240,3 +245,27 @@ luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 |  ENTER | 编辑单元格 |
 |  TAB | 向右移动单元格选框 |
 |  DELETE | 清除单元格数据 |
+
+## 指引
+
+如果您使用Luckysheet遇到了问题，按以下步骤来寻找答案
+
+1. 使用多吉或者Google搜索常见技术问题
+2. Luckysheet相关的问题优先查看[Luckysheet官方文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)（注意标注TODO的功能暂未实现）
+3. 搜索[常见问题列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/FAQ.html)
+4. 搜索[官方论坛](https://support.qq.com/product/288322)，看看有没有人已经遇到过
+5. 尝试自己检查或试验以找到答案
+6. 请尝试阅读源代码以找到答案，
+
+如果以上方法都没有解决您的问题，可以考虑：
+
+- 去[官方论坛](https://support.qq.com/product/288322)提问
+- 去Luckysheet官方微信群或者QQ群提问
+- 发现有明显问题的或者需求无法满足的，直接提交[issues](https://github.com/mengshukeji/Luckysheet/issues)
+
+> 推荐阅读 [提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md)
+
+同时，我们强烈推荐您帮助我们丰富Luckysheet社区
+
+- 如果您发现文档或者代码有问题，您可以通过提交PR来贡献。所有合理的改动、优化、修正，或者文档的修正、更新相关的提交都会被接受
+- 当您有了一部分使用或者二次开发Luckysheet的经验，我们鼓励您通过博文分享出来

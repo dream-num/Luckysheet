@@ -28,7 +28,6 @@ Luckysheet has opened more detailed custom configuration options, which are as f
 - Customize the toolbar ([showtoolbarConfig](#showtoolbarConfig))
 - Customize the bottom sheet bar ([showsheetbarConfig](#showsheetbarConfig))
 - Customize the counting bar ([showstatisticBarConfig](#showstatisticBarConfig))
-- Custom add row and back to the top ([sheetBottomConfig](#sheetBottomConfig))
 - Custom cell right-click menu ([cellRightClickConfig](#cellRightClickConfig))
 - Customize the right-click menu of the bottom sheet bar ([sheetRightClickConfig](#sheetRightClickConfig))
 
@@ -59,22 +58,20 @@ The following are all supported setting parameters
 - Customize the bottom sheet bar [showsheetbarConfig](#showsheetbarConfig)
 - The bottom count bar [showstatisticBar](#showstatisticBar)
 - Custom Count Bar [showstatisticBarConfig](#showstatisticBarConfig)
-- Custom add row and back to top [sheetBottomConfig](#sheetBottomConfig)
 - Allow editing [allowEdit](#allowEdit)
 - Allow adding rows [enableAddRow](#enableAddRow)
-- Allow adding columns [enableAddCol](#enableAddCol)
+- Allow back to top [enableAddBackTop](#enableAddBackTop)
 - User Info [userInfo](#userInfo)
 - User Information Menu [userMenuItem](#userMenuItem)
 - Back button link [myFolderUrl](#myFolderUrl)
 - Ratio [devicePixelRatio](#devicePixelRatio)
 - Function Button [functionButton](#functionButton)
 - Auto-indent interface [showConfigWindowResize](#showConfigWindowResize)
-- Load the next page [enablePage](#enablePage)
 - Refresh formula [forceCalculation](#forceCalculation)
 - Custom cell right-click menu [cellRightClickConfig](#cellRightClickConfig)
 - Customize the right-click menu of the bottom sheet bar [sheetRightClickConfig](#sheetRightClickConfig)
-- Whether to show the row number area [showRowBar](#showRowBar)
-- Whether to show the column number area [showColumnBar](#showColumnBar)
+- The width of the row header area [rowHeaderWidth](#rowHeaderWidth)
+- The height of the column header area [columnHeaderHeight](#columnHeaderHeight)
 - Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
 - Initialize the default font size [defaultFontSize](#defaultFontSize)
 
@@ -186,11 +183,9 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showtoolbarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Custom configuration toolbar
+- Usage: Custom configuration toolbar,can be used in conjunction with `showtoolbar`, `showtoolbarConfig` has a higher priority.
 - Format:
     ```json
     {
@@ -214,19 +209,48 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         verticalAlignMode: false, //'Vertical alignment'
         textWrapMode: false, //'Wrap mode'
         textRotateMode: false, //'Text Rotation Mode'
-        frozenMode: false, //'freeze mode'
-        sort: false, //'sort'
-        filter: false, //'filter'
-        findAndReplace: false, //'Find and Replace'
-        function: false, //'formula'
-        conditionalFormat: false, //'Conditional Format'
-        postil: false, //'comment'
-        pivotTable: false, //'PivotTable'
-        chart: false, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-        screenshot: false, //'screenshot'
-        splitColumn: false, //'Split column'     
+		image:false, // 'Insert picture'
+		link:false, // 'Insert link'
+		chart: false, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
+		postil: false, //'comment'
+		pivotTable: false, //'PivotTable'
+		function: false, //'formula'
+		frozenMode: false, //'freeze mode'
+		sortAndFilter: false, //'Sort and filter'
+		conditionalFormat: false, //'Conditional Format'
+		dataVerification: false, // 'Data Verification'
+		splitColumn: false, //'Split column'
+		screenshot: false, //'screenshot'
+		findAndReplace: false, //'Find and Replace'
+		protection:false, // 'Worksheet protection'
+		print:false, // 'Print'
     }
     ```
+- Example:
+	- Show only the `undo/redo` and `font` buttons:
+		
+		```js
+			//options
+			{
+				showtoolbar: false,
+				showtoolbarConfig:{
+					undoRedo: true,
+					font: true,
+				}
+			}
+		```
+	- Hide only the `image` and `print` buttons:
+		
+		```js
+			//options
+			{
+				showtoolbar: true, // The default is true, you can leave it unset
+				showtoolbarConfig:{
+					image: false,
+					print: false,
+				}
+			}
+		```
 
 ------------
 ### showinfobar
@@ -243,11 +267,9 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showsheetbarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Custom configuration bottom sheet button
+- Usage: Custom configuration bottom sheet button, can be used in conjunction with `showsheetbar`, `showsheetbarConfig` has a higher priority.
 - Format: 
     ```json
     {
@@ -256,6 +278,30 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         sheet: false //Worksheet display
     }
     ```
+- Example:
+	- Only display the `Add worksheet` button:
+		
+		```js
+			//options
+			{
+				showsheetbar: false,
+				showsheetbarConfig:{
+					add: true,
+				}
+			}
+		```
+	- Only hide the `Add worksheet` and `Worksheet management menu` buttons:
+		
+		```js
+			//options
+			{
+				showsheetbar: true, // The default is true, you can leave it unset
+				showsheetbarConfig:{
+					add: false,
+					menu: false,
+				}
+			}
+		```
 
 ------------
 ### showstatisticBar
@@ -266,33 +312,40 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### showstatisticBarConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
-- Usage: Customize the bottom count bar
+- Usage: Customize the bottom count bar, can be used in conjunction with `showstatisticBar`, `showstatisticBarConfig` has a higher priority.
 - Format: 
     ```json
     {
-        count: false, // Count bar
+		count: false, // Count bar
+		view: false, // Print view
         zoom: false // Zoom
     }
-
-------------
-### sheetBottomConfig
-
-[todo]
-
-- Type: Object
-- Default: {}
-- Usage: Add row button and back to top button configuration below the worksheet
-- Format: 
-    ```json
-    {
-        addRow: false, // Add row button
-        backTop: false // Back to the top
-    }
-
+	```
+- Example:
+	- Only display the `Zoom` button:
+		
+		```js
+			//options
+			{
+				showstatisticBar: false,
+				showstatisticBarConfig:{
+					zoom: true,
+				}
+			}
+		```
+	- Only hide the `print view` button:
+		
+		```js
+			//options
+			{
+				showstatisticBar: true, // The default is true, you can leave it unset
+				showstatisticBarConfig:{
+					view: false,
+				}
+			}
+		```	
 ------------
 ### allowEdit
 - Type: Boolean
@@ -306,10 +359,10 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: Allow additional rows
 
 ------------
-### enableAddCol
+### enableAddBackTop
 - Type: Boolean
 - Default: true
-- Usage: Allow adding columns
+- Usage: Allow back to top
 
 ------------
 ### userInfo
@@ -348,12 +401,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: The configuration of the chart or pivot table will pop up on the right, set whether the workbook will be automatically indented after popping up
 
 ------------
-### enablePage
-- Type: Boolean
-- Default: false
-- Usage: Allow to load next page
-
-------------
 ### forceCalculation
 - Type: Boolean
 - Default: false
@@ -368,32 +415,64 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### cellRightClickConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
 - Usage: Custom configuration cell right-click menu
-- Format: 
-    ```json
+- Format: 	
+	```json
     {
-        copy: false, //Copy
-        copyAs: false, //Copy as
-        paste: false, //Paste
-        insert: false, //Insert
-        delete: false, //Delete
-        hide: false, //Hide
-        deleteCell: false, //Delete cell
-        clear: false, //Clear content
-        matrix: false, //Matrix operation selection
-        sort: false, //Sort selection
-        filter: false, //Filter selection
-        chart: false //Chart generation
-    }
+		copy: false, // copy
+		copyAs: false, // copy as
+		paste: false, // paste
+		insertRow: false, // insert row
+		insertColumn: false, // insert column
+		deleteRow: false, // delete the selected row
+		deleteColumn: false, // delete the selected column
+		deleteCell: false, // delete cell
+		hideRow: false, // hide the selected row and display the selected row
+		hideColumn: false, // hide the selected column and display the selected column
+		rowHeight: false, // row height
+		columnWidth: false, // column width
+		clear: false, // clear content
+		matrix: false, // matrix operation selection
+		sort: false, // sort selection
+		filter: false, // filter selection
+		chart: false, // chart generation
+		image: false, // insert picture
+		link: false, // insert link
+		data: false, // data verification
+		cellFormat: false // Set cell format
+	}
+	```
+	
+	In addition to the cells, the configuration here also includes the row header right-click menu, the column header right-click menu, and the column header drop-down arrow menu. The specific configuration relationships are as follows:
+	
+	|Right-click menu configuration|Cell|Row header|Column header|Column arrow|
+	| ------------ | ------------ | ------------ | ----------- | ------------ |
+	|copy|copy|copy|copy|copy|
+	|copyAs|copy as|copy as|copy as|copy as|
+	|paste|paste|paste|paste|paste|
+	|insertRow|Insert a row|Increase N rows upwards and N rows downwards|-|-|
+	|insertColumn|Insert Column|-|Add N columns to the left and N columns to the right|Add N columns to the left and N columns to the right|
+	|deleteRow|Delete selected row|Delete selected row|-|-|
+	|deleteColumn|Delete selected column|-|Delete selected column|Delete selected column|
+	|deleteCell|Delete cell|-|-|-|
+	|hideRow|-|Hide the selected row and show the selected row|-|-|
+	|hideColumn|-|-|Hide the selected column and show the selected column|Hide the selected column and show the selected column|
+	|rowHeight|-|row height|-|-|
+	|columnWidth|-|-|Column Width|Column Width|
+	|clear|clear content|clear content|clear content|-|
+	|matrix|Matrix Operation Selection|Matrix Operation Selection|Matrix Operation Selection|-|
+	|sort|Sort selection|Sort selection|Sort selection|A-Z sort and Z-A sort|
+	|filter|Filter selection|Filter selection|Filter selection|-|
+	|chart|chart generation|chart generation|chart generation|-|
+	|image|Insert Picture|Insert Picture|Insert Picture|-|
+	|link|Insert link|Insert link|Insert link|-|
+	|data|Data Verification|Data Verification|Data Verification|-|
+	|cellFormat|Set cell format|Set cell format|Set cell format|-|
 
 ------------
 ### sheetRightClickConfig
-
-[todo]
 
 - Type: Object
 - Default: {}
@@ -405,23 +484,21 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         copy: false, //Copy
         rename: false, //Rename
         color: false, //Change color
-        hide: false, //Hide
-        show: false, //Unhide
-        left: false, //Move to the left
-        right: false //Move to the right
+        hide: false, //Hide, unhide
+        move: false, //Move to the left, move to the right
     }
 
 ------------
-### showRowBar
-- Type: Boolean
-- Default: true
-- Usage: Whether to show the row number area
+### rowHeaderWidth
+- Type: Number
+- Default: 46
+- Usage: The width of the row header area, if set to 0, it means to hide the row header
 
 ------------
-### showColumnBar
-- Type: Boolean
-- Default: true
-- Usage: Whether to show the column number area
+### columnHeaderHeight
+- Type: Number
+- Default: 20
+- Usage: The height of the column header area, if set to 0, it means hide the column header
 
 ------------
 ### sheetFormulaBar
@@ -484,12 +561,6 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Number} [c]: Column number of cell
 	- {Object} [oldV]: Cell object before Modified
 	- {Object} [newV]: Cell object after Modified
-
-------------
-### fireMousedown
-- Type: Function
-- Default: null
-- Usage: Customized method of drilling down cell data
 
 ------------
 
@@ -744,6 +815,25 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {String} [newColor]: After modification, the current worksheet color
 
 ------------
+### sheetZoomBefore
+- Type: Function
+- Default: null
+- Usage: Before worksheet zoom
+- Parameter: 
+	- {Number} [i]: `index` of current worksheet
+	- {String} [zoom]: Current worksheet zoom ratio
+
+------------
+### sheetZoomAfter
+- Type: Function
+- Default: null
+- Usage: After worksheet zoom
+- Parameter: 
+	- {Number} [i]: `index` of current worksheet
+	- {String} [oldZoom]: Before modification, the current worksheet zoom ratio
+	- {String} [newZoom]: After modification, the current worksheet zoom ratio
+
+------------
 
 ## Workbook
 
@@ -953,4 +1043,13 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Parameter: 
 	- {Object} [frozen]: Freeze type information
     
+------------
+
+#### Legacy Hook Function
+
+### fireMousedown
+- Type: Function
+- Default: null
+- Usage: Customized method of drilling down cell data, note that this hook function is mounted under options: `options.fireMousedown`
+
 ------------

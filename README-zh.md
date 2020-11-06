@@ -2,6 +2,7 @@
 
 ![logo](/docs/.vuepress/public/img/logo_text.png)
 
+
 </div>
 
 简体中文 | [English](./README.md)
@@ -9,11 +10,13 @@
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
+> Luckysheet最近参加了“2020年度OSC中国开源项目评选”，为了支持Luckysheet更好的得到关注和发展，请大家帮忙投票: [https://www.oschina.net/p/luckysheet](https://www.oschina.net/p/luckysheet)。
+
 ## 相关链接
- | 源码   | 文档 | Demo | 插件Demo |
- | ------ | -------- | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) |
- | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) |
+ | 源码   | 文档 | Demo | 插件Demo | 论坛 |
+ | ------ | -------- | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
+ | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
@@ -32,6 +35,7 @@
 + **数据类型** 
 	+ **货币, 百分比, 数字, 日期** 
 	+ **Custom** (和excel保持一致，例如： `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
 
 ### 🧬单元格
 + **拖拽选取来修改单元格** (对选区进行操作，可以拖动四边来移动选区，也可以在右下角对选区进行下拉填充操作)
@@ -41,6 +45,7 @@
 + **查找和替换** (对内容进行查找替换，支持正则表达式，整词，大小写敏感)
 + **定位** (可以根据单元格的数据类型进行自动定位并选中，选中后可以批量进行格式等操作)
 + **合并单元格**
++ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
 
 ### 🖱️行和列操作
 + **隐藏，插入，删除行或列** 
@@ -87,19 +92,21 @@
 + **评论** (评论的删除、添加、修改、隐藏)
 + **共享编辑** (支持多用户共享编辑，内置API)
 
+### 📚插入对象
++ **插入图片** (支持JPG,PNG,SVG的插入、修改和删除，并且随表格的变动而产生变化)
+
 ### ⚡Luckysheet专有
 + **矩阵计算** (通过右键菜单进行支持：对选区内的数据进行转置、旋转、数值计算)
 + **截图** (把选区的内容进行截图展示)
 + **复制到其他格式** (右键菜单的"复制为", 支持复制为json、array、对角线数据、去重等)
-+ **EXCEL,CSV,TXT 导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
-+ **插入图片和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
-+ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
-+ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
++ **EXCEL导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出，导出正在开发)
 
 ### ⏱️未来开发计划
 + **打印及设置** (像excel一样进行打印设置，并导出为图片或者PDF)
 + **树形菜单** (类似excel中的分级显示（分组）)
 + **表格新功能** (类似excel中表格的筛选器和切片器)
++ **CSV,TXT导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
++ **插入svg形状** (支持[Pen tool](https://github.com/mengshukeji/Pentool)的插入、修改和删除，并且随表格的变动而产生变化)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
 
@@ -158,6 +165,7 @@ npm run build
 
 - [鲁班h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
+- [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
 ## 加入共建
 
@@ -187,6 +195,31 @@ npm run build
 
 [英文社群](./README.md)
 
+## 赞助
+
+如果你感觉这个项目对你有用或者有所启发，可以请作者喝杯果汁：
+
+注意事项：
+1. 付款留言请备注：昵称，您的网站地址
+2. 默认会将您加入到下方的赞助者列表。如果您想匿名赞助，付款留言请备注：匿名
+3. 如果您忘记留言昵称或者网站地址，请联系小编email: alexads@foxmail.com或者微信：dushusir2。
+
+|  微信  | 支付宝 |
+|---|---|
+| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+
+### [Paypal Me](https://www.paypal.me/wbfsa)
+
+## 赞助者列表
+（按时间顺序排列）
+- *勇 ¥ 30
+- 虚我 ¥ 200
+- 甜党 ¥ 50
+- Alphabet(Google)-gcf ¥ 1
+- **平 ¥ 100
+- **东 ¥ 10
+- debugger ¥ 20
+
 ## 贡献者和感谢
 
 ### 团队成员
@@ -200,18 +233,9 @@ npm run build
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
+- [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
-
-## 捐赠
-
-如果你感觉这个项目对你有用或者有所启发，可以请作者喝杯果汁：
-
-|  微信  | 支付宝 |
-|---|---|
-| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
-
-[Paypal Me](https://www.paypal.me/wbfsa)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

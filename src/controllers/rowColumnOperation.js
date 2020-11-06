@@ -10,6 +10,7 @@ import {
     showrightclickmenu,
     luckysheetContainerFocus, 
     luckysheetfontformat,
+    $$
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { 
@@ -37,6 +38,7 @@ import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import {isInlineStringCell} from './inlineString';
 import {checkProtectionLockedRangeList, checkProtectionAllSelected,checkProtectionAuthorityNormal  } from './protection';
 import Store from '../store';
+import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 export function rowColumnOperationInitial(){
 
@@ -394,6 +396,43 @@ export function rowColumnOperationInitial(){
             $("#luckysheet-cols-rows-shift").hide();
             $("#luckysheet-cols-rows-handleincell").hide();
 
+            $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'block';
+            $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'block';
+
+            // 自定义右键菜单：向上向下增加行，删除行，隐藏显示行，设置行高
+            const cellRightClickConfig = luckysheetConfigsetting.cellRightClickConfig;
+
+            // 如果全部按钮都隐藏，则整个菜单容器也要隐藏
+            if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste && !cellRightClickConfig.insertRow && !cellRightClickConfig.deleteRow && !cellRightClickConfig.hideRow && !cellRightClickConfig.rowHeight && !cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
+                return;
+            }
+
+            $$('#luckysheet-top-left-add-selected').style.display = cellRightClickConfig.insertRow ? 'block' : 'none';
+            $$('#luckysheet-bottom-right-add-selected').style.display = cellRightClickConfig.insertRow ? 'block' : 'none';
+            $$('#luckysheet-del-selected').style.display = cellRightClickConfig.deleteRow ? 'block' : 'none';
+            $$('#luckysheet-hide-selected').style.display = cellRightClickConfig.hideRow ? 'block' : 'none';
+            $$('#luckysheet-show-selected').style.display = cellRightClickConfig.hideRow ? 'block' : 'none';
+            $$('#luckysheet-column-row-width-selected').style.display = cellRightClickConfig.rowHeight ? 'block' : 'none';
+
+            // 1. 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
+            if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste){
+                $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+
+                if(!cellRightClickConfig.insertRow && !cellRightClickConfig.deleteRow && !cellRightClickConfig.hideRow && !cellRightClickConfig.rowHeight){
+                    $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'none';
+                }
+
+            }
+
+            // 2. 当一个功能菜单块内所有的按钮都隐藏的时候，它顶部的分割线也需要隐藏掉
+            if(!cellRightClickConfig.insertRow && !cellRightClickConfig.deleteRow && !cellRightClickConfig.hideRow && !cellRightClickConfig.rowHeight){
+                $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+            }
+
+            if(!cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
+                $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'none';
+            }
+            
             showrightclickmenu($("#luckysheet-rightclick-menu"), $(this).offset().left + 46, event.pageY);
             Store.luckysheet_cols_menu_status = true;
 
@@ -790,6 +829,43 @@ export function rowColumnOperationInitial(){
             $("#luckysheet-cols-rows-shift").hide();
             $("#luckysheet-cols-rows-handleincell").hide();
 
+            $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'block';
+            $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'block';
+
+            // 自定义右键菜单：向左向右增加列，删除列，隐藏显示列，设置列宽
+            const cellRightClickConfig = luckysheetConfigsetting.cellRightClickConfig;
+
+            // 如果全部按钮都隐藏，则整个菜单容器也要隐藏
+            if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste && !cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth && !cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
+                return;
+            }
+
+            $$('#luckysheet-top-left-add-selected').style.display = cellRightClickConfig.insertColumn ? 'block' : 'none';
+            $$('#luckysheet-bottom-right-add-selected').style.display = cellRightClickConfig.insertColumn ? 'block' : 'none';
+            $$('#luckysheet-del-selected').style.display = cellRightClickConfig.deleteColumn ? 'block' : 'none';
+            $$('#luckysheet-hide-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
+            $$('#luckysheet-show-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
+            $$('#luckysheet-column-row-width-selected').style.display = cellRightClickConfig.columnWidth ? 'block' : 'none';
+
+            // 1. 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
+            if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste){
+                $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+
+                if(!cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth){
+                    $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'none';
+                }
+
+            }
+
+            // 2. 当一个功能菜单块内所有的按钮都隐藏的时候，它顶部的分割线也需要隐藏掉
+            if(!cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth){
+                $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+            }
+
+            if(!cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
+                $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'none';
+            }
+            
             showrightclickmenu($("#luckysheet-rightclick-menu"), event.pageX, $(this).offset().top + 18);
             Store.luckysheet_cols_menu_status = true;
 
@@ -917,6 +993,7 @@ export function rowColumnOperationInitial(){
         luckysheetcolsdbclick();
     });
 
+    // 列标题的下拉箭头
     $("#luckysheet-cols-menu-btn").click(function (event) {
         let $menu = $("#luckysheet-rightclick-menu");
         let offset = $(this).offset();
@@ -930,6 +1007,43 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-cols-rows-data").hide();
         $("#luckysheet-cols-rows-shift").show();
         $("#luckysheet-cols-rows-handleincell").hide();
+
+        $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'block';
+        $$('#luckysheet-cols-rows-shift .luckysheet-menuseparator').style.display = 'block';
+
+        // 自定义右键菜单：向左向右增加列，删除列，隐藏显示列，设置列宽
+        const cellRightClickConfig = luckysheetConfigsetting.cellRightClickConfig;
+
+        // 如果全部按钮都隐藏，则整个菜单容器也要隐藏
+        if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste && !cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth && !cellRightClickConfig.sort){
+            return;
+        }
+
+        $$('#luckysheet-top-left-add-selected').style.display = cellRightClickConfig.insertColumn ? 'block' : 'none';
+        $$('#luckysheet-bottom-right-add-selected').style.display = cellRightClickConfig.insertColumn ? 'block' : 'none';
+        $$('#luckysheet-del-selected').style.display = cellRightClickConfig.deleteColumn ? 'block' : 'none';
+        $$('#luckysheet-hide-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
+        $$('#luckysheet-show-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
+        $$('#luckysheet-column-row-width-selected').style.display = cellRightClickConfig.columnWidth ? 'block' : 'none';
+
+        // 1. 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
+        if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste){
+            $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+
+            if(!cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth){
+                $$('#luckysheet-cols-rows-shift .luckysheet-menuseparator').style.display = 'none';
+            }
+
+        }
+
+        // 2. 当一个功能菜单块内所有的按钮都隐藏的时候，它顶部的分割线也需要隐藏掉
+        if(!cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.hideColumn && !cellRightClickConfig.columnWidth){
+            $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'none';
+        }
+
+        if(!cellRightClickConfig.sort){
+            $$('#luckysheet-cols-rows-shift .luckysheet-menuseparator').style.display = 'none';
+        }
 
         showrightclickmenu($menu, offset.left, offset.top + 18);
         Store.luckysheet_cols_menu_status = true;
@@ -992,62 +1106,90 @@ export function rowColumnOperationInitial(){
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
 
-    // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
-    // $("#luckysheet-addTopRows").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
-
+    // When you right-click a cell, a row is inserted before the row by default
+    $("#luckysheetColsRowsHandleAdd_row").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
-        
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
-
-            return;
-        }
-
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, "");
-            }
-
-            return;
-        }
-
-        value = parseInt(value);
-
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, ""); 
-            }
+        if(Store.allowEdit===false){
             return;
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
-        luckysheetextendtable('row', st_index, value, "lefttop");
+        luckysheetextendtable('row', st_index, 1, "lefttop");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+
     })
+    $("#luckysheetColsRowsHandleAdd_column").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        if(Store.allowEdit===false){
+            return;
+        }
+
+        let st_index = Store.luckysheet_select_save[0].column[0];
+        luckysheetextendtable('column', st_index, 1, "lefttop");
+
+
+    })
+    // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
+    // $("#luckysheet-addTopRows").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
+
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
+
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
+
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
+        
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
+
+    //         return;
+    //     }
+
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, "");
+    //         }
+
+    //         return;
+    //     }
+
+    //     value = parseInt(value);
+
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, ""); 
+    //         }
+    //         return;
+    //     }
+
+    //     let st_index = Store.luckysheet_select_save[0].row[0];
+    //     luckysheetextendtable('row', st_index, value, "lefttop");
+
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
+    // })
 
     // // input输入时阻止冒泡，禁止父级元素的确认事件触发
     // $("input.luckysheet-mousedown-cancel").click(function(event) {
@@ -1056,61 +1198,61 @@ export function rowColumnOperationInitial(){
 
 
     // $("#luckysheet-addLeftCols").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(3)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(3)").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
 
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
         
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, "");
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, ""); 
-            }
-            return;
-        }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, ""); 
+    //         }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].column[0];
-        luckysheetextendtable('column', st_index, value, "lefttop");
+    //     let st_index = Store.luckysheet_select_save[0].column[0];
+    //     luckysheetextendtable('column', st_index, value, "lefttop");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
         
-    })
+    // })
 
     //向右增加列，向下增加行
     // $("#luckysheet-add-rightbottom, #luckysheet-add-rightbottom_t").click(function (event) {
@@ -1169,118 +1311,118 @@ export function rowColumnOperationInitial(){
     });
 
     // $("#luckysheet-addBottomRows").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(2)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(2)").click(function (event) {
 
-         // Click input element, don't comfirm 
-         if(event.target.nodeName === 'INPUT'){
-            return;
-        }
+    //      // Click input element, don't comfirm 
+    //      if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
 
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
 
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, ""); 
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, ""); 
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, "");
-            }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].row[1];
-        luckysheetextendtable('row', st_index, value, "rightbottom");
+    //     let st_index = Store.luckysheet_select_save[0].row[1];
+    //     luckysheetextendtable('row', st_index, value, "rightbottom");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
 
-    });
+    // });
     // $("#luckysheet-addRightCols").click(function (event) {
-    $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(4)").click(function (event) {
+    // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:nth-child(4)").click(function (event) {
 
-        // Click input element, don't comfirm 
-        if(event.target.nodeName === 'INPUT'){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     // Click input element, don't comfirm 
+    //     if(event.target.nodeName === 'INPUT'){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        const _locale = locale();
-        const locale_drag = _locale.drag;
-        const locale_info = _locale.info;
+    //     const _locale = locale();
+    //     const locale_drag = _locale.drag;
+    //     const locale_info = _locale.info;
 
-        if(Store.luckysheet_select_save.length > 1){
-            if(isEditMode()){
-                alert(locale_drag.noMulti);
-            }
-            else{
-                tooltip.info(locale_drag.noMulti, "");
-            }
+    //     if(Store.luckysheet_select_save.length > 1){
+    //         if(isEditMode()){
+    //             alert(locale_drag.noMulti);
+    //         }
+    //         else{
+    //             tooltip.info(locale_drag.noMulti, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let $t = $(this), value = $t.find("input").val();
-        if (!isRealNum(value)) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumber);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumber, ""); 
-            }
+    //     let $t = $(this), value = $t.find("input").val();
+    //     if (!isRealNum(value)) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumber);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumber, ""); 
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        value = parseInt(value);
+    //     value = parseInt(value);
 
-        if (value < 1 || value > 100) {
-            if(isEditMode()){
-                alert(locale_info.tipInputNumberLimit);
-            }
-            else{
-                tooltip.info(locale_info.tipInputNumberLimit, "");
-            }
+    //     if (value < 1 || value > 100) {
+    //         if(isEditMode()){
+    //             alert(locale_info.tipInputNumberLimit);
+    //         }
+    //         else{
+    //             tooltip.info(locale_info.tipInputNumberLimit, "");
+    //         }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        let st_index = Store.luckysheet_select_save[0].column[1];
-        luckysheetextendtable('column', st_index, value, "rightbottom");
+    //     let st_index = Store.luckysheet_select_save[0].column[1];
+    //     luckysheetextendtable('column', st_index, value, "rightbottom");
 
-        $("#luckysheetColsRowsHandleAdd_sub").hide();
+    //     $("#luckysheetColsRowsHandleAdd_sub").hide();
 
-    });
+    // });
     
     //删除选中行列
     $("#luckysheet-del-selected, #luckysheet-del-selected_t").click(function (event) {
@@ -1374,178 +1516,406 @@ export function rowColumnOperationInitial(){
         luckysheetdeletetable('column', st_index, ed_index);
     })
 
+    //隐藏选中行列
+    $("#luckysheet-hide-selected").click(function (event) {
+
+       
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        const locale_drag = locale().drag;
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, "");
+                }
+            }
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, ""); 
+                }
+            }
+            return;
+        }
+
+        // 隐藏行
+        if(Store.luckysheetRightHeadClickIs == "row"){
+            
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+                return;
+            }
+            
+            let cfg = $.extend(true, {}, Store.config);
+            if(cfg["rowhidden"] == null){
+                cfg["rowhidden"] = {};
+            }
+
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let r1 = Store.luckysheet_select_save[s].row[0],
+                    r2 = Store.luckysheet_select_save[s].row[1];
+
+                for(let r = r1; r <= r2; r++){
+                    cfg["rowhidden"][r] = 0;
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidRows";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+
+        }
+        // 隐藏列
+        else if(Store.luckysheetRightHeadClickIs == "column"){
+
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+                return;
+            }
+            
+            let cfg = $.extend(true, {}, Store.config);
+            if(cfg["colhidden"] == null){
+                cfg["colhidden"] = {};
+            }
+
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let c1 = Store.luckysheet_select_save[s].column[0],
+                    c2 = Store.luckysheet_select_save[s].column[1];
+
+                for(let c = c1; c <= c2; c++){
+                    cfg["colhidden"][c] = 0;
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidCols";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
+        
+    });
+
+     //取消隐藏选中行列
+     $("#luckysheet-show-selected").click(function (event) {
+
+        $("#luckysheet-rightclick-menu").hide();
+        luckysheetContainerFocus();
+
+        const locale_drag = locale().drag;
+
+        if(Store.luckysheet_select_save.length > 1){
+            if(Store.luckysheetRightHeadClickIs == "row"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, "");
+                }
+            }
+            else if(Store.luckysheetRightHeadClickIs == "column"){
+                if(isEditMode()){
+                    alert(locale_drag.noMulti);
+                }
+                else{
+                    tooltip.info(locale_drag.noMulti, ""); 
+                }
+            }
+            return;
+        }
+
+        // 取消隐藏行
+        if(Store.luckysheetRightHeadClickIs == "row"){
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+                return;
+            }
+    
+            let cfg = $.extend(true, {}, Store.config);
+            if(cfg["rowhidden"] == null){
+                return;
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let r1 = Store.luckysheet_select_save[s].row[0],
+                    r2 = Store.luckysheet_select_save[s].row[1];
+    
+                for(let r = r1; r <= r2; r++){
+                    delete cfg["rowhidden"][r];
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidRows";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
+        else if(Store.luckysheetRightHeadClickIs == "column"){
+            if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+                return;
+            }
+    
+            let cfg = $.extend(true, {}, Store.config);
+            if(cfg["colhidden"] == null){
+                return;
+            }
+    
+            for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+                let c1 = Store.luckysheet_select_save[s].column[0],
+                    c2 = Store.luckysheet_select_save[s].column[1];
+    
+                for(let c = c1; c <= c2; c++){
+                    delete cfg["colhidden"][c];
+                }
+            }
+        
+            //保存撤销
+            if(Store.clearjfundo){
+                let redo = {};
+                redo["type"] = "showHidCols";
+                redo["sheetIndex"] = Store.currentSheetIndex;
+                redo["config"] = $.extend(true, {}, Store.config);
+                redo["curconfig"] = cfg;
+        
+                Store.jfundo = [];
+                Store.jfredo.push(redo);
+            }
+        
+            //config
+            Store.config = cfg;
+            Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+        
+            server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+        
+            //行高、列宽 刷新  
+            jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+        }
+
+     })
     //隐藏、显示行
-    $("#luckysheet-hidRows").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
+    // $("#luckysheet-hidRows").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+    //         return;
+    //     }
 
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["rowhidden"] == null){
-            cfg["rowhidden"] = {};
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["rowhidden"] == null){
+    //         cfg["rowhidden"] = {};
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let r1 = Store.luckysheet_select_save[s].row[0],
+    //             r2 = Store.luckysheet_select_save[s].row[1];
 
-            for(let r = r1; r <= r2; r++){
-                cfg["rowhidden"][r] = 0;
-            }
-        }
+    //         for(let r = r1; r <= r2; r++){
+    //             cfg["rowhidden"][r] = 0;
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidRows";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidRows";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-showHidRows").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
+    // $("#luckysheet-showHidRows").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatRows")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["rowhidden"] == null){
-            return;
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["rowhidden"] == null){
+    //         return;
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let r1 = Store.luckysheet_select_save[s].row[0],
-                r2 = Store.luckysheet_select_save[s].row[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let r1 = Store.luckysheet_select_save[s].row[0],
+    //             r2 = Store.luckysheet_select_save[s].row[1];
 
-            for(let r = r1; r <= r2; r++){
-                delete cfg["rowhidden"][r];
-            }
-        }
+    //         for(let r = r1; r <= r2; r++){
+    //             delete cfg["rowhidden"][r];
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidRows";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidRows";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["rowhidden"], { "k": "rowhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
 
     //隐藏、显示列
-    $("#luckysheet-hidCols").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    // $("#luckysheet-hidCols").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["colhidden"] == null){
-            cfg["colhidden"] = {};
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["colhidden"] == null){
+    //         cfg["colhidden"] = {};
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let c1 = Store.luckysheet_select_save[s].column[0],
+    //             c2 = Store.luckysheet_select_save[s].column[1];
 
-            for(let c = c1; c <= c2; c++){
-                cfg["colhidden"][c] = 0;
-            }
-        }
+    //         for(let c = c1; c <= c2; c++){
+    //             cfg["colhidden"][c] = 0;
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidCols";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidCols";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
-    $("#luckysheet-showHidCols").click(function (event) {
-        if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
-            return;
-        }
-        $("#luckysheet-rightclick-menu").hide();
-        luckysheetContainerFocus();
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
+    // $("#luckysheet-showHidCols").click(function (event) {
+    //     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "formatColumns")){
+    //         return;
+    //     }
+    //     $("#luckysheet-rightclick-menu").hide();
+    //     luckysheetContainerFocus();
 
-        let cfg = $.extend(true, {}, Store.config);
-        if(cfg["colhidden"] == null){
-            return;
-        }
+    //     let cfg = $.extend(true, {}, Store.config);
+    //     if(cfg["colhidden"] == null){
+    //         return;
+    //     }
 
-        for(let s = 0; s < Store.luckysheet_select_save.length; s++){
-            let c1 = Store.luckysheet_select_save[s].column[0],
-                c2 = Store.luckysheet_select_save[s].column[1];
+    //     for(let s = 0; s < Store.luckysheet_select_save.length; s++){
+    //         let c1 = Store.luckysheet_select_save[s].column[0],
+    //             c2 = Store.luckysheet_select_save[s].column[1];
 
-            for(let c = c1; c <= c2; c++){
-                delete cfg["colhidden"][c];
-            }
-        }
+    //         for(let c = c1; c <= c2; c++){
+    //             delete cfg["colhidden"][c];
+    //         }
+    //     }
     
-        //保存撤销
-        if(Store.clearjfundo){
-            let redo = {};
-            redo["type"] = "showHidCols";
-            redo["sheetIndex"] = Store.currentSheetIndex;
-            redo["config"] = $.extend(true, {}, Store.config);
-            redo["curconfig"] = cfg;
+    //     //保存撤销
+    //     if(Store.clearjfundo){
+    //         let redo = {};
+    //         redo["type"] = "showHidCols";
+    //         redo["sheetIndex"] = Store.currentSheetIndex;
+    //         redo["config"] = $.extend(true, {}, Store.config);
+    //         redo["curconfig"] = cfg;
     
-            Store.jfundo = [];
-            Store.jfredo.push(redo);
-        }
+    //         Store.jfundo = [];
+    //         Store.jfredo.push(redo);
+    //     }
     
-        //config
-        Store.config = cfg;
-        Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
+    //     //config
+    //     Store.config = cfg;
+    //     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].config = Store.config;
     
-        server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
+    //     server.saveParam("cg", Store.currentSheetIndex, cfg["colhidden"], { "k": "colhidden" });
     
-        //行高、列宽 刷新  
-        jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
-    })
+    //     //行高、列宽 刷新  
+    //     jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
+    // })
 
     //删除单元格（左移、上移）
     $("#luckysheet-delCellsMoveLeft").click(function (event) {

@@ -16,10 +16,15 @@
 
 	<!-- rollup luckysheet.js -->
 	<script src="./luckysheet.umd.js"></script>
+
 </head>
 
 <body>
 	<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
+
+	<!-- demo feature, non-production use -->
+	<script src="./demoData/demoFeature.js"></script>
+
 	<script type="module">
 		import sheetFormula from './demoData/sheetFormula.js'
 		import sheetCell from './demoData/sheetCell.js'
@@ -32,10 +37,14 @@
 		import sheetChart from './demoData/sheetChart.js'
 		import sheetPicture from './demoData/sheetPicture.js'
 		import sheetDataVerification from './demoData/sheetDataVerification.js'
+
+		// According to the browser language
+		let lang = luckysheetDemoUtil.language() === 'zh' ? 'zh' : 'en';
+
 		$(function () {
 			luckysheet.create({
 				container: 'luckysheet',
-				lang: 'en',
+				lang: lang,
 				allowEdit:true,
 				forceCalculation:false,
 				plugins: ['chart'],
@@ -53,9 +62,42 @@
 					"url":"./assets/iconfont/Pacifico-Regular.ttf"
 					}
 				],
+				hook:{
+					rowTitleCellRenderBefore:function(rowNum,postion,ctx){
+						// console.log(rowNum);
+					},
+					rowTitleCellRenderAfter:function(rowNum,postion,ctx){
+						// console.log(ctx);
+					},
+					columnTitleCellRenderBefore:function(columnAbc,postion,ctx){
+						// console.log(columnAbc);
+					},
+					columnTitleCellRenderAfter:function(columnAbc,postion,ctx){
+						// console.log(postion);
+					},
+					cellRenderBefore:function(cell,postion,sheetFile,ctx){
+						// console.log(cell,postion,sheetFile,ctx);
+					},
+					cellRenderAfter:function(cell,postion,sheetFile,ctx){
+						// console.log(postion);
+					},
+					cellMousedownBefore:function(cell,postion,sheetFile,ctx){
+						// console.log(postion);
+					},
+					cellMousedown:function(cell,postion,sheetFile,ctx){
+						// console.log(sheetFile);
+					},
+					sheetMousemove:function(cell,postion,sheetFile,moveState,ctx){
+						// console.log(cell,postion,sheetFile,moveState,ctx);
+					},
+					sheetMouseup:function(cell,postion,sheetFile,moveState,ctx){
+						// console.log(cell,postion,sheetFile,moveState,ctx);
+					},
+
+				},
 				data: 
 				[sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart,sheetPicture,sheetDataVerification]
-				/*[{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81,"17":100}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[
+				/*[{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[
 					{"r":0,"c":0,
 						"v":{
 							"ct":{
@@ -93,7 +135,7 @@
 							"qp":1,
 						}
 					},
-					{"r":17,"c":2,"v":{"v":"Luckysheet is good project, this is true","ct":{"fa":"General","t":"g"},"bg":null,"bl":0,"it":0,"ff":0,"fs":"11","fc":"rgb(51, 51, 51)","ht":1,"vt":1,tb:2,"m":"Luckysheet"}}
+					{"r":17,"c":2,"v":{"v":"Luckysheet","ct":{"fa":"General","t":"g"},"bg":null,"bl":0,"it":0,"ff":0,"fs":"11","fc":"rgb(51, 51, 51)","ht":1,"vt":1,"m":"Luckysheet"}}
 				],"calcChain":[]}]*/
 
 				/*
@@ -1784,9 +1826,10 @@
 					"scrollTop": 0
 				}]*/
 			})
-
+			
 		})
 	</script>
+	
 </body>
 
 </html>

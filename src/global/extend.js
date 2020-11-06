@@ -427,7 +427,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             freezen_row_st += value;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 
@@ -482,9 +482,17 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == r){
                     if(direction == "lefttop"){
                         newDataVerification[(r + value) + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i) + "_" + c] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i + 1) + "_" + c] = item;
+                        }
                     }
                 }
                 else{
@@ -498,13 +506,65 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == c){
                     if(direction == "lefttop"){
                         newDataVerification[r + "_" + (c + value)] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i)] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i + 1)] = item;
+                        }
                     }
                 }
                 else{
                     newDataVerification[r + "_" + c] = item;
+                }
+            }
+        }
+    }
+
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(index < r){
+                    newHyperlink[(r + value) + "_" + c] = item;
+                }
+                else if(index == r){
+                    if(direction == "lefttop"){
+                        newHyperlink[(r + value) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(index < c){
+                    newHyperlink[r + "_" + (c + value)] = item;
+                }
+                else if(index == c){
+                    if(direction == "lefttop"){
+                        newHyperlink[r + "_" + (c + value)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
                 }
             }
         }
@@ -829,7 +889,8 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -841,6 +902,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
     
     let range = null;
@@ -1356,7 +1418,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             freezen_row_st = freezen_st;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 
@@ -1429,6 +1491,34 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
                 }
                 else if(c > ed){
                     newDataVerification[r + "_" + (c - slen)] = item;
+                }
+            }
+        }
+    }
+
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(r < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(r > ed){
+                    newHyperlink[(r - slen) + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(c < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(c > ed){
+                    newHyperlink[r + "_" + (c - slen)] = item;
                 }
             }
         }
@@ -1670,7 +1760,8 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -1682,6 +1773,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 
@@ -2073,6 +2165,36 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         }
     }
 
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+
+            if(r < str || r > edr || c < stc || c > edc){
+                if(type == "moveLeft"){
+                    if(c > edc && r >= str && r <= edr){
+                        newHyperlink[r + "_" + (c - clen)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else if(type == "moveUp"){
+                    if(r > edr && c >= stc && c <= edc){
+                        newHyperlink[(r - rlen) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+            }
+        }
+    }
+
     //边框配置变动
     if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
         let borderInfo = []; 
@@ -2112,20 +2234,20 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
                 let row_index = cfg["borderInfo"][i].value.row_index;
                 let col_index = cfg["borderInfo"][i].value.col_index;
 
-                if(row_index < str || col_index < stc){
-                    borderInfo.push(cfg["borderInfo"][i]);
-                }
-                else if(row_index > edr || col_index > edc){
-                    if(row_index > edr){
-                        row_index -= rlen;
-                        cfg["borderInfo"][i].value.row_index = row_index;
+                if(row_index < str || row_index > edr || col_index < stc || col_index > edc){
+                    if(type == 'moveLeft'){
+                        if(col_index > edc && row_index >= str && row_index <= edr){
+                            col_index -= clen;
+                            cfg["borderInfo"][i].value.col_index = col_index;
+                        }
                     }
-
-                    if(col_index > edc){
-                        col_index -= clen;
-                        cfg["borderInfo"][i].value.col_index = col_index;
+                    else if(type == 'moveUp'){
+                        if(row_index > edr && col_index >= stc && col_index <= edc){
+                            row_index -= rlen;
+                            cfg["borderInfo"][i].value.row_index = row_index;
+                        }
                     }
-
+    
                     borderInfo.push(cfg["borderInfo"][i]);
                 }
             }
@@ -2184,7 +2306,8 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
             newCalcChain,
             newFilterObj,
             newCFarr,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -2195,6 +2318,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         file.filter_select = newFilterObj.filter_select;
         file.luckysheet_conditionformat_save = newCFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 

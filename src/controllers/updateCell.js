@@ -3,6 +3,7 @@ import luckysheetFreezen from './freezen';
 import menuButton from './menuButton';
 import conditionformat from './conditionformat';
 import alternateformat from './alternateformat';
+import cellDatePickerCtrl from './cellDatePickerCtrl';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import {checkProtectionLocked,checkProtectionCellHidden}  from './protection';
 import { chatatABC } from '../utils/util';
@@ -16,7 +17,6 @@ import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 
 export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocus) {
-
     if(!checkProtectionLocked(row_index1, col_index1, Store.currentSheetIndex)){
         $("#luckysheet-functionbox-cell").blur();
         return;
@@ -26,6 +26,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         return;
     }
 
+    //数据验证
     if(dataVerificationCtrl.dataVerification != null && dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1] != null){
         let dataVerificationItem = dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1];
         if(dataVerificationItem.type == 'dropdown'){
@@ -37,7 +38,12 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     }
 
     let size = getColumnAndRowSize(row_index1, col_index1, d);
-    let row = size.row, row_pre = size.row_pre, col = size.col, col_pre = size.col_pre, row_index = size.row_index, col_index = size.col_index;
+    let row = size.row, 
+        row_pre = size.row_pre, 
+        col = size.col, 
+        col_pre = size.col_pre, 
+        row_index = size.row_index, 
+        col_index = size.col_index;
 
     if($("#luckysheet-dropCell-icon").is(":visible")){
         $("#luckysheet-dropCell-icon").remove();
@@ -52,14 +58,24 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         return;
     }
 
+    let left = col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2;
+    if(luckysheetFreezen.freezenverticaldata != null && col_index1 <= luckysheetFreezen.freezenverticaldata[1]){
+        left = col_pre + container_offset.left + Store.rowHeaderWidth - 2;
+    }
+
+    let top = row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight - scrollTop - 2;
+    if(luckysheetFreezen.freezenhorizontaldata != null && row_index1 <= luckysheetFreezen.freezenhorizontaldata[1]){
+        top = row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight - 2;
+    }
+
     let input_postition = {
         "min-width": col - col_pre+ 1- 8, 
         "min-height": row - row_pre + 1- 4,  
         
-        "max-width":winW + scrollLeft - col_pre - 20 - Store.rowHeaderWidth, 
+        "max-width": winW + scrollLeft - col_pre - 20 - Store.rowHeaderWidth, 
         "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
-        "left": col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2, 
-        "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
+        "left": left, 
+        "top": top, 
     }
 
     let inputContentScale = {
@@ -106,7 +122,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
                 "max-width": winW*2/3, 
                 "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
                 "left": col_pre + container_offset.left + Store.rowHeaderWidth - scrollLeft - 2, 
-                "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
+                "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight - scrollTop - 2, 
             }
 
             if(Store.zoomRatio<1){
@@ -124,7 +140,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
                 "max-width": col + container_offset.left - scrollLeft  - 8, 
                 "max-height": winH + scrollTop - row_pre - 20 - 15 - Store.toolbarHeight - Store.infobarHeight - Store.calculatebarHeight - Store.sheetBarHeight - Store.statisticBarHeight, 
                 "right": winW - (container_offset.left + (Store.rowHeaderWidth-1) - scrollLeft) - col, 
-                "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight - scrollTop - 2, 
+                "top":  row_pre + container_offset.top + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight - scrollTop - 2, 
             }
 
             if(Store.zoomRatio<1){
@@ -189,8 +205,6 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     if(input_postition["min-width"] > input_postition["max-width"]){
         input_postition["min-width"] = input_postition["max-width"];
     }
-
-
    
     if((value == null || value.toString() == "") && !cover){
         value = "<br/>";
@@ -227,12 +241,16 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     $("#luckysheet-input-box").css(input_postition);
     $("#luckysheet-rich-text-editor").css(inputContentScale);
 
+    //日期
+    if(d[row_index1][col_index1] && d[row_index1][col_index1].ct && d[row_index1][col_index1].ct.t == 'd'){
+        cellDatePickerCtrl.cellFocus(row_index1, col_index1, d[row_index1][col_index1].m);
+    }
+
     formula.rangetosheet = Store.currentSheetIndex;
     formula.createRangeHightlight();
     formula.rangeResizeTo = $("#luckysheet-rich-text-editor");
     cleargridelement();
 }
-
 
 export function setCenterInputPosition(row_index, col_index, d){
     if(row_index==null ||col_index==null){
@@ -285,9 +303,11 @@ export function getColumnAndRowSize(row_index, col_index, d){
         row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
     let col = Store.visibledatacolumn[col_index], 
         col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
-    if(d==null){
+
+    if(d == null){
         d = Store.flowdata;
     }
+
     let margeset = menuButton.mergeborer(d, row_index, col_index);
     if(!!margeset){
         row = margeset.row[1];
@@ -299,11 +319,11 @@ export function getColumnAndRowSize(row_index, col_index, d){
     }    
 
     return {
-        row:row,
-        row_pre:row_pre,
-        row_index:row_index,
-        col:col,
-        col_pre:col_pre,
-        col_index:col_index
+        row: row,
+        row_pre: row_pre,
+        row_index: row_index,
+        col: col,
+        col_pre: col_pre,
+        col_index: col_index
     }
 }

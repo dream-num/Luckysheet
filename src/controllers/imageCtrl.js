@@ -97,19 +97,19 @@ const imageCtrl = {
         let src = imgItem.src;
         let imgItemParam = _this.getImgItemParam(imgItem);
 
-        let width = imgItemParam.width*Store.zoomRatio;
-        let height = imgItemParam.height*Store.zoomRatio;
-        let left = imgItemParam.left*Store.zoomRatio;
-        let top = imgItemParam.top*Store.zoomRatio;
+        let width = imgItemParam.width * Store.zoomRatio;
+        let height = imgItemParam.height * Store.zoomRatio;
+        let left = imgItemParam.left * Store.zoomRatio;
+        let top = imgItemParam.top * Store.zoomRatio;
         let position = imgItemParam.position;
 
         let borderWidth = imgItem.border.width;
 
         return  `<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
                     <div class="luckysheet-modal-dialog-content" style="width:100%;height:100%;overflow:hidden;position:relative;">
-                        <img src="${src}" style="position:absolute;width:${imgItem.default.width*Store.zoomRatio}px;height:${imgItem.default.height*Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft*Store.zoomRatio}px;top:${-imgItem.crop.offsetTop*Store.zoomRatio}px;" />
+                        <img src="${src}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
                     </div>
-                    <div class="luckysheet-modal-dialog-border" style="border:${borderWidth}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius*Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
+                    <div class="luckysheet-modal-dialog-border" style="border:${borderWidth}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius * Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
                 </div>`;
     },
     getSliderHtml: function() {
@@ -354,10 +354,10 @@ const imageCtrl = {
             let item = _this.images[id];
             let imgItemParam = _this.getImgItemParam(item);
 
-            let width = imgItemParam.width*Store.zoomRatio;
-            let height = imgItemParam.height*Store.zoomRatio;
-            let left = imgItemParam.left*Store.zoomRatio;
-            let top = imgItemParam.top*Store.zoomRatio;
+            let width = imgItemParam.width * Store.zoomRatio;
+            let height = imgItemParam.height * Store.zoomRatio;
+            let left = imgItemParam.left * Store.zoomRatio;
+            let top = imgItemParam.top * Store.zoomRatio;
             let position = imgItemParam.position;
         
             $("#luckysheet-modal-dialog-activeImage").show().css({
@@ -370,19 +370,19 @@ const imageCtrl = {
 
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
                 "background-image": "url(" + item.src + ")",
-                "background-size": item.default.width*Store.zoomRatio + "px " + item.default.height*Store.zoomRatio + "px",
-                "background-position": -item.crop.offsetLeft*Store.zoomRatio + "px " + -item.crop.offsetTop*Store.zoomRatio + "px"
+                "background-size": item.default.width * Store.zoomRatio + "px " + item.default.height * Store.zoomRatio + "px",
+                "background-position": -item.crop.offsetLeft * Store.zoomRatio + "px " + -item.crop.offsetTop * Store.zoomRatio + "px"
             })
 
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css({
-                "border-width": item.border.width*Store.zoomRatio,
+                "border-width": item.border.width * Store.zoomRatio,
                 "border-style": item.border.style,
                 "border-color": item.border.color,
-                "border-radius": item.border.radius*Store.zoomRatio,
-                "left": -item.border.width*Store.zoomRatio,
-                "right": -item.border.width*Store.zoomRatio,
-                "top": -item.border.width*Store.zoomRatio,
-                "bottom": -item.border.width*Store.zoomRatio,
+                "border-radius": item.border.radius * Store.zoomRatio,
+                "left": -item.border.width * Store.zoomRatio,
+                "right": -item.border.width * Store.zoomRatio,
+                "top": -item.border.width * Store.zoomRatio,
+                "bottom": -item.border.width * Store.zoomRatio,
             })
 
             _this.sliderHtmlShow();
@@ -591,10 +591,10 @@ const imageCtrl = {
         let imgItem = _this.images[_this.currentImgId];
         let imgItemParam = _this.getImgItemParam(imgItem);
 
-        let width = imgItemParam.width*Store.zoomRatio;
-        let height = imgItemParam.height*Store.zoomRatio;
-        let left = imgItemParam.left*Store.zoomRatio;
-        let top = imgItemParam.top*Store.zoomRatio;
+        let width = imgItemParam.width * Store.zoomRatio;
+        let height = imgItemParam.height * Store.zoomRatio;
+        let left = imgItemParam.left * Store.zoomRatio;
+        let top = imgItemParam.top * Store.zoomRatio;
         let position = imgItemParam.position;
 
         $("#" + _this.currentImgId).show().css({
@@ -605,20 +605,20 @@ const imageCtrl = {
             "position": position
         });
         $("#" + _this.currentImgId + " img").css({
-            "width": imgItem.default.width*Store.zoomRatio,
-            "height": imgItem.default.height*Store.zoomRatio,
-            "left": -imgItem.crop.offsetLeft*Store.zoomRatio,
-            "top": -imgItem.crop.offsetTop*Store.zoomRatio
+            "width": imgItem.default.width * Store.zoomRatio,
+            "height": imgItem.default.height * Store.zoomRatio,
+            "left": -imgItem.crop.offsetLeft * Store.zoomRatio,
+            "top": -imgItem.crop.offsetTop * Store.zoomRatio
         });
         $("#" + _this.currentImgId + " .luckysheet-modal-dialog-border").css({
-            "border-width": imgItem.border.width*Store.zoomRatio,
+            "border-width": imgItem.border.width * Store.zoomRatio,
             "border-style": imgItem.border.style,
             "border-color": imgItem.border.color,
-            "border-radius": imgItem.border.radius*Store.zoomRatio,
-            "left": -imgItem.border.width*Store.zoomRatio,
-            "right": -imgItem.border.width*Store.zoomRatio,
-            "top": -imgItem.border.width*Store.zoomRatio,
-            "bottom": -imgItem.border.width*Store.zoomRatio,
+            "border-radius": imgItem.border.radius * Store.zoomRatio,
+            "left": -imgItem.border.width * Store.zoomRatio,
+            "right": -imgItem.border.width * Store.zoomRatio,
+            "top": -imgItem.border.width * Store.zoomRatio,
+            "bottom": -imgItem.border.width * Store.zoomRatio,
         })
 
         _this.currentImgId = null;
@@ -657,7 +657,7 @@ const imageCtrl = {
             scrollLeft = $("#luckysheet-cell-main").scrollLeft();
 
         imgItem.fixedLeft = img.left - scrollLeft + Store.rowHeaderWidth;
-        imgItem.fixedTop = img.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+        imgItem.fixedTop = img.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
 
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, imgItem);
@@ -908,7 +908,7 @@ const imageCtrl = {
             scrollLeft = $("#luckysheet-cell-main").scrollLeft();
 
         img.fixedLeft = img.default.left - scrollLeft + Store.rowHeaderWidth;
-        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
 
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, img);

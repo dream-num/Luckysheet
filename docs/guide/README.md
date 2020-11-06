@@ -10,7 +10,7 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 
 ## Features
 
-### Formatting
+### 🛠️Formatting
 + **Styling** (Change font style, size, color, or apply effects)
 + **Conditional formatting** (highlight interesting cells or ranges of cells, emphasize unusual values, and visualize data by using data bars, color scales, and icon sets that correspond to specific variations in the data)
 + **Align or rotate text** 
@@ -18,8 +18,9 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Data types** 
 	+ **currency, percentages, decimals, dates** 
 	+ **Custom** (E.g `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
 
-### Cells
+### 🧬Cells
 + **Move cells by drag and dropping** (Operate on selection)
 + **Fill handle** (For a series like 1, 2, 3, 4, 5..., type 1 and 2 in the first two cells. For the series 2, 4, 6, 8..., type 2 and 4. Support arithmetic sequence, geometric sequence,date, week,chinese numbers)
 + **Auto Fill Options** (Fill copy, sequence, only format, no format, day, month, year)
@@ -27,20 +28,21 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Find and replace** (Such as a particular number or text string, Support regular expression, whole word, case sensitive)
 + **Location** (Cells can be selected according to the data type)
 + **Merge cells**
++ **Data validation**  (Checkbox, drop-down list, datePicker)
 
-### Row & columns
+### 🖱️Row & columns
 + **Hide, Insert, Delete rows and columns** 
 + **Frozen rows and columns** (First row, first column, Frozen to selection, freeze adjustment lever can be dragged)
 + **Split text** (Split text into different columns with the Convert Text to Columns Wizard)
 
-### Operation
+### 🔨Operation
 + **Undo/Redo**
-+ **Copy/Paste/Cut** (Copy from excel to luckysheet with format, vice versa)
++ **Copy/Paste/Cut** (Copy from excel to Luckysheet with format, vice versa)
 + **Hot key** (The operating experience is consistent with excel, if there are differences or missing, please feedback to us)
 + **Format Painter** (Similar to google sheet)
 + **Selection by drag and dropping** (Change the parameters of formula and chart through selection)
 
-### Formulas & functions
+### ⚙️Formulas & functions
 + **Built-in formulas**
 	+ Math (SUMIFS, AVERAGEIFS, SUMIF, SUM, etc.)
 	+ Text (CONCATENATE, REGEXMATCH, MID)
@@ -53,39 +55,41 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 + **Remote formulas** (DM_TEXT_TFIDF, DM_TEXT_TEXTRANK,DATA_CN_STOCK_CLOSE etc. Need remote interface, can realize complex calculation)
 + **Custom**  (Some formula suitable for use in China have been added. AGE_BY_IDCARD, SEX_BY_IDCARD, BIRTHDAY_BY_IDCARD, PROVINCE_BY_IDCARD, CITY_BY_IDCARD, etc. You can define any formula you want)
 
-### Tables
+### 📐Tables
 + **Filters** (Support color , numerical, date, text filtering)
 + **Sort** (Sort multiple fields simultaneously)
 
-### Pivot table
+### 📈Pivot table
 + **Arrange fields** (Add fileds to rows, columns, values, area, it is similar to excel)
 + **Aggregation**  (Surport Sum,Count,CountA,CountUnique,Average,Max,Min,Median,Product,Stdev,Stdevp,Var,VarP etc.)
 + **Filter data** (Add fileds to filters area and analyze the desired data )
 + **Drill down** (Double click pivot table cell to drill down for detail data )
 + **Create a PivotChart** (Pivot table can create a chart )
 
-### Chart
+### 📊Chart
 + **Support types** (Line, Column, Area, Bar, Pie, comming soon Scatter, Radar, Gauge, Funnel etc.) 
 + **Chart Plugins**  (Link to another project [ChartMix](https://github.com/mengshukeji/chartMix)(MIT): ECharts is currently supported,Highcharts, Ali G2, amCharts, googleChart, chart.js are being developed gradually)
 + **Sparklines** (Support by formula : Line, Pie, Box, Pie etc.)
 
-### Share
+### ✍️Share
 + **Comments** (Add, delete, update)
 + **Collaborate** (Simultaneous editing by multiple users)
 
-### LuckySheet
+### 📚Insert object
++ **Insert picture** (JPG,PNG,SVG and so on)
+
+### ⚡Luckysheet
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to luckysheet)
-+ **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
-+ **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
++ **EXCEL import/export** (Specially adapted to Luckysheet, export is under development)
 
-### Coming soon
+### ⏱️Coming soon
 + **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
++ **CSV,TXT import/export** (Specially adapted to Luckysheet)
++ **Insert Shapes** ([Pen tool](https://github.com/mengshukeji/Pentool) Shapes)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 
@@ -136,6 +140,7 @@ After `npm run build`, all files in the `dist` folder are copied to the project 
 <link rel='stylesheet' href='./plugins/css/pluginsCss.css' />
 <link rel='stylesheet' href='./plugins/plugins.css' />
 <link rel='stylesheet' href='./css/luckysheet.css' />
+<link rel='stylesheet' href='./assets/iconfont/iconfont.css' />
 <script src="./plugins/js/plugin.js"></script>
 <script src="./luckysheet.umd.js"></script>
 ```
@@ -231,7 +236,26 @@ You can see the complete settings
 |  TAB | Move cell selection box to the right |
 |  DELETE | Clear cell data |
 
-## warning
-::: danger
-The new API is being sorted out and may change at any time, please use it with caution!
-:::
+## Guide
+
+If you encounter problems with Luckysheet, follow the steps below to find the answer
+
+1. Use Doge or Google to search for common technical issues
+2. For Luckysheet related issues, please view [Luckysheet Official Document](https://mengshukeji.github.io/LuckysheetDocs/)(Note that the function of marking TODO has not yet been implemented)
+3. Search [FAQ List](https://mengshukeji.github.io/LuckysheetDocs/guide/FAQ.html)
+4. Search [Official Forum](https://groups.google.com/g/luckysheet) to see if anyone has encountered it
+5. Try to check or experiment by yourself to find the answer
+6. Please try to read the source code to find the answer,
+
+If none of the above methods solve your problem, you can consider:
+
+- Go to [Official Forum](https://groups.google.com/g/luckysheet) to ask questions
+- Go to [Gitter](https://gitter.im/mengshukeji/Luckysheet) to ask questions
+- If there are obvious problems or the needs cannot be met, please submit [issues](https://github.com/mengshukeji/Luckysheet/issues)
+
+> Recommended reading [How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)
+
+At the same time, we strongly recommend you to help us enrich the Luckysheet community
+
+- If you find a problem with the documentation or code, you can contribute by submitting a PR. All reasonable changes, optimizations, amendments, or document amendments or updates related to submissions will be accepted
+- When you have some experience in using or secondary developing Luckysheet, we encourage you to share it through blog posts

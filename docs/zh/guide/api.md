@@ -542,6 +542,142 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### setRowHeight(rowInfo [,setting])
+
+- **参数**：
+	
+	- {Object} [rowInfo]: 行数和高度对应关系
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置指定行的高度
+
+- **示例**:
+
+   - 设置第一行高度为50px，第二行高度为60px
+
+		`luckysheet.setRowHeight({0：50，1：60})`
+
+------------
+
+### setColumnWidth(columnInfo [,setting])
+
+- **参数**：
+	
+	- {Number} [columnInfo]: 列数和宽度对应关系
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置指定列的宽度
+
+- **示例**:
+
+   - 设置第一列宽度为50px，第二列宽度为60px
+
+		`luckysheet.setColumnWidth({0：50，1：60})`
+
+------------
+
+### getRowHeight(rowInfo [,setting])
+
+- **参数**：
+	
+	- {Array} [rowInfo]: 行号下标组成的数组；行号下标从0开始；
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定工作表指定行的高度，得到行号和高度对应关系的对象（第一行行号为0）
+
+- **示例**:
+
+   - 第一行高度为50px，第二行高度为60px，获取这些值
+
+		`luckysheet.getRowHeight([0,1])`
+		返回得到
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+- **参数**：
+	
+	- {Array} [columnInfo]: 列号下标组成的数组；列号下标从0开始；
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取指定工作表指定列的宽度，得到列号和宽度对应关系的对象（第一列列号为0）
+
+- **示例**:
+
+   - 第一列宽度为50px，第二列宽度为60px，获取这些值
+
+		`luckysheet.getColumnWidth([0,1])`
+		返回得到
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+- **参数**：
+	
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取工作表的默认行高
+
+- **示例**:
+
+   - 返回工作表的默认行高
+
+		`luckysheet.getDefaultRowHeight()`
+		返回得到
+		`19`
+
+------------
+
+### getDefaultColWidth([,setting])
+
+- **参数**：
+		
+	- {PlainObject} [setting]: 可选参数
+        + {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取工作表的默认列宽
+
+- **示例**:
+
+   - 返回工作表的默认列宽
+
+		`luckysheet.getDefaultColWidth()`
+		返回得到
+		`73`
+
+------------
+
 ## 选区操作
 
 ### getRange()
@@ -1651,13 +1787,11 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getAllSheets()
 
-[todo]
-
 - **说明**：
 
 	返回所有工作表配置，格式同工作表配置，得到的结果可用于表格初始化时作为options.data使用。
 
-	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，可以使用 [toJson](#toJson())
+	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，推荐使用 [toJson](#toJson())，并且可以直接用于初始化Luckysheet。
 
 - **示例**:
 
@@ -1671,6 +1805,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 
 	返回所有表格数据结构的一维数组`luckysheetfile`，不同于`getAllSheets`方法，此方法得到的工作表参数会包含很多内部使用变量，最明显的区别是表格数据操作会维护`luckysheetfile[i].data`，而初始化数据采用的是`options.data[i].celldata`，所以`luckysheetfile`可用于调试使用，但是不适用初始化表格。
+
+	除此之外，加载过的工作表参数中会增加一个`load = 1`，这个参数在初始化数据的时候需要置为0才行。所以，将`getLuckysheetfile()`得到的数据拿来初始化工作簿，需要做两个工作：
+	
+	- celldata转为data，参考:[transToData](/zh/guide/api.html#transtodata-celldata-setting)
+	- load重置为0或者删除此字段
+
+	现在已有`getAllSheets`来完成这个工作，无需再手动转化数据。
 
 - **示例**:
 
@@ -1739,13 +1880,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
-    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象
+    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象，工作表数据格式参考[options.data](/zh/guide/sheet.html#初始化配置)
     	+ {Number} [order]: 新增的工作表下标；默认值为最后一个下标位置
     	+ {Function} [success]: 操作结束的回调函数
 	
 - **说明**：
 
-	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表
+	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表。
 
 - **示例**:
 
@@ -1922,9 +2063,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### setSheetOrder(orderList [,setting])
 
-[todo]
-
-
 - **参数**：
 
     - {Array} [orderList]: 工作表顺序，设置工作表的index和order来指定位置，如：
@@ -1955,6 +2093,30 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		{index:'sheet_02',order: 1},
 		{index:'sheet_03',order: 0},
 	])
+	```
+
+------------
+
+### setSheetZoom(zoom [,setting])
+
+- **参数**：
+
+    - {Number} [zoom]: 工作表缩放比例，值范围为0.1 ~ 4；
+
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+        + {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	设置工作表缩放比例
+
+
+- **示例**:
+
+	- 设置当前工作表缩放比例为0.5
+	```js
+	luckysheet.setSheetZoom(0.5)
 	```
 
 ------------
@@ -2019,9 +2181,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### refresh([setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {PlainObject} [setting]: 可选参数
@@ -2078,27 +2237,22 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### getScreenshot([setting])
 
-[todo]
-
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
-		+ {Array | Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
-		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
 
 - **说明**：
 	
-	返回指定选区截图后生成的base64格式的图片
+	返回当前表格指定选区截图后生成的base64格式的图片
 
 ------------
 
 ### setWorkbookName(name [,setting])
 
-[todo]
-
 - **参数**：
 
-    - {Number} [name]: 工作簿名称
+    - {String} [name]: 工作簿名称
     - {PlainObject} [setting]: 可选参数
     	+ {Function} [success]: 操作结束的回调函数
 
@@ -2109,9 +2263,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### undo([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -2125,9 +2276,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 ------------
 
 ### redo([setting])
-
-[todo]
-
 
 - **参数**：
 
@@ -2238,6 +2386,60 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+## 数据验证
+
+### setDataVerification(optionItem, [setting])
+
+- **参数**：
+	
+	- {Object} [optionItem]: 数据验证的配置信息，具体详细的配置信息参考[dataVerification](/zh/guide/sheet.html#dataVerification)
+		
+    - {PlainObject} [setting]: 可选参数
+        + {Object | String} [range]: 数据验证的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表范围设置数据验证功能，并设置参数
+
+------------
+
+### deleteDataVerification([setting])
+
+- **参数**：
+	
+    - {PlainObject} [setting]: 可选参数
+		+ {Object | String} [range]: 数据验证的选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为当前选区
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表范围删除数据验证功能
+
+------------
+
+## 工作表保护
+
+
+### setProtection(option, [setting])
+
+[todo]
+
+- **参数**：
+	
+	- {Object} [option]: 工作表保护的配置信息
+    - {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	指定工作表设置工作表保护功能
+
+------------
+
 ## 公共方法
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
@@ -2257,8 +2459,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### transToData(celldata [,setting])<div id='transToData'></div>
 
-[todo]
-
 - **参数**：
 	
 	- {Array} [celldata]: data数据
@@ -2274,13 +2474,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### toJson()
 
-[todo]
 
 - **说明**：
 	
 	导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用，使用场景在用户自己操作表格后想要手动保存全部的参数，再去别处初始化这个表格使用，类似一个luckysheet专有格式的导入导出。
 
 ------------
+
 
 ## 旧版API
 

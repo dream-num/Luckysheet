@@ -979,9 +979,9 @@
 }
 
 .luckysheet-sta-c .luckysheet-sta-content {
-    position: absolute;
-    left: 0px;
-    right: 358px;
+    /* position: absolute; */
+    /* left: 0px; */
+    /* right: 358px; */
     height: 22px;
     line-height: 22px;
     text-align: right;
@@ -1055,7 +1055,8 @@ div.luckysheet-sheets-m:hover {
     top: 0;
     width: 6px;
     height: 100%;
-    z-index: 1005;
+    /* z-index: 1005; */
+    z-index: 1;/*因为会覆盖右击菜单，改为1*/
 }
 
 .docs-sheet-fade div {
@@ -7060,8 +7061,45 @@ fieldset[disabled] .btn-danger.focus {
 .luckysheet-modal-dialog-image .luckysheet-modal-dialog-content, #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content{
     background: none;
 }
-
-
+/* 单元格日期选择 */
+.cell-date-picker{
+    position: absolute;
+    display: none;
+}
+/* 插入链接 */
+#luckysheet-insertLink-dialog{
+    user-select: none;
+}
+#luckysheet-insertLink-dialog .box{
+    font-size: 12px;
+}
+#luckysheet-insertLink-dialog .box-item{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+#luckysheet-insertLink-dialog .box-item label{
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    margin-right: 10px;
+}
+#luckysheet-insertLink-dialog .box-item input{
+    width: 200px;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #d4d4d4;
+    outline-style: none;
+    box-sizing: border-box;
+}
+#luckysheet-insertLink-dialog .box-item select{
+    width: 200px;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid #d4d4d4;
+    outline-style: none;
+    box-sizing: border-box;
+}
 /* 数据验证 */
 #luckysheet-dataVerification-dialog{
     user-select: none;

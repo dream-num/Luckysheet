@@ -1,7 +1,8 @@
 .luckysheet-zoom-content{
-    position: absolute;
+    position: relative;
+    float: right;
     width:210px;
-    right: 0px;
+    /* right: 0px; */
     height: 22px;
     line-height: 22px;
     text-align: right;
