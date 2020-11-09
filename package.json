@@ -31,7 +31,7 @@
     "@babel/runtime": "^7.12.1",
     "dayjs": "^1.9.4",
     "flatpickr": "^4.6.6",
-    "jquery": "^3.5.1",
+    "jquery": "^2.2.4",
     "jspdf": "^2.1.1",
     "pako": "^1.0.11"
   },

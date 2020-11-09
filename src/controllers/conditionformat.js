@@ -2378,9 +2378,9 @@ const conditionformat = {
         //日期选择插件
         $('.ranges_1 ul').remove();
         $('#' + id).find("#daterange-btn").flatpickr({
-                mode: "range",
-                 onChange:function(data,label) {
-                    const [start, end] = data
+            mode: "range",
+            onChange: function (data, label) {
+                const [start, end] = data
                 //label:通过它来知道用户选择的是什么，传给后台进行相应的展示
                 let format1 = [
                     conditionformat_Text.yesterday,
@@ -2398,18 +2398,15 @@ const conditionformat = {
                     conditionformat_Text.last30days
                 ]
 
-                if(label == conditionformat_Text.all){
+                if (label == conditionformat_Text.all) {
                     $('#daterange-btn').val('');
-                }
-                else if(format1.indexOf(label) > -1){
+                } else if (format1.indexOf(label) > -1) {
                     $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD'));
-                }
-                else if(format2.indexOf(label) > -1){
+                } else if (format2.indexOf(label) > -1) {
                     $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD') + '-' + dayjs(end).format('YYYY/MM/DD'));
                 }
             }
-            }
-        );
+        });
     },
     CFSplitRange: function(range1, range2, range3, type){
         let range = [];

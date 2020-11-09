@@ -3,7 +3,6 @@ import formula from '../global/formula';
 import Store from '../store';
 import flatpickr from 'flatpickr'
 import dayjs from "dayjs";
-import {Mandarin} from "flatpickr/dist/l10n/zh"
 
 const cellDatePickerCtrl = {
     cellFocus: function(r, c, value){
@@ -29,16 +28,16 @@ const cellDatePickerCtrl = {
         })
 
         flatpickr('#cellDatePickerBtn',{
-            locale: Mandarin,
             dateFormat: "YYYY-MM-DD",
+            allowInput: false,
+            defaultDate: dayjs(value).format('YYYY-MM-DD'),
             parseDate: (datestr, format) => {
                 return dayjs(datestr).toDate();
             },
             formatDate: (date, format, locale) => {
                 return dayjs(date).format(format);
             },
-            onChange: function (selectedDates, dateStr, instance) {
-                console.log(selectedDates, dateStr)
+            onChange: function (selectedDates, dateStr) {
                 $("#luckysheet-rich-text-editor").html(dateStr);
                 formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
             }
