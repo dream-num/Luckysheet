@@ -9052,6 +9052,7 @@ export default {
         bold: '粗体 (Ctrl+B)',
         italic: '斜体 (Ctrl+I)',
         strikethrough: '删除线 (Alt+Shift+5)',
+        underline: '下划线',
         textColor: '文本颜色',
         chooseColor: '颜色选择',
         resetColor: '重置颜色',
