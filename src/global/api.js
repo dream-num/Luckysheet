@@ -466,7 +466,9 @@ export function replace(content, replaceContent, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function exitEditMode(options = {}){
-    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+    if(parseInt($("#luckysheet-input-box").css("top")) > 0){
+      formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+    }
 
     if (options.success && typeof options.success === 'function') {
         options.success();
