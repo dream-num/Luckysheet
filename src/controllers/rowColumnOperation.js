@@ -318,7 +318,8 @@ export function rowColumnOperationInitial(){
                     "row": rowseleted,
                     "column": [0, col_index],
                     "row_focus": row_index,
-                    "column_focus": 0
+                    "column_focus": 0,
+                    "row_select": true
                 });
             }
             else{
@@ -335,7 +336,8 @@ export function rowColumnOperationInitial(){
                     "row": rowseleted, 
                     "column": [0, col_index], 
                     "row_focus": row_index, 
-                    "column_focus": 0
+                    "column_focus": 0,
+                    "row_select": true
                 });
             }
 
@@ -730,7 +732,8 @@ export function rowColumnOperationInitial(){
                     "row": [0, row_index], 
                     "column": columnseleted,
                     "row_focus": 0,  
-                    "column_focus": col_index 
+                    "column_focus": col_index,
+                    "column_select": true
                 });
             }
             else{
@@ -747,7 +750,8 @@ export function rowColumnOperationInitial(){
                     "row": [0, row_index], 
                     "column": columnseleted,
                     "row_focus": 0, 
-                    "column_focus": col_index 
+                    "column_focus": col_index,
+                    "column_select": true
                 });
             }
 

@@ -3603,7 +3603,26 @@ export default function luckysheetHandler() {
 
             cfg["customHeight"][Store.luckysheet_rows_change_size_start[1]] = 1;
 
-            cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
+            const changeRowIndex = Store.luckysheet_rows_change_size_start[1];
+            let changeRowSelected = false;
+            if(Store["luckysheet_select_save"].length > 0) {
+                Store["luckysheet_select_save"].filter(select => select.row_select).some((select) => {
+                    if(changeRowIndex >= select.row[0] && changeRowIndex <= select.row[1]) {
+                        changeRowSelected = true;
+                    }
+                    return changeRowSelected;
+                });
+            }
+            if(changeRowSelected) {
+                Store["luckysheet_select_save"].filter(select => select.row_select).forEach(select => {
+                    for(let r = select.row[0]; r <= select.row[1]; r++) {
+                        cfg["rowlen"][r] = Math.ceil(size/Store.zoomRatio);  
+                    }
+                })
+            } 
+            else {
+                cfg["rowlen"][Store.luckysheet_rows_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
+            }
 
             let images = imageCtrl.moveChangeSize("row", Store.luckysheet_rows_change_size_start[1], size);
 
@@ -3685,7 +3704,27 @@ export default function luckysheetHandler() {
 
             cfg["customWidth"][Store.luckysheet_cols_change_size_start[1]] = 1;
 
-            cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
+            const changeColumnIndex = Store.luckysheet_cols_change_size_start[1];
+            let changeColumnSelected = false;
+            if(Store["luckysheet_select_save"].length > 0) {
+                Store["luckysheet_select_save"].filter(select => select.column_select).some((select) => {
+                    if(changeColumnIndex >= select.column[0] && changeColumnIndex <= select.column[1]) {
+                        changeColumnSelected = true;
+                    }
+                    return changeColumnSelected;
+                });
+            }
+            if(changeColumnSelected) {
+                Store["luckysheet_select_save"].filter(select => select.column_select).forEach(select => {
+                    for(let r = select.column[0]; r <= select.column[1]; r++) {
+                        cfg["columnlen"][r] = Math.ceil(size/Store.zoomRatio);  
+                    }
+                })
+            } 
+            else {
+                cfg["columnlen"][Store.luckysheet_cols_change_size_start[1]] = Math.ceil(size/Store.zoomRatio);
+            }
+            
 
             let images = imageCtrl.moveChangeSize("column", Store.luckysheet_cols_change_size_start[1], size);
 
@@ -4930,7 +4969,7 @@ export default function luckysheetHandler() {
         $("#luckysheet-wa-functionbox-confirm").click();
         Store.luckysheet_select_status = false;
 
-        Store.luckysheet_select_save = [{ "row": [0, Store.flowdata.length - 1], "column": [0, Store.flowdata[0].length - 1], "row_focus": 0, "column_focus": 0 }];
+        Store.luckysheet_select_save = [{ "row": [0, Store.flowdata.length - 1], "column": [0, Store.flowdata[0].length - 1], "row_focus": 0, "column_focus": 0, row_select: true, column_select: true }];
         selectHightlightShow();
 
         clearTimeout(Store.countfuncTimeout);
