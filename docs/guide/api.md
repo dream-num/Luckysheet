@@ -2269,9 +2269,6 @@ Use note:
 
 ### scroll([setting])
 
-[todo]
-
-
 - **参数**：
 	
 	- {PlainObject} [setting]: optional parameters

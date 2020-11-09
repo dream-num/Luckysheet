@@ -2571,7 +2571,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	按照scrollWidth, scrollHeight刷新canvas展示数据。
 
-	> 推荐使用新API： [scroll](#scroll([setting]))
+	> 推荐使用新API： [scroll](/zh/guide/api.html#scroll-setting)
 ------------
 
 ### setcellvalue(r, c, d, v)

@@ -12,7 +12,8 @@
 ## 协同编辑后台
 
 ### 社区案例
-- Java后台 [Luckysheet保存与恢复](https://gitee.com/ichiva/luckysheet-saved-in-recovery)
+- [Luckysheet保存与恢复](https://gitee.com/ichiva/luckysheet-saved-in-recovery)（Java版）
+- [基于Luckysheet实现的协同编辑在线表格](https://github.com/DilemmaVi/ecsheet)（Java版）
 
 
 ## 学习资料

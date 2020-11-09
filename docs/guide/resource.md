@@ -12,7 +12,8 @@ If you have written or found an excellent tutorial and want to recommend it to u
 ## Collaborative editing background
 
 ### Community Case
-- Java background [Luckysheet save and restore](https://gitee.com/ichiva/luckysheet-saved-in-recovery)[Pending translation]
+- [Luckysheet save and restore](https://gitee.com/ichiva/luckysheet-saved-in-recovery) (Java version)
+- [Online form for collaborative editing based on Luckysheet](https://github.com/DilemmaVi/ecsheet) (Java version)
 
 
 ## Learning Materials

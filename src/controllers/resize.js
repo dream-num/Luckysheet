@@ -355,8 +355,7 @@ export function menuToolBarWidth() {
         underline: {
             ele:'#luckysheet-icon-underline',
             index:13,
-        }, //'Strikethrough (Alt+Shift+6)'
-      
+        }, //'Underline (Alt+Shift+6)'
         textColor: {
             ele:['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
             index:14,
@@ -389,11 +388,11 @@ export function menuToolBarWidth() {
             ele:['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
             index:21,
         }, //'Text Rotation Mode'
-		    image:{
+		image:{
             ele:'#luckysheet-insertImg-btn-title',
             index:22,
         }, //'Insert link'
-		    link:{
+		link:{
             ele:'#luckysheet-insertLink-btn-title',
             index:23,
         }, //'Insert picture'
@@ -445,7 +444,7 @@ export function menuToolBarWidth() {
             ele:'#luckysheet-icon-protection',
             index:35,
         }, // 'Worksheet protection'
-		    print:{
+		print:{
             ele:'#luckysheet-icon-print',
             index:36,
         }, // 'print'
@@ -465,6 +464,7 @@ export function menuToolBarWidth() {
         bold: true, //'Bold (Ctrl+B)'
         italic: true, //'Italic (Ctrl+I)'
         strikethrough: true, //'Strikethrough (Alt+Shift+5)'
+        underline: true, //'Underline (Alt+Shift+6)'
         textColor: true, //'Text color'
         fillColor: true, //'Cell color'
         border: true, //'border'
@@ -474,6 +474,7 @@ export function menuToolBarWidth() {
         textWrapMode: true, //'Wrap mode'
         textRotateMode: true, //'Text Rotation Mode'
 		image:true, // 'Insert picture'
+		link: true, // 'Insert link'(TODO)
 		chart: true, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
 		postil:true, //'comment'
 		pivotTable: true, //'PivotTable'
@@ -487,7 +488,6 @@ export function menuToolBarWidth() {
 		findAndReplace: true, //'Find and Replace'
 		protection: true, // 'Worksheet protection'
 		print: true, // 'print'
-		// link: true, // 'Insert link'(TODO)
     }
 
     // false means all false
