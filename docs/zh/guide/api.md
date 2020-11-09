@@ -1791,7 +1791,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	返回所有工作表配置，格式同工作表配置，得到的结果可用于表格初始化时作为options.data使用。
 
-	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，可以使用 [toJson](#toJson())
+	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，推荐使用 [toJson](#toJson())，并且可以直接用于初始化Luckysheet。
 
 - **示例**:
 
@@ -1805,6 +1805,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 
 	返回所有表格数据结构的一维数组`luckysheetfile`，不同于`getAllSheets`方法，此方法得到的工作表参数会包含很多内部使用变量，最明显的区别是表格数据操作会维护`luckysheetfile[i].data`，而初始化数据采用的是`options.data[i].celldata`，所以`luckysheetfile`可用于调试使用，但是不适用初始化表格。
+
+	除此之外，加载过的工作表参数中会增加一个`load = 1`，这个参数在初始化数据的时候需要置为0才行。所以，将`getLuckysheetfile()`得到的数据拿来初始化工作簿，需要做两个工作：
+	
+	- celldata转为data，参考:[transToData](/zh/guide/api.html#transtodata-celldata-setting)
+	- load重置为0或者删除此字段
+
+	现在已有`getAllSheets`来完成这个工作，无需再手动转化数据。
 
 - **示例**:
 
@@ -1873,13 +1880,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **参数**：
 
     - {PlainObject} [setting]: 可选参数
-    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象
+    	+ {Object} [sheetObject]: 新增的工作表的数据；默认值为空对象，工作表数据格式参考[options.data](/zh/guide/sheet.html#初始化配置)
     	+ {Number} [order]: 新增的工作表下标；默认值为最后一个下标位置
     	+ {Function} [success]: 操作结束的回调函数
 	
 - **说明**：
 
-	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表
+	新增一个sheet，返回新增的工作表对象，`setting`中可选设置数据为 `sheetObject`，不传`sheetObject`则会新增一个空白的工作表。
 
 - **示例**:
 
@@ -2467,7 +2474,6 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### toJson()
 
-[todo]
 
 - **说明**：
 	

@@ -6,16 +6,16 @@
 
 **<span style="font-size:20px;">A</span>** : 表格初始化时使用一维数组格式的 [celldata](/zh/guide/sheet.html#celldata)，初始化完成后转化为二维数组格式的data作为存储更新使用，celldata不再使用。
 
-如果需要将data拿出来作为初始化数据，则需要执行 `luckysheet.getGridData(data)`转换为celldata数据。
-其中`{ r, c, v }`格式的celldata转换为二维数组使用的是`luckysheet.buildGridData(luckysheetfile)`，传入参数为表格数据对象`luckysheetfile`
+如果需要将`data`拿出来作为初始化数据，则需要执行 [transToCellData(data)](/zh/guide/api.html#transtocelldata-data-setting)转换为celldata数据。
+其中`{ r, c, v }`格式的celldata转换为二维数组使用的是[transToData(celldata)](/zh/guide/api.html#transtodata-celldata-setting)
 
 总结如下：
 ```js
-// data => celldata 二维数组数据 转化成 {r, c, v}格式 一维数组，传入参数为二维数据data
-luckysheet.getGridData(data)
+// data => celldata 二维数组数据 转化成 {r, c, v}格式 一维数组
+luckysheet.transToCellData(data)
 
-// celldata => data 生成表格所需二维数组，传入参数为表格数据对象file
-luckysheet.buildGridData(luckysheetfile)
+// celldata => data 生成表格所需二维数组
+luckysheet.transToData(celldata)
 ```
 
 ------------
@@ -65,14 +65,17 @@ luckysheet.buildGridData(luckysheetfile)
 
 ## **<span style="font-size:20px;">Q</span>** excel导入导出怎么做？
 
-**<span style="font-size:20px;">A</span>** :配合Luckysheet开发的excel导入导出库-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel)已经实现了excel导入功能，导出功能正在开发当中。现阶段excel导出可以参考这篇博文： https://www.cnblogs.com/recode-hyh/p/13168226.html。
+**<span style="font-size:20px;">A</span>** :配合Luckysheet开发的excel导入导出库-[Luckyexcel](https://github.com/mengshukeji/Luckyexcel)已经实现了excel导入功能，导出功能正在开发当中。现阶段excel导出可以参考这2篇博文： 
+
+- [基于LuckySheet在线表格的Excel下载功能开发](https://www.cnblogs.com/recode-hyh/p/13168226.html)
+- [使用exceljs导出luckysheet表格](https://blog.csdn.net/csdn_lsy/article/details/107179708)
 
 ------------
 
 ## **<span style="font-size:20px;">Q</span>** 初始化时合并单元格怎么做？
 
 **<span style="font-size:20px;">A</span>** :参考以下案例
-- Luckysheet初始化含合并单元格的数据: https://www.cnblogs.com/DuShuSir/p/13272397.html
+- [Luckysheet如何初始化含合并单元格的数据](https://www.cnblogs.com/DuShuSir/p/13272397.html)
 
 ------------
 
@@ -82,7 +85,7 @@ luckysheet.buildGridData(luckysheetfile)
 
 - 一是表格操作完成后，使用`luckysheet.getAllSheets()`方法获取到全部的工作表数据，全部发送到后台存储。
 - 二是开启协同编辑功能，实时传输数据给后端。
-具体的操作步骤参考这篇文章：https://www.cnblogs.com/DuShuSir/p/13857874.html
+具体的操作步骤参考这篇文章：[Luckysheet如何把表格里的数据保存到数据库](https://www.cnblogs.com/DuShuSir/p/13857874.html)
 
 ------------
 
@@ -180,5 +183,56 @@ Luckyexcel是excel导入导出库，项目采用了gulp作为打包工具，旧�
 
 - 一是使用`luckysheet.getLuckysheetfile()`获取到所有工作表配置后，在各个工作表的配置中直接取得默认行高`defaultRowHeight`和默认列宽`defaultColWidth`。
 - 二是开放了API可以获取到工作表默认的行高[getDefaultRowHeight](/zh/guide/api.html#getdefaultrowheight-setting)和列宽[getDefaultColWidth](/zh/guide/api.html#getdefaultcolwidth-setting)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何隐藏工作表下方的添加行按钮和回到顶部按钮？
+
+**<span style="font-size:20px;">A</span>** 已开放配置
+- 允许添加行 [enableAddRow](/zh/guide/config.html#enableaddrow)
+- 允许回到顶部 [enableAddBackTop](/zh/guide/config.html#enableAddBackTop)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何隐藏工作表的行标题和列标题？
+
+**<span style="font-size:20px;">A</span>** 已开放配置
+- 行标题区域的宽度 [rowHeaderWidth](/zh/guide/config.html#rowheaderwidth)
+- 列标题区域的高度 [columnHeaderHeight](/zh/guide/config.html#columnHeaderHeight)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 调用什么方法能设置`config.merge`？
+
+**<span style="font-size:20px;">A</span>** 三个方法
+- 界面操作
+- 用API：[setRangeMerge](/zh/guide/api.html#setrangemerge-type-setting)
+- 手动组装merge参数
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 为什么官方公布的新功能没有效果？
+
+**<span style="font-size:20px;">A</span>** 第一步，检查下您是否使用了CDN的方式引入，
+
+Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/package/npm/luckysheet) 提供的服务，代码是从 [npmjs.com](https://www.npmjs.com/) 自动同步过去的，不是从 [Github](https://github.com/mengshukeji/Luckysheet/) 同步过去的。因为我们新提交的代码，还需要经过一段时间的测试，所以不会立即发布到npm使用，导致了npm的代码稍滞后于Github。
+
+如果需要尝试最新代码，我们强烈建议您从 [Luckysheet Github](https://github.com/mengshukeji/Luckysheet/) 主仓库拉取代码。后续我们版本稳定了，会考虑实时发布npm包。
+
+第二步，如果是引用github仓库打包后的代码，测试判断是否有bug，您可以查找问题并尝试修复，再[提交PR](https://github.com/mengshukeji/Luckysheet/pulls)，如果修复不了，请[提交issues](https://github.com/mengshukeji/Luckysheet/issues)。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** `npm run dev`报错：`Error: Cannot find module 'rollup'`？
+
+**<span style="font-size:20px;">A</span>** 可能是npm包安装问题，尝试以下步骤：
+1. `npm cache clean --force`
+2. `npm i rimraf -g`
+3. `rimraf node_modules`
+4. 删除package-lock.json文件
+5. `npm i`
+6. `npm run dev`
+
+提示：大多数的其他npm安装问题，也可以尝试此步骤来解决。
 
 ------------

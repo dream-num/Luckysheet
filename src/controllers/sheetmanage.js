@@ -19,6 +19,7 @@ import luckysheetsizeauto from './resize';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
 import dataVerificationCtrl from './dataVerificationCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import luckysheetFreezen from './freezen';
 import { createFilterOptions, labelFilterOptionState } from './filter';
 import { selectHightlightShow, selectionCopyShow } from './select';
@@ -28,6 +29,7 @@ import { renderChartShow } from '../expendPlugins/chart/plugin';
 import {changeSheetContainerSize, menuToolBarWidth} from './resize';
 import {zoomNumberDomBind} from './zoom';
 import menuButton from './menuButton';
+import method from '../global/method';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -314,6 +316,24 @@ const sheetmanage = {
         });
 
         server.saveParam("shr", null, orders);
+
+        Store.luckysheetfile.sort((x, y) => {
+            let order_x = x.order;
+            let order_y = y.order;
+    
+            if(order_x != null && order_y != null){
+                return order_x - order_y;
+            }
+            else if(order_x != null){
+                return -1;
+            }
+            else if(order_y != null){
+                return 1;
+            }
+            else{
+                return 1;
+            }
+        })
     },
     createSheet: function() { //修复拖动sheet更新后台后，重新打开显示错误
         let _this = this;
@@ -372,8 +392,11 @@ const sheetmanage = {
             $c.scrollLeft(scrollLeftpx - 10);
 
             if (c_width >= winW * 0.7) {
-                $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
-                $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+                if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+                    $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
+                    $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+                }
+                
             }
         }, 1)
     },
@@ -701,7 +724,7 @@ const sheetmanage = {
 
             Store.luckysheetTableContentHW = [
                 $("#luckysheet-cell-main").width() + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
-                $("#luckysheet-cell-main").height() + Store.columeHeaderHeight - Store.cellMainSrollBarSize
+                $("#luckysheet-cell-main").height() + Store.columnHeaderHeight - Store.cellMainSrollBarSize
             ];
             $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
                 width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
@@ -912,6 +935,10 @@ const sheetmanage = {
         //数据验证
         dataVerificationCtrl.dataVerification = file.dataVerification;
         dataVerificationCtrl.init();
+
+        //链接
+        hyperlinkCtrl.hyperlink = file.hyperlink;
+        hyperlinkCtrl.init();
         
         createFilterOptions(file["filter_select"], file["filter"]);
     },
@@ -1314,7 +1341,7 @@ const sheetmanage = {
         $("#luckysheet-cols-h-cells_0").css("width", Store.ch_width); //width更新
 
         $("#luckysheet-scrollbar-x div").width(Store.ch_width);
-        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
+        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
 
         //等待滚动条dom宽高计算完成后 初始化该表格滚动位置
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -1391,8 +1418,11 @@ const sheetmanage = {
         });
 
         if (c_width >= containerW) {
-            $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
-            $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+            if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+                $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
+                $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+            }
+            
         }
         else{
             $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "none");

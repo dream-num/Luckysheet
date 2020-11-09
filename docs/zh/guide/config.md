@@ -28,7 +28,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义工具栏（[showtoolbarConfig](#showtoolbarConfig)）
 - 自定义底部sheet页（[showsheetbarConfig](#showsheetbarConfig)）
 - 自定义计数栏（[showstatisticBarConfig](#showstatisticBarConfig)）
-- 自定义添加行和回到顶部（[sheetBottomConfig](#sheetBottomConfig)）
 - 自定义单元格右键菜单（[cellRightClickConfig](#cellRightClickConfig)）
 - 自定义底部sheet页右击菜单（[sheetRightClickConfig](#sheetRightClickConfig)）
 
@@ -60,22 +59,20 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
-- 自定义添加行和回到顶部 [sheetBottomConfig](#sheetBottomConfig)
 - 允许编辑 [allowEdit](#allowEdit)
-- 允许增加行 [enableAddRow](#enableAddRow)
-- 允许增加列 [enableAddCol](#enableAddCol)
+- 允许添加行 [enableAddRow](#enableAddRow)
+- 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
 - 用户信息菜单 [userMenuItem](#userMenuItem)
 - 返回按钮链接 [myFolderUrl](#myFolderUrl)
 - 比例 [devicePixelRatio](#devicePixelRatio)
 - 功能按钮 [functionButton](#functionButton)
 - 自动缩进界面 [showConfigWindowResize](#showConfigWindowResize)
-- 加载下一页 [enablePage](#enablePage)
 - 刷新公式 [forceCalculation](#forceCalculation)
 - 自定义单元格右键菜单 [cellRightClickConfig](#cellRightClickConfig)
 - 自定义sheet页右击菜单 [sheetRightClickConfig](#sheetRightClickConfig)
-- 是否显示行号区域 [showRowBar](#showRowBar)
-- 是否显示列号区域 [showColumnBar](#showColumnBar)
+- 行标题区域的宽度 [rowHeaderWidth](#rowHeaderWidth)
+- 列标题区域的高度 [columnHeaderHeight](#columnHeaderHeight)
 - 是否显示公式栏 [sheetFormulaBar](#sheetFormulaBar)
 - 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
 
@@ -213,6 +210,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	+ 配置了`loadSheetUrl`
 	+ 配置了`updateUrl`
 
+	注意，发送给后端的数据默认是经过pako压缩过后的。后台拿到数据需要先解压。
+
 	通过共享编辑功能，可以实现Luckysheet实时保存数据和多人同步数据，每一次操作都会发送不同的参数到后台，具体的操作类型和参数参见[表格操作](/zh/guide/operate.html)
 
 ------------
@@ -272,15 +271,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showtoolbarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置工具栏
+- 作用：自定义配置工具栏，可以与showtoolbar配合使用，`showtoolbarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
-        undoRedo: false, //撤销重做
+        undoRedo: false, //撤销重做，注意撤消重做是两个按钮，由这一个配置决定显示还是隐藏
         paintFormat: false, //格式刷
         currencyFormat: false, //货币格式
         percentageFormat: false, //百分比格式
@@ -300,19 +297,48 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         verticalAlignMode: false, // '垂直对齐方式'
         textWrapMode: false, // '换行方式'
         textRotateMode: false, // '文本旋转方式'
-        frozenMode: false, // '冻结方式'
-        sort: false, // '排序'
-        filter: false, // '筛选'
-        findAndReplace: false, // '查找替换'
-        function: false, // '公式'
-        conditionalFormat: false, // '条件格式'
+		image:false, // '插入图片'
+		link:false, // '插入链接'
+        chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
         postil:  false, //'批注'
         pivotTable: false,  //'数据透视表'
-        chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
+        function: false, // '公式'
+        frozenMode: false, // '冻结方式'
+        sortAndFilter: false, // '排序和筛选'
+        conditionalFormat: false, // '条件格式'
+		dataVerification: false, // '数据验证'
+        splitColumn: false, // '分列'
         screenshot: false, // '截图'
-        splitColumn: false, // '分列'        
+        findAndReplace: false, // '查找替换'
+		protection:false, // '工作表保护'
+		print:false, // '打印'
     }
     ```
+- 示例：
+	- 仅显示撤消重做和字体按钮：
+		
+		```js
+			//options
+			{
+				showtoolbar: false,
+				showtoolbarConfig:{
+					undoRedo: true,
+					font: true,
+				}
+			}
+		```
+	- 仅隐藏图片和打印按钮：
+		
+		```js
+			//options
+			{
+				showtoolbar: true, // 默认就是true，可以不设置
+				showtoolbarConfig:{
+					image: false,
+					print: false,
+				}
+			}
+		```
 
 ------------
 ### showinfobar
@@ -329,11 +355,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showsheetbarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部sheet页按钮
+- 作用：自定义配置底部sheet页按钮，可以与showsheetbar配合使用，`showsheetbarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
@@ -342,6 +366,30 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         sheet: false //sheet页显示
     }
     ```
+- 示例：
+	- 仅显示新增sheet按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: false,
+				showsheetbarConfig:{
+					add: true,
+				}
+			}
+		```
+	- 仅隐藏新增sheet和管理按钮：
+		
+		```js
+			//options
+			{
+				showsheetbar: true, // 默认就是true，可以不设置
+				showsheetbarConfig:{
+					add: false,
+					menu: false,
+				}
+			}
+		```
 
 ------------
 ### showstatisticBar
@@ -352,32 +400,40 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### showstatisticBarConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
-- 作用：自定义配置底部计数栏
+- 作用：自定义配置底部计数栏，可以与showstatisticBar配合使用，`showstatisticBarConfig`拥有更高的优先级。
 - 格式：
     ```json
     {
         count: false, // 计数栏
-        zoom: false // 缩放
+		view: false, // 打印视图
+        zoom: false, // 缩放
     }
-
-------------
-### sheetBottomConfig
-
-[todo]
-
-- 类型：Object
-- 默认值：{}
-- 作用：sheet页下方的添加行按钮和回到顶部按钮配置
-- 格式：
-    ```json
-    {
-        addRow: false, // 添加行按钮
-        backTop: false // 回到顶部
-    }
+	```
+- 示例：
+	- 仅显示缩放按钮：
+		
+		```js
+			//options
+			{
+				showstatisticBar: false,
+				showstatisticBarConfig:{
+					zoom: true,
+				}
+			}
+		```
+	- 仅隐藏打印视图按钮：
+		
+		```js
+			//options
+			{
+				showstatisticBar: true, // 默认就是true，可以不设置
+				showstatisticBarConfig:{
+					view: false,
+				}
+			}
+		```
 
 ------------
 ### allowEdit
@@ -389,13 +445,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### enableAddRow
 - 类型：Boolean
 - 默认值：true
-- 作用：允许增加行
+- 作用：允许添加行
 
 ------------
-### enableAddCol
+### enableAddBackTop
 - 类型：Boolean
 - 默认值：true
-- 作用：允许增加列
+- 作用：允许回到顶部
 
 ------------
 ### userInfo
@@ -434,12 +490,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：图表或数据透视表的配置会在右侧弹出，设置弹出后表格是否会自动缩进
 
 ------------
-### enablePage
-- 类型：Boolean
-- 默认值：false
-- 作用：允许加载下一页
-
-------------
 ### forceCalculation
 - 类型：Boolean
 - 默认值：false
@@ -454,8 +504,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ------------
 ### cellRightClickConfig
 
-[todo]
-
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置单元格右击菜单
@@ -465,21 +513,55 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         copy: false, // 复制
         copyAs: false, // 复制为
         paste: false, // 粘贴
-        insert: false, // 插入
-        delete: false, // 删除
-        hide: false, // 隐藏
+        insertRow: false, // 插入行
+        insertColumn: false, // 插入列
+        deleteRow: false, // 删除选中行
+        deleteColumn: false, // 删除选中列
         deleteCell: false, // 删除单元格
+        hideRow: false, // 隐藏选中行和显示选中行
+        hideColumn: false, // 隐藏选中列和显示选中列
+        rowHeight: false, // 行高
+        columnWidth: false, // 列宽
         clear: false, // 清除内容
         matrix: false, // 矩阵操作选区
         sort: false, // 排序选区
         filter: false, // 筛选选区
-        chart: false // 图表生成
+        chart: false, // 图表生成
+        image: false, // 插入图片
+        link: false, // 插入链接
+        data: false, // 数据验证
+		cellFormat: false // 设置单元格格式
     }
+	```
+	除了单元格，这里的配置还包括行标题右击菜单、列标题右击菜单和列标题下拉箭头的菜单，具体配置关系如下表格：
+	
+	|右击菜单配置|单元格|行标题|列标题|列箭头|
+    | ------------ | ------------ | ------------ | ------------ | ------------ |
+    |copy|复制|复制|复制|复制|
+    |copyAs|复制为|复制为|复制为|复制为|
+    |paste|粘贴|粘贴|粘贴|粘贴|
+    |insertRow|插入行|向上增加N行，向下增加N行|-|-|
+    |insertColumn|插入列|-|向左增加N列，向右增加N列|向左增加N列，向右增加N列|
+    |deleteRow|删除选中行|删除选中行|-|-|
+    |deleteColumn|删除选中列|-|删除选中列|删除选中列|
+    |deleteCell|删除单元格|-|-|-|
+    |hideRow|-|隐藏选中行和显示选中行|-|-|
+    |hideColumn|-|-|隐藏选中列和显示选中列|隐藏选中列和显示选中列|
+    |rowHeight|-|行高|-|-|
+    |columnWidth|-|-|列宽|列宽|
+    |clear|清除内容|清除内容|清除内容|-|
+    |matrix|矩阵操作选区|矩阵操作选区|矩阵操作选区|-|
+    |sort|排序选区|排序选区|排序选区|A-Z排序和Z-A排序|
+    |filter|筛选选区|筛选选区|筛选选区|-|
+    |chart|图表生成|图表生成|图表生成|-|
+    |image|插入图片|插入图片|插入图片|-|
+    |link|插入链接|插入链接|插入链接|-|
+    |data|数据验证|数据验证|数据验证|-|
+    |cellFormat|设置单元格格式|设置单元格格式|设置单元格格式|-|
+
 
 ------------
 ### sheetRightClickConfig
-
-[todo]
 
 - 类型：Object
 - 默认值：{}
@@ -491,29 +573,27 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         copy: false, // 复制
         rename: false, //重命名
         color: false, //更改颜色
-        hide: false, //隐藏
-        show: false, //取消隐藏
-        left: false, //向左移
-        right: false //向右移
+        hide: false, //隐藏，取消隐藏
+        move: false, //向左移，向右移
     }
 
 ------------
-### showRowBar
-[todo]
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示行号区域
+### rowHeaderWidth
+
+- 类型：Number
+- 默认值：46
+- 作用：行标题区域的宽度，如果设置为0，则表示隐藏行标题
 
 ------------
-### showColumnBar
-[todo]
-- 类型：Boolean
-- 默认值：true
-- 作用：是否显示列号区域
+### columnHeaderHeight
+
+- 类型：Number
+- 默认值：20
+- 作用：列标题区域的高度，如果设置为0，则表示隐藏列标题
 
 ------------
 ### sheetFormulaBar
-[todo]
+
 - 类型：Boolean
 - 默认值：true
 - 作用：是否显示公式栏
@@ -534,26 +614,40 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ## 单元格
 
-### cellRenderAfter
-（TODO）
+### cellRenderBefore
+
 - 类型：Function
 - 默认值：null
-- 作用：单元格渲染结束后触发
+- 作用：单元格渲染前触发，`return false` 则不渲染该单元格
 - 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
 
 ------------
-### cellHover
-（TODO）
+### cellRenderAfter
+
 - 类型：Function
 - 默认值：null
-- 作用：鼠标移过单元格时(hover)触发
+- 作用：单元格渲染结束后触发，`return false` 则不渲染该单元格
 - 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
 
 ------------
 ### cellEditBefore
@@ -579,11 +673,175 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [newV]: 修改后单元格对象
 
 ------------
-### fireMousedown
-（TODO）
+### rowTitleCellRenderBefore
+
 - 类型：Function
 - 默认值：null
-- 作用：单元格数据下钻自定义方法
+- 作用：行标题单元格渲染前触发，`return false` 则不渲染行标题
+- 参数：
+	- {String} [rowNum]:行号
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [top]:单元格左上角的垂直坐标
+		+ {Number} [width]:单元格宽度
+		+ {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### rowTitleCellRenderAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：行标题单元格渲染后触发，`return false` 则不渲染行标题
+- 参数：
+	- {String} [rowNum]:行号
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [top]:单元格左上角的垂直坐标
+		+ {Number} [width]:单元格宽度
+		+ {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### columnTitleCellRenderBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：列标题单元格渲染前触发，`return false` 则不渲染列标题
+- 参数：
+	- {Object} [columnAbc]:列标题字符
+	- {Object} [postion]:
+		- {Number} [c]:单元格所在列号
+		- {Number} [left]:单元格左上角的水平坐标
+		- {Number} [width]:单元格宽度
+		- {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### columnTitleCellRenderAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：列标题单元格渲染后触发，`return false` 则不渲染列标题
+- 参数：
+	- {Object} [columnAbc]:列标题字符
+	- {Object} [postion]:
+		- {Number} [c]:单元格所在列号
+		- {Number} [left]:单元格左上角的水平坐标
+		- {Number} [width]:单元格宽度
+		- {Number} [height]:单元格高度
+	- {Object} [ctx]: 当前画布的context
+
+------------
+
+## 鼠标钩子
+
+### cellMousedownBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格点击前的事件，`return false`则终止之后的点击操作
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### cellMousedown
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格点击后的事件，`return false`则终止之后的点击操作
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### sheetMousemove
+
+- 类型：Function
+- 默认值：null
+- 作用：鼠标移动事件，可通过cell判断鼠标停留在哪个单元格
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
+		+ {Boolean} [functionResizeStatus]:工具栏拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
+		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
+		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
+		+ {Boolean} [selectStatus]:鼠标移动框选数据
+		+ {Boolean} [rowsSelectedStatus]:通过行标题来选择整行操作
+		+ {Boolean} [colsSelectedStatus]:通过列标题来选择整列操作
+		+ {Boolean} [cellSelectedMove]:选框的移动
+		+ {Boolean} [cellSelectedExtend]:选框下拉填充
+		+ {Boolean} [colsChangeSize]:拖拽改变列宽
+		+ {Boolean} [rowsChangeSize]:拖拽改变行高
+		+ {Boolean} [chartMove]:图表移动
+		+ {Boolean} [chartResize]:图表改变大小
+		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
+		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+	- {Object} [ctx]: 当前画布的context
+
+------------
+### sheetMouseup
+
+- 类型：Function
+- 默认值：null
+- 作用：鼠标按钮释放事件，可通过cell判断鼠标停留在哪个单元格
+- 参数：
+	- {Object} [cell]:单元格对象
+	- {Object} [postion]:
+		+ {Number} [r]:单元格所在行号
+		+ {Number} [c]:单元格所在列号
+		+ {Number} [start_r]:单元格左上角的水平坐标
+		+ {Number} [start_c]:单元格左上角的垂直坐标
+		+ {Number} [end_r]:单元格右下角的水平坐标
+		+ {Number} [end_c]:单元格右下角的垂直坐标
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
+		+ {Boolean} [functionResizeStatus]:工具栏拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
+		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
+		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
+		+ {Boolean} [selectStatus]:鼠标移动框选数据
+		+ {Boolean} [rowsSelectedStatus]:通过行标题来选择整行操作
+		+ {Boolean} [colsSelectedStatus]:通过列标题来选择整列操作
+		+ {Boolean} [cellSelectedMove]:选框的移动
+		+ {Boolean} [cellSelectedExtend]:选框下拉填充
+		+ {Boolean} [colsChangeSize]:拖拽改变列宽
+		+ {Boolean} [rowsChangeSize]:拖拽改变行高
+		+ {Boolean} [chartMove]:图表移动
+		+ {Boolean} [chartResize]:图表改变大小
+		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
+		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+	- {Object} [ctx]: 当前画布的context
 
 ------------
 
@@ -1120,4 +1378,14 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 参数：
 	- {Object} [frozen]: 冻结类型信息
     
+------------
+
+## 旧版钩子函数
+
+### fireMousedown
+
+- 类型：Function
+- 默认值：null
+- 作用：单元格数据下钻自定义方法，注意此钩子函数是挂载在options下：`options.fireMousedown`
+
 ------------
