@@ -662,11 +662,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [v]: 单元格对象
 
 ------------
-### cellEditAfter
+### cellExitEditBefore
 （TODO）
 - 类型：Function
 - 默认值：null
-- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最后触发这个方法
+- 作用：退出单元格编辑状态，即保存这个单元格值之前触发
 - 参数：
 	- {Number} [r]: 单元格所在行数
 	- {Number} [c]: 单元格所在列数
@@ -790,8 +790,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
 		+ {Boolean} [functionResizeStatus]:工具栏拖动
-		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
-		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割栏拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割栏拖动
 		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
 		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
 		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
@@ -826,8 +826,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
 		+ {Boolean} [functionResizeStatus]:工具栏拖动
-		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
-		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割栏拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割栏拖动
 		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
 		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
 		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
@@ -842,6 +842,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		+ {Boolean} [chartResize]:图表改变大小
 		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
 		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+		+ {Boolean} [cellRightClick]:单元格右击
+		+ {Boolean} [rowTitleRightClick]:行标题右击
+		+ {Boolean} [columnTitleRightClick]:列标题右击
+		+ {Boolean} [sheetRightClick]:底部sheet页右击
+		+ {Boolean} [hyperlinkClick]:点击超链接
 	- {Object} [ctx]: 当前画布的context
 
 ------------
@@ -1146,6 +1151,42 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {String} [newZoom]: 修改后当前sheet页缩放比例
 
 ------------
+### sheetActivateBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：激活工作表前
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
+### sheetActivateAfter
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：激活工作表后
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
+### sheetDeactivateBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：工作表从活动状态转为非活动状态前
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
+### sheetDeactivateAfter
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：工作表从活动状态转为非活动状态后
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
 
 ## 工作簿
 
@@ -1189,7 +1230,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 （TODO）
 - 类型：Function
 - 默认值：null
-- 作用：每次操作更新后执行的方法,在画布渲染之后执行，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销重做时因为也算一次操作，当然也会触发此钩子函数。
+- 作用：协同编辑中的每次操作后执行的方法，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销重做时因为也算一次操作，也会触发此钩子函数。
 - 参数：
 	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
     
@@ -1379,6 +1420,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 参数：
 	- {Object} [frozen]: 冻结类型信息
     
+------------
+
+## 打印
+
+### printBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：打印前
+
 ------------
 
 ## 旧版钩子函数

@@ -16,9 +16,9 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Links
- | Source Code   | Documentation | Demo | Plugins Demo | Forum |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
+ | Source Code   | Documentation | Demo | Plugins Demo | Forum | Resources |
+ | ------ | -------- | ------ | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
  | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
@@ -168,19 +168,10 @@ Create a table
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## Co-construction
+## Contribution
 
 1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) mechanism to operate, and only after community discussion and improvement, you can submit the code.
-3. If you are interested in Luckysheet, you are very welcome to join the development team to improve this plugin together (Email: alexads@foxmail.com), there are 4 types of tasks that can be claimed
-    - BUG
-    - New features
-    - Documentation
-    - Popularize
-  
-    You will gain:
-    - Luckysheet official readme document contributor link
-    - Participate in large open source projects, improve technology and vision
+2. Learn more:[How to contribute](https://github.com/mengshukeji/Luckysheet/issues/128)
 
 ## Communication
 

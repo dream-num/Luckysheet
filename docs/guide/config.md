@@ -544,6 +544,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### cellEditBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Triggered after double-clicking the cell, that is, when double-clicking the cell to edit the content, this method is triggered first
@@ -553,10 +554,11 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Object} [v]: Cell object
 
 ------------
-### cellEditAfter
+### cellExitEditBefore
+(TODO)
 - Type: Function
 - Default: null
-- Usage: Triggered after double-clicking the cell, that is, when double-clicking the cell to edit the content, this method is finally triggered
+- Usage: Exit the cell editing state, which is triggered before saving the cell value
 - Parameter: 
 	- {Number} [r]: Row number of cell
 	- {Number} [c]: Column number of cell
@@ -730,12 +732,14 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 ## Worksheet
 
 ### sheetCreatekBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Triggered before the worksheet is created, the new worksheet also includes the new pivot table
 
 ------------
 ### sheetCreateAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Triggered after the worksheet is created, the new worksheet also includes the new pivot table
@@ -744,6 +748,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetMoveBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before the worksheet is moved
@@ -753,6 +758,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetMoveAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After the worksheet is moved
@@ -763,6 +769,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetDeleteBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before the worksheet is deleted
@@ -771,6 +778,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetDeleteAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After the worksheet is deleted
@@ -779,6 +787,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditNameBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before changing the name of the worksheet
@@ -788,6 +797,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditNameAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After changing the name of the worksheet
@@ -798,6 +808,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditColorBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before changing the color of the worksheet
@@ -807,6 +818,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditColorAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After changing the color of the worksheet
@@ -817,6 +829,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetZoomBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before worksheet zoom
@@ -826,6 +839,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetZoomAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After worksheet zoom
@@ -833,6 +847,42 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Number} [i]: `index` of current worksheet
 	- {String} [oldZoom]: Before modification, the current worksheet zoom ratio
 	- {String} [newZoom]: After modification, the current worksheet zoom ratio
+
+------------
+### sheetActivateBefore
+(TODO)
+- Type: Function
+- Default: null
+- Usage：Before worksheet activate
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetActivateAfter
+(TODO)
+- Type: Function
+- Default: null
+- Usage：After worksheet activate
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetDeactivateBefore
+（TODO）
+- Type: Function
+- Default: null
+- Usage：Before the worksheet changes from active to inactive
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetDeactivateAfter
+（TODO）
+- Type: Function
+- Default: null
+- Usage：After the worksheet is changed from active to inactive
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
 
 ------------
 

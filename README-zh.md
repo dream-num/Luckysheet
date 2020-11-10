@@ -13,9 +13,9 @@
 > Luckysheet最近参加了“2020年度OSC中国开源项目评选”，为了支持Luckysheet更好的得到关注和发展，请大家帮忙投票: [https://www.oschina.net/p/luckysheet](https://www.oschina.net/p/luckysheet)。
 
 ## 相关链接
- | 源码   | 文档 | Demo | 插件Demo | 论坛 |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
+ | 源码   | 文档 | Demo | 插件Demo | 论坛 | 资源 |
+ | ------ | -------- | ------ | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
  | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 
@@ -35,7 +35,7 @@
 + **数据类型** 
 	+ **货币, 百分比, 数字, 日期** 
 	+ **Custom** (和excel保持一致，例如： `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
-+ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
++ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内可定义每个文字的不同样式)
 
 ### 🧬单元格
 + **拖拽选取来修改单元格** (对选区进行操作，可以拖动四边来移动选区，也可以在右下角对选区进行下拉填充操作)
@@ -167,19 +167,11 @@ npm run build
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## 加入共建
+## 贡献
 
 1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. 如果您想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
-3. 如果您对Luckysheet感兴趣，非常欢迎加入开发组，一起来完善这个插件（下方扫码添加小编微信备注：共建），有4类任务可以认领
-    - BUG修复
-    - 新功能添加
-    - 文档
-    - 推广
-  
-    您将收获：
-    - Luckysheet官方readme文档贡献者链接
-    - 参与大型开源项目，技术和视野提升
+2. 详细了解：[如何参与贡献](https://github.com/mengshukeji/Luckysheet/issues/128)
+
 
 ## 交流
 

@@ -8,13 +8,13 @@ If you have written or found an excellent tutorial and want to recommend it to u
 - [How Luckysheet initializes the data with merged cells](https://www.cnblogs.com/DuShuSir/p/13272397.html)[Pending translation]
 - [How Luckysheet saves the data in the table to the database](https://www.cnblogs.com/DuShuSir/p/13857874.html)[Pending translation]
 - [Case of introducing Luckysheet into local HTML using CDN loading](https://www.cnblogs.com/DuShuSir/p/13859103.html)[Pending translation]
+- [Basic usage of Luckysheet, use `loadUrl` to load server data](https://blog.csdn.net/DCDC2020/article/details/108486525)
 
-## Collaborative editing background
+## Back-end
 
 ### Community Case
 - [Luckysheet save and restore](https://gitee.com/ichiva/luckysheet-saved-in-recovery) (Java version)
 - [Online form for collaborative editing based on Luckysheet](https://github.com/DilemmaVi/ecsheet) (Java version)
-
 
 ## Learning Materials
 
