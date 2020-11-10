@@ -1535,14 +1535,16 @@ export default function luckysheetHandler() {
     
                 let luckysheetTableContent = $("#luckysheetTableContent").get(0).getContext("2d");
 
-                method.createHookFunction("sheetMousemove", Store.flowdata[row_index][col_index], {
-                    r:row_index,
-                    c:col_index,
-                    "start_r": row_pre,
-                    "start_c": col_pre, 
-                    "end_r": row, 
-                    "end_c": col 
-                }, sheetFile,moveState,luckysheetTableContent);
+                if(Store.flowdata && Store.flowdata[row_index]){
+                    method.createHookFunction("sheetMousemove", Store.flowdata[row_index][col_index], {
+                        r:row_index,
+                        c:col_index,
+                        "start_r": row_pre,
+                        "start_c": col_pre, 
+                        "end_r": row, 
+                        "end_c": col 
+                    }, sheetFile,moveState,luckysheetTableContent);
+                }
             // }
         }
         
