@@ -9,3 +9,4 @@
 ## 如何成为Luckysheet Committer
 ## 贡献者列表
 ## 你能想到的其他部分
+…………
