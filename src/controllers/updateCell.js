@@ -15,6 +15,7 @@ import { luckysheetRangeLast } from '../global/cursorPos';
 import cleargridelement from '../global/cleargridelement';
 import {isInlineStringCell} from './inlineString';
 import Store from '../store';
+import server from './server';
 
 export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocus) {
     if(!checkProtectionLocked(row_index1, col_index1, Store.currentSheetIndex)){
@@ -25,6 +26,9 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     if(isEditMode() || Store.allowEdit===false){//此模式下禁用单元格编辑
         return;
     }
+
+    // 编辑单元格时发送指令到后台，通知其他单元格更新为“正在输入”状态
+    server.saveParam("mv", Store.currentSheetIndex,  {op:"enterEdit",range:Store.luckysheet_select_save});
 
     //数据验证
     if(dataVerificationCtrl.dataVerification != null && dataVerificationCtrl.dataVerification[row_index1 + '_' + col_index1] != null){

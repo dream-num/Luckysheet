@@ -256,7 +256,7 @@ options.data示例如下：
     ```
 
 #### config.borderInfo
-- 类型：Object
+- 类型：Array
 - 默认值：{}
 - 作用：单元格的边框信息
 - 示例：

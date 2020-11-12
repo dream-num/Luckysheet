@@ -1226,6 +1226,15 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [book]: 整个工作簿的配置（options）
     
 ------------
+### updateBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：协同编辑中的每次操作更新数据之前执行的方法，撤销重做时因为也算一次操作，也会触发此钩子函数。
+- 参数：
+	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
+    
+------------
 ### updated
 （TODO）
 - 类型：Function

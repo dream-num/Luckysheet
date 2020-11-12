@@ -289,6 +289,9 @@ export default function luckysheetHandler() {
             return;
         }
 
+        // 协同编辑其他用户不在操作的时候，用户名框隐藏
+        hideUsername();
+
         $("#luckysheet-cell-selected").find(".luckysheet-cs-fillhandle")
         .css("cursor","default")
         .end()
@@ -1446,7 +1449,9 @@ export default function luckysheetHandler() {
             }
 
             luckysheetupdateCell(row_index, col_index, Store.flowdata);
+
         }
+
     });
 
     //监听拖拽 
@@ -5605,4 +5610,21 @@ export default function luckysheetHandler() {
     }).mousedown(function (e) {
         e.stopPropagation();
     });
+}
+
+// 协同编辑其他用户不在操作的时候，且已经展示了用户名10秒，则用户名框隐藏
+function hideUsername(){
+    let $showEle = $$('.luckysheet-multipleRange-show');
+
+    if($showEle.length === undefined){
+        $showEle = [$showEle];
+    }
+
+    $showEle.forEach((ele)=>{
+        const id = ele.id.replace('luckysheet-multipleRange-show-','');
+        
+        if(Store.cooperativeEdit.usernameTimeout['user' + id] === null){
+            $$('.username',ele).style.display = 'none';
+        }
+    })
 }

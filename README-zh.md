@@ -18,8 +18,11 @@
  | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
  | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
-
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
+
+## 在线案例
+
+- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)（注意：官方Java后台待整理后也会开源，采用OT算法。请大家别操作频繁，防止搞崩服务器）
 
 ## 插件
 - excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)

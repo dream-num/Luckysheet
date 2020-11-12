@@ -8,6 +8,10 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 
 ![演示](/LuckysheetDocs/img/LuckysheetDemo.gif)
 
+## 在线案例
+
+- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)（注意：官方Java后台待整理后也会开源，采用OT算法。请大家别操作频繁，防止搞崩服务器）
+
 ## 特性
 
 ### 🛠️格式设置

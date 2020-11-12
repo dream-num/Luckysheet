@@ -10237,6 +10237,9 @@ export default {
         menuItemAreas:"打印区域",
         menuItemRows:"打印标题行",
         menuItemColumns:"打印标题列",
+    },
+    edit:{
+        typing:"正在输入",
     }
 
 };

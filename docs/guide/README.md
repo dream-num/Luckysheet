@@ -8,6 +8,10 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 
 ![Demo](/LuckysheetDocs/img/LuckysheetDemo.gif)
 
+## Online Case
+
+- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)(Note: The official Java backend will also be open source after finishing,using OT algorithm. Please do not operate frequently to prevent the server from crashing)
+
 ## Features
 
 ### 🛠️Formatting
