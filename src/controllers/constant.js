@@ -935,7 +935,7 @@ function menuToolBar (){
         <div id="toolbar-separator-more-format" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;">
         </div>
         <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block"
-        data-tooltip="${toolbar.font}" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
+        data-tips="${toolbar.font}" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
