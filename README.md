@@ -207,6 +207,7 @@ Note:
 - **平 ¥ 100
 - **东 ¥ 10
 - debugger ¥ 20
+- 烦了烦 ¥ 10
 
 ## Authors and acknowledgment
 
@@ -224,10 +225,6 @@ Note:
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
-
-## Donate
-
-
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
