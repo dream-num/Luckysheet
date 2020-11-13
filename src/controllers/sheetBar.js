@@ -451,7 +451,9 @@ export function initialSheetBar(){
 
         let $t = $("#luckysheet-sheet-list");
 
-        mouseclickposition($t, $(this).offset().left, $(this).offset().top - 12, "leftbottom");
+        let left = $(this).offset().left - $('#' + Store.container).offset().left;
+        let bottom = $(this).height() + $('#luckysheet-sta-content').height() + 12;
+        $t.css({left: left + 'px', bottom: bottom + 'px'}).show();
         $("#luckysheet-input-box").removeAttr("style");
     });
 
