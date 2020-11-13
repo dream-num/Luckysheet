@@ -254,7 +254,7 @@ eg: options.data：
     ```
 
 #### config.borderInfo
-- type：Object
+- type：Array
 - default：{}
 - usage：The border information of the cell
 - example：

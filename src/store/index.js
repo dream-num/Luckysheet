@@ -137,6 +137,13 @@ const Store = {
 
     currentSheetView:"viewNormal",
 
+    // cooperative editing
+    cooperativeEdit:{
+        usernameTimeout:{
+
+        }
+    }
+
 }
 
 export default Store;

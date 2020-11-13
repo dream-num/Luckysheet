@@ -88,6 +88,11 @@ const server = {
 	    d.i = index;
 	    d.v = value;
 
+		//切换sheet页不发后台，TODO：改为发后台+后台不广播 
+		if(type === 'shs'){
+			return;
+		}
+
 	    if (type == "rv") { //单元格批量更新
 	        d.range = params.range;
 	    }
@@ -176,15 +181,27 @@ const server = {
 	                    index = item.i,
 	                    value = item.v; 
 
-	                if(getObjType(value) != "array"){
+	                if(getObjType(value) != "array" && getObjType(value) !== "object"){
 	                    value = JSON.parse(value);
 	                }
 
-	                if(index == Store.currentSheetIndex){//发送消息者在当前页面
-	                    let r = value[value.length - 1].row[0];
-	                    let c = value[value.length - 1].column[0];
+					if(index == Store.currentSheetIndex){//发送消息者在当前页面
 
-	                    _this.multipleRangeShow(id, username, r, c);
+						if(getObjType(value) === "object" && value.op === 'enterEdit'){
+
+							let r = value.range[value.range.length - 1].row[0];
+							let c = value.range[value.range.length - 1].column[0];
+	
+							_this.multipleRangeShow(id, username, r, c, value.op);
+						
+						}else{
+
+							let r = value[value.length - 1].row[0];
+							let c = value[value.length - 1].column[0];
+	
+							_this.multipleRangeShow(id, username, r, c);
+						
+						}
 	                }
 	            }
 	            else if(type == 4){ //批量指令更新
@@ -226,7 +243,7 @@ const server = {
 
 	    let file = Store.luckysheetfile[getSheetIndex(index)]; 
 
-	    if(file == null){
+	    if(["v","rv","cg","all","fc","drc","arc","f","fsc","fsr","sh","c"].includes(type) && file == null){
 	        return;
 	    }
 
@@ -399,7 +416,7 @@ const server = {
 	                    luckysheetrefreshgrid();
 	                }, 1);
 	            }
-	        }
+			}
 	    }
 	    else if(type == "fc"){ //函数链calc
 	        let op = item.op, pos = item.pos;
@@ -614,15 +631,41 @@ const server = {
 	    else if(type == "shd"){ //删除sheet
 	        for(let i = 0; i < Store.luckysheetfile.length; i++){
 	            if(Store.luckysheetfile[i].index == value.deleIndex){
-	                server.sheetDeleSave.push(Store.luckysheetfile[i]);
+	                
+					// 如果删除的是当前sheet，则切换到前一个sheet页
+					if(Store.currentSheetIndex === value.deleIndex){
+						const index = value.deleIndex;
 
-	                Store.luckysheetfile.splice(i, 1);
+						Store.luckysheetfile[sheetmanage.getSheetIndex(index)].hide = 1;
+        
+						let luckysheetcurrentSheetitem = $("#luckysheet-sheets-item" + index);
+						luckysheetcurrentSheetitem.hide();
+
+						$("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
+						
+						let indicator = luckysheetcurrentSheetitem.nextAll(":visible");
+						if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
+							indicator = indicator.eq(0).data("index");
+						}
+						else {
+							indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
+						}
+						$("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
+								
+						sheetmanage.changeSheetExec(indicator);
+					}
+
+					server.sheetDeleSave.push(Store.luckysheetfile[i]);
+
+					Store.luckysheetfile.splice(i, 1);
+
 	                break;
 	            }
 	        }
 
 	        $("#luckysheet-sheets-item" + value.deleIndex).remove();
-	        $("#luckysheet-datavisual-selection-set-" + value.deleIndex).remove();
+			$("#luckysheet-datavisual-selection-set-" + value.deleIndex).remove();
+
 	    }
 	    else if(type == "shr"){ //sheet位置
 	        for(let x in value){
@@ -711,7 +754,7 @@ const server = {
 	    }
 	},
     multipleIndex: 0,
-    multipleRangeShow: function(id, name, r, c) {
+    multipleRangeShow: function(id, name, r, c, value) {
     	let _this = this;
 
 	    let row = Store.visibledatarow[r],
@@ -726,19 +769,70 @@ const server = {
 	        
 	        col = margeset.column[1];
 	        col_pre = margeset.column[0];
-	    }
+		}
+		
+		// 超出16个字符就显示...
+		if(getByteLen(name) > 16){
+			name = getByteLen(name,16) + "...";
+		}
+		
+		// 如果正在编辑，就显示“正在输入”
+		if(value === 'enterEdit'){
+			name += " " + locale().edit.typing;
+		}
 
 	    if($("#luckysheet-multipleRange-show-" + id).length > 0){
-	        $("#luckysheet-multipleRange-show-" + id).css({ "position": "absolute", "left": col_pre - 1, "width": col - col_pre - 1, "top": row_pre - 1, "height": row - row_pre - 1 });
+			$("#luckysheet-multipleRange-show-" + id).css({ "position": "absolute", "left": col_pre - 1, "width": col - col_pre - 1, "top": row_pre - 1, "height": row - row_pre - 1 });
+			
+			$("#luckysheet-multipleRange-show-" + id + " .username").text(name);
+			$("#luckysheet-multipleRange-show-" + id + " .username").show();
+
+			if(Store.cooperativeEdit.usernameTimeout['user' + id] != null){
+				clearTimeout(Store.cooperativeEdit.usernameTimeout['user' + id])
+			}
+			Store.cooperativeEdit.usernameTimeout['user' + id] = setTimeout(()=>{
+				clearTimeout(Store.cooperativeEdit.usernameTimeout['user' + id]);
+				Store.cooperativeEdit.usernameTimeout['user' + id] = null;
+			},10 * 1000)
+
+
+
 	    }
 	    else{
-	        let itemHtml = '<div id="luckysheet-multipleRange-show-'+ id +'" data-color="'+ luckyColor[_this.multipleIndex] +'" title="'+ name +'" style="position: absolute;left: '+ (col_pre - 1) +'px;width: '+ (col - col_pre - 1) +'px;top: '+ (row_pre - 1) +'px;height: '+ (row - row_pre - 1) +'px;border: 1px solid '+ luckyColor[_this.multipleIndex] +';z-index: 15;">'+
-	                        '<div style="width: 100%;height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.03;background-color: '+ luckyColor[_this.multipleIndex] +'"></div>'+
-	                       '</div>';
+	        // let itemHtml = '<div id="luckysheet-multipleRange-show-'+ id +'" data-color="'+ luckyColor[_this.multipleIndex] +'" title="'+ name +'" style="position: absolute;left: '+ (col_pre - 1) +'px;width: '+ (col - col_pre - 1) +'px;top: '+ (row_pre - 1) +'px;height: '+ (row - row_pre - 1) +'px;border: 1px solid '+ luckyColor[_this.multipleIndex] +';z-index: 15;">'+
+	        //                 '<div style="width: 100%;height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.03;background-color: '+ luckyColor[_this.multipleIndex] +'"></div>'+
+			//                '</div>';
+
+			let itemHtml = `<div 
+								id="luckysheet-multipleRange-show-${id}"
+								class="luckysheet-multipleRange-show"
+								data-color="${luckyColor[_this.multipleIndex]}" 
+								title="${name}" 
+								style="position: absolute;left: ${col_pre - 1}px;width: ${col - col_pre - 1}px;top: ${row_pre - 1}px;height: ${row - row_pre - 1}px;border: 1px solid ${luckyColor[_this.multipleIndex]};z-index: 15;">
+
+								<div class="username" style="height: 19px;line-height:19px;width: max-content;position: absolute;bottom: ${row - row_pre - 1}px;right: 0;background-color: ${luckyColor[_this.multipleIndex]};color:#ffffff;padding:0 10px;">
+								${name}
+								</div>
+
+								<div style="width: 100%;height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.03;background-color: ${luckyColor[_this.multipleIndex]}">
+								</div>
+
+							</div>`;
+							// 正在输入
 
 	        $(itemHtml).appendTo($("#luckysheet-cell-main #luckysheet-multipleRange-show"));
 
-	        _this.multipleIndex++;
+			_this.multipleIndex++;
+			
+			// 设定允许用户名消失的定时器，10秒后用户名可隐藏
+			// 10秒之类，用户操作界面不会隐藏用户名；10秒之后如果用户操作了界面，则隐藏用户名，没操作就不隐藏
+			if(Store.cooperativeEdit.usernameTimeout['user' + id] != null){
+				clearTimeout(Store.cooperativeEdit.usernameTimeout['user' + id])
+			}
+			Store.cooperativeEdit.usernameTimeout['user' + id] = setTimeout(()=>{
+				clearTimeout(Store.cooperativeEdit.usernameTimeout['user' + id]);
+				Store.cooperativeEdit.usernameTimeout['user' + id] = null;
+			},10 * 1000)
 	    }
 	},
     sheetDeleSave: [], //共享编辑模式下 删除的sheet保存下来，方便恢复时取值

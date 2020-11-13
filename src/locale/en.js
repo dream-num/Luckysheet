@@ -9996,6 +9996,9 @@ export default {
         menuItemAreas:"Print areas",
         menuItemRows:"Print title rows",
         menuItemColumns:"Print title columns",
+    },
+    edit:{
+        typing:"typing",
     }
   };
   

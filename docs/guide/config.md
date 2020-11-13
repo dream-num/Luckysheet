@@ -920,6 +920,14 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Object} [book]:Configuration of the entire workbook (options)
     
 ------------
+### updateBefore
+- Type: Function
+- Default: null
+- Usage: The method executed before each operation in collaborative editing updates the data. When undoing and redoing, it is also an operation, of course, the hook function will be triggered.
+- Parameter: 
+	- {Object} [operate]: The history information of this operation will have different history records according to different operations. Refer to the source code [History](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js )
+    
+------------
 ### updated
 - Type: Function
 - Default: null

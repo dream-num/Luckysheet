@@ -23,6 +23,10 @@ English| [简体中文](./README-zh.md)
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
+## Online Case
+
+- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)(Note: The official Java backend will also be open source after finishing,using OT algorithm. Please do not operate frequently to prevent the server from crashing)
+
 ## Plugins
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
 - Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
@@ -203,6 +207,7 @@ Note:
 - **平 ¥ 100
 - **东 ¥ 10
 - debugger ¥ 20
+- 烦了烦 ¥ 10
 
 ## Authors and acknowledgment
 
@@ -220,10 +225,6 @@ Note:
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
-
-## Donate
-
-
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

@@ -126,7 +126,8 @@ function serve(done) {
     browserSync.init({
         server: {
             baseDir: paths.dist
-        }
+        },
+        ghostMode: false, //默认true，滚动和表单在任何设备上输入将被镜像到所有设备里，会影响本地的协同编辑消息，故关闭
     }, done)
 }
 
