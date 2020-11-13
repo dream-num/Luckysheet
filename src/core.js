@@ -7,20 +7,20 @@ import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
 import luckysheetsizeauto from './controllers/resize';
 import luckysheetHandler from './controllers/handler';
-import {initialFilterHandler} from './controllers/filter';
-import {initialMatrixOperation} from './controllers/matrixOperation';
-import {initialSheetBar} from './controllers/sheetBar';
-import {formulaBarInitial} from './controllers/formulaBar';
-import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
-import {keyboardInitial} from './controllers/keyboard';
-import {orderByInitial} from './controllers/orderBy';
-import {initPlugins} from './controllers/expendPlugins';
-import { 
-    getluckysheetfile, 
-    getluckysheet_select_save, 
-    getconfig, 
+import { initialFilterHandler } from './controllers/filter';
+import { initialMatrixOperation } from './controllers/matrixOperation';
+import { initialSheetBar } from './controllers/sheetBar';
+import { formulaBarInitial } from './controllers/formulaBar';
+import { rowColumnOperationInitial } from './controllers/rowColumnOperation';
+import { keyboardInitial } from './controllers/keyboard';
+import { orderByInitial } from './controllers/orderBy';
+import { initPlugins } from './controllers/expendPlugins';
+import {
+    getluckysheetfile,
+    getluckysheet_select_save,
+    getconfig,
 } from './methods/get';
-import { 
+import {
     setluckysheet_select_save
 } from './methods/set';
 import { luckysheetrefreshgrid, jfrefreshgrid } from './global/refresh';
@@ -29,8 +29,8 @@ import { luckysheetlodingHTML } from './controllers/constant';
 import { getcellvalue, getdatabyselection } from './global/getdata';
 import { setcellvalue } from './global/setdata';
 import { selectHightlightShow } from './controllers/select';
-import {zoomInitial} from './controllers/zoom';
-import {printInitial} from './controllers/print';
+import { zoomInitial } from './controllers/zoom';
+import { printInitial } from './controllers/print';
 import method from './global/method';
 
 import * as api from './global/api';
@@ -41,7 +41,7 @@ let luckysheet = {};
 // luckysheet.api = api;
 // Object.assign(luckysheet, api);
 
-luckysheet = common_extend(api,luckysheet);
+luckysheet = common_extend(api, luckysheet);
 
 
 
@@ -50,8 +50,8 @@ luckysheet.create = function (setting) {
 
     // Store original parameters for api: toJson
     Store.toJsonOptions = {}
-    for(let c in setting){
-        if(c !== 'data'){
+    for (let c in setting) {
+        if (c !== 'data') {
             Store.toJsonOptions[c] = setting[c];
         }
     }
@@ -128,14 +128,11 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
-    // Register plugins
-    initPlugins(extendsetting.plugins , extendsetting.data);
-
     // Store formula information, including internationalization
     functionlist();
 
     let devicePixelRatio = extendsetting.devicePixelRatio;
-    if(devicePixelRatio == null){
+    if (devicePixelRatio == null) {
         devicePixelRatio = 1;
     }
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
@@ -150,23 +147,26 @@ luckysheet.create = function (setting) {
         initialWorkBook();
     }
     else {
-        $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
+        $.post(loadurl, { "gridKey": server.gridKey }, function (d) {
             let data = eval("(" + d + ")");
             Store.luckysheetfile = data;
-            
+
             sheetmanage.initialjfFile(menu, title);
             // luckysheetsizeauto();
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
-            if(server.allowUpdate){
-                server.openWebSocket();    
+            if (server.allowUpdate) {
+                server.openWebSocket();
             }
         });
     }
+
+    // Register plugins
+    initPlugins(extendsetting.plugins, extendsetting.data);
 }
 
-function initialWorkBook(){
+function initialWorkBook() {
     luckysheetHandler();//Overall dom initialization
     initialFilterHandler();//Filter initialization
     initialMatrixOperation();//Right click matrix initialization

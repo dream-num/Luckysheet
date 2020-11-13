@@ -65,7 +65,7 @@ import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
-import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
+import { hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -3426,59 +3426,6 @@ export default function luckysheetHandler() {
         // chart move debounce timer clear
         clearTimeout(Store.chartparam.luckysheetCurrentChartMoveTimeout);
 
-        //图表拖动 chartMix
-        if (!!Store.chartparam.luckysheetCurrentChartMove) {
-            Store.chartparam.luckysheetCurrentChartMove = false;
-            if (Store.chartparam.luckysheetInsertChartTosheetChange) {
-
-                //myTop, myLeft: 本次的chart框位置，scrollLeft,scrollTop: 上一次的滚动条位置
-                var myTop = Store.chartparam.luckysheetCurrentChartMoveObj.css("top"), myLeft = Store.chartparam.luckysheetCurrentChartMoveObj.css("left"), scrollLeft = $("#luckysheet-cell-main").scrollLeft(), scrollTop = $("#luckysheet-cell-main").scrollTop();
-
-                //点击时候存储的信息，即上一次操作结束的图表信息，x,y: chart框位置，scrollLeft1,scrollTop1: 滚动条位置
-                var x = Store.chartparam.luckysheetCurrentChartMoveXy[2];
-                var y = Store.chartparam.luckysheetCurrentChartMoveXy[3];
-
-                var scrollLeft1 = Store.chartparam.luckysheetCurrentChartMoveXy[4];
-                var scrollTop1 = Store.chartparam.luckysheetCurrentChartMoveXy[5];
-
-                var chart_id = Store.chartparam.luckysheetCurrentChartMoveObj.find(".luckysheet-modal-dialog-content").attr("id");
-
-                //去除chartobj,改用chart_id代替即可定位到此图表
-                Store.jfredo.push({ "type": "moveChart", "chart_id": chart_id, "sheetIndex": Store.currentSheetIndex, "myTop": myTop, "myLeft": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft, "x": x, "y": y, "scrollTop1": scrollTop1, "scrollLeft1": scrollLeft1 });
-
-                // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "top": myTop, "left": myLeft });
-                //存储滚动条位置//协同编辑时可能影响用户操作，可以考虑不存储滚动条位置,或者滚动条信息仅仅保存到后台，但是不分发到其他设备（google sheet没有存储滚动条位置）
-                // Store.server.saveParam("c", sheetIndex, { "left":myLeft, "top":myTop,"scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op":"xy", "cid": chart_id});
-            }
-        }
-
-        //图表改变大小 chartMix
-        if (!!Store.chartparam.luckysheetCurrentChartResize) {
-            Store.chartparam.luckysheetCurrentChartResize = null;
-            if (Store.chartparam.luckysheetInsertChartTosheetChange) {
-                var myHeight = Store.chartparam.luckysheetCurrentChartResizeObj.height(), myWidth = Store.chartparam.luckysheetCurrentChartResizeObj.width(), scrollLeft = $("#luckysheet-cell-main").scrollLeft(), scrollTop = $("#luckysheet-cell-main").scrollTop();
-
-                var myTop = Store.chartparam.luckysheetCurrentChartMoveObj.css("top"),
-                    myLeft = Store.chartparam.luckysheetCurrentChartMoveObj.css("left");
-
-                var chart_id = Store.chartparam.luckysheetCurrentChartResizeObj.find(".luckysheet-modal-dialog-content").attr("id");
-
-                var myWidth1 = Store.chartparam.luckysheetCurrentChartResizeXy[2];
-                var myHeight1 = Store.chartparam.luckysheetCurrentChartResizeXy[3];
-                var x = Store.chartparam.luckysheetCurrentChartResizeXy[4];//增加上一次的位置x，y
-                var y = Store.chartparam.luckysheetCurrentChartResizeXy[5];
-                var scrollLeft1 = Store.chartparam.luckysheetCurrentChartResizeXy[6];
-                var scrollTop1 = Store.chartparam.luckysheetCurrentChartResizeXy[7];
-
-                Store.jfredo.push({ "type": "resizeChart", "chart_id": chart_id, "sheetIndex": Store.currentSheetIndex, "myTop": myTop, "myLeft": myLeft, "myHeight": myHeight, "myWidth": myWidth, "scrollTop": scrollTop, "scrollLeft": scrollLeft, "x": x, "y": y, "myWidth1": myWidth1, "myHeight1": myHeight1, "scrollTop1": scrollTop1, "scrollLeft1": scrollLeft1 });
-
-                //加上滚动条的位置
-                // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "height": myHeight, "width": myWidth, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft });
-
-                // Store.server.saveParam("c", sheetIndex, { "width":myWidth, "height":myHeight, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft}, { "op":"wh", "cid": chart_id});
-            }
-        }
-
         if (!!formula.rangeResize) {
             formula.rangeResizeDragged(event, formula.rangeResizeObj, formula.rangeResize, formula.rangeResizexy, formula.rangeResizeWinW, formula.rangeResizeWinH);
         }
@@ -3980,15 +3927,6 @@ export default function luckysheetHandler() {
             Store.countfuncTimeout = setTimeout(function () { countfunc() }, 500);
         }
 
-        //图表选区拖拽移动
-        if (Store.chart_selection.rangeMove) {
-            Store.chart_selection.rangeMoveDragged();
-        }
-
-        //图表选区拖拽拉伸
-        if (!!Store.chart_selection.rangeResize) {
-            Store.chart_selection.rangeResizeDragged();
-        }
 
         //选区下拉
         if (Store.luckysheet_cell_selected_extend) {
@@ -4550,18 +4488,6 @@ export default function luckysheetHandler() {
         $(this).parent().hide();
     });
 
-    //Menu bar, Chart button
-    $("#luckysheet-chart-btn-title").click(function () {
-        createLuckyChart();
-    });
-
-    // Right-click the menu, chart generation
-    $("#luckysheetdatavisual").click(function () {
-        createLuckyChart();
-        $("#luckysheet-rightclick-menu").hide();
-    });
-
-
     //菜单栏 数据透视表
     $("#luckysheet-pivot-btn-title").click(function (e) {
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "usePivotTablereports")){
@@ -4996,141 +4922,6 @@ export default function luckysheetHandler() {
     });
 
 
-    //图表选区mousedown
-    $("#luckysheet-chart-rangeShow").on("mousedown.chartRangeShowMove", ".luckysheet-chart-rangeShow-move", function (event) {
-        Store.chart_selection.rangeMove = true;
-        Store.luckysheet_scroll_status = true;
-
-        Store.chart_selection.rangeMoveObj = $(this).parent();
-
-        let chart_json = Store.currentChart
-
-        let $id = $(this).parent().attr("id");
-        if ($id == "luckysheet-chart-rangeShow-content") {
-            let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-            let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-
-            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
-        }
-        else if ($id == "luckysheet-chart-rangeShow-rowtitle") {
-            let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.rowtitle.row[0];
-            let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[0];
-
-            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
-        }
-        else if ($id == "luckysheet-chart-rangeShow-coltitle") {
-            let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.coltitle.row[0];
-            let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[0];
-
-            Store.chart_selection.rangeMoveIndex = [row_s, col_s];
-        }
-
-        let mouse = mouseposition(event.pageX, event.pageY);
-        let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
-        let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
-        let type = $(this).data("type");
-        if (type == "top") {
-            y += 3;
-        }
-        else if (type == "right") {
-            x -= 3;
-        }
-        else if (type == "bottom") {
-            y -= 3;
-        }
-        else if (type == "left") {
-            x += 3;
-        }
-
-        let row_index = rowLocation(y)[2];
-        let col_index = colLocation(x)[2];
-
-        Store.chart_selection.rangeMovexy = [row_index, col_index];
-
-        event.stopPropagation();
-    });
-
-    $("#luckysheet-chart-rangeShow").on("mousedown.chartRangeShowResize", ".luckysheet-chart-rangeShow-resize", function (event) {
-        Store.chart_selection.rangeResize = $(this).data("type");//开始状态resize
-        Store.luckysheet_scroll_status = true;
-
-        Store.chart_selection.rangeResizeObj = $(this).parent();
-
-        let chart_json = Store.currentChart
-        let row_s
-        let row_e
-        let col_s
-        let col_e
-
-        let $id = $(this).parent().attr("id");
-        if ($id == "luckysheet-chart-rangeShow-content") {
-            if (chart_json.rangeRowCheck.exits) {
-                 row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
-            }
-            else {
-                 row_s = chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeSplitArray.content.row[0];
-            }
-
-            if (chart_json.rangeColCheck.exits) {
-                 col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
-            }
-            else {
-                 col_s = chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeSplitArray.content.column[1];
-            }
-
-            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
-        }
-        else if ($id == "luckysheet-chart-rangeShow-rowtitle") {
-            let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.rowtitle.row[0];
-            let row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.rowtitle.row[1];
-
-            let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[0];
-            let col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.rowtitle.column[1];
-
-            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
-        }
-        else if ($id == "luckysheet-chart-rangeShow-coltitle") {
-            let row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.coltitle.row[0];
-            let row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.coltitle.row[1];
-
-            let col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[0];
-            let col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.coltitle.column[1];
-
-            Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
-        }
-
-        let mouse = mouseposition(event.pageX, event.pageY);
-        let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
-        let y = mouse[1] + $("#luckysheet-cell-main").scrollTop();
-
-        if (Store.chart_selection.rangeResize == "lt") {
-            x += 3;
-            y += 3;
-        }
-        else if (Store.chart_selection.rangeResize == "lb") {
-            x += 3;
-            y -= 3;
-        }
-        else if (Store.chart_selection.rangeResize == "rt") {
-            x -= 3;
-            y += 3;
-        }
-        else if (Store.chart_selection.rangeResize == "rb") {
-            x -= 3;
-            y -= 3;
-        }
-
-        let row_index = rowLocation(y)[2];
-        let col_index = colLocation(x)[2];
-
-        Store.chart_selection.rangeResizexy = [row_index, col_index];
-
-        event.stopPropagation();
-    })
 
     $("#luckysheet-wa-calculate-size").mousedown(function (e) {
         let y = e.pageY;
