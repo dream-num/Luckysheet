@@ -1662,175 +1662,173 @@ const luckysheetFreezen = {
             return;
         }
 
-        if(file["freezen"] == null){
-            let freezen = null;
+        let freezen = null;
 
-            // transform to freezen
-            if(frozen.type === 'row'){
-                let scrollTop = 0;
-                let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-                if(row_st == -1){
-                    row_st = 0;
-                }
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                
-                freezen = {
-                    horizontal:{
-                        freezenhorizontaldata: freezenhorizontaldata,
-                        top: top
-                    }
-                }
-                
+        // transform to freezen
+        if(frozen.type === 'row'){
+            let scrollTop = 0;
+            let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+            if(row_st == -1){
+                row_st = 0;
             }
-            else if(frozen.type === 'column'){
-                let scrollLeft = 0;
-                let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-                if(col_st == -1){
-                    col_st = 0;
-                }
-                let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-
-                freezen = {
-                    vertical:{
-                        freezenverticaldata: freezenverticaldata,
-                        left: left
-                    }
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+            
+            freezen = {
+                horizontal:{
+                    freezenhorizontaldata: freezenhorizontaldata,
+                    top: top
                 }
             }
-            else if(frozen.type === 'both'){
-                let scrollTop = 0;
-                let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-                if(row_st == -1){
-                    row_st = 0;
-                }
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                
-                let scrollLeft = 0;
-                let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-                if(col_st == -1){
-                    col_st = 0;
-                }
-                let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-
-                freezen = {
-                    horizontal:{
-                        freezenhorizontaldata: freezenhorizontaldata,
-                        top: top
-                    },
-                    vertical:{
-                        freezenverticaldata: freezenverticaldata,
-                        left: left
-                    }
-                }
-
-            }
-            else if(frozen.type === 'rangeRow'){
-                let scrollTop = 0;
-                let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-
-                let row_focus = frozen.range["row_focus"];
-
-                if(row_focus > row_st){
-                    row_st = row_focus;
-                }
-                
-                if(row_st == -1){
-                    row_st = 0;
-                }
-
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-
-                freezen = {
-                    horizontal:{
-                        freezenhorizontaldata: freezenhorizontaldata,
-                        top: top
-                    }
-                }
-
-            }
-            else if(frozen.type === 'rangeColumn'){
-                let scrollLeft = 0;
-                let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-
-                let column_focus = frozen.range["column_focus"];
-
-                if(column_focus > col_st){
-                    col_st = column_focus;
-                }
-
-                if(col_st == -1){
-                    col_st = 0;
-                }
-
-                let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-
-                freezen = {
-                    vertical:{
-                        freezenverticaldata: freezenverticaldata,
-                        left: left
-                    }
-                }
-
-            }
-            else if(frozen.type === 'rangeBoth'){
-                let scrollTop = 0;
-                let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-
-                let row_focus = frozen.range["row_focus"];
-
-                if(row_focus > row_st){
-                    row_st = row_focus;
-                }
-                
-                if(row_st == -1){
-                    row_st = 0;
-                }
-
-                let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-
-                let scrollLeft = 0;
-                let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-
-                let column_focus = frozen.range["column_focus"];
-
-                if(column_focus > col_st){
-                    col_st = column_focus;
-                }
-
-                if(col_st == -1){
-                    col_st = 0;
-                }
-
-                let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-
-                freezen = {
-                    horizontal:{
-                        freezenhorizontaldata: freezenhorizontaldata,
-                        top: top
-                    },
-                    vertical:{
-                        freezenverticaldata: freezenverticaldata,
-                        left: left
-                    }
-                }
-            }
-            else if(frozen.type === 'cancel'){
-                freezen = {
-                    horizontal: null,
-                    vertical: null
-                }
-            }
-
-            file["freezen"] = freezen;
+            
         }
+        else if(frozen.type === 'column'){
+            let scrollLeft = 0;
+            let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+            if(col_st == -1){
+                col_st = 0;
+            }
+            let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+
+            freezen = {
+                vertical:{
+                    freezenverticaldata: freezenverticaldata,
+                    left: left
+                }
+            }
+        }
+        else if(frozen.type === 'both'){
+            let scrollTop = 0;
+            let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+            if(row_st == -1){
+                row_st = 0;
+            }
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+            
+            let scrollLeft = 0;
+            let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+            if(col_st == -1){
+                col_st = 0;
+            }
+            let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+
+            freezen = {
+                horizontal:{
+                    freezenhorizontaldata: freezenhorizontaldata,
+                    top: top
+                },
+                vertical:{
+                    freezenverticaldata: freezenverticaldata,
+                    left: left
+                }
+            }
+
+        }
+        else if(frozen.type === 'rangeRow'){
+            let scrollTop = 0;
+            let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+
+            let row_focus = frozen.range["row_focus"];
+
+            if(row_focus > row_st){
+                row_st = row_focus;
+            }
+            
+            if(row_st == -1){
+                row_st = 0;
+            }
+
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+
+            freezen = {
+                horizontal:{
+                    freezenhorizontaldata: freezenhorizontaldata,
+                    top: top
+                }
+            }
+
+        }
+        else if(frozen.type === 'rangeColumn'){
+            let scrollLeft = 0;
+            let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+
+            let column_focus = frozen.range["column_focus"];
+
+            if(column_focus > col_st){
+                col_st = column_focus;
+            }
+
+            if(col_st == -1){
+                col_st = 0;
+            }
+
+            let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+
+            freezen = {
+                vertical:{
+                    freezenverticaldata: freezenverticaldata,
+                    left: left
+                }
+            }
+
+        }
+        else if(frozen.type === 'rangeBoth'){
+            let scrollTop = 0;
+            let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+
+            let row_focus = frozen.range["row_focus"];
+
+            if(row_focus > row_st){
+                row_st = row_focus;
+            }
+            
+            if(row_st == -1){
+                row_st = 0;
+            }
+
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+
+            let scrollLeft = 0;
+            let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+
+            let column_focus = frozen.range["column_focus"];
+
+            if(column_focus > col_st){
+                col_st = column_focus;
+            }
+
+            if(col_st == -1){
+                col_st = 0;
+            }
+
+            let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+
+            freezen = {
+                horizontal:{
+                    freezenhorizontaldata: freezenhorizontaldata,
+                    top: top
+                },
+                vertical:{
+                    freezenverticaldata: freezenverticaldata,
+                    left: left
+                }
+            }
+        }
+        else if(frozen.type === 'cancel'){
+            freezen = {
+                horizontal: null,
+                vertical: null
+            }
+        }
+
+        file["freezen"] = freezen;
     }
 }
 
