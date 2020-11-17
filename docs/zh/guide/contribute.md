@@ -1,9 +1,9 @@
 
-# Luckysheet 贡献指南  
+# 贡献指南  
 
-    欢迎！我们很高兴您能来到这里，并非常期待您能有兴趣参与 Luckysheet 贡献。当然，在您参与 Luckysheet 贡献之前，请确保通读以下全文：
+  欢迎！我们很高兴您能来到这里，并非常期待您能有兴趣参与 Luckysheet 贡献。当然，在您参与 Luckysheet 贡献之前，请确保通读以下全文：
 
-#### 我们的行为准则
+## 我们的行为准则
 
 1. 我们保证尊重所有参与贡献的人，不限于提出问题、文档和代码贡献、解决bug以及其它贡献的人；
 
@@ -12,15 +12,15 @@
 4. 我们有权并有责任删除或编辑与此行为准则不符的内容，不限于代码、Issues、wiki、文档以及其它。不遵守行为准则的参与者可能会被移除团队；
 5. 我们接受任何人的监督，任何人可通过问题反馈，向我们报告发现的与此行为准则不符的事实存在。
 
-#### 如何参与贡献？
+## 如何参与贡献？
 
-* 贡献文档：浏览文档可以加深您对 Luckysheet 的了解，一旦发现文档写得不清晰或逻辑混乱的地方，可以订正、修改、补充，您可以通过 [中文论坛](https://support.qq.com/products/288322?)或者 [谷歌论坛](https://groups.google.com/g/luckysheet)给予反馈
+* 贡献文档：浏览文档可以加深您对 Luckysheet 的了解，一旦发现文档写得不清晰或逻辑混乱的地方，可以订正、修改、补充，您可以通过 [中文论坛](https://support.qq.com/products/288322)或者 [谷歌论坛](https://groups.google.com/g/luckysheet)给予反馈
 * 贡献代码：欢迎大家为 Luckysheet 社区贡献代码，欢迎您认领Open状态的 [Issues](https://github.com/mengshukeji/Luckysheet/issues) 和未完成的特性，提交PR，成为贡献者之一如果您在使用过程中发现有些功能无法满足您的需求或出现问题，请在Issues中记录
 * 参与Issue讨论：您可以在任一 [Issues](https://github.com/mengshukeji/Luckysheet/issues) 下发表您的建议
 * Review代码：您可以在 [Github](https://github.com/mengshukeji/Luckysheet)上看到所有贡献者提交的PR，您可以Review他们的代码并发表您的建议
 
 
-#### 如何提交 Issues
+## 如何提交 Issues
 
 在您提交特性/改进前，应该注意以下几点：
 
@@ -34,20 +34,20 @@
 
 * 创建 [Issues](https://github.com/mengshukeji/Luckysheet/issues) ，描述清楚问题
 * 如果你要解决该issue则将issue assign到自己名下，如果你仅仅是提交Bug/特性/改进，并没有时间去贡献代码，则assignne设置为空
-* 如果是比较大的特性/改进，尽量先输出设计文档，供其他人review
-* 编码，编码完成后，提交代码
+* 如果是比较大的特性/改进，尽量先输出设计文档，走 [Luckysheet RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 流程，供其他人review
+* 编码完成后，提交代码
 
-#### 如何认领 Issues
+## 如何认领 Issues
 
 在 Luckysheet 的 [Issues](https://github.com/mengshukeji/Luckysheet/issues) 列表中，有很多由其他人创建的issue并未被修复，如果你感兴趣的话，可以认领这些issue。认领步骤如下：
 
 * 在该issue下留言，表达想认领该任务的想法，另注明 **@I can solve it** 即可
 * 如果提交者没有意见，则将该issue assign到自己名下并及时更新进度
-* 如果是比较大的特性，尽量先输出设计文档，供其他人review
+* 如果是比较大的特性，尽量先输出设计文档，走 [Luckysheet RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 流程，供其他人review
 * 开发代码并提交代码至github
 
 
-#### 如何提交代码
+## 如何提交代码
 
 1. fork 到自己的仓库
 
@@ -55,67 +55,68 @@
 
 2. git clone 到本地
 
-```
+```shell
 git clone https://github.com/<your_github_name>/Luckysheet.git
 ```
 
 3. 上游建立连接
 
+```shell
+cd Luckysheet
+git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 ```
- cd Luckysheet
- git remote add upstream https://github.com/mengshukeji/Luckysheet.git
-```
-   
     
 4. 检查远程仓库设置
 
-```
- git remote -v
- origin https://github.com/<your_github_name>/Luckysheet.git (fetch) 
- origin https://github.com/<your_github_name>/Luckysheet.git (push) 
- upstream https://github.com/mengshukeji/Luckysheet.git (fetch) 
- upstream https://github.com/mengshukeji/Luckysheet.git (push)
+```shell
+git remote -v
+origin https://github.com/<your_github_name>/Luckysheet.git (fetch) 
+origin https://github.com/<your_github_name>/Luckysheet.git (push) 
+upstream https://github.com/mengshukeji/Luckysheet.git (fetch) 
+upstream https://github.com/mengshukeji/Luckysheet.git (push)
 ```
 
 5. 获取 Luckysheet 仓库代码，并更新本地master分支代码为最新
 
-```
+```shell
 git fetch upstream 
 git pull upstream master
 ```
 
 6. 新建分支
->一般以issue id作为分支名，如：Luckysheet-123
-```
-git checkout -b dev
+
+一般以issue id作为分支名，如：Luckysheet-123
+```shell
+git checkout -b Luckysheet-123
 ```
 **确保分支Luckysheet-123是基于官方master分支的最新代码**
 分支创建完成后即可进行代码更改。
 
 7. 提交代码到远程分支
->commit 信息的格式必须与Issue标题保持一致且以[issue id]开头，即：[Luckysheet-123] xxx
-```
+
+commit 信息的格式必须与Issue标题保持一致且以[issue id]开头，即：[Luckysheet-123] xxx
+```shell
 git commit -a -m "[Luckysheet-123] xxx" 
 git push origin Luckysheet-123
 ```
 8. 提交PR
 
-    * 打开自己的github仓库页面，如：`https://github.com/<your_github_name>/Luckysheet`
-    * 切换分支，切换到提交的分支 `Luckysheet-123`
-    * 创建新PR，点击 `New pull request`或者`Compare & pull request`
-    * 点击Create pull request按钮进行创建PR
+ * 打开自己的github仓库页面，如：`https://github.com/<your_github_name>/Luckysheet`
+ * 切换分支，切换到提交的分支 `Luckysheet-123`
+ * 创建新PR，点击 `New pull request`或者`Compare & pull request`
+ * 点击Create pull request按钮进行创建PR
+ 
+ ### 提交PR需要注意以下几点： 
+ 1. PR的标题必须以issue id开头，最好与commit信息保持一致 
+ 2. 可以填写部分描述信息也可以不填 
+ 3. 如果点击`Create pull request`后提示代码冲突，则请将`Luckysheet-123`分支的代码 与master分支同步一致后在进行提交
     
-    >提交PR需要注意以下几点： 
-    >    1. PR的标题必须以issue id开头，最好与commit信息保持一致 
-    >2. 可以填写部分描述信息也可以不填 
-    >3. 如果点击`Create pull request`后提示代码冲突，则请将`Luckysheet-123`分支的代码 与master分支同步一致后在进行提交
-    
-#### 代码规范
+## 代码规范
 
->一般性的代码规范示例
+> 一般性的代码规范示例
 
 * 保持块深度最小。尽可能避免嵌套If条件
-```
+```js
 // CORRECT
 if (!comparison) return
 
@@ -138,7 +139,7 @@ if (comparison) {
 ```
 
 * 不要使用操作数进行链比较
-```
+```js
 // CORRECT
 
 if (cb) cb()
@@ -151,8 +152,7 @@ cb && cb()
 ```
 
 * 所有变量都应该按字母顺序在块的开头声明
-```
-
+```js
 // CORRECT
 function foo () {
   const foo = 'bar'
@@ -178,12 +178,10 @@ function foo () {
 
   return foo
 }
-
 ```
 
 * 尽快返回
-```
-
+```js
 // CORRECT
 if (condition) return 'foo'
 if (condition2) return 'bar'
@@ -202,12 +200,11 @@ if (condition) {
 }
 
 return variable
-
 ```
 
-#### 如何贡献文档
+## 如何贡献文档
 
-#### 如何成为Luckysheet Committer
+## 如何成为Luckysheet Committer
 
 任何人只要对 Luckysheet 项目做了贡献，那您就是官方承认的 Luckysheet 项目的Contributor了，从Contributor成长为Committer并没有一个确切的标准， 也没有任何预期的时间表，但是Committer的候选人一般都是长期活跃的贡献者，成为Committer并没有要求必须有巨大的架构改进贡献， 或者多少行的代码贡献，贡献代码、贡献文档、参与邮件列表的讨论、帮助回答问题等等都提升自己影响力的方式。
 

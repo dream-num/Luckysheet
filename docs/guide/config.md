@@ -58,7 +58,6 @@ The following are all supported setting parameters
 - Customize the bottom sheet bar [showsheetbarConfig](#showsheetbarConfig)
 - The bottom count bar [showstatisticBar](#showstatisticBar)
 - Custom Count Bar [showstatisticBarConfig](#showstatisticBarConfig)
-- Allow editing [allowEdit](#allowEdit)
 - Allow adding rows [enableAddRow](#enableAddRow)
 - Allow back to top [enableAddBackTop](#enableAddBackTop)
 - User Info [userInfo](#userInfo)
@@ -347,12 +346,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 				}
 			}
 		```	
-------------
-### allowEdit
-- Type: Boolean
-- Default: true
-- Usage: Whether to allow front-end editing
-
 ------------
 ### enableAddRow
 - Type: Boolean

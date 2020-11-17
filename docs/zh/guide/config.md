@@ -59,7 +59,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
-- 允许编辑 [allowEdit](#allowEdit)
 - 允许添加行 [enableAddRow](#enableAddRow)
 - 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
@@ -120,7 +119,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		//status为1的sheet页，重点是需要提供初始化的数据celldata
 		{
 			"name": "Cell",
-			"index": "sheet_001",
+			"index": "sheet_01",
 			"order":  0,
 			"status": 1,
 			"celldata": [{"r":0,"c":0,"v":{"v":1,"m":"1","ct":{"fa":"General","t":"n"}}}]
@@ -128,13 +127,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		//其他status为0的sheet页，无需提供celldata，只需要配置项即可
 		{
 			"name": "Data",
-			"index": "sheet_002",
+			"index": "sheet_02",
 			"order":  1,
 			"status": 0
 		},
 		{
 			"name": "Picture",
-			"index": "sheet_003",
+			"index": "sheet_03",
 			"order":  2,
 			"status": 0
 		}
@@ -150,7 +149,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### loadSheetUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadSheetUrl`接口地址，用于异步加载其它单元格数据。参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`）。
+- 作用：配置`loadSheetUrl`接口地址，用于异步加载其它单元格数据。参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_03"]`）。
 
 	源码的请求写法是：
 	```js
@@ -178,7 +177,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				"v": { "v": 1, "m": "1", "ct": { "fa": "General", "t": "n" } }
 			}
 		],
-		"sheet_0": [
+		"sheet_03": [
 			{
 				"r": 0,
 				"c": 0,
@@ -204,10 +203,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：""
 - 作用：操作表格后，实时保存数据的websocket地址，此接口也是共享编辑的接口地址。
 	
-	有个注意点，要想开启共享编辑，必须满足以下四个条件：
+	有个注意点，要想开启共享编辑，必须满足以下3个条件：
 	+ `allowUpdate`为`true`
 	+ 配置了`loadUrl`
-	+ 配置了`loadSheetUrl`
 	+ 配置了`updateUrl`
 
 	注意，发送给后端的数据默认是经过pako压缩过后的。后台拿到数据需要先解压。
@@ -435,12 +433,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				}
 			}
 		```
-
-------------
-### allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用：是否允许前台编辑
 
 ------------
 ### enableAddRow

@@ -1924,7 +1924,7 @@ const menuButton = {
                 let itemdata = [
                     {"text": locale_findAndReplace.find+" ...", "value": "search", "example": '<i class="iconfont luckysheet-iconfont-sousuo" aria-hidden="true"></i>'},
                     {"text": locale_findAndReplace.replace+" ...", "value": "replace", "example": '<i class="iconfont luckysheet-iconfont-tihuan" aria-hidden="true"></i>'},
-                    {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
+                    // {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
                     {"text": "", "value": "split", "example": ""},
                     {"text": locale_findAndReplace.location+" ...", "value": "location", "example": '<i class="iconfont luckysheet-iconfont-dingwei" aria-hidden="true"></i>'},
                     {"text": locale_findAndReplace.formula, "value": "locationFormula", "example": locale_findAndReplace.locationExample},

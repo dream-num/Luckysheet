@@ -42,7 +42,7 @@ luckysheet.transToData(celldata)
 ## **<span style="font-size:20px;">Q</span>** Is the remote loading data loadUrl or updateUrl?
 
 **<span style="font-size:20px;">A</span>**: [loadUrl](/guide/config.html#loadurl). Configure loadUrl, Luckysheet will request the entire table data through ajax, and updateUrl will be used as the interface address for collaborative editing in real-time saving.
-Note: Initial data needs to be configured with loadUrl and loadSheetUrl parameters, while for collaborative editing, the four parameters of loadUrl, loadSheetUrl, updateUrl and allowUpdate can be configured to take effect.
+Note: Initial data needs to be configured with loadUrl parameter, while for collaborative editing, the four parameters of loadUrl, updateUrl and allowUpdate can be configured to take effect.
 
 ------------
 
