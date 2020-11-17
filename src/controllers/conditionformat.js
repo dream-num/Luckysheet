@@ -1528,7 +1528,7 @@ const conditionformat = {
             "content": content,
             "botton":  `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`,
-            "style": "z-index:100003"
+            "style": "z-index:9999"
         }));
         let $t = $("#luckysheet-conditionformat-dialog")
                 .find(".luckysheet-modal-dialog-content")
