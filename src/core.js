@@ -36,8 +36,7 @@ import method from './global/method';
 import * as api from './global/api';
 
 import flatpickr from 'flatpickr'
-import { Mandarin } from "flatpickr/dist/l10n/zh.js"
-flatpickr.localize(Mandarin);
+import Mandarin from 'flatpickr/dist/l10n/zh.js'
 
 let luckysheet = {};
 
@@ -130,6 +129,8 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
+    if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 
@@ -145,7 +146,6 @@ luckysheet.create = function (setting) {
     //loading
     $("#" + container).append(luckysheetlodingHTML());
 
-    let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         // luckysheetsizeauto();
