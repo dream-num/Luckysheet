@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.5](https://github.com/mengshukeji/Luckysheet/compare/v2.1.4...v2.1.5) (2020-11-03)
+
+
+### Features
+
+* **cell date picker:** cell date picker and bug solve ([2996ae9](https://github.com/mengshukeji/Luckysheet/commit/2996ae9cab724714903d00e0b63022abc4a1a3b6))
+* **cell hooks add:** go to document for detail ([927ff46](https://github.com/mengshukeji/Luckysheet/commit/927ff46949f688a5bcffcb3fe48dc6b4b12b61c9))
+* **config:** custom menu button config ([14eb78e](https://github.com/mengshukeji/Luckysheet/commit/14eb78e153cbce726adf9e093702f9b93af1fa03))
+* **config:** sheetbar ([3555746](https://github.com/mengshukeji/Luckysheet/commit/3555746f4cc8ef2c1fe163a34edd428f1a6377ed))
+* **date format:** date format Chinese ([8f8d0cb](https://github.com/mengshukeji/Luckysheet/commit/8f8d0cb8c5563a31afba3fe11b525e6bccd5eb56))
+* **hyperlink:** add hyperlink function ([439dff4](https://github.com/mengshukeji/Luckysheet/commit/439dff4330ab5053643331286091d44ae910fb8d))
+* **hyperlink:** perfect hyperlink function ([5adfc60](https://github.com/mengshukeji/Luckysheet/commit/5adfc6055bf4cfed7f1ff40933d292057196bc7e))
+* **statisticbar:** config docs ([c1ed417](https://github.com/mengshukeji/Luckysheet/commit/c1ed417074e89e665f9ef39ee186db9106904c4e))
+* **tojson:** api/docs ([8e410f5](https://github.com/mengshukeji/Luckysheet/commit/8e410f5d3cd61724230b3024898d6de3c6c41101))
+
+
+### Bug Fixes
+
+* **bug:** bug ([ad73f9a](https://github.com/mengshukeji/Luckysheet/commit/ad73f9a679d77721d8af0a483dffe70b90e56412)), closes [#129](https://github.com/mengshukeji/Luckysheet/issues/129)
+* **bug:** bug ([801cbe5](https://github.com/mengshukeji/Luckysheet/commit/801cbe5a8040d80f2e672b3607c0b92c922281a9))
+* **bug:** bug ([f8716c1](https://github.com/mengshukeji/Luckysheet/commit/f8716c18db05c7ab8bf59d1feb0dc4c3b364c560)), closes [#67](https://github.com/mengshukeji/Luckysheet/issues/67) [#85](https://github.com/mengshukeji/Luckysheet/issues/85)
+* **bug:** bug ([0909f5e](https://github.com/mengshukeji/Luckysheet/commit/0909f5e4c957e3d3248a8c86d6e092c5a5396112)), closes [#142](https://github.com/mengshukeji/Luckysheet/issues/142) [#132](https://github.com/mengshukeji/Luckysheet/issues/132)
+* **bug:** dataVerification and sheet move and delete cell bug ([4815d86](https://github.com/mengshukeji/Luckysheet/commit/4815d86ce564da43aa1ced3b48d38e88afc39f77))
+* **conflict:** conflict ([b11de26](https://github.com/mengshukeji/Luckysheet/commit/b11de26c4d2dbdd7e9d4363558e95d4433f26585))
+* **conflict:** toolbar ([8cfa6ac](https://github.com/mengshukeji/Luckysheet/commit/8cfa6ac1bec8bcb156fe45e8c488aa7026b65738))
+* **fix  bug with inline string rotate wrap:** add change to max, fix height error ([1988687](https://github.com/mengshukeji/Luckysheet/commit/198868719ffb19738ee5ecc1ee060a0840fa92df))
+* **hide row/column:** right click menu ([8070858](https://github.com/mengshukeji/Luckysheet/commit/8070858f6c35f11ee8cf2692d8828d0e78c46d92)), closes [#37](https://github.com/mengshukeji/Luckysheet/issues/37)
+* **restore demo:** restore demo ([e799862](https://github.com/mengshukeji/Luckysheet/commit/e7998627400b82bf082bad3c984f4d26e3c9f43a))
+
 ### [2.1.3](https://github.com/mengshukeji/Luckysheet/compare/v2.1.2...v2.1.3) (2020-10-22)
 
 

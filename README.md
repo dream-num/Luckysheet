@@ -16,12 +16,16 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Links
- | Source Code   | Documentation | Demo | Plugins Demo | Forum |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
+ | Source Code   | Documentation | Demo | Plugins Demo | Forum | Resources |
+ | ------ | -------- | ------ | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
  | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
+
+## Online Case
+
+- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)(Note: The official Java backend will also be open source after finishing,using OT algorithm. Please do not operate frequently to prevent the server from crashing)
 
 ## Plugins
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
@@ -37,6 +41,7 @@ English| [简体中文](./README-zh.md)
 + **Data types** 
 	+ **currency, percentages, decimals, dates** 
 	+ **Custom** (E.g `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
 
 ### 🧬Cells
 + **Move cells by drag and dropping** (Operate on selection)
@@ -46,6 +51,7 @@ English| [简体中文](./README-zh.md)
 + **Find and replace** (Such as a particular number or text string, Support regular expression, whole word, case sensitive)
 + **Location** (Cells can be selected according to the data type)
 + **Merge cells**
++ **Data validation**  (Checkbox, drop-down list, datePicker)
 
 ### 🖱️Row & columns
 + **Hide, Insert, Delete rows and columns** 
@@ -92,19 +98,21 @@ English| [简体中文](./README-zh.md)
 + **Comments** (Add, delete, update)
 + **Collaborate** (Simultaneous editing by multiple users)
 
+### 📚Insert object
++ **Insert picture** (JPG,PNG,SVG and so on)
+
 ### ⚡Luckysheet
 + **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
 + **Screenshot** (Take a screenshot with selection)
 + **Copy to** (In the right-click menu, copy selection to json, array etc.)
-+ **EXCEL,CSV,TXT import/export** (Specially adapted to Luckysheet)
-+ **Insert picture and Shapes** (JPG,PNG,SVG,Pen tool and so on)
-+ **Data validation**  (Checkbox, drop-down list, datePicker)
-+ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
++ **EXCEL import/export** (Specially adapted to Luckysheet, export is under development)
 
 ### ⏱️Coming soon
 + **Print** (Like excel print option, save to PDF)
 + **Tree menu** (Just like the outline (group)  function of excel)
 + **Table new Features** (filter, slicer)
++ **CSV,TXT import/export** (Specially adapted to Luckysheet)
++ **Insert Shapes** ([Pen tool](https://github.com/mengshukeji/Pentool) Shapes)
 + **Documentation** (Improve documentation and API)
 + **More...** (Please advise us)
 
@@ -164,19 +172,10 @@ Create a table
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## Co-construction
+## Contribution
 
 1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) mechanism to operate, and only after community discussion and improvement, you can submit the code.
-3. If you are interested in Luckysheet, you are very welcome to join the development team to improve this plugin together (Email: alexads@foxmail.com), there are 4 types of tasks that can be claimed
-    - BUG
-    - New features
-    - Documentation
-    - Popularize
-  
-    You will gain:
-    - Luckysheet official readme document contributor link
-    - Participate in large open source projects, improve technology and vision
+2. Learn more:[How to contribute](https://github.com/mengshukeji/Luckysheet/issues/128)
 
 ## Communication
 
@@ -207,6 +206,8 @@ Note:
 - Alphabet(Google)-gcf ¥ 1
 - **平 ¥ 100
 - **东 ¥ 10
+- debugger ¥ 20
+- 烦了烦 ¥ 10
 
 ## Authors and acknowledgment
 
@@ -224,10 +225,6 @@ Note:
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
-
-## Donate
-
-
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

@@ -13,13 +13,16 @@
 > Luckysheet最近参加了“2020年度OSC中国开源项目评选”，为了支持Luckysheet更好的得到关注和发展，请大家帮忙投票: [https://www.oschina.net/p/luckysheet](https://www.oschina.net/p/luckysheet)。
 
 ## 相关链接
- | 源码   | 文档 | Demo | 插件Demo | 论坛 |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
+ | 源码   | 文档 | Demo | 插件Demo | 论坛 | 资源 |
+ | ------ | -------- | ------ | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
  | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
-
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
+
+## 在线案例
+
+- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)（注意：官方Java后台待整理后也会开源，采用OT算法。请大家别操作频繁，防止搞崩服务器）
 
 ## 插件
 - excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
@@ -35,6 +38,7 @@
 + **数据类型** 
 	+ **货币, 百分比, 数字, 日期** 
 	+ **Custom** (和excel保持一致，例如： `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
++ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内可定义每个文字的不同样式)
 
 ### 🧬单元格
 + **拖拽选取来修改单元格** (对选区进行操作，可以拖动四边来移动选区，也可以在右下角对选区进行下拉填充操作)
@@ -44,6 +48,7 @@
 + **查找和替换** (对内容进行查找替换，支持正则表达式，整词，大小写敏感)
 + **定位** (可以根据单元格的数据类型进行自动定位并选中，选中后可以批量进行格式等操作)
 + **合并单元格**
++ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
 
 ### 🖱️行和列操作
 + **隐藏，插入，删除行或列** 
@@ -90,19 +95,21 @@
 + **评论** (评论的删除、添加、修改、隐藏)
 + **共享编辑** (支持多用户共享编辑，内置API)
 
+### 📚插入对象
++ **插入图片** (支持JPG,PNG,SVG的插入、修改和删除，并且随表格的变动而产生变化)
+
 ### ⚡Luckysheet专有
 + **矩阵计算** (通过右键菜单进行支持：对选区内的数据进行转置、旋转、数值计算)
 + **截图** (把选区的内容进行截图展示)
 + **复制到其他格式** (右键菜单的"复制为", 支持复制为json、array、对角线数据、去重等)
-+ **EXCEL,CSV,TXT 导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
-+ **插入图片和svg形状** (支持JPG,PNG,SVG,Pen tool的插入、修改和删除，并且随表格的变动而产生变化)
-+ **数据验证(表单功能)**  (支持Checkbox, drop-down list, datePicker)
-+ **单元格内多样式** (Alt+Enter单元格内换行、上标、下标、单元格内科定义每个文字的不同样式)
++ **EXCEL导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出，导出正在开发)
 
 ### ⏱️未来开发计划
 + **打印及设置** (像excel一样进行打印设置，并导出为图片或者PDF)
 + **树形菜单** (类似excel中的分级显示（分组）)
 + **表格新功能** (类似excel中表格的筛选器和切片器)
++ **CSV,TXT导入及导出** (专为Luckysheet打造的导入导出插件，支持密码、水印、公式等的本地导入导出)
++ **插入svg形状** (支持[Pen tool](https://github.com/mengshukeji/Pentool)的插入、修改和删除，并且随表格的变动而产生变化)
 + **文档** (完善文档和API)
 + **敬请期待...** (可以提出好的建议给我们)
 
@@ -163,19 +170,11 @@ npm run build
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## 加入共建
+## 贡献
 
 1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. 如果您想为 Luckysheet 实现一个重要功能，需要先撰写 RFC 文档，按照Luckysheet的 [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 机制进行操作，在经过社区讨论完善后才可以进行代码的提交。
-3. 如果您对Luckysheet感兴趣，非常欢迎加入开发组，一起来完善这个插件（下方扫码添加小编微信备注：共建），有4类任务可以认领
-    - BUG修复
-    - 新功能添加
-    - 文档
-    - 推广
-  
-    您将收获：
-    - Luckysheet官方readme文档贡献者链接
-    - 参与大型开源项目，技术和视野提升
+2. 详细了解：[如何参与贡献](https://github.com/mengshukeji/Luckysheet/issues/128)
+
 
 ## 交流
 
@@ -214,6 +213,8 @@ npm run build
 - Alphabet(Google)-gcf ¥ 1
 - **平 ¥ 100
 - **东 ¥ 10
+- debugger ¥ 20
+- 烦了烦 ¥ 10
 
 ## 贡献者和感谢
 

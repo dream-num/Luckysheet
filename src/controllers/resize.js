@@ -20,7 +20,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         Store.infobarHeight = document.querySelector('#luckysheet_info_detail').offsetHeight;
     }
 
-    if (Store.toobarObject.toobarElements.length === 0) {
+    if (!!Store.toobarObject && !!Store.toobarObject.toobarElements && Store.toobarObject.toobarElements.length === 0) {
         $("#" + Store.container).find(".luckysheet-wa-editor").hide();
         Store.toolbarHeight = 0;
     }
@@ -54,7 +54,15 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     customStatisticBarConfig();
 
     // 公式栏
-    Store.calculatebarHeight = document.querySelector('#luckysheet-wa-calculate').offsetHeight;
+    const formulaEle = document.querySelector("#" + Store.container + ' .luckysheet-wa-calculate');
+    if (!luckysheetConfigsetting.sheetFormulaBar) {
+        formulaEle.style.display = 'none';
+        Store.calculatebarHeight = 0;
+    }
+    else {
+        formulaEle.style.display = 'block';
+        Store.calculatebarHeight = formulaEle.offsetHeight;
+    }
 
     $("#" + Store.container).find(".luckysheet-grid-container").css("top", Store.toolbarHeight + Store.infobarHeight + Store.calculatebarHeight);
 
@@ -86,7 +94,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                         ${locale_toolbar.toolMore}
                     </div> 
-                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige" style="user-select: none;font-size:12px;">
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige" style="user-select: none;font-size:12px;">
                     </div>
 
                 </div> 
@@ -156,7 +164,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                     ${locale_toolbar.toolClose}
                 </div> 
-                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-shangyige" style="user-select: none;font-size:12px;">
+                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-shangyige" style="user-select: none;font-size:12px;">
                 </div>
                 `
                 $(this).find(".luckysheet-toolbar-button-inner-box").html(toolCloseHTML);
@@ -167,7 +175,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                     ${locale_toolbar.toolMore}
                 </div> 
-                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont icon-xiayige" style="user-select: none;font-size:12px;">
+                <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige" style="user-select: none;font-size:12px;">
                 </div>
                 `
 
@@ -233,14 +241,14 @@ export function changeSheetContainerSize(gridW, gridH){
     if(gridH==null){
         gridH = $("#" + Store.container).height();
     }
-    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
+    Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
     Store.cellmainWidth = gridW - Store.rowHeaderWidth;
     
     $("#luckysheet-cols-h-c, #luckysheet-cell-main").width(Store.cellmainWidth);
     $("#luckysheet-cell-main").height(Store.cellmainHeight);
     $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
 
-    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
+    $("#luckysheet-scrollbar-y").height(Store.cellmainHeight + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
     $("#luckysheet-scrollbar-x").height(Store.cellMainSrollBarSize);
     $("#luckysheet-scrollbar-y").width(Store.cellMainSrollBarSize);
 
@@ -248,7 +256,7 @@ export function changeSheetContainerSize(gridW, gridH){
 
     Store.luckysheetTableContentHW = [
         Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
-        Store.cellmainHeight + Store.columeHeaderHeight - Store.cellMainSrollBarSize
+        Store.cellmainHeight + Store.columnHeaderHeight - Store.cellMainSrollBarSize
     ];
 
     $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
@@ -344,97 +352,101 @@ export function menuToolBarWidth() {
             ele:'#luckysheet-icon-strikethrough',
             index:12,
         }, //'Strikethrough (Alt+Shift+5)'
+        underline: {
+            ele:'#luckysheet-icon-underline',
+            index:13,
+        }, //'Underline (Alt+Shift+6)'
         textColor: {
             ele:['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
-            index:13,
+            index:14,
         }, //'Text color'
         fillColor: {
             ele:['#luckysheet-icon-cell-color','#luckysheet-icon-cell-color-menu'],
-            index:14,
+            index:15,
         }, //'Cell color'
         border: {
             ele:['#luckysheet-icon-border-all','#luckysheet-icon-border-menu'],
-            index:15,
+            index:16,
         }, //'border'
         mergeCell: {
             ele:['#luckysheet-icon-merge-button','#luckysheet-icon-merge-menu','#toolbar-separator-merge-cell'],
-            index:16,
+            index:17,
         }, //'Merge cells'
         horizontalAlignMode: {
             ele:['#luckysheet-icon-align','#luckysheet-icon-align-menu'],
-            index:17,
+            index:18,
         }, //'Horizontal alignment'
         verticalAlignMode: {
             ele:['#luckysheet-icon-valign','#luckysheet-icon-valign-menu'],
-            index:18,
+            index:19,
         }, //'Vertical alignment'
         textWrapMode: {
             ele:['#luckysheet-icon-textwrap','#luckysheet-icon-textwrap-menu'],
-            index:19,
+            index:20,
         }, //'Wrap mode'
         textRotateMode: {
             ele:['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
-            index:20,
+            index:21,
         }, //'Text Rotation Mode'
 		image:{
             ele:'#luckysheet-insertImg-btn-title',
-            index:21,
+            index:22,
         }, //'Insert link'
 		link:{
             ele:'#luckysheet-insertLink-btn-title',
-            index:22,
+            index:23,
         }, //'Insert picture'
         chart: {
             ele:'#luckysheet-chart-btn-title',
-            index:23,
+            index:24,
         }, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
         postil: {
             ele:'#luckysheet-icon-postil',
-            index:24,
+            index:25,
         }, //'comment'
         pivotTable: {
             ele:['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
-            index:25,
+            index:26,
         }, //'PivotTable'
         function: {
             ele:['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
-            index:26,
+            index:27,
         }, //'formula'
         frozenMode: {
             ele:['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
-            index:27,
+            index:28,
         }, //'freeze mode'
         sortAndFilter: {
             ele:'#luckysheet-icon-autofilter',
-            index:28,
+            index:29,
         }, //'sort and filter'
         conditionalFormat: {
             ele:'#luckysheet-icon-conditionformat',
-            index:29,
+            index:30,
         }, //'Conditional Format'
         dataVerification: {
             ele:'#luckysheet-dataVerification-btn-title',
-            index:30,
+            index:31,
         }, // 'Data Verification'
         splitColumn: {
             ele:'#luckysheet-splitColumn-btn-title',
-            index:31,
+            index:32,
         }, //'Split column' 
         screenshot: {
             ele:'#luckysheet-chart-btn-screenshot',
-            index:32,
+            index:33,
         }, //'screenshot'
         findAndReplace: {
             ele:'#luckysheet-icon-seachmore',
-            index:33,
+            index:34,
         }, //'Find and Replace'
         protection:{
             ele:'#luckysheet-icon-protection',
-            index:34,
+            index:35,
         }, // 'Worksheet protection'
 		print:{
             ele:'#luckysheet-icon-print',
-            index:35,
+            index:36,
         }, // 'print'
     };
 
@@ -452,6 +464,7 @@ export function menuToolBarWidth() {
         bold: true, //'Bold (Ctrl+B)'
         italic: true, //'Italic (Ctrl+I)'
         strikethrough: true, //'Strikethrough (Alt+Shift+5)'
+        underline: true, //'Underline (Alt+Shift+6)'
         textColor: true, //'Text color'
         fillColor: true, //'Cell color'
         border: true, //'border'
@@ -461,6 +474,7 @@ export function menuToolBarWidth() {
         textWrapMode: true, //'Wrap mode'
         textRotateMode: true, //'Text Rotation Mode'
 		image:true, // 'Insert picture'
+		link: true, // 'Insert link'(TODO)
 		chart: true, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
 		postil:true, //'comment'
 		pivotTable: true, //'PivotTable'
@@ -474,7 +488,6 @@ export function menuToolBarWidth() {
 		findAndReplace: true, //'Find and Replace'
 		protection: true, // 'Worksheet protection'
 		print: true, // 'print'
-		// link: true, // 'Insert link'(TODO)
     }
 
     // false means all false
@@ -680,5 +693,4 @@ function customStatisticBarConfig() {
         $("#" + Store.container).find(".luckysheet-stat-area").show();
         Store.statisticBarHeight = 23;
     }
-
 }

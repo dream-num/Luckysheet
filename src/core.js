@@ -94,7 +94,9 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.showsheetbarConfig = extendsetting.showsheetbarConfig;
     luckysheetConfigsetting.showstatisticBar = extendsetting.showstatisticBar;
     luckysheetConfigsetting.showstatisticBarConfig = extendsetting.showstatisticBarConfig;
-    luckysheetConfigsetting.sheetBottomConfig = extendsetting.sheetBottomConfig;
+    luckysheetConfigsetting.sheetFormulaBar = extendsetting.sheetFormulaBar;
+    luckysheetConfigsetting.cellRightClickConfig = extendsetting.cellRightClickConfig;
+    luckysheetConfigsetting.sheetRightClickConfig = extendsetting.sheetRightClickConfig;
     luckysheetConfigsetting.pointEdit = extendsetting.pointEdit;
     luckysheetConfigsetting.pointEditUpdate = extendsetting.pointEditUpdate;
     luckysheetConfigsetting.pointEditZoom = extendsetting.pointEditZoom;
@@ -106,7 +108,7 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.showConfigWindowResize = extendsetting.showConfigWindowResize;
     luckysheetConfigsetting.enableAddRow = extendsetting.enableAddRow;
-    luckysheetConfigsetting.enableAddCol = extendsetting.enableAddCol;
+    luckysheetConfigsetting.enableAddBackTop = extendsetting.enableAddBackTop;
     luckysheetConfigsetting.enablePage = extendsetting.enablePage;
     luckysheetConfigsetting.pageInfo = extendsetting.pageInfo;
 
@@ -120,7 +122,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.plugins = extendsetting.plugins;
 
     luckysheetConfigsetting.rowHeaderWidth = extendsetting.rowHeaderWidth;
-    luckysheetConfigsetting.columeHeaderHeight = extendsetting.columeHeaderHeight;
+    luckysheetConfigsetting.columnHeaderHeight = extendsetting.columnHeaderHeight;
 
     luckysheetConfigsetting.defaultColWidth = extendsetting.defaultColWidth;
     luckysheetConfigsetting.defaultRowHeight = extendsetting.defaultRowHeight;

@@ -1606,6 +1606,9 @@ const luckysheetformula = {
             }
         }
 
+        // 退出编辑模式后，发送后台取消“正在输入”提示
+        // server.saveParam("mv", Store.currentSheetIndex,  "exitEdit");
+
         if(isRefresh){
             jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
             // Store.luckysheetCellUpdate.length = 0; //clear array

@@ -22,7 +22,7 @@ const Store = {
     infobarHeight: 0,
     calculatebarHeight: 0,
     rowHeaderWidth: 46,
-    columeHeaderHeight: 20,
+    columnHeaderHeight: 20,
     cellMainSrollBarSize: 12,
     sheetBarHeight: 31,
     statisticBarHeight: 23,
@@ -119,6 +119,7 @@ const Store = {
     measureTextCache:{},
     measureTextCellInfoCache:{},
     measureTextCacheTimeOut:null,
+    cellOverflowMapCache:{},
 
     zoomRatio:1,
 
@@ -135,6 +136,13 @@ const Store = {
     defaultFontSize: 10,
 
     currentSheetView:"viewNormal",
+
+    // cooperative editing
+    cooperativeEdit:{
+        usernameTimeout:{
+
+        }
+    }
 
 }
 

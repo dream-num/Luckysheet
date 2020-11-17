@@ -746,6 +746,10 @@ export function keyboardInitial(){
                     //Alt + Shift + 5（删除线）
                     $("#luckysheet-icon-strikethrough").click();
                 }
+                // else if (altKey && (kcode == 54 || kcode == 102)) {
+                //     //Alt + Shift + 6（删除线）
+                //     $("#luckysheet-icon-underline").click();
+                // }
 
                 event.preventDefault();
             }

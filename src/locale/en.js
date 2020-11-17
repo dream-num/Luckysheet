@@ -8826,6 +8826,7 @@ export default {
         bold: 'Bold (Ctrl+B)',
         italic : 'Italic (Ctrl+I)',
         strikethrough: 'Strikethrough (Alt+Shift+5)',
+        underline: 'Underline',
         textColor: 'Text color',
         chooseColor: 'choose color',
         resetColor: 'Reset',
@@ -9995,6 +9996,9 @@ export default {
         menuItemAreas:"Print areas",
         menuItemRows:"Print title rows",
         menuItemColumns:"Print title columns",
+    },
+    edit:{
+        typing:"typing",
     }
   };
   

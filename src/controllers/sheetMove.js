@@ -6,6 +6,7 @@ import menuButton from './menuButton';
 import { selectHightlightShow } from './select';
 import pivotTable from './pivotTable';
 import Store from '../store';
+import server from './server';
 
 function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     if (isScroll == null) {
@@ -622,6 +623,9 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
 
     clearTimeout(Store.countfuncTimeout);
     countfunc();
+    
+    // 移动单元格通知后台
+    server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
 }
 
 //ctrl + 方向键  调整单元格

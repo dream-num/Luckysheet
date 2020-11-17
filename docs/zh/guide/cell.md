@@ -330,7 +330,7 @@ Luckysheet在存储数字类型的内容时，支持多种格式转换，所以�
 ]
 ```
 
-> borderInfo 详细参考：[表格数据config](/zh/guide/data.html#config)
+> borderInfo 详细参考：[config.borderInfo](/zh/guide/sheet.html#config-borderinfo)
 
 ## 简化的单元格数据
 

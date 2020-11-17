@@ -323,10 +323,32 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     // 特殊格式
     if (attr == 'ct' && (!value || !value.hasOwnProperty('fa') || !value.hasOwnProperty('t'))) {
         return new TypeError('While set attribute \'ct\' to cell, the value must have property \'fa\' and \'t\'')
-        cellData.m = update(value.fa, cellData.v)
     }
 
-    cellData[attr] = value;
+    if (attr == 'bd') {
+        let cfg = $.extend(true, {}, Store.config);
+        if(cfg["borderInfo"] == null){
+            cfg["borderInfo"] = [];
+        }
+
+        let borderInfo = {
+            rangeType: "range",
+            borderType: "border-all",
+            color: "#000",
+            style: "1",
+            range: [{
+                column: [column, column],
+                row: [row, row]
+            }],
+            ...value,
+        }
+
+        cfg["borderInfo"].push(borderInfo);
+        Store.config = cfg;
+    } else {
+        cellData[attr] = value;
+    }
+    
     // refresh
     jfrefreshgrid(targetSheetData, {
         row: [row],
@@ -444,7 +466,9 @@ export function replace(content, replaceContent, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function exitEditMode(options = {}){
-    formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+    if(parseInt($("#luckysheet-input-box").css("top")) > 0){
+      formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+    }
 
     if (options.success && typeof options.success === 'function') {
         options.success();
@@ -470,7 +494,7 @@ export function frozenFirstRow(order) {
             row_st = 0;
         }
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st],
             row_st + 1,
@@ -571,7 +595,7 @@ export function frozenRowRange(range, order) {
             row_st = 0;
         }
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st],
             row_st + 1,
@@ -769,7 +793,7 @@ export function setBothFrozen(isRange, options = {}) {
             if(row_st == -1){
                 row_st = 0;
             }
-            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
             let freezenhorizontaldata = [
                 Store.visibledatarow[row_st],
                 row_st + 1,
@@ -837,7 +861,7 @@ export function setBothFrozen(isRange, options = {}) {
                 row_st = 0;
             }
 
-            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
             let freezenhorizontaldata = [
                 Store.visibledatarow[row_st],
                 row_st + 1,
@@ -901,6 +925,8 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
         success
     } = {...options}
 
+    let _locale = locale();
+    let locale_info = _locale.info;
     if (!isRealNum(number)) {
         if(isEditMode()){
             alert(locale_info.tipInputNumber);
@@ -4412,7 +4438,12 @@ export function setSheetAdd(options = {}) {
     order = Number(order);
 
     let index = sheetmanage.generateRandomSheetIndex();
-
+    // calcChain公式链里的index也要跟着变化
+    if (sheetObject.calcChain.length > 0) {
+        sheetObject.calcChain.forEach((item) => {
+            item.index = index
+        })
+    }
     let sheetname = sheetmanage.generateRandomSheetName(Store.luckysheetfile, false);
     if(!!sheetObject.name){
         let sameName = false;
@@ -5373,6 +5404,8 @@ export function getAllSheets() {
         }
 
         delete item.load;
+        delete item.freezen;
+        
     })
 
     return data;

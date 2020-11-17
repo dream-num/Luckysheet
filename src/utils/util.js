@@ -1,7 +1,7 @@
 import { columeHeader_word, columeHeader_word_index, luckysheetdefaultFont } from '../controllers/constant';
 import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
-import { hasChinaword } from '../global/validate';
+import { hasChinaword,isRealNum } from '../global/validate';
 import Store from '../store';
 import locale from '../locale/locale'; 
 
@@ -293,8 +293,16 @@ function createABCdim(x, count) {
     }
 };
 
-//计算字符串字节长度
-function getByteLen(val) {
+/**
+ * 计算字符串字节长度
+ * @param {*} val 字符串
+ * @param {*} subLen 要截取的字符串长度
+ */
+function getByteLen(val,subLen) {
+    if(subLen === 0){
+        return "";
+    }
+
     if (val == null) {
         return 0;
     }
@@ -309,6 +317,11 @@ function getByteLen(val) {
         else {
             len += 1;
         }
+
+        if(isRealNum(subLen) && len === ~~subLen){
+            return val.substring(0,i)
+        }
+
     }
 
     return len;
