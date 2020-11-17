@@ -160,15 +160,21 @@ const luckysheetPostil = {
         let mouse = mouseposition(event.pageX, event.pageY);
         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
         let scrollTop = $("#luckysheet-cell-main").scrollTop();
-        let x = mouse[0] + scrollLeft;
-        let y = mouse[1] + scrollTop;
+        let x = mouse[0];
+        let y = mouse[1];
+        let offsetX = 0;
+        let offsetY = 0;
 
         if(luckysheetFreezen.freezenverticaldata != null && mouse[0] < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
-            return;
+            offsetX = scrollLeft;
+        } else {
+            x += scrollLeft;
         }
 
         if(luckysheetFreezen.freezenhorizontaldata != null && mouse[1] < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
-            return;
+            offsetY = scrollTop;
+        } else {
+            y += scrollTop;
         }
 
         let row_index = rowLocation(y)[2];
@@ -205,8 +211,8 @@ const luckysheetPostil = {
             col_pre = margeset.column[0];
         }
 
-        let toX = col;
-        let toY = row_pre;
+        let toX = col + offsetX;
+        let toY = row_pre + offsetY;
 
         let fromX = toX + 18 * Store.zoomRatio;
         let fromY = toY - 18 * Store.zoomRatio;
@@ -612,8 +618,18 @@ const luckysheetPostil = {
                 col_pre = margeset.column[0];
             }
 
+            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+            let scrollTop = $("#luckysheet-cell-main").scrollTop();
+
             let toX = col;
             let toY = row_pre;
+
+            if(luckysheetFreezen.freezenverticaldata != null && toX < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+                toX += scrollLeft;
+            }
+            if(luckysheetFreezen.freezenhorizontaldata != null && toY < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+                toY += scrollTop;
+            }
 
             let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
             let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
@@ -726,8 +742,18 @@ const luckysheetPostil = {
                             col_pre = margeset.column[0];
                         }
 
+                        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                        let scrollTop = $("#luckysheet-cell-main").scrollTop();
+            
                         let toX = col;
                         let toY = row_pre;
+            
+                        if(luckysheetFreezen.freezenverticaldata != null && toX < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+                            toX += scrollLeft;
+                        }
+                        if(luckysheetFreezen.freezenhorizontaldata != null && toY < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+                            toY += scrollTop;
+                        }
 
                         let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
                         let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
