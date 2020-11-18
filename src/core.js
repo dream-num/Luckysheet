@@ -15,12 +15,12 @@ import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
 import {keyboardInitial} from './controllers/keyboard';
 import {orderByInitial} from './controllers/orderBy';
 import {initPlugins} from './controllers/expendPlugins';
-import { 
-    getluckysheetfile, 
-    getluckysheet_select_save, 
-    getconfig, 
+import {
+    getluckysheetfile,
+    getluckysheet_select_save,
+    getconfig,
 } from './methods/get';
-import { 
+import {
     setluckysheet_select_save
 } from './methods/set';
 import { luckysheetrefreshgrid, jfrefreshgrid } from './global/refresh';
@@ -34,6 +34,9 @@ import {printInitial} from './controllers/print';
 import method from './global/method';
 
 import * as api from './global/api';
+
+import flatpickr from 'flatpickr'
+import Mandarin from 'flatpickr/dist/l10n/zh.js'
 
 let luckysheet = {};
 
@@ -128,6 +131,8 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
+    if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 
@@ -143,7 +148,6 @@ luckysheet.create = function (setting) {
     //loading
     $("#" + container).append(luckysheetlodingHTML());
 
-    let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         // luckysheetsizeauto();
@@ -153,14 +157,14 @@ luckysheet.create = function (setting) {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
             let data = eval("(" + d + ")");
             Store.luckysheetfile = data;
-            
+
             sheetmanage.initialjfFile(menu, title);
             // luckysheetsizeauto();
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
             if(server.allowUpdate){
-                server.openWebSocket();    
+                server.openWebSocket();
             }
         });
     }
