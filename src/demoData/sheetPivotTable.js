@@ -1,4 +1,4 @@
-const sheetPivotTable = {
+window.sheetPivotTable = {
 	"name": "PivotTable",
 	"color": "",
 	"config": {},
@@ -186,4 +186,4 @@ const sheetPivotTable = {
 	}
 }
 
-export default sheetPivotTable;
+// export default sheetPivotTable;
