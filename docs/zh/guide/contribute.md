@@ -94,9 +94,12 @@ git checkout -b Luckysheet-123
 
 7. 提交代码到远程分支
 
+我们使用Angular规范来提交commit信息。
+> 参考阅读[Git commit message 规范](https://juejin.im/post/6844903871832145927)
+
 commit 信息的格式必须与Issue标题保持一致且以[issue id]开头，即：[Luckysheet-123] xxx
 ```shell
-git commit -a -m "[Luckysheet-123] xxx" 
+npm run commit
 git push origin Luckysheet-123
 ```
 8. 提交PR
