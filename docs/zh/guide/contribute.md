@@ -63,56 +63,56 @@ git clone https://github.com/<your_github_name>/Luckysheet.git
 
 ```shell
 cd Luckysheet
-git remote add upstream https://github.com/mengshukeji/Luckysheet.git
+git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 ```
     
-4. 检查远程仓库设置
+4. 创建开发分支
 
 ```shell
-git remote -v
-origin https://github.com/<your_github_name>/Luckysheet.git (fetch) 
-origin https://github.com/<your_github_name>/Luckysheet.git (push) 
-upstream https://github.com/mengshukeji/Luckysheet.git (fetch) 
-upstream https://github.com/mengshukeji/Luckysheet.git (push)
+git checkout -b dev
 ```
 
-5. 获取 Luckysheet 仓库代码，并更新本地master分支代码为最新
+5. 修改提交代码
 
 ```shell
-git fetch upstream 
-git pull upstream master
+git add . 
+git commit -m "xxx" 
+git push origin dev
 ```
 
-6. 新建分支
+6. 同步代码，将最新代码同步到本地
 
-一般以issue id作为分支名，如：Luckysheet-123
 ```shell
-git checkout -b Luckysheet-123
+git fetch upstream 
+git rebase upstream/master
 ```
 **确保分支Luckysheet-123是基于官方master分支的最新代码**
 分支创建完成后即可进行代码更改。
 
-7. 提交代码到远程分支
+7. 如果有冲突（没有可以忽略）
 
-我们使用Angular规范来提交commit信息。
-> 参考阅读[Git commit message 规范](https://juejin.im/post/6844903871832145927)
-
-commit 信息的格式必须与Issue标题保持一致且以[issue id]开头，即：[Luckysheet-123] xxx
 ```shell
-npm run commit
-git push origin Luckysheet-123
+git status # 查看冲突文件，并修改冲突
+git add .
+git rebase --continue
 ```
-8. 提交PR
+提交git rebase --continue命令的时候，如果弹出vim提示编辑commit信息，则可以添加你的修改，然后保存退出
+vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
 
- * 打开自己的github仓库页面，如：`https://github.com/<your_github_name>/Luckysheet`
- * 切换分支，切换到提交的分支 `Luckysheet-123`
- * 创建新PR，点击 `New pull request`或者`Compare & pull request`
- * 点击Create pull request按钮进行创建PR
- 
- ### 提交PR需要注意以下几点： 
- 1. PR的标题必须以issue id开头，最好与commit信息保持一致 
- 2. 可以填写部分描述信息也可以不填 
- 3. 如果点击`Create pull request`后提示代码冲突，则请将`Luckysheet-123`分支的代码 与master分支同步一致后在进行提交
+8. 提交分支代码
+
+```shell
+git push origin dev
+```
+如果提示需要先pull 可以先拉取在提交
+```shell
+git pull origin dev
+git push origin dev
+```
+若弹出vim提示编辑commit信息，可以直接通过vim命令退出，vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
+
+9. 提交pr
+去自己github仓库对应fork的项目，切换到刚刚创建修改的分支，点击new pull request，并添加上对应的描述，最后点击Create pull request进行提交
     
 ## 代码规范
 
