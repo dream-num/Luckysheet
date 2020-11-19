@@ -5,7 +5,8 @@
   "module": "dist/luckysheet.esm.js",
   "browser": "dist/luckysheet.umd.js",
   "devDependencies": {
-    "@babel/preset-env": "^7.10.2",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "@babel/runtime-corejs3": "^7.12.1",
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
@@ -17,6 +18,7 @@
     "cross-env": "^7.0.2",
     "delete": "^1.1.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-if": "^3.0.0",
