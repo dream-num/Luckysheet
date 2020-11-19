@@ -62,11 +62,12 @@ git clone https://github.com/<your_github_name>/Luckysheet.git
 3. 上游建立连接
 
 ```shell
-cd Luckysheet
+
+cd Luckysheet
 git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 ```
-    
-4. 创建开发分支
+    
+4. 创建开发分支
 
 ```shell
 git checkout -b dev
@@ -87,21 +88,22 @@ git fetch upstream 
 git rebase upstream/master
 ```
 
-7. 如果有冲突（没有可以忽略）
+7. 如果有冲突（没有可以忽略）
 
 ```shell
 git status # 查看冲突文件，并修改冲突
 git add .
 git rebase --continue
 ```
-提交git rebase --continue命令的时候，如果弹出vim提示编辑commit信息，则可以添加你的修改，然后保存退出
-> vim命令请参考阅读[vim](https://www.runoob.com/linux/linux-vim.html)
+提交git rebase --continue命令的时候，如果弹出vim提示编辑commit信息，则可以添加你的修改，然后保存退出
+vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
 
-8. 提交分支代码
+8. 提交分支代码
 
 ```shell
 git push origin dev
 ```
+
 如果提示需要先pull 可以先拉取在提交
 ```shell
 git pull origin dev
