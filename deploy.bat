@@ -52,3 +52,34 @@ git push origin --delete dev
 git checkout master
 # delete local branch
 git branch -d dev
+
+# pr
+## 1. fork 到自己的仓库
+
+## 2. git clone 到本地
+
+## 3. 上游建立连接
+git remote add upstream https://github.com/mengshukeji/Luckysheet.git
+
+## 4. 创建开发分支
+git checkout -b dev
+
+## 5. 修改提交代码
+git add . 
+git commit -m "add" 
+git push origin dev
+
+## 6. 同步代码，将最新代码同步到本地
+git fetch upstream 
+git rebase upstream/master
+
+## 7. 如果有冲突（没有可以略过）
+git status # 查看冲突文件，并修改冲突
+git add .
+git rebase --continue
+
+## 8.提交分支代码
+git push origin dev
+
+## 7. 提交pr
+去自己github仓库对应fork的项目下new pull request
