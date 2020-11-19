@@ -49,19 +49,20 @@
 
 ## 如何提交代码
 
-1. fork 到自己的仓库
+1. fork 到自己的仓库
 
-进入  [Luckysheet](https://github.com/mengshukeji/Luckysheet)  的Github页面 ，点击右上角按钮 Fork 进行 Fork。
+进入  [Luckysheet](https://github.com/mengshukeji/Luckysheet)  的Github页面 ，点击右上角按钮 Fork 进行 Fork。
 
-2. git clone 到本地
+2. git clone 到本地
 
 ```shell
-git clone https://github.com/<your_github_name>/Luckysheet.git
+git clone https://github.com/<your_github_name>/Luckysheet.git
 ```
 
-3. 上游建立连接
+3. 上游建立连接
 
 ```shell
+
 cd Luckysheet
 git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 ```
@@ -72,22 +73,20 @@ git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 git checkout -b dev
 ```
 
-5. 修改提交代码
+5. 修改提交代码
 
 ```shell
 git add . 
-git commit -m "xxx" 
-git push origin dev
+npm run commit
+git push origin dev
 ```
 
-6. 同步代码，将最新代码同步到本地
+6. 同步代码，将最新代码同步到本地
 
 ```shell
 git fetch upstream 
 git rebase upstream/master
 ```
-**确保分支Luckysheet-123是基于官方master分支的最新代码**
-分支创建完成后即可进行代码更改。
 
 7. 如果有冲突（没有可以忽略）
 
@@ -104,15 +103,17 @@ vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
 ```shell
 git push origin dev
 ```
-如果提示需要先pull 可以先拉取在提交
+
+如果提示需要先pull 可以先拉取在提交
 ```shell
-git pull origin dev
+git pull origin dev
 git push origin dev
 ```
-若弹出vim提示编辑commit信息，可以直接通过vim命令退出，vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
+若弹出vim提示编辑commit信息，可以直接通过vim命令退出
+> vim命令请参考阅读[vim](https://www.runoob.com/linux/linux-vim.html)
 
-9. 提交pr
-去自己github仓库对应fork的项目，切换到刚刚创建修改的分支，点击new pull request，并添加上对应的描述，最后点击Create pull request进行提交
+9. 提交pr
+去自己github仓库对应fork的项目，切换到刚刚创建修改的分支，点击new pull request，并添加上对应的描述，最后点击Create pull request进行提交
     
 ## 代码规范
 
