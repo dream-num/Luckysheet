@@ -166,7 +166,11 @@ const server = {
 	            let data = eval('(' + result.data + ')');
 	            console.info(data);
 	            let type = data.type;
-
+				let {message,id} = data;
+				// 用户退出时，关闭协同编辑时其提示框
+				if(message === '用户退出') {
+					$("#luckysheet-multipleRange-show-" + id).hide();
+				}
 	            if(type == 1){ //send 成功或失败
 
 	            }
