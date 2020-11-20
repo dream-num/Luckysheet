@@ -108,7 +108,8 @@ const Store = {
         jfrefreshchartall: '',
         changeChartCellData: '',
         renderChart: '',
-        getChartJson: ''
+        getChartJson: '',
+        originChart: ''
     },
     functionList:null, //function list explanation
     luckysheet_function:null,

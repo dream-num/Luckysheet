@@ -23,6 +23,7 @@ import {
 } from '../global/refresh';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import { deleteChart, insertChart, renderCharts } from '../expendPlugins/chart/plugin'
 
 function formulaHistoryHanddler(ctr, type="redo"){
     if(ctr==null){
@@ -418,6 +419,33 @@ const controlHistory = {
             server.saveParam("all", ctr.currentSheetIndex, ctr.zoomRatio, { "k": "zoomRatio" });
             zoomNumberDomBind();
             zoomRefreshView();
+        }else if(ctr.type == 'insertChart'){
+            deleteChart(ctr.chart.chart_id)
+        }else if(ctr.type == 'deleteChart'){
+            insertChart(ctr.chart.chart_id,ctr.chart.range,ctr.chart.style,ctr.chart.success)
+            renderCharts([{chart_id: ctr.chart.chart_id, chartOptions: ctr.chart.chart_json}])
+        }else if(ctr.type == 'moveChart'){
+            $('#' + ctr.chart.chart_id + '_c').css({
+                left: ctr.chart.x,
+                top: ctr.chart.y
+            })
+            $("#jfgrid-scrollbar-y").scrollTop(ctr.chart.scrollTop1);
+            $("#jfgrid-scrollbar-x").scrollLeft(ctr.chart.scrollLeft1);
+        }else if(ctr.type == 'resizeChart'){
+            $('#' + ctr.chart.chart_id + '_c').css({
+                left: ctr.chart.x,
+                top: ctr.chart.y,
+                width: ctr.chart.width1,
+                height: ctr.chart.height1
+            })
+            $("#jfgrid-scrollbar-y").scrollTop(ctr.chart.scrollTop1);
+            $("#jfgrid-scrollbar-x").scrollLeft(ctr.chart.scrollLeft1);
+        }else if(ctr.type == 'rangeChart'){
+            Store.changeChartRange(ctr.chart.chart_id, ctr.chart.originChart.chartData, ctr.chart.originChart.rangeArray, ctr.chart.originChart.rangeTxt, ctr.chart.originChart.rangeSplitArray)
+            Store.chart_selection.create({rangeArray: ctr.chart.originChart.rangeArray,rangeSplitArray: ctr.chart.originChart.rangeSplitArray, rangeRowCheck: ctr.chart.originChart.rangeRowCheck, rangeColCheck: ctr.chart.originChart.rangeColCheck })
+        }else if(ctr.type == 'updateChart'){
+            ctr.chart.reverse = true
+            Store.chartparam.updateChart(ctr.chart)
         }
         
         cleargridelement(e);
@@ -428,7 +456,7 @@ const controlHistory = {
             return;
         }
 
-        let ctr = Store.jfundo.pop();
+        let ctr = Store.jfundo.pop();``
         Store.jfredo.push(ctr);
         Store.clearjfundo = false;
 
@@ -725,6 +753,32 @@ const controlHistory = {
             server.saveParam("all", ctr.currentSheetIndex, ctr.curZoomRatio, { "k": "zoomRatio" });
             zoomNumberDomBind();
             zoomRefreshView();
+        }else if(ctr.type == 'insertChart'){
+            insertChart(ctr.chart.chart_id, ctr.chart.range, ctr.chart.style, ctr.chart.success)
+        }else if(ctr.type == 'deleteChart'){
+            deleteChart(ctr.chart.chart_id)
+        }else if(ctr.type == 'moveChart'){
+            $('#' + ctr.chart.chart_id + '_c').css({
+                left: ctr.chart.left,
+                top: ctr.chart.top
+            })
+            $("#jfgrid-scrollbar-y").scrollTop(ctr.chart.scrollTop);
+            $("#jfgrid-scrollbar-x").scrollLeft(ctr.chart.scrollLeft);
+        }else if(ctr.type == 'resizeChart'){
+            $('#' + ctr.chart.chart_id + '_c').css({
+                left: ctr.chart.left,
+                top: ctr.chart.top,
+                width: ctr.chart.width,
+                height: ctr.chart.height
+            })
+            $("#jfgrid-scrollbar-y").scrollTop(ctr.chart.scrollTop);
+            $("#jfgrid-scrollbar-x").scrollLeft(ctr.chart.scrollLeft);
+        }else if(ctr.type == 'rangeChart'){
+            Store.changeChartRange(ctr.chart.chart_id, ctr.chart.currentChart.chartData, ctr.chart.currentChart.rangeArray, ctr.chart.currentChart.rangeTxt, ctr.chart.currentChart.rangeSplitArray)
+            Store.chart_selection.create({rangeArray: ctr.chart.currentChart.rangeArray,rangeSplitArray: ctr.chart.currentChart.rangeSplitArray, rangeRowCheck: ctr.chart.currentChart.rangeRowCheck, rangeColCheck: ctr.chart.currentChart.rangeColCheck })
+        }else if(ctr.type == 'updateChart'){
+            ctr.chart.reverse = false
+            Store.chartparam.updateChart(ctr.chart)
         }
         
         Store.clearjfundo = true;

@@ -72,6 +72,39 @@ function isObject(o) {
     );
 }
 
+function isEqual(obj1,obj2) {
+  // 两个数据有任何一个不是对象或数组
+  if (!isObject(obj1) || !isObject(obj2)) {
+    // 值类型(注意：参与equal的一般不会是函数)
+    return obj1 === obj2
+  }
+  // 如果传的两个参数都是同一个对象或数组
+  if (obj1 === obj2) {
+    return true
+  }
+
+  // 两个都是对象或数组，而且不相等
+  // 1.先比较obj1和obj2的key的个数，是否一样
+  const obj1Keys = Object.keys(obj1)
+  const obj2Keys = Object.keys(obj2)
+  if (obj1Keys.length !== obj2Keys.length) {
+    return false
+  }
+
+  // 如果key的个数相等,就是第二步
+  // 2.以obj1为基准，和obj2依次递归比较
+  for (let key in obj1) {
+    // 比较当前key的value  --- 递归
+    const res = isEqual(obj1[key], obj2[key])
+    if (!res) {
+      return false
+    }
+  }
+
+  // 3.全相等
+  return true
+}
+
 /**
  * 判断参数是否是Map类型
  * @param {*} obj 
@@ -105,5 +138,6 @@ export {
     isObject,
     deepCopy,
     generateRandomKey,
-    replaceHtml
+    replaceHtml,
+    isEqual
 }
