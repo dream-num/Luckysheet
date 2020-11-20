@@ -12,6 +12,7 @@ import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import locale from '../locale/locale';
 import dayjs from "dayjs";
+import imageCtrl from './imageCtrl';
 
 const server = {
     gridKey: null,
@@ -163,9 +164,10 @@ const server = {
 
 	        //客户端接收服务端数据时触发
 	        _this.websocket.onmessage = function(result){
-	            let data = eval('(' + result.data + ')');
-	            console.info(data);
-	            let type = data.type;
+				Store.result = result
+				let data = eval('(' + result.data + ')');
+				console.info(data);		
+				let type = data.type;
 				let {message,id} = data;
 				// 用户退出时，关闭协同编辑时其提示框
 				if(message === '用户退出') {
@@ -176,7 +178,7 @@ const server = {
 	            }
 	            else if(type == 2){ //更新数据
 	                let item = JSON.parse(data.data);
-	                _this.wsUpdateMsg(item);
+					_this.wsUpdateMsg(item);
 	            }
 	            else if(type == 3){ //多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
 	                let id = data.id;
