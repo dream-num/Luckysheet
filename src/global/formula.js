@@ -4934,8 +4934,259 @@ const luckysheetformula = {
             this.execFunctionGroup();
         }
     },
-    // When set origin_r and origin_c, that mean just refresh cell value link to [origin_r,origin_c] cell
     execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
+        let _this = this;
+        
+        if (data == null) {
+            data = Store.flowdata;
+        }
+
+        if (!window.luckysheet_compareWith) {
+            window.luckysheet_compareWith = luckysheet_compareWith;
+            window.luckysheet_getarraydata = luckysheet_getarraydata;
+            window.luckysheet_getcelldata = luckysheet_getcelldata;
+            window.luckysheet_parseData = luckysheet_parseData;
+            window.luckysheet_getValue = luckysheet_getValue;
+            window.luckysheet_indirect_check = luckysheet_indirect_check;
+            window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
+            window.luckysheet_offset_check = luckysheet_offset_check;
+            window.luckysheet_calcADPMM = luckysheet_calcADPMM;
+            window.luckysheet_getSpecialReference = luckysheet_getSpecialReference;
+        }
+
+        if(_this.execFunctionGlobalData==null){
+            _this.execFunctionGlobalData = {};
+        }
+        let luckysheetfile = getluckysheetfile();
+        let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
+        
+        if (index == null) {
+            index = Store.currentSheetIndex;
+        }
+
+        if (value != null) {
+            //此处setcellvalue 中this.execFunctionGroupData会保存想要更新的值，本函数结尾不要设为null,以备后续函数使用
+            // setcellvalue(origin_r, origin_c, _this.execFunctionGroupData, value);
+            let cellCache = [[{v:null}]];
+            setcellvalue(0, 0, cellCache, value);
+            _this.execFunctionGlobalData[origin_r+"_"+origin_c+"_"+index] = cellCache[0][0];
+            
+        }
+
+
+        /*A从属B 或 B引用A
+        定义：B单元格的公式中含有对单元格A的引用
+        举例：
+        遍历规则：
+        1. 遍历时，按照从属关系进行，以A从属B为例；自顶向下找到A的从属单元格B，然后把B单元格置于A单元格的数组位置下方，并设置B单元格的s=1
+        calcChain中的格式，{ "r": r, "c": c, "i": index, "l": 0, "s":0}, r为行号，c为列号，i为sheet的index，l为新依赖关系，s为子链，如果s为空则继承上一个元素的s值，直到l出现为止。
+        */
+        let calcChain = Store.calcChain, newCalcChain = [].concat(calcChain), stackCalcChain = [].concat(calcChain);
+
+        let anchor = 0; //定义一个锚点，用来进行分割已经优化过的公式和待优化的公式， 公式是顺序执行的。
+
+ 
+        while(stackCalcChain.length>0){
+            let targetFormula = stackCalcChain.shift();//自顶向下取出目标公式，查找其上方是否存在从属单元格
+            let dependenceFormulaList = [];
+            for(let i=0;i<newCalcChain.length;i++){
+                let curFormula = newCalcChain[i];
+                if(curFormula.r==targetFormula.r && curFormula.c==targetFormula.c && curFormula.i==targetFormula.i){
+                    
+                    for(let a=0;a<dependenceFormulaList.length;a++){
+                        let dependenceFormula = [a];
+                        _this.isFunctionRangeSave = false;
+                        let calc_funcStr = getcellFormula(dependenceFormula.r, dependenceFormula.c, dependenceFormula.index);//得到从属B(dependenceFormula)的公式
+                        _this.isFunctionRangeSelect(calc_funcStr, targetFormula.r, targetFormula.c, targetFormula.i, dynamicArray_compute);//计算A(targetFormula)是否从属B(dependenceFormula)
+                        if(_this.isFunctionRangeSave){
+                            
+                        }
+                    }
+
+                    break;
+                }
+                else{
+                    dependenceFormulaList.unshift(curFormula);//保持遍历时的顺序
+                }
+            }
+        }
+
+        for(let i=0;i<calcChain.length;i++){
+            let calcChainItem = calcChain[i];
+            _this.isFunctionRangeSave = false;
+            
+
+            if (origin_r != null && origin_c != null) {
+                let calc_funcStr = getcellFormula(calcChainItem.r, calcChainItem.c, calcChainItem.i);
+                _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index, dynamicArray_compute);
+            } 
+
+            if (_this.isFunctionRangeSave) {
+                topCalcChain.push(calcChainItem);
+            }
+            else{
+                newCalcChain.push(calcChainItem);
+            }
+        }
+
+
+        while(anchor<calcChain.length){
+            for(let i=anchor;i<calcChain.length;i++){
+                
+            }
+        }
+
+
+
+        _this.execvertex = {};
+        if (_this.execFunctionExist == null) {
+            for (let i = 0; i < group.length; i++) {
+                let item = group[i];
+                let file =luckysheetfile[getSheetIndex(item["index"])];
+                if(file==null){
+                    continue;
+                }
+                let cell = file.data[item.r][item.c];
+                let calc_funcStr = getcellFormula(item.r, item.c, item.index);
+                if(cell != null && cell.f != null && cell.f == calc_funcStr){
+                    if(!(item instanceof Object)){
+                        item = eval('('+ item +')');
+                    }
+
+                    item.color = "w";
+                    item.parent = null;
+                    item.chidren = {};
+                    item.times = 0;
+
+                    vertex1["r" + item.r + "c" + item.c + "i" + item.index] = item;
+                    _this.isFunctionRangeSave = false;
+
+                    if(isForce){
+                        _this.isFunctionRangeSave = true;
+                    }
+                    else if (origin_r != null && origin_c != null) {
+                        _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index, dynamicArray_compute);
+                    } 
+                    // else {
+                    //     _this.isFunctionRangeSelect(calc_funcStr, undefined, undefined ,dynamicArray_compute);
+                    // }
+
+                    if (_this.isFunctionRangeSave) {
+                        stack.push(item);
+                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
+                        count++;
+                    }
+                }
+            }
+        } 
+        else {
+            for (let x = 0; x < _this.execFunctionExist.length; x++) {
+                let cell = _this.execFunctionExist[x];
+
+                if ("r" + cell.r + "c" + cell.c + "i" + cell.i in vertex1) {
+                    continue;
+                }
+
+                for (let i = 0; i < group.length; i++) {
+                    let item = group[i];
+                    let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
+                    item.color = "w";
+                    item.parent = null;
+                    item.chidren = {};
+                    item.times = 0;
+
+                    vertex1["r" + item.r + "c" + item.c + "i"+ item.index] = item;
+                    _this.isFunctionRangeSave = false;
+                    if(isForce){
+                        _this.isFunctionRangeSave = true;
+                    }
+                    else{
+                        _this.isFunctionRangeSelect(calc_funcStr, cell.r, cell.c, cell.i, dynamicArray_compute);
+                    }
+                    
+                    if (_this.isFunctionRangeSave) {
+                        stack.push(item);
+                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
+                        count++;
+                    }
+                }
+            }
+        }
+
+
+        // console.time("1");
+        // console.log(group.length);
+        // let iii = 0, ii=0;
+        //先进先出法，构建逆向执行结构树
+        while (stack.length > 0) {
+            let u = stack.shift();
+            let excludeList = {}; 
+            _this.getChildrenVertex(u, vertex1, excludeList);
+            // ii++;
+            // console.log(JSON.stringify(excludeList));
+            for (let name in vertex1) {
+                let item = vertex1[name];
+                if(item==null){
+                    continue;
+                }
+
+                let ukey ="r" + u.r + "c" + u.c + "i" + u.index;
+
+                // if ((u.r == item.r && u.c == item.c && u.index == item.index) ) {
+                //     continue;
+                // }
+
+                if(name in excludeList){
+                    continue;
+                }
+
+                _this.isFunctionRangeSave = false;
+
+                
+                
+                let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
+                _this.isFunctionRangeSelect(calc_funcStr, u.r, u.c, u.index, dynamicArray_compute);
+
+                // iii++;
+                
+                if (_this.isFunctionRangeSave) {
+                    if (!(name in _this.execvertex)) {
+                        // console.log(JSON.stringify(item), JSON.stringify(u), _this.isFunctionRangeSave);
+
+                        stack.push(item);
+                        _this.execvertex[name] = item;
+                    }
+
+                    count++;
+                    _this.execvertex[name].chidren[ukey] = 1;
+                }
+            }
+        }
+        // console.log(iii, ii);
+        // console.timeEnd("1");
+
+        // console.time("2");
+        _this.groupValuesRefreshData = [];
+        let i = 0;
+
+        while (i < count) {
+            for (let name in _this.execvertex) {
+                let u = _this.execvertex[name];
+
+                if (u.color == "w") {
+                    _this.functionDFS(u);
+                } 
+                else if (u.color == "b") {
+                    i++;
+                }
+            }
+        }
+        // console.timeEnd("2");
+
+        _this.execFunctionExist = null;
+    },
+    // When set origin_r and origin_c, that mean just refresh cell value link to [origin_r,origin_c] cell
+    execFunctionGroup1: function(origin_r, origin_c, value, index, data, isForce=false) {
         let _this = this;
         
         if (data == null) {
