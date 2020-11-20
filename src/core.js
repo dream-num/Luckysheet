@@ -51,7 +51,7 @@ luckysheet = common_extend(api,luckysheet);
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
-
+    method.destroy()
     // Store original parameters for api: toJson
     Store.toJsonOptions = {}
     for(let c in setting){
