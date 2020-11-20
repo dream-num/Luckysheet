@@ -1,4 +1,4 @@
-const sheetCell = {
+window.sheetCell = {
     "name": "Cell",
     "config": {
         "merge": {
@@ -1575,4 +1575,4 @@ const sheetCell = {
     "scrollLeft": 0,
     "scrollTop": 0
 }
-export default sheetCell
+// export default sheetCell

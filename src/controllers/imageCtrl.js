@@ -51,7 +51,7 @@ const imageCtrl = {
     copyImgItemObj: null,
     inserImg: function(src){
         let _this = this;
-
+        
         let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
         let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
         let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];

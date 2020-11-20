@@ -1,4 +1,4 @@
-const sheetComment = {
+window.sheetComment = {
 	"name": "Comment",
 	"color": "",
 	"config": {
@@ -64,4 +64,4 @@ const sheetComment = {
 	"scrollTop": 0
 }
 
-export default sheetComment;
+// export default sheetComment;

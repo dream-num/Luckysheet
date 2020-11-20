@@ -21,25 +21,36 @@
 
 <body>
 	<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
-	<!-- 2 -->
+	<!-- 1 -->
 	<!-- demo feature, non-production use -->
 	<script src="./demoData/demoFeature.js"></script>
+	<script src="./demoData/sheetFormula.js"></script>
+	<script src="./demoData/sheetCell.js"></script>
+	<script src="./demoData/sheetConditionFormat.js"></script>
+	<script src="./demoData/sheetTable.js"></script>
+	<script src="./demoData/sheetComment.js"></script>
+	<script src="./demoData/sheetPivotTableData.js"></script>
+	<script src="./demoData/sheetPivotTable.js"></script>
+	<script src="./demoData/sheetSparkline.js"></script>
+	<script src="./demoData/sheetChart.js"></script>
+	<script src="./demoData/sheetPicture.js"></script>
+	<script src="./demoData/sheetDataVerification.js"></script>
 
-	<script type="module">
-		import sheetFormula from './demoData/sheetFormula.js'
-		import sheetCell from './demoData/sheetCell.js'
-		import sheetConditionFormat from './demoData/sheetConditionFormat.js'
-		import sheetTable from './demoData/sheetTable.js'
-		import sheetComment from './demoData/sheetComment.js'
-		import sheetPivotTableData from './demoData/sheetPivotTableData.js'
-		import sheetPivotTable from './demoData/sheetPivotTable.js'
-		import sheetSparkline from './demoData/sheetSparkline.js'
-		import sheetChart from './demoData/sheetChart.js'
-		import sheetPicture from './demoData/sheetPicture.js'
-		import sheetDataVerification from './demoData/sheetDataVerification.js'
+	<script>
+		// import sheetFormula from './demoData/sheetFormula.js'
+		// import sheetCell from './demoData/sheetCell.js'
+		// import sheetConditionFormat from './demoData/sheetConditionFormat.js'
+		// import sheetTable from './demoData/sheetTable.js'
+		// import sheetComment from './demoData/sheetComment.js'
+		// import sheetPivotTableData from './demoData/sheetPivotTableData.js'
+		// import sheetPivotTable from './demoData/sheetPivotTable.js'
+		// import sheetSparkline from './demoData/sheetSparkline.js'
+		// import sheetChart from './demoData/sheetChart.js'
+		// import sheetPicture from './demoData/sheetPicture.js'
+		// import sheetDataVerification from './demoData/sheetDataVerification.js'
 
 		// According to the browser language
-		let lang = luckysheetDemoUtil.language() === 'zh' ? 'zh' : 'en';
+		var lang = luckysheetDemoUtil.language() === 'zh' ? 'zh' : 'en';
 
 		$(function () {
 			luckysheet.create({

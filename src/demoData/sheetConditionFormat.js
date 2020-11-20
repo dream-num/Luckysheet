@@ -1,4 +1,4 @@
-const sheetConditionFormat = {
+window.sheetConditionFormat = {
 	"name": "Conditional Format",
 	"color": "",
 	"zoomRatio":1,
@@ -6538,4 +6538,4 @@ const sheetConditionFormat = {
 	}]
 }
 
-export default sheetConditionFormat;
+// export default sheetConditionFormat;
