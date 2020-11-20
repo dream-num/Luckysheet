@@ -234,7 +234,7 @@ const sheetmanage = {
         server.saveParam("sha", null, $.extend(true, {}, sheetconfig));
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             let redo = {};
             redo["type"] = "addSheet";
             redo["sheetconfig"] = $.extend(true, {}, sheetconfig);

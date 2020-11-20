@@ -724,7 +724,7 @@ const pivotTable = {
         redo["pivotTablecur"] = pivotTable; 
 
         if(Store.clearjfundo){
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push(redo);
         }
         

@@ -4,6 +4,7 @@ import { isdatatype, isdatatypemulti } from '../global/datecontroll';
 import { hasChinaword,isRealNum } from '../global/validate';
 import Store from '../store';
 import locale from '../locale/locale'; 
+import method from '../global/method';
 
 /**
  * Common tool methods
@@ -751,7 +752,56 @@ function openSelfModel(id, isshowMask=true){
     }
 }
 
+/**
+ * 监控对象变更
+ * @param {*} data 
+ */
+const createProxy = (data,list=[]) => {
+    if (typeof data === 'object' && data.toString() === '[object Object]') {
+      for (let k in data) {
+        if(list.includes(k)){
+            if (typeof data[k] === 'object') {
+              defineObjectReactive(data, k, data[k])
+            } else {
+              defineBasicReactive(data, k, data[k])
+            }
+        }
+      }
+    }
+}
+  
+function defineObjectReactive(obj, key, value) {
+    // 递归
+    // createProxy(value)
+    obj[key] = new Proxy(value, {
+      set(target, property, val, receiver) {
+        if (property !== 'length') {
+          setTimeout(() => {
+            //  钩子函数
+            method.createHookFunction('updated',val)
+          }, 0);
+        }
+        return Reflect.set(target, property, val, receiver)
+      }
+    })
+}
+  
+function defineBasicReactive(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: false,
+      get() {
+        return value
+      },
+      set(newValue) {
+        if (value === newValue) return
+        console.log(`发现 ${key} 属性 ${value} -> ${newValue}`)
+        value = newValue
+      }
+    })
+}
 
+  
 export {
     isJsonString,
     common_extend,
@@ -777,5 +827,6 @@ export {
     loadLinks,
     luckysheetContainerFocus,
     transformRangeToAbsolute,
-    openSelfModel
+    openSelfModel,
+    createProxy
 }

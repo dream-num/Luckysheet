@@ -1066,7 +1066,7 @@ const imageCtrl = {
         let images = _this.images;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             Store.jfredo.push({
                 "type": "imageCtrl",

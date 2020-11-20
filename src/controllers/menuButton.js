@@ -962,7 +962,7 @@ const menuButton = {
             cfg["borderInfo"].push(borderInfo);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 let redo = [];
 
@@ -1121,7 +1121,7 @@ const menuButton = {
                     cfg["borderInfo"].push(borderInfo);
 
                     if (Store.clearjfundo) {
-                        Store.jfundo = [];
+                        Store.jfundo.length  = 0;
 
                         let redo = [];
 
@@ -3356,7 +3356,7 @@ const menuButton = {
         }
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push({
                 "type": "mergeChange",
                 "sheetIndex": Store.currentSheetIndex,

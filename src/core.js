@@ -37,6 +37,7 @@ import * as api from './global/api';
 
 import flatpickr from 'flatpickr'
 import Mandarin from 'flatpickr/dist/l10n/zh.js'
+import { initListener } from './controllers/listener';
 
 let luckysheet = {};
 
@@ -181,6 +182,7 @@ function initialWorkBook(){
     orderByInitial();//menu bar orderby function initialization
     zoomInitial();//zoom method initialization
     printInitial();//print initialization
+    initListener();
 }
 
 //获取所有表格数据

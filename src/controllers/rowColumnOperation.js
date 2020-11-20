@@ -1578,7 +1578,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1621,7 +1621,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1693,7 +1693,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1733,7 +1733,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1779,7 +1779,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1821,7 +1821,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1865,7 +1865,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1907,7 +1907,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -2138,7 +2138,7 @@ export function rowColumnOperationInitial(){
         }
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push({
                 "type": "resize",
                 "ctrlType": type,

@@ -63,7 +63,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         let curConfig;
         if(cfg == null){
@@ -274,7 +274,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
     }
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         redo["data"] = Store.flowdata;
         redo["curdata"] = data;
@@ -337,7 +337,7 @@ function jfrefreshrange(data, range, cdformat) {
     clearTimeout(refreshCanvasTimeOut);
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({ 
             "type": "rangechange", 
@@ -421,7 +421,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     }
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": ctrlType,
@@ -639,7 +639,7 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     }
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": "deleteCell",
@@ -780,7 +780,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": "pasteCut",

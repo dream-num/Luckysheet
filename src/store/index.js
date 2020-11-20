@@ -81,8 +81,8 @@ const Store = {
     luckysheet_cell_selected_extend_time: null,
 
     clearjfundo: true,
-    jfredo: [],
     jfundo: [],
+    jfredo: [],
     lang: 'en', //language
     createChart: '',
     highlightChart: '',

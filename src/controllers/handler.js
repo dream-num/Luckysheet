@@ -3634,7 +3634,7 @@ export default function luckysheetHandler() {
             let images = imageCtrl.moveChangeSize("row", Store.luckysheet_rows_change_size_start[1], size);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 Store.jfredo.push({
                     "type": "resize",
@@ -3736,7 +3736,7 @@ export default function luckysheetHandler() {
             let images = imageCtrl.moveChangeSize("column", Store.luckysheet_cols_change_size_start[1], size);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 Store.jfredo.push({
                     "type": "resize",

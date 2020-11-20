@@ -839,7 +839,7 @@ const luckysheetPostil = {
     },
     ref: function(data, rc){
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             
             Store.jfredo.push({ 
                 "type": "postil", 

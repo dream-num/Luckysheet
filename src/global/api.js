@@ -1082,7 +1082,7 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
         redo["config"] = $.extend(true, {}, file.config);
         redo["curconfig"] = cfg;
 
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         Store.jfredo.push(redo);
     }
 
@@ -1140,7 +1140,7 @@ export function showRowOrColumn(type, startIndex, endIndex, options = {}) {
         redo["config"] = $.extend(true, {}, file.config);
         redo["curconfig"] = cfg;
 
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         Store.jfredo.push(redo);
     }
 
@@ -2830,7 +2830,7 @@ export function setRangeMerge(type, options = {}) {
 
         if(order == curSheetOrder){
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push({
                     "type": "mergeChange",
                     "sheetIndex": file.index,
@@ -2973,7 +2973,7 @@ export function cancelRangeMerge(options = {}) {
 
     if(order == curSheetOrder){
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push({
                 "type": "mergeChange",
                 "sheetIndex": file.index,
@@ -4522,7 +4522,7 @@ export function setSheetAdd(options = {}) {
     server.saveParam("shr", null, orders);
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         let redo = {};
         redo["type"] = "addSheet";
         redo["sheetconfig"] = $.extend(true, {}, sheetconfig);
@@ -4793,7 +4793,7 @@ export function setSheetName(name, options = {}) {
         redo["oldtxt"] = oldtxt;
         redo["txt"] = name;
 
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         Store.jfredo.push(redo);
     }
 
@@ -4842,7 +4842,7 @@ export function setSheetColor(color, options = {}) {
         redo["oldcolor"] = oldcolor;
         redo["color"] = color;
 
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         Store.jfredo.push(redo);
     }
 

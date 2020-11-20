@@ -568,6 +568,9 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     let borderOffset = {};
 
     let bodrder05 = 0.5;//Default 0.5
+
+    // 钩子函数
+    method.createHookFunction("cellAllRenderBefore",Store.flowdata,sheetFile,luckysheetTableContent);
     
     for (let r = dataset_row_st; r <= dataset_row_ed; r++) {
         let start_r;
