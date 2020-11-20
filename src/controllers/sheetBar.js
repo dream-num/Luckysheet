@@ -223,7 +223,6 @@ export function initialSheetBar(){
 
     $("#luckysheet-sheet-area").on("dblclick", "span.luckysheet-sheets-item-name", function (e) {
         luckysheetsheetnameeditor($(this));
-        console.log(123);
     });
 
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
