@@ -3,7 +3,6 @@ import {zoomChange} from './zoom';
 import sheetmanage from './sheetmanage';
 import server from './server';
 import Store from '../store';
-import { jsPDF } from "jspdf";
 
 let ExcelPlaceholder = {
     "[tabName]":"&A",
@@ -40,7 +39,7 @@ export function viewChange(curType, preType){
     }
 
     let defaultZoom = 1, type="zoomScaleNormal";
-    
+
     if(curType=="viewNormal"){
         type = "viewNormalZoomScale";
     }
@@ -60,11 +59,11 @@ export function viewChange(curType, preType){
     currentSheet.config.curentsheetView = curType;
 
     if (Store.clearjfundo) {
-        Store.jfredo.push({ 
+        Store.jfredo.push({
             "type": "viewChange",
             "curType": curType,
             "preType": preType,
-            "sheetIndex": Store.currentSheetIndex, 
+            "sheetIndex": Store.currentSheetIndex,
         });
     }
 
