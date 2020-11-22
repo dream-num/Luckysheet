@@ -4980,208 +4980,153 @@ const luckysheetformula = {
         遍历规则：
         1. 遍历时，按照从属关系进行，以A从属B为例；自顶向下找到A的从属单元格B，然后把B单元格置于A单元格的数组位置下方，并设置B单元格的s=1
         calcChain中的格式，{ "r": r, "c": c, "i": index, "l": 0, "s":0}, r为行号，c为列号，i为sheet的index，l为新依赖关系，s为子链，如果s为空则继承上一个元素的s值，直到l出现为止。
+        2. isFunctionRangeSelect 第一个参数为B单元格的公式，之后为A单元格的位置。该函数为计算A是否从属于B，也就是B中的公式是否引用了A单元格的数据
         */
-        let calcChain = Store.calcChain, newCalcChain = [].concat(calcChain), stackCalcChain = [].concat(calcChain);
+        let calcChain = Store.calcChain, newCalcChain = [].concat(calcChain), stackCalcChain = [];
+        let matchCount=0;
 
-        let anchor = 0; //定义一个锚点，用来进行分割已经优化过的公式和待优化的公式， 公式是顺序执行的。
+        if (_this.execFunctionExist == null) {//寻找修改单元格的从属单元格，加入到stackCalcChain中，成为目标公式
+            for (let i = 0; i < calcChain.length; i++) {
+                let item = calcChain[i];
 
- 
+                item.cacheRef = getRangetxt(item.i, {
+                    row:[item.r, item.r],
+                    column:[item.c, item.c],
+                });
+
+                let calc_funcStr = getcellFormula(item.r, item.c, item.i);
+                _this.isFunctionRangeSave = false;
+                _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index);
+                if(_this.isFunctionRangeSave){
+                    stackCalcChain.push(item);
+                }
+
+                matchCount++;
+            } 
+        }
+        else {//寻找批量修改单元格的从属单元格，加入到stackCalcChain中，成为目标公式
+            for (let x = 0; x < _this.execFunctionExist.length; x++) {
+                let formulaCell = _this.execFunctionExist[x];
+                for (let i = 0; i < calcChain.length; i++) {
+                    let item = calcChain[i];
+                    let calc_funcStr =  getcellFormula(item.r, item.c, item.i);
+                    _this.isFunctionRangeSave = false;
+                    _this.isFunctionRangeSelect(calc_funcStr, formulaCell.r, formulaCell.c, formulaCell.i);
+                    if(_this.isFunctionRangeSave){
+                        stackCalcChain.push(item);
+                    }
+
+                    matchCount++;
+                }
+            }
+        }
+
+
+        let stackCalcChainObject = {};//将目标公式列表生成对象表示模式
+        stackCalcChain.forEach(item=>{
+            stackCalcChainObject["r" + item.r + "c" + item.c + "i" + item.i] = item;
+        });
+
+        console.log("stackCalcChain:",JSON.parse(JSON.stringify(stackCalcChain)));
+        
+
+        //规则2: 该步骤的主要目的是自顶向下遍历公式链，达到一个稳定的结构，即：位于下方的单元格必定不能在其上方找到其从属单元格。输出最终的稳定结构newCalcChain
         while(stackCalcChain.length>0){
             let targetFormula = stackCalcChain.shift();//自顶向下取出目标公式，查找其上方是否存在从属单元格
             let dependenceFormulaList = [];
             for(let i=0;i<newCalcChain.length;i++){
                 let curFormula = newCalcChain[i];
-                if(curFormula.r==targetFormula.r && curFormula.c==targetFormula.c && curFormula.i==targetFormula.i){
+                if(curFormula.r==targetFormula.r && curFormula.c==targetFormula.c && curFormula.i==targetFormula.i){//找到目标公式
                     
+                    let upSegCalcChain = [], downSegCalcChain = [targetFormula];
                     for(let a=0;a<dependenceFormulaList.length;a++){
-                        let dependenceFormula = [a];
+                        let dependenceFormula = JSON.parse(JSON.stringify(dependenceFormulaList[a]));
                         _this.isFunctionRangeSave = false;
-                        let calc_funcStr = getcellFormula(dependenceFormula.r, dependenceFormula.c, dependenceFormula.index);//得到从属B(dependenceFormula)的公式
-                        _this.isFunctionRangeSelect(calc_funcStr, targetFormula.r, targetFormula.c, targetFormula.i, dynamicArray_compute);//计算A(targetFormula)是否从属B(dependenceFormula)
-                        if(_this.isFunctionRangeSave){
-                            
+                        let calc_funcStr = getcellFormula(dependenceFormula.r, dependenceFormula.c, dependenceFormula.i);//得到从属B(dependenceFormula)的公式
+                        _this.isFunctionRangeSelect(calc_funcStr, targetFormula.r, targetFormula.c, targetFormula.i);//计算A(targetFormula)是否从属B(dependenceFormula)
+                        if(_this.isFunctionRangeSave){//如果有从属关系则插入到目标公式之:后
+                            downSegCalcChain.push(dependenceFormula);
                         }
+                        else{
+                            upSegCalcChain.push(dependenceFormula);//如果没有从属关系则插入到目标公式之:前
+                        }
+
+                        matchCount++;
                     }
+
+                    
+
+                    let segCalcChain = upSegCalcChain.concat(downSegCalcChain);//合并公式链的片段，片段中的顺序根据规则2进行调整。
+                    newCalcChain.splice(0, i+1);//删除公式链中的原有对应片段
+                    newCalcChain = segCalcChain.concat(newCalcChain);//合并成最新公式链
+
+                    console.log(i,"segCalcChain:",JSON.parse(JSON.stringify(segCalcChain)));
+                    console.log(i,"newCalcChain",JSON.parse(JSON.stringify(newCalcChain)));
+                    console.log(i,"dependenceFormulaList",JSON.parse(JSON.stringify(dependenceFormulaList)));
+                    console.log(i,"downSegCalcChain",JSON.parse(JSON.stringify(downSegCalcChain)));
+                    console.log(i,"upSegCalcChain",JSON.parse(JSON.stringify(upSegCalcChain)));
 
                     break;
                 }
                 else{
-                    dependenceFormulaList.unshift(curFormula);//保持遍历时的顺序
+                    dependenceFormulaList.push(curFormula);//保存直到出现关联公式前的公式链片段，保持遍历时的顺序
                 }
             }
         }
 
-        for(let i=0;i<calcChain.length;i++){
-            let calcChainItem = calcChain[i];
-            _this.isFunctionRangeSave = false;
-            
 
-            if (origin_r != null && origin_c != null) {
-                let calc_funcStr = getcellFormula(calcChainItem.r, calcChainItem.c, calcChainItem.i);
-                _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index, dynamicArray_compute);
-            } 
-
-            if (_this.isFunctionRangeSave) {
-                topCalcChain.push(calcChainItem);
+        let execfunctionList = [], matchCalcChainObject = {};
+        //通过公式链得出需要计算的公式及顺序
+        //方式为：自顶向下遍历公式链，从stackCalcChainClone取出公式，然后逐渐往下找出全部从属于
+        for(let i=0;i<newCalcChain.length;i++){
+            let item = newCalcChain[i]; 
+            let key = "r" + item.r + "c" + item.c + "i" + item.i;
+            if(key in stackCalcChainObject){
+                execfunctionList.push(item);
+                matchCalcChainObject[key] = item;
             }
             else{
-                newCalcChain.push(calcChainItem);
-            }
-        }
-
-
-        while(anchor<calcChain.length){
-            for(let i=anchor;i<calcChain.length;i++){
-                
-            }
-        }
-
-
-
-        _this.execvertex = {};
-        if (_this.execFunctionExist == null) {
-            for (let i = 0; i < group.length; i++) {
-                let item = group[i];
-                let file =luckysheetfile[getSheetIndex(item["index"])];
-                if(file==null){
-                    continue;
-                }
-                let cell = file.data[item.r][item.c];
-                let calc_funcStr = getcellFormula(item.r, item.c, item.index);
-                if(cell != null && cell.f != null && cell.f == calc_funcStr){
-                    if(!(item instanceof Object)){
-                        item = eval('('+ item +')');
-                    }
-
-                    item.color = "w";
-                    item.parent = null;
-                    item.chidren = {};
-                    item.times = 0;
-
-                    vertex1["r" + item.r + "c" + item.c + "i" + item.index] = item;
+                let calc_funcStr = getcellFormula(item.r, item.c, item.i);//得到从属B(dependenceFormula)的公式
+                for(let matchKey in matchCalcChainObject){
+                    matchCount++;
+                    let formulaCell = matchCalcChainObject[matchKey];
                     _this.isFunctionRangeSave = false;
-
-                    if(isForce){
-                        _this.isFunctionRangeSave = true;
-                    }
-                    else if (origin_r != null && origin_c != null) {
-                        _this.isFunctionRangeSelect(calc_funcStr, origin_r, origin_c, index, dynamicArray_compute);
-                    } 
-                    // else {
-                    //     _this.isFunctionRangeSelect(calc_funcStr, undefined, undefined ,dynamicArray_compute);
-                    // }
-
-                    if (_this.isFunctionRangeSave) {
-                        stack.push(item);
-                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
-                        count++;
-                    }
-                }
-            }
-        } 
-        else {
-            for (let x = 0; x < _this.execFunctionExist.length; x++) {
-                let cell = _this.execFunctionExist[x];
-
-                if ("r" + cell.r + "c" + cell.c + "i" + cell.i in vertex1) {
-                    continue;
-                }
-
-                for (let i = 0; i < group.length; i++) {
-                    let item = group[i];
-                    let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
-                    item.color = "w";
-                    item.parent = null;
-                    item.chidren = {};
-                    item.times = 0;
-
-                    vertex1["r" + item.r + "c" + item.c + "i"+ item.index] = item;
-                    _this.isFunctionRangeSave = false;
-                    if(isForce){
-                        _this.isFunctionRangeSave = true;
-                    }
-                    else{
-                        _this.isFunctionRangeSelect(calc_funcStr, cell.r, cell.c, cell.i, dynamicArray_compute);
-                    }
-                    
-                    if (_this.isFunctionRangeSave) {
-                        stack.push(item);
-                        _this.execvertex["r" + item.r + "c" + item.c + "i" + item.index] = item;
-                        count++;
+                    _this.isFunctionRangeSelect(calc_funcStr, formulaCell.r, formulaCell.c, formulaCell.i);//计算A(targetFormula)是否从属B
+                    if(_this.isFunctionRangeSave){
+                        execfunctionList.push(item);
+                        matchCalcChainObject[key] = item;
+                        break;
                     }
                 }
             }
         }
 
 
-        // console.time("1");
-        // console.log(group.length);
-        // let iii = 0, ii=0;
-        //先进先出法，构建逆向执行结构树
-        while (stack.length > 0) {
-            let u = stack.shift();
-            let excludeList = {}; 
-            _this.getChildrenVertex(u, vertex1, excludeList);
-            // ii++;
-            // console.log(JSON.stringify(excludeList));
-            for (let name in vertex1) {
-                let item = vertex1[name];
-                if(item==null){
-                    continue;
-                }
+        //执行函数
+        for(let i=0;i<execfunctionList.length;i++){
+            let u  = execfunctionList[i];
+            window.luckysheet_getcelldata_cache = null;
+            let calc_funcStr =  getcellFormula(u.r, u.c, u.i);
 
-                let ukey ="r" + u.r + "c" + u.c + "i" + u.index;
+            let v = _this.execfunction(calc_funcStr, u.r, u.c, u.i);
 
-                // if ((u.r == item.r && u.c == item.c && u.index == item.index) ) {
-                //     continue;
-                // }
+            _this.groupValuesRefreshData.push({
+                "r": u.r,
+                "c": u.c,
+                "v": v[1],
+                "f": v[2],
+                "spe":v[3],
+                "index": u.i
+            });
 
-                if(name in excludeList){
-                    continue;
-                }
-
-                _this.isFunctionRangeSave = false;
-
-                
-                
-                let calc_funcStr =  getcellFormula(item.r, item.c, item.index);
-                _this.isFunctionRangeSelect(calc_funcStr, u.r, u.c, u.index, dynamicArray_compute);
-
-                // iii++;
-                
-                if (_this.isFunctionRangeSave) {
-                    if (!(name in _this.execvertex)) {
-                        // console.log(JSON.stringify(item), JSON.stringify(u), _this.isFunctionRangeSave);
-
-                        stack.push(item);
-                        _this.execvertex[name] = item;
-                    }
-
-                    count++;
-                    _this.execvertex[name].chidren[ukey] = 1;
-                }
-            }
+            // _this.execFunctionGroupData[u.r][u.c] = value;
+            _this.execFunctionGlobalData[u.r+"_"+u.c+"_"+u.i] = {
+                v:v[1],
+                f:v[2]
+            };
         }
-        // console.log(iii, ii);
-        // console.timeEnd("1");
 
-        // console.time("2");
-        _this.groupValuesRefreshData = [];
-        let i = 0;
-
-        while (i < count) {
-            for (let name in _this.execvertex) {
-                let u = _this.execvertex[name];
-
-                if (u.color == "w") {
-                    _this.functionDFS(u);
-                } 
-                else if (u.color == "b") {
-                    i++;
-                }
-            }
-        }
-        // console.timeEnd("2");
+        console.log("执行匹配次数",matchCount, "执行函数个数",execfunctionList.length);
 
         _this.execFunctionExist = null;
     },
