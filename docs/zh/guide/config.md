@@ -655,27 +655,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [ctx]: 当前画布的context
 ------------
-### cellEditBefore
-（TODO）
-- 类型：Function
-- 默认值：null
-- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最先触发这个方法
-- 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+### cellUpdate
 
-------------
-### cellExitEditBefore
-（TODO）
 - 类型：Function
 - 默认值：null
-- 作用：退出单元格编辑状态，即保存这个单元格值之前触发
+- 作用：更新这个单元格时触发，在退出编辑保存单元格值前触发
 - 参数：
 	- {Number} [r]: 单元格所在行数
 	- {Number} [c]: 单元格所在列数
-	- {Object} [oldV]: 修改前单元格对象
-	- {Object} [newV]: 修改后单元格对象
+	- {Object | String | Number} [value]: 要修改的单元格内容
+	- {Boolean} [isRefresh]: 是否刷新整个表格
 
 ------------
 ### rowTitleCellRenderBefore
@@ -1155,22 +1144,15 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {String} [newZoom]: 修改后当前sheet页缩放比例
 
 ------------
-### sheetActivateBefore
-（TODO）
+### sheetActivate
+
 - 类型：Function
 - 默认值：null
 - 作用：激活工作表前
 - 参数：
 	- {Number} [i]: sheet页的`index`
-
-------------
-### sheetActivateAfter
-（TODO）
-- 类型：Function
-- 默认值：null
-- 作用：激活工作表后
-- 参数：
-	- {Number} [i]: sheet页的`index`
+	- {Boolean} [isPivotInitial]: 是否切换到了数据透视表页
+	- {Boolean} [isNewSheet]: 是否新建了sheet页
 
 ------------
 ### sheetDeactivateBefore

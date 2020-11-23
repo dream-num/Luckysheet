@@ -1,8 +1,8 @@
-# 认识团队
+# Meet the Team
 
-Luckysheet是由个人主导、几个志同道合的小伙伴一同开发的项目。
+Luckysheet is a project led by an individual and jointly developed by several friends with the same interests.
 
-## 核心团队活跃成员
+### Active Core Team Members
 - [@wbfsa](https://github.com/wbfsa)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
@@ -10,7 +10,7 @@ Luckysheet是由个人主导、几个志同道合的小伙伴一同开发的项�
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 
-## 社区伙伴
+### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)

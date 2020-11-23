@@ -27,6 +27,7 @@ import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata
 import Store from '../store';
 import locale from '../locale/locale';
 import json from './json';
+import method from './method';
 
 const luckysheetformula = {
     error: {
@@ -1228,6 +1229,9 @@ const luckysheetformula = {
         });
     },
     updatecell: function(r, c, value, isRefresh=true) {
+        // 钩子函数
+        method.createHookFunction('cellUpdate',r,c,value,isRefresh);
+
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");

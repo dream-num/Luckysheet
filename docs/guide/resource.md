@@ -15,6 +15,7 @@ If you have written or found an excellent tutorial and want to recommend it to u
 ### Community Case
 - [Luckysheet save and restore](https://gitee.com/ichiva/luckysheet-saved-in-recovery) (Java version)
 - [Online form for collaborative editing based on Luckysheet](https://github.com/DilemmaVi/ecsheet) (Java version)
+- [Use .net core 3.1 and Npoi to make a basic export based on LuckSheet](https://gitee.com/xiong-kangli/luck-sheet_.-net-core) (.NET version)
 
 ## Learning Materials
 
