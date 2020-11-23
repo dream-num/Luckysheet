@@ -13,6 +13,7 @@ import Store from '../store';
 import locale from '../locale/locale';
 import dayjs from "dayjs";
 import imageCtrl from './imageCtrl';
+import method from '../global/method';
 
 const server = {
     gridKey: null,
@@ -76,6 +77,7 @@ const server = {
 	    }
 	},
     saveParam: function (type, index, value, params) {
+		
     	let _this = this;
 
 	    if(!_this.allowUpdate){
@@ -96,6 +98,7 @@ const server = {
 			return;
 		}
 
+		
 	    if (type == "rv") { //单元格批量更新
 	        d.range = params.range;
 	    }

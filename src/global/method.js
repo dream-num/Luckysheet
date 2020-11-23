@@ -369,7 +369,7 @@ const method = {
             luckysheetcreatesheet(data[0].length, data.length, data, null, false);
             file["load"] = "1";
 
-            Store.luckysheet_select_save = [];
+            Store.luckysheet_select_save.length = 0;
             Store.luckysheet_selection_range = [];
 
             server.saveParam("shs", null, Store.currentSheetIndex);

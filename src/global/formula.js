@@ -1610,9 +1610,6 @@ const luckysheetformula = {
             }
         }
 
-        // 退出编辑模式后，发送后台取消“正在输入”提示
-        // server.saveParam("mv", Store.currentSheetIndex,  "exitEdit");
-
         if(isRefresh){
             jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
             // Store.luckysheetCellUpdate.length = 0; //clear array
@@ -4001,7 +3998,8 @@ const luckysheetformula = {
             } 
             else {
                 if (matchConfig.dquote == 0 && matchConfig.squote==0) {
-                    str += $.trim(s);
+                    // str += $.trim(s);
+                    str += s; //Do not use $.trim(s). When obtaining the worksheet name that contains spaces, you should keep the spaces
                 } 
                 else {
                     str += s;

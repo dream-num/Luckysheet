@@ -25,7 +25,8 @@ English| [简体中文](./README-zh.md)
 
 ## Online Case
 
-- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)(Note: The official Java backend will also be open source after finishing,using OT algorithm. Please do not operate frequently to prevent the server from crashing)
+- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)
+- [Java backend Luckysheet Server](https://github.com/mengshukeji/LuckysheetServer)
 
 ## Plugins
 - Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)

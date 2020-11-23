@@ -567,7 +567,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Frame selection or trigger before setting selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 
 ------------
 ### rangeSelectAfter
@@ -575,7 +575,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Frame selection or trigger after setting selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 
 ------------
 ### rangeMoveBefore
@@ -600,7 +600,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -609,7 +609,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After the selection is modified
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
     - {Object} [oldData]: Before modification, the data corresponding to the selection area
     - {Object} [newData]: After modification, the data corresponding to the selection area
 
@@ -619,7 +619,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before copying selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -628,7 +628,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After copying selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -637,7 +637,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before pasting the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be pasted
 
 ------------
@@ -646,7 +646,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After pasting the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [originData]: The data corresponding to the selection area to be pasted
 	- {Object} [pasteData]: Data to paste
 
@@ -692,7 +692,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before the selection is cleared
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be cleared
 
 ------------
@@ -701,7 +701,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After the selection is cleared
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be cleared
 
 ------------

@@ -607,7 +607,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 > 使用案例可参考源码 [src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
 
-## 单元格
+## 单元格渲染
 
 ### cellRenderBefore
 
@@ -844,24 +844,15 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 
-## 选区
+## 选区操作（包括单元格）
 
-### rangeSelectBefore
-（TODO）
-- 类型：Function
-- 默认值：null
-- 作用：框选或者设置选区前触发
-- 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+### rangeSelect
 
-------------
-### rangeSelectAfter
-（TODO）
 - 类型：Function
 - 默认值：null
 - 作用：框选或者设置选区后触发
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 
 ------------
 ### rangeMoveBefore
@@ -889,7 +880,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区修改前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -899,7 +890,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区修改后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
     - {Object} [oldData]: 修改前选区范围所对应的数据
     - {Object} [newData]: 修改后选区范围所对应的数据
 
@@ -910,7 +901,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区复制前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -920,7 +911,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区复制后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -930,7 +921,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区粘贴前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 要被粘贴的选区范围所对应的数据
 
 ------------
@@ -940,7 +931,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区粘贴后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [originData]: 要被粘贴的选区范围所对应的数据
 	- {Object} [pasteData]: 要粘贴的数据
 
@@ -991,7 +982,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区清除前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 要被清除的选区范围所对应的数据
 
 ------------
@@ -1001,7 +992,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区清除后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 被清除的选区范围所对应的数据
 
 ------------

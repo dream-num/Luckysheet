@@ -1470,7 +1470,6 @@ const conditionformat = {
                 range.push(formula.getcellrange(txt));
             }
         }
-
         return range;
     },
     colorSelectInit: function(){

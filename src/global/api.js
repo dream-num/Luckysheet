@@ -5901,3 +5901,39 @@ export function toJson(){
 
     return toJsonOptions;
 }
+
+/**
+ * 根据范围字符串转换为range数组
+ * @param {String} txt 范围字符串
+ */
+export function getRangeByTxt(txt){
+    
+    // 默认取当前第一个范围
+    if(txt == null){
+        return { 
+            column:Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].column,
+            row:Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].row 
+        }
+    }
+
+    const range = conditionformat.getRangeByTxt(txt);
+
+    return {
+        column:range[0].column,
+        row:range[0].row
+    };
+}
+
+
+/**
+ * 根据范围数组转换为范围字符串
+ * @param {Object | Array} range 范围数组
+ */
+export function getTxtByRange(range=Store.luckysheet_select_save){
+    
+    // 单个范围
+    if(getObjType(range) === 'object'){
+        range = [range];
+    }
+    return conditionformat.getTxtByRange(range);
+}

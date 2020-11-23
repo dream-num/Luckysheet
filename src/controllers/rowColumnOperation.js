@@ -323,7 +323,7 @@ export function rowColumnOperationInitial(){
                 });
             }
             else{
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({ 
                     "left": colLocationByIndex(0)[0],
                     "width": colLocationByIndex(0)[1] - colLocationByIndex(0)[0] - 1,
@@ -343,10 +343,8 @@ export function rowColumnOperationInitial(){
 
             selectHightlightShow();
 
-            if(server.allowUpdate){
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
 
         selectHelpboxFill();
@@ -737,7 +735,7 @@ export function rowColumnOperationInitial(){
                 });
             }
             else{
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({ 
                     "left": left, 
                     "width": width, 
@@ -757,10 +755,8 @@ export function rowColumnOperationInitial(){
 
             selectHightlightShow();
 
-            if(server.allowUpdate){
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
         
         selectHelpboxFill();

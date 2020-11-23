@@ -1063,7 +1063,7 @@ export default function luckysheetHandler() {
                 });
             }
             else {
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({
                     "left": col_pre,
                     "width": col - col_pre - 1,
@@ -1095,10 +1095,8 @@ export default function luckysheetHandler() {
                 luckysheetactiveCell();
             }
 
-            if (server.allowUpdate) {
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
 
         //交替颜色
