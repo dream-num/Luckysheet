@@ -18,7 +18,7 @@
 ### 社区案例
 - [Luckysheet保存与恢复](https://gitee.com/ichiva/luckysheet-saved-in-recovery)（Java版）
 - [基于Luckysheet实现的协同编辑在线表格](https://github.com/DilemmaVi/ecsheet)（Java版）
-- [使用.net core 3.1和Npoi 制作基于LuckSheet的基础导出](https://blog.csdn.net/DCDC2020/article/details/108486525)（.NET 版本）
+- [使用.net core 3.1和Npoi 制作基于LuckSheet的基础导出](https://gitee.com/xiong-kangli/luck-sheet_.-net-core)（.NET 版本）
 
 ## 学习资料
 

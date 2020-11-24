@@ -1290,7 +1290,8 @@ const luckysheetformula = {
         value = value || $input.text();
 
         // Hook function
-        if(!method.createHookFunction("cellUpdateBefore", r, c, value, isRefresh)){ 
+        if(!method.createHookFunction("cellUpdateBefore", r, c, value, isRefresh)){
+            _this.cancelNormalSelected();
             return; 
         }
 

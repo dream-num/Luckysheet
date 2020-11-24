@@ -1297,56 +1297,67 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ## 批注
 
 ### commentInsertBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：插入批注之前
+- 作用：插入批注之前，`return false` 则不插入批注
 - 参数：
-	- {Object} [cell]: 要插入的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 
 ------------
 ### commentInsertAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：插入批注之后
 - 参数：
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 	- {Object} [cell]: 被插入批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，包含批注信息
     
 ------------
 ### commentDeleteBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：删除批注之前
+- 作用：删除批注之前，`return false` 则不删除批注
 - 参数：
-	- {Object} [cell]: 要删除的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {Object} [cell]: 要删除的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，可以看到批注信息
 
 ------------
 ### commentDeleteAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：删除批注之后
 - 参数：
-	- {Object} [cell]: 被删除批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {Object} [cell]: 被删除批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，可以看到批注已被删除
     
 ------------
 ### commentUpdateBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：修改批注之前
+- 作用：修改批注之前，`return false` 则不修改批注
 - 参数：
-	- {Object} [cell]: 批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {String} [value]: 新的批注内容
 
 ------------
 ### commentUpdateAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：修改批注之后
 - 参数：
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 	- {Object} [oldCell]: 修改前批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
 	- {Object} [newCell]: 修改后批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
     

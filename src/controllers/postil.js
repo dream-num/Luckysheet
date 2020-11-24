@@ -11,6 +11,7 @@ import menuButton from './menuButton';
 import {checkProtectionAuthorityNormal} from './protection';
 import server from './server';
 import Store from '../store';
+import method from '../global/method';
 
 //批注
 const luckysheetPostil = {
@@ -408,6 +409,12 @@ const luckysheetPostil = {
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
             return;
         }
+
+        // Hook function
+        if(!method.createHookFunction('commentInsertBefore',r,c, )){
+            return;
+        }
+
         let _this = this;
 
         let row = Store.visibledatarow[r], 
@@ -486,6 +493,11 @@ const luckysheetPostil = {
         rc.push(r + "_" + c);
 
         _this.ref(d, rc);
+
+        // Hook function
+        setTimeout(() => {
+            method.createHookFunction('commentInsertAfter',r,c, d[r][c])
+        }, 0);
     },
     editPs: function(r, c){
         let _this = this;
@@ -575,6 +587,11 @@ const luckysheetPostil = {
             return;
         }
 
+        // Hook function
+        if(!method.createHookFunction('commentDeleteBefore',r,c,Store.flowdata[r][c])){
+            return;
+        }
+
         if($("#luckysheet-postil-show_"+ r +"_"+ c).length > 0){
             $("#luckysheet-postil-show_"+ r +"_"+ c).remove();
         }
@@ -586,6 +603,11 @@ const luckysheetPostil = {
         rc.push(r + "_" + c);
 
         this.ref(d, rc);
+
+        // Hook function
+        setTimeout(() => {
+            method.createHookFunction('commentDeleteAfter',r,c, Store.flowdata[r][c])
+        }, 0);
     },
     showHidePs: function(r, c){
         let _this = this;
@@ -812,17 +834,25 @@ const luckysheetPostil = {
     },
     removeActivePs: function(){
         if($("#luckysheet-postil-showBoxs .luckysheet-postil-show-active").length > 0){
+            
+
             let id = $("#luckysheet-postil-showBoxs .luckysheet-postil-show-active").attr("id");
+            let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
+            let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
+
+            let value = $("#" + id).find(".formulaInputFocus").text();
+
+            // Hook function
+            if(!method.createHookFunction('commentUpdateBefore',r,c,value)){
+                return;
+            }
+
+            const previousCell = $.extend(true,{},Store.flowdata[r][c]);
 
             $("#" + id).removeClass("luckysheet-postil-show-active");
             $("#" + id).find(".luckysheet-postil-dialog-resize").hide();
             $("#" + id).find(".arrowCanvas").css("z-index", 100);
             $("#" + id).find(".luckysheet-postil-show-main").css("z-index", 100);
-
-            let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
-            let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
-
-            let value = $("#" + id).find(".formulaInputFocus").text();
 
             let d = editor.deepCopyFlowData(Store.flowdata);
             let rc = [];
@@ -835,6 +865,10 @@ const luckysheetPostil = {
             if(!d[r][c].ps.isshow){
                 $("#" + id).remove();
             }
+            // Hook function
+            setTimeout(() => {
+                method.createHookFunction('commentUpdateAfter',r,c, previousCell, d[r][c])
+            }, 0);
         }
     },
     ref: function(data, rc){
