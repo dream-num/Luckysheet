@@ -21,11 +21,11 @@
 ## 在线案例
 
 - [协同编辑Demo](http://luckysheet.lashuju.com/demo/)
-- [Java后台Luckysheet Server](https://github.com/mengshukeji/LuckysheetServer)
+- [Java后台Luckysheet Server](https://gitee.com/mengshukeji/LuckysheetServer)
 
 ## 插件
-- excel导入导出库: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
-- 图表插件: [chartMix](https://github.com/mengshukeji/chartMix)
+- excel导入导出库: [Luckyexcel](https://gitee.com/mengshukeji/Luckyexcel)
+- 图表插件: [chartMix](https://gitee.com/mengshukeji/chartMix)
 
 ## 特性
 
