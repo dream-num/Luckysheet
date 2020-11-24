@@ -536,48 +536,44 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Object} [v]: Cell object
 
 ------------
-### cellEditBefore
-(TODO)
-- Type: Function
-- Default: null
-- Usage: Triggered after double-clicking the cell, that is, when double-clicking the cell to edit the content, this method is triggered first
-- Parameter: 
+### cellUpdateBefore
+
+- Type：Function
+- Default：null
+- Usage：Triggered before updating this cell
+- Parameter：
 	- {Number} [r]: Row number of cell
 	- {Number} [c]: Column number of cell
-	- {Object} [v]: Cell object
+	- {Object | String | Number} [value]: Cell content to be modified
+	- {Boolean} [isRefresh]: Whether to refresh the entire table
 
 ------------
-### cellExitEditBefore
-(TODO)
-- Type: Function
-- Default: null
-- Usage: Exit the cell editing state, which is triggered before saving the cell value
-- Parameter: 
+### cellUpdated
+
+- Type：Function
+- Default：null
+- Usage：Triggered after updating this cell
+- Parameter：
 	- {Number} [r]: Row number of cell
 	- {Number} [c]: Column number of cell
-	- {Object} [oldV]: Cell object before Modified
-	- {Object} [newV]: Cell object after Modified
+	- {Object} [oldValue]: Cell object before modification
+	- {Object} [newValue]: Cell object after modification
+	- {Boolean} [isRefresh]: Whether to refresh the entire table
 
 ------------
 
 ## Selected area
 
-### rangeSelectBefore
-- Type: Function
-- Default: null
-- Usage: Frame selection or trigger before setting selection
-- Parameter: 
-	- {Object | Array} [range]: Selection area, may be multiple selection areas
-
-------------
-### rangeSelectAfter
+### rangeSelect
 - Type: Function
 - Default: null
 - Usage: Frame selection or trigger after setting selection
 - Parameter: 
+	- {Object} [sheet]: Current sheet object
 	- {Object | Array} [range]: Selection area, may be multiple selection areas
 
 ------------
+
 ### rangeMoveBefore
 - Type: Function
 - Default: null

@@ -1229,13 +1229,12 @@ const luckysheetformula = {
         });
     },
     updatecell: function(r, c, value, isRefresh=true) {
-        // 钩子函数
-        method.createHookFunction('cellUpdate',r,c,value,isRefresh);
 
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
         let inputText = $input.text(), inputHtml = $input.html();
+        
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -1258,6 +1257,10 @@ const luckysheetformula = {
         }
 
         let curv = Store.flowdata[r][c];
+
+        // Store old value for hook function
+        const oldValue = JSON.stringify(curv);
+
         let isPrevInline = isInlineStringCell(curv);
         let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.substr(0,5) == "<span");
         if(!value && !isCurInline && isPrevInline){
@@ -1285,6 +1288,11 @@ const luckysheetformula = {
 
         // API, we get value from user
         value = value || $input.text();
+
+        // Hook function
+        if(!method.createHookFunction("cellUpdateBefore", r, c, value, isRefresh)){ 
+            return; 
+        }
 
         if(!isCurInline){
             if(isRealNull(value) && !isPrevInline){
@@ -1609,6 +1617,11 @@ const luckysheetformula = {
                 "RowlChange": RowlChange
             }
         }
+
+        setTimeout(() => {
+            // Hook function
+            method.createHookFunction("cellUpdated", r, c, JSON.parse(oldValue), Store.flowdata[r][c], isRefresh);
+        }, 0);
 
         if(isRefresh){
             jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);

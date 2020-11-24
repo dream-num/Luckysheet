@@ -109,14 +109,17 @@
 					updated:function(operate){
 						// console.info(operate)
 					},
-					cellUpdate:function(r,c,value,isRefresh){
-						// console.info(r,c,value)
+					cellUpdateBefore:function(r,c,value,isRefresh){
+						// console.info('cellUpdateBefore',r,c,value,isRefresh)
+					},
+					cellUpdated:function(r,c,oldValue, newValue, isRefresh){
+						// console.info('cellUpdated',r,c,oldValue, newValue, isRefresh)
 					},
 					sheetActivate:function(index, isPivotInitial, isNewSheet){
 						// console.info(index, isPivotInitial, isNewSheet)
 					},
-					rangeSelect:function(index, range){
-						// console.info(index, range)
+					rangeSelect:function(index, sheet){
+						console.info(index, sheet)
 					}
 					
 

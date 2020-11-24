@@ -188,7 +188,7 @@ function selectHightlightShow(isRestore=false) {
     const luckysheet_select_save_previous = JSON.stringify(Store.luckysheet_select_save);
     
     if(Store.luckysheet_select_save_previous == null || Store.luckysheet_select_save_previous !== luckysheet_select_save_previous){
-        method.createHookFunction('rangeSelect', Store.currentSheetIndex, Store.luckysheet_select_save);
+        method.createHookFunction('rangeSelect', Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)], Store.luckysheet_select_save);
     }
     
     Store.luckysheet_select_save_previous = luckysheet_select_save_previous;
