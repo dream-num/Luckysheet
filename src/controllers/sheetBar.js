@@ -206,8 +206,6 @@ export function initialSheetBar(){
         
         let $t = $(this), $cur = $(e.target);
         luckysheetsheetrightclick($t, $cur, e);
-        let result = Store.result
-        server.websocket.onmessage(result)
     });
 
     let luckysheetsheetnameeditor = function ($t) {

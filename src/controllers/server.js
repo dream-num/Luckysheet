@@ -10,9 +10,11 @@ import luckysheetPostil from './postil';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
 import imageCtrl from './imageCtrl';
+import json from '../global/json';
 
 const server = {
     gridKey: null,
@@ -152,10 +154,10 @@ const server = {
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
-	            console.info('WebSocket连接成功');
+				console.info('WebSocket连接成功');
 	            hideloading();
-	            _this.wxErrorCount = 0;
-
+				_this.wxErrorCount = 0;
+				
 	            //防止websocket长时间不发送消息导致断连
 	            setInterval(function(){
 	                _this.websocket.send("rub");
@@ -166,12 +168,15 @@ const server = {
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
 				let data = eval('(' + result.data + ')');
-				console.info(data);		
+				console.info(data);
 				let type = data.type;
 				let {message,id} = data;
 				// 用户退出时，关闭协同编辑时其提示框
 				if(message === '用户退出') {
 					$("#luckysheet-multipleRange-show-" + id).hide();
+					Store.cooperativeEdit.changeCollaborationSize = Store.cooperativeEdit.changeCollaborationSize.filter(value => {
+						return value.id != id
+					})
 				}
 	            if(type == 1){ //send 成功或失败
 
@@ -179,6 +184,12 @@ const server = {
 	            else if(type == 2){ //更新数据
 	                let item = JSON.parse(data.data);
 					_this.wsUpdateMsg(item);
+					let chang_data = JSON.parse(data.data)
+					if(chang_data.k == 'columnlen') {
+						collaborativeEditBox(chang_data.v,null)
+					} else if(chang_data.k == 'rowlen') {
+						collaborativeEditBox(null,chang_data.v)
+					}
 	            }
 	            else if(type == 3){ //多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
 	                let id = data.id;
@@ -188,7 +199,22 @@ const server = {
 	                let type = item.t,
 	                    index = item.i,
 	                    value = item.v;
-
+					if(Store.cooperativeEdit.changeCollaborationSize.length === 0) {
+						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
+					}	 
+					let flag = Store.cooperativeEdit.changeCollaborationSize.some(value1 => {
+						return value1.id == id
+					})
+					if(flag) {
+						Store.cooperativeEdit.changeCollaborationSize.forEach(val => {
+							if(val.id == id) {
+								val.v = item.v[0]
+								val.i = index
+							}
+						})  
+					} else {
+						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
+					}		
 	                if(getObjType(value) != "array" && getObjType(value) !== "object"){
 	                    value = JSON.parse(value);
 	                }

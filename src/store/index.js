@@ -141,7 +141,9 @@ const Store = {
     cooperativeEdit:{
         usernameTimeout:{
 
-        }
+        },
+        changeCollaborationSize:[], //改变行高或者列宽时，协同提示框需要跟随改变所需数据
+        allDataColumnlen:[],//列宽发生过改变的列
     }
 
 }

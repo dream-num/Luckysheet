@@ -56,7 +56,14 @@
 			luckysheet.create({
 				container: 'luckysheet',
 				lang: lang,
-				forceCalculation:false,
+				forceCalculation:false,	
+				allowUpdate:true,
+                updateImageUrl:"http://luckysheet.lashuju.com/luckysheet/api/updateImg",
+                //updateUrl: "ws://127.0.0.1:85/dataqk/websocket/qksheet",
+                updateUrl: "ws://luckysheet.lashuju.com/luckysheet/websocket/qksheet",
+                "gridKey": "1079500#-8803#7c45f52b7d01486d88bc53cb17dcd2c3",
+                loadUrl: "http://luckysheet.lashuju.com/luckysheet/api/load",
+                loadSheetUrl:"http://luckysheet.lashuju.com/luckysheet/api/loadsheet",
 				plugins: ['chart'],
 				fontList:[
 					{
