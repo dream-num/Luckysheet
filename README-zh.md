@@ -39,8 +39,21 @@
 
 更详细的功能列表，请查阅：[特性](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/#%E7%89%B9%E6%80%A7)
 
-## 开发计划
+## 📜 更新日志
+
+每个版本的详细更改都记录在 [CHANGELOG.md](CHANGELOG.md) 中。
+
+## ❗️ 问题反馈
+
+在反馈问题之前，请确保仔细阅读 [如何提交问题](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/contribute.html#如何提交问题)。 不符合准则的问题可能会立即被移除。
+
+## ✅ 开发计划
+
 通过 [GitHub Projects](https://github.com/mengshukeji/Luckysheet/projects/1) 管理
+
+## 💪 贡献
+
+在提交PR之前，请确保仔细阅读 [贡献指南](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/contribute.html)。
 
 ## 用法
 
@@ -97,12 +110,6 @@ nnpm run build
 - [鲁班h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
-
-## 贡献
-
-1. 任何疑问或者建议，欢迎提交[Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. 详细了解：[如何参与贡献](https://github.com/mengshukeji/Luckysheet/issues/128)
-
 
 ## 交流
 

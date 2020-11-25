@@ -49,31 +49,30 @@
 
 ## 如何提交代码
 
-1. fork 到自己的仓库
+1. fork 到自己的仓库
 
 进入  [Luckysheet](https://github.com/mengshukeji/Luckysheet)  的Github页面 ，点击右上角按钮 Fork 进行 Fork。
 
-2. git clone 到本地
+2. git clone 到本地
 
 ```shell
 git clone https://github.com/<your_github_name>/Luckysheet.git
 ```
 
-3. 上游建立连接
+3. 上游建立连接
 
 ```shell
 
 cd Luckysheet
 git remote add upstream https://github.com/mengshukeji/Luckysheet.git
 ```
-    
 4. 创建开发分支
 
 ```shell
 git checkout -b dev
 ```
 
-5. 修改提交代码
+5. 修改提交代码
 
 ```shell
 git add . 
@@ -81,7 +80,7 @@ npm run commit
 git push origin dev
 ```
 
-6. 同步代码，将最新代码同步到本地
+6. 同步代码，将最新代码同步到本地
 
 ```shell
 git fetch upstream 
@@ -96,7 +95,7 @@ git add .
 git rebase --continue
 ```
 提交git rebase --continue命令的时候，如果弹出vim提示编辑commit信息，则可以添加你的修改，然后保存退出
-vim命令请参考vim链接https://www.runoob.com/linux/linux-vim.html
+> vim命令请参考阅读[vim](https://www.runoob.com/linux/linux-vim.html)
 
 8. 提交分支代码
 
@@ -112,7 +111,7 @@ git push origin dev
 若弹出vim提示编辑commit信息，可以直接通过vim命令退出
 > vim命令请参考阅读[vim](https://www.runoob.com/linux/linux-vim.html)
 
-9. 提交pr
+9. 提交pr
 去自己github仓库对应fork的项目，切换到刚刚创建修改的分支，点击new pull request，并添加上对应的描述，最后点击Create pull request进行提交
     
 ## 代码规范

@@ -235,3 +235,15 @@ The second step, if it is to import the packaged code of the github repository, 
 Tip: Most other npm installation problems can also be solved by trying above steps.
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>**How to carry out secondary development of Luckysheet in Vue project?
+
+**<span style="font-size:20px;">A</span>** The [luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue) case is to provide an application integration solution.
+
+If directly developed locally:
+1. Start both the Luckysheet project and your own Vue project. For example, the Luckysheet project is at http://localhost:3001
+2. Import Luckysheet to use in the Vue project through `http://localhost:3001`
+
+In this case, after Luckysheet is modified in real time, the changes can be seen in the Vue project
+
+------------
