@@ -247,7 +247,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
 
     //日期
     if(d[row_index1][col_index1] && d[row_index1][col_index1].ct && d[row_index1][col_index1].ct.t == 'd'){
-        cellDatePickerCtrl.cellFocus(row_index1, col_index1, d[row_index1][col_index1].m);
+        cellDatePickerCtrl.cellFocus(row_index1, col_index1, d[row_index1][col_index1]);
     }
 
     formula.rangetosheet = Store.currentSheetIndex;
