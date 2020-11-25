@@ -1381,6 +1381,12 @@ export default function luckysheetHandler() {
 
             col_index = col_location[2];
 
+        let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
+        if (!!margeset) {
+            row_index = margeset.row[2];
+            col_index = margeset.column[2];
+        }
+
         if (pivotTable.isPivotRange(row_index, col_index)) {
             //数据透视表没有 任何数据
             if ((pivotTable.filter == null || pivotTable.filter.length == 0) && (pivotTable.row == null || pivotTable.row.length == 0) && (pivotTable.column == null || pivotTable.column.length == 0) && (pivotTable.values == null || pivotTable.values.length == 0)) {
