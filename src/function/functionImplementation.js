@@ -3310,12 +3310,12 @@ const functionImplementation = {
                                 }
                                 else{
                                     if (typeof value !== 'string') {
-                                        if (eval(value + criter)) {
+                                        if (new Function("return " + value + criter)()) {
                                             matches++;
                                         }
                                     }
                                     else {
-                                        if (eval('"' + value + '"' + criter)) {
+                                        if (new Function("return " + '"' + value + '"' + criter)()) {
                                             matches++;
                                         }
                                     }
@@ -3335,12 +3335,12 @@ const functionImplementation = {
                         }
                         else{
                             if (typeof value !== 'string') {
-                                if (eval(value + criter)) {
+                                if (new Function("return " + value + criter)()) {  
                                     matches++;
                                 }
                             }
                             else {
-                                if (eval('"' + value + '"' + criter)) {
+                                if (new Function("return " + '"' + value + '"' + criter)()) {
                                     matches++;
                                 }
                             }
@@ -25902,7 +25902,7 @@ const functionImplementation = {
                 if(/\{.*?\}/.test(data)){
                     data = data.replace(/\{/g, "[").replace(/\}/g, "]");
                 }
-                data = eval('('+ data +')');
+                data = new Function("return " + data)();
             }
 
             var stackconfig = arguments[1];
@@ -26138,7 +26138,7 @@ const functionImplementation = {
                 if(/\{.*?\}/.test(data)){
                     data = data.replace(/\{/g, "[").replace(/\}/g, "]");
                 }
-                data = eval('('+ data +')');
+                data = new Function("return " + data)();
             }
 
             var stackconfig = arguments[1];

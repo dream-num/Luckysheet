@@ -713,14 +713,14 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
 
         if(direction == "lefttop"){
             if(index == 0){
-                eval('d.unshift(' + arr.join(",") + ')');
+                new Function("return " + 'd.unshift(' + arr.join(",") + ')')();
             }
             else{
-                eval('d.splice(' + index + ', 0, ' + arr.join(",") + ')');
+                new Function("return " + 'd.splice(' + index + ', 0, ' + arr.join(",") + ')')();
             }
         }
-        else{
-            eval('d.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')');    
+        else{ 
+            new Function("return " + 'd.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')')(); 
         }
     }
     else {

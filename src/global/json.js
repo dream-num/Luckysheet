@@ -7,7 +7,7 @@ const json = {
         }
         else if(getObjType(obj) == "string"){
             try {
-                let json = eval('('+ obj +')');
+                let json = new Function("return " + obj)(); 
                 return json;
             } 
             catch(e) {

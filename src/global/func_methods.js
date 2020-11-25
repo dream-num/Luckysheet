@@ -621,7 +621,7 @@ const func_methods = {
                     hasMatchingCriteria = true;
 
                     for (let p = 1; p < criteria.length; ++p) {
-                        currentCriteriaResult = currentCriteriaResult || eval(database[k][l] + criteria[p]);  // jshint ignore:line
+                        currentCriteriaResult = currentCriteriaResult || (new Function("return " + database[k][l] + criteria[p])());  // jshint ignore:line
                     }
                 }
 

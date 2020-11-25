@@ -174,7 +174,7 @@ const luckysheetformula = {
                 data = data.replace(/\{/g, "[").replace(/\}/g, "]");
             }
 
-            data = eval('('+ data +')');
+            data = new Function("return " + data)();
         }
 
         //把二维数组转换为一维数组，sparklines要求数据格式为一维数组
@@ -2594,7 +2594,7 @@ const luckysheetformula = {
                 if(isVal){
                     //公式计算
                     let fp = $.trim(_this.functionParserExe($("#luckysheet-rich-text-editor").text()));
-                    let result = eval(fp);
+                    let result = new Function("return " + fp)();
                     $("#luckysheet-search-formula-parm .result span").text(result);
                 }
             }
@@ -4801,7 +4801,7 @@ const luckysheetformula = {
             }
             try {
                 Store.calculateSheetIndex = index;
-                let str = eval(function_str);
+                let str = new Function("return " + function_str)();
                 
                 if(str instanceof Object && str.startCell!=null){
                     str = str.startCell;
@@ -5013,7 +5013,7 @@ const luckysheetformula = {
                 let calc_funcStr = getcellFormula(item.r, item.c, item.index);
                 if(cell != null && cell.f != null && cell.f == calc_funcStr){
                     if(!(item instanceof Object)){
-                        item = eval('('+ item +')');
+                        item = new Function("return " + item)();
                     }
 
                     item.color = "w";
@@ -5365,7 +5365,7 @@ const luckysheetformula = {
                 }
             }
 
-            result = eval(fp);
+            result = new Function("return " + fp)();
 
             //加入sparklines的参数项目
             if(fp.indexOf("SPLINES") > -1){
