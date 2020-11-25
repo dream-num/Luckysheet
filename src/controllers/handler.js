@@ -3594,7 +3594,7 @@ export default function luckysheetHandler() {
             }
 
             if (y >= winH - 200 + scrollTop) {
-                size = winW - 200 - Store.luckysheet_rows_change_size_start[0] + scrollTop;
+                size = winH - 200 - Store.luckysheet_rows_change_size_start[0] + scrollTop;
             }
 
             let cfg = $.extend(true, {}, Store.config);
