@@ -185,6 +185,33 @@ const sheetmanage = {
         return curindex;
     },
     getCurSheet: function() {
+        if (Store.luckysheetfile.length) {
+            let hasActive = false, indexs = []
+            Store.luckysheetfile.forEach(item => {
+                if ('undefined' === typeof item.index) {
+                    item.index = this.generateRandomSheetIndex()
+                }
+                if (indexs.includes(item.index)) {
+                    item.index = this.generateRandomSheetIndex()
+                }else {
+                    indexs.push(item.index)
+                }
+
+                if ('undefined' === typeof item.status) {
+                    item.status = 0
+                }
+                if (item.status == 1) {
+                    if (hasActive) {
+                        item.status = 0
+                    }else {
+                        hasActive = true
+                    }
+                }
+            })
+            if (!hasActive) {
+                Store.luckysheetfile[0].status = 1
+            }
+        }
         Store.currentSheetIndex = Store.luckysheetfile[0].index;
 
         for (let i = 0; i < Store.luckysheetfile.length; i++) {
