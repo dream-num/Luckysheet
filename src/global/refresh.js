@@ -404,23 +404,24 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
-    if(calc.length > 0){
-        // 开放execFunctionGroupData，execfunction中执行到取得单元格内容的时候会取得旧值，故在此将新的值存入formula.execFunctionGroupData
-        formula.execFunctionGroupData = data;
+    // if(calc.length > 0){
+    //     // 取消execFunctionGroupData，改用execFunctionGlobalData
+    //     // formula.execFunctionGroupData = data;
 
-        for(let i = 0; i < calc.length; i++){
-            let clc = calc[i];
-            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
+    //     for(let i = 0; i < calc.length; i++){
+    //         let clc = calc[i];
+    //         let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
             
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
-            clc.func = clc_result;
+    //         let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
+    //         clc.func = clc_result;
 
-            if(data[clc_r][clc_c].f == clc_funcStr){
-                setcellvalue(clc_r, clc_c, data, clc_result[1]);
-                funcData.push({ "r": clc_r, "c": clc_c });
-            }
-        }
-    }
+    //         if(data[clc_r][clc_c].f == clc_funcStr){
+    //             setcellvalue(clc_r, clc_c, data, clc_result[1]);
+    //             // funcData存储当前结果没有用处，每次还是需要从calc公式链实时从当前数据中计算比较靠谱
+    //             // funcData.push({ "r": clc_r, "c": clc_c });
+    //         }
+    //     }
+    // }
 
     if(Store.clearjfundo){
         Store.jfundo.length  = 0;
@@ -526,6 +527,26 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
         server.saveParam("v", Store.currentSheetIndex, Store.flowdata[mcData_r][mcData_c], { "r": mcData_r, "c": mcData_c });
     }
 
+    //公式链中公式范围改变对应单元格值的改变
+    if(calc.length > 0){
+        // 取消execFunctionGroupData，改用execFunctionGlobalData
+        // formula.execFunctionGroupData = data;
+
+        for(let i = 0; i < calc.length; i++){
+            let clc = calc[i];
+            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
+            
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
+            clc.func = clc_result;
+
+            if(data[clc_r][clc_c].f == clc_funcStr){
+                setcellvalue(clc_r, clc_c, data, clc_result[1]);
+                // funcData存储当前结果没有用处，每次还是需要从calc公式链实时从当前数据中计算比较靠谱
+                // funcData.push({ "r": clc_r, "c": clc_c });
+            }
+        }
+    }
+
     //calc函数链
     file.calcChain = calc;
     server.saveParam("all", Store.currentSheetIndex, calc, { "k": "calcChain" });
@@ -624,21 +645,21 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
 
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
-    if(calc.length > 0){
-        // formula.execFunctionGroupData = data;
+    // if(calc.length > 0){
+    //     // formula.execFunctionGroupData = data;
 
-        for(let i = 0; i < calc.length; i++){
-            let clc = calc[i];
-            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
-            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
-            clc.func = clc_result;
+    //     for(let i = 0; i < calc.length; i++){
+    //         let clc = calc[i];
+    //         let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
+    //         let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
+    //         clc.func = clc_result;
 
-            if(data[clc_r][clc_c].f == clc_funcStr){
-                setcellvalue(clc_r, clc_c, data, clc_result[1]);
-                funcData.push({ "r": clc_r, "c": clc_c });
-            }
-        }
-    }
+    //         if(data[clc_r][clc_c].f == clc_funcStr){
+    //             setcellvalue(clc_r, clc_c, data, clc_result[1]);
+    //             funcData.push({ "r": clc_r, "c": clc_c });
+    //         }
+    //     }
+    // }
 
     if(Store.clearjfundo){
         Store.jfundo.length  = 0;
@@ -707,6 +728,23 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
             mcData_c = mcData[i].c;
 
         server.saveParam("v", Store.currentSheetIndex, Store.flowdata[mcData_r][mcData_c], { "r": mcData_r, "c": mcData_c });
+    }
+
+    //公式链中公式范围改变对应单元格值的改变
+    if(calc.length > 0){
+        // formula.execFunctionGroupData = data;
+
+        for(let i = 0; i < calc.length; i++){
+            let clc = calc[i];
+            let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
+            let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
+            clc.func = clc_result;
+
+            if(data[clc_r][clc_c].f == clc_funcStr){
+                setcellvalue(clc_r, clc_c, data, clc_result[1]);
+                // funcData.push({ "r": clc_r, "c": clc_c });
+            }
+        }
     }
 
     //calc函数链
