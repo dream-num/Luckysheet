@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/mengshukeji/Luckysheet/compare/v2.1.6...v2.1.7) (2020-11-26)
+
+
+### Features
+
+* **demo:** tool function ([3baf93c](https://github.com/mengshukeji/Luckysheet/commit/3baf93cdb57238ee73ace3e7b9bca142fad81584))
+* 修改日期能够正常的弹出格式框和设置对应格式的日期时间 ([2c27044](https://github.com/mengshukeji/Luckysheet/commit/2c2704473c1c5a77091acda45a46f39ebbad3592))
+* 修改日期能够正常的弹出格式框和设置对应格式的日期时间 ([67c44e7](https://github.com/mengshukeji/Luckysheet/commit/67c44e7a68d948fcb90bd499ecc15cfb2bea5127))
+
+
+### Bug Fixes
+
+* **formula:** function ([dad6e2b](https://github.com/mengshukeji/Luckysheet/commit/dad6e2b2d144a31f4cfaaf84c90588e1a02ee006))
+* **formular:** docs ([ddac582](https://github.com/mengshukeji/Luckysheet/commit/ddac582f696898a1a46fc0ce3eb5d245d20077ae))
+* **hook:** function ([fb43a56](https://github.com/mengshukeji/Luckysheet/commit/fb43a56222c3d4c77b84efa9ff37eed8e1333a1a))
+* **hook function:** cellupdate ([5e8f71f](https://github.com/mengshukeji/Luckysheet/commit/5e8f71f32e5104769dbe6e0c61de3cd26b286344))
+* ie11右下角菜单图标会出现错位 ([34fd6e7](https://github.com/mengshukeji/Luckysheet/commit/34fd6e74cb87f9563ff28979d9f5f8a192fb558a))
+* 重复create会出现很多问题 ([8f22790](https://github.com/mengshukeji/Luckysheet/commit/8f227904fe9600ea17fdc346924d73c3bc81a041))
+
 ### [2.1.6](https://github.com/mengshukeji/Luckysheet/compare/v2.1.5...v2.1.6) (2020-11-23)
 
 
