@@ -12,6 +12,8 @@ const del = require('delete');
 // Refresh the browser in real time
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
+// proxy
+const { createProxyMiddleware } = require('http-proxy-middleware');
 // According to html reference, files are merged
 // const useref = require('gulp-useref');
 // File merge
@@ -117,11 +119,19 @@ function clean() {
     return del([paths.dist]);
 }
 
+// proxy middleware
+const apiProxy = createProxyMiddleware('/luckysheet/', {
+    target: 'http://luckysheet.lashuju.com/',
+    changeOrigin: true, // for vhosted sites
+    ws: true, // proxy websockets
+});
+
 // Static server
 function serve(done) {
     browserSync.init({
         server: {
-            baseDir: paths.dist
+            baseDir: paths.dist,
+            middleware: [apiProxy],//proxy
         },
         ghostMode: false, //默认true，滚动和表单在任何设备上输入将被镜像到所有设备里，会影响本地的协同编辑消息，故关闭
     }, done)
