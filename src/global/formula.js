@@ -4812,7 +4812,7 @@ const luckysheetformula = {
                     if(typeof(cellRangeFunction)=="function"){
                         cellRangeFunction(str_nb);
                     }
-                    this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
+                    // this.isFunctionRangeSaveChange(str, r, c, index, dynamicArray_compute);
                     // console.log(function_str, str, this.isFunctionRangeSave,r,c);
                 }
             }
@@ -4952,6 +4952,121 @@ const luckysheetformula = {
         else{
             this.execFunctionGroup();
         }
+    },
+    execFunctionGroup1: function(origin_r, origin_c, value, index, data, isForce=false) {
+        let _this = this;
+        
+        if (data == null) {
+            data = Store.flowdata;
+        }
+
+        if (!window.luckysheet_compareWith) {
+            window.luckysheet_compareWith = luckysheet_compareWith;
+            window.luckysheet_getarraydata = luckysheet_getarraydata;
+            window.luckysheet_getcelldata = luckysheet_getcelldata;
+            window.luckysheet_parseData = luckysheet_parseData;
+            window.luckysheet_getValue = luckysheet_getValue;
+            window.luckysheet_indirect_check = luckysheet_indirect_check;
+            window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
+            window.luckysheet_offset_check = luckysheet_offset_check;
+            window.luckysheet_calcADPMM = luckysheet_calcADPMM;
+            window.luckysheet_getSpecialReference = luckysheet_getSpecialReference;
+        }
+
+        if(_this.execFunctionGlobalData==null){
+            _this.execFunctionGlobalData = {};
+        }
+        let luckysheetfile = getluckysheetfile();
+        let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
+        
+        if (index == null) {
+            index = Store.currentSheetIndex;
+        }
+
+        if (value != null) {
+            //此处setcellvalue 中this.execFunctionGroupData会保存想要更新的值，本函数结尾不要设为null,以备后续函数使用
+            // setcellvalue(origin_r, origin_c, _this.execFunctionGroupData, value);
+            let cellCache = [[{v:null}]];
+            setcellvalue(0, 0, cellCache, value);
+            _this.execFunctionGlobalData[origin_r+"_"+origin_c+"_"+index] = cellCache[0][0];
+            
+        }
+
+        //{ "r": r, "c": c, "index": index, "func": func}
+        let calcChains = _this.getAllFunctionGroup(),
+            formulaObjects = {},
+            stack = [],
+            count = 0;
+
+        let sheets = getluckysheetfile();
+        let sheetData = {};
+        for(let i=0;i<sheets.length;i++){
+            let sheet = sheets[i];
+            sheetData[sheet.index] = sheet.data;
+        }
+
+        //创建公式缓存及其范围的缓存
+        console.time("1");
+        for(let i=0;i<calcChains.length;i++){
+            let formulaCell = calcChains[i];
+            let key = "r" + formulaCell.r + "c" + formulaCell.c + "i" + formulaCell.index;
+            let calc_funcStr = getcellFormula(formulaCell.r, formulaCell.c, formulaCell.index);
+
+            let txt1 = calc_funcStr.toUpperCase();
+            let isOffsetFunc = txt1.indexOf("INDIRECT(")>-1 || txt1.indexOf("OFFSET(")>-1 || txt1.indexOf("INDEX(")>-1;
+            let formulaArray = [];
+
+            if(isOffsetFunc){
+                this.isFunctionRange(calc_funcStr, null, null, null, null, function(str_nb){
+                    let range = _this.getcellrange($.trim(t), formulaCell.index);
+                    if(range!=null){
+                        formulaArray.push(range);
+                    }
+                });
+            }
+            else{
+                let formulaTextArray = calc_funcStr.split(/==|!=|<>|<=|>=|[,()=+-\/*%&^><]/g);
+
+                for(let i=0;i<formulaTextArray.length;i++){
+                    let t = formulaTextArray[i];
+                    if(t.length<=1){
+                        continue;
+                    }
+    
+                    if(t.substr(0,1)=='"' && t.substr(t.length-1,1)=='"'){
+                        continue;
+                    }
+    
+                    let range = _this.getcellrange($.trim(t), formulaCell.index);
+    
+                    if(range==null){
+                        continue;
+                    }
+    
+                    formulaArray.push(range);
+                }
+            }
+
+            formulaObjects[key] = formulaArray;
+        }
+        console.log(formulaObjects)
+        console.timeEnd("1");
+
+
+        //计算
+        for(let i=0;i<calcChains.length;i++){
+            let formulaCell = calcChains[i];
+            if (_this.execFunctionExist == null) {
+
+            }
+            else{
+
+            }
+        }
+
+        
+
+        _this.execFunctionExist = null;
     },
     // When set origin_r and origin_c, that mean just refresh cell value link to [origin_r,origin_c] cell
     execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
