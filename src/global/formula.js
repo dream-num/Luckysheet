@@ -5112,11 +5112,17 @@ const luckysheetformula = {
 
             formulaObjects[key] = item;
 
-            arrayMatch(formulaArray, null, function(key){
-                if(key in updateValueOject){
-                    updateValueArray.push(item);
-                }
-            });
+            if(isForce){
+                updateValueArray.push(item);
+            }
+            else{
+                arrayMatch(formulaArray, null, function(key){
+                    if(key in updateValueOject){
+                        updateValueArray.push(item);
+                    }
+                }); 
+            }
+            
         }
         // console.log(formulaObjects)
         // console.timeEnd("1");
