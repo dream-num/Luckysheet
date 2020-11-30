@@ -4953,7 +4953,7 @@ const luckysheetformula = {
             this.execFunctionGroup();
         }
     },
-    execFunctionGroup1: function(origin_r, origin_c, value, index, data, isForce=false) {
+    execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
         let _this = this;
         
         if (data == null) {
@@ -5005,6 +5005,51 @@ const luckysheetformula = {
             sheetData[sheet.index] = sheet.data;
         }
 
+        //把修改涉及的单元格存储为对象
+        let updateValueOject = {};
+        if (_this.execFunctionExist == null) {
+            let key = "r" + origin_r + "c" + origin_c + "i" + index;
+            updateValueOject[key] = 1;
+        }
+        else{
+            for (let x = 0; x < _this.execFunctionExist.length; x++) {
+                let cell = _this.execFunctionExist[x];
+                let key = "r" + cell.r + "c" + cell.c + "i" + cell.i;
+                updateValueOject[key] = 1;
+            }
+        }
+
+        let arrayMatch = function(formulaArray, func){
+            for(let a=0;a<formulaArray.length;a++){
+                let range = formulaArray[a], cache={};
+                cache["r"+range.row[0]+""+range.row[1]+"c"+range.column[0]+""+range.column[1]+"index"+range.sheetIndex]
+                for(let r=range.row[0];r<=range.row[1];r++){
+                    for(let c=range.column[0];c<=range.column[1];c++){
+                        let key = "r" + r + "c" + c + "i" + range.sheetIndex;
+                        func(key, r, c, range.sheetIndex);
+                        // if(key in updateValueOject){
+                        //     // level = 0;
+                            
+                        // }
+                    }
+                }
+            }
+        }
+
+        let childFormulaMatch = function(formulaArray, formulaObjects){
+            arrayMatch(formulaArray, function(childKey){
+                if(childKey in formulaObjects){
+                    let childFormulaCell = formulaObjects[childKey];
+                    if(childFormulaCell.level==Math.max){
+                        childFormulaCell.level = 0;
+                    }
+                    childFormulaCell.level += 1;
+
+                    childFormulaMatch(childFormulaCell.formulaArray, formulaObjects);
+                }
+            });
+        }
+
         //创建公式缓存及其范围的缓存
         console.time("1");
         for(let i=0;i<calcChains.length;i++){
@@ -5047,29 +5092,92 @@ const luckysheetformula = {
                 }
             }
 
-            formulaObjects[key] = formulaArray;
+            let level = Math.max;
+            arrayMatch(formulaArray, function(key){
+                if(key in updateValueOject){
+                    level = 0;
+                }
+            });
+
+            formulaObjects[key] = {
+                formulaArray:formulaArray,
+                level:level,
+                calc_funcStr:calc_funcStr,
+                key:key,
+                r:formulaCell.r,
+                c:formulaCell.c,
+                index:formulaCell.index,
+            };
         }
         console.log(formulaObjects)
         console.timeEnd("1");
 
 
+        console.time("2");
+
         //计算
         for(let i=0;i<calcChains.length;i++){
             let formulaCell = calcChains[i];
-            if (_this.execFunctionExist == null) {
+            let key = "r" + formulaCell.r + "c" + formulaCell.c + "i" + formulaCell.index;
 
-            }
-            else{
-
+            let formulaObject = formulaObjects[key];
+            if(formulaObject.level==0){
+                childFormulaMatch(formulaObject.formulaArray,formulaObjects);
             }
         }
+        console.log(formulaObjects)
+        console.timeEnd("2");
 
+
+        console.time("3");
+        let formulaRunList = [];
+
+        Object.keys(formulaObjects).forEach((key)=>{
+            formulaRunList.push(formulaObjects[key]);
+        });
         
+        formulaRunList.sort(function(a, b){
+            if(a.level<b.level){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        });
+
+        for(let i=0;i<formulaRunList.length;i++){
+            let formulaCell = formulaRunList[i];
+            if(formulaCell.level==Math.max){
+                continue;
+            }
+
+            window.luckysheet_getcelldata_cache = null;
+            let calc_funcStr =  formulaCell.calc_funcStr;
+
+            let v = _this.execfunction(calc_funcStr, formulaCell.r, formulaCell.c, formulaCell.index);
+
+            _this.groupValuesRefreshData.push({
+                "r": formulaCell.r,
+                "c": formulaCell.c,
+                "v": v[1],
+                "f": v[2],
+                "spe":v[3],
+                "index": formulaCell.index
+            });
+
+            // _this.execFunctionGroupData[u.r][u.c] = value;
+            _this.execFunctionGlobalData[formulaCell.r+"_"+formulaCell.c+"_"+formulaCell.index] = {
+                v:v[1],
+                f:v[2]
+            };
+        }
+        console.log(formulaRunList);
+        console.timeEnd("3");
 
         _this.execFunctionExist = null;
     },
     // When set origin_r and origin_c, that mean just refresh cell value link to [origin_r,origin_c] cell
-    execFunctionGroup: function(origin_r, origin_c, value, index, data, isForce=false) {
+    execFunctionGroup1: function(origin_r, origin_c, value, index, data, isForce=false) {
         let _this = this;
         
         if (data == null) {
