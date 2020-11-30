@@ -5018,7 +5018,6 @@ const luckysheetformula = {
             }
         }
 
-
         let arrayMatchCache = {};
         let arrayMatch = function(formulaArray, formulaObjects, func){
             for(let a=0;a<formulaArray.length;a++){
@@ -5057,21 +5056,6 @@ const luckysheetformula = {
         }
 
         let existsChildFormulaMatch = {}, ii=0;
-        let childFormulaMatch = function(formulaArray, formulaObjects){
-            arrayMatch(formulaArray, formulaObjects,function(childKey){
-                ii++;
-                if(childKey in formulaObjects){
-                    let childFormulaCell = formulaObjects[childKey];
-                    if(childFormulaCell.level==Math.max){
-                        childFormulaCell.level = 0;
-                    }
-                    childFormulaCell.level += 1;
-                    existsChildFormulaMatch[childKey] = 1;
-
-                    childFormulaMatch(childFormulaCell.formulaArray, formulaObjects);
-                }
-            });
-        }
 
         //创建公式缓存及其范围的缓存
         // console.time("1");
@@ -5094,16 +5078,16 @@ const luckysheetformula = {
                     }
                 });
             }
-            else{
+            else if(!(calc_funcStr.substr(0,2)=='="' && calc_funcStr.substr(calc_funcStr.length-1,1)=='"')){
                 let formulaTextArray = calc_funcStr.split(/==|!=|<>|<=|>=|[,()=+-\/*%&^><]/g);
-
+                
                 for(let i=0;i<formulaTextArray.length;i++){
                     let t = formulaTextArray[i];
                     if(t.length<=1){
                         continue;
                     }
     
-                    if(t.substr(0,1)=='"' && t.substr(t.length-1,1)=='"'){
+                    if(t.substr(0,1)=='"' && t.substr(t.length-1,1)=='"' && !_this.iscelldata(t)){
                         continue;
                     }
     
