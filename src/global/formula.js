@@ -5005,21 +5005,21 @@ const luckysheetformula = {
         }
 
         //把修改涉及的单元格存储为对象
-        let updateValueOject = {}, updateValueArray = [];
+        let updateValueOjects = {}, updateValueArray = [];
         if (_this.execFunctionExist == null) {
             let key = "r" + origin_r + "c" + origin_c + "i" + index;
-            updateValueOject[key] = 1;
+            updateValueOjects[key] = 1;
         }
         else{
             for (let x = 0; x < _this.execFunctionExist.length; x++) {
                 let cell = _this.execFunctionExist[x];
                 let key = "r" + cell.r + "c" + cell.c + "i" + cell.i;
-                updateValueOject[key] = 1;
+                updateValueOjects[key] = 1;
             }
         }
 
         let arrayMatchCache = {};
-        let arrayMatch = function(formulaArray, formulaObjects, func){
+        let arrayMatch = function(formulaArray, formulaObjects, updateValueOjects, func){
             for(let a=0;a<formulaArray.length;a++){
                 let range = formulaArray[a];
                 let cacheKey = "r"+range.row[0]+""+range.row[1]+"c"+range.column[0]+""+range.column[1]+"index"+range.sheetIndex;
@@ -5036,8 +5036,7 @@ const luckysheetformula = {
                         for(let c=range.column[0];c<=range.column[1];c++){
                             let key = "r" + r + "c" + c + "i" + range.sheetIndex;
                             func(key, r, c, range.sheetIndex);
-
-                            if(formulaObjects && key in formulaObjects){
+                            if((formulaObjects && key in formulaObjects) || (updateValueOjects && key in updateValueOjects) ){
                                 functionArr.push({
                                     key:key, 
                                     r:r, 
@@ -5048,7 +5047,7 @@ const luckysheetformula = {
                         }
                     }
 
-                    if(formulaObjects){
+                    if(formulaObjects || updateValueOjects){
                         arrayMatchCache[cacheKey] = functionArr;
                     }
                 }
@@ -5108,29 +5107,60 @@ const luckysheetformula = {
                 r:formulaCell.r,
                 c:formulaCell.c,
                 index:formulaCell.index,
+                parents:{},
+                chidren:{},
+                color:"w"
             }
 
             formulaObjects[key] = item;
 
-            if(isForce){
-                updateValueArray.push(item);
-            }
-            else{
-                arrayMatch(formulaArray, null, function(key){
-                    if(key in updateValueOject){
-                        updateValueArray.push(item);
-                    }
-                }); 
-            }
+
+
+            // if(isForce){
+            //     updateValueArray.push(item);
+            // }
+            // else{
+            //     arrayMatch(formulaArray, null, function(key){
+            //         if(key in updateValueOjects){
+            //             updateValueArray.push(item);
+            //         }
+            //     }); 
+            // }
             
         }
-        // console.log(formulaObjects)
+
         // console.timeEnd("1");
 
-
         // console.time("2");
+        //形成一个公式之间引用的图结构
+        Object.keys(formulaObjects).forEach((key)=>{
+            let formulaObject = formulaObjects[key];
+            arrayMatch(formulaObject.formulaArray, formulaObjects, updateValueOjects, function(childKey){
+                if(childKey in formulaObjects){
+                    let childFormulaObject = formulaObjects[childKey];
+                    formulaObject.chidren[childKey] = 1;
+                    childFormulaObject.parents[key] = 1;
+                }
+                // console.log(childKey,formulaObject.formulaArray);
+                if(childKey in updateValueOjects){
+                    updateValueArray.push(formulaObject);
+                }
+            }); 
+        });
+
+        // console.log(formulaObjects)
+        // console.timeEnd("2");
+
+
+        // console.time("3");
         let formulaRunList = [];
-        //计算
+        //计算，采用深度优先遍历公式形成的图结构
+
+        // updateValueArray.forEach((key)=>{
+        //     let formulaObject = formulaObjects[key];
+
+            
+        // });
 
         let stack = updateValueArray, existsFormulaRunList={};
         while(stack.length>0){
@@ -5140,14 +5170,21 @@ const luckysheetformula = {
                 continue;
             }
 
+            if(formulaObject.color == "b"){
+                formulaRunList.push(formulaObject);
+                existsFormulaRunList[formulaObject.key] = 1;
+                continue;
+            }
+
             let cacheStack = [];
-            arrayMatch(formulaObject.formulaArray, formulaObjects,function(childKey){
-                if(childKey in formulaObjects && !(childKey in existsFormulaRunList)){
-                    let childFormulaObject = formulaObjects[childKey];
-                    cacheStack.push(childFormulaObject);
+            Object.keys(formulaObject.parents).forEach((parentKey)=>{
+                let parentFormulaObject = formulaObjects[parentKey];
+                if(parentFormulaObject!=null){
+                    cacheStack.push(parentFormulaObject);
                 }
             });
 
+        
             ii++;
 
             if(cacheStack.length==0){
@@ -5155,15 +5192,18 @@ const luckysheetformula = {
                 existsFormulaRunList[formulaObject.key] = 1;
             }
             else{
+                formulaObject.color = "b";
                 stack.push(formulaObject);
                 stack = stack.concat(cacheStack);
             }
         }
 
-        // console.log(formulaObjects, ii)
-        // console.timeEnd("2");
+        formulaRunList.reverse();
 
-        // console.time("3");
+        // console.log(formulaObjects, ii)
+        // console.timeEnd("3");
+
+        // console.time("4");
         for(let i=0;i<formulaRunList.length;i++){
             let formulaCell = formulaRunList[i];
             if(formulaCell.level==Math.max){
@@ -5191,7 +5231,7 @@ const luckysheetformula = {
             };
         }
         // console.log(formulaRunList);
-        // console.timeEnd("3");
+        // console.timeEnd("4");
 
         _this.execFunctionExist = null;
     },
