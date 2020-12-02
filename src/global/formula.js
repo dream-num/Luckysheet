@@ -5142,10 +5142,14 @@ const luckysheetformula = {
                     childFormulaObject.parents[key] = 1;
                 }
                 // console.log(childKey,formulaObject.formulaArray);
-                if(childKey in updateValueOjects){
+                if(!isForce && childKey in updateValueOjects){
                     updateValueArray.push(formulaObject);
                 }
             }); 
+
+            if(isForce){
+                updateValueArray.push(formulaObject);
+            }
         });
 
         // console.log(formulaObjects)
@@ -5166,7 +5170,7 @@ const luckysheetformula = {
         while(stack.length>0){
             let formulaObject = stack.pop();
 
-            if(formulaObject==null){
+            if(formulaObject==null || formulaObject.key in existsFormulaRunList){
                 continue;
             }
 
