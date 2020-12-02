@@ -2430,7 +2430,7 @@ const menuButton = {
                             }
 
                             $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                                let dataset = eval("(" + d + ")");
+                                let dataset = new Function("return " + d)();
 
                                 setTimeout(function(){
                                     $("#luckysheetloadingdata").fadeOut().remove();

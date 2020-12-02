@@ -156,7 +156,7 @@ luckysheet.create = function (setting) {
     }
     else {
         $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
-            let data = eval("(" + d + ")");
+            let data = new Function("return " + d)();
             Store.luckysheetfile = data;
 
             sheetmanage.initialjfFile(menu, title);

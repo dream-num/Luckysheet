@@ -1085,7 +1085,7 @@ let sparklinesRender = function(r, c, offsetX, offsetY, canvasid, ctx){
     let sparklines = Store.flowdata[r][c].spl;
     if(sparklines != null){
         if(typeof sparklines == "string"){
-            sparklines = eval('('+ sparklines +')');
+            sparklines = new Function("return " + sparklines)();
         }
 
         if(getObjType(sparklines) == "object"){

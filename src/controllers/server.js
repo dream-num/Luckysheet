@@ -168,7 +168,7 @@ const server = {
 	        //客户端接收服务端数据时触发
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
-				let data = eval('(' + result.data + ')');
+				let data = new Function("return " + result.data )();
 				console.info(data);		
 				let type = data.type;
 				let {message,id} = data;
@@ -433,7 +433,7 @@ const server = {
 	        let op = item.op, pos = item.pos;
 
 	        if(getObjType(value) != "object"){
-	            value = eval('('+ value +')');
+				value = new Function("return "+ value)();
 	        }
 
 	        let r = value.r, c = value.c;
@@ -546,7 +546,7 @@ const server = {
 	                arr.push(JSON.stringify(addData[i]));
 	            }
 
-	            eval('data.splice(' + st_i + ', 0, ' + arr.join(",") + ')');
+				new Function("return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')();
 	        }
 	        else{
 	            file["column"] += len;
@@ -906,7 +906,7 @@ const server = {
             console.log("request");
             if(_this.updateUrl != ""){
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
                         $("#luckysheet_info_detail_save").html("同步成功");
@@ -966,7 +966,7 @@ const server = {
             if(_this.updateImageUrl != ""){
                 // $.post(_this.updateImageUrl, { compress: true, gridKey: _this.gridKey, data:data1  }, function (data) {
                 $.post(_this.updateImageUrl, { compress: false, gridKey: _this.gridKey, data:data1  }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         imageRequestLast = dayjs();
                     }

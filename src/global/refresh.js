@@ -164,7 +164,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             window.luckysheetCurrentFunction = Store.flowdata[r1][c1].f;
 
             let fp = $.trim(formula.functionParserExe(Store.flowdata[r1][c1].f));
-            let sparklines = eval(fp);
+            let sparklines = new Function("return " +fp)();
             Store.flowdata[r1][c1].spl = sparklines;
         }
 
@@ -976,7 +976,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
                 window.luckysheetCurrentFunction = Store.flowdata[r][c].f;
 
                 let fp = $.trim(formula.functionParserExe(Store.flowdata[r][c].f));
-                let sparklines = eval(fp);
+                let sparklines = new Function("return " + fp)();
                 Store.flowdata[r][c].spl = sparklines;
 
                 server.saveParam("v", Store.currentSheetIndex, Store.flowdata[r][c], { "r": r, "c": c });
