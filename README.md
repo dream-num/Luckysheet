@@ -150,6 +150,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - debugger ¥ 20
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
+- yangxshn ¥ 10
 
 ## Authors and acknowledgment
 
@@ -168,6 +169,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+- [@lzmch](https://github.com/lzmch)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

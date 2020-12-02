@@ -17,3 +17,4 @@ Luckysheet is a project led by an individual and jointly developed by several fr
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+- [@lzmch](https://github.com/lzmch)

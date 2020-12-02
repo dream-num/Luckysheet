@@ -153,6 +153,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - debugger ¥ 20
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
+- yangxshn ¥ 10
 
 ## 贡献者和感谢
 
@@ -171,6 +172,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+- [@lzmch](https://github.com/lzmch)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)
