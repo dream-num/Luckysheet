@@ -34,3 +34,4 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - debugger ¥ 20
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
+- yangxshn ¥ 10
