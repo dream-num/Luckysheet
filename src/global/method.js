@@ -38,7 +38,7 @@ const defaultConfig = {
         infobarHeight: 0,
         calculatebarHeight: 0,
         rowHeaderWidth: 46,
-        columeHeaderHeight: 20,
+        columnHeaderHeight: 20,
         cellMainSrollBarSize: 12,
         sheetBarHeight: 31,
         statisticBarHeight: 23,
@@ -135,6 +135,7 @@ const defaultConfig = {
         measureTextCache:{},
         measureTextCellInfoCache:{},
         measureTextCacheTimeOut:null,
+        cellOverflowMapCache:{},
     
         zoomRatio:1,
     
@@ -321,7 +322,6 @@ const method = {
 
                 let dataset = d.data;
                 
-                // rptapp
                 let newData = dataset.celldata;
                 luckysheetextendData(dataset["row"], newData);
 
@@ -354,7 +354,7 @@ const method = {
         let file = Store.luckysheetfile[getSheetIndex(index)];
 
         $.post(url, param, function (d) {
-            let dataset = eval("(" + d + ")");
+            let dataset = new Function("return " + d)();
             file.celldata = dataset[index.toString()];
             let data = sheetmanage.buildGridData(file);
 
@@ -369,7 +369,7 @@ const method = {
             luckysheetcreatesheet(data[0].length, data.length, data, null, false);
             file["load"] = "1";
 
-            Store.luckysheet_select_save = [];
+            Store.luckysheet_select_save.length = 0;
             Store.luckysheet_selection_range = [];
 
             server.saveParam("shs", null, Store.currentSheetIndex);

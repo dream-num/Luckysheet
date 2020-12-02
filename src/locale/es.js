@@ -8826,6 +8826,7 @@ export default {
         bold: 'Negrita (Ctrl+B)',
         italic : 'Itálica (Ctrl+I)',
         strikethrough: 'Tachar (Alt+Shift+5)',
+        underline: 'Guion bajo',
         textColor: 'Color texto',
         chooseColor: 'elegir color',
         resetColor: 'Reinicializar',

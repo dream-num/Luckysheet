@@ -427,7 +427,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             freezen_row_st += value;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 
@@ -713,14 +713,14 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
 
         if(direction == "lefttop"){
             if(index == 0){
-                eval('d.unshift(' + arr.join(",") + ')');
+                new Function("return " + 'd.unshift(' + arr.join(",") + ')')();
             }
             else{
-                eval('d.splice(' + index + ', 0, ' + arr.join(",") + ')');
+                new Function("return " + 'd.splice(' + index + ', 0, ' + arr.join(",") + ')')();
             }
         }
-        else{
-            eval('d.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')');    
+        else{ 
+            new Function("return " + 'd.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')')(); 
         }
     }
     else {
@@ -1418,7 +1418,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             freezen_row_st = freezen_st;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 

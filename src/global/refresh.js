@@ -63,7 +63,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         let curConfig;
         if(cfg == null){
@@ -164,7 +164,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             window.luckysheetCurrentFunction = Store.flowdata[r1][c1].f;
 
             let fp = $.trim(formula.functionParserExe(Store.flowdata[r1][c1].f));
-            let sparklines = eval(fp);
+            let sparklines = new Function("return " +fp)();
             Store.flowdata[r1][c1].spl = sparklines;
         }
 
@@ -274,7 +274,7 @@ function jfrefreshgridall(colwidth, rowheight, data, cfg, range, ctrlType, ctrlV
     }
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         redo["data"] = Store.flowdata;
         redo["curdata"] = data;
@@ -337,7 +337,7 @@ function jfrefreshrange(data, range, cdformat) {
     clearTimeout(refreshCanvasTimeOut);
 
     if (Store.clearjfundo) {
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({ 
             "type": "rangechange", 
@@ -405,11 +405,13 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     //公式链中公式范围改变对应单元格值的改变
     let funcData = [];
     if(calc.length > 0){
-        // formula.execFunctionGroupData = data;
+        // 开放execFunctionGroupData，execfunction中执行到取得单元格内容的时候会取得旧值，故在此将新的值存入formula.execFunctionGroupData
+        formula.execFunctionGroupData = data;
 
         for(let i = 0; i < calc.length; i++){
             let clc = calc[i];
             let clc_r = clc.r, clc_c = clc.c, clc_i = clc.index, clc_funcStr =  getcellFormula(clc_r, clc_c, clc_i, data);
+            
             let clc_result = formula.execfunction(clc_funcStr, clc_r, clc_c, clc_i,null, true);
             clc.func = clc_result;
 
@@ -421,7 +423,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
     }
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": ctrlType,
@@ -639,7 +641,7 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
     }
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": "deleteCell",
@@ -780,7 +782,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
 
     if(Store.clearjfundo){
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
 
         Store.jfredo.push({
             "type": "pasteCut",
@@ -936,7 +938,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
                 window.luckysheetCurrentFunction = Store.flowdata[r][c].f;
 
                 let fp = $.trim(formula.functionParserExe(Store.flowdata[r][c].f));
-                let sparklines = eval(fp);
+                let sparklines = new Function("return " + fp)();
                 Store.flowdata[r][c].spl = sparklines;
 
                 server.saveParam("v", Store.currentSheetIndex, Store.flowdata[r][c], { "r": r, "c": c });
@@ -970,7 +972,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
         let scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
         let scrollLeft = luckysheetFreezen.freezenverticaldata[2];
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -996,7 +998,7 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
         let row_st = luckysheetFreezen.freezenhorizontaldata[1] - 1;
         let scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
 
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columeHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st], 
             row_st + 1, 
@@ -1142,7 +1144,7 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 drawWidth - freezen_vertical_px + freezen_vertical_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
 
             //标题
@@ -1153,11 +1155,11 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 freezen_vertical_px - freezen_vertical_scrollTop + Store.rowHeaderWidth
             );
             
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columnHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
            
         }
@@ -1183,16 +1185,16 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
                 drawWidth, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
                 null, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
         
             luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, null);
             
-            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columeHeaderHeight);
+            luckysheetDrawgridRowTitle(freezen_horizon_scrollTop, freezen_horizon_px, Store.columnHeaderHeight);
             luckysheetDrawgridRowTitle(
                 scrollHeight + freezen_horizon_px - freezen_horizon_scrollTop, 
                 drawHeight - freezen_horizon_px + freezen_horizon_scrollTop, 
-                freezen_horizon_px - freezen_horizon_scrollTop + Store.columeHeaderHeight
+                freezen_horizon_px - freezen_horizon_scrollTop + Store.columnHeaderHeight
             );
             
         }
@@ -1246,7 +1248,7 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
 
         //清除canvas左上角区域 防止列标题栏序列号溢出显示
         
-        luckysheetTableContent.clearRect(0, 0, (Store.rowHeaderWidth* Store.devicePixelRatio-1) , (Store.columeHeaderHeight* Store.devicePixelRatio-1) );
+        luckysheetTableContent.clearRect(0, 0, (Store.rowHeaderWidth* Store.devicePixelRatio-1) , (Store.columnHeaderHeight* Store.devicePixelRatio-1) );
     }
 }
 

@@ -1,4 +1,4 @@
-const sheetPicture = {
+window.sheetPicture = {
     "name": "Picture",
     "index": "Sheet_3e4oe25C757r_1600925108337",
     "celldata": [],
@@ -156,4 +156,4 @@ const sheetPicture = {
     }
 }
 
-export default sheetPicture;
+// export default sheetPicture;

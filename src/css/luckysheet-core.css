@@ -1055,7 +1055,8 @@ div.luckysheet-sheets-m:hover {
     top: 0;
     width: 6px;
     height: 100%;
-    z-index: 1005;
+    /* z-index: 1005; */
+    z-index: 1;/*因为会覆盖右击菜单，改为1*/
 }
 
 .docs-sheet-fade div {

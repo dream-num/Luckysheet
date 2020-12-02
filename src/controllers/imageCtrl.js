@@ -51,7 +51,7 @@ const imageCtrl = {
     copyImgItemObj: null,
     inserImg: function(src){
         let _this = this;
-
+        
         let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
         let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
         let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
@@ -657,7 +657,7 @@ const imageCtrl = {
             scrollLeft = $("#luckysheet-cell-main").scrollLeft();
 
         imgItem.fixedLeft = img.left - scrollLeft + Store.rowHeaderWidth;
-        imgItem.fixedTop = img.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+        imgItem.fixedTop = img.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
 
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, imgItem);
@@ -908,7 +908,7 @@ const imageCtrl = {
             scrollLeft = $("#luckysheet-cell-main").scrollLeft();
 
         img.fixedLeft = img.default.left - scrollLeft + Store.rowHeaderWidth;
-        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columeHeaderHeight;
+        img.fixedTop = img.default.top - scrollTop + Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight;
 
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, img);
@@ -1066,7 +1066,7 @@ const imageCtrl = {
         let images = _this.images;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             Store.jfredo.push({
                 "type": "imageCtrl",

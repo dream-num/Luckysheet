@@ -27,6 +27,7 @@ import { luckysheet_compareWith, luckysheet_getarraydata, luckysheet_getcelldata
 import Store from '../store';
 import locale from '../locale/locale';
 import json from './json';
+import method from './method';
 
 const luckysheetformula = {
     error: {
@@ -173,7 +174,7 @@ const luckysheetformula = {
                 data = data.replace(/\{/g, "[").replace(/\}/g, "]");
             }
 
-            data = eval('('+ data +')');
+            data = new Function("return " + data)();
         }
 
         //把二维数组转换为一维数组，sparklines要求数据格式为一维数组
@@ -1228,10 +1229,12 @@ const luckysheetformula = {
         });
     },
     updatecell: function(r, c, value, isRefresh=true) {
+
         let _this = this;
 
         let $input = $("#luckysheet-rich-text-editor");
         let inputText = $input.text(), inputHtml = $input.html();
+        
 
         if (_this.rangetosheet != null && _this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -1254,6 +1257,10 @@ const luckysheetformula = {
         }
 
         let curv = Store.flowdata[r][c];
+
+        // Store old value for hook function
+        const oldValue = JSON.stringify(curv);
+
         let isPrevInline = isInlineStringCell(curv);
         let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.substr(0,5) == "<span");
         if(!value && !isCurInline && isPrevInline){
@@ -1281,6 +1288,12 @@ const luckysheetformula = {
 
         // API, we get value from user
         value = value || $input.text();
+
+        // Hook function
+        if(!method.createHookFunction("cellUpdateBefore", r, c, value, isRefresh)){
+            _this.cancelNormalSelected();
+            return; 
+        }
 
         if(!isCurInline){
             if(isRealNull(value) && !isPrevInline){
@@ -1605,6 +1618,11 @@ const luckysheetformula = {
                 "RowlChange": RowlChange
             }
         }
+
+        setTimeout(() => {
+            // Hook function
+            method.createHookFunction("cellUpdated", r, c, JSON.parse(oldValue), Store.flowdata[r][c], isRefresh);
+        }, 0);
 
         if(isRefresh){
             jfrefreshgrid(d, [{ "row": [r, r], "column": [c, c] }], allParam, isRunExecFunction);
@@ -2576,7 +2594,7 @@ const luckysheetformula = {
                 if(isVal){
                     //公式计算
                     let fp = $.trim(_this.functionParserExe($("#luckysheet-rich-text-editor").text()));
-                    let result = eval(fp);
+                    let result = new Function("return " + fp)();
                     $("#luckysheet-search-formula-parm .result span").text(result);
                 }
             }
@@ -3994,7 +4012,8 @@ const luckysheetformula = {
             } 
             else {
                 if (matchConfig.dquote == 0 && matchConfig.squote==0) {
-                    str += $.trim(s);
+                    // str += $.trim(s);
+                    str += s; //Do not use $.trim(s). When obtaining the worksheet name that contains spaces, you should keep the spaces
                 } 
                 else {
                     str += s;
@@ -4782,7 +4801,7 @@ const luckysheetformula = {
             }
             try {
                 Store.calculateSheetIndex = index;
-                let str = eval(function_str);
+                let str = new Function("return " + function_str)();
                 
                 if(str instanceof Object && str.startCell!=null){
                     str = str.startCell;
@@ -4994,7 +5013,7 @@ const luckysheetformula = {
                 let calc_funcStr = getcellFormula(item.r, item.c, item.index);
                 if(cell != null && cell.f != null && cell.f == calc_funcStr){
                     if(!(item instanceof Object)){
-                        item = eval('('+ item +')');
+                        item = new Function("return " + item)();
                     }
 
                     item.color = "w";
@@ -5346,7 +5365,7 @@ const luckysheetformula = {
                 }
             }
 
-            result = eval(fp);
+            result = new Function("return " + fp)();
 
             //加入sparklines的参数项目
             if(fp.indexOf("SPLINES") > -1){

@@ -1531,7 +1531,7 @@ const dataVerificationCtrl = {
         let _this = this;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             let redo = {};
             redo["type"] = "updateDataVerification";
@@ -1557,7 +1557,7 @@ const dataVerificationCtrl = {
         let _this = this;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             let redo = {};
             redo["type"] = "updateDataVerificationOfCheckbox";

@@ -1,4 +1,4 @@
-const sheetSparkline = {
+window.sheetSparkline = {
 	"name": "Sparkline",
 	"color": "",
 	"config": {
@@ -7063,4 +7063,4 @@ const sheetSparkline = {
 	"luckysheet_alternateformat_save": []
 }
 
-export default sheetSparkline;
+// export default sheetSparkline;

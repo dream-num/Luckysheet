@@ -13,6 +13,7 @@ import sheetmanage from './sheetmanage';
 import locale from '../locale/locale';
 import {checkProtectionFormatCells} from './protection';
 import Store from '../store';
+import dayjs from 'dayjs'
 
 //条件格式
 const conditionformat = {
@@ -23,23 +24,23 @@ const conditionformat = {
 
         return `<div class="ruleTypeBox">
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont icon-youjiantou"></span>
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem1}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont icon-youjiantou"></span>
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem2}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont icon-youjiantou"></span>
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem3}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont icon-youjiantou"></span>
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem4}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont icon-youjiantou"></span>
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem5}</span>
                     </div>
                 </div>`;
@@ -83,10 +84,10 @@ const conditionformat = {
 
         { "format": ["rgb(99, 190, 123)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //绿-白-红色阶
         { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(99, 190, 123)"] },  //红-白-绿色阶
-        
+
         { "format": ["rgb(90, 138, 198)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //蓝-白-红色阶
         { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(90, 138, 198)"] },  //红-白-蓝色阶
-        
+
         { "format": ["rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //白-红色阶
         { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)"] },  //红-白色阶
 
@@ -114,11 +115,11 @@ const conditionformat = {
             if(!checkProtectionFormatCells(Store.currentSheetIndex)){
                 return;
             }
-            
+
             //保存之前的规则
             let fileH = $.extend(true, [], Store.luckysheetfile);
             let historyRules = _this.getHistoryRules(fileH);
-            
+
             //保存当前的规则
             let fileClone = $.extend(true, [], _this.fileClone);
             for(let c = 0; c < fileClone.length; c++){
@@ -128,10 +129,10 @@ const conditionformat = {
 
             let fileC = $.extend(true, [], Store.luckysheetfile);
             let currentRules = _this.getCurrentRules(fileC);
-            
+
             //刷新一次表格
             _this.ref(historyRules, currentRules);
-            
+
             //隐藏一些dom
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-administerRule-dialog").hide();
@@ -171,28 +172,28 @@ const conditionformat = {
                     let r1 = range[s].row[0], r2 = range[s].row[1];
                     let c1 = range[s].column[0], c2 = range[s].column[1];
 
-                    let row = Store.visibledatarow[r2], 
+                    let row = Store.visibledatarow[r2],
                         row_pre = r1 - 1 == -1 ? 0 : Store.visibledatarow[r1 - 1];
-                    let col = Store.visibledatacolumn[c2], 
+                    let col = Store.visibledatacolumn[c2],
                         col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
 
-                    _this.selectRange.push({ 
-                        "left": col_pre, 
-                        "width": col - col_pre - 1, 
-                        "top": row_pre, 
-                        "height": row - row_pre - 1, 
-                        "left_move": col_pre, 
-                        "width_move": col - col_pre - 1, 
-                        "top_move": row_pre, 
-                        "height_move": row - row_pre - 1, 
-                        "row": [r1, r2], 
-                        "column": [c1, c2], 
-                        "row_focus": r1, 
-                        "column_focus": c1 
+                    _this.selectRange.push({
+                        "left": col_pre,
+                        "width": col - col_pre - 1,
+                        "top": row_pre,
+                        "height": row - row_pre - 1,
+                        "left_move": col_pre,
+                        "width_move": col - col_pre - 1,
+                        "top_move": row_pre,
+                        "height_move": row - row_pre - 1,
+                        "row": [r1, r2],
+                        "column": [c1, c2],
+                        "row_focus": r1,
+                        "column_focus": c1
                     });
                 }
             }
-            
+
             selectionCopyShow(_this.selectRange);
         });
         $(document).off("click.CFmultiRangeConfirm").on("click.CFmultiRangeConfirm", "#luckysheet-multiRange-dialog-confirm", function(){
@@ -204,7 +205,7 @@ const conditionformat = {
 
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
             _this.fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"][dataItem].cellrange = _this.getRangeByTxt(v);
-            
+
             $("#luckysheet-modal-dialog-mask").show();
             $("#luckysheet-administerRule-dialog").show();
 
@@ -223,14 +224,14 @@ const conditionformat = {
             let range = [];
             selectionCopyShow(range);
         });
-        
+
         // 新建规则
         $(document).off("click.CFnewConditionRule").on("click.CFnewConditionRule", "#newConditionRule", function(){
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
             if(!checkProtectionFormatCells(sheetIndex)){
                 return;
             }
-            
+
             if(Store.luckysheet_select_save.length == 0){
                 if(isEditMode()){
                     alert(conditionformat_Text.pleaseSelectRange);
@@ -240,19 +241,19 @@ const conditionformat = {
                 }
                 return;
             }
-            
+
             _this.newConditionRuleDialog(1);
         });
         $(document).off("click.CFnewConditionRuleConfirm").on("click.CFnewConditionRuleConfirm", "#luckysheet-newConditionRule-dialog-confirm", function(){
-            
+
             if(!checkProtectionFormatCells(Store.currentSheetIndex)){
                 return;
             }
-            
+
             let index = $("#luckysheet-newConditionRule-dialog .ruleTypeItem.on").index();
             let type1 = $("#luckysheet-newConditionRule-dialog #type1 option:selected").val();
             let type2 = $("#luckysheet-newConditionRule-dialog ." + type1 + "Box #type2 option:selected").val();
-            
+
             let format, rule;
             if(index == 0){
                 if(type1 == "dataBar"){ //数据条
@@ -266,8 +267,8 @@ const conditionformat = {
                     }
 
                     rule = {
-                        "type": "dataBar", 
-                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
+                        "type": "dataBar",
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                         "format": format
                     };
                 }
@@ -284,8 +285,8 @@ const conditionformat = {
                     }
 
                     rule = {
-                        "type": "colorGradation", 
-                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
+                        "type": "colorGradation",
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                         "format": format
                     };
                 }
@@ -295,14 +296,14 @@ const conditionformat = {
                     let top = $(this).parents("#luckysheet-newConditionRule-dialog").find(".iconsBox .model").attr("data-top");
 
                     format = {
-                        "len": len, 
+                        "len": len,
                         "leftMin": leftMin,
                         "top": top
                     };
 
                     rule = {
-                        "type": "icons", 
-                        "cellrange": $.extend(true, [], Store.luckysheet_select_save), 
+                        "type": "icons",
+                        "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                         "format": format
                     };
                 }
@@ -330,7 +331,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
                                     conditionValue.push(v1);
                                 }
@@ -360,7 +361,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
                                     conditionValue.push(v2);
                                 }
@@ -395,7 +396,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                                     conditionValue.push(v);
                                 }
@@ -433,7 +434,7 @@ const conditionformat = {
 
                             if(r1 == r2 && c1 == c2){
                                 v = getcellvalue(r1, c1, Store.flowdata);
-                                
+
                                 conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                                 conditionValue.push(v);
                             }
@@ -462,7 +463,7 @@ const conditionformat = {
                             _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
-                        
+
                         conditionValue.push(v);
                     }
                 }
@@ -492,7 +493,7 @@ const conditionformat = {
                         _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
-                    
+
                     conditionValue.push(parseInt(v));
                 }
                 else if(index == 3){ //平均值
@@ -516,44 +517,44 @@ const conditionformat = {
                     textcolor = $("#luckysheet-newConditionRule-dialog #textcolorshow").spectrum("get").toHexString();
                 }
                 else{
-                    textcolor = null;    
+                    textcolor = null;
                 }
-                
+
                 let cellcolor;
                 if($("#luckysheet-newConditionRule-dialog #checkCellColor").is(":checked")){
                     cellcolor = $("#luckysheet-newConditionRule-dialog #cellcolorshow").spectrum("get").toHexString();
                 }
                 else{
-                    cellcolor = null;    
+                    cellcolor = null;
                 }
 
                 format = {
-                    "textColor": textcolor, 
+                    "textColor": textcolor,
                     "cellColor": cellcolor
                 };
 
                 rule = {
                     "type": "default",
                     "cellrange": $.extend(true, [], Store.luckysheet_select_save),
-                    "format": format, 
-                    "conditionName": conditionName, 
-                    "conditionRange": conditionRange, 
-                    "conditionValue": conditionValue 
+                    "format": format,
+                    "conditionName": conditionName,
+                    "conditionRange": conditionRange,
+                    "conditionValue": conditionValue
                 };
             }
 
             $("#luckysheet-newConditionRule-dialog").hide();
-            
+
             //新建规则的入口
             let source = $(this).attr("data-source");
-            
+
             if(source == 0){
                 $("#luckysheet-modal-dialog-mask").hide();
-                
+
                 //保存之前的规则
                 let fileH = $.extend(true, [], Store.luckysheetfile);
                 let historyRules = _this.getHistoryRules(fileH);
-                
+
                 //保存当前的规则
                 let ruleArr = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] == undefined ? [] : Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"];
                 ruleArr.push(rule);
@@ -561,7 +562,7 @@ const conditionformat = {
 
                 let fileC = $.extend(true, [], Store.luckysheetfile);
                 let currentRules = _this.getCurrentRules(fileC);
-                
+
                 //刷新一次表格
                 _this.ref(historyRules, currentRules);
 
@@ -575,7 +576,7 @@ const conditionformat = {
                 let ruleArr = !!_this.fileClone[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] ? _this.fileClone[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] : [];
                 ruleArr.push(rule);
                 _this.fileClone[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] = ruleArr;
-                
+
                 //新建规则隐藏，管理规则显示
                 _this.administerRuleDialog();
             }
@@ -589,25 +590,25 @@ const conditionformat = {
             if(source == 1){
                 $("#luckysheet-administerRule-dialog").show();
             }
-            
+
             //新建规则隐藏
             $("#luckysheet-newConditionRule-dialog").hide();
-            
+
             //隐藏虚线框
             $("#luckysheet-formula-functionrange-select").hide();
             $("#luckysheet-row-count-show").hide();
-            $("#luckysheet-column-count-show").hide(); 
+            $("#luckysheet-column-count-show").hide();
         });
-        
+
         // 编辑规则
         $(document).off("click.CFeditorConditionRule").on("click.CFeditorConditionRule", "#editorConditionRule", function(){
 
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
-            
+
             if(!checkProtectionFormatCells(sheetIndex)){
                 return;
             }
-            
+
 
             let itemIndex = $("#luckysheet-administerRule-dialog .ruleList .listBox .item.on").attr("data-item");
             let rule = {
@@ -624,7 +625,7 @@ const conditionformat = {
             let type2 = $("#luckysheet-editorConditionRule-dialog ." + type1 + "Box #type2 option:selected").val();
 
             let cellrange = _this.editorRule["data"].cellrange;
-            
+
             let format, rule;
             if(index == 0){
                 if(type1 == "dataBar"){ //数据条
@@ -638,8 +639,8 @@ const conditionformat = {
                     }
 
                     rule = {
-                        "type": "dataBar", 
-                        "cellrange": cellrange, 
+                        "type": "dataBar",
+                        "cellrange": cellrange,
                         "format": format
                     };
                 }
@@ -656,8 +657,8 @@ const conditionformat = {
                     }
 
                     rule = {
-                        "type": "colorGradation", 
-                        "cellrange": cellrange, 
+                        "type": "colorGradation",
+                        "cellrange": cellrange,
                         "format": format
                     };
                 }
@@ -667,14 +668,14 @@ const conditionformat = {
                     let top = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".iconsBox .model").attr("data-top");
 
                     format = {
-                        "len": len, 
+                        "len": len,
                         "leftMin": leftMin,
                         "top": top
                     };
 
                     rule = {
-                        "type": "icons", 
-                        "cellrange": cellrange, 
+                        "type": "icons",
+                        "cellrange": cellrange,
                         "format": format
                     };
                 }
@@ -702,7 +703,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
                                     conditionValue.push(v1);
                                 }
@@ -732,7 +733,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
                                     conditionValue.push(v2);
                                 }
@@ -767,7 +768,7 @@ const conditionformat = {
 
                                 if(r1 == r2 && c1 == c2){
                                     v = getcellvalue(r1, c1, Store.flowdata);
-                                    
+
                                     conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                                     conditionValue.push(v);
                                 }
@@ -805,7 +806,7 @@ const conditionformat = {
 
                             if(r1 == r2 && c1 == c2){
                                 v = getcellvalue(r1, c1, Store.flowdata);
-                                
+
                                 conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                                 conditionValue.push(v);
                             }
@@ -834,7 +835,7 @@ const conditionformat = {
                             _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
-                        
+
                         conditionValue.push(v);
                     }
                 }
@@ -864,7 +865,7 @@ const conditionformat = {
                         _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
-                    
+
                     conditionValue.push(v);
                 }
                 else if(index == 3){ //平均值
@@ -888,29 +889,29 @@ const conditionformat = {
                     textcolor = $("#luckysheet-editorConditionRule-dialog #textcolorshow").spectrum("get").toHexString();
                 }
                 else{
-                    textcolor = null;    
+                    textcolor = null;
                 }
-                
+
                 let cellcolor;
                 if($("#luckysheet-editorConditionRule-dialog #checkCellColor").is(":checked")){
                     cellcolor = $("#luckysheet-editorConditionRule-dialog #cellcolorshow").spectrum("get").toHexString();
                 }
                 else{
-                    cellcolor = null;    
+                    cellcolor = null;
                 }
 
                 format = {
-                    "textColor": textcolor, 
+                    "textColor": textcolor,
                     "cellColor": cellcolor
                 };
 
                 rule = {
                     "type": "default",
                     "cellrange": cellrange,
-                    "format": format, 
-                    "conditionName": conditionName, 
-                    "conditionRange": conditionRange, 
-                    "conditionValue": conditionValue 
+                    "format": format,
+                    "conditionName": conditionName,
+                    "conditionRange": conditionRange,
+                    "conditionValue": conditionValue
                 };
             }
 
@@ -918,7 +919,7 @@ const conditionformat = {
             let sheetIndex = _this.editorRule["sheetIndex"];
             let itemIndex = _this.editorRule["itemIndex"];
             _this.fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"][itemIndex] = rule;
-            
+
             //编辑规则隐藏，管理规则显示
             $("#luckysheet-editorConditionRule-dialog").hide();
             _this.administerRuleDialog();
@@ -936,7 +937,7 @@ const conditionformat = {
         // 新建规则、编辑规则 类型切换
         $(document).off("click.CFnewEditorRuleItem").on("click.CFnewEditorRuleItem", ".luckysheet-newEditorRule-dialog .ruleTypeItem", function(){
             $(this).addClass("on").siblings().removeClass("on");
-            
+
             let index = $(this).index();
             $(this).parents(".luckysheet-newEditorRule-dialog").find(".ruleExplainBox").html(_this.getRuleExplain(index));
 
@@ -956,7 +957,7 @@ const conditionformat = {
         $(document).off("change.CFnewEditorRuleType2").on("change.CFnewEditorRuleType2", ".luckysheet-newEditorRule-dialog #type2", function(){
             let type1 = $(this).parents(".luckysheet-newEditorRule-dialog").find("#type1 option:selected").val();
 
-            if(type1 == "colorGradation"){ 
+            if(type1 == "colorGradation"){
                 let type2 = $(this).find("option:selected").val();
 
                 if(type2 == "threeColor"){
@@ -1001,34 +1002,34 @@ const conditionformat = {
         // 删除规则
         $(document).off("click.CFdeleteConditionRule").on("click.CFdeleteConditionRule", "#deleteConditionRule", function(){
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
-            
+
             if(!checkProtectionFormatCells(sheetIndex)){
                 return;
             }
-            
+
             let itemIndex = $("#luckysheet-administerRule-dialog .ruleList .listBox .item.on").attr("data-item");
             _this.fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"].splice(itemIndex, 1);
             _this.administerRuleDialog();
         });
-        
+
         // 规则子菜单弹出层 点击确定修改样式
         $(document).off("click.CFdefault").on("click.CFdefault", "#luckysheet-conditionformat-dialog-confirm", function(){
-            
+
             if(!checkProtectionFormatCells(Store.currentSheetIndex)){
                 return;
             }
-            
+
             //条件名称
             let conditionName = $("#luckysheet-conditionformat-dialog .box").attr("data-itemvalue");
-            
+
             //条件单元格
             let conditionRange = [];
-            
+
             //条件值
             let conditionValue = [];
             if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains"){
                 let v = $("#luckysheet-conditionformat-dialog #conditionVal").val().trim();
-                
+
                 //条件值是否是选区
                 let rangeArr = _this.getRangeByTxt(v);
                 if(rangeArr.length > 1){
@@ -1041,7 +1042,7 @@ const conditionformat = {
 
                     if(r1 == r2 && c1 == c2){
                         v = getcellvalue(r1, c1, Store.flowdata);
-                        
+
                         conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
                         conditionValue.push(v);
                     }
@@ -1076,7 +1077,7 @@ const conditionformat = {
 
                     if(r1 == r2 && c1 == c2){
                         v1 = getcellvalue(r1, c1, Store.flowdata);
-                        
+
                         conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
                         conditionValue.push(v1);
                     }
@@ -1106,7 +1107,7 @@ const conditionformat = {
 
                     if(r1 == r2 && c1 == c2){
                         v2 = getcellvalue(r1, c1, Store.flowdata);
-                        
+
                         conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
                         conditionValue.push(v2);
                     }
@@ -1161,7 +1162,7 @@ const conditionformat = {
                 textcolor = $("#textcolorshow").spectrum("get").toHexString();
             }
             else{
-                textcolor = null;    
+                textcolor = null;
             }
 
             let cellcolor;
@@ -1169,24 +1170,24 @@ const conditionformat = {
                 cellcolor = $("#cellcolorshow").spectrum("get").toHexString();
             }
             else{
-                cellcolor = null;    
+                cellcolor = null;
             }
 
             //保存之前的规则
             let fileH = $.extend(true, [], Store.luckysheetfile);
             let historyRules = _this.getHistoryRules(fileH);
-            
+
             //保存当前的规则
             let rule = {
                 "type": "default",
                 "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                 "format": {
-                    "textColor": textcolor, 
+                    "textColor": textcolor,
                     "cellColor": cellcolor
-                }, 
-                "conditionName": conditionName, 
-                "conditionRange": conditionRange, 
-                "conditionValue": conditionValue 
+                },
+                "conditionName": conditionName,
+                "conditionRange": conditionRange,
+                "conditionValue": conditionValue
             };
             let ruleArr = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] == undefined ? [] : Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"];
             ruleArr.push(rule);
@@ -1194,10 +1195,10 @@ const conditionformat = {
 
             let fileC = $.extend(true, [], Store.luckysheetfile);
             let currentRules = _this.getCurrentRules(fileC);
-            
+
             //刷新一次表格
             _this.ref(historyRules, currentRules);
-            
+
             //隐藏一些dom
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-conditionformat-dialog").hide();
@@ -1207,7 +1208,7 @@ const conditionformat = {
                 server.saveParam("all", Store.currentSheetIndex, ruleArr, { "k": "luckysheet_conditionformat_save" });
             }
         });
-        
+
         // 图标集弹出层 选择
         $(document).off("click.CFicons").on("click.CFicons", "#luckysheet-CFicons-dialog .item", function(){
             $("#luckysheet-modal-dialog-mask").hide();
@@ -1216,7 +1217,7 @@ const conditionformat = {
             if(Store.luckysheet_select_save.length > 0){
                 let cellrange = $.extend(true, [], Store.luckysheet_select_save);
                 let format = {
-                    "len": $(this).attr("data-len"), 
+                    "len": $(this).attr("data-len"),
                     "leftMin": $(this).attr("data-leftMin"),
                     "top": $(this).attr("data-top")
                 }
@@ -1224,7 +1225,7 @@ const conditionformat = {
                 _this.updateItem("icons", cellrange, format);
             }
         });
-        
+
         // 选择单元格
         $(document).on("click", ".range .fa-table", function(){
             let id = $(this).parents(".luckysheet-modal-dialog").attr("id");
@@ -1236,12 +1237,12 @@ const conditionformat = {
                     source = "0_1";
                 }
                 else{
-                    source = "0_2";    
+                    source = "0_2";
                 }
             }
             else if(id == "luckysheet-newConditionRule-dialog"){
                 if($(this).parents(".range").attr("id") == "conditionVal"){
-                    source = "1_1";    
+                    source = "1_1";
                 }
                 else{
                     source = "1_2";
@@ -1249,7 +1250,7 @@ const conditionformat = {
             }
             else if(id == "luckysheet-editorConditionRule-dialog"){
                 if($(this).parents(".range").attr("id") == "conditionVal"){
-                    source = "2_1";    
+                    source = "2_1";
                 }
                 else{
                     source = "2_2";
@@ -1267,7 +1268,7 @@ const conditionformat = {
 
             let source = $(this).attr("data-source");
             let v = $(this).parents("#luckysheet-singleRange-dialog").find("input").val();
-            
+
             if(source == "0_1"){
                 $("#luckysheet-conditionformat-dialog").show();
                 $("#luckysheet-conditionformat-dialog #conditionVal").val(v);
@@ -1314,11 +1315,11 @@ const conditionformat = {
             let range = [];
             selectionCopyShow(range);
         });
-        
+
         // 弹出层右上角关闭按钮
         $(document).on("click", ".luckysheet-modal-dialog-title-close", function(){
             let id = $(this).parents(".luckysheet-modal-dialog").attr("id");
-            
+
             //新建规则弹出层
             if(id == "luckysheet-newConditionRule-dialog"){
                 let source = $("#" + id).find("#luckysheet-newConditionRule-dialog-close").attr("data-source");
@@ -1327,7 +1328,7 @@ const conditionformat = {
                     $("#luckysheet-administerRule-dialog").show();
                 }
             }
-            
+
             //编辑规则弹出层
             if(id == "luckysheet-editorConditionRule-dialog"){
                 $("#luckysheet-administerRule-dialog").show();
@@ -1379,26 +1380,26 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-singleRange-dialog", 
-            "addclass": "luckysheet-singleRange-dialog", 
-            "title": conditionformat_Text.selectCell, 
-            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectCell}" value="${value}"/>`, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-singleRange-dialog",
+            "addclass": "luckysheet-singleRange-dialog",
+            "title": conditionformat_Text.selectCell,
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectCell}" value="${value}"/>`,
             "botton":  `<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`, 
-            "style": "z-index:100003" 
+                        <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-singleRange-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-singleRange-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-singleRange-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
     },
     multiRangeDialog: function(dataItem, value){
@@ -1409,26 +1410,26 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-multiRange-dialog", 
-            "addclass": "luckysheet-multiRange-dialog", 
-            "title": conditionformat_Text.selectRange, 
-            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectRange}" value="${value}"/>`, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-multiRange-dialog",
+            "addclass": "luckysheet-multiRange-dialog",
+            "title": conditionformat_Text.selectRange,
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectRange}" value="${value}"/>`,
             "botton":  `<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="${dataItem}">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-multiRange-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`, 
-            "style": "z-index:100003" 
+                        <button id="luckysheet-multiRange-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-multiRange-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-multiRange-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-multiRange-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
 
         selectionCopyShow(_this.getRangeByTxt(value));
@@ -1440,7 +1441,7 @@ const conditionformat = {
             for(let s = 0; s < range.length; s++){
                 let r1 = range[s].row[0], r2 = range[s].row[1];
                 let c1 = range[s].column[0], c2 = range[s].column[1];
-                
+
                 txt.push(getRangetxt(Store.currentSheetIndex, { "row": [r1, r2], "column": [c1, c2] }, Store.currentSheetIndex));
             }
 
@@ -1460,7 +1461,7 @@ const conditionformat = {
                 }
                 else{
                     range = [];
-                    break;    
+                    break;
                 }
             }
         }
@@ -1469,7 +1470,6 @@ const conditionformat = {
                 range.push(formula.getcellrange(txt));
             }
         }
-
         return range;
     },
     colorSelectInit: function(){
@@ -1520,31 +1520,31 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-conditionformat-dialog", 
-            "addclass": "luckysheet-conditionformat-dialog", 
-            "title": title, 
-            "content": content, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-conditionformat-dialog",
+            "addclass": "luckysheet-conditionformat-dialog",
+            "title": title,
+            "content": content,
             "botton":  `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
-                        <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`, 
-            "style": "z-index:100003" 
+                        <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`,
+            "style": "z-index:9999"
         }));
         let $t = $("#luckysheet-conditionformat-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-conditionformat-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-conditionformat-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
-    
+
         _this.init();
         _this.colorSelectInit();
-        
+
         if(title == locale().conditionformat.conditionformat_occurrenceDate){
             _this.daterangeInit("luckysheet-conditionformat-dialog");
         }
@@ -1611,25 +1611,25 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-CFicons-dialog", 
-            "addclass": "luckysheet-CFicons-dialog", 
-            "title": conditionformat_Text.icons, 
-            "content": content, 
-            "botton": `<button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.close}</button>`, 
-            "style": "z-index:100003" 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-CFicons-dialog",
+            "addclass": "luckysheet-CFicons-dialog",
+            "title": conditionformat_Text.icons,
+            "content": content,
+            "botton": `<button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.close}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-CFicons-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-CFicons-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-CFicons-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
     },
     administerRuleDialog: function(){
@@ -1637,9 +1637,9 @@ const conditionformat = {
         $("#luckysheet-administerRule-dialog").remove();
 
         const conditionformat_Text = locale().conditionformat;
-        
+
         //工作表
-        let opHtml = ''; 
+        let opHtml = '';
         for(let j = 0; j < Store.luckysheetfile.length; j++){
             if(Store.luckysheetfile[j].status == "1"){
                 opHtml +=  `<option value="${Store.luckysheetfile[j]["index"]}" selected="selected">
@@ -1673,26 +1673,26 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-administerRule-dialog", 
-            "addclass": "luckysheet-administerRule-dialog", 
-            "title": conditionformat_Text.conditionformatManageRules, 
-            "content": content, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-administerRule-dialog",
+            "addclass": "luckysheet-administerRule-dialog",
+            "title": conditionformat_Text.conditionformatManageRules,
+            "content": content,
             "botton":  `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`, 
-            "style": "z-index:100003" 
+                        <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-administerRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-administerRule-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-administerRule-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
 
         //当前工作表的规则列表
@@ -1708,7 +1708,7 @@ const conditionformat = {
         let ruleArr = _this.fileClone[getSheetIndex(index)].luckysheet_conditionformat_save; //条件格式规则集合
         if(ruleArr != null && ruleArr.length > 0){
             const conditionformat_Text = locale().conditionformat;
-            
+
             for(let i = 0; i < ruleArr.length; i++){
                 let type = ruleArr[i]["type"];            //规则类型
                 let format = ruleArr[i]["format"];        //规则样式
@@ -1733,7 +1733,7 @@ const conditionformat = {
                 }
                 else{
                     ruleName = _this.getConditionRuleName(ruleArr[i].conditionName, ruleArr[i].conditionRange, ruleArr[i].conditionValue);
-                
+
                     if(format["textColor"] != null){
                         formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.textColor +'" style="background-color:' + format["textColor"] + '"></span>';
                     }
@@ -1742,7 +1742,7 @@ const conditionformat = {
                         formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.cellColor +'" style="background-color:' + format["cellColor"] + '"></span>';
                     }
                 }
-                
+
                 //应用范围dom
                 let rangeTxtArr = [];
                 for(let s = 0; s < cellrange.length; s++){
@@ -1751,7 +1751,7 @@ const conditionformat = {
 
                     rangeTxtArr.push(chatatABC(c1) + (r1 + 1) + ":" + chatatABC(c2) + (r2 + 1));
                 }
-                
+
                 //条件格式规则列表dom
                 let itemHtml =  '<div class="item" data-item="' + i + '">' +
                                     '<div class="ruleName" title="' + ruleName + '">' + ruleName + '</div>' +
@@ -1767,7 +1767,7 @@ const conditionformat = {
 
             $("#luckysheet-administerRule-dialog .ruleList .listBox .item canvas").each(function(i){
                 let x = $(this).closest(".item").attr("data-item");
-                
+
                 let type = ruleArr[x]["type"];
                 let format = ruleArr[x]["format"];
 
@@ -1855,7 +1855,7 @@ const conditionformat = {
             v = conditionValue[0];
         }
 
-        const conditionformat_Text = locale().conditionformat; 
+        const conditionformat_Text = locale().conditionformat;
 
         //返回条件格式规则名称
         if(conditionName == "greaterThan"){
@@ -1913,11 +1913,11 @@ const conditionformat = {
     newConditionRuleDialog: function(source){
         let _this = this;
 
-        const conditionformat_Text = locale().conditionformat; 
+        const conditionformat_Text = locale().conditionformat;
 
         //规则说明
         let ruleExplainHtml = _this.getRuleExplain(0);
-        
+
         //弹出层
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-administerRule-dialog").hide();
@@ -1932,37 +1932,37 @@ const conditionformat = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-newConditionRule-dialog", 
-            "addclass": "luckysheet-newEditorRule-dialog", 
-            "title": conditionformat_Text.newFormatRule, 
-            "content": content, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-newConditionRule-dialog",
+            "addclass": "luckysheet-newEditorRule-dialog",
+            "title": conditionformat_Text.newFormatRule,
+            "content": content,
             "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`, 
-            "style": "z-index:100003" 
+                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-newConditionRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-newConditionRule-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-newConditionRule-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
-        
+
         //index的规则类型focus
         $("#luckysheet-newConditionRule-dialog .ruleTypeBox .ruleTypeItem:eq(0)").addClass("on").siblings().removeClass("on");
-    
+
         _this.colorSelectInit();
     },
     editorConditionRuleDialog: function(){
         let _this = this;
 
-        const conditionformat_Text = locale().conditionformat; 
+        const conditionformat_Text = locale().conditionformat;
 
         let rule = _this.editorRule.data;
 
@@ -1970,10 +1970,10 @@ const conditionformat = {
             return;
         }
 
-        let ruleType = rule["type"], 
-            ruleFormat = rule["format"], 
+        let ruleType = rule["type"],
+            ruleFormat = rule["format"],
             conditionName = rule["conditionName"];
-        
+
         let index, type1;
         if(ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons"){
             index = 0;
@@ -2015,7 +2015,7 @@ const conditionformat = {
 
         //规则说明
         let ruleExplainHtml = _this.getRuleExplain(index);
-        
+
         //弹出层
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-administerRule-dialog").hide();
@@ -2030,33 +2030,33 @@ const conditionformat = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-editorConditionRule-dialog", 
-            "addclass": "luckysheet-newEditorRule-dialog", 
-            "title": conditionformat_Text.editFormatRule, 
-            "content": content, 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-editorConditionRule-dialog",
+            "addclass": "luckysheet-newEditorRule-dialog",
+            "title": conditionformat_Text.editFormatRule,
+            "content": content,
             "botton":  `<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`, 
-            "style": "z-index:100003" 
+                        <button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-editorConditionRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-editorConditionRule-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-editorConditionRule-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
-        
+
         _this.colorSelectInit();
 
         //规则类型focus
         $("#luckysheet-editorConditionRule-dialog .ruleTypeBox .ruleTypeItem:eq(" + index + ")").addClass("on").siblings().removeClass("on");
-        
+
         //type1
         $("#luckysheet-editorConditionRule-dialog #type1").val(type1);
         if(type1 == "dataBar" || type1 == "colorGradation" || type1 == "icons" || type1 == "number" || type1 == "text" || type1 == "date"){
@@ -2078,7 +2078,7 @@ const conditionformat = {
                     $("#luckysheet-editorConditionRule-dialog .dataBarBox #type2").val("solid");
                 }
 
-                $("#luckysheet-editorConditionRule-dialog .dataBarBox .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);                
+                $("#luckysheet-editorConditionRule-dialog .dataBarBox .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);
             }
             else if(type1 == "colorGradation"){
                 if(ruleFormat.length == 3){
@@ -2088,7 +2088,7 @@ const conditionformat = {
 
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .maxVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .midVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[1]);
-                    $("#luckysheet-editorConditionRule-dialog .colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[2]);                    
+                    $("#luckysheet-editorConditionRule-dialog .colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[2]);
                 }
                 else if(ruleFormat.length == 2){
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox #type2").val("twoColor");
@@ -2182,32 +2182,32 @@ const conditionformat = {
     infoDialog: function(title, content){
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-conditionformat-info-dialog").remove();
-        $("body").append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-conditionformat-info-dialog", 
-            "addclass": "", 
-            "title": title, 
-            "content": content, 
-            "botton": `<button id="luckysheet-conditionformat-info-dialog-close" class="btn btn-default">${locale().conditionformat.close}</button>`, 
-            "style": "z-index:100003" 
+        $("body").append(replaceHtml(modelHTML, {
+            "id": "luckysheet-conditionformat-info-dialog",
+            "addclass": "",
+            "title": title,
+            "content": content,
+            "botton": `<button id="luckysheet-conditionformat-info-dialog-close" class="btn btn-default">${locale().conditionformat.close}</button>`,
+            "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-conditionformat-info-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
-                .end(), 
-            myh = $t.outerHeight(), 
+                .end(),
+            myh = $t.outerHeight(),
             myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
         let scrollLeft = $(document).scrollLeft(), scrollTop = $(document).scrollTop();
-        $("#luckysheet-conditionformat-info-dialog").css({ 
-            "left": (winw + scrollLeft - myw) / 2, 
-            "top": (winh + scrollTop - myh) / 3 
+        $("#luckysheet-conditionformat-info-dialog").css({
+            "left": (winw + scrollLeft - myw) / 2,
+            "top": (winh + scrollTop - myh) / 3
         }).show();
     },
     getRuleExplain: function(index){
-        const conditionformat_Text = locale().conditionformat; 
+        const conditionformat_Text = locale().conditionformat;
 
         let textCellColorHtml = this.textCellColorHtml();
-        
+
         let ruleExplainHtml;
         switch(index){
             case 0: //基于各自值设置所有单元格的格式
@@ -2372,33 +2372,14 @@ const conditionformat = {
         return ruleExplainHtml;
     },
     daterangeInit: function(id){
-        const conditionformat_Text = locale().conditionformat; 
+        const conditionformat_Text = locale().conditionformat;
 
         //日期选择插件
         $('.ranges_1 ul').remove();
-        $('#' + id).find("#daterange-btn").daterangepicker({
-            ranges: 
-                {
-                    // [conditionformat_Text.all]: [moment(), moment().subtract(-1, 'days')],
-                    [conditionformat_Text.yesterday]: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    [conditionformat_Text.today]: [moment(), moment()],
-                    // [conditionformat_Text.tomorrow]: [moment().subtract(-1, 'days'), moment().subtract(-1, 'days')],
-                    [conditionformat_Text.lastWeek]: [moment(moment().subtract(1, 'week')).subtract(new Date().getDay() - 1, 'days'), moment().subtract(new Date().getDay(), 'days')],
-                    [conditionformat_Text.thisWeek]: [moment().subtract(new Date().getDay() - 1, 'days'), moment().add(7 - new Date().getDay(), 'days')],
-                    [conditionformat_Text.lastMonth]: [moment(moment().format('YYYY-MM')).subtract(1, 'month'), moment(moment().format('YYYY-MM')).subtract(1, 'day')],
-                    [conditionformat_Text.thisMonth]: [moment().format('YYYY-MM'), moment(moment(moment().format('YYYY-MM')).add(1, 'month')).subtract(1, 'day')],
-                    [conditionformat_Text.lastYear]: [moment(moment(moment().format('YYYY'))).subtract(1, 'years').format('YYYY'), moment(moment().format('YYYY')).subtract(1, 'day')],
-                    [conditionformat_Text.thisYear]: [moment().format('YYYY'), moment(moment(moment().add(1, 'years')).format('YYYY')).subtract(1, 'day')],
-                    [conditionformat_Text.last7days]: [moment().subtract(6, 'days'), moment()],
-                    [conditionformat_Text.last30days]: [moment().subtract(29, 'days'), moment()]
-                    // [conditionformat_Text.next7days]: [moment(),moment().subtract(-6, 'days')],
-                    // [conditionformat_Text.next30days]: [moment(),moment().subtract(-29, 'days')],
-                    // [conditionformat_Text.next60days]: [moment(),moment().subtract(-59, 'days'), ]
-                },
-                startDate: moment(),
-                endDate: moment()
-            },
-            function(start, end,label) {
+        $('#' + id).find("#daterange-btn").flatpickr({
+            mode: "range",
+            onChange: function (data, label) {
+                const [start, end] = data
                 //label:通过它来知道用户选择的是什么，传给后台进行相应的展示
                 let format1 = [
                     conditionformat_Text.yesterday,
@@ -2416,24 +2397,22 @@ const conditionformat = {
                     conditionformat_Text.last30days
                 ]
 
-                if(label == conditionformat_Text.all){
+                if (label == conditionformat_Text.all) {
                     $('#daterange-btn').val('');
-                }
-                else if(format1.indexOf(label) > -1){
-                    $('#daterange-btn').val(start.format('YYYY/MM/DD'));
-                }
-                else if(format2.indexOf(label) > -1){
-                    $('#daterange-btn').val(start.format('YYYY/MM/DD') + '-' + end.format('YYYY/MM/DD'));
+                } else if (format1.indexOf(label) > -1) {
+                    $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD'));
+                } else if (format2.indexOf(label) > -1) {
+                    $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD') + '-' + dayjs(end).format('YYYY/MM/DD'));
                 }
             }
-        ); 
+        });
     },
     CFSplitRange: function(range1, range2, range3, type){
         let range = [];
 
         let offset_r = range3["row"][0] - range2["row"][0];
         let offset_c = range3["column"][0] - range2["column"][0];
-        
+
         let r1 = range1["row"][0], r2 = range1["row"][1];
         let c1 = range1["column"][0], c2 = range1["column"][1];
 
@@ -2461,7 +2440,7 @@ const conditionformat = {
                 range = [
                     { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
                     { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2481,7 +2460,7 @@ const conditionformat = {
                 range = [
                     { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
                     { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2517,7 +2496,7 @@ const conditionformat = {
             }
         }
         else if(c1 >= range2["column"][0] && c1 <= range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]){
-            //选区 列贯穿 条件格式应用范围 左部分 
+            //选区 列贯穿 条件格式应用范围 左部分
 
             if(type == "allPart"){ //所有部分
                 range = [
@@ -2543,7 +2522,7 @@ const conditionformat = {
                 range = [
                     { "row": [r1, r2], "column": [c1, range2["column"][0] - 1] },
                     { "row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2586,7 +2565,7 @@ const conditionformat = {
                     { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
                     { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
                     { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2608,7 +2587,7 @@ const conditionformat = {
                     { "row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
                     { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
                     { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2675,7 +2654,7 @@ const conditionformat = {
                     { "row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
                     { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
                     { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2723,7 +2702,7 @@ const conditionformat = {
                     { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
                     { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
                     { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
-                ]; 
+                ];
             }
             else if(type == "restPart"){ //剩余部分
                 range = [
@@ -2939,7 +2918,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["dataBar"] = { "valueType": "minus", "minusLen": minusLen, "valueLen": valueLen, "format": format };
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "minus", "minusLen": minusLen, "valueLen": valueLen, "format": format } };    
+                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "minus", "minusLen": minusLen, "valueLen": valueLen, "format": format } };
                                                 }
                                             }
 
@@ -2950,7 +2929,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["dataBar"] = { "valueType": "plus", "plusLen": plusLen, "minusLen": minusLen, "valueLen": valueLen, "format": format };
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "minusLen": minusLen, "valueLen": valueLen, "format": format } };    
+                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "minusLen": minusLen, "valueLen": valueLen, "format": format } };
                                                 }
                                             }
                                         }
@@ -2983,7 +2962,7 @@ const conditionformat = {
                                                 computeMap[r + "_" + c]["dataBar"] = { "valueType": "plus", "plusLen": plusLen, "valueLen": valueLen, "format": format };
                                             }
                                             else{
-                                                computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "valueLen": valueLen, "format": format } };    
+                                                computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "valueLen": valueLen, "format": format } };
                                             }
                                         }
                                     }
@@ -3039,7 +3018,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = format[2];
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[2] };    
+                                                    computeMap[r + "_" + c] = { "cellColor": format[2] };
                                                 }
                                             }
                                             else if(parseInt(cell.v) > min && parseInt(cell.v) < avg){
@@ -3047,7 +3026,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v));
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v)) };    
+                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v)) };
                                                 }
                                             }
                                             else if(parseInt(cell.v) == avg){
@@ -3055,7 +3034,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = format[1];
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };    
+                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };
                                                 }
                                             }
                                             else if(parseInt(cell.v) > avg && parseInt(cell.v) < max){
@@ -3063,7 +3042,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v));
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v)) };    
+                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v)) };
                                                 }
                                             }
                                             else if(parseInt(cell.v) == max){
@@ -3071,14 +3050,14 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = format[0];
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };    
+                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }   
+                        }
                         else if(format.length == 2){ //两色色阶
                             for(let s = 0; s < cellrange.length; s++){
                                 for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
@@ -3095,7 +3074,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = format[1];
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };    
+                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };
                                                 }
                                             }
                                             else if(parseInt(cell.v) > min && parseInt(cell.v) < max){
@@ -3103,7 +3082,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v));
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v)) };    
+                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v)) };
                                                 }
                                             }
                                             else if(parseInt(cell.v) == max){
@@ -3111,7 +3090,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["cellColor"] = format[0];
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };    
+                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };
                                                 }
                                             }
                                         }
@@ -3164,7 +3143,7 @@ const conditionformat = {
                             else{
                                 v1 = [min, min + a - 1];
                                 v2 = [min + a, min + a * 2 - 1];
-                                v3 = [min + a * 2, max];   
+                                v3 = [min + a * 2, max];
                             }
 
                             for(let s = 0; s < cellrange.length; s++){
@@ -3182,7 +3161,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
@@ -3190,7 +3169,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
@@ -3198,7 +3177,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
                                                 }
                                             }
                                         }
@@ -3242,7 +3221,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 3, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
@@ -3250,7 +3229,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
@@ -3258,7 +3237,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]){
@@ -3266,7 +3245,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
                                                 }
                                             }
                                         }
@@ -3320,7 +3299,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 4, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 4, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 4, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
@@ -3328,7 +3307,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 3, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
@@ -3336,7 +3315,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]){
@@ -3344,7 +3323,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
                                                 }
                                             }
                                             else if(parseInt(cell.v) >= v5[0] && parseInt(cell.v) <= v5[1]){
@@ -3352,7 +3331,7 @@ const conditionformat = {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
                                                 }
                                                 else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };    
+                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
                                                 }
                                             }
                                         }
@@ -3369,9 +3348,9 @@ const conditionformat = {
                         conditionValue1 = ruleArr[i].conditionValue[1],   //条件值2
                         textColor = format.textColor,          //条件格式文本颜色 fc
                         cellColor = format.cellColor;          //条件格式单元格颜色 bg
-                    
+
                     for(let s = 0; s < cellrange.length; s++){
-                        //条件类型判断    
+                        //条件类型判断
                         if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains"){
                             //循环应用范围计算
                             for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
@@ -3391,7 +3370,7 @@ const conditionformat = {
                                     if(conditionName == "greaterThan" && cell.v > conditionValue0){
                                         if((r + "_" + c) in computeMap){
                                             computeMap[r + "_" + c]["textColor"] = textColor;
-                                            computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3400,7 +3379,7 @@ const conditionformat = {
                                     else if(conditionName == "lessThan" && cell.v < conditionValue0){
                                         if((r + "_" + c) in computeMap){
                                             computeMap[r + "_" + c]["textColor"] = textColor;
-                                            computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3409,7 +3388,7 @@ const conditionformat = {
                                     else if(conditionName == "equal" && cell.v == conditionValue0){
                                         if((r + "_" + c) in computeMap){
                                             computeMap[r + "_" + c]["textColor"] = textColor;
-                                            computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3418,7 +3397,7 @@ const conditionformat = {
                                     else if(conditionName == "textContains" && cell.v.toString().indexOf(conditionValue0) != -1){
                                         if((r + "_" + c) in computeMap){
                                             computeMap[r + "_" + c]["textColor"] = textColor;
-                                            computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3456,7 +3435,7 @@ const conditionformat = {
                                     if(cell.v >= vSmall && cell.v <= vBig){
                                         if((r + "_" + c) in computeMap){
                                             computeMap[r + "_" + c]["textColor"] = textColor;
-                                            computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3474,7 +3453,7 @@ const conditionformat = {
                             }
                             else{
                                 let str = conditionValue0.toString().split("-");
-                                dBig = genarate(str[1].trim())[2];   
+                                dBig = genarate(str[1].trim())[2];
                                 dSmall = genarate(str[0].trim())[2];
                             }
                             //循环应用范围计算
@@ -3487,12 +3466,12 @@ const conditionformat = {
                                     //单元格值类型为日期类型
                                     if(d[r][c].ct != null && d[r][c].ct.t == "d"){
                                         //单元格值
-                                        let cellVal = getcellvalue(r, c, d); 
+                                        let cellVal = getcellvalue(r, c, d);
                                         //符合条件
                                         if(cellVal >= dSmall && cellVal <= dBig){
                                             if((r + "_" + c) in computeMap){
                                                 computeMap[r + "_" + c]["textColor"] = textColor;
-                                                computeMap[r + "_" + c]["cellColor"] = cellColor;    
+                                                computeMap[r + "_" + c]["cellColor"] = cellColor;
                                             }
                                             else{
                                                 computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
@@ -3521,32 +3500,32 @@ const conditionformat = {
                                         for(let j = 0; j < dmap[x].length; j++){
                                             if((dmap[x][j].r + "_" + dmap[x][j].c) in computeMap){
                                                 computeMap[dmap[x][j].r + "_" + dmap[x][j].c]["textColor"] = textColor;
-                                                computeMap[dmap[x][j].r + "_" + dmap[x][j].c]["cellColor"] = cellColor;    
+                                                computeMap[dmap[x][j].r + "_" + dmap[x][j].c]["cellColor"] = cellColor;
                                             }
                                             else{
                                                 computeMap[dmap[x][j].r + "_" + dmap[x][j].c] = { "textColor": textColor, "cellColor": cellColor };
                                             }
                                         }
                                     }
-                                }    
+                                }
                             }
                             if(conditionValue0 == "1"){//唯一值
                                 for(let x in dmap){
                                     if(x != "null" && x != "undefined" && dmap[x].length == 1){
                                         if((dmap[x][0].r + "_" + dmap[x][0].c) in computeMap){
                                             computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["textColor"] = textColor;
-                                            computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["cellColor"] = cellColor;    
+                                            computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["cellColor"] = cellColor;
                                         }
                                         else{
                                             computeMap[dmap[x][0].r + "_" + dmap[x][0].c] = { "textColor": textColor, "cellColor": cellColor };
                                         }
                                     }
-                                }    
+                                }
                             }
                         }
                         else if(conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%" || conditionName == "AboveAverage" || conditionName == "SubAverage"){
                             //应用范围单元格值(数值型)
-                            let dArr=[]; 
+                            let dArr=[];
                             for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
                                 for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
                                     if(d[r] == null || d[r][c] == null){
@@ -3610,7 +3589,7 @@ const conditionformat = {
                             else if(conditionName == "AboveAverage" || conditionName == "SubAverage"){
                                 //计算数组平均值
                                 let sum = 0;
-                                for(let j = 0; j < dArr.length; j++){  
+                                for(let j = 0; j < dArr.length; j++){
                                     sum += dArr[j];
                                 }
                                 let averageNum = sum / dArr.length;
@@ -3665,7 +3644,7 @@ const conditionformat = {
                 }
             }
         }
-        
+
         return computeMap;
     },
     updateItem: function(type, cellrange, format){
@@ -3679,7 +3658,7 @@ const conditionformat = {
         //保存之前的规则
         let fileH = $.extend(true, [], Store.luckysheetfile);
         let historyRules = _this.getHistoryRules(fileH);
-        
+
         //保存当前的规则
         let ruleArr;
         if(type == "delSheet"){
@@ -3687,8 +3666,8 @@ const conditionformat = {
         }
         else{
             let rule = {
-                "type": type, 
-                "cellrange": cellrange, 
+                "type": type,
+                "cellrange": cellrange,
                 "format": format
             };
             ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"] == null ? [] : Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
@@ -3728,12 +3707,12 @@ const conditionformat = {
     },
     ref: function(historyRules, currentRules){
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             let redo = {};
             redo["type"] = "updateCF";
             redo["data"] = {"historyRules": historyRules, "currentRules": currentRules};
-            Store.jfredo.push(redo); 
+            Store.jfredo.push(redo);
         }
 
         setTimeout(function () {

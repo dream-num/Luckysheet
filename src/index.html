@@ -21,31 +21,41 @@
 
 <body>
 	<div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
-
+	<!-- 1 -->
 	<!-- demo feature, non-production use -->
 	<script src="./demoData/demoFeature.js"></script>
+	<script src="./demoData/sheetFormula.js"></script>
+	<script src="./demoData/sheetCell.js"></script>
+	<script src="./demoData/sheetConditionFormat.js"></script>
+	<script src="./demoData/sheetTable.js"></script>
+	<script src="./demoData/sheetComment.js"></script>
+	<script src="./demoData/sheetPivotTableData.js"></script>
+	<script src="./demoData/sheetPivotTable.js"></script>
+	<script src="./demoData/sheetSparkline.js"></script>
+	<script src="./demoData/sheetChart.js"></script>
+	<script src="./demoData/sheetPicture.js"></script>
+	<script src="./demoData/sheetDataVerification.js"></script>
 
-	<script type="module">
-		import sheetFormula from './demoData/sheetFormula.js'
-		import sheetCell from './demoData/sheetCell.js'
-		import sheetConditionFormat from './demoData/sheetConditionFormat.js'
-		import sheetTable from './demoData/sheetTable.js'
-		import sheetComment from './demoData/sheetComment.js'
-		import sheetPivotTableData from './demoData/sheetPivotTableData.js'
-		import sheetPivotTable from './demoData/sheetPivotTable.js'
-		import sheetSparkline from './demoData/sheetSparkline.js'
-		import sheetChart from './demoData/sheetChart.js'
-		import sheetPicture from './demoData/sheetPicture.js'
-		import sheetDataVerification from './demoData/sheetDataVerification.js'
+	<script>
+		// import sheetFormula from './demoData/sheetFormula.js'
+		// import sheetCell from './demoData/sheetCell.js'
+		// import sheetConditionFormat from './demoData/sheetConditionFormat.js'
+		// import sheetTable from './demoData/sheetTable.js'
+		// import sheetComment from './demoData/sheetComment.js'
+		// import sheetPivotTableData from './demoData/sheetPivotTableData.js'
+		// import sheetPivotTable from './demoData/sheetPivotTable.js'
+		// import sheetSparkline from './demoData/sheetSparkline.js'
+		// import sheetChart from './demoData/sheetChart.js'
+		// import sheetPicture from './demoData/sheetPicture.js'
+		// import sheetDataVerification from './demoData/sheetDataVerification.js'
 
 		// According to the browser language
-		let lang = luckysheetDemoUtil.language() === 'zh' ? 'zh' : 'en';
+		var lang = luckysheetDemoUtil.language() === 'zh' ? 'zh' : 'en';
 
 		$(function () {
 			luckysheet.create({
 				container: 'luckysheet',
 				lang: lang,
-				allowEdit:true,
 				forceCalculation:false,
 				plugins: ['chart'],
 				fontList:[
@@ -93,10 +103,56 @@
 					sheetMouseup:function(cell,postion,sheetFile,moveState,ctx){
 						// console.log(cell,postion,sheetFile,moveState,ctx);
 					},
+					cellAllRenderBefore:function(data,sheetFile,ctx){
+						// console.info(data,sheetFile,ctx)
+					},
+					updated:function(operate){
+						// console.info(operate)
+					},
+					cellUpdateBefore:function(r,c,value,isRefresh){
+						// console.info('cellUpdateBefore',r,c,value,isRefresh)
+					},
+					cellUpdated:function(r,c,oldValue, newValue, isRefresh){
+						// console.info('cellUpdated',r,c,oldValue, newValue, isRefresh)
+					},
+					sheetActivate:function(index, isPivotInitial, isNewSheet){
+						// console.info(index, isPivotInitial, isNewSheet)
+					},
+					rangeSelect:function(index, sheet){
+						// console.info(index, sheet)
+					},
+					commentInsertBefore:function(r, c){
+						// console.info(r, c)
+					},
+					commentInsertAfter:function(r, c, cell){
+						// console.info(r, c, cell)
+					},
+					commentDeleteBefore:function(r, c, cell){
+						// console.info(r, c, cell)
+					},
+					commentDeleteAfter:function(r, c, cell){
+						// console.info(r, c, cell)
+					},
+					commentUpdateBefore:function(r, c, value){
+						// console.info(r, c, value)
+					},
+					commentUpdateAfter:function(r, c, oldCell, newCell ){
+						// console.info(r, c, oldCell, newCell)
+					},
+					
 
 				},
 				data: 
 				[sheetCell,sheetFormula,sheetConditionFormat,sheetSparkline,sheetTable,sheetComment,sheetPivotTableData,sheetPivotTable,sheetChart,sheetPicture,sheetDataVerification]
+				/*[{
+					"index": "0",
+					"zoomRatio": 1,
+					"order": "0",
+					"column": 3,
+					"row": 4,
+					"status": 1,
+					celldata:[{"r":0,"c":0,"v":{"bg":null,"bl":0,"it":0,"ff":0,"fs":11,"fc":"rgb(51, 51, 51)","ht":1,"vt":1,"v":1,"ct":{"fa":"General","t":"n"},"m":"1"}},{"r":0,"c":1,"v":{"bg":null,"bl":0,"it":0,"ff":0,"fs":11,"fc":"rgb(51, 51, 51)","ht":1,"vt":1,"v":2,"ct":{"fa":"General","t":"n"},"m":"2"}}]
+				}]*/
 				/*[{"name":"Sheet1","config":{"columnlen":{"0":241},"rowlen":{"0":81}},"index":"1","status":"1","order":"0","luckysheet_select_save":[{"row":[0,0],"column":[4,4],"sheetIndex":1}],"zoomRatio":1,"showGridLines":"1","defaultColWidth":72,"defaultRowHeight":18,"celldata":[
 					{"r":0,"c":0,
 						"v":{

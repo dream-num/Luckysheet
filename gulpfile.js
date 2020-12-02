@@ -26,6 +26,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const terser = require('rollup-plugin-terser').terser;
 // rollup babel plugin, support the latest ES grammar
 const babel = require('@rollup/plugin-babel').default;
+// const gulpBabel = require('gulp-babel');
 // Distinguish development and production environments
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
@@ -80,22 +81,17 @@ const paths = {
      //plugins src
     pluginsCss: ['src/plugins/css/*.css'],
     plugins: ['src/plugins/*.css'],
-    css:['src/css/*.css'],
+    css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
-        'src/plugins/js/jquery.min.js',
+        'node_modules/jquery/dist/jquery.min.js',
         'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
         'src/plugins/js/jquery.mousewheel.min.js',
-        'src/plugins/js/moment.min.js',
-        'src/plugins/js/moment-timezone-with-data.min.js',
-        'src/plugins/js/moment-msdate.js',
         'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
-        'src/plugins/js/pako.min.js',
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
-        'src/plugins/js/daterangepicker.js',
         'src/plugins/js/jstat.min.js',
         'src/plugins/js/crypto-api.min.js'
     ],
@@ -126,7 +122,8 @@ function serve(done) {
     browserSync.init({
         server: {
             baseDir: paths.dist
-        }
+        },
+        ghostMode: false, //默认true，滚动和表单在任何设备上输入将被镜像到所有设备里，会影响本地的协同编辑消息，故关闭
     }, done)
 }
 
@@ -251,6 +248,10 @@ function copyStaticExpendPlugins(){
 function copyStaticDemoData(){
     return src(paths.staticDemoData)
         .pipe(dest(paths.destStaticDemoData));
+        // .pipe(gulpBabel({
+        //     presets: ['@babel/env']
+        // }))
+        // .pipe(gulp.dest('dist'));
 }
 function copyStaticCssImages(){
     return src(paths.staticCssImages)

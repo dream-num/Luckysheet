@@ -28,7 +28,6 @@ Luckysheet has opened more detailed custom configuration options, which are as f
 - Customize the toolbar ([showtoolbarConfig](#showtoolbarConfig))
 - Customize the bottom sheet bar ([showsheetbarConfig](#showsheetbarConfig))
 - Customize the counting bar ([showstatisticBarConfig](#showstatisticBarConfig))
-- Custom add row and back to the top ([sheetBottomConfig](#sheetBottomConfig))
 - Custom cell right-click menu ([cellRightClickConfig](#cellRightClickConfig))
 - Customize the right-click menu of the bottom sheet bar ([sheetRightClickConfig](#sheetRightClickConfig))
 
@@ -59,22 +58,19 @@ The following are all supported setting parameters
 - Customize the bottom sheet bar [showsheetbarConfig](#showsheetbarConfig)
 - The bottom count bar [showstatisticBar](#showstatisticBar)
 - Custom Count Bar [showstatisticBarConfig](#showstatisticBarConfig)
-- Custom add row and back to top [sheetBottomConfig](#sheetBottomConfig)
-- Allow editing [allowEdit](#allowEdit)
 - Allow adding rows [enableAddRow](#enableAddRow)
-- Allow adding columns [enableAddCol](#enableAddCol)
+- Allow back to top [enableAddBackTop](#enableAddBackTop)
 - User Info [userInfo](#userInfo)
 - User Information Menu [userMenuItem](#userMenuItem)
 - Back button link [myFolderUrl](#myFolderUrl)
 - Ratio [devicePixelRatio](#devicePixelRatio)
 - Function Button [functionButton](#functionButton)
 - Auto-indent interface [showConfigWindowResize](#showConfigWindowResize)
-- Load the next page [enablePage](#enablePage)
 - Refresh formula [forceCalculation](#forceCalculation)
 - Custom cell right-click menu [cellRightClickConfig](#cellRightClickConfig)
 - Customize the right-click menu of the bottom sheet bar [sheetRightClickConfig](#sheetRightClickConfig)
-- Whether to show the row number area [showRowBar](#showRowBar)
-- Whether to show the column number area [showColumnBar](#showColumnBar)
+- The width of the row header area [rowHeaderWidth](#rowHeaderWidth)
+- The height of the column header area [columnHeaderHeight](#columnHeaderHeight)
 - Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
 - Initialize the default font size [defaultFontSize](#defaultFontSize)
 
@@ -204,7 +200,8 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         bold: false, //'Bold (Ctrl+B)'
         italic: false, //'Italic (Ctrl+I)'
         strikethrough: false, //'Strikethrough (Alt+Shift+5)'
-        textColor: false, //'Text color'
+		underline: false, // 'Underline (Alt+Shift+6)'
+		textColor: false, //'Text color'
         fillColor: false, //'Cell color'
         border: false, //'border'
         mergeCell: false, //'Merge cells'
@@ -350,37 +347,16 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 			}
 		```	
 ------------
-### sheetBottomConfig
-
-[todo]
-
-- Type: Object
-- Default: {}
-- Usage: Add row button and back to top button configuration below the worksheet
-- Format: 
-    ```json
-    {
-        addRow: false, // Add row button
-        backTop: false // Back to the top
-    }
-
-------------
-### allowEdit
-- Type: Boolean
-- Default: true
-- Usage: Whether to allow front-end editing
-
-------------
 ### enableAddRow
 - Type: Boolean
 - Default: true
 - Usage: Allow additional rows
 
 ------------
-### enableAddCol
+### enableAddBackTop
 - Type: Boolean
 - Default: true
-- Usage: Allow adding columns
+- Usage: Allow back to top
 
 ------------
 ### userInfo
@@ -419,12 +395,6 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage: The configuration of the chart or pivot table will pop up on the right, set whether the workbook will be automatically indented after popping up
 
 ------------
-### enablePage
-- Type: Boolean
-- Default: false
-- Usage: Allow to load next page
-
-------------
 ### forceCalculation
 - Type: Boolean
 - Default: false
@@ -439,32 +409,64 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 ------------
 ### cellRightClickConfig
 
-[todo]
-
 - Type: Object
 - Default: {}
 - Usage: Custom configuration cell right-click menu
-- Format: 
-    ```json
+- Format: 	
+	```json
     {
-        copy: false, //Copy
-        copyAs: false, //Copy as
-        paste: false, //Paste
-        insert: false, //Insert
-        delete: false, //Delete
-        hide: false, //Hide
-        deleteCell: false, //Delete cell
-        clear: false, //Clear content
-        matrix: false, //Matrix operation selection
-        sort: false, //Sort selection
-        filter: false, //Filter selection
-        chart: false //Chart generation
-    }
+		copy: false, // copy
+		copyAs: false, // copy as
+		paste: false, // paste
+		insertRow: false, // insert row
+		insertColumn: false, // insert column
+		deleteRow: false, // delete the selected row
+		deleteColumn: false, // delete the selected column
+		deleteCell: false, // delete cell
+		hideRow: false, // hide the selected row and display the selected row
+		hideColumn: false, // hide the selected column and display the selected column
+		rowHeight: false, // row height
+		columnWidth: false, // column width
+		clear: false, // clear content
+		matrix: false, // matrix operation selection
+		sort: false, // sort selection
+		filter: false, // filter selection
+		chart: false, // chart generation
+		image: false, // insert picture
+		link: false, // insert link
+		data: false, // data verification
+		cellFormat: false // Set cell format
+	}
+	```
+	
+	In addition to the cells, the configuration here also includes the row header right-click menu, the column header right-click menu, and the column header drop-down arrow menu. The specific configuration relationships are as follows:
+	
+	|Right-click menu configuration|Cell|Row header|Column header|Column arrow|
+	| ------------ | ------------ | ------------ | ----------- | ------------ |
+	|copy|copy|copy|copy|copy|
+	|copyAs|copy as|copy as|copy as|copy as|
+	|paste|paste|paste|paste|paste|
+	|insertRow|Insert a row|Increase N rows upwards and N rows downwards|-|-|
+	|insertColumn|Insert Column|-|Add N columns to the left and N columns to the right|Add N columns to the left and N columns to the right|
+	|deleteRow|Delete selected row|Delete selected row|-|-|
+	|deleteColumn|Delete selected column|-|Delete selected column|Delete selected column|
+	|deleteCell|Delete cell|-|-|-|
+	|hideRow|-|Hide the selected row and show the selected row|-|-|
+	|hideColumn|-|-|Hide the selected column and show the selected column|Hide the selected column and show the selected column|
+	|rowHeight|-|row height|-|-|
+	|columnWidth|-|-|Column Width|Column Width|
+	|clear|clear content|clear content|clear content|-|
+	|matrix|Matrix Operation Selection|Matrix Operation Selection|Matrix Operation Selection|-|
+	|sort|Sort selection|Sort selection|Sort selection|A-Z sort and Z-A sort|
+	|filter|Filter selection|Filter selection|Filter selection|-|
+	|chart|chart generation|chart generation|chart generation|-|
+	|image|Insert Picture|Insert Picture|Insert Picture|-|
+	|link|Insert link|Insert link|Insert link|-|
+	|data|Data Verification|Data Verification|Data Verification|-|
+	|cellFormat|Set cell format|Set cell format|Set cell format|-|
 
 ------------
 ### sheetRightClickConfig
-
-[todo]
 
 - Type: Object
 - Default: {}
@@ -476,23 +478,21 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
         copy: false, //Copy
         rename: false, //Rename
         color: false, //Change color
-        hide: false, //Hide
-        show: false, //Unhide
-        left: false, //Move to the left
-        right: false //Move to the right
+        hide: false, //Hide, unhide
+        move: false, //Move to the left, move to the right
     }
 
 ------------
-### showRowBar
-- Type: Boolean
-- Default: true
-- Usage: Whether to show the row number area
+### rowHeaderWidth
+- Type: Number
+- Default: 46
+- Usage: The width of the row header area, if set to 0, it means to hide the row header
 
 ------------
-### showColumnBar
-- Type: Boolean
-- Default: true
-- Usage: Whether to show the column number area
+### columnHeaderHeight
+- Type: Number
+- Default: 20
+- Usage: The height of the column header area, if set to 0, it means hide the column header
 
 ------------
 ### sheetFormulaBar
@@ -536,46 +536,44 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Object} [v]: Cell object
 
 ------------
-### cellEditBefore
-- Type: Function
-- Default: null
-- Usage: Triggered after double-clicking the cell, that is, when double-clicking the cell to edit the content, this method is triggered first
-- Parameter: 
+### cellUpdateBefore
+
+- Type：Function
+- Default：null
+- Usage：Triggered before updating this cell
+- Parameter：
 	- {Number} [r]: Row number of cell
 	- {Number} [c]: Column number of cell
-	- {Object} [v]: Cell object
+	- {Object | String | Number} [value]: Cell content to be modified
+	- {Boolean} [isRefresh]: Whether to refresh the entire table
 
 ------------
-### cellEditAfter
-- Type: Function
-- Default: null
-- Usage: Triggered after double-clicking the cell, that is, when double-clicking the cell to edit the content, this method is finally triggered
-- Parameter: 
+### cellUpdated
+
+- Type：Function
+- Default：null
+- Usage：Triggered after updating this cell
+- Parameter：
 	- {Number} [r]: Row number of cell
 	- {Number} [c]: Column number of cell
-	- {Object} [oldV]: Cell object before Modified
-	- {Object} [newV]: Cell object after Modified
+	- {Object} [oldValue]: Cell object before modification
+	- {Object} [newValue]: Cell object after modification
+	- {Boolean} [isRefresh]: Whether to refresh the entire table
 
 ------------
 
 ## Selected area
 
-### rangeSelectBefore
-- Type: Function
-- Default: null
-- Usage: Frame selection or trigger before setting selection
-- Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
-
-------------
-### rangeSelectAfter
+### rangeSelect
 - Type: Function
 - Default: null
 - Usage: Frame selection or trigger after setting selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object} [sheet]: Current sheet object
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 
 ------------
+
 ### rangeMoveBefore
 - Type: Function
 - Default: null
@@ -598,7 +596,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -607,7 +605,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After the selection is modified
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
     - {Object} [oldData]: Before modification, the data corresponding to the selection area
     - {Object} [newData]: After modification, the data corresponding to the selection area
 
@@ -617,7 +615,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before copying selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -626,7 +624,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After copying selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: Data corresponding to the selection area
 
 ------------
@@ -635,7 +633,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before pasting the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be pasted
 
 ------------
@@ -644,7 +642,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After pasting the selection
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [originData]: The data corresponding to the selection area to be pasted
 	- {Object} [pasteData]: Data to paste
 
@@ -690,7 +688,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Before the selection is cleared
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be cleared
 
 ------------
@@ -699,7 +697,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: After the selection is cleared
 - Parameter: 
-	- {Object || Array} [range]: Selection area, may be multiple selection areas
+	- {Object | Array} [range]: Selection area, may be multiple selection areas
 	- {Object} [data]: The data corresponding to the selection area to be cleared
 
 ------------
@@ -723,12 +721,14 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 ## Worksheet
 
 ### sheetCreatekBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Triggered before the worksheet is created, the new worksheet also includes the new pivot table
 
 ------------
 ### sheetCreateAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Triggered after the worksheet is created, the new worksheet also includes the new pivot table
@@ -737,6 +737,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetMoveBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before the worksheet is moved
@@ -746,6 +747,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetMoveAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After the worksheet is moved
@@ -756,6 +758,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetDeleteBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before the worksheet is deleted
@@ -764,6 +767,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetDeleteAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After the worksheet is deleted
@@ -772,6 +776,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditNameBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before changing the name of the worksheet
@@ -781,6 +786,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditNameAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After changing the name of the worksheet
@@ -791,6 +797,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditColorBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before changing the color of the worksheet
@@ -800,6 +807,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetEditColorAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After changing the color of the worksheet
@@ -810,6 +818,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetZoomBefore
+(TODO)
 - Type: Function
 - Default: null
 - Usage: Before worksheet zoom
@@ -819,6 +828,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ------------
 ### sheetZoomAfter
+(TODO)
 - Type: Function
 - Default: null
 - Usage: After worksheet zoom
@@ -826,6 +836,42 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Number} [i]: `index` of current worksheet
 	- {String} [oldZoom]: Before modification, the current worksheet zoom ratio
 	- {String} [newZoom]: After modification, the current worksheet zoom ratio
+
+------------
+### sheetActivateBefore
+(TODO)
+- Type: Function
+- Default: null
+- Usage：Before worksheet activate
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetActivateAfter
+(TODO)
+- Type: Function
+- Default: null
+- Usage：After worksheet activate
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetDeactivateBefore
+（TODO）
+- Type: Function
+- Default: null
+- Usage：Before the worksheet changes from active to inactive
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
+
+------------
+### sheetDeactivateAfter
+（TODO）
+- Type: Function
+- Default: null
+- Usage：After the worksheet is changed from active to inactive
+- Parameter：
+	- {Number} [i]: `index` of current worksheet
 
 ------------
 

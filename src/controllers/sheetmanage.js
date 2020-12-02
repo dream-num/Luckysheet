@@ -234,7 +234,7 @@ const sheetmanage = {
         server.saveParam("sha", null, $.extend(true, {}, sheetconfig));
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             let redo = {};
             redo["type"] = "addSheet";
             redo["sheetconfig"] = $.extend(true, {}, sheetconfig);
@@ -724,7 +724,7 @@ const sheetmanage = {
 
             Store.luckysheetTableContentHW = [
                 $("#luckysheet-cell-main").width() + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
-                $("#luckysheet-cell-main").height() + Store.columeHeaderHeight - Store.cellMainSrollBarSize
+                $("#luckysheet-cell-main").height() + Store.columnHeaderHeight - Store.cellMainSrollBarSize
             ];
             $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
                 width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
@@ -841,8 +841,13 @@ const sheetmanage = {
                         sheetindex.push(item);
                     }
 
+                    // No request is sent if it is not linked to other worksheets
+                    if(sheetindex.length === 0){
+                        execF();
+                        return;
+                    }
                     $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                        let dataset = eval("(" + d + ")");
+                        let dataset = new Function("return " + d)();
                         
                         for(let item in dataset){
                             if(item == file["index"]){
@@ -1162,7 +1167,7 @@ const sheetmanage = {
                 let sheetindex = _this.checkLoadSheetIndex(file);
                 
                 $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                    let dataset = eval("(" + d + ")");
+                    let dataset = new Function("return " + d)();
                     file.celldata = dataset[index.toString()];
                     let data = _this.buildGridData(file);
 
@@ -1341,7 +1346,7 @@ const sheetmanage = {
         $("#luckysheet-cols-h-cells_0").css("width", Store.ch_width); //width更新
 
         $("#luckysheet-scrollbar-x div").width(Store.ch_width);
-        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columeHeaderHeight - Store.cellMainSrollBarSize - 3);
+        $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
 
         //等待滚动条dom宽高计算完成后 初始化该表格滚动位置
         let index = this.getSheetIndex(Store.currentSheetIndex);
@@ -1392,6 +1397,9 @@ const sheetmanage = {
         return null;
     },
     changeSheetExec: function(index, isPivotInitial, isNewSheet) {
+        // 钩子函数
+        method.createHookFunction('sheetActivate', index, isPivotInitial, isNewSheet);
+        
         let $sheet = $("#luckysheet-sheets-item" + index);
 
         window.luckysheet_getcelldata_cache = null;
@@ -1714,7 +1722,7 @@ const sheetmanage = {
             let op = item.op, pos = item.pos;
 
             if(getObjType(value) != "object"){
-                value = eval('('+ value +')');
+                value = new Function("return " + value)();
             }
 
             let r = value.r, c = value.c;

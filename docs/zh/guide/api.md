@@ -391,7 +391,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
    - 在第1列的位置插入3行空白行
 
-		`luckysheet.insertRow(0, { number: 3 })`
+		`luckysheet.insertColumn(0, { number: 3 })`
 
 ------------
 
@@ -1791,7 +1791,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	返回所有工作表配置，格式同工作表配置，得到的结果可用于表格初始化时作为options.data使用。
 
-	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，可以使用 [toJson](#toJson())
+	所以此API适用于，手动操作配置完一个表格后，将所有工作表信息取出来自行保存，再用于其他地方的表格创建。如果想得到包括工作簿配置在内的所有工作簿数据，推荐使用 [toJson](#toJson())，并且可以直接用于初始化Luckysheet。
 
 - **示例**:
 
@@ -2440,7 +2440,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-## 公共方法
+## 工具方法
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
 
@@ -2474,11 +2474,47 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### toJson()
 
-[todo]
 
 - **说明**：
 	
 	导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用，使用场景在用户自己操作表格后想要手动保存全部的参数，再去别处初始化这个表格使用，类似一个luckysheet专有格式的导入导出。
+
+------------
+
+### getRangeByTxt([txt])
+
+- **说明**：
+	
+	将字符串格式的工作表范围转换为数组形式
+
+- **参数**：
+
+  	+ {String} [txt]: 选区范围,支持选区的格式为`"A1:B2"`或者指定工作表名称的写法`"sheetName!A1:B2"`，只支持单个选区；默认为当前最后一个选区
+
+- **示例**:
+
+	- 当前选区为`A1:B2`，`luckysheet.getRangeByTxt()`返回：`{column: (2) [0, 1],row: (2) [0, 1]}`
+	- `luckysheet.getRangeByTxt("A1:B2")`返回：`{column: (2) [0, 1],row: (2) [0, 1]}`
+    - `luckysheet.getRangeByTxt("Cell!A1:B2")`返回：`{column: (2) [0, 1],row: (2) [0, 1]}`
+
+------------
+
+### getTxtByRange([range])
+
+- **说明**：
+	
+	将数组格式的工作表范围转换为字符串格式的形式
+
+- **参数**：
+
+  	+ {Array | Object} [range]: 选区范围,支持选区的格式为`{row:[0,1],column:[0,1]}`，允许多个选区组成的数组；默认为当前选区
+
+- **示例**:
+
+	- 当前选区为`A1:B3`，`luckysheet.getTxtByRange()`返回：当前选区`"A1:B3"`
+	- `luckysheet.getTxtByRange({column:[0,1],row:[0,2]})`返回：`"A1:B3"`
+	- `luckysheet.getTxtByRange([{column:[0,1],row:[0,2]}])`返回：`"A1:B3"`
+	- `luckysheet.getTxtByRange([{column:[0,1],row:[0,2]},{column:[1,1],row:[1,2]}])`返回：`"A1:B3,B2:B3"`
 
 ------------
 
@@ -2572,7 +2608,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	按照scrollWidth, scrollHeight刷新canvas展示数据。
 
-	> 推荐使用新API： [scroll](#scroll([setting]))
+	> 推荐使用新API： [scroll](/zh/guide/api.html#scroll-setting)
 ------------
 
 ### setcellvalue(r, c, d, v)

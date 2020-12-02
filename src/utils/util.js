@@ -1,9 +1,10 @@
 import { columeHeader_word, columeHeader_word_index, luckysheetdefaultFont } from '../controllers/constant';
 import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
-import { hasChinaword } from '../global/validate';
+import { hasChinaword,isRealNum } from '../global/validate';
 import Store from '../store';
 import locale from '../locale/locale'; 
+import method from '../global/method';
 
 /**
  * Common tool methods
@@ -293,8 +294,16 @@ function createABCdim(x, count) {
     }
 };
 
-//计算字符串字节长度
-function getByteLen(val) {
+/**
+ * 计算字符串字节长度
+ * @param {*} val 字符串
+ * @param {*} subLen 要截取的字符串长度
+ */
+function getByteLen(val,subLen) {
+    if(subLen === 0){
+        return "";
+    }
+
     if (val == null) {
         return 0;
     }
@@ -309,6 +318,11 @@ function getByteLen(val) {
         else {
             len += 1;
         }
+
+        if(isRealNum(subLen) && len === ~~subLen){
+            return val.substring(0,i)
+        }
+
     }
 
     return len;
@@ -738,7 +752,56 @@ function openSelfModel(id, isshowMask=true){
     }
 }
 
+/**
+ * 监控对象变更
+ * @param {*} data 
+ */
+const createProxy = (data,list=[]) => {
+    if (typeof data === 'object' && data.toString() === '[object Object]') {
+      for (let k in data) {
+        if(list.includes(k)){
+            if (typeof data[k] === 'object') {
+              defineObjectReactive(data, k, data[k])
+            } else {
+              defineBasicReactive(data, k, data[k])
+            }
+        }
+      }
+    }
+}
+  
+function defineObjectReactive(obj, key, value) {
+    // 递归
+    // createProxy(value)
+    obj[key] = new Proxy(value, {
+      set(target, property, val, receiver) {
+        if (property !== 'length') {
+          setTimeout(() => {
+            //  钩子函数
+            method.createHookFunction('updated',val)
+          }, 0);
+        }
+        return Reflect.set(target, property, val, receiver)
+      }
+    })
+}
+  
+function defineBasicReactive(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: false,
+      get() {
+        return value
+      },
+      set(newValue) {
+        if (value === newValue) return
+        console.log(`发现 ${key} 属性 ${value} -> ${newValue}`)
+        value = newValue
+      }
+    })
+}
 
+  
 export {
     isJsonString,
     common_extend,
@@ -764,5 +827,6 @@ export {
     loadLinks,
     luckysheetContainerFocus,
     transformRangeToAbsolute,
-    openSelfModel
+    openSelfModel,
+    createProxy
 }

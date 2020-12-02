@@ -43,7 +43,6 @@ options.data示例如下：
         "luckysheet_conditionformat_save": {},//条件格式
         "frozen": {}, //冻结行列配置
         "chart": [], //图表配置
-        "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
         "image":[], //图片
         "showGridLines": 1, //是否显示网格线
@@ -256,7 +255,7 @@ options.data示例如下：
     ```
 
 #### config.borderInfo
-- 类型：Object
+- 类型：Array
 - 默认值：{}
 - 作用：单元格的边框信息
 - 示例：
@@ -1282,12 +1281,6 @@ options.data示例如下：
     :::
 
 ------------
-### allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用： 此sheet页是否允许编辑
-
-------------
 ### zoomRatio
 - 类型：Number
 - 默认值：1
@@ -1436,7 +1429,6 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "frozen": {}, //冻结行列配置
         "freezen": {}, //冻结行列的渲染数据存储
         "chart": [], //图表配置
-        "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
         "image":[], //图片
         "showGridLines": 1, //是否显示网格线
