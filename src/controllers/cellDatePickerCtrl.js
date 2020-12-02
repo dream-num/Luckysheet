@@ -75,7 +75,7 @@ const cellDatePickerCtrl = {
             time_24hr = false;
         }
 
-        flatpickr('#luckysheet-input-box', {
+        const fp = flatpickr('#luckysheet-input-box', {
             allowInput: false,
             noCalendar,
             enableSeconds,
@@ -83,6 +83,11 @@ const cellDatePickerCtrl = {
             dateFormat,
             time_24hr,
             defaultDate,
+            onClose() {
+                setTimeout(() => {
+                    fp.destroy()
+                }, 0);
+            },
             parseDate: (datestr, format) => {
                 return dayjs(datestr).toDate();
             },
