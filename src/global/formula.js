@@ -4147,11 +4147,25 @@ const luckysheetformula = {
         for(let i=0;i<luckysheetfile.length;i++){
             let file = luckysheetfile[i];
             let calcChain = file.calcChain;
+            let dynamicArray_compute = file.dynamicArray_compute;
             if(calcChain==null){
                 calcChain = [];
             }
 
+            if(dynamicArray_compute==null){
+                dynamicArray_compute = [];
+            }
+
             ret = ret.concat(calcChain);
+
+            for(let i=0;i<dynamicArray_compute.length;i++){
+                let d = dynamicArray_compute[0];
+                ret.push({
+                    r:d.r,
+                    c:d.c,
+                    index:d.index
+                });
+            }
         }
 
         return ret;
@@ -4977,8 +4991,8 @@ const luckysheetformula = {
         if(_this.execFunctionGlobalData==null){
             _this.execFunctionGlobalData = {};
         }
-        let luckysheetfile = getluckysheetfile();
-        let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
+        // let luckysheetfile = getluckysheetfile();
+        // let dynamicArray_compute = luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"] == null ? {} : luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dynamicArray_compute"];
         
         if (index == null) {
             index = Store.currentSheetIndex;
