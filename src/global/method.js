@@ -491,9 +491,6 @@ const method = {
                 dataVerificationCtrl[key] = defaultDataVerification[key];
             }
         }
-
-        
-
     },
     editorChart:function(c){
         let chart_selection_color = luckyColor[0];
