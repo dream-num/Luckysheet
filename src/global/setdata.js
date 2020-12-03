@@ -10,7 +10,7 @@ function setcellvalue(r, c, d, v) {
     if(d == null){
         d = Store.flowdata;
     }
-    let cell = d[r][c];
+    let cell = $.extend(true, {}, d[r][c]);
 
     let vupdate;
 
