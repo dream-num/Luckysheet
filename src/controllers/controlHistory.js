@@ -420,10 +420,10 @@ const controlHistory = {
             zoomNumberDomBind();
             zoomRefreshView();
         }else if(ctr.type == 'insertChart'){
-            deleteChart(ctr.chart.chart_id)
+           deleteChart(ctr.chart.chart_id)
         }else if(ctr.type == 'deleteChart'){
             insertChart(ctr.chart.chart_id,ctr.chart.range,ctr.chart.style,ctr.chart.success)
-            renderCharts([{chart_id: ctr.chart.chart_id, chartOptions: ctr.chart.chart_json}])
+            renderCharts([Store.chartparam.storeDelete.pop()])
         }else if(ctr.type == 'moveChart'){
             $('#' + ctr.chart.chart_id + '_c').css({
                 left: ctr.chart.x,
@@ -756,7 +756,8 @@ const controlHistory = {
         }else if(ctr.type == 'insertChart'){
             insertChart(ctr.chart.chart_id, ctr.chart.range, ctr.chart.style, ctr.chart.success)
         }else if(ctr.type == 'deleteChart'){
-            deleteChart(ctr.chart.chart_id)
+            let chart = deleteChart(ctr.chart.chart_id)
+            Store.chartparam.storeDelete.push(chart)
         }else if(ctr.type == 'moveChart'){
             $('#' + ctr.chart.chart_id + '_c').css({
                 left: ctr.chart.left,
