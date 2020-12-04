@@ -76,8 +76,6 @@ export default function luckysheetHandler() {
     if(isMobile){
         mobileinit();
     }
-    
-
     if (!Date.now)
     Date.now = function() { return new Date().getTime(); };
     //requestAnimationFrame method
@@ -3267,7 +3265,6 @@ export default function luckysheetHandler() {
     });
     //表格mouseup
     $(document).on("mouseup.luckysheetEvent",function (event) {
-
         if(luckysheetConfigsetting  && luckysheetConfigsetting.hook && luckysheetConfigsetting.hook.sheetMouseup){
             let mouse = mouseposition(event.pageX, event.pageY);
             let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
@@ -3665,14 +3662,14 @@ export default function luckysheetHandler() {
 
             jfrefreshgrid_rhcw(Store.flowdata.length, null);
         }
-
+        
         //改变列宽
         if (Store.luckysheet_cols_change_size) {
             Store.luckysheet_cols_change_size = false;
             $("#luckysheet-change-size-line").hide();
             $("#luckysheet-cols-change-size").css("opacity", 0);
             $("#luckysheet-sheettable, #luckysheet-cols-h-c, .luckysheet-cols-h-cells, .luckysheet-cols-h-cells canvas").css("cursor", "default");
-
+            
             let mouse = mouseposition(event.pageX, event.pageY);
             let scrollLeft = $("#luckysheet-cols-h-c").scrollLeft();
             let x = mouse[0] + scrollLeft;
@@ -3685,9 +3682,9 @@ export default function luckysheetHandler() {
                 col = col_location[1],
                 col_pre = col_location[0],
                 col_index = col_location[2];
-
             let size = (x + 3) - Store.luckysheet_cols_change_size_start[0];
 
+            
             let firstcolumnlen = Store.defaultcollen;
             if (Store.config["columnlen"] != null && Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]] != null) {
                 firstcolumnlen = Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]];

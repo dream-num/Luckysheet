@@ -71,7 +71,7 @@ function showsheetconfigmenu() {
                     redo["oldcolor"] = oldcolor;
                     redo["color"] = color;
                     
-                    Store.jfundo.length  = 0;
+                    Store.jfundo = [];
                     Store.jfredo.push(redo);
                 }
             }
@@ -96,7 +96,7 @@ function showsheetconfigmenu() {
                 redo["oldcolor"] = oldcolor;
                 redo["color"] = null;
 
-                Store.jfundo.length  = 0;
+                Store.jfundo = [];
                 Store.jfredo.push(redo);
             }
         });
@@ -199,6 +199,7 @@ export function initialSheetBar(){
             }, 200);
         }
     }).on("click", "div.luckysheet-sheets-item", function (e) {
+    
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
             return;
@@ -206,8 +207,7 @@ export function initialSheetBar(){
         
         let $t = $(this), $cur = $(e.target);
         luckysheetsheetrightclick($t, $cur, e);
-        // let result = Store.result
-        // server.websocket.onmessage(result)
+        server.keepHighLightBox()
     });
 
     let luckysheetsheetnameeditor = function ($t) {
@@ -266,7 +266,7 @@ export function initialSheetBar(){
             redo["oldtxt"] = oldtxt;
             redo["txt"] = txt;
 
-            Store.jfundo.length  = 0;
+            Store.jfundo = [];
             Store.jfredo.push(redo);
         }
     });
@@ -443,6 +443,7 @@ export function initialSheetBar(){
                     sheetmanage.setSheetShow(index);
                     sheetmanage.locationSheet();
                 }
+                server.keepHighLightBox()
             });
 
             initialOpenSheet = false;
