@@ -334,7 +334,7 @@ const luckysheetformula = {
         let value = "";
         // && d[r][c].v != null
         if (d[r] != null && d[r][c] != null) {
-            let cell = d[r][c];
+            let cell = $.extend(true, {}, d[r][c]);
 
             if(isInlineStringCell(cell)){
                 value = getInlineStringNoStyle(r, c);
@@ -1339,7 +1339,7 @@ const luckysheetformula = {
                 if(getObjType(value) == "string" && value.slice(0, 1) == "=" && value.length > 1){
                     let v = _this.execfunction(value, r, c, undefined, true);
                     isRunExecFunction = false;
-                    curv = d[r][c];
+                    curv = $.extend(true, {}, d[r][c]);
                     curv.v = v[1];
                     curv.f = v[2];
 
@@ -1370,7 +1370,7 @@ const luckysheetformula = {
                         isRunExecFunction = false;
                         // get v/m/ct
 
-                        curv = d[r][c];
+                        curv = $.extend(true, {}, d[r][c]);
                         curv.v = v[1];
                         curv.f = v[2];
         
@@ -1438,7 +1438,7 @@ const luckysheetformula = {
                     _this.execFunctionGroup(r, c, value);
                     isRunExecFunction = false;
 
-                    curv = d[r][c];
+                    curv = $.extend(true, {}, d[r][c]);
                     // let gd = _this.execFunctionGlobalData[r+"_"+c+"_"+Store.currentSheetIndex];
                     // if(gd!=null){
                     //     curv.v = gd.v;

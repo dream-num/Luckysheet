@@ -22,36 +22,39 @@ const func_methods = {
 
         if(rangeObj.data == null){
             if(!isNeglectNullCell){
-                if(nullCellType == "number"){
+                if(nullCellType === "number"){
                     dataArr.push(0);
                 }
-                else if(nullCellType == "text"){
+                else if(nullCellType === "text"){
                     dataArr.push("");
                 }
             }
         }
         else{
-            if(getObjType(rangeObj.data) == "array"){
+            if(getObjType(rangeObj.data) === "array"){
                 for(let i = 0; i < rangeObj.data.length; i++){
                     for(let j = 0; j < rangeObj.data[i].length; j++){
-                        if(rangeObj.data[i][j] != null){
-                            let datav = rangeObj.data[i][j];
-                            if(datav instanceof Object){
-                                dataArr.push(datav.v);
-                            }
-                            else{
-                                dataArr.push(datav);
+                        let cell = rangeObj.data[i][j];
+                        let value = cell
+
+                        if(getObjType(cell) === 'object'){
+                            value = cell.v
+                        }
+
+                        if(value == null ){
+                            if(!isNeglectNullCell){
+                                if(nullCellType === "number"){
+                                    value = 0;
+                                }
+                                else if(nullCellType === "text"){
+                                    value = '';
+                                }
+
+                                dataArr.push(value);
                             }
                         }
                         else{
-                            if(!isNeglectNullCell){
-                                if(nullCellType == "number"){
-                                    dataArr.push(0);
-                                }
-                                else if(nullCellType == "text"){
-                                    dataArr.push("");
-                                }
-                            }
+                            dataArr.push(value);
                         }
                     }
                 }
@@ -97,23 +100,19 @@ const func_methods = {
                     let rowArr = [];
 
                     for(let j = 0; j < rangeObj.data[i].length; j++){
-                        let value;
+                        let cell = rangeObj.data[i][j];
+                        let value = cell;
 
-                        if(rangeObj.data[i][j] != null){
-                            let datav = rangeObj.data[i][j];
-                            if(datav instanceof Object){
-                                value = datav.v;
-                            }
-                            else{
-                                value = datav;
-                            }
+                        if(getObjType(cell) === 'object'){
+                            value = cell.v
                         }
-                        else{
-                            if(nullCellType == "number"){
+
+                        if(value == null){
+                            if(nullCellType === "number"){
                                 value = 0;
                             }
-                            else if(nullCellType == "text"){
-                                value = "";
+                            else if(nullCellType === "text"){
+                                value = '';
                             }
                         }
 

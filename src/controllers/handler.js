@@ -3318,7 +3318,7 @@ export default function luckysheetHandler() {
                 }
     
                 let luckysheetTableContent = $("#luckysheetTableContent").get(0).getContext("2d");
-
+                
                 method.createHookFunction("sheetMouseup", Store.flowdata[row_index][col_index], {
                     r:row_index,
                     c:col_index,
@@ -4972,7 +4972,7 @@ export default function luckysheetHandler() {
     });
 
     //表格左上角点击 全选表格
-    $("#luckysheet-left-top").mousedown(function (event) {
+    $("#luckysheet-left-top").click(function (event) {
         if(!checkProtectionAllSelected(Store.currentSheetIndex)){
             return;
         }
