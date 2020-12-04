@@ -44,9 +44,21 @@ English| [简体中文](./README-zh.md)
 
 For a more detailed feature list, please refer to: [Features](https://mengshukeji.github.io/LuckysheetDocs/guide/#features)
 
-## ✅TODO
+## 📜 Changelog
+
+Detailed changes for each release are documented in the [CHANGELOG.md](CHANGELOG.md).
+
+## ❗️ Issues
+
+Please make sure to read the [Issue Reporting Checklist](https://mengshukeji.github.io/LuckysheetDocs/guide/contribute.html#how-to-submit-issues) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
+
+## ✅ TODO
 
 Managed with [GitHub Projects](https://github.com/mengshukeji/Luckysheet/projects/1)
+
+## 💪Contribution
+
+Please make sure to read the[ Contributing Guide](https://mengshukeji.github.io/LuckysheetDocs/guide/contribute.html) before making a pull request.
 
 ## Usage
 
@@ -104,11 +116,6 @@ nnpm run build
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## Contribution
-
-1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. Learn more:[How to contribute](https://github.com/mengshukeji/Luckysheet/issues/128)
-
 ## Communication
 
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
@@ -143,6 +150,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - debugger ¥ 20
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
+- yangxshn ¥ 10
 
 ## Authors and acknowledgment
 
@@ -161,6 +169,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
+- [@lzmch](https://github.com/lzmch)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

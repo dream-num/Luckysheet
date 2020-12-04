@@ -696,8 +696,9 @@ export function keyboardInitial(){
                     luckysheetMoveHighlightCell2("right", "rangeOfSelect");
                 }
                 else if (String.fromCharCode(kcode).toLocaleUpperCase() == "A") {//Ctrl + A  全选
-                    $("#luckysheet-left-top").trigger("mousedown");
-                    $(document).trigger("mouseup");
+                    // $("#luckysheet-left-top").trigger("mousedown");
+                    // $(document).trigger("mouseup");
+                    $("#luckysheet-left-top").click()
                 }
 
                 event.preventDefault();

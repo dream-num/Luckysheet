@@ -1650,7 +1650,7 @@ function datenum(v, date1904) {
     return (epoch - dnthresh) / (24 * 60 * 60 * 1000);
 }
 
-function datenum_local(v, date1904) {
+export function datenum_local(v, date1904) {
     var epoch = Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), v.getSeconds());
     var dnthresh_utc = Date.UTC(1899, 11, 31, 0, 0, 0);
 

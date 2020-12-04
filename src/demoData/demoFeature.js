@@ -22,8 +22,21 @@
     
     supportButton()
 
+    /**
+     * Get url parameters
+     */
+    function getRequest() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+        function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+    }
+
     window.luckysheetDemoUtil = {
-        language:language
+        language:language,
+        getRequest:getRequest
     }
     
 })()

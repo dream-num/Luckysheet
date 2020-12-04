@@ -1632,10 +1632,10 @@ function luckysheet_getcelldata(txt) {
         sheetdata = luckysheetfile[index].data;
         rangetxt = val[0];
 
-        // 开放execFunctionGroupData，luckysheetfile[index].data是旧值，故取得新值用来计算
-        if (formula.execFunctionGroupData != null) {
-            sheetdata = formula.execFunctionGroupData;
-        }
+        // 取消execFunctionGroupData，改用execFunctionGlobalData
+        // if (formula.execFunctionGroupData != null) {
+        //     sheetdata = formula.execFunctionGroupData;
+        // }
     }
 
     if (rangetxt.indexOf(":") == -1) {

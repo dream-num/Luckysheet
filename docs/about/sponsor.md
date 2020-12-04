@@ -34,3 +34,4 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - debugger ¥ 20
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
+- yangxshn ¥ 10

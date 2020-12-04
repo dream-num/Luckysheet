@@ -2165,13 +2165,11 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ## 工作簿操作
 
-### create(options [,setting])
+### create(options)
 
 - **参数**：
 	
 	- {Object} [options]:表格的所有配置信息
-	- {PlainObject} [setting]: 可选参数
-		+ {Function} [success]: 表格创建成功后的回调函数
 
 - **说明**：
 	

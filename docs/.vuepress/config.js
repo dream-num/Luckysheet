@@ -62,7 +62,8 @@ module.exports = {
 						'operate',
 						'api',
 						'resource',
-						'FAQ'
+						'FAQ',
+						'contribute'
 					],
 					'/about/': [
 						'',
