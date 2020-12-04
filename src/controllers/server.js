@@ -1,6 +1,7 @@
 import pako from 'pako'
 import { showloading, hideloading } from '../global/loading';
 import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from '../global/refresh';
+import editor from '../global/editor'
 import { sheetHTML, luckyColor } from './constant';
 import sheetmanage from './sheetmanage';
 import menuButton from './menuButton';
@@ -348,7 +349,8 @@ const server = {
 	        file.data[r][c] = value;
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
-	            Store.flowdata = file.data;
+				Store.flowdata = file.data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            //如果更新的单元格有批注
 	            if(value != null && value.ps != null){
@@ -383,7 +385,8 @@ const server = {
 	        }
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
-	            Store.flowdata = file.data;
+				Store.flowdata = file.data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 				
 	            //如果更新的单元格有批注
 	            for(let r = r1; r <= r2; r++){
@@ -601,7 +604,8 @@ const server = {
 	        file["config"].borderInfo = borderInfo;
 
 	        if(index == Store.currentSheetIndex){
-	            Store.flowdata = data;
+				Store.flowdata = data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            Store.config["merge"] = mc;
 	            Store.config["borderInfo"] = borderInfo;
@@ -651,7 +655,8 @@ const server = {
 	        file["config"].borderInfo = borderInfo;
 
 	        if(index == Store.currentSheetIndex){
-	            Store.flowdata = data;
+				Store.flowdata = data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            Store.config["merge"] = mc;
 	            Store.config["borderInfo"] = borderInfo;
