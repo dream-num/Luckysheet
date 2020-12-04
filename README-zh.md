@@ -102,7 +102,7 @@ npm run dev
 ```
 ### 打包
 ```
-nnpm run build
+npm run build
 ```
 
 ## 合作项目
