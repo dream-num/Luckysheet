@@ -635,8 +635,7 @@ const server = {
 	            for(let i = 0; i < len; i++){
 	                arr.push(JSON.stringify(addData[i]));
 	            }
-
-	            eval('data.splice(' + st_i + ', 0, ' + arr.join(",") + ')');
+      				new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
 	        }
 	        else{
 	            file["column"] += len;
