@@ -38,7 +38,7 @@ import controlHistory from '../controllers/controlHistory';
 import { zoomRefreshView, zoomNumberDomBind } from '../controllers/zoom';
 import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
 import dayjs from "dayjs";
-
+import {getRangetxt } from '../methods/get';
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
 /**
@@ -1466,6 +1466,25 @@ export function getRange() {
         }
         result.push(temp)
     }
+
+    return result;
+}
+
+
+/**
+ * 返回对应当前选区的坐标字符串数组，可能存在多个选区。
+ * 每个选区可能是单个单元格(如 A1)或多个单元格组成的矩形区域(如 D9:E12)
+ * @returns {Array}
+ */
+export function getRangeAxis() {
+    let result = [];
+    let rangeArr = Store.luckysheet_select_save;
+    let sheetIndex = Store.currentSheetIndex;
+    
+    rangeArr.forEach(ele=>{
+        let axisText = getRangetxt(sheetIndex, {column:ele.column,row:ele.row});
+        result.push(axisText);
+    })
 
     return result;
 }
