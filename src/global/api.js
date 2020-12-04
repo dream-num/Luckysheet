@@ -4769,7 +4769,7 @@ export function setSheetActive(order, options = {}) {
             success();
         }
     }, 1);
-
+    server.multipleRangeShow()
     return file;
 }
 
