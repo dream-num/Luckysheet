@@ -15,7 +15,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import luckysheetPostil from '../controllers/postil';
 import dataVerificationCtrl from '../controllers/dataVerificationCtrl';
 import hyperlinkCtrl from '../controllers/hyperlinkCtrl';
-import { selectHightlightShow, selectionCopyShow } from '../controllers/select';
+import { selectHightlightShow, selectionCopyShow, collaborativeEditBox } from '../controllers/select';
 import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
@@ -378,7 +378,7 @@ function jfrefreshrange(data, range, cdformat) {
 //删除、增加行列 刷新表格
 function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen, dataVerification, hyperlink){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-
+    collaborativeEditBox();
     //merge改变对应的单元格值改变
     let mcData = [];
     for(let m in cfg["merge"]){
@@ -606,6 +606,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification, hyperlink){
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
     clearTimeout(refreshCanvasTimeOut);
+    collaborativeEditBox();
     //merge改变对应的单元格值改变
     let mcData = [];
     if(JSON.stringify(cfg["merge"]) == "{}"){
@@ -985,13 +986,13 @@ function jfrefreshgrid_rhcw(rowheight, colwidth, isRefreshCanvas=true){
 
         Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].data = Store.flowdata;
     }
-
+    
     //批注框同步
     luckysheetPostil.positionSync();
-
     //选区同步
     selectHightlightShow();
-
+    // 协同提示框同步
+    collaborativeEditBox();
     //改变单元格行高，复制虚线框同步
     if($(".luckysheet-selection-copy").is(":visible")){
         selectionCopyShow();

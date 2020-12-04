@@ -10,10 +10,11 @@ import luckysheetPostil from './postil';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
 import imageCtrl from './imageCtrl';
-import method from '../global/method';
+import json from '../global/json';
 
 const server = {
     gridKey: null,
@@ -77,7 +78,6 @@ const server = {
 	    }
 	},
     saveParam: function (type, index, value, params) {
-		
     	let _this = this;
 
 	    if(!_this.allowUpdate){
@@ -98,7 +98,6 @@ const server = {
 			return;
 		}
 
-		
 	    if (type == "rv") { //单元格批量更新
 	        d.range = params.range;
 	    }
@@ -155,10 +154,11 @@ const server = {
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
-	            console.info(locale().websocket.success);
-	            hideloading();
-	            _this.wxErrorCount = 0;
 
+	        console.info(locale().websocket.success);
+	        hideloading();
+				  _this.wxErrorCount = 0;
+				
 	            //防止websocket长时间不发送消息导致断连
 	            setInterval(function(){
 	                _this.websocket.send("rub");
@@ -168,13 +168,19 @@ const server = {
 	        //客户端接收服务端数据时触发
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
-				let data = new Function("return " + result.data )();
-				console.info(data);		
+				let data = eval('(' + result.data + ')');
+				console.info(data);
 				let type = data.type;
 				let {message,id} = data;
 				// 用户退出时，关闭协同编辑时其提示框
 				if(message === '用户退出') {
 					$("#luckysheet-multipleRange-show-" + id).hide();
+					Store.cooperativeEdit.changeCollaborationSize = Store.cooperativeEdit.changeCollaborationSize.filter(value => {
+						return value.id != id
+					})
+					Store.cooperativeEdit.checkoutData = Store.cooperativeEdit.checkoutData.filter(value => {
+						return value.id != id
+					})
 				}
 	            if(type == 1){ //send 成功或失败
 
@@ -182,38 +188,109 @@ const server = {
 	            else if(type == 2){ //更新数据
 	                let item = JSON.parse(data.data);
 					_this.wsUpdateMsg(item);
+					let chang_data = JSON.parse(data.data)
+					if(chang_data.k == 'columnlen') {
+						collaborativeEditBox(chang_data.v,null)
+					} else if(chang_data.k == 'rowlen') {
+						collaborativeEditBox(null,chang_data.v)
+					}
 	            }
 	            else if(type == 3){ //多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
 	                let id = data.id;
 	                let username = data.username;
 	                let item = JSON.parse(data.data);
-
 	                let type = item.t,
 	                    index = item.i,
 	                    value = item.v;
-
+					if(Store.cooperativeEdit.changeCollaborationSize.length === 0) {
+						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
+					}	 
+					let flag = Store.cooperativeEdit.changeCollaborationSize.some(value1 => {
+						return value1.id == id
+					})
+					if(flag) {
+						Store.cooperativeEdit.changeCollaborationSize.forEach(val => {
+							if(val.id == id) {
+								val.v = item.v[0]
+								val.i = index
+							}
+						})  
+					} else {
+						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
+					}		
 	                if(getObjType(value) != "array" && getObjType(value) !== "object"){
 	                    value = JSON.parse(value);
-	                }
-
+					}
+					let r = 0
+					let c = 0
 					if(index == Store.currentSheetIndex){//发送消息者在当前页面
 
 						if(getObjType(value) === "object" && value.op === 'enterEdit'){
-
-							let r = value.range[value.range.length - 1].row[0];
-							let c = value.range[value.range.length - 1].column[0];
-	
+							r = value.range[value.range.length - 1].row[0];
+							c = value.range[value.range.length - 1].column[0];
 							_this.multipleRangeShow(id, username, r, c, value.op);
 						
-						}else{
+						}else {
 
-							let r = value[value.length - 1].row[0];
-							let c = value[value.length - 1].column[0];
+							r = value[value.length - 1].row[0];
+							c = value[value.length - 1].column[0];
 	
 							_this.multipleRangeShow(id, username, r, c);
 						
 						}
-	                }
+						
+					} else {
+						if(getObjType(value) === "object" && value.op === 'enterEdit'){
+							r = value.range[value.range.length - 1].row[0];
+							c = value.range[value.range.length - 1].column[0];
+						}else {
+							r = value[value.length - 1].row[0];
+							c = value[value.length - 1].column[0];
+						}
+					}
+
+					if(Store.cooperativeEdit.checkoutData.length === 0) {
+						if(value.op) {
+							Store.cooperativeEdit.checkoutData.push({id,username,r,c,op:value.op,index})
+						} else {
+							Store.cooperativeEdit.checkoutData.push({id,username,r,c,index})
+						}
+					}
+					let checkoutFlag = Store.cooperativeEdit.checkoutData.some(item => {
+						return item.id == id
+					})
+					if(checkoutFlag) {
+						Store.cooperativeEdit.checkoutData.forEach(item => {
+							if(item.id == id) {
+								item.username = username
+								item.r = r
+								item.c = c
+								item.index = index
+								if (value.op === 'enterEdit') {
+									item.op = value.op
+								}
+							}
+						})
+					} else {
+						if(value.op === 'enterEdit') {
+							Store.cooperativeEdit.checkoutData.push({id,username,r,c,op:value.op,index})
+						} else {
+							Store.cooperativeEdit.checkoutData.push({id,username,r,c,index})
+						}
+					}
+
+					//其他客户端切换页面时
+					Store.cooperativeEdit.checkoutData.forEach(item => {
+						if(item.index != Store.currentSheetIndex) {
+							$("#luckysheet-multipleRange-show-" + item.id).hide();
+							item.op == ''
+						}
+					})
+
+					if($("#luckysheet-multipleRange-show-" + id)[0]) {
+						let change_bottom = $("#luckysheet-multipleRange-show-" + id)[0].offsetHeight - 1
+						$("#luckysheet-multipleRange-show-" + id + ">.username").css({"bottom":change_bottom + 'px'})
+					}
 	            }
 	            else if(type == 4){ //批量指令更新
 					// let items = JSON.parse(data.data);
@@ -286,7 +363,12 @@ const server = {
 	            }, 1);
 	        }
 	    }
-	    else if(type == "rv"){ //范围单元格数据更新
+		else if(type == "rv"){ //范围单元格数据更新
+			if(Object.keys(item.range).length > 0) {
+				Store.cooperativeEdit.merge_range = item.range
+				Store.cooperativeEdit.merge_range.v = item.v
+				collaborativeEditBox();
+			}
 	        if(file.data == null || file.data.length == 0){
 	            return;
 	        }
@@ -302,7 +384,7 @@ const server = {
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
 	            Store.flowdata = file.data;
-
+				
 	            //如果更新的单元格有批注
 	            for(let r = r1; r <= r2; r++){
 	                for(let c = c1; c <= c2; c++){
@@ -318,13 +400,13 @@ const server = {
 	            setTimeout(function () {
 	                luckysheetrefreshgrid();
 	            }, 1);
-	        }
+			}
 	    }
 	    else if(type == "cg"){ //config更新（rowhidden，rowlen，columnlen，merge，borderInfo）
 	        let k = item.k;
 
 	        if(k == "borderInfo"){
-	            file["config"]["borderInfo"] = value;
+				file["config"]["borderInfo"] = value;
 	        }
 	        else{
 	            if(!(k in file["config"])){
@@ -437,7 +519,7 @@ const server = {
 	        let op = item.op, pos = item.pos;
 
 	        if(getObjType(value) != "object"){
-				value = new Function("return "+ value)();
+	            value = eval('('+ value +')');
 	        }
 
 	        let r = value.r, c = value.c;
@@ -550,7 +632,7 @@ const server = {
 	                arr.push(JSON.stringify(addData[i]));
 	            }
 
-				new Function("return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')();
+	            eval('data.splice(' + st_i + ', 0, ' + arr.join(",") + ')');
 	        }
 	        else{
 	            file["column"] += len;
@@ -896,7 +978,6 @@ const server = {
             if(params.length==0){
                 return;
             }
-            console.log(params);
 
             params = encodeURIComponent(JSON.stringify(params));
             let compressBeginLen = params.length;
@@ -907,10 +988,10 @@ const server = {
             // }
             _this.requestLock = true;
             //console.log(params);
-            console.log("request");
+            // console.log("request");
             if(_this.updateUrl != ""){
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
-					let re = new Function("return " + data)();
+                    let re = eval('('+ data +')')
                     if(re.status){
                         $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
                         $("#luckysheet_info_detail_save").html("同步成功");
@@ -970,7 +1051,7 @@ const server = {
             if(_this.updateImageUrl != ""){
                 // $.post(_this.updateImageUrl, { compress: true, gridKey: _this.gridKey, data:data1  }, function (data) {
                 $.post(_this.updateImageUrl, { compress: false, gridKey: _this.gridKey, data:data1  }, function (data) {
-					let re = new Function("return " + data)();
+                    let re = eval('('+ data +')')
                     if(re.status){
                         imageRequestLast = dayjs();
                     }
@@ -1183,6 +1264,17 @@ const server = {
                 // });
             });
         });
+	},
+	keepHighLightBox: function() {
+        Store.cooperativeEdit.checkoutData.forEach(value => {
+            if(value.index == Store.currentSheetIndex) {
+                if(value.op === 'enterEdit') {
+                    server.multipleRangeShow(value.id, value.username, value.r, value.c, value.op);
+                } else {
+                    server.multipleRangeShow(value.id, value.username, value.r, value.c);
+                }
+            }
+        })
     }
 }
 
