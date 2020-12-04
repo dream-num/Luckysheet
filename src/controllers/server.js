@@ -550,7 +550,7 @@ const server = {
 	                arr.push(JSON.stringify(addData[i]));
 	            }
 
-				new Function("return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')();
+				new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
 	        }
 	        else{
 	            file["column"] += len;
