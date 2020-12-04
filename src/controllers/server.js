@@ -187,6 +187,12 @@ const server = {
 	            else if(type == 2){ //更新数据
 	                let item = JSON.parse(data.data);
 					_this.wsUpdateMsg(item);
+					let chang_data = JSON.parse(data.data)
+					if(chang_data.k == 'columnlen') {
+						collaborativeEditBox(chang_data.v,null)
+					} else if(chang_data.k == 'rowlen') {
+						collaborativeEditBox(null,chang_data.v)
+					}
 	            }
 	            else if(type == 3){ //多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
 	                let id = data.id;
