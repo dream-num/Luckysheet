@@ -155,7 +155,7 @@ const server = {
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
-	            console.info('WebSocket连接成功');
+	            console.info(locale().websocket.success);
 	            hideloading();
 	            _this.wxErrorCount = 0;
 
@@ -216,7 +216,10 @@ const server = {
 	                }
 	            }
 	            else if(type == 4){ //批量指令更新
-	                let items = JSON.parse(data.data);
+					// let items = JSON.parse(data.data);
+
+					// After editing by multiple people, data.data may appear as an empty string
+					let items = data.data === "" ?  data.data : JSON.parse(data.data);
 
 	                for(let i = 0; i < items.length; i++){
 	                    _this.wsUpdateMsg(item[i]);
@@ -229,22 +232,23 @@ const server = {
 	            _this.wxErrorCount++;
 
 	            if(_this.wxErrorCount > 3){
-	                showloading("WebSocket连接发生错误, 请刷新页面！");
+	                showloading(locale().websocket.refresh);
 	            }
 	            else{
-	                showloading("WebSocket连接发生错误, 请耐心等待！");
+	                showloading(locale().websocket.wait);
 	                _this.openWebSocket();
 	            }
 	        }
 
 	        //连接关闭时触发
 	        _this.websocket.onclose = function(){
-	            console.info('WebSocket连接关闭');
-	            alert("服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！");
+				console.info(locale().websocket.close);
+				
+	            alert(locale().websocket.contact);
 	        }
 	    }
 	    else{
-	        alert('当前浏览器 Not Support WebSocket');
+	        alert(locale().websocket.support);
 	    }
     },
     wsUpdateMsg: function(item) {
