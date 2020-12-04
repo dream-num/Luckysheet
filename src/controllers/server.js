@@ -967,7 +967,6 @@ const server = {
             if(params.length==0){
                 return;
             }
-            console.log(params);
 
             params = encodeURIComponent(JSON.stringify(params));
             let compressBeginLen = params.length;
@@ -978,7 +977,7 @@ const server = {
             // }
             _this.requestLock = true;
             //console.log(params);
-            console.log("request");
+            // console.log("request");
             if(_this.updateUrl != ""){
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
                     let re = eval('('+ data +')')

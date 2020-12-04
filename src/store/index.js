@@ -144,8 +144,8 @@ const Store = {
         },
         changeCollaborationSize:[], //改变行高或者列宽时，协同提示框需要跟随改变所需数据
         allDataColumnlen:[],//列宽发生过改变的列
-        checkoutData:[],//切换页所需的协同提示框数据
-        merge_range:[],//合并单元格所需数据
+        merge_range:{},//合并时单元格信息
+        checkoutData:[],//切换表格页时所需数据
     }
 
 }

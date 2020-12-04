@@ -387,8 +387,6 @@ function collaborativeEditBox() {
             }
             //合并单元格时执行
             if (Object.keys(range).length > 0 ) {
-                console.log(range);
-                
                 let flag_sure_merge = false
                 if(range.v.length > 1) {
                     flag_sure_merge = Object.keys(range.v[1][0]).length > 0
