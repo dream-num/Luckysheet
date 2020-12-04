@@ -1,11 +1,11 @@
-name: Github pages deploy
+name: Luckysheet demo github pages deploy
 
 on:
   push:
     branches:
       - master
     tags:
-      - v*
+      - 'v*'
 
 jobs:
   publish:
