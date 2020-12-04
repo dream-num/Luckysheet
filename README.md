@@ -107,7 +107,7 @@ npm run dev
 ```
 ### Package
 ```
-nnpm run build
+npm run build
 ```
 
 ## Partner project
