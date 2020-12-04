@@ -2,8 +2,6 @@ name: Luckysheet docs github pages deploy
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'doc*'
 

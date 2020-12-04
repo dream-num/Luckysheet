@@ -2,8 +2,6 @@ name: Luckysheet demo github pages deploy
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*'
 
