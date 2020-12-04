@@ -1,6 +1,11 @@
 name: Github pages deploy
 
-on: push
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
 
 jobs:
   publish:
@@ -20,7 +25,6 @@ jobs:
           npm install
           npm install gulp -g
           npm run build
-          npm run docs:build
       
       - name: Deploy LuckysheetDemo to GitHub Pages # 发布demo 到github pages
         if: success()
@@ -29,15 +33,5 @@ jobs:
           repo: mengshukeji/LuckysheetDemo
           target_branch: gh-pages
           build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-      
-      - name: Deploy LuckysheetDocs to GitHub Pages # 发布docs 到github pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          repo: mengshukeji/LuckysheetDocs
-          target_branch: gh-pages
-          build_dir: docs/.vuepress/dist
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

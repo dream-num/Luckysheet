@@ -34,6 +34,18 @@ npm version patch
 git push -u origin master
 npm publish
 
+
+# ==============================================
+
+# test feature branch
+git checkout -b fea origin/feature
+git pull
+
+## After some test, create PR merge feature to master branch
+
+git checkout master
+git branch -d fea
+
 # ===============================================
 
 # test pull request: https://docs.github.com/cn/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/checking-out-pull-requests-locally
