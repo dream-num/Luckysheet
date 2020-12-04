@@ -348,12 +348,9 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     } else {
         cellData[attr] = value;
     }
-    
+
     // refresh
-    jfrefreshgrid(targetSheetData, {
-        row: [row],
-        column: [column]
-    })
+    jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);
 
     if (success && typeof success === 'function') {
         success(cellData);
@@ -1480,7 +1477,7 @@ export function getRangeAxis() {
     let result = [];
     let rangeArr = Store.luckysheet_select_save;
     let sheetIndex = Store.currentSheetIndex;
-    
+
     rangeArr.forEach(ele=>{
         let axisText = getRangetxt(sheetIndex, {column:ele.column,row:ele.row});
         result.push(axisText);
@@ -5424,7 +5421,7 @@ export function getAllSheets() {
 
         delete item.load;
         delete item.freezen;
-        
+
     })
 
     return data;
@@ -5926,12 +5923,12 @@ export function toJson(){
  * @param {String} txt 范围字符串
  */
 export function getRangeByTxt(txt){
-    
+
     // 默认取当前第一个范围
     if(txt == null){
-        return { 
+        return {
             column:Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].column,
-            row:Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].row 
+            row:Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].row
         }
     }
 
@@ -5949,7 +5946,7 @@ export function getRangeByTxt(txt){
  * @param {Object | Array} range 范围数组
  */
 export function getTxtByRange(range=Store.luckysheet_select_save){
-    
+
     // 单个范围
     if(getObjType(range) === 'object'){
         range = [range];
