@@ -20,7 +20,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
-let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null;
+let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";;
 function showsheetconfigmenu() {
     if (!isInitialSheetConfig) {
         isInitialSheetConfig = true;
@@ -229,6 +229,18 @@ export function initialSheetBar(){
         if(Store.allowEdit===false){
             return;
         }
+
+        if(0 === $(this).text().length){
+           
+            alert(locale_sheetconfig.sheetNamecannotIsEmptyError);
+            setTimeout(()=>{
+                $(this).text(oldSheetFileName);
+                luckysheetsheetnameeditor($(this));
+                $(this).focus();
+            }, 1);
+            return;
+        }
+
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
         var reg1 = new RegExp("[\\[\\]:\\?*\/'\"]");
@@ -279,6 +291,7 @@ export function initialSheetBar(){
         let $t = $(this);
         if (kcode == keycode.ENTER) {
             let index = getSheetIndex(Store.currentSheetIndex);
+            oldSheetFileName = Store.luckysheetfile[index].name || oldSheetFileName; 
             Store.luckysheetfile[index].name = $t.text();
             $t.attr("contenteditable", "false");
         }
