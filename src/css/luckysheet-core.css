@@ -2329,8 +2329,14 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     padding-right: 10px;
     padding-left: 12px;
 }
-
-
+#luckysheet-sheet-list .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
+    padding-right: 0px;
+    max-width: 430px;
+    min-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .luckysheet-filter-menu div.luckysheet-cols-menuitem {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -2978,6 +2984,14 @@ fieldset[disabled] .btn-danger.focus {
 #luckysheet-sheet-list .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
     padding-left: 5px;
 }
+/* 
+#luckysheet-sheet-list .luckysheet-cols-menuitem .luckysheet-cols-menuitem-content {
+    max-width: 420px;
+    min-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+} */
 
 
 #luckysheet-sheet-list .icon {
