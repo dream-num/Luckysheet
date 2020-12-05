@@ -225,6 +225,39 @@ export function initialSheetBar(){
         luckysheetsheetnameeditor($(this));
     });
 
+    let compositionFlag = true;
+    $("#luckysheet-sheet-area").on("compositionstart", "span.luckysheet-sheets-item-name",  ()=> compositionFlag = false);
+    $("#luckysheet-sheet-area").on("compositionend", "span.luckysheet-sheets-item-name", ()=> compositionFlag = true);
+    $("#luckysheet-sheet-area").on("input", "span.luckysheet-sheets-item-name", function () {
+        if(Store.allowEdit===false){
+            return;
+        }
+
+        if(Store.limitSheetNameLength === false){
+            return
+        }
+        
+        let maxLength = Store.defaultSheetNameMaxLength;
+        if(maxLength  === 0){
+            return
+        }
+
+        setTimeout( ()=> {
+            if (compositionFlag) {
+               
+                if ($(this).text().length >= maxLength) {  /* 检查：值是否越界 */
+                    setTimeout(() => {
+                        $(this).text($(this).text().substring(0, maxLength));
+
+                        let range = window.getSelection();  
+                        range.selectAllChildren(this); 
+                        range.collapseToEnd();
+                    }, 0);
+                 } 
+            }
+        }, 0);
+    });
+        
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
         if(Store.allowEdit===false){
             return;
