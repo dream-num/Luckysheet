@@ -114,6 +114,9 @@ export function setCellValue(row, column, value, options = {}) {
     }
 
     let data = file.data;
+    if(isRefresh) {
+      data = $.extend(true, [], file.data);
+    }
     if(data.length == 0){
         data = sheetmanage.buildGridData(file);
     }
