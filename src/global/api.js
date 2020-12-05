@@ -361,7 +361,7 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     }
 
     // refresh
-    jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);
+    jfrefreshgrid(targetSheetData, [{ "row": [row, row], "column": [column, column] }]);
 
     if (success && typeof success === 'function') {
         success(cellData);
