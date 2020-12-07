@@ -14,6 +14,7 @@ import Store from '../store';
 import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
+import method from '../global/method';
 import imageCtrl from './imageCtrl';
 import json from '../global/json';
 

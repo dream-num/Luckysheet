@@ -71,7 +71,7 @@ function showsheetconfigmenu() {
                     redo["oldcolor"] = oldcolor;
                     redo["color"] = color;
                     
-                    Store.jfundo = [];
+                    Store.jfundo.length = 0;
                     Store.jfredo.push(redo);
                 }
             }
@@ -96,7 +96,7 @@ function showsheetconfigmenu() {
                 redo["oldcolor"] = oldcolor;
                 redo["color"] = null;
 
-                Store.jfundo = [];
+                Store.jfundo.length = 0;
                 Store.jfredo.push(redo);
             }
         });
@@ -311,7 +311,7 @@ export function initialSheetBar(){
             redo["oldtxt"] = oldtxt;
             redo["txt"] = txt;
 
-            Store.jfundo = [];
+            Store.jfundo.length = 0;
             Store.jfredo.push(redo);
         }
     });
