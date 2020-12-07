@@ -9052,6 +9052,7 @@ export default {
         bold: '粗体 (Ctrl+B)',
         italic: '斜体 (Ctrl+I)',
         strikethrough: '删除线 (Alt+Shift+5)',
+        underline: '下划线',
         textColor: '文本颜色',
         chooseColor: '颜色选择',
         resetColor: '重置颜色',
@@ -10236,6 +10237,17 @@ export default {
         menuItemAreas:"打印区域",
         menuItemRows:"打印标题行",
         menuItemColumns:"打印标题列",
+    },
+    edit:{
+        typing:"正在输入",
+    },
+    websocket:{
+        success: 'WebSocket连接成功',
+        refresh: 'WebSocket连接发生错误, 请刷新页面！',
+        wait: 'WebSocket连接发生错误, 请耐心等待！',
+        close: 'WebSocket连接关闭',
+        contact: '服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！',
+        support: '当前浏览器不支持WebSocket',
     }
 
 };

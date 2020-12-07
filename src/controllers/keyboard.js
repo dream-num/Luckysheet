@@ -696,8 +696,9 @@ export function keyboardInitial(){
                     luckysheetMoveHighlightCell2("right", "rangeOfSelect");
                 }
                 else if (String.fromCharCode(kcode).toLocaleUpperCase() == "A") {//Ctrl + A  全选
-                    $("#luckysheet-left-top").trigger("mousedown");
-                    $(document).trigger("mouseup");
+                    // $("#luckysheet-left-top").trigger("mousedown");
+                    // $(document).trigger("mouseup");
+                    $("#luckysheet-left-top").click()
                 }
 
                 event.preventDefault();
@@ -746,6 +747,10 @@ export function keyboardInitial(){
                     //Alt + Shift + 5（删除线）
                     $("#luckysheet-icon-strikethrough").click();
                 }
+                // else if (altKey && (kcode == 54 || kcode == 102)) {
+                //     //Alt + Shift + 6（删除线）
+                //     $("#luckysheet-icon-underline").click();
+                // }
 
                 event.preventDefault();
             }

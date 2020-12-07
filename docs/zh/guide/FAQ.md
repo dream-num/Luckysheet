@@ -44,7 +44,7 @@ luckysheet.transToData(celldata)
 ## **<span style="font-size:20px;">Q</span>** 远端加载数据是loadUrl还是updateUrl？
 
 **<span style="font-size:20px;">A</span>** : [loadUrl](/zh/guide/config.html#loadurl)。配置了loadUrl，Luckysheet会通过ajax请求整个表格数据，而updateUrl会作为协同编辑实时保存的接口地址。
-注意：初始化数据需要配置loadUrl和loadSheetUrl参数，而协同编辑则在配置loadUrl、loadSheetUrl、updateUrl和allowUpdate四个参数才能生效。
+注意：初始化数据需要配置loadUrl参数，而协同编辑则在配置loadUrl、updateUrl和allowUpdate四个参数才能生效。
 
 ------------
 
@@ -234,5 +234,17 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 6. `npm run dev`
 
 提示：大多数的其他npm安装问题，也可以尝试此步骤来解决。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>**怎样在vue工程里对Luckysheet进行二次开发`？
+
+**<span style="font-size:20px;">A</span>** [luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue) 案例是提供一个应用集成的方案。
+
+如果本地直接开发的话：
+1. 把Luckysheet的工程和自己的Vue工程都启动起来，比如Luckysheet的工程在 `http://localhost:3001`
+2. 在Vue工程里面通过 `http://localhost:3001` 引入Luckysheet使用
+
+这样的话，Luckysheet实时修改后，Vue工程里是可以看到更改的
 
 ------------

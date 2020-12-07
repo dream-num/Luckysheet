@@ -42,7 +42,6 @@ eg: options.data：
         "luckysheet_conditionformat_save": {},//condition format
         "frozen": {}, //freeze row and column configuration
         "chart": [], //Chart configuration
-        "allowEdit": true, //is editable
         "zoomRatio":1, // zoom ratio
         "image":[], //image
         "showGridLines": 1, //Whether to show grid lines
@@ -254,7 +253,7 @@ eg: options.data：
     ```
 
 #### config.borderInfo
-- type：Object
+- type：Array
 - default：{}
 - usage：The border information of the cell
 - example：
@@ -1277,12 +1276,6 @@ eg: options.data：
     :::
 
 ------------
-### allowEdit
-- type：Boolean
-- default：true
-- usage： is this sheet editable
-
-------------
 ### zoomRatio
 - type：Number
 - default：1
@@ -1375,7 +1368,6 @@ At this point, the lucky sheet file contains many local parameters that are not 
         "frozen": {}, //Freeze row and column configuration
         "freezen": {}, //Storage freeze row and column rendering data
         "chart": [], //Chart configuration
-        "allowEdit": true, //Editable
         "zoomRatio":1, // Zoom ratio
         "image":[], //image
         "showGridLines": 1, //Whether to show grid lines

@@ -8826,6 +8826,7 @@ export default {
         bold: 'Negrita (Ctrl+B)',
         italic : 'Itálica (Ctrl+I)',
         strikethrough: 'Tachar (Alt+Shift+5)',
+        underline: 'Guion bajo',
         textColor: 'Color texto',
         chooseColor: 'elegir color',
         resetColor: 'Reinicializar',
@@ -9978,5 +9979,16 @@ export default {
         menuItemAreas:"Imprimir áreas",
         menuItemRows:"Imprimir títulos de filas",
         menuItemColumns:"Imprimir títulos de columnas",
+    },
+    edit:{
+        typing:"mecanografía",
+    },
+    websocket:{
+        success: 'Éxito de la conexión de WebSocket',
+        refresh: 'Se produjo un error en la conexión de WebSocket, ¡actualice la página!',
+        wait: 'Se produjo un error en la conexión de WebSocket, ¡tenga paciencia!',
+        close: 'Conexión WebSocket cerrada',
+        contact: 'Ocurrió un error de comunicación con el servidor, actualice la página y vuelva a intentarlo; de lo contrario, comuníquese con el administrador.',
+        support: 'El navegador actual no es compatible con WebSocket',
     }
   };

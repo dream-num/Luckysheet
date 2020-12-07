@@ -714,6 +714,25 @@ Use note:
 
 ------------
 
+### getRangeAxis()
+ 
+- **Explanation**：
+
+	Returns an array of coordinate strings corresponding to the current selection. Multiple selections may exist. Each selection may be a single cell (such as A1) or a rectangular region of multiple cells (such as D9: E12)
+
+- **Usage**:
+
+	- The current selection is"E10:E14"、"A7:B13"、"C4"、 "A3" and "C6:D9", execute
+		
+		`luckysheet.getRangeAxis()`
+		
+		The returned result is:
+		```json
+		["E10:E14", "A7:B13", "C4", "A3", "C6:D9"]
+		```
+
+------------
+
 ### getRangeValue([setting])
  
 - **Parameter**：
@@ -2268,9 +2287,6 @@ Use note:
 ------------
 
 ### scroll([setting])
-
-[todo]
-
 
 - **参数**：
 	

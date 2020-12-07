@@ -59,7 +59,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 自定义底部sheet页 [showsheetbarConfig](#showsheetbarConfig)
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
-- 允许编辑 [allowEdit](#allowEdit)
 - 允许添加行 [enableAddRow](#enableAddRow)
 - 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
@@ -120,7 +119,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		//status为1的sheet页，重点是需要提供初始化的数据celldata
 		{
 			"name": "Cell",
-			"index": "sheet_001",
+			"index": "sheet_01",
 			"order":  0,
 			"status": 1,
 			"celldata": [{"r":0,"c":0,"v":{"v":1,"m":"1","ct":{"fa":"General","t":"n"}}}]
@@ -128,13 +127,13 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		//其他status为0的sheet页，无需提供celldata，只需要配置项即可
 		{
 			"name": "Data",
-			"index": "sheet_002",
+			"index": "sheet_02",
 			"order":  1,
 			"status": 0
 		},
 		{
 			"name": "Picture",
-			"index": "sheet_003",
+			"index": "sheet_03",
 			"order":  2,
 			"status": 0
 		}
@@ -150,7 +149,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ### loadSheetUrl
 - 类型：String
 - 默认值：""
-- 作用：配置`loadSheetUrl`接口地址，用于异步加载其它单元格数据。参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_0"]`）。
+- 作用：配置`loadSheetUrl`接口地址，用于异步加载其它单元格数据。参数为`gridKey`（表格主键） 和 `index`（sheet主键合集，格式为`["sheet_01","sheet_02","sheet_03"]`）。
 
 	源码的请求写法是：
 	```js
@@ -178,7 +177,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				"v": { "v": 1, "m": "1", "ct": { "fa": "General", "t": "n" } }
 			}
 		],
-		"sheet_0": [
+		"sheet_03": [
 			{
 				"r": 0,
 				"c": 0,
@@ -204,10 +203,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：""
 - 作用：操作表格后，实时保存数据的websocket地址，此接口也是共享编辑的接口地址。
 	
-	有个注意点，要想开启共享编辑，必须满足以下四个条件：
+	有个注意点，要想开启共享编辑，必须满足以下3个条件：
 	+ `allowUpdate`为`true`
 	+ 配置了`loadUrl`
-	+ 配置了`loadSheetUrl`
 	+ 配置了`updateUrl`
 
 	注意，发送给后端的数据默认是经过pako压缩过后的。后台拿到数据需要先解压。
@@ -288,7 +286,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
         fontSize: false, // '字号大小'
         bold: false, // '粗体 (Ctrl+B)'
         italic: false, // '斜体 (Ctrl+I)'
-        strikethrough: false, // '删除线 (Alt+Shift+5)'
+		strikethrough: false, // '删除线 (Alt+Shift+5)'
+		underline: false, // '下划线 (Alt+Shift+6)'
         textColor: false, // '文本颜色'
         fillColor: false, // '单元格颜色'
         border: false, // '边框'
@@ -434,12 +433,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				}
 			}
 		```
-
-------------
-### allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用：是否允许前台编辑
 
 ------------
 ### enableAddRow
@@ -612,7 +605,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 钩子函数统一配置在`options.hook`下，可以分别针对单元格、sheet页、表格创建配置hook。
 
-## 单元格
+> 使用案例可参考源码 [src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+
+## 单元格渲染
 
 ### cellRenderBefore
 
@@ -650,27 +645,39 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [ctx]: 当前画布的context
 
 ------------
-### cellEditBefore
-（TODO）
+### cellAllRenderBefore
+
 - 类型：Function
 - 默认值：null
-- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最先触发这个方法
+- 作用：所有单元格渲染之前执行的方法。在内部，这个方法加在了`luckysheetDrawMain`渲染表格之前。
+- 参数：
+	- {Object} [data]: 当前工作表二维数组数据
+	- {Object} [sheet]:当前sheet对象
+	- {Object} [ctx]: 当前画布的context
+------------
+### cellUpdateBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：更新这个单元格之前触发，`return false` 则不执行后续的更新
 - 参数：
 	- {Number} [r]: 单元格所在行数
 	- {Number} [c]: 单元格所在列数
-	- {Object} [v]: 单元格对象
+	- {Object | String | Number} [value]: 要修改的单元格内容
+	- {Boolean} [isRefresh]: 是否刷新整个表格
 
 ------------
-### cellEditAfter
-（TODO）
+### cellUpdated
+
 - 类型：Function
 - 默认值：null
-- 作用：双击单元格后触发，即在双击单元格编辑内容的时候，最后触发这个方法
+- 作用：更新这个单元格后触发
 - 参数：
 	- {Number} [r]: 单元格所在行数
 	- {Number} [c]: 单元格所在列数
-	- {Object} [oldV]: 修改前单元格对象
-	- {Object} [newV]: 修改后单元格对象
+	- {Object} [oldValue]: 修改前的单元格对象
+	- {Object} [newValue]: 修改后的单元格对象
+	- {Boolean} [isRefresh]: 是否刷新整个表格
 
 ------------
 ### rowTitleCellRenderBefore
@@ -789,8 +796,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
 		+ {Boolean} [functionResizeStatus]:工具栏拖动
-		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
-		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割栏拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割栏拖动
 		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
 		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
 		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
@@ -825,8 +832,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [moveState]:鼠标移动状态，可判断现在鼠标操作的对象，false和true
 		+ {Boolean} [functionResizeStatus]:工具栏拖动
-		+ {Boolean} [horizontalmoveState]:水平冻结分割烂拖动
-		+ {Boolean} [verticalmoveState]:垂直冻结分割烂拖动
+		+ {Boolean} [horizontalmoveState]:水平冻结分割栏拖动
+		+ {Boolean} [verticalmoveState]:垂直冻结分割栏拖动
 		+ {Boolean} [pivotTableMoveState]:数据透视表字段拖动
 		+ {Boolean} [sheetMoveStatus]:sheet改变你位置拖动
 		+ {Boolean} [scrollStatus]:鼠标触发了滚动条移动
@@ -841,28 +848,25 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		+ {Boolean} [chartResize]:图表改变大小
 		+ {Boolean} [rangeResize]:公式参数高亮选区的大小拖拽
 		+ {Boolean} [rangeMove]:公式参数高亮选区的位置拖拽
+		+ {Boolean} [cellRightClick]:单元格右击
+		+ {Boolean} [rowTitleRightClick]:行标题右击
+		+ {Boolean} [columnTitleRightClick]:列标题右击
+		+ {Boolean} [sheetRightClick]:底部sheet页右击
+		+ {Boolean} [hyperlinkClick]:点击超链接
 	- {Object} [ctx]: 当前画布的context
 
 ------------
 
-## 选区
+## 选区操作（包括单元格）
 
-### rangeSelectBefore
-（TODO）
-- 类型：Function
-- 默认值：null
-- 作用：框选或者设置选区前触发
-- 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+### rangeSelect
 
-------------
-### rangeSelectAfter
-（TODO）
 - 类型：Function
 - 默认值：null
 - 作用：框选或者设置选区后触发
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object} [sheet]:当前sheet对象
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 
 ------------
 ### rangeMoveBefore
@@ -890,7 +894,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区修改前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -900,7 +904,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区修改后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
     - {Object} [oldData]: 修改前选区范围所对应的数据
     - {Object} [newData]: 修改后选区范围所对应的数据
 
@@ -911,7 +915,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区复制前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -921,7 +925,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区复制后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 选区范围所对应的数据
 
 ------------
@@ -931,7 +935,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区粘贴前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 要被粘贴的选区范围所对应的数据
 
 ------------
@@ -941,7 +945,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区粘贴后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [originData]: 要被粘贴的选区范围所对应的数据
 	- {Object} [pasteData]: 要粘贴的数据
 
@@ -992,7 +996,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区清除前
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 要被清除的选区范围所对应的数据
 
 ------------
@@ -1002,7 +1006,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 默认值：null
 - 作用：选区清除后
 - 参数：
-	- {Object || Array} [range]: 选区范围，可能为多个选区
+	- {Object | Array} [range]: 选区范围，可能为多个选区
 	- {Object} [data]: 被清除的选区范围所对应的数据
 
 ------------
@@ -1145,6 +1149,35 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {String} [newZoom]: 修改后当前sheet页缩放比例
 
 ------------
+### sheetActivate
+
+- 类型：Function
+- 默认值：null
+- 作用：激活工作表前
+- 参数：
+	- {Number} [i]: sheet页的`index`
+	- {Boolean} [isPivotInitial]: 是否切换到了数据透视表页
+	- {Boolean} [isNewSheet]: 是否新建了sheet页
+
+------------
+### sheetDeactivateBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：工作表从活动状态转为非活动状态前
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
+### sheetDeactivateAfter
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：工作表从活动状态转为非活动状态后
+- 参数：
+	- {Number} [i]: sheet页的`index`
+
+------------
 
 ## 工作簿
 
@@ -1185,10 +1218,10 @@ Luckysheet开放了更细致的自定义配置选项，分别有
     
 ------------
 ### updated
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：每次操作更新后执行的方法,在画布渲染之后执行，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销重做时因为也算一次操作，当然也会触发此钩子函数。
+- 作用：协同编辑中的每次操作后执行的方法，即客户端每执行一次表格操作，Luckysheet将这次操作存到历史记录中后触发，撤销重做时因为也算一次操作，也会触发此钩子函数。
 - 参数：
 	- {Object} [operate]: 本次操作的历史记录信息，根据不同的操作，会有不同的历史记录，参考源码 [历史记录](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js)
     
@@ -1264,56 +1297,67 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 ## 批注
 
 ### commentInsertBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：插入批注之前
+- 作用：插入批注之前，`return false` 则不插入批注
 - 参数：
-	- {Object} [cell]: 要插入的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 
 ------------
 ### commentInsertAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：插入批注之后
 - 参数：
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 	- {Object} [cell]: 被插入批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，包含批注信息
     
 ------------
 ### commentDeleteBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：删除批注之前
+- 作用：删除批注之前，`return false` 则不删除批注
 - 参数：
-	- {Object} [cell]: 要删除的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {Object} [cell]: 要删除的批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，可以看到批注信息
 
 ------------
 ### commentDeleteAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：删除批注之后
 - 参数：
-	- {Object} [cell]: 被删除批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {Object} [cell]: 被删除批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`，可以看到批注已被删除
     
 ------------
 ### commentUpdateBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
-- 作用：修改批注之前
+- 作用：修改批注之前，`return false` 则不修改批注
 - 参数：
-	- {Object} [cell]: 批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
+	- {String} [value]: 新的批注内容
 
 ------------
 ### commentUpdateAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：修改批注之后
 - 参数：
+	- {Number} [r]:单元格所在行号
+	- {Number} [c]:单元格所在列号
 	- {Object} [oldCell]: 修改前批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
 	- {Object} [newCell]: 修改后批注所在的单元格信息，如：`{ r:0,c:2,v:{m:'233',v:'233'}}`
     
@@ -1378,6 +1422,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 参数：
 	- {Object} [frozen]: 冻结类型信息
     
+------------
+
+## 打印
+
+### printBefore
+（TODO）
+- 类型：Function
+- 默认值：null
+- 作用：打印前
+
 ------------
 
 ## 旧版钩子函数

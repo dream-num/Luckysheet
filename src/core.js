@@ -35,6 +35,10 @@ import method from './global/method';
 
 import * as api from './global/api';
 
+import flatpickr from 'flatpickr'
+import Mandarin from 'flatpickr/dist/l10n/zh.js'
+import { initListener } from './controllers/listener';
+
 let luckysheet = {};
 
 // mount api
@@ -47,7 +51,7 @@ luckysheet = common_extend(api, luckysheet);
 
 //创建luckysheet表格
 luckysheet.create = function (setting) {
-
+    method.destroy()
     // Store original parameters for api: toJson
     Store.toJsonOptions = {}
     for (let c in setting) {
@@ -128,6 +132,11 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
+    if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
+
+    // Register plugins
+    initPlugins(extendsetting.plugins , extendsetting.data);
+
     // Store formula information, including internationalization
     functionlist();
 
@@ -140,15 +149,14 @@ luckysheet.create = function (setting) {
     //loading
     $("#" + container).append(luckysheetlodingHTML());
 
-    let data = [];
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         // luckysheetsizeauto();
         initialWorkBook();
     }
     else {
-        $.post(loadurl, { "gridKey": server.gridKey }, function (d) {
-            let data = eval("(" + d + ")");
+        $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
+            let data = new Function("return " + d)();
             Store.luckysheetfile = data;
 
             sheetmanage.initialjfFile(menu, title);
@@ -156,7 +164,7 @@ luckysheet.create = function (setting) {
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
-            if (server.allowUpdate) {
+            if(server.allowUpdate){
                 server.openWebSocket();
             }
         });
@@ -177,6 +185,7 @@ function initialWorkBook() {
     orderByInitial();//menu bar orderby function initialization
     zoomInitial();//zoom method initialization
     printInitial();//print initialization
+    initListener();
 }
 
 //获取所有表格数据

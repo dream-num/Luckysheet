@@ -196,8 +196,8 @@ function getMeasureText(value, ctx, fontset){
         }
 
         let measureText = ctx.measureText(value), cache = {};
-        var regu = "^[ ]+$";
-        var re = new RegExp(regu);
+        // var regu = "^[ ]+$";
+        // var re = new RegExp(regu);
         // if(measureText.actualBoundingBoxRight==null || re.test(value)){
         //     cache.width = measureText.width;
         // }
@@ -235,6 +235,37 @@ function getMeasureText(value, ctx, fontset){
 
             //console.log(value, oneLineTextHeight, measureText.actualBoundingBoxDescent+measureText.actualBoundingBoxAscent,ctx.font);
         }
+
+        if(ctx.textBaseline == 'alphabetic'){
+            let descText = "gjpqy", matchText="abcdABCD";
+            let descTextMeasure = Store.measureTextCache[descText + "_" + ctx.font];
+            if(fontset!=null){
+                descTextMeasure = Store.measureTextCache[descText + "_" + fontset];
+            }
+
+            let matchTextMeasure = Store.measureTextCache[matchText + "_" + ctx.font];
+            if(fontset!=null){
+                matchTextMeasure = Store.measureTextCache[matchText + "_" + fontset];
+            }
+
+            if(descTextMeasure == null){
+                descTextMeasure = ctx.measureText(descText);
+            }
+
+            if(matchTextMeasure == null){
+                matchTextMeasure = ctx.measureText(matchText);
+            }
+
+            if(cache.actualBoundingBoxDescent<=matchTextMeasure.actualBoundingBoxDescent){
+                cache.actualBoundingBoxDescent = descTextMeasure.actualBoundingBoxDescent;
+                if(cache.actualBoundingBoxDescent==null){
+                    cache.actualBoundingBoxDescent = 0;
+                }
+            }
+
+
+        }
+
         cache.width *= Store.zoomRatio;
         cache.actualBoundingBoxDescent *= Store.zoomRatio;
         cache.actualBoundingBoxAscent *= Store.zoomRatio;

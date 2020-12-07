@@ -8826,6 +8826,7 @@ export default {
         bold: 'Bold (Ctrl+B)',
         italic : 'Italic (Ctrl+I)',
         strikethrough: 'Strikethrough (Alt+Shift+5)',
+        underline: 'Underline',
         textColor: 'Text color',
         chooseColor: 'choose color',
         resetColor: 'Reset',
@@ -9995,6 +9996,17 @@ export default {
         menuItemAreas:"Print areas",
         menuItemRows:"Print title rows",
         menuItemColumns:"Print title columns",
+    },
+    edit:{
+        typing:"typing",
+    },
+    websocket:{
+        success: 'WebSocket connection success',
+        refresh: 'An error occurred in the WebSocket connection, please refresh the page!',
+        wait: 'An error occurred in the WebSocket connection, please be patient!',
+        close: 'WebSocket connection closed',
+        contact: 'Server communication error occurred, please refresh the page and try again, if not, please contact the administrator!',
+        support: 'The current browser does not support WebSocket',
     }
   };
   

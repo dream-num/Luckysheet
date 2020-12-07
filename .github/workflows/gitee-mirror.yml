@@ -33,7 +33,7 @@ jobs:
         # 填写地址：https://github.com/ly525/luban-h5/settings/secrets
         dst_token: ${{ secrets.GITEE_TOKEN }}
         # 项目同步白名单，可以选择填写多个，以英文逗号分割
-        static_list: "Luckyexcel,Luckysheet,LuckysheetDemo,LuckyexcelDemo,LuckysheetDocs,chartMix"
+        static_list: "Luckyexcel,Luckysheet,LuckysheetDemo,LuckyexcelDemo,LuckysheetDocs,chartMix,LuckysheetServer"
         # 是否强制同步
         force_update: true
         # 账号类型：对 luban-h5 而言是 user，因为是个人项目；如果是企业项目，请填写 org，因为是组织下的项目

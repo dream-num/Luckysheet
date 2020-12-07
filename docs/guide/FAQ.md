@@ -42,7 +42,7 @@ luckysheet.transToData(celldata)
 ## **<span style="font-size:20px;">Q</span>** Is the remote loading data loadUrl or updateUrl?
 
 **<span style="font-size:20px;">A</span>**: [loadUrl](/guide/config.html#loadurl). Configure loadUrl, Luckysheet will request the entire table data through ajax, and updateUrl will be used as the interface address for collaborative editing in real-time saving.
-Note: Initial data needs to be configured with loadUrl and loadSheetUrl parameters, while for collaborative editing, the four parameters of loadUrl, loadSheetUrl, updateUrl and allowUpdate can be configured to take effect.
+Note: Initial data needs to be configured with loadUrl parameter, while for collaborative editing, the four parameters of loadUrl, updateUrl and allowUpdate can be configured to take effect.
 
 ------------
 
@@ -233,5 +233,17 @@ The second step, if it is to import the packaged code of the github repository, 
 6. `npm run dev`
 
 Tip: Most other npm installation problems can also be solved by trying above steps.
+
+------------
+
+## **<span style="font-size:20px;">Q</span>**How to carry out secondary development of Luckysheet in Vue project?
+
+**<span style="font-size:20px;">A</span>** The [luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue) case is to provide an application integration solution.
+
+If directly developed locally:
+1. Start both the Luckysheet project and your own Vue project. For example, the Luckysheet project is at http://localhost:3001
+2. Import Luckysheet to use in the Vue project through `http://localhost:3001`
+
+In this case, after Luckysheet is modified in real time, the changes can be seen in the Vue project
 
 ------------

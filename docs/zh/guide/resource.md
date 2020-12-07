@@ -8,12 +8,24 @@
 - [Luckysheet如何初始化含合并单元格的数据](https://www.cnblogs.com/DuShuSir/p/13272397.html)
 - [Luckysheet如何把表格里的数据保存到数据库](https://www.cnblogs.com/DuShuSir/p/13857874.html)
 - [本地HTML采用cdn加载方式引入Luckysheet的案例](https://www.cnblogs.com/DuShuSir/p/13859103.html)
+- [Luckysheet基础用法，使用loadUrl加载服务端数据](https://blog.csdn.net/DCDC2020/article/details/108486525)
+- [Luckysheet 导入与导出实现 - Java后台处理](https://blog.csdn.net/u014632228/article/details/109738221)
 
-## 协同编辑后台
+## 前端案例
 
 ### 社区案例
-- Java后台 [Luckysheet保存与恢复](https://gitee.com/ichiva/luckysheet-saved-in-recovery)
+- [luckysheet-vue-importAndExport](https://github.com/oy-paddy/luckysheet-vue-importAndExport/tree/master/)
 
+## 后端案例
+
+### 官方案例
+- [Java 后台 Luckysheet Server](https://github.com/mengshukeji/LuckysheetServer)
+
+### 社区案例
+- [Luckysheet保存与恢复](https://gitee.com/ichiva/luckysheet-saved-in-recovery)（Java版）
+- [基于Luckysheet实现的协同编辑在线表格](https://github.com/DilemmaVi/ecsheet)（Java版）
+- [使用.net core 3.1和Npoi 制作基于LuckSheet的基础导出](https://gitee.com/xiong-kangli/luck-sheet_.-net-core)（.NET 版本）
+- [go语言版本的协同编辑](https://github.com/fandypeng/excel2config)（Go 版本）
 
 ## 学习资料
 

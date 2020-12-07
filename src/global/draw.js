@@ -568,6 +568,9 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
     let borderOffset = {};
 
     let bodrder05 = 0.5;//Default 0.5
+
+    // 钩子函数
+    method.createHookFunction("cellAllRenderBefore",Store.flowdata,sheetFile,luckysheetTableContent);
     
     for (let r = dataset_row_st; r <= dataset_row_ed; r++) {
         let start_r;
@@ -1082,7 +1085,7 @@ let sparklinesRender = function(r, c, offsetX, offsetY, canvasid, ctx){
     let sparklines = Store.flowdata[r][c].spl;
     if(sparklines != null){
         if(typeof sparklines == "string"){
-            sparklines = eval('('+ sparklines +')');
+            sparklines = new Function("return " + sparklines)();
         }
 
         if(getObjType(sparklines) == "object"){

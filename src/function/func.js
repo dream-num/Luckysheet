@@ -1577,7 +1577,7 @@ function luckysheet_calcADPMM(fp, sp, tp){
         value = numeral(fp).subtract(tp).value();
     }
     else if(sp=="%"){
-        value = eval(parseFloat(fp) + sp+ "(" + parseFloat(tp) + ")");
+        value = new Function("return " + parseFloat(fp) + sp + "(" + parseFloat(tp) + ")" )();
     }
     else if(sp=="/"){
         value = numeral(fp).divide(tp).value();
@@ -1632,6 +1632,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = luckysheetfile[index].data;
         rangetxt = val[0];
 
+        // 取消execFunctionGroupData，改用execFunctionGlobalData
         // if (formula.execFunctionGroupData != null) {
         //     sheetdata = formula.execFunctionGroupData;
         // }

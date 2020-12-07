@@ -1,4 +1,4 @@
-const sheetChart = {
+window.sheetChart = {
 	"name": "Chart",
 	"color": "",
 	"status": 0,
@@ -2074,4 +2074,4 @@ const sheetChart = {
 	]
 }
 
-export default sheetChart
+// export default sheetChart

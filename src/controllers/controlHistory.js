@@ -24,6 +24,8 @@ import {
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { deleteChart, insertChart, renderCharts } from '../expendPlugins/chart/plugin'
+import { selectHightlightShow } from './select';
+import method from '../global/method';
 
 function formulaHistoryHanddler(ctr, type="redo"){
     if(ctr==null){
@@ -84,7 +86,6 @@ const controlHistory = {
                 "dataVerification": ctr.dataVerification,
                 "dynamicArray": ctr.dynamicArray
             }
-
             jfrefreshgrid(ctr.data, ctr.range, allParam);
             // formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
         }
@@ -449,7 +450,14 @@ const controlHistory = {
         }
         
         cleargridelement(e);
+        if (ctr.range) {
+            Store.luckysheet_select_save = ctr.range;
+            selectHightlightShow();
+        }
         Store.clearjfundo = true;
+
+        // 钩子函数
+        method.createHookFunction('updated',ctr)
     },
     undo: function () {
         if (Store.jfundo.length == 0) {
@@ -781,8 +789,13 @@ const controlHistory = {
             ctr.chart.reverse = false
             Store.chartparam.updateChart(ctr.chart)
         }
-        
+
+        if (ctr.range) {
+            Store.luckysheet_select_save = ctr.range;
+            selectHightlightShow();
+        }
         Store.clearjfundo = true;
+
     }
 };
 

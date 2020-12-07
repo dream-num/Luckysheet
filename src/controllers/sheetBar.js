@@ -199,6 +199,7 @@ export function initialSheetBar(){
             }, 200);
         }
     }).on("click", "div.luckysheet-sheets-item", function (e) {
+    
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
             return;
@@ -206,6 +207,7 @@ export function initialSheetBar(){
         
         let $t = $(this), $cur = $(e.target);
         luckysheetsheetrightclick($t, $cur, e);
+        server.keepHighLightBox()
     });
 
     let luckysheetsheetnameeditor = function ($t) {
@@ -441,6 +443,7 @@ export function initialSheetBar(){
                     sheetmanage.setSheetShow(index);
                     sheetmanage.locationSheet();
                 }
+                server.keepHighLightBox()
             });
 
             initialOpenSheet = false;
@@ -451,7 +454,9 @@ export function initialSheetBar(){
 
         let $t = $("#luckysheet-sheet-list");
 
-        mouseclickposition($t, $(this).offset().left, $(this).offset().top - 12, "leftbottom");
+        let left = $(this).offset().left - $('#' + Store.container).offset().left;
+        let bottom = $(this).height() + $('#luckysheet-sta-content').height() + 12;
+        $t.css({left: left + 'px', bottom: bottom + 'px'}).show();
         $("#luckysheet-input-box").removeAttr("style");
     });
 
