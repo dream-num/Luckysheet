@@ -57,7 +57,8 @@ export default {
     defaultColWidth:73,
     defaultRowHeight:19,
     defaultFontSize:10,
-
+    limitSheetNameLength:true,    //是否限制工作表名的长度
+    defaultSheetNameMaxLength:31,  //默认工作表名称的最大长度
     sheetFormulaBar:true, //是否显示公式栏
     showtoolbarConfig:{}, //自定义工具栏
     showsheetbarConfig:{}, //自定义底部sheet页

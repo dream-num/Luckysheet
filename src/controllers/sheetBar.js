@@ -20,7 +20,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
-let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null;
+let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";;
 function showsheetconfigmenu() {
     if (!isInitialSheetConfig) {
         isInitialSheetConfig = true;
@@ -225,10 +225,55 @@ export function initialSheetBar(){
         luckysheetsheetnameeditor($(this));
     });
 
+    let compositionFlag = true;
+    $("#luckysheet-sheet-area").on("compositionstart", "span.luckysheet-sheets-item-name",  ()=> compositionFlag = false);
+    $("#luckysheet-sheet-area").on("compositionend", "span.luckysheet-sheets-item-name", ()=> compositionFlag = true);
+    $("#luckysheet-sheet-area").on("input", "span.luckysheet-sheets-item-name", function () {
+        if(Store.allowEdit===false){
+            return;
+        }
+
+        if(Store.limitSheetNameLength === false){
+            return
+        }
+        
+        let maxLength = Store.defaultSheetNameMaxLength;
+        if(maxLength  === 0){
+            return
+        }
+
+        setTimeout( ()=> {
+            if (compositionFlag) {
+               
+                if ($(this).text().length >= maxLength) {  /* 检查：值是否越界 */
+                    setTimeout(() => {
+                        $(this).text($(this).text().substring(0, maxLength));
+
+                        let range = window.getSelection();  
+                        range.selectAllChildren(this); 
+                        range.collapseToEnd();
+                    }, 0);
+                 } 
+            }
+        }, 0);
+    });
+        
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
         if(Store.allowEdit===false){
             return;
         }
+
+        if(0 === $(this).text().length){
+           
+            alert(locale_sheetconfig.sheetNamecannotIsEmptyError);
+            setTimeout(()=>{
+                $(this).text(oldSheetFileName);
+                luckysheetsheetnameeditor($(this));
+                $(this).focus();
+            }, 1);
+            return;
+        }
+
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
         var reg1 = new RegExp("[\\[\\]:\\?*\/'\"]");
@@ -279,6 +324,7 @@ export function initialSheetBar(){
         let $t = $(this);
         if (kcode == keycode.ENTER) {
             let index = getSheetIndex(Store.currentSheetIndex);
+            oldSheetFileName = Store.luckysheetfile[index].name || oldSheetFileName; 
             Store.luckysheetfile[index].name = $t.text();
             $t.attr("contenteditable", "false");
         }
