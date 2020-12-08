@@ -9050,7 +9050,7 @@ export default {
         numberIncrease     : '新增小數位數',
         moreFormats        : '更多格式',
         font               : '字體',
-        fontSize           : '字型大小大小',
+        fontSize           : '字型大小',
         bold               : '粗體（Ctrl+B）',
         italic             : '斜體（Ctrl+I）',
         strikethrough      : '删除線（Alt+Shift+5）',
