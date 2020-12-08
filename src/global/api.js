@@ -332,7 +332,7 @@ export function setCellFormat(row, column, attr, value, options = {}) {
         success
     } = { ...options };
     let targetSheetData = $.extend(true, [], Store.luckysheetfile[order].data);
-    let cellData = targetSheetData[row][column];
+    let cellData = targetSheetData[row][column] || {};
 
     // 特殊格式
     if (attr == 'ct' && (!value || !value.hasOwnProperty('fa') || !value.hasOwnProperty('t'))) {
@@ -362,6 +362,8 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     } else {
         cellData[attr] = value;
     }
+
+    targetSheetData[row][column] = cellData;
 
     // refresh
     jfrefreshgrid(targetSheetData, [{ "row": [row, row], "column": [column, column] }]);
