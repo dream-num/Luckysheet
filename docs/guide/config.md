@@ -89,7 +89,7 @@ The following are all supported setting parameters
 ### lang
 - Type: String
 - Default: "en"
-- Usage: Internationalization settings, allowing to set the language of the workbook, supporting Chinese ("zh") and English ("en")
+- Usage: Internationalization settings, allow to set the language of the table, support simplified Chinese ("zh"), English ("en") and traditional Chinese ("zh_tw") and Spanish ("es")
 
 ------------
 ### gridKey
