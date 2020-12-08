@@ -8,13 +8,15 @@ import menuButton from './menuButton';
 import { createFilterOptions } from './filter';
 import luckysheetFreezen from './freezen';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
+import dataVerificationCtrl from './dataVerificationCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
-import imageCtrl from './imageCtrl';
 import json from '../global/json';
 
 const server = {
@@ -516,6 +518,25 @@ const server = {
 	                    luckysheetrefreshgrid();
 	                }, 1);
 	            }
+			}
+			else if(k == "images"){ //图片
+				if(index == Store.currentSheetIndex){
+					imageCtrl.images = value;
+					imageCtrl.allImagesShow();
+					imageCtrl.init();
+				}
+			}
+			else if(k == "dataVerification"){ //数据验证
+				if(index == Store.currentSheetIndex){
+					dataVerificationCtrl.dataVerification = value;
+        			dataVerificationCtrl.init();
+				}
+			}
+			else if(k == "hyperlink"){ //链接
+				if(index == Store.currentSheetIndex){
+					hyperlinkCtrl.hyperlink = value;
+        			hyperlinkCtrl.init();
+				}
 			}
 	    }
 	    else if(type == "fc"){ //函数链calc
