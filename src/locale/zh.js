@@ -9037,6 +9037,21 @@ export default {
             'type': 'rangenumber'
         }]
     },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "对以文字表示的一个公式或者表达式求值，并返回结果",
+        "a": "根据文字公式或者表达式求值。",
+        "m": [1, 1],
+        "p": [{
+            "name": "公式",
+            "example": '"5*6"',
+            "detail": "公式或表达式仅支持数字+-/*.()",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
     ],
     toolbar: {
         undo: '撤销',
