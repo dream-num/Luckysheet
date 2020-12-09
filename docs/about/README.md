@@ -9,6 +9,7 @@ Luckysheet is a project led by an individual and jointly developed by several fr
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
 
 ### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)

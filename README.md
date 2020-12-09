@@ -117,7 +117,7 @@ npm run build
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
 ## Communication
-
+- [Github Discussions](https://github.com/mengshukeji/Luckysheet/discussions)
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
 
 [Chinese community](./README-zh.md)
@@ -151,6 +151,9 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
 - yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200
 
 ## Authors and acknowledgment
 
@@ -161,6 +164,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
 
 ### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)
