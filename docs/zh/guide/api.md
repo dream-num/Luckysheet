@@ -2437,6 +2437,48 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+## 图片
+
+### insertImage(src, [setting])
+
+- **参数**：
+
+	- {String} [src]: 图片src
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Number} [rowIndex]: 要插入图片的单元格行下标；默认为当前选区聚焦单元格行下标 || 0
+		+ {Number} [colIndex]: 要插入图片的单元格列下标；默认为当前选区聚焦单元格列下标 || 0
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	在指定的工作表中指定单元格位置插入图片
+
+### deleteImage([setting])
+
+- **参数**：
+
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {String | Array} [idList]: 要删除图片的id集合，也可为字符串`"all"`，all为所有的字符串；默认为`"all"`
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	删除指定工作表中的图片
+
+### getImageOption([setting])
+
+- **参数**：
+
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	获取指定工作表的图片配置
+
 ## 工作表保护
 
 
@@ -2500,13 +2542,13 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ### changLang([lang])
 
-- **说明**：
-
-	传入目标语言，切换到对应的语言界面
-
 - **参数**：
 
 	+ {String} [lang]: 语言类型；暂支持`"zh"`、`"en"`、`"es"`；默认为`"zh"`；
+
+- **说明**：
+
+	传入目标语言，切换到对应的语言界面
 
 ### getRangeByTxt([txt])
 

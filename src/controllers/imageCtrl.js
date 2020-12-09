@@ -52,8 +52,9 @@ const imageCtrl = {
     inserImg: function(src){
         let _this = this;
         
-        let rowIndex = Store.luckysheet_select_save[0].row_focus || 0;
-        let colIndex = Store.luckysheet_select_save[0].column_focus || 0;
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
+        let rowIndex = last.row_focus || 0;
+        let colIndex = last.column_focus || 0;
         let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
         let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1];
 
