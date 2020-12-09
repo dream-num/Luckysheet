@@ -508,6 +508,21 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 ------------
 
+### limitSheetNameLength
+- Type: Boolean
+- Default: true
+- Usage：Is the length of the sheet name limited in scenarios such as sheet renaming
+
+------------
+
+### defaultSheetNameMaxLength
+- Type：Number
+- Default：31
+- Usage：Default maximum allowed sheet name length
+
+------------
+
+
 ## Hook Function (TODO)
 
 When the hook function is used in secondary development, hooks will be implanted in each common mouse or keyboard operation, and the function passed in by the developer will be called to expand the function of Luckysheet.

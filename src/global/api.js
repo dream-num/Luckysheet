@@ -113,7 +113,10 @@ export function setCellValue(row, column, value, options = {}) {
         return tooltip.info("The order parameter is invalid.", "");
     }
 
-    let data = $.extend(true, [], file.data);
+    let data = file.data;
+    if(isRefresh) {
+      data = $.extend(true, [], file.data);
+    }
     if(data.length == 0){
         data = sheetmanage.buildGridData(file);
     }
@@ -147,6 +150,10 @@ export function setCellValue(row, column, value, options = {}) {
     }
     else if(value instanceof Object){
         let curv = {};
+        let cell = data[row][column];
+        if(isRealNull(cell)){
+            cell = {};
+        }
         if(value.f!=null && value.v==null){
             curv.f = value.f;
             if(value.ct!=null){
@@ -164,6 +171,9 @@ export function setCellValue(row, column, value, options = {}) {
             if(value.v!=null){
                 curv.v = value.v;
             }
+            else {
+                curv.v = cell.v;
+            }
             if(value.m!=null){
                 curv.m = value.m;
             }
@@ -175,7 +185,11 @@ export function setCellValue(row, column, value, options = {}) {
             if(attr in formatList){
                 menuButton.updateFormatCell(data, attr, v, row, row, column, column);//change range format
             }
+            else {
+                cell[attr] = v;
+            }
         }
+        data[row][column] = cell;
     }
     else{
         if(value.toString().substr(0,1)=="=" || value.toString().substr(0,5)=="<span"){
@@ -318,7 +332,7 @@ export function setCellFormat(row, column, attr, value, options = {}) {
         success
     } = { ...options };
     let targetSheetData = $.extend(true, [], Store.luckysheetfile[order].data);
-    let cellData = targetSheetData[row][column];
+    let cellData = targetSheetData[row][column] || {};
 
     // 特殊格式
     if (attr == 'ct' && (!value || !value.hasOwnProperty('fa') || !value.hasOwnProperty('t'))) {
@@ -349,8 +363,10 @@ export function setCellFormat(row, column, attr, value, options = {}) {
         cellData[attr] = value;
     }
 
+    targetSheetData[row][column] = cellData;
+
     // refresh
-    jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);
+    jfrefreshgrid(targetSheetData, [{ "row": [row, row], "column": [column, column] }]);
 
     if (success && typeof success === 'function') {
         success(cellData);

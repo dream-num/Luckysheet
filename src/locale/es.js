@@ -9526,6 +9526,7 @@ export default {
         noHide:"No se puede ocultar, al menos conserva una etiqueta de hoja",
         chartEditNoOpt:"¡Esta operación no está permitida en el modo de edición de gráficos!",
         sheetNameSpecCharError:"El nombre no puede contener:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"El nombre de la hoja no puede estar vacío"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',

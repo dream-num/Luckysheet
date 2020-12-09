@@ -41,6 +41,7 @@ const uglifyOptions = {
 
 // babel config
 const babelConfig = {
+    compact:false,
     babelHelpers: 'bundled',
     exclude: 'node_modules/**', // Only compile our source code
     plugins: [

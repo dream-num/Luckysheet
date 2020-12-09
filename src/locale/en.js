@@ -9528,6 +9528,7 @@ export default {
         noHide:"Can't hide, at least keep one sheet tag",
         chartEditNoOpt:"This operation is not allowed in chart editing mode!",
         sheetNameSpecCharError:"The name cannot contain:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"Sheet name cannot be empty"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',

@@ -74,6 +74,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 列标题区域的高度 [columnHeaderHeight](#columnHeaderHeight)
 - 是否显示公式栏 [sheetFormulaBar](#sheetFormulaBar)
 - 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
+- 是否限制工作表名长度 [limitSheetNameLength](#limitSheetNameLength)
+- 默认允许工作表名的最大长度 [defaultSheetNameMaxLength](#defaultSheetNameMaxLength)
 
 ### container
 - 类型：String
@@ -596,6 +598,20 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Number
 - 默认值：11
 - 作用：初始化默认字体大小
+
+------------
+
+### limitSheetNameLength
+- 类型：Boolean
+- 默认值：true
+- 作用：工作表重命名等场景下是否限制工作表名称的长度
+
+------------
+
+### defaultSheetNameMaxLength
+- 类型：Number
+- 默认值：31
+- 作用：默认允许的工作表名最大长度
 
 ------------
 

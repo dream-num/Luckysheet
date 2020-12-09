@@ -26,9 +26,6 @@ function rowlenByRange(d, r1, r2, cfg) {
         }
 
         let currentRowLen = Store.defaultrowlen;
-        // if(cfg_clone["rowlen"][r] != null){
-        //     currentRowLen = cfg_clone["rowlen"][r];
-        // }
 
         if(cfg_clone["customHeight"][r]==1){
             continue;
@@ -39,7 +36,7 @@ function rowlenByRange(d, r1, r2, cfg) {
         for(let c = 0; c < d[r].length; c++){
             let cell = d[r][c];
 
-            if(cell == null){
+            if(cell == null || cell.mc != null){
                 continue;
             }
 
@@ -53,62 +50,10 @@ function rowlenByRange(d, r1, r2, cfg) {
                 });
 
                 let computeRowlen = 0;
-                // console.log("rowlen", textInfo);
+                
                 if(textInfo!=null){
                     computeRowlen = textInfo.textHeightAll+2;
                 }
-
-                // let fontset = luckysheetfontformat(cell);
-                // canvas.font = fontset;
-
-                // let value = getcellvalue(r, c, d).toString(); //单元格文本
-                // let measureText = getMeasureText(value, canvas);
-
-                // let textMetrics = measureText.width; //文本宽度
-                // let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
-                // let spaceHeight = Math.ceil(oneLineTextHeight/3);
-                // let computeRowlen; //计算行高
-                // let word_space_height = oneLineTextHeight/3;
-                // if(cell.tb == "2"){
-                //     //自动换行
-                //     let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4; //单元格宽度
-
-                //     if(textMetrics > cellWidth){
-                //         let strArr = []; //文本截断数组
-                //         strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
-
-                //         computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + spaceHeight;
-                //     }
-                //     else{
-                //         computeRowlen = oneLineTextHeight + spaceHeight;
-                //     }
-                // }
-                // else if(cell.tr != null){
-                //     //单元格有旋转标示
-                //     let tr = cell.tr;
-                                
-                //     if(tr == "0"){
-                //         //无旋转
-                //         computeRowlen = oneLineTextHeight + spaceHeight;    
-                //     }
-                //     else if(tr == "1" || tr == "2"){
-                //         //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                //         computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + spaceHeight;
-                //     }
-                //     else if(tr == "3"){
-                //         //竖排文字
-                //         computeRowlen = value.length * oneLineTextHeight + spaceHeight;
-                //     }
-                //     else if(tr == "4" || tr == "5"){
-                //         //向下90（90 旋转）----向上90（-90 旋转）
-                //         computeRowlen = textMetrics + spaceHeight;
-                //     }
-
-                //     computeRowlen = Math.round(computeRowlen);
-                // }
-                // else{
-                //     computeRowlen = oneLineTextHeight + spaceHeight;
-                // }
 
                 //比较计算高度和当前高度取最大高度
                 if(computeRowlen > currentRowLen){
@@ -118,7 +63,7 @@ function rowlenByRange(d, r1, r2, cfg) {
         }
 
         currentRowLen = currentRowLen/Store.zoomRatio;
-        console.log(currentRowLen);
+        
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
         }
