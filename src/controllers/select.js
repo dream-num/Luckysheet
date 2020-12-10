@@ -6,6 +6,7 @@ import browser from '../global/browser';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
+import method from '../global/method';
 import locale from '../locale/locale';
 
 //公式函数 选区实体框
@@ -182,6 +183,14 @@ function selectHightlightShow(isRestore = false) {
     }
 
     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].luckysheet_select_save = Store.luckysheet_select_save;
+            // Hook function, change the range selection box, selectHightlightShowillbe triggered multiple times when mousemove is moused, and thhistoricalvalue is used here to throttle
+        const luckysheet_select_save_previous = JSON.stringify(Store.luckysheet_select_save);
+
+        if(Store.luckysheet_select_save_previous == null |Store.luckysheet_select_save_previous !== luckysheet_select_save_previous){
+            method.createHookFunction('rangeSelect', Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)], Store.luckysheet_select_save);
+        }
+        
+        Store.luckysheet_select_save_previous = luckysheet_select_save_previous;
 }
 
 //选区标题栏
