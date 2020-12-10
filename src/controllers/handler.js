@@ -843,22 +843,6 @@ export default function luckysheetHandler() {
 
                 dataVerificationCtrl.selectRange[dataVerificationCtrl.selectRange.length - 1] = last;
             }
-            else if (event.ctrlKey) {
-                dataVerificationCtrl.selectRange.push({
-                    "left": col_pre,
-                    "width": col - col_pre - 1,
-                    "top": row_pre,
-                    "height": row - row_pre - 1,
-                    "left_move": col_pre,
-                    "width_move": col - col_pre - 1,
-                    "top_move": row_pre,
-                    "height_move": row - row_pre - 1,
-                    "row": [row_index, row_index_ed],
-                    "column": [col_index, col_index_ed],
-                    "row_focus": row_index,
-                    "column_focus": col_index
-                });
-            }
             else {
                 dataVerificationCtrl.selectRange = [];
                 dataVerificationCtrl.selectRange.push({
@@ -880,6 +864,9 @@ export default function luckysheetHandler() {
             selectionCopyShow(dataVerificationCtrl.selectRange);
 
             let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
+            if(formula.rangetosheet != Store.currentSheetIndex){
+                range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '!' + range;
+            }
             $("#luckysheet-dataVerificationRange-dialog input").val(range);
 
             return;
@@ -2075,6 +2062,9 @@ export default function luckysheetHandler() {
                     selectionCopyShow(dataVerificationCtrl.selectRange);
 
                     let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
+                    if(formula.rangetosheet != Store.currentSheetIndex){
+                        range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '!' + range;
+                    }
                     $("#luckysheet-dataVerificationRange-dialog input").val(range);
                 }
                 else if (formula.rangestart) {
