@@ -158,17 +158,21 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 爱乐 ¥ 100
 - 小李飞刀刀 ¥ 66
 - 张铭 ¥ 200
+- 曹治军 ¥ 1
+- *特 ¥ 10
 
 ## 贡献者和感谢
 
 ### 核心团队活跃成员
 - [@wbfsa](https://github.com/wbfsa)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 - [@jerry-f](https://github.com/jerry-f)
+- [@flowerField](https://github.com/flowerField)
 
 ### 社区伙伴
 - [@danielcai1987](https://github.com/danielcai1987)

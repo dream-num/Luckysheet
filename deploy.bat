@@ -51,11 +51,11 @@ git branch -d fea
 # test pull request: https://docs.github.com/cn/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/checking-out-pull-requests-locally
 
 # 139 is ID, dev is branch name
-git fetch origin pull/139/head:dev
-git checkout dev
+git fetch origin pull/139/head:test-139
+git checkout test-139
 # test code
-git push origin dev
-# create new PR ,merge dev to master
+git push origin test-139
+# create new PR ,merge test-139 to master
 
 # list all remote and local branchs
 git branch -a

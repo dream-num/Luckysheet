@@ -40,6 +40,7 @@ import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
 import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
+import {luckysheetupdateCell} from '../controllers/updateCell';
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
 /**
@@ -481,7 +482,53 @@ export function replace(content, replaceContent, options = {}) {
  */
 export function exitEditMode(options = {}){
     if(parseInt($("#luckysheet-input-box").css("top")) > 0){
-      formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+
+
+        if ($("#luckysheet-formula-search-c").is(":visible") && formula.searchFunctionCell != null) {
+            formula.searchFunctionEnter($("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item-active"));
+        }
+        else {
+            formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+            Store.luckysheet_select_save = [{ 
+                "row": [Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[0]], 
+                "column": [Store.luckysheetCellUpdate[1], Store.luckysheetCellUpdate[1]], 
+                "row_focus": Store.luckysheetCellUpdate[0], 
+                "column_focus": Store.luckysheetCellUpdate[1] 
+            }];
+        }
+    
+        //若有参数弹出框，隐藏
+        if($("#luckysheet-search-formula-parm").is(":visible")){
+            $("#luckysheet-search-formula-parm").hide();
+        }
+        //若有参数选取范围弹出框，隐藏
+        if($("#luckysheet-search-formula-parm-select").is(":visible")){
+            $("#luckysheet-search-formula-parm-select").hide();
+        }
+
+    }
+
+    if (options.success && typeof options.success === 'function') {
+        options.success();
+    }
+}
+
+/**
+ * 手动触发进入编辑模式
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function enterEditMode(options = {}){
+
+    if($("#luckysheet-conditionformat-dialog").is(":visible")){
+        return;
+    }
+    else if ($("#luckysheet-cell-selected").is(":visible")) {
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
+
+        let row_index = last["row_focus"], col_index = last["column_focus"];
+
+        luckysheetupdateCell(row_index, col_index, Store.flowdata);
     }
 
     if (options.success && typeof options.success === 'function') {

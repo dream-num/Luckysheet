@@ -623,8 +623,47 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 > 使用案例可参考源码 [src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
 
-## 单元格渲染
+## 单元格
 
+### cellEditBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：进入单元格编辑模式之前触发。在选中了某个单元格且在非编辑状态下，通常有以下三种常规方法触发进入编辑模式
+	   
+  - 双击单元格
+  - 敲Enter键
+  - 使用API：enterEditMode 
+
+- 参数：
+	- {Array} [range]: 当前选区范围
+
+------------
+### cellUpdateBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：更新这个单元格值之前触发，`return false` 则不执行后续的更新。在编辑状态下修改了单元格之后，退出编辑模式并进行数据更新之前触发这个钩子。
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object | String | Number} [value]: 要修改的单元格内容
+	- {Boolean} [isRefresh]: 是否刷新整个表格
+
+------------
+### cellUpdated
+
+- 类型：Function
+- 默认值：null
+- 作用：更新这个单元格后触发
+- 参数：
+	- {Number} [r]: 单元格所在行数
+	- {Number} [c]: 单元格所在列数
+	- {Object} [oldValue]: 修改前的单元格对象
+	- {Object} [newValue]: 修改后的单元格对象
+	- {Boolean} [isRefresh]: 是否刷新整个表格
+
+------------
 ### cellRenderBefore
 
 - 类型：Function
@@ -670,30 +709,6 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [data]: 当前工作表二维数组数据
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [ctx]: 当前画布的context
-------------
-### cellUpdateBefore
-
-- 类型：Function
-- 默认值：null
-- 作用：更新这个单元格之前触发，`return false` 则不执行后续的更新
-- 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object | String | Number} [value]: 要修改的单元格内容
-	- {Boolean} [isRefresh]: 是否刷新整个表格
-
-------------
-### cellUpdated
-
-- 类型：Function
-- 默认值：null
-- 作用：更新这个单元格后触发
-- 参数：
-	- {Number} [r]: 单元格所在行数
-	- {Number} [c]: 单元格所在列数
-	- {Object} [oldValue]: 修改前的单元格对象
-	- {Object} [newValue]: 修改后的单元格对象
-	- {Boolean} [isRefresh]: 是否刷新整个表格
 
 ------------
 ### rowTitleCellRenderBefore

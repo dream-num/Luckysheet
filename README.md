@@ -154,17 +154,21 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 爱乐 ¥ 100
 - 小李飞刀刀 ¥ 66
 - 张铭 ¥ 200
+- 曹治军 ¥ 1
+- *特 ¥ 10
 
 ## Authors and acknowledgment
 
 ### Active Core Team Members
 - [@wbfsa](https://github.com/wbfsa)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 - [@jerry-f](https://github.com/jerry-f)
+- [@flowerField](https://github.com/flowerField)
 
 ### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)
