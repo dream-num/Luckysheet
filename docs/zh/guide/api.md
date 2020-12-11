@@ -2550,6 +2550,12 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	传入目标语言，切换到对应的语言界面
 
+### closeWebsocket()
+
+- **说明**：
+
+	关闭websocket连接
+
 ### getRangeByTxt([txt])
 
 - **说明**：

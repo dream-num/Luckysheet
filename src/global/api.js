@@ -6238,6 +6238,18 @@ export function changLang(lang = 'zh'){
 
 
 /**
+ * 关闭websocket连接 
+ */
+export function closeWebsocket(){
+    if(server.websocket == null){
+        return;
+    }
+
+    server.websocket.close();
+}
+
+
+/**
  * 根据范围字符串转换为range数组
  * @param {String} txt 范围字符串
  */
