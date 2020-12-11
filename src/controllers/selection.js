@@ -510,20 +510,29 @@ const selection = {
             cpdata += "</tr>";
         }
         cpdata = '<table data-type="luckysheet_copy_action_table">' + colgroup + cpdata + '</table>';
-
+        
         Store.iscopyself = true;
 
         if (!clipboardData) {
-            let textarea = $("#luckysheet-copy-content");
-            textarea.html(cpdata);
-            textarea.focus();
-            textarea.select();
-            document.execCommand("selectAll");
-            document.execCommand("Copy");
+            // let textarea = $("#luckysheet-copy-content");
+            // textarea.html(cpdata);
+            // textarea.focus();
+            // textarea.select();
+            // document.execCommand("selectAll");
+            // document.execCommand("Copy");
+
             // 等50毫秒，keyPress事件发生了再去处理数据
-            setTimeout(function () { 
-                $("#luckysheet-copy-content").blur(); 
-            }, 10);
+            // setTimeout(function () { 
+            //     $("#luckysheet-copy-content").blur(); 
+            // }, 10);
+
+            var oInput = document.createElement('input');
+            oInput.value = cpdata;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy");
+            oInput.style.display='none';
+            document.body.removeChild(oInput);
         }
         else {
             clipboardData.setData('Text', cpdata);
