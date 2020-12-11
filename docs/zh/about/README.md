@@ -9,6 +9,7 @@ Luckysheet是由个人主导、几个志同道合的小伙伴一同开发的项�
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
 
 ## 社区伙伴
 - [@danielcai1987](https://github.com/danielcai1987)

@@ -27546,6 +27546,43 @@ const functionImplementation = {
             return [formula.error.v, err];
         }
     },
+    "EVALUATE": function() {
+        //必要参数个数错误检测
+        if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
+            return formula.error.na;
+        }
+
+        //参数类型错误检测
+        for (var i = 0; i < arguments.length; i++) {
+            var p = formula.errorParamCheck(this.p, arguments[i], i);
+
+            if (!p[0]) {
+                return formula.error.v;
+            }
+        }
+
+        try {
+            //公式文本
+            var strtext = func_methods.getFirstValue(arguments[0]).toString();
+            if(valueIsError(strtext)){
+                return strtext;
+            }
+
+            //if (!window.luckysheet_function.ISIDCARD.f(UUserCard)) {
+            //    return formula.error.v;
+            //}
+            //匹配简单公式，只能包含  空格 数字-+*/.()
+            var formulastr = /[ \d\+\*\-\/\(\)\.]+/;
+            var strtext2=strtext.match(formulastr)[0];
+            return eval(strtext2);
+        }
+        catch (e) {
+            var err = e;
+            //计算错误检测
+            err = formula.errorInfo(err);
+            return [formula.error.v, err];
+        }
+    },
 };
 
 export default functionImplementation;

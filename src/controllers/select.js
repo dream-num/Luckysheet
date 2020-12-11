@@ -422,11 +422,11 @@ function collaborativeEditBox() {
                     }
                 } else {
                     // 合并取消变成多个单元格时执行
-                    change_width = all_width[count_col[0]] - all_width[count_col[0] - 1] -1 
+                    change_width = all_width[count_col[0]] - all_width[count_col[0] - 1] - 1
                     if(count_col[0] === 0) {
                         change_width = all_width[count_col[0]] - 1
                     }
-                    change_height = all_height[count_row[0]] - all_height[count_row[0] - 1] -1 
+                    change_height = all_height[count_row[0]] - all_height[count_row[0] - 1] - 1
                     if(count_row[0] === 0) {
                         change_height = all_height[count_row[0]] - 1
                     }
@@ -458,7 +458,7 @@ function selectionCopyShow(range) {
 
             let copyDomHtml = '<div class="luckysheet-selection-copy" style="display: block; left: ' + col_pre + 'px; width: ' + (col - col_pre - 1) + 'px; top: ' + row_pre + 'px; height: ' + (row - row_pre - 1) + 'px;">' +
                 '<div class="luckysheet-selection-copy-top luckysheet-copy"></div>' +
-                '<div class="luckysheet-selection-copy-right luckysheet-copy"d></iv>' +
+                '<div class="luckysheet-selection-copy-right luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-bottom luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-left luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-hc"></div>' +

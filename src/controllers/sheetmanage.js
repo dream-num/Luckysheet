@@ -960,6 +960,7 @@ const sheetmanage = {
         luckysheetPostil.buildAllPs(Store.flowdata);
 
         //图片
+        imageCtrl.currentImgId = null;
         imageCtrl.images = file.images;
         imageCtrl.allImagesShow();
         imageCtrl.init();

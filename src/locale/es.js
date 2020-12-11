@@ -8811,7 +8811,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"5*6"',
+            "detail": "Formula or expression only supports numbers+-/*.()",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Deshacer',
         redo: 'Rehacer',
@@ -9510,6 +9526,7 @@ export default {
         noHide:"No se puede ocultar, al menos conserva una etiqueta de hoja",
         chartEditNoOpt:"¡Esta operación no está permitida en el modo de edición de gráficos!",
         sheetNameSpecCharError:"El nombre no puede contener:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"El nombre de la hoja no puede estar vacío"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',

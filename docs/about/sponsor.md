@@ -35,3 +35,6 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
 - yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200

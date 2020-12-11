@@ -113,6 +113,7 @@ npm run build
 
 ## 交流
 
+- [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
 
   <img src="/docs/.vuepress/public/img/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
@@ -154,6 +155,9 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
 - yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200
 
 ## 贡献者和感谢
 
@@ -164,6 +168,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
 
 ### 社区伙伴
 - [@danielcai1987](https://github.com/danielcai1987)

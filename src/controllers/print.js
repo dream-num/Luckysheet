@@ -2,6 +2,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {zoomChange} from './zoom';
 import sheetmanage from './sheetmanage';
 import server from './server';
+import {rowLocationByIndex, colLocationByIndex,mouseposition,rowLocation,colLocation} from '../global/location';
 import Store from '../store';
 
 let ExcelPlaceholder = {
@@ -39,7 +40,7 @@ export function viewChange(curType, preType){
     }
 
     let defaultZoom = 1, type="zoomScaleNormal";
-
+    printLineAndNumberDelete(currentSheet);
     if(curType=="viewNormal"){
         type = "viewNormalZoomScale";
     }
@@ -49,7 +50,10 @@ export function viewChange(curType, preType){
     else if(curType=="viewPage"){
         type = "viewPageZoomScale";
         defaultZoom = 0.6;
+        printLineAndNumberCreate(currentSheet);
     }
+
+    
 
     let curZoom = currentSheet.config.sheetViewZoom[type];
     if(curZoom==null){
@@ -74,6 +78,15 @@ export function viewChange(curType, preType){
     Store.currentSheetView = curType;
 
     zoomChange(curZoom);
+}
+
+
+function printLineAndNumberDelete(sheet){
+
+}
+
+function printLineAndNumberCreate(sheet){
+    
 }
 
 function switchViewBtn($t){

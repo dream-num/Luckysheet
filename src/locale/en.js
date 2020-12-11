@@ -8811,7 +8811,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"5*6"',
+            "detail": "Formula or expression only supports numbers+-/*.()",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Undo',
         redo: 'Redo',
@@ -9512,6 +9528,7 @@ export default {
         noHide:"Can't hide, at least keep one sheet tag",
         chartEditNoOpt:"This operation is not allowed in chart editing mode!",
         sheetNameSpecCharError:"The name cannot contain:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"Sheet name cannot be empty"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',

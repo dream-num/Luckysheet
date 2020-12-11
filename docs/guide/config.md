@@ -89,7 +89,7 @@ The following are all supported setting parameters
 ### lang
 - Type: String
 - Default: "en"
-- Usage: Internationalization settings, allowing to set the language of the workbook, supporting Chinese ("zh") and English ("en")
+- Usage: Internationalization settings, allow to set the language of the table, support simplified Chinese ("zh"), English ("en") and traditional Chinese ("zh_tw") and Spanish ("es")
 
 ------------
 ### gridKey
@@ -507,6 +507,21 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 - Usage：Initialize the default font size
 
 ------------
+
+### limitSheetNameLength
+- Type: Boolean
+- Default: true
+- Usage：Is the length of the sheet name limited in scenarios such as sheet renaming
+
+------------
+
+### defaultSheetNameMaxLength
+- Type：Number
+- Default：31
+- Usage：Default maximum allowed sheet name length
+
+------------
+
 
 ## Hook Function (TODO)
 

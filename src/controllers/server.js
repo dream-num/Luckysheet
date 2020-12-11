@@ -8,13 +8,15 @@ import menuButton from './menuButton';
 import { createFilterOptions } from './filter';
 import luckysheetFreezen from './freezen';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
+import dataVerificationCtrl from './dataVerificationCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
-import imageCtrl from './imageCtrl';
 import json from '../global/json';
 
 const server = {
@@ -169,7 +171,7 @@ const server = {
 	        //客户端接收服务端数据时触发
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
-				let data = eval('(' + result.data + ')');
+				let data = new Function("return " + result.data)();
 				console.info(data);
 				let type = data.type;
 				let {message,id} = data;
@@ -517,12 +519,31 @@ const server = {
 	                }, 1);
 	            }
 			}
+			else if(k == "images"){ //图片
+				if(index == Store.currentSheetIndex){
+					imageCtrl.images = value;
+					imageCtrl.allImagesShow();
+					imageCtrl.init();
+				}
+			}
+			else if(k == "dataVerification"){ //数据验证
+				if(index == Store.currentSheetIndex){
+					dataVerificationCtrl.dataVerification = value;
+        			dataVerificationCtrl.init();
+				}
+			}
+			else if(k == "hyperlink"){ //链接
+				if(index == Store.currentSheetIndex){
+					hyperlinkCtrl.hyperlink = value;
+        			hyperlinkCtrl.init();
+				}
+			}
 	    }
 	    else if(type == "fc"){ //函数链calc
 	        let op = item.op, pos = item.pos;
 
 	        if(getObjType(value) != "object"){
-	            value = eval('('+ value +')');
+				value = new Function("return " + value)();
 	        }
 
 	        let r = value.r, c = value.c;
@@ -995,7 +1016,7 @@ const server = {
             // console.log("request");
             if(_this.updateUrl != ""){
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
                         $("#luckysheet_info_detail_save").html("同步成功");
@@ -1055,7 +1076,7 @@ const server = {
             if(_this.updateImageUrl != ""){
                 // $.post(_this.updateImageUrl, { compress: true, gridKey: _this.gridKey, data:data1  }, function (data) {
                 $.post(_this.updateImageUrl, { compress: false, gridKey: _this.gridKey, data:data1  }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         imageRequestLast = dayjs();
                     }
