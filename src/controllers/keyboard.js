@@ -815,7 +815,7 @@ export function keyboardInitial(){
                 event.preventDefault();
             }
             else if (kcode == keycode.UP) {
-                if (parseInt($inputbox.css("top")) > 0 || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
+                if (parseInt($inputbox.css("top")) > 0 || Store.luckysheet_cell_selected_move || Store.luckysheet_cell_selected_extend || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
                     return;
                 }
 
@@ -823,7 +823,7 @@ export function keyboardInitial(){
                 event.preventDefault();
             }
             else if (kcode == keycode.DOWN) {
-                if (parseInt($inputbox.css("top")) > 0 || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
+                if (parseInt($inputbox.css("top")) > 0 || Store.luckysheet_cell_selected_move || Store.luckysheet_cell_selected_extend || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
                     return;
                 }
 
@@ -831,7 +831,7 @@ export function keyboardInitial(){
                 event.preventDefault();
             }
             else if (kcode == keycode.LEFT) {
-                if (parseInt($inputbox.css("top")) > 0 || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
+                if (parseInt($inputbox.css("top")) > 0 || Store.luckysheet_cell_selected_move || Store.luckysheet_cell_selected_extend || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
                     return;
                 }
 
@@ -839,7 +839,7 @@ export function keyboardInitial(){
                 event.preventDefault();
             }
             else if (kcode == keycode.RIGHT) {
-                if (parseInt($inputbox.css("top")) > 0 || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
+                if (parseInt($inputbox.css("top")) > 0 || Store.luckysheet_cell_selected_move || Store.luckysheet_cell_selected_extend || $(event.target).hasClass("formulaInputFocus") || $("#luckysheet-singleRange-dialog").is(":visible") || $("#luckysheet-multiRange-dialog").is(":visible")) {
                     return;
                 }
 
