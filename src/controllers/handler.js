@@ -5211,7 +5211,7 @@ export default function luckysheetHandler() {
                 clipboardData = e.originalEvent.clipboardData;
             }
 
-            let txtdata = clipboardData.getData("text/html");
+            let txtdata = clipboardData.getData("text/html") || clipboardData.getData("text/plain");
 
             //如果标示是qksheet复制的内容，判断剪贴板内容是否是当前页面复制的内容
             let isEqual = true;
