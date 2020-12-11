@@ -157,10 +157,9 @@ const server = {
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
-
-	        console.info(locale().websocket.success);
-	        hideloading();
-				  _this.wxErrorCount = 0;
+	        	console.info(locale().websocket.success);
+	        	hideloading();
+				_this.wxErrorCount = 0;
 				
 	            //防止websocket长时间不发送消息导致断连
 	            setInterval(function(){

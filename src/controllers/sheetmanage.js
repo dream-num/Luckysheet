@@ -274,21 +274,38 @@ const sheetmanage = {
     },
     setSheetHide: function(index) {
         let _this = this;
-
-        Store.luckysheetfile[_this.getSheetIndex(index)].hide = 1;
+        let currentIdx = _this.getSheetIndex(index);
+        Store.luckysheetfile[currentIdx].hide = 1;
         
         let luckysheetcurrentSheetitem = $("#luckysheet-sheets-item" + index);
         luckysheetcurrentSheetitem.hide();
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
         
-        let indicator = luckysheetcurrentSheetitem.nextAll(":visible");
-        if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
-            indicator = indicator.eq(0).data("index");
+        let indicator;
+        if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+            indicator = luckysheetcurrentSheetitem.nextAll(":visible");
+            if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
+                indicator = indicator.eq(0).data("index");
+            }
+            else {
+                indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
+            }
+        }else{
+            let  nextActiveIdx , showSheetIdxs = [];
+            Store.luckysheetfile.forEach((ele,index)=>{
+                if(1 !== ele.hide) showSheetIdxs.push(index);
+            });
+            let len = showSheetIdxs.length;
+            if(1 === len){
+                nextActiveIdx = showSheetIdxs[0];
+            }else{
+                nextActiveIdx = showSheetIdxs[len-1] > currentIdx ? showSheetIdxs.find(e => e>currentIdx ) : showSheetIdxs[len-1];
+            }
+
+            indicator = Store.luckysheetfile[nextActiveIdx].index;
         }
-        else {
-            indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
-        }
+        
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         
         _this.changeSheetExec(indicator);
