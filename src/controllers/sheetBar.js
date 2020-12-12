@@ -112,7 +112,8 @@ function showsheetconfigmenu() {
 
     // 如果全部按钮设置了隐藏，则不显示
     const config = luckysheetConfigsetting.sheetRightClickConfig;
-    if(!config.delete && !config.copy && !config.rename && !config.color && !config.hide && !config.move){
+    // if(!config.delete && !config.copy && !config.rename && !config.color && !config.hide && !config.move){
+    if(Object.values(config).every(ele=> !ele)){
         return;
     }
 

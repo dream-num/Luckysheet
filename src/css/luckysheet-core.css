@@ -1109,6 +1109,13 @@ div.luckysheet-sheets-m:hover {
     display: inline-block;
 }
 
+.luckysheet-sheet-container-menu-hide .luckysheet-sheets-item{
+    padding-right: 5px !important;
+}
+
+.luckysheet-sheet-container-menu-hide .luckysheet-sheets-item-menu{
+    display: none !important;
+}
 
 .luckysheet-sheet-area div.luckysheet-sheets-item {
     padding: 2px 6px;
