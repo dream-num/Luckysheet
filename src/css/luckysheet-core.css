@@ -106,12 +106,19 @@
 }
 
 .luckysheet_info_detail_user {
-    right: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    position: absolute;
+	/* right: 20px; */
+	font-size: 12px;
+	cursor: pointer;
+	margin-left: 10px;
+	/* position: absolute; */
 }
-
+#luckysheet_info_detail_user_img {
+    vertical-align: middle;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .luckysheet_info_detail_save {
     color: #828282;
     font-size: 12px;

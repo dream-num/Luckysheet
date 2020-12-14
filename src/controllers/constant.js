@@ -1,7 +1,7 @@
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-
+import config from '../config'
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();
@@ -21,7 +21,10 @@ const gridHTML = function(){
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
                             <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
-                            <div class="luckysheet_info_detail_user"> \${functionButton} <span id="luckysheet_info_detail_user"></span> </div> 
+                            <div class="luckysheet_info_detail_user" style="display:${config.userInfo.imgurl.length > 0 ? 'block' : 'none'};"> \${functionButton} 
+                                <img src="${config.userInfo.imgurl}" id="luckysheet_info_detail_user_img">
+                                <span id="luckysheet_info_detail_user">${config.userInfo.username}</span> 
+                            </div>
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
                         <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 
