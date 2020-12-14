@@ -4519,7 +4519,7 @@ export function setSheetAdd(options = {}) {
 
     let index = sheetmanage.generateRandomSheetIndex();
     // calcChain公式链里的index也要跟着变化
-    if (sheetObject.calcChain.length > 0) {
+    if (sheetObject.calcChain && sheetObject.calcChain.length > 0) {
         sheetObject.calcChain.forEach((item) => {
             item.index = index
         })
