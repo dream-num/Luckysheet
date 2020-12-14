@@ -9038,6 +9038,20 @@ export default {
             'repeat' : 'n',
             'type'   : 'rangenumber'
         }]
+    },{
+        'n': 'EVALUATE',
+        't': '3',
+        'd': '對以文字表示的公式或者表達式求值，並返回結果。',
+        'a': '根據文字公式或者表達式求值。',
+        'm': [1, 1],
+        "p": [{
+            "name": "公式",
+            "example": '"A1+5*2^2"',
+            "detail": "公式或表達式",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
     },
     ],
     toolbar: {

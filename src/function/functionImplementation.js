@@ -27562,19 +27562,22 @@ const functionImplementation = {
         }
 
         try {
+            var cell_r = window.luckysheetCurrentRow;
+            var cell_c = window.luckysheetCurrentColumn;
+            var sheetindex_now = window.luckysheetCurrentIndex;
             //公式文本
             var strtext = func_methods.getFirstValue(arguments[0]).toString();
             if(valueIsError(strtext)){
                 return strtext;
             }
-
-            //if (!window.luckysheet_function.ISIDCARD.f(UUserCard)) {
-            //    return formula.error.v;
-            //}
-            //匹配简单公式，只能包含  空格 数字-+*/.()
-            var formulastr = /[ \d\+\*\-\/\(\)\.]+/;
-            var strtext2=strtext.match(formulastr)[0];
-            return eval(strtext2);
+            //在文本公式前面添加=
+            if(strtext.trim().indexOf('=')!=0)
+            {
+                strtext ='='+strtext;
+            }
+            //console.log(strtext);
+            var result_this = formula.execstringformula(strtext,cell_r,cell_c,sheetindex_now);
+            return result_this[1];
         }
         catch (e) {
             var err = e;
