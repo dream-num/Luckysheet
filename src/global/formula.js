@@ -5758,6 +5758,11 @@ const luckysheetformula = {
             return false;
         }
     },
+    //供function/functionImplementation.js的EVALUATE函数调用。
+    execstringformula: function (txt, r, c, index) {
+        let _this = this;
+        return this.execfunction(txt, r, c, index);
+    },
     functionResizeData: {},
     functionResizeStatus: false,
     functionResizeTimeout: null,

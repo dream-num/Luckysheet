@@ -8820,8 +8820,8 @@ export default {
         "m": [1, 1],
         "p": [{
             "name": "expression",
-            "example": '"5*6"',
-            "detail": "Formula or expression only supports numbers+-/*.()",
+            "example": '"A1+5*2^2"',
+            "detail": "Formula or expression",
             "require": "m",
             "repeat": "n",
             "type": "rangeall"
