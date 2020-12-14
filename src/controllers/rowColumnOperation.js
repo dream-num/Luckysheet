@@ -1919,7 +1919,7 @@ export function rowColumnOperationInitial(){
 
     //删除单元格（左移、上移）
     $("#luckysheet-delCellsMoveLeft").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
@@ -1942,7 +1942,7 @@ export function rowColumnOperationInitial(){
         luckysheetDeleteCell('moveLeft', str, edr, stc, edc);
     });
     $("#luckysheet-delCellsMoveUp").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
