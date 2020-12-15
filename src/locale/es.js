@@ -9589,6 +9589,8 @@ export default {
         ruleTypeItem4: 'Aplicar formato solo a los valores superiores o inferiores al promedio',
         ruleTypeItem4_title: 'Es un valor que cumple las siguientes condiciones',
         ruleTypeItem5: 'Aplicar formato solo a valores únicos o repetidos',
+        ruleTypeItem6: 'Use fórmulas para determinar qué celdas formatear',
+        formula: 'fórmula',
         textColor: 'Color Texto',
         cellColor: 'Color Celda',
         confirm: 'Confirma',

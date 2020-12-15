@@ -43,6 +43,10 @@ const conditionformat = {
                         <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem5}</span>
                     </div>
+                    <div class="ruleTypeItem">
+                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span>${conditionformat_Text.ruleTypeItem6}</span>
+                    </div>
                 </div>`;
     },
     textCellColorHtml: function(){
@@ -510,6 +514,19 @@ const conditionformat = {
                     conditionName = "duplicateValue";
                     conditionValue.push(type1);
                 }
+                else if(index == 5){ //公式
+                    conditionName = "formula";
+
+                    //条件值
+                    let v = $("#luckysheet-newConditionRule-dialog #formulaConditionVal input").val().trim(); 
+
+                    if(v == ""){
+                        _this.infoDialog("Condition value cannot be empty!", "");
+                        return;
+                    }
+
+                    conditionValue.push(v);
+                }
 
                 //格式颜色
                 let textcolor;
@@ -882,6 +899,19 @@ const conditionformat = {
                     conditionName = "duplicateValue";
                     conditionValue.push(type1);
                 }
+                else if(index == 5){ //公式
+                    conditionName = "formula";
+
+                    //条件值
+                    let v = $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val().trim(); 
+                    console.log(v)
+                    if(v == ""){
+                        _this.infoDialog("Condition value cannot be empty!", "");
+                        return;
+                    }
+
+                    conditionValue.push(v);
+                }
 
                 //格式颜色
                 let textcolor;
@@ -1232,8 +1262,11 @@ const conditionformat = {
             $("#" + id).hide();
             //入口
             let source;
+            
             if(id == "luckysheet-conditionformat-dialog"){
-                if($(this).siblings("input").attr("id") == "conditionVal"){
+                let $id = $(this).siblings("input").attr("id");
+                
+                if($id == "conditionVal"){
                     source = "0_1";
                 }
                 else{
@@ -1241,7 +1274,12 @@ const conditionformat = {
                 }
             }
             else if(id == "luckysheet-newConditionRule-dialog"){
-                if($(this).parents(".range").attr("id") == "conditionVal"){
+                let $id = $(this).parents(".range").attr("id");
+
+                if($id == "formulaConditionVal"){
+                    source = "1_0";
+                }
+                else if($id == "conditionVal"){
                     source = "1_1";
                 }
                 else{
@@ -1249,7 +1287,12 @@ const conditionformat = {
                 }
             }
             else if(id == "luckysheet-editorConditionRule-dialog"){
-                if($(this).parents(".range").attr("id") == "conditionVal"){
+                let $id = $(this).parents(".range").attr("id");
+
+                if($id == "formulaConditionVal"){
+                    source = "2_0";
+                }
+                else if($id == "conditionVal"){
                     source = "2_1";
                 }
                 else{
@@ -1277,6 +1320,10 @@ const conditionformat = {
                 $("#luckysheet-conditionformat-dialog").show();
                 $("#luckysheet-conditionformat-dialog #conditionVal2").val(v);
             }
+            else if(source == "1_0"){
+                $("#luckysheet-newConditionRule-dialog").show();
+                $("#luckysheet-newConditionRule-dialog #formulaConditionVal input").val(v);
+            }
             else if(source == "1_1"){
                 $("#luckysheet-newConditionRule-dialog").show();
                 $("#luckysheet-newConditionRule-dialog #conditionVal input").val(v);
@@ -1284,6 +1331,10 @@ const conditionformat = {
             else if(source == "1_2"){
                 $("#luckysheet-newConditionRule-dialog").show();
                 $("#luckysheet-newConditionRule-dialog #conditionVal2 input").val(v);
+            }
+            else if(source == "2_0"){
+                $("#luckysheet-editorConditionRule-dialog").show();
+                $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val(v);
             }
             else if(source == "2_1"){
                 $("#luckysheet-editorConditionRule-dialog").show();
@@ -1305,10 +1356,10 @@ const conditionformat = {
             if(source == "0_1" || source == "0_2"){
                 $("#luckysheet-conditionformat-dialog").show();
             }
-            else if(source == "1_1" || source == "1_2"){
+            else if(source == "1_0" || source == "1_1" || source == "1_2"){
                 $("#luckysheet-newConditionRule-dialog").show();
             }
-            else if(source == "2_1" || source == "2_2"){
+            else if(source == "2_0" || source == "2_1" || source == "2_2"){
                 $("#luckysheet-editorConditionRule-dialog").show();
             }
 
@@ -1909,6 +1960,13 @@ const conditionformat = {
         else if(conditionName == "SubAverage"){
             return conditionformat_Text.belowAverage;
         }
+        else if(conditionName == "formula"){
+            if(v.slice(0, 1) != '='){
+                v = '=' + v;
+            }
+
+            return conditionformat_Text.formula + ': ' + v;
+        }
     },
     newConditionRuleDialog: function(source){
         let _this = this;
@@ -2010,6 +2068,9 @@ const conditionformat = {
             else if(conditionName == "duplicateValue"){
                 index = 4;
                 type1 = rule["conditionValue"];
+            }
+            else if(conditionName == "formula"){
+                index = 5;
             }
         }
 
@@ -2172,6 +2233,12 @@ const conditionformat = {
 
                 if(conditionName == "top10%" || conditionName == "last10%"){
                     $("#luckysheet-editorConditionRule-dialog #isPercent").attr("checked", "checked");
+                }
+            }
+            else{
+                if(conditionName == "formula"){
+                    let val1 = rule.conditionValue[0];
+                    $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val(val1);
                 }
             }
 
@@ -2366,6 +2433,16 @@ const conditionformat = {
                                         <span class="txt">${conditionformat_Text.selectRange_value}</span>
                                     </div>
                                     <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
+                break;
+            case 5: //使用公式确定要设置格式的单元格
+                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
+                                    <div style="height: 30px;margin-bottom: 10px;">
+                                        <div class="inpbox range" id="formulaConditionVal" style="width: 250px;">
+                                            <input class="formulaInputFocus" style="width: 200px;"/>
+                                            <i class="fa fa-table" aria-hidden="true" title="${conditionformat_Text.selectCell}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="title">${conditionformat_Text.setFormat}: </div>${textCellColorHtml}`;
                 break;
         }
 
@@ -3636,6 +3713,52 @@ const conditionformat = {
                                                 }
                                             }
                                         }
+                                    }
+                                }
+                            }
+                        }
+                        else if(conditionName == "formula"){
+                            let str = cellrange[s].row[0],
+                                edr = cellrange[s].row[1],
+                                stc = cellrange[s].column[0],
+                                edc = cellrange[s].column[1];
+
+                            let formulaTxt = conditionValue0;
+                            if(conditionValue0.toString().slice(0, 1) != '='){
+                                formulaTxt = '=' + conditionValue0;
+                            }
+
+                            for(let r = str; r <= edr; r++){
+                                for(let c = stc; c <= edc; c++){
+                                    let func = formulaTxt;
+                                    let offsetRow = r - str;
+                                    let offsetCol = c - stc;
+
+                                    if(offsetRow > 0){
+                                        func = "=" + formula.functionCopy(func, "down", offsetRow);
+                                    }
+
+                                    if(offsetCol > 0){
+                                        func = "=" + formula.functionCopy(func, "right", offsetCol);
+                                    }
+
+                                    let funcV = formula.execfunction(func);
+                                    let v = funcV[1];
+
+                                    if(typeof v != 'boolean'){
+                                        v = !!Number(v);
+                                    }
+
+                                    if(!v){
+                                        continue;
+                                    }
+
+                                    if((r + "_" + c) in computeMap){
+                                        computeMap[r + "_" + c]["textColor"] = textColor;
+                                        computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                    }
+                                    else{
+                                        computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
                                     }
                                 }
                             }

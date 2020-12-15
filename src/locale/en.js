@@ -9591,6 +9591,8 @@ export default {
         ruleTypeItem4: 'Format only values above or below the average',
         ruleTypeItem4_title: 'Is a value that satisfies the following conditions',
         ruleTypeItem5: 'Format only unique or repeated values',
+        ruleTypeItem6: 'Use formulas to determine which cells to format',
+        formula: 'Formula',
         textColor: 'Text color',
         cellColor: 'Cell color',
         confirm: 'Confirm',

@@ -9826,6 +9826,8 @@ export default {
         ruleTypeItem4                       : '僅對高於或低於平均值的數值設定格式',
         ruleTypeItem4_title                 : '為滿足以下條件的值',
         ruleTypeItem5                       : '僅對唯一值或重複值設定格式',
+        ruleTypeItem6                       : '使用公式確定要設置格式的單元格',
+        formula                             : '公式',
         textColor                           : '文字顏色',
         cellColor                           : '儲存格顏色',
         confirm                             : '確定',

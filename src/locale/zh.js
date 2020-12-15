@@ -9833,6 +9833,8 @@ export default {
         ruleTypeItem4: '仅对高于或低于平均值的数值设置格式',
         ruleTypeItem4_title: '为满足以下条件的值',
         ruleTypeItem5: '仅对唯一值或重复值设置格式',
+        ruleTypeItem6: '使用公式确定要设置格式的单元格',
+        formula: '公式',
         textColor: '文本颜色',
         cellColor: '单元格颜色',
         confirm: '确定',
