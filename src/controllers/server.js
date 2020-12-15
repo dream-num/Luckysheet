@@ -321,9 +321,10 @@ const server = {
 
 	        //连接关闭时触发
 	        _this.websocket.onclose = function(){
-				console.info(locale().websocket.close);
-				
-	            alert(locale().websocket.contact);
+							console.info(locale().websocket.close);
+							if(e.code!==1000){
+								alert(locale().websocket.contact);
+							}
 	        }
 	    }
 	    else{
