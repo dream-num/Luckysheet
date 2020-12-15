@@ -247,3 +247,18 @@ If directly developed locally:
 In this case, after Luckysheet is modified in real time, the changes can be seen in the Vue project
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** Error reporting `Store.createChart` when creating chart?
+
+**<span style="font-size:20px;">A</span>** You need to introduce a chart plugin to use it. You should configure the chart plugin to use when the workbook is initialized. Refer to
+
+- Plugins configuration [plugins](/guide/config.html#plugins)
+- 或 官方demo [/src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Can cells add custom attributes?
+
+**<span style="font-size:20px;">A</span>** The custom attributes directly assigned to the cell object will be filtered. To make the custom attributes take effect, you need to edit the code to remove the filter attributes.
+
+------------

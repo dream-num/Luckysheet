@@ -1,4 +1,4 @@
-import { seriesLoadScripts, loadLinks, $$ } from '../../utils/util'
+import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
@@ -84,7 +84,7 @@ function chart(data, isDemo) {
         chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
         chartInfo.chartparam.insertToStore = chartmix.default.insertToStore
 
-        // 初始化渲染图表
+        // Initialize the rendering chart
         for (let i = 0; i < data.length; i++) {
             // if (data[i].status == '1') {
                 renderCharts(data[i].chart, isDemo)
@@ -96,6 +96,9 @@ function chart(data, isDemo) {
                 renderChartShow(data[i].index)
             }
         }
+
+        // After the chart is loaded, mark it
+        arrayRemoveItem(chartInfo.asyncLoad,'chart');
 
     });
 }

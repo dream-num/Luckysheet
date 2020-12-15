@@ -146,7 +146,10 @@ const Store = {
         allDataColumnlen:[],//列宽发生过改变的列
         merge_range:{},//合并时单元格信息
         checkoutData:[],//切换表格页时所需数据
-    }
+    },
+
+    // Resources that currently need to be loaded asynchronously, especially plugins. 'Core' marks the core rendering process.
+    asyncLoad:['core'],
 
 }
 

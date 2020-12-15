@@ -4540,7 +4540,7 @@ const menuButton = {
             document.fonts && document.fonts.ready.then(function() {
                 // Any operation that needs to be done only after all the fonts
                 // have finished loading can go here.
-                console.log("font ready");
+                // console.log("font ready");
             });
         }
 

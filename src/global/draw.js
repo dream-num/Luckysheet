@@ -212,9 +212,8 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     //清除canvas左上角区域 防止列标题栏序列号溢出显示
     // luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth , Store.columnHeaderHeight );
 
-    luckysheetTableContent.restore();
-
-    luckysheetTableContent.restore();
+    luckysheetTableContent.restore(); 
+    
 }
 
 function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
@@ -410,7 +409,7 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
     // luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth , Store.columnHeaderHeight );
 
     luckysheetTableContent.restore();
-    luckysheetTableContent.restore();
+
 }
 
 function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, offsetLeft, offsetTop, columnOffsetCell, rowOffsetCell, mycanvas) {
@@ -1073,6 +1072,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         Store.measureTextCellInfoCache = {};
         Store.cellOverflowMapCache = {};
     }, 2000);
+
 }
 
 

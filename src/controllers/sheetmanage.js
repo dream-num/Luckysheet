@@ -10,7 +10,7 @@ import rhchInit from '../global/rhchInit';
 import editor from '../global/editor';
 import { luckysheetextendtable, luckysheetdeletetable } from '../global/extend';
 import { isRealNum } from '../global/validate';
-import { replaceHtml, getObjType, chatatABC } from '../utils/util';
+import { replaceHtml, getObjType, chatatABC, arrayRemoveItem } from '../utils/util';
 import { sheetHTML,luckysheetlodingHTML } from './constant';
 import server from './server';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
@@ -758,6 +758,15 @@ const sheetmanage = {
             colwidth = c2 + 1;
         }
 
+        //钩子函数 表格创建之前触发
+        if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
+            luckysheetConfigsetting.beforeCreateDom(luckysheet);
+        }
+
+        if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
+            luckysheetConfigsetting.workbookCreateBefore(luckysheet);
+        }
+
         // Store.flowdata = data;
 
         luckysheetcreatedom(colwidth, rowheight, data, menu, title);
@@ -829,14 +838,17 @@ const sheetmanage = {
                         }
                     }
 
-                    //钩子函数 表格创建之前触发
-                    if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
-                        luckysheetConfigsetting.beforeCreateDom(luckysheet);
-                    }
+                    // 此处已经渲染完成表格，应该挪到前面
+                    // //钩子函数 表格创建之前触发
+                    // if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
+                    //     luckysheetConfigsetting.beforeCreateDom(luckysheet);
+                    // }
 
-                    if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
-                        luckysheetConfigsetting.workbookCreateBefore(luckysheet);
-                    }
+                    // if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
+                    //     luckysheetConfigsetting.workbookCreateBefore(luckysheet);
+                    // }
+
+                    arrayRemoveItem(Store.asyncLoad,'core');
 
                     if(luckysheetConfigsetting.pointEdit){
                         setTimeout(function(){

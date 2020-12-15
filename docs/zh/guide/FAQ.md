@@ -237,7 +237,7 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 
 ------------
 
-## **<span style="font-size:20px;">Q</span>**怎样在vue工程里对Luckysheet进行二次开发`？
+## **<span style="font-size:20px;">Q</span>** 怎样在vue工程里对Luckysheet进行二次开发？
 
 **<span style="font-size:20px;">A</span>** [luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue) 案例是提供一个应用集成的方案。
 
@@ -246,5 +246,20 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 2. 在Vue工程里面通过 `http://localhost:3001` 引入Luckysheet使用
 
 这样的话，Luckysheet实时修改后，Vue工程里是可以看到更改的
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 创建图表时候报错`Store.createChart`？
+
+**<span style="font-size:20px;">A</span>** 需要引入图表插件才能使用，工作簿初始化的时候应该配置图表插件使用，参考
+
+- 插件配置 [plugins](/zh/guide/config.html#配置项)
+- 或 官方demo [/src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 单元格能增加自定义属性吗？
+
+**<span style="font-size:20px;">A</span>** 直接赋值到单元格对象上的自定义属性会被过滤，要想使得自定义属性生效，需要二开去除过滤属性的代码。
 
 ------------
