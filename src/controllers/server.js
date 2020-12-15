@@ -320,7 +320,7 @@ const server = {
 	        }
 
 	        //连接关闭时触发
-	        _this.websocket.onclose = function(){
+	        _this.websocket.onclose = function(e){
 							console.info(locale().websocket.close);
 							if(e.code!==1000){
 								alert(locale().websocket.contact);
