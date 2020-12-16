@@ -21,3 +21,4 @@ Luckysheet是由个人主导、几个志同道合的小伙伴一同开发的项�
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)

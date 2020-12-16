@@ -21,3 +21,4 @@ Luckysheet is a project led by an individual and jointly developed by several fr
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)

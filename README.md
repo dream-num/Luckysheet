@@ -178,6 +178,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

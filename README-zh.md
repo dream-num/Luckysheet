@@ -182,6 +182,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)
