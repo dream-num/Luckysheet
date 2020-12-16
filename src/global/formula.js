@@ -706,7 +706,7 @@ const luckysheetformula = {
             sheettxt = val[0];
             rangetxt = val[1];
 
-            sheettxt = sheettxt.replace(/\\'/g, "'");
+            sheettxt = sheettxt.replace(/\\'/g, "'").replace(/''/g, "'");
             if (sheettxt.substr(0, 1) == "'" && sheettxt.substr(sheettxt.length - 1, 1) == "'") {
                 sheettxt = sheettxt.substring(1, sheettxt.length - 1);
             }
@@ -3439,7 +3439,7 @@ const luckysheetformula = {
         while (i < funcstack.length) {
             let s = funcstack[i];
 
-            if (s == "(" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            if (s == "(" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 matchConfig.bracket += 1;
 
                 if (str.length > 0) {
@@ -3451,16 +3451,16 @@ const luckysheetformula = {
 
                 str = "";
             }
-            else if (s == ")" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == ")" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 matchConfig.bracket -= 1;
                 function_str += _this.functionHTML(str) + '<span dir="auto" class="luckysheet-formula-text-rpar">)</span>';
                 str = "";
             }
-            else if (s == "{" && matchConfig.dquote == 0) {
+            else if (s == "{" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '{';
                 matchConfig.braces += 1;
             }
-            else if (s == "}" && matchConfig.dquote == 0) {
+            else if (s == "}" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '}';
                 matchConfig.braces -= 1;
             }
@@ -3489,12 +3489,17 @@ const luckysheetformula = {
                     str = "";
                 }
             }
-            else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            //修正例如输入公式='1-2'!A1时，只有2'!A1是luckysheet-formula-functionrange-cell色，'1-是黑色的问题。
+            else if (s == "'" && matchConfig.dquote == 0) {
+                str += "'";
+                matchConfig.squote = matchConfig.squote == 0 ? 1 : 0;
+            }
+            else if (s == ',' && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 //matchConfig.comma += 1;
                 function_str += _this.functionHTML(str) + '<span dir="auto" class="luckysheet-formula-text-comma">,</span>';
                 str = "";
             }
-            else if (s == '&' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == '&' && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (str.length > 0) {
                     function_str += _this.functionHTML(str) + '<span dir="auto" class="luckysheet-formula-text-calc">' + '&' + '</span>';;
                     str = "";
@@ -3503,7 +3508,7 @@ const luckysheetformula = {
                     function_str += '<span dir="auto" class="luckysheet-formula-text-calc">' + '&' + '</span>';
                 }
             }
-            else if (s in _this.operatorjson && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s in _this.operatorjson && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 let s_next = "";
                 if ((i + 1) < funcstack.length) {
                     s_next = funcstack[i + 1];
@@ -3857,11 +3862,11 @@ const luckysheetformula = {
 
         //bracket 0为运算符括号、1为函数括号
         let cal1 = [], cal2 = [], bracket = [];
-
+        let firstSQ = -1;
         while (i < funcstack.length) {
             let s = funcstack[i];
 
-            if (s == "(" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            if (s == "(" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (str.length > 0 && bracket.length == 0) {
                     str = str.toUpperCase();
                     if (str.indexOf(":") > -1) {
@@ -3884,7 +3889,7 @@ const luckysheetformula = {
                     str += s;
                 }
             }
-            else if (s == ")" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == ")" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 let bt = bracket.pop();
 
                 if (bracket.length == 0) {
@@ -3899,35 +3904,59 @@ const luckysheetformula = {
                     str += s;
                 }
             }
-            else if (s == "{" && matchConfig.dquote == 0) {
+            else if (s == "{" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '{';
                 matchConfig.braces += 1;
             }
-            else if (s == "}" && matchConfig.dquote == 0) {
+            else if (s == "}" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '}';
                 matchConfig.braces -= 1;
             }
-            else if (s == '"') {
-                str += '"';
+            else if (s == '"' && matchConfig.squote == 0) {
 
                 if (matchConfig.dquote > 0) {
-                    matchConfig.dquote -= 1;
+                    //如果是""代表着输出"
+                    if (i < funcstack.length - 1 && funcstack[i + 1] == '"') {
+                        i++;
+                        str += "\x7F";//用非打印控制字符DEL替换一下""
+                    }
+                    else {
+                        matchConfig.dquote -= 1;
+                        str += '"';
+                    }
                 }
                 else {
                     matchConfig.dquote += 1;
+                    str += '"';
                 }
             }
-            else if (s == "'") {
+            else if (s == "'" && matchConfig.dquote == 0) {
                 str += "'";
 
                 if (matchConfig.squote > 0) {
-                    matchConfig.squote -= 1;
+                    if (firstSQ == i - 1)//配对的单引号后第一个字符不能是单引号
+                    {
+                        return "";
+                    }
+                    //如果是''代表着输出'
+                    if (i < funcstack.length - 1 && funcstack[i + 1] == "'") {
+                        i++;
+                        str += "'";
+                    }
+                    else {//如果下一个字符不是'代表单引号结束
+                        if (funcstack[i - 1] == "'") {//配对的单引号后最后一个字符不能是单引号
+                            return "";
+                        } else {
+                            matchConfig.squote -= 1;
+                        }
+                    }
                 }
                 else {
                     matchConfig.squote += 1;
+                    firstSQ = i;
                 }
             }
-            else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == ',' && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (bracket.length <= 1) {
                     let functionS = _this.functionParser(str, cellRangeFunction);
                     if (functionS.indexOf("#lucky#") > -1) {
@@ -3940,7 +3969,7 @@ const luckysheetformula = {
                     str += ",";
                 }
             }
-            else if (s in _this.operatorjson && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s in _this.operatorjson && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 let s_next = "";
                 let op = _this.operatorPriority;
 
@@ -4514,11 +4543,11 @@ const luckysheetformula = {
 
         //bracket 0为运算符括号、1为函数括号
         let cal1 = [], cal2 = [], bracket = [];
-
+        let firstSQ = -1;
         while (i < funcstack.length) {
             let s = funcstack[i];
 
-            if (s == "(" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            if (s == "(" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (str.length > 0 && bracket.length == 0) {
                     str = str.toUpperCase();
                     if (str.indexOf(":") > -1) {
@@ -4541,7 +4570,7 @@ const luckysheetformula = {
                     str += s;
                 }
             }
-            else if (s == ")" && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == ")" && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 let bt = bracket.pop();
 
                 if (bracket.length == 0) {
@@ -4559,35 +4588,59 @@ const luckysheetformula = {
                     str += s;
                 }
             }
-            else if (s == "{" && matchConfig.dquote == 0) {
+            else if (s == "{" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '{';
                 matchConfig.braces += 1;
             }
-            else if (s == "}" && matchConfig.dquote == 0) {
+            else if (s == "}" && matchConfig.squote == 0 && matchConfig.dquote == 0) {
                 str += '}';
                 matchConfig.braces -= 1;
             }
-            else if (s == '"') {
-                str += '"';
+            else if (s == '"' && matchConfig.squote == 0) {
 
                 if (matchConfig.dquote > 0) {
-                    matchConfig.dquote -= 1;
+                    //如果是""代表着输出"
+                    if (i < funcstack.length - 1 && funcstack[i + 1] == '"') {
+                        i++;
+                        str += "\x7F";//用DEL替换一下""
+                    }
+                    else {
+                        matchConfig.dquote -= 1;
+                        str += '"';
+                    }
                 }
                 else {
                     matchConfig.dquote += 1;
+                    str += '"';
                 }
             }
-            else if (s == "'") {
+            else if (s == "'" && matchConfig.dquote == 0) {
                 str += "'";
 
                 if (matchConfig.squote > 0) {
-                    matchConfig.squote -= 1;
+                    //if (firstSQ == i - 1)//配对的单引号后第一个字符不能是单引号
+                    //{
+                    //    代码到了此处应该是公式错误
+                    //}
+                    //如果是''代表着输出'
+                    if (i < funcstack.length - 1 && funcstack[i + 1] == "'") {
+                        i++;
+                        str += "'";
+                    }
+                    else {//如果下一个字符不是'代表单引号结束
+                        //if (funcstack[i - 1] == "'") {//配对的单引号后最后一个字符不能是单引号
+                        //    代码到了此处应该是公式错误
+                        //} else {
+                            matchConfig.squote -= 1;
+                        //}
+                    }
                 }
                 else {
                     matchConfig.squote += 1;
+                    firstSQ = i;
                 }
             }
-            else if (s == ',' && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s == ',' && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (bracket.length <= 1) {
                     // function_str += _this.isFunctionRange(str, r, c, index,dynamicArray_compute,cellRangeFunction) + ",";
                     // str = "";
@@ -4603,7 +4656,7 @@ const luckysheetformula = {
                     str += ",";
                 }
             }
-            else if (s in _this.operatorjson && matchConfig.dquote == 0 && matchConfig.braces == 0) {
+            else if (s in _this.operatorjson && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 let s_next = "";
                 let op = _this.operatorPriority;
 
@@ -4927,7 +4980,7 @@ const luckysheetformula = {
         }
 
         if (txt.indexOf("!") > -1) {
-            txt = txt.replace(/\\'/g, "'");
+            txt = txt.replace(/\\'/g, "'").replace(/''/g, "'");
             this.cellTextToIndexList[txt] = infoObj;
         }
         else {
@@ -5092,7 +5145,85 @@ const luckysheetformula = {
                 });
             }
             else if (!(calc_funcStr.substr(0, 2) == '="' && calc_funcStr.substr(calc_funcStr.length - 1, 1) == '"')) {
-                let formulaTextArray = calc_funcStr.split(/==|!=|<>|<=|>=|[,()=+-\/*%&^><]/g);
+                //let formulaTextArray = calc_funcStr.split(/==|!=|<>|<=|>=|[,()=+-\/*%&^><]/g);//无法正确分割单引号或双引号之间有==、!=、-等运算符的情况。导致如='1-2'!A1公式中表名1-2的A1单元格内容更新后，公式的值不更新的bug
+                //解决='1-2'!A1+5会被calc_funcStr.split(/==|!=|<>|<=|>=|[,()=+-\/*%&^><]/g)分割成["","'1","2'!A1",5]的错误情况
+                let point = 0;//指针
+                let squote = -1;//双引号
+                let dquote = -1;//单引号
+                let formulaTextArray = [];
+                let sq_end_array = [];//保存了配对的单引号在formulaTextArray的index索引。
+                let calc_funcStr_length = calc_funcStr.length;
+                for (let i = 0; i < calc_funcStr_length; i++) {
+                    let char = calc_funcStr.charAt(i);
+                    if (char == "'" && dquote == -1) {
+                        //如果是单引号开始
+                        if (squote == -1) {
+                            if (point != i) {
+                                formulaTextArray.push(...calc_funcStr.substring(point, i).split(/==|!=|<>|<=|>=|[,()=+-\/*%&\^><]/));
+                            }
+                            squote = i;
+                            point = i;
+                        }
+                        else//单引号结束
+                        {
+                            //if (squote == i - 1)//配对的单引号后第一个字符不能是单引号
+                            //{
+                            //    ;//到此处说明公式错误
+                            //}
+                            //如果是''代表着输出'
+                            if (i < calc_funcStr_length - 1 && calc_funcStr.charAt(i + 1) == "'") {
+                                i++;
+                            }
+                            else {//如果下一个字符不是'代表单引号结束
+                                //if (calc_funcStr.charAt(i - 1) == "'") {//配对的单引号后最后一个字符不能是单引号
+                                //    ;//到此处说明公式错误
+                                    point = i + 1;
+                                    formulaTextArray.push(calc_funcStr.substring(squote, point));
+                                    sq_end_array.push(formulaTextArray.length - 1);
+                                    squote = -1;
+                                //} else {
+                                //    point = i + 1;
+                                //    formulaTextArray.push(calc_funcStr.substring(squote, point));
+                                //    sq_end_array.push(formulaTextArray.length - 1);
+                                //    squote = -1;
+                                //}
+                            }
+
+                        }
+                    }
+                    if (char == '"' && squote == -1) {
+                        //如果是双引号开始
+                        if (dquote == -1) {
+                            if (point != i) {
+                                formulaTextArray.push(...calc_funcStr.substring(point, i).split(/==|!=|<>|<=|>=|[,()=+-\/*%&\^><]/));
+                            }
+                            dquote = i;
+                            point = i;
+                        }
+                        else {
+                            //如果是""代表着输出"
+                            if (i < calc_funcStr_length - 1 && calc_funcStr.charAt(i + 1) == '"') {
+                                i++;
+                            }
+                            else {//双引号结束
+                                point = i + 1;
+                                formulaTextArray.push(calc_funcStr.substring(dquote, point));
+                                dquote = -1;
+                            }
+                        }
+                    }
+                }
+                if (point != calc_funcStr_length) {
+                    formulaTextArray.push(...calc_funcStr.substring(point, calc_funcStr_length).split(/==|!=|<>|<=|>=|[,()=+-\/*%&\^><]/))
+                }
+                //拼接所有配对单引号及之后一个单元格内容，例如["'1-2'","!A1"]拼接为["'1-2'!A1"]
+                for (let i = sq_end_array.length - 1; i >= 0; i--) {
+                    if (sq_end_array[i] != formulaTextArray.length - 1) {
+                        formulaTextArray[sq_end_array[i]] = formulaTextArray[sq_end_array[i]] + formulaTextArray[sq_end_array[i] + 1];
+                        formulaTextArray.splice(sq_end_array[i] + 1, 1);
+                    }
+                }
+                //至此=SUM('1-2'!A1:A2&"'1-2'!A2")由原来的["","SUM","'1","2'!A1:A2","",""'1","2'!A2""]更正为["","SUM","","'1-2'!A1:A2","","",""'1-2'!A2""]
 
                 for (let i = 0; i < formulaTextArray.length; i++) {
                     let t = formulaTextArray[i];
@@ -5619,7 +5750,7 @@ const luckysheetformula = {
         Store.calculateSheetIndex = index;
 
         let fp = $.trim(_this.functionParserExe(txt));
-        console.log(fp)
+        //console.log(fp)
         if ((fp.substr(0, 20) == "luckysheet_function." || fp.substr(0, 22) == "luckysheet_compareWith")) {
             _this.functionHTMLIndex = 0;
         }
@@ -5666,6 +5797,9 @@ const luckysheetformula = {
             }
 
             result = new Function("return " + fp)();
+            if (typeof (result) == "string") {//把之前的非打印控制字符DEL替换回一个双引号。
+                result = result.replace(/\x7F/g, '"');
+            }
 
             //加入sparklines的参数项目
             if (fp.indexOf("SPLINES") > -1) {
@@ -5691,7 +5825,14 @@ const luckysheetformula = {
                     result = result.data.v;
                 }
                 else if (!isRealNull(result.data)) {
-                    result = result.data;
+                    //只有data长或宽大于1才可能是选区
+                    if (result.cell > 1 || result.rowl > 1) {
+                        result = result.data;
+                    }
+                    else//否则就是单个不为null的没有值v的单元格
+                    {
+                        result = 0;
+                    }
                 }
                 else {
                     result = 0;
