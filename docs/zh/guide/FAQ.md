@@ -263,3 +263,9 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 **<span style="font-size:20px;">A</span>** 直接赋值到单元格对象上的自定义属性会被过滤，要想使得自定义属性生效，需要二开去除过滤属性的代码。
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** 如何输入以`'='`开头的文本？例如`=currentDate('YYYY-MM-DD')`，它默认会去掉函数，函数怎么禁止？
+
+**<span style="font-size:20px;">A</span>** 前面加一个单引号就行，会强制识别为字符串，和excel表现一致的。比如：`'=currentDate('YYYY-MM-DD')`
+
+------------

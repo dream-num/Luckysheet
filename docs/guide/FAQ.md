@@ -262,3 +262,9 @@ In this case, after Luckysheet is modified in real time, the changes can be seen
 **<span style="font-size:20px;">A</span>** The custom attributes directly assigned to the cell object will be filtered. To make the custom attributes take effect, you need to edit the code to remove the filter attributes.
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** How to enter text starting with `'='`? For example, `=currentDate('YYYY-MM-DD')`, it will remove the function by default, how to prohibit the function?
+
+**<span style="font-size:20px;">A</span>** Just add a single quotation mark in front of it, and it will be forcibly recognized as a string, which is consistent with excel. For example: `'=currentDate('YYYY-MM-DD')`
+
+------------
