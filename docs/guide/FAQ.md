@@ -268,3 +268,11 @@ In this case, after Luckysheet is modified in real time, the changes can be seen
 **<span style="font-size:20px;">A</span>** Just add a single quotation mark in front of it, and it will be forcibly recognized as a string, which is consistent with excel. For example: `'=currentDate('YYYY-MM-DD')`
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** Why does the create callback have no effect?
+
+**<span style="font-size:20px;">A</span>** The API method `luckysheet.create()` does not have a callback, but Luckysheet provides a hook function to execute the callback method at a specified location, such as:
+- Triggered before the workbook is created [workbookCreateBefore](/guide/config.html#workbookcreatebefore)
+- Triggered after the workbook is created [workbookCreateAfter](/guide/config.html#workbookcreateafter)
+
+------------

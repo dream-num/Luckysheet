@@ -269,3 +269,11 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 **<span style="font-size:20px;">A</span>** 前面加一个单引号就行，会强制识别为字符串，和excel表现一致的。比如：`'=currentDate('YYYY-MM-DD')`
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** create回调为什么没有效果？
+
+**<span style="font-size:20px;">A</span>** API 方法`luckysheet.create()`这个方法没有回调，但是Luckysheet提供了钩子函数用于在指定位置执行回调方法，比如：
+- 表格创建之前触发 [workbookCreateBefore](/zh/guide/config.html#workbookcreatebefore)
+- 表格创建之后触发 [workbookCreateAfter](/zh/guide/config.html#workbookcreateafter)
+
+------------

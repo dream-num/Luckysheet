@@ -6261,7 +6261,7 @@ export function toJson(){
     getluckysheetfile().forEach((file,index)=>{
 
         toJsonOptions.data[index].row = file.data.length;
-        toJsonOptions.data[index].column = file.data[0].length;
+        toJsonOptions.data[index].column =  getObjType(file.data[0]) === 'array' ? file.data[0].length : 0;
 
     })
 
