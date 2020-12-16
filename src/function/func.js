@@ -1605,7 +1605,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = null;
     
     if (val.length > 1) {
-        sheettxt = val[0];
+        sheettxt = val[0].replace(/''/g,"'");
         rangetxt = val[1];
 
         if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
