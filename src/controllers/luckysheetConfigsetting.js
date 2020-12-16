@@ -12,7 +12,7 @@ const luckysheetConfigsetting = {
     pointEditUpdate: null,
     pointEditZoom: 1,
 
-    userInfo: null,
+    userInfo: {},
     userMenuItem: [],
     myFolderUrl: null,
     functionButton: null,

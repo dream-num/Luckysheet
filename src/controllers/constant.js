@@ -1,13 +1,13 @@
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();
     const locale_info = _locale.info;
     const locale_print = _locale.print;
-    
+    const userInfo = luckysheetConfigsetting.userInfo
+
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
                     <div class="luckysheet-work-area luckysheet-noselected-text"> 
@@ -21,7 +21,10 @@ const gridHTML = function(){
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
                             <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
-                            <div class="luckysheet_info_detail_user"> \${functionButton} <span id="luckysheet_info_detail_user"></span> </div> 
+                            <div class="luckysheet_info_detail_user" style="display:${userInfo.isShow ? 'block' : 'none'};"> \${functionButton} 
+                            <img src="${userInfo.url}" id="luckysheet_info_detail_user_img" style="display:${userInfo.str.length <= 0 ? 'inline-block' : 'none'};">
+                            <span id="luckysheet_info_detail_user">${userInfo.str.length > 0 ? userInfo.str : userInfo.username}</span>
+                            </div> 
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
                         <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 
