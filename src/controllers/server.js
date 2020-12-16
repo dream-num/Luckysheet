@@ -25,7 +25,8 @@ const server = {
     updateUrl: null,
     updateImageUrl: null,
     title: null,
-    loadSheetUrl: null,
+		loadSheetUrl: null,
+		retryTimer:null,
     allowUpdate: false, //共享编辑模式
     historyParam: function(data, sheetIndex, range) {
     	let _this = this;
@@ -162,7 +163,7 @@ const server = {
 				_this.wxErrorCount = 0;
 				
 	            //防止websocket长时间不发送消息导致断连
-	            setInterval(function(){
+							_this.retryTimer = setInterval(function(){
 	                _this.websocket.send("rub");
 	            }, 60000);
 	        }
@@ -320,10 +321,14 @@ const server = {
 	        }
 
 	        //连接关闭时触发
-	        _this.websocket.onclose = function(){
-				console.info(locale().websocket.close);
-				
-	            alert(locale().websocket.contact);
+	        _this.websocket.onclose = function(e){
+							console.info(locale().websocket.close);
+							if(e.code === 1000){
+								clearInterval(_this.retryTimer)
+								_this.retryTimer = null
+							}else{
+								alert(locale().websocket.contact);
+							}
 	        }
 	    }
 	    else{

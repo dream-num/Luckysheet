@@ -6291,8 +6291,7 @@ export function closeWebsocket(){
     if(server.websocket == null){
         return;
     }
-
-    server.websocket.close();
+    server.websocket.close(1000);
 }
 
 
