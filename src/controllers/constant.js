@@ -22,9 +22,8 @@ const gridHTML = function(){
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
                             <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
                             <div class="luckysheet_info_detail_user" style="display:${userInfo.isShow ? 'block' : 'none'};"> \${functionButton} 
-                            <span id="luckysheet_info_detail_user" style="display:${userInfo.str.length > 0 ? 'block' : 'none'};">${userInfo.str}</span>
-                            <img src="${userInfo.url}" id="luckysheet_info_detail_user_img" style="display:${userInfo.str.length <= 0 ? 'block' : 'none'};">
-                            <span id="luckysheet_info_detail_user" style="display:${userInfo.str.length <= 0 ? 'block' : 'none'};">${userInfo.username}</span> 
+                            <img src="${userInfo.url}" id="luckysheet_info_detail_user_img" style="display:${userInfo.str.length <= 0 ? 'inline-block' : 'none'};">
+                            <span id="luckysheet_info_detail_user">${userInfo.str.length > 0 ? userInfo.str : userInfo.username}</span>
                             </div> 
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
