@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.9](https://github.com/mengshukeji/Luckysheet/compare/v2.1.8...v2.1.9) (2020-12-17)
+
+
+### Bug Fixes
+
+* **bug:** bug ([54ae143](https://github.com/mengshukeji/Luckysheet/commit/54ae143aa268b5ce0253752a2a92b2ab22601b42)), closes [#222](https://github.com/mengshukeji/Luckysheet/issues/222) [#355](https://github.com/mengshukeji/Luckysheet/issues/355)
+* **numeral:** userInfo ([871d381](https://github.com/mengshukeji/Luckysheet/commit/871d3819f7c734b604f19da1ba81bf5ee0ea0814)), closes [#338](https://github.com/mengshukeji/Luckysheet/issues/338)
+
 ### [2.1.8](https://github.com/mengshukeji/Luckysheet/compare/v2.1.7...v2.1.8) (2020-12-16)
 
 
