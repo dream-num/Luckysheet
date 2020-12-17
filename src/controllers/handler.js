@@ -5547,6 +5547,19 @@ export default function luckysheetHandler() {
                 }
             }
         }
+        else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
+            // 阻止默认粘贴
+            e.preventDefault();
+
+            let clipboardData = window.clipboardData; //for IE
+            if (!clipboardData) { // for chrome
+                clipboardData = e.originalEvent.clipboardData;
+            }
+            let text =  clipboardData.getData('text/plain');
+            
+            // 插入
+            document.execCommand("insertText", false, text);
+        }
     });
 
     //是否允许加载下一页
