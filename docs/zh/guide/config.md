@@ -450,9 +450,55 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### userInfo
-- 类型：String
-- 默认值：`'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
-- 作用：右上角的用户信息展示样式
+- 类型：String | Boolean | Object
+- 默认值：false
+- 作用：右上角的用户信息展示样式，支持以下三种形式
+	1. HTML模板字符串，如：
+	
+	```js
+	options:{
+		// 其他配置
+		userInfo:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky',
+	}
+	```
+
+	或者一个普通字符串，如：
+	
+	```js
+	options:{
+		// 其他配置
+		userInfo:'Lucky',
+	}
+	```
+ 
+	2. Boolean类型，如：
+   	
+	`false`:不展示
+	```js
+	options:{
+		// 其他配置
+		userInfo:false, // 不展示用户信息
+	}
+
+	```
+	`ture`:展示默认的字符串
+	```js
+	options:{
+		// 其他配置
+		userInfo:true, // 展示HTML:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky'
+	}
+
+	```
+	3. 对象格式，设置 `userImage`：用户头像地址 和 `userName`：用户名，如：
+	```js
+	options:{
+		// 其他配置
+		userImage:'https://cdn.jsdelivr.net/npm/luckyresources@1.0.3/assets/img/logo/logo.png', // 头像url
+		userName:'Lucky', // 用户名
+	}
+	```
+
+	4. 注意，设置为`undefined`或者不设置，同设置`false`
 
 ------------
 ### userMenuItem

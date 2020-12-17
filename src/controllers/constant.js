@@ -1,12 +1,13 @@
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
+import { getObjType } from '../utils/util';
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();
     const locale_info = _locale.info;
     const locale_print = _locale.print;
-    const userInfo = luckysheetConfigsetting.userInfo
+    const userInfo = luckysheetConfigsetting.userInfo === true ? '<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky' : luckysheetConfigsetting.userInfo; // When true, use the default HTML string
 
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
@@ -20,11 +21,17 @@ const gridHTML = function(){
                                 <input data-tips="${locale_info.tips}" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="${locale_info.noName}" tabindex="0" dir="ltr" aria-label="${locale_info.rename}" style="visibility: visible; width: 149px;" data-tooltip="${locale_info.rename}"> 
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
-                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
-                            <div class="luckysheet_info_detail_user" style="display:${userInfo.isShow ? 'block' : 'none'};"> \${functionButton} 
-                            <img src="${userInfo.url}" id="luckysheet_info_detail_user_img" style="display:${userInfo.str.length <= 0 ? 'inline-block' : 'none'};">
-                            <span id="luckysheet_info_detail_user">${userInfo.str.length > 0 ? userInfo.str : userInfo.username}</span>
+                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div>
+                            
+                            <div class="luckysheet_info_detail_user" style="display:${getObjType(userInfo) === 'string' ? 'block' : 'none'};"> \${functionButton} 
+                                <span id="luckysheet_info_detail_user">${userInfo}</span>
                             </div> 
+
+                            <div class="luckysheet_info_detail_user" style="display:${getObjType(userInfo) === 'object' ? 'block' : 'none'};"> \${functionButton}                            
+                                <img src="${userInfo.userImage}" id="luckysheet_info_detail_user_img">
+                                <span id="luckysheet_info_detail_user">${userInfo.userName}</span>
+                            </div> 
+                            
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
                         <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 

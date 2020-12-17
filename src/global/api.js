@@ -6260,8 +6260,11 @@ export function toJson(){
     // row and column
     getluckysheetfile().forEach((file,index)=>{
 
-        toJsonOptions.data[index].row = file.data.length;
-        toJsonOptions.data[index].column =  getObjType(file.data[0]) === 'array' ? file.data[0].length : 0;
+        if(file.data == undefined){
+            return;
+        }
+        toJsonOptions.data[index].row = getObjType(file.data) === 'array' ? file.data.length : 0;
+        toJsonOptions.data[index].column = getObjType(file.data[0]) === 'array' ? file.data[0].length : 0;
 
     })
 

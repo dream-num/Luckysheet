@@ -35,6 +35,7 @@ import server from './server';
 import {checkProtectionAuthorityNormal} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
+import numeral from 'numeral';
 
 const pivotTable = {
     pivotDatas: null,

@@ -20,6 +20,10 @@ git push -f origin master:gh-pages
 
 # ===============================================
 
+# add a tags
+git tag -a doc -m "doc"
+
+
 # replease
 npm run build
 npm run release -- --release-as patch

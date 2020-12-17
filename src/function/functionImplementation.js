@@ -14,7 +14,8 @@ import { orderbydata } from '../global/sort';
 import { getcellvalue } from '../global/getdata';
 import { getObjType, ABCatNum, chatatABC, numFormat } from '../utils/util';
 import Store from '../store';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import numeral from 'numeral';
 
 //公式函数计算
 const functionImplementation = {

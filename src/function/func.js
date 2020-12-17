@@ -8,6 +8,7 @@ import { inverse } from '../function/matrix_methods';
 import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
+import numeral from 'numeral';
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {

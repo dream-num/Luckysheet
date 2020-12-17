@@ -1,6 +1,7 @@
 import { isRealNum, valueIsError } from './validate';
 import { isdatetime } from './datecontroll';
 import { getcellvalue } from './getdata';
+import numeral from 'numeral';
 
 var SSF = ({});
 var make_ssf = function make_ssf(SSF) {

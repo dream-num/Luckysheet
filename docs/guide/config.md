@@ -360,9 +360,54 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 ------------
 ### userInfo
-- Type: String
-- Default: `'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
-- Usage: User information display style in the upper right corner
+- Type: String | Boolean | Object
+- Default: false
+- Usage: User information display style in the upper right corner,Support the following three formats
+	1. HTML template string, such as:
+	
+	```js
+	options:{
+		// Other configuration
+		userInfo:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky',
+	}
+	```
+
+	Or an ordinary string, such as:
+	
+	```js
+	options:{
+		// Other configuration
+		userInfo:'Lucky',
+	}
+	```
+ 
+	2. Boolean type, such as:
+   	
+	`false`: Do not show
+	```js
+	options:{
+		// Other configuration
+		userInfo:false, // Do not display user information
+	}
+
+	```
+	`ture`: Show the default string
+	```js
+	options:{
+		// Other configuration
+		userInfo:true, // Show HTML:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky'
+	}
+
+	```
+	3. Object format, set `userImage`: user avatar address and `userName`: user name, such as:
+	```js
+	options:{
+		// Other configuration
+		userImage:'https://cdn.jsdelivr.net/npm/luckyresources@1.0.3/assets/img/logo/logo.png', // Avatar url
+		userName:'Lucky', // username
+	}
+	```
+	4. Note that if set to `undefined` or not set, the same as setting `false`
 
 ------------
 ### userMenuItem

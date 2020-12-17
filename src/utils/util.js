@@ -3,7 +3,8 @@ import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
 import { hasChinaword,isRealNum } from '../global/validate';
 import Store from '../store';
-import locale from '../locale/locale'; 
+import locale from '../locale/locale';
+import numeral from 'numeral';
 // import method from '../global/method';
 
 /**
@@ -38,6 +39,10 @@ function common_extend(jsonbject1, jsonbject2) {
     }
 
     for (let attr in jsonbject2) {
+        // undefined is equivalent to no setting
+        if(jsonbject2[attr] == undefined){
+            continue;
+        }
         resultJsonObject[attr] = jsonbject2[attr];
     }
 
