@@ -281,9 +281,12 @@ export function initialSheetBar(){
 
         let $t = $(this);
         let txt = $t.text(), oldtxt = $t.data("oldtxt");
-        var reg1 = new RegExp("[\\[\\]:\\?*\/'\"]");
-        if(reg1.test(txt)){
+        if(txt.length>31 || txt.charAt(0)=="'" || txt.charAt(txt.length-1)=="'" || /[：\:\\\/？\?\*\[\]]+/.test(txt)){
             alert(locale_sheetconfig.sheetNameSpecCharError);
+            setTimeout(()=>{
+                luckysheetsheetnameeditor($(this));
+                $(this).focus();
+            }, 1);
             return;
         }
 
