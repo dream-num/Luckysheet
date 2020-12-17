@@ -1,5 +1,6 @@
 import { selectionCopyShow, selectIsOverlap } from './select';
 import { luckyColor, iconfontObjects } from './constant';
+import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetMoreFormat from './moreFormat';
 import alternateformat from './alternateformat';
 import conditionformat from './conditionformat';
@@ -584,7 +585,7 @@ const menuButton = {
                     togglePaletteLessText: locale_toolbar.collapse,
                     togglePaletteOnly: true,
                     clearText: locale_toolbar.clearText,
-                    color:"#000",
+                    color: luckysheetConfigsetting.defaultTextColor,
                     noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.textcolor" + server.gridKey,
                     palette: [["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
@@ -716,7 +717,7 @@ const menuButton = {
                     showSelectionPalette: true,
                     maxPaletteSize: 8,
                     maxSelectionSize: 8,
-                    color: "#fff",
+                    color: luckysheetConfigsetting.defaultCellColor,
                     cancelText: locale_button.cancel,
                     chooseText: locale_button.confirm,
                     togglePaletteMoreText: locale_toolbar.customColor,
