@@ -1,5 +1,5 @@
 import { seriesLoadScripts, loadLinks, $$ } from '../../utils/util'
-import { generateRandomKey, replaceHtml, deepCopy, isEqual } from '../../utils/chartUtil'
+import { generateRandomKey, replaceHtml, deepCopy, isEqual, saveChart } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import Store from '../../store'
 import formula from '../../global/formula';
@@ -41,7 +41,6 @@ function chart(data, isDemo) {
 
     seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
-        console.info('chartmix::', chartmix.default)
 
         Vue.use(chartmix.default, { store })
         let outDom = document.getElementsByTagName('body')[0]
@@ -50,6 +49,20 @@ function chart(data, isDemo) {
         // 监控图表设置项更新,记录撤销重做步骤
         Object.defineProperty(store.state.chartSetting, 'number', {
             set(val) {
+                let chartTypeInfo = store.state.chartSetting.chartTypeInfo
+                if (chartTypeInfo.isChangeType) {
+                    let order = getSheetIndex(Store.currentSheetIndex);
+                    let file = Store.luckysheetfile[order];
+                    if (Store.clearjfundo) {
+                        let redo = {};
+                        redo["type"] = 'updateChartType';
+                        redo["sheetIndex"] = file.index;
+                        redo['chart'] = chartTypeInfo
+                        Store.jfundo = [];
+                        Store.jfredo.push(redo);
+                    }
+                    return
+                }
                 let prop = deepCopy(store.state.chartSetting.prop)
                 let flag = prop.oldValue !== undefined && prop.oldValue !== '' && !isEqual(prop.oldValue, prop.value) && (!Store.jfredo.length || !isEqual(prop, Store.jfredo[Store.jfredo.length - 1].chart))
                 if (flag) {
@@ -105,6 +118,7 @@ function chart(data, isDemo) {
         Store.chartparam.updateChart = chartmix.default.updateChart
         Store.chartparam.storeDelete = {}   // 存放删除的图表
         Store.chartparam.restoreChart = chartmix.default.restoreChart
+        Store.chartparam.changeChartType = chartmix.default.changeChartType
 
         // 初始化渲染图表
         for (let i = 0; i < data.length; i++) {
@@ -342,6 +356,9 @@ function chart(data, isDemo) {
                     Store.jfredo.push(redo);
                 }
 
+                // 保存位置信息
+                saveChart(chart_id, { top: parseInt(myTop), left: parseInt(myLeft) })
+
                 // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "top": myTop, "left": myLeft });
                 //存储滚动条位置//协同编辑时可能影响用户操作，可以考虑不存储滚动条位置,或者滚动条信息仅仅保存到后台，但是不分发到其他设备（google sheet没有存储滚动条位置）
                 // Store.server.saveParam("c", sheetIndex, { "left":myLeft, "top":myTop,"scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op":"xy", "cid": chart_id});
@@ -393,6 +410,9 @@ function chart(data, isDemo) {
                     Store.jfundo = [];
                     Store.jfredo.push(redo);
                 }
+
+                // 保存位置信息
+                saveChart(chart_id, { top: parseInt(myTop), left: parseInt(myLeft), width: parseInt(myWidth), height: parseInt(myHeight) })
 
                 //加上滚动条的位置
                 // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "height": myHeight, "width": myWidth, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft });

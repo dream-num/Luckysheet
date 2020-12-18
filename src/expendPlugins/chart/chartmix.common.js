@@ -248,29 +248,40 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "0117":
-/***/ (function(module, exports) {
+/***/ "00a5":
+/***/ (function(module, exports, __webpack_require__) {
 
-var hasOwnProperty = {}.hasOwnProperty;
+var isObject = __webpack_require__("42cc");
+var classof = __webpack_require__("3d7c");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
+var MATCH = wellKnownSymbol('match');
+
+// `IsRegExp` abstract operation
+// https://tc39.github.io/ecma262/#sec-isregexp
+module.exports = function (it) {
+  var isRegExp;
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
 };
 
 
 /***/ }),
 
-/***/ "0160":
+/***/ "0119":
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__("6d05");
+var toInteger = __webpack_require__("0296");
 
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var test = {};
+var max = Math.max;
+var min = Math.min;
 
-test[TO_STRING_TAG] = 'z';
-
-module.exports = String(test) === '[object z]';
+// Helper for a popular repeating case of the spec:
+// Let integer be ? ToInteger(index).
+// If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
+module.exports = function (index, length) {
+  var integer = toInteger(index);
+  return integer < 0 ? max(integer + length, 0) : min(integer, length);
+};
 
 
 /***/ }),
@@ -302,63 +313,44 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "034f":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "0296":
+/***/ (function(module, exports) {
 
-"use strict";
+var ceil = Math.ceil;
+var floor = Math.floor;
 
-var $ = __webpack_require__("485e");
-var $filter = __webpack_require__("bc2f").filter;
-var arrayMethodHasSpeciesSupport = __webpack_require__("243e");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
-// Edge 14- issue
-var USES_TO_LENGTH = arrayMethodUsesToLength('filter');
-
-// `Array.prototype.filter` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.filter
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  filter: function filter(callbackfn /* , thisArg */) {
-    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
+// `ToInteger` abstract operation
+// https://tc39.github.io/ecma262/#sec-tointeger
+module.exports = function (argument) {
+  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+};
 
 
 /***/ }),
 
-/***/ "0610":
+/***/ "029f":
 /***/ (function(module, exports, __webpack_require__) {
 
-var requireObjectCoercible = __webpack_require__("21e0");
-var whitespaces = __webpack_require__("7b58");
+var global = __webpack_require__("8d5c");
+var userAgent = __webpack_require__("6406");
 
-var whitespace = '[' + whitespaces + ']';
-var ltrim = RegExp('^' + whitespace + whitespace + '*');
-var rtrim = RegExp(whitespace + whitespace + '*$');
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8;
+var match, version;
 
-// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
-var createMethod = function (TYPE) {
-  return function ($this) {
-    var string = String(requireObjectCoercible($this));
-    if (TYPE & 1) string = string.replace(ltrim, '');
-    if (TYPE & 2) string = string.replace(rtrim, '');
-    return string;
-  };
-};
+if (v8) {
+  match = v8.split('.');
+  version = match[0] + match[1];
+} else if (userAgent) {
+  match = userAgent.match(/Edge\/(\d+)/);
+  if (!match || match[1] >= 74) {
+    match = userAgent.match(/Chrome\/(\d+)/);
+    if (match) version = match[1];
+  }
+}
 
-module.exports = {
-  // `String.prototype.{ trimLeft, trimStart }` methods
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
-  start: createMethod(1),
-  // `String.prototype.{ trimRight, trimEnd }` methods
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
-  end: createMethod(2),
-  // `String.prototype.trim` method
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
-  trim: createMethod(3)
-};
+module.exports = version && +version;
 
 
 /***/ }),
@@ -405,70 +397,6 @@ module.exports = assocIndexOf;
 
 /***/ }),
 
-/***/ "06b2":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toInteger = __webpack_require__("b804");
-var requireObjectCoercible = __webpack_require__("21e0");
-
-// `String.prototype.repeat` method implementation
-// https://tc39.github.io/ecma262/#sec-string.prototype.repeat
-module.exports = ''.repeat || function repeat(count) {
-  var str = String(requireObjectCoercible(this));
-  var result = '';
-  var n = toInteger(count);
-  if (n < 0 || n == Infinity) throw RangeError('Wrong number of repetitions');
-  for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
-  return result;
-};
-
-
-/***/ }),
-
-/***/ "0825":
-/***/ (function(module, exports) {
-
-// iterable DOM collections
-// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-module.exports = {
-  CSSRuleList: 0,
-  CSSStyleDeclaration: 0,
-  CSSValueList: 0,
-  ClientRectList: 0,
-  DOMRectList: 0,
-  DOMStringList: 0,
-  DOMTokenList: 1,
-  DataTransferItemList: 0,
-  FileList: 0,
-  HTMLAllCollection: 0,
-  HTMLCollection: 0,
-  HTMLFormElement: 0,
-  HTMLSelectElement: 0,
-  MediaList: 0,
-  MimeTypeArray: 0,
-  NamedNodeMap: 0,
-  NodeList: 1,
-  PaintRequestList: 0,
-  Plugin: 0,
-  PluginArray: 0,
-  SVGLengthList: 0,
-  SVGNumberList: 0,
-  SVGPathSegList: 0,
-  SVGPointList: 0,
-  SVGStringList: 0,
-  SVGTransformList: 0,
-  SourceBufferList: 0,
-  StyleSheetList: 0,
-  TextTrackCueList: 0,
-  TextTrackList: 0,
-  TouchList: 0
-};
-
-
-/***/ }),
-
 /***/ "083c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -502,74 +430,45 @@ module.exports = listCacheSet;
 
 /***/ }),
 
-/***/ "08f7":
+/***/ "0861":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var getPrototypeOf = __webpack_require__("2eea");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var has = __webpack_require__("0117");
-var wellKnownSymbol = __webpack_require__("6d05");
-var IS_PURE = __webpack_require__("7fe9");
+var $ = __webpack_require__("a09b");
+var $trim = __webpack_require__("9414").trim;
+var forcedStringTrimMethod = __webpack_require__("1ba2");
 
-var ITERATOR = wellKnownSymbol('iterator');
-var BUGGY_SAFARI_ITERATORS = false;
-
-var returnThis = function () { return this; };
-
-// `%IteratorPrototype%` object
-// https://tc39.github.io/ecma262/#sec-%iteratorprototype%-object
-var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
-
-if ([].keys) {
-  arrayIterator = [].keys();
-  // Safari 8 has buggy iterators w/o `next`
-  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
-  else {
-    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
-    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+// `String.prototype.trim` method
+// https://tc39.github.io/ecma262/#sec-string.prototype.trim
+$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  trim: function trim() {
+    return $trim(this);
   }
-}
-
-if (IteratorPrototype == undefined) IteratorPrototype = {};
-
-// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-if (!IS_PURE && !has(IteratorPrototype, ITERATOR)) {
-  createNonEnumerableProperty(IteratorPrototype, ITERATOR, returnThis);
-}
-
-module.exports = {
-  IteratorPrototype: IteratorPrototype,
-  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
-};
+});
 
 
 /***/ }),
 
-/***/ "0c3a":
+/***/ "0bd5":
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__("3b29");
-var isArray = __webpack_require__("880d");
-var wellKnownSymbol = __webpack_require__("6d05");
+"use strict";
 
-var SPECIES = wellKnownSymbol('species');
+var $ = __webpack_require__("a09b");
+var exec = __webpack_require__("5133");
 
-// `ArraySpeciesCreate` abstract operation
-// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
-module.exports = function (originalArray, length) {
-  var C;
-  if (isArray(originalArray)) {
-    C = originalArray.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    else if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
-  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
-};
+$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
+  exec: exec
+});
+
+
+/***/ }),
+
+/***/ "0c09":
+/***/ (function(module, exports) {
+
+module.exports = {};
 
 
 /***/ }),
@@ -604,20 +503,60 @@ module.exports = stubArray;
 
 /***/ }),
 
-/***/ "123c":
+/***/ "0ef8":
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__("3b29");
-var classof = __webpack_require__("c7d8");
-var wellKnownSymbol = __webpack_require__("6d05");
+var fails = __webpack_require__("2bc8");
 
-var MATCH = wellKnownSymbol('match');
+var replacement = /#|\.prototype\./;
 
-// `IsRegExp` abstract operation
-// https://tc39.github.io/ecma262/#sec-isregexp
-module.exports = function (it) {
-  var isRegExp;
-  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
+var isForced = function (feature, detection) {
+  var value = data[normalize(feature)];
+  return value == POLYFILL ? true
+    : value == NATIVE ? false
+    : typeof detection == 'function' ? fails(detection)
+    : !!detection;
+};
+
+var normalize = isForced.normalize = function (string) {
+  return String(string).replace(replacement, '.').toLowerCase();
+};
+
+var data = isForced.data = {};
+var NATIVE = isForced.NATIVE = 'N';
+var POLYFILL = isForced.POLYFILL = 'P';
+
+module.exports = isForced;
+
+
+/***/ }),
+
+/***/ "0fca":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+
+module.exports = function (key, value) {
+  try {
+    createNonEnumerableProperty(global, key, value);
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+
+/***/ }),
+
+/***/ "1132":
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return { error: false, value: exec() };
+  } catch (error) {
+    return { error: true, value: error };
+  }
 };
 
 
@@ -643,74 +582,95 @@ module.exports = listCacheClear;
 
 /***/ }),
 
-/***/ "12e0":
+/***/ "139e":
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__("efd0");
+"use strict";
 
-module.exports = global.Promise;
+var toIndexedObject = __webpack_require__("ec87");
+var addToUnscopables = __webpack_require__("c119");
+var Iterators = __webpack_require__("27c4");
+var InternalStateModule = __webpack_require__("891c");
+var defineIterator = __webpack_require__("cf0a");
+
+var ARRAY_ITERATOR = 'Array Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
+
+// `Array.prototype.entries` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.entries
+// `Array.prototype.keys` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.keys
+// `Array.prototype.values` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.values
+// `Array.prototype[@@iterator]` method
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
+// `CreateArrayIterator` internal method
+// https://tc39.github.io/ecma262/#sec-createarrayiterator
+module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
+  setInternalState(this, {
+    type: ARRAY_ITERATOR,
+    target: toIndexedObject(iterated), // target
+    index: 0,                          // next index
+    kind: kind                         // kind
+  });
+// `%ArrayIteratorPrototype%.next` method
+// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
+}, function () {
+  var state = getInternalState(this);
+  var target = state.target;
+  var kind = state.kind;
+  var index = state.index++;
+  if (!target || index >= target.length) {
+    state.target = undefined;
+    return { value: undefined, done: true };
+  }
+  if (kind == 'keys') return { value: index, done: false };
+  if (kind == 'values') return { value: target[index], done: false };
+  return { value: [index, target[index]], done: false };
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values%
+// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
+// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
+Iterators.Arguments = Iterators.Array;
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
 
 
 /***/ }),
 
-/***/ "13d0":
+/***/ "13cf":
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var definePropertyModule = __webpack_require__("30cf");
-var createPropertyDescriptor = __webpack_require__("ef69");
+"use strict";
 
-module.exports = DESCRIPTORS ? function (object, key, value) {
-  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
+var $ = __webpack_require__("a09b");
+var $find = __webpack_require__("bfc3").find;
+var addToUnscopables = __webpack_require__("c119");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
 
+var FIND = 'find';
+var SKIPS_HOLES = true;
 
-/***/ }),
+var USES_TO_LENGTH = arrayMethodUsesToLength(FIND);
 
-/***/ "146b":
-/***/ (function(module, exports, __webpack_require__) {
+// Shouldn't skip holes
+if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
 
-var wellKnownSymbol = __webpack_require__("6d05");
+// `Array.prototype.find` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
+  find: function find(callbackfn /* , that = undefined */) {
+    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
 
-var ITERATOR = wellKnownSymbol('iterator');
-var SAFE_CLOSING = false;
-
-try {
-  var called = 0;
-  var iteratorWithReturn = {
-    next: function () {
-      return { done: !!called++ };
-    },
-    'return': function () {
-      SAFE_CLOSING = true;
-    }
-  };
-  iteratorWithReturn[ITERATOR] = function () {
-    return this;
-  };
-  // eslint-disable-next-line no-throw-literal
-  Array.from(iteratorWithReturn, function () { throw 2; });
-} catch (error) { /* empty */ }
-
-module.exports = function (exec, SKIP_CLOSING) {
-  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
-  var ITERATION_SUPPORT = false;
-  try {
-    var object = {};
-    object[ITERATOR] = function () {
-      return {
-        next: function () {
-          return { done: ITERATION_SUPPORT = true };
-        }
-      };
-    };
-    exec(object);
-  } catch (error) { /* empty */ }
-  return ITERATION_SUPPORT;
-};
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables(FIND);
 
 
 /***/ }),
@@ -728,9 +688,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChartBaseBox", function() { return ChartBaseBox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChartBaseRadio", function() { return ChartBaseRadio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importComp", function() { return importComp; });
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c585");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("402f");
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("ee75");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("fae9");
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("5880");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_2__);
@@ -805,28 +765,31 @@ var importComp = function importComp(t) {
 
 /***/ }),
 
-/***/ "1564":
+/***/ "15b1":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var toIndexedObject = __webpack_require__("ec87");
+var nativeGetOwnPropertyNames = __webpack_require__("3de6").f;
 
-var $ = __webpack_require__("485e");
-var $map = __webpack_require__("bc2f").map;
-var arrayMethodHasSpeciesSupport = __webpack_require__("243e");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
+var toString = {}.toString;
 
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
-// FF49- issue
-var USES_TO_LENGTH = arrayMethodUsesToLength('map');
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
 
-// `Array.prototype.map` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.map
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  map: function map(callbackfn /* , thisArg */) {
-    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+var getWindowNames = function (it) {
+  try {
+    return nativeGetOwnPropertyNames(it);
+  } catch (error) {
+    return windowNames.slice();
   }
-});
+};
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+module.exports.f = function getOwnPropertyNames(it) {
+  return windowNames && toString.call(it) == '[object Window]'
+    ? getWindowNames(it)
+    : nativeGetOwnPropertyNames(toIndexedObject(it));
+};
 
 
 /***/ }),
@@ -874,6 +837,20 @@ module.exports = isArguments;
 
 /***/ }),
 
+/***/ "15cc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("42cc");
+
+module.exports = function (it) {
+  if (!isObject(it) && it !== null) {
+    throw TypeError("Can't set " + String(it) + ' as a prototype');
+  } return it;
+};
+
+
+/***/ }),
+
 /***/ "164e":
 /***/ (function(module, exports) {
 
@@ -881,122 +858,31 @@ module.exports = require("echarts");
 
 /***/ }),
 
-/***/ "17c9":
+/***/ "172f":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
-var whitespaces = __webpack_require__("7b58");
+var defineWellKnownSymbol = __webpack_require__("1f9e");
 
-var non = '\u200B\u0085\u180E';
-
-// check that a method works with the correct list
-// of whitespaces and has a correct name
-module.exports = function (METHOD_NAME) {
-  return fails(function () {
-    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
-  });
-};
+// `Symbol.iterator` well-known symbol
+// https://tc39.github.io/ecma262/#sec-symbol.iterator
+defineWellKnownSymbol('iterator');
 
 
 /***/ }),
 
-/***/ "18e4":
+/***/ "1a81":
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__("efd0");
-var getOwnPropertyDescriptor = __webpack_require__("977b").f;
-var macrotask = __webpack_require__("baaf").set;
-var IS_IOS = __webpack_require__("837e");
-var IS_NODE = __webpack_require__("a976");
+var defineProperty = __webpack_require__("22af").f;
+var has = __webpack_require__("b64f");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
-var document = global.document;
-var process = global.process;
-var Promise = global.Promise;
-// Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
-var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 
-var flush, head, last, notify, toggle, node, promise, then;
-
-// modern engines have queueMicrotask method
-if (!queueMicrotask) {
-  flush = function () {
-    var parent, fn;
-    if (IS_NODE && (parent = process.domain)) parent.exit();
-    while (head) {
-      fn = head.fn;
-      head = head.next;
-      try {
-        fn();
-      } catch (error) {
-        if (head) notify();
-        else last = undefined;
-        throw error;
-      }
-    } last = undefined;
-    if (parent) parent.enter();
-  };
-
-  // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-  if (!IS_IOS && !IS_NODE && MutationObserver && document) {
-    toggle = true;
-    node = document.createTextNode('');
-    new MutationObserver(flush).observe(node, { characterData: true });
-    notify = function () {
-      node.data = toggle = !toggle;
-    };
-  // environments with maybe non-completely correct, but existent Promise
-  } else if (Promise && Promise.resolve) {
-    // Promise.resolve without an argument throws an error in LG WebOS 2
-    promise = Promise.resolve(undefined);
-    then = promise.then;
-    notify = function () {
-      then.call(promise, flush);
-    };
-  // Node.js without promises
-  } else if (IS_NODE) {
-    notify = function () {
-      process.nextTick(flush);
-    };
-  // for other environments - macrotask based on:
-  // - setImmediate
-  // - MessageChannel
-  // - window.postMessag
-  // - onreadystatechange
-  // - setTimeout
-  } else {
-    notify = function () {
-      // strange IE + webpack dev server bug - use .call(global)
-      macrotask.call(global, flush);
-    };
+module.exports = function (it, TAG, STATIC) {
+  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
+    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
   }
-}
-
-module.exports = queueMicrotask || function (fn) {
-  var task = { fn: fn, next: undefined };
-  if (last) last.next = task;
-  if (!head) {
-    head = task;
-    notify();
-  } last = task;
-};
-
-
-/***/ }),
-
-/***/ "18ff":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-
-module.exports = function (key, value) {
-  try {
-    createNonEnumerableProperty(global, key, value);
-  } catch (error) {
-    global[key] = value;
-  } return value;
 };
 
 
@@ -1048,30 +934,21 @@ module.exports = isBuffer;
 
 /***/ }),
 
-/***/ "1b38":
+/***/ "1ba2":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
+var fails = __webpack_require__("2bc8");
+var whitespaces = __webpack_require__("1fef");
 
-var replacement = /#|\.prototype\./;
+var non = '\u200B\u0085\u180E';
 
-var isForced = function (feature, detection) {
-  var value = data[normalize(feature)];
-  return value == POLYFILL ? true
-    : value == NATIVE ? false
-    : typeof detection == 'function' ? fails(detection)
-    : !!detection;
+// check that a method works with the correct list
+// of whitespaces and has a correct name
+module.exports = function (METHOD_NAME) {
+  return fails(function () {
+    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+  });
 };
-
-var normalize = isForced.normalize = function (string) {
-  return String(string).replace(replacement, '.').toLowerCase();
-};
-
-var data = isForced.data = {};
-var NATIVE = isForced.NATIVE = 'N';
-var POLYFILL = isForced.POLYFILL = 'P';
-
-module.exports = isForced;
 
 
 /***/ }),
@@ -1099,50 +976,34 @@ module.exports = mapCacheGet;
 
 /***/ }),
 
-/***/ "1bbe":
+/***/ "1c02":
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__("28a9");
-var uid = __webpack_require__("7a85");
+var store = __webpack_require__("755c");
 
-var keys = shared('keys');
+var functionToString = Function.toString;
 
-module.exports = function (key) {
-  return keys[key] || (keys[key] = uid(key));
-};
+// this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
+if (typeof store.inspectSource != 'function') {
+  store.inspectSource = function (it) {
+    return functionToString.call(it);
+  };
+}
+
+module.exports = store.inspectSource;
 
 
 /***/ }),
 
-/***/ "1be6":
+/***/ "1c94":
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__("b804");
-var requireObjectCoercible = __webpack_require__("21e0");
+var classof = __webpack_require__("3d7c");
 
-// `String.prototype.{ codePointAt, at }` methods implementation
-var createMethod = function (CONVERT_TO_STRING) {
-  return function ($this, pos) {
-    var S = String(requireObjectCoercible($this));
-    var position = toInteger(pos);
-    var size = S.length;
-    var first, second;
-    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-    first = S.charCodeAt(position);
-    return first < 0xD800 || first > 0xDBFF || position + 1 === size
-      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-        ? CONVERT_TO_STRING ? S.charAt(position) : first
-        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-  };
-};
-
-module.exports = {
-  // `String.prototype.codePointAt` method
-  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
-  codeAt: createMethod(false),
-  // `String.prototype.at` method
-  // https://github.com/mathiasbynens/String.prototype.at
-  charAt: createMethod(true)
+// `IsArray` abstract operation
+// https://tc39.github.io/ecma262/#sec-isarray
+module.exports = Array.isArray || function isArray(arg) {
+  return classof(arg) == 'Array';
 };
 
 
@@ -1215,16 +1076,62 @@ module.exports = baseIsTypedArray;
 
 /***/ }),
 
-/***/ "1d29":
+/***/ "1d7a":
 /***/ (function(module, exports, __webpack_require__) {
 
-var NATIVE_SYMBOL = __webpack_require__("2487");
+var DESCRIPTORS = __webpack_require__("aba0");
+var defineProperty = __webpack_require__("22af").f;
 
-module.exports = NATIVE_SYMBOL
-  // eslint-disable-next-line no-undef
-  && !Symbol.sham
-  // eslint-disable-next-line no-undef
-  && typeof Symbol.iterator == 'symbol';
+var FunctionPrototype = Function.prototype;
+var FunctionPrototypeToString = FunctionPrototype.toString;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// Function instances `.name` property
+// https://tc39.github.io/ecma262/#sec-function-instances-name
+if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
+  defineProperty(FunctionPrototype, NAME, {
+    configurable: true,
+    get: function () {
+      try {
+        return FunctionPrototypeToString.call(this).match(nameRE)[1];
+      } catch (error) {
+        return '';
+      }
+    }
+  });
+}
+
+
+/***/ }),
+
+/***/ "1e51":
+/***/ (function(module, exports, __webpack_require__) {
+
+var aFunction = __webpack_require__("b9ec");
+
+// optional / simple context binding
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 0: return function () {
+      return fn.call(that);
+    };
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
 
 
 /***/ }),
@@ -1294,6 +1201,30 @@ module.exports = getTag;
 
 /***/ }),
 
+/***/ "1f17":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var shared = __webpack_require__("fe3d");
+var has = __webpack_require__("b64f");
+var uid = __webpack_require__("95bd");
+var NATIVE_SYMBOL = __webpack_require__("c1d9");
+var USE_SYMBOL_AS_UID = __webpack_require__("89e2");
+
+var WellKnownSymbolsStore = shared('wks');
+var Symbol = global.Symbol;
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withoutSetter || uid;
+
+module.exports = function (name) {
+  if (!has(WellKnownSymbolsStore, name)) {
+    if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
+    else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+  } return WellKnownSymbolsStore[name];
+};
+
+
+/***/ }),
+
 /***/ "1f47":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1312,6 +1243,38 @@ function hashClear() {
 }
 
 module.exports = hashClear;
+
+
+/***/ }),
+
+/***/ "1f70":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var $findIndex = __webpack_require__("bfc3").findIndex;
+var addToUnscopables = __webpack_require__("c119");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var FIND_INDEX = 'findIndex';
+var SKIPS_HOLES = true;
+
+var USES_TO_LENGTH = arrayMethodUsesToLength(FIND_INDEX);
+
+// Shouldn't skip holes
+if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES = false; });
+
+// `Array.prototype.findIndex` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.findindex
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
+  findIndex: function findIndex(callbackfn /* , that = undefined */) {
+    return $findIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables(FIND_INDEX);
 
 
 /***/ }),
@@ -1341,38 +1304,85 @@ module.exports = setToArray;
 
 /***/ }),
 
-/***/ "2092":
+/***/ "1f9e":
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__("0117");
-var toIndexedObject = __webpack_require__("3274");
-var indexOf = __webpack_require__("af7d").indexOf;
-var hiddenKeys = __webpack_require__("be34");
+var path = __webpack_require__("e469");
+var has = __webpack_require__("b64f");
+var wrappedWellKnownSymbolModule = __webpack_require__("4dc3");
+var defineProperty = __webpack_require__("22af").f;
 
-module.exports = function (object, names) {
-  var O = toIndexedObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~indexOf(result, key) || result.push(key);
-  }
-  return result;
+module.exports = function (NAME) {
+  var Symbol = path.Symbol || (path.Symbol = {});
+  if (!has(Symbol, NAME)) defineProperty(Symbol, NAME, {
+    value: wrappedWellKnownSymbolModule.f(NAME)
+  });
 };
 
 
 /***/ }),
 
-/***/ "21e0":
+/***/ "1fef":
 /***/ (function(module, exports) {
 
-// `RequireObjectCoercible` abstract operation
-// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
-module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on " + it);
-  return it;
+// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+
+/***/ "20ca":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("fc3a");
+var isObject = __webpack_require__("42cc");
+var newPromiseCapability = __webpack_require__("3781");
+
+module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
+  var promiseCapability = newPromiseCapability.f(C);
+  var resolve = promiseCapability.resolve;
+  resolve(x);
+  return promiseCapability.promise;
+};
+
+
+/***/ }),
+
+/***/ "225c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+
+module.exports = global.Promise;
+
+
+/***/ }),
+
+/***/ "22af":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__("aba0");
+var IE8_DOM_DEFINE = __webpack_require__("5e7a");
+var anObject = __webpack_require__("fc3a");
+var toPrimitive = __webpack_require__("34e1");
+
+var nativeDefineProperty = Object.defineProperty;
+
+// `Object.defineProperty` method
+// https://tc39.github.io/ecma262/#sec-object.defineproperty
+exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return nativeDefineProperty(O, P, Attributes);
+  } catch (error) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
 };
 
 
@@ -1432,6 +1442,24 @@ module.exports = baseIsNative;
 
 /***/ }),
 
+/***/ "2374":
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__("4154");
+var Iterators = __webpack_require__("27c4");
+var wellKnownSymbol = __webpack_require__("1f17");
+
+var ITERATOR = wellKnownSymbol('iterator');
+
+module.exports = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+
+
+/***/ }),
+
 /***/ "243c":
 /***/ (function(module, exports) {
 
@@ -1461,32 +1489,6 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ "243e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__("aad0");
-var wellKnownSymbol = __webpack_require__("6d05");
-var V8_VERSION = __webpack_require__("7047");
-
-var SPECIES = wellKnownSymbol('species');
-
-module.exports = function (METHOD_NAME) {
-  // We can't use this feature detection in V8 since it causes
-  // deoptimization and serious performance degradation
-  // https://github.com/zloirock/core-js/issues/677
-  return V8_VERSION >= 51 || !fails(function () {
-    var array = [];
-    var constructor = array.constructor = {};
-    constructor[SPECIES] = function () {
-      return { foo: 1 };
-    };
-    return array[METHOD_NAME](Boolean).foo !== 1;
-  });
-};
-
-
-/***/ }),
-
 /***/ "2480":
 /***/ (function(module, exports) {
 
@@ -1511,424 +1513,101 @@ module.exports = hashDelete;
 
 /***/ }),
 
-/***/ "2487":
+/***/ "270f":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
-
-module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
-  // Chrome 38 Symbol has incorrect toString conversion
-  // eslint-disable-next-line no-undef
-  return !String(Symbol());
-});
-
-
-/***/ }),
-
-/***/ "2522":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var global = __webpack_require__("efd0");
-var getBuiltIn = __webpack_require__("4b56");
-var IS_PURE = __webpack_require__("7fe9");
-var DESCRIPTORS = __webpack_require__("35a9");
-var NATIVE_SYMBOL = __webpack_require__("2487");
-var USE_SYMBOL_AS_UID = __webpack_require__("1d29");
-var fails = __webpack_require__("aad0");
-var has = __webpack_require__("0117");
-var isArray = __webpack_require__("880d");
-var isObject = __webpack_require__("3b29");
-var anObject = __webpack_require__("b973");
-var toObject = __webpack_require__("3c6b");
-var toIndexedObject = __webpack_require__("3274");
-var toPrimitive = __webpack_require__("bab3");
-var createPropertyDescriptor = __webpack_require__("ef69");
-var nativeObjectCreate = __webpack_require__("8e7d");
-var objectKeys = __webpack_require__("c59c");
-var getOwnPropertyNamesModule = __webpack_require__("6b64");
-var getOwnPropertyNamesExternal = __webpack_require__("c647");
-var getOwnPropertySymbolsModule = __webpack_require__("9349");
-var getOwnPropertyDescriptorModule = __webpack_require__("977b");
-var definePropertyModule = __webpack_require__("30cf");
-var propertyIsEnumerableModule = __webpack_require__("bbfb");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var redefine = __webpack_require__("d496");
-var shared = __webpack_require__("28a9");
-var sharedKey = __webpack_require__("1bbe");
-var hiddenKeys = __webpack_require__("be34");
-var uid = __webpack_require__("7a85");
-var wellKnownSymbol = __webpack_require__("6d05");
-var wrappedWellKnownSymbolModule = __webpack_require__("b9c4");
-var defineWellKnownSymbol = __webpack_require__("4044");
-var setToStringTag = __webpack_require__("27e6");
-var InternalStateModule = __webpack_require__("f806");
-var $forEach = __webpack_require__("bc2f").forEach;
-
-var HIDDEN = sharedKey('hidden');
-var SYMBOL = 'Symbol';
-var PROTOTYPE = 'prototype';
-var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(SYMBOL);
-var ObjectPrototype = Object[PROTOTYPE];
-var $Symbol = global.Symbol;
-var $stringify = getBuiltIn('JSON', 'stringify');
-var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-var nativeDefineProperty = definePropertyModule.f;
-var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
-var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
-var AllSymbols = shared('symbols');
-var ObjectPrototypeSymbols = shared('op-symbols');
-var StringToSymbolRegistry = shared('string-to-symbol-registry');
-var SymbolToStringRegistry = shared('symbol-to-string-registry');
-var WellKnownSymbolsStore = shared('wks');
-var QObject = global.QObject;
-// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
-
-// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDescriptor = DESCRIPTORS && fails(function () {
-  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
-    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
-  })).a != 7;
-}) ? function (O, P, Attributes) {
-  var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
-  if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
-  nativeDefineProperty(O, P, Attributes);
-  if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
-    nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
-  }
-} : nativeDefineProperty;
-
-var wrap = function (tag, description) {
-  var symbol = AllSymbols[tag] = nativeObjectCreate($Symbol[PROTOTYPE]);
-  setInternalState(symbol, {
-    type: SYMBOL,
-    tag: tag,
-    description: description
-  });
-  if (!DESCRIPTORS) symbol.description = description;
-  return symbol;
-};
-
-var isSymbol = USE_SYMBOL_AS_UID ? function (it) {
-  return typeof it == 'symbol';
-} : function (it) {
-  return Object(it) instanceof $Symbol;
-};
-
-var $defineProperty = function defineProperty(O, P, Attributes) {
-  if (O === ObjectPrototype) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
-  anObject(O);
-  var key = toPrimitive(P, true);
-  anObject(Attributes);
-  if (has(AllSymbols, key)) {
-    if (!Attributes.enumerable) {
-      if (!has(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {}));
-      O[HIDDEN][key] = true;
-    } else {
-      if (has(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
-      Attributes = nativeObjectCreate(Attributes, { enumerable: createPropertyDescriptor(0, false) });
-    } return setSymbolDescriptor(O, key, Attributes);
-  } return nativeDefineProperty(O, key, Attributes);
-};
-
-var $defineProperties = function defineProperties(O, Properties) {
-  anObject(O);
-  var properties = toIndexedObject(Properties);
-  var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
-  $forEach(keys, function (key) {
-    if (!DESCRIPTORS || $propertyIsEnumerable.call(properties, key)) $defineProperty(O, key, properties[key]);
-  });
-  return O;
-};
-
-var $create = function create(O, Properties) {
-  return Properties === undefined ? nativeObjectCreate(O) : $defineProperties(nativeObjectCreate(O), Properties);
-};
-
-var $propertyIsEnumerable = function propertyIsEnumerable(V) {
-  var P = toPrimitive(V, true);
-  var enumerable = nativePropertyIsEnumerable.call(this, P);
-  if (this === ObjectPrototype && has(AllSymbols, P) && !has(ObjectPrototypeSymbols, P)) return false;
-  return enumerable || !has(this, P) || !has(AllSymbols, P) || has(this, HIDDEN) && this[HIDDEN][P] ? enumerable : true;
-};
-
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
-  var it = toIndexedObject(O);
-  var key = toPrimitive(P, true);
-  if (it === ObjectPrototype && has(AllSymbols, key) && !has(ObjectPrototypeSymbols, key)) return;
-  var descriptor = nativeGetOwnPropertyDescriptor(it, key);
-  if (descriptor && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) {
-    descriptor.enumerable = true;
-  }
-  return descriptor;
-};
-
-var $getOwnPropertyNames = function getOwnPropertyNames(O) {
-  var names = nativeGetOwnPropertyNames(toIndexedObject(O));
-  var result = [];
-  $forEach(names, function (key) {
-    if (!has(AllSymbols, key) && !has(hiddenKeys, key)) result.push(key);
-  });
-  return result;
-};
-
-var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
-  var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
-  var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject(O));
-  var result = [];
-  $forEach(names, function (key) {
-    if (has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key))) {
-      result.push(AllSymbols[key]);
-    }
-  });
-  return result;
-};
-
-// `Symbol` constructor
-// https://tc39.github.io/ecma262/#sec-symbol-constructor
-if (!NATIVE_SYMBOL) {
-  $Symbol = function Symbol() {
-    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor');
-    var description = !arguments.length || arguments[0] === undefined ? undefined : String(arguments[0]);
-    var tag = uid(description);
-    var setter = function (value) {
-      if (this === ObjectPrototype) setter.call(ObjectPrototypeSymbols, value);
-      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-      setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
-    };
-    if (DESCRIPTORS && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
-    return wrap(tag, description);
-  };
-
-  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
-    return getInternalState(this).tag;
-  });
-
-  redefine($Symbol, 'withoutSetter', function (description) {
-    return wrap(uid(description), description);
-  });
-
-  propertyIsEnumerableModule.f = $propertyIsEnumerable;
-  definePropertyModule.f = $defineProperty;
-  getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
-  getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
-  getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
-
-  wrappedWellKnownSymbolModule.f = function (name) {
-    return wrap(wellKnownSymbol(name), name);
-  };
-
-  if (DESCRIPTORS) {
-    // https://github.com/tc39/proposal-Symbol-description
-    nativeDefineProperty($Symbol[PROTOTYPE], 'description', {
-      configurable: true,
-      get: function description() {
-        return getInternalState(this).description;
-      }
-    });
-    if (!IS_PURE) {
-      redefine(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
-    }
-  }
-}
-
-$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
-  Symbol: $Symbol
-});
-
-$forEach(objectKeys(WellKnownSymbolsStore), function (name) {
-  defineWellKnownSymbol(name);
-});
-
-$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {
-  // `Symbol.for` method
-  // https://tc39.github.io/ecma262/#sec-symbol.for
-  'for': function (key) {
-    var string = String(key);
-    if (has(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
-    var symbol = $Symbol(string);
-    StringToSymbolRegistry[string] = symbol;
-    SymbolToStringRegistry[symbol] = string;
-    return symbol;
-  },
-  // `Symbol.keyFor` method
-  // https://tc39.github.io/ecma262/#sec-symbol.keyfor
-  keyFor: function keyFor(sym) {
-    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol');
-    if (has(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
-  },
-  useSetter: function () { USE_SETTER = true; },
-  useSimple: function () { USE_SETTER = false; }
-});
-
-$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {
-  // `Object.create` method
-  // https://tc39.github.io/ecma262/#sec-object.create
-  create: $create,
-  // `Object.defineProperty` method
-  // https://tc39.github.io/ecma262/#sec-object.defineproperty
-  defineProperty: $defineProperty,
-  // `Object.defineProperties` method
-  // https://tc39.github.io/ecma262/#sec-object.defineproperties
-  defineProperties: $defineProperties,
-  // `Object.getOwnPropertyDescriptor` method
-  // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
-  getOwnPropertyDescriptor: $getOwnPropertyDescriptor
-});
-
-$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {
-  // `Object.getOwnPropertyNames` method
-  // https://tc39.github.io/ecma262/#sec-object.getownpropertynames
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // `Object.getOwnPropertySymbols` method
-  // https://tc39.github.io/ecma262/#sec-object.getownpropertysymbols
-  getOwnPropertySymbols: $getOwnPropertySymbols
-});
-
-// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
-// https://bugs.chromium.org/p/v8/issues/detail?id=3443
-$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {
-  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-    return getOwnPropertySymbolsModule.f(toObject(it));
-  }
-});
-
-// `JSON.stringify` method behavior with symbols
-// https://tc39.github.io/ecma262/#sec-json.stringify
-if ($stringify) {
-  var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL || fails(function () {
-    var symbol = $Symbol();
-    // MS Edge converts symbol values to JSON as {}
-    return $stringify([symbol]) != '[null]'
-      // WebKit converts symbol values to JSON as null
-      || $stringify({ a: symbol }) != '{}'
-      // V8 throws on boxed symbols
-      || $stringify(Object(symbol)) != '{}';
-  });
-
-  $({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
-    // eslint-disable-next-line no-unused-vars
-    stringify: function stringify(it, replacer, space) {
-      var args = [it];
-      var index = 1;
-      var $replacer;
-      while (arguments.length > index) args.push(arguments[index++]);
-      $replacer = replacer;
-      if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-      if (!isArray(replacer)) replacer = function (key, value) {
-        if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
-        if (!isSymbol(value)) return value;
-      };
-      args[1] = replacer;
-      return $stringify.apply(null, args);
-    }
-  });
-}
-
-// `Symbol.prototype[@@toPrimitive]` method
-// https://tc39.github.io/ecma262/#sec-symbol.prototype-@@toprimitive
-if (!$Symbol[PROTOTYPE][TO_PRIMITIVE]) {
-  createNonEnumerableProperty($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-}
-// `Symbol.prototype[@@toStringTag]` property
-// https://tc39.github.io/ecma262/#sec-symbol.prototype-@@tostringtag
-setToStringTag($Symbol, SYMBOL);
-
-hiddenKeys[HIDDEN] = true;
-
-
-/***/ }),
-
-/***/ "260a":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var setGlobal = __webpack_require__("18ff");
-
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || setGlobal(SHARED, {});
-
-module.exports = store;
-
-
-/***/ }),
-
-/***/ "27e6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineProperty = __webpack_require__("30cf").f;
-var has = __webpack_require__("0117");
-var wellKnownSymbol = __webpack_require__("6d05");
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-
-module.exports = function (it, TAG, STATIC) {
-  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
-    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
-  }
-};
-
-
-/***/ }),
-
-/***/ "281b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var DOMIterables = __webpack_require__("0825");
-var ArrayIteratorMethods = __webpack_require__("c703");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var wellKnownSymbol = __webpack_require__("6d05");
-
-var ITERATOR = wellKnownSymbol('iterator');
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var ArrayValues = ArrayIteratorMethods.values;
+var global = __webpack_require__("8d5c");
+var DOMIterables = __webpack_require__("6c5f");
+var forEach = __webpack_require__("d8a8");
+var createNonEnumerableProperty = __webpack_require__("d53e");
 
 for (var COLLECTION_NAME in DOMIterables) {
   var Collection = global[COLLECTION_NAME];
   var CollectionPrototype = Collection && Collection.prototype;
-  if (CollectionPrototype) {
-    // some Chrome versions have non-configurable methods on DOMTokenList
-    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
-      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
-    } catch (error) {
-      CollectionPrototype[ITERATOR] = ArrayValues;
-    }
-    if (!CollectionPrototype[TO_STRING_TAG]) {
-      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
-    }
-    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
-      // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
-        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-      } catch (error) {
-        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
-      }
-    }
+  // some Chrome versions have non-configurable methods on DOMTokenList
+  if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
+    createNonEnumerableProperty(CollectionPrototype, 'forEach', forEach);
+  } catch (error) {
+    CollectionPrototype.forEach = forEach;
   }
 }
 
 
 /***/ }),
 
-/***/ "28a9":
+/***/ "273e":
 /***/ (function(module, exports, __webpack_require__) {
 
-var IS_PURE = __webpack_require__("7fe9");
-var store = __webpack_require__("260a");
+"use strict";
 
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: '3.8.0',
-  mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
-});
+var toInteger = __webpack_require__("0296");
+var requireObjectCoercible = __webpack_require__("4340");
+
+// `String.prototype.repeat` method implementation
+// https://tc39.github.io/ecma262/#sec-string.prototype.repeat
+module.exports = ''.repeat || function repeat(count) {
+  var str = String(requireObjectCoercible(this));
+  var result = '';
+  var n = toInteger(count);
+  if (n < 0 || n == Infinity) throw RangeError('Wrong number of repetitions');
+  for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "27c4":
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ "287a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("fc3a");
+var aFunction = __webpack_require__("b9ec");
+var wellKnownSymbol = __webpack_require__("1f17");
+
+var SPECIES = wellKnownSymbol('species');
+
+// `SpeciesConstructor` abstract operation
+// https://tc39.github.io/ecma262/#sec-speciesconstructor
+module.exports = function (O, defaultConstructor) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aFunction(S);
+};
+
+
+/***/ }),
+
+/***/ "28ea":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("42cc");
+var isArray = __webpack_require__("1c94");
+var wellKnownSymbol = __webpack_require__("1f17");
+
+var SPECIES = wellKnownSymbol('species');
+
+// `ArraySpeciesCreate` abstract operation
+// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
+module.exports = function (originalArray, length) {
+  var C;
+  if (isArray(originalArray)) {
+    C = originalArray.constructor;
+    // cross-realm fallback
+    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+    else if (isObject(C)) {
+      C = C[SPECIES];
+      if (C === null) C = undefined;
+    }
+  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
+};
 
 
 /***/ }),
@@ -1955,324 +1634,53 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ "2a94":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "2bc8":
+/***/ (function(module, exports) {
 
-var global = __webpack_require__("efd0");
-var inspectSource = __webpack_require__("c2b3");
-
-var WeakMap = global.WeakMap;
-
-module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSource(WeakMap));
-
-
-/***/ }),
-
-/***/ "2b11":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("3b29");
-
-module.exports = function (it) {
-  if (!isObject(it) && it !== null) {
-    throw TypeError("Can't set " + String(it) + ' as a prototype');
-  } return it;
-};
-
-
-/***/ }),
-
-/***/ "2bd3":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-
-module.exports = function (a, b) {
-  var console = global.console;
-  if (console && console.error) {
-    arguments.length === 1 ? console.error(a) : console.error(a, b);
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (error) {
+    return true;
   }
 };
 
 
 /***/ }),
 
-/***/ "2c81":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getBuiltIn = __webpack_require__("4b56");
-
-module.exports = getBuiltIn('navigator', 'userAgent') || '';
-
-
-/***/ }),
-
-/***/ "2d0b":
+/***/ "2db5":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var anObject = __webpack_require__("b973");
+var charAt = __webpack_require__("f71e").charAt;
+var InternalStateModule = __webpack_require__("891c");
+var defineIterator = __webpack_require__("cf0a");
 
-// `RegExp.prototype.flags` getter implementation
-// https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
-module.exports = function () {
-  var that = anObject(this);
-  var result = '';
-  if (that.global) result += 'g';
-  if (that.ignoreCase) result += 'i';
-  if (that.multiline) result += 'm';
-  if (that.dotAll) result += 's';
-  if (that.unicode) result += 'u';
-  if (that.sticky) result += 'y';
-  return result;
-};
+var STRING_ITERATOR = 'String Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
 
-
-/***/ }),
-
-/***/ "2eea":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("0117");
-var toObject = __webpack_require__("3c6b");
-var sharedKey = __webpack_require__("1bbe");
-var CORRECT_PROTOTYPE_GETTER = __webpack_require__("fa04");
-
-var IE_PROTO = sharedKey('IE_PROTO');
-var ObjectPrototype = Object.prototype;
-
-// `Object.getPrototypeOf` method
-// https://tc39.github.io/ecma262/#sec-object.getprototypeof
-module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectPrototype : null;
-};
-
-
-/***/ }),
-
-/***/ "2fcd":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("0117");
-var ownKeys = __webpack_require__("996e");
-var getOwnPropertyDescriptorModule = __webpack_require__("977b");
-var definePropertyModule = __webpack_require__("30cf");
-
-module.exports = function (target, source) {
-  var keys = ownKeys(source);
-  var defineProperty = definePropertyModule.f;
-  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
-  }
-};
-
-
-/***/ }),
-
-/***/ "3022":
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__("c7d8");
-
-// `thisNumberValue` abstract operation
-// https://tc39.github.io/ecma262/#sec-thisnumbervalue
-module.exports = function (value) {
-  if (typeof value != 'number' && classof(value) != 'Number') {
-    throw TypeError('Incorrect invocation');
-  }
-  return +value;
-};
-
-
-/***/ }),
-
-/***/ "30ce":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var IteratorPrototype = __webpack_require__("08f7").IteratorPrototype;
-var create = __webpack_require__("8e7d");
-var createPropertyDescriptor = __webpack_require__("ef69");
-var setToStringTag = __webpack_require__("27e6");
-var Iterators = __webpack_require__("9b64");
-
-var returnThis = function () { return this; };
-
-module.exports = function (IteratorConstructor, NAME, next) {
-  var TO_STRING_TAG = NAME + ' Iterator';
-  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(1, next) });
-  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
-  Iterators[TO_STRING_TAG] = returnThis;
-  return IteratorConstructor;
-};
-
-
-/***/ }),
-
-/***/ "30cf":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("35a9");
-var IE8_DOM_DEFINE = __webpack_require__("cb62");
-var anObject = __webpack_require__("b973");
-var toPrimitive = __webpack_require__("bab3");
-
-var nativeDefineProperty = Object.defineProperty;
-
-// `Object.defineProperty` method
-// https://tc39.github.io/ecma262/#sec-object.defineproperty
-exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return nativeDefineProperty(O, P, Attributes);
-  } catch (error) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-
-/***/ "3124":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// TODO: Remove from `core-js@4` since it's moved to entry points
-__webpack_require__("c368");
-var redefine = __webpack_require__("d496");
-var fails = __webpack_require__("aad0");
-var wellKnownSymbol = __webpack_require__("6d05");
-var regexpExec = __webpack_require__("dc12");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-
-var SPECIES = wellKnownSymbol('species');
-
-var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
-  // #replace needs built-in support for named groups.
-  // #match works fine because it just return the exec results, even if it has
-  // a "grops" property.
-  var re = /./;
-  re.exec = function () {
-    var result = [];
-    result.groups = { a: '7' };
-    return result;
-  };
-  return ''.replace(re, '$<a>') !== '7';
-});
-
-// IE <= 11 replaces $0 with the whole match, as if it was $&
-// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
-var REPLACE_KEEPS_$0 = (function () {
-  return 'a'.replace(/./, '$0') === '$0';
-})();
-
-var REPLACE = wellKnownSymbol('replace');
-// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
-var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
-  if (/./[REPLACE]) {
-    return /./[REPLACE]('a', '$0') === '';
-  }
-  return false;
-})();
-
-// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-// Weex JS has frozen built-in prototypes, so use try / catch wrapper
-var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
-  var re = /(?:)/;
-  var originalExec = re.exec;
-  re.exec = function () { return originalExec.apply(this, arguments); };
-  var result = 'ab'.split(re);
-  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-});
-
-module.exports = function (KEY, length, exec, sham) {
-  var SYMBOL = wellKnownSymbol(KEY);
-
-  var DELEGATES_TO_SYMBOL = !fails(function () {
-    // String methods call symbol-named RegEp methods
-    var O = {};
-    O[SYMBOL] = function () { return 7; };
-    return ''[KEY](O) != 7;
+// `String.prototype[@@iterator]` method
+// https://tc39.github.io/ecma262/#sec-string.prototype-@@iterator
+defineIterator(String, 'String', function (iterated) {
+  setInternalState(this, {
+    type: STRING_ITERATOR,
+    string: String(iterated),
+    index: 0
   });
-
-  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
-    // Symbol-named RegExp methods call .exec
-    var execCalled = false;
-    var re = /a/;
-
-    if (KEY === 'split') {
-      // We can't use real regex here since it causes deoptimization
-      // and serious performance degradation in V8
-      // https://github.com/zloirock/core-js/issues/306
-      re = {};
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
-      // a new one. We need to return the patched regex when creating the new one.
-      re.constructor = {};
-      re.constructor[SPECIES] = function () { return re; };
-      re.flags = '';
-      re[SYMBOL] = /./[SYMBOL];
-    }
-
-    re.exec = function () { execCalled = true; return null; };
-
-    re[SYMBOL]('');
-    return !execCalled;
-  });
-
-  if (
-    !DELEGATES_TO_SYMBOL ||
-    !DELEGATES_TO_EXEC ||
-    (KEY === 'replace' && !(
-      REPLACE_SUPPORTS_NAMED_GROUPS &&
-      REPLACE_KEEPS_$0 &&
-      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    )) ||
-    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
-  ) {
-    var nativeRegExpMethod = /./[SYMBOL];
-    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-      if (regexp.exec === regexpExec) {
-        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-          // The native String method already delegates to @@method (this
-          // polyfilled function), leasing to infinite recursion.
-          // We avoid it by directly calling the native @@method method.
-          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
-        }
-        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
-      }
-      return { done: false };
-    }, {
-      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
-      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    });
-    var stringMethod = methods[0];
-    var regexMethod = methods[1];
-
-    redefine(String.prototype, KEY, stringMethod);
-    redefine(RegExp.prototype, SYMBOL, length == 2
-      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
-      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
-      ? function (string, arg) { return regexMethod.call(string, this, arg); }
-      // 21.2.5.6 RegExp.prototype[@@match](string)
-      // 21.2.5.9 RegExp.prototype[@@search](string)
-      : function (string) { return regexMethod.call(string, this); }
-    );
-  }
-
-  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
-};
+// `%StringIteratorPrototype%.next` method
+// https://tc39.github.io/ecma262/#sec-%stringiteratorprototype%.next
+}, function next() {
+  var state = getInternalState(this);
+  var string = state.string;
+  var index = state.index;
+  var point;
+  if (index >= string.length) return { value: undefined, done: true };
+  point = charAt(string, index);
+  state.index += point.length;
+  return { value: point, done: false };
+});
 
 
 /***/ }),
@@ -2287,20 +1695,6 @@ var getNative = __webpack_require__("85b3"),
 var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
-
-
-/***/ }),
-
-/***/ "3274":
-/***/ (function(module, exports, __webpack_require__) {
-
-// toObject with fallback for non-array-like ES3 strings
-var IndexedObject = __webpack_require__("4bfa");
-var requireObjectCoercible = __webpack_require__("21e0");
-
-module.exports = function (it) {
-  return IndexedObject(requireObjectCoercible(it));
-};
 
 
 /***/ }),
@@ -2353,85 +1747,160 @@ module.exports = SetCache;
 
 /***/ }),
 
-/***/ "35a9":
+/***/ "3449":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
+var getBuiltIn = __webpack_require__("8843");
+var getOwnPropertyNamesModule = __webpack_require__("3de6");
+var getOwnPropertySymbolsModule = __webpack_require__("b91c");
+var anObject = __webpack_require__("fc3a");
 
-// Thank's IE8 for his funny defineProperty
-module.exports = !fails(function () {
-  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
-});
-
-
-/***/ }),
-
-/***/ "3610":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var forEach = __webpack_require__("554f");
-
-// `Array.prototype.forEach` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
-  forEach: forEach
-});
-
-
-/***/ }),
-
-/***/ "3891":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fails = __webpack_require__("aad0");
-
-module.exports = function (METHOD_NAME, argument) {
-  var method = [][METHOD_NAME];
-  return !!method && fails(function () {
-    // eslint-disable-next-line no-useless-call,no-throw-literal
-    method.call(null, argument || function () { throw 1; }, 1);
-  });
+// all object keys, includes non-enumerable and symbols
+module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+  var keys = getOwnPropertyNamesModule.f(anObject(it));
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
 };
 
 
 /***/ }),
 
-/***/ "3b29":
+/***/ "34e1":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("42cc");
+
+// `ToPrimitive` abstract operation
+// https://tc39.github.io/ecma262/#sec-toprimitive
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (input, PREFERRED_STRING) {
+  if (!isObject(input)) return input;
+  var fn, val;
+  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ "3781":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var aFunction = __webpack_require__("b9ec");
+
+var PromiseCapability = function (C) {
+  var resolve, reject;
+  this.promise = new C(function ($$resolve, $$reject) {
+    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+    resolve = $$resolve;
+    reject = $$reject;
+  });
+  this.resolve = aFunction(resolve);
+  this.reject = aFunction(reject);
+};
+
+// 25.4.1.5 NewPromiseCapability(C)
+module.exports.f = function (C) {
+  return new PromiseCapability(C);
+};
+
+
+/***/ }),
+
+/***/ "3afd":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("fc3a");
+var isArrayIteratorMethod = __webpack_require__("8c6c");
+var toLength = __webpack_require__("c3a3");
+var bind = __webpack_require__("1e51");
+var getIteratorMethod = __webpack_require__("2374");
+var iteratorClose = __webpack_require__("bc89");
+
+var Result = function (stopped, result) {
+  this.stopped = stopped;
+  this.result = result;
+};
+
+module.exports = function (iterable, unboundFunction, options) {
+  var that = options && options.that;
+  var AS_ENTRIES = !!(options && options.AS_ENTRIES);
+  var IS_ITERATOR = !!(options && options.IS_ITERATOR);
+  var INTERRUPTED = !!(options && options.INTERRUPTED);
+  var fn = bind(unboundFunction, that, 1 + AS_ENTRIES + INTERRUPTED);
+  var iterator, iterFn, index, length, result, next, step;
+
+  var stop = function (condition) {
+    if (iterator) iteratorClose(iterator);
+    return new Result(true, condition);
+  };
+
+  var callFn = function (value) {
+    if (AS_ENTRIES) {
+      anObject(value);
+      return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
+    } return INTERRUPTED ? fn(value, stop) : fn(value);
+  };
+
+  if (IS_ITERATOR) {
+    iterator = iterable;
+  } else {
+    iterFn = getIteratorMethod(iterable);
+    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
+    // optimisation for array iterators
+    if (isArrayIteratorMethod(iterFn)) {
+      for (index = 0, length = toLength(iterable.length); length > index; index++) {
+        result = callFn(iterable[index]);
+        if (result && result instanceof Result) return result;
+      } return new Result(false);
+    }
+    iterator = iterFn.call(iterable);
+  }
+
+  next = iterator.next;
+  while (!(step = next.call(iterator)).done) {
+    try {
+      result = callFn(step.value);
+    } catch (error) {
+      iteratorClose(iterator);
+      throw error;
+    }
+    if (typeof result == 'object' && result && result instanceof Result) return result;
+  } return new Result(false);
+};
+
+
+/***/ }),
+
+/***/ "3d7c":
 /***/ (function(module, exports) {
 
+var toString = {}.toString;
+
 module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
+  return toString.call(it).slice(8, -1);
 };
 
 
 /***/ }),
 
-/***/ "3b96":
+/***/ "3de6":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
+var internalObjectKeys = __webpack_require__("8b3a");
+var enumBugKeys = __webpack_require__("65bb");
 
-module.exports = !fails(function () {
-  return Object.isExtensible(Object.preventExtensions({}));
-});
+var hiddenKeys = enumBugKeys.concat('length', 'prototype');
 
-
-/***/ }),
-
-/***/ "3c6b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__("21e0");
-
-// `ToObject` abstract operation
-// https://tc39.github.io/ecma262/#sec-toobject
-module.exports = function (argument) {
-  return Object(requireObjectCoercible(argument));
+// `Object.getOwnPropertyNames` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return internalObjectKeys(O, hiddenKeys);
 };
 
 
@@ -2462,308 +1931,249 @@ module.exports = stubFalse;
 
 /***/ }),
 
-/***/ "3f9d":
+/***/ "3ff7":
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__("6d05");
-var create = __webpack_require__("8e7d");
-var definePropertyModule = __webpack_require__("30cf");
+var $ = __webpack_require__("a09b");
+var assign = __webpack_require__("c1b6");
 
-var UNSCOPABLES = wellKnownSymbol('unscopables');
-var ArrayPrototype = Array.prototype;
+// `Object.assign` method
+// https://tc39.github.io/ecma262/#sec-object.assign
+$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
+  assign: assign
+});
 
-// Array.prototype[@@unscopables]
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
-    configurable: true,
-    value: create(null)
-  });
+
+/***/ }),
+
+/***/ "402f":
+/***/ (function(module, exports, __webpack_require__) {
+
+var TO_STRING_TAG_SUPPORT = __webpack_require__("6526");
+var redefine = __webpack_require__("4450");
+var toString = __webpack_require__("9985");
+
+// `Object.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+if (!TO_STRING_TAG_SUPPORT) {
+  redefine(Object.prototype, 'toString', toString, { unsafe: true });
 }
 
-// add a key to Array.prototype[@@unscopables]
-module.exports = function (key) {
-  ArrayPrototype[UNSCOPABLES][key] = true;
-};
-
 
 /***/ }),
 
-/***/ "4044":
+/***/ "408b":
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__("f5b6");
-var has = __webpack_require__("0117");
-var wrappedWellKnownSymbolModule = __webpack_require__("b9c4");
-var defineProperty = __webpack_require__("30cf").f;
+var wellKnownSymbol = __webpack_require__("1f17");
 
-module.exports = function (NAME) {
-  var Symbol = path.Symbol || (path.Symbol = {});
-  if (!has(Symbol, NAME)) defineProperty(Symbol, NAME, {
-    value: wrappedWellKnownSymbolModule.f(NAME)
-  });
-};
+var ITERATOR = wellKnownSymbol('iterator');
+var SAFE_CLOSING = false;
 
-
-/***/ }),
-
-/***/ "4057":
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__("c7d8");
-var regexpExec = __webpack_require__("dc12");
-
-// `RegExpExec` abstract operation
-// https://tc39.github.io/ecma262/#sec-regexpexec
-module.exports = function (R, S) {
-  var exec = R.exec;
-  if (typeof exec === 'function') {
-    var result = exec.call(R, S);
-    if (typeof result !== 'object') {
-      throw TypeError('RegExp exec method returned something other than an Object or null');
+try {
+  var called = 0;
+  var iteratorWithReturn = {
+    next: function () {
+      return { done: !!called++ };
+    },
+    'return': function () {
+      SAFE_CLOSING = true;
     }
-    return result;
-  }
+  };
+  iteratorWithReturn[ITERATOR] = function () {
+    return this;
+  };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(iteratorWithReturn, function () { throw 2; });
+} catch (error) { /* empty */ }
 
-  if (classof(R) !== 'RegExp') {
-    throw TypeError('RegExp#exec called on incompatible receiver');
-  }
-
-  return regexpExec.call(R, S);
+module.exports = function (exec, SKIP_CLOSING) {
+  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+  var ITERATION_SUPPORT = false;
+  try {
+    var object = {};
+    object[ITERATOR] = function () {
+      return {
+        next: function () {
+          return { done: ITERATION_SUPPORT = true };
+        }
+      };
+    };
+    exec(object);
+  } catch (error) { /* empty */ }
+  return ITERATION_SUPPORT;
 };
-
 
 
 /***/ }),
 
-/***/ "416c":
+/***/ "4154":
 /***/ (function(module, exports, __webpack_require__) {
 
-var hiddenKeys = __webpack_require__("be34");
-var isObject = __webpack_require__("3b29");
-var has = __webpack_require__("0117");
-var defineProperty = __webpack_require__("30cf").f;
-var uid = __webpack_require__("7a85");
-var FREEZING = __webpack_require__("3b96");
+var TO_STRING_TAG_SUPPORT = __webpack_require__("6526");
+var classofRaw = __webpack_require__("3d7c");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-var METADATA = uid('meta');
-var id = 0;
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
 
-var isExtensible = Object.isExtensible || function () {
-  return true;
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) { /* empty */ }
 };
 
-var setMetadata = function (it) {
-  defineProperty(it, METADATA, { value: {
-    objectID: 'O' + ++id, // object ID
-    weakData: {}          // weak collections IDs
-  } });
+// getting tag from ES6+ `Object.prototype.toString`
+module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+    // builtinTag case
+    : CORRECT_ARGUMENTS ? classofRaw(O)
+    // ES3 arguments fallback
+    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
 };
 
-var fastKey = function (it, create) {
-  // return a primitive with prefix
-  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if (!has(it, METADATA)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return 'F';
-    // not necessary to add metadata
-    if (!create) return 'E';
-    // add missing metadata
-    setMetadata(it);
-  // return object ID
-  } return it[METADATA].objectID;
+
+/***/ }),
+
+/***/ "42cc":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
-var getWeakData = function (it, create) {
-  if (!has(it, METADATA)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return true;
-    // not necessary to add metadata
-    if (!create) return false;
-    // add missing metadata
-    setMetadata(it);
-  // return the store of weak collections IDs
-  } return it[METADATA].weakData;
-};
 
-// add metadata on freeze-family methods calling
-var onFreeze = function (it) {
-  if (FREEZING && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
+/***/ }),
+
+/***/ "4340":
+/***/ (function(module, exports) {
+
+// `RequireObjectCoercible` abstract operation
+// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on " + it);
   return it;
 };
 
-var meta = module.exports = {
-  REQUIRED: false,
-  fastKey: fastKey,
-  getWeakData: getWeakData,
-  onFreeze: onFreeze
-};
-
-hiddenKeys[METADATA] = true;
-
 
 /***/ }),
 
-/***/ "4322":
+/***/ "4450":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var global = __webpack_require__("8d5c");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var has = __webpack_require__("b64f");
+var setGlobal = __webpack_require__("0fca");
+var inspectSource = __webpack_require__("1c02");
+var InternalStateModule = __webpack_require__("891c");
 
-var $ = __webpack_require__("485e");
-var $includes = __webpack_require__("af7d").includes;
-var addToUnscopables = __webpack_require__("3f9d");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
+var getInternalState = InternalStateModule.get;
+var enforceInternalState = InternalStateModule.enforce;
+var TEMPLATE = String(String).split('String');
 
-var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
-
-// `Array.prototype.includes` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.includes
-$({ target: 'Array', proto: true, forced: !USES_TO_LENGTH }, {
-  includes: function includes(el /* , fromIndex = 0 */) {
-    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+(module.exports = function (O, key, value, options) {
+  var unsafe = options ? !!options.unsafe : false;
+  var simple = options ? !!options.enumerable : false;
+  var noTargetGet = options ? !!options.noTargetGet : false;
+  var state;
+  if (typeof value == 'function') {
+    if (typeof key == 'string' && !has(value, 'name')) {
+      createNonEnumerableProperty(value, 'name', key);
+    }
+    state = enforceInternalState(value);
+    if (!state.source) {
+      state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
+    }
   }
+  if (O === global) {
+    if (simple) O[key] = value;
+    else setGlobal(key, value);
+    return;
+  } else if (!unsafe) {
+    delete O[key];
+  } else if (!noTargetGet && O[key]) {
+    simple = true;
+  }
+  if (simple) O[key] = value;
+  else createNonEnumerableProperty(O, key, value);
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, 'toString', function toString() {
+  return typeof this == 'function' && getInternalState(this).source || inspectSource(this);
 });
 
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables('includes');
-
 
 /***/ }),
 
-/***/ "47c3":
+/***/ "445a":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var getBuiltIn = __webpack_require__("4b56");
-var definePropertyModule = __webpack_require__("30cf");
-var wellKnownSymbol = __webpack_require__("6d05");
-var DESCRIPTORS = __webpack_require__("35a9");
+var $ = __webpack_require__("a09b");
+var fails = __webpack_require__("2bc8");
+var isArray = __webpack_require__("1c94");
+var isObject = __webpack_require__("42cc");
+var toObject = __webpack_require__("6050");
+var toLength = __webpack_require__("c3a3");
+var createProperty = __webpack_require__("8863");
+var arraySpeciesCreate = __webpack_require__("28ea");
+var arrayMethodHasSpeciesSupport = __webpack_require__("4d7f");
+var wellKnownSymbol = __webpack_require__("1f17");
+var V8_VERSION = __webpack_require__("029f");
 
-var SPECIES = wellKnownSymbol('species');
+var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
 
-module.exports = function (CONSTRUCTOR_NAME) {
-  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
-  var defineProperty = definePropertyModule.f;
+// We can't use this feature detection in V8 since it causes
+// deoptimization and serious performance degradation
+// https://github.com/zloirock/core-js/issues/679
+var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
+  var array = [];
+  array[IS_CONCAT_SPREADABLE] = false;
+  return array.concat()[0] !== array;
+});
 
-  if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
-    defineProperty(Constructor, SPECIES, {
-      configurable: true,
-      get: function () { return this; }
-    });
-  }
+var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
+
+var isConcatSpreadable = function (O) {
+  if (!isObject(O)) return false;
+  var spreadable = O[IS_CONCAT_SPREADABLE];
+  return spreadable !== undefined ? !!spreadable : isArray(O);
 };
 
+var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
 
-/***/ }),
-
-/***/ "47f8":
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__("4cdc");
-var Iterators = __webpack_require__("9b64");
-var wellKnownSymbol = __webpack_require__("6d05");
-
-var ITERATOR = wellKnownSymbol('iterator');
-
-module.exports = function (it) {
-  if (it != undefined) return it[ITERATOR]
-    || it['@@iterator']
-    || Iterators[classof(it)];
-};
-
-
-/***/ }),
-
-/***/ "4827":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("b973");
-
-module.exports = function (iterator) {
-  var returnMethod = iterator['return'];
-  if (returnMethod !== undefined) {
-    return anObject(returnMethod.call(iterator)).value;
-  }
-};
-
-
-/***/ }),
-
-/***/ "485e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var getOwnPropertyDescriptor = __webpack_require__("977b").f;
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var redefine = __webpack_require__("d496");
-var setGlobal = __webpack_require__("18ff");
-var copyConstructorProperties = __webpack_require__("2fcd");
-var isForced = __webpack_require__("1b38");
-
-/*
-  options.target      - name of the target object
-  options.global      - target is the global object
-  options.stat        - export as static methods of target
-  options.proto       - export as prototype methods of target
-  options.real        - real prototype method for the `pure` version
-  options.forced      - export even if the native feature is available
-  options.bind        - bind methods to the target, required for the `pure` version
-  options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
-  options.unsafe      - use the simple assignment of property instead of delete + defineProperty
-  options.sham        - add a flag to not completely full polyfills
-  options.enumerable  - export as enumerable property
-  options.noTargetGet - prevent calling a getter on target
-*/
-module.exports = function (options, source) {
-  var TARGET = options.target;
-  var GLOBAL = options.global;
-  var STATIC = options.stat;
-  var FORCED, target, key, targetProperty, sourceProperty, descriptor;
-  if (GLOBAL) {
-    target = global;
-  } else if (STATIC) {
-    target = global[TARGET] || setGlobal(TARGET, {});
-  } else {
-    target = (global[TARGET] || {}).prototype;
-  }
-  if (target) for (key in source) {
-    sourceProperty = source[key];
-    if (options.noTargetGet) {
-      descriptor = getOwnPropertyDescriptor(target, key);
-      targetProperty = descriptor && descriptor.value;
-    } else targetProperty = target[key];
-    FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
-    // contained in target
-    if (!FORCED && targetProperty !== undefined) {
-      if (typeof sourceProperty === typeof targetProperty) continue;
-      copyConstructorProperties(sourceProperty, targetProperty);
+// `Array.prototype.concat` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.concat
+// with adding support of @@isConcatSpreadable and @@species
+$({ target: 'Array', proto: true, forced: FORCED }, {
+  concat: function concat(arg) { // eslint-disable-line no-unused-vars
+    var O = toObject(this);
+    var A = arraySpeciesCreate(O, 0);
+    var n = 0;
+    var i, k, length, len, E;
+    for (i = -1, length = arguments.length; i < length; i++) {
+      E = i === -1 ? O : arguments[i];
+      if (isConcatSpreadable(E)) {
+        len = toLength(E.length);
+        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+      } else {
+        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        createProperty(A, n++, E);
+      }
     }
-    // add a flag to not completely full polyfills
-    if (options.sham || (targetProperty && targetProperty.sham)) {
-      createNonEnumerableProperty(sourceProperty, 'sham', true);
-    }
-    // extend global
-    redefine(target, key, sourceProperty, options);
+    A.length = n;
+    return A;
   }
-};
-
-
-/***/ }),
-
-/***/ "4890":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var isObject = __webpack_require__("3b29");
-
-var document = global.document;
-// typeof document.createElement is 'object' in old IE
-var EXISTS = isObject(document) && isObject(document.createElement);
-
-module.exports = function (it) {
-  return EXISTS ? document.createElement(it) : {};
-};
+});
 
 
 /***/ }),
@@ -2846,89 +2256,208 @@ module.exports = isEqual;
 
 /***/ }),
 
-/***/ "4a35":
+/***/ "4d7f":
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__("b804");
+var fails = __webpack_require__("2bc8");
+var wellKnownSymbol = __webpack_require__("1f17");
+var V8_VERSION = __webpack_require__("029f");
 
-var min = Math.min;
+var SPECIES = wellKnownSymbol('species');
 
-// `ToLength` abstract operation
-// https://tc39.github.io/ecma262/#sec-tolength
-module.exports = function (argument) {
-  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+module.exports = function (METHOD_NAME) {
+  // We can't use this feature detection in V8 since it causes
+  // deoptimization and serious performance degradation
+  // https://github.com/zloirock/core-js/issues/677
+  return V8_VERSION >= 51 || !fails(function () {
+    var array = [];
+    var constructor = array.constructor = {};
+    constructor[SPECIES] = function () {
+      return { foo: 1 };
+    };
+    return array[METHOD_NAME](Boolean).foo !== 1;
+  });
 };
 
 
 /***/ }),
 
-/***/ "4b56":
+/***/ "4dc3":
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__("f5b6");
-var global = __webpack_require__("efd0");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-var aFunction = function (variable) {
-  return typeof variable == 'function' ? variable : undefined;
-};
+exports.f = wellKnownSymbol;
 
-module.exports = function (namespace, method) {
-  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
-    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
+
+/***/ }),
+
+/***/ "4f3e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var isObject = __webpack_require__("42cc");
+
+var document = global.document;
+// typeof document.createElement is 'object' in old IE
+var EXISTS = isObject(document) && isObject(document.createElement);
+
+module.exports = function (it) {
+  return EXISTS ? document.createElement(it) : {};
 };
 
 
 /***/ }),
 
-/***/ "4bfa":
+/***/ "4f40":
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__("aad0");
-var classof = __webpack_require__("c7d8");
+"use strict";
+// `Symbol.prototype.description` getter
+// https://tc39.github.io/ecma262/#sec-symbol.prototype.description
 
-var split = ''.split;
+var $ = __webpack_require__("a09b");
+var DESCRIPTORS = __webpack_require__("aba0");
+var global = __webpack_require__("8d5c");
+var has = __webpack_require__("b64f");
+var isObject = __webpack_require__("42cc");
+var defineProperty = __webpack_require__("22af").f;
+var copyConstructorProperties = __webpack_require__("e27c");
 
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-module.exports = fails(function () {
-  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
-  // eslint-disable-next-line no-prototype-builtins
-  return !Object('z').propertyIsEnumerable(0);
-}) ? function (it) {
-  return classof(it) == 'String' ? split.call(it, '') : Object(it);
-} : Object;
+var NativeSymbol = global.Symbol;
+
+if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in NativeSymbol.prototype) ||
+  // Safari 12 bug
+  NativeSymbol().description !== undefined
+)) {
+  var EmptyStringDescriptionStore = {};
+  // wrap Symbol constructor for correct work with undefined description
+  var SymbolWrapper = function Symbol() {
+    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : String(arguments[0]);
+    var result = this instanceof SymbolWrapper
+      ? new NativeSymbol(description)
+      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
+      : description === undefined ? NativeSymbol() : NativeSymbol(description);
+    if (description === '') EmptyStringDescriptionStore[result] = true;
+    return result;
+  };
+  copyConstructorProperties(SymbolWrapper, NativeSymbol);
+  var symbolPrototype = SymbolWrapper.prototype = NativeSymbol.prototype;
+  symbolPrototype.constructor = SymbolWrapper;
+
+  var symbolToString = symbolPrototype.toString;
+  var native = String(NativeSymbol('test')) == 'Symbol(test)';
+  var regexp = /^Symbol\((.*)\)[^)]+$/;
+  defineProperty(symbolPrototype, 'description', {
+    configurable: true,
+    get: function description() {
+      var symbol = isObject(this) ? this.valueOf() : this;
+      var string = symbolToString.call(symbol);
+      if (has(EmptyStringDescriptionStore, symbol)) return '';
+      var desc = native ? string.slice(7, -1) : string.replace(regexp, '$1');
+      return desc === '' ? undefined : desc;
+    }
+  });
+
+  $({ global: true, forced: true }, {
+    Symbol: SymbolWrapper
+  });
+}
 
 
 /***/ }),
 
-/***/ "4cdc":
+/***/ "5133":
 /***/ (function(module, exports, __webpack_require__) {
 
-var TO_STRING_TAG_SUPPORT = __webpack_require__("0160");
-var classofRaw = __webpack_require__("c7d8");
-var wellKnownSymbol = __webpack_require__("6d05");
+"use strict";
 
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-// ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+var regexpFlags = __webpack_require__("9ffc");
+var stickyHelpers = __webpack_require__("6fe2");
 
-// fallback for IE11 Script Access Denied error
-var tryGet = function (it, key) {
-  try {
-    return it[key];
-  } catch (error) { /* empty */ }
-};
+var nativeExec = RegExp.prototype.exec;
+// This always refers to the native implementation, because the
+// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+// which loads this file before patching the method.
+var nativeReplace = String.prototype.replace;
 
-// getting tag from ES6+ `Object.prototype.toString`
-module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
-  var O, tag, result;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
-    // builtinTag case
-    : CORRECT_ARGUMENTS ? classofRaw(O)
-    // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
-};
+var patchedExec = nativeExec;
+
+var UPDATES_LAST_INDEX_WRONG = (function () {
+  var re1 = /a/;
+  var re2 = /b*/g;
+  nativeExec.call(re1, 'a');
+  nativeExec.call(re2, 'a');
+  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
+})();
+
+var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
+
+// nonparticipating capturing group, copied from es5-shim's String#split patch.
+var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y;
+
+if (PATCH) {
+  patchedExec = function exec(str) {
+    var re = this;
+    var lastIndex, reCopy, match, i;
+    var sticky = UNSUPPORTED_Y && re.sticky;
+    var flags = regexpFlags.call(re);
+    var source = re.source;
+    var charsAdded = 0;
+    var strCopy = str;
+
+    if (sticky) {
+      flags = flags.replace('y', '');
+      if (flags.indexOf('g') === -1) {
+        flags += 'g';
+      }
+
+      strCopy = String(str).slice(re.lastIndex);
+      // Support anchored sticky behavior.
+      if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
+        source = '(?: ' + source + ')';
+        strCopy = ' ' + strCopy;
+        charsAdded++;
+      }
+      // ^(? + rx + ) is needed, in combination with some str slicing, to
+      // simulate the 'y' flag.
+      reCopy = new RegExp('^(?:' + source + ')', flags);
+    }
+
+    if (NPCG_INCLUDED) {
+      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+    }
+    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
+
+    match = nativeExec.call(sticky ? reCopy : re, strCopy);
+
+    if (sticky) {
+      if (match) {
+        match.input = match.input.slice(charsAdded);
+        match[0] = match[0].slice(charsAdded);
+        match.index = re.lastIndex;
+        re.lastIndex += match[0].length;
+      } else re.lastIndex = 0;
+    } else if (UPDATES_LAST_INDEX_WRONG && match) {
+      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
+    }
+    if (NPCG_INCLUDED && match && match.length > 1) {
+      // Fix browsers whose `exec` methods don't consistently return `undefined`
+      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+      nativeReplace.call(match[0], reCopy, function () {
+        for (i = 1; i < arguments.length - 2; i++) {
+          if (arguments[i] === undefined) match[i] = undefined;
+        }
+      });
+    }
+
+    return match;
+  };
+}
+
+module.exports = patchedExec;
 
 
 /***/ }),
@@ -2998,41 +2527,6 @@ function getMapData(map, key) {
 }
 
 module.exports = getMapData;
-
-
-/***/ }),
-
-/***/ "554f":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $forEach = __webpack_require__("bc2f").forEach;
-var arrayMethodIsStrict = __webpack_require__("3891");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var STRICT_METHOD = arrayMethodIsStrict('forEach');
-var USES_TO_LENGTH = arrayMethodUsesToLength('forEach');
-
-// `Array.prototype.forEach` method implementation
-// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-module.exports = (!STRICT_METHOD || !USES_TO_LENGTH) ? function forEach(callbackfn /* , thisArg */) {
-  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-} : [].forEach;
-
-
-/***/ }),
-
-/***/ "563a":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return { error: false, value: exec() };
-  } catch (error) {
-    return { error: true, value: error };
-  }
-};
 
 
 /***/ }),
@@ -3197,6 +2691,19 @@ module.exports = {
 
 /***/ }),
 
+/***/ "56c3":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var inspectSource = __webpack_require__("1c02");
+
+var WeakMap = global.WeakMap;
+
+module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSource(WeakMap));
+
+
+/***/ }),
+
 /***/ "5825":
 /***/ (function(module, exports) {
 
@@ -3219,29 +2726,6 @@ function setCacheAdd(value) {
 }
 
 module.exports = setCacheAdd;
-
-
-/***/ }),
-
-/***/ "582a":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("35a9");
-var definePropertyModule = __webpack_require__("30cf");
-var anObject = __webpack_require__("b973");
-var objectKeys = __webpack_require__("c59c");
-
-// `Object.defineProperties` method
-// https://tc39.github.io/ecma262/#sec-object.defineproperties
-module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = objectKeys(Properties);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);
-  return O;
-};
 
 
 /***/ }),
@@ -3295,37 +2779,6 @@ module.exports = require("Vuex");
 
 /***/ }),
 
-/***/ "588e":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("485e");
-var DESCRIPTORS = __webpack_require__("35a9");
-var ownKeys = __webpack_require__("996e");
-var toIndexedObject = __webpack_require__("3274");
-var getOwnPropertyDescriptorModule = __webpack_require__("977b");
-var createProperty = __webpack_require__("bab6");
-
-// `Object.getOwnPropertyDescriptors` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
-$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
-    var O = toIndexedObject(object);
-    var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-    var keys = ownKeys(O);
-    var result = {};
-    var index = 0;
-    var key, descriptor;
-    while (keys.length > index) {
-      descriptor = getOwnPropertyDescriptor(O, key = keys[index++]);
-      if (descriptor !== undefined) createProperty(result, key, descriptor);
-    }
-    return result;
-  }
-});
-
-
-/***/ }),
-
 /***/ "5a6c":
 /***/ (function(module, exports) {
 
@@ -3351,25 +2804,31 @@ module.exports = mapToArray;
 
 /***/ }),
 
-/***/ "5cd0":
+/***/ "5bfe":
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__("3b29");
-var setPrototypeOf = __webpack_require__("b14e");
+var global = __webpack_require__("8d5c");
 
-// makes subclassing work correct for wrapped built-ins
-module.exports = function ($this, dummy, Wrapper) {
-  var NewTarget, NewTargetPrototype;
-  if (
-    // it can work only with native `setPrototypeOf`
-    setPrototypeOf &&
-    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
-    typeof (NewTarget = dummy.constructor) == 'function' &&
-    NewTarget !== Wrapper &&
-    isObject(NewTargetPrototype = NewTarget.prototype) &&
-    NewTargetPrototype !== Wrapper.prototype
-  ) setPrototypeOf($this, NewTargetPrototype);
-  return $this;
+module.exports = function (a, b) {
+  var console = global.console;
+  if (console && console.error) {
+    arguments.length === 1 ? console.error(a) : console.error(a, b);
+  }
+};
+
+
+/***/ }),
+
+/***/ "5cbf":
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
 };
 
 
@@ -3384,6 +2843,23 @@ var root = __webpack_require__("b6b5");
 var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
+
+
+/***/ }),
+
+/***/ "5e7a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__("aba0");
+var fails = __webpack_require__("2bc8");
+var createElement = __webpack_require__("4f3e");
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !DESCRIPTORS && !fails(function () {
+  return Object.defineProperty(createElement('div'), 'a', {
+    get: function () { return 7; }
+  }).a != 7;
+});
 
 
 /***/ }),
@@ -3415,81 +2891,84 @@ module.exports = arrayPush;
 
 /***/ }),
 
-/***/ "5f8f":
+/***/ "5fd8":
 /***/ (function(module, exports, __webpack_require__) {
 
-var getBuiltIn = __webpack_require__("4b56");
+var classof = __webpack_require__("3d7c");
+var regexpExec = __webpack_require__("5133");
 
-module.exports = getBuiltIn('document', 'documentElement');
-
-
-/***/ }),
-
-/***/ "6019":
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineWellKnownSymbol = __webpack_require__("4044");
-
-// `Symbol.iterator` well-known symbol
-// https://tc39.github.io/ecma262/#sec-symbol.iterator
-defineWellKnownSymbol('iterator');
-
-
-/***/ }),
-
-/***/ "606e":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var isObject = __webpack_require__("3b29");
-var isArray = __webpack_require__("880d");
-var toAbsoluteIndex = __webpack_require__("fd0b");
-var toLength = __webpack_require__("4a35");
-var toIndexedObject = __webpack_require__("3274");
-var createProperty = __webpack_require__("bab6");
-var wellKnownSymbol = __webpack_require__("6d05");
-var arrayMethodHasSpeciesSupport = __webpack_require__("243e");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
-var USES_TO_LENGTH = arrayMethodUsesToLength('slice', { ACCESSORS: true, 0: 0, 1: 2 });
-
-var SPECIES = wellKnownSymbol('species');
-var nativeSlice = [].slice;
-var max = Math.max;
-
-// `Array.prototype.slice` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.slice
-// fallback for not array-like ES3 strings and DOM objects
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  slice: function slice(start, end) {
-    var O = toIndexedObject(this);
-    var length = toLength(O.length);
-    var k = toAbsoluteIndex(start, length);
-    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
-    var Constructor, result, n;
-    if (isArray(O)) {
-      Constructor = O.constructor;
-      // cross-realm fallback
-      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
-        Constructor = undefined;
-      } else if (isObject(Constructor)) {
-        Constructor = Constructor[SPECIES];
-        if (Constructor === null) Constructor = undefined;
-      }
-      if (Constructor === Array || Constructor === undefined) {
-        return nativeSlice.call(O, k, fin);
-      }
+// `RegExpExec` abstract operation
+// https://tc39.github.io/ecma262/#sec-regexpexec
+module.exports = function (R, S) {
+  var exec = R.exec;
+  if (typeof exec === 'function') {
+    var result = exec.call(R, S);
+    if (typeof result !== 'object') {
+      throw TypeError('RegExp exec method returned something other than an Object or null');
     }
-    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
-    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
-    result.length = n;
     return result;
   }
-});
+
+  if (classof(R) !== 'RegExp') {
+    throw TypeError('RegExp#exec called on incompatible receiver');
+  }
+
+  return regexpExec.call(R, S);
+};
+
+
+
+/***/ }),
+
+/***/ "6050":
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__("4340");
+
+// `ToObject` abstract operation
+// https://tc39.github.io/ecma262/#sec-toobject
+module.exports = function (argument) {
+  return Object(requireObjectCoercible(argument));
+};
+
+
+/***/ }),
+
+/***/ "6158":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toIndexedObject = __webpack_require__("ec87");
+var toLength = __webpack_require__("c3a3");
+var toAbsoluteIndex = __webpack_require__("0119");
+
+// `Array.prototype.{ indexOf, includes }` methods implementation
+var createMethod = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIndexedObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) {
+      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.includes` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+  includes: createMethod(true),
+  // `Array.prototype.indexOf` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+  indexOf: createMethod(false)
+};
 
 
 /***/ }),
@@ -3507,212 +2986,94 @@ module.exports = nativeKeys;
 
 /***/ }),
 
-/***/ "6248":
+/***/ "6406":
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__("485e");
+var getBuiltIn = __webpack_require__("8843");
 
-// `Reflect.has` method
-// https://tc39.github.io/ecma262/#sec-reflect.has
-$({ target: 'Reflect', stat: true }, {
-  has: function has(target, propertyKey) {
-    return propertyKey in target;
+module.exports = getBuiltIn('navigator', 'userAgent') || '';
+
+
+/***/ }),
+
+/***/ "6526":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("1f17");
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var test = {};
+
+test[TO_STRING_TAG] = 'z';
+
+module.exports = String(test) === '[object z]';
+
+
+/***/ }),
+
+/***/ "6540":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var $map = __webpack_require__("bfc3").map;
+var arrayMethodHasSpeciesSupport = __webpack_require__("4d7f");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
+// FF49- issue
+var USES_TO_LENGTH = arrayMethodUsesToLength('map');
+
+// `Array.prototype.map` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.map
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  map: function map(callbackfn /* , thisArg */) {
+    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
 
 
 /***/ }),
 
-/***/ "634d":
+/***/ "6564":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var isObject = __webpack_require__("42cc");
+var setPrototypeOf = __webpack_require__("dbfe");
 
-var bind = __webpack_require__("ed07");
-var toObject = __webpack_require__("3c6b");
-var callWithSafeIterationClosing = __webpack_require__("66cc");
-var isArrayIteratorMethod = __webpack_require__("ee94");
-var toLength = __webpack_require__("4a35");
-var createProperty = __webpack_require__("bab6");
-var getIteratorMethod = __webpack_require__("47f8");
-
-// `Array.from` method implementation
-// https://tc39.github.io/ecma262/#sec-array.from
-module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-  var O = toObject(arrayLike);
-  var C = typeof this == 'function' ? this : Array;
-  var argumentsLength = arguments.length;
-  var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
-  var mapping = mapfn !== undefined;
-  var iteratorMethod = getIteratorMethod(O);
-  var index = 0;
-  var length, result, step, iterator, next, value;
-  if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
-  // if the target is not iterable or it's an array with the default iterator - use a simple case
-  if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
-    iterator = iteratorMethod.call(O);
-    next = iterator.next;
-    result = new C();
-    for (;!(step = next.call(iterator)).done; index++) {
-      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
-      createProperty(result, index, value);
-    }
-  } else {
-    length = toLength(O.length);
-    result = new C(length);
-    for (;length > index; index++) {
-      value = mapping ? mapfn(O[index], index) : O[index];
-      createProperty(result, index, value);
-    }
-  }
-  result.length = index;
-  return result;
+// makes subclassing work correct for wrapped built-ins
+module.exports = function ($this, dummy, Wrapper) {
+  var NewTarget, NewTargetPrototype;
+  if (
+    // it can work only with native `setPrototypeOf`
+    setPrototypeOf &&
+    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+    typeof (NewTarget = dummy.constructor) == 'function' &&
+    NewTarget !== Wrapper &&
+    isObject(NewTargetPrototype = NewTarget.prototype) &&
+    NewTargetPrototype !== Wrapper.prototype
+  ) setPrototypeOf($this, NewTargetPrototype);
+  return $this;
 };
 
 
 /***/ }),
 
-/***/ "64f1":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "65bb":
+/***/ (function(module, exports) {
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var fails = __webpack_require__("aad0");
-var has = __webpack_require__("0117");
-
-var defineProperty = Object.defineProperty;
-var cache = {};
-
-var thrower = function (it) { throw it; };
-
-module.exports = function (METHOD_NAME, options) {
-  if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
-  if (!options) options = {};
-  var method = [][METHOD_NAME];
-  var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
-  var argument0 = has(options, 0) ? options[0] : thrower;
-  var argument1 = has(options, 1) ? options[1] : undefined;
-
-  return cache[METHOD_NAME] = !!method && !fails(function () {
-    if (ACCESSORS && !DESCRIPTORS) return true;
-    var O = { length: -1 };
-
-    if (ACCESSORS) defineProperty(O, 1, { enumerable: true, get: thrower });
-    else O[1] = 1;
-
-    method.call(O, argument0, argument1);
-  });
-};
-
-
-/***/ }),
-
-/***/ "65fa":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("35a9");
-var global = __webpack_require__("efd0");
-var isForced = __webpack_require__("1b38");
-var inheritIfRequired = __webpack_require__("5cd0");
-var defineProperty = __webpack_require__("30cf").f;
-var getOwnPropertyNames = __webpack_require__("6b64").f;
-var isRegExp = __webpack_require__("123c");
-var getFlags = __webpack_require__("2d0b");
-var stickyHelpers = __webpack_require__("d8cf");
-var redefine = __webpack_require__("d496");
-var fails = __webpack_require__("aad0");
-var setInternalState = __webpack_require__("f806").set;
-var setSpecies = __webpack_require__("47c3");
-var wellKnownSymbol = __webpack_require__("6d05");
-
-var MATCH = wellKnownSymbol('match');
-var NativeRegExp = global.RegExp;
-var RegExpPrototype = NativeRegExp.prototype;
-var re1 = /a/g;
-var re2 = /a/g;
-
-// "new" should create a new object, old webkit bug
-var CORRECT_NEW = new NativeRegExp(re1) !== re1;
-
-var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
-
-var FORCED = DESCRIPTORS && isForced('RegExp', (!CORRECT_NEW || UNSUPPORTED_Y || fails(function () {
-  re2[MATCH] = false;
-  // RegExp constructor can alter flags and IsRegExp works correct with @@match
-  return NativeRegExp(re1) != re1 || NativeRegExp(re2) == re2 || NativeRegExp(re1, 'i') != '/a/i';
-})));
-
-// `RegExp` constructor
-// https://tc39.github.io/ecma262/#sec-regexp-constructor
-if (FORCED) {
-  var RegExpWrapper = function RegExp(pattern, flags) {
-    var thisIsRegExp = this instanceof RegExpWrapper;
-    var patternIsRegExp = isRegExp(pattern);
-    var flagsAreUndefined = flags === undefined;
-    var sticky;
-
-    if (!thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined) {
-      return pattern;
-    }
-
-    if (CORRECT_NEW) {
-      if (patternIsRegExp && !flagsAreUndefined) pattern = pattern.source;
-    } else if (pattern instanceof RegExpWrapper) {
-      if (flagsAreUndefined) flags = getFlags.call(pattern);
-      pattern = pattern.source;
-    }
-
-    if (UNSUPPORTED_Y) {
-      sticky = !!flags && flags.indexOf('y') > -1;
-      if (sticky) flags = flags.replace(/y/g, '');
-    }
-
-    var result = inheritIfRequired(
-      CORRECT_NEW ? new NativeRegExp(pattern, flags) : NativeRegExp(pattern, flags),
-      thisIsRegExp ? this : RegExpPrototype,
-      RegExpWrapper
-    );
-
-    if (UNSUPPORTED_Y && sticky) setInternalState(result, { sticky: sticky });
-
-    return result;
-  };
-  var proxy = function (key) {
-    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
-      configurable: true,
-      get: function () { return NativeRegExp[key]; },
-      set: function (it) { NativeRegExp[key] = it; }
-    });
-  };
-  var keys = getOwnPropertyNames(NativeRegExp);
-  var index = 0;
-  while (keys.length > index) proxy(keys[index++]);
-  RegExpPrototype.constructor = RegExpWrapper;
-  RegExpWrapper.prototype = RegExpPrototype;
-  redefine(global, 'RegExp', RegExpWrapper);
-}
-
-// https://tc39.github.io/ecma262/#sec-get-regexp-@@species
-setSpecies('RegExp');
-
-
-/***/ }),
-
-/***/ "66cc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("b973");
-var iteratorClose = __webpack_require__("4827");
-
-// call something on iterator step with safe closing on error
-module.exports = function (iterator, fn, value, ENTRIES) {
-  try {
-    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (error) {
-    iteratorClose(iterator);
-    throw error;
-  }
-};
+// IE8- don't enum bug keys
+module.exports = [
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf'
+];
 
 
 /***/ }),
@@ -3731,19 +3092,50 @@ module.exports = Promise;
 
 /***/ }),
 
-/***/ "6a73":
+/***/ "67d5":
+/***/ (function(module, exports) {
+
+module.exports = false;
+
+
+/***/ }),
+
+/***/ "6ab7":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var global = __webpack_require__("8d5c");
+var DOMIterables = __webpack_require__("6c5f");
+var ArrayIteratorMethods = __webpack_require__("139e");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-var collection = __webpack_require__("a726");
-var collectionStrong = __webpack_require__("c284");
+var ITERATOR = wellKnownSymbol('iterator');
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var ArrayValues = ArrayIteratorMethods.values;
 
-// `Map` constructor
-// https://tc39.github.io/ecma262/#sec-map-objects
-module.exports = collection('Map', function (init) {
-  return function Map() { return init(this, arguments.length ? arguments[0] : undefined); };
-}, collectionStrong);
+for (var COLLECTION_NAME in DOMIterables) {
+  var Collection = global[COLLECTION_NAME];
+  var CollectionPrototype = Collection && Collection.prototype;
+  if (CollectionPrototype) {
+    // some Chrome versions have non-configurable methods on DOMTokenList
+    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
+    } catch (error) {
+      CollectionPrototype[ITERATOR] = ArrayValues;
+    }
+    if (!CollectionPrototype[TO_STRING_TAG]) {
+      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
+    }
+    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
+      // some Chrome versions have non-configurable methods on DOMTokenList
+      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
+      } catch (error) {
+        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
+      }
+    }
+  }
+}
 
 
 /***/ }),
@@ -3839,23 +3231,6 @@ module.exports = equalArrays;
 
 /***/ }),
 
-/***/ "6b64":
-/***/ (function(module, exports, __webpack_require__) {
-
-var internalObjectKeys = __webpack_require__("2092");
-var enumBugKeys = __webpack_require__("f74b");
-
-var hiddenKeys = enumBugKeys.concat('length', 'prototype');
-
-// `Object.getOwnPropertyNames` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return internalObjectKeys(O, hiddenKeys);
-};
-
-
-/***/ }),
-
 /***/ "6be8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3900,25 +3275,43 @@ module.exports = keys;
 
 /***/ }),
 
-/***/ "6d05":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "6c5f":
+/***/ (function(module, exports) {
 
-var global = __webpack_require__("efd0");
-var shared = __webpack_require__("28a9");
-var has = __webpack_require__("0117");
-var uid = __webpack_require__("7a85");
-var NATIVE_SYMBOL = __webpack_require__("2487");
-var USE_SYMBOL_AS_UID = __webpack_require__("1d29");
-
-var WellKnownSymbolsStore = shared('wks');
-var Symbol = global.Symbol;
-var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withoutSetter || uid;
-
-module.exports = function (name) {
-  if (!has(WellKnownSymbolsStore, name)) {
-    if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
-    else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
-  } return WellKnownSymbolsStore[name];
+// iterable DOM collections
+// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
+module.exports = {
+  CSSRuleList: 0,
+  CSSStyleDeclaration: 0,
+  CSSValueList: 0,
+  ClientRectList: 0,
+  DOMRectList: 0,
+  DOMStringList: 0,
+  DOMTokenList: 1,
+  DataTransferItemList: 0,
+  FileList: 0,
+  HTMLAllCollection: 0,
+  HTMLCollection: 0,
+  HTMLFormElement: 0,
+  HTMLSelectElement: 0,
+  MediaList: 0,
+  MimeTypeArray: 0,
+  NamedNodeMap: 0,
+  NodeList: 1,
+  PaintRequestList: 0,
+  Plugin: 0,
+  PluginArray: 0,
+  SVGLengthList: 0,
+  SVGNumberList: 0,
+  SVGPathSegList: 0,
+  SVGPointList: 0,
+  SVGStringList: 0,
+  SVGTransformList: 0,
+  SourceBufferList: 0,
+  StyleSheetList: 0,
+  TextTrackCueList: 0,
+  TextTrackList: 0,
+  TouchList: 0
 };
 
 
@@ -3947,6 +3340,147 @@ function baseTimes(n, iteratee) {
 }
 
 module.exports = baseTimes;
+
+
+/***/ }),
+
+/***/ "6d96":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var getBuiltIn = __webpack_require__("8843");
+var definePropertyModule = __webpack_require__("22af");
+var wellKnownSymbol = __webpack_require__("1f17");
+var DESCRIPTORS = __webpack_require__("aba0");
+
+var SPECIES = wellKnownSymbol('species');
+
+module.exports = function (CONSTRUCTOR_NAME) {
+  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
+  var defineProperty = definePropertyModule.f;
+
+  if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
+    defineProperty(Constructor, SPECIES, {
+      configurable: true,
+      get: function () { return this; }
+    });
+  }
+};
+
+
+/***/ }),
+
+/***/ "6e38":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("2bc8");
+
+module.exports = !fails(function () {
+  return Object.isExtensible(Object.preventExtensions({}));
+});
+
+
+/***/ }),
+
+/***/ "6e39":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var collection = __webpack_require__("c301");
+var collectionStrong = __webpack_require__("b420");
+
+// `Map` constructor
+// https://tc39.github.io/ecma262/#sec-map-objects
+module.exports = collection('Map', function (init) {
+  return function Map() { return init(this, arguments.length ? arguments[0] : undefined); };
+}, collectionStrong);
+
+
+/***/ }),
+
+/***/ "6f75":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var getOwnPropertyDescriptor = __webpack_require__("e329").f;
+var macrotask = __webpack_require__("8acc").set;
+var IS_IOS = __webpack_require__("f7bb");
+var IS_NODE = __webpack_require__("eee5");
+
+var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
+var document = global.document;
+var process = global.process;
+var Promise = global.Promise;
+// Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
+var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
+var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
+
+var flush, head, last, notify, toggle, node, promise, then;
+
+// modern engines have queueMicrotask method
+if (!queueMicrotask) {
+  flush = function () {
+    var parent, fn;
+    if (IS_NODE && (parent = process.domain)) parent.exit();
+    while (head) {
+      fn = head.fn;
+      head = head.next;
+      try {
+        fn();
+      } catch (error) {
+        if (head) notify();
+        else last = undefined;
+        throw error;
+      }
+    } last = undefined;
+    if (parent) parent.enter();
+  };
+
+  // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
+  if (!IS_IOS && !IS_NODE && MutationObserver && document) {
+    toggle = true;
+    node = document.createTextNode('');
+    new MutationObserver(flush).observe(node, { characterData: true });
+    notify = function () {
+      node.data = toggle = !toggle;
+    };
+  // environments with maybe non-completely correct, but existent Promise
+  } else if (Promise && Promise.resolve) {
+    // Promise.resolve without an argument throws an error in LG WebOS 2
+    promise = Promise.resolve(undefined);
+    then = promise.then;
+    notify = function () {
+      then.call(promise, flush);
+    };
+  // Node.js without promises
+  } else if (IS_NODE) {
+    notify = function () {
+      process.nextTick(flush);
+    };
+  // for other environments - macrotask based on:
+  // - setImmediate
+  // - MessageChannel
+  // - window.postMessag
+  // - onreadystatechange
+  // - setTimeout
+  } else {
+    notify = function () {
+      // strange IE + webpack dev server bug - use .call(global)
+      macrotask.call(global, flush);
+    };
+  }
+}
+
+module.exports = queueMicrotask || function (fn) {
+  var task = { fn: fn, next: undefined };
+  if (last) last.next = task;
+  if (!head) {
+    head = task;
+    notify();
+  } last = task;
+};
 
 
 /***/ }),
@@ -3981,41 +3515,235 @@ module.exports = hashSet;
 
 /***/ }),
 
-/***/ "7047":
+/***/ "6fe2":
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__("efd0");
-var userAgent = __webpack_require__("2c81");
+"use strict";
 
-var process = global.process;
-var versions = process && process.versions;
-var v8 = versions && versions.v8;
-var match, version;
 
-if (v8) {
-  match = v8.split('.');
-  version = match[0] + match[1];
-} else if (userAgent) {
-  match = userAgent.match(/Edge\/(\d+)/);
-  if (!match || match[1] >= 74) {
-    match = userAgent.match(/Chrome\/(\d+)/);
-    if (match) version = match[1];
-  }
+var fails = __webpack_require__("2bc8");
+
+// babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError,
+// so we use an intermediate function.
+function RE(s, f) {
+  return RegExp(s, f);
 }
 
-module.exports = version && +version;
+exports.UNSUPPORTED_Y = fails(function () {
+  // babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
+  var re = RE('a', 'y');
+  re.lastIndex = 2;
+  return re.exec('abcd') != null;
+});
+
+exports.BROKEN_CARET = fails(function () {
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
+  var re = RE('^r', 'gy');
+  re.lastIndex = 2;
+  return re.exec('str') != null;
+});
 
 
 /***/ }),
 
-/***/ "76b7":
-/***/ (function(module, exports) {
+/***/ "701d":
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function (it, Constructor, name) {
-  if (!(it instanceof Constructor)) {
-    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
-  } return it;
+var classof = __webpack_require__("3d7c");
+
+// `thisNumberValue` abstract operation
+// https://tc39.github.io/ecma262/#sec-thisnumbervalue
+module.exports = function (value) {
+  if (typeof value != 'number' && classof(value) != 'Number') {
+    throw TypeError('Incorrect invocation');
+  }
+  return +value;
 };
+
+
+/***/ }),
+
+/***/ "72b3":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var forEach = __webpack_require__("d8a8");
+
+// `Array.prototype.forEach` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
+  forEach: forEach
+});
+
+
+/***/ }),
+
+/***/ "7478":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var toInteger = __webpack_require__("0296");
+var thisNumberValue = __webpack_require__("701d");
+var repeat = __webpack_require__("273e");
+var fails = __webpack_require__("2bc8");
+
+var nativeToFixed = 1.0.toFixed;
+var floor = Math.floor;
+
+var pow = function (x, n, acc) {
+  return n === 0 ? acc : n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc);
+};
+
+var log = function (x) {
+  var n = 0;
+  var x2 = x;
+  while (x2 >= 4096) {
+    n += 12;
+    x2 /= 4096;
+  }
+  while (x2 >= 2) {
+    n += 1;
+    x2 /= 2;
+  } return n;
+};
+
+var FORCED = nativeToFixed && (
+  0.00008.toFixed(3) !== '0.000' ||
+  0.9.toFixed(0) !== '1' ||
+  1.255.toFixed(2) !== '1.25' ||
+  1000000000000000128.0.toFixed(0) !== '1000000000000000128'
+) || !fails(function () {
+  // V8 ~ Android 4.3-
+  nativeToFixed.call({});
+});
+
+// `Number.prototype.toFixed` method
+// https://tc39.github.io/ecma262/#sec-number.prototype.tofixed
+$({ target: 'Number', proto: true, forced: FORCED }, {
+  // eslint-disable-next-line max-statements
+  toFixed: function toFixed(fractionDigits) {
+    var number = thisNumberValue(this);
+    var fractDigits = toInteger(fractionDigits);
+    var data = [0, 0, 0, 0, 0, 0];
+    var sign = '';
+    var result = '0';
+    var e, z, j, k;
+
+    var multiply = function (n, c) {
+      var index = -1;
+      var c2 = c;
+      while (++index < 6) {
+        c2 += n * data[index];
+        data[index] = c2 % 1e7;
+        c2 = floor(c2 / 1e7);
+      }
+    };
+
+    var divide = function (n) {
+      var index = 6;
+      var c = 0;
+      while (--index >= 0) {
+        c += data[index];
+        data[index] = floor(c / n);
+        c = (c % n) * 1e7;
+      }
+    };
+
+    var dataToString = function () {
+      var index = 6;
+      var s = '';
+      while (--index >= 0) {
+        if (s !== '' || index === 0 || data[index] !== 0) {
+          var t = String(data[index]);
+          s = s === '' ? t : s + repeat.call('0', 7 - t.length) + t;
+        }
+      } return s;
+    };
+
+    if (fractDigits < 0 || fractDigits > 20) throw RangeError('Incorrect fraction digits');
+    // eslint-disable-next-line no-self-compare
+    if (number != number) return 'NaN';
+    if (number <= -1e21 || number >= 1e21) return String(number);
+    if (number < 0) {
+      sign = '-';
+      number = -number;
+    }
+    if (number > 1e-21) {
+      e = log(number * pow(2, 69, 1)) - 69;
+      z = e < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1);
+      z *= 0x10000000000000;
+      e = 52 - e;
+      if (e > 0) {
+        multiply(0, z);
+        j = fractDigits;
+        while (j >= 7) {
+          multiply(1e7, 0);
+          j -= 7;
+        }
+        multiply(pow(10, j, 1), 0);
+        j = e - 1;
+        while (j >= 23) {
+          divide(1 << 23);
+          j -= 23;
+        }
+        divide(1 << j);
+        multiply(1, 1);
+        divide(2);
+        result = dataToString();
+      } else {
+        multiply(0, z);
+        multiply(1 << -e, 0);
+        result = dataToString() + repeat.call('0', fractDigits);
+      }
+    }
+    if (fractDigits > 0) {
+      k = result.length;
+      result = sign + (k <= fractDigits
+        ? '0.' + repeat.call('0', fractDigits - k) + result
+        : result.slice(0, k - fractDigits) + '.' + result.slice(k - fractDigits));
+    } else {
+      result = sign + result;
+    } return result;
+  }
+});
+
+
+/***/ }),
+
+/***/ "755c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var setGlobal = __webpack_require__("0fca");
+
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || setGlobal(SHARED, {});
+
+module.exports = store;
+
+
+/***/ }),
+
+/***/ "7866":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("2bc8");
+var classof = __webpack_require__("3d7c");
+
+var split = ''.split;
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+module.exports = fails(function () {
+  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
+  // eslint-disable-next-line no-prototype-builtins
+  return !Object('z').propertyIsEnumerable(0);
+}) ? function (it) {
+  return classof(it) == 'String' ? split.call(it, '') : Object(it);
+} : Object;
 
 
 /***/ }),
@@ -4117,6 +3845,148 @@ module.exports = equalObjects;
 
 /***/ }),
 
+/***/ "79a8":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__("9b16");
+var isRegExp = __webpack_require__("00a5");
+var anObject = __webpack_require__("fc3a");
+var requireObjectCoercible = __webpack_require__("4340");
+var speciesConstructor = __webpack_require__("287a");
+var advanceStringIndex = __webpack_require__("9a45");
+var toLength = __webpack_require__("c3a3");
+var callRegExpExec = __webpack_require__("5fd8");
+var regexpExec = __webpack_require__("5133");
+var fails = __webpack_require__("2bc8");
+
+var arrayPush = [].push;
+var min = Math.min;
+var MAX_UINT32 = 0xFFFFFFFF;
+
+// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
+var SUPPORTS_Y = !fails(function () { return !RegExp(MAX_UINT32, 'y'); });
+
+// @@split logic
+fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCallNative) {
+  var internalSplit;
+  if (
+    'abbc'.split(/(b)*/)[1] == 'c' ||
+    'test'.split(/(?:)/, -1).length != 4 ||
+    'ab'.split(/(?:ab)*/).length != 2 ||
+    '.'.split(/(.?)(.?)/).length != 4 ||
+    '.'.split(/()()/).length > 1 ||
+    ''.split(/.?/).length
+  ) {
+    // based on es5-shim implementation, need to rework it
+    internalSplit = function (separator, limit) {
+      var string = String(requireObjectCoercible(this));
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (separator === undefined) return [string];
+      // If `separator` is not a regex, use native split
+      if (!isRegExp(separator)) {
+        return nativeSplit.call(string, separator, lim);
+      }
+      var output = [];
+      var flags = (separator.ignoreCase ? 'i' : '') +
+                  (separator.multiline ? 'm' : '') +
+                  (separator.unicode ? 'u' : '') +
+                  (separator.sticky ? 'y' : '');
+      var lastLastIndex = 0;
+      // Make `global` and avoid `lastIndex` issues by working with a copy
+      var separatorCopy = new RegExp(separator.source, flags + 'g');
+      var match, lastIndex, lastLength;
+      while (match = regexpExec.call(separatorCopy, string)) {
+        lastIndex = separatorCopy.lastIndex;
+        if (lastIndex > lastLastIndex) {
+          output.push(string.slice(lastLastIndex, match.index));
+          if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
+          lastLength = match[0].length;
+          lastLastIndex = lastIndex;
+          if (output.length >= lim) break;
+        }
+        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
+      }
+      if (lastLastIndex === string.length) {
+        if (lastLength || !separatorCopy.test('')) output.push('');
+      } else output.push(string.slice(lastLastIndex));
+      return output.length > lim ? output.slice(0, lim) : output;
+    };
+  // Chakra, V8
+  } else if ('0'.split(undefined, 0).length) {
+    internalSplit = function (separator, limit) {
+      return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
+    };
+  } else internalSplit = nativeSplit;
+
+  return [
+    // `String.prototype.split` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.split
+    function split(separator, limit) {
+      var O = requireObjectCoercible(this);
+      var splitter = separator == undefined ? undefined : separator[SPLIT];
+      return splitter !== undefined
+        ? splitter.call(separator, O, limit)
+        : internalSplit.call(String(O), separator, limit);
+    },
+    // `RegExp.prototype[@@split]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
+    //
+    // NOTE: This cannot be properly polyfilled in engines that don't support
+    // the 'y' flag.
+    function (regexp, limit) {
+      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+      var C = speciesConstructor(rx, RegExp);
+
+      var unicodeMatching = rx.unicode;
+      var flags = (rx.ignoreCase ? 'i' : '') +
+                  (rx.multiline ? 'm' : '') +
+                  (rx.unicode ? 'u' : '') +
+                  (SUPPORTS_Y ? 'y' : 'g');
+
+      // ^(? + rx + ) is needed, in combination with some S slicing, to
+      // simulate the 'y' flag.
+      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+      var p = 0;
+      var q = 0;
+      var A = [];
+      while (q < S.length) {
+        splitter.lastIndex = SUPPORTS_Y ? q : 0;
+        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
+        var e;
+        if (
+          z === null ||
+          (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+        ) {
+          q = advanceStringIndex(S, q, unicodeMatching);
+        } else {
+          A.push(S.slice(p, q));
+          if (A.length === lim) return A;
+          for (var i = 1; i <= z.length - 1; i++) {
+            A.push(z[i]);
+            if (A.length === lim) return A;
+          }
+          q = p = e;
+        }
+      }
+      A.push(S.slice(p));
+      return A;
+    }
+  ];
+}, !SUPPORTS_Y);
+
+
+/***/ }),
+
 /***/ "79e4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4202,29 +4072,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ "7a85":
-/***/ (function(module, exports) {
-
-var id = 0;
-var postfix = Math.random();
-
-module.exports = function (key) {
-  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
-};
-
-
-/***/ }),
-
-/***/ "7b58":
-/***/ (function(module, exports) {
-
-// a string of all valid unicode whitespaces
-// eslint-disable-next-line max-len
-module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-
-/***/ }),
-
 /***/ "7b7b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4251,47 +4098,6 @@ module.exports = stackClear;
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "7d5b":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var charAt = __webpack_require__("1be6").charAt;
-
-// `AdvanceStringIndex` abstract operation
-// https://tc39.github.io/ecma262/#sec-advancestringindex
-module.exports = function (S, index, unicode) {
-  return index + (unicode ? charAt(S, index).length : 1);
-};
-
-
-/***/ }),
-
-/***/ "7e62":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var TO_STRING_TAG_SUPPORT = __webpack_require__("0160");
-var classof = __webpack_require__("4cdc");
-
-// `Object.prototype.toString` method implementation
-// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
-  return '[object ' + classof(this) + ']';
-};
-
-
-/***/ }),
-
-/***/ "7fe9":
-/***/ (function(module, exports) {
-
-module.exports = false;
-
 
 /***/ }),
 
@@ -4367,24 +4173,70 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ "837e":
+/***/ "836b":
 /***/ (function(module, exports, __webpack_require__) {
 
-var userAgent = __webpack_require__("2c81");
+"use strict";
 
-module.exports = /(iphone|ipod|ipad).*applewebkit/i.test(userAgent);
+var redefine = __webpack_require__("4450");
+var anObject = __webpack_require__("fc3a");
+var fails = __webpack_require__("2bc8");
+var flags = __webpack_require__("9ffc");
+
+var TO_STRING = 'toString';
+var RegExpPrototype = RegExp.prototype;
+var nativeToString = RegExpPrototype[TO_STRING];
+
+var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
+// FF44- RegExp#toString has a wrong name
+var INCORRECT_NAME = nativeToString.name != TO_STRING;
+
+// `RegExp.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-regexp.prototype.tostring
+if (NOT_GENERIC || INCORRECT_NAME) {
+  redefine(RegExp.prototype, TO_STRING, function toString() {
+    var R = anObject(this);
+    var p = String(R.source);
+    var rf = R.flags;
+    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
+    return '/' + p + '/' + f;
+  }, { unsafe: true });
+}
 
 
 /***/ }),
 
-/***/ "852c":
+/***/ "8573":
 /***/ (function(module, exports, __webpack_require__) {
 
-var redefine = __webpack_require__("d496");
+var redefine = __webpack_require__("4450");
 
 module.exports = function (target, src, options) {
   for (var key in src) redefine(target, key, src[key], options);
   return target;
+};
+
+
+/***/ }),
+
+/***/ "8587":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__("aba0");
+var definePropertyModule = __webpack_require__("22af");
+var anObject = __webpack_require__("fc3a");
+var objectKeys = __webpack_require__("9c6a");
+
+// `Object.defineProperties` method
+// https://tc39.github.io/ecma262/#sec-object.defineproperties
+module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = objectKeys(Properties);
+  var length = keys.length;
+  var index = 0;
+  var key;
+  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);
+  return O;
 };
 
 
@@ -4410,25 +4262,6 @@ function getNative(object, key) {
 }
 
 module.exports = getNative;
-
-
-/***/ }),
-
-/***/ "85b4":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("b973");
-var isObject = __webpack_require__("3b29");
-var newPromiseCapability = __webpack_require__("906c");
-
-module.exports = function (C, x) {
-  anObject(C);
-  if (isObject(x) && x.constructor === C) return x;
-  var promiseCapability = newPromiseCapability.f(C);
-  var resolve = promiseCapability.resolve;
-  resolve(x);
-  return promiseCapability.promise;
-};
 
 
 /***/ }),
@@ -4459,15 +4292,19 @@ module.exports = Uint8Array;
 
 /***/ }),
 
-/***/ "880d":
+/***/ "8843":
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__("c7d8");
+var path = __webpack_require__("e469");
+var global = __webpack_require__("8d5c");
 
-// `IsArray` abstract operation
-// https://tc39.github.io/ecma262/#sec-isarray
-module.exports = Array.isArray || function isArray(arg) {
-  return classof(arg) == 'Array';
+var aFunction = function (variable) {
+  return typeof variable == 'function' ? variable : undefined;
+};
+
+module.exports = function (namespace, method) {
+  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
+    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
 };
 
 
@@ -4529,6 +4366,247 @@ module.exports = arrayLikeKeys;
 
 /***/ }),
 
+/***/ "8863":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var toPrimitive = __webpack_require__("34e1");
+var definePropertyModule = __webpack_require__("22af");
+var createPropertyDescriptor = __webpack_require__("5cbf");
+
+module.exports = function (object, key, value) {
+  var propertyKey = toPrimitive(key);
+  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
+  else object[propertyKey] = value;
+};
+
+
+/***/ }),
+
+/***/ "891c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_WEAK_MAP = __webpack_require__("56c3");
+var global = __webpack_require__("8d5c");
+var isObject = __webpack_require__("42cc");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var objectHas = __webpack_require__("b64f");
+var shared = __webpack_require__("755c");
+var sharedKey = __webpack_require__("9800");
+var hiddenKeys = __webpack_require__("0c09");
+
+var WeakMap = global.WeakMap;
+var set, get, has;
+
+var enforce = function (it) {
+  return has(it) ? get(it) : set(it, {});
+};
+
+var getterFor = function (TYPE) {
+  return function (it) {
+    var state;
+    if (!isObject(it) || (state = get(it)).type !== TYPE) {
+      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+    } return state;
+  };
+};
+
+if (NATIVE_WEAK_MAP) {
+  var store = shared.state || (shared.state = new WeakMap());
+  var wmget = store.get;
+  var wmhas = store.has;
+  var wmset = store.set;
+  set = function (it, metadata) {
+    metadata.facade = it;
+    wmset.call(store, it, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return wmget.call(store, it) || {};
+  };
+  has = function (it) {
+    return wmhas.call(store, it);
+  };
+} else {
+  var STATE = sharedKey('state');
+  hiddenKeys[STATE] = true;
+  set = function (it, metadata) {
+    metadata.facade = it;
+    createNonEnumerableProperty(it, STATE, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return objectHas(it, STATE) ? it[STATE] : {};
+  };
+  has = function (it) {
+    return objectHas(it, STATE);
+  };
+}
+
+module.exports = {
+  set: set,
+  get: get,
+  has: has,
+  enforce: enforce,
+  getterFor: getterFor
+};
+
+
+/***/ }),
+
+/***/ "89e2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_SYMBOL = __webpack_require__("c1d9");
+
+module.exports = NATIVE_SYMBOL
+  // eslint-disable-next-line no-undef
+  && !Symbol.sham
+  // eslint-disable-next-line no-undef
+  && typeof Symbol.iterator == 'symbol';
+
+
+/***/ }),
+
+/***/ "8acc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var fails = __webpack_require__("2bc8");
+var bind = __webpack_require__("1e51");
+var html = __webpack_require__("beb6");
+var createElement = __webpack_require__("4f3e");
+var IS_IOS = __webpack_require__("f7bb");
+var IS_NODE = __webpack_require__("eee5");
+
+var location = global.location;
+var set = global.setImmediate;
+var clear = global.clearImmediate;
+var process = global.process;
+var MessageChannel = global.MessageChannel;
+var Dispatch = global.Dispatch;
+var counter = 0;
+var queue = {};
+var ONREADYSTATECHANGE = 'onreadystatechange';
+var defer, channel, port;
+
+var run = function (id) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (queue.hasOwnProperty(id)) {
+    var fn = queue[id];
+    delete queue[id];
+    fn();
+  }
+};
+
+var runner = function (id) {
+  return function () {
+    run(id);
+  };
+};
+
+var listener = function (event) {
+  run(event.data);
+};
+
+var post = function (id) {
+  // old engines have not location.origin
+  global.postMessage(id + '', location.protocol + '//' + location.host);
+};
+
+// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+if (!set || !clear) {
+  set = function setImmediate(fn) {
+    var args = [];
+    var i = 1;
+    while (arguments.length > i) args.push(arguments[i++]);
+    queue[++counter] = function () {
+      // eslint-disable-next-line no-new-func
+      (typeof fn == 'function' ? fn : Function(fn)).apply(undefined, args);
+    };
+    defer(counter);
+    return counter;
+  };
+  clear = function clearImmediate(id) {
+    delete queue[id];
+  };
+  // Node.js 0.8-
+  if (IS_NODE) {
+    defer = function (id) {
+      process.nextTick(runner(id));
+    };
+  // Sphere (JS game engine) Dispatch API
+  } else if (Dispatch && Dispatch.now) {
+    defer = function (id) {
+      Dispatch.now(runner(id));
+    };
+  // Browsers with MessageChannel, includes WebWorkers
+  // except iOS - https://github.com/zloirock/core-js/issues/624
+  } else if (MessageChannel && !IS_IOS) {
+    channel = new MessageChannel();
+    port = channel.port2;
+    channel.port1.onmessage = listener;
+    defer = bind(port.postMessage, port, 1);
+  // Browsers with postMessage, skip WebWorkers
+  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  } else if (
+    global.addEventListener &&
+    typeof postMessage == 'function' &&
+    !global.importScripts &&
+    location && location.protocol !== 'file:' &&
+    !fails(post)
+  ) {
+    defer = post;
+    global.addEventListener('message', listener, false);
+  // IE8-
+  } else if (ONREADYSTATECHANGE in createElement('script')) {
+    defer = function (id) {
+      html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
+        html.removeChild(this);
+        run(id);
+      };
+    };
+  // Rest old browsers
+  } else {
+    defer = function (id) {
+      setTimeout(runner(id), 0);
+    };
+  }
+}
+
+module.exports = {
+  set: set,
+  clear: clear
+};
+
+
+/***/ }),
+
+/***/ "8b3a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("b64f");
+var toIndexedObject = __webpack_require__("ec87");
+var indexOf = __webpack_require__("6158").indexOf;
+var hiddenKeys = __webpack_require__("0c09");
+
+module.exports = function (object, names) {
+  var O = toIndexedObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~indexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
 /***/ "8b3f":
 /***/ (function(module, exports) {
 
@@ -4582,6 +4660,44 @@ module.exports = Symbol;
 
 /***/ }),
 
+/***/ "8c6c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("1f17");
+var Iterators = __webpack_require__("27c4");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var ArrayPrototype = Array.prototype;
+
+// check on default Array iterator
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ "8d5c":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var check = function (it) {
+  return it && it.Math == Math && it;
+};
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+module.exports =
+  // eslint-disable-next-line no-undef
+  check(typeof globalThis == 'object' && globalThis) ||
+  check(typeof window == 'object' && window) ||
+  check(typeof self == 'object' && self) ||
+  check(typeof global == 'object' && global) ||
+  // eslint-disable-next-line no-new-func
+  (function () { return this; })() || Function('return this')();
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("0288")))
+
+/***/ }),
+
 /***/ "8dac":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4619,117 +4735,6 @@ function stackSet(key, value) {
 }
 
 module.exports = stackSet;
-
-
-/***/ }),
-
-/***/ "8e7d":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("b973");
-var defineProperties = __webpack_require__("582a");
-var enumBugKeys = __webpack_require__("f74b");
-var hiddenKeys = __webpack_require__("be34");
-var html = __webpack_require__("5f8f");
-var documentCreateElement = __webpack_require__("4890");
-var sharedKey = __webpack_require__("1bbe");
-
-var GT = '>';
-var LT = '<';
-var PROTOTYPE = 'prototype';
-var SCRIPT = 'script';
-var IE_PROTO = sharedKey('IE_PROTO');
-
-var EmptyConstructor = function () { /* empty */ };
-
-var scriptTag = function (content) {
-  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
-};
-
-// Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-var NullProtoObjectViaActiveX = function (activeXDocument) {
-  activeXDocument.write(scriptTag(''));
-  activeXDocument.close();
-  var temp = activeXDocument.parentWindow.Object;
-  activeXDocument = null; // avoid memory leak
-  return temp;
-};
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var NullProtoObjectViaIFrame = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = documentCreateElement('iframe');
-  var JS = 'java' + SCRIPT + ':';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  html.appendChild(iframe);
-  // https://github.com/zloirock/core-js/issues/475
-  iframe.src = String(JS);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(scriptTag('document.F=Object'));
-  iframeDocument.close();
-  return iframeDocument.F;
-};
-
-// Check for document.domain and active x support
-// No need to use active x approach when document.domain is not set
-// see https://github.com/es-shims/es5-shim/issues/150
-// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
-// avoid IE GC bug
-var activeXDocument;
-var NullProtoObject = function () {
-  try {
-    /* global ActiveXObject */
-    activeXDocument = document.domain && new ActiveXObject('htmlfile');
-  } catch (error) { /* ignore */ }
-  NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
-  var length = enumBugKeys.length;
-  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
-  return NullProtoObject();
-};
-
-hiddenKeys[IE_PROTO] = true;
-
-// `Object.create` method
-// https://tc39.github.io/ecma262/#sec-object.create
-module.exports = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    EmptyConstructor[PROTOTYPE] = anObject(O);
-    result = new EmptyConstructor();
-    EmptyConstructor[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = NullProtoObject();
-  return Properties === undefined ? result : defineProperties(result, Properties);
-};
-
-
-/***/ }),
-
-/***/ "906c":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var aFunction = __webpack_require__("d872");
-
-var PromiseCapability = function (C) {
-  var resolve, reject;
-  this.promise = new C(function ($$resolve, $$reject) {
-    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
-    resolve = $$resolve;
-    reject = $$reject;
-  });
-  this.resolve = aFunction(resolve);
-  this.reject = aFunction(reject);
-};
-
-// 25.4.1.5 NewPromiseCapability(C)
-module.exports.f = function (C) {
-  return new PromiseCapability(C);
-};
 
 
 /***/ }),
@@ -4813,14 +4818,6 @@ module.exports = Hash;
 
 /***/ }),
 
-/***/ "9349":
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
-
-
-/***/ }),
-
 /***/ "940b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4858,145 +4855,74 @@ module.exports = baseKeys;
 
 /***/ }),
 
-/***/ "948b":
+/***/ "9414":
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__("4340");
+var whitespaces = __webpack_require__("1fef");
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+
+/***/ "9456":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var fixRegExpWellKnownSymbolLogic = __webpack_require__("3124");
-var anObject = __webpack_require__("b973");
-var toObject = __webpack_require__("3c6b");
-var toLength = __webpack_require__("4a35");
-var toInteger = __webpack_require__("b804");
-var requireObjectCoercible = __webpack_require__("21e0");
-var advanceStringIndex = __webpack_require__("7d5b");
-var regExpExec = __webpack_require__("4057");
+var IteratorPrototype = __webpack_require__("a717").IteratorPrototype;
+var create = __webpack_require__("b921");
+var createPropertyDescriptor = __webpack_require__("5cbf");
+var setToStringTag = __webpack_require__("1a81");
+var Iterators = __webpack_require__("27c4");
 
-var max = Math.max;
-var min = Math.min;
-var floor = Math.floor;
-var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
-var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
+var returnThis = function () { return this; };
 
-var maybeToString = function (it) {
-  return it === undefined ? it : String(it);
+module.exports = function (IteratorConstructor, NAME, next) {
+  var TO_STRING_TAG = NAME + ' Iterator';
+  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(1, next) });
+  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
+  Iterators[TO_STRING_TAG] = returnThis;
+  return IteratorConstructor;
 };
 
-// @@replace logic
-fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative, reason) {
-  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = reason.REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE;
-  var REPLACE_KEEPS_$0 = reason.REPLACE_KEEPS_$0;
-  var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
 
-  return [
-    // `String.prototype.replace` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.replace
-    function replace(searchValue, replaceValue) {
-      var O = requireObjectCoercible(this);
-      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
-      return replacer !== undefined
-        ? replacer.call(searchValue, O, replaceValue)
-        : nativeReplace.call(String(O), searchValue, replaceValue);
-    },
-    // `RegExp.prototype[@@replace]` method
-    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
-    function (regexp, replaceValue) {
-      if (
-        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
-        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
-      ) {
-        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
-        if (res.done) return res.value;
-      }
+/***/ }),
 
-      var rx = anObject(regexp);
-      var S = String(this);
+/***/ "95bd":
+/***/ (function(module, exports) {
 
-      var functionalReplace = typeof replaceValue === 'function';
-      if (!functionalReplace) replaceValue = String(replaceValue);
+var id = 0;
+var postfix = Math.random();
 
-      var global = rx.global;
-      if (global) {
-        var fullUnicode = rx.unicode;
-        rx.lastIndex = 0;
-      }
-      var results = [];
-      while (true) {
-        var result = regExpExec(rx, S);
-        if (result === null) break;
-
-        results.push(result);
-        if (!global) break;
-
-        var matchStr = String(result[0]);
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-      }
-
-      var accumulatedResult = '';
-      var nextSourcePosition = 0;
-      for (var i = 0; i < results.length; i++) {
-        result = results[i];
-
-        var matched = String(result[0]);
-        var position = max(min(toInteger(result.index), S.length), 0);
-        var captures = [];
-        // NOTE: This is equivalent to
-        //   captures = result.slice(1).map(maybeToString)
-        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
-        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
-        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
-        var namedCaptures = result.groups;
-        if (functionalReplace) {
-          var replacerArgs = [matched].concat(captures, position, S);
-          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
-          var replacement = String(replaceValue.apply(undefined, replacerArgs));
-        } else {
-          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
-        }
-        if (position >= nextSourcePosition) {
-          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
-          nextSourcePosition = position + matched.length;
-        }
-      }
-      return accumulatedResult + S.slice(nextSourcePosition);
-    }
-  ];
-
-  // https://tc39.github.io/ecma262/#sec-getsubstitution
-  function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
-    var tailPos = position + matched.length;
-    var m = captures.length;
-    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
-    if (namedCaptures !== undefined) {
-      namedCaptures = toObject(namedCaptures);
-      symbols = SUBSTITUTION_SYMBOLS;
-    }
-    return nativeReplace.call(replacement, symbols, function (match, ch) {
-      var capture;
-      switch (ch.charAt(0)) {
-        case '$': return '$';
-        case '&': return matched;
-        case '`': return str.slice(0, position);
-        case "'": return str.slice(tailPos);
-        case '<':
-          capture = namedCaptures[ch.slice(1, -1)];
-          break;
-        default: // \d\d?
-          var n = +ch;
-          if (n === 0) return match;
-          if (n > m) {
-            var f = floor(n / 10);
-            if (f === 0) return match;
-            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
-            return match;
-          }
-          capture = captures[n - 1];
-      }
-      return capture === undefined ? '' : capture;
-    });
-  }
-});
+module.exports = function (key) {
+  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
+};
 
 
 /***/ }),
@@ -5031,33 +4957,6 @@ function mapCacheHas(key) {
 }
 
 module.exports = mapCacheHas;
-
-
-/***/ }),
-
-/***/ "977b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("35a9");
-var propertyIsEnumerableModule = __webpack_require__("bbfb");
-var createPropertyDescriptor = __webpack_require__("ef69");
-var toIndexedObject = __webpack_require__("3274");
-var toPrimitive = __webpack_require__("bab3");
-var has = __webpack_require__("0117");
-var IE8_DOM_DEFINE = __webpack_require__("cb62");
-
-var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-// `Object.getOwnPropertyDescriptor` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
-exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
-  O = toIndexedObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return nativeGetOwnPropertyDescriptor(O, P);
-  } catch (error) { /* empty */ }
-  if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
-};
 
 
 /***/ }),
@@ -5158,6 +5057,42 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "97c2":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// Nashorn ~ JDK8 bug
+var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
+
+// `Object.prototype.propertyIsEnumerable` method implementation
+// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+  var descriptor = getOwnPropertyDescriptor(this, V);
+  return !!descriptor && descriptor.enumerable;
+} : nativePropertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ "9800":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("fe3d");
+var uid = __webpack_require__("95bd");
+
+var keys = shared('keys');
+
+module.exports = function (key) {
+  return keys[key] || (keys[key] = uid(key));
+};
+
+
+/***/ }),
+
 /***/ "9822":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5224,11 +5159,11 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.map.js
-var es_array_map = __webpack_require__("1564");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.map.js
+var es_array_map = __webpack_require__("6540");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("eb5b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("1d7a");
 
 // EXTERNAL MODULE: ./node_modules/_@babel_runtime@7.12.5@@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("d211");
@@ -5240,24 +5175,24 @@ var staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=5706994c&
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("c368");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.regexp.exec.js
+var es_regexp_exec = __webpack_require__("0bd5");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.split.js
-var es_string_split = __webpack_require__("a870");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.split.js
+var es_string_split = __webpack_require__("79a8");
 
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartList.vue?vue&type=template&id=27c02d86&
-var ChartListvue_type_template_id_27c02d86_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.showList)?_c('div',{staticClass:"luckysheet-datavisual-quick-m",style:({position: 'absolute',zIndex: _vm.zindex,bottom: '0px',left: '0px',right: '0px',background: '#fff'})},[_c('el-button',{staticStyle:{"width":"100%","margin":"2px 4px 8px 4px"},attrs:{"plain":"","round":"","size":"small","type":"danger"},on:{"click":function($event){return _vm.$emit('closeChartShowList')}}},[_c('i',{staticClass:"iconfont icon-guanbi",staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.close)+" ")]),_c('el-radio-group',{staticStyle:{"display":"block","text-align":"center"},attrs:{"size":"mini"},model:{value:(_vm.currentPro),callback:function ($$v) {_vm.currentPro=$$v},expression:"currentPro"}},_vm._l((_vm.config),function(item,index){return _c('el-radio-button',{key:index,attrs:{"label":item.type}},[_vm._v(_vm._s(item.name))])}),1),_c('div',{staticClass:"luckysheet-datavisual-quick-menu",attrs:{"id":"luckysheet-datavisual-quick-menu"}},_vm._l((_vm.currentConfig.data),function(item,index){return _c('div',{key:index,attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-menu-' + item.type},on:{"click":_vm.quickMenu}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_c('span',[_vm._v(_vm._s(item.name))])])}),0),_c('div',{staticClass:"luckysheet-datavisual-quick-list luckysheet-scrollbars",attrs:{"id":"luckysheet-datavisual-quick-list"},on:{"scroll":_vm.quickListScroll}},[_vm._l((_vm.currentConfig.data),function(item,index){return [_c('div',{key:index,staticClass:"luckysheet-datavisual-quick-list-title"},[_c('a',{attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-listtitle-'+item.type}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_vm._v(" "+_vm._s(item.name)+" ")])]),_c('div',{staticClass:"luckysheet-datavisual-quick-list-ul"},_vm._l((item.data),function(chartItem,index){return _c('el-tooltip',{key:index,attrs:{"content":chartItem.name,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('div',{staticClass:"luckysheet-datavisual-quick-list-item",class:chartItem.type==_vm.currentChartType? 'luckysheet-datavisual-quick-list-item-active':'',attrs:{"chartAllType":chartItem.type,"data-style":chartItem.type.split('-')[2],"data-type":chartItem.type.split('-')[1]},on:{"click":function($event){return _vm.changeChartType(chartItem.type)}}},[_c('img',{attrs:{"src":chartItem.img.length==0?'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjkzIiB5PSIxMDAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTFwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4yNDJ4MjAwPC90ZXh0PjwvZz48L3N2Zz4=':chartItem.img,"alt":"图片"}})])])}),1)]})],2)],1):_vm._e()}
-var ChartListvue_type_template_id_27c02d86_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartList.vue?vue&type=template&id=35dd2a38&
+var ChartListvue_type_template_id_35dd2a38_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.showList)?_c('div',{staticClass:"luckysheet-datavisual-quick-m",style:({position: 'absolute',zIndex: _vm.zindex,bottom: '0px',left: '0px',right: '0px',background: '#fff'})},[_c('el-button',{staticStyle:{"width":"100%","margin":"2px 4px 8px 4px"},attrs:{"plain":"","round":"","size":"small","type":"danger"},on:{"click":function($event){return _vm.$emit('closeChartShowList')}}},[_c('i',{staticClass:"iconfont icon-guanbi",staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.close)+" ")]),_c('el-radio-group',{staticStyle:{"display":"block","text-align":"center"},attrs:{"size":"mini"},model:{value:(_vm.currentPro),callback:function ($$v) {_vm.currentPro=$$v},expression:"currentPro"}},_vm._l((_vm.config),function(item,index){return _c('el-radio-button',{key:index,attrs:{"label":item.type}},[_vm._v(_vm._s(item.name))])}),1),_c('div',{staticClass:"luckysheet-datavisual-quick-menu",attrs:{"id":"luckysheet-datavisual-quick-menu"}},_vm._l((_vm.currentConfig.data),function(item,index){return _c('div',{key:index,attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-menu-' + item.type},on:{"click":_vm.quickMenu}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_c('span',[_vm._v(_vm._s(item.name))])])}),0),_c('div',{staticClass:"luckysheet-datavisual-quick-list luckysheet-scrollbars",attrs:{"id":"luckysheet-datavisual-quick-list"},on:{"scroll":_vm.quickListScroll}},[_vm._l((_vm.currentConfig.data),function(item,index){return [_c('div',{key:index,staticClass:"luckysheet-datavisual-quick-list-title"},[_c('a',{attrs:{"data-type":item.type,"id":'luckysheet-datavisual-chart-listtitle-'+item.type}},[_c('i',{staticClass:"iconfont",class:item.icon,attrs:{"aria-hidden":"true"}}),_vm._v(" "+_vm._s(item.name)+" ")])]),_c('div',{staticClass:"luckysheet-datavisual-quick-list-ul"},_vm._l((item.data),function(chartItem,index){return _c('el-tooltip',{key:index,attrs:{"content":chartItem.name,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('div',{staticClass:"luckysheet-datavisual-quick-list-item",class:chartItem.type==_vm.currentChartType? 'luckysheet-datavisual-quick-list-item-active':'',attrs:{"chartAllType":chartItem.type,"data-style":chartItem.type.split('-')[2],"data-type":chartItem.type.split('-')[1]},on:{"click":function($event){return _vm.changeChartType(chartItem.type)}}},[_c('img',{attrs:{"src":chartItem.img.length==0?'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjkzIiB5PSIxMDAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTFwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4yNDJ4MjAwPC90ZXh0PjwvZz48L3N2Zz4=':chartItem.img,"alt":"图片"}})])])}),1)]})],2)],1):_vm._e()}
+var ChartListvue_type_template_id_35dd2a38_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=template&id=27c02d86&
+// CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=template&id=35dd2a38&
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.find.js
-var es_array_find = __webpack_require__("9f1b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.find.js
+var es_array_find = __webpack_require__("13cf");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.number.constructor.js
-var es_number_constructor = __webpack_require__("d174");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("d0bf");
 
 // EXTERNAL MODULE: ./node_modules/_jquery@3.5.1@jquery/dist/jquery.js
 var jquery = __webpack_require__("a336");
@@ -5270,32 +5205,32 @@ var external_Vuex_default = /*#__PURE__*/__webpack_require__.n(external_Vuex_);
 // EXTERNAL MODULE: ./src/utils/util.js + 4 modules
 var util = __webpack_require__("ca00");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.find-index.js
-var es_array_find_index = __webpack_require__("bf6c");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.find-index.js
+var es_array_find_index = __webpack_require__("1f70");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.for-each.js
-var es_array_for_each = __webpack_require__("3610");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.for-each.js
+var es_array_for_each = __webpack_require__("72b3");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.includes.js
-var es_array_includes = __webpack_require__("4322");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.includes.js
+var es_array_includes = __webpack_require__("c726");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.index-of.js
-var es_array_index_of = __webpack_require__("bfa6");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.index-of.js
+var es_array_index_of = __webpack_require__("a543");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.splice.js
-var es_array_splice = __webpack_require__("b526");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.splice.js
+var es_array_splice = __webpack_require__("989e");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__("9edd");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.object.assign.js
+var es_object_assign = __webpack_require__("3ff7");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.includes.js
-var es_string_includes = __webpack_require__("c645");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.includes.js
+var es_string_includes = __webpack_require__("b784");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__("948b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.replace.js
+var es_string_replace = __webpack_require__("9b42");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("f644");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("270f");
 
 // EXTERNAL MODULE: external "Vue"
 var external_Vue_ = __webpack_require__("8bbf");
@@ -5744,6 +5679,7 @@ var UPDATE_PROP = 'UPDATE_PROP';
 var UPDATE_RENDER_VIEW = 'UPDATE_RENDER_VIEW';
 var UPDATE_CURRENT_PROP = 'UPDATE_CURRENT_PROP';
 var ADD_PROP = 'ADD_PROP';
+var UPDATE_CHART_TYPE = 'UPDATE_CHART_TYPE';
 /* harmony default export */ var chartSetting_mutation_types = ({
   ENABLE_ACTIVE: mutation_types_ENABLE_ACTIVE,
   DISABLE_ACTIVE: mutation_types_DISABLE_ACTIVE,
@@ -5754,7 +5690,8 @@ var ADD_PROP = 'ADD_PROP';
   UPDATE_PROP: UPDATE_PROP,
   UPDATE_RENDER_VIEW: UPDATE_RENDER_VIEW,
   UPDATE_CURRENT_PROP: UPDATE_CURRENT_PROP,
-  ADD_PROP: ADD_PROP
+  ADD_PROP: ADD_PROP,
+  UPDATE_CHART_TYPE: UPDATE_CHART_TYPE
 });
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/actions.js
 
@@ -5809,6 +5746,10 @@ var ADD_PROP = 'ADD_PROP';
   addProp: function addProp(_ref12, params) {
     var commit = _ref12.commit;
     commit(chartSetting_mutation_types.ADD_PROP, params);
+  },
+  updateChartType: function updateChartType(_ref13, params) {
+    var commit = _ref13.commit;
+    commit(chartSetting_mutation_types.UPDATE_CHART_TYPE, params);
   }
 });
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/getters.js
@@ -5826,6 +5767,7 @@ var ADD_PROP = 'ADD_PROP';
   }
 });
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/mutations.js
+
 
 
 
@@ -5878,6 +5820,8 @@ var mutations_ENABLE_ACTIVE$DISABL;
     return item.chart_id == params.chart_id;
   });
   state.chartLists[index].props.push(params);
+}), Object(defineProperty["a" /* default */])(mutations_ENABLE_ACTIVE$DISABL, UPDATE_CHART_TYPE, function (state, params) {
+  state.chartTypeInfo = Object.assign(state.chartTypeInfo, params);
 }), mutations_ENABLE_ACTIVE$DISABL);
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/state.js
 
@@ -8234,8 +8178,14 @@ var state_ref, state_ref2, state_ref3;
   },
   number: 0,
   //记录更改设置项操作
-  renderView: false // 如果走updateChart,更新store后不走renderChart
-
+  renderView: false,
+  // 如果走updateChart,更新store后不走renderChart
+  chartTypeInfo: {
+    //是否改变图表类型
+    isChangeType: false,
+    newVal: '',
+    oldVal: ''
+  }
 });
 // CONCATENATED MODULE: ./src/store/modules/chartSetting/index.js
 
@@ -8518,24 +8468,29 @@ function insertToStore(chart_json) {
   ChartSetting.chartLists.push(chart_json);
 }
 
+function exportUtil_changeChartType(chartAllType) {
+  var chartJson = ChartSetting.chartLists[ChartSetting.currentChartIndex].chartOptions;
+  chartUtil_changeChangeAllType(chartJson, chartAllType);
+}
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("c703");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.map.js
-var es_map = __webpack_require__("6a73");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("139e");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__("c585");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.map.js
+var es_map = __webpack_require__("6e39");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("a0ef");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.object.to-string.js
+var es_object_to_string = __webpack_require__("402f");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("281b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.iterator.js
+var es_string_iterator = __webpack_require__("2db5");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.reflect.has.js
-var es_reflect_has = __webpack_require__("6248");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/web.dom-collections.iterator.js
+var web_dom_collections_iterator = __webpack_require__("6ab7");
+
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.reflect.has.js
+var es_reflect_has = __webpack_require__("eaa3");
 
 // CONCATENATED MODULE: ./src/utils/echartsEngine/transformTitle.js
 
@@ -9056,11 +9011,11 @@ var transformTooltip_transformTooltip = function transformTooltip(chartAllTypeAr
 };
 
 /* harmony default export */ var echartsEngine_transformTooltip = (transformTooltip_transformTooltip);
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("606e");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("b131");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.number.to-fixed.js
-var es_number_to_fixed = __webpack_require__("e3c0");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.number.to-fixed.js
+var es_number_to_fixed = __webpack_require__("7478");
 
 // CONCATENATED MODULE: ./src/utils/echartsEngine/transformAxis.js
 
@@ -9305,8 +9260,8 @@ var transformAxis_transformAxis = function transformAxis(chartAllTypeArray, axis
 };
 
 /* harmony default export */ var echartsEngine_transformAxis = (transformAxis_transformAxis);
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.trim.js
-var es_string_trim = __webpack_require__("a733");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.trim.js
+var es_string_trim = __webpack_require__("0861");
 
 // CONCATENATED MODULE: ./src/utils/echartsEngine/transformCommonSeries.js
 
@@ -9545,7 +9500,7 @@ var transformCommonSeries = function transformCommonSeries(chartAllTypeArray, se
 
   transformCommonSeries_setValue(prop, seriesPlace, value);
 
-  if (!prop.index) {
+  if (!props.index) {
     for (var i = 0; i < series.length; i++) {
       result = transformCommonSeries_transform(prop, value, series[i]);
       $.extend(true, series[i], result);
@@ -9959,6 +9914,9 @@ var chartUtil_renderChart = function renderChart(renderChartObj, ele) {
       chart.setOption(options, true);
       console.dir(JSON.stringify(options));
       console.dir(options);
+      src_store.dispatch('chartSetting/updateChartType', {
+        isChangeType: false
+      });
       setTimeout(function () {
         echarts.getInstanceById(container.getAttribute('_echarts_instance_')).resize();
       }, 0);
@@ -9982,8 +9940,12 @@ var chartUtil_updateChart = function updateChart(props) {
 
     chart.setOption(options, true);
     chartOptions.defaultOption = options;
+    src_store.state.chartSetting.prop.reverse = props.reverse;
     src_store.dispatch('chartSetting/updateChartItemChartlist', chartOptions);
     src_store.dispatch('chartSetting/updateRenderView', true);
+    src_store.dispatch('chartSetting/updateChartType', {
+      isChangeType: false
+    });
     setTimeout(function () {
       echarts.getInstanceById(container.getAttribute('_echarts_instance_')).resize();
     }, 0);
@@ -10216,7 +10178,9 @@ var transCustom = function transCustom(a, b) {
 
 
 var chartUtil_changeChangeAllType = function changeChangeAllType(chart_json, chartAllType) {
-  src_store.dispatch('chartSetting/updateRenderView', false);
+  src_store.dispatch('chartSetting/updateRenderView', false); // 清空prop
+
+  src_store.dispatch('chartSetting/updateCurrentProp', {});
   var chartID = chart_json.chart_id;
   var chart_id = chartID;
   var updateJson = {};
@@ -10837,7 +10801,7 @@ var en_obj = {
  //图表选择组件
 
 /* harmony default export */ var ChartListvue_type_script_lang_js_ = ({
-  name: "ChartList",
+  name: 'ChartList',
   props: {
     showList: {
       type: Boolean,
@@ -10849,217 +10813,217 @@ var en_obj = {
     },
     currentChartType: {
       type: String,
-      default: "echarts|line|default"
+      default: 'echarts|line|default'
     },
     lang: {
       type: String,
-      default: "cn"
+      default: 'cn'
     }
   },
   data: function data() {
     return {
       config: [{
-        type: "echarts",
-        name: "echarts",
+        type: 'echarts',
+        name: 'echarts',
         data: []
       }],
       currentConfig: [],
       currentPro: null,
-      chartAllType: "",
+      chartAllType: '',
       list_scroll_direction: -1000,
       // echarts中文
       echartsCN: [{
-        type: "line",
-        name: "折线图",
-        icon: "icon-tubiaozhexiantu",
+        type: 'line',
+        name: '折线图',
+        icon: 'icon-tubiaozhexiantu',
         data: [{
-          type: "echarts|line|default",
-          name: "折线图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|line|default',
+          name: '折线图',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANsAAACsCAYAAADypNk5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABzASURBVHhe7Z2JVxRX1sDnP/omky/JaCZmYsYtGjVxQeOuqIAoqCyKILsggqgIuICyuSCiCO4gKoLsOzT7juwoi5pvTo7nfnVvd1d3wVMQoYGu2+f8juN7t8qePvXLe/WW+/72/v2fwDDM1MOyMYyJYNkYxkSMkq2sqhaqahsUZQzDfDmybBXVdXA08Cw4eAfCbmdvSH78dFQwwzATR5btXOwNcA8KA/x0dveC1SEvKNVUj7qAYZiJIcvmFhAK9568INnws/eIHxSXa0ZdwDDMxJBlu3z9Dti7H4ecwlIIvhgLv+2wh31ufqDh9zeGmRQUAyShl6+Bs28weJ+6AOttnOF/FqyGlTvs4F5ahuIihmE+H4VsI8EWDoX7auEaCIuOF8YwDDM+Pikbcu9JBny1aA1Jd9jvlDCGYZixGVM2pExTDRZWDiTcehsnqG1oFsYxDPNxxiUb0tv/GtwCzpJwc1dshlv304RxDMOIGbdsei7HJ5FwCA6kiGIYhhnNZ8uGPHqWBQvW7SLhLB3chTEMwyiZkGwILu/a43KMhPvPup3Q0NwqjGMYRsuEZUP6Xw+AX0iE3K2884jXUzLMx/gi2fRE37gDXy+xIOGOhVyE2w/S4Oqtu9DS3iGMZxg1MimyIWkZ2bB610H4ZZMN7D7kBUcDQ8HmsA9k5RUL4xlGbUyabMiDJ5mwxf6IbikzQOytFPAKPieMZRi1MamyPX9ZAI4+J3WqAcSnPAL/sxHCWIZRG5MqG3Lk+BlwDwwDn9MXYfM+F2rtRHEMozYmXbau7j44EX4J5vy6gQZMahtbhHEMozYmXTY9W/e7kmzXku4L6xlGbUyZbKcj4ki2A54nhPUMozamTLbn2QUk2w+/bYG+/jfCGIZRE38rKCiAqSAvLw+WbLAi4c5HXRHGMMxsRSTTWExZy4Z4njxHsnlJf4rqGUZNTKlsuFYSZVu+ba+wnmHUxJTK1tbRBf9evZ2Ey8rnZVuMuplS2RBMj4eynYm8IqxnGLUw5bLFJCSTbJv2uQjrGUYtKGSrPx0M5Xa2oHE9DF3p6YrAiVJeVQt/X6jNzlVd1yiMYRg1IMvWlnADarw84MNff0FP6mMos7WG4d6eURdMhG0H3Ei26IQ7wnqGUQOybPXBQdD7NF23Xh+gxHIrVLocgq5nX777+kykdjWJraufsJ5h1IAsW6vUstVKLRt8+AC9T1KhYO0qyPjmK6J4x1ZoOH8O+svLRt1gPGTkFJJsc5ZvhIGBIWEMw5g7wne2SumdrTkmit7d9MIhmf/6J5Ttt4PWG9dhqLNLcaOxWLndnoRLejg574IMM9tQyPYx2lNSoGjbZoV4OUsXgcbTAzrTnwivGQmuIkHZ3AJChPUMY+6MSzY9A80t1J3MXvizQryCPyygPjSEupnD/a+hKTYaGqS/9+TmyNcmP35Gsi3eYKW4J8Oohc+SzZjurCzQHHVVSIcUbd4ANR5uUOvrBaV7rKWWT5umvKOrB35as4OEy8wtGnU/hjF3JiybnneDg/QOh4MoKFvp7p268UyAzsSbUBsYIMfu9wgg2QLPRSnuwTBq4ItlM+bVgwdQamWQrV2SsMb/mFwfe1O7msTC2lFxHcOogUmVDcERzcqD9lDt7kZdyp7sbLmusrqeDlZE4eo4NwmjMiZdNqQ5LkZ+h+srKVHUbT94lGS7eCVRUc4w5s6UyIYUbd9CsjWcP68oD7l0hWTb7eSlKGcYc2fKZGuKjibZcODEuBzTkaNseDbA0NBbRR3DmDNTJttAS4uhKzlimddvO/aTcLyahFETUyYbUrh5A8nWGKlMQe4VfJ5kc/YNVpQzjDkzpbKhZChbyS5LRfndtAySbf5aZTnDmDNTKtubhga5K9mv0cjl3b398NMabW6S7IJSxTUMY65MqWxIwQYLkq0p6rKiHDMlo2x4eKJxOcOYK1MuW/35c9qupM1uRXlcYgrJ9rvlfkU5w5grUy7b6+oauSv5pq5eLsd8JF8tWkvCNbW0K65hGHNkymVD8i1Wk2zNsdGK8u263CQRV28pyhnGHDGJbPVhodqupK2Nojzk0lWSDaUzLmcYc8QksvWXl5NsL777mia79eU5haUkG/Lu3XvFNQxjbkzZKTYjyfx1CQmXExSoKF+6yZpkC78cpyhnmJmMSKaxMEnLhtSHnCbZSu2Uh2x4n9KuJuFDExlzx2Sy9RYXk2yZc7+FoY5Oufzh00ySDQ9NNI5nGHPDZLIhuSuXkXCt8dflst6+1zBfl5skr7hcEc8w5oRJZasNDiLZyg7YKcoP6laT+J9VLlhmGHPCpLL15OWRbFk/zIGh3j65/HrSfZKND01kzBmTyobk6kYlW2/elMswH8k/FluQcC1tHYp4hjEXTC5bzYnjJFuFk4OifIcuN0lUfJKinGHMBZPLhsldqSv573/Bu0HDIRth0fEkGx+ayJgrJpcNyV6ygIRrSzac15ZfUkGyIcaxDGMuTItsNf5+JFvlYWdF+aqdB0i2+09eKMoZxhyYFtk6nz/XdiXn/6gox42kKJuDV6CinGHMgWmRDXm54CcSruPhQ7ksNeMlyYaHJhrHMow5MG2yVfl4k2waN8OAyJs3g5QECIUrKjPkLGEYc2DaZOt8kkayvVwwX1Hu5HOSZDsRrsxZwjCznWmT7d3QMGT9NI+E05/hhtxIfkSyLdlorYhnmNnOtMmGaDzcSbYqD8NObcxHgqnJUbj2jm5FPMPMZqZVNjzPDWXDeTfj8l1OniRbTIJhHo5hZjvTKttwXz9kzptLwnVlZMjlF+Jukmxb97sq4hlmNjOtsiEatyParqS34QipovIqkg1JfvRMEc8ws5Vpl609OZlky1m2WC57kVME622cwNErCGwOe0N49A3FNQwzG5l22Ya7uyHz++9IuO6cHCrzCg6HqBtJupO5AawOeUOZpnrUtQwzm5h22ZCKw04kW/Vxf/q739kIiE9+qFMNwNLRQxLw3KjrGGY2MSNka72VSLLlrlhKf8dDEq2l7mNAeBS4B4XBsi176f1t2RZbPvWGmbXMCNkG219RAlcUrq+oiMpSM7LgeOglSk2Oh3BYWDvKgyZ7Xf2gttGQ7JVhZgMzQjak3GE/yVZ7Urzi/+3b93AuNgHmrdoqS3cqIhb6+t8I4xlmpjFjZGu9cZ1ky/t9hbBeT31TK7gHhsnCfbvsD7h+54EwlmFmEjNGtoGmZpIN6a8YO3/ki9xC2O3sJUuH3UzcoiOKZZiZwIyRDSmz20uy1YeGCOtF4MLlFdv2ydLhroHC0kphLMNMJzNKtpYrcSRb/ppVwvqPMTT0Fs5ExlGXUi8dJnxtan0F6Vk58OjZCxgYGBReyzCmwmSn2IyH/Af35a5k3r27wphPcf9RKlg7e8jCYdLXbfvdwNn3JFgf8oK4+EThdQzzuYhkGosZ1bIhePY2ytZwfuKT2M9fFsDqnQdhrfQe9+HDB5oYD7l8jQ/LZ6aVGSdbY9Rlkq1gg4WwfrzgYMl+jwASDT+J99PANeCsMJZhTMGMk61fo5G7km8aG4Ux4wUHS3zPXITL8UlSd9IVTkXECeMYxhTMONmQ4l07SLbGy5eE9eOloroOzkrdx6WbbekdLvBclDCOYUzBjJSt4eIFkq1o6yZh/eeiPyXn36u388EdzLQxI2XrKy0l2TLnfAMNERcpOZAo7nPABEIoXOhlw0GMDGNKZqRsnRkZULxtE9T4eEHVEWeo9vGB9+/eC2PHy6Xrt0m2XzbZQP/rAWEMw0wlM1K22qAA6LyVqBtHBKjYawMN4eEw1D3xbFsDg0PyImYcMBHFMMxUMiNlqwsMgI7bBtlKdmyVRyhxSqA+5DT04K7uz2ztQi5dJdlW7TworGeYqWRGytad9RLK7WyhztcbNM6OUGZrA0WScPo9b3ownQKez91y7Qq8rhx7PWRnVy98u3Q9CXf9juGMAYYxBTNSNuR1TS00RkZCa4Ih2c9QRye0p6RAtZ8v5K+3UIiH4Pac6mO+FDPQ0kKn5dQe94PKQ45QH6ad0A4Iu0Sybdp3WL4vw5iCGSvbeBhsa4e227eg0tUF8lYuGyVf0eYN0HRReterKIeqw07QfCWW9sOhbEjKY06Tx5iOWS3bSAaaW6SWMAEqpJbs5fx5ULp7h+6tD6Dn0UOolrqlGOcRFE6y4X64kfdgmKnCrGQz5nVdLZRa74J3DfUkW42XOzRHa1eQlFfVyq1belbuqGsZZiowW9mQjgcPoMTKEoq3bIT81Suh9eoVuc7ZN5hks3c/rriGGT+XrifB0ROhcPJCDBTwht0xMWvZkMGWFig/qE0mVLLHcAxVblGZ3LrlFVcormHG5uKVRMpylvggDfxCI8HZ56QwjjFg9rIhfcXF8qBJ17Oncjk+LCjbkeNnFPHM2OB2pTuPnlIXHT+H/E7Bi5xCYSyjRRWyIWX2+0i2cifDhPZT6X1N37ppauoV8cynwa4j5vXEz59//h/sOOgOucVjJ2pSM6qRrev5c7l168k1DIpYOriTbD6nLijimU8TfCEafrO0p3MY1lo5wvYDR4VxjAHVyIbgKhSUDU881Zfde5JBss1ZvhHaXnUq4pmPs3D9Lvrdth1wk3sHrzr5pNhPoSrZXt27p23dvvsaXmsMo2d/7HGmhyVY6hoZxzNiMCmuXrD8kgr598PVOaJ4RouqZEPy1q4i4WpOGIb8E1Ie08Myf60lvOGUd2Pyn3U76ffC6RP8Ox5YqZdvZCxjQHWytVy/RrJl/TQPBlvb5PKVO+zoYcEjho3jGSXXbt+TxSquMJyZN3fFZiq7eTdVEc8YUJ1s796+g+wlC0m4+lBDtq3oG3foYcFjqYzjGSU/W2hbtZHTJWcitduXftthryhnDKhONkSf4yTn1yXw9o121zaehrPoj930wFxLuj/qGuZPuGrUquGSN+O6nt5+uc64xWMMqFK2oc4uyPxhDgnXFHVZLg+PuUEPy1orB0U8o2X+2h30++ASLVG9g1cg1eOfonq1o0rZEDwHDmXLtzC81Ld1dMG/VmrfPXj7jZK4xLv0uyCa2gZhTGGpRo4ZnIQkTeaGamV7U1dHsiHGG1RPno+mh2WrvasiXu1gGkD8XbyCzwvr9azedZDiwqI4i9lIVCsbovH0INmKtm+Ry2rqm+DrJRb0wOByLuN4tRJ7M5l+D6RujOOVE++lUdz3Kw2/KaNlRp1iY2ryEm/KrVvuxQty+YGj2gXKm/ceUsSrle9XbqLfw8HzuLB+JP+7ZB3FX4y5Jqw3B0QyjYWqWzak3OEAyWa8/aa4vIoeFgRXSBjHqw39lAiC592JYkaCK3EwfrOdi7BeraheNuMFyt1ZWXK5i/9pemD0qyTUyg+/baHf4US4YdR2LBqb22RBaxs+3e1UE6qXDSmx2kmyGW+/ycovlh+YqrovO01ntoLJbPW/QdurLmHMx7A76k/XuQeGCevVCMsm0a5foCzRV1Yml9sfPU4PjLdKt9/gIAf+/w++GCus/xQZOYWyqKJ6NcKy6cBMyyib8fabtIxseli+Wrjms//LPtu5dE17NgLS2d0rjBkL/XrTmIQ7wnq1wbLp0C9Qxu03bxqb5PJdTl70wHgGh0Nz+/gGCMyBuSu0I5BnIg1Jkj4X/VacRRushPVqg2XT8W5wEHKXLyXhcHWJvjzu1l1YvnUvbLA9THkm7z15objOHIm4eoskQXr6+oUx4wHXm361aA3dJzO3SBijJlg2IxojLpJsuP1mqLePyqJu3KGXfPzUNbVIwnlCnZmPsE1Gq6bneGgk3cv6sI+wXk2wbEYMSt3ErPnzSLiGC9plSV4nz8GD9EySDT97jvhCaWXNqGvNBUxRp2/VBgaGhDGfQ5mmWr4fHmwiilELLNsIaoODSDbcfoN/j7mZAg7eQVBRUw/hsTdov5aNiy/NJY281hz4568bSIzJaNX0YKuG91T7meYs2wheV1VrB0okWq5fpTLcGInbRpx8gmDF1n304GBqgLtpGaOun83gLnV9K/T27TthzETAngHeE0d1RfVqgWUTUOXtSbIZb7/R09v/Gjx1B3MgQeejR8XMVr5d9gf9f5rMVk3P0s02dO9b99OE9WqAZRPQk58vt27td+8KY/AwRf2xwTsdPWi3gChutnAuJkH+D4io/kvRj3Cu2nlAWK8GWLaPUOF0kGQz3n4zEhwo0c/D4WoL3F4iipsNfPOL9kTWqWjVkJa2DlnmEpWmTWDZPkJn+hO5det8/uld2/oNp4j3qU9vrpyJhEXHy99fVD9ZeJ7Udr8dpXdfUb25w7J9ghKb3SQbnhMgqjfmXlqG9F6yhx6mDbbOUFGtTIgzk9Fvlp2qVk2P8eLuoaG3whhzhmX7BO3Jd+TWrbdo7BUQDc1tcNDrBD1M/1hsMSsOyQ+9fF0WQFQ/2Vg6as9WwORKonpzhmUbg8JNf5BsGrcjwnoRODH894XaZUpuAYbclDORrxatpe851a2aHn32aUysJKo3Z1i2MWi+Ege5yxZD/u/LocLRAbrS04VxI3meXQAW1o70YP1uuR+KyqugTFNDGahE8aZmePgtnLoYR98PEcVMBW8GhmDBOu2hHI+fGzbrqgGWbQzwaOAaLw/48Ndf0JP6GMr22sBwb48wdiSYuBTXVeKDNW/VNthi5wqOPifBxf/MtCYyTc14CQc9g2DF9n2wZKONJN3n71f7EvDfw99ki934ewvmAMs2BvXBQdD7LF23MhKgZPtW0Lgcgv7q8cuCZ5lZWDnA64FBuofHyXCaMgiLiodrSffg4dNMOna4tqEZevteC++hB+erjhwPoTwfeI0oxhgUHjNiFZZWQnpmLmV7xof8eW4RfRf3oDCIN/G7ZWV1vdyi1je1CmPMEZZtDDCnZK3UssGHD9D7JBUKdKfg0CjlQXvofDZ2Mlc8s/uARwA93PhJSXsOP1tYyg/cSHB94uINVrB+jxOtK8S8+riuEI8ltnbxgZTUZ+B/NgJ2OXuRfDj1gFmKcWc5HkqIE8e4nOybpdq5s5Fs2uei+yYAqS+yIeAz8otMFjj8j98FpwNE9eYIyzYO6k8HQ7mdLVQ4O1GuycLNG2ThkMKN6yUp4+H9u/fC6xEHryA6vyw9K492DuxzO05LvVylVmqPyzHYYHuIpg7mLtdubxHx8zpLSH5sOMd6l5OnMM4YnKxGsXEB9Rb7I5Ksx2Dj3sOQ9OAJDA6+BbfA0Gk52wDf1/TfUVRvjrBsE6QzLRUqpe7ki+++lqV7ueAnqA85DW8aRycIyswrogxVmLULJ5FH1huD6y8xK1VuUTk8epZFO55xqBzPrT4WEkmivXv3p9RCHaYWAu+Hh17cTX0Oz17m0/sgds+wCym6f5rUmrkGhFBLOZH8IpOF/hDFuMQUYb25wbJ9If2aKmgIOwt5q1YoWrtK18PQ/fKl8JqJgu9dTr7B4HzsFFhJ3cvZvDwMidJl71qy0ZCzc6I8k3oMJ8KjIFLqVr/qmpnHDbNsk8TboWFoS0qC0r22CumKLbdB661bMCy1Vk2x0dAQGgI9uTnCe4yXrPwSEk9UN5to7+iGH1dtI+FORcRCd8/EUjDcTc0A60Pe4Hc2Etyld0DsmoviphuWbQroKSiAmgB/yF70sywdDqxUu7tCra8XlO6xhs509W41Mcb2iB9ssnMBB6k7bOt6DF7kFMp1XT19UF3XCHlSdxqnKxJSHskDQm4nQik35db9rrBiux3EJz+k7jV+cHOvR2DYjMtmzbJNIXgOXMuVONoXV7p7p+5RAOi8dRMK1q+hpLC1gQHQHBMFHQ8fQl9xMQx1dAjvpacz7THUSdc0RkbAQMvszoVSWFYJuxw9dL8KwPkrN2Gx1KXU50AZLz+t2QExCcm6uwCss3GS63DDKo6+4uAUCjudR1mxbCYAE7+W2droHgWAVzfiIWfxfxTdTWOy5s2F/NUrocR6F1R5uEG91PVsvXkT6k4H030apT9rvT1Bc3R2TwpjXs5D0vun/pNw77F8OP6c5RspBR7OT+KoKy4G8Dl9gXbNRyfcgdsPnsCTzBxqvfB/27j4gGvAWWodceTX0TuI3gX10hmD0ypYfyP5EW390X+fxpZ2uCAJ7x8aSbvLjb/rZKDqU2xMSaGXB1Q4HIBqnDrYbQnZ/scg58xpyJbKX+63g6ytmyFz5a/w4sd/CQVEcpYshI6bCbpHEyTxrCFr1Up4uW8PZLsdgRypxcPTePIkmfMfPYKCnBzhd8mNj4cCT3fIP3gAcv19hTGmws7tGHgGn4OQS1eplTseck4YNxZpT5/ByfBICI2IUZRnvMiEyLjr4HIsCNZZHYRvBXOPXy+2gPXWDrDV/ggtOMAVLphF7czFKMW9jBHJNBbcspmQ1luJ0BwbA2/qxSd36hnu7ob+8jJ6r8M8KHVnTtHoZv7a36E1+rJONYCiTeuFUhqT9fOP2m6sjZXUErpS61hqvRvqT/hD98MHUC6JWhdyCoZ7eulwf9H3+Ri4brTa2wPqzoZAf+nYq1lENDS1wvnYBDgWEkFTF6KYyQZ3Z2B6BlwIgPOPeul2OnrqflmAeOn90GeS9yaybLOIrswsKLffB9XubtKfe6Em8ARtbG1NvEmp96qP+UK5w34o3LoJcn/9BV7M/VYoYJnNLt0jBdB9967UYi6Q67KkljVbakHz1/wOhVs2QokkaYWTA6Vlx/fL+rBQesescHaE8r02Upf4OjQE+IPmyCHhd54t3HmYDjsOHNX9KgAR126B9xinrH4uLNssY6ijE9qkFrLt7vgmgoe7pFayokKWssrXG4q3b4G/3g7TQ1Xv7wf5UvcVE9NmfPsPhZSfAgXtTE6ie+CnfI+VJOhvoJG6xc1X46AnL4+mO0TfaaZyPu4mjWTi2lNbVz94kTOx7uLHYNlUSHvSbSjbZwNVUtdUI9FXaBhuH+7tg4HmFnitqSRhup6mQ3tKCp2F0BgZCfVSl7baz5davcZTJ0m0D//9LxRuWCeUMlcSudzxANSfC4fOJ2l0b+Pvgv9eU0wMdWW7Myd/UOJzSUnNoMUCnd3j29nxObBsKqWvqBi6sic+ud6dkw2VUleyyu0IbTtqiroEnamPqZtZftAe8lYuE8qHYNbpkt2WUCO9N+Ka0xovd6iTBMaR1o7UR8J/byyGXnXQiO2rj2RDmwmwbMzEefsOuqXuqfGJrcYM9/VBT04uzTXiOx/uen8x5xuFeKVWltQ64qcj8Qbk/74C8tauoqxmpXv3QOVhJ6lr6kmHnTScP0f3wpU6HZLYuByuv6xManmTqaWu9sB3WTtovHBO+H2mG5aNMTn9Gg0JgqkmSi236VQDaL9+9ZPzjx8DV+q0xkTr7gJQsm0zDdhgS9dbUECju6LvYWpYNmZaqT9zGqqcHKgriaOb+H6IrRW2Wth6YSuGrRm2ati6YSuHrR22etj6YSuIKSs6E27oVAMotd41Ssg8qcXEkVpcINB2J0ko4XBfL03N1J09DV2TvIgcYdmYaaf19m1ouXZl1ODJeMFWEucLG4MDodbbQ+pS2tLcJKYg1J+5JyLz+39S17bSxZkkLLfbCzWeblB7zIfeQzvSHgv/vYnCsjFmQUdaKtQGBkLTpUgYaFWmWng3/Bb6SkqgNSEBao77Q4nVTni5YP4o+ZTrVxOgLuiE4j5fCsvGqJa3A4NSd7IQWuOvQ7nUlS3esVWnmvT+GH8Nqv2PCa+bKCwbw+jAOUSNs/T+KHVFcUpist/bWDaGMQI3+jbHxcKbxsk/lYhlYxgTwbIxjIlg2RjGRLBsDGMiWDaGMREsG8OYCJaNYUwEy8YwJoJlYxgTwbIxjIlg2RjGRLBsDGMS/oT/BxvHGV9fKuq/AAAAAElFTkSuQmCC'
         }, {
-          type: "echarts|line|smooth",
-          name: "平滑折线图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|line|smooth',
+          name: '平滑折线图',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|line|label",
-          name: "带标签的折线图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|line|label',
+          name: '带标签的折线图',
+          img: 'data:image/png;base64,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'
         }]
       }, {
-        type: "area",
-        name: "面积图",
-        icon: "icon-fsux_tubiao_duijimianjitu",
+        type: 'area',
+        name: '面积图',
+        icon: 'icon-fsux_tubiao_duijimianjitu',
         data: [{
-          type: "echarts|area|default",
-          name: "面积图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|area|default',
+          name: '面积图',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|area|stack",
-          name: "堆叠面积图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|area|stack',
+          name: '堆叠面积图',
+          img: 'data:image/png;base64,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'
         }]
       }, {
-        type: "column",
-        name: "柱状图",
-        icon: "icon-chart",
+        type: 'column',
+        name: '柱状图',
+        icon: 'icon-chart',
         data: [{
-          type: "echarts|column|default",
-          name: "柱状图",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADHklEQVR4Xu2cvW4TQRSF71b8NSkjpSBSqCiCIuyWBvECKA+ABAiESEUDBVRByRtQ8AhgoMcNtFmECEqLSFoo6IhA8iJhOdjLembueMae3f1cX1/PnnPPzJ2zM86ET1IIZEmNhsEIhCRWBBACIYkhkNhwUAiEJIZAYsNBIXUgJM/zIrFxLnQ4xzvbMjg6NI7h7LPnzmPsdDpThYBCHGB8393IReSyKfTK3scgWAZJ4vBMtQ6BkMTogxAISQyBiMNZv3p905S+yLIfn/u9/ngMColIyKVrm8YOshD5sP/2ZQdCIpIwnhpC5gS0689AiCtSc4qDkDkB7foztSQktnXy63VPiu/fjBieun3XFWNV3M1Hu8b48yvL8uT+jYmYxlsn77obe5nIRCdTRimUFVHOW0uFqErOIxhCpoO2EC8LQiDkBAGmrIpiQCEoBIWY1noUgkJQCArx2A+ILOYoKVOWcsqKbZ0c7z6VweFXYwlpTnFoahHrhLZXUy9MWWW0WvnGkDVEuYaoNOYRDCEQwj5k1n3I1tLaC6P4iuLLp37voVagmIueXdbW0pqFjyLf7/e6EKJFAEJUiCX7ggqFqHicLdily4KQ2TBWfRtClG1vCl6WTSGrK8vyuHRc5+fOthSWm062vL7HgDR5k7tBFUshQfJ6Hra2EVJlyVTppFGLOoSoVo5/wUGAK/7fhwTJi0KqWbVOARDiKYc5bgxRiCdHQYBDIZ7oo5C/CNBlTakf69rEos6iPo4A+5BSPfi+U/dRnvPGcGSd/H7zSga2m0637qgXF5djQLYHrLJOQuRN2jqJdWGeLktpLo7CIWSIhAsONkUH6bJcBuJzFxCFoJATBHwq2aUwffI6L+pMWfr/OoGQNlonLlJlDRnOJygEhVR3BigEhQzd0zYpZGSduPzpysG9B0br5NyZ03LxwupETAiLA+vE186OVcmx8qZsv7t0WdbuIhZwsfJCCO9DnN+HoJAamotMWYm1vRACIe3bh2jcXhSCQlCIaSuOQlBI+xQS+waV+txQw76Q3A2qhuEb9HEWcnIx6BM0LBmEJEboHyG8cJwchLkkAAAAAElFTkSuQmCC"
+          type: 'echarts|column|default',
+          name: '柱状图',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADHklEQVR4Xu2cvW4TQRSF71b8NSkjpSBSqCiCIuyWBvECKA+ABAiESEUDBVRByRtQ8AhgoMcNtFmECEqLSFoo6IhA8iJhOdjLembueMae3f1cX1/PnnPPzJ2zM86ET1IIZEmNhsEIhCRWBBACIYkhkNhwUAiEJIZAYsNBIXUgJM/zIrFxLnQ4xzvbMjg6NI7h7LPnzmPsdDpThYBCHGB8393IReSyKfTK3scgWAZJ4vBMtQ6BkMTogxAISQyBiMNZv3p905S+yLIfn/u9/ngMColIyKVrm8YOshD5sP/2ZQdCIpIwnhpC5gS0689AiCtSc4qDkDkB7foztSQktnXy63VPiu/fjBieun3XFWNV3M1Hu8b48yvL8uT+jYmYxlsn77obe5nIRCdTRimUFVHOW0uFqErOIxhCpoO2EC8LQiDkBAGmrIpiQCEoBIWY1noUgkJQCArx2A+ILOYoKVOWcsqKbZ0c7z6VweFXYwlpTnFoahHrhLZXUy9MWWW0WvnGkDVEuYaoNOYRDCEQwj5k1n3I1tLaC6P4iuLLp37voVagmIueXdbW0pqFjyLf7/e6EKJFAEJUiCX7ggqFqHicLdily4KQ2TBWfRtClG1vCl6WTSGrK8vyuHRc5+fOthSWm062vL7HgDR5k7tBFUshQfJ6Hra2EVJlyVTppFGLOoSoVo5/wUGAK/7fhwTJi0KqWbVOARDiKYc5bgxRiCdHQYBDIZ7oo5C/CNBlTakf69rEos6iPo4A+5BSPfi+U/dRnvPGcGSd/H7zSga2m0637qgXF5djQLYHrLJOQuRN2jqJdWGeLktpLo7CIWSIhAsONkUH6bJcBuJzFxCFoJATBHwq2aUwffI6L+pMWfr/OoGQNlonLlJlDRnOJygEhVR3BigEhQzd0zYpZGSduPzpysG9B0br5NyZ03LxwupETAiLA+vE186OVcmx8qZsv7t0WdbuIhZwsfJCCO9DnN+HoJAamotMWYm1vRACIe3bh2jcXhSCQlCIaSuOQlBI+xQS+waV+txQw76Q3A2qhuEb9HEWcnIx6BM0LBmEJEboHyG8cJwchLkkAAAAAElFTkSuQmCC'
         }, {
-          type: "echarts|column|stack",
-          name: "堆叠柱状图",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADWUlEQVR4Xu1dPW8TQRCdCwXhHwQFxemoCIqwW9LEvyBpkSgQNPwAEB8FBIUfkAJBE4kW/4K4Ca0vikg6qhgB4h8QCZFFIpzkwxvr+Xafszm/tJ4b7b03b2Zn5+6SWY3+ltrreWZ2K+SWnHP5QbfTGvTB8utbZxay+NSuZQHH8itCgAiSQgCQUBNWJLP8SiEAs1IIABJqwopkll8pBGBWCgFAQk1YkczyCyskz3OHgpCS3Yutbet/+xG0pMX5OXv28G7JR2y/zWbzzHZDfch/9CllBcVz+WJWamH5hVNWRIwm6ooFHMtvMoTcbK+/MWfXw9hynz91Ow8mceZUe0KWVtd6WZY1QwhxZnsHOx9KPljAsfwmoxARcnYonssuS4SIEDg7TuW2VwqRQqSQUQhIIVKIFCKFlBHwbRbUhwA60S4LAMlnok69InC+y1TUxyzq7AHVy61tOwocJDXm5+w5eZBUwHa8uWEnX/pBIZktNOzK46d/fSQ3oLpoCvnYWs4t9IlIs3ylt196IlJFHYhxX1EXIQhwEzx+FyEiBEAgoolqyJi7rIjYe12JEBECx1jSRf3G6tr9zLKr8N14DJ2574fdzrvBn6SQigphDfdFiAiBRZ50ypJCTnlMpg8RISIETy3T2KlLIVKIFDIKASkkEYUUA6rYbw4V5P/c3DAXOPCZWWjY7L+BT+GXtd4YA6qZxqLNPnoSNqBiKWS3tdzLzIKefjezvdu9/Yk8/V77ba8ISaxTFyEiBN+9eb4GpJSFwacaguFUtvId1illKWXBsTSVp70shdxbab//ZZeuweh7DC/b769vd3fuDP6kGoIhOlRDWESLEBHiR+CidepSCBDJk9xliRARAiBwauJiPGytlJXI8XtBuwgRIXAK8B2/17aGFAOqGIOZwTeHCrSPX7+yk/7ROOAP2foGVDS/Ed6gijKgYjVErEhm+WXh4IvIkV8DYi2EBRzLLwsHEYIlyaEjGRFSETgpBADO1xCxgGP5lUIAoqdq21vgwYoMViSz/LJwUFGvqDwRUhE4KQQATkU94mkvS6qsSGb5ZeGgGgIo2rd7EyEVgZNCAOBUQ1RDor/moJQFKG+qOnX2J/4wvOtrldwn/uoLdfidncu/qwhfdn09iJDEuP0DnXmvq+qIgDYAAAAASUVORK5CYII="
+          type: 'echarts|column|stack',
+          name: '堆叠柱状图',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADWUlEQVR4Xu1dPW8TQRCdCwXhHwQFxemoCIqwW9LEvyBpkSgQNPwAEB8FBIUfkAJBE4kW/4K4Ca0vikg6qhgB4h8QCZFFIpzkwxvr+Xafszm/tJ4b7b03b2Zn5+6SWY3+ltrreWZ2K+SWnHP5QbfTGvTB8utbZxay+NSuZQHH8itCgAiSQgCQUBNWJLP8SiEAs1IIABJqwopkll8pBGBWCgFAQk1YkczyCyskz3OHgpCS3Yutbet/+xG0pMX5OXv28G7JR2y/zWbzzHZDfch/9CllBcVz+WJWamH5hVNWRIwm6ooFHMtvMoTcbK+/MWfXw9hynz91Ow8mceZUe0KWVtd6WZY1QwhxZnsHOx9KPljAsfwmoxARcnYonssuS4SIEDg7TuW2VwqRQqSQUQhIIVKIFCKFlBHwbRbUhwA60S4LAMlnok69InC+y1TUxyzq7AHVy61tOwocJDXm5+w5eZBUwHa8uWEnX/pBIZktNOzK46d/fSQ3oLpoCvnYWs4t9IlIs3ylt196IlJFHYhxX1EXIQhwEzx+FyEiBEAgoolqyJi7rIjYe12JEBECx1jSRf3G6tr9zLKr8N14DJ2574fdzrvBn6SQigphDfdFiAiBRZ50ypJCTnlMpg8RISIETy3T2KlLIVKIFDIKASkkEYUUA6rYbw4V5P/c3DAXOPCZWWjY7L+BT+GXtd4YA6qZxqLNPnoSNqBiKWS3tdzLzIKefjezvdu9/Yk8/V77ba8ISaxTFyEiBN+9eb4GpJSFwacaguFUtvId1illKWXBsTSVp70shdxbab//ZZeuweh7DC/b769vd3fuDP6kGoIhOlRDWESLEBHiR+CidepSCBDJk9xliRARAiBwauJiPGytlJXI8XtBuwgRIXAK8B2/17aGFAOqGIOZwTeHCrSPX7+yk/7ROOAP2foGVDS/Ed6gijKgYjVErEhm+WXh4IvIkV8DYi2EBRzLLwsHEYIlyaEjGRFSETgpBADO1xCxgGP5lUIAoqdq21vgwYoMViSz/LJwUFGvqDwRUhE4KQQATkU94mkvS6qsSGb5ZeGgGgIo2rd7EyEVgZNCAOBUQ1RDor/moJQFKG+qOnX2J/4wvOtrldwn/uoLdfidncu/qwhfdn09iJDEuP0DnXmvq+qIgDYAAAAASUVORK5CYII='
         }]
       }, {
-        type: "bar",
-        name: "条形图",
-        icon: "icon-fsux_tubiao_duijizhuzhuangtu1",
+        type: 'bar',
+        name: '条形图',
+        icon: 'icon-fsux_tubiao_duijizhuzhuangtu1',
         data: [{
-          type: "echarts|bar|default",
-          name: "条形图",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADzUlEQVR4Xu2cz2sTQRTHN4darX+CIIIXFawICSIeYqgiotFLUfCkKDaI9CAIEZRUKlgoViiCRRspqEWa6sHgSUv8gYgSEJF4UvGgF715EFrFkW0FUXd3Om/ey+4s3153vjOz38+bydt5TDMe/hLlQCZRs8FkPABJWBAACIAkzIGETQcrBEAS5kDCpoMV4gKQZrOpstmsMSyqzvckDm0cY+reNdD0F5M31ezIcME0eDpPnGxQdP44cWjjGNN/12Vj442wgA8E8ji3UZnCQPvFO9B1+aoHIIv3S7wlgIhbbDYAgJj5Jd4aQMQtNhsAQMz8Em9tDOTUoZL69O7DI9OZrVi9Kk/R+ePYaEuFXP77vfpZ0/l27CpWKDp/HBvt8rHxilGWtWF7r1Npb/V8OTSNjILkzIchgOjXmhTMwA9DAAEQvQMRLbBlWdnHLwYQfk+tekw9kBtTd9TQlUnj097y0QMNis6nYaOdGCqHnp6mIsuiZhBUna5GoFs+1HGpOsn5BmZZ1IlSdZIvmIoV4lqBKqrgkwogrhWoos6GAES34Qs8BxABU226BBAb9wS0ACJgqk2XAGLjnoA29UBcK1Ct3Lkjf3fmqXGBak/PlgpF58dUlFZlvNbr+9O1sNiL+l5LxfG7wKKz61KpqVcPbu8HEDsb+dQAwuclS08AwmIjXycAwuclS08AwmIjXyfcQFwrUFGLW1SdTy5Kq1Tmc2um9oYty6LWNag61EP+oEOBinBTTDKAcIOKcFPMB7J0+GIjVygYX/vTwcQNKuJPeeeRPm9TXwlAiP6xywCE3VK7DgHEzj92NYCwW2rXIYDY+ceubisQ1wpUUbevNs99ba378e1LEBGbW1BdlcFKrlhsT5bl2v2QqPD/6Xn7wqp3STxZSH3FEEDYd2u7DgHEzj92NYCwW2rXIYDY+ceuTgWQNBWoOmYzrZdPaoFprzNZFnWiVJ3uSFq3bKjjUnWS80WByoUC1fNrVTV3abSoi8x/ny853l+n6BYKPhfquZ5t7F++Ue/gzAqJ4waV1NkQgJguq9/tAWTBiMSUcAEEQGL5X8G6DA0rxIUsCz/q+h9CqQwtcIWcPnxMfXz7/qF+Wn+3yHWv3dr9rDFgqptPeyuDAxIFn1RkWdQCVXb9Gq86cq6t3xK6PRlAAES7QbTtjiFWiJbFfAMACfFJ6odZhwVAAEQXI/8/jyNa4xiTtGVVr99SoxPTxqe9Z/oP1nv37kaWpYlH4y2LGjlUnS5qdOuNOi5VJzlfUjTrDMJzugMAQvdORAkgIrbSOwUQunciyl+nJgacKCJJ0AAAAABJRU5ErkJggg=="
+          type: 'echarts|bar|default',
+          name: '条形图',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADzUlEQVR4Xu2cz2sTQRTHN4darX+CIIIXFawICSIeYqgiotFLUfCkKDaI9CAIEZRUKlgoViiCRRspqEWa6sHgSUv8gYgSEJF4UvGgF715EFrFkW0FUXd3Om/ey+4s3153vjOz38+bydt5TDMe/hLlQCZRs8FkPABJWBAACIAkzIGETQcrBEAS5kDCpoMV4gKQZrOpstmsMSyqzvckDm0cY+reNdD0F5M31ezIcME0eDpPnGxQdP44cWjjGNN/12Vj442wgA8E8ji3UZnCQPvFO9B1+aoHIIv3S7wlgIhbbDYAgJj5Jd4aQMQtNhsAQMz8Em9tDOTUoZL69O7DI9OZrVi9Kk/R+ePYaEuFXP77vfpZ0/l27CpWKDp/HBvt8rHxilGWtWF7r1Npb/V8OTSNjILkzIchgOjXmhTMwA9DAAEQvQMRLbBlWdnHLwYQfk+tekw9kBtTd9TQlUnj097y0QMNis6nYaOdGCqHnp6mIsuiZhBUna5GoFs+1HGpOsn5BmZZ1IlSdZIvmIoV4lqBKqrgkwogrhWoos6GAES34Qs8BxABU226BBAb9wS0ACJgqk2XAGLjnoA29UBcK1Ct3Lkjf3fmqXGBak/PlgpF58dUlFZlvNbr+9O1sNiL+l5LxfG7wKKz61KpqVcPbu8HEDsb+dQAwuclS08AwmIjXycAwuclS08AwmIjXyfcQFwrUFGLW1SdTy5Kq1Tmc2um9oYty6LWNag61EP+oEOBinBTTDKAcIOKcFPMB7J0+GIjVygYX/vTwcQNKuJPeeeRPm9TXwlAiP6xywCE3VK7DgHEzj92NYCwW2rXIYDY+ceubisQ1wpUUbevNs99ba378e1LEBGbW1BdlcFKrlhsT5bl2v2QqPD/6Xn7wqp3STxZSH3FEEDYd2u7DgHEzj92NYCwW2rXIYDY+ceuTgWQNBWoOmYzrZdPaoFprzNZFnWiVJ3uSFq3bKjjUnWS80WByoUC1fNrVTV3abSoi8x/ny853l+n6BYKPhfquZ5t7F++Ue/gzAqJ4waV1NkQgJguq9/tAWTBiMSUcAEEQGL5X8G6DA0rxIUsCz/q+h9CqQwtcIWcPnxMfXz7/qF+Wn+3yHWv3dr9rDFgqptPeyuDAxIFn1RkWdQCVXb9Gq86cq6t3xK6PRlAAES7QbTtjiFWiJbFfAMACfFJ6odZhwVAAEQXI/8/jyNa4xiTtGVVr99SoxPTxqe9Z/oP1nv37kaWpYlH4y2LGjlUnS5qdOuNOi5VJzlfUjTrDMJzugMAQvdORAkgIrbSOwUQunciyl+nJgacKCJJ0AAAAABJRU5ErkJggg=='
         }, {
-          type: "echarts|bar|stack",
-          name: "堆叠条形图",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAACiElEQVR4Xu2cP0oDURCHExBscwe9gBAP4AG8gAcQLGwEJZV/OkGwECtBO1OlECwNJNgpKVQ8QHIMJbAi24S4vsy44+wsfKln5738vpl5uzObNBt8QinQDLUbNtMASLAgAAhAgikQbDtkCECCKRBsO2RIHYCMRqOs3W6bw8JvTj+lQ6Hoz93b7OP8bMM6eJb39gd18js5OBycXnXNdehsb/3qtxDI4/paZg2jjv52Wyvu2wZIQnKAuMdjekGAAKS4l8UZkkcGGUKGkCGpGCBDyBAyhAwJlgUAAUhSAZ7UeVKvT4qEucui25sHTZhuL3OLxXOLMnmunocAJBiQCCVrp7UqDsLUwEfspMCwCr9h77KqOFDLwLO6FiBWShr5AYiRkFZuAGKlpJEfgBgJaeUGIFZKGvkBiJGQVm4AYqWkkR+AGAlp5QYgVkoa+QGIkZBWbgBipaSRH4AYCWnlJuzPEej2ziBmHhJsHgKQYEAiDKg0NbmK2bdkf0vT6fhleDeet1WPcOv29nvUYVaWNU7e+r1jgEjC18EGIA4ia5YAiEYtB1uAOIisWQIgGrUcbAHiILJmCYBo1HKwBYiDyJolAKJRy8EWIA4ia5YAiEYtB1uAOIisWcIMCN3eXPayP0cw6/YyDwk2DwFIMCBPN9fZ5+XFpqZeSmwnnaN777/Mm9/Xe783lOz126aKwHR96yTCIOn1oSf+c0+ASEO3hB1AZsQjQxafTZSsRLZRskqUIumllCxK1o9YCfMaEGcIZ8iP6KRkUbIoWakDngwhQ8gQMkT4EMBd1h/vsuj2LhZOGIOFZurnkCpaBv/1BevmV9yKLvPFuFauAEDkWrlYAsRFZvkiAJFr5WL5BeJU77Wa075tAAAAAElFTkSuQmCC"
+          type: 'echarts|bar|stack',
+          name: '堆叠条形图',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAACiElEQVR4Xu2cP0oDURCHExBscwe9gBAP4AG8gAcQLGwEJZV/OkGwECtBO1OlECwNJNgpKVQ8QHIMJbAi24S4vsy44+wsfKln5738vpl5uzObNBt8QinQDLUbNtMASLAgAAhAgikQbDtkCECCKRBsO2RIHYCMRqOs3W6bw8JvTj+lQ6Hoz93b7OP8bMM6eJb39gd18js5OBycXnXNdehsb/3qtxDI4/paZg2jjv52Wyvu2wZIQnKAuMdjekGAAKS4l8UZkkcGGUKGkCGpGCBDyBAyhAwJlgUAAUhSAZ7UeVKvT4qEucui25sHTZhuL3OLxXOLMnmunocAJBiQCCVrp7UqDsLUwEfspMCwCr9h77KqOFDLwLO6FiBWShr5AYiRkFZuAGKlpJEfgBgJaeUGIFZKGvkBiJGQVm4AYqWkkR+AGAlp5QYgVkoa+QGIkZBWbgBipaSRH4AYCWnlJuzPEej2ziBmHhJsHgKQYEAiDKg0NbmK2bdkf0vT6fhleDeet1WPcOv29nvUYVaWNU7e+r1jgEjC18EGIA4ia5YAiEYtB1uAOIisWQIgGrUcbAHiILJmCYBo1HKwBYiDyJolAKJRy8EWIA4ia5YAiEYtB1uAOIisWcIMCN3eXPayP0cw6/YyDwk2DwFIMCBPN9fZ5+XFpqZeSmwnnaN777/Mm9/Xe783lOz126aKwHR96yTCIOn1oSf+c0+ASEO3hB1AZsQjQxafTZSsRLZRskqUIumllCxK1o9YCfMaEGcIZ8iP6KRkUbIoWakDngwhQ8gQMkT4EMBd1h/vsuj2LhZOGIOFZurnkCpaBv/1BevmV9yKLvPFuFauAEDkWrlYAsRFZvkiAJFr5WL5BeJU77Wa075tAAAAAElFTkSuQmCC'
         }]
       }, {
-        type: "pie",
-        name: "饼 图",
-        icon: "icon-fsux_tubiao_nandingmeiguitu",
+        type: 'pie',
+        name: '饼 图',
+        icon: 'icon-fsux_tubiao_nandingmeiguitu',
         data: [{
-          type: "echarts|pie|default",
-          name: "饼 图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|default',
+          name: '饼 图',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|pie|split",
-          name: "分离型饼图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|split',
+          name: '分离型饼图',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|pie|ring",
-          name: "环形饼图",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|ring',
+          name: '环形饼图',
+          img: 'data:image/png;base64,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'
         }]
       }],
       // echarts英文
       echartsEN: [{
-        type: "line",
-        name: "Line Chart",
-        icon: "icon-tubiaozhexiantu",
+        type: 'line',
+        name: 'Line Chart',
+        icon: 'icon-tubiaozhexiantu',
         data: [{
-          type: "echarts|line|default",
-          name: "Basic Line Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANsAAACsCAYAAADypNk5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABzASURBVHhe7Z2JVxRX1sDnP/omky/JaCZmYsYtGjVxQeOuqIAoqCyKILsggqgIuICyuSCiCO4gKoLsOzT7juwoi5pvTo7nfnVvd1d3wVMQoYGu2+f8juN7t8qePvXLe/WW+/72/v2fwDDM1MOyMYyJYNkYxkSMkq2sqhaqahsUZQzDfDmybBXVdXA08Cw4eAfCbmdvSH78dFQwwzATR5btXOwNcA8KA/x0dveC1SEvKNVUj7qAYZiJIcvmFhAK9568INnws/eIHxSXa0ZdwDDMxJBlu3z9Dti7H4ecwlIIvhgLv+2wh31ufqDh9zeGmRQUAyShl6+Bs28weJ+6AOttnOF/FqyGlTvs4F5ahuIihmE+H4VsI8EWDoX7auEaCIuOF8YwDDM+Pikbcu9JBny1aA1Jd9jvlDCGYZixGVM2pExTDRZWDiTcehsnqG1oFsYxDPNxxiUb0tv/GtwCzpJwc1dshlv304RxDMOIGbdsei7HJ5FwCA6kiGIYhhnNZ8uGPHqWBQvW7SLhLB3chTEMwyiZkGwILu/a43KMhPvPup3Q0NwqjGMYRsuEZUP6Xw+AX0iE3K2884jXUzLMx/gi2fRE37gDXy+xIOGOhVyE2w/S4Oqtu9DS3iGMZxg1MimyIWkZ2bB610H4ZZMN7D7kBUcDQ8HmsA9k5RUL4xlGbUyabMiDJ5mwxf6IbikzQOytFPAKPieMZRi1MamyPX9ZAI4+J3WqAcSnPAL/sxHCWIZRG5MqG3Lk+BlwDwwDn9MXYfM+F2rtRHEMozYmXbau7j44EX4J5vy6gQZMahtbhHEMozYmXTY9W/e7kmzXku4L6xlGbUyZbKcj4ki2A54nhPUMozamTLbn2QUk2w+/bYG+/jfCGIZRE38rKCiAqSAvLw+WbLAi4c5HXRHGMMxsRSTTWExZy4Z4njxHsnlJf4rqGUZNTKlsuFYSZVu+ba+wnmHUxJTK1tbRBf9evZ2Ey8rnZVuMuplS2RBMj4eynYm8IqxnGLUw5bLFJCSTbJv2uQjrGUYtKGSrPx0M5Xa2oHE9DF3p6YrAiVJeVQt/X6jNzlVd1yiMYRg1IMvWlnADarw84MNff0FP6mMos7WG4d6eURdMhG0H3Ei26IQ7wnqGUQOybPXBQdD7NF23Xh+gxHIrVLocgq5nX777+kykdjWJraufsJ5h1IAsW6vUstVKLRt8+AC9T1KhYO0qyPjmK6J4x1ZoOH8O+svLRt1gPGTkFJJsc5ZvhIGBIWEMw5g7wne2SumdrTkmit7d9MIhmf/6J5Ttt4PWG9dhqLNLcaOxWLndnoRLejg574IMM9tQyPYx2lNSoGjbZoV4OUsXgcbTAzrTnwivGQmuIkHZ3AJChPUMY+6MSzY9A80t1J3MXvizQryCPyygPjSEupnD/a+hKTYaGqS/9+TmyNcmP35Gsi3eYKW4J8Oohc+SzZjurCzQHHVVSIcUbd4ANR5uUOvrBaV7rKWWT5umvKOrB35as4OEy8wtGnU/hjF3JiybnneDg/QOh4MoKFvp7p268UyAzsSbUBsYIMfu9wgg2QLPRSnuwTBq4ItlM+bVgwdQamWQrV2SsMb/mFwfe1O7msTC2lFxHcOogUmVDcERzcqD9lDt7kZdyp7sbLmusrqeDlZE4eo4NwmjMiZdNqQ5LkZ+h+srKVHUbT94lGS7eCVRUc4w5s6UyIYUbd9CsjWcP68oD7l0hWTb7eSlKGcYc2fKZGuKjibZcODEuBzTkaNseDbA0NBbRR3DmDNTJttAS4uhKzlimddvO/aTcLyahFETUyYbUrh5A8nWGKlMQe4VfJ5kc/YNVpQzjDkzpbKhZChbyS5LRfndtAySbf5aZTnDmDNTKtubhga5K9mv0cjl3b398NMabW6S7IJSxTUMY65MqWxIwQYLkq0p6rKiHDMlo2x4eKJxOcOYK1MuW/35c9qupM1uRXlcYgrJ9rvlfkU5w5grUy7b6+oauSv5pq5eLsd8JF8tWkvCNbW0K65hGHNkymVD8i1Wk2zNsdGK8u263CQRV28pyhnGHDGJbPVhodqupK2Nojzk0lWSDaUzLmcYc8QksvWXl5NsL777mia79eU5haUkG/Lu3XvFNQxjbkzZKTYjyfx1CQmXExSoKF+6yZpkC78cpyhnmJmMSKaxMEnLhtSHnCbZSu2Uh2x4n9KuJuFDExlzx2Sy9RYXk2yZc7+FoY5Oufzh00ySDQ9NNI5nGHPDZLIhuSuXkXCt8dflst6+1zBfl5skr7hcEc8w5oRJZasNDiLZyg7YKcoP6laT+J9VLlhmGHPCpLL15OWRbFk/zIGh3j65/HrSfZKND01kzBmTyobk6kYlW2/elMswH8k/FluQcC1tHYp4hjEXTC5bzYnjJFuFk4OifIcuN0lUfJKinGHMBZPLhsldqSv573/Bu0HDIRth0fEkGx+ayJgrJpcNyV6ygIRrSzac15ZfUkGyIcaxDGMuTItsNf5+JFvlYWdF+aqdB0i2+09eKMoZxhyYFtk6nz/XdiXn/6gox42kKJuDV6CinGHMgWmRDXm54CcSruPhQ7ksNeMlyYaHJhrHMow5MG2yVfl4k2waN8OAyJs3g5QECIUrKjPkLGEYc2DaZOt8kkayvVwwX1Hu5HOSZDsRrsxZwjCznWmT7d3QMGT9NI+E05/hhtxIfkSyLdlorYhnmNnOtMmGaDzcSbYqD8NObcxHgqnJUbj2jm5FPMPMZqZVNjzPDWXDeTfj8l1OniRbTIJhHo5hZjvTKttwXz9kzptLwnVlZMjlF+Jukmxb97sq4hlmNjOtsiEatyParqS34QipovIqkg1JfvRMEc8ws5Vpl609OZlky1m2WC57kVME622cwNErCGwOe0N49A3FNQwzG5l22Ya7uyHz++9IuO6cHCrzCg6HqBtJupO5AawOeUOZpnrUtQwzm5h22ZCKw04kW/Vxf/q739kIiE9+qFMNwNLRQxLw3KjrGGY2MSNka72VSLLlrlhKf8dDEq2l7mNAeBS4B4XBsi176f1t2RZbPvWGmbXMCNkG219RAlcUrq+oiMpSM7LgeOglSk2Oh3BYWDvKgyZ7Xf2gttGQ7JVhZgMzQjak3GE/yVZ7Urzi/+3b93AuNgHmrdoqS3cqIhb6+t8I4xlmpjFjZGu9cZ1ky/t9hbBeT31TK7gHhsnCfbvsD7h+54EwlmFmEjNGtoGmZpIN6a8YO3/ki9xC2O3sJUuH3UzcoiOKZZiZwIyRDSmz20uy1YeGCOtF4MLlFdv2ydLhroHC0kphLMNMJzNKtpYrcSRb/ppVwvqPMTT0Fs5ExlGXUi8dJnxtan0F6Vk58OjZCxgYGBReyzCmwmSn2IyH/Af35a5k3r27wphPcf9RKlg7e8jCYdLXbfvdwNn3JFgf8oK4+EThdQzzuYhkGosZ1bIhePY2ytZwfuKT2M9fFsDqnQdhrfQe9+HDB5oYD7l8jQ/LZ6aVGSdbY9Rlkq1gg4WwfrzgYMl+jwASDT+J99PANeCsMJZhTMGMk61fo5G7km8aG4Ux4wUHS3zPXITL8UlSd9IVTkXECeMYxhTMONmQ4l07SLbGy5eE9eOloroOzkrdx6WbbekdLvBclDCOYUzBjJSt4eIFkq1o6yZh/eeiPyXn36u388EdzLQxI2XrKy0l2TLnfAMNERcpOZAo7nPABEIoXOhlw0GMDGNKZqRsnRkZULxtE9T4eEHVEWeo9vGB9+/eC2PHy6Xrt0m2XzbZQP/rAWEMw0wlM1K22qAA6LyVqBtHBKjYawMN4eEw1D3xbFsDg0PyImYcMBHFMMxUMiNlqwsMgI7bBtlKdmyVRyhxSqA+5DT04K7uz2ztQi5dJdlW7TworGeYqWRGytad9RLK7WyhztcbNM6OUGZrA0WScPo9b3ownQKez91y7Qq8rhx7PWRnVy98u3Q9CXf9juGMAYYxBTNSNuR1TS00RkZCa4Ih2c9QRye0p6RAtZ8v5K+3UIiH4Pac6mO+FDPQ0kKn5dQe94PKQ45QH6ad0A4Iu0Sybdp3WL4vw5iCGSvbeBhsa4e227eg0tUF8lYuGyVf0eYN0HRReterKIeqw07QfCWW9sOhbEjKY06Tx5iOWS3bSAaaW6SWMAEqpJbs5fx5ULp7h+6tD6Dn0UOolrqlGOcRFE6y4X64kfdgmKnCrGQz5nVdLZRa74J3DfUkW42XOzRHa1eQlFfVyq1belbuqGsZZiowW9mQjgcPoMTKEoq3bIT81Suh9eoVuc7ZN5hks3c/rriGGT+XrifB0ROhcPJCDBTwht0xMWvZkMGWFig/qE0mVLLHcAxVblGZ3LrlFVcormHG5uKVRMpylvggDfxCI8HZ56QwjjFg9rIhfcXF8qBJ17Oncjk+LCjbkeNnFPHM2OB2pTuPnlIXHT+H/E7Bi5xCYSyjRRWyIWX2+0i2cifDhPZT6X1N37ppauoV8cynwa4j5vXEz59//h/sOOgOucVjJ2pSM6qRrev5c7l168k1DIpYOriTbD6nLijimU8TfCEafrO0p3MY1lo5wvYDR4VxjAHVyIbgKhSUDU881Zfde5JBss1ZvhHaXnUq4pmPs3D9Lvrdth1wk3sHrzr5pNhPoSrZXt27p23dvvsaXmsMo2d/7HGmhyVY6hoZxzNiMCmuXrD8kgr598PVOaJ4RouqZEPy1q4i4WpOGIb8E1Ie08Myf60lvOGUd2Pyn3U76ffC6RP8Ox5YqZdvZCxjQHWytVy/RrJl/TQPBlvb5PKVO+zoYcEjho3jGSXXbt+TxSquMJyZN3fFZiq7eTdVEc8YUJ1s796+g+wlC0m4+lBDtq3oG3foYcFjqYzjGSU/W2hbtZHTJWcitduXftthryhnDKhONkSf4yTn1yXw9o121zaehrPoj930wFxLuj/qGuZPuGrUquGSN+O6nt5+uc64xWMMqFK2oc4uyPxhDgnXFHVZLg+PuUEPy1orB0U8o2X+2h30++ASLVG9g1cg1eOfonq1o0rZEDwHDmXLtzC81Ld1dMG/VmrfPXj7jZK4xLv0uyCa2gZhTGGpRo4ZnIQkTeaGamV7U1dHsiHGG1RPno+mh2WrvasiXu1gGkD8XbyCzwvr9azedZDiwqI4i9lIVCsbovH0INmKtm+Ry2rqm+DrJRb0wOByLuN4tRJ7M5l+D6RujOOVE++lUdz3Kw2/KaNlRp1iY2ryEm/KrVvuxQty+YGj2gXKm/ceUsSrle9XbqLfw8HzuLB+JP+7ZB3FX4y5Jqw3B0QyjYWqWzak3OEAyWa8/aa4vIoeFgRXSBjHqw39lAiC592JYkaCK3EwfrOdi7BeraheNuMFyt1ZWXK5i/9pemD0qyTUyg+/baHf4US4YdR2LBqb22RBaxs+3e1UE6qXDSmx2kmyGW+/ycovlh+YqrovO01ntoLJbPW/QdurLmHMx7A76k/XuQeGCevVCMsm0a5foCzRV1Yml9sfPU4PjLdKt9/gIAf+/w++GCus/xQZOYWyqKJ6NcKy6cBMyyib8fabtIxseli+Wrjms//LPtu5dE17NgLS2d0rjBkL/XrTmIQ7wnq1wbLp0C9Qxu03bxqb5PJdTl70wHgGh0Nz+/gGCMyBuSu0I5BnIg1Jkj4X/VacRRushPVqg2XT8W5wEHKXLyXhcHWJvjzu1l1YvnUvbLA9THkm7z15objOHIm4eoskQXr6+oUx4wHXm361aA3dJzO3SBijJlg2IxojLpJsuP1mqLePyqJu3KGXfPzUNbVIwnlCnZmPsE1Gq6bneGgk3cv6sI+wXk2wbEYMSt3ErPnzSLiGC9plSV4nz8GD9EySDT97jvhCaWXNqGvNBUxRp2/VBgaGhDGfQ5mmWr4fHmwiilELLNsIaoODSDbcfoN/j7mZAg7eQVBRUw/hsTdov5aNiy/NJY281hz4568bSIzJaNX0YKuG91T7meYs2wheV1VrB0okWq5fpTLcGInbRpx8gmDF1n304GBqgLtpGaOun83gLnV9K/T27TthzETAngHeE0d1RfVqgWUTUOXtSbIZb7/R09v/Gjx1B3MgQeejR8XMVr5d9gf9f5rMVk3P0s02dO9b99OE9WqAZRPQk58vt27td+8KY/AwRf2xwTsdPWi3gChutnAuJkH+D4io/kvRj3Cu2nlAWK8GWLaPUOF0kGQz3n4zEhwo0c/D4WoL3F4iipsNfPOL9kTWqWjVkJa2DlnmEpWmTWDZPkJn+hO5det8/uld2/oNp4j3qU9vrpyJhEXHy99fVD9ZeJ7Udr8dpXdfUb25w7J9ghKb3SQbnhMgqjfmXlqG9F6yhx6mDbbOUFGtTIgzk9Fvlp2qVk2P8eLuoaG3whhzhmX7BO3Jd+TWrbdo7BUQDc1tcNDrBD1M/1hsMSsOyQ+9fF0WQFQ/2Vg6as9WwORKonpzhmUbg8JNf5BsGrcjwnoRODH894XaZUpuAYbclDORrxatpe851a2aHn32aUysJKo3Z1i2MWi+Ege5yxZD/u/LocLRAbrS04VxI3meXQAW1o70YP1uuR+KyqugTFNDGahE8aZmePgtnLoYR98PEcVMBW8GhmDBOu2hHI+fGzbrqgGWbQzwaOAaLw/48Ndf0JP6GMr22sBwb48wdiSYuBTXVeKDNW/VNthi5wqOPifBxf/MtCYyTc14CQc9g2DF9n2wZKONJN3n71f7EvDfw99ki934ewvmAMs2BvXBQdD7LF23MhKgZPtW0Lgcgv7q8cuCZ5lZWDnA64FBuofHyXCaMgiLiodrSffg4dNMOna4tqEZevteC++hB+erjhwPoTwfeI0oxhgUHjNiFZZWQnpmLmV7xof8eW4RfRf3oDCIN/G7ZWV1vdyi1je1CmPMEZZtDDCnZK3UssGHD9D7JBUKdKfg0CjlQXvofDZ2Mlc8s/uARwA93PhJSXsOP1tYyg/cSHB94uINVrB+jxOtK8S8+riuEI8ltnbxgZTUZ+B/NgJ2OXuRfDj1gFmKcWc5HkqIE8e4nOybpdq5s5Fs2uei+yYAqS+yIeAz8otMFjj8j98FpwNE9eYIyzYO6k8HQ7mdLVQ4O1GuycLNG2ThkMKN6yUp4+H9u/fC6xEHryA6vyw9K492DuxzO05LvVylVmqPyzHYYHuIpg7mLtdubxHx8zpLSH5sOMd6l5OnMM4YnKxGsXEB9Rb7I5Ksx2Dj3sOQ9OAJDA6+BbfA0Gk52wDf1/TfUVRvjrBsE6QzLRUqpe7ki+++lqV7ueAnqA85DW8aRycIyswrogxVmLULJ5FH1huD6y8xK1VuUTk8epZFO55xqBzPrT4WEkmivXv3p9RCHaYWAu+Hh17cTX0Oz17m0/sgds+wCym6f5rUmrkGhFBLOZH8IpOF/hDFuMQUYb25wbJ9If2aKmgIOwt5q1YoWrtK18PQ/fKl8JqJgu9dTr7B4HzsFFhJ3cvZvDwMidJl71qy0ZCzc6I8k3oMJ8KjIFLqVr/qmpnHDbNsk8TboWFoS0qC0r22CumKLbdB661bMCy1Vk2x0dAQGgI9uTnCe4yXrPwSEk9UN5to7+iGH1dtI+FORcRCd8/EUjDcTc0A60Pe4Hc2Etyld0DsmoviphuWbQroKSiAmgB/yF70sywdDqxUu7tCra8XlO6xhs509W41Mcb2iB9ssnMBB6k7bOt6DF7kFMp1XT19UF3XCHlSdxqnKxJSHskDQm4nQik35db9rrBiux3EJz+k7jV+cHOvR2DYjMtmzbJNIXgOXMuVONoXV7p7p+5RAOi8dRMK1q+hpLC1gQHQHBMFHQ8fQl9xMQx1dAjvpacz7THUSdc0RkbAQMvszoVSWFYJuxw9dL8KwPkrN2Gx1KXU50AZLz+t2QExCcm6uwCss3GS63DDKo6+4uAUCjudR1mxbCYAE7+W2droHgWAVzfiIWfxfxTdTWOy5s2F/NUrocR6F1R5uEG91PVsvXkT6k4H030apT9rvT1Bc3R2TwpjXs5D0vun/pNw77F8OP6c5RspBR7OT+KoKy4G8Dl9gXbNRyfcgdsPnsCTzBxqvfB/27j4gGvAWWodceTX0TuI3gX10hmD0ypYfyP5EW390X+fxpZ2uCAJ7x8aSbvLjb/rZKDqU2xMSaGXB1Q4HIBqnDrYbQnZ/scg58xpyJbKX+63g6ytmyFz5a/w4sd/CQVEcpYshI6bCbpHEyTxrCFr1Up4uW8PZLsdgRypxcPTePIkmfMfPYKCnBzhd8mNj4cCT3fIP3gAcv19hTGmws7tGHgGn4OQS1eplTseck4YNxZpT5/ByfBICI2IUZRnvMiEyLjr4HIsCNZZHYRvBXOPXy+2gPXWDrDV/ggtOMAVLphF7czFKMW9jBHJNBbcspmQ1luJ0BwbA2/qxSd36hnu7ob+8jJ6r8M8KHVnTtHoZv7a36E1+rJONYCiTeuFUhqT9fOP2m6sjZXUErpS61hqvRvqT/hD98MHUC6JWhdyCoZ7eulwf9H3+Ri4brTa2wPqzoZAf+nYq1lENDS1wvnYBDgWEkFTF6KYyQZ3Z2B6BlwIgPOPeul2OnrqflmAeOn90GeS9yaybLOIrswsKLffB9XubtKfe6Em8ARtbG1NvEmp96qP+UK5w34o3LoJcn/9BV7M/VYoYJnNLt0jBdB9967UYi6Q67KkljVbakHz1/wOhVs2QokkaYWTA6Vlx/fL+rBQesescHaE8r02Upf4OjQE+IPmyCHhd54t3HmYDjsOHNX9KgAR126B9xinrH4uLNssY6ijE9qkFrLt7vgmgoe7pFayokKWssrXG4q3b4G/3g7TQ1Xv7wf5UvcVE9NmfPsPhZSfAgXtTE6ie+CnfI+VJOhvoJG6xc1X46AnL4+mO0TfaaZyPu4mjWTi2lNbVz94kTOx7uLHYNlUSHvSbSjbZwNVUtdUI9FXaBhuH+7tg4HmFnitqSRhup6mQ3tKCp2F0BgZCfVSl7baz5davcZTJ0m0D//9LxRuWCeUMlcSudzxANSfC4fOJ2l0b+Pvgv9eU0wMdWW7Myd/UOJzSUnNoMUCnd3j29nxObBsKqWvqBi6sic+ud6dkw2VUleyyu0IbTtqiroEnamPqZtZftAe8lYuE8qHYNbpkt2WUCO9N+Ka0xovd6iTBMaR1o7UR8J/byyGXnXQiO2rj2RDmwmwbMzEefsOuqXuqfGJrcYM9/VBT04uzTXiOx/uen8x5xuFeKVWltQ64qcj8Qbk/74C8tauoqxmpXv3QOVhJ6lr6kmHnTScP0f3wpU6HZLYuByuv6xManmTqaWu9sB3WTtovHBO+H2mG5aNMTn9Gg0JgqkmSi236VQDaL9+9ZPzjx8DV+q0xkTr7gJQsm0zDdhgS9dbUECju6LvYWpYNmZaqT9zGqqcHKgriaOb+H6IrRW2Wth6YSuGrRm2ati6YSuHrR22etj6YSuIKSs6E27oVAMotd41Ssg8qcXEkVpcINB2J0ko4XBfL03N1J09DV2TvIgcYdmYaaf19m1ouXZl1ODJeMFWEucLG4MDodbbQ+pS2tLcJKYg1J+5JyLz+39S17bSxZkkLLfbCzWeblB7zIfeQzvSHgv/vYnCsjFmQUdaKtQGBkLTpUgYaFWmWng3/Bb6SkqgNSEBao77Q4nVTni5YP4o+ZTrVxOgLuiE4j5fCsvGqJa3A4NSd7IQWuOvQ7nUlS3esVWnmvT+GH8Nqv2PCa+bKCwbw+jAOUSNs/T+KHVFcUpist/bWDaGMQI3+jbHxcKbxsk/lYhlYxgTwbIxjIlg2RjGRLBsDGMiWDaGMREsG8OYCJaNYUwEy8YwJoJlYxgTwbIxjIlg2RjGRLBsDGMS/oT/BxvHGV9fKuq/AAAAAElFTkSuQmCC"
+          type: 'echarts|line|default',
+          name: 'Basic Line Chart',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|line|smooth",
-          name: "Smoothed Line Chart",
-          img: "data:image/png;base64,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"
+          type: 'echarts|line|smooth',
+          name: 'Smoothed Line Chart',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|line|label",
-          name: "Line with labels",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAANWUlEQVR4Xu1caXQb1RX+7kiyY1Mch6UE2lMCGEJiLI2wDFklJ7ZD2dqAbSiFAGVrgbKkC6dQaB2gBU57Qgsp7SFAE6BAausEwm4rxFYWQiVHIyWGAIE6tEBZY7M4jiXN7Xky5jiKlpmx5Cix5u+8e+fd73vz5t1tCPkrpxCgnJpNfjLIE5JjiyBPSJ6QHENgBNPxVsrzQbiOAZmISsHcTsCi2X6l3aja/BtiELkYGRKtTCROzHOMkpInxCghDrkdRK6E4swdTr9SbUR1nhAjqAHwVtk5mSgz97j8ygQjqhMS4vf7kz7MyEP2R5m+Ky9Pbta4IhTffU/S+w6HI+mLMGbeELl6/qSoxXKkQMkUDm9X2p/sHslC8ea3LGPwydXzS9liuhugi3fXwMsoHF2otD/ZY0Rz/qNuBDUA1tqGJiL8NpE4MxaFPC1NRlR7K+3XgPgegPsZ0i4ijAdzBwFNRk9YYh77/ZZlq6tXALIlAV0JtrXY9RKyzm4/QjVjG4AiNRp1Vm8KrdWrI9n4MUBIQ8oDSrCtRTcGHQ65lYjqmPl+l1/5cabIGBtvSG19N4hiH/M9LubtQY97kh5AOxz2C4mwnMEflO5Sj7GFQl/qkU83VvfqSKdwJPfXyHKpZMFFxIiBxIRuNYzlcxTF0IdX6LDW1K8iic5MyAd4eajNHfexT27BhvLyg8JFBW/Hvhcqn+HsVJ4dib2JZHOGkJdledKAGYFYTGjYJZysggjs0xVF9zG1Yl798aTiZYBKKc5SZoCi0cXBNSt/rhXUjip5BYHOAWOF0x/4gVY5PeNyhhCvQ34SRN9PPHle7vQpmley0DG1urHMYuENAA6Fyvcz0WsgHnzzGCYCrhKHGiZpzua25o50oHkr5dMh0TPM6LXsHDh6RlfXp+lkjNzPIULs3SAk3OsZ3O3yKUdpNVA4gWwxbQDocGZeGvK4r4iXtdbW/5qIbmfmT3ZR2Pp626r3kulfN3nygdGS4jcImMjgC1w+5R9a56J3XM6ETlKGIgAU/3WpJts+7fkMv//bI9jR+zmm28txaeMZoPj9KvaWMBY/tAKvbuvGkUcchpuuuhBmkynhM3Y9uhzR9esgTZmKcdcu1DSPVIP2idCJt8quAEjmLwSdvoCcDony6saJJgtvIOAoMK8IetznCeyTyR1d2zj+QKjBwVMY/yXY5v5p/NiOKruTgA4w+pjCx7t8W/6Tbh4juZ8zW1aHQ24ioiQeNa9y+ZUk35dB84+rPvOQIkuB2KaOZfBzoTa3OFmp6cCpqG2sIFJ9BCpk5oaQx+0eklkzadI46dDS1wg0Caxe4/QHl6TTN9L7OUNIu73iVMlkeg57HodiK5wZF7g6lccSGVwx6/QJNG7ceiKawswey47u0zo7O8NawamoaThfkvAowH0qoXJzq3urkPVWyn+ARL8A8ytOvzJNq76RjMsJQoavREnlZUxYLowyR9A9YOGTiOnxr0hZEE9K2amnlhSHi9cSkZXB3j5z37xtzz+/Sy8o1tr6+4joSgDbPvmCrCsib06OgPzEHDWrUvmMTZtEqCTrV04Q4nXId4Poega/q37UUzanu7t/uOXeKtsFYHp48HtA5zj9gdi2Yp037wBwiQjoVTLzxk+/lOb+9+XmnYZQq642Wy2HbBS6wOy+t/et4wEqZ+abXX7ld4Z0GhDa64Ssr5LlKGOTOAoRUDfbF/AkssNbKV8GiZYyEJUQPes882TPQQeoLxHRNAY6QZ+5Qq2tIwpjTK773hGFbAkR0cFn932MOQM9XbN9io2AqAFsDYnsVUIYMK2tkoODKxEPu/yBi1JZ0eGQryaiJQOgyG/HH7n1CzKdwMyhPkvf7G3PP/+ZIQTihM53nvbDroKiRwUw0wd6L77P6xFv5qhde5WQoZMVA58USp8fPe2VbWlBbT3pxBseKJ541+uWYhSy+s7O/l3y5nXP7sgUYl6HvLG1cMLJTxcfLA4SH0RNNLXrxeaseOWJ5rzXCPHa7VPZjCABZoZ6rssX/GdaUBsbTdYedRWBTjs0OoCFn787MF6NfHdWZ3BNWlkNA2JJJwn3iMjAdePLtjDhDDDag56Wuan8GQ2qNQ/Za4R0OORNRGQH+BmnT0kYjY2zQrLV1rtBNJ+Bf9/cu/2FiRy5koF+Yq51+pX1mq1OMDA+6XTtIRM3EZcIZ7WMgTtCbS03jUS/Vtm9EjoJe1oRdjcD44pQtOh2UElJyvmqKuP+J56Cb/NWTBh/IG76yQIcVFqCgSceQ6RjDWApQOG118NUdqxWu/cY1//nxVC3vgbzLCcKzl8Qu//ehx/jtiXLMBCO4GeXnIvyYzWH01LOI6dCJ+vt9iOjZrwm0p8AX+H0KWmDVNba+oeJaAHA71M4OmN4xYi3Sr4foMtFaANQ5zj9wX/pZSVV0slaW19PRC1g7olAsnV5mt/Rq1/P+FHfsrxVdhHqdgpH2OkL7Fb5JypEVIvpIjANZvGIu0nFVEgkorUfhcM049X25j0cNK/D/jAIC5j5C4CdLn8woBUELUknW139EoCuFie66PtSVVdX84BW/XrHjSohax22S5ikBwHsNEUwZWYgsH1owrGQudkUQFyCShx1GOhhCdOHQhrxRgpvca3D/jgI54p8hXhTtJKiKem0u9P4UNDjvlQv0FrHjxoh663Wb0YKTG+I9CeDf+nyKX8cPklrbcOTREgYQGTmp0Ie9/xURjEgrXXIgx99Rq8Z0Vkz/aEtqWT0JJ2GO42qigs2r27JSk5k1AjxVslPA3QGMwecfkXUUu4WibWlKkYAdwfb3Gm/qMLR9DrkVUR0GsCfSqzOmOUPvZ6IlKDVekBPofQWgQ4jVi+c7Q8+km4V22rOngNJeokZ/dFodFrXmpXBdDJ6748KIV6HvR6EFgYiFIHNGQi8Gj9RW11mynX8lZWWPoqKqHEtmD8ycWT6zM4tb8U/b+gwwMxtLr8yTytwFXUNN0jAXcz8dp+lz56pCMHQ87NOyMaTy0p2qd94I7YSgdtn+wK3JDI+dUEbB4Nt7rQJqiG9b5aVFb4/4cBWcXhg4H9mNTxrOCntJ1pnSyaTVxwCTFGaPCsQSJq+TTRXa129cE6F79QabGs5RSuZWsZlnRCvQ34IRD9i8JsHqKZyR5I8RUVt/R0S0a8STdpIyeeG6d8uikQOFRWFlQDvAGMrA1NEVQuz2k+gcQAbSjqJKLNwGpm5DKC3CXxQ7DDCaI8Ci7Z4WnKzg2poJcYS2OBpqXwEa03DahDPjc9/s87aqeGE+isrx/chqkD66hgdx/ZIOp3Ka8662iyZEmYQo4w5RknJ2hsiVmg4csirIv3JUO9x+YLXJXtlbTUNt0DCrcL5iqqR0yFZCsRYcyTSPeK2gUrbOkjSzITPHkGnk7WuQfQTJuygYqAj1NaSWx1UXoe8GEQLwXinmKUpjs7OvkSgnFBzVp1JMon9HqxGTw2tXvmClr1W65hsdTqlPIQw9wQ97tzpoOLt27HzzttjmImyGVE+k+j6eEcvFt37d/Tt7MeZc2dift1srThrHjeSTqdUD7n0xjuT3i4qLMSSpuTlQqMay9KcdBLer/ngTpELz8ZpZQitbHU67TNbltakk7WuYSkBl4F5++eQbG97mns1L3sdA7PV6VRRUz9fStIWnTMfda1Jp6GyGwbvYpaqNnuaN+vAWPfQrxr8r2eQnKlOJzEJQQpJdD0xZMRCQuhQGU1GT1hCZ0ZPWVqSTrsVpgGXh9paHtCN8H4skDFCvA7bQpC0OBbYG4geNzMU+jAet7jSzUeDbe7BTFD++hqBjBCiNelkq2t4EcC80cgr7KscGyIkvtMJwJkMHENEeySdhoD5uht2lDJvY4aQFJ1OKIhg1nRlz2ID4fxJJIm3Ayqrp2xZvbJtXwUs2/PW/Ybo7XQqr238jnmw5L+UGU0hT8uibBu1L+s3QIj2Tqfy8sYC0+GqL9vO375MQPzcdZcB6el0WrriaWxUunBwaQmarr0ExUXj9ifsDNuS0dCJ1k4na13DZQQsHS3nzzA6OSaoe8tK0+m0yOVXmqxzzz6RJGkjCJZsFgTkGJYZmY5uQsSR12TBnwCKq1QfbF0edP64C4RvJeuAzcjM91MlugkZwkEcfyPmwT8uiE6nocb+r50/oDMU/nga2tsj+yl2WTHLMCGJZmOrO/tWQLpFZP76KVyeqvc7K9bsB0ozRkje+cvMajBMyPBf5nF0IGySzM/GKi9U/Ca4uuW2zExv7GnRTUiyX+bFKnBVeim0uqVm7MGYOYt1E5Lql3kq852bPe4bMze9sadJNyHZ+GXe2IM9ucW6Qyepqi3EYx68I2HxYR7zYQhkNHSSskrdwC/z8kztjoDuLctaV7+M9vDSB5WOpOwzT8wgAroJGex0MiuiymI3EBm9FInIIy39HOvE6CZEABbrBTSbLx76ZR6YuqVIZJnRv0SPdRKG22+IkDyA2UMgT0j2sDWkOU+IIdiyJ5QnJHvYGtKcJ8QQbNkTyhOSPWwNac4TYgi27AnpjmVlbypjR3NGY1ljB7a9Y2l+y9o7uCd9ap6QHCPk/ysy8pytV7tSAAAAAElFTkSuQmCC"
+          type: 'echarts|line|label',
+          name: 'Line with labels',
+          img: 'data:image/png;base64,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'
         }]
       }, {
-        type: "area",
-        name: "Area Chart",
-        icon: "icon-fsux_tubiao_duijimianjitu",
+        type: 'area',
+        name: 'Area Chart',
+        icon: 'icon-fsux_tubiao_duijimianjitu',
         data: [{
-          type: "echarts|area|default",
-          name: "Basic Area Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAAQzElEQVR4Xu2ceXxUVZbHf+e9V3tV9qWyIIvIIgESkgABQVFoRkFw/Xwcu1tGP70MLi32jHR/erS7P9P22Nug2NoqtHTT4zi2CAK2yrSiJAFZEo0whF32hEBIKpVUVWp778znFoQPhEryKglQaN3/IPeee+753uXcc88rQqLElQUorrRJKIMEkDibBAkgCSBxZoE4UyexQi4zkIqSontEl1Ora96O1nUCyGUEsvkfpu+wDx8xgGTZ0Lar9mDZuo/GdO4+AeQyARErI23K1OWjFj1vFV3uXPBYi2vTpu92XilRgVRXV/Nl0vNr00142xbY9u9DwaLFkTHHBORrY6XLONDy0qK1huSU2x3DhzOZzL62XTsTW9ZltP8FXZWXFj5PoMcBDkPDPhD9LHGod6Ixevo9Dzoz0x9oa/PubvAc/+HhDRv8lwJYRXHRfEj4A5jFMbANhMapVV/c3lVfX8tDXcCYUlr06r/88wOGNes+xnufbNy4/s2lU/obSOW4sbNZojUgkph5JxEOR1zeBJALTT3jvu9/8sqvnrppyMD8yB/um7/w8N49+6d9sWF1xGD9USrGFYyBbNgCwALmQyDUdshNADnPwgXfmDvAoliq/nHubdlPfO/bqKndg4d//Ew44A7m1lSuaOwPGJ9MGJMvaXIVAU4GnyRGNQjnPNcEkLNWHjv97plM9AYBaSkORzgjPTV8/ESDSZIk8vna9/kpNG3vh2vr+wJl+5gxthajXEWEkQBaGbyJAPV8mVcFkE0FBddO3rnzy74Yo5u20ugZd/+MGE8TkZirdczYwcRGApiIygDYmHFUBU2p/WjF0d7owYBcUVL4ARHNANDO4I0EBDrLimsgNQ9+a5Jn//73bIOHNAVPnz7Rvnv/jGmHD/ebxzNq5r1pssarCLgRDJWBWgI6G9zIQBkRHGDUB4lv2v3hyv2xQqkoKVwGogcj7i3TRhB7osmIayAbbyhzjVm6LMUxYgQOLn4OJ1atfOmGik2PxmqMaPXH3nzveEi8CoQ8MNqZqIqYW6PLZgPOrJQkZm5SWZpau37FLr16VJQULgTRryP1mbcK97artjEDuVyhE+3kScjvrsa4l5dEdPfs34faZ38J5ZEf6LVDl/U+3FSNFe9/DFXT4LBZcU2eE4okdStX1VR8ebQe7f4ArGYTFn7vmxiQk9WjLurnnyGw9JVIPTkvH0hL67bN5GXLu7xuXNF7yCfFxRnmVMfRrNlzLFm3zcKhxc+jZZvwFPGLqVU1P+3RElEqDJ88x2GyGF8nwhyG8GxoDzHrPpuIWNZAEwlIjRzKrM3c8dGqiFLRyobxRWXE+JgAMxhfgnh3T3rHvEJ6Ethffy8vLdpMwEQyGP0Gh90TON3kIcI14iIF5nKlPXTXpNraZr39FUy/c6RE8nsEDGbmAEGqBtilt31HPWbIRCgFISOy1TFm7lj/dmVnOZsLCwcFFRIeVUbEvQWq9PQVd0DEtK0oLVxJoDsB9gFUCXDozPaLJAIJY1gYXAfm22+s3l7T00BHT7/rfgnSH8+2cxGTME6wp3Zd/Z3BEohKCMhicACgWTs+fHt9R/3K0aNTNbO8lUDXAWhhsJhcF7i3/XaG9HYQettVlBT+BkRPgjnEwEYieC9sSwYARQCywBwE04Kpn9W8HE3+0FtvNVnDthcJ+I4IFzHRAYmxV7DVq09X9TSACCgmghOMkAbc+38fvb2murjY4JW0cgLKGPCDuYJIP/y4WiHlxYXzSKI/g1kDYTOArrcUhph9wxC5O/DbiuH0A5M2H2/vMOCYb9w7GBqvIcJoYTAwakA41VcQndoTiIoAzmVAY+C+F1sO3EGg+xkIE6NL9zbuV0hladF0DVhHgAzgM4BP9Gw8Sge4GCAjM3ZDUmfduG3HodE333MrSfxXInKA2c2gagLOwepZbqw1eCyIBohVOM/XiNJgK4NoC8BNsUqKixVSXjx6NEjeQkRWYm2P2Fr0DoQYZg1USoRkDdz2O0f+/x6TzZFkATCOMKiWwJpeeb2tl60GJ5xUjJnioJvT3lQ3I9jS49kWra8rDmRLQUF2wKJsJ1A2GMdAvD1mozCkFkkZvcyWPeCQYoGIZzNjOxMdj1lWLxqMDXnSH/KenPiOJZ02mFMiEmb4Xbvm+JsOxiruigI5G2zbLPZ5cQMmYMv5kU+9g9mp2FKX27JL/SQZM7Qgvu9tEBu662VbblWLpPTam9LTf344YHvCVzfFyKwclM3+P9my1RZJsYm2k/3ufff5G/fpkdNR54oBEcG2ypLCdSCazsweiXgjg8KxKC/qrrRkDC03Jg8XUUCLpgZGhn3eu/xNycmaKntJCiy3Oqt2K5aWWOXqqZ+shY0LPcduSGLNekoyhN40Z7jCksQtpNhcsmIXMkoCnoPz2ht0h1liBtJfoZPg8mUIb9kMlmXI1w0DGYQ3q7/4NMaypgB2+dVIErJTkZCunAkuGDQN01tO4JqgF8Jd2zZwOHbmDNQvXEdNRVMxq3YbMr2taJUVvJM+EH5J+CNnSnNYQ11IiziBZTYZ30oz60qWviKhk/LisT8iSfoVxGVJ482QENMM3qdYkv9kcZZ4ZNmiMKtZWtBt4jOXx/PLhGCrrSzYZhdRqn2K+cRrVucXPpJ1XdC6YyKwL/DUlQ5R/dlBEL9hyWpqlpWL5LaRZGmUDEkCyoiQr26+t76m+4jZFXjCrRw39k6WaOXZAYvXspM6JuS5Kh+Y0wauM6eO0kCSidVgthpyy0CXXlS+GjDc3t6UYgFLLSR7X7XmbDuumDpdNmPRAPimr+H6iSHvEI3BqywZLUcVU5fnlIdkc6NkSBbLY1i4vX5+W12Nct4LYeeeY96yYlP9wtobx42ZqElSOYiMYK4F4ZAeecckozVDCweW2Zxj9hisIlyOFA57U7Vw1DeFzjLtmirNbW9KyeaQIQRSV1gyP99sdMQ0ETpk3trePOi2oKtA/HudKdW9y2Dt8X3GQ7KpUVJSxN1+kBo49YPWY9UGij6JLhuQTUVFA1WFawBKBVgkDOzsCcaR5MyUVw3pE67Nyw4fa3Ybm9o8MgFadjjotkCLyXuSwJjmb3GMDfsi6ZpVBvvBNyyZu8Mk6Q6jFAfbMuf5To4XL4tVit1baU7WNSFEf15IplOKIVlEXAaEA6cf9x7fZhIRiU7lsgCJBNtMyjYiDI32sN8VmJ9kjpy5ZPEzhpFDh2DRkr/grTUfqJntXpcC7vU5MCLsM89odyUZCFQvGVxL7M7qJjJe9JTaWadrQ76kh30Nk41gWbi3qy3p7p4mVOe/t5NkbJAMYqVQrhpoWtBWt80C7fK+qdeOGmU8bTWKYNtE8YZAjE1MPRtUbFMfjJk0+b+WPGcSA9t38DAWLPz3gKm5MSYHIJrR0tSwfEfgdGqKpsrtoOBfbM6qnYq1y7hZOgdNT7bVTbWxZjohGUIrzrq3sQIR9f2QjA2yIUW46c5wwPWYt35bEqvnHJJLukLOD6VHIp/gymgP+9EG9r4pbdCnWQML5s68CbOnT8VzS17n/VXVrQ5We9yz9RjKqGl0W8CVPET1mzSA15uS96w1Z1z0WGVlVV7oqZucroWSWklWX7dkNvsluU+hGD+RoUEypgoo6Vqw9V/b6jbbz0K5pEAqS4ueZeDHDFaJqbKrh/3OBnzHnHHtx+YUkSoDuyIHk6xWDrqa/f0F4/z+SoNttknBVru4QRyQzSeX2pyfd7jGCmu0wFs/fqAayAyAtP+xZDVHc2/1TIDOdQKQlAZZSdNIolQ13Pa49/iWdC0cuGRAzguln8tb1aP4CnPGsApzyjBRN00NtSWz6tPTri91hGs8y9+UYuMzrvFb5qztAzS/Y3jIlzVEC2SLdJSV1szm47LxortOX/oVUE4ohlQGSQ4O+6b43QfeM6X+Ysf6Vf37BdXGksIZGtHfhbIix4mIdeUyvW7JGrHVlDRUtEtVQ20plwFGh0GFazzb35Scq4WMpoxMzrr7Hpxas5rCXg/eDyruWh3ubW/ghEBKvWJMTUpKkkZcO5hNJqOvdu+Bg+vf+mP/fEF1NpT+KRHZwTgA4j16FF1mzS6oMToGiTBtBodbkzT1Er5fdK3RfPJkjHvqaTlj2s1gTcPGiSW8yJ7X3w9bFyjgJtlyfdn4pBef+Unk/x/9t1+2VG79/LudV0rMX1CxuwX+Z58Bu91AcjLka/TFj950BVDhORNXzFMkpJ6NSekB2d915gZbMO1HC9EBpHJiCZY4IzvoJStulTG4aCxe6ADy1H+0VG75TB+QrrQ6P5QuHvbB/Cm6uI12yBCuyqu2nMJdBlsk1TxTDbnt/eRF9dZ6mWpI/rZDSsu/8y6qX7uGq0LkLfeLZItLWzxpGWnXDR0iG4zG9j5vWeeH0kWmCHMkOaHbm3SYJHrFllO0V7HkioMmSwu5baz1i0vbV9OJ82RY2Gc6KRnDdYqpXw/y7nTzkGQ6RcpFK6Ojje5EuYrSwj8DNK/rTJEL1Qgz6CVHXvEBxeIUXw+dhdHjbbmvhr4a2q/+5G/OrvTUBaSipPBJEP2GGBoTd58pAiDEkH7vyC8+pJizhQ+WHQ62WMExxaWuBsP2Vsc+ATkXSiciZq4hQl13igSIpBdseaVHFXOmaJCthlpiDRL2dqBXS7teA6koHjMOJG0WoXRi3suEblP02yHJL9jzxx9XjOkRGFrQZYnyqHS1GO5S6dkrICKUHpZRfTZvtY6AblNefJCU5+15E04oplQBw6kFXeYEjKhMYwZyQSidI4lgW6kb99ZLkrLInj/xlGxMEW8ZTjXQkoDR9frSDWTrHbN/Hqir+6k46aWkJAq73V4i2tiRCB2ti1aSDc878soaJWOSBNZyw0GXQXxBlChdWkAXEPH0arxm4LrSd9YmC0lVc2dxoL7+MyY0dCW5mWTjYnt+WbNscEjMWq6agKFnHuoCsqG48OEhjzz2uwEPPmQRQo+8thTH1q6BlJERtY9WVcOiU36cCjNEcs9gkwSjyBVPlB4t8N/v/rXnL6gqiooyTTlZtYOf+GGmkHho0X8GAo2nyhHlNt4oGczP2fMmtUmKVWFNdaohsU31+sm1xxF8xSroWiFizOXjxo1Ukmy/haaWqD7fbhAueuBvkI2WxdbcSR5ZsQgYOWqoT+/fXzFb6xqObiAd0ipKC9+NJrlOMlp/b8+f5JUks8IczlEDLqWbfCld2n0NK/ULkCOS2f6SPaesXZJNBtbCznDQpfQQ6f0a2lrXkPsM5JBsdvzBnlsmMs8FjJxwwCUT9SkJQJfmX9FKfQKyX7EmvWJ1lgUlyWCMrIwEjL7Ok14D2S1bU5banRNDJClGTQvlcNAlcd8/puzrgK729r0CIj6Qec3mnBAmUkwChhZyiS8vr3ZjxIP+uoGMuuXe6zNTHS+kBv3FR3wBh0okm1gLOtVQi/iSPx4G81XQQReQglvmZOdl5+x+cv6D4icl8OuXlsF9ujGQo4bc4ieMvgqGiJcx6AIy+pa7H1nwnft/+9B9d0VCJ6++vgKr31iBdKWnz0/iZZhXjx66Qifip4xyczP+/rflL0aCi3PmPaqp9ccTYfRLwFnXColA+KdHnz5Sf/LnYKaBNotHcrsueWrMJRhv3IvUDaRjJHdMm91lyD3uR3sVKJgAEmeQEkASQOLMAnGmTmKFJIDEmQXiTJ3ECkkAiTMLxJk6iRVytQPpr18DijM7xI06JSXix06jl0QiVdxgOqNIAkgCSJxZIM7U+X+uN2G6f+9A0gAAAABJRU5ErkJggg=="
+          type: 'echarts|area|default',
+          name: 'Basic Area Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAAQzElEQVR4Xu2ceXxUVZbHf+e9V3tV9qWyIIvIIgESkgABQVFoRkFw/Xwcu1tGP70MLi32jHR/erS7P9P22Nug2NoqtHTT4zi2CAK2yrSiJAFZEo0whF32hEBIKpVUVWp778znFoQPhEryKglQaN3/IPeee+753uXcc88rQqLElQUorrRJKIMEkDibBAkgCSBxZoE4UyexQi4zkIqSontEl1Ora96O1nUCyGUEsvkfpu+wDx8xgGTZ0Lar9mDZuo/GdO4+AeQyARErI23K1OWjFj1vFV3uXPBYi2vTpu92XilRgVRXV/Nl0vNr00142xbY9u9DwaLFkTHHBORrY6XLONDy0qK1huSU2x3DhzOZzL62XTsTW9ZltP8FXZWXFj5PoMcBDkPDPhD9LHGod6Ixevo9Dzoz0x9oa/PubvAc/+HhDRv8lwJYRXHRfEj4A5jFMbANhMapVV/c3lVfX8tDXcCYUlr06r/88wOGNes+xnufbNy4/s2lU/obSOW4sbNZojUgkph5JxEOR1zeBJALTT3jvu9/8sqvnrppyMD8yB/um7/w8N49+6d9sWF1xGD9USrGFYyBbNgCwALmQyDUdshNADnPwgXfmDvAoliq/nHubdlPfO/bqKndg4d//Ew44A7m1lSuaOwPGJ9MGJMvaXIVAU4GnyRGNQjnPNcEkLNWHjv97plM9AYBaSkORzgjPTV8/ESDSZIk8vna9/kpNG3vh2vr+wJl+5gxthajXEWEkQBaGbyJAPV8mVcFkE0FBddO3rnzy74Yo5u20ugZd/+MGE8TkZirdczYwcRGApiIygDYmHFUBU2p/WjF0d7owYBcUVL4ARHNANDO4I0EBDrLimsgNQ9+a5Jn//73bIOHNAVPnz7Rvnv/jGmHD/ebxzNq5r1pssarCLgRDJWBWgI6G9zIQBkRHGDUB4lv2v3hyv2xQqkoKVwGogcj7i3TRhB7osmIayAbbyhzjVm6LMUxYgQOLn4OJ1atfOmGik2PxmqMaPXH3nzveEi8CoQ8MNqZqIqYW6PLZgPOrJQkZm5SWZpau37FLr16VJQULgTRryP1mbcK97artjEDuVyhE+3kScjvrsa4l5dEdPfs34faZ38J5ZEf6LVDl/U+3FSNFe9/DFXT4LBZcU2eE4okdStX1VR8ebQe7f4ArGYTFn7vmxiQk9WjLurnnyGw9JVIPTkvH0hL67bN5GXLu7xuXNF7yCfFxRnmVMfRrNlzLFm3zcKhxc+jZZvwFPGLqVU1P+3RElEqDJ88x2GyGF8nwhyG8GxoDzHrPpuIWNZAEwlIjRzKrM3c8dGqiFLRyobxRWXE+JgAMxhfgnh3T3rHvEJ6Ethffy8vLdpMwEQyGP0Gh90TON3kIcI14iIF5nKlPXTXpNraZr39FUy/c6RE8nsEDGbmAEGqBtilt31HPWbIRCgFISOy1TFm7lj/dmVnOZsLCwcFFRIeVUbEvQWq9PQVd0DEtK0oLVxJoDsB9gFUCXDozPaLJAIJY1gYXAfm22+s3l7T00BHT7/rfgnSH8+2cxGTME6wp3Zd/Z3BEohKCMhicACgWTs+fHt9R/3K0aNTNbO8lUDXAWhhsJhcF7i3/XaG9HYQettVlBT+BkRPgjnEwEYieC9sSwYARQCywBwE04Kpn9W8HE3+0FtvNVnDthcJ+I4IFzHRAYmxV7DVq09X9TSACCgmghOMkAbc+38fvb2murjY4JW0cgLKGPCDuYJIP/y4WiHlxYXzSKI/g1kDYTOArrcUhph9wxC5O/DbiuH0A5M2H2/vMOCYb9w7GBqvIcJoYTAwakA41VcQndoTiIoAzmVAY+C+F1sO3EGg+xkIE6NL9zbuV0hladF0DVhHgAzgM4BP9Gw8Sge4GCAjM3ZDUmfduG3HodE333MrSfxXInKA2c2gagLOwepZbqw1eCyIBohVOM/XiNJgK4NoC8BNsUqKixVSXjx6NEjeQkRWYm2P2Fr0DoQYZg1USoRkDdz2O0f+/x6TzZFkATCOMKiWwJpeeb2tl60GJ5xUjJnioJvT3lQ3I9jS49kWra8rDmRLQUF2wKJsJ1A2GMdAvD1mozCkFkkZvcyWPeCQYoGIZzNjOxMdj1lWLxqMDXnSH/KenPiOJZ02mFMiEmb4Xbvm+JsOxiruigI5G2zbLPZ5cQMmYMv5kU+9g9mp2FKX27JL/SQZM7Qgvu9tEBu662VbblWLpPTam9LTf344YHvCVzfFyKwclM3+P9my1RZJsYm2k/3ufff5G/fpkdNR54oBEcG2ypLCdSCazsweiXgjg8KxKC/qrrRkDC03Jg8XUUCLpgZGhn3eu/xNycmaKntJCiy3Oqt2K5aWWOXqqZ+shY0LPcduSGLNekoyhN40Z7jCksQtpNhcsmIXMkoCnoPz2ht0h1liBtJfoZPg8mUIb9kMlmXI1w0DGYQ3q7/4NMaypgB2+dVIErJTkZCunAkuGDQN01tO4JqgF8Jd2zZwOHbmDNQvXEdNRVMxq3YbMr2taJUVvJM+EH5J+CNnSnNYQ11IiziBZTYZ30oz60qWviKhk/LisT8iSfoVxGVJ482QENMM3qdYkv9kcZZ4ZNmiMKtZWtBt4jOXx/PLhGCrrSzYZhdRqn2K+cRrVucXPpJ1XdC6YyKwL/DUlQ5R/dlBEL9hyWpqlpWL5LaRZGmUDEkCyoiQr26+t76m+4jZFXjCrRw39k6WaOXZAYvXspM6JuS5Kh+Y0wauM6eO0kCSidVgthpyy0CXXlS+GjDc3t6UYgFLLSR7X7XmbDuumDpdNmPRAPimr+H6iSHvEI3BqywZLUcVU5fnlIdkc6NkSBbLY1i4vX5+W12Nct4LYeeeY96yYlP9wtobx42ZqElSOYiMYK4F4ZAeecckozVDCweW2Zxj9hisIlyOFA57U7Vw1DeFzjLtmirNbW9KyeaQIQRSV1gyP99sdMQ0ETpk3trePOi2oKtA/HudKdW9y2Dt8X3GQ7KpUVJSxN1+kBo49YPWY9UGij6JLhuQTUVFA1WFawBKBVgkDOzsCcaR5MyUVw3pE67Nyw4fa3Ybm9o8MgFadjjotkCLyXuSwJjmb3GMDfsi6ZpVBvvBNyyZu8Mk6Q6jFAfbMuf5To4XL4tVit1baU7WNSFEf15IplOKIVlEXAaEA6cf9x7fZhIRiU7lsgCJBNtMyjYiDI32sN8VmJ9kjpy5ZPEzhpFDh2DRkr/grTUfqJntXpcC7vU5MCLsM89odyUZCFQvGVxL7M7qJjJe9JTaWadrQ76kh30Nk41gWbi3qy3p7p4mVOe/t5NkbJAMYqVQrhpoWtBWt80C7fK+qdeOGmU8bTWKYNtE8YZAjE1MPRtUbFMfjJk0+b+WPGcSA9t38DAWLPz3gKm5MSYHIJrR0tSwfEfgdGqKpsrtoOBfbM6qnYq1y7hZOgdNT7bVTbWxZjohGUIrzrq3sQIR9f2QjA2yIUW46c5wwPWYt35bEqvnHJJLukLOD6VHIp/gymgP+9EG9r4pbdCnWQML5s68CbOnT8VzS17n/VXVrQ5We9yz9RjKqGl0W8CVPET1mzSA15uS96w1Z1z0WGVlVV7oqZucroWSWklWX7dkNvsluU+hGD+RoUEypgoo6Vqw9V/b6jbbz0K5pEAqS4ueZeDHDFaJqbKrh/3OBnzHnHHtx+YUkSoDuyIHk6xWDrqa/f0F4/z+SoNttknBVru4QRyQzSeX2pyfd7jGCmu0wFs/fqAayAyAtP+xZDVHc2/1TIDOdQKQlAZZSdNIolQ13Pa49/iWdC0cuGRAzguln8tb1aP4CnPGsApzyjBRN00NtSWz6tPTri91hGs8y9+UYuMzrvFb5qztAzS/Y3jIlzVEC2SLdJSV1szm47LxortOX/oVUE4ohlQGSQ4O+6b43QfeM6X+Ysf6Vf37BdXGksIZGtHfhbIix4mIdeUyvW7JGrHVlDRUtEtVQ20plwFGh0GFazzb35Scq4WMpoxMzrr7Hpxas5rCXg/eDyruWh3ubW/ghEBKvWJMTUpKkkZcO5hNJqOvdu+Bg+vf+mP/fEF1NpT+KRHZwTgA4j16FF1mzS6oMToGiTBtBodbkzT1Er5fdK3RfPJkjHvqaTlj2s1gTcPGiSW8yJ7X3w9bFyjgJtlyfdn4pBef+Unk/x/9t1+2VG79/LudV0rMX1CxuwX+Z58Bu91AcjLka/TFj950BVDhORNXzFMkpJ6NSekB2d915gZbMO1HC9EBpHJiCZY4IzvoJStulTG4aCxe6ADy1H+0VG75TB+QrrQ6P5QuHvbB/Cm6uI12yBCuyqu2nMJdBlsk1TxTDbnt/eRF9dZ6mWpI/rZDSsu/8y6qX7uGq0LkLfeLZItLWzxpGWnXDR0iG4zG9j5vWeeH0kWmCHMkOaHbm3SYJHrFllO0V7HkioMmSwu5baz1i0vbV9OJ82RY2Gc6KRnDdYqpXw/y7nTzkGQ6RcpFK6Ojje5EuYrSwj8DNK/rTJEL1Qgz6CVHXvEBxeIUXw+dhdHjbbmvhr4a2q/+5G/OrvTUBaSipPBJEP2GGBoTd58pAiDEkH7vyC8+pJizhQ+WHQ62WMExxaWuBsP2Vsc+ATkXSiciZq4hQl13igSIpBdseaVHFXOmaJCthlpiDRL2dqBXS7teA6koHjMOJG0WoXRi3suEblP02yHJL9jzxx9XjOkRGFrQZYnyqHS1GO5S6dkrICKUHpZRfTZvtY6AblNefJCU5+15E04oplQBw6kFXeYEjKhMYwZyQSidI4lgW6kb99ZLkrLInj/xlGxMEW8ZTjXQkoDR9frSDWTrHbN/Hqir+6k46aWkJAq73V4i2tiRCB2ti1aSDc878soaJWOSBNZyw0GXQXxBlChdWkAXEPH0arxm4LrSd9YmC0lVc2dxoL7+MyY0dCW5mWTjYnt+WbNscEjMWq6agKFnHuoCsqG48OEhjzz2uwEPPmQRQo+8thTH1q6BlJERtY9WVcOiU36cCjNEcs9gkwSjyBVPlB4t8N/v/rXnL6gqiooyTTlZtYOf+GGmkHho0X8GAo2nyhHlNt4oGczP2fMmtUmKVWFNdaohsU31+sm1xxF8xSroWiFizOXjxo1Ukmy/haaWqD7fbhAueuBvkI2WxdbcSR5ZsQgYOWqoT+/fXzFb6xqObiAd0ipKC9+NJrlOMlp/b8+f5JUks8IczlEDLqWbfCld2n0NK/ULkCOS2f6SPaesXZJNBtbCznDQpfQQ6f0a2lrXkPsM5JBsdvzBnlsmMs8FjJxwwCUT9SkJQJfmX9FKfQKyX7EmvWJ1lgUlyWCMrIwEjL7Ok14D2S1bU5banRNDJClGTQvlcNAlcd8/puzrgK729r0CIj6Qec3mnBAmUkwChhZyiS8vr3ZjxIP+uoGMuuXe6zNTHS+kBv3FR3wBh0okm1gLOtVQi/iSPx4G81XQQReQglvmZOdl5+x+cv6D4icl8OuXlsF9ujGQo4bc4ieMvgqGiJcx6AIy+pa7H1nwnft/+9B9d0VCJ6++vgKr31iBdKWnz0/iZZhXjx66Qifip4xyczP+/rflL0aCi3PmPaqp9ccTYfRLwFnXColA+KdHnz5Sf/LnYKaBNotHcrsueWrMJRhv3IvUDaRjJHdMm91lyD3uR3sVKJgAEmeQEkASQOLMAnGmTmKFJIDEmQXiTJ3ECkkAiTMLxJk6iRVytQPpr18DijM7xI06JSXix06jl0QiVdxgOqNIAkgCSJxZIM7U+X+uN2G6f+9A0gAAAABJRU5ErkJggg=='
         }, {
-          type: "echarts|area|stack",
-          name: "Stacked Area Chart",
-          img: "data:image/png;base64,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"
+          type: 'echarts|area|stack',
+          name: 'Stacked Area Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAAVyklEQVR4Xu1dB3BV55X+zm2vFz0VVJ6EwEiIXkw1zThZx3GLg20wdhwLYq+TiRMn2d3EycZrEscZZxOXJJtkh00Mdsa9YnvtGFNFMDJgsBBNBVEECElP/RW9ds/O/4QwRSA9eJKeN/wzmpHm/vec8//fPeWec/4rwuWRVDtASSXNZWFwGZAkewguA3IZkCTbgSQTJyk0pHjFSzMATCaWXl2xdGFjku3RgIoz6ID88PV3lgF4cO6I4dra/dV+TzAw969fv2PfgO5CEjEbdECWrHxJf+aeRTE5th46gme3bP/fP955641JtEcDKkqPgGzfvp0HQoryplaU1HnwzD2LYuwEIM9v2Y7rcjORYTIMhAiDwmPKlCnnVYRB0ZDiFS/8E0F6GoTRZk2FWdOis0YMow2VB7jNH5DFLjGwMippP/rr1xc0DMquDRLTAQWkeMXzBUTykwC6TBLzCSJ5D4MNYHYwoY6AFACjAFihsxeS9KgabH1q+f33hwdpjwaU7YAA8s+vvOII+6OPgPEAiFQd7JUglQPc1ONqGRIIwxg8gkAqgGod/C/PFi9+e0B3ZxCY9Ssgy5Ytkw7nF90P8M8BSgMjBEIlgw4TuFc/xUwGAhcxOJeIhBlbC9YfWLnkzv2DsFcDwrLfAFny3CvzWI/+gUBjGGBiHAZQAULcpocAO8DjGCTMWYQZf9As0iPLFy5sG5BdGkAmCQdk6TPPD2dJegqgm7vWwU0MKifAm4B15TBQRICJWW8C6Kf5hyuWL1u2TE8A7aQgkTBAlv5llY3lwCMMfIcADWAfQOIF70SCVyqisBEMHk4gmcF7GNL9zxYv2pxgPoNC7pIBifmJYUX3QcejIKQLkyKcMIhqwNxvTy5BMumIjiZQ1klNfC2kaN9//mu3Hh2UnUwQ00sC5Aw/wQwiHGWW9hFxMEHy9YEMpTJ4LAE25hjf/9RC1seX33+Tvw83J92UiwJE+Aldkp8g4JYuN4E2JuwiYFCcLDMTEQ1lcCGBhLk8Ckg/XFG86MWk2/FeBIordRLWGVvrm7CruQ06M2TxFmcwwKIqSVHpEvaxpTOIjrCwmsAQkwHz3UOQatCSCpdLTp0IP3Fo6MhvgPALAmUAiIJwEIyq2O9JNhiwEngcQKnCjzHRiqCmP/TinXd6kkzUc8Tp1WSd7idO3n2CIO1h6IFkXxyATIBHAWRh1juY5J8dHprx2w3z53epUBKOcwBZ8uyLtwk5KarvYEn6DUBfFX/3mu5IwsXFRCKSmEWIjBEAFAYqwfR9xRD9JByi25jkbc/ds3Brsoh/BiDfe/mtXXkup0hTWGoam1RvMAQGhwhUCeBQsgh9cXKQAdCFtrjF/U6TKXxNUUG0pKomKBOeePzWGx+9OLqJvesUIEIzJrpzVn73mjkWweI3qzdgT92JBmJpJ4jjTnckVsxEUiOnSVVmLJ01TblyqDsWnNz33Cv6M8V3xNL+gz3OC8gTH26I7D5WX0aEuv4UUtcZ9XsrcqM+n93mzj7uyMlq6U9+grZJU2csvWpaWjcg9z73Cq8ovkPqb759od+DyUrJFS9ZBz3Nvo5gsKQvRC5lTsuOXRPdDlvmLdfOV5a/+EY4lJmxPSXP3XNa/lIYnXaviMJSzKZZVxdeoWyqqqFQNLr3d3d8dUyCyF8SmR6dOuv0UH9rhpA61OHTmrfvnPveyt8bxd87yvfhB48+GTTlZlWm5OfWG+32zkta3QVuZmYDE7klRiEIsg6a92zxon5/AHtbT49h75KVL73T242Jul720ps3lLy+gixmE15c9T5+/8wL8Ae6cFDNJq9tSHq9Iye7we7ObpZlqdcaSrxyMfMIIioCY++K4kVjQZRwHvHINKiAHCrdXuQ/WjciGo3y7GmTQ0JDWtrbDxOQCoaLJDolH8lSxJLqarRlZTa4hubWG2yWUDwLPe/crrB4fldKn7+1csni/04I3Ysk0iMgP3v9nX5/SqrK9qB8y3aIPR/mzopFO3ZrLMCLjagehdcXQLvXhzavH9HomQkBR5oLmXnu2I9rSBpERfFihy8cQWNnEJosoXjkMKjSxdPqiwxxp07622TV7d6XV1e2ZzzH3jfxMQF9cOLsYJG2IWSA2Smyid2LlxQlZElzNdpzshpShuY1aCZD3GE6g2YSOBXgp1YUL/5BXza2P+YMuMlqrKjOPrJt52Rhq4l5O0D1F7EwjYF0AjIYyCCCaIToHmx02FutQzIaUtzZDbasjL5loJlsDH0eiKKyLBX95e6F1Rch1yXfMqCAeKpqMo9s3XFlLF0O7ATo2CWvACLRTE5AF0nPDBA5TqcpaWrQlp7aYM/JbkjJczcqBu1UHsvX3GK2uFJO1U2YMZ4Iecx4b+WSO25IgGxxkxgwQJoPHU07tLl0usguAShHV9NDwgeDjdRVucwAUzoIyikmRLrJ4WixDklvpPaO7LQUh3zocK028po5pWS3tTGgEXBNLOfF+rUrl9z5YcIF7IXggADSduyEs2bj5pnMLLOOCqJY2n4Ahk7MkiumPURDiMgqmKqKgq/degMe/MbXsGt/Jb75k8dCRV+5frW4xozhRBgtytBes1T06sKFA1pe6HdAOuobbdXrNs1iXVcYfJCY9gwAEj2yYLBJaI7L6Sz8n1//h2FEfl5s3u3f+tcwFRaUWF3OALqa9OYBsAD84Irixb8bSHn7FRCvp9lata7kKg5HNAbXElPZQC7uArzcV02ZMP57990tvb16A95dsxGdRC3D51213WizBpkxhAhTwegIatGhL9x1V7/n17pl7TdAAq3t5orV62bp4YgB4Dow7ejqoU6a4Xa5HDlerz8YIc7QQxFNVtVQ/qxp20SCszsMZsYfVy6549sDJXW/ANLZ0WGs/GD9rEgwJExEoyjFS8kFxhn7S6qsGW32OYGWFiEvZ4waud89aXwDE88VtTnSpfErli7cmwhQSqZMihUA527f+VpP9BIOSCgQVCve/3B2ONBpYbBQ9S3E1G/9WYnYJEHD5EqxmFNTpjZVH7SKZ8eSllpf+MV5nSRLQxkoWVl8h/ArlzS2XPfFXdaRRbkky2rH3j01M/+2ZvzZBBMKiACj8oO1M0M+vx1AOzM+oq7Guc/FSCsclml0OIcfL9vt1MNhyWC3BkbdcK0qSZKig79yKd33QjNS5859bvQTTwstxO7vfae1ZfPm+87WlITlsqLhCDau+htaPU0wqCpG5LuhyElRhIvrYaDsLEQlGTWf7ISvpQ0ZRQVwXzkBVlXB3YVDY7m3uIfPh84/L4fD5cLYp7uCtrgAiTeXFQ1HpYrV66Z3traJLG2AwZsJ1G+1jLg3JI4bZINByZ81dawsK2pDZbW1tfaYZcxNX4LBZkU0En3ouXvv+lUc5FAyZcL3ddAjEpFDcThhLSrSJc0Q6Ni7u39Mls5MVavXT/V5mjMYHCTQZjA+l22c3RttTnPZ3JPHFxEIHQ2Nho5Gj7Ng/mzokUi0/pO9k//2p1/u6g2UkqmTvsDgPxGoQMxl4ARB3wuQA0yP94tT16M6HVj/90kd9Q3ZYIQZMZ/R0Zuwp183QpfujrSOyTAZLVs6QkfXGZ1J0SydXlSQ48pzZwtZg36/rBgNqfbMDPIcOBQ8VPrJl8o/fHVjT+vcNHXccB3K0wTc1HWdOwDaffppsbnbPj157VwKl+TUq9f9fWJ73Qk3mCMMKiWgNR4wxNxH5I5ZE2+8PiXjyzfgwG+f1FfurNyVLKAMnTlllNFmi6VbWCLF4nKmio7yfe+t4UBL68O71rz+WPd6y8aPt7Rp0n+A6IddOHAIoP0gPnL2nvQLIAdLSse21B7Nj7WSMpWiK8SNa+REg+afZppmz3zh5VjzrbeqCqXffcD/h05t20HFGJemxcW4j5MVo0EdNmvaOElWYtGJZrXYVLPR7PM0oeKD9cIMve9lWvxsW+UCHfT4yTZbAUYNEYujez1GmAkHpHbbzsLGygOF4NgZhK1gxP05jFmh9swbOpvH2DXFNP5Py2EfOw4Hnn4Cda++Ag6HUS8prZ9o9tqNmv2Yn+RBC51tWRnOrHGjC4Q/gSSR2eVII0mSajaVhluPHFVtejT0gO+4lh2NVZRPoMtPXNCHJhSQ47t2558o3z+WBRigHYT4+rbyo53WRf7GcW49lCpWIJnMfrCuGbOzQ+GW5mCopcVDTDkgmMX1CFG0SjLWbTHYj36qWj2DkXvJHDsyz5GdPUTIo5iMJoPNYld83mjzm2/L1aRBpLBv7WyqmhNsq+iL8iUMkPq9Fe5jO8snnnRWZWCq7YsAYo6NdfU2f2PhxIg3XxI1ERYtqqhi0aIq/mLdRCR91sDNsZpGbqxhmijWxNYG2f+pZqndpDlr62V1wMJqoRFDZ04dZTEZLJP2lVmOTZhsaXOlYmxpCX+0/3CoWu367MS4kO/IPYETuw29nBxLCCCi2nd4644rRXkO4D1gOtgXMGSArg00D50fbi00MWtCs4hwGDpVQOpDi6pOKhPy0HU0usvBMvNhxejZqllrSzXHiTD6PzUzhwK51wVbx9oDfvl4Th4+uGUxOBLl9jdXeTr8nWqjrDiYJErVw+3f9NVty4yGzns64JIB8Rw8nHHko21Tu6p9XAWmPqnm2LDXdXtn0ziXHrGd1KrmWLUwztD4FPAMF4hymZFNhJijDRCF9qjmY5s0R22NbGrvy0MSz5xh0U7bQn/j2G4TeyjTrX88fkrE685TJJNJCtYc7PRv2twWAcknJNUZliRF0/XIXYGG7ZPD3h7Po8QNyOltQJ7j9dj07mqwrsPlsCM3S5SuLzwsoU7MOLQPw5q7PlPCqgo5KxvkOKPc3RuZ81+PRsGtrdCbm4DOzyyXx2xDZYYb1enZCMmfVW4vhpEhHMaUo5UYWX8Uwl42Kxo224fgxKjRkIZkArIMKT1NHHdAeO36LnkYOBbW0SZ+YcaXHSpudBjOOV0265lnz5t/ueB7SHt9g6Nm3aardJ1lwYtYNCacfxigS7cEPCNmhL1XKKJcyxwh4ADED6FfMr4MdhAoF12BQKz7JMzQq1VTXalmr90ZZyCgsE7XBVvzrw62FhrAagCkl2o236ea1c9dkRbMM6bbZYtJIptNkW02OdrUFG5/932h/bHRRrK5RVKs4uRjbqTTc7+v/hOHCB1Pjrg1ROSyRLWv+sOSWboeUcGiVUe07Jy/wHR1qD37S4HmUVZEY9lMBgsA94EwIM6XAZl0ZEMSgQC5uhffTnKgTDXXbjA4ahskwwVPfU0Ie1MXdHrGufSoVWdwmcHi36zYfCFJPI+fDclqlc3TplhJUUgekqGRJJFvc2lbqLr61FqDRGqDpDkiRLJF1zuX+uu2FUYCsZakuAAZ/4UFt2WOG/2IeM/Qw2GNWTSx0ceEns+cjwgH7As7PWOz9FD3JrSDuRyEuF8UL8a09HQPMSyxQICRCxKncmOBAGplg2ebZqvdYrDXWXVdnR5qzzyoGNraJSV0u79x9BXRYKaYWyMbgxsNjo4WSTlvg4Oak6MZR480w2SSlZQURQ8E9PY3Vnk4EjkFXhSQ6hXNEYQkuln06wJNe22sB182pj6+a+0bvReovrDw3l1FI/JzQZJj9/4qamlrbwVjCxGdI5hDj2i3BzwjJ0R8Q08uOEgE8VGYPofCiQLgQnQYlE0QURrSuueFiSKmtAzKXLCA6t9exbq3Q452dKCZlMh6g6PjsGLsU9+wccJ4i5qRpkrp6ZqkqhQoL/d17ig74xMi4kEQ5qtVUiwpDjvGjMjXFc0Q2FNRXbP2lT+fv0AlNOPqq6at/O3PfxRrsL3/R4/yxzvKygA6J9l3c2fT8LnBtgJhY7sWyQfAXAXqOVUwEBvfKw+dzJDgZiBPsVqNhQ8vQ9r8a2LByuYZU3idZvfu1GzxZakVhczTp9kUp02R09JV1nVuf/0tj+73n+Mvm0mxjJs51fpfv/hJTNQH/v2x1k0f77jvbE055dTPBuRbP/5F+KPtZeJjAKdOUF0Z6ki/Odg0RtjYk36iHsx7icjX64Yk0QTFap9T8PAjjm5A/j5jCj9pzbmoL9dJNpvwJzbZlaJKZrMUOnKk07e+5Jz2VS9JhqIZMxy/f+zHsT1/4Ke/bN1U+sn5ARGTYiarYFgugWzlldW+1pb22AGWHD1ovt3vGXNFtDOWPtCZfUTiCz+c9Oe+e3wOGFYtI2NW1q23S/Vvv6n7/cFDbwcoUqMaTwUD8Tw/al6ewTBqpFnJEA6e0PH+B82RhsZzGr69rjRXwYjhsqppvZusbgGEpoCkh4RmmDkq3xJoKpgeah8udZ2jCMe6DpkPDvbBlng2rKe5zDAAlEngNlBX2eCIZLCsNTqHtUhqLFKMZ5gmTbCqw/KNIgyOtLREOt55r6mnb7QJTWkg5RzN6OZ1xntIyaRJo9U05+8Oszyhwh/2TI/48s0cNcZCFNARMPb3Kd0Rz0qSbK4w/jsUa/o2zZYTkOTTu+ovKKkIgS2zZ9qVXLeBJJn8W0rbg5XVPYbZb61/NxbN9TROAVI6duwQynfvG/6DfxNfbcOBX/8KIU+jwKKJCLsvOt2RZBveV3GCRNJGzZmzTzEPifbxNJCc4lQsc2bb5RSnyp1Bve31N88Ig7t59wmQjVMmfnvYt7/769ziJTF1Pfzn5Tjy6suQ3SLh+o872iKMj3wRHAz1reea3G4okyaANA3RikpEd5/byvz8Oy/3njopmTJhmjHHvXrKG2/HEk7bF9wU7jx2/ONu+/qPC0nXyqskk32DwZnfIcu9fuHZPGe23TA838TRKNreesfDXu8ZaPZJQwTTrQtufjhYW7tMOAw1xVkRbmkZlFNEyQp+hCXaarAN2aFZs0Og8zadkUGT7Dde7xIplvDRo0Hv2g1n9Br0GZDujSiZOnHAjkUn6+ZfSC4fJGW9wemuVEzpItvb09CysjTzF+enkCShY/WalkjdiVNv/5cB6SfUT5BmWmNIyW9Q1NiL8tnDPH+e05CXa4i2tUXaV717Kgy+DEg/AdJNtlyxuj7SbLk+ST7j03UiFLYvvC1dUhUKbN3W3rmvIhYGXwaknwER5MNM0maDPatMtWRGhZ06ObSCApPlqul2DoX0ttfe9HA4zJcBGQBAulk0k6xtMDhzDymmU2kY+1dudMlOpxqsqPD7S7d1XAZkAAHpZnVINlrXGxz5Ig0jO1MU283Xx9qevKve8bz21guio6bH0WOIcDnKSgyCsTSMZkv/WLW55dmzXYYRw03Rlpaw7HLeueKexb0XqC6HvYkB4mwqAUjyBmfWUO/Se0fluZykyrLvUFNzzdOLbunbCarLGpJ4YPaPmZzlX/z1SQ9eOy/m8J9as7G1/HjdfWdrSo8ma6D+B1Xil528FKvbvGiEhAeumRMT8qk1Ja3lx4/3DZDkXdbnW7Kur76m5MoSqQc9cZisz/eyk1v67u8ix+XUk3tJ/7+l+z+3oDzYi9TqlAAAAABJRU5ErkJggg=='
         }]
       }, {
-        type: "column",
-        name: "Column Chart",
-        icon: "icon-chart",
+        type: 'column',
+        name: 'Column Chart',
+        icon: 'icon-chart',
         data: [{
-          type: "echarts|column|default",
-          name: "Basic Column Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADHklEQVR4Xu2cvW4TQRSF71b8NSkjpSBSqCiCIuyWBvECKA+ABAiESEUDBVRByRtQ8AhgoMcNtFmECEqLSFoo6IhA8iJhOdjLembueMae3f1cX1/PnnPPzJ2zM86ET1IIZEmNhsEIhCRWBBACIYkhkNhwUAiEJIZAYsNBIXUgJM/zIrFxLnQ4xzvbMjg6NI7h7LPnzmPsdDpThYBCHGB8393IReSyKfTK3scgWAZJ4vBMtQ6BkMTogxAISQyBiMNZv3p905S+yLIfn/u9/ngMColIyKVrm8YOshD5sP/2ZQdCIpIwnhpC5gS0689AiCtSc4qDkDkB7foztSQktnXy63VPiu/fjBieun3XFWNV3M1Hu8b48yvL8uT+jYmYxlsn77obe5nIRCdTRimUFVHOW0uFqErOIxhCpoO2EC8LQiDkBAGmrIpiQCEoBIWY1noUgkJQCArx2A+ILOYoKVOWcsqKbZ0c7z6VweFXYwlpTnFoahHrhLZXUy9MWWW0WvnGkDVEuYaoNOYRDCEQwj5k1n3I1tLaC6P4iuLLp37voVagmIueXdbW0pqFjyLf7/e6EKJFAEJUiCX7ggqFqHicLdily4KQ2TBWfRtClG1vCl6WTSGrK8vyuHRc5+fOthSWm062vL7HgDR5k7tBFUshQfJ6Hra2EVJlyVTppFGLOoSoVo5/wUGAK/7fhwTJi0KqWbVOARDiKYc5bgxRiCdHQYBDIZ7oo5C/CNBlTakf69rEos6iPo4A+5BSPfi+U/dRnvPGcGSd/H7zSga2m0637qgXF5djQLYHrLJOQuRN2jqJdWGeLktpLo7CIWSIhAsONkUH6bJcBuJzFxCFoJATBHwq2aUwffI6L+pMWfr/OoGQNlonLlJlDRnOJygEhVR3BigEhQzd0zYpZGSduPzpysG9B0br5NyZ03LxwupETAiLA+vE186OVcmx8qZsv7t0WdbuIhZwsfJCCO9DnN+HoJAamotMWYm1vRACIe3bh2jcXhSCQlCIaSuOQlBI+xQS+waV+txQw76Q3A2qhuEb9HEWcnIx6BM0LBmEJEboHyG8cJwchLkkAAAAAElFTkSuQmCC"
+          type: 'echarts|column|default',
+          name: 'Basic Column Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADHklEQVR4Xu2cvW4TQRSF71b8NSkjpSBSqCiCIuyWBvECKA+ABAiESEUDBVRByRtQ8AhgoMcNtFmECEqLSFoo6IhA8iJhOdjLembueMae3f1cX1/PnnPPzJ2zM86ET1IIZEmNhsEIhCRWBBACIYkhkNhwUAiEJIZAYsNBIXUgJM/zIrFxLnQ4xzvbMjg6NI7h7LPnzmPsdDpThYBCHGB8393IReSyKfTK3scgWAZJ4vBMtQ6BkMTogxAISQyBiMNZv3p905S+yLIfn/u9/ngMColIyKVrm8YOshD5sP/2ZQdCIpIwnhpC5gS0689AiCtSc4qDkDkB7foztSQktnXy63VPiu/fjBieun3XFWNV3M1Hu8b48yvL8uT+jYmYxlsn77obe5nIRCdTRimUFVHOW0uFqErOIxhCpoO2EC8LQiDkBAGmrIpiQCEoBIWY1noUgkJQCArx2A+ILOYoKVOWcsqKbZ0c7z6VweFXYwlpTnFoahHrhLZXUy9MWWW0WvnGkDVEuYaoNOYRDCEQwj5k1n3I1tLaC6P4iuLLp37voVagmIueXdbW0pqFjyLf7/e6EKJFAEJUiCX7ggqFqHicLdily4KQ2TBWfRtClG1vCl6WTSGrK8vyuHRc5+fOthSWm062vL7HgDR5k7tBFUshQfJ6Hra2EVJlyVTppFGLOoSoVo5/wUGAK/7fhwTJi0KqWbVOARDiKYc5bgxRiCdHQYBDIZ7oo5C/CNBlTakf69rEos6iPo4A+5BSPfi+U/dRnvPGcGSd/H7zSga2m0637qgXF5djQLYHrLJOQuRN2jqJdWGeLktpLo7CIWSIhAsONkUH6bJcBuJzFxCFoJATBHwq2aUwffI6L+pMWfr/OoGQNlonLlJlDRnOJygEhVR3BigEhQzd0zYpZGSduPzpysG9B0br5NyZ03LxwupETAiLA+vE186OVcmx8qZsv7t0WdbuIhZwsfJCCO9DnN+HoJAamotMWYm1vRACIe3bh2jcXhSCQlCIaSuOQlBI+xQS+waV+txQw76Q3A2qhuEb9HEWcnIx6BM0LBmEJEboHyG8cJwchLkkAAAAAElFTkSuQmCC'
         }, {
-          type: "echarts|column|stack",
-          name: "Stacked Column Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADWUlEQVR4Xu1dPW8TQRCdCwXhHwQFxemoCIqwW9LEvyBpkSgQNPwAEB8FBIUfkAJBE4kW/4K4Ca0vikg6qhgB4h8QCZFFIpzkwxvr+Xafszm/tJ4b7b03b2Zn5+6SWY3+ltrreWZ2K+SWnHP5QbfTGvTB8utbZxay+NSuZQHH8itCgAiSQgCQUBNWJLP8SiEAs1IIABJqwopkll8pBGBWCgFAQk1YkczyCyskz3OHgpCS3Yutbet/+xG0pMX5OXv28G7JR2y/zWbzzHZDfch/9CllBcVz+WJWamH5hVNWRIwm6ooFHMtvMoTcbK+/MWfXw9hynz91Ow8mceZUe0KWVtd6WZY1QwhxZnsHOx9KPljAsfwmoxARcnYonssuS4SIEDg7TuW2VwqRQqSQUQhIIVKIFCKFlBHwbRbUhwA60S4LAMlnok69InC+y1TUxyzq7AHVy61tOwocJDXm5+w5eZBUwHa8uWEnX/pBIZktNOzK46d/fSQ3oLpoCvnYWs4t9IlIs3ylt196IlJFHYhxX1EXIQhwEzx+FyEiBEAgoolqyJi7rIjYe12JEBECx1jSRf3G6tr9zLKr8N14DJ2574fdzrvBn6SQigphDfdFiAiBRZ50ypJCTnlMpg8RISIETy3T2KlLIVKIFDIKASkkEYUUA6rYbw4V5P/c3DAXOPCZWWjY7L+BT+GXtd4YA6qZxqLNPnoSNqBiKWS3tdzLzIKefjezvdu9/Yk8/V77ba8ISaxTFyEiBN+9eb4GpJSFwacaguFUtvId1illKWXBsTSVp70shdxbab//ZZeuweh7DC/b769vd3fuDP6kGoIhOlRDWESLEBHiR+CidepSCBDJk9xliRARAiBwauJiPGytlJXI8XtBuwgRIXAK8B2/17aGFAOqGIOZwTeHCrSPX7+yk/7ROOAP2foGVDS/Ed6gijKgYjVErEhm+WXh4IvIkV8DYi2EBRzLLwsHEYIlyaEjGRFSETgpBADO1xCxgGP5lUIAoqdq21vgwYoMViSz/LJwUFGvqDwRUhE4KQQATkU94mkvS6qsSGb5ZeGgGgIo2rd7EyEVgZNCAOBUQ1RDor/moJQFKG+qOnX2J/4wvOtrldwn/uoLdfidncu/qwhfdn09iJDEuP0DnXmvq+qIgDYAAAAASUVORK5CYII="
+          type: 'echarts|column|stack',
+          name: 'Stacked Column Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADWUlEQVR4Xu1dPW8TQRCdCwXhHwQFxemoCIqwW9LEvyBpkSgQNPwAEB8FBIUfkAJBE4kW/4K4Ca0vikg6qhgB4h8QCZFFIpzkwxvr+Xafszm/tJ4b7b03b2Zn5+6SWY3+ltrreWZ2K+SWnHP5QbfTGvTB8utbZxay+NSuZQHH8itCgAiSQgCQUBNWJLP8SiEAs1IIABJqwopkll8pBGBWCgFAQk1YkczyCyskz3OHgpCS3Yutbet/+xG0pMX5OXv28G7JR2y/zWbzzHZDfch/9CllBcVz+WJWamH5hVNWRIwm6ooFHMtvMoTcbK+/MWfXw9hynz91Ow8mceZUe0KWVtd6WZY1QwhxZnsHOx9KPljAsfwmoxARcnYonssuS4SIEDg7TuW2VwqRQqSQUQhIIVKIFCKFlBHwbRbUhwA60S4LAMlnok69InC+y1TUxyzq7AHVy61tOwocJDXm5+w5eZBUwHa8uWEnX/pBIZktNOzK46d/fSQ3oLpoCvnYWs4t9IlIs3ylt196IlJFHYhxX1EXIQhwEzx+FyEiBEAgoolqyJi7rIjYe12JEBECx1jSRf3G6tr9zLKr8N14DJ2574fdzrvBn6SQigphDfdFiAiBRZ50ypJCTnlMpg8RISIETy3T2KlLIVKIFDIKASkkEYUUA6rYbw4V5P/c3DAXOPCZWWjY7L+BT+GXtd4YA6qZxqLNPnoSNqBiKWS3tdzLzIKefjezvdu9/Yk8/V77ba8ISaxTFyEiBN+9eb4GpJSFwacaguFUtvId1illKWXBsTSVp70shdxbab//ZZeuweh7DC/b769vd3fuDP6kGoIhOlRDWESLEBHiR+CidepSCBDJk9xliRARAiBwauJiPGytlJXI8XtBuwgRIXAK8B2/17aGFAOqGIOZwTeHCrSPX7+yk/7ROOAP2foGVDS/Ed6gijKgYjVErEhm+WXh4IvIkV8DYi2EBRzLLwsHEYIlyaEjGRFSETgpBADO1xCxgGP5lUIAoqdq21vgwYoMViSz/LJwUFGvqDwRUhE4KQQATkU94mkvS6qsSGb5ZeGgGgIo2rd7EyEVgZNCAOBUQ1RDor/moJQFKG+qOnX2J/4wvOtrldwn/uoLdfidncu/qwhfdn09iJDEuP0DnXmvq+qIgDYAAAAASUVORK5CYII='
         }]
       }, {
-        type: "bar",
-        name: "Bar Chart",
-        icon: "icon-fsux_tubiao_duijizhuzhuangtu1",
+        type: 'bar',
+        name: 'Bar Chart',
+        icon: 'icon-fsux_tubiao_duijizhuzhuangtu1',
         data: [{
-          type: "echarts|bar|default",
-          name: "Basic Bar Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADzUlEQVR4Xu2cz2sTQRTHN4darX+CIIIXFawICSIeYqgiotFLUfCkKDaI9CAIEZRUKlgoViiCRRspqEWa6sHgSUv8gYgSEJF4UvGgF715EFrFkW0FUXd3Om/ey+4s3153vjOz38+bydt5TDMe/hLlQCZRs8FkPABJWBAACIAkzIGETQcrBEAS5kDCpoMV4gKQZrOpstmsMSyqzvckDm0cY+reNdD0F5M31ezIcME0eDpPnGxQdP44cWjjGNN/12Vj442wgA8E8ji3UZnCQPvFO9B1+aoHIIv3S7wlgIhbbDYAgJj5Jd4aQMQtNhsAQMz8Em9tDOTUoZL69O7DI9OZrVi9Kk/R+ePYaEuFXP77vfpZ0/l27CpWKDp/HBvt8rHxilGWtWF7r1Npb/V8OTSNjILkzIchgOjXmhTMwA9DAAEQvQMRLbBlWdnHLwYQfk+tekw9kBtTd9TQlUnj097y0QMNis6nYaOdGCqHnp6mIsuiZhBUna5GoFs+1HGpOsn5BmZZ1IlSdZIvmIoV4lqBKqrgkwogrhWoos6GAES34Qs8BxABU226BBAb9wS0ACJgqk2XAGLjnoA29UBcK1Ct3Lkjf3fmqXGBak/PlgpF58dUlFZlvNbr+9O1sNiL+l5LxfG7wKKz61KpqVcPbu8HEDsb+dQAwuclS08AwmIjXycAwuclS08AwmIjXyfcQFwrUFGLW1SdTy5Kq1Tmc2um9oYty6LWNag61EP+oEOBinBTTDKAcIOKcFPMB7J0+GIjVygYX/vTwcQNKuJPeeeRPm9TXwlAiP6xywCE3VK7DgHEzj92NYCwW2rXIYDY+ceubisQ1wpUUbevNs99ba378e1LEBGbW1BdlcFKrlhsT5bl2v2QqPD/6Xn7wqp3STxZSH3FEEDYd2u7DgHEzj92NYCwW2rXIYDY+ceuTgWQNBWoOmYzrZdPaoFprzNZFnWiVJ3uSFq3bKjjUnWS80WByoUC1fNrVTV3abSoi8x/ny853l+n6BYKPhfquZ5t7F++Ue/gzAqJ4waV1NkQgJguq9/tAWTBiMSUcAEEQGL5X8G6DA0rxIUsCz/q+h9CqQwtcIWcPnxMfXz7/qF+Wn+3yHWv3dr9rDFgqptPeyuDAxIFn1RkWdQCVXb9Gq86cq6t3xK6PRlAAES7QbTtjiFWiJbFfAMACfFJ6odZhwVAAEQXI/8/jyNa4xiTtGVVr99SoxPTxqe9Z/oP1nv37kaWpYlH4y2LGjlUnS5qdOuNOi5VJzlfUjTrDMJzugMAQvdORAkgIrbSOwUQunciyl+nJgacKCJJ0AAAAABJRU5ErkJggg=="
+          type: 'echarts|bar|default',
+          name: 'Basic Bar Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAADzUlEQVR4Xu2cz2sTQRTHN4darX+CIIIXFawICSIeYqgiotFLUfCkKDaI9CAIEZRUKlgoViiCRRspqEWa6sHgSUv8gYgSEJF4UvGgF715EFrFkW0FUXd3Om/ey+4s3153vjOz38+bydt5TDMe/hLlQCZRs8FkPABJWBAACIAkzIGETQcrBEAS5kDCpoMV4gKQZrOpstmsMSyqzvckDm0cY+reNdD0F5M31ezIcME0eDpPnGxQdP44cWjjGNN/12Vj442wgA8E8ji3UZnCQPvFO9B1+aoHIIv3S7wlgIhbbDYAgJj5Jd4aQMQtNhsAQMz8Em9tDOTUoZL69O7DI9OZrVi9Kk/R+ePYaEuFXP77vfpZ0/l27CpWKDp/HBvt8rHxilGWtWF7r1Npb/V8OTSNjILkzIchgOjXmhTMwA9DAAEQvQMRLbBlWdnHLwYQfk+tekw9kBtTd9TQlUnj097y0QMNis6nYaOdGCqHnp6mIsuiZhBUna5GoFs+1HGpOsn5BmZZ1IlSdZIvmIoV4lqBKqrgkwogrhWoos6GAES34Qs8BxABU226BBAb9wS0ACJgqk2XAGLjnoA29UBcK1Ct3Lkjf3fmqXGBak/PlgpF58dUlFZlvNbr+9O1sNiL+l5LxfG7wKKz61KpqVcPbu8HEDsb+dQAwuclS08AwmIjXycAwuclS08AwmIjXyfcQFwrUFGLW1SdTy5Kq1Tmc2um9oYty6LWNag61EP+oEOBinBTTDKAcIOKcFPMB7J0+GIjVygYX/vTwcQNKuJPeeeRPm9TXwlAiP6xywCE3VK7DgHEzj92NYCwW2rXIYDY+ceubisQ1wpUUbevNs99ba378e1LEBGbW1BdlcFKrlhsT5bl2v2QqPD/6Xn7wqp3STxZSH3FEEDYd2u7DgHEzj92NYCwW2rXIYDY+ceuTgWQNBWoOmYzrZdPaoFprzNZFnWiVJ3uSFq3bKjjUnWS80WByoUC1fNrVTV3abSoi8x/ny853l+n6BYKPhfquZ5t7F++Ue/gzAqJ4waV1NkQgJguq9/tAWTBiMSUcAEEQGL5X8G6DA0rxIUsCz/q+h9CqQwtcIWcPnxMfXz7/qF+Wn+3yHWv3dr9rDFgqptPeyuDAxIFn1RkWdQCVXb9Gq86cq6t3xK6PRlAAES7QbTtjiFWiJbFfAMACfFJ6odZhwVAAEQXI/8/jyNa4xiTtGVVr99SoxPTxqe9Z/oP1nv37kaWpYlH4y2LGjlUnS5qdOuNOi5VJzlfUjTrDMJzugMAQvdORAkgIrbSOwUQunciyl+nJgacKCJJ0AAAAABJRU5ErkJggg=='
         }, {
-          type: "echarts|bar|stack",
-          name: "Stacked Bar Chart",
-          img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAACiElEQVR4Xu2cP0oDURCHExBscwe9gBAP4AG8gAcQLGwEJZV/OkGwECtBO1OlECwNJNgpKVQ8QHIMJbAi24S4vsy44+wsfKln5738vpl5uzObNBt8QinQDLUbNtMASLAgAAhAgikQbDtkCECCKRBsO2RIHYCMRqOs3W6bw8JvTj+lQ6Hoz93b7OP8bMM6eJb39gd18js5OBycXnXNdehsb/3qtxDI4/paZg2jjv52Wyvu2wZIQnKAuMdjekGAAKS4l8UZkkcGGUKGkCGpGCBDyBAyhAwJlgUAAUhSAZ7UeVKvT4qEucui25sHTZhuL3OLxXOLMnmunocAJBiQCCVrp7UqDsLUwEfspMCwCr9h77KqOFDLwLO6FiBWShr5AYiRkFZuAGKlpJEfgBgJaeUGIFZKGvkBiJGQVm4AYqWkkR+AGAlp5QYgVkoa+QGIkZBWbgBipaSRH4AYCWnlJuzPEej2ziBmHhJsHgKQYEAiDKg0NbmK2bdkf0vT6fhleDeet1WPcOv29nvUYVaWNU7e+r1jgEjC18EGIA4ia5YAiEYtB1uAOIisWQIgGrUcbAHiILJmCYBo1HKwBYiDyJolAKJRy8EWIA4ia5YAiEYtB1uAOIisWcIMCN3eXPayP0cw6/YyDwk2DwFIMCBPN9fZ5+XFpqZeSmwnnaN777/Mm9/Xe783lOz126aKwHR96yTCIOn1oSf+c0+ASEO3hB1AZsQjQxafTZSsRLZRskqUIumllCxK1o9YCfMaEGcIZ8iP6KRkUbIoWakDngwhQ8gQMkT4EMBd1h/vsuj2LhZOGIOFZurnkCpaBv/1BevmV9yKLvPFuFauAEDkWrlYAsRFZvkiAJFr5WL5BeJU77Wa075tAAAAAElFTkSuQmCC"
+          type: 'echarts|bar|stack',
+          name: 'Stacked Bar Chart',
+          img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAACiElEQVR4Xu2cP0oDURCHExBscwe9gBAP4AG8gAcQLGwEJZV/OkGwECtBO1OlECwNJNgpKVQ8QHIMJbAi24S4vsy44+wsfKln5738vpl5uzObNBt8QinQDLUbNtMASLAgAAhAgikQbDtkCECCKRBsO2RIHYCMRqOs3W6bw8JvTj+lQ6Hoz93b7OP8bMM6eJb39gd18js5OBycXnXNdehsb/3qtxDI4/paZg2jjv52Wyvu2wZIQnKAuMdjekGAAKS4l8UZkkcGGUKGkCGpGCBDyBAyhAwJlgUAAUhSAZ7UeVKvT4qEucui25sHTZhuL3OLxXOLMnmunocAJBiQCCVrp7UqDsLUwEfspMCwCr9h77KqOFDLwLO6FiBWShr5AYiRkFZuAGKlpJEfgBgJaeUGIFZKGvkBiJGQVm4AYqWkkR+AGAlp5QYgVkoa+QGIkZBWbgBipaSRH4AYCWnlJuzPEej2ziBmHhJsHgKQYEAiDKg0NbmK2bdkf0vT6fhleDeet1WPcOv29nvUYVaWNU7e+r1jgEjC18EGIA4ia5YAiEYtB1uAOIisWQIgGrUcbAHiILJmCYBo1HKwBYiDyJolAKJRy8EWIA4ia5YAiEYtB1uAOIisWcIMCN3eXPayP0cw6/YyDwk2DwFIMCBPN9fZ5+XFpqZeSmwnnaN777/Mm9/Xe783lOz126aKwHR96yTCIOn1oSf+c0+ASEO3hB1AZsQjQxafTZSsRLZRskqUIumllCxK1o9YCfMaEGcIZ8iP6KRkUbIoWakDngwhQ8gQMkT4EMBd1h/vsuj2LhZOGIOFZurnkCpaBv/1BevmV9yKLvPFuFauAEDkWrlYAsRFZvkiAJFr5WL5BeJU77Wa075tAAAAAElFTkSuQmCC'
         }]
       }, {
-        type: "pie",
-        name: "Pie Chart",
-        icon: "icon-fsux_tubiao_nandingmeiguitu",
+        type: 'pie',
+        name: 'Pie Chart',
+        icon: 'icon-fsux_tubiao_nandingmeiguitu',
         data: [{
-          type: "echarts|pie|default",
-          name: "Basic Pie Chart",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|default',
+          name: 'Basic Pie Chart',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|pie|split",
-          name: "Split Pie Chart",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|split',
+          name: 'Split Pie Chart',
+          img: 'data:image/png;base64,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'
         }, {
-          type: "echarts|pie|ring",
-          name: "Doughnut Chart",
-          img: "data:image/png;base64,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"
+          type: 'echarts|pie|ring',
+          name: 'Doughnut Chart',
+          img: 'data:image/png;base64,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'
         }]
       }]
     };
   },
   mounted: function mounted() {
-    if (this.lang == "zh") {
+    if (this.lang == 'zh') {
       this.config[0].data = this.echartsCN;
-      this.close = "关闭图表选择菜单";
+      this.close = '关闭图表选择菜单';
       this.chooseConfig();
       return;
     }
 
     this.config[0].data = this.echartsEN;
-    this.close = "close chart-select menu";
+    this.close = 'close chart-select menu';
     this.chooseConfig();
   },
-  computed: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapState"])("chartSetting", ["chartLists", "currentChartIndex"])), {}, {
+  computed: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapState"])('chartSetting', ['chartLists', 'currentChartIndex'])), {}, {
     chartPro: function chartPro() {
-      return this.chartAllType.split("|")[0];
+      return this.chartAllType.split('|')[0];
     },
     chartType: function chartType() {
-      return this.chartAllType.split("|")[1];
+      return this.chartAllType.split('|')[1];
     },
     chartStyle: function chartStyle() {
-      return this.chartAllType.split("|")[2];
+      return this.chartAllType.split('|')[2];
     }
   }),
   watch: {
-    currentChartType: function currentChartType(val) {
+    currentChartType: function currentChartType(val, oldVal) {
       this.chartAllType = val;
     },
     lang: function lang(val) {
-      if (this.lang == "zh") {
+      if (this.lang == 'zh') {
         this.config[0].data = this.echartsCN;
-        this.close = "关闭图表选择菜单";
+        this.close = '关闭图表选择菜单';
         this.chooseConfig();
         return;
       }
 
       this.config[0].data = this.echartsEN;
-      this.close = "close chart-select menu";
+      this.close = 'close chart-select menu';
       this.chooseConfig();
     }
   },
-  methods: {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, Object(external_Vuex_["mapActions"])('chartSetting', ['updateChartType'])), {}, {
     chooseConfig: function chooseConfig() {
       for (var i = 0; i < this.config.length; i++) {
         if (this.config[i].type == this.chartPro) {
@@ -11080,6 +11044,11 @@ var en_obj = {
         return null;
       }
 
+      this.updateChartType({
+        isChangeType: true,
+        oldVal: this.currentChartType,
+        newVal: value
+      });
       chartUtil_changeChangeAllType(Object(util["b" /* deepCopy */])(this.chartLists[this.currentChartIndex].chartOptions), value);
       this.$emit('closeChartShowList');
       this.chartAllType = value;
@@ -11089,26 +11058,26 @@ var en_obj = {
 
       var _this = this;
 
-      jquery_default()(e.currentTarget).find("div.luckysheet-datavisual-quick-list-title").each(function () {
+      jquery_default()(e.currentTarget).find('div.luckysheet-datavisual-quick-list-title').each(function () {
         var $t = jquery_default()(this),
             position = $t.position(); //console.log($t.find("a").data("type"),position.top, scrollTop);
 
         if (scrollTop >= _this.list_scroll_direction) {
           if (position.top + 55 > 0) {
-            jquery_default()("#luckysheet-datavisual-quick-menu div").removeClass("luckysheet-datavisual-quick-menu-active");
-            jquery_default()("#luckysheet-datavisual-chart-menu-" + $t.find("a").data("type")).addClass("luckysheet-datavisual-quick-menu-active");
+            jquery_default()('#luckysheet-datavisual-quick-menu div').removeClass('luckysheet-datavisual-quick-menu-active');
+            jquery_default()('#luckysheet-datavisual-chart-menu-' + $t.find('a').data('type')).addClass('luckysheet-datavisual-quick-menu-active');
             return false;
           }
         } else {
           if (position.top - 55 >= 0) {
-            jquery_default()("#luckysheet-datavisual-quick-menu div").removeClass("luckysheet-datavisual-quick-menu-active");
+            jquery_default()('#luckysheet-datavisual-quick-menu div').removeClass('luckysheet-datavisual-quick-menu-active');
             var $obj = $t.prev().prev();
 
             if ($obj.length == 0) {
               $obj = $t;
             }
 
-            jquery_default()("#luckysheet-datavisual-chart-menu-" + $obj.find("a").data("type")).addClass("luckysheet-datavisual-quick-menu-active");
+            jquery_default()('#luckysheet-datavisual-chart-menu-' + $obj.find('a').data('type')).addClass('luckysheet-datavisual-quick-menu-active');
             return false;
           }
         }
@@ -11120,13 +11089,13 @@ var en_obj = {
     },
     quickMenu: function quickMenu(e) {
       var $t = jquery_default()(e.currentTarget);
-      jquery_default()("#luckysheet-datavisual-quick-menu div").removeClass("luckysheet-datavisual-quick-menu-active");
-      $t.addClass("luckysheet-datavisual-quick-menu-active");
-      var $scroll = jquery_default()("#luckysheet-datavisual-chart-listtitle-" + $t.data("type")).parent(),
+      jquery_default()('#luckysheet-datavisual-quick-menu div').removeClass('luckysheet-datavisual-quick-menu-active');
+      $t.addClass('luckysheet-datavisual-quick-menu-active');
+      var $scroll = jquery_default()('#luckysheet-datavisual-chart-listtitle-' + $t.data('type')).parent(),
           p = $scroll.position().top;
-      jquery_default()("#luckysheet-datavisual-quick-list").scrollTop(p + 5 + jquery_default()("#luckysheet-datavisual-quick-list").scrollTop());
+      jquery_default()('#luckysheet-datavisual-quick-list').scrollTop(p + 5 + jquery_default()('#luckysheet-datavisual-quick-list').scrollTop());
     }
-  }
+  })
 });
 // CONCATENATED MODULE: ./src/packages/ChartMix/ChartList.vue?vue&type=script&lang=js&
  /* harmony default export */ var ChartMix_ChartListvue_type_script_lang_js_ = (ChartListvue_type_script_lang_js_); 
@@ -11147,8 +11116,8 @@ var componentNormalizer = __webpack_require__("c701");
 
 var component = Object(componentNormalizer["a" /* default */])(
   ChartMix_ChartListvue_type_script_lang_js_,
-  ChartListvue_type_template_id_27c02d86_render,
-  ChartListvue_type_template_id_27c02d86_staticRenderFns,
+  ChartListvue_type_template_id_35dd2a38_render,
+  ChartListvue_type_template_id_35dd2a38_staticRenderFns,
   false,
   null,
   null,
@@ -12702,12 +12671,12 @@ var ChartAxis_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var ChartAxis = (ChartAxis_component.exports);
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartEchartsSeries.vue?vue&type=template&id=a4f9cbdc&
-var ChartEchartsSeriesvue_type_template_id_a4f9cbdc_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"9","title":"系列"}},[_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":10}},[_vm._v("系列设置")]),_c('el-col',{attrs:{"span":12}},[_c('el-select',{attrs:{"size":"mini"},model:{value:(_vm.seriesValue),callback:function ($$v) {_vm.seriesValue=$$v},expression:"seriesValue"}},_vm._l((_vm.seriesOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item,"value":item}})}),1)],1)],1),_c('el-row',[_c('el-col',{attrs:{"span":6}},[_vm._v("类型")]),_c('el-col',{attrs:{"span":12}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.exType},model:{value:(_vm.series.type),callback:function ($$v) {_vm.$set(_vm.series, "type", $$v)},expression:"series.type"}},_vm._l((_vm.typeOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)],1),_c('chart-base-radio',{attrs:{"radioValue":_vm.series.yradio,"radioOption":_vm.radioOption,"prop":'yradio'},on:{"update:radioValue":function($event){return _vm.$set(_vm.series, "yradio", $event)},"update:radio-value":function($event){return _vm.$set(_vm.series, "yradio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("Y轴主次坐标")])]),_c('chart-base-radio',{attrs:{"radioValue":_vm.series.xradio,"radioOption":_vm.radioOption,"prop":'xradio'},on:{"update:radioValue":function($event){return _vm.$set(_vm.series, "xradio", $event)},"update:radio-value":function($event){return _vm.$set(_vm.series, "xradio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("X轴主次坐标")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'line'),expression:"series.type == 'line'"}]},[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":3}},[_vm._v("线条")]),_c('el-col',{attrs:{"span":9}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectValue":_vm.series.lineWidth,"selectOption":_vm.lineWidthOption,"prop":'lineWidth'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "lineWidth", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "lineWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":9}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectValue":_vm.series.lineType,"selectOption":_vm.lineStyleOption,"prop":'lineType'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "lineType", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "lineType", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.lineColor),callback:function ($$v) {_vm.$set(_vm.series, "lineColor", $$v)},expression:"series.lineColor"}})],1)],1),_c('chart-base-box',{attrs:{"boxData":_vm.series.lineStyle,"checkboxOption":_vm.lineTypeOption,"showCol":true,"prop":'lineStyle'},on:{"update:boxData":function($event){return _vm.$set(_vm.series, "lineStyle", $event)},"update:box-data":function($event){return _vm.$set(_vm.series, "lineStyle", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("线条样式")])]),(_vm.series.lineWidth == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cuslineWidth,"unit":'px',"content":'滑动修改线宽',"prop":'cuslineWidth'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cuslineWidth", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cuslineWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showSymbol,"prop":'showSymbol'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showSymbol", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showSymbol", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("数据点")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":4}},[_vm._v("数据点样式")]),_c('el-col',{attrs:{"span":8}},[_c('chart-base-select',{attrs:{"selectValue":_vm.series.symbolSize,"prop":'symbolSize',"selectOption":_vm.symbolSizeOption},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "symbolSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "symbolSize", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":8}},[_c('chart-base-select',{attrs:{"selectValue":_vm.series.symbol,"prop":'symbol',"selectOption":_vm.symbolOption},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "symbol", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "symbol", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.itemColor),callback:function ($$v) {_vm.$set(_vm.series, "itemColor", $$v)},expression:"series.itemColor"}})],1)],1),(_vm.series.symbolSize == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusSymbolSize,"unit":'px',"prop":'cusSymbolSize',"content":'滑动修改数据点大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusSymbolSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusSymbolSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'bar'),expression:"series.type == 'bar'"}]},[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("柱状图颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.barColor),callback:function ($$v) {_vm.$set(_vm.series, "barColor", $$v)},expression:"series.barColor"}})],1)],1),_c('chart-base-select',{attrs:{"prop":'barWidth',"selectOption":_vm.barWidthOption,"selectValue":_vm.series.barWidth},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "barWidth", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barWidth", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("柱状宽度")])]),(_vm.series.barWidth == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarWidth,"unit":'px',"prop":'cusbarWidth',"content":'滑动修改柱子宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarWidth", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{attrs:{"selectOption":_vm.barMinHeightOption,"prop":'barMinHeight',"selectValue":_vm.series.barMinHeight},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "barMinHeight", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barMinHeight", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("柱条最小高度")])]),(_vm.series.barMinHeight == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarMinHeight,"unit":'px',"prop":'cusbarMinHeight',"content":'滑动修改柱条最小高度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarMinHeight", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarMinHeight", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(!_vm.chart_style.includes('stack')),expression:"!chart_style.includes('stack')"}],attrs:{"selectOption":_vm.barGapOption,"selectValue":_vm.series.barGap,"prop":'barGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("不同系列的柱间距离")])]),(_vm.series.barGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarGap,"unit":'%',"min":-100,"prop":'cusbarGap',"content":'滑动修改不同系列的柱间距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(!_vm.chart_style.includes('stack')),expression:"!chart_style.includes('stack')"}],attrs:{"selectOption":_vm.barCategoryGapOption,"selectValue":_vm.series.barCategoryGap,"prop":'barCategoryGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("相同系列的柱间距离")])]),(_vm.series.barCategoryGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarCategoryGap,"unit":'%',"min":-100,"prop":'cusbarCategoryGap',"content":'滑动修改相同系列的柱间距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showLabel,"prop":'showLabel'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showLabel", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showLabel", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示数据标签")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.showLabel),expression:"series.showLabel"}]},[_c('chart-base-select',{attrs:{"selectOption":_vm.formatterOption,"selectValue":_vm.series['format-format'],"prop":'format-format'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-format', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-format', $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("标签显示格式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.digitOption,"prop":'format-digit',"selectValue":_vm.series['format-digit']},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-digit', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-digit', $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("小数位数")])]),_c('chart-base-select',{attrs:{"prop":'format-ratio',"selectOption":_vm.ratioOption,"selectValue":_vm.series['format-ratio']},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-ratio', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-ratio', $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("数值比例")])]),_c('chart-base-input',{attrs:{"type":'text',"prop":'format-prefix',"inputValue":_vm.series['format-prefix'],"placeholder":'标签前缀'},on:{"summit":function($event){return _vm.summit(arguments)},"update:inputValue":function($event){return _vm.$set(_vm.series, 'format-prefix', $event)},"update:input-value":function($event){return _vm.$set(_vm.series, 'format-prefix', $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签前缀")])]),_c('chart-base-input',{attrs:{"type":'text',"prop":'format-suffix',"inputValue":_vm.series['format-suffix'],"placeholder":'标签后缀'},on:{"summit":function($event){return _vm.summit(arguments)},"update:inputValue":function($event){return _vm.$set(_vm.series, 'format-suffix', $event)},"update:input-value":function($event){return _vm.$set(_vm.series, 'format-suffix', $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签后缀")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":7}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectOption":_vm.textPosOption,"prop":'textPos',"selectValue":_vm.series.textPos,"tooltip":'标签位置'},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "textPos", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "textPos", $event)}}})],1),_c('el-col',{attrs:{"span":7}},[_c('el-checkbox-group',{attrs:{"size":"mini","prop":'fontPlace'},on:{"summit":function($event){return _vm.summit(arguments)}},model:{value:(_vm.series.fontPlace),callback:function ($$v) {_vm.$set(_vm.series, "fontPlace", $$v)},expression:"series.fontPlace"}},[_c('el-checkbox-button',{attrs:{"label":"bold"}},[_vm._v("B")]),_c('el-checkbox-button',{staticStyle:{"fontstyle":"italic"},attrs:{"label":"italic"}},[_vm._v("I")])],1)],1),_c('el-col',{attrs:{"span":7}},[_c('chart-base-select',{attrs:{"hideCol":true,"prop":'fontSize',"selectOption":_vm.fontSizeOption,"selectValue":_vm.series.fontSize,"tooltip":'字体大小'},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "fontSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "fontSize", $event)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.fzColor),callback:function ($$v) {_vm.$set(_vm.series, "fzColor", $$v)},expression:"series.fzColor"}})],1)],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.textPos == 'custom'),expression:"series.textPos == 'custom'"}]},[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.offsetX,"unit":'%',"content":'滑动修改水平距离',"max":500,"min":-200,"prop":'offsetX'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "offsetX", $event)},"summit":function($event){return _vm.summit(arguments)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.offsetY,"unit":'%',"content":'滑动修改垂直距离',"max":200,"min":-200,"prop":'offsetY'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "offsetY", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),(_vm.series.fontSize == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.customSize,"prop":'customSize',"unit":'px',"content":'滑动修改字体大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "customSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "customSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('div',[_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showStack,"prop":'showStack'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showStack", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showStack", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("设置为堆叠图")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.showStack),expression:"series.showStack"}]},[_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.stackValue,"placeholder":'堆叠名称',"prop":'stackValue'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series, "stackValue", $event)},"update:input-value":function($event){return _vm.$set(_vm.series, "stackValue", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("堆叠名称")])]),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'bar'),expression:"series.type == 'bar'"}],attrs:{"selectOption":_vm.barCategoryGapOption,"selectValue":_vm.series.barCategoryGap,"prop":'barCategoryGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("类目间柱形距离")])]),(_vm.series.barCategoryGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarCategoryGap,"unit":'%',"min":-100,"prop":'cusbarCategoryGap',"content":'滑动修改类目间柱形距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1)],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.ype == 'line'),expression:"series.ype == 'line'"}]},[_c('chart-base-switch',{attrs:{"switchValue":_vm.show},on:{"update:switchValue":function($event){_vm.show=$event},"update:switch-value":function($event){_vm.show=$event}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("设置为面积图")])]),_c('el-row',{directives:[{name:"show",rawName:"v-show",value:(_vm.show),expression:"show"}],staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v("面积图覆盖颜色")]),_c('el-col',{attrs:{"span":18}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.areaColor),callback:function ($$v) {_vm.$set(_vm.series, "areaColor", $$v)},expression:"series.areaColor"}})],1)],1)],1)],1)}
-var ChartEchartsSeriesvue_type_template_id_a4f9cbdc_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartEchartsSeries.vue?vue&type=template&id=ce246c58&
+var ChartEchartsSeriesvue_type_template_id_ce246c58_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"9","title":"系列"}},[_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('i',{staticClass:"el-icon-menu"})]),_c('el-col',{attrs:{"span":10}},[_vm._v("系列设置")]),_c('el-col',{attrs:{"span":12}},[_c('el-select',{attrs:{"size":"mini"},model:{value:(_vm.seriesValue),callback:function ($$v) {_vm.seriesValue=$$v},expression:"seriesValue"}},_vm._l((_vm.seriesOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item,"value":item}})}),1)],1)],1),_c('el-row',[_c('el-col',{attrs:{"span":6}},[_vm._v("类型")]),_c('el-col',{attrs:{"span":12}},[_c('el-select',{attrs:{"size":"mini"},on:{"change":_vm.exType},model:{value:(_vm.series.type),callback:function ($$v) {_vm.$set(_vm.series, "type", $$v)},expression:"series.type"}},_vm._l((_vm.typeOption),function(item,i){return _c('el-option',{key:i,attrs:{"label":item.label,"value":item.value}})}),1)],1)],1),_c('chart-base-radio',{attrs:{"radioValue":_vm.series.yradio,"radioOption":_vm.radioOption,"prop":'yradio'},on:{"update:radioValue":function($event){return _vm.$set(_vm.series, "yradio", $event)},"update:radio-value":function($event){return _vm.$set(_vm.series, "yradio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("Y轴主次坐标")])]),_c('chart-base-radio',{attrs:{"radioValue":_vm.series.xradio,"radioOption":_vm.radioOption,"prop":'xradio'},on:{"update:radioValue":function($event){return _vm.$set(_vm.series, "xradio", $event)},"update:radio-value":function($event){return _vm.$set(_vm.series, "xradio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("X轴主次坐标")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'line'),expression:"series.type == 'line'"}]},[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":3}},[_vm._v("线条")]),_c('el-col',{attrs:{"span":9}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectValue":_vm.series.lineWidth,"selectOption":_vm.lineWidthOption,"prop":'lineWidth'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "lineWidth", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "lineWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":9}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectValue":_vm.series.lineType,"selectOption":_vm.lineStyleOption,"prop":'lineType'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "lineType", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "lineType", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.lineColor),callback:function ($$v) {_vm.$set(_vm.series, "lineColor", $$v)},expression:"series.lineColor"}})],1)],1),_c('chart-base-box',{attrs:{"boxData":_vm.series.lineStyle,"checkboxOption":_vm.lineTypeOption,"showCol":true,"prop":'lineStyle'},on:{"update:boxData":function($event){return _vm.$set(_vm.series, "lineStyle", $event)},"update:box-data":function($event){return _vm.$set(_vm.series, "lineStyle", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("线条样式")])]),(_vm.series.lineWidth == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cuslineWidth,"unit":'px',"content":'滑动修改线宽',"prop":'cuslineWidth'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cuslineWidth", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cuslineWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showSymbol,"prop":'showSymbol'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showSymbol", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showSymbol", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("数据点")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":4}},[_vm._v("数据点样式")]),_c('el-col',{attrs:{"span":8}},[_c('chart-base-select',{attrs:{"selectValue":_vm.series.symbolSize,"prop":'symbolSize',"selectOption":_vm.symbolSizeOption},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "symbolSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "symbolSize", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":8}},[_c('chart-base-select',{attrs:{"selectValue":_vm.series.symbol,"prop":'symbol',"selectOption":_vm.symbolOption},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "symbol", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "symbol", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.itemColor),callback:function ($$v) {_vm.$set(_vm.series, "itemColor", $$v)},expression:"series.itemColor"}})],1)],1),(_vm.series.symbolSize == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusSymbolSize,"unit":'px',"prop":'cusSymbolSize',"content":'滑动修改数据点大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusSymbolSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusSymbolSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'bar'),expression:"series.type == 'bar'"}]},[_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v("柱状图颜色")]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.barColor),callback:function ($$v) {_vm.$set(_vm.series, "barColor", $$v)},expression:"series.barColor"}})],1)],1),_c('chart-base-select',{attrs:{"prop":'barWidth',"selectOption":_vm.barWidthOption,"selectValue":_vm.series.barWidth},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "barWidth", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barWidth", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("柱状宽度")])]),(_vm.series.barWidth == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarWidth,"unit":'px',"prop":'cusbarWidth',"content":'滑动修改柱子宽度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarWidth", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarWidth", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{attrs:{"selectOption":_vm.barMinHeightOption,"prop":'barMinHeight',"selectValue":_vm.series.barMinHeight},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "barMinHeight", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barMinHeight", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("柱条最小高度")])]),(_vm.series.barMinHeight == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarMinHeight,"unit":'px',"prop":'cusbarMinHeight',"content":'滑动修改柱条最小高度'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarMinHeight", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarMinHeight", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(!_vm.chart_style.includes('stack')),expression:"!chart_style.includes('stack')"}],attrs:{"selectOption":_vm.barGapOption,"selectValue":_vm.series.barGap,"prop":'barGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("不同系列的柱间距离")])]),(_vm.series.barGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarGap,"unit":'%',"min":-100,"prop":'cusbarGap',"content":'滑动修改不同系列的柱间距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(!_vm.chart_style.includes('stack')),expression:"!chart_style.includes('stack')"}],attrs:{"selectOption":_vm.barCategoryGapOption,"selectValue":_vm.series.barCategoryGap,"prop":'barCategoryGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("相同系列的柱间距离")])]),(_vm.series.barCategoryGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarCategoryGap,"unit":'%',"min":-100,"prop":'cusbarCategoryGap',"content":'滑动修改相同系列的柱间距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showLabel,"prop":'showLabel'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showLabel", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showLabel", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示数据标签")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.showLabel),expression:"series.showLabel"}]},[_c('chart-base-select',{attrs:{"selectOption":_vm.formatterOption,"selectValue":_vm.series['format-format'],"prop":'format-format'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-format', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-format', $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("标签显示格式")])]),_c('chart-base-select',{attrs:{"selectOption":_vm.digitOption,"prop":'format-digit',"selectValue":_vm.series['format-digit']},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-digit', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-digit', $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("小数位数")])]),_c('chart-base-select',{attrs:{"prop":'format-ratio',"selectOption":_vm.ratioOption,"selectValue":_vm.series['format-ratio']},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, 'format-ratio', $event)},"update:select-value":function($event){return _vm.$set(_vm.series, 'format-ratio', $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("数值比例")])]),_c('chart-base-input',{attrs:{"type":'text',"prop":'format-prefix',"inputValue":_vm.series['format-prefix'],"placeholder":'标签前缀'},on:{"summit":function($event){return _vm.summit(arguments)},"update:inputValue":function($event){return _vm.$set(_vm.series, 'format-prefix', $event)},"update:input-value":function($event){return _vm.$set(_vm.series, 'format-prefix', $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签前缀")])]),_c('chart-base-input',{attrs:{"type":'text',"prop":'format-suffix',"inputValue":_vm.series['format-suffix'],"placeholder":'标签后缀'},on:{"summit":function($event){return _vm.summit(arguments)},"update:inputValue":function($event){return _vm.$set(_vm.series, 'format-suffix', $event)},"update:input-value":function($event){return _vm.$set(_vm.series, 'format-suffix', $event)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("标签后缀")])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":7}},[_c('chart-base-select',{attrs:{"hideCol":true,"selectOption":_vm.textPosOption,"prop":'textPos',"selectValue":_vm.series.textPos,"tooltip":'标签位置'},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "textPos", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "textPos", $event)}}})],1),_c('el-col',{attrs:{"span":7}},[_c('el-checkbox-group',{attrs:{"size":"mini","prop":'fontPlace'},on:{"summit":function($event){return _vm.summit(arguments)}},model:{value:(_vm.series.fontPlace),callback:function ($$v) {_vm.$set(_vm.series, "fontPlace", $$v)},expression:"series.fontPlace"}},[_c('el-checkbox-button',{attrs:{"label":"bold"}},[_vm._v("B")]),_c('el-checkbox-button',{staticStyle:{"fontstyle":"italic"},attrs:{"label":"italic"}},[_vm._v("I")])],1)],1),_c('el-col',{attrs:{"span":7}},[_c('chart-base-select',{attrs:{"hideCol":true,"prop":'fontSize',"selectOption":_vm.fontSizeOption,"selectValue":_vm.series.fontSize,"tooltip":'字体大小'},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.series, "fontSize", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "fontSize", $event)}}})],1),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.fzColor),callback:function ($$v) {_vm.$set(_vm.series, "fzColor", $$v)},expression:"series.fzColor"}})],1)],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.textPos == 'custom'),expression:"series.textPos == 'custom'"}]},[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.offsetX,"unit":'%',"content":'滑动修改水平距离',"max":500,"min":-200,"prop":'offsetX'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "offsetX", $event)},"summit":function($event){return _vm.summit(arguments)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.offsetY,"unit":'%',"content":'滑动修改垂直距离',"max":200,"min":-200,"prop":'offsetY'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "offsetY", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1),(_vm.series.fontSize == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.customSize,"prop":'customSize',"unit":'px',"content":'滑动修改字体大小'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "customSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "customSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('div',[_c('chart-base-switch',{attrs:{"switchValue":_vm.series.showStack,"prop":'showStack'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "showStack", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "showStack", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("设置为堆叠图")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.showStack),expression:"series.showStack"}]},[_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.stackValue,"placeholder":'堆叠名称',"prop":'stackValue'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series, "stackValue", $event)},"update:input-value":function($event){return _vm.$set(_vm.series, "stackValue", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v("堆叠名称")])]),_c('chart-base-select',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.type == 'bar'),expression:"series.type == 'bar'"}],attrs:{"selectOption":_vm.barCategoryGapOption,"selectValue":_vm.series.barCategoryGap,"prop":'barCategoryGap'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"update:select-value":function($event){return _vm.$set(_vm.series, "barCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("类目间柱形距离")])]),(_vm.series.barCategoryGap == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.cusbarCategoryGap,"unit":'%',"min":-100,"prop":'cusbarCategoryGap',"content":'滑动修改类目间柱形距离'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series, "cusbarCategoryGap", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1)],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.ype == 'line'),expression:"series.ype == 'line'"}]},[_c('chart-base-switch',{attrs:{"switchValue":_vm.show},on:{"update:switchValue":function($event){_vm.show=$event},"update:switch-value":function($event){_vm.show=$event}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("设置为面积图")])]),_c('el-row',{directives:[{name:"show",rawName:"v-show",value:(_vm.show),expression:"show"}],staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v("面积图覆盖颜色")]),_c('el-col',{attrs:{"span":18}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.areaColor),callback:function ($$v) {_vm.$set(_vm.series, "areaColor", $$v)},expression:"series.areaColor"}})],1)],1)],1)],1)}
+var ChartEchartsSeriesvue_type_template_id_ce246c58_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartEchartsSeries.vue?vue&type=template&id=a4f9cbdc&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartEchartsSeries.vue?vue&type=template&id=ce246c58&
 
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--12-0!./node_modules/_thread-loader@2.1.3@thread-loader/dist/cjs.js!./node_modules/_babel-loader@8.2.2@babel-loader/lib!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartEchartsSeries.vue?vue&type=script&lang=js&
 
@@ -13489,8 +13458,8 @@ var ChartEchartsSeriesvue_type_template_id_a4f9cbdc_staticRenderFns = []
         updateObj: importUtil["deepCopy"](this.seriesData),
         router: this.router
       };
-      this.updateChartItem(updateObj);
       this.updateCurrentProp(prop);
+      this.updateChartItem(updateObj);
     },
     exType: function exType() {
       this.prop = 'type';
@@ -13515,8 +13484,8 @@ var ChartEchartsSeriesvue_type_template_id_a4f9cbdc_staticRenderFns = []
 
 var ChartEchartsSeries_component = Object(componentNormalizer["a" /* default */])(
   chart_ChartEchartsSeriesvue_type_script_lang_js_,
-  ChartEchartsSeriesvue_type_template_id_a4f9cbdc_render,
-  ChartEchartsSeriesvue_type_template_id_a4f9cbdc_staticRenderFns,
+  ChartEchartsSeriesvue_type_template_id_ce246c58_render,
+  ChartEchartsSeriesvue_type_template_id_ce246c58_staticRenderFns,
   false,
   null,
   null,
@@ -13532,8 +13501,8 @@ var PieSeriesvue_type_template_id_2eee34ba_staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/PieSeries.vue?vue&type=template&id=2eee34ba&
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__("d7d9");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.concat.js
+var es_array_concat = __webpack_require__("445a");
 
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--12-0!./node_modules/_thread-loader@2.1.3@thread-loader/dist/cjs.js!./node_modules/_babel-loader@8.2.2@babel-loader/lib!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/PieSeries.vue?vue&type=script&lang=js&
 
@@ -15248,7 +15217,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   getChartJson: getChartJson,
   insertToStore: insertToStore,
   updateChart: chartUtil_updateChart,
-  restoreChart: chartUtil_restoreChart
+  restoreChart: chartUtil_restoreChart,
+  changeChartType: exportUtil_changeChartType
 }));
 // CONCATENATED MODULE: ./node_modules/_@vue_cli-service@4.4.6@@vue/cli-service/lib/commands/build/entry-lib.js
 
@@ -15259,99 +15229,101 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 /***/ }),
 
-/***/ "9939":
+/***/ "989e":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__("485e");
-var createIteratorConstructor = __webpack_require__("30ce");
-var getPrototypeOf = __webpack_require__("2eea");
-var setPrototypeOf = __webpack_require__("b14e");
-var setToStringTag = __webpack_require__("27e6");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var redefine = __webpack_require__("d496");
-var wellKnownSymbol = __webpack_require__("6d05");
-var IS_PURE = __webpack_require__("7fe9");
-var Iterators = __webpack_require__("9b64");
-var IteratorsCore = __webpack_require__("08f7");
+var $ = __webpack_require__("a09b");
+var toAbsoluteIndex = __webpack_require__("0119");
+var toInteger = __webpack_require__("0296");
+var toLength = __webpack_require__("c3a3");
+var toObject = __webpack_require__("6050");
+var arraySpeciesCreate = __webpack_require__("28ea");
+var createProperty = __webpack_require__("8863");
+var arrayMethodHasSpeciesSupport = __webpack_require__("4d7f");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
 
-var IteratorPrototype = IteratorsCore.IteratorPrototype;
-var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-var ITERATOR = wellKnownSymbol('iterator');
-var KEYS = 'keys';
-var VALUES = 'values';
-var ENTRIES = 'entries';
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('splice');
+var USES_TO_LENGTH = arrayMethodUsesToLength('splice', { ACCESSORS: true, 0: 0, 1: 2 });
 
-var returnThis = function () { return this; };
+var max = Math.max;
+var min = Math.min;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
 
-module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-  createIteratorConstructor(IteratorConstructor, NAME, next);
-
-  var getIterationMethod = function (KIND) {
-    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
-    switch (KIND) {
-      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-    } return function () { return new IteratorConstructor(this); };
-  };
-
-  var TO_STRING_TAG = NAME + ' Iterator';
-  var INCORRECT_VALUES_NAME = false;
-  var IterablePrototype = Iterable.prototype;
-  var nativeIterator = IterablePrototype[ITERATOR]
-    || IterablePrototype['@@iterator']
-    || DEFAULT && IterablePrototype[DEFAULT];
-  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
-  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
-  var CurrentIteratorPrototype, methods, KEY;
-
-  // fix native
-  if (anyNativeIterator) {
-    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
-    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
-        if (setPrototypeOf) {
-          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
-        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
-          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
-        }
-      }
-      // Set @@toStringTag to native iterators
-      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
-      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+// `Array.prototype.splice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
     }
-  }
-
-  // fix Array#{values, @@iterator}.name in V8 / FF
-  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-    INCORRECT_VALUES_NAME = true;
-    defaultIterator = function values() { return nativeIterator.call(this); };
-  }
-
-  // define iterator
-  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
-    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
-  }
-  Iterators[NAME] = defaultIterator;
-
-  // export additional methods
-  if (DEFAULT) {
-    methods = {
-      values: getIterationMethod(VALUES),
-      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-      entries: getIterationMethod(ENTRIES)
-    };
-    if (FORCED) for (KEY in methods) {
-      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-        redefine(IterablePrototype, KEY, methods[KEY]);
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
       }
-    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
   }
+});
 
-  return methods;
+
+/***/ }),
+
+/***/ "98f2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("1f17");
+
+var MATCH = wellKnownSymbol('match');
+
+module.exports = function (METHOD_NAME) {
+  var regexp = /./;
+  try {
+    '/./'[METHOD_NAME](regexp);
+  } catch (error1) {
+    try {
+      regexp[MATCH] = false;
+      return '/./'[METHOD_NAME](regexp);
+    } catch (error2) { /* empty */ }
+  } return false;
 };
 
 
@@ -15392,28 +15364,311 @@ module.exports = baseIsEqual;
 
 /***/ }),
 
-/***/ "996e":
+/***/ "9985":
 /***/ (function(module, exports, __webpack_require__) {
 
-var getBuiltIn = __webpack_require__("4b56");
-var getOwnPropertyNamesModule = __webpack_require__("6b64");
-var getOwnPropertySymbolsModule = __webpack_require__("9349");
-var anObject = __webpack_require__("b973");
+"use strict";
 
-// all object keys, includes non-enumerable and symbols
-module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
-  var keys = getOwnPropertyNamesModule.f(anObject(it));
-  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
-  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
+var TO_STRING_TAG_SUPPORT = __webpack_require__("6526");
+var classof = __webpack_require__("4154");
+
+// `Object.prototype.toString` method implementation
+// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
+  return '[object ' + classof(this) + ']';
 };
 
 
 /***/ }),
 
-/***/ "9b64":
-/***/ (function(module, exports) {
+/***/ "9a45":
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = {};
+"use strict";
+
+var charAt = __webpack_require__("f71e").charAt;
+
+// `AdvanceStringIndex` abstract operation
+// https://tc39.github.io/ecma262/#sec-advancestringindex
+module.exports = function (S, index, unicode) {
+  return index + (unicode ? charAt(S, index).length : 1);
+};
+
+
+/***/ }),
+
+/***/ "9b16":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// TODO: Remove from `core-js@4` since it's moved to entry points
+__webpack_require__("0bd5");
+var redefine = __webpack_require__("4450");
+var fails = __webpack_require__("2bc8");
+var wellKnownSymbol = __webpack_require__("1f17");
+var regexpExec = __webpack_require__("5133");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+
+var SPECIES = wellKnownSymbol('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+// IE <= 11 replaces $0 with the whole match, as if it was $&
+// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
+var REPLACE_KEEPS_$0 = (function () {
+  return 'a'.replace(/./, '$0') === '$0';
+})();
+
+var REPLACE = wellKnownSymbol('replace');
+// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
+var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
+  if (/./[REPLACE]) {
+    return /./[REPLACE]('a', '$0') === '';
+  }
+  return false;
+})();
+
+// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+// Weex JS has frozen built-in prototypes, so use try / catch wrapper
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+});
+
+module.exports = function (KEY, length, exec, sham) {
+  var SYMBOL = wellKnownSymbol(KEY);
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
+    var O = {};
+    O[SYMBOL] = function () { return 7; };
+    return ''[KEY](O) != 7;
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+
+    if (KEY === 'split') {
+      // We can't use real regex here since it causes deoptimization
+      // and serious performance degradation in V8
+      // https://github.com/zloirock/core-js/issues/306
+      re = {};
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+      re.flags = '';
+      re[SYMBOL] = /./[SYMBOL];
+    }
+
+    re.exec = function () { execCalled = true; return null; };
+
+    re[SYMBOL]('');
+    return !execCalled;
+  });
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !(
+      REPLACE_SUPPORTS_NAMED_GROUPS &&
+      REPLACE_KEEPS_$0 &&
+      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    )) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+      if (regexp.exec === regexpExec) {
+        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+          // The native String method already delegates to @@method (this
+          // polyfilled function), leasing to infinite recursion.
+          // We avoid it by directly calling the native @@method method.
+          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+        }
+        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+      }
+      return { done: false };
+    }, {
+      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
+      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    });
+    var stringMethod = methods[0];
+    var regexMethod = methods[1];
+
+    redefine(String.prototype, KEY, stringMethod);
+    redefine(RegExp.prototype, SYMBOL, length == 2
+      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+      ? function (string, arg) { return regexMethod.call(string, this, arg); }
+      // 21.2.5.6 RegExp.prototype[@@match](string)
+      // 21.2.5.9 RegExp.prototype[@@search](string)
+      : function (string) { return regexMethod.call(string, this); }
+    );
+  }
+
+  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
+};
+
+
+/***/ }),
+
+/***/ "9b42":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__("9b16");
+var anObject = __webpack_require__("fc3a");
+var toObject = __webpack_require__("6050");
+var toLength = __webpack_require__("c3a3");
+var toInteger = __webpack_require__("0296");
+var requireObjectCoercible = __webpack_require__("4340");
+var advanceStringIndex = __webpack_require__("9a45");
+var regExpExec = __webpack_require__("5fd8");
+
+var max = Math.max;
+var min = Math.min;
+var floor = Math.floor;
+var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
+var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
+
+var maybeToString = function (it) {
+  return it === undefined ? it : String(it);
+};
+
+// @@replace logic
+fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative, reason) {
+  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = reason.REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE;
+  var REPLACE_KEEPS_$0 = reason.REPLACE_KEEPS_$0;
+  var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
+
+  return [
+    // `String.prototype.replace` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.replace
+    function replace(searchValue, replaceValue) {
+      var O = requireObjectCoercible(this);
+      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+      return replacer !== undefined
+        ? replacer.call(searchValue, O, replaceValue)
+        : nativeReplace.call(String(O), searchValue, replaceValue);
+    },
+    // `RegExp.prototype[@@replace]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
+    function (regexp, replaceValue) {
+      if (
+        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
+        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
+      ) {
+        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+        if (res.done) return res.value;
+      }
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      var functionalReplace = typeof replaceValue === 'function';
+      if (!functionalReplace) replaceValue = String(replaceValue);
+
+      var global = rx.global;
+      if (global) {
+        var fullUnicode = rx.unicode;
+        rx.lastIndex = 0;
+      }
+      var results = [];
+      while (true) {
+        var result = regExpExec(rx, S);
+        if (result === null) break;
+
+        results.push(result);
+        if (!global) break;
+
+        var matchStr = String(result[0]);
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+      }
+
+      var accumulatedResult = '';
+      var nextSourcePosition = 0;
+      for (var i = 0; i < results.length; i++) {
+        result = results[i];
+
+        var matched = String(result[0]);
+        var position = max(min(toInteger(result.index), S.length), 0);
+        var captures = [];
+        // NOTE: This is equivalent to
+        //   captures = result.slice(1).map(maybeToString)
+        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+        var namedCaptures = result.groups;
+        if (functionalReplace) {
+          var replacerArgs = [matched].concat(captures, position, S);
+          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+          var replacement = String(replaceValue.apply(undefined, replacerArgs));
+        } else {
+          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+        }
+        if (position >= nextSourcePosition) {
+          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+          nextSourcePosition = position + matched.length;
+        }
+      }
+      return accumulatedResult + S.slice(nextSourcePosition);
+    }
+  ];
+
+  // https://tc39.github.io/ecma262/#sec-getsubstitution
+  function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
+    var tailPos = position + matched.length;
+    var m = captures.length;
+    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+    if (namedCaptures !== undefined) {
+      namedCaptures = toObject(namedCaptures);
+      symbols = SUBSTITUTION_SYMBOLS;
+    }
+    return nativeReplace.call(replacement, symbols, function (match, ch) {
+      var capture;
+      switch (ch.charAt(0)) {
+        case '$': return '$';
+        case '&': return matched;
+        case '`': return str.slice(0, position);
+        case "'": return str.slice(tailPos);
+        case '<':
+          capture = namedCaptures[ch.slice(1, -1)];
+          break;
+        default: // \d\d?
+          var n = +ch;
+          if (n === 0) return match;
+          if (n > m) {
+            var f = floor(n / 10);
+            if (f === 0) return match;
+            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+            return match;
+          }
+          capture = captures[n - 1];
+      }
+      return capture === undefined ? '' : capture;
+    });
+  }
+});
 
 
 /***/ }),
@@ -15456,6 +15711,21 @@ module.exports = nodeUtil;
 
 /***/ }),
 
+/***/ "9c6a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var internalObjectKeys = __webpack_require__("8b3a");
+var enumBugKeys = __webpack_require__("65bb");
+
+// `Object.keys` method
+// https://tc39.github.io/ecma262/#sec-object.keys
+module.exports = Object.keys || function keys(O) {
+  return internalObjectKeys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
 /***/ "9da1":
 /***/ (function(module, exports) {
 
@@ -15489,86 +15759,106 @@ module.exports = toSource;
 
 /***/ }),
 
-/***/ "9edd":
+/***/ "9dc5":
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__("485e");
-var assign = __webpack_require__("bcd9");
+var $ = __webpack_require__("a09b");
+var anObject = __webpack_require__("fc3a");
+var getOwnPropertyDescriptor = __webpack_require__("e329").f;
 
-// `Object.assign` method
-// https://tc39.github.io/ecma262/#sec-object.assign
-$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
-  assign: assign
-});
-
-
-/***/ }),
-
-/***/ "9f1b":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var $find = __webpack_require__("bc2f").find;
-var addToUnscopables = __webpack_require__("3f9d");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var FIND = 'find';
-var SKIPS_HOLES = true;
-
-var USES_TO_LENGTH = arrayMethodUsesToLength(FIND);
-
-// Shouldn't skip holes
-if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
-
-// `Array.prototype.find` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.find
-$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
-  find: function find(callbackfn /* , that = undefined */) {
-    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+// `Reflect.deleteProperty` method
+// https://tc39.github.io/ecma262/#sec-reflect.deleteproperty
+$({ target: 'Reflect', stat: true }, {
+  deleteProperty: function deleteProperty(target, propertyKey) {
+    var descriptor = getOwnPropertyDescriptor(anObject(target), propertyKey);
+    return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
   }
 });
 
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables(FIND);
-
 
 /***/ }),
 
-/***/ "a0ef":
+/***/ "9ffc":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var charAt = __webpack_require__("1be6").charAt;
-var InternalStateModule = __webpack_require__("f806");
-var defineIterator = __webpack_require__("9939");
+var anObject = __webpack_require__("fc3a");
 
-var STRING_ITERATOR = 'String Iterator';
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
+// `RegExp.prototype.flags` getter implementation
+// https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.dotAll) result += 's';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
 
-// `String.prototype[@@iterator]` method
-// https://tc39.github.io/ecma262/#sec-string.prototype-@@iterator
-defineIterator(String, 'String', function (iterated) {
-  setInternalState(this, {
-    type: STRING_ITERATOR,
-    string: String(iterated),
-    index: 0
-  });
-// `%StringIteratorPrototype%.next` method
-// https://tc39.github.io/ecma262/#sec-%stringiteratorprototype%.next
-}, function next() {
-  var state = getInternalState(this);
-  var string = state.string;
-  var index = state.index;
-  var point;
-  if (index >= string.length) return { value: undefined, done: true };
-  point = charAt(string, index);
-  state.index += point.length;
-  return { value: point, done: false };
-});
+
+/***/ }),
+
+/***/ "a09b":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+var getOwnPropertyDescriptor = __webpack_require__("e329").f;
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var redefine = __webpack_require__("4450");
+var setGlobal = __webpack_require__("0fca");
+var copyConstructorProperties = __webpack_require__("e27c");
+var isForced = __webpack_require__("0ef8");
+
+/*
+  options.target      - name of the target object
+  options.global      - target is the global object
+  options.stat        - export as static methods of target
+  options.proto       - export as prototype methods of target
+  options.real        - real prototype method for the `pure` version
+  options.forced      - export even if the native feature is available
+  options.bind        - bind methods to the target, required for the `pure` version
+  options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
+  options.unsafe      - use the simple assignment of property instead of delete + defineProperty
+  options.sham        - add a flag to not completely full polyfills
+  options.enumerable  - export as enumerable property
+  options.noTargetGet - prevent calling a getter on target
+*/
+module.exports = function (options, source) {
+  var TARGET = options.target;
+  var GLOBAL = options.global;
+  var STATIC = options.stat;
+  var FORCED, target, key, targetProperty, sourceProperty, descriptor;
+  if (GLOBAL) {
+    target = global;
+  } else if (STATIC) {
+    target = global[TARGET] || setGlobal(TARGET, {});
+  } else {
+    target = (global[TARGET] || {}).prototype;
+  }
+  if (target) for (key in source) {
+    sourceProperty = source[key];
+    if (options.noTargetGet) {
+      descriptor = getOwnPropertyDescriptor(target, key);
+      targetProperty = descriptor && descriptor.value;
+    } else targetProperty = target[key];
+    FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+    // contained in target
+    if (!FORCED && targetProperty !== undefined) {
+      if (typeof sourceProperty === typeof targetProperty) continue;
+      copyConstructorProperties(sourceProperty, targetProperty);
+    }
+    // add a flag to not completely full polyfills
+    if (options.sham || (targetProperty && targetProperty.sham)) {
+      createNonEnumerableProperty(sourceProperty, 'sham', true);
+    }
+    // extend global
+    redefine(target, key, sourceProperty, options);
+  }
+};
 
 
 /***/ }),
@@ -15598,20 +15888,6 @@ function mapCacheSet(key, value) {
 }
 
 module.exports = mapCacheSet;
-
-
-/***/ }),
-
-/***/ "a164":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isRegExp = __webpack_require__("123c");
-
-module.exports = function (it) {
-  if (isRegExp(it)) {
-    throw TypeError("The method doesn't accept regular expressions");
-  } return it;
-};
 
 
 /***/ }),
@@ -26528,6 +26804,36 @@ module.exports = arrayFilter;
 
 /***/ }),
 
+/***/ "a543":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var $indexOf = __webpack_require__("6158").indexOf;
+var arrayMethodIsStrict = __webpack_require__("f8b2");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var nativeIndexOf = [].indexOf;
+
+var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
+var STRICT_METHOD = arrayMethodIsStrict('indexOf');
+var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
+
+// `Array.prototype.indexOf` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD || !USES_TO_LENGTH }, {
+  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
+    return NEGATIVE_ZERO
+      // convert -0 to +0
+      ? nativeIndexOf.apply(this, arguments) || 0
+      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
 /***/ "a59e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26579,6 +26885,51 @@ module.exports = MapCache;
 
 /***/ }),
 
+/***/ "a717":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var getPrototypeOf = __webpack_require__("c43f");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var has = __webpack_require__("b64f");
+var wellKnownSymbol = __webpack_require__("1f17");
+var IS_PURE = __webpack_require__("67d5");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var BUGGY_SAFARI_ITERATORS = false;
+
+var returnThis = function () { return this; };
+
+// `%IteratorPrototype%` object
+// https://tc39.github.io/ecma262/#sec-%iteratorprototype%-object
+var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
+
+if ([].keys) {
+  arrayIterator = [].keys();
+  // Safari 8 has buggy iterators w/o `next`
+  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
+  else {
+    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
+    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+  }
+}
+
+if (IteratorPrototype == undefined) IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+if (!IS_PURE && !has(IteratorPrototype, ITERATOR)) {
+  createNonEnumerableProperty(IteratorPrototype, ITERATOR, returnThis);
+}
+
+module.exports = {
+  IteratorPrototype: IteratorPrototype,
+  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
+};
+
+
+/***/ }),
+
 /***/ "a71c":
 /***/ (function(module, exports) {
 
@@ -26596,133 +26947,6 @@ function stackGet(key) {
 }
 
 module.exports = stackGet;
-
-
-/***/ }),
-
-/***/ "a726":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var global = __webpack_require__("efd0");
-var isForced = __webpack_require__("1b38");
-var redefine = __webpack_require__("d496");
-var InternalMetadataModule = __webpack_require__("416c");
-var iterate = __webpack_require__("ab8a");
-var anInstance = __webpack_require__("76b7");
-var isObject = __webpack_require__("3b29");
-var fails = __webpack_require__("aad0");
-var checkCorrectnessOfIteration = __webpack_require__("146b");
-var setToStringTag = __webpack_require__("27e6");
-var inheritIfRequired = __webpack_require__("5cd0");
-
-module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
-  var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
-  var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
-  var ADDER = IS_MAP ? 'set' : 'add';
-  var NativeConstructor = global[CONSTRUCTOR_NAME];
-  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
-  var Constructor = NativeConstructor;
-  var exported = {};
-
-  var fixMethod = function (KEY) {
-    var nativeMethod = NativePrototype[KEY];
-    redefine(NativePrototype, KEY,
-      KEY == 'add' ? function add(value) {
-        nativeMethod.call(this, value === 0 ? 0 : value);
-        return this;
-      } : KEY == 'delete' ? function (key) {
-        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
-      } : KEY == 'get' ? function get(key) {
-        return IS_WEAK && !isObject(key) ? undefined : nativeMethod.call(this, key === 0 ? 0 : key);
-      } : KEY == 'has' ? function has(key) {
-        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
-      } : function set(key, value) {
-        nativeMethod.call(this, key === 0 ? 0 : key, value);
-        return this;
-      }
-    );
-  };
-
-  // eslint-disable-next-line max-len
-  if (isForced(CONSTRUCTOR_NAME, typeof NativeConstructor != 'function' || !(IS_WEAK || NativePrototype.forEach && !fails(function () {
-    new NativeConstructor().entries().next();
-  })))) {
-    // create collection constructor
-    Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
-    InternalMetadataModule.REQUIRED = true;
-  } else if (isForced(CONSTRUCTOR_NAME, true)) {
-    var instance = new Constructor();
-    // early implementations not supports chaining
-    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
-    // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
-    var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
-    // most early implementations doesn't supports iterables, most modern - not close it correctly
-    // eslint-disable-next-line no-new
-    var ACCEPT_ITERABLES = checkCorrectnessOfIteration(function (iterable) { new NativeConstructor(iterable); });
-    // for early implementations -0 and +0 not the same
-    var BUGGY_ZERO = !IS_WEAK && fails(function () {
-      // V8 ~ Chromium 42- fails only with 5+ elements
-      var $instance = new NativeConstructor();
-      var index = 5;
-      while (index--) $instance[ADDER](index, index);
-      return !$instance.has(-0);
-    });
-
-    if (!ACCEPT_ITERABLES) {
-      Constructor = wrapper(function (dummy, iterable) {
-        anInstance(dummy, Constructor, CONSTRUCTOR_NAME);
-        var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
-        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
-        return that;
-      });
-      Constructor.prototype = NativePrototype;
-      NativePrototype.constructor = Constructor;
-    }
-
-    if (THROWS_ON_PRIMITIVES || BUGGY_ZERO) {
-      fixMethod('delete');
-      fixMethod('has');
-      IS_MAP && fixMethod('get');
-    }
-
-    if (BUGGY_ZERO || HASNT_CHAINING) fixMethod(ADDER);
-
-    // weak collections should not contains .clear method
-    if (IS_WEAK && NativePrototype.clear) delete NativePrototype.clear;
-  }
-
-  exported[CONSTRUCTOR_NAME] = Constructor;
-  $({ global: true, forced: Constructor != NativeConstructor }, exported);
-
-  setToStringTag(Constructor, CONSTRUCTOR_NAME);
-
-  if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
-
-  return Constructor;
-};
-
-
-/***/ }),
-
-/***/ "a733":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var $trim = __webpack_require__("0610").trim;
-var forcedStringTrimMethod = __webpack_require__("17c9");
-
-// `String.prototype.trim` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.trim
-$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
-  trim: function trim() {
-    return $trim(this);
-  }
-});
 
 
 /***/ }),
@@ -26754,148 +26978,6 @@ module.exports = baseGetAllKeys;
 
 /***/ }),
 
-/***/ "a870":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fixRegExpWellKnownSymbolLogic = __webpack_require__("3124");
-var isRegExp = __webpack_require__("123c");
-var anObject = __webpack_require__("b973");
-var requireObjectCoercible = __webpack_require__("21e0");
-var speciesConstructor = __webpack_require__("d99e");
-var advanceStringIndex = __webpack_require__("7d5b");
-var toLength = __webpack_require__("4a35");
-var callRegExpExec = __webpack_require__("4057");
-var regexpExec = __webpack_require__("dc12");
-var fails = __webpack_require__("aad0");
-
-var arrayPush = [].push;
-var min = Math.min;
-var MAX_UINT32 = 0xFFFFFFFF;
-
-// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
-var SUPPORTS_Y = !fails(function () { return !RegExp(MAX_UINT32, 'y'); });
-
-// @@split logic
-fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCallNative) {
-  var internalSplit;
-  if (
-    'abbc'.split(/(b)*/)[1] == 'c' ||
-    'test'.split(/(?:)/, -1).length != 4 ||
-    'ab'.split(/(?:ab)*/).length != 2 ||
-    '.'.split(/(.?)(.?)/).length != 4 ||
-    '.'.split(/()()/).length > 1 ||
-    ''.split(/.?/).length
-  ) {
-    // based on es5-shim implementation, need to rework it
-    internalSplit = function (separator, limit) {
-      var string = String(requireObjectCoercible(this));
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (separator === undefined) return [string];
-      // If `separator` is not a regex, use native split
-      if (!isRegExp(separator)) {
-        return nativeSplit.call(string, separator, lim);
-      }
-      var output = [];
-      var flags = (separator.ignoreCase ? 'i' : '') +
-                  (separator.multiline ? 'm' : '') +
-                  (separator.unicode ? 'u' : '') +
-                  (separator.sticky ? 'y' : '');
-      var lastLastIndex = 0;
-      // Make `global` and avoid `lastIndex` issues by working with a copy
-      var separatorCopy = new RegExp(separator.source, flags + 'g');
-      var match, lastIndex, lastLength;
-      while (match = regexpExec.call(separatorCopy, string)) {
-        lastIndex = separatorCopy.lastIndex;
-        if (lastIndex > lastLastIndex) {
-          output.push(string.slice(lastLastIndex, match.index));
-          if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
-          lastLength = match[0].length;
-          lastLastIndex = lastIndex;
-          if (output.length >= lim) break;
-        }
-        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
-      }
-      if (lastLastIndex === string.length) {
-        if (lastLength || !separatorCopy.test('')) output.push('');
-      } else output.push(string.slice(lastLastIndex));
-      return output.length > lim ? output.slice(0, lim) : output;
-    };
-  // Chakra, V8
-  } else if ('0'.split(undefined, 0).length) {
-    internalSplit = function (separator, limit) {
-      return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
-    };
-  } else internalSplit = nativeSplit;
-
-  return [
-    // `String.prototype.split` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.split
-    function split(separator, limit) {
-      var O = requireObjectCoercible(this);
-      var splitter = separator == undefined ? undefined : separator[SPLIT];
-      return splitter !== undefined
-        ? splitter.call(separator, O, limit)
-        : internalSplit.call(String(O), separator, limit);
-    },
-    // `RegExp.prototype[@@split]` method
-    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
-    //
-    // NOTE: This cannot be properly polyfilled in engines that don't support
-    // the 'y' flag.
-    function (regexp, limit) {
-      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
-      if (res.done) return res.value;
-
-      var rx = anObject(regexp);
-      var S = String(this);
-      var C = speciesConstructor(rx, RegExp);
-
-      var unicodeMatching = rx.unicode;
-      var flags = (rx.ignoreCase ? 'i' : '') +
-                  (rx.multiline ? 'm' : '') +
-                  (rx.unicode ? 'u' : '') +
-                  (SUPPORTS_Y ? 'y' : 'g');
-
-      // ^(? + rx + ) is needed, in combination with some S slicing, to
-      // simulate the 'y' flag.
-      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
-      var p = 0;
-      var q = 0;
-      var A = [];
-      while (q < S.length) {
-        splitter.lastIndex = SUPPORTS_Y ? q : 0;
-        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
-        var e;
-        if (
-          z === null ||
-          (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
-        ) {
-          q = advanceStringIndex(S, q, unicodeMatching);
-        } else {
-          A.push(S.slice(p, q));
-          if (A.length === lim) return A;
-          for (var i = 1; i <= z.length - 1; i++) {
-            A.push(z[i]);
-            if (A.length === lim) return A;
-          }
-          q = p = e;
-        }
-      }
-      A.push(S.slice(p));
-      return A;
-    }
-  ];
-}, !SUPPORTS_Y);
-
-
-/***/ }),
-
 /***/ "a8f2":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -26907,92 +26989,334 @@ fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCal
 
 /***/ }),
 
-/***/ "a976":
+/***/ "ab31":
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__("c7d8");
-var global = __webpack_require__("efd0");
+"use strict";
 
-module.exports = classof(global.process) == 'process';
+var $ = __webpack_require__("a09b");
+var global = __webpack_require__("8d5c");
+var getBuiltIn = __webpack_require__("8843");
+var IS_PURE = __webpack_require__("67d5");
+var DESCRIPTORS = __webpack_require__("aba0");
+var NATIVE_SYMBOL = __webpack_require__("c1d9");
+var USE_SYMBOL_AS_UID = __webpack_require__("89e2");
+var fails = __webpack_require__("2bc8");
+var has = __webpack_require__("b64f");
+var isArray = __webpack_require__("1c94");
+var isObject = __webpack_require__("42cc");
+var anObject = __webpack_require__("fc3a");
+var toObject = __webpack_require__("6050");
+var toIndexedObject = __webpack_require__("ec87");
+var toPrimitive = __webpack_require__("34e1");
+var createPropertyDescriptor = __webpack_require__("5cbf");
+var nativeObjectCreate = __webpack_require__("b921");
+var objectKeys = __webpack_require__("9c6a");
+var getOwnPropertyNamesModule = __webpack_require__("3de6");
+var getOwnPropertyNamesExternal = __webpack_require__("15b1");
+var getOwnPropertySymbolsModule = __webpack_require__("b91c");
+var getOwnPropertyDescriptorModule = __webpack_require__("e329");
+var definePropertyModule = __webpack_require__("22af");
+var propertyIsEnumerableModule = __webpack_require__("97c2");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var redefine = __webpack_require__("4450");
+var shared = __webpack_require__("fe3d");
+var sharedKey = __webpack_require__("9800");
+var hiddenKeys = __webpack_require__("0c09");
+var uid = __webpack_require__("95bd");
+var wellKnownSymbol = __webpack_require__("1f17");
+var wrappedWellKnownSymbolModule = __webpack_require__("4dc3");
+var defineWellKnownSymbol = __webpack_require__("1f9e");
+var setToStringTag = __webpack_require__("1a81");
+var InternalStateModule = __webpack_require__("891c");
+var $forEach = __webpack_require__("bfc3").forEach;
+
+var HIDDEN = sharedKey('hidden');
+var SYMBOL = 'Symbol';
+var PROTOTYPE = 'prototype';
+var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(SYMBOL);
+var ObjectPrototype = Object[PROTOTYPE];
+var $Symbol = global.Symbol;
+var $stringify = getBuiltIn('JSON', 'stringify');
+var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+var nativeDefineProperty = definePropertyModule.f;
+var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
+var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
+var AllSymbols = shared('symbols');
+var ObjectPrototypeSymbols = shared('op-symbols');
+var StringToSymbolRegistry = shared('string-to-symbol-registry');
+var SymbolToStringRegistry = shared('symbol-to-string-registry');
+var WellKnownSymbolsStore = shared('wks');
+var QObject = global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDescriptor = DESCRIPTORS && fails(function () {
+  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
+    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
+  })).a != 7;
+}) ? function (O, P, Attributes) {
+  var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
+  if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
+  nativeDefineProperty(O, P, Attributes);
+  if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
+    nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
+  }
+} : nativeDefineProperty;
+
+var wrap = function (tag, description) {
+  var symbol = AllSymbols[tag] = nativeObjectCreate($Symbol[PROTOTYPE]);
+  setInternalState(symbol, {
+    type: SYMBOL,
+    tag: tag,
+    description: description
+  });
+  if (!DESCRIPTORS) symbol.description = description;
+  return symbol;
+};
+
+var isSymbol = USE_SYMBOL_AS_UID ? function (it) {
+  return typeof it == 'symbol';
+} : function (it) {
+  return Object(it) instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(O, P, Attributes) {
+  if (O === ObjectPrototype) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
+  anObject(O);
+  var key = toPrimitive(P, true);
+  anObject(Attributes);
+  if (has(AllSymbols, key)) {
+    if (!Attributes.enumerable) {
+      if (!has(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {}));
+      O[HIDDEN][key] = true;
+    } else {
+      if (has(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
+      Attributes = nativeObjectCreate(Attributes, { enumerable: createPropertyDescriptor(0, false) });
+    } return setSymbolDescriptor(O, key, Attributes);
+  } return nativeDefineProperty(O, key, Attributes);
+};
+
+var $defineProperties = function defineProperties(O, Properties) {
+  anObject(O);
+  var properties = toIndexedObject(Properties);
+  var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
+  $forEach(keys, function (key) {
+    if (!DESCRIPTORS || $propertyIsEnumerable.call(properties, key)) $defineProperty(O, key, properties[key]);
+  });
+  return O;
+};
+
+var $create = function create(O, Properties) {
+  return Properties === undefined ? nativeObjectCreate(O) : $defineProperties(nativeObjectCreate(O), Properties);
+};
+
+var $propertyIsEnumerable = function propertyIsEnumerable(V) {
+  var P = toPrimitive(V, true);
+  var enumerable = nativePropertyIsEnumerable.call(this, P);
+  if (this === ObjectPrototype && has(AllSymbols, P) && !has(ObjectPrototypeSymbols, P)) return false;
+  return enumerable || !has(this, P) || !has(AllSymbols, P) || has(this, HIDDEN) && this[HIDDEN][P] ? enumerable : true;
+};
+
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
+  var it = toIndexedObject(O);
+  var key = toPrimitive(P, true);
+  if (it === ObjectPrototype && has(AllSymbols, key) && !has(ObjectPrototypeSymbols, key)) return;
+  var descriptor = nativeGetOwnPropertyDescriptor(it, key);
+  if (descriptor && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) {
+    descriptor.enumerable = true;
+  }
+  return descriptor;
+};
+
+var $getOwnPropertyNames = function getOwnPropertyNames(O) {
+  var names = nativeGetOwnPropertyNames(toIndexedObject(O));
+  var result = [];
+  $forEach(names, function (key) {
+    if (!has(AllSymbols, key) && !has(hiddenKeys, key)) result.push(key);
+  });
+  return result;
+};
+
+var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
+  var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
+  var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject(O));
+  var result = [];
+  $forEach(names, function (key) {
+    if (has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key))) {
+      result.push(AllSymbols[key]);
+    }
+  });
+  return result;
+};
+
+// `Symbol` constructor
+// https://tc39.github.io/ecma262/#sec-symbol-constructor
+if (!NATIVE_SYMBOL) {
+  $Symbol = function Symbol() {
+    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor');
+    var description = !arguments.length || arguments[0] === undefined ? undefined : String(arguments[0]);
+    var tag = uid(description);
+    var setter = function (value) {
+      if (this === ObjectPrototype) setter.call(ObjectPrototypeSymbols, value);
+      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
+      setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
+    };
+    if (DESCRIPTORS && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
+    return wrap(tag, description);
+  };
+
+  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
+    return getInternalState(this).tag;
+  });
+
+  redefine($Symbol, 'withoutSetter', function (description) {
+    return wrap(uid(description), description);
+  });
+
+  propertyIsEnumerableModule.f = $propertyIsEnumerable;
+  definePropertyModule.f = $defineProperty;
+  getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
+  getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
+  getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
+
+  wrappedWellKnownSymbolModule.f = function (name) {
+    return wrap(wellKnownSymbol(name), name);
+  };
+
+  if (DESCRIPTORS) {
+    // https://github.com/tc39/proposal-Symbol-description
+    nativeDefineProperty($Symbol[PROTOTYPE], 'description', {
+      configurable: true,
+      get: function description() {
+        return getInternalState(this).description;
+      }
+    });
+    if (!IS_PURE) {
+      redefine(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
+    }
+  }
+}
+
+$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
+  Symbol: $Symbol
+});
+
+$forEach(objectKeys(WellKnownSymbolsStore), function (name) {
+  defineWellKnownSymbol(name);
+});
+
+$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {
+  // `Symbol.for` method
+  // https://tc39.github.io/ecma262/#sec-symbol.for
+  'for': function (key) {
+    var string = String(key);
+    if (has(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
+    var symbol = $Symbol(string);
+    StringToSymbolRegistry[string] = symbol;
+    SymbolToStringRegistry[symbol] = string;
+    return symbol;
+  },
+  // `Symbol.keyFor` method
+  // https://tc39.github.io/ecma262/#sec-symbol.keyfor
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol');
+    if (has(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
+  },
+  useSetter: function () { USE_SETTER = true; },
+  useSimple: function () { USE_SETTER = false; }
+});
+
+$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {
+  // `Object.create` method
+  // https://tc39.github.io/ecma262/#sec-object.create
+  create: $create,
+  // `Object.defineProperty` method
+  // https://tc39.github.io/ecma262/#sec-object.defineproperty
+  defineProperty: $defineProperty,
+  // `Object.defineProperties` method
+  // https://tc39.github.io/ecma262/#sec-object.defineproperties
+  defineProperties: $defineProperties,
+  // `Object.getOwnPropertyDescriptor` method
+  // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor
+});
+
+$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {
+  // `Object.getOwnPropertyNames` method
+  // https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // `Object.getOwnPropertySymbols` method
+  // https://tc39.github.io/ecma262/#sec-object.getownpropertysymbols
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
+// https://bugs.chromium.org/p/v8/issues/detail?id=3443
+$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {
+  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
+    return getOwnPropertySymbolsModule.f(toObject(it));
+  }
+});
+
+// `JSON.stringify` method behavior with symbols
+// https://tc39.github.io/ecma262/#sec-json.stringify
+if ($stringify) {
+  var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL || fails(function () {
+    var symbol = $Symbol();
+    // MS Edge converts symbol values to JSON as {}
+    return $stringify([symbol]) != '[null]'
+      // WebKit converts symbol values to JSON as null
+      || $stringify({ a: symbol }) != '{}'
+      // V8 throws on boxed symbols
+      || $stringify(Object(symbol)) != '{}';
+  });
+
+  $({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
+    // eslint-disable-next-line no-unused-vars
+    stringify: function stringify(it, replacer, space) {
+      var args = [it];
+      var index = 1;
+      var $replacer;
+      while (arguments.length > index) args.push(arguments[index++]);
+      $replacer = replacer;
+      if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+      if (!isArray(replacer)) replacer = function (key, value) {
+        if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
+        if (!isSymbol(value)) return value;
+      };
+      args[1] = replacer;
+      return $stringify.apply(null, args);
+    }
+  });
+}
+
+// `Symbol.prototype[@@toPrimitive]` method
+// https://tc39.github.io/ecma262/#sec-symbol.prototype-@@toprimitive
+if (!$Symbol[PROTOTYPE][TO_PRIMITIVE]) {
+  createNonEnumerableProperty($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+}
+// `Symbol.prototype[@@toStringTag]` property
+// https://tc39.github.io/ecma262/#sec-symbol.prototype-@@tostringtag
+setToStringTag($Symbol, SYMBOL);
+
+hiddenKeys[HIDDEN] = true;
 
 
 /***/ }),
 
-/***/ "aad0":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (error) {
-    return true;
-  }
-};
-
-
-/***/ }),
-
-/***/ "ab8a":
+/***/ "aba0":
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__("b973");
-var isArrayIteratorMethod = __webpack_require__("ee94");
-var toLength = __webpack_require__("4a35");
-var bind = __webpack_require__("ed07");
-var getIteratorMethod = __webpack_require__("47f8");
-var iteratorClose = __webpack_require__("4827");
+var fails = __webpack_require__("2bc8");
 
-var Result = function (stopped, result) {
-  this.stopped = stopped;
-  this.result = result;
-};
-
-module.exports = function (iterable, unboundFunction, options) {
-  var that = options && options.that;
-  var AS_ENTRIES = !!(options && options.AS_ENTRIES);
-  var IS_ITERATOR = !!(options && options.IS_ITERATOR);
-  var INTERRUPTED = !!(options && options.INTERRUPTED);
-  var fn = bind(unboundFunction, that, 1 + AS_ENTRIES + INTERRUPTED);
-  var iterator, iterFn, index, length, result, next, step;
-
-  var stop = function (condition) {
-    if (iterator) iteratorClose(iterator);
-    return new Result(true, condition);
-  };
-
-  var callFn = function (value) {
-    if (AS_ENTRIES) {
-      anObject(value);
-      return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
-    } return INTERRUPTED ? fn(value, stop) : fn(value);
-  };
-
-  if (IS_ITERATOR) {
-    iterator = iterable;
-  } else {
-    iterFn = getIteratorMethod(iterable);
-    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
-    // optimisation for array iterators
-    if (isArrayIteratorMethod(iterFn)) {
-      for (index = 0, length = toLength(iterable.length); length > index; index++) {
-        result = callFn(iterable[index]);
-        if (result && result instanceof Result) return result;
-      } return new Result(false);
-    }
-    iterator = iterFn.call(iterable);
-  }
-
-  next = iterator.next;
-  while (!(step = next.call(iterator)).done) {
-    try {
-      result = callFn(step.value);
-    } catch (error) {
-      iteratorClose(iterator);
-      throw error;
-    }
-    if (typeof result == 'object' && result && result instanceof Result) return result;
-  } return new Result(false);
-};
+// Thank's IE8 for his funny defineProperty
+module.exports = !fails(function () {
+  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
+});
 
 
 /***/ }),
@@ -27015,45 +27339,6 @@ function isKeyable(value) {
 }
 
 module.exports = isKeyable;
-
-
-/***/ }),
-
-/***/ "af7d":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toIndexedObject = __webpack_require__("3274");
-var toLength = __webpack_require__("4a35");
-var toAbsoluteIndex = __webpack_require__("fd0b");
-
-// `Array.prototype.{ indexOf, includes }` methods implementation
-var createMethod = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = toIndexedObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) {
-      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
-
-module.exports = {
-  // `Array.prototype.includes` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-  includes: createMethod(true),
-  // `Array.prototype.indexOf` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-  indexOf: createMethod(false)
-};
 
 
 /***/ }),
@@ -27085,54 +27370,92 @@ module.exports = isMasked;
 
 /***/ }),
 
-/***/ "b14e":
+/***/ "b131":
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__("b973");
-var aPossiblePrototype = __webpack_require__("2b11");
+"use strict";
 
-// `Object.setPrototypeOf` method
-// https://tc39.github.io/ecma262/#sec-object.setprototypeof
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
-  var CORRECT_SETTER = false;
-  var test = {};
-  var setter;
-  try {
-    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-    setter.call(test, []);
-    CORRECT_SETTER = test instanceof Array;
-  } catch (error) { /* empty */ }
-  return function setPrototypeOf(O, proto) {
-    anObject(O);
-    aPossiblePrototype(proto);
-    if (CORRECT_SETTER) setter.call(O, proto);
-    else O.__proto__ = proto;
-    return O;
-  };
-}() : undefined);
+var $ = __webpack_require__("a09b");
+var isObject = __webpack_require__("42cc");
+var isArray = __webpack_require__("1c94");
+var toAbsoluteIndex = __webpack_require__("0119");
+var toLength = __webpack_require__("c3a3");
+var toIndexedObject = __webpack_require__("ec87");
+var createProperty = __webpack_require__("8863");
+var wellKnownSymbol = __webpack_require__("1f17");
+var arrayMethodHasSpeciesSupport = __webpack_require__("4d7f");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
+var USES_TO_LENGTH = arrayMethodUsesToLength('slice', { ACCESSORS: true, 0: 0, 1: 2 });
+
+var SPECIES = wellKnownSymbol('species');
+var nativeSlice = [].slice;
+var max = Math.max;
+
+// `Array.prototype.slice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.slice
+// fallback for not array-like ES3 strings and DOM objects
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  slice: function slice(start, end) {
+    var O = toIndexedObject(this);
+    var length = toLength(O.length);
+    var k = toAbsoluteIndex(start, length);
+    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    var Constructor, result, n;
+    if (isArray(O)) {
+      Constructor = O.constructor;
+      // cross-realm fallback
+      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
+        Constructor = undefined;
+      } else if (isObject(Constructor)) {
+        Constructor = Constructor[SPECIES];
+        if (Constructor === null) Constructor = undefined;
+      }
+      if (Constructor === Array || Constructor === undefined) {
+        return nativeSlice.call(O, k, fin);
+      }
+    }
+    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
+    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
+    result.length = n;
+    return result;
+  }
+});
 
 
 /***/ }),
 
-/***/ "b20c":
+/***/ "b203":
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__("6d05");
+var isRegExp = __webpack_require__("00a5");
 
-var MATCH = wellKnownSymbol('match');
+module.exports = function (it) {
+  if (isRegExp(it)) {
+    throw TypeError("The method doesn't accept regular expressions");
+  } return it;
+};
 
-module.exports = function (METHOD_NAME) {
-  var regexp = /./;
+
+/***/ }),
+
+/***/ "b3af":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("fc3a");
+var iteratorClose = __webpack_require__("bc89");
+
+// call something on iterator step with safe closing on error
+module.exports = function (iterator, fn, value, ENTRIES) {
   try {
-    '/./'[METHOD_NAME](regexp);
-  } catch (error1) {
-    try {
-      regexp[MATCH] = false;
-      return '/./'[METHOD_NAME](regexp);
-    } catch (error2) { /* empty */ }
-  } return false;
+    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (error) {
+    iteratorClose(iterator);
+    throw error;
+  }
 };
 
 
@@ -27168,6 +27491,200 @@ module.exports = hashHas;
 
 /***/ }),
 
+/***/ "b420":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var defineProperty = __webpack_require__("22af").f;
+var create = __webpack_require__("b921");
+var redefineAll = __webpack_require__("8573");
+var bind = __webpack_require__("1e51");
+var anInstance = __webpack_require__("da02");
+var iterate = __webpack_require__("3afd");
+var defineIterator = __webpack_require__("cf0a");
+var setSpecies = __webpack_require__("6d96");
+var DESCRIPTORS = __webpack_require__("aba0");
+var fastKey = __webpack_require__("b748").fastKey;
+var InternalStateModule = __webpack_require__("891c");
+
+var setInternalState = InternalStateModule.set;
+var internalStateGetterFor = InternalStateModule.getterFor;
+
+module.exports = {
+  getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
+    var C = wrapper(function (that, iterable) {
+      anInstance(that, C, CONSTRUCTOR_NAME);
+      setInternalState(that, {
+        type: CONSTRUCTOR_NAME,
+        index: create(null),
+        first: undefined,
+        last: undefined,
+        size: 0
+      });
+      if (!DESCRIPTORS) that.size = 0;
+      if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+    });
+
+    var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
+
+    var define = function (that, key, value) {
+      var state = getInternalState(that);
+      var entry = getEntry(that, key);
+      var previous, index;
+      // change existing entry
+      if (entry) {
+        entry.value = value;
+      // create new entry
+      } else {
+        state.last = entry = {
+          index: index = fastKey(key, true),
+          key: key,
+          value: value,
+          previous: previous = state.last,
+          next: undefined,
+          removed: false
+        };
+        if (!state.first) state.first = entry;
+        if (previous) previous.next = entry;
+        if (DESCRIPTORS) state.size++;
+        else that.size++;
+        // add to index
+        if (index !== 'F') state.index[index] = entry;
+      } return that;
+    };
+
+    var getEntry = function (that, key) {
+      var state = getInternalState(that);
+      // fast case
+      var index = fastKey(key);
+      var entry;
+      if (index !== 'F') return state.index[index];
+      // frozen object case
+      for (entry = state.first; entry; entry = entry.next) {
+        if (entry.key == key) return entry;
+      }
+    };
+
+    redefineAll(C.prototype, {
+      // 23.1.3.1 Map.prototype.clear()
+      // 23.2.3.2 Set.prototype.clear()
+      clear: function clear() {
+        var that = this;
+        var state = getInternalState(that);
+        var data = state.index;
+        var entry = state.first;
+        while (entry) {
+          entry.removed = true;
+          if (entry.previous) entry.previous = entry.previous.next = undefined;
+          delete data[entry.index];
+          entry = entry.next;
+        }
+        state.first = state.last = undefined;
+        if (DESCRIPTORS) state.size = 0;
+        else that.size = 0;
+      },
+      // 23.1.3.3 Map.prototype.delete(key)
+      // 23.2.3.4 Set.prototype.delete(value)
+      'delete': function (key) {
+        var that = this;
+        var state = getInternalState(that);
+        var entry = getEntry(that, key);
+        if (entry) {
+          var next = entry.next;
+          var prev = entry.previous;
+          delete state.index[entry.index];
+          entry.removed = true;
+          if (prev) prev.next = next;
+          if (next) next.previous = prev;
+          if (state.first == entry) state.first = next;
+          if (state.last == entry) state.last = prev;
+          if (DESCRIPTORS) state.size--;
+          else that.size--;
+        } return !!entry;
+      },
+      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
+      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
+      forEach: function forEach(callbackfn /* , that = undefined */) {
+        var state = getInternalState(this);
+        var boundFunction = bind(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
+        var entry;
+        while (entry = entry ? entry.next : state.first) {
+          boundFunction(entry.value, entry.key, this);
+          // revert to the last existing entry
+          while (entry && entry.removed) entry = entry.previous;
+        }
+      },
+      // 23.1.3.7 Map.prototype.has(key)
+      // 23.2.3.7 Set.prototype.has(value)
+      has: function has(key) {
+        return !!getEntry(this, key);
+      }
+    });
+
+    redefineAll(C.prototype, IS_MAP ? {
+      // 23.1.3.6 Map.prototype.get(key)
+      get: function get(key) {
+        var entry = getEntry(this, key);
+        return entry && entry.value;
+      },
+      // 23.1.3.9 Map.prototype.set(key, value)
+      set: function set(key, value) {
+        return define(this, key === 0 ? 0 : key, value);
+      }
+    } : {
+      // 23.2.3.1 Set.prototype.add(value)
+      add: function add(value) {
+        return define(this, value = value === 0 ? 0 : value, value);
+      }
+    });
+    if (DESCRIPTORS) defineProperty(C.prototype, 'size', {
+      get: function () {
+        return getInternalState(this).size;
+      }
+    });
+    return C;
+  },
+  setStrong: function (C, CONSTRUCTOR_NAME, IS_MAP) {
+    var ITERATOR_NAME = CONSTRUCTOR_NAME + ' Iterator';
+    var getInternalCollectionState = internalStateGetterFor(CONSTRUCTOR_NAME);
+    var getInternalIteratorState = internalStateGetterFor(ITERATOR_NAME);
+    // add .keys, .values, .entries, [@@iterator]
+    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
+    defineIterator(C, CONSTRUCTOR_NAME, function (iterated, kind) {
+      setInternalState(this, {
+        type: ITERATOR_NAME,
+        target: iterated,
+        state: getInternalCollectionState(iterated),
+        kind: kind,
+        last: undefined
+      });
+    }, function () {
+      var state = getInternalIteratorState(this);
+      var kind = state.kind;
+      var entry = state.last;
+      // revert to the last existing entry
+      while (entry && entry.removed) entry = entry.previous;
+      // get next entry
+      if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
+        // or finish the iteration
+        state.target = undefined;
+        return { value: undefined, done: true };
+      }
+      // return step by kind
+      if (kind == 'keys') return { value: entry.key, done: false };
+      if (kind == 'values') return { value: entry.value, done: false };
+      return { value: [entry.key, entry.value], done: false };
+    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
+
+    // add [@@species], 23.1.2.2, 23.2.2.2
+    setSpecies(CONSTRUCTOR_NAME);
+  }
+};
+
+
+/***/ }),
+
 /***/ "b4cc":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -27192,7 +27709,7 @@ module.exports = hashHas;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return symbolOption; });
 /* unused harmony export symbolOption1 */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return partComponent; });
-/* harmony import */ var G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("28f8");
+/* harmony import */ var E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("28f8");
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("ca00");
 
 
@@ -27809,7 +28326,7 @@ var chartComponent = {
       barCategoryGap: "20%",
       cusbarCategoryGap: 0,
       showLabel: false,
-      'format-ratio': "1",
+      'format-ratio': 1,
       'format-digit': "auto",
       'format-prefix': "",
       'format-suffix': "",
@@ -27823,7 +28340,7 @@ var chartComponent = {
       showStack: false,
       'format-format': "{c}",
       stackValue: "默认类目"
-    }, Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "barCategoryGap", "20%"), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusbarCategoryGap", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "areaColor", null), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "align", "left"), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "verticalAlign", "middle"), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusAlignX", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusAlignY", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "xradio", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "yradio", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "z", 2), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "borderRadius", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius1", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius2", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius3", 0), Object(G_chartmix_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius4", 0), _ref)]
+    }, Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "barCategoryGap", "20%"), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusbarCategoryGap", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "areaColor", null), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "align", "left"), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "verticalAlign", "middle"), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusAlignX", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "cusAlignY", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "xradio", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "yradio", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "z", 2), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "borderRadius", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius1", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius2", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius3", 0), Object(E_project_chartMix_node_modules_babel_runtime_7_12_5_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(_ref, "radius4", 0), _ref)]
   },
   // pieSeries
   pieSeries: {
@@ -28497,84 +29014,6 @@ var chartOptions = {
 
 /***/ }),
 
-/***/ "b526":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var toAbsoluteIndex = __webpack_require__("fd0b");
-var toInteger = __webpack_require__("b804");
-var toLength = __webpack_require__("4a35");
-var toObject = __webpack_require__("3c6b");
-var arraySpeciesCreate = __webpack_require__("0c3a");
-var createProperty = __webpack_require__("bab6");
-var arrayMethodHasSpeciesSupport = __webpack_require__("243e");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('splice');
-var USES_TO_LENGTH = arrayMethodUsesToLength('splice', { ACCESSORS: true, 0: 0, 1: 2 });
-
-var max = Math.max;
-var min = Math.min;
-var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
-
-// `Array.prototype.splice` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.splice
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  splice: function splice(start, deleteCount /* , ...items */) {
-    var O = toObject(this);
-    var len = toLength(O.length);
-    var actualStart = toAbsoluteIndex(start, len);
-    var argumentsLength = arguments.length;
-    var insertCount, actualDeleteCount, A, k, from, to;
-    if (argumentsLength === 0) {
-      insertCount = actualDeleteCount = 0;
-    } else if (argumentsLength === 1) {
-      insertCount = 0;
-      actualDeleteCount = len - actualStart;
-    } else {
-      insertCount = argumentsLength - 2;
-      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
-    }
-    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
-      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
-    }
-    A = arraySpeciesCreate(O, actualDeleteCount);
-    for (k = 0; k < actualDeleteCount; k++) {
-      from = actualStart + k;
-      if (from in O) createProperty(A, k, O[from]);
-    }
-    A.length = actualDeleteCount;
-    if (insertCount < actualDeleteCount) {
-      for (k = actualStart; k < len - actualDeleteCount; k++) {
-        from = k + actualDeleteCount;
-        to = k + insertCount;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
-    } else if (insertCount > actualDeleteCount) {
-      for (k = len - actualDeleteCount; k > actualStart; k--) {
-        from = k + actualDeleteCount - 1;
-        to = k + insertCount - 1;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-    }
-    for (k = 0; k < insertCount; k++) {
-      O[k + actualStart] = arguments[k + 2];
-    }
-    O.length = len - actualDeleteCount + insertCount;
-    return A;
-  }
-});
-
-
-/***/ }),
-
 /***/ "b5c3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28594,6 +29033,18 @@ function getAllKeys(object) {
 }
 
 module.exports = getAllKeys;
+
+
+/***/ }),
+
+/***/ "b64f":
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
 
 
 /***/ }),
@@ -28648,6 +29099,96 @@ module.exports = isTypedArray;
 
 /***/ }),
 
+/***/ "b748":
+/***/ (function(module, exports, __webpack_require__) {
+
+var hiddenKeys = __webpack_require__("0c09");
+var isObject = __webpack_require__("42cc");
+var has = __webpack_require__("b64f");
+var defineProperty = __webpack_require__("22af").f;
+var uid = __webpack_require__("95bd");
+var FREEZING = __webpack_require__("6e38");
+
+var METADATA = uid('meta');
+var id = 0;
+
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+
+var setMetadata = function (it) {
+  defineProperty(it, METADATA, { value: {
+    objectID: 'O' + ++id, // object ID
+    weakData: {}          // weak collections IDs
+  } });
+};
+
+var fastKey = function (it, create) {
+  // return a primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMetadata(it);
+  // return object ID
+  } return it[METADATA].objectID;
+};
+
+var getWeakData = function (it, create) {
+  if (!has(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMetadata(it);
+  // return the store of weak collections IDs
+  } return it[METADATA].weakData;
+};
+
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZING && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
+  return it;
+};
+
+var meta = module.exports = {
+  REQUIRED: false,
+  fastKey: fastKey,
+  getWeakData: getWeakData,
+  onFreeze: onFreeze
+};
+
+hiddenKeys[METADATA] = true;
+
+
+/***/ }),
+
+/***/ "b784":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("a09b");
+var notARegExp = __webpack_require__("b203");
+var requireObjectCoercible = __webpack_require__("4340");
+var correctIsRegExpLogic = __webpack_require__("98f2");
+
+// `String.prototype.includes` method
+// https://tc39.github.io/ecma262/#sec-string.prototype.includes
+$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+  includes: function includes(searchString /* , position = 0 */) {
+    return !!~String(requireObjectCoercible(this))
+      .indexOf(notARegExp(searchString), arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
 /***/ "b7df":
 /***/ (function(module, exports) {
 
@@ -28669,194 +29210,138 @@ module.exports = stackHas;
 
 /***/ }),
 
-/***/ "b804":
+/***/ "b91c":
 /***/ (function(module, exports) {
 
-var ceil = Math.ceil;
-var floor = Math.floor;
+exports.f = Object.getOwnPropertySymbols;
 
-// `ToInteger` abstract operation
-// https://tc39.github.io/ecma262/#sec-tointeger
-module.exports = function (argument) {
-  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+
+/***/ }),
+
+/***/ "b921":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("fc3a");
+var defineProperties = __webpack_require__("8587");
+var enumBugKeys = __webpack_require__("65bb");
+var hiddenKeys = __webpack_require__("0c09");
+var html = __webpack_require__("beb6");
+var documentCreateElement = __webpack_require__("4f3e");
+var sharedKey = __webpack_require__("9800");
+
+var GT = '>';
+var LT = '<';
+var PROTOTYPE = 'prototype';
+var SCRIPT = 'script';
+var IE_PROTO = sharedKey('IE_PROTO');
+
+var EmptyConstructor = function () { /* empty */ };
+
+var scriptTag = function (content) {
+  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
+};
+
+// Create object with fake `null` prototype: use ActiveX Object with cleared prototype
+var NullProtoObjectViaActiveX = function (activeXDocument) {
+  activeXDocument.write(scriptTag(''));
+  activeXDocument.close();
+  var temp = activeXDocument.parentWindow.Object;
+  activeXDocument = null; // avoid memory leak
+  return temp;
+};
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var NullProtoObjectViaIFrame = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = documentCreateElement('iframe');
+  var JS = 'java' + SCRIPT + ':';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  html.appendChild(iframe);
+  // https://github.com/zloirock/core-js/issues/475
+  iframe.src = String(JS);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(scriptTag('document.F=Object'));
+  iframeDocument.close();
+  return iframeDocument.F;
+};
+
+// Check for document.domain and active x support
+// No need to use active x approach when document.domain is not set
+// see https://github.com/es-shims/es5-shim/issues/150
+// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+// avoid IE GC bug
+var activeXDocument;
+var NullProtoObject = function () {
+  try {
+    /* global ActiveXObject */
+    activeXDocument = document.domain && new ActiveXObject('htmlfile');
+  } catch (error) { /* ignore */ }
+  NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
+  var length = enumBugKeys.length;
+  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
+  return NullProtoObject();
+};
+
+hiddenKeys[IE_PROTO] = true;
+
+// `Object.create` method
+// https://tc39.github.io/ecma262/#sec-object.create
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    EmptyConstructor[PROTOTYPE] = anObject(O);
+    result = new EmptyConstructor();
+    EmptyConstructor[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = NullProtoObject();
+  return Properties === undefined ? result : defineProperties(result, Properties);
 };
 
 
 /***/ }),
 
-/***/ "b973":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("3b29");
+/***/ "b9ec":
+/***/ (function(module, exports) {
 
 module.exports = function (it) {
-  if (!isObject(it)) {
-    throw TypeError(String(it) + ' is not an object');
+  if (typeof it != 'function') {
+    throw TypeError(String(it) + ' is not a function');
   } return it;
 };
 
 
 /***/ }),
 
-/***/ "b9c4":
+/***/ "bb56":
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__("6d05");
+var $ = __webpack_require__("a09b");
+var DESCRIPTORS = __webpack_require__("aba0");
+var ownKeys = __webpack_require__("3449");
+var toIndexedObject = __webpack_require__("ec87");
+var getOwnPropertyDescriptorModule = __webpack_require__("e329");
+var createProperty = __webpack_require__("8863");
 
-exports.f = wellKnownSymbol;
-
-
-/***/ }),
-
-/***/ "baaf":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var fails = __webpack_require__("aad0");
-var bind = __webpack_require__("ed07");
-var html = __webpack_require__("5f8f");
-var createElement = __webpack_require__("4890");
-var IS_IOS = __webpack_require__("837e");
-var IS_NODE = __webpack_require__("a976");
-
-var location = global.location;
-var set = global.setImmediate;
-var clear = global.clearImmediate;
-var process = global.process;
-var MessageChannel = global.MessageChannel;
-var Dispatch = global.Dispatch;
-var counter = 0;
-var queue = {};
-var ONREADYSTATECHANGE = 'onreadystatechange';
-var defer, channel, port;
-
-var run = function (id) {
-  // eslint-disable-next-line no-prototype-builtins
-  if (queue.hasOwnProperty(id)) {
-    var fn = queue[id];
-    delete queue[id];
-    fn();
+// `Object.getOwnPropertyDescriptors` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
+$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
+  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+    var O = toIndexedObject(object);
+    var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+    var keys = ownKeys(O);
+    var result = {};
+    var index = 0;
+    var key, descriptor;
+    while (keys.length > index) {
+      descriptor = getOwnPropertyDescriptor(O, key = keys[index++]);
+      if (descriptor !== undefined) createProperty(result, key, descriptor);
+    }
+    return result;
   }
-};
-
-var runner = function (id) {
-  return function () {
-    run(id);
-  };
-};
-
-var listener = function (event) {
-  run(event.data);
-};
-
-var post = function (id) {
-  // old engines have not location.origin
-  global.postMessage(id + '', location.protocol + '//' + location.host);
-};
-
-// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-if (!set || !clear) {
-  set = function setImmediate(fn) {
-    var args = [];
-    var i = 1;
-    while (arguments.length > i) args.push(arguments[i++]);
-    queue[++counter] = function () {
-      // eslint-disable-next-line no-new-func
-      (typeof fn == 'function' ? fn : Function(fn)).apply(undefined, args);
-    };
-    defer(counter);
-    return counter;
-  };
-  clear = function clearImmediate(id) {
-    delete queue[id];
-  };
-  // Node.js 0.8-
-  if (IS_NODE) {
-    defer = function (id) {
-      process.nextTick(runner(id));
-    };
-  // Sphere (JS game engine) Dispatch API
-  } else if (Dispatch && Dispatch.now) {
-    defer = function (id) {
-      Dispatch.now(runner(id));
-    };
-  // Browsers with MessageChannel, includes WebWorkers
-  // except iOS - https://github.com/zloirock/core-js/issues/624
-  } else if (MessageChannel && !IS_IOS) {
-    channel = new MessageChannel();
-    port = channel.port2;
-    channel.port1.onmessage = listener;
-    defer = bind(port.postMessage, port, 1);
-  // Browsers with postMessage, skip WebWorkers
-  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-  } else if (
-    global.addEventListener &&
-    typeof postMessage == 'function' &&
-    !global.importScripts &&
-    location && location.protocol !== 'file:' &&
-    !fails(post)
-  ) {
-    defer = post;
-    global.addEventListener('message', listener, false);
-  // IE8-
-  } else if (ONREADYSTATECHANGE in createElement('script')) {
-    defer = function (id) {
-      html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-        html.removeChild(this);
-        run(id);
-      };
-    };
-  // Rest old browsers
-  } else {
-    defer = function (id) {
-      setTimeout(runner(id), 0);
-    };
-  }
-}
-
-module.exports = {
-  set: set,
-  clear: clear
-};
-
-
-/***/ }),
-
-/***/ "bab3":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("3b29");
-
-// `ToPrimitive` abstract operation
-// https://tc39.github.io/ecma262/#sec-toprimitive
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (input, PREFERRED_STRING) {
-  if (!isObject(input)) return input;
-  var fn, val;
-  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
-  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-
-/***/ "bab6":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toPrimitive = __webpack_require__("bab3");
-var definePropertyModule = __webpack_require__("30cf");
-var createPropertyDescriptor = __webpack_require__("ef69");
-
-module.exports = function (object, key, value) {
-  var propertyKey = toPrimitive(key);
-  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
-  else object[propertyKey] = value;
-};
+});
 
 
 /***/ }),
@@ -28875,35 +29360,59 @@ module.exports = Map;
 
 /***/ }),
 
-/***/ "bbfb":
+/***/ "bc89":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var anObject = __webpack_require__("fc3a");
 
-var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-// Nashorn ~ JDK8 bug
-var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
-
-// `Object.prototype.propertyIsEnumerable` method implementation
-// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
-exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
-  var descriptor = getOwnPropertyDescriptor(this, V);
-  return !!descriptor && descriptor.enumerable;
-} : nativePropertyIsEnumerable;
+module.exports = function (iterator) {
+  var returnMethod = iterator['return'];
+  if (returnMethod !== undefined) {
+    return anObject(returnMethod.call(iterator)).value;
+  }
+};
 
 
 /***/ }),
 
-/***/ "bc2f":
+/***/ "beb6":
 /***/ (function(module, exports, __webpack_require__) {
 
-var bind = __webpack_require__("ed07");
-var IndexedObject = __webpack_require__("4bfa");
-var toObject = __webpack_require__("3c6b");
-var toLength = __webpack_require__("4a35");
-var arraySpeciesCreate = __webpack_require__("0c3a");
+var getBuiltIn = __webpack_require__("8843");
+
+module.exports = getBuiltIn('document', 'documentElement');
+
+
+/***/ }),
+
+/***/ "bf8a":
+/***/ (function(module, exports) {
+
+/**
+ * Checks if a `cache` value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+module.exports = cacheHas;
+
+
+/***/ }),
+
+/***/ "bfc3":
+/***/ (function(module, exports, __webpack_require__) {
+
+var bind = __webpack_require__("1e51");
+var IndexedObject = __webpack_require__("7866");
+var toObject = __webpack_require__("6050");
+var toLength = __webpack_require__("c3a3");
+var arraySpeciesCreate = __webpack_require__("28ea");
 
 var push = [].push;
 
@@ -28975,18 +29484,70 @@ module.exports = {
 
 /***/ }),
 
-/***/ "bcd9":
+/***/ "c021":
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+
+/***/ }),
+
+/***/ "c119":
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__("1f17");
+var create = __webpack_require__("b921");
+var definePropertyModule = __webpack_require__("22af");
+
+var UNSCOPABLES = wellKnownSymbol('unscopables');
+var ArrayPrototype = Array.prototype;
+
+// Array.prototype[@@unscopables]
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+if (ArrayPrototype[UNSCOPABLES] == undefined) {
+  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
+    configurable: true,
+    value: create(null)
+  });
+}
+
+// add a key to Array.prototype[@@unscopables]
+module.exports = function (key) {
+  ArrayPrototype[UNSCOPABLES][key] = true;
+};
+
+
+/***/ }),
+
+/***/ "c1b6":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var fails = __webpack_require__("aad0");
-var objectKeys = __webpack_require__("c59c");
-var getOwnPropertySymbolsModule = __webpack_require__("9349");
-var propertyIsEnumerableModule = __webpack_require__("bbfb");
-var toObject = __webpack_require__("3c6b");
-var IndexedObject = __webpack_require__("4bfa");
+var DESCRIPTORS = __webpack_require__("aba0");
+var fails = __webpack_require__("2bc8");
+var objectKeys = __webpack_require__("9c6a");
+var getOwnPropertySymbolsModule = __webpack_require__("b91c");
+var propertyIsEnumerableModule = __webpack_require__("97c2");
+var toObject = __webpack_require__("6050");
+var IndexedObject = __webpack_require__("7866");
 
 var nativeAssign = Object.assign;
 var defineProperty = Object.defineProperty;
@@ -29035,310 +29596,49 @@ module.exports = !nativeAssign || fails(function () {
 
 /***/ }),
 
-/***/ "be34":
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-
-/***/ "bf6c":
+/***/ "c1d9":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var fails = __webpack_require__("2bc8");
 
-var $ = __webpack_require__("485e");
-var $findIndex = __webpack_require__("bc2f").findIndex;
-var addToUnscopables = __webpack_require__("3f9d");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var FIND_INDEX = 'findIndex';
-var SKIPS_HOLES = true;
-
-var USES_TO_LENGTH = arrayMethodUsesToLength(FIND_INDEX);
-
-// Shouldn't skip holes
-if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES = false; });
-
-// `Array.prototype.findIndex` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.findindex
-$({ target: 'Array', proto: true, forced: SKIPS_HOLES || !USES_TO_LENGTH }, {
-  findIndex: function findIndex(callbackfn /* , that = undefined */) {
-    return $findIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables(FIND_INDEX);
-
-
-/***/ }),
-
-/***/ "bf8a":
-/***/ (function(module, exports) {
-
-/**
- * Checks if a `cache` value for `key` exists.
- *
- * @private
- * @param {Object} cache The cache to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function cacheHas(cache, key) {
-  return cache.has(key);
-}
-
-module.exports = cacheHas;
-
-
-/***/ }),
-
-/***/ "bfa6":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var $indexOf = __webpack_require__("af7d").indexOf;
-var arrayMethodIsStrict = __webpack_require__("3891");
-var arrayMethodUsesToLength = __webpack_require__("64f1");
-
-var nativeIndexOf = [].indexOf;
-
-var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
-var STRICT_METHOD = arrayMethodIsStrict('indexOf');
-var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
-
-// `Array.prototype.indexOf` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD || !USES_TO_LENGTH }, {
-  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
-    return NEGATIVE_ZERO
-      // convert -0 to +0
-      ? nativeIndexOf.apply(this, arguments) || 0
-      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
-  }
+module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
+  // Chrome 38 Symbol has incorrect toString conversion
+  // eslint-disable-next-line no-undef
+  return !String(Symbol());
 });
 
 
 /***/ }),
 
-/***/ "c021":
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-module.exports = isPrototype;
-
-
-/***/ }),
-
-/***/ "c284":
+/***/ "c1e5":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var DESCRIPTORS = __webpack_require__("aba0");
+var fails = __webpack_require__("2bc8");
+var has = __webpack_require__("b64f");
 
-var defineProperty = __webpack_require__("30cf").f;
-var create = __webpack_require__("8e7d");
-var redefineAll = __webpack_require__("852c");
-var bind = __webpack_require__("ed07");
-var anInstance = __webpack_require__("76b7");
-var iterate = __webpack_require__("ab8a");
-var defineIterator = __webpack_require__("9939");
-var setSpecies = __webpack_require__("47c3");
-var DESCRIPTORS = __webpack_require__("35a9");
-var fastKey = __webpack_require__("416c").fastKey;
-var InternalStateModule = __webpack_require__("f806");
+var defineProperty = Object.defineProperty;
+var cache = {};
 
-var setInternalState = InternalStateModule.set;
-var internalStateGetterFor = InternalStateModule.getterFor;
+var thrower = function (it) { throw it; };
 
-module.exports = {
-  getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
-    var C = wrapper(function (that, iterable) {
-      anInstance(that, C, CONSTRUCTOR_NAME);
-      setInternalState(that, {
-        type: CONSTRUCTOR_NAME,
-        index: create(null),
-        first: undefined,
-        last: undefined,
-        size: 0
-      });
-      if (!DESCRIPTORS) that.size = 0;
-      if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
-    });
+module.exports = function (METHOD_NAME, options) {
+  if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
+  if (!options) options = {};
+  var method = [][METHOD_NAME];
+  var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
+  var argument0 = has(options, 0) ? options[0] : thrower;
+  var argument1 = has(options, 1) ? options[1] : undefined;
 
-    var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
+  return cache[METHOD_NAME] = !!method && !fails(function () {
+    if (ACCESSORS && !DESCRIPTORS) return true;
+    var O = { length: -1 };
 
-    var define = function (that, key, value) {
-      var state = getInternalState(that);
-      var entry = getEntry(that, key);
-      var previous, index;
-      // change existing entry
-      if (entry) {
-        entry.value = value;
-      // create new entry
-      } else {
-        state.last = entry = {
-          index: index = fastKey(key, true),
-          key: key,
-          value: value,
-          previous: previous = state.last,
-          next: undefined,
-          removed: false
-        };
-        if (!state.first) state.first = entry;
-        if (previous) previous.next = entry;
-        if (DESCRIPTORS) state.size++;
-        else that.size++;
-        // add to index
-        if (index !== 'F') state.index[index] = entry;
-      } return that;
-    };
+    if (ACCESSORS) defineProperty(O, 1, { enumerable: true, get: thrower });
+    else O[1] = 1;
 
-    var getEntry = function (that, key) {
-      var state = getInternalState(that);
-      // fast case
-      var index = fastKey(key);
-      var entry;
-      if (index !== 'F') return state.index[index];
-      // frozen object case
-      for (entry = state.first; entry; entry = entry.next) {
-        if (entry.key == key) return entry;
-      }
-    };
-
-    redefineAll(C.prototype, {
-      // 23.1.3.1 Map.prototype.clear()
-      // 23.2.3.2 Set.prototype.clear()
-      clear: function clear() {
-        var that = this;
-        var state = getInternalState(that);
-        var data = state.index;
-        var entry = state.first;
-        while (entry) {
-          entry.removed = true;
-          if (entry.previous) entry.previous = entry.previous.next = undefined;
-          delete data[entry.index];
-          entry = entry.next;
-        }
-        state.first = state.last = undefined;
-        if (DESCRIPTORS) state.size = 0;
-        else that.size = 0;
-      },
-      // 23.1.3.3 Map.prototype.delete(key)
-      // 23.2.3.4 Set.prototype.delete(value)
-      'delete': function (key) {
-        var that = this;
-        var state = getInternalState(that);
-        var entry = getEntry(that, key);
-        if (entry) {
-          var next = entry.next;
-          var prev = entry.previous;
-          delete state.index[entry.index];
-          entry.removed = true;
-          if (prev) prev.next = next;
-          if (next) next.previous = prev;
-          if (state.first == entry) state.first = next;
-          if (state.last == entry) state.last = prev;
-          if (DESCRIPTORS) state.size--;
-          else that.size--;
-        } return !!entry;
-      },
-      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
-      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
-      forEach: function forEach(callbackfn /* , that = undefined */) {
-        var state = getInternalState(this);
-        var boundFunction = bind(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
-        var entry;
-        while (entry = entry ? entry.next : state.first) {
-          boundFunction(entry.value, entry.key, this);
-          // revert to the last existing entry
-          while (entry && entry.removed) entry = entry.previous;
-        }
-      },
-      // 23.1.3.7 Map.prototype.has(key)
-      // 23.2.3.7 Set.prototype.has(value)
-      has: function has(key) {
-        return !!getEntry(this, key);
-      }
-    });
-
-    redefineAll(C.prototype, IS_MAP ? {
-      // 23.1.3.6 Map.prototype.get(key)
-      get: function get(key) {
-        var entry = getEntry(this, key);
-        return entry && entry.value;
-      },
-      // 23.1.3.9 Map.prototype.set(key, value)
-      set: function set(key, value) {
-        return define(this, key === 0 ? 0 : key, value);
-      }
-    } : {
-      // 23.2.3.1 Set.prototype.add(value)
-      add: function add(value) {
-        return define(this, value = value === 0 ? 0 : value, value);
-      }
-    });
-    if (DESCRIPTORS) defineProperty(C.prototype, 'size', {
-      get: function () {
-        return getInternalState(this).size;
-      }
-    });
-    return C;
-  },
-  setStrong: function (C, CONSTRUCTOR_NAME, IS_MAP) {
-    var ITERATOR_NAME = CONSTRUCTOR_NAME + ' Iterator';
-    var getInternalCollectionState = internalStateGetterFor(CONSTRUCTOR_NAME);
-    var getInternalIteratorState = internalStateGetterFor(ITERATOR_NAME);
-    // add .keys, .values, .entries, [@@iterator]
-    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
-    defineIterator(C, CONSTRUCTOR_NAME, function (iterated, kind) {
-      setInternalState(this, {
-        type: ITERATOR_NAME,
-        target: iterated,
-        state: getInternalCollectionState(iterated),
-        kind: kind,
-        last: undefined
-      });
-    }, function () {
-      var state = getInternalIteratorState(this);
-      var kind = state.kind;
-      var entry = state.last;
-      // revert to the last existing entry
-      while (entry && entry.removed) entry = entry.previous;
-      // get next entry
-      if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
-        // or finish the iteration
-        state.target = undefined;
-        return { value: undefined, done: true };
-      }
-      // return step by kind
-      if (kind == 'keys') return { value: entry.key, done: false };
-      if (kind == 'values') return { value: entry.value, done: false };
-      return { value: [entry.key, entry.value], done: false };
-    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
-
-    // add [@@species], 23.1.2.2, 23.2.2.2
-    setSpecies(CONSTRUCTOR_NAME);
-  }
+    method.call(O, argument0, argument1);
+  });
 };
 
 
@@ -29381,21 +29681,109 @@ module.exports = getSymbols;
 
 /***/ }),
 
-/***/ "c2b3":
+/***/ "c301":
 /***/ (function(module, exports, __webpack_require__) {
 
-var store = __webpack_require__("260a");
+"use strict";
 
-var functionToString = Function.toString;
+var $ = __webpack_require__("a09b");
+var global = __webpack_require__("8d5c");
+var isForced = __webpack_require__("0ef8");
+var redefine = __webpack_require__("4450");
+var InternalMetadataModule = __webpack_require__("b748");
+var iterate = __webpack_require__("3afd");
+var anInstance = __webpack_require__("da02");
+var isObject = __webpack_require__("42cc");
+var fails = __webpack_require__("2bc8");
+var checkCorrectnessOfIteration = __webpack_require__("408b");
+var setToStringTag = __webpack_require__("1a81");
+var inheritIfRequired = __webpack_require__("6564");
 
-// this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
-if (typeof store.inspectSource != 'function') {
-  store.inspectSource = function (it) {
-    return functionToString.call(it);
+module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
+  var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
+  var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
+  var ADDER = IS_MAP ? 'set' : 'add';
+  var NativeConstructor = global[CONSTRUCTOR_NAME];
+  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
+  var Constructor = NativeConstructor;
+  var exported = {};
+
+  var fixMethod = function (KEY) {
+    var nativeMethod = NativePrototype[KEY];
+    redefine(NativePrototype, KEY,
+      KEY == 'add' ? function add(value) {
+        nativeMethod.call(this, value === 0 ? 0 : value);
+        return this;
+      } : KEY == 'delete' ? function (key) {
+        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
+      } : KEY == 'get' ? function get(key) {
+        return IS_WEAK && !isObject(key) ? undefined : nativeMethod.call(this, key === 0 ? 0 : key);
+      } : KEY == 'has' ? function has(key) {
+        return IS_WEAK && !isObject(key) ? false : nativeMethod.call(this, key === 0 ? 0 : key);
+      } : function set(key, value) {
+        nativeMethod.call(this, key === 0 ? 0 : key, value);
+        return this;
+      }
+    );
   };
-}
 
-module.exports = store.inspectSource;
+  // eslint-disable-next-line max-len
+  if (isForced(CONSTRUCTOR_NAME, typeof NativeConstructor != 'function' || !(IS_WEAK || NativePrototype.forEach && !fails(function () {
+    new NativeConstructor().entries().next();
+  })))) {
+    // create collection constructor
+    Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
+    InternalMetadataModule.REQUIRED = true;
+  } else if (isForced(CONSTRUCTOR_NAME, true)) {
+    var instance = new Constructor();
+    // early implementations not supports chaining
+    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
+    // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
+    var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
+    // most early implementations doesn't supports iterables, most modern - not close it correctly
+    // eslint-disable-next-line no-new
+    var ACCEPT_ITERABLES = checkCorrectnessOfIteration(function (iterable) { new NativeConstructor(iterable); });
+    // for early implementations -0 and +0 not the same
+    var BUGGY_ZERO = !IS_WEAK && fails(function () {
+      // V8 ~ Chromium 42- fails only with 5+ elements
+      var $instance = new NativeConstructor();
+      var index = 5;
+      while (index--) $instance[ADDER](index, index);
+      return !$instance.has(-0);
+    });
+
+    if (!ACCEPT_ITERABLES) {
+      Constructor = wrapper(function (dummy, iterable) {
+        anInstance(dummy, Constructor, CONSTRUCTOR_NAME);
+        var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
+        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+        return that;
+      });
+      Constructor.prototype = NativePrototype;
+      NativePrototype.constructor = Constructor;
+    }
+
+    if (THROWS_ON_PRIMITIVES || BUGGY_ZERO) {
+      fixMethod('delete');
+      fixMethod('has');
+      IS_MAP && fixMethod('get');
+    }
+
+    if (BUGGY_ZERO || HASNT_CHAINING) fixMethod(ADDER);
+
+    // weak collections should not contains .clear method
+    if (IS_WEAK && NativePrototype.clear) delete NativePrototype.clear;
+  }
+
+  exported[CONSTRUCTOR_NAME] = Constructor;
+  $({ global: true, forced: Constructor != NativeConstructor }, exported);
+
+  setToStringTag(Constructor, CONSTRUCTOR_NAME);
+
+  if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
+
+  return Constructor;
+};
 
 
 /***/ }),
@@ -29430,17 +29818,42 @@ module.exports = arraySome;
 
 /***/ }),
 
-/***/ "c368":
+/***/ "c3a3":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var toInteger = __webpack_require__("0296");
 
-var $ = __webpack_require__("485e");
-var exec = __webpack_require__("dc12");
+var min = Math.min;
 
-$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
-  exec: exec
-});
+// `ToLength` abstract operation
+// https://tc39.github.io/ecma262/#sec-tolength
+module.exports = function (argument) {
+  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ "c43f":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("b64f");
+var toObject = __webpack_require__("6050");
+var sharedKey = __webpack_require__("9800");
+var CORRECT_PROTOTYPE_GETTER = __webpack_require__("cf67");
+
+var IE_PROTO = sharedKey('IE_PROTO');
+var ObjectPrototype = Object.prototype;
+
+// `Object.getPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.getprototypeof
+module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectPrototype : null;
+};
 
 
 /***/ }),
@@ -29473,88 +29886,6 @@ function isIndex(value, length) {
 }
 
 module.exports = isIndex;
-
-
-/***/ }),
-
-/***/ "c585":
-/***/ (function(module, exports, __webpack_require__) {
-
-var TO_STRING_TAG_SUPPORT = __webpack_require__("0160");
-var redefine = __webpack_require__("d496");
-var toString = __webpack_require__("7e62");
-
-// `Object.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-if (!TO_STRING_TAG_SUPPORT) {
-  redefine(Object.prototype, 'toString', toString, { unsafe: true });
-}
-
-
-/***/ }),
-
-/***/ "c59c":
-/***/ (function(module, exports, __webpack_require__) {
-
-var internalObjectKeys = __webpack_require__("2092");
-var enumBugKeys = __webpack_require__("f74b");
-
-// `Object.keys` method
-// https://tc39.github.io/ecma262/#sec-object.keys
-module.exports = Object.keys || function keys(O) {
-  return internalObjectKeys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
-/***/ "c645":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var notARegExp = __webpack_require__("a164");
-var requireObjectCoercible = __webpack_require__("21e0");
-var correctIsRegExpLogic = __webpack_require__("b20c");
-
-// `String.prototype.includes` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.includes
-$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
-  includes: function includes(searchString /* , position = 0 */) {
-    return !!~String(requireObjectCoercible(this))
-      .indexOf(notARegExp(searchString), arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-
-/***/ "c647":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toIndexedObject = __webpack_require__("3274");
-var nativeGetOwnPropertyNames = __webpack_require__("6b64").f;
-
-var toString = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function (it) {
-  try {
-    return nativeGetOwnPropertyNames(it);
-  } catch (error) {
-    return windowNames.slice();
-  }
-};
-
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && toString.call(it) == '[object Window]'
-    ? getWindowNames(it)
-    : nativeGetOwnPropertyNames(toIndexedObject(it));
-};
 
 
 /***/ }),
@@ -29666,67 +29997,6 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "c703":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toIndexedObject = __webpack_require__("3274");
-var addToUnscopables = __webpack_require__("3f9d");
-var Iterators = __webpack_require__("9b64");
-var InternalStateModule = __webpack_require__("f806");
-var defineIterator = __webpack_require__("9939");
-
-var ARRAY_ITERATOR = 'Array Iterator';
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
-
-// `Array.prototype.entries` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.entries
-// `Array.prototype.keys` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.keys
-// `Array.prototype.values` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.values
-// `Array.prototype[@@iterator]` method
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@iterator
-// `CreateArrayIterator` internal method
-// https://tc39.github.io/ecma262/#sec-createarrayiterator
-module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
-  setInternalState(this, {
-    type: ARRAY_ITERATOR,
-    target: toIndexedObject(iterated), // target
-    index: 0,                          // next index
-    kind: kind                         // kind
-  });
-// `%ArrayIteratorPrototype%.next` method
-// https://tc39.github.io/ecma262/#sec-%arrayiteratorprototype%.next
-}, function () {
-  var state = getInternalState(this);
-  var target = state.target;
-  var kind = state.kind;
-  var index = state.index++;
-  if (!target || index >= target.length) {
-    state.target = undefined;
-    return { value: undefined, done: true };
-  }
-  if (kind == 'keys') return { value: index, done: false };
-  if (kind == 'values') return { value: target[index], done: false };
-  return { value: [index, target[index]], done: false };
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values%
-// https://tc39.github.io/ecma262/#sec-createunmappedargumentsobject
-// https://tc39.github.io/ecma262/#sec-createmappedargumentsobject
-Iterators.Arguments = Iterators.Array;
-
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-
-/***/ }),
-
 /***/ "c720":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29764,14 +30034,28 @@ module.exports = hashGet;
 
 /***/ }),
 
-/***/ "c7d8":
-/***/ (function(module, exports) {
+/***/ "c726":
+/***/ (function(module, exports, __webpack_require__) {
 
-var toString = {}.toString;
+"use strict";
 
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
-};
+var $ = __webpack_require__("a09b");
+var $includes = __webpack_require__("6158").includes;
+var addToUnscopables = __webpack_require__("c119");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
+
+// `Array.prototype.includes` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+$({ target: 'Array', proto: true, forced: !USES_TO_LENGTH }, {
+  includes: function includes(el /* , fromIndex = 0 */) {
+    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('includes');
 
 
 /***/ }),
@@ -29792,65 +30076,65 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 
 // UNUSED EXPORTS: deepClone, transformCommon
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.filter.js
-var es_array_filter = __webpack_require__("034f");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.filter.js
+var es_array_filter = __webpack_require__("cb3c");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.for-each.js
-var es_array_for_each = __webpack_require__("3610");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.for-each.js
+var es_array_for_each = __webpack_require__("72b3");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.index-of.js
-var es_array_index_of = __webpack_require__("bfa6");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.index-of.js
+var es_array_index_of = __webpack_require__("a543");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("c703");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("139e");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("eb5b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("1d7a");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.map.js
-var es_map = __webpack_require__("6a73");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.map.js
+var es_map = __webpack_require__("6e39");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.object.keys.js
-var es_object_keys = __webpack_require__("ed88");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__("fae2");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__("c585");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.object.to-string.js
+var es_object_to_string = __webpack_require__("402f");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.reflect.delete-property.js
-var es_reflect_delete_property = __webpack_require__("d9c5");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.reflect.delete-property.js
+var es_reflect_delete_property = __webpack_require__("9dc5");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.regexp.constructor.js
-var es_regexp_constructor = __webpack_require__("65fa");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.regexp.constructor.js
+var es_regexp_constructor = __webpack_require__("e583");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__("c368");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.regexp.exec.js
+var es_regexp_exec = __webpack_require__("0bd5");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__("e412");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__("836b");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("a0ef");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.iterator.js
+var es_string_iterator = __webpack_require__("2db5");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__("948b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.replace.js
+var es_string_replace = __webpack_require__("9b42");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.string.split.js
-var es_string_split = __webpack_require__("a870");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.string.split.js
+var es_string_split = __webpack_require__("79a8");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__("f644");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__("270f");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("281b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/web.dom-collections.iterator.js
+var web_dom_collections_iterator = __webpack_require__("6ab7");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.symbol.js
-var es_symbol = __webpack_require__("2522");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.symbol.js
+var es_symbol = __webpack_require__("ab31");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.symbol.description.js
-var es_symbol_description = __webpack_require__("de78");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.symbol.description.js
+var es_symbol_description = __webpack_require__("4f40");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.symbol.iterator.js
-var es_symbol_iterator = __webpack_require__("6019");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.symbol.iterator.js
+var es_symbol_iterator = __webpack_require__("172f");
 
 // CONCATENATED MODULE: ./node_modules/_@babel_runtime@7.12.5@@babel/runtime/helpers/esm/typeof.js
 
@@ -29875,11 +30159,11 @@ function _typeof(obj) {
 
   return _typeof(obj);
 }
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.from.js
-var es_array_from = __webpack_require__("cd5b");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.from.js
+var es_array_from = __webpack_require__("cb91");
 
-// EXTERNAL MODULE: ./node_modules/_core-js@3.8.0@core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("606e");
+// EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("b131");
 
 // CONCATENATED MODULE: ./node_modules/_@babel_runtime@7.12.5@@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(arr, len) {
@@ -31477,18 +31761,47 @@ module.exports = setCacheHas;
 
 /***/ }),
 
-/***/ "cb62":
+/***/ "cb3c":
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var fails = __webpack_require__("aad0");
-var createElement = __webpack_require__("4890");
+"use strict";
 
-// Thank's IE8 for his funny defineProperty
-module.exports = !DESCRIPTORS && !fails(function () {
-  return Object.defineProperty(createElement('div'), 'a', {
-    get: function () { return 7; }
-  }).a != 7;
+var $ = __webpack_require__("a09b");
+var $filter = __webpack_require__("bfc3").filter;
+var arrayMethodHasSpeciesSupport = __webpack_require__("4d7f");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
+// Edge 14- issue
+var USES_TO_LENGTH = arrayMethodUsesToLength('filter');
+
+// `Array.prototype.filter` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.filter
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
+/***/ "cb91":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("a09b");
+var from = __webpack_require__("de3e");
+var checkCorrectnessOfIteration = __webpack_require__("408b");
+
+var INCORRECT_ITERATION = !checkCorrectnessOfIteration(function (iterable) {
+  Array.from(iterable);
+});
+
+// `Array.from` method
+// https://tc39.github.io/ecma262/#sec-array.from
+$({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
+  from: from
 });
 
 
@@ -31613,26 +31926,6 @@ module.exports = equalByTag;
 
 /***/ }),
 
-/***/ "cd5b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("485e");
-var from = __webpack_require__("634d");
-var checkCorrectnessOfIteration = __webpack_require__("146b");
-
-var INCORRECT_ITERATION = !checkCorrectnessOfIteration(function (iterable) {
-  Array.from(iterable);
-});
-
-// `Array.from` method
-// https://tc39.github.io/ecma262/#sec-array.from
-$({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
-  from: from
-});
-
-
-/***/ }),
-
 /***/ "cdbe":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31681,25 +31974,160 @@ module.exports = mapCacheDelete;
 
 /***/ }),
 
-/***/ "d174":
+/***/ "cee9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("a09b");
+var fails = __webpack_require__("2bc8");
+var toIndexedObject = __webpack_require__("ec87");
+var nativeGetOwnPropertyDescriptor = __webpack_require__("e329").f;
+var DESCRIPTORS = __webpack_require__("aba0");
+
+var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
+var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
+
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
+  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
+    return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
+  }
+});
+
+
+/***/ }),
+
+/***/ "cf0a":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var global = __webpack_require__("efd0");
-var isForced = __webpack_require__("1b38");
-var redefine = __webpack_require__("d496");
-var has = __webpack_require__("0117");
-var classof = __webpack_require__("c7d8");
-var inheritIfRequired = __webpack_require__("5cd0");
-var toPrimitive = __webpack_require__("bab3");
-var fails = __webpack_require__("aad0");
-var create = __webpack_require__("8e7d");
-var getOwnPropertyNames = __webpack_require__("6b64").f;
-var getOwnPropertyDescriptor = __webpack_require__("977b").f;
-var defineProperty = __webpack_require__("30cf").f;
-var trim = __webpack_require__("0610").trim;
+var $ = __webpack_require__("a09b");
+var createIteratorConstructor = __webpack_require__("9456");
+var getPrototypeOf = __webpack_require__("c43f");
+var setPrototypeOf = __webpack_require__("dbfe");
+var setToStringTag = __webpack_require__("1a81");
+var createNonEnumerableProperty = __webpack_require__("d53e");
+var redefine = __webpack_require__("4450");
+var wellKnownSymbol = __webpack_require__("1f17");
+var IS_PURE = __webpack_require__("67d5");
+var Iterators = __webpack_require__("27c4");
+var IteratorsCore = __webpack_require__("a717");
+
+var IteratorPrototype = IteratorsCore.IteratorPrototype;
+var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
+var ITERATOR = wellKnownSymbol('iterator');
+var KEYS = 'keys';
+var VALUES = 'values';
+var ENTRIES = 'entries';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+  createIteratorConstructor(IteratorConstructor, NAME, next);
+
+  var getIterationMethod = function (KIND) {
+    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
+    switch (KIND) {
+      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+    } return function () { return new IteratorConstructor(this); };
+  };
+
+  var TO_STRING_TAG = NAME + ' Iterator';
+  var INCORRECT_VALUES_NAME = false;
+  var IterablePrototype = Iterable.prototype;
+  var nativeIterator = IterablePrototype[ITERATOR]
+    || IterablePrototype['@@iterator']
+    || DEFAULT && IterablePrototype[DEFAULT];
+  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
+  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+  var CurrentIteratorPrototype, methods, KEY;
+
+  // fix native
+  if (anyNativeIterator) {
+    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
+    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
+      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
+        if (setPrototypeOf) {
+          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
+        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
+          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
+        }
+      }
+      // Set @@toStringTag to native iterators
+      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
+      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+    }
+  }
+
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    INCORRECT_VALUES_NAME = true;
+    defaultIterator = function values() { return nativeIterator.call(this); };
+  }
+
+  // define iterator
+  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
+    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
+  }
+  Iterators[NAME] = defaultIterator;
+
+  // export additional methods
+  if (DEFAULT) {
+    methods = {
+      values: getIterationMethod(VALUES),
+      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+      entries: getIterationMethod(ENTRIES)
+    };
+    if (FORCED) for (KEY in methods) {
+      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+        redefine(IterablePrototype, KEY, methods[KEY]);
+      }
+    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+  }
+
+  return methods;
+};
+
+
+/***/ }),
+
+/***/ "cf67":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("2bc8");
+
+module.exports = !fails(function () {
+  function F() { /* empty */ }
+  F.prototype.constructor = null;
+  return Object.getPrototypeOf(new F()) !== F.prototype;
+});
+
+
+/***/ }),
+
+/***/ "d0bf":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__("aba0");
+var global = __webpack_require__("8d5c");
+var isForced = __webpack_require__("0ef8");
+var redefine = __webpack_require__("4450");
+var has = __webpack_require__("b64f");
+var classof = __webpack_require__("3d7c");
+var inheritIfRequired = __webpack_require__("6564");
+var toPrimitive = __webpack_require__("34e1");
+var fails = __webpack_require__("2bc8");
+var create = __webpack_require__("b921");
+var getOwnPropertyNames = __webpack_require__("3de6").f;
+var getOwnPropertyDescriptor = __webpack_require__("e329").f;
+var defineProperty = __webpack_require__("22af").f;
+var trim = __webpack_require__("9414").trim;
 
 var NUMBER = 'Number';
 var NativeNumber = global[NUMBER];
@@ -31753,7 +32181,9 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
     'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
     // ES2015 (in case, if modules with ES2015 Number statics required before):
     'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
-    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger,' +
+    // ESNext
+    'fromString,range'
   ).split(','), j = 0, key; keys.length > j; j++) {
     if (has(NativeNumber, key = keys[j]) && !has(NumberWrapper, key)) {
       defineProperty(NumberWrapper, key, getOwnPropertyDescriptor(NativeNumber, key));
@@ -31772,19 +32202,19 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread2; });
-/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("2522");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ab31");
 /* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("034f");
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("cb3c");
 /* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("3610");
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("72b3");
 /* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("fd07");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("cee9");
 /* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("588e");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("bb56");
 /* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("ed88");
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("fae2");
 /* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("f644");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("270f");
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("28f8");
 
@@ -31839,160 +32269,40 @@ function _objectSpread2(target) {
 
 /***/ }),
 
-/***/ "d496":
+/***/ "d53e":
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__("efd0");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var has = __webpack_require__("0117");
-var setGlobal = __webpack_require__("18ff");
-var inspectSource = __webpack_require__("c2b3");
-var InternalStateModule = __webpack_require__("f806");
+var DESCRIPTORS = __webpack_require__("aba0");
+var definePropertyModule = __webpack_require__("22af");
+var createPropertyDescriptor = __webpack_require__("5cbf");
 
-var getInternalState = InternalStateModule.get;
-var enforceInternalState = InternalStateModule.enforce;
-var TEMPLATE = String(String).split('String');
-
-(module.exports = function (O, key, value, options) {
-  var unsafe = options ? !!options.unsafe : false;
-  var simple = options ? !!options.enumerable : false;
-  var noTargetGet = options ? !!options.noTargetGet : false;
-  var state;
-  if (typeof value == 'function') {
-    if (typeof key == 'string' && !has(value, 'name')) {
-      createNonEnumerableProperty(value, 'name', key);
-    }
-    state = enforceInternalState(value);
-    if (!state.source) {
-      state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
-    }
-  }
-  if (O === global) {
-    if (simple) O[key] = value;
-    else setGlobal(key, value);
-    return;
-  } else if (!unsafe) {
-    delete O[key];
-  } else if (!noTargetGet && O[key]) {
-    simple = true;
-  }
-  if (simple) O[key] = value;
-  else createNonEnumerableProperty(O, key, value);
-// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-})(Function.prototype, 'toString', function toString() {
-  return typeof this == 'function' && getInternalState(this).source || inspectSource(this);
-});
-
-
-/***/ }),
-
-/***/ "d7d9":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("485e");
-var fails = __webpack_require__("aad0");
-var isArray = __webpack_require__("880d");
-var isObject = __webpack_require__("3b29");
-var toObject = __webpack_require__("3c6b");
-var toLength = __webpack_require__("4a35");
-var createProperty = __webpack_require__("bab6");
-var arraySpeciesCreate = __webpack_require__("0c3a");
-var arrayMethodHasSpeciesSupport = __webpack_require__("243e");
-var wellKnownSymbol = __webpack_require__("6d05");
-var V8_VERSION = __webpack_require__("7047");
-
-var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
-var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
-
-// We can't use this feature detection in V8 since it causes
-// deoptimization and serious performance degradation
-// https://github.com/zloirock/core-js/issues/679
-var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
-  var array = [];
-  array[IS_CONCAT_SPREADABLE] = false;
-  return array.concat()[0] !== array;
-});
-
-var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
-
-var isConcatSpreadable = function (O) {
-  if (!isObject(O)) return false;
-  var spreadable = O[IS_CONCAT_SPREADABLE];
-  return spreadable !== undefined ? !!spreadable : isArray(O);
-};
-
-var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
-
-// `Array.prototype.concat` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.concat
-// with adding support of @@isConcatSpreadable and @@species
-$({ target: 'Array', proto: true, forced: FORCED }, {
-  concat: function concat(arg) { // eslint-disable-line no-unused-vars
-    var O = toObject(this);
-    var A = arraySpeciesCreate(O, 0);
-    var n = 0;
-    var i, k, length, len, E;
-    for (i = -1, length = arguments.length; i < length; i++) {
-      E = i === -1 ? O : arguments[i];
-      if (isConcatSpreadable(E)) {
-        len = toLength(E.length);
-        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
-      } else {
-        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        createProperty(A, n++, E);
-      }
-    }
-    A.length = n;
-    return A;
-  }
-});
-
-
-/***/ }),
-
-/***/ "d872":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  if (typeof it != 'function') {
-    throw TypeError(String(it) + ' is not a function');
-  } return it;
+module.exports = DESCRIPTORS ? function (object, key, value) {
+  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
 };
 
 
 /***/ }),
 
-/***/ "d8cf":
+/***/ "d8a8":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var $forEach = __webpack_require__("bfc3").forEach;
+var arrayMethodIsStrict = __webpack_require__("f8b2");
+var arrayMethodUsesToLength = __webpack_require__("c1e5");
 
-var fails = __webpack_require__("aad0");
+var STRICT_METHOD = arrayMethodIsStrict('forEach');
+var USES_TO_LENGTH = arrayMethodUsesToLength('forEach');
 
-// babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError,
-// so we use an intermediate function.
-function RE(s, f) {
-  return RegExp(s, f);
-}
-
-exports.UNSUPPORTED_Y = fails(function () {
-  // babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
-  var re = RE('a', 'y');
-  re.lastIndex = 2;
-  return re.exec('abcd') != null;
-});
-
-exports.BROKEN_CARET = fails(function () {
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
-  var re = RE('^r', 'gy');
-  re.lastIndex = 2;
-  return re.exec('str') != null;
-});
+// `Array.prototype.forEach` method implementation
+// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+module.exports = (!STRICT_METHOD || !USES_TO_LENGTH) ? function forEach(callbackfn /* , thisArg */) {
+  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+} : [].forEach;
 
 
 /***/ }),
@@ -32017,194 +32327,94 @@ module.exports = getValue;
 
 /***/ }),
 
-/***/ "d99e":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "da02":
+/***/ (function(module, exports) {
 
-var anObject = __webpack_require__("b973");
-var aFunction = __webpack_require__("d872");
-var wellKnownSymbol = __webpack_require__("6d05");
-
-var SPECIES = wellKnownSymbol('species');
-
-// `SpeciesConstructor` abstract operation
-// https://tc39.github.io/ecma262/#sec-speciesconstructor
-module.exports = function (O, defaultConstructor) {
-  var C = anObject(O).constructor;
-  var S;
-  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aFunction(S);
+module.exports = function (it, Constructor, name) {
+  if (!(it instanceof Constructor)) {
+    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
+  } return it;
 };
 
 
 /***/ }),
 
-/***/ "d9c5":
+/***/ "dbfe":
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__("485e");
-var anObject = __webpack_require__("b973");
-var getOwnPropertyDescriptor = __webpack_require__("977b").f;
+var anObject = __webpack_require__("fc3a");
+var aPossiblePrototype = __webpack_require__("15cc");
 
-// `Reflect.deleteProperty` method
-// https://tc39.github.io/ecma262/#sec-reflect.deleteproperty
-$({ target: 'Reflect', stat: true }, {
-  deleteProperty: function deleteProperty(target, propertyKey) {
-    var descriptor = getOwnPropertyDescriptor(anObject(target), propertyKey);
-    return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
+// `Object.setPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+    setter.call(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype(proto);
+    if (CORRECT_SETTER) setter.call(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);
+
+
+/***/ }),
+
+/***/ "de3e":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var bind = __webpack_require__("1e51");
+var toObject = __webpack_require__("6050");
+var callWithSafeIterationClosing = __webpack_require__("b3af");
+var isArrayIteratorMethod = __webpack_require__("8c6c");
+var toLength = __webpack_require__("c3a3");
+var createProperty = __webpack_require__("8863");
+var getIteratorMethod = __webpack_require__("2374");
+
+// `Array.from` method implementation
+// https://tc39.github.io/ecma262/#sec-array.from
+module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+  var O = toObject(arrayLike);
+  var C = typeof this == 'function' ? this : Array;
+  var argumentsLength = arguments.length;
+  var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
+  var mapping = mapfn !== undefined;
+  var iteratorMethod = getIteratorMethod(O);
+  var index = 0;
+  var length, result, step, iterator, next, value;
+  if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
+  // if the target is not iterable or it's an array with the default iterator - use a simple case
+  if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
+    iterator = iteratorMethod.call(O);
+    next = iterator.next;
+    result = new C();
+    for (;!(step = next.call(iterator)).done; index++) {
+      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
+      createProperty(result, index, value);
+    }
+  } else {
+    length = toLength(O.length);
+    result = new C(length);
+    for (;length > index; index++) {
+      value = mapping ? mapfn(O[index], index) : O[index];
+      createProperty(result, index, value);
+    }
   }
-});
-
-
-/***/ }),
-
-/***/ "dc12":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var regexpFlags = __webpack_require__("2d0b");
-var stickyHelpers = __webpack_require__("d8cf");
-
-var nativeExec = RegExp.prototype.exec;
-// This always refers to the native implementation, because the
-// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
-// which loads this file before patching the method.
-var nativeReplace = String.prototype.replace;
-
-var patchedExec = nativeExec;
-
-var UPDATES_LAST_INDEX_WRONG = (function () {
-  var re1 = /a/;
-  var re2 = /b*/g;
-  nativeExec.call(re1, 'a');
-  nativeExec.call(re2, 'a');
-  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
-})();
-
-var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
-
-// nonparticipating capturing group, copied from es5-shim's String#split patch.
-var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
-
-var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y;
-
-if (PATCH) {
-  patchedExec = function exec(str) {
-    var re = this;
-    var lastIndex, reCopy, match, i;
-    var sticky = UNSUPPORTED_Y && re.sticky;
-    var flags = regexpFlags.call(re);
-    var source = re.source;
-    var charsAdded = 0;
-    var strCopy = str;
-
-    if (sticky) {
-      flags = flags.replace('y', '');
-      if (flags.indexOf('g') === -1) {
-        flags += 'g';
-      }
-
-      strCopy = String(str).slice(re.lastIndex);
-      // Support anchored sticky behavior.
-      if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
-        source = '(?: ' + source + ')';
-        strCopy = ' ' + strCopy;
-        charsAdded++;
-      }
-      // ^(? + rx + ) is needed, in combination with some str slicing, to
-      // simulate the 'y' flag.
-      reCopy = new RegExp('^(?:' + source + ')', flags);
-    }
-
-    if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
-    }
-    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
-
-    match = nativeExec.call(sticky ? reCopy : re, strCopy);
-
-    if (sticky) {
-      if (match) {
-        match.input = match.input.slice(charsAdded);
-        match[0] = match[0].slice(charsAdded);
-        match.index = re.lastIndex;
-        re.lastIndex += match[0].length;
-      } else re.lastIndex = 0;
-    } else if (UPDATES_LAST_INDEX_WRONG && match) {
-      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
-    }
-    if (NPCG_INCLUDED && match && match.length > 1) {
-      // Fix browsers whose `exec` methods don't consistently return `undefined`
-      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-      nativeReplace.call(match[0], reCopy, function () {
-        for (i = 1; i < arguments.length - 2; i++) {
-          if (arguments[i] === undefined) match[i] = undefined;
-        }
-      });
-    }
-
-    return match;
-  };
-}
-
-module.exports = patchedExec;
-
-
-/***/ }),
-
-/***/ "de78":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// `Symbol.prototype.description` getter
-// https://tc39.github.io/ecma262/#sec-symbol.prototype.description
-
-var $ = __webpack_require__("485e");
-var DESCRIPTORS = __webpack_require__("35a9");
-var global = __webpack_require__("efd0");
-var has = __webpack_require__("0117");
-var isObject = __webpack_require__("3b29");
-var defineProperty = __webpack_require__("30cf").f;
-var copyConstructorProperties = __webpack_require__("2fcd");
-
-var NativeSymbol = global.Symbol;
-
-if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in NativeSymbol.prototype) ||
-  // Safari 12 bug
-  NativeSymbol().description !== undefined
-)) {
-  var EmptyStringDescriptionStore = {};
-  // wrap Symbol constructor for correct work with undefined description
-  var SymbolWrapper = function Symbol() {
-    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : String(arguments[0]);
-    var result = this instanceof SymbolWrapper
-      ? new NativeSymbol(description)
-      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
-      : description === undefined ? NativeSymbol() : NativeSymbol(description);
-    if (description === '') EmptyStringDescriptionStore[result] = true;
-    return result;
-  };
-  copyConstructorProperties(SymbolWrapper, NativeSymbol);
-  var symbolPrototype = SymbolWrapper.prototype = NativeSymbol.prototype;
-  symbolPrototype.constructor = SymbolWrapper;
-
-  var symbolToString = symbolPrototype.toString;
-  var native = String(NativeSymbol('test')) == 'Symbol(test)';
-  var regexp = /^Symbol\((.*)\)[^)]+$/;
-  defineProperty(symbolPrototype, 'description', {
-    configurable: true,
-    get: function description() {
-      var symbol = isObject(this) ? this.valueOf() : this;
-      var string = symbolToString.call(symbol);
-      if (has(EmptyStringDescriptionStore, symbol)) return '';
-      var desc = native ? string.slice(7, -1) : string.replace(regexp, '$1');
-      return desc === '' ? undefined : desc;
-    }
-  });
-
-  $({ global: true, forced: true }, {
-    Symbol: SymbolWrapper
-  });
-}
+  result.length = index;
+  return result;
+};
 
 
 /***/ }),
@@ -32253,169 +32463,60 @@ module.exports = isFunction;
 
 /***/ }),
 
-/***/ "e3c0":
+/***/ "e27c":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var has = __webpack_require__("b64f");
+var ownKeys = __webpack_require__("3449");
+var getOwnPropertyDescriptorModule = __webpack_require__("e329");
+var definePropertyModule = __webpack_require__("22af");
 
-var $ = __webpack_require__("485e");
-var toInteger = __webpack_require__("b804");
-var thisNumberValue = __webpack_require__("3022");
-var repeat = __webpack_require__("06b2");
-var fails = __webpack_require__("aad0");
-
-var nativeToFixed = 1.0.toFixed;
-var floor = Math.floor;
-
-var pow = function (x, n, acc) {
-  return n === 0 ? acc : n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc);
-};
-
-var log = function (x) {
-  var n = 0;
-  var x2 = x;
-  while (x2 >= 4096) {
-    n += 12;
-    x2 /= 4096;
+module.exports = function (target, source) {
+  var keys = ownKeys(source);
+  var defineProperty = definePropertyModule.f;
+  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
   }
-  while (x2 >= 2) {
-    n += 1;
-    x2 /= 2;
-  } return n;
 };
-
-var FORCED = nativeToFixed && (
-  0.00008.toFixed(3) !== '0.000' ||
-  0.9.toFixed(0) !== '1' ||
-  1.255.toFixed(2) !== '1.25' ||
-  1000000000000000128.0.toFixed(0) !== '1000000000000000128'
-) || !fails(function () {
-  // V8 ~ Android 4.3-
-  nativeToFixed.call({});
-});
-
-// `Number.prototype.toFixed` method
-// https://tc39.github.io/ecma262/#sec-number.prototype.tofixed
-$({ target: 'Number', proto: true, forced: FORCED }, {
-  // eslint-disable-next-line max-statements
-  toFixed: function toFixed(fractionDigits) {
-    var number = thisNumberValue(this);
-    var fractDigits = toInteger(fractionDigits);
-    var data = [0, 0, 0, 0, 0, 0];
-    var sign = '';
-    var result = '0';
-    var e, z, j, k;
-
-    var multiply = function (n, c) {
-      var index = -1;
-      var c2 = c;
-      while (++index < 6) {
-        c2 += n * data[index];
-        data[index] = c2 % 1e7;
-        c2 = floor(c2 / 1e7);
-      }
-    };
-
-    var divide = function (n) {
-      var index = 6;
-      var c = 0;
-      while (--index >= 0) {
-        c += data[index];
-        data[index] = floor(c / n);
-        c = (c % n) * 1e7;
-      }
-    };
-
-    var dataToString = function () {
-      var index = 6;
-      var s = '';
-      while (--index >= 0) {
-        if (s !== '' || index === 0 || data[index] !== 0) {
-          var t = String(data[index]);
-          s = s === '' ? t : s + repeat.call('0', 7 - t.length) + t;
-        }
-      } return s;
-    };
-
-    if (fractDigits < 0 || fractDigits > 20) throw RangeError('Incorrect fraction digits');
-    // eslint-disable-next-line no-self-compare
-    if (number != number) return 'NaN';
-    if (number <= -1e21 || number >= 1e21) return String(number);
-    if (number < 0) {
-      sign = '-';
-      number = -number;
-    }
-    if (number > 1e-21) {
-      e = log(number * pow(2, 69, 1)) - 69;
-      z = e < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1);
-      z *= 0x10000000000000;
-      e = 52 - e;
-      if (e > 0) {
-        multiply(0, z);
-        j = fractDigits;
-        while (j >= 7) {
-          multiply(1e7, 0);
-          j -= 7;
-        }
-        multiply(pow(10, j, 1), 0);
-        j = e - 1;
-        while (j >= 23) {
-          divide(1 << 23);
-          j -= 23;
-        }
-        divide(1 << j);
-        multiply(1, 1);
-        divide(2);
-        result = dataToString();
-      } else {
-        multiply(0, z);
-        multiply(1 << -e, 0);
-        result = dataToString() + repeat.call('0', fractDigits);
-      }
-    }
-    if (fractDigits > 0) {
-      k = result.length;
-      result = sign + (k <= fractDigits
-        ? '0.' + repeat.call('0', fractDigits - k) + result
-        : result.slice(0, k - fractDigits) + '.' + result.slice(k - fractDigits));
-    } else {
-      result = sign + result;
-    } return result;
-  }
-});
 
 
 /***/ }),
 
-/***/ "e412":
+/***/ "e329":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var DESCRIPTORS = __webpack_require__("aba0");
+var propertyIsEnumerableModule = __webpack_require__("97c2");
+var createPropertyDescriptor = __webpack_require__("5cbf");
+var toIndexedObject = __webpack_require__("ec87");
+var toPrimitive = __webpack_require__("34e1");
+var has = __webpack_require__("b64f");
+var IE8_DOM_DEFINE = __webpack_require__("5e7a");
 
-var redefine = __webpack_require__("d496");
-var anObject = __webpack_require__("b973");
-var fails = __webpack_require__("aad0");
-var flags = __webpack_require__("2d0b");
+var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
-var TO_STRING = 'toString';
-var RegExpPrototype = RegExp.prototype;
-var nativeToString = RegExpPrototype[TO_STRING];
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+  O = toIndexedObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return nativeGetOwnPropertyDescriptor(O, P);
+  } catch (error) { /* empty */ }
+  if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
+};
 
-var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
-// FF44- RegExp#toString has a wrong name
-var INCORRECT_NAME = nativeToString.name != TO_STRING;
 
-// `RegExp.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-regexp.prototype.tostring
-if (NOT_GENERIC || INCORRECT_NAME) {
-  redefine(RegExp.prototype, TO_STRING, function toString() {
-    var R = anObject(this);
-    var p = String(R.source);
-    var rf = R.flags;
-    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
-    return '/' + p + '/' + f;
-  }, { unsafe: true });
-}
+/***/ }),
+
+/***/ "e469":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("8d5c");
+
+module.exports = global;
 
 
 /***/ }),
@@ -32448,31 +32549,109 @@ module.exports = mapCacheClear;
 
 /***/ }),
 
-/***/ "eb5b":
+/***/ "e583":
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__("35a9");
-var defineProperty = __webpack_require__("30cf").f;
+var DESCRIPTORS = __webpack_require__("aba0");
+var global = __webpack_require__("8d5c");
+var isForced = __webpack_require__("0ef8");
+var inheritIfRequired = __webpack_require__("6564");
+var defineProperty = __webpack_require__("22af").f;
+var getOwnPropertyNames = __webpack_require__("3de6").f;
+var isRegExp = __webpack_require__("00a5");
+var getFlags = __webpack_require__("9ffc");
+var stickyHelpers = __webpack_require__("6fe2");
+var redefine = __webpack_require__("4450");
+var fails = __webpack_require__("2bc8");
+var setInternalState = __webpack_require__("891c").set;
+var setSpecies = __webpack_require__("6d96");
+var wellKnownSymbol = __webpack_require__("1f17");
 
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
+var MATCH = wellKnownSymbol('match');
+var NativeRegExp = global.RegExp;
+var RegExpPrototype = NativeRegExp.prototype;
+var re1 = /a/g;
+var re2 = /a/g;
 
-// Function instances `.name` property
-// https://tc39.github.io/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
+// "new" should create a new object, old webkit bug
+var CORRECT_NEW = new NativeRegExp(re1) !== re1;
+
+var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
+
+var FORCED = DESCRIPTORS && isForced('RegExp', (!CORRECT_NEW || UNSUPPORTED_Y || fails(function () {
+  re2[MATCH] = false;
+  // RegExp constructor can alter flags and IsRegExp works correct with @@match
+  return NativeRegExp(re1) != re1 || NativeRegExp(re2) == re2 || NativeRegExp(re1, 'i') != '/a/i';
+})));
+
+// `RegExp` constructor
+// https://tc39.github.io/ecma262/#sec-regexp-constructor
+if (FORCED) {
+  var RegExpWrapper = function RegExp(pattern, flags) {
+    var thisIsRegExp = this instanceof RegExpWrapper;
+    var patternIsRegExp = isRegExp(pattern);
+    var flagsAreUndefined = flags === undefined;
+    var sticky;
+
+    if (!thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined) {
+      return pattern;
     }
-  });
+
+    if (CORRECT_NEW) {
+      if (patternIsRegExp && !flagsAreUndefined) pattern = pattern.source;
+    } else if (pattern instanceof RegExpWrapper) {
+      if (flagsAreUndefined) flags = getFlags.call(pattern);
+      pattern = pattern.source;
+    }
+
+    if (UNSUPPORTED_Y) {
+      sticky = !!flags && flags.indexOf('y') > -1;
+      if (sticky) flags = flags.replace(/y/g, '');
+    }
+
+    var result = inheritIfRequired(
+      CORRECT_NEW ? new NativeRegExp(pattern, flags) : NativeRegExp(pattern, flags),
+      thisIsRegExp ? this : RegExpPrototype,
+      RegExpWrapper
+    );
+
+    if (UNSUPPORTED_Y && sticky) setInternalState(result, { sticky: sticky });
+
+    return result;
+  };
+  var proxy = function (key) {
+    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
+      configurable: true,
+      get: function () { return NativeRegExp[key]; },
+      set: function (it) { NativeRegExp[key] = it; }
+    });
+  };
+  var keys = getOwnPropertyNames(NativeRegExp);
+  var index = 0;
+  while (keys.length > index) proxy(keys[index++]);
+  RegExpPrototype.constructor = RegExpWrapper;
+  RegExpWrapper.prototype = RegExpPrototype;
+  redefine(global, 'RegExp', RegExpWrapper);
 }
+
+// https://tc39.github.io/ecma262/#sec-get-regexp-@@species
+setSpecies('RegExp');
+
+
+/***/ }),
+
+/***/ "eaa3":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("a09b");
+
+// `Reflect.has` method
+// https://tc39.github.io/ecma262/#sec-reflect.has
+$({ target: 'Reflect', stat: true }, {
+  has: function has(target, propertyKey) {
+    return propertyKey in target;
+  }
+});
 
 
 /***/ }),
@@ -32516,44 +32695,233 @@ module.exports = ListCache;
 
 /***/ }),
 
-/***/ "ed07":
+/***/ "ec87":
 /***/ (function(module, exports, __webpack_require__) {
 
-var aFunction = __webpack_require__("d872");
+// toObject with fallback for non-array-like ES3 strings
+var IndexedObject = __webpack_require__("7866");
+var requireObjectCoercible = __webpack_require__("4340");
 
-// optional / simple context binding
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 0: return function () {
-      return fn.call(that);
-    };
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
+module.exports = function (it) {
+  return IndexedObject(requireObjectCoercible(it));
 };
 
 
 /***/ }),
 
-/***/ "ed88":
+/***/ "eee5":
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__("485e");
-var toObject = __webpack_require__("3c6b");
-var nativeKeys = __webpack_require__("c59c");
-var fails = __webpack_require__("aad0");
+var classof = __webpack_require__("3d7c");
+var global = __webpack_require__("8d5c");
+
+module.exports = classof(global.process) == 'process';
+
+
+/***/ }),
+
+/***/ "f39a":
+/***/ (function(module, exports) {
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+module.exports = overArg;
+
+
+/***/ }),
+
+/***/ "f4ac":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Stack = __webpack_require__("8175"),
+    equalArrays = __webpack_require__("6ac3"),
+    equalByTag = __webpack_require__("cbdc"),
+    equalObjects = __webpack_require__("793a"),
+    getTag = __webpack_require__("1ed2"),
+    isArray = __webpack_require__("8b3f"),
+    isBuffer = __webpack_require__("1aff"),
+    isTypedArray = __webpack_require__("b6e4");
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = objIsArr ? arrayTag : getTag(object),
+      othTag = othIsArr ? arrayTag : getTag(other);
+
+  objTag = objTag == argsTag ? objectTag : objTag;
+  othTag = othTag == argsTag ? objectTag : othTag;
+
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+
+/***/ }),
+
+/***/ "f71e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("0296");
+var requireObjectCoercible = __webpack_require__("4340");
+
+// `String.prototype.{ codePointAt, at }` methods implementation
+var createMethod = function (CONVERT_TO_STRING) {
+  return function ($this, pos) {
+    var S = String(requireObjectCoercible($this));
+    var position = toInteger(pos);
+    var size = S.length;
+    var first, second;
+    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+    first = S.charCodeAt(position);
+    return first < 0xD800 || first > 0xDBFF || position + 1 === size
+      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
+        ? CONVERT_TO_STRING ? S.charAt(position) : first
+        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+  };
+};
+
+module.exports = {
+  // `String.prototype.codePointAt` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
+  codeAt: createMethod(false),
+  // `String.prototype.at` method
+  // https://github.com/mathiasbynens/String.prototype.at
+  charAt: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ "f76d":
+/***/ (function(module, exports) {
+
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+module.exports = baseUnary;
+
+
+/***/ }),
+
+/***/ "f7bb":
+/***/ (function(module, exports, __webpack_require__) {
+
+var userAgent = __webpack_require__("6406");
+
+module.exports = /(iphone|ipod|ipad).*applewebkit/i.test(userAgent);
+
+
+/***/ }),
+
+/***/ "f8b2":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fails = __webpack_require__("2bc8");
+
+module.exports = function (METHOD_NAME, argument) {
+  var method = [][METHOD_NAME];
+  return !!method && fails(function () {
+    // eslint-disable-next-line no-useless-call,no-throw-literal
+    method.call(null, argument || function () { throw 1; }, 1);
+  });
+};
+
+
+/***/ }),
+
+/***/ "fae2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("a09b");
+var toObject = __webpack_require__("6050");
+var nativeKeys = __webpack_require__("9c6a");
+var fails = __webpack_require__("2bc8");
 
 var FAILS_ON_PRIMITIVES = fails(function () { nativeKeys(1); });
 
@@ -32568,38 +32936,38 @@ $({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
 
 /***/ }),
 
-/***/ "ee75":
+/***/ "fae9":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__("485e");
-var IS_PURE = __webpack_require__("7fe9");
-var global = __webpack_require__("efd0");
-var getBuiltIn = __webpack_require__("4b56");
-var NativePromise = __webpack_require__("12e0");
-var redefine = __webpack_require__("d496");
-var redefineAll = __webpack_require__("852c");
-var setToStringTag = __webpack_require__("27e6");
-var setSpecies = __webpack_require__("47c3");
-var isObject = __webpack_require__("3b29");
-var aFunction = __webpack_require__("d872");
-var anInstance = __webpack_require__("76b7");
-var inspectSource = __webpack_require__("c2b3");
-var iterate = __webpack_require__("ab8a");
-var checkCorrectnessOfIteration = __webpack_require__("146b");
-var speciesConstructor = __webpack_require__("d99e");
-var task = __webpack_require__("baaf").set;
-var microtask = __webpack_require__("18e4");
-var promiseResolve = __webpack_require__("85b4");
-var hostReportErrors = __webpack_require__("2bd3");
-var newPromiseCapabilityModule = __webpack_require__("906c");
-var perform = __webpack_require__("563a");
-var InternalStateModule = __webpack_require__("f806");
-var isForced = __webpack_require__("1b38");
-var wellKnownSymbol = __webpack_require__("6d05");
-var IS_NODE = __webpack_require__("a976");
-var V8_VERSION = __webpack_require__("7047");
+var $ = __webpack_require__("a09b");
+var IS_PURE = __webpack_require__("67d5");
+var global = __webpack_require__("8d5c");
+var getBuiltIn = __webpack_require__("8843");
+var NativePromise = __webpack_require__("225c");
+var redefine = __webpack_require__("4450");
+var redefineAll = __webpack_require__("8573");
+var setToStringTag = __webpack_require__("1a81");
+var setSpecies = __webpack_require__("6d96");
+var isObject = __webpack_require__("42cc");
+var aFunction = __webpack_require__("b9ec");
+var anInstance = __webpack_require__("da02");
+var inspectSource = __webpack_require__("1c02");
+var iterate = __webpack_require__("3afd");
+var checkCorrectnessOfIteration = __webpack_require__("408b");
+var speciesConstructor = __webpack_require__("287a");
+var task = __webpack_require__("8acc").set;
+var microtask = __webpack_require__("6f75");
+var promiseResolve = __webpack_require__("20ca");
+var hostReportErrors = __webpack_require__("5bfe");
+var newPromiseCapabilityModule = __webpack_require__("3781");
+var perform = __webpack_require__("1132");
+var InternalStateModule = __webpack_require__("891c");
+var isForced = __webpack_require__("0ef8");
+var wellKnownSymbol = __webpack_require__("1f17");
+var IS_NODE = __webpack_require__("eee5");
+var V8_VERSION = __webpack_require__("029f");
 
 var SPECIES = wellKnownSymbol('species');
 var PROMISE = 'Promise';
@@ -32957,363 +33325,15 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
 
 /***/ }),
 
-/***/ "ee94":
+/***/ "fc3a":
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__("6d05");
-var Iterators = __webpack_require__("9b64");
+var isObject = __webpack_require__("42cc");
 
-var ITERATOR = wellKnownSymbol('iterator');
-var ArrayPrototype = Array.prototype;
-
-// check on default Array iterator
 module.exports = function (it) {
-  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
-};
-
-
-/***/ }),
-
-/***/ "ef69":
-/***/ (function(module, exports) {
-
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
-
-/***/ }),
-
-/***/ "efd0":
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var check = function (it) {
-  return it && it.Math == Math && it;
-};
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-module.exports =
-  // eslint-disable-next-line no-undef
-  check(typeof globalThis == 'object' && globalThis) ||
-  check(typeof window == 'object' && window) ||
-  check(typeof self == 'object' && self) ||
-  check(typeof global == 'object' && global) ||
-  // eslint-disable-next-line no-new-func
-  (function () { return this; })() || Function('return this')();
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("0288")))
-
-/***/ }),
-
-/***/ "f39a":
-/***/ (function(module, exports) {
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-module.exports = overArg;
-
-
-/***/ }),
-
-/***/ "f4ac":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Stack = __webpack_require__("8175"),
-    equalArrays = __webpack_require__("6ac3"),
-    equalByTag = __webpack_require__("cbdc"),
-    equalObjects = __webpack_require__("793a"),
-    getTag = __webpack_require__("1ed2"),
-    isArray = __webpack_require__("8b3f"),
-    isBuffer = __webpack_require__("1aff"),
-    isTypedArray = __webpack_require__("b6e4");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = objIsArr ? arrayTag : getTag(object),
-      othTag = othIsArr ? arrayTag : getTag(other);
-
-  objTag = objTag == argsTag ? objectTag : objTag;
-  othTag = othTag == argsTag ? objectTag : othTag;
-
-  var objIsObj = objTag == objectTag,
-      othIsObj = othTag == objectTag,
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && isBuffer(object)) {
-    if (!isBuffer(other)) {
-      return false;
-    }
-    objIsArr = true;
-    objIsObj = false;
-  }
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
-      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
-  }
-  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      var objUnwrapped = objIsWrapped ? object.value() : object,
-          othUnwrapped = othIsWrapped ? other.value() : other;
-
-      stack || (stack = new Stack);
-      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-
-/***/ }),
-
-/***/ "f5b6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-
-module.exports = global;
-
-
-/***/ }),
-
-/***/ "f644":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("efd0");
-var DOMIterables = __webpack_require__("0825");
-var forEach = __webpack_require__("554f");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-
-for (var COLLECTION_NAME in DOMIterables) {
-  var Collection = global[COLLECTION_NAME];
-  var CollectionPrototype = Collection && Collection.prototype;
-  // some Chrome versions have non-configurable methods on DOMTokenList
-  if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
-    createNonEnumerableProperty(CollectionPrototype, 'forEach', forEach);
-  } catch (error) {
-    CollectionPrototype.forEach = forEach;
-  }
-}
-
-
-/***/ }),
-
-/***/ "f74b":
-/***/ (function(module, exports) {
-
-// IE8- don't enum bug keys
-module.exports = [
-  'constructor',
-  'hasOwnProperty',
-  'isPrototypeOf',
-  'propertyIsEnumerable',
-  'toLocaleString',
-  'toString',
-  'valueOf'
-];
-
-
-/***/ }),
-
-/***/ "f76d":
-/***/ (function(module, exports) {
-
-/**
- * The base implementation of `_.unary` without support for storing metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new capped function.
- */
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-
-module.exports = baseUnary;
-
-
-/***/ }),
-
-/***/ "f806":
-/***/ (function(module, exports, __webpack_require__) {
-
-var NATIVE_WEAK_MAP = __webpack_require__("2a94");
-var global = __webpack_require__("efd0");
-var isObject = __webpack_require__("3b29");
-var createNonEnumerableProperty = __webpack_require__("13d0");
-var objectHas = __webpack_require__("0117");
-var shared = __webpack_require__("260a");
-var sharedKey = __webpack_require__("1bbe");
-var hiddenKeys = __webpack_require__("be34");
-
-var WeakMap = global.WeakMap;
-var set, get, has;
-
-var enforce = function (it) {
-  return has(it) ? get(it) : set(it, {});
-};
-
-var getterFor = function (TYPE) {
-  return function (it) {
-    var state;
-    if (!isObject(it) || (state = get(it)).type !== TYPE) {
-      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
-    } return state;
-  };
-};
-
-if (NATIVE_WEAK_MAP) {
-  var store = shared.state || (shared.state = new WeakMap());
-  var wmget = store.get;
-  var wmhas = store.has;
-  var wmset = store.set;
-  set = function (it, metadata) {
-    metadata.facade = it;
-    wmset.call(store, it, metadata);
-    return metadata;
-  };
-  get = function (it) {
-    return wmget.call(store, it) || {};
-  };
-  has = function (it) {
-    return wmhas.call(store, it);
-  };
-} else {
-  var STATE = sharedKey('state');
-  hiddenKeys[STATE] = true;
-  set = function (it, metadata) {
-    metadata.facade = it;
-    createNonEnumerableProperty(it, STATE, metadata);
-    return metadata;
-  };
-  get = function (it) {
-    return objectHas(it, STATE) ? it[STATE] : {};
-  };
-  has = function (it) {
-    return objectHas(it, STATE);
-  };
-}
-
-module.exports = {
-  set: set,
-  get: get,
-  has: has,
-  enforce: enforce,
-  getterFor: getterFor
-};
-
-
-/***/ }),
-
-/***/ "fa04":
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__("aad0");
-
-module.exports = !fails(function () {
-  function F() { /* empty */ }
-  F.prototype.constructor = null;
-  return Object.getPrototypeOf(new F()) !== F.prototype;
-});
-
-
-/***/ }),
-
-/***/ "fd07":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("485e");
-var fails = __webpack_require__("aad0");
-var toIndexedObject = __webpack_require__("3274");
-var nativeGetOwnPropertyDescriptor = __webpack_require__("977b").f;
-var DESCRIPTORS = __webpack_require__("35a9");
-
-var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
-var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
-
-// `Object.getOwnPropertyDescriptor` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
-$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
-  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
-    return nativeGetOwnPropertyDescriptor(toIndexedObject(it), key);
-  }
-});
-
-
-/***/ }),
-
-/***/ "fd0b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__("b804");
-
-var max = Math.max;
-var min = Math.min;
-
-// Helper for a popular repeating case of the spec:
-// Let integer be ? ToInteger(index).
-// If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
-module.exports = function (index, length) {
-  var integer = toInteger(index);
-  return integer < 0 ? max(integer + length, 0) : min(integer, length);
+  if (!isObject(it)) {
+    throw TypeError(String(it) + ' is not an object');
+  } return it;
 };
 
 
@@ -33368,6 +33388,23 @@ function getRawTag(value) {
 }
 
 module.exports = getRawTag;
+
+
+/***/ }),
+
+/***/ "fe3d":
+/***/ (function(module, exports, __webpack_require__) {
+
+var IS_PURE = __webpack_require__("67d5");
+var store = __webpack_require__("755c");
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: '3.8.1',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
+});
 
 
 /***/ }),
