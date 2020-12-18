@@ -1135,7 +1135,8 @@ const sheetmanage = {
             server.multipleIndex = 0;
         }
         
-
+        // 钩子函数
+        method.createHookFunction('sheetActivate', index, isPivotInitial, isNewSheet);
 
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).hide();
         $('#luckysheet-filter-selected-sheet' + index + ', #luckysheet-filter-options-sheet' + index).show();
@@ -1454,8 +1455,6 @@ const sheetmanage = {
         return null;
     },
     changeSheetExec: function(index, isPivotInitial, isNewSheet) {
-        // 钩子函数
-        method.createHookFunction('sheetActivate', index, isPivotInitial, isNewSheet);
         
         let $sheet = $("#luckysheet-sheets-item" + index);
 
