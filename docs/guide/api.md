@@ -1220,7 +1220,7 @@ Use note:
 					}
 				]
 			]
-		luckysheet.setRangeValue(data)
+		luckysheet.setRangeValue(data,{range:"A1:B2"})
 		```
 
 ------------

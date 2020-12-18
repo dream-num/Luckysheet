@@ -1201,7 +1201,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 					}
 				]
 			]
-		luckysheet.setRangeValue(data)
+		luckysheet.setRangeValue(data,{range:"A1:B2"})
 		```
 
 ------------
