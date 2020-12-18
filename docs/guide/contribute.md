@@ -34,7 +34,6 @@ Specific steps:
 * Create [Issues](https://github.com/mengshukeji/Luckysheet/issues) and describe the issue clearly
 * If you want to solve the issue, assign the issue to your own name. If you just submit a bug/feature/improvement and don’t have time to contribute code, set assignne to empty
 * If it is a relatively large feature/improvement, try to output the design document first and follow the [Luckysheet RFC](https://github.com/mengshukeji/Luckysheet-rfcs) process for others to review
-* After coding, submit the code
 
 ## How to claim Issues
 

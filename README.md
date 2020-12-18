@@ -16,21 +16,33 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Links
- | Source Code   | Documentation | Demo | Plugins Demo | Forum | Resources |
- | ------ | -------- | ------ | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
+ | Source Code   | Documentation | Demo | Plugins Demo | Forum |
+ | ------ | -------- | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) / [Cooperative editing demo](http://luckysheet.lashuju.com/demo/) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
  | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
-## Online Case
-
-- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)
-- [Java backend Luckysheet Server](https://github.com/mengshukeji/LuckysheetServer)
-
 ## Plugins
-- Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
-- Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
+- [Luckyexcel](https://github.com/mengshukeji/Luckyexcel): Excel import and export library
+- [chartMix](https://github.com/mengshukeji/chartMix): Chart plugin
+
+## Ecosystem
+
+| Project | Description |
+|---------|-------------|
+| [Luckysheet Vue]          | Luckysheet and Luckyexcel in a vue cli3 project |
+| [Luckysheet React]          | Luckysheet in a React project |
+| [Luckyexcel Node]          | Use Luckyexcel in koa2 |
+| [Luckysheet Server]          | Java backend Luckysheet Server |
+| [Luckysheet Server Starter]          | LuckysheetServer docker deployment startup template |
+
+[Luckysheet Vue]: https://github.com/mengshukeji/luckysheet-vue
+[Luckysheet React]: https://github.com/mengshukeji/luckysheet-react
+[Luckyexcel Node]: https://github.com/mengshukeji/Luckyexcel-node
+[Luckysheet Server]: https://github.com/mengshukeji/LuckysheetServer
+[Luckysheet Server Starter]: https://github.com/mengshukeji/LuckysheetServerStarter
+
 
 ## Features
 
@@ -43,6 +55,10 @@ English| [简体中文](./README-zh.md)
 - **Enhanced functions**: Pivot tables, charts, comments, cooperative editing, insert picture, matrix calculations, screenshots, copying to other formats, EXCEL import and export, etc.
 
 For a more detailed feature list, please refer to: [Features](https://mengshukeji.github.io/LuckysheetDocs/guide/#features)
+
+## 📖 Resources
+
+For the tutorials, learning materials and supporting solutions provided by the community, please refer to [Tutorials and Resources](https://mengshukeji.github.io/LuckysheetDocs/guide/resource.html)
 
 ## 📜 Changelog
 
