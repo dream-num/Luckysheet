@@ -212,7 +212,9 @@ function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     //清除canvas左上角区域 防止列标题栏序列号溢出显示
     // luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth , Store.columnHeaderHeight );
 
-    luckysheetTableContent.restore(); 
+    // Must be restored twice, otherwise it will be enlarged under window.devicePixelRatio = 1.5
+    luckysheetTableContent.restore();
+    luckysheetTableContent.restore();
     
 }
 
@@ -408,6 +410,8 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
     //清除canvas左上角区域 防止列标题栏序列号溢出显示
     // luckysheetTableContent.clearRect(0, 0, Store.rowHeaderWidth , Store.columnHeaderHeight );
 
+    // Must be restored twice, otherwise it will be enlarged under window.devicePixelRatio = 1.5
+    luckysheetTableContent.restore();
     luckysheetTableContent.restore();
 
 }
