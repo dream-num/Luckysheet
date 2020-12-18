@@ -383,6 +383,7 @@ export function setCellFormat(row, column, attr, value, options = {}) {
  * @param {Boolean} options.isWholeWord 是否整词匹配；默认为 false
  * @param {Boolean} options.isCaseSensitive 是否区分大小写匹配；默认为 false
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {String} options.type 单元格属性；默认值为m
  */
 export function find(content, options = {}) {
     if (!content && content != 0) {
@@ -394,7 +395,8 @@ export function find(content, options = {}) {
         isRegularExpression = false,
         isWholeWord = false,
         isCaseSensitive = false,
-        order = curSheetOrder
+        order = curSheetOrder,
+        type = "m"
     } = { ...options };
     let targetSheetData = Store.luckysheetfile[order].data;
 
@@ -416,11 +418,11 @@ export function find(content, options = {}) {
 
             if (isWholeWord) {
                 if (isCaseSensitive) {
-                    if (content.toString() == cell.m) {
+                    if (content.toString() == cell[type]) {
                         result.push(cell)
                     }
                 } else {
-                    if (cell.m && content.toString().toLowerCase() == cell.m.toLowerCase()) {
+                    if (cell[type] && content.toString().toLowerCase() == cell[type].toLowerCase()) {
                         result.push(cell)
                     }
                 }
@@ -431,17 +433,17 @@ export function find(content, options = {}) {
                 } else {
                     reg = new RegExp(func_methods.getRegExpStr(content), 'ig')
                 }
-                if (reg.test(cell.m)) {
+                if (reg.test(cell[type])) {
                     result.push(cell)
                 }
             } else if (isCaseSensitive) {
                 let reg = new RegExp(func_methods.getRegExpStr(content), 'g');
-                if (reg.test(cell.m)) {
+                if (reg.test(cell[type])) {
                     result.push(cell);
                 }
             } else {
                 let reg = new RegExp(func_methods.getRegExpStr(content), 'ig');
-                if (reg.test(cell.m)) {
+                if (reg.test(cell[type])) {
                     result.push(cell);
                 }
             }

@@ -175,6 +175,7 @@ Use note:
         + {Boolean} [isWholeWord]: Whether to match the whole word; the default is `false`
         + {Boolean} [isCaseSensitive]: Whether to match case sensitively; the default is `false`
         + {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {String} [type]: cell attribute; the default value is `"m"`
 
 - **Explanation**：
 	
@@ -184,6 +185,8 @@ Use note:
 
     - Find the string `"value"` in the current worksheet
     `luckysheet.find("value")`
+	- Find cells in the current worksheet whose formula contains `"SUM"`
+    `luckysheet.find("SUM",{type:"f"})`
 
 ------------
 
@@ -869,7 +872,6 @@ Use note:
 ------------
 
 ### getRangeJson(title [,setting])
- 
 
 - **Parameter**：
 
@@ -896,8 +898,7 @@ Use note:
 		The returned result is:
 		```json
 		[
-			{ "A": "value1", "B": "value3" },
-			{ "A": "value2", "B": "value4" }
+			{ "value1": "value2", "value3": "value4" }
 		]
 		```
 
@@ -908,7 +909,8 @@ Use note:
 		The returned result is:
 		```json
 		[
-			{ "value1": "value2", "value3": "value4" }
+			{ "A": "value1", "B": "value3" },
+			{ "A": "value2", "B": "value4" }
 		]
 		```
 
@@ -1120,8 +1122,6 @@ Use note:
 ------------
 
 ### setRangeShow(range [,setting])<div id='setRangeShow'></div>
-
-[todo]
 
 - **Parameter**：
 

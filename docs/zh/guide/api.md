@@ -178,6 +178,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ {Boolean} [isWholeWord]: 是否整词匹配；默认为 `false`
 		+ {Boolean} [isCaseSensitive]: 是否区分大小写匹配；默认为 `false`
     	+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+    	+ {String} [type]: 单元格属性；默认值为`"m"`
 
 - **说明**：
 	
@@ -187,6 +188,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
    - 当前工作表查找`"value"`字符串
    		`luckysheet.find("value")`
+   - 当前工作表查找公式包含`"SUM"`的单元格
+   		`luckysheet.find("SUM",{type:"f"})`
 
 ------------
 
@@ -882,8 +885,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		则返回结果为：
 		```json
 		[
-			{ "A": "value1", "B": "value3" },
-			{ "A": "value2", "B": "value4" }
+			{ "value1": "value2", "value3": "value4" }
 		]
 		```
 
@@ -894,7 +896,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		则返回结果为：
 		```json
 		[
-			{ "value1": "value2", "value3": "value4" }
+			{ "A": "value1", "B": "value3" },
+			{ "A": "value2", "B": "value4" }
 		]
 		```
 

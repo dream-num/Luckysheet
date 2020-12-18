@@ -276,3 +276,19 @@ In this case, after Luckysheet is modified in real time, the changes can be seen
 - Triggered after the workbook is created [workbookCreateAfter](/guide/config.html#workbookcreateafter)
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** When create, the first cell is selected by default, how to remove it?
+
+**<span style="font-size:20px;">A</span>** When the cell is selected, it is highlighted by default, just remove the highlight, use API: [setRangeShow](/guide/api.html#setrangeshow-range-setting)
+
+```js
+luckysheet.setRangeShow("A2",{show:false})
+```
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** Where is the right-click event bound?
+
+**<span style="font-size:20px;">A</span>** In the source code [src/controllers/hander.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/handler.js), search for `event.which == "3"` to find the code executed by the right-click event.
+
+------------

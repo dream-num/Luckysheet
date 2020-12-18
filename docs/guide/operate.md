@@ -886,3 +886,18 @@ There are four types of chart operations: add new chart -"add", move chart posit
     ```js
     luckysheetfile[0].chart[v.chart_id] = v;
     ```
+
+## Backend return format
+
+Data format returned by websocket backend
+```js
+{
+     createTime: command sending time
+     data:{} modified command
+     id: "7a" websocket id
+     returnMessage: "success"
+     status: "0" 0 tells the front end to modify according to the data command 1 meaningless
+     type: 0: connection is successful, 1: send to the currently connected user, 2: send information to other users, 3: send selection location information, 999: user disconnected
+     username: username
+}
+```

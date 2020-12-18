@@ -277,3 +277,19 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 - 表格创建之后触发 [workbookCreateAfter](/zh/guide/config.html#workbookcreateafter)
 
 ------------
+
+## **<span style="font-size:20px;">Q</span>** create的时候默认选中第一个单元格，怎么去除？
+
+**<span style="font-size:20px;">A</span>** 选中单元格时默认是高亮，把高亮去除即可，使用API: [setRangeShow](/zh/guide/api.html#setrangeshow-range-setting)
+
+```js
+luckysheet.setRangeShow("A2",{show:false})
+```
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 右键事件绑定在哪？
+
+**<span style="font-size:20px;">A</span>** 在源码的 [src/controllers/hander.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/handler.js) 搜索`event.which == "3"`即可找到右键事件触发执行的代码。
+
+------------
