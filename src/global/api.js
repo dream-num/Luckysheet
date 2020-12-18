@@ -333,8 +333,20 @@ export function setCellFormat(row, column, attr, value, options = {}) {
         order = curSheetOrder,
         success
     } = { ...options };
-    let targetSheetData = $.extend(true, [], Store.luckysheetfile[order].data);
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    let targetSheetData = $.extend(true, [], file.data);
+    if(targetSheetData.length == 0){
+        targetSheetData = sheetmanage.buildGridData(file);
+    }
+    
     let cellData = targetSheetData[row][column] || {};
+    let cfg = $.extend(true, {}, file.config);
 
     // 特殊格式
     if (attr == 'ct' && (!value || !value.hasOwnProperty('fa') || !value.hasOwnProperty('t'))) {
@@ -342,7 +354,6 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     }
 
     if (attr == 'bd') {
-        let cfg = $.extend(true, {}, Store.config);
         if(cfg["borderInfo"] == null){
             cfg["borderInfo"] = [];
         }
@@ -360,7 +371,6 @@ export function setCellFormat(row, column, attr, value, options = {}) {
         }
 
         cfg["borderInfo"].push(borderInfo);
-        Store.config = cfg;
     } else {
         cellData[attr] = value;
     }
@@ -368,7 +378,15 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     targetSheetData[row][column] = cellData;
 
     // refresh
-    jfrefreshgrid(targetSheetData, [{ "row": [row, row], "column": [column, column] }]);
+    if(file.index == Store.currentSheetIndex){
+        file.config = cfg;
+        Store.config = cfg;
+        jfrefreshgrid(targetSheetData, [{ "row": [row, row], "column": [column, column] }]);
+    }
+    else {
+        file.config = cfg;
+        file.data = targetSheetData;
+    }
 
     if (success && typeof success === 'function') {
         success(cellData);
