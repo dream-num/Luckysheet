@@ -2204,7 +2204,7 @@ export function getRangeArray(dimensional, options = {}) {
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  */
 export function getRangeJson(isFirstRowTitle, options = {}) {
-    let curRange = Store.luckysheet_select_save;
+    let curRange = Store.luckysheet_select_save[0];
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
         range = curRange,
@@ -2229,10 +2229,10 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
     //复制范围内包含部分合并单元格，提示
     if(config["merge"] != null) {
         let has_PartMC = false;
-        let r1 = range[0].row[0],
-        r2 = range[0].row[1],
-        c1 = range[0].column[0],
-        c2 = range[0].column[1];
+        let r1 = range.row[0],
+        r2 = range.row[1],
+        c1 = range.column[0],
+        c2 = range.column[1];
         has_PartMC = hasPartMC(config, r1, r2, c1, c2);
 
         if(has_PartMC){
@@ -2270,7 +2270,7 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
             }
         }
     } else {
-        let st = range[0]["column"][0];
+        let st = range["column"][0];
         for (let r = 0; r < getdata.length; r++) {
             let obj = {};
             for (let c = 0; c < getdata[0].length; c++) {
@@ -2279,7 +2279,8 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
             arr.push(obj);
         }
     }
-    selection.copybyformat(new Event(), JSON.stringify(arr));
+    // selection.copybyformat(new Event('click'), JSON.stringify(arr));
+    return arr;
 }
 
 /**
