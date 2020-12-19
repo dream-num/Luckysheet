@@ -530,7 +530,7 @@ const selection = {
             oInput.setAttribute('readonly', 'readonly');
             oInput.value = cpdata;
             document.body.appendChild(oInput);
-            oInput.setSelectionRange(0, cpdata.length);
+            oInput.select(); // 选择对象
             document.execCommand("Copy");
             oInput.style.display='none';
             document.body.removeChild(oInput);
