@@ -320,6 +320,18 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	冻结行列操作
 
 	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
+	
+	如果想在工作簿初始化后使用此API设置冻结，可以在工作簿创建后的钩子函数中执行，比如：
+	```js
+	luckysheet.create({
+    	hook:{
+				workbookCreateAfter:function(){
+					luckysheet.setBothFrozen(false);
+				}
+			}
+	});
+
+	```
 
 - **示例**:
 

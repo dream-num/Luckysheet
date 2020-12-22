@@ -319,6 +319,16 @@ Use note:
 
 	Pay special attention to the setting of `range` in `setting` only when `isRange` is set to `true`, which is different from the general range format.
 
+	If you want to use this API to set the freeze after the workbook is initialized, you can execute it in the hook function after the workbook is created, such as:
+	```js
+	luckysheet.create({
+		hook:{
+			workbookCreateAfter:function(){
+				luckysheet.setBothFrozen(false);
+			}
+		}
+	});
+
 - **Usage**:
 
    - Frozen ranks

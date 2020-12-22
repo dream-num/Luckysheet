@@ -5294,6 +5294,12 @@ export default function luckysheetHandler() {
 
             const locale_fontjson = locale().fontjson;
 
+            
+            // hook
+            if(!method.createHookFunction('rangePasteBefore',Store.luckysheet_select_save,txtdata)){
+                return;
+            }
+
             if (txtdata.indexOf("luckysheet_copy_action_table") > - 1 && Store.luckysheet_copy_save["copyRange"] != null && Store.luckysheet_copy_save["copyRange"].length > 0 && isEqual) {
                 //剪切板内容 和 luckysheet本身复制的内容 一致
                 if (Store.luckysheet_paste_iscut) {

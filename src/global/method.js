@@ -491,6 +491,9 @@ const method = {
                 dataVerificationCtrl[key] = defaultDataVerification[key];
             }
         }
+
+        // remove proxy
+        Store.asyncLoad = ['core'];
     },
     editorChart:function(c){
         let chart_selection_color = luckyColor[0];

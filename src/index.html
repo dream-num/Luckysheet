@@ -71,7 +71,7 @@
                     loadUrl: location.origin + "/luckysheet/api/load",
                     loadSheetUrl: location.origin + "/luckysheet/api/loadsheet"
                 }
-            }else{
+			}else{
                 // http://localhost:3000/ 
                 options = {
                     container: 'luckysheet',
@@ -164,6 +164,10 @@
 						},
 						workbookCreateAfter:function(json){
 							// console.info(json)
+						},
+						rangePasteBefore:function(range,data){
+							// console.info('rangePasteBefore',range,data)
+							// return false; //Can intercept paste
 						},
 						
 
