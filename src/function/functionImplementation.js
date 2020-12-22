@@ -3256,7 +3256,7 @@ const functionImplementation = {
                     return 0;
                 }
 
-                criteria = data_criteria.data;
+                criteria = data_criteria.data.v;
             }
             else{
                 criteria = data_criteria;

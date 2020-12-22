@@ -154,7 +154,12 @@ const server = {
         let _this = this;
 
         if('WebSocket' in window){
-	        _this.websocket = new WebSocket(_this.updateUrl + "?t=111&g=" + encodeURIComponent(_this.gridKey));
+			let wxUrl = _this.updateUrl + "?t=111&g=" + encodeURIComponent(_this.gridKey);
+			if(_this.updateUrl.indexOf('?') > -1){
+				wxUrl = _this.updateUrl + "&t=111&g=" + encodeURIComponent(_this.gridKey);
+			}
+
+	        _this.websocket = new WebSocket(wxUrl);
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
@@ -163,7 +168,7 @@ const server = {
 				_this.wxErrorCount = 0;
 				
 	            //防止websocket长时间不发送消息导致断连
-							_this.retryTimer = setInterval(function(){
+				_this.retryTimer = setInterval(function(){
 	                _this.websocket.send("rub");
 	            }, 60000);
 	        }
@@ -322,13 +327,13 @@ const server = {
 
 	        //连接关闭时触发
 	        _this.websocket.onclose = function(e){
-							console.info(locale().websocket.close);
-							if(e.code === 1000){
-								clearInterval(_this.retryTimer)
-								_this.retryTimer = null
-							}else{
-								alert(locale().websocket.contact);
-							}
+				console.info(locale().websocket.close);
+				if(e.code === 1000){
+					clearInterval(_this.retryTimer)
+					_this.retryTimer = null
+				}else{
+					alert(locale().websocket.contact);
+				}
 	        }
 	    }
 	    else{
@@ -648,19 +653,42 @@ const server = {
 	        let rc = item.rc,
 	        	st_i = value.index,
 	        	len = value.len,
-	        	addData = value.data,
+				addData = value.data,
+				direction = value.direction,
 	        	mc = value.mc,
 	        	borderInfo = value.borderInfo;
-	        let data = file.data;
+	        let data = $.extend(true, [], file.data);
 
 	        if(rc == "r"){
-	            file["row"] += len;
+				file["row"] += len;
+				
+				//空行模板
+				let row = [];
+				for(let c = 0; c < data[0].length; c++){
+					row.push(null);
+				}
 
 	            let arr = [];
 	            for(let i = 0; i < len; i++){
-	                arr.push(JSON.stringify(addData[i]));
-	            }
-      				new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
+					if(addData[i] == null){
+						arr.push(JSON.stringify(row));
+					}
+					else{
+						arr.push(JSON.stringify(addData[i]));
+					}
+				}
+
+				if(direction == "lefttop"){
+					if(st_i == 0){
+						new Function("data","return " + 'data.unshift(' + arr.join(",") + ')')(data);
+					}
+					else{
+						new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
+					}
+				}
+				else{ 
+					new Function("data","return " + 'data.splice(' + (st_i + 1) + ', 0, ' + arr.join(",") + ')')(data); 
+				}
 	        }
 	        else{
 	            file["column"] += len;
@@ -675,6 +703,7 @@ const server = {
 	            data[r][c].mc = mc[x];
 	        }
 
+			file.data = data;
 	        file["config"].merge = mc;
 	        file["config"].borderInfo = borderInfo;
 
