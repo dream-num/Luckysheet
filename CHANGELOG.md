@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.12](https://github.com/mengshukeji/Luckysheet/compare/v2.1.11...v2.1.12) (2020-12-22)
+
+
+### Features
+
+* **api:** find ([ea97233](https://github.com/mengshukeji/Luckysheet/commit/ea97233a668b3a682f6f0b1ad3fec251b01c33ab))
+
+
+### Bug Fixes
+
+* **bug:** bug ([9357792](https://github.com/mengshukeji/Luckysheet/commit/9357792fd1c49737398cf86cdf87d9dbfe35df26)), closes [#359](https://github.com/mengshukeji/Luckysheet/issues/359) [#360](https://github.com/mengshukeji/Luckysheet/issues/360) [#376](https://github.com/mengshukeji/Luckysheet/issues/376) [#382](https://github.com/mengshukeji/Luckysheet/issues/382)
+* **bug:** bug ([19560eb](https://github.com/mengshukeji/Luckysheet/commit/19560eba3fe36cce4ee65ba3e8ac80ab7ec8d620)), closes [#367](https://github.com/mengshukeji/Luckysheet/issues/367) [#370](https://github.com/mengshukeji/Luckysheet/issues/370)
+* **bug:** bug ([0f257e8](https://github.com/mengshukeji/Luckysheet/commit/0f257e8f153bb6c0cf38fb85200c587aabac164c)), closes [#361](https://github.com/mengshukeji/Luckysheet/issues/361) [#364](https://github.com/mengshukeji/Luckysheet/issues/364) [#365](https://github.com/mengshukeji/Luckysheet/issues/365)
+* **bug:** copy bug ([2bcbab9](https://github.com/mengshukeji/Luckysheet/commit/2bcbab9a9f4727fd03930962a2dbdcaec3401597))
+* **feature:** functionButton ([5983cb0](https://github.com/mengshukeji/Luckysheet/commit/5983cb015e092e2edc1d3f27dba2d585fb4db099)), closes [#336](https://github.com/mengshukeji/Luckysheet/issues/336) [#381](https://github.com/mengshukeji/Luckysheet/issues/381)
+* copy ([d177cc8](https://github.com/mengshukeji/Luckysheet/commit/d177cc8f5ee01d32932d1137920883209ec24be4))
+
 ### [2.1.10](https://github.com/mengshukeji/Luckysheet/compare/v2.1.9...v2.1.10) (2020-12-18)
 
 
