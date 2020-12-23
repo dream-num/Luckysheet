@@ -2577,7 +2577,7 @@ export function setRangeShow(range, options = {}) {
  * @param {Array[Array]} data 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
- * @param {Number} options.isRefresh 是否刷新界面；默认为true
+ * @param {Boolean} options.isRefresh 是否刷新界面；默认为true
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
