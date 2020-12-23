@@ -6,6 +6,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 1. script全局引入时，所有API均挂载到window.luckysheet对象下面，可以在浏览器控制台打印看到；npm引入时，API也全部挂载在luckysheet对象下
 2. `success`回调函数第一个参数为API方法的返回值
 3. 需要新的API请到github [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)中提交，根据点赞数决定是否开放新API
+4. API方法中所需的`order`参数为工作表对象中的`order`的值，而不是`index`
 
 ## 单元格操作
 

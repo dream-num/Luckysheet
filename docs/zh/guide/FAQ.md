@@ -254,7 +254,9 @@ Luckysheet教程里采用的CDN链接是 [jsdelivr](https://www.jsdelivr.com/pac
 **<span style="font-size:20px;">A</span>** 需要引入图表插件才能使用，工作簿初始化的时候应该配置图表插件使用，参考
 
 - 插件配置 [plugins](/zh/guide/config.html#配置项)
-- 或 官方demo [/src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+- 或 官方demo [src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+
+通常，参考demo配置完后就可以和demo一样正常使用了，但是还是会偶现`chartmix is not defined`，这时需要在谷歌浏览器控制台的network里检查下图表的依赖是否都加载了，有5项依赖需要关注：`vue / vuex / element-ui / echarts / chartmix.umd.js`。
 
 ------------
 
@@ -291,5 +293,14 @@ luckysheet.setRangeShow("A2",{show:false})
 ## **<span style="font-size:20px;">Q</span>** 右键事件绑定在哪？
 
 **<span style="font-size:20px;">A</span>** 在源码的 [src/controllers/hander.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/handler.js) 搜索`event.which == "3"`即可找到右键事件触发执行的代码。
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** 如何添加自定义工具栏？
+
+**<span style="font-size:20px;">A</span>** 暂未提供配置，可以参照工具栏打印按钮的实现来修改源码：
+1. 全局搜索 `luckysheet-icon-print`即可找到打印按钮的实现，在 [src/controllers/constant.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/constant.js) 中增加一个类似的模板字符串，需要自定义一个唯一id
+2. 修改 [src/controllers/resize.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/resize.js) ，在toobarConfig对象中新增一条记录
+3. 修改 [src/controllers/menuButton.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/menuButton.js) ，新增一个事件监听
 
 ------------
