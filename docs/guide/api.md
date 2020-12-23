@@ -6,6 +6,7 @@ Use note:
 1. When script is introduced globally, all APIs are mounted under the window.luckysheet object, which can be printed and seen in the browser console; when npm is introduced, all APIs are also mounted under the luckysheet object
 2. The first parameter of the `success` callback function is the return value of the API method
 3. If you need a new API, please submit it to github [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose), and decide whether to open the new API according to the number of likes
+4. The required `order` parameter in the API method is the value of `order` in the worksheet object, not `index`
 
 ## Cell operation
 
