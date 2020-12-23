@@ -1653,17 +1653,31 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             cfg["borderInfo"] = borderInfo;
         }
 
+        // 备注：该处理方式会在删除多行的时候会存在bug
+        // 说明：删除多行后，会把同一个row空数组(引用类型)添加成为data多行的数据源，导致设置这些行数据时产生错误。
         //空白行模板
-        let row = [];
-        for (let c = 0; c < d[0].length; c++) {
-            row.push(null);
-        }
+        // let row = [];
+        // for (let c = 0; c < d[0].length; c++) {
+        //     row.push(null);
+        // }
+
+        // //删除选中行
+        // d.splice(st, slen);
+
+        // //删除多少行，增加多少行空白行                
+        // for (let r = 0; r < slen; r++) {
+        //     d.push(row);
+        // }
 
         //删除选中行
         d.splice(st, slen);
 
         //删除多少行，增加多少行空白行                
         for (let r = 0; r < slen; r++) {
+            let row = [];
+            for (let c = 0; c < d[0].length; c++) {
+                row.push(null);
+            }
             d.push(row);
         }
     }
