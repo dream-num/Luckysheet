@@ -7,7 +7,7 @@ const gridHTML = function(){
     const _locale = locale();
     const locale_info = _locale.info;
     const locale_print = _locale.print;
-    const userInfo = luckysheetConfigsetting.userInfo === true ? '<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky' : luckysheetConfigsetting.userInfo; // When true, use the default HTML string
+    const userInfo = luckysheetConfigsetting.userInfo === true ? '<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky' : luckysheetConfigsetting.userInfo; // When true, use the default HTML string. The rendering of userInfo below uses nested template strings. Otherwise, when display is used and the image path is not passed in, there will be an undefined request
 
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
@@ -23,14 +23,15 @@ const gridHTML = function(){
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
                             <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div>
                             
-                            <div class="luckysheet_info_detail_user" style="display:${getObjType(userInfo) === 'string' ? 'block' : 'none'};"> \${functionButton} 
-                                <span id="luckysheet_info_detail_user">${userInfo}</span>
-                            </div> 
+                            \${functionButton}
+                            
+                            ${getObjType(userInfo) === 'string' ? `<div class="luckysheet_info_detail_user">
+                            <span id="luckysheet_info_detail_user">${userInfo}</span></div>` : ''}
 
-                            <div class="luckysheet_info_detail_user" style="display:${getObjType(userInfo) === 'object' ? 'block' : 'none'};"> \${functionButton}                            
-                                <img src="${userInfo.userImage}" id="luckysheet_info_detail_user_img">
-                                <span id="luckysheet_info_detail_user">${userInfo.userName}</span>
-                            </div> 
+                            ${getObjType(userInfo) === 'object' ? `<div class="luckysheet_info_detail_user">                            
+                            <img src="${userInfo.userImage}" id="luckysheet_info_detail_user_img">
+                            <span id="luckysheet_info_detail_user">${userInfo.userName}</span>
+                            </div>` : ''}
                             
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 

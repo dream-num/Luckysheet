@@ -229,7 +229,7 @@ const luckysheetPostil = {
 
         let html =  '<div id="luckysheet-postil-overshow">' +
                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
-                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ value +'</div>' +
+                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ _this.htmlEscape(value) +'</div>' +
                     '</div>';
 
         $(html).appendTo($("#luckysheet-cell-main"));
@@ -391,8 +391,8 @@ const luckysheetPostil = {
                                     '<div class="luckysheet-postil-dialog-resize-item luckysheet-postil-dialog-resize-item-rb" data-type="rb"></div>' +
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
-                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -563,8 +563,8 @@ const luckysheetPostil = {
                                     '<div class="luckysheet-postil-dialog-resize-item luckysheet-postil-dialog-resize-item-rb" data-type="rb"></div>' +
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
-                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -685,8 +685,8 @@ const luckysheetPostil = {
                                     '<div class="luckysheet-postil-dialog-resize-item luckysheet-postil-dialog-resize-item-rb" data-type="rb"></div>' +
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
-                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                    '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -809,8 +809,8 @@ const luckysheetPostil = {
                                                 '<div class="luckysheet-postil-dialog-resize-item luckysheet-postil-dialog-resize-item-rb" data-type="rb"></div>' +
                                             '</div>' +
                                             '<div style="width:100%;height:100%;overflow:hidden;">' + 
-                                                '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                                    value +
+                                                '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
+                                                    _this.htmlEscape(value) +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>' +
@@ -924,6 +924,25 @@ const luckysheetPostil = {
                 $("#" + id).hide();
             }
         });
+    },
+    htmlEscape: function(text){
+        return text.replace(/[<>"&]/g, function(match, pos, originalText){
+            console.log(match, pos, originalText)
+            switch(match){
+                case '<': {
+                    return '&lt';
+                }
+                case '>': {
+                    return '&gt';
+                }
+                case '&': {
+                    return '&amp';
+                }
+                case '\"': {
+                    return '&quot;';
+                }
+            }
+        })
     }
 }
 

@@ -6,6 +6,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 1. script全局引入时，所有API均挂载到window.luckysheet对象下面，可以在浏览器控制台打印看到；npm引入时，API也全部挂载在luckysheet对象下
 2. `success`回调函数第一个参数为API方法的返回值
 3. 需要新的API请到github [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)中提交，根据点赞数决定是否开放新API
+4. API方法中所需的`order`参数为工作表对象中的`order`的值，而不是`index`
 
 ## 单元格操作
 
@@ -320,6 +321,18 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	冻结行列操作
 
 	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
+	
+	如果想在工作簿初始化后使用此API设置冻结，可以在工作簿创建后的钩子函数中执行，比如：
+	```js
+	luckysheet.create({
+    	hook:{
+				workbookCreateAfter:function(){
+					luckysheet.setBothFrozen(false);
+				}
+			}
+	});
+
+	```
 
 - **示例**:
 

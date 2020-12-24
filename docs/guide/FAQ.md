@@ -253,7 +253,7 @@ In this case, after Luckysheet is modified in real time, the changes can be seen
 **<span style="font-size:20px;">A</span>** You need to introduce a chart plugin to use it. You should configure the chart plugin to use when the workbook is initialized. Refer to
 
 - Plugins configuration [plugins](/guide/config.html#plugins)
-- 或 官方demo [/src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
+- 或 官方demo [src/index.html](https://github.com/mengshukeji/Luckysheet/blob/master/src/index.html)
 
 ------------
 
@@ -290,5 +290,14 @@ luckysheet.setRangeShow("A2",{show:false})
 ## **<span style="font-size:20px;">Q</span>** Where is the right-click event bound?
 
 **<span style="font-size:20px;">A</span>** In the source code [src/controllers/hander.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/handler.js), search for `event.which == "3"` to find the code executed by the right-click event.
+
+------------
+
+## **<span style="font-size:20px;">Q</span>** How to add a custom toolbar?
+
+**<span style="font-size:20px;">A</span>** No configuration is currently provided, you can refer to the implementation of the print button in the toolbar to modify the source code:
+1. Search for `luckysheet-icon-print` globally to find the implementation of the print button, in [src/controllers/constant.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/constant.js) add a similar template string, you need to customize a unique id
+2. Modify [src/controllers/resize.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/resize.js) and add a new record in the toobarConfig object
+3. Modify [src/controllers/menuButton.js](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/menuButton.js) to add an event listener
 
 ------------

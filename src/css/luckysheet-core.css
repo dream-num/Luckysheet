@@ -122,7 +122,7 @@
 .luckysheet_info_detail_save {
     color: #828282;
     font-size: 12px;
-    margin-left: 5px;
+    margin:0 5px;
 }
 
 .luckysheet-share-logo {
@@ -521,64 +521,6 @@
     margin: 2px;
     /* opacity: .54; */
 }
-
-
-/* .luckysheet-icon-img {
-    background: url(menuSprite.svg);
-    content: url(menuSprite.svg);
-}
-
-.luckysheet-icon-img-container {
-    height: 424px;
-    position: absolute;
-    width: 590px;
-}
-
-.luckysheet-icon-img-container {
-    height: 1886px;
-    position: absolute;
-    width: 108px;
-}
-
-
-.luckysheet-icon-img {
-    background: url(sprite38.svg);
-    content: url(sprite38.svg);
-}
-
-.luckysheet-icon-print {
-    left: -54px;
-    top: -90px;
-}
-
-.luckysheet-icon-undo {
-    left: -90px;
-    top: -1642px;
-}
-
-.luckysheet-icon-redo {
-    left: 0;
-    top: -1188px;
-} 
-
-.luckysheet-icon-paintformat {
-    left: -90px;
-    top: -550px;
-}
-
-.luckysheet-icon-decimal-decrease {
-    left: -36px;
-    top: -1444px;
-} */
-
-/* .toolbar-decimal-icon {
-    margin-bottom: -4px;
-} */
-
-/* .luckysheet-icon-decimal-increase {
-    left: -36px;
-    top: -1660px;
-} */
 
 #luckysheet-icon-fmt-other .luckysheet-toolbar-menu-button-caption {
     overflow: hidden;

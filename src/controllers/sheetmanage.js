@@ -942,6 +942,7 @@ const sheetmanage = {
     storeSheetParam: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
         let file = Store.luckysheetfile[index];
+        file["config"] = Store.config;
         file["visibledatarow"] = Store.visibledatarow;
         file["visibledatacolumn"] = Store.visibledatacolumn;
         file["ch_width"] = Store.ch_width;

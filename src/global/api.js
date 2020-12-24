@@ -344,7 +344,7 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     if(targetSheetData.length == 0){
         targetSheetData = sheetmanage.buildGridData(file);
     }
-    
+
     let cellData = targetSheetData[row][column] || {};
     let cfg = $.extend(true, {}, file.config);
 
@@ -484,10 +484,33 @@ export function find(content, options = {}) {
  */
 export function replace(content, replaceContent, options = {}) {
     let matchCells = find(content, options)
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let {
+        order = curSheetOrder,
+    } = {...options}
+
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+    let sheetData = $.extend(true, [], file.data);
+
     matchCells.forEach(cell => {
         cell.m = replaceContent;
-        setCellValue(cell.row, cell.column, replaceContent, options);
+        setCellValue(cell.row, cell.column, replaceContent, {order: order, isRefresh: false});
     })
+
+    let fileData = $.extend(true, [], file.data);
+    file.data.length = 0;
+    file.data.push(...sheetData);
+
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid(fileData, undefined, undefined, true, false);
+    }
+
+    luckysheetrefreshgrid();
+
     if (options.success && typeof options.success === 'function') {
         options.success(matchCells)
     }
@@ -509,14 +532,14 @@ export function exitEditMode(options = {}){
         }
         else {
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-            Store.luckysheet_select_save = [{ 
-                "row": [Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[0]], 
-                "column": [Store.luckysheetCellUpdate[1], Store.luckysheetCellUpdate[1]], 
-                "row_focus": Store.luckysheetCellUpdate[0], 
-                "column_focus": Store.luckysheetCellUpdate[1] 
+            Store.luckysheet_select_save = [{
+                "row": [Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[0]],
+                "column": [Store.luckysheetCellUpdate[1], Store.luckysheetCellUpdate[1]],
+                "row_focus": Store.luckysheetCellUpdate[0],
+                "column_focus": Store.luckysheetCellUpdate[1]
             }];
         }
-    
+
         //若有参数弹出框，隐藏
         if($("#luckysheet-search-formula-parm").is(":visible")){
             $("#luckysheet-search-formula-parm").hide();
@@ -2554,6 +2577,7 @@ export function setRangeShow(range, options = {}) {
  * @param {Array[Array]} data 要赋值的单元格二维数组数据，每个单元格的值，可以为字符串或数字，或为符合Luckysheet格式的对象
  * @param {Object} options 可选参数
  * @param {Object | String} options.range 选区范围,支持选区的格式为"A1:B2"、"sheetName!A1:B2"或者{row:[0,1],column:[0,1]}，只能为单个选区；默认为当前选区
+ * @param {Boolean} options.isRefresh 是否刷新界面；默认为true
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
@@ -2562,6 +2586,7 @@ export function setRangeValue(data, options = {}) {
     let curRange = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
     let {
         range = curRange,
+        isRefresh = true,
         order = curSheetOrder,
         success
     } = {...options}
@@ -2585,12 +2610,34 @@ export function setRangeValue(data, options = {}) {
         return tooltip.info('The data to be set does not match the selection.', '')
     }
 
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+    let sheetData = $.extend(true, [], file.data);
+
     for (let i = 0; i < rowCount; i++) {
         for (let j = 0; j < columnCount; j++) {
             let row = range.row[0] + i,
                 column = range.column[0] + j;
-            setCellValue(row, column, data[i][j], {order: order})
+            setCellValue(row, column, data[i][j], {order: order, isRefresh: false})
         }
+    }
+
+    let fileData = $.extend(true, [], file.data);
+    file.data.length = 0;
+    file.data.push(...sheetData);
+
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid(fileData, [{
+            row: range.row,
+            column: range.column,
+        }], undefined, true, false);
+    }
+
+    if(isRefresh) {
+        luckysheetrefreshgrid();
     }
 
     if (success && typeof success === 'function') {
@@ -6029,7 +6076,7 @@ export function insertImage(src, options = {}){
                     visibledatarow.push(rh_height);
                     continue;
                 }
-                
+
                 rh_height += Math.round((rowlen + 1) * zoomRatio);
 
                 visibledatarow.push(rh_height); //行的临时长度分布
@@ -6180,7 +6227,7 @@ export function deleteImage(options = {}){
             $("#luckysheet-modal-dialog-cropping").hide();
             $("#luckysheet-modal-dialog-slider-imageCtrl").hide();
         }
-        
+
         imageCtrl.images = images;
         imageCtrl.allImagesShow();
         imageCtrl.init();
@@ -6309,7 +6356,7 @@ export function changLang(lang = 'zh'){
 
 
 /**
- * 关闭websocket连接 
+ * 关闭websocket连接
  */
 export function closeWebsocket(){
     if(server.websocket == null){
