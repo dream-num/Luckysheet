@@ -1793,7 +1793,7 @@ const sheetmanage = {
         }
         else if(type == "cg"){
             let v = value, k = item.k;
-            let config1 = _this.getSheetConfig(index);;
+            let config1 = _this.getSheetConfig(index);
             
             if(!(k in config1)){
                 config1[k] = {};

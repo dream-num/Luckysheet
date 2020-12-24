@@ -20,7 +20,7 @@ import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
-let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";;
+let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";
 function showsheetconfigmenu() {
     if (!isInitialSheetConfig) {
         isInitialSheetConfig = true;
