@@ -1541,7 +1541,7 @@ const luckysheetformula = {
         }
 
         if ((d[r][c].tb == "2" && d[r][c].v != null) || isInlineStringCell(d[r][c])) {//自动换行
-            let defaultrowlen = Store.defaultrowlen;;
+            let defaultrowlen = Store.defaultrowlen;
 
             let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
             // offlinecanvas.textBaseline = 'top'; //textBaseline以top计算
@@ -2176,7 +2176,7 @@ const luckysheetformula = {
                 }
 
                 let p = i - 1,
-                    s_pre = null;;
+                    s_pre = null;
 
                 if (p >= 0) {
                     do {
@@ -3501,7 +3501,7 @@ const luckysheetformula = {
             }
             else if (s == '&' && matchConfig.squote == 0 && matchConfig.dquote == 0 && matchConfig.braces == 0) {
                 if (str.length > 0) {
-                    function_str += _this.functionHTML(str) + '<span dir="auto" class="luckysheet-formula-text-calc">' + '&' + '</span>';;
+                    function_str += _this.functionHTML(str) + '<span dir="auto" class="luckysheet-formula-text-calc">' + '&' + '</span>';
                     str = "";
                 }
                 else {
@@ -3514,7 +3514,7 @@ const luckysheetformula = {
                     s_next = funcstack[i + 1];
                 }
 
-                let p = i - 1, s_pre = null;;
+                let p = i - 1, s_pre = null;
                 if (p >= 0) {
                     do {
                         s_pre = funcstack[p--];
@@ -3679,7 +3679,7 @@ const luckysheetformula = {
                     s_next = funcstack[i + 1];
                 }
 
-                let p = i - 1, s_pre = null;;
+                let p = i - 1, s_pre = null;
                 if (p >= 0) {
                     do {
                         s_pre = funcstack[p--];
