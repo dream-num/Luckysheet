@@ -431,6 +431,7 @@ const menuButton = {
                 //luckysheet-icon-fmt-other-menuButton_sub
                 $("body").append(menu+submenu);
                 $menuButton = $("#" + menuButtonId).width(250);
+                _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
                     $menuButton.hide();
