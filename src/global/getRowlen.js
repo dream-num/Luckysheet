@@ -893,212 +893,222 @@ function getCellTextInfo(cell , ctx, option){
             }
             else{
                 value = value.toString();
-                let splitValue = value.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_");
-                let splitArr = splitValue.split("_x000D_");
-                for(let x=0, len=splitArr.length;x<len;x++){
-                    value = splitArr[x];
-                    anchor = 0;
-                    preStr = undefined;
-                    preTextHeight = undefined;
-                    preTextWidth = undefined;
-                    preMeasureText = undefined;
-                    i=1;
-                    spaceOrTwoByte=null;
-                    while(i <= value.length){
-                        let str = value.substring(anchor, i);
-                        let measureText =  getMeasureText(str, ctx);
-                        let textWidth = measureText.width;
-                        let textHeight = measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent;
+                while(i <= value.length){
+                    let str = value.substring(anchor, i);
+                    let measureText =  getMeasureText(str, ctx);
+                    let textWidth = measureText.width;
+                    let textHeight = measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent;
 
-                        let width = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
+                    let width = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
 
-                        let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
-                        let lastWord = str.substr(str.length-1,1);
-                        if(lastWord==" " || checkWordByteLength(lastWord)==2){
-                            if(preMeasureText!=null){
-                                spaceOrTwoByte = {
-                                    index:i,
-                                    str:preStr,
-                                    width:preTextWidth,
-                                    height:preTextHeight,
-                                    asc:preMeasureText.actualBoundingBoxAscent,
-                                    desc:preMeasureText.actualBoundingBoxDescent,
-                                };
-                            }
-
+                    let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
+                    let lastWord = str.substr(str.length-1,1);
+                    let isSpace = false;
+                    if(checkWordByteLength(lastWord)===1 && lastWord !== ' ' && !/^.$/.test(lastWord) && !/^.$/u.test(lastWord)) {
+                        isSpace = lastWord.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_") === '_x000D_';
+                    }
+                    if(lastWord==" " || checkWordByteLength(lastWord)==2){
+                        if(preMeasureText!=null){
+                            spaceOrTwoByte = {
+                                index:i,
+                                str:preStr,
+                                width:preTextWidth,
+                                height:preTextHeight,
+                                asc:preMeasureText.actualBoundingBoxAscent,
+                                desc:preMeasureText.actualBoundingBoxDescent,
+                            };
                         }
-                        // textW_all += textW;
-                        // console.log(str,anchor,i);
-                        if(rt!=0){//rotate
-                            // console.log("all",anchor, i , str);
-                            if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && i!= value.length){
-                                // console.log("cut",anchor, i , str);
-
-                                if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
-
-                                    anchor = spaceOrTwoByte.index;
-
-                                    i = spaceOrTwoByte.index + 1;
-
-                                    text_all_split[splitIndex].push({
-                                        content:spaceOrTwoByte.str,
-                                        style:fontset,
-                                        width:spaceOrTwoByte.width,
-                                        height:spaceOrTwoByte.height,
-                                        left:0,
-                                        top:0,
-                                        splitIndex:splitIndex,
-                                        asc:spaceOrTwoByte.asc,
-                                        desc:spaceOrTwoByte.desc,
-                                        fs:fontSize,
-                                    });
-
-                                    // console.log(1,anchor,i,splitIndex , spaceOrTwoByte.str);
-
-                                    splitIndex +=1;
-
-                                    spaceOrTwoByte = null;
-
-
-
-                                }
-                                else{
-                                    anchor = i-1;
-
-                                    text_all_split[splitIndex].push({
-                                        content:preStr,
-                                        style:fontset,
-                                        left:0,
-                                        top:0,
-                                        splitIndex:splitIndex,
-                                        height:preTextHeight,
-                                        width:preTextWidth,
-                                        asc:measureText.actualBoundingBoxAscent,
-                                        desc:measureText.actualBoundingBoxDescent,
-                                        fs:fontSize,
-                                    });
-
-                                    // console.log(2,anchor,i, splitIndex, preStr);
-
-                                    splitIndex +=1;
-
-
-                                }
-                            }
-                            else if(i== value.length){
-                                // console.log("last",anchor, i , str);
-                                if(text_all_split[splitIndex]==null){
-                                    text_all_split[splitIndex]= [];
-                                }
-                                text_all_split[splitIndex].push({
-                                    content:str,
-                                    style:fontset,
-                                    left:0,
-                                    top:0,
-                                    splitIndex:splitIndex,
-                                    height:textHeight,
-                                    width:textWidth,
-                                    asc:measureText.actualBoundingBoxAscent,
-                                    desc:measureText.actualBoundingBoxDescent,
-                                    fs:fontSize,
-                                });
-                                break;
-                            }
-                            else{
-                                if(text_all_split[splitIndex]==null){
-                                    text_all_split[splitIndex]= [];
-                                }
-                                i++;
-                            }
-                        }
-                        else{//plain
-                            if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && i!= value.length){
-                                // console.log(spaceOrTwoByte, i, anchor);
-                                if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
-
-                                    anchor = spaceOrTwoByte.index;
-
-                                    i = spaceOrTwoByte.index + 1;
-
-                                    text_all_split[splitIndex].push({
-                                        content:spaceOrTwoByte.str,
-                                        style:fontset,
-                                        width:spaceOrTwoByte.width,
-                                        height:spaceOrTwoByte.height,
-                                        left:0,
-                                        top:0,
-                                        splitIndex:splitIndex,
-                                        asc:spaceOrTwoByte.asc,
-                                        desc:spaceOrTwoByte.desc,
-                                        fs:fontSize,
-                                    });
-
-                                    splitIndex +=1;
-
-                                    spaceOrTwoByte = null;
-
-
-
-                                }
-                                else{
-
-                                    spaceOrTwoByte = null;
-                                    anchor = i-1;
-
-                                    text_all_split[splitIndex].push({
-                                        content:preStr,
-                                        style:fontset,
-                                        width:preTextWidth,
-                                        height:preTextHeight,
-                                        left:0,
-                                        top:0,
-                                        splitIndex:splitIndex,
-                                        asc:measureText.actualBoundingBoxAscent,
-                                        desc:measureText.actualBoundingBoxDescent,
-                                        fs:fontSize,
-                                    });
-
-                                    // console.log(2);
-
-
-
-                                    splitIndex +=1;
-                                }
-                            }
-                            else if(i== value.length){
-                                if(text_all_split[splitIndex]==null){
-                                    text_all_split[splitIndex]= [];
-                                }
-                                text_all_split[splitIndex].push({
-                                    content:str,
-                                    style:fontset,
-                                    width:textWidth,
-                                    height:textHeight,
-                                    left:0,
-                                    top:0,
-                                    splitIndex:splitIndex,
-                                    asc:measureText.actualBoundingBoxAscent,
-                                    desc:measureText.actualBoundingBoxDescent,
-                                    fs:fontSize,
-                                });
-
-                                break;
-                            }
-                            else{
-                                if(text_all_split[splitIndex]==null){
-                                    text_all_split[splitIndex]= [];
-                                }
-                                i++;
-                            }
-                        }
-
-                        preStr = str;
-                        preTextHeight = textHeight;
-                        preTextWidth = textWidth;
-                        preMeasureText = measureText;
 
                     }
-                    splitIndex +=1;
+                    // textW_all += textW;
+                    // console.log(str,anchor,i);
+                    if(rt!=0){//rotate
+                        // console.log("all",anchor, i , str);
+                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && i!= value.length){
+                            // console.log("cut",anchor, i , str);
+
+                            if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
+
+                                anchor = spaceOrTwoByte.index;
+
+                                i = spaceOrTwoByte.index + 1;
+
+                                text_all_split[splitIndex].push({
+                                    content:spaceOrTwoByte.str,
+                                    style:fontset,
+                                    width:spaceOrTwoByte.width,
+                                    height:spaceOrTwoByte.height,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:spaceOrTwoByte.asc,
+                                    desc:spaceOrTwoByte.desc,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(1,anchor,i,splitIndex , spaceOrTwoByte.str);
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByte = null;
+
+
+
+                            }
+                            else{
+                                anchor = i-1;
+
+                                text_all_split[splitIndex].push({
+                                    content:preStr,
+                                    style:fontset,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    height:preTextHeight,
+                                    width:preTextWidth,
+                                    asc:measureText.actualBoundingBoxAscent,
+                                    desc:measureText.actualBoundingBoxDescent,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(2,anchor,i, splitIndex, preStr);
+
+                                splitIndex +=1;
+
+
+                            }
+                        }
+                        else if(i== value.length){
+                            // console.log("last",anchor, i , str);
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            text_all_split[splitIndex].push({
+                                content:str,
+                                style:fontset,
+                                left:0,
+                                top:0,
+                                splitIndex:splitIndex,
+                                height:textHeight,
+                                width:textWidth,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent,
+                                fs:fontSize,
+                            });
+                            break;
+                        }
+                        else{
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            i++;
+                        }
+                    }
+                    else{//plain
+                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && i!= value.length){
+                            // console.log(spaceOrTwoByte, i, anchor);
+                            if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
+
+                                anchor = spaceOrTwoByte.index;
+
+                                i = spaceOrTwoByte.index + 1;
+
+                                text_all_split[splitIndex].push({
+                                    content:spaceOrTwoByte.str,
+                                    style:fontset,
+                                    width:spaceOrTwoByte.width,
+                                    height:spaceOrTwoByte.height,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:spaceOrTwoByte.asc,
+                                    desc:spaceOrTwoByte.desc,
+                                    fs:fontSize,
+                                });
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByte = null;
+
+
+
+                            }
+                            else{
+
+                                spaceOrTwoByte = null;
+                                anchor = i-1;
+
+                                text_all_split[splitIndex].push({
+                                    content:preStr,
+                                    style:fontset,
+                                    width:preTextWidth,
+                                    height:preTextHeight,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:measureText.actualBoundingBoxAscent,
+                                    desc:measureText.actualBoundingBoxDescent,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(2);
+
+
+
+                                splitIndex +=1;
+                            }
+                        }
+                        else if(isSpace && text_all_split[splitIndex]!=null && i!= value.length) {
+
+                            spaceOrTwoByte = null;
+                            anchor = i;
+
+                            text_all_split[splitIndex].push({
+                                content:str,
+                                style:fontset,
+                                width:preTextWidth,
+                                height:preTextHeight,
+                                left:0,
+                                top:0,
+                                splitIndex:splitIndex,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent,
+                                fs:fontSize,
+                            });
+                            splitIndex +=1;
+                        }
+                        else if(i== value.length){
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            text_all_split[splitIndex].push({
+                                content:str,
+                                style:fontset,
+                                width:textWidth,
+                                height:textHeight,
+                                left:0,
+                                top:0,
+                                splitIndex:splitIndex,
+                                asc:measureText.actualBoundingBoxAscent,
+                                desc:measureText.actualBoundingBoxDescent,
+                                fs:fontSize,
+                            });
+
+                            break;
+                        }
+                        else{
+                            if(text_all_split[splitIndex]==null){
+                                text_all_split[splitIndex]= [];
+                            }
+                            i++;
+                        }
+                    }
+
+                    preStr = str;
+                    preTextHeight = textHeight;
+                    preTextWidth = textWidth;
+                    preMeasureText = measureText;
+
                 }
 
                 // console.log(text_all_split)
