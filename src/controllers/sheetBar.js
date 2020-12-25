@@ -123,11 +123,6 @@ function showsheetconfigmenu() {
 }
 
 let luckysheetsheetrightclick = function ($t, $cur, e) {
-    //保存正在编辑的单元格内容
-    if (parseInt($("#luckysheet-input-box").css("top")) > 0) {
-        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-    }
-
     clearTimeout(jfdbclicklagTimeout);
     if ($cur.hasClass("luckysheet-sheets-item-name") && $cur.attr("contenteditable") == "true") {
         return;
@@ -141,6 +136,11 @@ let luckysheetsheetrightclick = function ($t, $cur, e) {
         }, 1);
     }
     else {
+        //保存正在编辑的单元格内容
+        if (parseInt($("#luckysheet-input-box").css("top")) > 0) {
+            formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+        }
+
         $("#luckysheet-input-box").removeAttr("style");
         $("#luckysheet-formula-functionrange .luckysheet-formula-functionrange-highlight").remove();
     }
