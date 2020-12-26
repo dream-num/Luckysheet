@@ -728,6 +728,160 @@ Use note:
 
 ------------
 
+
+### getRangeWithFlatten()
+ 
+- **Explanation**：
+
+	Returns an array representing the positions of all cells in the specified area, which is different from the getrange method, which organizes the data of the selection by cell (rather than a continuous area).
+
+- **Usage**:
+
+	- Select the specified area in the table, and then execute
+		
+		`luckysheet.getRange()`
+		
+		The returned result is:
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		Where，{"row":[0,0],"column":[0,2]} denote a whole continuous region.
+
+	- Select the area above in the table and execute
+		
+		`luckysheet.getRangeWithFlatten()`
+		
+		The returned result is:
+		```json
+		[
+			{"r":0,"c":0},
+			{"r":0,"c":1},
+			{"r":0,"c":2},
+			{"r":1,"c":0},
+			{"r":3,"c":0}
+		]
+		```
+
+------------
+
+
+### getRangeValuesWithFlatte()
+ 
+- **Explanation**：
+
+	Returns an array of objects representing the contents of all cells in a specified range
+
+- **Usage**:
+
+	- Select the specified area in the table, and then execute
+		
+		`luckysheet.getRange()`
+		
+		The returned result is:
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		Where，{"row":[0,0],"column":[0,2]} denote a whole continuous region.
+
+	- Select the area above in the table and execute
+		
+		`luckysheet.getRangeValuesWithFlatte()`
+		
+		The returned result is:
+		```json
+		[
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 1,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "1"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 2,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "2"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 3,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "3"
+			},
+			{
+				"v": "Background",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Background",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			},
+			{
+				"v": "Border",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Border",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			}
+		]
+		```
+------------
+
 ### getRangeAxis()
  
 - **Explanation**：
