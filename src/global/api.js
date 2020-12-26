@@ -1592,6 +1592,47 @@ export function getRange() {
     return result;
 }
 
+/**
+ * 返回表示指定区域内所有单元格位置的数组，区别getRange方法，该方法以cell单元格(而非某块连续的区域)为单位来组织选区的数据
+ * @param   {Array}   range 可选参数，默认为当前选中区域
+ * @returns {Array}   对象数组
+ */
+export function getRangeWithFlatten(range){
+    range = range ||  getRange();
+    
+    let result = [];
+    
+    range.forEach(ele=>{
+        // 这个data可能是个范围或者是单个cell
+        let rs = ele.row;
+        let cs = ele.column;
+        for(let r = rs[0]; r <= rs[1]; r++){
+            for(let c = cs[0]; c <= cs[1]; c++){
+                // r c 当前的r和当前的c
+                result.push({r,c});
+            }
+        }
+    })
+    return result;
+}
+
+/**
+ * 返回表示指定区域内所有单元格内容的对象数组
+ * @param   {Array}   range 可选参数，默认为当前选中区域扁平化后的对象，结构形如[{r:0,c:0},{r:0,c:1}...]
+ * @returns {Array}   对象数组
+ */
+export function getRangeValuesWithFlatte(range){
+    range = range || getRangeWithFlatten();
+    
+    let values = [];
+
+    // 获取到的这个数据不是最新的数据
+    range.forEach(item=> { 
+        values.push(Store.flowdata[item.r][item.c]);
+    });
+    return values;
+}
+
 
 /**
  * 返回对应当前选区的坐标字符串数组，可能存在多个选区。
