@@ -2,7 +2,7 @@ import Store from "../store";
 import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
 import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
-
+import method from './method';
 import formula from './formula';
 import func_methods from "./func_methods";
 import tooltip from "./tooltip";
@@ -99,6 +99,12 @@ export function getCellValue(row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
+
+    let curv = Store.flowdata[row][column];
+
+    // Store old value for hook function
+    const oldValue = JSON.stringify(curv);
+
     if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('The row or column parameter is invalid.', '');
     }
@@ -113,6 +119,12 @@ export function setCellValue(row, column, value, options = {}) {
 
     if(file == null){
         return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    /* cell更新前触发  */
+    if (!method.createHookFunction("cellUpdateBefore", row, column, value, isRefresh)) {
+        /* 如果cellUpdateBefore函数返回false 则不执行后续的更新 */
+        return;
     }
 
     let data = file.data;
@@ -202,6 +214,12 @@ export function setCellValue(row, column, value, options = {}) {
             setcellvalue(row, column, data, value);
         }
     }
+
+    /* cell更新后触发  */
+    setTimeout(() => {
+        // Hook function
+        method.createHookFunction("cellUpdated", row, column, JSON.parse(oldValue), Store.flowdata[row][column], isRefresh);
+    }, 0);
 
     if(file.index == Store.currentSheetIndex && isRefresh){
         jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);//update data, meanwhile refresh canvas and store data to history
