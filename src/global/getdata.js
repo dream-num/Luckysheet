@@ -260,7 +260,7 @@ export function getOrigincell(r, c, i) {
         data = sheet.data;
     }
 
-    if(data==null){
+    if(!data || !data[r] || !data[r][c]){
         return;
     }
 
@@ -493,19 +493,19 @@ export function checkstatusByCell(cell, a){
             foucsStatus = "1";
         }
     }
-    else if(a == "vt"){
+    else if(a == "vt"){//默认垂直居中
         if(foucsStatus == null){
-            foucsStatus = "2";
+            foucsStatus = "0";
         }
         else{
             foucsStatus = foucsStatus[a];
             if(foucsStatus == null){
-                foucsStatus = "2";
+                foucsStatus = "0";
             }
         }
 
         if(["0", "1", "2"].indexOf(foucsStatus.toString()) == -1){
-            foucsStatus = "2";
+            foucsStatus = "0";
         }
     }
     else if(a == "ct"){

@@ -1,4 +1,4 @@
-const sheetTable = {
+window.sheetTable = {
 	"name": "Table",
 	"color": "",
 	"config": {
@@ -1065,4 +1065,4 @@ const sheetTable = {
 	}]
 }
 
-export default sheetTable;
+// export default sheetTable;

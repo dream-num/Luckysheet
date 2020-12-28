@@ -1,13 +1,14 @@
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-
+import { getObjType } from '../utils/util';
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();
     const locale_info = _locale.info;
     const locale_print = _locale.print;
-    
+    const userInfo = luckysheetConfigsetting.userInfo === true ? '<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky' : luckysheetConfigsetting.userInfo; // When true, use the default HTML string. The rendering of userInfo below uses nested template strings. Otherwise, when display is used and the image path is not passed in, there will be an undefined request
+
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
                     <div class="luckysheet-work-area luckysheet-noselected-text"> 
@@ -20,8 +21,18 @@ const gridHTML = function(){
                                 <input data-tips="${locale_info.tips}" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="${locale_info.noName}" tabindex="0" dir="ltr" aria-label="${locale_info.rename}" style="visibility: visible; width: 149px;" data-tooltip="${locale_info.rename}"> 
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
-                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
-                            <div class="luckysheet_info_detail_user"> \${functionButton} <span id="luckysheet_info_detail_user"></span> </div> 
+                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div>
+                            
+                            \${functionButton}
+                            
+                            ${getObjType(userInfo) === 'string' ? `<div class="luckysheet_info_detail_user">
+                            <span id="luckysheet_info_detail_user">${userInfo}</span></div>` : ''}
+
+                            ${getObjType(userInfo) === 'object' ? `<div class="luckysheet_info_detail_user">                            
+                            <img src="${userInfo.userImage}" id="luckysheet_info_detail_user_img">
+                            <span id="luckysheet_info_detail_user">${userInfo.userName}</span>
+                            </div>` : ''}
+                            
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
                         <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 
@@ -215,6 +226,7 @@ const gridHTML = function(){
                                 </div>
                                 <div id="luckysheet-sheets-leftscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-left"></i></div>
                                 <div id="luckysheet-sheets-rightscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-right"></i></div>
+                                <div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>
                             </div> 
                         </div> 
                         <div class="luckysheet-stat-area"> 
@@ -624,6 +636,12 @@ function sheetconfigHTML(){
     const sheetconfig = locale().sheetconfig;
 
     const config = customSheetRightClickConfig();
+
+    /* 如果配置项全部为flase，则隐藏入口且不再菜单项 */
+    if(Object.values(config).every(ele=> !ele)){
+        $('#luckysheet-sheet-container-c').addClass("luckysheet-sheet-container-menu-hide");
+        return "";
+    }
 
     let hideTopMenuseparator = true;
     let moveTopMenuseparator = true;
@@ -1039,7 +1057,7 @@ function menuToolBar (){
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(0, 0, 0); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar"></div>
+                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultTextColor}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-text-color iconfont luckysheet-iconfont-wenbenyanse"
                                 style="user-select: none;">
                                 </div>
@@ -1074,7 +1092,7 @@ function menuToolBar (){
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(255, 255, 255); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar"></div>
+                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultCellColor}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-cell-color iconfont luckysheet-iconfont-tianchong"
                                 style="user-select: none;">
                                 </div>

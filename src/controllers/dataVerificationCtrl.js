@@ -11,6 +11,7 @@ import { modelHTML } from './constant';
 import { selectionCopyShow } from './select';
 import server from './server';
 import menuButton from './menuButton';
+import sheetmanage from './sheetmanage';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
@@ -281,6 +282,13 @@ const dataVerificationCtrl = {
             _this.selectRange = [];
 
             let range = _this.getRangeByTxt(txt);
+
+            formula.rangetosheet = Store.currentSheetIndex;
+
+            if(range[0].sheetIndex != Store.currentSheetIndex){
+                sheetmanage.changeSheetExec(range[0].sheetIndex);
+            }
+
             if(range.length > 0){
                 for(let s = 0; s < range.length; s++){
                     let r1 = range[s].row[0], r2 = range[s].row[1];
@@ -321,6 +329,13 @@ const dataVerificationCtrl = {
             _this.selectRange = [];
 
             let range = _this.getRangeByTxt(txt);
+
+            formula.rangetosheet = Store.currentSheetIndex;
+
+            if(range[0].sheetIndex != Store.currentSheetIndex){
+                sheetmanage.changeSheetExec(range[0].sheetIndex);
+            }
+
             if(range.length > 0){
                 for(let s = 0; s < range.length; s++){
                     let r1 = range[s].row[0], r2 = range[s].row[1];
@@ -370,6 +385,11 @@ const dataVerificationCtrl = {
             $("#luckysheet-modal-dialog-mask").show();
             $("#luckysheet-dataVerification-dialog").show();
 
+            if(formula.rangetosheet != null && formula.rangetosheet != Store.currentSheetIndex){
+                sheetmanage.changeSheetExec(formula.rangetosheet);
+                formula.rangetosheet = null;
+            }
+
             let range = [];
             selectionCopyShow(range);
         });
@@ -378,6 +398,11 @@ const dataVerificationCtrl = {
             $("#luckysheet-modal-dialog-mask").show();
             $("#luckysheet-dataVerification-dialog").show();
 
+            if(formula.rangetosheet != null && formula.rangetosheet != Store.currentSheetIndex){
+                sheetmanage.changeSheetExec(formula.rangetosheet);
+                formula.rangetosheet = null;
+            }
+
             let range = [];
             selectionCopyShow(range);
         });
@@ -385,6 +410,11 @@ const dataVerificationCtrl = {
             $("#luckysheet-dataVerificationRange-dialog").hide();
             $("#luckysheet-modal-dialog-mask").show();
             $("#luckysheet-dataVerification-dialog").show();
+
+            if(formula.rangetosheet != null && formula.rangetosheet != Store.currentSheetIndex){
+                sheetmanage.changeSheetExec(formula.rangetosheet);
+                formula.rangetosheet = null;
+            }
 
             let range = [];
             selectionCopyShow(range);
@@ -564,7 +594,7 @@ const dataVerificationCtrl = {
         });
 
         //确认按钮
-        $(document).off("click.confirm").on("click.confirm", "#luckysheet-dataVerification-dialog-confirm", function(e) {
+        $(document).off("click.dvSaveConfirm").on("click.dvSaveConfirm", "#luckysheet-dataVerification-dialog-confirm", function(e) {
             let rangeTxt = $("#luckysheet-dataVerification-dialog #data-verification-range input").val().trim();
             let range = _this.getRangeByTxt(rangeTxt);
 
@@ -1531,7 +1561,7 @@ const dataVerificationCtrl = {
         let _this = this;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             let redo = {};
             redo["type"] = "updateDataVerification";
@@ -1557,7 +1587,7 @@ const dataVerificationCtrl = {
         let _this = this;
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
 
             let redo = {};
             redo["type"] = "updateDataVerificationOfCheckbox";

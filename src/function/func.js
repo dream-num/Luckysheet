@@ -8,6 +8,7 @@ import { inverse } from '../function/matrix_methods';
 import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
+import numeral from 'numeral';
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {
@@ -1577,7 +1578,7 @@ function luckysheet_calcADPMM(fp, sp, tp){
         value = numeral(fp).subtract(tp).value();
     }
     else if(sp=="%"){
-        value = eval(parseFloat(fp) + sp+ "(" + parseFloat(tp) + ")");
+        value = new Function("return " + parseFloat(fp) + sp + "(" + parseFloat(tp) + ")" )();
     }
     else if(sp=="/"){
         value = numeral(fp).divide(tp).value();
@@ -1605,7 +1606,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = null;
     
     if (val.length > 1) {
-        sheettxt = val[0];
+        sheettxt = val[0].replace(/''/g,"'");
         rangetxt = val[1];
 
         if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
@@ -1632,6 +1633,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = luckysheetfile[index].data;
         rangetxt = val[0];
 
+        // 取消execFunctionGroupData，改用execFunctionGlobalData
         // if (formula.execFunctionGroupData != null) {
         //     sheetdata = formula.execFunctionGroupData;
         // }

@@ -10,6 +10,8 @@ function setcellvalue(r, c, d, v) {
     if(d == null){
         d = Store.flowdata;
     }
+    // 若采用深拷贝，初始化时的单元格属性丢失
+    // let cell = $.extend(true, {}, d[r][c]);
     let cell = d[r][c];
 
     let vupdate;

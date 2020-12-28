@@ -35,6 +35,7 @@ import server from './server';
 import {checkProtectionAuthorityNormal} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
+import numeral from 'numeral';
 
 const pivotTable = {
     pivotDatas: null,
@@ -56,7 +57,7 @@ const pivotTable = {
         let realIndex = getSheetIndex(sheetIndex);
 
         if (getObjType(Store.luckysheetfile[realIndex].pivotTable) != "object"){
-            Store.luckysheetfile[realIndex].pivotTable = eval('('+ Store.luckysheetfile[realIndex].pivotTable +')');
+            Store.luckysheetfile[realIndex].pivotTable = new Function("return " + Store.luckysheetfile[realIndex].pivotTable )();
         }
 
         if (Store.luckysheetfile[realIndex].pivotTable != null) {
@@ -724,7 +725,7 @@ const pivotTable = {
         redo["pivotTablecur"] = pivotTable; 
 
         if(Store.clearjfundo){
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push(redo);
         }
         
@@ -860,7 +861,7 @@ const pivotTable = {
             pivotTable = $.extend(true, {}, Store.luckysheetfile[index]["pivotTable"]);
         }
         else{
-            pivotTable = eval('('+ pivotTable +')');
+            pivotTable = new Function("return " + pivotTable )();
         }
 
         return pivotTable
@@ -2855,7 +2856,7 @@ const pivotTable = {
                 }
             }
             else if (json.sumtype == "PRODUCT") {
-                json.result = eval(json.digitaldata.join("*"));
+                json.result = new Function("return " + json.digitaldata.join("*"))();
             }
             else if (json.sumtype == "STDEV") {
                 let mean = json.sum / json.count;

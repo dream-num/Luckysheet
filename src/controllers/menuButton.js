@@ -1,5 +1,6 @@
 import { selectionCopyShow, selectIsOverlap } from './select';
 import { luckyColor, iconfontObjects } from './constant';
+import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetMoreFormat from './moreFormat';
 import alternateformat from './alternateformat';
 import conditionformat from './conditionformat';
@@ -46,7 +47,7 @@ const menuButton = {
     "coloritem": '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel ${class}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${name}</div></div>',
     "subcolor": '<div id="luckysheet-icon-${id}-menuButton" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-menuButton-sub luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div></div>',
     "rightclickmenu": null,
-    "submenuhide": null,
+    "submenuhide": {},
     focus: function($obj, value){
         if($obj.attr("id")=="luckysheet-icon-font-family-menuButton"){
             if (isdatatypemulti(value)["num"]) {
@@ -584,7 +585,7 @@ const menuButton = {
                     togglePaletteLessText: locale_toolbar.collapse,
                     togglePaletteOnly: true,
                     clearText: locale_toolbar.clearText,
-                    color:"#000",
+                    color: luckysheetConfigsetting.defaultTextColor,
                     noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.textcolor" + server.gridKey,
                     palette: [["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
@@ -716,7 +717,7 @@ const menuButton = {
                     showSelectionPalette: true,
                     maxPaletteSize: 8,
                     maxSelectionSize: 8,
-                    color: "#fff",
+                    color: luckysheetConfigsetting.defaultCellColor,
                     cancelText: locale_button.cancel,
                     chooseText: locale_button.confirm,
                     togglePaletteMoreText: locale_toolbar.customColor,
@@ -956,13 +957,13 @@ const menuButton = {
                 "borderType": type,
                 "color": color,
                 "style": style,
-                "range": Store.luckysheet_select_save
+                "range": $.extend(true, [], Store.luckysheet_select_save)
             }
 
             cfg["borderInfo"].push(borderInfo);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 let redo = [];
 
@@ -1115,13 +1116,13 @@ const menuButton = {
                         "borderType": itemvalue,
                         "color": color,
                         "style": style,
-                        "range": Store.luckysheet_select_save
+                        "range": $.extend(true, [], Store.luckysheet_select_save)
                     }
 
                     cfg["borderInfo"].push(borderInfo);
 
                     if (Store.clearjfundo) {
-                        Store.jfundo = [];
+                        Store.jfundo.length  = 0;
 
                         let redo = [];
 
@@ -1924,7 +1925,7 @@ const menuButton = {
                 let itemdata = [
                     {"text": locale_findAndReplace.find+" ...", "value": "search", "example": '<i class="iconfont luckysheet-iconfont-sousuo" aria-hidden="true"></i>'},
                     {"text": locale_findAndReplace.replace+" ...", "value": "replace", "example": '<i class="iconfont luckysheet-iconfont-tihuan" aria-hidden="true"></i>'},
-                    {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
+                    // {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
                     {"text": "", "value": "split", "example": ""},
                     {"text": locale_findAndReplace.location+" ...", "value": "location", "example": '<i class="iconfont luckysheet-iconfont-dingwei" aria-hidden="true"></i>'},
                     {"text": locale_findAndReplace.formula, "value": "locationFormula", "example": locale_findAndReplace.locationExample},
@@ -2430,7 +2431,7 @@ const menuButton = {
                             }
 
                             $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                                let dataset = eval("(" + d + ")");
+                                let dataset = new Function("return " + d)();
 
                                 setTimeout(function(){
                                     $("#luckysheetloadingdata").fadeOut().remove();
@@ -2874,7 +2875,7 @@ const menuButton = {
             }
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         });
-
+        
         $("body").on("mouseover mouseleave",".luckysheet-menuButton .luckysheet-cols-submenu", function(e){
             let $t = $(this), attrid = $t.attr("itemvalue"), 
                 $attr = $("#luckysheet-icon-" + attrid + "-menuButton");
@@ -2897,13 +2898,13 @@ const menuButton = {
                 $attr.css({ "top": top, "left": left }).show();
                 _this.rightclickmenu = $t;
             } else {
-                clearTimeout(_this.submenuhide);
-                _this.submenuhide = setTimeout(function () { $attr.hide(); }, 200);
+                clearTimeout(_this.submenuhide[$attr.attr('id')]);
+                _this.submenuhide[$attr.attr('id')] = setTimeout(function () { $attr.hide(); }, 200);
             }
         }).on("mouseover mouseleave",".luckysheet-menuButton-sub", function(e){
             if (e.type === "mouseover") {
                 _this.rightclickmenu.addClass("luckysheet-cols-menuitem-hover");
-                clearTimeout(_this.submenuhide);
+                clearTimeout(_this.submenuhide[$(this).attr('id')]);
             } 
             else {
                 _this.rightclickmenu.removeClass("luckysheet-cols-menuitem-hover");
@@ -3356,7 +3357,7 @@ const menuButton = {
         }
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push({
                 "type": "mergeChange",
                 "sheetIndex": Store.currentSheetIndex,
@@ -4540,7 +4541,7 @@ const menuButton = {
             document.fonts && document.fonts.ready.then(function() {
                 // Any operation that needs to be done only after all the fonts
                 // have finished loading can go here.
-                console.log("font ready");
+                // console.log("font ready");
             });
         }
 

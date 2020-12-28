@@ -323,7 +323,7 @@ export function rowColumnOperationInitial(){
                 });
             }
             else{
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({ 
                     "left": colLocationByIndex(0)[0],
                     "width": colLocationByIndex(0)[1] - colLocationByIndex(0)[0] - 1,
@@ -343,10 +343,8 @@ export function rowColumnOperationInitial(){
 
             selectHightlightShow();
 
-            if(server.allowUpdate){
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
 
         selectHelpboxFill();
@@ -737,7 +735,7 @@ export function rowColumnOperationInitial(){
                 });
             }
             else{
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({ 
                     "left": left, 
                     "width": width, 
@@ -757,10 +755,8 @@ export function rowColumnOperationInitial(){
 
             selectHightlightShow();
 
-            if(server.allowUpdate){
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
         
         selectHelpboxFill();
@@ -1578,7 +1574,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1621,7 +1617,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1693,7 +1689,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1733,7 +1729,7 @@ export function rowColumnOperationInitial(){
                 redo["config"] = $.extend(true, {}, Store.config);
                 redo["curconfig"] = cfg;
         
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
                 Store.jfredo.push(redo);
             }
         
@@ -1779,7 +1775,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1821,7 +1817,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1865,7 +1861,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1907,7 +1903,7 @@ export function rowColumnOperationInitial(){
     //         redo["config"] = $.extend(true, {}, Store.config);
     //         redo["curconfig"] = cfg;
     
-    //         Store.jfundo = [];
+    //         Store.jfundo.length  = 0;
     //         Store.jfredo.push(redo);
     //     }
     
@@ -1923,7 +1919,7 @@ export function rowColumnOperationInitial(){
 
     //删除单元格（左移、上移）
     $("#luckysheet-delCellsMoveLeft").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
@@ -1946,7 +1942,7 @@ export function rowColumnOperationInitial(){
         luckysheetDeleteCell('moveLeft', str, edr, stc, edc);
     });
     $("#luckysheet-delCellsMoveUp").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
@@ -2138,7 +2134,7 @@ export function rowColumnOperationInitial(){
         }
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push({
                 "type": "resize",
                 "ctrlType": type,

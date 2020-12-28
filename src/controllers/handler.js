@@ -76,8 +76,6 @@ export default function luckysheetHandler() {
     if(isMobile){
         mobileinit();
     }
-    
-
     if (!Date.now)
     Date.now = function() { return new Date().getTime(); };
     //requestAnimationFrame method
@@ -845,22 +843,6 @@ export default function luckysheetHandler() {
 
                 dataVerificationCtrl.selectRange[dataVerificationCtrl.selectRange.length - 1] = last;
             }
-            else if (event.ctrlKey) {
-                dataVerificationCtrl.selectRange.push({
-                    "left": col_pre,
-                    "width": col - col_pre - 1,
-                    "top": row_pre,
-                    "height": row - row_pre - 1,
-                    "left_move": col_pre,
-                    "width_move": col - col_pre - 1,
-                    "top_move": row_pre,
-                    "height_move": row - row_pre - 1,
-                    "row": [row_index, row_index_ed],
-                    "column": [col_index, col_index_ed],
-                    "row_focus": row_index,
-                    "column_focus": col_index
-                });
-            }
             else {
                 dataVerificationCtrl.selectRange = [];
                 dataVerificationCtrl.selectRange.push({
@@ -882,6 +864,9 @@ export default function luckysheetHandler() {
             selectionCopyShow(dataVerificationCtrl.selectRange);
 
             let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
+            if(formula.rangetosheet != Store.currentSheetIndex){
+                range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '!' + range;
+            }
             $("#luckysheet-dataVerificationRange-dialog input").val(range);
 
             return;
@@ -1063,7 +1048,7 @@ export default function luckysheetHandler() {
                 });
             }
             else {
-                Store.luckysheet_select_save = [];
+                Store.luckysheet_select_save.length = 0;
                 Store.luckysheet_select_save.push({
                     "left": col_pre,
                     "width": col - col_pre - 1,
@@ -1095,10 +1080,8 @@ export default function luckysheetHandler() {
                 luckysheetactiveCell();
             }
 
-            if (server.allowUpdate) {
-                //允许编辑后的后台更新时
-                server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
-            }
+            //允许编辑后的后台更新时
+            server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         }
 
         //交替颜色
@@ -1382,6 +1365,12 @@ export default function luckysheetHandler() {
         let col_location = colLocation(x),
 
             col_index = col_location[2];
+
+        let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
+        if (!!margeset) {
+            row_index = margeset.row[2];
+            col_index = margeset.column[2];
+        }
 
         if (pivotTable.isPivotRange(row_index, col_index)) {
             //数据透视表没有 任何数据
@@ -2073,6 +2062,9 @@ export default function luckysheetHandler() {
                     selectionCopyShow(dataVerificationCtrl.selectRange);
 
                     let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
+                    if(formula.rangetosheet != Store.currentSheetIndex){
+                        range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '!' + range;
+                    }
                     $("#luckysheet-dataVerificationRange-dialog input").val(range);
                 }
                 else if (formula.rangestart) {
@@ -2356,7 +2348,7 @@ export default function luckysheetHandler() {
                         col = col_location[1],
                         col_pre = col_location[0],
                         col_index = col_location[2];
-
+                    
                     if ((x + 3) - Store.luckysheet_cols_change_size_start[0] > 30 && x < winW + scrollLeft - 100) {
                         $("#luckysheet-change-size-line").css({ "left": x });
                         $("#luckysheet-cols-change-size").css({ "left": x - 2 });
@@ -3263,7 +3255,6 @@ export default function luckysheetHandler() {
     });
     //表格mouseup
     $(document).on("mouseup.luckysheetEvent",function (event) {
-
         if(luckysheetConfigsetting  && luckysheetConfigsetting.hook && luckysheetConfigsetting.hook.sheetMouseup){
             let mouse = mouseposition(event.pageX, event.pageY);
             let x = mouse[0] + $("#luckysheet-cell-main").scrollLeft();
@@ -3314,7 +3305,7 @@ export default function luckysheetHandler() {
                 }
     
                 let luckysheetTableContent = $("#luckysheetTableContent").get(0).getContext("2d");
-
+                
                 method.createHookFunction("sheetMouseup", Store.flowdata[row_index][col_index], {
                     r:row_index,
                     c:col_index,
@@ -3596,7 +3587,7 @@ export default function luckysheetHandler() {
             }
 
             if (y >= winH - 200 + scrollTop) {
-                size = winW - 200 - Store.luckysheet_rows_change_size_start[0] + scrollTop;
+                size = winH - 200 - Store.luckysheet_rows_change_size_start[0] + scrollTop;
             }
 
             let cfg = $.extend(true, {}, Store.config);
@@ -3634,7 +3625,7 @@ export default function luckysheetHandler() {
             let images = imageCtrl.moveChangeSize("row", Store.luckysheet_rows_change_size_start[1], size);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 Store.jfredo.push({
                     "type": "resize",
@@ -3661,14 +3652,14 @@ export default function luckysheetHandler() {
 
             jfrefreshgrid_rhcw(Store.flowdata.length, null);
         }
-
+        
         //改变列宽
         if (Store.luckysheet_cols_change_size) {
             Store.luckysheet_cols_change_size = false;
             $("#luckysheet-change-size-line").hide();
             $("#luckysheet-cols-change-size").css("opacity", 0);
             $("#luckysheet-sheettable, #luckysheet-cols-h-c, .luckysheet-cols-h-cells, .luckysheet-cols-h-cells canvas").css("cursor", "default");
-
+            
             let mouse = mouseposition(event.pageX, event.pageY);
             let scrollLeft = $("#luckysheet-cols-h-c").scrollLeft();
             let x = mouse[0] + scrollLeft;
@@ -3681,9 +3672,9 @@ export default function luckysheetHandler() {
                 col = col_location[1],
                 col_pre = col_location[0],
                 col_index = col_location[2];
-
             let size = (x + 3) - Store.luckysheet_cols_change_size_start[0];
 
+            
             let firstcolumnlen = Store.defaultcollen;
             if (Store.config["columnlen"] != null && Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]] != null) {
                 firstcolumnlen = Store.config["columnlen"][Store.luckysheet_cols_change_size_start[1]];
@@ -3736,7 +3727,7 @@ export default function luckysheetHandler() {
             let images = imageCtrl.moveChangeSize("column", Store.luckysheet_cols_change_size_start[1], size);
 
             if (Store.clearjfundo) {
-                Store.jfundo = [];
+                Store.jfundo.length  = 0;
 
                 Store.jfredo.push({
                     "type": "resize",
@@ -4968,7 +4959,7 @@ export default function luckysheetHandler() {
     });
 
     //表格左上角点击 全选表格
-    $("#luckysheet-left-top").mousedown(function (event) {
+    $("#luckysheet-left-top").click(function (event) {
         if(!checkProtectionAllSelected(Store.currentSheetIndex)){
             return;
         }
@@ -5220,7 +5211,7 @@ export default function luckysheetHandler() {
                 clipboardData = e.originalEvent.clipboardData;
             }
 
-            let txtdata = clipboardData.getData("text/html");
+            let txtdata = clipboardData.getData("text/html") || clipboardData.getData("text/plain");
 
             //如果标示是qksheet复制的内容，判断剪贴板内容是否是当前页面复制的内容
             let isEqual = true;
@@ -5302,6 +5293,12 @@ export default function luckysheetHandler() {
             }
 
             const locale_fontjson = locale().fontjson;
+
+            
+            // hook
+            if(!method.createHookFunction('rangePasteBefore',Store.luckysheet_select_save,txtdata)){
+                return;
+            }
 
             if (txtdata.indexOf("luckysheet_copy_action_table") > - 1 && Store.luckysheet_copy_save["copyRange"] != null && Store.luckysheet_copy_save["copyRange"].length > 0 && isEqual) {
                 //剪切板内容 和 luckysheet本身复制的内容 一致
@@ -5555,6 +5552,19 @@ export default function luckysheetHandler() {
                     selection.pasteHandler(txtdata);
                 }
             }
+        }
+        else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
+            // 阻止默认粘贴
+            e.preventDefault();
+
+            let clipboardData = window.clipboardData; //for IE
+            if (!clipboardData) { // for chrome
+                clipboardData = e.originalEvent.clipboardData;
+            }
+            let text =  clipboardData.getData('text/plain');
+            
+            // 插入
+            document.execCommand("insertText", false, text);
         }
     });
 

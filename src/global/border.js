@@ -1062,7 +1062,7 @@ function getBorderInfoCompute(sheetIndex) {
         data = Store.luckysheetfile[getSheetIndex(sheetIndex)].data;
     }
 
-    getBorderInfoComputeRange(0, data.length,0, data[0].length, sheetIndex);
+    borderInfoCompute = getBorderInfoComputeRange(0, data.length,0, data[0].length, sheetIndex);
 
     return borderInfoCompute;
 }

@@ -1,4 +1,4 @@
-import { seriesLoadScripts, loadLinks, $$ } from '../../utils/util'
+import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
@@ -25,13 +25,13 @@ const dependScripts = [
     'https://unpkg.com/vuex@3.4.0',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.min.js'
+    'expendPlugins/chart/chartmix.umd.min.js',
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css'
+    'expendPlugins/chart/chartmix.css',
     // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
@@ -84,7 +84,7 @@ function chart(data, isDemo) {
         chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
         chartInfo.chartparam.insertToStore = chartmix.default.insertToStore
 
-        // 初始化渲染图表
+        // Initialize the rendering chart
         for (let i = 0; i < data.length; i++) {
             // if (data[i].status == '1') {
                 renderCharts(data[i].chart, isDemo)
@@ -96,6 +96,9 @@ function chart(data, isDemo) {
                 renderChartShow(data[i].index)
             }
         }
+
+        // After the chart is loaded, mark it
+        arrayRemoveItem(chartInfo.asyncLoad,'chart');
 
     });
 }

@@ -7,6 +7,7 @@ import { rowlenByRange } from './getRowlen';
 import { jfrefreshgrid } from './refresh';
 import {checkProtectionAuthorityNormal} from '../controllers/protection';
 import Store from '../store';
+import numeral from 'numeral';
 
 //数据排序方法
 function orderbydata(data, index, isAsc) {

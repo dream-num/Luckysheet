@@ -124,6 +124,10 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     const toobarElements = Store.toobarObject.toobarElements;
     let moreButtonIndex = 0;
 
+    // When you resize the window during initialization, you will find that the dom has not been rendered yet
+    if(toobarWidths == undefined){
+        return;
+    }
     // 找到应该隐藏的起始元素位置
     for (let index = toobarWidths.length - 1; index >= 0; index--) {
 
