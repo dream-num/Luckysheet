@@ -905,12 +905,6 @@ export function checkProtectionLocked(r, c, sheetIndex){
 
     let data=sheetFile.data, cell=data[r][c], aut = sheetFile.config.authority;
 
-    //EPM-BUDGET-START
-    if (cell && cell.mc && (cell.mc.r !== r || cell.mc.c !== c)) {
-        cell = data[cell.mc.r][cell.mc.c]
-    }
-    //EPM-BUDGET-END
-
     if(aut==null || aut.sheet==null || aut.sheet==0 ){
         return true;
     }
@@ -936,12 +930,6 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
         return true;
     }
 
-    //EPM-BUDGET-START
-    if (!sheetFile.data[r] || !sheetFile.data[r][c]) {
-        return true
-    }
-    //EPM-BUDGET-END
-
     let data=sheetFile.data, cell=data[r][c], aut = sheetFile.config.authority;
 
     if(aut==null || aut.sheet==null || aut.sheet==0 ){
@@ -957,9 +945,6 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
 
 //cell range locked state
 export function checkProtectionLockedRangeList(rangeList, sheetIndex){
-    //EPM-BUDGET-START
-    if (rangeList[0].column[0] !== rangeList[0].column[1]) return true
-    //EPM-BUDGET-END
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
     if(sheetFile==null){
         return true;
@@ -978,13 +963,6 @@ export function checkProtectionLockedRangeList(rangeList, sheetIndex){
     if(rangeList==null || rangeList.length==0){
         return true;
     }
-
-    //EPM-BUDGET-START
-    let cell = sheetFile.data[rangeList[0].row[0]][rangeList[0].column[0]]
-    if(cell!=null && cell.lo!=null && cell.lo!=1){
-        return true;
-    }
-    //EPM-BUDGET-END
     
     const _locale = locale();
     const local_protection = _locale.protection;
