@@ -226,8 +226,7 @@ const gridHTML = function(){
                                 </div>
                                 <div id="luckysheet-sheets-leftscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-left"></i></div>
                                 <div id="luckysheet-sheets-rightscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-right"></i></div>
-                                <div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>
-                            </div> 
+                            </div>
                         </div> 
                         <div class="luckysheet-stat-area"> 
                             <div class="luckysheet-sta-c">
