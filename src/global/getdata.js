@@ -260,7 +260,7 @@ export function getOrigincell(r, c, i) {
         data = sheet.data;
     }
 
-    if(data==null){
+    if(!data || !data[r] || !data[r][c]){
         return;
     }
 

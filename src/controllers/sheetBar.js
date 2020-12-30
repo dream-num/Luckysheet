@@ -525,4 +525,9 @@ export function initialSheetBar(){
         $("#luckysheet-input-box").removeAttr("style");
     });
 
+    // 初始化分页器
+    if (luckysheetConfigsetting.pager) {
+        pagerInit(luckysheetConfigsetting.pager)
+    }
+
 }

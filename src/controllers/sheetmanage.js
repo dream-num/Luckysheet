@@ -592,33 +592,39 @@ const sheetmanage = {
         return ret;
     },
     buildGridData: function(file) {
+        // 如果已经存在二维数据data,那么直接返回data；如果只有celldata，那么就转化成二维数组data，再返回
         let row = file.row == null ? Store.defaultrowNum : file.row, 
-            column = file.column == null ? Store.defaultcolumnNum : file.column;
-        let data = datagridgrowth([], row, column);
-
-        let celldata = file.celldata;
-        if(celldata != null){
-            for(let i = 0; i < celldata.length; i++){
-                let item = celldata[i];
-                let r = item.r;
-                let c = item.c;
-                let v = item.v;
-
-                if(r >= data.length){
-                    data = datagridgrowth(data, r - data.length + 1, 0);
+            column = file.column == null ? Store.defaultcolumnNum : file.column,
+            data = file.data && file.data.length > 0 ? file.data : datagridgrowth([], row, column),
+            celldata = file.celldata;
+        if (file.data && file.data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                for (let j = 0; j < data[0].length; j++) {
+                    setcellvalue(i, j, data, data[i][j]);
                 }
-                if(c >= data[0].length){
-                    data = datagridgrowth(data, 0, c - data[0].length + 1);
+            }
+        } else {
+            if(celldata && celldata.length > 0){
+                for(let i = 0; i < celldata.length; i++){
+                    let item = celldata[i];
+                    let r = item.r;
+                    let c = item.c;
+                    let v = item.v;
+    
+                    if(r >= data.length){
+                        data = datagridgrowth(data, r - data.length + 1, 0);
+                    }
+                    if(c >= data[0].length){
+                        data = datagridgrowth(data, 0, c - data[0].length + 1);
+                    }
+                    setcellvalue(r, c, data, v);
                 }
-                
-                setcellvalue(r, c, data, v);
             }
         }
 
         //亿万格式+精确度 恢复全局初始化
         luckysheetConfigsetting.autoFormatw = false;  
         luckysheetConfigsetting.accuracy = undefined;
-
         return data;
     },
     cutGridData: function(d) {
@@ -1145,9 +1151,8 @@ const sheetmanage = {
         _this.storeSheetParamALL();
         _this.setCurSheet(index);
 
-        let file = Store.luckysheetfile[_this.getSheetIndex(index)], 
-            data = file.data, 
-            cfg = file.config;
+        let file = Store.luckysheetfile[_this.getSheetIndex(index)]
+  
         if (!!file.isPivotTable) {
             Store.luckysheetcurrentisPivotTable = true;
             if (!isPivotInitial) {
@@ -1162,7 +1167,8 @@ const sheetmanage = {
 
         let load = file["load"];
         if (load != null) {        
-            
+            let data = _this.buildGridData(file);
+            file.data = data;
             // _this.loadOtherFile(file);
             
             _this.mergeCalculation(index);

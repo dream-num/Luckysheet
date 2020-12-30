@@ -111,7 +111,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "dataVerification": $.extend(true, [], file["dataVerification"]),
             "curDataVerification": curDataVerification,
             "dynamicArray": $.extend(true, [], file["dynamicArray"]),
-            "curDynamicArray": curDynamicArray
+            "curDynamicArray": curDynamicArray,
+            "dataRange": [...file.luckysheet_select_save]
         });
     }
 
@@ -449,7 +450,8 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
             "dataVerification": $.extend(true, {}, file.dataVerification),
             "curDataVerification": dataVerification,
             "hyperlink": $.extend(true, {}, file.hyperlink),
-            "curHyperlink": hyperlink
+            "curHyperlink": hyperlink,
+            "dataRange": [...file.luckysheet_select_save]
         });
     }
 
@@ -684,7 +686,8 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
             "dataVerification": $.extend(true, {}, file.dataVerification),
             "curDataVerification": dataVerification,
             "hyperlink": $.extend(true, {}, file.hyperlink),
-            "curHyperlink": hyperlink
+            "curHyperlink": hyperlink,
+            "dataRange": [...file.luckysheet_select_save]
         });
     }
 

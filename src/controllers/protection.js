@@ -909,7 +909,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
         return true;
     }
 
-    if(cell!=null && cell.lo!=null && cell.lo!=1){
+    if(cell && !cell.lo){
         return true;
     }
 
@@ -1003,7 +1003,7 @@ export function checkProtectionSelectLockedOrUnLockedCells(r, c, sheetIndex){
         return true;
     }
 
-    if(cell!=null && cell.lo!=null && cell.lo!=1){//unlocked
+    if(cell && !cell.lo){//unlocked
         if(aut.selectunLockedCells==1 || aut.selectunLockedCells==null){
             return true;
         }
