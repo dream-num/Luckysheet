@@ -16,7 +16,7 @@ import {selectTextDom} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-
+import {pagerInit} from '../global/api'
 
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）

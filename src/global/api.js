@@ -6463,8 +6463,12 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
 
 
 /**
- * 根据范围字符串转换为range数组
+ * 初始化分页器
  * @param {Object} config 分页器配置
+ * @param {Number} config.pageIndex 当前的页码
+ * @param {Number} config.pageSize 每页显示多少条数据
+ * @param {Array} config.selectOption 选择每页的条数
+ * @param {Number} config.total 总条数
  */
 export function pagerInit (config) {
     $('#luckysheet-bottom-pager').remove()
@@ -6485,7 +6489,7 @@ export function pagerInit (config) {
 }
 
 /**
- * 根据范围字符串转换为range数组
+ * 刷新公式
  * @param {Function} success 回调函数
  */
 export function refreshFormula (success) {

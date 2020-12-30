@@ -46,7 +46,7 @@
 .prevBtn, .nextBtn {
     width: 16px;
     height: 27px;
-    background: url(../images/js.png) no-repeat center center;
+    background: url(images/js.png) no-repeat center center;
     background-size: 100% auto;
     display: block;
     transform: rotate(180deg);
