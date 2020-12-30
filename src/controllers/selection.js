@@ -811,7 +811,7 @@ const selection = {
             for (let r = 0; r < rlen; r++) {
                 let x = [].concat(d[r + curR]);
                 for (let c = 0; c < clen; c++) {
-
+                    let originCell = x[c + curC];
                     let value = dataChe[r][c];
                     if(isRealNum(value)){
                         // 如果单元格设置了纯文本格式，那么就不要转成数值类型了，防止数值过大自动转成科学计数法
@@ -821,7 +821,6 @@ const selection = {
                             value = parseFloat(value);
                         } 
                     }
-                    let originCell = x[c + curC];
                     if(originCell instanceof Object){
                         originCell.v = value;
                         if(originCell.ct!=null && originCell.ct.fa!=null){
