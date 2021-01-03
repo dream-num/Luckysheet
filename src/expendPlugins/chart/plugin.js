@@ -132,6 +132,8 @@ function renderCharts(chartLists, isDemo) {
             })
         ).appendTo($('.luckysheet-cell-main'))
 
+        setChartMoveableEffect($t);
+
         $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
 
         let container = document.getElementById(chart_id_c)
@@ -1217,6 +1219,8 @@ function createLuckyChart(width, height, left, top) {
         delChart(chart_id)
     })
 
+    setChartMoveableEffect($t);
+
     // edit current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
         showChartSettingComponent()
@@ -1327,6 +1331,24 @@ function createLuckyChart(width, height, left, top) {
 
             }
         })
+}
+
+/**
+ * 设置图表可拖动区域高亮效果，鼠标经过可拖动区域时鼠标显示“十字”，不可拖动区域显示箭头
+ * @param {JQuery} $container 图表的容器DIV
+ */
+function setChartMoveableEffect($container) {
+  $container.find('.luckysheet-modal-dialog-content').hover(function () {
+    $container.removeClass("chart-moveable");
+  }, function () {
+    $container.addClass("chart-moveable");
+  });
+
+  $container.hover(function () {
+    $container.addClass("chart-moveable");
+  }, function () {
+    $container.removeClass("chart-moveable");
+  });
 }
 
 // delete chart
