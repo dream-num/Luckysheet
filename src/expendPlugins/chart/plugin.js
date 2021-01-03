@@ -9,7 +9,7 @@ import { rowLocation, colLocation, mouseposition } from '../../global/location'
 import { setluckysheet_scroll_status } from '../../methods/set'
 import {
     luckysheetMoveHighlightCell,
-    luckysheetMoveHighlightCell2,
+    luckysheetMoveHighlightCell2, 
     luckysheetMoveHighlightRange,
     luckysheetMoveHighlightRange2,
     luckysheetMoveEndCell
