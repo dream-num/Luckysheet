@@ -968,6 +968,13 @@ export function checkProtectionLockedRangeList(rangeList, sheetIndex){
         return true;
     }
 
+    //EPM-BUDGET-START
+    let cell = sheetFile.data[rangeList[0].row[0]][rangeList[0].column[0]]
+    if(cell&& !cell.lo){
+        return true;
+    }
+    //EPM-BUDGET-END
+
     const _locale = locale();
     const local_protection = _locale.protection;
 
