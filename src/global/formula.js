@@ -380,7 +380,7 @@ const luckysheetformula = {
 
         return offsetRange;
     },
-    parseDatetoNum: function (date) { //函数中获取到时间格式或者数字形式统一转化为数字进行运算 
+    parseDatetoNum: function (date) { //函数中获取到时间格式或者数字形式统一转化为数字进行运算
         let _this = this;
 
         if (typeof (date) == "object" && typeof date.v == "number") {
@@ -1263,6 +1263,17 @@ const luckysheetformula = {
 
         let isPrevInline = isInlineStringCell(curv);
         let isCurInline = (inputText.slice(0, 1) != "=" && inputHtml.substr(0, 5) == "<span");
+
+        let isCopyVal = false;
+        if(!isCurInline && inputText && inputText.length > 0) {
+            let splitArr = inputText.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_").split("_x000D_");
+            if(splitArr.length > 1) {
+                isCopyVal = true;
+                isCurInline = true;
+                inputText = splitArr.join('\r\n');
+            }
+        }
+
         if (!value && !isCurInline && isPrevInline) {
             delete curv.ct.s;
             curv.ct.t = "g";
@@ -1284,6 +1295,13 @@ const luckysheetformula = {
 
             curv.ct.t = "inlineStr";
             curv.ct.s = convertSpanToShareString($input.find("span"));
+            if(isCopyVal) {
+                curv.ct.s = [
+                    {
+                    v: inputText,
+                    }
+                ];
+            }
         }
 
         // API, we get value from user
@@ -1448,7 +1466,7 @@ const luckysheetformula = {
                     delete curv.f;
                     delete curv.spl;
 
-                    if (curv.qp == 1 && ('' + value).substr(0, 1) != "'") {//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated 
+                    if (curv.qp == 1 && ('' + value).substr(0, 1) != "'") {//if quotePrefix is 1, cell is force string, cell clear quotePrefix when it is updated
                         curv.qp = 0;
                         if (curv.ct != null) {
                             curv.ct.fa = "General";
@@ -5269,7 +5287,7 @@ const luckysheetformula = {
             //         if(key in updateValueOjects){
             //             updateValueArray.push(item);
             //         }
-            //     }); 
+            //     });
             // }
 
         }
