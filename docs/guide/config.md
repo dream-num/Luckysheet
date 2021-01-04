@@ -1071,7 +1071,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 ### updated
 - Type: Function
 - Default: null
-- Usage: The method executed after each operation is updated is executed after the canvas rendering, that is, every time the client performs a workbook operation, Luckysheet saves the operation in the history and triggers it. When undoing and redoing, it is also an operation, of course, the hook function will be triggered.
+- Usage: The method executed after each operation is updated is executed after the canvas rendering, monitor changes in worksheet content, that is, every time the client performs a workbook operation, Luckysheet saves the operation in the history and triggers it. When undoing and redoing, it is also an operation, of course, the hook function will be triggered.
 - Parameter: 
 	- {Object} [operate]: The history information of this operation will have different history records according to different operations. Refer to the source code [History](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js )
     

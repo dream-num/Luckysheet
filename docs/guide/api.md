@@ -585,7 +585,7 @@ Use note:
  
 - **Parameter**：
 	
-	- {Number} [columnInfo]: Correspondence between the number of columns and the width
+	- {Object} [columnInfo]: Correspondence between the number of columns and the width
 	
 	- {PlainObject} [setting]: optional parameters
 		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript

@@ -3,6 +3,8 @@ npm run build
 cd dist
 git init
 git remote add origin https://github.com/mengshukeji/LuckysheetDemo.git
+git config --local user.email "1414556676@qq.com"
+git config --local user.name "Dushusir"
 git add .
 git commit -m 'deploy Luckysheet demo'
 git push -f origin master:gh-pages

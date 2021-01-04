@@ -584,7 +584,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **参数**：
 	
-	- {Number} [columnInfo]: 列数和宽度对应关系
+	- {Object} [columnInfo]: 列数和宽度对应关系
 	
 	- {PlainObject} [setting]: 可选参数
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
