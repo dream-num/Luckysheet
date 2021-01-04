@@ -816,26 +816,26 @@ const sheetmanage = {
                     else {
                         Store.luckysheetcurrentisPivotTable = false;
                         $("#luckysheet-modal-dialog-slider-pivot").hide();
+                    }
 
-                        // Store toolbar button width value
-                        menuToolBarWidth();
+                    // Store toolbar button width value
+                    menuToolBarWidth();
 
-                        luckysheetsizeauto();
+                    luckysheetsizeauto();
 
-                        //等待滚动条dom宽高加载完成后 初始化滚动位置
-                        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
-                            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
-                        }
-                        else{
-                            $("#luckysheet-scrollbar-x").scrollLeft(0);
-                        }
-                
-                        if(file["scrollTop"] != null && file["scrollTop"] > 0){
-                            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
-                        }
-                        else{
-                            $("#luckysheet-scrollbar-y").scrollTop(0);
-                        }
+                    //等待滚动条dom宽高加载完成后 初始化滚动位置
+                    if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
+                        $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
+                    }
+                    else{
+                        $("#luckysheet-scrollbar-x").scrollLeft(0);
+                    }
+            
+                    if(file["scrollTop"] != null && file["scrollTop"] > 0){
+                        $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
+                    }
+                    else{
+                        $("#luckysheet-scrollbar-y").scrollTop(0);
                     }
 
                     // 此处已经渲染完成表格，应该挪到前面
