@@ -922,7 +922,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
 //cell hidden state
 export function checkProtectionCellHidden(r, c, sheetIndex){
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
-    if(sheetFile==null){
+    if(!sheetFile || !sheetFile.data[r] || !sheetFile.data[r][c]){
         return true;
     }
 
@@ -945,6 +945,10 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
 
 //cell range locked state
 export function checkProtectionLockedRangeList(rangeList, sheetIndex){
+    //EPM-BUDGET-START
+    if (rangeList[0].column[0] !== rangeList[0].column[1]) return true
+    //EPM-BUDGET-END
+
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
     if(sheetFile==null){
         return true;
