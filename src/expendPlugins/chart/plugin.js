@@ -49,10 +49,17 @@ function chart(data, isDemo) {
         // 监控图表设置项更新,记录撤销重做步骤
         Object.defineProperty(store.state.chartSetting, 'number', {
             set(val) {
+                let order = getSheetIndex(Store.currentSheetIndex);
+                let file = Store.luckysheetfile[order];
+                // 保存修改后的图表数据
+                if (file.chart) {
+                    let chart = store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex]
+                    let chartIndex = file.chart.findIndex(item => item.chart_id == chart.chart_id)
+                    file.chart[chartIndex] = chart
+                }
+
                 let chartTypeInfo = store.state.chartSetting.chartTypeInfo
                 if (chartTypeInfo.isChangeType) {
-                    let order = getSheetIndex(Store.currentSheetIndex);
-                    let file = Store.luckysheetfile[order];
                     if (Store.clearjfundo) {
                         let redo = {};
                         redo["type"] = 'updateChartType';
@@ -66,8 +73,9 @@ function chart(data, isDemo) {
                 let prop = deepCopy(store.state.chartSetting.prop)
                 let flag = prop.oldValue !== undefined && prop.oldValue !== '' && !isEqual(prop.oldValue, prop.value) && (!Store.jfredo.length || !isEqual(prop, Store.jfredo[Store.jfredo.length - 1].chart))
                 if (flag) {
-                    let order = getSheetIndex(Store.currentSheetIndex);
-                    let file = Store.luckysheetfile[order];
+                    // 增加最新一次的操作
+                    file.chart[chartIndex].props.push(prop)
+
                     if (Store.clearjfundo) {
                         let redo = {};
                         redo["type"] = 'updateChart';

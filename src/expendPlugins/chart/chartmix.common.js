@@ -9785,6 +9785,7 @@ var transformPie_transformPie = function transformPie(chartAllTypeArray, seriesP
 
 var echartsEngine_echartsEngine = function echartsEngine(chartOptions, props) {
   var prop = props ? props : src_store.state.chartSetting.prop;
+  prop = Object(util["b" /* deepCopy */])(prop);
 
   if (prop.prop) {
     // 每次操作设置项添加该操作
