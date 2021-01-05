@@ -3204,7 +3204,8 @@ const menuButton = {
                                 fv[mc_r + "_" + mc_c] = $.extend(true, {}, cell);
                             }
                             else{
-                                let cell_clone = fv[mc_r + "_" + mc_c];
+                                // let cell_clone = fv[mc_r + "_" + mc_c];
+                                let cell_clone = JSON.parse(JSON.stringify(fv[mc_r + "_" + mc_c]));
 
                                 delete cell_clone.v;
                                 delete cell_clone.m;
@@ -3265,7 +3266,8 @@ const menuButton = {
                                     fv[mc_r + "_" + mc_c] = $.extend(true, {}, cell);
                                 }
                                 else{
-                                    let cell_clone = fv[mc_r + "_" + mc_c];
+                                let cell_clone = fv[mc_r + "_" + mc_c];
+                                let cell_clone = JSON.parse(JSON.stringify(fv[mc_r + "_" + mc_c]));
 
                                     delete cell_clone.v;
                                     delete cell_clone.m;
