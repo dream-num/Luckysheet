@@ -314,7 +314,7 @@ function getCellTextInfo(cell , ctx, option){
             let scfontset = luckysheetfontformat(shareCell);
             let fc = shareCell.fc, cl=shareCell.cl,un = shareCell.un, v = shareCell.v, fs=shareCell.fs;
             v = v.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_");
-            let splitArr = v.split("_x000D_"), preNewValue=null;
+            let splitArr = v.split("_x000D_");
             for(let x=0;x<splitArr.length;x++){
                 let newValue = splitArr[x];
 
@@ -346,7 +346,7 @@ function getCellTextInfo(cell , ctx, option){
 
                     }
 
-                    if(x!=splitArr.length-1 && preNewValue!="" ){
+                    if(x!=splitArr.length-1 ){
                         inlineStringArr.push({
                             fontset:scfontset,
                             fc:fc==null?"#000":fc,
@@ -358,8 +358,6 @@ function getCellTextInfo(cell , ctx, option){
                         similarIndex++;
                     }
                 }
-
-                preNewValue = newValue;
 
             }
 
@@ -903,10 +901,6 @@ function getCellTextInfo(cell , ctx, option){
 
                     let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
                     let lastWord = str.substr(str.length-1,1);
-                    let isSpace = false;
-                    if(checkWordByteLength(lastWord)===1 && lastWord !== ' ' && !/^.$/.test(lastWord) && !/^.$/u.test(lastWord)) {
-                        isSpace = lastWord.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_") === '_x000D_';
-                    }
                     if(lastWord==" " || checkWordByteLength(lastWord)==2){
                         if(preMeasureText!=null){
                             spaceOrTwoByte = {
@@ -1057,25 +1051,6 @@ function getCellTextInfo(cell , ctx, option){
 
                                 splitIndex +=1;
                             }
-                        }
-                        else if(isSpace && text_all_split[splitIndex]!=null && i!= value.length) {
-
-                            spaceOrTwoByte = null;
-                            anchor = i;
-
-                            text_all_split[splitIndex].push({
-                                content:str,
-                                style:fontset,
-                                width:preTextWidth,
-                                height:preTextHeight,
-                                left:0,
-                                top:0,
-                                splitIndex:splitIndex,
-                                asc:measureText.actualBoundingBoxAscent,
-                                desc:measureText.actualBoundingBoxDescent,
-                                fs:fontSize,
-                            });
-                            splitIndex +=1;
                         }
                         else if(i== value.length){
                             if(text_all_split[splitIndex]==null){

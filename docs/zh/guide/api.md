@@ -584,7 +584,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **参数**：
 	
-	- {Number} [columnInfo]: 列数和宽度对应关系
+	- {Object} [columnInfo]: 列数和宽度对应关系
 	
 	- {PlainObject} [setting]: 可选参数
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
@@ -2474,19 +2474,15 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-### refreshFormula([setting])
-
-[todo]
+### refreshFormula([success])
 
 - **参数**：
 
-	- {PlainObject} [setting]: 可选参数
-        + {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为整个当前工作表
-        + {Function} [success]: 操作结束的回调函数
+	- {Function} [success]: 操作结束的回调函数
 
 - **说明**：
 	
-	强制刷新公式。当你直接修改了多个单元格的值，且没有触发刷新，且这些单元格跟公式相关联，则可以使用这个api最后强制触发一次公式刷新，一般是建议指定受影响的单元格范围便于防止性能问题，如果无法确定，则留空保持整个工作表遍历刷新。
+	强制刷新公式。当你直接修改了多个单元格的值，且没有触发刷新，且这些单元格跟公式相关联，则可以使用这个api最后强制触发一次公式刷新。
 
 ------------
 

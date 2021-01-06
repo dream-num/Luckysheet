@@ -585,7 +585,7 @@ Use note:
  
 - **Parameter**：
 	
-	- {Number} [columnInfo]: Correspondence between the number of columns and the width
+	- {Object} [columnInfo]: Correspondence between the number of columns and the width
 	
 	- {PlainObject} [setting]: optional parameters
 		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
@@ -2560,17 +2560,13 @@ Use note:
 
 ### refreshFormula([setting])
 
-[todo]
-
 - **Parameter**：
 
-	- {PlainObject} [setting]: optional parameters
-        + {Object | String} [range]: Set the target selection range of the parameter. The supported selection format is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1], column:[0,1]}`, allows an array of multiple selections; the default is the current selection ;The default is the entire current worksheet
-        + {Function} [success]: callback function for the end of the operation
+	-  {Function} [success]: callback function for the end of the operation
 
 - **Explanation**：
 	
-	Force refresh formula. When you directly modify the values of multiple cells without triggering a refresh, and these cells are associated with formulas, you can use this API to force a formula refresh to be triggered at the end. It is generally recommended to specify the affected cell range to prevent For performance issues, if you can't determine it, leave it blank to keep the entire worksheet traversed and refreshed.
+	Force refresh formula. When you directly modify the values of multiple cells without triggering a refresh, and these cells are associated with formulas, you can use this API to force a formula refresh to be triggered at the end.
 
 ------------
 

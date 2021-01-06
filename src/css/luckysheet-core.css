@@ -18,6 +18,10 @@
     user-select: none;
 }
 
+.chart-moveable{
+  cursor: move;
+}
+
 .luckysheet {
     position: absolute;
     /*             width: 100%;

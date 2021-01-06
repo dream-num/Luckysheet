@@ -2260,7 +2260,13 @@ export function getRangeArray(dimensional, options = {}) {
         for(let r = r1; r <= r2; r++){
             for(let c = c1; c <= c2; c++){
                 let cell = data[r][c];
-                dataArr.push(cell);
+
+                if(cell == null || cell.v == null){
+                    dataArr.push(null);
+                }
+                else{
+                    dataArr.push(cell.v);
+                }
             }
         }
     }
@@ -2270,7 +2276,13 @@ export function getRangeArray(dimensional, options = {}) {
 
             for(let c = c1; c <= c2; c++){
                 let cell = data[r][c];
-                row.push(cell);
+
+                if(cell == null || cell.v == null){
+                    row.push(null);
+                }
+                else{
+                    row.push(cell.v);
+                }
             }
 
             dataArr.push(row);
@@ -2732,18 +2744,9 @@ export function setSingleRangeFormat(attr, value, options = {}) {
         range = formula.getcellrange(range)
     }
 
-    let rowCount = range.row[1] - range.row[0] + 1,
-        columnCount = range.column[1] - range.column[0] + 1;
-
-    if (data.length !== rowCount || data[0].length !== columnCount) {
-        return tooltip.info('The data to be set does not match the selection', '')
-    }
-
-    for (let i = 0; i < rowCount; i++) {
-        for (let j = 0; j < columnCount; j++) {
-            let row = range.row[0] + i,
-                column = range.column[0] + j;
-            setCellFormat(row, column, attr, value, {order: order})
+    for (let r = range.row[0]; r <= range.row[1]; r++) {
+        for (let c = range.column[0]; c <= range.column[1]; c++) {
+            setCellFormat(r, c, attr, value, {order: order})
         }
     }
 }
@@ -2766,10 +2769,34 @@ export function setRangeFormat(attr, value, options = {}) {
         success
     } = {...options}
 
-    if (range instanceof Array) {
-        for (let i = 0; i < range.length; i++) {
-            setSingleRangeFormat(range[i])
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
         }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    for (let i = 0; i < range.length; i++) {
+        setSingleRangeFormat(attr, value, { range: range[i], order: order });
     }
 
     if (success && typeof success === 'function') {
@@ -3163,7 +3190,8 @@ export function cancelRangeMerge(options = {}) {
                         fv[mc_r + "_" + mc_c] = $.extend(true, {}, cell);
                     }
                     else{
-                        let cell_clone = fv[mc_r + "_" + mc_c];
+                        // let cell_clone = fv[mc_r + "_" + mc_c];
+                        let cell_clone = JSON.parse(JSON.stringify(fv[mc_r + "_" + mc_c]));
 
                         delete cell_clone.v;
                         delete cell_clone.m;
@@ -4762,6 +4790,10 @@ export function setSheetDelete(options = {}) {
 
     if(file == null){
         return tooltip.info("The order parameter is invalid.", "");
+    }
+
+    if(Store.luckysheetfile.length === 1){
+        return tooltip.info(locale().sheetconfig.noMoreSheet, "");
     }
 
     sheetmanage.deleteSheet(file.index);
