@@ -73,6 +73,7 @@ The following are all supported setting parameters
 - The height of the column header area [columnHeaderHeight](#columnHeaderHeight)
 - Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
 - Initialize the default font size [defaultFontSize](#defaultFontSize)
+- Pager [pager](#pager)
 
 ### container
 - Type: String
@@ -567,6 +568,21 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 ------------
 
+### pager
+- Type：Object
+- Default：null
+- Usage：Pager button settings, the first version of the solution is directly used jquery plug-in [sPage](https://github.com/jvbei/sPage)
+	Clicking the paging button will trigger the hook function `onTogglePager`, which returns the current page number, which is the same as the `backFun` method of `sPage`. This pager setting is only responsible for the UI part. For the specific data request and data rendering after switching paging, please enter the `onTogglePager` custom processing in the number of hook lines.
+	```js
+	pager: {
+		pageIndex: 1, //Current page number
+		pageSize: 10, //How many rows of data are displayed on each page
+		total: 50, //Total number of rows of data
+		selectOption: [10, 20] //Options that allow setting the number of rows per page
+	}
+	```
+
+------------
 
 ## Hook Function (TODO)
 
@@ -1250,5 +1266,17 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Type: Function
 - Default: null
 - Usage: Customized method of drilling down cell data, note that this hook function is mounted under options: `options.fireMousedown`
+
+------------
+
+## Pager
+
+### onTogglePager
+
+- Type: Function
+- Default: null
+- Usage: Click the page button to call back the function, return the current page number, refer to [sPage backFun](https://github.com/jvbei/sPage)
+- Parameter:
+	- {Object} [page]: Return the current page object
 
 ------------
