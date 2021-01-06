@@ -2,7 +2,7 @@ import luckysheetFreezen from '../controllers/freezen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import Store from '../store';
-
+import method from '../global/method'
 
 let scrollRequestAnimationFrameIni = true,scrollRequestAnimationFrame = false, scrollTimeOutCancel=null;
 
@@ -17,7 +17,8 @@ function execScroll(){
 export default function luckysheetscrollevent(isadjust) {
     let $t = $("#luckysheet-cell-main");
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-        scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+        scrollTop = $("#luckysheet-scrollbar-y").scrollTop(),
+        canvasHeight = $("#luckysheetTableContent").height(); // canvas高度
 
     // clearTimeout(scrollTimeOutCancel);
 
@@ -106,4 +107,7 @@ export default function luckysheetscrollevent(isadjust) {
     if(luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null){
         luckysheetFreezen.scrollAdapt();
     }
+
+    if(!method.createHookFunction("scroll", {scrollLeft, scrollTop, canvasHeight})){ return; }
+
 }
