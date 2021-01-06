@@ -2732,21 +2732,38 @@ export function setSingleRangeFormat(attr, value, options = {}) {
         order = curSheetOrder,
     } = {...options}
 
-    if (attr == null) {
-        return tooltip.info('Arguments attr cannot be null or undefined.', '')
+    if (!attr) {
+        tooltip.info('Arguments attr cannot be null or undefined.', '')
+        return 'error';
     }
 
     if (range instanceof Array) {
-        return tooltip.info('setRangeValue only supports a single selection.', '')
+        tooltip.info('setRangeValue only supports a single selection.', '')
+        return 'error';
     }
 
-    if (typeof range === 'string' && formula.iscelldata(range)) {
-        range = formula.getcellrange(range)
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            tooltip.info("The range parameter is invalid.", "");
+            return 'error';
+        }
+
+        range = formula.getcellrange(range);
+    }
+
+    if(getObjType(range) != 'object' || range.row == null || range.column == null){
+        tooltip.info("The range parameter is invalid.", "");
+        return 'error';
     }
 
     for (let r = range.row[0]; r <= range.row[1]; r++) {
         for (let c = range.column[0]; c <= range.column[1]; c++) {
-            setCellFormat(r, c, attr, value, {order: order})
+            console.log('r',r);
+            console.log('c',c);
+            setCellValue(r, c, {[attr]: value}, {
+                order: order,
+                isRefresh: false,
+              })
         }
     }
 }
@@ -2795,9 +2812,33 @@ export function setRangeFormat(attr, value, options = {}) {
         return tooltip.info("The range parameter is invalid.", "");
     }
 
-    for (let i = 0; i < range.length; i++) {
-        setSingleRangeFormat(attr, value, { range: range[i], order: order });
+    let file = Store.luckysheetfile[order];
+
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
     }
+    let sheetData = $.extend(true, [], file.data);
+    let result = []
+
+    for (let i = 0; i < range.length; i++) {
+        result.push(setSingleRangeFormat(attr, value, { range: range[i], order: order }));
+    }
+
+    if(result.some(i => i === 'error')) {
+        file.data.length = 0;
+        file.data.push(...sheetData);
+        return false;
+    }
+
+    let fileData = $.extend(true, [], file.data);
+    file.data.length = 0;
+    file.data.push(...sheetData);
+
+    if(file.index == Store.currentSheetIndex){
+        jfrefreshgrid(fileData, undefined, undefined, true, false);
+    }
+
+    luckysheetrefreshgrid();
 
     if (success && typeof success === 'function') {
         success()
