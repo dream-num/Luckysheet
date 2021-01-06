@@ -76,6 +76,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 初始化默认字体大小 [defaultFontSize](#defaultFontSize)
 - 是否限制工作表名长度 [limitSheetNameLength](#limitSheetNameLength)
 - 默认允许工作表名的最大长度 [defaultSheetNameMaxLength](#defaultSheetNameMaxLength)
+- 分页器 [pager](#pager)
 
 ### container
 - 类型：String
@@ -661,6 +662,22 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 
+### pager
+- 类型：Object
+- 默认值：null
+- 作用：分页器按钮设置，初版方案是直接使用的jquery插件 [sPage](https://github.com/jvbei/sPage)
+	点击分页按钮会触发钩子函数 `onTogglePager`，返回当前页码，同`sPage`的`backFun`方法，此分页器设置只负责UI部分，具体切换分页后的数据请求和数据渲染，请在`onTogglePager`钩子行数里自定义处理。
+	```js
+	pager: {
+		pageIndex: 1, //当前的页码
+		pageSize: 10, //每页显示多少行数据
+		total: 50, //数据总行数
+		selectOption: [10, 20] //允许设置每页行数的选项
+	}
+	```
+
+------------
+
 ## 钩子函数
 
 钩子函数应用于二次开发时，会在各个常用鼠标或者键盘操作时植入钩子，调用开发者传入的函数，起到扩展Luckysheet功能的作用。
@@ -932,6 +949,18 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		+ {Boolean} [hyperlinkClick]:点击超链接
 	- {Object} [ctx]: 当前画布的context
 
+------------
+### scroll
+
+- 类型：Function
+- 默认值：null
+- 作用：鼠标滚动事件
+- 参数：{, , }
+	- {Object} [position]:
+		+ {Number} [scrollLeft]:横向滚动条的位置
+		+ {Number} [scrollTop]:垂直滚动条的位置
+		+ {Number} [canvasHeight]:canvas高度
+		
 ------------
 
 ## 选区操作（包括单元格）
@@ -1518,5 +1547,17 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Function
 - 默认值：null
 - 作用：单元格数据下钻自定义方法，注意此钩子函数是挂载在options下：`options.fireMousedown`
+
+------------
+
+## 分页器
+
+### onTogglePager
+
+- 类型：Function
+- 默认值：null
+- 作用：点击分页按钮回调函数，返回当前页码，具体参数参照[sPage backFun](https://github.com/jvbei/sPage)
+- 参数：
+	- {Object} [page]: 返回当前分页对象
 
 ------------
