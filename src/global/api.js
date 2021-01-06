@@ -6492,3 +6492,44 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
     }
     return conditionformat.getTxtByRange(range);
 }
+
+
+/**
+ * 初始化分页器
+ * @param {Object} config 分页器配置
+ * @param {Number} config.pageIndex 当前的页码
+ * @param {Number} config.pageSize 每页显示多少条数据
+ * @param {Array} config.selectOption 选择每页的条数
+ * @param {Number} config.total 总条数
+ */
+export function pagerInit (config) {
+    $('#luckysheet-bottom-pager').remove()
+    $('#luckysheet-sheet-area').append('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
+    $("#luckysheet-bottom-pager").sPage({
+        page: config.pageIndex, //当前页码，必填
+        total: config.total, //数据总条数，必填
+        selectOption: config.selectOption, // 选择每页的行数，
+        pageSize: config.pageSize, //每页显示多少条数据，默认10条
+        showTotal: true, // 是否显示总数
+        showSkip: config.showSkip || true, //是否显示跳页，默认关闭：false
+        showPN: config.showPN || true, //是否显示上下翻页，默认开启：true
+        backFun: function (page) {
+            page.pageIndex = page.page
+            if(!method.createHookFunction("onTogglePager", page)){ return; }
+        }
+    });
+}
+
+/**
+ * 刷新公式
+ * @param {Function} success 回调函数
+ */
+export function refreshFormula (success) {
+    formula.execFunctionGroupForce(true);
+    luckysheetrefreshgrid()
+    setTimeout(() => {
+      if (success && typeof success === 'function') {
+          success();
+      }
+    })
+}

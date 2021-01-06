@@ -1043,7 +1043,7 @@ div.luckysheet-sheets-m:hover {
     padding: 0px 0px;
     margin-left: 0px;
     position: relative;
-    width: 70%;
+    max-width: 50%;
     vertical-align: bottom;
 }
 
@@ -7220,7 +7220,7 @@ fieldset[disabled] .btn-danger.focus {
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: absolute;
-    z-index: 1000;
+    z-index: 10000;
     box-sizing: border-box;
 }
 #luckysheet-dataVerification-dropdown-List .dropdown-List-item{

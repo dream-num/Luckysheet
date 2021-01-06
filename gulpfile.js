@@ -96,7 +96,8 @@ const paths = {
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
         'src/plugins/js/jstat.min.js',
-        'src/plugins/js/crypto-api.min.js'
+        'src/plugins/js/crypto-api.min.js',
+        'src/plugins/js/jquery.sPage.min.js'
     ],
 
     //plugins concat
