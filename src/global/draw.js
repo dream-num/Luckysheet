@@ -2141,7 +2141,10 @@ function cellTextRender(textInfo, ctx, option){
             ctx.font = word.style;
         }
         
-        ctx.fillText(word.content, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
+        // 暂时未排查到word.content第一次会是object，先做下判断来渲染，后续找到问题再复原
+        let txt = typeof word.content === 'object' ? word.content.m : word.content
+        ctx.fillText(txt, (pos_x + word.left)/Store.zoomRatio, (pos_y+word.top)/Store.zoomRatio);
+        
         
         if(word.cancelLine!=null){
             let c = word.cancelLine;

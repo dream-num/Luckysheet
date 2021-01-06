@@ -428,8 +428,11 @@ const controlHistory = {
         }
         Store.clearjfundo = true;
 
+        // 撤销的时候curdata 跟 data 数据要调换一下
+        let newCtr = {...ctr, ...{data: ctr.curdata, curdata: ctr.data}}
         // 钩子函数
-        method.createHookFunction('updated',ctr)
+        method.createHookFunction('updated', newCtr)
+        
     },
     undo: function () {
         if (Store.jfundo.length == 0) {

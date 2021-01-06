@@ -2260,7 +2260,13 @@ export function getRangeArray(dimensional, options = {}) {
         for(let r = r1; r <= r2; r++){
             for(let c = c1; c <= c2; c++){
                 let cell = data[r][c];
-                dataArr.push(cell);
+
+                if(cell == null || cell.v == null){
+                    dataArr.push(null);
+                }
+                else{
+                    dataArr.push(cell.v);
+                }
             }
         }
     }
@@ -2270,7 +2276,13 @@ export function getRangeArray(dimensional, options = {}) {
 
             for(let c = c1; c <= c2; c++){
                 let cell = data[r][c];
-                row.push(cell);
+
+                if(cell == null || cell.v == null){
+                    row.push(null);
+                }
+                else{
+                    row.push(cell.v);
+                }
             }
 
             dataArr.push(row);
@@ -2732,18 +2744,9 @@ export function setSingleRangeFormat(attr, value, options = {}) {
         range = formula.getcellrange(range)
     }
 
-    let rowCount = range.row[1] - range.row[0] + 1,
-        columnCount = range.column[1] - range.column[0] + 1;
-
-    if (data.length !== rowCount || data[0].length !== columnCount) {
-        return tooltip.info('The data to be set does not match the selection', '')
-    }
-
-    for (let i = 0; i < rowCount; i++) {
-        for (let j = 0; j < columnCount; j++) {
-            let row = range.row[0] + i,
-                column = range.column[0] + j;
-            setCellFormat(row, column, attr, value, {order: order})
+    for (let r = range.row[0]; r <= range.row[1]; r++) {
+        for (let c = range.column[0]; c <= range.column[1]; c++) {
+            setCellFormat(r, c, attr, value, {order: order})
         }
     }
 }
@@ -2766,10 +2769,34 @@ export function setRangeFormat(attr, value, options = {}) {
         success
     } = {...options}
 
-    if (range instanceof Array) {
-        for (let i = 0; i < range.length; i++) {
-            setSingleRangeFormat(range[i])
+    if(getObjType(range) == 'string'){
+        if(!formula.iscelldata(range)){
+            return tooltip.info("The range parameter is invalid.", "");
         }
+
+        let cellrange = formula.getcellrange(range);
+        range = [{
+            "row": cellrange.row,
+            "column": cellrange.column
+        }]
+    }
+    else if(getObjType(range) == 'object'){
+        if(range.row == null || range.column == null){
+            return tooltip.info("The range parameter is invalid.", "");
+        }
+
+        range = [{
+            "row": range.row,
+            "column": range.column
+        }];
+    }
+
+    if(getObjType(range) != 'array'){
+        return tooltip.info("The range parameter is invalid.", "");
+    }
+
+    for (let i = 0; i < range.length; i++) {
+        setSingleRangeFormat(attr, value, { range: range[i], order: order });
     }
 
     if (success && typeof success === 'function') {
@@ -4765,6 +4792,10 @@ export function setSheetDelete(options = {}) {
         return tooltip.info("The order parameter is invalid.", "");
     }
 
+    if(Store.luckysheetfile.length === 1){
+        return tooltip.info(locale().sheetconfig.noMoreSheet, "");
+    }
+
     sheetmanage.deleteSheet(file.index);
 
     setTimeout(() => {
@@ -6460,4 +6491,45 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
         range = [range];
     }
     return conditionformat.getTxtByRange(range);
+}
+
+
+/**
+ * 初始化分页器
+ * @param {Object} config 分页器配置
+ * @param {Number} config.pageIndex 当前的页码
+ * @param {Number} config.pageSize 每页显示多少条数据
+ * @param {Array} config.selectOption 选择每页的条数
+ * @param {Number} config.total 总条数
+ */
+export function pagerInit (config) {
+    $('#luckysheet-bottom-pager').remove()
+    $('#luckysheet-sheet-area').append('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
+    $("#luckysheet-bottom-pager").sPage({
+        page: config.pageIndex, //当前页码，必填
+        total: config.total, //数据总条数，必填
+        selectOption: config.selectOption, // 选择每页的行数，
+        pageSize: config.pageSize, //每页显示多少条数据，默认10条
+        showTotal: true, // 是否显示总数
+        showSkip: config.showSkip || true, //是否显示跳页，默认关闭：false
+        showPN: config.showPN || true, //是否显示上下翻页，默认开启：true
+        backFun: function (page) {
+            page.pageIndex = page.page
+            if(!method.createHookFunction("onTogglePager", page)){ return; }
+        }
+    });
+}
+
+/**
+ * 刷新公式
+ * @param {Function} success 回调函数
+ */
+export function refreshFormula (success) {
+    formula.execFunctionGroupForce(true);
+    luckysheetrefreshgrid()
+    setTimeout(() => {
+      if (success && typeof success === 'function') {
+          success();
+      }
+    })
 }
