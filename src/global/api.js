@@ -5364,7 +5364,8 @@ export function hideGridLines(options = {}){
  * @param {Function} options.success 操作结束的回调函数
  */
 export function refresh(options = {}) {
-    luckysheetrefreshgrid();
+    // luckysheetrefreshgrid();
+    jfrefreshgrid();
 
     let {
         success
