@@ -1326,6 +1326,9 @@ export default function luckysheetHandler() {
             
             showrightclickmenu($("#luckysheet-rightclick-menu"), x, y);
         }
+
+        // 备注：在mousedown中发送光标信息会漏处理部分(选区)范围
+        server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
     }).dblclick(function (event) {
         if($(event.target).hasClass('luckysheet-mousedown-cancel')){
             return;
