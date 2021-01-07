@@ -4176,6 +4176,20 @@ const luckysheetformula = {
         for (let i = 0; i < luckysheetfile.length; i++) {
             let file = luckysheetfile[i];
             let calcChain = file.calcChain;
+            
+            /* 备注：再次加载表格获取的数据可能是JSON字符串格式(需要进行发序列化处理) */
+            if(calcChain){
+                let tempCalcChain = [];
+                calcChain.forEach((item,idx)=>{
+                    if(typeof item === "string"){
+                        tempCalcChain.push(JSON.parse(item));
+                    }else{
+                        tempCalcChain.push(item);
+                    }
+                })
+                calcChain = file.calcChain = tempCalcChain;
+            }
+
             let dynamicArray_compute = file.dynamicArray_compute;
             if (calcChain == null) {
                 calcChain = [];
