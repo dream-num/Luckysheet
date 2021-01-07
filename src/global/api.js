@@ -2340,7 +2340,7 @@ export function getRangeJson(isFirstRowTitle, options = {}) {
             return;
         }
     }
-    let getdata = getdatabyselection(range, order);
+    let getdata = getdatabyselection(range, file.index);
     let arr = [];
     if (getdata.length === 0) {
         return;
