@@ -727,6 +727,12 @@ const sheetmanage = {
         _this.nulldata = datagridgrowth([], Store.defaultrowNum, Store.defaultcolumnNum);
         let data = _this.buildGridData(file);
 
+        //初始化的时候 记录选区
+        let select_save = [];
+        file.jfgird_select_save = file.jfgird_select_save || [];
+        file.jfgird_select_save.forEach(item=>select_save.push({"row":item.row,"column":item.column}));
+        file.luckysheet_select_save = select_save;
+        
         this.sheetParamRestore(file, data);
 
         let r2 = Store.luckysheet_select_save[0].row[1], 
