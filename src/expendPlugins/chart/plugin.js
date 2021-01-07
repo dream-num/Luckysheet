@@ -51,10 +51,11 @@ function chart(data, isDemo) {
             set(val) {
                 let order = getSheetIndex(Store.currentSheetIndex);
                 let file = Store.luckysheetfile[order];
+                let chartIndex
                 // 保存修改后的图表数据
                 if (file.chart) {
                     let chart = store.state.chartSetting.chartLists[store.state.chartSetting.currentChartIndex]
-                    let chartIndex = file.chart.findIndex(item => item.chart_id == chart.chart_id)
+                    chartIndex = file.chart.findIndex(item => item.chart_id == chart.chart_id)
                     file.chart[chartIndex] = chart
                 }
 
