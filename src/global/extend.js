@@ -13,7 +13,6 @@ import Store from '../store';
 
 //增加行列
 function luckysheetextendtable(type, index, value, direction, sheetIndex) {
-    console.log(type, index, value, direction, sheetIndex)
     sheetIndex = sheetIndex || Store.currentSheetIndex;
 
     if(type=='row' && !checkProtectionAuthorityNormal(sheetIndex, "insertRows")){

@@ -946,7 +946,11 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
 //cell range locked state
 export function checkProtectionLockedRangeList(rangeList, sheetIndex){
     //EPM-BUDGET-START
-    if (rangeList[0].column[0] !== rangeList[0].column[1]) return true
+    if (rangeList[0].column[0] !== rangeList[0].column[1]) return true;
+    let cell = sheetFile.data[rangeList[0].row[0]][rangeList[0].column[0]];
+    if(cell&& !cell.lo){
+        return true;
+    }
     //EPM-BUDGET-END
 
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
@@ -967,13 +971,6 @@ export function checkProtectionLockedRangeList(rangeList, sheetIndex){
     if(rangeList==null || rangeList.length==0){
         return true;
     }
-
-    //EPM-BUDGET-START
-    let cell = sheetFile.data[rangeList[0].row[0]][rangeList[0].column[0]]
-    if(cell&& !cell.lo){
-        return true;
-    }
-    //EPM-BUDGET-END
 
     const _locale = locale();
     const local_protection = _locale.protection;
