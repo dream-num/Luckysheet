@@ -343,7 +343,7 @@ function jfrefreshrange(data, range, cdformat) {
         Store.jfredo.push({ 
             "type": "rangechange", 
             "data": Store.flowdata, 
-            "curdata": data, 
+            "curData": data, 
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
             "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),

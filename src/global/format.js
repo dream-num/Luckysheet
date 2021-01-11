@@ -1787,6 +1787,7 @@ export function genarate(value) {//万 单位格式增加！！！
         ct = { "fa": "@", "t": "s" };
     }
     else if(isRealNum(value) && Math.abs(parseFloat(value)) > 0 && (Math.abs(parseFloat(value)) >= 1e+11 || Math.abs(parseFloat(value)) < 1e-9)){
+        // 科学计数法还是保持文本格式
         v = value
         m = value
         ct= {"fa": '@', "t": "n"}
