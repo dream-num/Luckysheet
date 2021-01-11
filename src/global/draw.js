@@ -1740,6 +1740,10 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
             luckysheetTableContent.fillStyle = checksCF["textColor"];
         }
 
+        //若单元格格式为自定义数字格式（[red]） 文本颜色为红色
+        if(cell.ct && cell.ct.fa && cell.ct.fa.indexOf('[Red]') > -1 && cell.ct.t == 'n' && cell.v < 0){
+            luckysheetTableContent.fillStyle = '#ff0000';
+        }
 
         cellTextRender(
             textInfo,
