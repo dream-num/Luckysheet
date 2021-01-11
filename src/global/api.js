@@ -2621,6 +2621,14 @@ export function setRangeShow(range, options = {}) {
         return tooltip.info("The order parameter is invalid.", "");
     }
 
+    for(let i = 0; i < range.length; i++){
+        let changeparam = menuButton.mergeMoveMain(range[i].column, range[i].row, range[i]);
+        range[i] = {
+            "row": changeparam[1],
+            "column": changeparam[0]
+        }
+    }
+
     file.luckysheet_select_save = range;
 
     if(file.index == Store.currentSheetIndex){
