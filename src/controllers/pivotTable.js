@@ -135,9 +135,10 @@ const pivotTable = {
         let rowhidden = {};
         if (_this.filterparm != null) {
             for (let f in _this.filterparm) {
+                // 目的是取出rowhidden
                 for (let h in _this.filterparm[f]) {
-                    if (h.rowhidden != null) {
-                        rowhidden = $.extend(true, rowhidden, h.rowhidden);
+                    if (h === 'rowhidden' && _this.filterparm[f][h] != null) {
+                        rowhidden = $.extend(true, rowhidden, _this.filterparm[f][h]);
                     }
                 }
             }
@@ -671,6 +672,7 @@ const pivotTable = {
 
         _this.getCellData(index);
         _this.initialPivotManage(true);
+        _this.refreshPivotTable(); //初始化在一个普通sheet页，从此普通sheet页切换到数据透视表页时，需要刷新下数据，否则还是旧数据
     },
     refreshPivotTable: function (isRefreshCanvas=true) {
         let _this = this;

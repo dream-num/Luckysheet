@@ -172,6 +172,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 张铭 ¥ 200
 - 曹治军 ¥ 1
 - *特 ¥ 10
+- **权 ¥ 9.9
 
 ## Authors and acknowledgment
 
@@ -195,6 +196,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
 - [@kdevilpf](https://github.com/kdevilpf)
+- [@WJWM0316](https://github.com/WJWM0316)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

@@ -187,6 +187,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 张铭 ¥ 200
 - 曹治军 ¥ 1
 - *特 ¥ 10
+- **权 ¥ 9.9
 
 ## 贡献者和感谢
 
@@ -210,6 +211,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
 - [@kdevilpf](https://github.com/kdevilpf)
+- [@WJWM0316](https://github.com/WJWM0316)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

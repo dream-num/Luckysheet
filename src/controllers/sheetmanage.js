@@ -733,6 +733,12 @@ const sheetmanage = {
         _this.nulldata = datagridgrowth([], Store.defaultrowNum, Store.defaultcolumnNum);
         let data = _this.buildGridData(file);
 
+        //初始化的时候 记录选区
+        let select_save = [];
+        file.jfgird_select_save = file.jfgird_select_save || [];
+        file.jfgird_select_save.forEach(item=>select_save.push({"row":item.row,"column":item.column}));
+        file.luckysheet_select_save = select_save;
+        
         this.sheetParamRestore(file, data);
 
         let r2 = Store.luckysheet_select_save[0].row[1], 
@@ -817,7 +823,7 @@ const sheetmanage = {
 
                     if (!!file.isPivotTable) {
                         Store.luckysheetcurrentisPivotTable = true;
-                        pivotTable.changePivotTable(Store.currentSheetIndex);
+                        // pivotTable.changePivotTable(Store.currentSheetIndex); //此方法需要注释掉，在restoreSheetAll中已经执行了刷新了数据透视表，这里就不需要了
                     }
                     else {
                         Store.luckysheetcurrentisPivotTable = false;

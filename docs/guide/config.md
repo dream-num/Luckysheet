@@ -664,6 +664,74 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	- {Object} [sheet]: Current worksheet object
 	- {Object} [ctx]: The context of the current canvas
 
+- Example:
+
+	A case of drawing two pictures in the upper left corner and lower right corner of cell D1
+	:::::: details
+	```js
+	luckysheet.create({
+            hook: {
+                cellRenderAfter: function (cell, postion, sheetFile, ctx) {
+                    var r = postion.r;
+                    var c = postion.c;
+                    if (r === 0 && c === 3) { // Specify to process cell D1
+                        if (!window.storeUserImage) {
+                            window.storeUserImage = {}
+                        }
+						
+                        if (!window.storeUserImage[r + '_' + c]) {
+                            window.storeUserImage[r + '_' + c] = {}
+                        }
+
+                        var img = null;
+                        var imgRight = null;
+
+                        if (window.storeUserImage[r + '_' + c].image && window.storeUserImage[r + '_' + c].imgRight) {
+							
+							// Fetch directly after loading
+                            img = window.storeUserImage[r + '_' + c].image;
+                            imgRight = window.storeUserImage[r + '_' + c].imgRight;
+
+                        } else {
+
+                            img = new Image();
+                            imgRight = new Image();
+
+                            img.src = 'https://www.dogedoge.com/favicon/developer.mozilla.org.ico';
+                            imgRight.src = 'https://www.dogedoge.com/static/icons/twemoji/svg/1f637.svg';
+
+							// The picture is cached in the memory, fetched directly next time, no need to reload
+                            window.storeUserImage[r + '_' + c].image = img;
+                            window.storeUserImage[r + '_' + c].imgRight = imgRight;
+
+                        }
+
+						
+                        if (img.complete) { //Direct rendering that has been loaded
+                            ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                        } else {
+                            img.onload = function () {
+                                ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                            }
+
+                        }
+
+                        if (imgRight.complete) {
+                            ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                        } else {
+
+                            imgRight.onload = function () {
+                                ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+	```
+	:::
+
 ------------
 ### cellAllRenderBefore
 

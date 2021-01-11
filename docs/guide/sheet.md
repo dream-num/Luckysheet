@@ -305,7 +305,7 @@ eg: options.data：
     1. selection `rangeType: "range"`
 
        + Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
-       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`, If it corresponds to the value of getLineStyle() of aspose.cells, you need to make a conversion yourself, refer to [aspose.cells](https://apireference.aspose.com/cells/net/aspose.cells/cellbordertype)
        + Border color `color: Hexadecimal color value`
        + Selection area `range: Row and column information array`
 
