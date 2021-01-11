@@ -762,6 +762,74 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [ctx]: 当前画布的context
 
+- 示例：
+
+	一个在D1单元格的左上角和右下角分别绘制两张图的案例
+	:::::: details
+	```js
+	luckysheet.create({
+            hook: {
+                cellRenderAfter: function (cell, postion, sheetFile, ctx) {
+                    var r = postion.r;
+                    var c = postion.c;
+                    if (r === 0 && c === 3) { // 指定处理D1单元格
+                        if (!window.storeUserImage) {
+                            window.storeUserImage = {}
+                        }
+						
+                        if (!window.storeUserImage[r + '_' + c]) {
+                            window.storeUserImage[r + '_' + c] = {}
+                        }
+
+                        var img = null;
+                        var imgRight = null;
+
+                        if (window.storeUserImage[r + '_' + c].image && window.storeUserImage[r + '_' + c].imgRight) {
+							
+							// 加载过直接取
+                            img = window.storeUserImage[r + '_' + c].image;
+                            imgRight = window.storeUserImage[r + '_' + c].imgRight;
+
+                        } else {
+
+                            img = new Image();
+                            imgRight = new Image();
+
+                            img.src = 'https://www.dogedoge.com/favicon/developer.mozilla.org.ico';
+                            imgRight.src = 'https://www.dogedoge.com/static/icons/twemoji/svg/1f637.svg';
+
+							// 图片缓存到内存，下次直接取，不用再重新加载
+                            window.storeUserImage[r + '_' + c].image = img;
+                            window.storeUserImage[r + '_' + c].imgRight = imgRight;
+
+                        }
+
+						
+                        if (img.complete) { // 已经加载完成的直接渲染
+                            ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                        } else {
+                            img.onload = function () {
+                                ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                            }
+
+                        }
+
+                        if (imgRight.complete) {
+                            ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                        } else {
+
+                            imgRight.onload = function () {
+                                ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+	```
+	:::
+
 ------------
 ### cellAllRenderBefore
 
