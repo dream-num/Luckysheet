@@ -6543,7 +6543,6 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
     return conditionformat.getTxtByRange(range);
 }
 
-
 /**
  * 初始化分页器
  * @param {Object} config 分页器配置
@@ -6581,5 +6580,31 @@ export function refreshFormula (success) {
       if (success && typeof success === 'function') {
           success();
       }
+    })
+}
+
+/**
+ * 刷新状态栏的状态
+ * @param {Array}  data             操作数据
+ * @param {Number} r                指定的行
+ * @param {Number} c                指定的列
+ * @param {Function} success        回调函数
+ */
+export function refreshMenuButtonFocus(data ,r,c , success){
+    data = data || Store.flowdata;
+    if(r == null && c == null){
+        /* 获取选取范围 */
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length -1];
+        
+        r = last.row_focus || last.row[0];
+        c = last.column_focus || last.column[0];
+    }
+
+    menuButton.menuButtonFocus(data, r, c);
+    
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success();
+        }
     })
 }

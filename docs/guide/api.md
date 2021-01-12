@@ -2570,6 +2570,21 @@ Use note:
 
 ------------
 
+### refreshMenuButtonFocus([data],[r],[c],[success])
+
+- **Parameter**：
+
+	- {Array}  [data]: Operational data
+	- {Number} [r]: Specified row
+	- {Number} [c]: Specified column
+	- {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Refreshes the top status bar status of the specified cell.
+
+------------
+
 ## Chart
 
 ### insertChart([setting])
