@@ -669,10 +669,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	点击分页按钮会触发钩子函数 `onTogglePager`，返回当前页码，同`sPage`的`backFun`方法，此分页器设置只负责UI部分，具体切换分页后的数据请求和数据渲染，请在`onTogglePager`钩子行数里自定义处理。
 	```js
 	pager: {
-		pageIndex: 1, //当前的页码
-		pageSize: 10, //每页显示多少行数据
-		total: 50, //数据总行数
-		selectOption: [10, 20] //允许设置每页行数的选项
+		pageIndex: 1, //当前页码，必填
+		total: 100, //数据总条数，必填
+		selectOption: [10, 20, 30], // 选择每页的行数，
+		pageSize: 10, //每页显示多少条数据，默认10条
+		showTotal: false, // 是否显示总数，默认关闭：false
+		showSkip: false, //是否显示跳页，默认关闭：false
+		showPN: false, //是否显示上下翻页，默认开启：true
+		prevPage: '', //上翻页文字描述，默认"上一页"
+		nextPage: '', //下翻页文字描述，默认"下一页"
+		totalTxt: '', // 数据总条数文字描述，默认"总共：{total}"
 	}
 	```
 

@@ -9144,6 +9144,9 @@ export default {
         update:"Update",
         delete:"Delete",
         insert:"新建",
+        prevPage: "上一页",
+        nextPage: "下一页",
+        total: "总共："
     },
     paint: {
         start: '格式刷开启',

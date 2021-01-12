@@ -6548,16 +6548,21 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
  * @param {Number} config.total 总条数
  */
 export function pagerInit (config) {
+    const {prevPage, nextPage, total} = locale().button;
+    console.log(locale().button, prevPage, locale())
     $('#luckysheet-bottom-pager').remove()
-    $('#luckysheet-sheet-area').append('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
+    $('#luckysheet-sheet-content').after('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
     $("#luckysheet-bottom-pager").sPage({
         page: config.pageIndex, //当前页码，必填
         total: config.total, //数据总条数，必填
         selectOption: config.selectOption, // 选择每页的行数，
         pageSize: config.pageSize, //每页显示多少条数据，默认10条
-        showTotal: true, // 是否显示总数
-        showSkip: config.showSkip || true, //是否显示跳页，默认关闭：false
-        showPN: config.showPN || true, //是否显示上下翻页，默认开启：true
+        showTotal: config.showTotal, // 是否显示总数，默认关闭：false
+        showSkip: config.showSkip, //是否显示跳页，默认关闭：false
+        showPN: config.showPN, //是否显示上下翻页，默认开启：true
+        prevPage: config.prevPage || prevPage, //上翻页文字描述，默认"上一页"
+        nextPage: config.nextPage || nextPage, //下翻页文字描述，默认"下一页"
+        totalTxt: config.totalTxt || total + config.total, // 数据总条数文字描述，{total}为占位符，默认"总共：{total}"
         backFun: function (page) {
             page.pageIndex = page.page
             if(!method.createHookFunction("onTogglePager", page)){ return; }

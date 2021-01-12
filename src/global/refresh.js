@@ -102,7 +102,6 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "data": Store.flowdata, 
             "curData": data, 
             "sheetIndex": Store.currentSheetIndex, 
-            "range": range, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
             "cdformat":  $.extend(true, [], file["luckysheet_conditionformat_save"]),
@@ -112,6 +111,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "curDataVerification": curDataVerification,
             "dynamicArray": $.extend(true, [], file["dynamicArray"]),
             "curDynamicArray": curDynamicArray,
+            "range": range,
             "dataRange": [...file.luckysheet_select_save]// 保留操作时的选区
         });
     }

@@ -909,7 +909,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
         return true;
     }
 
-    if(cell && cell.lo === 0){
+    if(cell && cell.lo === 0){ // lo为0的时候才是可编辑
         return true;
     }
 
@@ -945,10 +945,6 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
 
 //cell range locked state
 export function checkProtectionLockedRangeList(rangeList, sheetIndex){
-    //EPM-BUDGET-START
-    if (rangeList[0].column[0] !== rangeList[0].column[1]) return true;
-    //EPM-BUDGET-END
-
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
 
     if(sheetFile==null){
@@ -978,7 +974,7 @@ export function checkProtectionLockedRangeList(rangeList, sheetIndex){
 
         for(let r=r1;r<=r2;r++){
             for(let c=c1;c<=c2;c++){
-                let isLock = sheetFile.data[r][c].lo === undefined || sheetFile.data[r][c].lo === 1,
+                let isLock = sheetFile.data[r][c].lo === undefined || sheetFile.data[r][c].lo === 1, // 单元格是否锁定
                     isPass = checkProtectionLockedSqref(r, c , aut, local_protection, true, isLock);
                 if(!isPass){
                     return false;
@@ -1009,7 +1005,7 @@ export function checkProtectionSelectLockedOrUnLockedCells(r, c, sheetIndex){
         return true;
     }
 
-    if(cell && cell.lo === 0){//unlocked
+    if(cell && cell.lo === 0){ // lo为0的时候才是可编辑
         if(aut.selectunLockedCells==1 || aut.selectunLockedCells==null){
             return true;
         }

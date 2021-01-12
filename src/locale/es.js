@@ -8918,6 +8918,9 @@ export default {
         update:"Actualizar",
         delete:"Eliminar",
         insert:"Insertar",
+        prevPage: "Previous",
+        nextPage: "Next",
+        total: "total:"
     },
     paint:{
         start: 'Inicio clonar formato',

@@ -9140,6 +9140,9 @@ export default {
         update : "Update",
         delete : "Delete",
         insert : "新建",
+        prevPage: "上一頁",
+        nextPage: "下一頁",
+        total: "總共："
     },
     paint: {
         start         : '格式刷開啟',

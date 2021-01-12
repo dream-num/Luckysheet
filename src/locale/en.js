@@ -8919,6 +8919,9 @@ export default {
         update:"Update",
         delete:"Delete",
         insert:"Insert",
+        prevPage: "Previous",
+        nextPage: "Next",
+        total: "total:"
     },
     paint:{
         start: 'Paint format start',
