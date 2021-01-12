@@ -6543,6 +6543,23 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
     return conditionformat.getTxtByRange(range);
 }
 
+/**
+ * 刷新状态栏的状态
+ * @param {Array}  data             当前的数据
+ * @param {Number} r                指定的行
+ * @param {Number} c                指定的列
+ */
+export function refreshMenuButtonFocus(data ,r,c){
+    data = data || Store.flowdata;
+    if(r == null && c == null){
+        /* 获取选取范围 */
+        let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length -1];
+        r = last.row_focus || last.row[0];
+        c = last.column_focus || last.column[0];
+    }
+
+    menuButton.menuButtonFocus(data, r, c);
+}
 
 /**
  * 初始化分页器

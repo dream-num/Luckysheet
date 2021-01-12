@@ -25,6 +25,7 @@ import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { selectHightlightShow } from './select';
 import method from '../global/method';
+import {refreshMenuButtonFocus} from "../global/api";
 
 function formulaHistoryHanddler(ctr, type="redo"){
     if(ctr==null){
@@ -428,6 +429,9 @@ const controlHistory = {
         }
         Store.clearjfundo = true;
 
+        /* 刷新当前状态栏 */
+        refreshMenuButtonFocus();
+
         // 撤销的时候curdata 跟 data 数据要调换一下
         let newCtr = {...ctr, ...{data: ctr.curdata, curdata: ctr.data}}
         // 钩子函数
@@ -744,6 +748,8 @@ const controlHistory = {
         }
         Store.clearjfundo = true;
 
+         /* 刷新当前状态栏 */
+         refreshMenuButtonFocus();
     }
 };
 
