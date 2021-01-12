@@ -9,8 +9,6 @@ export default function mobileinit(){
     //去除滚动条
     Store.cellMainSrollBarSize = 0;
 
- 
-
     //滑动滚动表格
     let luckysheet_touchmove_status = false,
         luckysheet_touchmove_startPos = {},

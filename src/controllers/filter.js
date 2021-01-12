@@ -1053,7 +1053,7 @@ function initialFilterHandler(){
                 redo["caljs"] = caljs;
             }
     
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push(redo);
         }
     
@@ -1300,7 +1300,7 @@ function initialFilterHandler(){
         });
         redo["optiongroups"] = optiongroups;
 
-        Store.jfundo = [];
+        Store.jfundo.length  = 0;
         Store.jfredo.push(redo);
 
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
@@ -1775,7 +1775,7 @@ function initialFilterHandler(){
                 redo["caljs"] = caljs;
             }
 
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push(redo);
         }
 

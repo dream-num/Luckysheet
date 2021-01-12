@@ -8,6 +8,10 @@ Luckysheet is an online spreadsheet like excel that is powerful, simple to confi
 
 ![Demo](/LuckysheetDocs/img/LuckysheetDemo.gif)
 
+## Online Case
+
+- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)(Note: The official Java backend will also be open source after finishing,using OT algorithm. Please do not operate frequently to prevent the server from crashing)
+
 ## Features
 
 ### 🛠️Formatting
@@ -130,7 +134,11 @@ There are two ways to introduce dependencies
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
 
-Note that `https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js` will pull the latest luckysheet code. If you want to specify the luckysheet version, please add the version number after the luckysheet , Such as: `https://cdn.jsdelivr.net/npm/luckysheet@2.0.0/dist/luckysheet.umd.js`
+Note that the path of `https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js` means that the latest luckysheet code will be pulled, but if Luckysheet has just been released, the jsdelivr website may not have time Synchronize from npm, so using this path will still pull to the previous version. We recommend that you directly specify the latest version.
+
+To specify the Luckysheet version, please add the version number after all CDN dependent files, such as: `https://cdn.jsdelivr.net/npm/luckysheet@2.1.12/dist/luckysheet.umd.js`.
+
+> How do I know which version is the latest version? View the latest [release record](https://github.com/mengshukeji/Luckysheet/releases) or [package.json](https://github.com/mengshukeji/Luckysheet/blob/master/package.json)` version` field.
 
 If it is not convenient to access jsdelivr.net, you can also import it locally
 

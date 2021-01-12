@@ -11,6 +11,7 @@ import menuButton from './menuButton';
 import {checkProtectionAuthorityNormal} from './protection';
 import server from './server';
 import Store from '../store';
+import method from '../global/method';
 
 //批注
 const luckysheetPostil = {
@@ -160,15 +161,21 @@ const luckysheetPostil = {
         let mouse = mouseposition(event.pageX, event.pageY);
         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
         let scrollTop = $("#luckysheet-cell-main").scrollTop();
-        let x = mouse[0] + scrollLeft;
-        let y = mouse[1] + scrollTop;
+        let x = mouse[0];
+        let y = mouse[1];
+        let offsetX = 0;
+        let offsetY = 0;
 
         if(luckysheetFreezen.freezenverticaldata != null && mouse[0] < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
-            return;
+            offsetX = scrollLeft;
+        } else {
+            x += scrollLeft;
         }
 
         if(luckysheetFreezen.freezenhorizontaldata != null && mouse[1] < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
-            return;
+            offsetY = scrollTop;
+        } else {
+            y += scrollTop;
         }
 
         let row_index = rowLocation(y)[2];
@@ -205,8 +212,8 @@ const luckysheetPostil = {
             col_pre = margeset.column[0];
         }
 
-        let toX = col;
-        let toY = row_pre;
+        let toX = col + offsetX;
+        let toY = row_pre + offsetY;
 
         let fromX = toX + 18 * Store.zoomRatio;
         let fromY = toY - 18 * Store.zoomRatio;
@@ -222,7 +229,7 @@ const luckysheetPostil = {
 
         let html =  '<div id="luckysheet-postil-overshow">' +
                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
-                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ value +'</div>' +
+                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ _this.htmlEscape(value) +'</div>' +
                     '</div>';
 
         $(html).appendTo($("#luckysheet-cell-main"));
@@ -385,7 +392,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -402,6 +409,12 @@ const luckysheetPostil = {
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
             return;
         }
+
+        // Hook function
+        if(!method.createHookFunction('commentInsertBefore',r,c, )){
+            return;
+        }
+
         let _this = this;
 
         let row = Store.visibledatarow[r], 
@@ -453,7 +466,7 @@ const luckysheetPostil = {
                                 '<div class="luckysheet-postil-dialog-resize-item luckysheet-postil-dialog-resize-item-rb" data-type="rb"></div>' +
                             '</div>' +
                             '<div style="width:100%;height:100%;overflow:hidden;">' + 
-                                '<div class="formulaInputFocus" style="width:132px;height:72px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
+                                '<div class="formulaInputFocus" style="width:132px;height:72px;line-height:20px;box-sizing:border-box;text-align: center;word-break:break-all;" spellcheck="false" contenteditable="true">' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
@@ -480,6 +493,11 @@ const luckysheetPostil = {
         rc.push(r + "_" + c);
 
         _this.ref(d, rc);
+
+        // Hook function
+        setTimeout(() => {
+            method.createHookFunction('commentInsertAfter',r,c, d[r][c])
+        }, 0);
     },
     editPs: function(r, c){
         let _this = this;
@@ -546,7 +564,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -569,6 +587,11 @@ const luckysheetPostil = {
             return;
         }
 
+        // Hook function
+        if(!method.createHookFunction('commentDeleteBefore',r,c,Store.flowdata[r][c])){
+            return;
+        }
+
         if($("#luckysheet-postil-show_"+ r +"_"+ c).length > 0){
             $("#luckysheet-postil-show_"+ r +"_"+ c).remove();
         }
@@ -580,6 +603,11 @@ const luckysheetPostil = {
         rc.push(r + "_" + c);
 
         this.ref(d, rc);
+
+        // Hook function
+        setTimeout(() => {
+            method.createHookFunction('commentDeleteAfter',r,c, Store.flowdata[r][c])
+        }, 0);
     },
     showHidePs: function(r, c){
         let _this = this;
@@ -612,8 +640,18 @@ const luckysheetPostil = {
                 col_pre = margeset.column[0];
             }
 
+            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+            let scrollTop = $("#luckysheet-cell-main").scrollTop();
+
             let toX = col;
             let toY = row_pre;
+
+            if(luckysheetFreezen.freezenverticaldata != null && toX < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+                toX += scrollLeft;
+            }
+            if(luckysheetFreezen.freezenhorizontaldata != null && toY < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+                toY += scrollTop;
+            }
 
             let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
             let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
@@ -648,7 +686,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        value +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -726,8 +764,18 @@ const luckysheetPostil = {
                             col_pre = margeset.column[0];
                         }
 
+                        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                        let scrollTop = $("#luckysheet-cell-main").scrollTop();
+            
                         let toX = col;
                         let toY = row_pre;
+            
+                        if(luckysheetFreezen.freezenverticaldata != null && toX < (luckysheetFreezen.freezenverticaldata[0] - luckysheetFreezen.freezenverticaldata[2])){
+                            toX += scrollLeft;
+                        }
+                        if(luckysheetFreezen.freezenhorizontaldata != null && toY < (luckysheetFreezen.freezenhorizontaldata[0] - luckysheetFreezen.freezenhorizontaldata[2])){
+                            toY += scrollTop;
+                        }
 
                         let left = postil["left"] == null ? toX + 18 * Store.zoomRatio : postil["left"] * Store.zoomRatio;
                         let top = postil["top"] == null ? toY - 18 * Store.zoomRatio : postil["top"] * Store.zoomRatio;
@@ -762,7 +810,7 @@ const luckysheetPostil = {
                                             '</div>' +
                                             '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                                 '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                                    value +
+                                                    _this.htmlEscape(value) +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>' +
@@ -786,17 +834,25 @@ const luckysheetPostil = {
     },
     removeActivePs: function(){
         if($("#luckysheet-postil-showBoxs .luckysheet-postil-show-active").length > 0){
+            
+
             let id = $("#luckysheet-postil-showBoxs .luckysheet-postil-show-active").attr("id");
+            let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
+            let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
+
+            let value = $("#" + id).find(".formulaInputFocus").text();
+
+            // Hook function
+            if(!method.createHookFunction('commentUpdateBefore',r,c,value)){
+                return;
+            }
+
+            const previousCell = $.extend(true,{},Store.flowdata[r][c]);
 
             $("#" + id).removeClass("luckysheet-postil-show-active");
             $("#" + id).find(".luckysheet-postil-dialog-resize").hide();
             $("#" + id).find(".arrowCanvas").css("z-index", 100);
             $("#" + id).find(".luckysheet-postil-show-main").css("z-index", 100);
-
-            let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
-            let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
-
-            let value = $("#" + id).find(".formulaInputFocus").text();
 
             let d = editor.deepCopyFlowData(Store.flowdata);
             let rc = [];
@@ -809,11 +865,15 @@ const luckysheetPostil = {
             if(!d[r][c].ps.isshow){
                 $("#" + id).remove();
             }
+            // Hook function
+            setTimeout(() => {
+                method.createHookFunction('commentUpdateAfter',r,c, previousCell, d[r][c])
+            }, 0);
         }
     },
     ref: function(data, rc){
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             
             Store.jfredo.push({ 
                 "type": "postil", 
@@ -864,6 +924,25 @@ const luckysheetPostil = {
                 $("#" + id).hide();
             }
         });
+    },
+    htmlEscape: function(text){
+        return text.replace(/[<>"&]/g, function(match, pos, originalText){
+            console.log(match, pos, originalText)
+            switch(match){
+                case '<': {
+                    return '&lt';
+                }
+                case '>': {
+                    return '&gt';
+                }
+                case '&': {
+                    return '&amp';
+                }
+                case '\"': {
+                    return '&quot;';
+                }
+            }
+        })
     }
 }
 

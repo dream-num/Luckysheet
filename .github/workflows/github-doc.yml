@@ -1,0 +1,35 @@
+name: Luckysheet docs github pages deploy
+
+on:
+  push:
+    tags:
+      - 'doc*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout # 检查项目
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js  # Nodejs版本
+        uses: actions/setup-node@master
+        with:
+          node-version: 12.13.0
+      
+      - name: Install dependencies & Generate static files # 安装依赖打包demo和文档
+        run: |
+          node -v
+          npm install
+          npm install gulp -g
+          npm run docs:build
+      
+      - name: Deploy LuckysheetDocs to GitHub Pages # 发布docs 到github pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          repo: mengshukeji/LuckysheetDocs
+          target_branch: gh-pages
+          build_dir: docs/.vuepress/dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

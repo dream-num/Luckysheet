@@ -7785,7 +7785,7 @@ export default {
     }, {
         "n": "AGE_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出年龄。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出年龄。支持15位或18位身份证",
         "a": "根据身份证号得到年龄。",
         "m": [1, 2],
         "p": [{
@@ -7808,7 +7808,7 @@ export default {
     {
         "n": "SEX_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出性别。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出性别。支持15位或18位身份证",
         "a": "根据身份证号得到性别。",
         "m": [1, 1],
         "p": [{
@@ -7824,7 +7824,7 @@ export default {
     {
         "n": "BIRTHDAY_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出生日。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出生日。支持15位或18位身份证",
         "a": "根据身份证号得到生日。",
         "m": [1, 2],
         "p": [{
@@ -7847,7 +7847,7 @@ export default {
     {
         "n": "PROVINCE_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出籍贯的省份。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出籍贯的省份。支持15位或18位身份证",
         "a": "根据身份证号得到籍贯的省份。",
         "m": [1, 1],
         "p": [{
@@ -7863,7 +7863,7 @@ export default {
     {
         "n": "CITY_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出籍贯的城市。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出籍贯的城市。支持15位或18位身份证",
         "a": "根据身份证号得到籍贯的城市。",
         "m": [1, 1],
         "p": [{
@@ -7879,7 +7879,7 @@ export default {
     {
         "n": "STAR_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出星座。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出星座。支持15位或18位身份证",
         "a": "根据身份证号得到星座。",
         "m": [1, 1],
         "p": [{
@@ -7895,7 +7895,7 @@ export default {
     {
         "n": "ANIMAL_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出生肖（鼠、牛、虎、兔...）。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出生肖（鼠、牛、虎、兔...）。支持15位或18位身份证",
         "a": "根据身份证号得到生肖。",
         "m": [1, 1],
         "p": [{
@@ -7911,7 +7911,7 @@ export default {
     {
         "n": "ISIDCARD",
         "t": "3",
-        "d": "验证身份证的格式是否正确。支持15为或18位身份证",
+        "d": "验证身份证的格式是否正确。支持15位或18位身份证",
         "a": "验证身份证格式正确性。",
         "m": [1, 1],
         "p": [{
@@ -9037,6 +9037,21 @@ export default {
             'type': 'rangenumber'
         }]
     },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "对以文字表示的公式或者表达式求值，并返回结果。",
+        "a": "根据文字公式或者表达式求值。",
+        "m": [1, 1],
+        "p": [{
+            "name": "公式",
+            "example": '"A1+5*2^2"',
+            "detail": "公式或表达式",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
     ],
     toolbar: {
         undo: '撤销',
@@ -9052,6 +9067,7 @@ export default {
         bold: '粗体 (Ctrl+B)',
         italic: '斜体 (Ctrl+I)',
         strikethrough: '删除线 (Alt+Shift+5)',
+        underline: '下划线',
         textColor: '文本颜色',
         chooseColor: '颜色选择',
         resetColor: '重置颜色',
@@ -9753,7 +9769,8 @@ export default {
         redoDelete:"可以通过Ctrl+Z撤销删除",
         noHide:"不能隐藏, 至少保留一个sheet标签",
         chartEditNoOpt:"图表编辑模式下不允许该操作！",
-        sheetNameSpecCharError:"名称不能包含:[ ] : \ ? * / ' \"",
+        sheetNameSpecCharError:"名称不能超过31个字符，首尾不能是' 且名称不能包含:\r\n[ ] : \\ ? * /",
+        sheetNamecannotIsEmptyError:"名称不能为空"
     },
     conditionformat: {
         conditionformat_greaterThan: '条件格式——大于',
@@ -9816,6 +9833,8 @@ export default {
         ruleTypeItem4: '仅对高于或低于平均值的数值设置格式',
         ruleTypeItem4_title: '为满足以下条件的值',
         ruleTypeItem5: '仅对唯一值或重复值设置格式',
+        ruleTypeItem6: '使用公式确定要设置格式的单元格',
+        formula: '公式',
         textColor: '文本颜色',
         cellColor: '单元格颜色',
         confirm: '确定',
@@ -10236,6 +10255,17 @@ export default {
         menuItemAreas:"打印区域",
         menuItemRows:"打印标题行",
         menuItemColumns:"打印标题列",
+    },
+    edit:{
+        typing:"正在输入",
+    },
+    websocket:{
+        success: 'WebSocket连接成功',
+        refresh: 'WebSocket连接发生错误, 请刷新页面！',
+        wait: 'WebSocket连接发生错误, 请耐心等待！',
+        close: 'WebSocket连接关闭',
+        contact: '服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！',
+        support: '当前浏览器不支持WebSocket',
     }
 
 };

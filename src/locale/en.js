@@ -8811,7 +8811,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"A1+5*2^2"',
+            "detail": "Formula or expression",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Undo',
         redo: 'Redo',
@@ -8826,6 +8842,7 @@ export default {
         bold: 'Bold (Ctrl+B)',
         italic : 'Italic (Ctrl+I)',
         strikethrough: 'Strikethrough (Alt+Shift+5)',
+        underline: 'Underline',
         textColor: 'Text color',
         chooseColor: 'choose color',
         resetColor: 'Reset',
@@ -9511,6 +9528,7 @@ export default {
         noHide:"Can't hide, at least keep one sheet tag",
         chartEditNoOpt:"This operation is not allowed in chart editing mode!",
         sheetNameSpecCharError:"The name cannot contain:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"Sheet name cannot be empty"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',
@@ -9573,6 +9591,8 @@ export default {
         ruleTypeItem4: 'Format only values above or below the average',
         ruleTypeItem4_title: 'Is a value that satisfies the following conditions',
         ruleTypeItem5: 'Format only unique or repeated values',
+        ruleTypeItem6: 'Use formulas to determine which cells to format',
+        formula: 'Formula',
         textColor: 'Text color',
         cellColor: 'Cell color',
         confirm: 'Confirm',
@@ -9995,6 +10015,17 @@ export default {
         menuItemAreas:"Print areas",
         menuItemRows:"Print title rows",
         menuItemColumns:"Print title columns",
+    },
+    edit:{
+        typing:"typing",
+    },
+    websocket:{
+        success: 'WebSocket connection success',
+        refresh: 'An error occurred in the WebSocket connection, please refresh the page!',
+        wait: 'An error occurred in the WebSocket connection, please be patient!',
+        close: 'WebSocket connection closed',
+        contact: 'Server communication error occurred, please refresh the page and try again, if not, please contact the administrator!',
+        support: 'The current browser does not support WebSocket',
     }
   };
   

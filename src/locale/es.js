@@ -8811,7 +8811,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"A1+5*2^2"',
+            "detail": "Formula or expression",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Deshacer',
         redo: 'Rehacer',
@@ -8826,6 +8842,7 @@ export default {
         bold: 'Negrita (Ctrl+B)',
         italic : 'Itálica (Ctrl+I)',
         strikethrough: 'Tachar (Alt+Shift+5)',
+        underline: 'Guion bajo',
         textColor: 'Color texto',
         chooseColor: 'elegir color',
         resetColor: 'Reinicializar',
@@ -9509,6 +9526,7 @@ export default {
         noHide:"No se puede ocultar, al menos conserva una etiqueta de hoja",
         chartEditNoOpt:"¡Esta operación no está permitida en el modo de edición de gráficos!",
         sheetNameSpecCharError:"El nombre no puede contener:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"El nombre de la hoja no puede estar vacío"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',
@@ -9571,6 +9589,8 @@ export default {
         ruleTypeItem4: 'Aplicar formato solo a los valores superiores o inferiores al promedio',
         ruleTypeItem4_title: 'Es un valor que cumple las siguientes condiciones',
         ruleTypeItem5: 'Aplicar formato solo a valores únicos o repetidos',
+        ruleTypeItem6: 'Use fórmulas para determinar qué celdas formatear',
+        formula: 'fórmula',
         textColor: 'Color Texto',
         cellColor: 'Color Celda',
         confirm: 'Confirma',
@@ -9978,5 +9998,16 @@ export default {
         menuItemAreas:"Imprimir áreas",
         menuItemRows:"Imprimir títulos de filas",
         menuItemColumns:"Imprimir títulos de columnas",
+    },
+    edit:{
+        typing:"mecanografía",
+    },
+    websocket:{
+        success: 'Éxito de la conexión de WebSocket',
+        refresh: 'Se produjo un error en la conexión de WebSocket, ¡actualice la página!',
+        wait: 'Se produjo un error en la conexión de WebSocket, ¡tenga paciencia!',
+        close: 'Conexión WebSocket cerrada',
+        contact: 'Ocurrió un error de comunicación con el servidor, actualice la página y vuelva a intentarlo; de lo contrario, comuníquese con el administrador.',
+        support: 'El navegador actual no es compatible con WebSocket',
     }
   };

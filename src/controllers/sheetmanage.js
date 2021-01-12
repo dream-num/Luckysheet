@@ -10,7 +10,7 @@ import rhchInit from '../global/rhchInit';
 import editor from '../global/editor';
 import { luckysheetextendtable, luckysheetdeletetable } from '../global/extend';
 import { isRealNum } from '../global/validate';
-import { replaceHtml, getObjType, chatatABC } from '../utils/util';
+import { replaceHtml, getObjType, chatatABC, arrayRemoveItem } from '../utils/util';
 import { sheetHTML,luckysheetlodingHTML } from './constant';
 import server from './server';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
@@ -185,6 +185,33 @@ const sheetmanage = {
         return curindex;
     },
     getCurSheet: function() {
+        if (Store.luckysheetfile.length) {
+            let hasActive = false, indexs = []
+            Store.luckysheetfile.forEach(item => {
+                if ('undefined' === typeof item.index) {
+                    item.index = this.generateRandomSheetIndex()
+                }
+                if (indexs.includes(item.index)) {
+                    item.index = this.generateRandomSheetIndex()
+                }else {
+                    indexs.push(item.index)
+                }
+
+                if ('undefined' === typeof item.status) {
+                    item.status = 0
+                }
+                if (item.status == 1) {
+                    if (hasActive) {
+                        item.status = 0
+                    }else {
+                        hasActive = true
+                    }
+                }
+            })
+            if (!hasActive) {
+                Store.luckysheetfile[0].status = 1
+            }
+        }
         Store.currentSheetIndex = Store.luckysheetfile[0].index;
 
         for (let i = 0; i < Store.luckysheetfile.length; i++) {
@@ -234,7 +261,7 @@ const sheetmanage = {
         server.saveParam("sha", null, $.extend(true, {}, sheetconfig));
 
         if (Store.clearjfundo) {
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             let redo = {};
             redo["type"] = "addSheet";
             redo["sheetconfig"] = $.extend(true, {}, sheetconfig);
@@ -247,21 +274,38 @@ const sheetmanage = {
     },
     setSheetHide: function(index) {
         let _this = this;
-
-        Store.luckysheetfile[_this.getSheetIndex(index)].hide = 1;
+        let currentIdx = _this.getSheetIndex(index);
+        Store.luckysheetfile[currentIdx].hide = 1;
         
         let luckysheetcurrentSheetitem = $("#luckysheet-sheets-item" + index);
         luckysheetcurrentSheetitem.hide();
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
         
-        let indicator = luckysheetcurrentSheetitem.nextAll(":visible");
-        if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
-            indicator = indicator.eq(0).data("index");
+        let indicator;
+        if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+            indicator = luckysheetcurrentSheetitem.nextAll(":visible");
+            if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
+                indicator = indicator.eq(0).data("index");
+            }
+            else {
+                indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
+            }
+        }else{
+            let  nextActiveIdx , showSheetIdxs = [];
+            Store.luckysheetfile.forEach((ele,index)=>{
+                if(1 !== ele.hide) showSheetIdxs.push(index);
+            });
+            let len = showSheetIdxs.length;
+            if(1 === len){
+                nextActiveIdx = showSheetIdxs[0];
+            }else{
+                nextActiveIdx = showSheetIdxs[len-1] > currentIdx ? showSheetIdxs.find(e => e>currentIdx ) : showSheetIdxs[len-1];
+            }
+
+            indicator = Store.luckysheetfile[nextActiveIdx].index;
         }
-        else {
-            indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
-        }
+        
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         
         _this.changeSheetExec(indicator);
@@ -548,33 +592,39 @@ const sheetmanage = {
         return ret;
     },
     buildGridData: function(file) {
+        // 如果已经存在二维数据data,那么直接返回data；如果只有celldata，那么就转化成二维数组data，再返回
         let row = file.row == null ? Store.defaultrowNum : file.row, 
-            column = file.column == null ? Store.defaultcolumnNum : file.column;
-        let data = datagridgrowth([], row, column);
-
-        let celldata = file.celldata;
-        if(celldata != null){
-            for(let i = 0; i < celldata.length; i++){
-                let item = celldata[i];
-                let r = item.r;
-                let c = item.c;
-                let v = item.v;
-
-                if(r >= data.length){
-                    data = datagridgrowth(data, r - data.length + 1, 0);
+            column = file.column == null ? Store.defaultcolumnNum : file.column,
+            data = file.data && file.data.length > 0 ? file.data : datagridgrowth([], row, column),
+            celldata = file.celldata;
+        if (file.data && file.data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                for (let j = 0; j < data[0].length; j++) {
+                    setcellvalue(i, j, data, data[i][j]);
                 }
-                if(c >= data[0].length){
-                    data = datagridgrowth(data, 0, c - data[0].length + 1);
+            }
+        } else {
+            if(celldata && celldata.length > 0){
+                for(let i = 0; i < celldata.length; i++){
+                    let item = celldata[i];
+                    let r = item.r;
+                    let c = item.c;
+                    let v = item.v;
+    
+                    if(r >= data.length){
+                        data = datagridgrowth(data, r - data.length + 1, 0);
+                    }
+                    if(c >= data[0].length){
+                        data = datagridgrowth(data, 0, c - data[0].length + 1);
+                    }
+                    setcellvalue(r, c, data, v);
                 }
-                
-                setcellvalue(r, c, data, v);
             }
         }
 
         //亿万格式+精确度 恢复全局初始化
         luckysheetConfigsetting.autoFormatw = false;  
         luckysheetConfigsetting.accuracy = undefined;
-
         return data;
     },
     cutGridData: function(d) {
@@ -683,6 +733,12 @@ const sheetmanage = {
         _this.nulldata = datagridgrowth([], Store.defaultrowNum, Store.defaultcolumnNum);
         let data = _this.buildGridData(file);
 
+        //初始化的时候 记录选区
+        let select_save = [];
+        file.jfgird_select_save = file.jfgird_select_save || [];
+        file.jfgird_select_save.forEach(item=>select_save.push({"row":item.row,"column":item.column}));
+        file.luckysheet_select_save = select_save;
+        
         this.sheetParamRestore(file, data);
 
         let r2 = Store.luckysheet_select_save[0].row[1], 
@@ -714,12 +770,21 @@ const sheetmanage = {
             colwidth = c2 + 1;
         }
 
+        //钩子函数 表格创建之前触发
+        if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
+            luckysheetConfigsetting.beforeCreateDom(luckysheet);
+        }
+
+        if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
+            luckysheetConfigsetting.workbookCreateBefore(luckysheet);
+        }
+
         // Store.flowdata = data;
 
         luckysheetcreatedom(colwidth, rowheight, data, menu, title);
 
         setTimeout(function () {
-            tooltip.createHoverTip("#luckysheet_info_detail" ,".luckysheet_info_detail_title, .luckysheet_info_detail_input, .luckysheet_info_detail_update");
+            tooltip.createHoverTip("#luckysheet_info_detail" ,".luckysheet_info_detail_back, .luckysheet_info_detail_input, .luckysheet_info_detail_update");
             tooltip.createHoverTip("#luckysheet-wa-editor" ,".luckysheet-toolbar-menu-button, .luckysheet-toolbar-button, .luckysheet-toolbar-combo-button");
 
             Store.luckysheetTableContentHW = [
@@ -758,41 +823,44 @@ const sheetmanage = {
 
                     if (!!file.isPivotTable) {
                         Store.luckysheetcurrentisPivotTable = true;
-                        pivotTable.changePivotTable(Store.currentSheetIndex);
+                        // pivotTable.changePivotTable(Store.currentSheetIndex); //此方法需要注释掉，在restoreSheetAll中已经执行了刷新了数据透视表，这里就不需要了
                     }
                     else {
                         Store.luckysheetcurrentisPivotTable = false;
                         $("#luckysheet-modal-dialog-slider-pivot").hide();
-
-                        // Store toolbar button width value
-                        menuToolBarWidth();
-
-                        luckysheetsizeauto();
-
-                        //等待滚动条dom宽高加载完成后 初始化滚动位置
-                        if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
-                            $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
-                        }
-                        else{
-                            $("#luckysheet-scrollbar-x").scrollLeft(0);
-                        }
-                
-                        if(file["scrollTop"] != null && file["scrollTop"] > 0){
-                            $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
-                        }
-                        else{
-                            $("#luckysheet-scrollbar-y").scrollTop(0);
-                        }
                     }
 
-                    //钩子函数 表格创建之前触发
-                    if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
-                        luckysheetConfigsetting.beforeCreateDom(luckysheet);
+                    // Store toolbar button width value
+                    menuToolBarWidth();
+
+                    luckysheetsizeauto();
+
+                    //等待滚动条dom宽高加载完成后 初始化滚动位置
+                    if(file["scrollLeft"] != null && file["scrollLeft"] > 0){
+                        $("#luckysheet-scrollbar-x").scrollLeft(file["scrollLeft"]);
+                    }
+                    else{
+                        $("#luckysheet-scrollbar-x").scrollLeft(0);
+                    }
+            
+                    if(file["scrollTop"] != null && file["scrollTop"] > 0){
+                        $("#luckysheet-scrollbar-y").scrollTop(file["scrollTop"]);
+                    }
+                    else{
+                        $("#luckysheet-scrollbar-y").scrollTop(0);
                     }
 
-                    if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
-                        luckysheetConfigsetting.workbookCreateBefore(luckysheet);
-                    }
+                    // 此处已经渲染完成表格，应该挪到前面
+                    // //钩子函数 表格创建之前触发
+                    // if(typeof luckysheetConfigsetting.beforeCreateDom == "function" ){
+                    //     luckysheetConfigsetting.beforeCreateDom(luckysheet);
+                    // }
+
+                    // if(typeof luckysheetConfigsetting.workbookCreateBefore == "function"){
+                    //     luckysheetConfigsetting.workbookCreateBefore(luckysheet);
+                    // }
+
+                    arrayRemoveItem(Store.asyncLoad,'core');
 
                     if(luckysheetConfigsetting.pointEdit){
                         setTimeout(function(){
@@ -841,8 +909,13 @@ const sheetmanage = {
                         sheetindex.push(item);
                     }
 
+                    // No request is sent if it is not linked to other worksheets
+                    if(sheetindex.length === 0){
+                        execF();
+                        return;
+                    }
                     $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                        let dataset = eval("(" + d + ")");
+                        let dataset = new Function("return " + d)();
                         
                         for(let item in dataset){
                             if(item == file["index"]){
@@ -881,6 +954,7 @@ const sheetmanage = {
     storeSheetParam: function() {
         let index = this.getSheetIndex(Store.currentSheetIndex);
         let file = Store.luckysheetfile[index];
+        file["config"] = Store.config;
         file["visibledatarow"] = Store.visibledatarow;
         file["visibledatacolumn"] = Store.visibledatacolumn;
         file["ch_width"] = Store.ch_width;
@@ -928,6 +1002,7 @@ const sheetmanage = {
         luckysheetPostil.buildAllPs(Store.flowdata);
 
         //图片
+        imageCtrl.currentImgId = null;
         imageCtrl.images = file.images;
         imageCtrl.allImagesShow();
         imageCtrl.init();
@@ -1073,7 +1148,8 @@ const sheetmanage = {
             server.multipleIndex = 0;
         }
         
-
+        // 钩子函数
+        method.createHookFunction('sheetActivate', index, isPivotInitial, isNewSheet);
 
         $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).hide();
         $('#luckysheet-filter-selected-sheet' + index + ', #luckysheet-filter-options-sheet' + index).show();
@@ -1081,9 +1157,8 @@ const sheetmanage = {
         _this.storeSheetParamALL();
         _this.setCurSheet(index);
 
-        let file = Store.luckysheetfile[_this.getSheetIndex(index)], 
-            data = file.data, 
-            cfg = file.config;
+        let file = Store.luckysheetfile[_this.getSheetIndex(index)]
+  
         if (!!file.isPivotTable) {
             Store.luckysheetcurrentisPivotTable = true;
             if (!isPivotInitial) {
@@ -1098,7 +1173,8 @@ const sheetmanage = {
 
         let load = file["load"];
         if (load != null) {        
-            
+            let data = _this.buildGridData(file);
+            file.data = data;
             // _this.loadOtherFile(file);
             
             _this.mergeCalculation(index);
@@ -1162,7 +1238,7 @@ const sheetmanage = {
                 let sheetindex = _this.checkLoadSheetIndex(file);
                 
                 $.post(loadSheetUrl, {"gridKey" : server.gridKey, "index": sheetindex.join(",")}, function (d) {
-                    let dataset = eval("(" + d + ")");
+                    let dataset = new Function("return " + d)();
                     file.celldata = dataset[index.toString()];
                     let data = _this.buildGridData(file);
 
@@ -1392,6 +1468,7 @@ const sheetmanage = {
         return null;
     },
     changeSheetExec: function(index, isPivotInitial, isNewSheet) {
+        
         let $sheet = $("#luckysheet-sheets-item" + index);
 
         window.luckysheet_getcelldata_cache = null;
@@ -1714,7 +1791,7 @@ const sheetmanage = {
             let op = item.op, pos = item.pos;
 
             if(getObjType(value) != "object"){
-                value = eval('('+ value +')');
+                value = new Function("return " + value)();
             }
 
             let r = value.r, c = value.c;
@@ -1728,7 +1805,7 @@ const sheetmanage = {
         }
         else if(type == "cg"){
             let v = value, k = item.k;
-            let config1 = _this.getSheetConfig(index);;
+            let config1 = _this.getSheetConfig(index);
             
             if(!(k in config1)){
                 config1[k] = {};

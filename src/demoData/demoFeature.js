@@ -17,13 +17,26 @@
         const text = language() === 'zh' ? '反馈' : 'Forum';
         const link = language() === 'zh' ? 'https://support.qq.com/product/288322' : 'https://groups.google.com/g/luckysheet';
 
-        document.querySelector("body").insertAdjacentHTML('beforeend', `<a id="container" href="${link}" target="_blank" style="z-index:2;width:50px;height:50px;line-height:50px;position:fixed;right:40px;bottom:86px;border-radius:50px;cursor:pointer;background:rgb(71,133,249);color:#fff;text-align:center;text-decoration:none;">${text}</a>`);
+        document.querySelector("body").insertAdjacentHTML('beforeend', '<a id="container" href="'+ link +'" target="_blank" style="z-index:2;width:50px;height:50px;line-height:50px;position:fixed;right:40px;bottom:86px;border-radius:50px;cursor:pointer;background:rgb(71,133,249);color:#fff;text-align:center;text-decoration:none;">'+ text +'</a>');
     }
     
     supportButton()
 
+    /**
+     * Get url parameters
+     */
+    function getRequest() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+        function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+    }
+
     window.luckysheetDemoUtil = {
-        language:language
+        language:language,
+        getRequest:getRequest
     }
     
 })()

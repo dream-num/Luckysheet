@@ -43,7 +43,14 @@ module.exports = {
 				nav: [
 					{ text: 'Home', link: '/' },
 					{ text: 'Guide', link: '/guide/' },
-					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
+					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{
+						text: 'More',
+						ariaLabel: 'More',
+						items: [
+						  { text: 'About', link: '/about/' }
+						]
+					},
 				],
 				// 侧边栏 
 				sidebar: {
@@ -55,7 +62,13 @@ module.exports = {
 						'operate',
 						'api',
 						'resource',
-						'FAQ'
+						'FAQ',
+						'contribute'
+					],
+					'/about/': [
+						'',
+						'sponsor',
+						'company'
 					],
 				},
 			},
@@ -79,7 +92,14 @@ module.exports = {
 				nav: [
 					{ text: '首页', link: '/zh/' },
 					{ text: '指南', link: '/zh/guide/' },
-					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
+					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{
+						text: '了解更多',
+						ariaLabel: '了解更多',
+						items: [
+						  { text: '关于', link: '/zh/about/' }
+						]
+					},
 				],
 				// 侧边栏 
 				sidebar: {
@@ -91,7 +111,13 @@ module.exports = {
 						'operate',
 						'api',
 						'resource',
-						'FAQ'
+						'FAQ',
+						'contribute'
+					],
+					'/zh/about/': [
+						'',
+						'sponsor',
+						'company'
 					],
 				},
 			},

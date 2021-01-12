@@ -10,6 +10,8 @@ function setcellvalue(r, c, d, v) {
     if(d == null){
         d = Store.flowdata;
     }
+    // 若采用深拷贝，初始化时的单元格属性丢失
+    // let cell = $.extend(true, {}, d[r][c]);
     let cell = d[r][c];
 
     let vupdate;
@@ -61,7 +63,9 @@ function setcellvalue(r, c, d, v) {
         return;
     }
 
-    if(isRealNull(cell)){
+    // 1.为null
+    // 2.数据透视表的数据，flowdata的每个数据可能为字符串，结果就是cell == v == 一个字符串或者数字数据
+    if(isRealNull(cell) || (getObjType(cell) === 'string' || getObjType(cell) === 'number') && cell === v){
         cell = {};
     }
     

@@ -350,7 +350,8 @@ export function convertSpanToShareString($dom){
         let styleList = convertCssToStyleList(span.style.cssText);
 
         let curStyleListString = JSON.stringify(styleList);
-        let v = span.innerHTML;
+        // let v = span.innerHTML;
+        let v = span.innerText;
         v = v.replace(/\n/g, "\r\n");
 
         if(curStyleListString==preStyleListString){

@@ -18,122 +18,67 @@ English| [简体中文](./README-zh.md)
 ## Links
  | Source Code   | Documentation | Demo | Plugins Demo | Forum |
  | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) / [Cooperative editing demo](http://luckysheet.lashuju.com/demo/) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
  | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
 ## Plugins
-- Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
-- Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
+- [Luckyexcel](https://github.com/mengshukeji/Luckyexcel): Excel import and export library
+- [chartMix](https://github.com/mengshukeji/chartMix): Chart plugin
+
+## Ecosystem
+
+| Project | Description |
+|---------|-------------|
+| [Luckysheet Vue]          | Luckysheet and Luckyexcel in a vue cli3 project |
+| [Luckysheet React]          | Luckysheet in a React project |
+| [Luckyexcel Node]          | Use Luckyexcel in koa2 |
+| [Luckysheet Server]          | Java backend Luckysheet Server |
+| [Luckysheet Server Starter]          | LuckysheetServer docker deployment startup template |
+
+[Luckysheet Vue]: https://github.com/mengshukeji/luckysheet-vue
+[Luckysheet React]: https://github.com/mengshukeji/luckysheet-react
+[Luckyexcel Node]: https://github.com/mengshukeji/Luckyexcel-node
+[Luckysheet Server]: https://github.com/mengshukeji/LuckysheetServer
+[Luckysheet Server Starter]: https://github.com/mengshukeji/LuckysheetServerStarter
+
 
 ## Features
 
-### 🛠️Formatting
-+ **Styling** (Change font style, size, color, or apply effects)
-+ **Conditional formatting** (highlight interesting cells or ranges of cells, emphasize unusual values, and visualize data by using data bars, color scales, and icon sets that correspond to specific variations in the data)
-+ **Align or rotate text** 
-+ **Support text truncation, overflow, automatic line wrapping**
-+ **Data types** 
-	+ **currency, percentages, decimals, dates** 
-	+ **Custom** (E.g `##,###0.00` , `$1,234.56$##,###0.00_);[Red]($##,###0.00)`, `_($* ##,###0.00_);_(...($* "-"_);_(@_)`, `08-05 PM 01:30MM-dd AM/PM hh:mm` )
-+ **Cell segmentation style** (Alt+Enter line break, sub,super, in-cell style)
+- **Formatting**: style, conditional formatting, text alignment and rotation, text truncation, overflow, automatic line wrapping, multiple data types, cell segmentation style
+- **Cells**: drag and drop, fill handle, multiple selection, find and replace, location, merge cells, data verification
+- **Row & column**: hide, insert, delete rows or columns, freeze, and split text
+- **Operation**: undo, redo, copy, paste, cut, hot key, format painter, drag and drop selection
+- **Formulas & Functions**: Built-in, remote and custom formulas
+- **Tables**: filter, sort
+- **Enhanced functions**: Pivot tables, charts, comments, cooperative editing, insert picture, matrix calculations, screenshots, copying to other formats, EXCEL import and export, etc.
 
-### 🧬Cells
-+ **Move cells by drag and dropping** (Operate on selection)
-+ **Fill handle** (For a series like 1, 2, 3, 4, 5..., type 1 and 2 in the first two cells. For the series 2, 4, 6, 8..., type 2 and 4. Support arithmetic sequence, geometric sequence,date, week,chinese numbers)
-+ **Auto Fill Options** (Fill copy, sequence, only format, no format, day, month, year)
-+ **Multiple selection** (Hold Ctrl Selecting multiple cells, copy and paste)
-+ **Find and replace** (Such as a particular number or text string, Support regular expression, whole word, case sensitive)
-+ **Location** (Cells can be selected according to the data type)
-+ **Merge cells**
-+ **Data validation**  (Checkbox, drop-down list, datePicker)
+For a more detailed feature list, please refer to: [Features](https://mengshukeji.github.io/LuckysheetDocs/guide/#features)
 
-### 🖱️Row & columns
-+ **Hide, Insert, Delete rows and columns** 
-+ **Frozen rows and columns** (First row, first column, Frozen to selection, freeze adjustment lever can be dragged)
-+ **Split text** (Split text into different columns with the Convert Text to Columns Wizard)
+## 📖 Resources
 
-### 🔨Operation
-+ **Undo/Redo**
-+ **Copy/Paste/Cut** (Copy from excel to Luckysheet with format, vice versa)
-+ **Hot key** (The operating experience is consistent with excel, if there are differences or missing, please feedback to us)
-+ **Format Painter** (Similar to google sheet)
-+ **Selection by drag and dropping** (Change the parameters of formula and chart through selection)
+For the tutorials, learning materials and supporting solutions provided by the community, please refer to [Tutorials and Resources](https://mengshukeji.github.io/LuckysheetDocs/guide/resource.html)
 
-### ⚙️Formulas & functions
-+ **Built-in formulas**
-	+ Math (SUMIFS, AVERAGEIFS, SUMIF, SUM, etc.)
-	+ Text (CONCATENATE, REGEXMATCH, MID)
-	+ Date (DATEVALUE, DATEDIF, NOW, WEEKDAY, etc.)
-	+ Financial (PV, FV, IRR, NPV, etc.)
-	+ Logical (IF, AND, OR, IFERROR, etc.)
-	+ Lookup (VLOOKUP, HLOOkUP, INDIRECT, OFFSET, etc.)
-	+ Dynamic Array (Excel2019 new formulas, SORT,FILTER,UNIQUE,RANDARRAY,SEQUENCE)
-+ **Array** (={1,2,3,4,5,6}, Crtl+Shift+Enter)
-+ **Remote formulas** (DM_TEXT_TFIDF, DM_TEXT_TEXTRANK,DATA_CN_STOCK_CLOSE etc. Need remote interface, can realize complex calculation)
-+ **Custom**  (Some formula suitable for use in China have been added. AGE_BY_IDCARD, SEX_BY_IDCARD, BIRTHDAY_BY_IDCARD, PROVINCE_BY_IDCARD, CITY_BY_IDCARD, etc. You can define any formula you want)
+## 📜 Changelog
 
-### 📐Tables
-+ **Filters** (Support color , numerical, date, text filtering)
-+ **Sort** (Sort multiple fields simultaneously)
+Detailed changes for each release are documented in the [CHANGELOG.md](CHANGELOG.md).
 
-### 📈Pivot table
-+ **Arrange fields** (Add fileds to rows, columns, values, area, it is similar to excel)
-+ **Aggregation**  (Surport Sum,Count,CountA,CountUnique,Average,Max,Min,Median,Product,Stdev,Stdevp,Var,VarP etc.)
-+ **Filter data** (Add fileds to filters area and analyze the desired data )
-+ **Drill down** (Double click pivot table cell to drill down for detail data )
-+ **Create a PivotChart** (Pivot table can create a chart )
+## ❗️ Issues
 
-### 📊Chart
-+ **Support types** (Line, Column, Area, Bar, Pie, comming soon Scatter, Radar, Gauge, Funnel etc.) 
-+ **Chart Plugins**  (Link to another project [ChartMix](https://github.com/mengshukeji/chartMix)(MIT): ECharts is currently supported,Highcharts, Ali G2, amCharts, googleChart, chart.js are being developed gradually)
-+ **Sparklines** (Support by formula : Line, Pie, Box, Pie etc.)
+Please make sure to read the [Issue Reporting Checklist](https://mengshukeji.github.io/LuckysheetDocs/guide/contribute.html#how-to-submit-issues) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
 
-### ✍️Share
-+ **Comments** (Add, delete, update)
-+ **Collaborate** (Simultaneous editing by multiple users)
+## ✅ TODO
 
-### 📚Insert object
-+ **Insert picture** (JPG,PNG,SVG and so on)
+Managed with [GitHub Projects](https://github.com/mengshukeji/Luckysheet/projects/1)
 
-### ⚡Luckysheet
-+ **Matrix operation** (Operate selection through the right-click menu: transpose, rotate, numerical calculation)
-+ **Screenshot** (Take a screenshot with selection)
-+ **Copy to** (In the right-click menu, copy selection to json, array etc.)
-+ **EXCEL import/export** (Specially adapted to Luckysheet, export is under development)
+## 💪Contribution
 
-### ⏱️Coming soon
-+ **Print** (Like excel print option, save to PDF)
-+ **Tree menu** (Just like the outline (group)  function of excel)
-+ **Table new Features** (filter, slicer)
-+ **CSV,TXT import/export** (Specially adapted to Luckysheet)
-+ **Insert Shapes** ([Pen tool](https://github.com/mengshukeji/Pentool) Shapes)
-+ **Documentation** (Improve documentation and API)
-+ **More...** (Please advise us)
-
-## Requirements
-[Node.js](https://nodejs.org/en/) Version >= 6 
-
-## Installation
-```
-npm install
-npm install gulp -g
-```
-
-## Development
-Development
-```
-npm run dev
-```
-Package
-```
-npm run build
-```
+Please make sure to read the[ Contributing Guide](https://mengshukeji.github.io/LuckysheetDocs/guide/contribute.html) before making a pull request.
 
 ## Usage
 
-#### First step
+### First step
 Introduce dependencies through CDN
 ```
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
@@ -143,12 +88,12 @@ Introduce dependencies through CDN
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
-#### Second step
+### Second step
 Specify a table container
 ```
 <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;"></div>
 ```
-#### Third step
+### Third step
 Create a table
 ```
 <script>
@@ -162,48 +107,55 @@ Create a table
 </script>
 ```
 
+## Development
+
+### Requirements
+[Node.js](https://nodejs.org/en/) Version >= 6 
+
+### Installation
+```
+npm install
+npm install gulp -g
+```
+### Development
+```
+npm run dev
+```
+### Package
+```
+npm run build
+```
+
 ## Partner project
 
 - [luban-h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 
-## Co-construction
-
-1. Any questions or suggestions are welcome to submit [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)
-2. If you want to implement an important function for Luckysheet, you need to write an RFC document first, follow Luckysheet's [RFC](https://github.com/mengshukeji/Luckysheet-rfcs) mechanism to operate, and only after community discussion and improvement, you can submit the code.
-3. If you are interested in Luckysheet, you are very welcome to join the development team to improve this plugin together (Email: alexads@foxmail.com), there are 4 types of tasks that can be claimed
-    - BUG
-    - New features
-    - Documentation
-    - Popularize
-  
-    You will gain:
-    - Luckysheet official readme document contributor link
-    - Participate in large open source projects, improve technology and vision
-
 ## Communication
-
+- [Github Discussions](https://github.com/mengshukeji/Luckysheet/discussions)
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
 
 [Chinese community](./README-zh.md)
 
 ## Sponsor
 
-If you find this project useful, you can buy author a glass of juice:
+Luckysheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome [backers](https://mengshukeji.github.io/LuckysheetDocs/about/sponsor.html#sponsors-list). If you'd like to join them, please consider:
 
-Note:
-1. Please note the payment message: nickname, your website address
-2. By default, you will be added to the sponsor list below. If you want to sponsor anonymously, please leave a note on payment: anonymous
-3. If you forget your nickname or website address, please contact the editor email: alexads@foxmail.com or WeChat: dushusir2.
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/mengshukeji).
+- [Become a backer or sponsor on Open Collective](https://opencollective.com/luckysheet).
+- One-time donation via PayPal, WeChat or Alipay
 
-|  WeChat  | Alipay |
-|---|---|
-| <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
+| PayPal |  WeChat  | Alipay |
+|---|---|---|
+| [Paypal Me](https://www.paypal.me/wbfsa) | <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
 
-### [Paypal Me](https://www.paypal.me/wbfsa)
+### What's the difference between Patreon and OpenCollective?
+
+Funds donated via Patreon go directly to support mengshukeji's work on Luckysheet. Funds donated via OpenCollective are managed with transparent expenses and will be used for compensating work and expenses for core team members or sponsoring community events. Your name/logo will receive proper recognition and exposure by donating on either platform.
 
 ## Sponsors List
+
 (Sort by time)
 - *勇 ¥ 30
 - 虚我 ¥ 200
@@ -212,27 +164,39 @@ Note:
 - **平 ¥ 100
 - **东 ¥ 10
 - debugger ¥ 20
+- 烦了烦 ¥ 10
+- 文顶顶 ¥ 200
+- yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200
+- 曹治军 ¥ 1
+- *特 ¥ 10
+- **权 ¥ 9.9
 
 ## Authors and acknowledgment
 
-### Team
+### Active Core Team Members
 - [@wbfsa](https://github.com/wbfsa)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
+- [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
+- [@flowerField](https://github.com/flowerField)
 
-### Active participants
+### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
 - [@TimerGang](https://github.com/TimerGang)
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
-
-## Donate
-
-
+- [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)
+- [@WJWM0316](https://github.com/WJWM0316)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

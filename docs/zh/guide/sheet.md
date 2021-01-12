@@ -43,7 +43,6 @@ options.data示例如下：
         "luckysheet_conditionformat_save": {},//条件格式
         "frozen": {}, //冻结行列配置
         "chart": [], //图表配置
-        "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
         "image":[], //图片
         "showGridLines": 1, //是否显示网格线
@@ -256,7 +255,7 @@ options.data示例如下：
     ```
 
 #### config.borderInfo
-- 类型：Object
+- 类型：Array
 - 默认值：{}
 - 作用：单元格的边框信息
 - 示例：
@@ -308,7 +307,7 @@ options.data示例如下：
     1. 选区 `rangeType: "range"`
 
         + 边框类型 `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`，
-        + 边框粗细 `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+        + 边框粗细 `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`，和aspose.cells的getLineStyle()的值对应的话，需要自己做个转换，参考 [aspose.cells](https://apireference.aspose.com/cells/net/aspose.cells/cellbordertype)
         + 边框颜色 `color: 16进制颜色值`
         + 选区范围 `range: 行列信息数组`
 
@@ -1282,12 +1281,6 @@ options.data示例如下：
     :::
 
 ------------
-### allowEdit
-- 类型：Boolean
-- 默认值：true
-- 作用： 此sheet页是否允许编辑
-
-------------
 ### zoomRatio
 - 类型：Number
 - 默认值：1
@@ -1436,7 +1429,6 @@ Luckysheet在初始化完成之后进行的一系列操作，会将更多本地�
         "frozen": {}, //冻结行列配置
         "freezen": {}, //冻结行列的渲染数据存储
         "chart": [], //图表配置
-        "allowEdit": true, //是否允许编辑
         "zoomRatio":1, // 缩放比例
         "image":[], //图片
         "showGridLines": 1, //是否显示网格线

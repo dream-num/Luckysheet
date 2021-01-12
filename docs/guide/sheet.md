@@ -42,7 +42,6 @@ eg: options.data：
         "luckysheet_conditionformat_save": {},//condition format
         "frozen": {}, //freeze row and column configuration
         "chart": [], //Chart configuration
-        "allowEdit": true, //is editable
         "zoomRatio":1, // zoom ratio
         "image":[], //image
         "showGridLines": 1, //Whether to show grid lines
@@ -254,7 +253,7 @@ eg: options.data：
     ```
 
 #### config.borderInfo
-- type：Object
+- type：Array
 - default：{}
 - usage：The border information of the cell
 - example：
@@ -306,7 +305,7 @@ eg: options.data：
     1. selection `rangeType: "range"`
 
        + Border type `borderType："border-left" | "border-right" | "border-top" | "border-bottom" | "border-all" | "border-outside" | "border-inside" | "border-horizontal" | "border-vertical" | "border-none"`,
-       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`
+       + Border thickness `style:  1 Thin | 2 Hair | 3 Dotted | 4 Dashed | 5 DashDot | 6 DashDotDot | 7 Double | 8 Medium | 9 MediumDashed | 10 MediumDashDot | 11 MediumDashDotDot | 12 SlantedDashDot | 13 Thick`, If it corresponds to the value of getLineStyle() of aspose.cells, you need to make a conversion yourself, refer to [aspose.cells](https://apireference.aspose.com/cells/net/aspose.cells/cellbordertype)
        + Border color `color: Hexadecimal color value`
        + Selection area `range: Row and column information array`
 
@@ -1277,12 +1276,6 @@ eg: options.data：
     :::
 
 ------------
-### allowEdit
-- type：Boolean
-- default：true
-- usage： is this sheet editable
-
-------------
 ### zoomRatio
 - type：Number
 - default：1
@@ -1375,7 +1368,6 @@ At this point, the lucky sheet file contains many local parameters that are not 
         "frozen": {}, //Freeze row and column configuration
         "freezen": {}, //Storage freeze row and column rendering data
         "chart": [], //Chart configuration
-        "allowEdit": true, //Editable
         "zoomRatio":1, // Zoom ratio
         "image":[], //image
         "showGridLines": 1, //Whether to show grid lines
