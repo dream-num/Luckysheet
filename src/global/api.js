@@ -6549,7 +6549,6 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
  */
 export function pagerInit (config) {
     const {prevPage, nextPage, total} = locale().button;
-    console.log(locale().button, prevPage, locale())
     $('#luckysheet-bottom-pager').remove()
     $('#luckysheet-sheet-content').after('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
     $("#luckysheet-bottom-pager").sPage({

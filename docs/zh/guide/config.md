@@ -1434,7 +1434,16 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [size]: 整个工作簿区域的宽高
     
 ------------
-
+### scroll
+- 类型：Function
+- 默认值：null
+- 作用：监听表格滚动值
+- 参数：
+	- {Number} [scrollLeft]: 水平方向滚动值
+	- {Number} [scrollTop]: 垂直方向滚动值
+	- {Number} [canvasHeight]: 滚动容器的高度
+    
+------------
 ## 图片
 
 ### imageInsertBefore

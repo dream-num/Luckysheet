@@ -2225,6 +2225,8 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
 }
 
 .luckysheet-cols-menu {
+    max-height: 100%;
+    overflow-y: auto;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
