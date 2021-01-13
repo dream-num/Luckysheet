@@ -75,7 +75,9 @@ function chart(data, isDemo) {
                 let flag = prop.oldValue !== undefined && prop.oldValue !== '' && !isEqual(prop.oldValue, prop.value) && (!Store.jfredo.length || !isEqual(prop, Store.jfredo[Store.jfredo.length - 1].chart))
                 if (flag) {
                     // 增加最新一次的操作
-                    file.chart[chartIndex].props.push(prop)
+                    if (chartIndex > -1) {
+                        file.chart[chartIndex].props.push(prop)
+                    }
 
                     if (Store.clearjfundo) {
                         let redo = {};

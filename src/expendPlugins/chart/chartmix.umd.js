@@ -5177,12 +5177,12 @@ var es_function_name = __webpack_require__("1d7a");
 // EXTERNAL MODULE: ./node_modules/_@babel_runtime@7.12.5@@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__("d211");
 
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=5706994c&
-var ChartSettingvue_type_template_id_5706994c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',{staticStyle:{"overflow":"auto","height":"100%"}},[_c('chart-list',{attrs:{"chartAllType":_vm.currentChartType,"showList":_vm.showList,"lang":_vm.lang},on:{"closeChartShowList":function($event){_vm.showList=false}}}),_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick},model:{value:(_vm.activeName),callback:function ($$v) {_vm.activeName=$$v},expression:"activeName"}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" "+_vm._s(_vm.setItem.data)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('div',{staticStyle:{"margin-top":"1px"}},[_vm._v(_vm._s(_vm.setItem.chartType))]),_c('div',{staticStyle:{"margin-top":"10px"}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"small"},on:{"click":function($event){_vm.showList = !_vm.showList}}},[_c('i',{staticClass:"iconfont",class:_vm.chartTypeTxt[0],staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.chartTypeTxt[1])+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})])],1),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.fix),function(item){return _c('div',{key:item.title,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-tag',{staticStyle:{"width":"100%","text-align":"center"},attrs:{"size":"medium"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(item.field)+" ")])],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.change),function(item,index){return _c('div',{key:index,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-dropdown',{staticStyle:{"width":"100%"},attrs:{"size":"medium","trigger":"click"},on:{"command":_vm.handleSeriseCommand}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"mini"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left","font-size":"16px"}}),_vm._v(" "+_vm._s(item.field)+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})]),_c('el-dropdown-menu',{staticStyle:{"min-width":"306px"},attrs:{"slot":"dropdown"},slot:"dropdown"},_vm._l((_vm.chartXYSeriesList.option),function(ditem,index){return _c('el-dropdown-item',{key:("A-" + index),attrs:{"command":{series:item, option:ditem}}},[_vm._v(" "+_vm._s(ditem.field)+" "),(item.id==ditem.id)?_c('i',{staticClass:"iconfont icon-dagou",staticStyle:{"float":"right"}}):_vm._e()])}),1)],1)],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),_c('el-row',[_c('div',{staticStyle:{"margin":"25px 0"}}),_c('el-checkbox',{on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeConfigCheck),callback:function ($$v) {_vm.currentRangeConfigCheck=$$v},expression:"currentRangeConfigCheck"}},[_vm._v(_vm._s(_vm.setItem.transpose))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkRowDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeRowCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeRowCheck, "exits", $$v)},expression:"currentRangeRowCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.row1)+" "+_vm._s(_vm.getColRowCheckTxt(true))+" "+_vm._s(_vm.setItem.row2))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkColDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeColCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeColCheck, "exits", $$v)},expression:"currentRangeColCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.column1)+" "+_vm._s(_vm.getColRowCheckTxt())+" "+_vm._s(_vm.setItem.column2))])],1)],1)],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" "+_vm._s(_vm.setItem.style)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'titlePlace',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption,"lang":_vm.lang}}),_c('chart-sub-title',{attrs:{"router":'subtitlePlace',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption,"lang":_vm.lang}}),_c('chart-cursor',{attrs:{"router":'tooltip',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption,"lang":_vm.lang}}),_c('chart-legend',{attrs:{"router":'legend',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption,"lang":_vm.lang}}),(_vm.chart_type !='pie')?_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType,"lang":_vm.lang}}):_vm._e(),(_vm.echartsCommon)?_c('chart-echarts-series',{attrs:{"router":'commonSeries',"lang":_vm.lang,"seriesOptionData":_vm.seriesOptionData,"chartAllType":_vm.currentChartType}}):_vm._e(),(_vm.chart_type == 'pie')?_c('chart-pie-series',{attrs:{"router":'pieSeries',"lang":_vm.lang,"pieOptionData":_vm.pieOptionData,"chartAllType":_vm.currentChartType}}):_vm._e()],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)],1)])}
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=06ba1a2c&
+var ChartSettingvue_type_template_id_06ba1a2c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chartSetting"},[_c('div',{staticStyle:{"overflow":"auto","height":"100%"}},[_c('chart-list',{attrs:{"chartAllType":_vm.currentChartType,"showList":_vm.showList,"lang":_vm.lang},on:{"closeChartShowList":function($event){_vm.showList=false}}}),_c('div',[_c('el-tabs',{attrs:{"type":"card"},on:{"tab-click":_vm.handleClick},model:{value:(_vm.activeName),callback:function ($$v) {_vm.activeName=$$v},expression:"activeName"}},[_c('el-tab-pane',{attrs:{"name":"data"}},[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-date"}),_vm._v(" "+_vm._s(_vm.setItem.data)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":2}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('div',{staticStyle:{"margin-top":"1px"}},[_vm._v(_vm._s(_vm.setItem.chartType))]),_c('div',{staticStyle:{"margin-top":"10px"}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"small"},on:{"click":function($event){_vm.showList = !_vm.showList}}},[_c('i',{staticClass:"iconfont",class:_vm.chartTypeTxt[0],staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(_vm.chartTypeTxt[1])+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})])],1),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.fix),function(item){return _c('div',{key:item.title,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-tag',{staticStyle:{"width":"100%","text-align":"center"},attrs:{"size":"medium"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left"}}),_vm._v(" "+_vm._s(item.field)+" ")])],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),(_vm.chartXYSeriesList)?_c('div',_vm._l((_vm.chartXYSeriesList.change),function(item,index){return _c('div',{key:index,staticStyle:{"margin-top":"10px"}},[_c('el-row',{attrs:{"gutter":10}},[_c('el-col',{staticStyle:{"line-height":"28px","text-align":"right"},attrs:{"span":4}},[_vm._v(_vm._s(item.title)+":")]),_c('el-col',{attrs:{"span":20}},[_c('el-dropdown',{staticStyle:{"width":"100%"},attrs:{"size":"medium","trigger":"click"},on:{"command":_vm.handleSeriseCommand}},[_c('el-button',{staticStyle:{"width":"100%"},attrs:{"size":"mini"}},[_c('i',{staticClass:"iconfont",class:item.type,staticStyle:{"float":"left","font-size":"16px"}}),_vm._v(" "+_vm._s(item.field)+" "),_c('i',{staticClass:"iconfont icon-jiantou",staticStyle:{"float":"right"}})]),_c('el-dropdown-menu',{staticStyle:{"min-width":"306px"},attrs:{"slot":"dropdown"},slot:"dropdown"},_vm._l((_vm.chartXYSeriesList.option),function(ditem,index){return _c('el-dropdown-item',{key:("A-" + index),attrs:{"command":{series:item, option:ditem}}},[_vm._v(" "+_vm._s(ditem.field)+" "),(item.id==ditem.id)?_c('i',{staticClass:"iconfont icon-dagou",staticStyle:{"float":"right"}}):_vm._e()])}),1)],1)],1)],1)],1)}),0):_vm._e(),_c('div',{staticStyle:{"margin-top":"25px"}}),_c('el-row',[_c('div',{staticStyle:{"margin":"25px 0"}}),_c('el-checkbox',{on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeConfigCheck),callback:function ($$v) {_vm.currentRangeConfigCheck=$$v},expression:"currentRangeConfigCheck"}},[_vm._v(_vm._s(_vm.setItem.transpose))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkRowDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeRowCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeRowCheck, "exits", $$v)},expression:"currentRangeRowCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.row1)+" "+_vm._s(_vm.getColRowCheckTxt(true))+" "+_vm._s(_vm.setItem.row2))]),_c('div',{staticStyle:{"margin":"15px 0"}}),_c('el-checkbox',{attrs:{"disabled":_vm.checkColDisabled},on:{"change":_vm.checkBoxChange},model:{value:(_vm.currentRangeColCheck.exits),callback:function ($$v) {_vm.$set(_vm.currentRangeColCheck, "exits", $$v)},expression:"currentRangeColCheck.exits"}},[_vm._v(_vm._s(_vm.setItem.column1)+" "+_vm._s(_vm.getColRowCheckTxt())+" "+_vm._s(_vm.setItem.column2))])],1)],1)],1)],1),_c('el-tab-pane',[_c('span',{attrs:{"slot":"label"},slot:"label"},[_c('i',{staticClass:"el-icon-s-data"}),_vm._v(" "+_vm._s(_vm.setItem.style)+" ")]),_c('el-row',[_c('el-col',{attrs:{"span":1}},[_c('div')]),_c('el-col',{attrs:{"span":22}},[_c('el-collapse',[_c('chart-title',{attrs:{"router":'titlePlace',"chartAllType":_vm.currentChartType,"titleOption":_vm.titleOption,"lang":_vm.lang}}),_c('chart-sub-title',{attrs:{"router":'subtitlePlace',"chartAllType":_vm.currentChartType,"subTitleOption":_vm.subTitleOption,"lang":_vm.lang}}),_c('chart-cursor',{attrs:{"router":'tooltipPlace',"chartAllType":_vm.currentChartType,"cursorOption":_vm.cursorOption,"lang":_vm.lang}}),_c('chart-legend',{attrs:{"router":'legendPlace',"chartAllType":_vm.currentChartType,"legendOption":_vm.legendOption,"lang":_vm.lang}}),(_vm.chart_type !='pie')?_c('chart-axis',{attrs:{"router":'axis',"axisOption":_vm.axisOption,"chartAllType":_vm.currentChartType,"lang":_vm.lang}}):_vm._e(),(_vm.echartsCommon)?_c('chart-echarts-series',{attrs:{"router":'commonSeries',"lang":_vm.lang,"seriesOptionData":_vm.seriesOptionData,"chartAllType":_vm.currentChartType}}):_vm._e(),(_vm.chart_type == 'pie')?_c('chart-pie-series',{attrs:{"router":'pieSeries',"lang":_vm.lang,"pieOptionData":_vm.pieOptionData,"chartAllType":_vm.currentChartType}}):_vm._e()],1)],1),_c('el-col',{attrs:{"span":1}},[_c('div')])],1)],1)],1)],1)],1)])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=5706994c&
+// CONCATENATED MODULE: ./src/packages/ChartMix/ChartSetting.vue?vue&type=template&id=06ba1a2c&
 
 // EXTERNAL MODULE: ./node_modules/_core-js@3.8.1@core-js/modules/es.regexp.exec.js
 var es_regexp_exec = __webpack_require__("0bd5");
@@ -8772,6 +8772,8 @@ function transformLegend_transform(prop, value) {
   }], ['distace.cusGap', function () {
     return transformLegend_getAttr(obj, 'itemGap', final);
   }]]);
+  console.dir(prop);
+  console.dir(action.get(prop));
   action.get(prop)();
   return final;
 } // 属性赋值
@@ -9883,6 +9885,8 @@ var chartUtil_setChartOptionsByRouter = function setChartOptionsByRouter(chartOp
 
   function deepFind(curObj) {
     if (routerArray.length != 0) {
+      console.dir(curObj);
+      console.dir('111' + routerArray);
       return deepFind(curObj[routerArray.shift()]);
     } else {
       Object.assign(curObj, updateObj);
@@ -11813,19 +11817,15 @@ var ChartCursor_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var ChartCursor = (ChartCursor_component.exports);
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=abeab134&
-var ChartLegendvue_type_template_id_abeab134_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"3"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"prop":'show',"switchValue":_vm.legend.show},on:{"summit":function($event){return _vm.summit(arguments)},"update:switchValue":function($event){return _vm.$set(_vm.legend, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.legend, "show", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示图例")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.legend.show),expression:"legend.show"}]},[_c('chart-base-label',{attrs:{"prop":'legendPlace:label',"router":_vm.router + '/label',"baseLabelOption":_vm.legend.label},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.legend, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.legend, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例样式")])]),_c('chart-base-select',{attrs:{"prop":'position.value',"selectOption":_vm.positionOption,"selectValue":_vm.legend.position.value},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例位置")])]),(_vm.legend.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"prop":'position.offsetX',"baseSliderOption":_vm.legend.position.offsetX,"unit":'%',"content":'滑动修改水平偏移量'},on:{"summit":function($event){return _vm.summit(arguments)},"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)}}}),_c('chart-base-slider',{attrs:{"prop":'position.offsetX',"baseSliderOption":_vm.legend.position.offsetY,"unit":'%',"content":'滑动修改垂直偏移量'},on:{"summit":function($event){return _vm.summit(arguments)},"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)}}})],1):_vm._e(),_c('chart-base-select',{attrs:{"prop":'position.direction',"selectOption":_vm.dirOptions,"selectValue":_vm.legend.position.direction},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "direction", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "direction", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例朝向")])]),_c('chart-base-select',{attrs:{"prop":'width.value',"selectOption":_vm.sizeOption,"selectValue":_vm.legend.width.value},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.legend.width, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.width, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例宽度")])]),_c('chart-base-select',{attrs:{"prop":'height.value',"selectOption":_vm.sizeOption,"selectValue":_vm.legend.height.value},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.legend.height, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.height, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例高度")])]),(_vm.legend.width.value == 'custom')?_c('chart-base-slider',{attrs:{"prop":'width.cusSize',"baseSliderOption":_vm.legend.width.cusSize,"unit":'px',"content":'滑动修改图例宽度'},on:{"summit":function($event){return _vm.summit(arguments)},"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)}}}):_vm._e(),(_vm.legend.height.value == 'custom')?_c('chart-base-slider',{attrs:{"prop":'height.cusSize',"baseSliderOption":_vm.legend.height.cusSize,"unit":'px',"content":'滑动修改图例高度'},on:{"summit":function($event){return _vm.summit(arguments)},"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)}}}):_vm._e(),_c('chart-base-select',{attrs:{"prop":'distance.value',"selectOption":_vm.distanceOption,"selectValue":_vm.legend.distance.value},on:{"summit":function($event){return _vm.summit(arguments)},"update:selectValue":function($event){return _vm.$set(_vm.legend.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.distance, "value", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例间距")])]),(_vm.legend.distance.value == 'custom')?_c('chart-base-slider',{attrs:{"prop":'distance.cusGap',"baseSliderOption":_vm.legend.distance.cusGap,"unit":'px',"content":'滑动修改图例间距'},on:{"summit":function($event){return _vm.summit(arguments)},"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例间距")])]):_vm._e()],1)],2)}
-var ChartLegendvue_type_template_id_abeab134_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=4a3493b4&
+var ChartLegendvue_type_template_id_4a3493b4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"3"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-switch',{attrs:{"prop":'show',"switchValue":_vm.legend.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.legend, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.legend, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("显示图例")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.legend.show),expression:"legend.show"}]},[_c('chart-base-label',{attrs:{"baseLabelOption":_vm.legend.label,"prop":'legendPlace:label',"router":_vm.router + '/label'},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.legend, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.legend, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例样式")])]),_c('chart-base-select',{attrs:{"prop":'position.value',"selectOption":_vm.positionOption,"selectValue":_vm.legend.position.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例位置")])]),(_vm.legend.position.value === 'custom')?_c('el-row',[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.position.offsetX,"content":'滑动修改水平偏移量',"prop":'position.offsetX',"unit":'%'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetX", $event)},"summit":function($event){return _vm.summit(arguments)}}}),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.position.offsetY,"content":'滑动修改垂直偏移量',"prop":'position.offsetX',"unit":'%'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.position, "offsetY", $event)},"summit":function($event){return _vm.summit(arguments)}}})],1):_vm._e(),_c('chart-base-select',{attrs:{"prop":'position.direction',"selectOption":_vm.dirOptions,"selectValue":_vm.legend.position.direction},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.position, "direction", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.position, "direction", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例朝向")])]),_c('chart-base-select',{attrs:{"prop":'width.value',"selectOption":_vm.sizeOption,"selectValue":_vm.legend.width.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.width, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.width, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例宽度")])]),_c('chart-base-select',{attrs:{"prop":'height.value',"selectOption":_vm.sizeOption,"selectValue":_vm.legend.height.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.height, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.height, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例高度")])]),(_vm.legend.width.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.width.cusSize,"content":'滑动修改图例宽度',"prop":'width.cusSize',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.width, "cusSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),(_vm.legend.height.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.height.cusSize,"content":'滑动修改图例高度',"prop":'height.cusSize',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.height, "cusSize", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('chart-base-select',{attrs:{"prop":'distance.value',"selectOption":_vm.distanceOption,"selectValue":_vm.legend.distance.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.legend.distance, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.legend.distance, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v("图例间距")])]),(_vm.legend.distance.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.legend.distance.cusGap,"content":'滑动修改图例间距',"prop":'distance.cusGap',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.legend.distance, "cusGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v("图例间距")])]):_vm._e()],1)],2)}
+var ChartLegendvue_type_template_id_4a3493b4_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=abeab134&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=template&id=4a3493b4&
 
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--12-0!./node_modules/_thread-loader@2.1.3@thread-loader/dist/cjs.js!./node_modules/_babel-loader@8.2.2@babel-loader/lib!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartLegend.vue?vue&type=script&lang=js&
 
-//
-//
-//
-//
 //
 //
 //
@@ -11960,7 +11960,7 @@ var ChartLegendvue_type_template_id_abeab134_staticRenderFns = []
     router: String,
     lang: {
       type: String,
-      default: "zh"
+      default: 'zh'
     }
   },
   data: function data() {
@@ -11971,23 +11971,23 @@ var ChartLegendvue_type_template_id_abeab134_staticRenderFns = []
       sizeOption: importUtil["deepCopy"](data_chartJson["q" /* sizeOption */]),
       distanceOption: importUtil["deepCopy"](data_chartJson["e" /* distanceOption */]),
       dirOptions: [{
-        value: "horizontal",
-        label: "水平"
+        value: 'horizontal',
+        label: '水平'
       }, {
-        value: "vertical",
-        label: "垂直"
+        value: 'vertical',
+        label: '垂直'
       }],
       setItem: {}
     };
   },
   components: Object(objectSpread2["a" /* default */])({}, importUtil["importComp"](importUtil)),
   mounted: function mounted() {
-    if (this.lang == "zh") {
-      this.setItem = cn["chartLegend"];
+    if (this.lang == 'zh') {
+      this.setItem = cn['chartLegend'];
       return;
     }
 
-    this.setItem = en["chartLegend"];
+    this.setItem = en['chartLegend'];
   },
   watch: {
     legendOption: {
@@ -12012,18 +12012,22 @@ var ChartLegendvue_type_template_id_abeab134_staticRenderFns = []
       immediate: true
     },
     lang: function lang(val) {
-      if (val == "zh") {
-        this.setItem = cn["chartLegend"];
+      if (val == 'zh') {
+        this.setItem = cn['chartLegend'];
         return;
       }
 
-      this.setItem = en["chartLegend"];
+      this.setItem = en['chartLegend'];
     }
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]("chartSetting", ["updateChartItem", "updateCurrentProp"])), {}, {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem', 'updateCurrentProp'])), {}, {
     changeLegend: function changeLegend() {
+      if (!this.prop) {
+        return;
+      }
+
       var prop = {
-        prop: "legendPlace:" + this.prop,
+        prop: 'legendPlace:' + this.prop,
         oldValue: this.oldVal,
         value: this.curVal
       };
@@ -12053,8 +12057,8 @@ var ChartLegendvue_type_template_id_abeab134_staticRenderFns = []
 
 var ChartLegend_component = Object(componentNormalizer["a" /* default */])(
   chart_ChartLegendvue_type_script_lang_js_,
-  ChartLegendvue_type_template_id_abeab134_render,
-  ChartLegendvue_type_template_id_abeab134_staticRenderFns,
+  ChartLegendvue_type_template_id_4a3493b4_render,
+  ChartLegendvue_type_template_id_4a3493b4_staticRenderFns,
   false,
   null,
   null,
@@ -12063,12 +12067,12 @@ var ChartLegend_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var ChartLegend = (ChartLegend_component.exports);
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=09fd233e&
-var ChartAxisvue_type_template_id_09fd233e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"6"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-select',{attrs:{"selectOption":_vm.axisGroup,"selectValue":_vm.axis.axisType},on:{"update:selectValue":function($event){return _vm.$set(_vm.axis, "axisType", $event)},"update:select-value":function($event){return _vm.$set(_vm.axis, "axisType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.select))])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.show,"prop":'show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.series.name))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.show),expression:"series.show"}]},[_c('chart-base-input',{attrs:{"inputValue":_vm.series.title.text,"placeholder":_vm.setItem.placeholder,"prop":'title.text'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.title, "text", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.text))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}],staticStyle:{"margin-top":"15px"}},[_c('chart-base-label',{attrs:{"router":_vm.router + '/label',"baseLabelOption":_vm.series.title.label,"prop":'axisPlace:label'},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.series.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.series.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.label))])]),_c('chart-base-select',{attrs:{"selectOption":_vm.fzPosOption,"selectValue":_vm.series.title.fzPosition,"prop":'title.fzPosition'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.align))])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.inverse,"prop":'inverse'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "inverse", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "inverse", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.reverse))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":10,"baseSliderOption":_vm.series.tickLabel.optimize,"unit":'个',"content":_vm.setItem.content,"prop":'tickLabel.optimize'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.intenval))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"baseSliderOption":_vm.series.title.nameGap,"unit":'px',"content":_vm.setItem.content1,"prop":'title.nameGap'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.gap))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation + '',"max":180,"min":-180,"baseSliderOption":_vm.series.title.rotate,"unit":'°',"content":_vm.setItem.content2,"prop":'title.rotate'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.title))])])],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLine.show,"prop":'tickLine.show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showLine))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tickLine.width,"unit":'px',"content":_vm.setItem.content3,"prop":'tickLine.width'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.lineWidth))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":7}},[_vm._v(_vm._s(_vm.setItem.lineColor))]),_c('el-col',{attrs:{"push":14,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.setItem.lineColor,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tickLine.color),callback:function ($$v) {_vm.$set(_vm.series.tickLine, "color", $$v)},expression:"series.tickLine.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tick.show,"prop":'tick.show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showTick))])]),_c('chart-base-select',{attrs:{"selectOption":_vm.orient,"selectValue":_vm.series.tick.position,"prop":'tick.position'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.position))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"min":1,"baseSliderOption":_vm.series.tick.length,"unit":'px',"content":_vm.setItem.content4,"prop":'tick.length'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.tickLength))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.tick.width,"unit":'px',"content":_vm.setItem.content5,"prop":'tick.width'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.tickWidth))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.tickColor))]),_c('el-col',{attrs:{"push":14,"span":4}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.setItem.tickColor,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tick.color),callback:function ($$v) {_vm.$set(_vm.series.tick, "color", $$v)},expression:"series.tick.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.tickLabel.show,"prop":'tickLabel.show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showLabel))])]),_c('chart-base-slider',{attrs:{"hideCol":true,"format":_vm.formatRotation,"max":180,"min":-180,"baseSliderOption":_vm.series.tickLabel.rotate,"unit":'°',"content":_vm.setItem.content6,"prop":'tickLabel.rotate'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.rotate))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showLabel),expression:"showLabel"}]},[_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.min,"placeholder":_vm.setItem.content7,"prop":'tickLabel.min'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.min))])]),_c('chart-base-input',{attrs:{"type":'text',"inputValue":_vm.series.tickLabel.max,"placeholder":_vm.setItem.content8,"prop":'tickLabel.max'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.max))])]),_c('chart-base-select',{attrs:{"selectOption":_vm.ratioOption,"selectValue":_vm.series.tickLabel.ratio,"prop":'format-ratio'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.ratio))])]),_c('chart-base-select',{attrs:{"selectOption":_vm.digitOption,"selectValue":_vm.series.tickLabel.digit,"prop":'format-digit'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.digit))])])],1),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.prefix,"placeholder":_vm.setItem.content9,"prop":'format-prefix'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.prefix))])]),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.suffix,"placeholder":_vm.setItem.content10,"prop":'format-suffix'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.suffix))])]),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netLine.show,"prop":'netLine.show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showNet))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netLine.show),expression:"series.netLine.show"}]},[_c('chart-base-slider',{attrs:{"hideCol":true,"max":20,"min":1,"baseSliderOption":_vm.series.netLine.width,"unit":'px',"content":_vm.setItem.content11,"prop":'netLine.width'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.netWidth))])]),_c('chart-base-select',{attrs:{"selectOption":_vm.lineStyleOption,"selectValue":_vm.series.netLine.type,"prop":'netLine.type'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.netType))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._v(_vm._s(_vm.setItem.netColor))]),_c('el-col',{attrs:{"push":13,"span":3}},[_c('el-tooltip',{attrs:{"open-delay":500,"content":_vm.setItem.netColor,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.netLine.color),callback:function ($$v) {_vm.$set(_vm.series.netLine, "color", $$v)},expression:"series.netLine.color"}})],1)],1)],1),_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netLine.interval.value,"prop":'netLine.interval.value'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.netInterval))])]),(_vm.series.netLine.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netLine.interval.cusNumber,"unit":'个',"content":_vm.setItem.content12,"prop":'netLine.interval.cusNumber'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"switchValue":_vm.series.netArea.show,"prop":'netArea.show'},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showArea))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netArea.show),expression:"series.netArea.show"}]},[_c('chart-base-select',{attrs:{"selectOption":_vm.intervalOption,"selectValue":_vm.series.netArea.interval.value,"prop":'netArea.interval.value'},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.areaInterval))])]),(_vm.series.netArea.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netArea.interval.cusNumber,"unit":'个',"content":_vm.setItem.content12,"prop":'netArea.interval.cusNumber'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.area1))]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorOne),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorOne", $$v)},expression:"series.netArea.colorOne"}})],1),_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.area2))]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorTwo),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorTwo", $$v)},expression:"series.netArea.colorTwo"}})],1)],1)],1)],1)],2)}
-var ChartAxisvue_type_template_id_09fd233e_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4cda0323-vue-loader-template"}!./node_modules/_vue-loader@15.9.5@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=05fee64e&
+var ChartAxisvue_type_template_id_05fee64e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('el-collapse-item',{attrs:{"name":"6"}},[_c('template',{slot:"title"},[_vm._v(" "+_vm._s(_vm.setItem.modalName)+" "),_c('i',{staticClass:"iconfont icon-biaoti"})]),_c('chart-base-select',{attrs:{"selectOption":_vm.axisGroup,"selectValue":_vm.axis.axisType},on:{"update:selectValue":function($event){return _vm.$set(_vm.axis, "axisType", $event)},"update:select-value":function($event){return _vm.$set(_vm.axis, "axisType", $event)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.select))])]),_c('chart-base-switch',{attrs:{"prop":'show',"switchValue":_vm.series.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.series.name))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.show),expression:"series.show"}]},[_c('chart-base-input',{attrs:{"inputValue":_vm.series.title.text,"placeholder":_vm.setItem.placeholder,"prop":'title.text'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.title, "text", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.title, "text", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.text))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}],staticStyle:{"margin-top":"15px"}},[_c('chart-base-label',{attrs:{"baseLabelOption":_vm.series.title.label,"prop":'axisPlace-' + this.axis.axisType + ':label',"router":_vm.router +  '/' + this.axis.axisType + '/title/label'},on:{"update:baseLabelOption":function($event){return _vm.$set(_vm.series.title, "label", $event)},"update:base-label-option":function($event){return _vm.$set(_vm.series.title, "label", $event)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.label))])]),_c('chart-base-select',{attrs:{"prop":'title.fzPosition',"selectOption":_vm.fzPosOption,"selectValue":_vm.series.title.fzPosition},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.title, "fzPosition", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.align))])])],1),_c('chart-base-switch',{attrs:{"prop":'inverse',"switchValue":_vm.series.inverse},on:{"update:switchValue":function($event){return _vm.$set(_vm.series, "inverse", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series, "inverse", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.reverse))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.tickLabel.optimize,"content":_vm.setItem.content,"hideCol":true,"max":10,"prop":'tickLabel.optimize',"unit":'个'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "optimize", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.intenval))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.title.text),expression:"series.title.text"}]},[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.title.nameGap,"content":_vm.setItem.content1,"hideCol":true,"prop":'title.nameGap',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "nameGap", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.gap))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.title.rotate,"content":_vm.setItem.content2,"format":_vm.formatRotation + '',"hideCol":true,"max":180,"min":-180,"prop":'title.rotate',"unit":'°'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.title, "rotate", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.title))])])],1),_c('chart-base-switch',{attrs:{"prop":'tickLine.show',"switchValue":_vm.series.tickLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLine, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showLine))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.tickLine.width,"content":_vm.setItem.content3,"hideCol":true,"min":1,"prop":'tickLine.width',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLine, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.lineWidth))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":7}},[_vm._v(_vm._s(_vm.setItem.lineColor))]),_c('el-col',{attrs:{"push":14,"span":3}},[_c('el-tooltip',{attrs:{"content":_vm.setItem.lineColor,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tickLine.color),callback:function ($$v) {_vm.$set(_vm.series.tickLine, "color", $$v)},expression:"series.tickLine.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"prop":'tick.show',"switchValue":_vm.series.tick.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tick, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showTick))])]),_c('chart-base-select',{attrs:{"prop":'tick.position',"selectOption":_vm.orient,"selectValue":_vm.series.tick.position},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tick, "position", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.position))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.tick.length,"content":_vm.setItem.content4,"hideCol":true,"min":1,"prop":'tick.length',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "length", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.tickLength))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.tick.width,"content":_vm.setItem.content5,"hideCol":true,"max":20,"min":1,"prop":'tick.width',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tick, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.tickWidth))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.tickColor))]),_c('el-col',{attrs:{"push":14,"span":4}},[_c('el-tooltip',{attrs:{"content":_vm.setItem.tickColor,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.tick.color),callback:function ($$v) {_vm.$set(_vm.series.tick, "color", $$v)},expression:"series.tick.color"}})],1)],1)],1),_c('chart-base-switch',{attrs:{"prop":'tickLabel.show',"switchValue":_vm.series.tickLabel.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.tickLabel, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showLabel))])]),_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.tickLabel.rotate,"content":_vm.setItem.content6,"format":_vm.formatRotation,"hideCol":true,"max":180,"min":-180,"prop":'tickLabel.rotate',"unit":'°'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.tickLabel, "rotate", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.rotate))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showLabel),expression:"showLabel"}]},[_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.min,"placeholder":_vm.setItem.content7,"prop":'tickLabel.min',"type":'text'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "min", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.min))])]),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.max,"placeholder":_vm.setItem.content8,"prop":'tickLabel.max',"type":'text'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "max", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.max))])]),_c('chart-base-select',{attrs:{"prop":'format-ratio',"selectOption":_vm.ratioOption,"selectValue":_vm.series.tickLabel.ratio},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "ratio", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.ratio))])]),_c('chart-base-select',{attrs:{"prop":'format-digit',"selectOption":_vm.digitOption,"selectValue":_vm.series.tickLabel.digit},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.tickLabel, "digit", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.digit))])])],1),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.prefix,"placeholder":_vm.setItem.content9,"prop":'format-prefix'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "prefix", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.prefix))])]),_c('chart-base-input',{attrs:{"inputValue":_vm.series.tickLabel.suffix,"placeholder":_vm.setItem.content10,"prop":'format-suffix'},on:{"update:inputValue":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"update:input-value":function($event){return _vm.$set(_vm.series.tickLabel, "suffix", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"input"},slot:"input"},[_vm._v(_vm._s(_vm.setItem.suffix))])]),_c('chart-base-switch',{attrs:{"prop":'netLine.show',"switchValue":_vm.series.netLine.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netLine, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showNet))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netLine.show),expression:"series.netLine.show"}]},[_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netLine.width,"content":_vm.setItem.content11,"hideCol":true,"max":20,"min":1,"prop":'netLine.width',"unit":'px'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine, "width", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.netWidth))])]),_c('chart-base-select',{attrs:{"prop":'netLine.type',"selectOption":_vm.lineStyleOption,"selectValue":_vm.series.netLine.type},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine, "type", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.netType))])]),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{staticClass:"title",attrs:{"span":8}},[_vm._v(_vm._s(_vm.setItem.netColor))]),_c('el-col',{attrs:{"push":13,"span":3}},[_c('el-tooltip',{attrs:{"content":_vm.setItem.netColor,"open-delay":500,"effect":"dark","placement":"bottom"}},[_c('el-color-picker',{attrs:{"label":true,"size":"mini"},model:{value:(_vm.series.netLine.color),callback:function ($$v) {_vm.$set(_vm.series.netLine, "color", $$v)},expression:"series.netLine.color"}})],1)],1)],1),_c('chart-base-select',{attrs:{"prop":'netLine.interval.value',"selectOption":_vm.intervalOption,"selectValue":_vm.series.netLine.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netLine.interval, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.netInterval))])]),(_vm.series.netLine.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netLine.interval.cusNumber,"content":_vm.setItem.content12,"prop":'netLine.interval.cusNumber',"unit":'个'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netLine.interval, "cusNumber", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e()],1),_c('chart-base-switch',{attrs:{"prop":'netArea.show',"switchValue":_vm.series.netArea.show},on:{"update:switchValue":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"update:switch-value":function($event){return _vm.$set(_vm.series.netArea, "show", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"title"},slot:"title"},[_vm._v(_vm._s(_vm.setItem.showArea))])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.series.netArea.show),expression:"series.netArea.show"}]},[_c('chart-base-select',{attrs:{"prop":'netArea.interval.value',"selectOption":_vm.intervalOption,"selectValue":_vm.series.netArea.interval.value},on:{"update:selectValue":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"update:select-value":function($event){return _vm.$set(_vm.series.netArea.interval, "value", $event)},"summit":function($event){return _vm.summit(arguments)}}},[_c('div',{attrs:{"slot":"select"},slot:"select"},[_vm._v(_vm._s(_vm.setItem.areaInterval))])]),(_vm.series.netArea.interval.value == 'custom')?_c('chart-base-slider',{attrs:{"baseSliderOption":_vm.series.netArea.interval.cusNumber,"content":_vm.setItem.content12,"prop":'netArea.interval.cusNumber',"unit":'个'},on:{"update:baseSliderOption":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"update:base-slider-option":function($event){return _vm.$set(_vm.series.netArea.interval, "cusNumber", $event)},"summit":function($event){return _vm.summit(arguments)}}}):_vm._e(),_c('el-row',{staticStyle:{"margin-top":"15px"}},[_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.area1))]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorOne),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorOne", $$v)},expression:"series.netArea.colorOne"}})],1),_c('el-col',{attrs:{"span":6}},[_vm._v(_vm._s(_vm.setItem.area2))]),_c('el-col',{attrs:{"span":3}},[_c('el-color-picker',{attrs:{"size":"mini"},model:{value:(_vm.series.netArea.colorTwo),callback:function ($$v) {_vm.$set(_vm.series.netArea, "colorTwo", $$v)},expression:"series.netArea.colorTwo"}})],1)],1)],1)],1)],2)}
+var ChartAxisvue_type_template_id_05fee64e_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=09fd233e&
+// CONCATENATED MODULE: ./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=template&id=05fee64e&
 
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--12-0!./node_modules/_thread-loader@2.1.3@thread-loader/dist/cjs.js!./node_modules/_babel-loader@8.2.2@babel-loader/lib!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.9.5@vue-loader/lib??vue-loader-options!./src/packages/ChartMix/chartChips/chart/ChartAxis.vue?vue&type=script&lang=js&
 
@@ -12461,42 +12465,19 @@ var ChartAxisvue_type_template_id_09fd233e_staticRenderFns = []
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 
 /* harmony default export */ var ChartAxisvue_type_script_lang_js_ = ({
-  name: "ChartXaxis",
+  name: 'ChartXaxis',
   props: {
     chartAllType: String,
     axisOption: Object,
     router: String,
     lang: {
       type: String,
-      default: "zh"
+      default: 'zh'
     }
   },
   components: Object(objectSpread2["a" /* default */])({}, importUtil["importComp"](importUtil)),
@@ -12505,43 +12486,43 @@ var ChartAxisvue_type_template_id_09fd233e_staticRenderFns = []
       axis: {},
       series: {},
       //具体坐标轴配置
-      fontSizeOption: "",
-      lineStyleOption: "",
-      ratioOption: "",
-      digitOption: "",
+      fontSizeOption: '',
+      lineStyleOption: '',
+      ratioOption: '',
+      digitOption: '',
       fzPosOption: [{
-        value: "middle",
-        label: "居中"
+        value: 'middle',
+        label: '居中'
       }, {
-        value: "start",
-        label: "头部"
+        value: 'start',
+        label: '头部'
       }, {
-        value: "end",
-        label: "尾部"
+        value: 'end',
+        label: '尾部'
       }, {
-        value: "hidden",
-        label: "隐藏"
+        value: 'hidden',
+        label: '隐藏'
       }],
       orient: [{
-        label: "朝内",
-        value: "inside"
+        label: '朝内',
+        value: 'inside'
       }, {
-        label: "朝外",
-        value: "outside"
+        label: '朝外',
+        value: 'outside'
       }],
       formatRotation: function formatRotation(val) {
-        return val + " °";
+        return val + ' °';
       },
       setItem: {}
     };
   },
   mounted: function mounted() {
-    if (this.lang == "zh") {
-      this.setItem = cn["chartAxis"];
+    if (this.lang == 'zh') {
+      this.setItem = cn['chartAxis'];
       return;
     }
 
-    this.setItem = en["chartAxis"];
+    this.setItem = en['chartAxis'];
   },
   watch: {
     axisOption: {
@@ -12572,82 +12553,82 @@ var ChartAxisvue_type_template_id_09fd233e_staticRenderFns = []
       immediate: true
     },
     lang: function lang(val) {
-      if (val == "zh") {
-        this.setItem = cn["chartAxis"];
+      if (val == 'zh') {
+        this.setItem = cn['chartAxis'];
         return;
       }
 
-      this.setItem = en["chartAxis"];
+      this.setItem = en['chartAxis'];
     }
   },
   computed: {
     chartType: function chartType() {
-      return this.chartAllType.split("|")[1];
+      return this.chartAllType.split('|')[1];
     },
     chartStyle: function chartStyle() {
-      return this.chartAllType.split("|")[2];
+      return this.chartAllType.split('|')[2];
     },
     axisGroup: function axisGroup() {
-      if (this.chartType == "bar" && this.chartStyle != "compare") {
+      if (this.chartType == 'bar' && this.chartStyle != 'compare') {
         return [{
-          value: "xAxisDown",
-          label: "Y轴(左侧垂直)"
+          value: 'xAxisDown',
+          label: 'Y轴(左侧垂直)'
         }, {
-          value: "xAxisUp",
-          label: "Y轴(左侧垂直)"
+          value: 'xAxisUp',
+          label: 'Y轴(左侧垂直)'
         }, {
-          value: "yAxisLeft",
-          label: "X轴(下方水平)"
+          value: 'yAxisLeft',
+          label: 'X轴(下方水平)'
         }, {
-          value: "yAxisRight",
-          label: "X轴(上方水平)"
+          value: 'yAxisRight',
+          label: 'X轴(上方水平)'
         }];
-      } else if (this.chartStyle == "compare") {
+      } else if (this.chartStyle == 'compare') {
         return [{
-          value: "xAxisDown",
-          label: "Y轴(右侧坐标轴)"
+          value: 'xAxisDown',
+          label: 'Y轴(右侧坐标轴)'
         }, {
-          value: "xAxisUp",
-          label: "Y轴(左侧坐标轴)"
+          value: 'xAxisUp',
+          label: 'Y轴(左侧坐标轴)'
         }, {
-          value: "yAxisLeft",
-          label: "X轴(右侧坐标轴)"
+          value: 'yAxisLeft',
+          label: 'X轴(右侧坐标轴)'
         }, {
-          value: "yAxisRight",
-          label: "X轴(左侧坐标轴)"
+          value: 'yAxisRight',
+          label: 'X轴(左侧坐标轴)'
         }];
       } else {
         return [{
-          value: "xAxisDown",
-          label: "X轴(下方水平)"
+          value: 'xAxisDown',
+          label: 'X轴(下方水平)'
         }, {
-          value: "xAxisUp",
-          label: "X轴(上方水平)"
+          value: 'xAxisUp',
+          label: 'X轴(上方水平)'
         }, {
-          value: "yAxisLeft",
-          label: "Y轴(左侧垂直)"
+          value: 'yAxisLeft',
+          label: 'Y轴(左侧垂直)'
         }, {
-          value: "yAxisRight",
-          label: "Y轴(右侧垂直)"
+          value: 'yAxisRight',
+          label: 'Y轴(右侧垂直)'
         }];
       }
     },
     showLabel: function showLabel() {
-      if (this.chartType == "bar" && this.axis.axisType.slice(0, 1) == "x" || this.chartType != "bar" && this.axis.axisType.slice(0, 1) == "y") {
+      if (this.chartType == 'bar' && this.axis.axisType.slice(0, 1) == 'x' || this.chartType != 'bar' && this.axis.axisType.slice(0, 1) == 'y') {
         return true;
       }
     }
   },
-  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]("chartSetting", ["updateChartItem", "updateCurrentProp"])), {}, {
+  methods: Object(objectSpread2["a" /* default */])(Object(objectSpread2["a" /* default */])({}, importUtil["mapActions"]('chartSetting', ['updateChartItem', 'updateCurrentProp'])), {}, {
     changeAxis: function changeAxis() {
       var prop = {
-        prop: "axisPlace-" + this.axis.axisType + ':' + this.prop,
+        prop: 'axisPlace-' + this.axis.axisType + ':' + this.prop,
         oldValue: this.oldVal,
         value: this.curVal
       };
       var updateObj = {
         updateObj: importUtil["deepCopy"](this.series),
-        router: this.router + "/" + this.axis.axisType
+        router: this.router + '/' + this.axis.axisType
       };
       this.updateCurrentProp(prop);
       this.updateChartItem(updateObj);
@@ -12671,8 +12652,8 @@ var ChartAxisvue_type_template_id_09fd233e_staticRenderFns = []
 
 var ChartAxis_component = Object(componentNormalizer["a" /* default */])(
   chart_ChartAxisvue_type_script_lang_js_,
-  ChartAxisvue_type_template_id_09fd233e_render,
-  ChartAxisvue_type_template_id_09fd233e_staticRenderFns,
+  ChartAxisvue_type_template_id_05fee64e_render,
+  ChartAxisvue_type_template_id_05fee64e_staticRenderFns,
   false,
   null,
   null,
@@ -14555,13 +14536,13 @@ var PieSeries_component = Object(componentNormalizer["a" /* default */])(
       currentChartType: "echarts|line|default",
       //图表类型
       chart_id: '',
-      titleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].title),
+      titleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].titlePlace),
       //标题设置
-      subTitleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].subtitle),
+      subTitleOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].subtitlePlace),
       //标题设置
-      cursorOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].tooltip),
+      cursorOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].tooltipPlace),
       //鼠标提示设置
-      legendOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].legend),
+      legendOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].legendPlace),
       //图例设置
       axisOption: Object(util["b" /* deepCopy */])(data_chartJson["b" /* chartComponent */].axis),
       //坐标轴设置
@@ -15071,7 +15052,7 @@ var ChartSettingvue_type_style_index_0_lang_scss_ = __webpack_require__("a8f2");
 
 var ChartSetting_component = Object(componentNormalizer["a" /* default */])(
   ChartMix_ChartSettingvue_type_script_lang_js_,
-  ChartSettingvue_type_template_id_5706994c_render,
+  ChartSettingvue_type_template_id_06ba1a2c_render,
   staticRenderFns,
   false,
   null,
