@@ -5021,6 +5021,9 @@ export default function luckysheetHandler() {
         clearTimeout(Store.countfuncTimeout);
         Store.countfuncTimeout = setTimeout(function () { countfunc() }, 500);
 
+        /* 选中区域：发送网络请求 */
+        server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
+
         event.stopPropagation();
     });
 
