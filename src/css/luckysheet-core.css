@@ -24,8 +24,8 @@
 
 .luckysheet {
     position: absolute;
-    /*             width: 100%;
-             height: 100%;*/
+    /*width: 100%;
+    height: 100%;*/
     font-size: 12px;
     font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     border: 1px solid #e5e5e5;
@@ -35,6 +35,43 @@
 .luckysheet * {
     box-sizing: initial;
     outline: none;
+}
+
+.luckysheet-loading-mask{
+    width:100%;
+    text-align:center;
+    position:absolute;
+    top:0px;
+    height:100%;
+    font-size: 16px;
+    z-index:1000000000;
+    background:#fff;
+}
+
+.luckysheet-loading-content{
+    position:relative;
+    top:40%;
+    width:100%;
+    text-align:center;
+}
+
+.luckysheet-loading-image{
+    width: 8em;
+    height: 8em;
+    margin: 0 auto;
+}
+
+.luckysheet-loading-image .image-type{
+    width:100%;
+    height:100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.luckysheet-loading-image .path-type{
+    width:100%;
+    height:100%;
 }
 
 .luckysheet-work-area {
