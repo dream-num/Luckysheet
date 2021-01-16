@@ -2512,8 +2512,6 @@ Use note:
 
 ### setWorkbookName(name [,setting])
 
-[todo]
-
 - **Parameter**：
 
 	- {Number} [name]: Workbook name
@@ -2523,6 +2521,19 @@ Use note:
 - **Explanation**：
 	
 	Set workbook name
+
+------------
+
+### getWorkbookName(name [,setting])
+
+- **Parameter**：
+
+	- {PlainObject} [setting]: optional parameters
+		+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	get workbook name
 
 ------------
 

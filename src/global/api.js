@@ -5630,6 +5630,39 @@ export function setWorkbookName(name, options = {}) {
     }
 }
 
+/**
+ * 获取工作簿名称
+ * @param   {Object}    options         可选参数
+ * @param   {Function}  options.success 操作结束的回调函数
+ * @returns {String}    返回工作簿名称，如果读取失败则返回空字符串并弹窗提示
+ */
+export function getWorkbookName(options = {}) {
+    
+    let name = "";
+    let element = $("#luckysheet_info_detail_input");
+    
+    if(element.length == 0){
+
+        tooltip.info('Failed to get workbook name, label loading failed!');
+        return name;
+
+    }
+
+    name = $.trim(element.val());
+    
+    let {
+        success
+    } = {...options}
+
+    setTimeout(() => {
+        if (success && typeof success === 'function') {
+            success()
+        }
+    }, 1)
+
+    return name;
+}
+
 
 /**
  * 撤销当前操作，返回刚刚撤销的操作对象
