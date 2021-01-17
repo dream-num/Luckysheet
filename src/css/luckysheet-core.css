@@ -37,21 +37,44 @@
     outline: none;
 }
 
+.luckysheetLoaderGif {
+    /*换用GIF loading*/
+    width: 8em;
+    height: 8em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -100%);
+    -moz-transform: translate(-50%, -100%);
+    -o-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%);
+
+    background-image: url(loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
 .luckysheet-loading-mask{
-    width:100%;
-    text-align:center;
     position:absolute;
-    top:0px;
-    height:100%;
-    font-size: 16px;
     z-index:1000000000;
+    margin: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height:100%;
     background:#fff;
 }
 
 .luckysheet-loading-content{
     position:relative;
-    top:40%;
+    top: 50%;
+    transform: translateY(-50%);
     width:100%;
+    font-size: 14px;
+    color: #409eff;
     text-align:center;
 }
 
@@ -59,6 +82,10 @@
     width: 8em;
     height: 8em;
     margin: 0 auto;
+}
+
+.luckysheet-loading-text{
+    margin-top: 1em;
 }
 
 .luckysheet-loading-image .image-type{
@@ -4971,24 +4998,6 @@ fieldset[disabled] .btn-danger.focus {
     top: 50%;
     left: 50%;
     animation: load-effect 1s infinite linear;
-}
-
-.luckysheetLoaderGif {
-    /*换用GIF loading*/
-    width: 8em;
-    height: 8em;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -100%);
-    -moz-transform: translate(-50%, -100%);
-    -o-transform: translate(-50%, -100%);
-    transform: translate(-50%, -100%);
-
-    background-image: url(loading.gif);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
 }
 
 /*.luckysheetLoaderGif>img{

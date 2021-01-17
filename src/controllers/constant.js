@@ -1580,20 +1580,24 @@ function customLoadingConfig() {
     const _locale = locale();
     const info = _locale.info;
     const config = {
-        show: true,
+        enable: true,
         image: 'image://css/loading.gif',
         text: info.loading,
-        customClass:''
+        viewBox: "32 32 64 64", // 只有为path时，才会使用
+        imageClass: '',
+        textClass: '',
+        customClass: ''
     }
     if (JSON.stringify(luckysheetConfigsetting.loading) !== '{}') {
         Object.assign(config, luckysheetConfigsetting.loading);
     }
-    luckysheetConfigsetting.loading = config;
     return config;
 }
 
-const luckysheetloadingImage = function () {
-    const config = customLoadingConfig();
+const luckysheetloadingImage = function (config) {
+    if(typeof config.image==="function"){
+        return config.image()
+    }
     const regE = new RegExp("^(image|path)://");
     const regResult = regE.exec(config.image);
     let imageHtml = '';
@@ -1607,12 +1611,13 @@ const luckysheetloadingImage = function () {
                 break;
             case "path":
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("class", "path-type")
-                svg.setAttribute("viewBox", "0 0 64 64")
+                svg.setAttribute("class", "path-type");
+                svg.setAttribute("viewBox", config.viewBox);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 path.setAttribute("d", imageStr);
+                path.setAttribute("fill", "currentColor");
                 svg.appendChild(path);
-                imageHtml = svg.outerHTML
+                imageHtml = svg.outerHTML;
                 break;
             default:
                 break;
@@ -1621,24 +1626,56 @@ const luckysheetloadingImage = function () {
     return imageHtml;
 }
 
-const luckysheetlodingHTML = function () {
-    const config = customLoadingConfig();
-    if (typeof config.show === "boolean" && config.show === false) {
-        return '';
+const luckysheetlodingHTML = function (target, coverConfig) {
+    if (!target) {
+        return;
     }
-    const imageHtml = luckysheetloadingImage()
-    const loadingHtml = `<div id="luckysheetloadingdata" class="luckysheet-loading ${config.customClass}">
-    <div class="luckysheet-loading-mask">
+    const config = customLoadingConfig();
+    if (coverConfig && JSON.stringify(coverConfig) !== "{}") {
+        Object.assign(config, coverConfig);
+    }
+    if (typeof config.enable === "boolean" && config.enable === false) {
+        return {
+            el: '',
+            show: show,
+            close: close
+        }
+    }
+    const imageHtml = luckysheetloadingImage(config);
+    const id = "luckysheet-loading-" + uuid.v4();
+    const loadingHtml = `
         <div class="luckysheet-loading-content"> 
-            <div class="luckysheet-loading-image">
+            <div class="${config.imageClass} luckysheet-loading-image">
                 ${imageHtml}
             </div>
-            <span class="luckysheet-loading-text">${config.text}</span>
-        </div>
-    </div>
-</div>`
-    return loadingHtml;
+            <div class="${config.textClass} luckysheet-loading-text">
+            <span>${config.text}</span>
+            </div>    
+        </div>`;
+    const loading = document.createElement("div");
+    loading.id = id;
+    loading.className = "luckysheet-loading-mask " + config.customClass;
+    $(loading).html(loadingHtml);
+    $(target).append(loading);
+
+    function show() {
+        if(id){
+            $("#" + id).show();
+        }     
+    }
+
+    function close() {
+        if(id){
+            $("#" + id).hide();
+        }  
+    }
+    return {
+        el: loading,
+        show: show,
+        close: close
+    };
 }
+
 // var menusetting = {
 //     menu_selectall: '<div id="luckysheet-selectall-btn-title"><i class="fa fa-i-cursor"></i> 全选</div>',
 //     menu_copy: '<div id="luckysheet-copy-btn-title"><i class="fa fa-copy"></i> 复制</div>',

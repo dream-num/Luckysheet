@@ -157,7 +157,8 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append(luckysheetlodingHTML());
+    const loadingObj=luckysheetlodingHTML("#" + container)
+    Store.loadingObj=loadingObj
 
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);

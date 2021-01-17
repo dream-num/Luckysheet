@@ -8942,7 +8942,7 @@ export default {
         detailSave: 'Local cache restored',
         row: '',
         column: '',
-        loading:"Loading",
+        loading:"Loading...",
 
         copy:"Copy",
         return:"Exit",
