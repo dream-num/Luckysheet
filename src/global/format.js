@@ -1764,7 +1764,18 @@ export function genarate(value) {//万 单位格式增加！！！
         return null;
     }
 
-    if(value.toString().substr(0, 1) === "'"){
+    if (/^-?[0-9]{1,}[,][0-9]{3}(.[0-9]{1,2})?$/.test(value)) { // 表述金额的字符串，如：12,000.00 或者 -12,000.00
+        m = value
+        v = Number(value.split('.')[0].replace(',', ''))
+        let fa = "#,##0"
+        if (value.split('.')[1]) {
+            fa = "#,##0."
+            for (let i = 0; i < value.split('.')[1].length; i++) {
+                fa += 0
+            }
+        }
+        ct= {fa, t: "n"}
+    } else if(value.toString().substr(0, 1) === "'"){
         m = value.toString().substr(1);
         ct = { "fa": "@", "t": "s" };
     }

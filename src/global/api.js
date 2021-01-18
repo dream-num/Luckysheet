@@ -21,7 +21,7 @@ import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./va
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
 import { luckysheetDrawMain } from './draw';
-
+import pivotTable from '../controllers/pivotTable';
 import server from "../controllers/server";
 import menuButton from '../controllers/menuButton';
 import selection from "../controllers/selection";
@@ -6613,6 +6613,53 @@ export function refreshFormula (success) {
           success();
       }
     })
+}
+
+/**
+ * 更新sheet数据
+ * @param {Array} data 工作簿配置，可以包含多个表
+ * @param {Object} options 可选参数
+ * @param {Function} options.success 操作结束的回调函数
+ * 
+ */
+export function updataSheet (options = {}) {
+    let {data, success} = options
+    let files = Store.luckysheetfile
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < files.length; j++) {
+            if (files[j].index === data[i].index) {
+                files[j] = data[i]
+            }
+        }
+    }
+    let file = files[sheetmanage.getSheetIndex(Store.currentSheetIndex)],
+        sheetData = sheetmanage.buildGridData(file);
+    file.data = sheetData
+
+    if (!!file.isPivotTable) {
+        Store.luckysheetcurrentisPivotTable = true;
+        if (!isPivotInitial) {
+            pivotTable.changePivotTable(index);
+        }
+    }
+    else{
+        Store.luckysheetcurrentisPivotTable = false;
+        $("#luckysheet-modal-dialog-slider-pivot").hide();
+        luckysheetsizeauto(false);
+    }
+    sheetmanage.mergeCalculation(file["index"]);
+    sheetmanage.setSheetParam();
+    setTimeout(function () {
+        sheetmanage.showSheet();
+        sheetmanage.restoreCache();
+        formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
+        sheetmanage.restoreSheetAll(Store.currentSheetIndex);
+        luckysheetrefreshgrid();
+        if (success && typeof success === 'function') {
+            success();
+        }
+    }, 1);
+    server.saveParam("shs", null, Store.currentSheetIndex);
 }
 
 /**
