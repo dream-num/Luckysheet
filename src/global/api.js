@@ -1599,9 +1599,9 @@ export function getRange() {
  */
 export function getRangeWithFlatten(range){
     range = range ||  getRange();
-    
+
     let result = [];
-    
+
     range.forEach(ele=>{
         // 这个data可能是个范围或者是单个cell
         let rs = ele.row;
@@ -1623,11 +1623,11 @@ export function getRangeWithFlatten(range){
  */
 export function getRangeValuesWithFlatte(range){
     range = range || getRangeWithFlatten();
-    
+
     let values = [];
 
     // 获取到的这个数据不是最新的数据
-    range.forEach(item=> { 
+    range.forEach(item=> {
         values.push(Store.flowdata[item.r][item.c]);
     });
     return values;
@@ -2605,6 +2605,30 @@ export function setRangeShow(range, options = {}) {
         }];
     }
 
+    if(getObjType(range) == 'array'){
+        for(let i = 0; i < range.length; i++){
+            if(getObjType(range[i]) === 'string'){
+                if(!formula.iscelldata(range[i])){
+                    return tooltip.info("The range parameter is invalid.", "");
+                }
+                let cellrange = formula.getcellrange(range[i]);
+                range[i] = {
+                    "row": cellrange.row,
+                    "column": cellrange.column
+                }
+            }
+            else if(getObjType(range) == 'object'){
+                if(range.row == null || range.column == null){
+                    return tooltip.info("The range parameter is invalid.", "");
+                }
+                range = {
+                    "row": range.row,
+                    "column": range.column
+                };
+            }
+        }
+    }
+
     if(getObjType(range) != 'array'){
         return tooltip.info("The range parameter is invalid.", "");
     }
@@ -2623,9 +2647,11 @@ export function setRangeShow(range, options = {}) {
 
     for(let i = 0; i < range.length; i++){
         let changeparam = menuButton.mergeMoveMain(range[i].column, range[i].row, range[i]);
-        range[i] = {
-            "row": changeparam[1],
-            "column": changeparam[0]
+        if(changeparam) {
+            range[i] = {
+                "row": changeparam[1],
+                "column": changeparam[0]
+            }
         }
     }
 
@@ -5637,10 +5663,10 @@ export function setWorkbookName(name, options = {}) {
  * @returns {String}    返回工作簿名称，如果读取失败则返回空字符串并弹窗提示
  */
 export function getWorkbookName(options = {}) {
-    
+
     let name = "";
     let element = $("#luckysheet_info_detail_input");
-    
+
     if(element.length == 0){
 
         tooltip.info('Failed to get workbook name, label loading failed!');
@@ -5649,7 +5675,7 @@ export function getWorkbookName(options = {}) {
     }
 
     name = $.trim(element.val());
-    
+
     let {
         success
     } = {...options}
@@ -6628,13 +6654,13 @@ export function refreshMenuButtonFocus(data ,r,c , success){
     if(r == null && c == null){
         /* 获取选取范围 */
         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length -1];
-        
+
         r = last.row_focus || last.row[0];
         c = last.column_focus || last.column[0];
     }
 
     menuButton.menuButtonFocus(data, r, c);
-    
+
     setTimeout(() => {
         if (success && typeof success === 'function') {
             success();
