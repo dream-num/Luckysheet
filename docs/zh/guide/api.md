@@ -2448,6 +2448,19 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### getWorkbookName([,setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: 可选参数
+    	+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取工作簿名称
+
+------------
+
 ### undo([setting])
 
 - **参数**：
@@ -2507,6 +2520,19 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 - **说明**：
 	
 	初始化分页器。ps：create阶段，可以直接配置options.pager参数，渲染阶段会将options.pager作为参数来初始化分页器，可通过钩子函数onTogglePager来监听页码的切换
+
+### refreshMenuButtonFocus([data],[r],[c],[success])
+
+- **参数**：
+
+	- {Array}  [data]: 操作数据
+	- {Number} [r]: 指定的行
+	- {Number} [c]: 指定的列
+	- {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	刷新指定单元格的顶部状态栏状态。
 
 ------------
 

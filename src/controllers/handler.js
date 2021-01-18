@@ -1440,8 +1440,17 @@ export default function luckysheetHandler() {
                 menuButton.cancelPaintModel();
             }
 
+            // 检查当前坐标和焦点坐标是否一致，如果不一致那么进行修正
+            let  column_focus = Store.luckysheet_select_save[0]["column_focus"];
+            let  row_focus    = Store.luckysheet_select_save[0]["row_focus"];
+            if(column_focus !== col_index || row_focus !==  row_index){
+                row_index = row_focus;
+                col_index = column_focus;
+            };
             luckysheetupdateCell(row_index, col_index, Store.flowdata);
-
+            
+            /* 设置选区高亮 */
+            selectHightlightShow();
         }
 
     });
@@ -5020,6 +5029,9 @@ export default function luckysheetHandler() {
 
         clearTimeout(Store.countfuncTimeout);
         Store.countfuncTimeout = setTimeout(function () { countfunc() }, 500);
+
+        /* 选中区域：发送网络请求 */
+        server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
 
         event.stopPropagation();
     });

@@ -544,6 +544,8 @@ const menuButton = {
             _this.updateFormat(d, "fc", color);
         });
 
+
+
         $("#luckysheet-icon-text-color-menu").mousedown(function(e){
             hideMenuByCancel(e);
             e.stopPropagation();
@@ -598,7 +600,6 @@ const menuButton = {
                     ["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
                     ["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]],
                     change: function (color) {
-                        let $input = $(this);
                         if (color != null) {
                             color = color.toHexString();
                         }
@@ -606,7 +607,6 @@ const menuButton = {
                             color = "#000";
                         }
 
-                        let oldcolor = null;
                         // $("#luckysheet-icon-text-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
                         // 下边框换成了一个DIV
                         $("#luckysheet-icon-text-color .text-color-bar").css("background-color", color);
@@ -617,6 +617,9 @@ const menuButton = {
 
                         $menuButton.hide();
                         luckysheetContainerFocus();
+
+                        /* 备注：在单元格编辑状态下切换了文本的颜色存在bug，此处需设置编辑框的color样式， */
+                        $("#luckysheet-input-box").css("color",color);
                     },
                 });
 
@@ -738,7 +741,6 @@ const menuButton = {
                         ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                     ],
                     change: function (color) {
-                        let $input = $(this);
                         if (color != null) {
                             color = color.toHexString();
                         }
@@ -746,7 +748,6 @@ const menuButton = {
                             color = "#fff";
                         }
 
-                        let oldcolor = null;
                         // $("#luckysheet-icon-cell-color .luckysheet-color-menu-button-indicator").css("border-bottom-color", color);
                         // 下边框换成了一个DIV
                         $("#luckysheet-icon-cell-color .text-color-bar").css("background-color", color);

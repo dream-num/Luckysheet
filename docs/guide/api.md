@@ -2512,8 +2512,6 @@ Use note:
 
 ### setWorkbookName(name [,setting])
 
-[todo]
-
 - **Parameter**：
 
 	- {Number} [name]: Workbook name
@@ -2523,6 +2521,19 @@ Use note:
 - **Explanation**：
 	
 	Set workbook name
+
+------------
+
+### getWorkbookName(name [,setting])
+
+- **Parameter**：
+
+	- {PlainObject} [setting]: optional parameters
+		+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	get workbook name
 
 ------------
 
@@ -2567,6 +2578,21 @@ Use note:
 - **Explanation**：
 	
 	Force refresh formula. When you directly modify the values of multiple cells without triggering a refresh, and these cells are associated with formulas, you can use this API to force a formula refresh to be triggered at the end.
+
+------------
+
+### refreshMenuButtonFocus([data],[r],[c],[success])
+
+- **Parameter**：
+
+	- {Array}  [data]: Operational data
+	- {Number} [r]: Specified row
+	- {Number} [c]: Specified column
+	- {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Refreshes the top status bar status of the specified cell.
 
 ------------
 
