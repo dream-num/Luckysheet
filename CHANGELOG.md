@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.13](https://github.com/mengshukeji/Luckysheet/compare/v2.1.12...v2.1.13) (2021-01-19)
+
+
+### Bug Fixes
+
+* **bug:** bug ([025823b](https://github.com/mengshukeji/Luckysheet/commit/025823b9f386c8048aa44b62f076a739eaa980c0)), closes [#435](https://github.com/mengshukeji/Luckysheet/issues/435)
+* **bug:** bug ([a8ff967](https://github.com/mengshukeji/Luckysheet/commit/a8ff967be9cdcf3bbcb0045888951a26a852500a)), closes [#398](https://github.com/mengshukeji/Luckysheet/issues/398)
+* **bug:** bug ([deb3a96](https://github.com/mengshukeji/Luckysheet/commit/deb3a965b881d747f9a2171f7d9c9f967d671901))
+* **bug:** bug ([5ce1f4a](https://github.com/mengshukeji/Luckysheet/commit/5ce1f4a0b753b7a95569b5285d749389e4d8b943)), closes [#433](https://github.com/mengshukeji/Luckysheet/issues/433)
+* **bug:** bug ([932e821](https://github.com/mengshukeji/Luckysheet/commit/932e8215563248f97547ad21a429ef3f8ed0682b)), closes [#423](https://github.com/mengshukeji/Luckysheet/issues/423) [#424](https://github.com/mengshukeji/Luckysheet/issues/424)
+* **bug:** bug ([06636f6](https://github.com/mengshukeji/Luckysheet/commit/06636f6a3c08128fe50aa880baabc9420fce4092)), closes [#154](https://github.com/mengshukeji/Luckysheet/issues/154) [#410](https://github.com/mengshukeji/Luckysheet/issues/410) [#416](https://github.com/mengshukeji/Luckysheet/issues/416)
+* **bug:** history bug ([973eec8](https://github.com/mengshukeji/Luckysheet/commit/973eec8b71ea963bb23c9fe35c985e86c85ef019))
+* **bug:** setRangeFormat history ([065148b](https://github.com/mengshukeji/Luckysheet/commit/065148b5a97e9090479f401463c548c3346757ec))
+* **bug:** setRangeShow api ([5bbc45b](https://github.com/mengshukeji/Luckysheet/commit/5bbc45b68e807a2c58c328d93fe8079f3e56fa9f))
+* bug ([7412c5b](https://github.com/mengshukeji/Luckysheet/commit/7412c5b4f5aa0afd93f3e0210d3f3fe182c67273))
+* **bug:** 文本自动换行bug ([bc926e5](https://github.com/mengshukeji/Luckysheet/commit/bc926e5c49f008c14b4b5e1fdf13713fd6e995b5))
+* 换行 ([94022a4](https://github.com/mengshukeji/Luckysheet/commit/94022a48b6407523c5924e94c86fb2ada0fab301))
+* **bug:** 渲染换行空行 ([4162b7a](https://github.com/mengshukeji/Luckysheet/commit/4162b7a049f109715a9246ce610d05882d5a5f12))
+* **hook:** cellrender ([d444980](https://github.com/mengshukeji/Luckysheet/commit/d44498086fcd3b1b2bf75e95c6a236bc79a1df13))
+* **let:** let declar ([71ade32](https://github.com/mengshukeji/Luckysheet/commit/71ade32abd3989230db609ec37f92e931a4473f0))
+* **pivottable:** fix ([7cecb12](https://github.com/mengshukeji/Luckysheet/commit/7cecb12ae3a1a0bd0d5bdce803429d4464388e31)), closes [#439](https://github.com/mengshukeji/Luckysheet/issues/439) [#447](https://github.com/mengshukeji/Luckysheet/issues/447)
+* **pivottable:** init ([5b19e8b](https://github.com/mengshukeji/Luckysheet/commit/5b19e8b06bdd95c2b799d2cc1d6ae677b96617cd))
+* **pivottable:** refresh ([78330c9](https://github.com/mengshukeji/Luckysheet/commit/78330c95db2735c8139b0320c2e81ee6f438adea))
+
 ### [2.1.12](https://github.com/mengshukeji/Luckysheet/compare/v2.1.11...v2.1.12) (2020-12-22)
 
 
