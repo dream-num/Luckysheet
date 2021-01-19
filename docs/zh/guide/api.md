@@ -1900,10 +1900,10 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"flipUpDown"`: 上下翻转
 		+ `"flipLeftRight"`: 左右翻转
 		+ `"flipClockwise"`: 顺时针旋转
-		+ `"flipCounterClockwise"`: 逆时针旋转
-		+ `"Transpose"`: 转置
-		+ `"DeleteZeroByRow"`: 按行删除两端0值
-		+ `"DeleteZeroByColumn"`: 按列删除两端0值
+		+ `"flipCounterClockwise"`: 逆时针旋转api
+		+ `"transpose"`: 转置
+		+ `"deleteZeroByRow"`: 按行删除两端0值
+		+ `"deleteZeroByColumn"`: 按列删除两端0值
 		+ `"removeDuplicateByRow"`: 按行删除重复值
 		+ `"removeDuplicateByColumn"`: 按列删除重复值
 		+ `"newMatrix"`: 生产新矩阵

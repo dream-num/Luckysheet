@@ -2631,7 +2631,8 @@ const pivotTable = {
         }
 
         if (isdatatypemulti(d_value)["num"] === true) {
-            let num = numFormat(d_value);
+            //fix issue 265
+            let num = numFormat(d_value,6);
             dataposition[indicator]["digitaldata"].push(num);
             dataposition[indicator]["count"] += 1;
             dataposition[indicator]["sum"] += num;
