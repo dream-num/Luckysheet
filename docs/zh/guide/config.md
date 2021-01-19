@@ -734,7 +734,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：单元格渲染前触发，`return false` 则不渲染该单元格
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -752,7 +752,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：单元格渲染结束后触发，`return false` 则不渲染该单元格
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -769,9 +769,9 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	```js
 	luckysheet.create({
             hook: {
-                cellRenderAfter: function (cell, postion, sheetFile, ctx) {
-                    var r = postion.r;
-                    var c = postion.c;
+                cellRenderAfter: function (cell, position, sheetFile, ctx) {
+                    var r = position.r;
+                    var c = position.c;
                     if (r === 0 && c === 3) { // 指定处理D1单元格
                         if (!window.storeUserImage) {
                             window.storeUserImage = {}
@@ -806,20 +806,20 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 						
                         if (img.complete) { // 已经加载完成的直接渲染
-                            ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                            ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
                         } else {
                             img.onload = function () {
-                                ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                                ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
                             }
 
                         }
 
                         if (imgRight.complete) {
-                            ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                            ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
                         } else {
 
                             imgRight.onload = function () {
-                                ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                                ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
                             }
                         }
 
@@ -849,7 +849,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：行标题单元格渲染前触发，`return false` 则不渲染行标题
 - 参数：
 	- {String} [rowNum]:行号
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [top]:单元格左上角的垂直坐标
 		+ {Number} [width]:单元格宽度
@@ -864,7 +864,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：行标题单元格渲染后触发，`return false` 则不渲染行标题
 - 参数：
 	- {String} [rowNum]:行号
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [top]:单元格左上角的垂直坐标
 		+ {Number} [width]:单元格宽度
@@ -879,7 +879,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：列标题单元格渲染前触发，`return false` 则不渲染列标题
 - 参数：
 	- {Object} [columnAbc]:列标题字符
-	- {Object} [postion]:
+	- {Object} [position]:
 		- {Number} [c]:单元格所在列号
 		- {Number} [left]:单元格左上角的水平坐标
 		- {Number} [width]:单元格宽度
@@ -894,7 +894,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：列标题单元格渲染后触发，`return false` 则不渲染列标题
 - 参数：
 	- {Object} [columnAbc]:列标题字符
-	- {Object} [postion]:
+	- {Object} [position]:
 		- {Number} [c]:单元格所在列号
 		- {Number} [left]:单元格左上角的水平坐标
 		- {Number} [width]:单元格宽度
@@ -912,7 +912,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：单元格点击前的事件，`return false`则终止之后的点击操作
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -930,7 +930,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：单元格点击后的事件，`return false`则终止之后的点击操作
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -948,7 +948,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：鼠标移动事件，可通过cell判断鼠标停留在哪个单元格
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -984,7 +984,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：鼠标按钮释放事件，可通过cell判断鼠标停留在哪个单元格
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标
@@ -1037,7 +1037,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：鼠标拖拽文件到Luckysheet内部的结束事件
 - 参数：
 	- {Object} [cell]:单元格对象
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
 		+ {Number} [start_r]:单元格左上角的水平坐标

@@ -41,3 +41,4 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 曹治军 ¥ 1
 - *特 ¥ 10
 - **权 ¥ 9.9
+- **sdmq ¥ 20
