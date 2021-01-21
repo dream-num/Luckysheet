@@ -2044,6 +2044,8 @@ export function rowColumnOperationInitial(){
             }
 
             jfrefreshgrid(d, Store.luckysheet_select_save);
+
+            $("#luckysheet-functionbox-cell").html("");
         }
     });
 

@@ -188,6 +188,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         }, 1);
     }
 
+    /* 选区同步 */
+    selectHightlightShow();
     window.luckysheet_getcelldata_cache = null;
 }
 
