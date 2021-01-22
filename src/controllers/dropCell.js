@@ -508,12 +508,19 @@ const luckysheetDropCell = {
                                             cell.m = cell.v.toExponential(len).toString();
                                         }
                                         else{
-                                            let mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
-                                            cell.m = mask[0].toString();
+                                            let mask;
+                                            if(cell.ct.fa === "##0.00"){
+                                               /* 如果是数字类型 */
+                                               mask = genarate(Math.round(cell.v * 1000000000) / 1000000000 + ".00") ;
+                                               cell.m = mask[0].toString();
+                                            }else {
+                                                mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
+                                                cell.m = mask[0].toString();
+                                            }
                                         }
                                     }
 
-                                    cell.ct = { "fa": "General", "t": "n" };
+                                    cell.ct = cell.ct || { "fa": "General", "t": "n" };
                                 }
                                 else{
                                     let mask = genarate(cell.v);
