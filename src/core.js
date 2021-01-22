@@ -71,6 +71,7 @@ luckysheet.create = function (setting) {
     Store.luckysheetfile = extendsetting.data;
     Store.defaultcolumnNum = extendsetting.column;
     Store.defaultrowNum = extendsetting.row;
+    Store.defaultFontSize = extendsetting.defaultFontSize;
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
