@@ -575,6 +575,12 @@ function extendCssText(origin, cover, isLimit=true){
         let so = originArray[i], isAdd=true;
         so = so.toLowerCase();
         let okey = textTrim(so.substr(0, so.indexOf(':')));
+
+        /* 不设置文字的大小，解决设置删除线等后字体变大的问题 */
+        if(okey == "font-size"){
+            continue;
+        }
+
         let ovalue = textTrim(so.substr(so.indexOf(':') + 1));
 
         if(isLimit){

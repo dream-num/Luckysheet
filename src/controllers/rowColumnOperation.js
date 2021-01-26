@@ -2066,6 +2066,12 @@ export function rowColumnOperationInitial(){
         
         const locale_info = locale().info;
 
+          /* 对异常情况进行判断：NaN */
+        if(isNaN(size)){
+            tooltip.info("只允许使用数字来设置行列的宽高!", "");
+            return;
+        }
+
         let cfg = $.extend(true, {}, Store.config);
         let type;
         let images = null;

@@ -1559,10 +1559,10 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
          if(underLine=="1" || underLine=="2"){
             let item = {};
             item.startX = left;
-            item.startY = top;
+            item.startY = top + 3;
 
             item.endX = left + width;
-            item.endY = top;
+            item.endY = top + 3;
 
             item.fs = fs;
 
