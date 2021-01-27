@@ -3014,7 +3014,8 @@ const menuButton = {
                         type = "s"
                     }
                     else if(foucsStatus == "General" || foucsStatus === 0){
-                        type = "g";
+                        // type = "g"; 
+                        type = isRealNum(value) ? "n" : "g";
                     }
 
                     if (getObjType(cell) == "object") {
