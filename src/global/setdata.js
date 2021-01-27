@@ -179,9 +179,9 @@ function setcellvalue(r, c, d, v) {
         }
         else{
             if(isRealNum(vupdate) && !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(vupdate)){
-                vupdate = parseFloat(vupdate);
 
-                cell.v = parseFloat(vupdate);
+
+                cell.v = vupdate;   /* 备注：如果使用parseFloat，1.1111111111111111会转换为1.1111111111111112 ? */
                 cell.ct = { "fa": "General", "t": "n" };
                 cell.ht = cell.ht || 2;
                 if(cell.v == Infinity || cell.v == -Infinity){
