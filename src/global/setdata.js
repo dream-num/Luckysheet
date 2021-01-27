@@ -150,6 +150,9 @@ function setcellvalue(r, c, d, v) {
                     // cell.m = mask[0].toString();
                 }
             }
+            
+            /* 如果是公式计算之后得到的结果：总是设置对齐方式为右对齐 */
+             cell.ht = cell.ht || 2;
         }
         else if(cell.ct != null && cell.ct.fa == "@"){
             cell.m = vupdateStr;

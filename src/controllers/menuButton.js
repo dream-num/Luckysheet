@@ -4226,23 +4226,25 @@ const menuButton = {
             let cell = null;
 
             if(type == "c"){
-                cell = d[ed_m][fix];
+                cell = d[ed_m + 1][fix];
             }
             else{
-                cell = d[fix][ed_m];
+                cell = d[fix][ed_m + 1];
             }
 
+            /* 备注：在搜寻的时候排除自己以解决单元格函数引用自己的问题 */
             if(cell != null && cell.v != null && cell.v.toString().length > 0){
-                let c = ed_m;
+                let c = ed_m + 1;
 
                 if(type == "c"){
-                    cell = d[ed_m][fix];
+                    cell = d[ed_m + 1][fix];
                 }
                 else{
-                    cell = d[fix][ed_m];
+                    cell = d[fix][ed_m + 1];
                 }
 
                 while ( cell != null && cell.v != null && cell.v.toString().length > 0) {
+                    
                     c++;
                     let len = null;
                     
@@ -4274,10 +4276,10 @@ const menuButton = {
             }
             else{
                 if(type == "c"){
-                    _this.backFormulaInput(d, ed_m, fix, [st_m, ed_m], [fix ,fix], formula);
+                    _this.backFormulaInput(d, ed_m + 1, fix, [st_m, ed_m], [fix ,fix], formula);
                 }
                 else{
-                    _this.backFormulaInput(d, fix, ed_m, [fix ,fix], [st_m, ed_m], formula);
+                    _this.backFormulaInput(d, fix, ed_m + 1, [fix ,fix], [st_m, ed_m], formula);
                 }
             }
         }
