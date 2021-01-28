@@ -6667,3 +6667,24 @@ export function refreshMenuButtonFocus(data ,r,c , success){
         }
     })
 }
+
+/**
+ * 检查选区内所有cell指定类型的状态是否满足条件（主要是粗体、斜体、删除线和下划线等等）
+ * @param {String}  type            类型
+ * @param {String}  status          目标状态值
+ */
+export function checkTheStatusOfTheSelectedCells(type,status){
+
+    /* 获取选区内所有的单元格-扁平后的处理 */
+    let cells = getRangeWithFlatten();  
+
+    let flag = cells.every(({r,c})=>{
+        let cell = Store.flowdata[r][c];
+        if(cell == null){
+            return false;
+        }
+        return cell[type] == status;
+    })
+
+    return flag;
+}
