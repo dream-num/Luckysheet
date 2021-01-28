@@ -6680,6 +6680,9 @@ export function checkTheStatusOfTheSelectedCells(type,status){
 
     let flag = cells.every(({r,c})=>{
         let cell = Store.flowdata[r][c];
+        if(cell == null){
+            return false;
+        }
         return cell[type] == status;
     })
 
