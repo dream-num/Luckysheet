@@ -315,6 +315,7 @@ function selectIsOverlap(range) {
     if (range == null) {
         range = Store.luckysheet_select_save;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     let overlap = false;
     let map = {};
@@ -458,6 +459,7 @@ function selectionCopyShow(range) {
     if (range == null) {
         range = Store.luckysheet_selection_range;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     if (range.length > 0) {
         for (let s = 0; s < range.length; s++) {
