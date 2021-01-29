@@ -44,10 +44,9 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     if(range == null){
         range = Store.luckysheet_select_save;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     clearTimeout(refreshCanvasTimeOut);
-
-
 
     //关联参数
     if(allParam == null){
