@@ -1577,7 +1577,8 @@ export function getDefaultColWidth(options = {}) {
  * @returns {Array}
  */
 export function getRange() {
-    let rangeArr = Store.luckysheet_select_save;
+    let rangeArr = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+
     let result = [];
 
     for (let i = 0; i < rangeArr.length; i++) {
@@ -1641,7 +1642,7 @@ export function getRangeValuesWithFlatte(range){
  */
 export function getRangeAxis() {
     let result = [];
-    let rangeArr = Store.luckysheet_select_save;
+    let rangeArr = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let sheetIndex = Store.currentSheetIndex;
 
     rangeArr.forEach(ele=>{
@@ -1691,6 +1692,7 @@ export function getRangeHtml(options = {}) {
         order = getSheetIndex(Store.currentSheetIndex),
         success
     } = {...options}
+    range = JSON.parse(JSON.stringify(range));
 
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -2395,7 +2397,7 @@ export function getRangeDiagonal(type, options = {}) {
     }
 
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = Store.luckysheet_select_save;
+    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let {
         column = 1,
         range = curRange,
@@ -2498,7 +2500,7 @@ export function getRangeDiagonal(type, options = {}) {
  */
 export function getRangeBoolean(options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = Store.luckysheet_select_save;
+    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let {
         range = curRange,
         order = curSheetOrder
@@ -2813,7 +2815,7 @@ export function setSingleRangeFormat(attr, value, options = {}) {
  */
 export function setRangeFormat(attr, value, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = Store.luckysheet_select_save;
+    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let {
         range = curRange,
         order = curSheetOrder,
@@ -2966,7 +2968,7 @@ export function setRangeMerge(type, options = {}) {
     }
 
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
-        curRange = Store.luckysheet_select_save;
+        curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let {
         range = curRange,
         order = curSheetOrder,
@@ -3550,6 +3552,8 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         success
     } = {...options}
 
+    cellrange = JSON.parse(JSON.stringify(cellrange));
+
     let file = Store.luckysheetfile[order];
     let data = file.data;
 
@@ -3816,6 +3820,7 @@ export function setRangeConditionalFormat(type, options = {}) {
         success
     } = {...options}
 
+    cellrange = JSON.parse(JSON.stringify(cellrange));
     let file = Store.luckysheetfile[order];
 
     if(file == null){
@@ -4137,6 +4142,7 @@ export function clearRange(options = {}) {
         success
     } = {...options}
 
+    range = JSON.parse(JSON.stringify(range));
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
             return tooltip.info("The range parameter is invalid.", "");
@@ -6666,4 +6672,25 @@ export function refreshMenuButtonFocus(data ,r,c , success){
             success();
         }
     })
+}
+
+/**
+ * 检查选区内所有cell指定类型的状态是否满足条件（主要是粗体、斜体、删除线和下划线等等）
+ * @param {String}  type            类型
+ * @param {String}  status          目标状态值
+ */
+export function checkTheStatusOfTheSelectedCells(type,status){
+
+    /* 获取选区内所有的单元格-扁平后的处理 */
+    let cells = getRangeWithFlatten();  
+
+    let flag = cells.every(({r,c})=>{
+        let cell = Store.flowdata[r][c];
+        if(cell == null){
+            return false;
+        }
+        return cell[type] == status;
+    })
+
+    return flag;
 }

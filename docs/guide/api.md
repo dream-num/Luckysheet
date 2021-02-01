@@ -2596,6 +2596,19 @@ Use note:
 
 ------------
 
+### checkTheStatusOfTheSelectedCells(type,status)
+
+- **Parameter**：
+
+	- {String} type: type
+	- {String} status: Target state value
+
+- **Explanation**：
+	
+	Check whether the status of all specified types of cells in the selection meets the conditions (mainly bold, italics, strikeouts, underscores, etc.).
+
+------------
+
 ## Chart
 
 ### insertChart([setting])
