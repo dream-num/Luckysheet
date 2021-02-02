@@ -737,10 +737,10 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
-		+ {Number} [start_r]:单元格左上角的水平坐标
-		+ {Number} [start_c]:单元格左上角的垂直坐标
-		+ {Number} [end_r]:单元格右下角的水平坐标
-		+ {Number} [end_c]:单元格右下角的垂直坐标
+		+ {Number} [start_r]:单元格左上角的垂直坐标
+		+ {Number} [start_c]:单元格左上角的水平坐标
+		+ {Number} [end_r]:单元格右下角的垂直坐标
+		+ {Number} [end_c]:单元格右下角的水平坐标
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [ctx]: 当前画布的context
 
@@ -755,10 +755,10 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [position]:
 		+ {Number} [r]:单元格所在行号
 		+ {Number} [c]:单元格所在列号
-		+ {Number} [start_r]:单元格左上角的水平坐标
-		+ {Number} [start_c]:单元格左上角的垂直坐标
-		+ {Number} [end_r]:单元格右下角的水平坐标
-		+ {Number} [end_c]:单元格右下角的垂直坐标
+		+ {Number} [start_r]:单元格左上角的垂直坐标
+		+ {Number} [start_c]:单元格左上角的水平坐标
+		+ {Number} [end_r]:单元格右下角的垂直坐标
+		+ {Number} [end_c]:单元格右下角的水平坐标
 	- {Object} [sheet]:当前sheet对象
 	- {Object} [ctx]: 当前画布的context
 
