@@ -6679,6 +6679,7 @@ export function updataSheet (options = {}) {
         $("#luckysheet-modal-dialog-slider-pivot").hide();
         luckysheetsizeauto(false);
     }
+    sheetmanage.mergeCalculationSheet = {}
     sheetmanage.mergeCalculation(file["index"]);
     sheetmanage.setSheetParam();
     setTimeout(function () {
