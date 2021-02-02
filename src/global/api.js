@@ -1850,8 +1850,8 @@ export function getRangeHtml(options = {}) {
     let cpdata = "";
     let colgroup = "";
 
-    rowIndexArr = rowIndexArr.sort();
-    colIndexArr = colIndexArr.sort();
+    rowIndexArr = rowIndexArr.sort((a, b) => a - b);
+    colIndexArr = colIndexArr.sort((a, b) => a - b);
 
     for (let i = 0; i < rowIndexArr.length; i++) {
         let r = rowIndexArr[i];
