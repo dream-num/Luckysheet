@@ -24,8 +24,8 @@
 
 .luckysheet {
     position: absolute;
-    /*             width: 100%;
-             height: 100%;*/
+    /*width: 100%;
+    height: 100%;*/
     font-size: 12px;
     font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     border: 1px solid #e5e5e5;
@@ -35,6 +35,70 @@
 .luckysheet * {
     box-sizing: initial;
     outline: none;
+}
+
+.luckysheetLoaderGif {
+    /*换用GIF loading*/
+    width: 8em;
+    height: 8em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -100%);
+    -moz-transform: translate(-50%, -100%);
+    -o-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%);
+
+    background-image: url(loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.luckysheet-loading-mask{
+    position:absolute;
+    z-index:1000000000;
+    margin: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    background:#fff;
+}
+
+.luckysheet-loading-content{
+    position:relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width:100%;
+    font-size: 14px;
+    color: #409eff;
+    text-align:center;
+}
+
+.luckysheet-loading-image{
+    width: 8em;
+    height: 8em;
+    margin: 0 auto;
+}
+
+.luckysheet-loading-text{
+    margin-top: 1em;
+}
+
+.luckysheet-loading-image .image-type{
+    width:100%;
+    height:100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.luckysheet-loading-image .path-type{
+    width:100%;
+    height:100%;
 }
 
 .luckysheet-work-area {
@@ -4959,24 +5023,6 @@ fieldset[disabled] .btn-danger.focus {
     top: 50%;
     left: 50%;
     animation: load-effect 1s infinite linear;
-}
-
-.luckysheetLoaderGif {
-    /*换用GIF loading*/
-    width: 8em;
-    height: 8em;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -100%);
-    -moz-transform: translate(-50%, -100%);
-    -o-transform: translate(-50%, -100%);
-    transform: translate(-50%, -100%);
-
-    background-image: url(loading.gif);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
 }
 
 /*.luckysheetLoaderGif>img{

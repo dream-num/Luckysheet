@@ -636,7 +636,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered before the cell is rendered, `return false` will not render the cell
 - Parameter: 
 	- {Object} [cell]:Cell object
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]: The row number of the cell
 		+ {Number} [c]: The column number of the cell
 		+ {Number} [start_r]: The horizontal coordinate of the upper left corner of the cell
@@ -654,7 +654,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered after the cell rendering ends, `return false` will not render the cell
 - Parameter: 
 	- {Object} [cell]: Cell object
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]: The row number of the cell
 		+ {Number} [c]: The column number of the cell
 		+ {Number} [start_r]: The horizontal coordinate of the upper left corner of the cell
@@ -671,9 +671,9 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 	```js
 	luckysheet.create({
             hook: {
-                cellRenderAfter: function (cell, postion, sheetFile, ctx) {
-                    var r = postion.r;
-                    var c = postion.c;
+                cellRenderAfter: function (cell, position, sheetFile, ctx) {
+                    var r = position.r;
+                    var c = position.c;
                     if (r === 0 && c === 3) { // Specify to process cell D1
                         if (!window.storeUserImage) {
                             window.storeUserImage = {}
@@ -708,20 +708,20 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 						
                         if (img.complete) { //Direct rendering that has been loaded
-                            ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                            ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
                         } else {
                             img.onload = function () {
-                                ctx.drawImage(img, postion.start_c, postion.start_r, 10, 10);
+                                ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
                             }
 
                         }
 
                         if (imgRight.complete) {
-                            ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                            ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
                         } else {
 
                             imgRight.onload = function () {
-                                ctx.drawImage(imgRight, postion.end_c - 10, postion.end_r - 10, 10, 10);
+                                ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
                             }
                         }
 
@@ -751,7 +751,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered before the row header cell is rendered, `return false` will not render the row header
 - Parameter: 
 	- {String} [rowNum]: Row number
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]: The row number of the cell
 		+ {Number} [top]: The vertical coordinate of the upper left corner of the cell
 		+ {Number} [width]: Cell width
@@ -766,7 +766,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered after the row header cell is rendered, `return false` will not render the row header
 - Parameter: 
 	- {String} [rowNum]: Row number
-	- {Object} [postion]:
+	- {Object} [position]:
 		+ {Number} [r]: The row number of the cell
 		+ {Number} [top]: The vertical coordinate of the upper left corner of the cell
 		+ {Number} [width]: Cell width
@@ -781,7 +781,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered before the column header cell is rendered, `return false` will not render the column header
 - Parameter: 
 	- {Object} [columnAbc]: Column header characters
-	- {Object} [postion]:
+	- {Object} [position]:
 		- {Number} [c]: The column number of the cell
 		- {Number} [left]: The horizontal coordinate of the upper left corner of the cell
 		- {Number} [width]: Cell width
@@ -796,7 +796,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Usage: Triggered after the column header cell is rendered, `return false` will not render the column header
 - Parameter: 
 	- {Object} [columnAbc]: Column header characters
-	- {Object} [postion]:
+	- {Object} [position]:
 		- {Number} [c]: The column number of the cell
 		- {Number} [left]: The horizontal coordinate of the upper left corner of the cell
 		- {Number} [width]: Cell width

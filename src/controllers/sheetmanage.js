@@ -864,12 +864,12 @@ const sheetmanage = {
 
                     if(luckysheetConfigsetting.pointEdit){
                         setTimeout(function(){
-                            $("#luckysheetloadingdata").remove();
+                            Store.loadingObj.close()
                         }, 0);
                     }
                     else{
                         setTimeout(function(){
-                            $("#luckysheetloadingdata").fadeOut().remove();
+                            Store.loadingObj.close()
                         }, 500);
                     }
                 }
@@ -1243,7 +1243,7 @@ const sheetmanage = {
                     let data = _this.buildGridData(file);
 
                     setTimeout(function(){
-                        $("#luckysheetloadingdata").fadeOut().remove();
+                        Store.loadingObj.close()
                     }, 500);
 
                     for(let item in dataset){

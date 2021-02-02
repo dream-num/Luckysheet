@@ -71,6 +71,7 @@ luckysheet.create = function (setting) {
     Store.luckysheetfile = extendsetting.data;
     Store.defaultcolumnNum = extendsetting.column;
     Store.defaultrowNum = extendsetting.row;
+    Store.defaultFontSize = extendsetting.defaultFontSize;
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
@@ -89,6 +90,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.accuracy = extendsetting.accuracy;
     luckysheetConfigsetting.total = extendsetting.data[0].total;
 
+    luckysheetConfigsetting.loading = extendsetting.loading;
     luckysheetConfigsetting.allowCopy = extendsetting.allowCopy;
     luckysheetConfigsetting.showtoolbar = extendsetting.showtoolbar;
     luckysheetConfigsetting.showtoolbarConfig = extendsetting.showtoolbarConfig;
@@ -156,7 +158,8 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append(luckysheetlodingHTML());
+    const loadingObj=luckysheetlodingHTML("#" + container)
+    Store.loadingObj=loadingObj
 
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);

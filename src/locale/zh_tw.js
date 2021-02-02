@@ -9164,7 +9164,7 @@ export default {
         detailSave  : '已恢復本地緩存',
         row         : '行',
         column      : '列',
-        loading     : '渲染中',
+        loading     : '渲染中···',
 
         copy  : '副本',
         return: '返回',

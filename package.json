@@ -1,6 +1,6 @@
 {
   "name": "luckysheet",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "main": "dist/luckysheet.cjs.js",
   "module": "dist/luckysheet.esm.js",
   "browser": "dist/luckysheet.umd.js",
@@ -28,6 +28,7 @@
     "rollup": "^2.32.1",
     "rollup-plugin-terser": "^6.1.0",
     "standard-version": "^8.0.2",
+    "uuid": "^8.3.2",
     "vuepress": "^1.5.0",
     "vuepress-plugin-baidu-autopush": "^1.0.1",
     "vuepress-plugin-code-copy": "^1.0.6",

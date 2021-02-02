@@ -1,5 +1,6 @@
 const Store = {
     container: null, 
+    loadingObj:{},
     luckysheetfile: null, 
     defaultcolumnNum: 60, 
     defaultrowNum: 84, 

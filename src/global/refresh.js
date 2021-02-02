@@ -44,10 +44,9 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     if(range == null){
         range = Store.luckysheet_select_save;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     clearTimeout(refreshCanvasTimeOut);
-
-
 
     //关联参数
     if(allParam == null){
@@ -121,8 +120,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
     file.data = Store.flowdata;
 
-    //config
-    if(cfg != null){
+    //config, null or empty object are not processed
+    if(cfg != null  && Object.keys(cfg).length !== 0){
         Store.config = cfg;
         file.config = Store.config;
 
@@ -133,15 +132,15 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         }
     }
 
-    //条件格式
-    if(cdformat != null){
+    //condition format, null or empty array are not processed
+    if(cdformat != null && cdformat.length !== 0){
         file["luckysheet_conditionformat_save"] = cdformat;
 
         server.saveParam("all", Store.currentSheetIndex, cdformat, { "k": "luckysheet_conditionformat_save" });
     }
 
-    //数据验证
-    if(dataVerification != null){
+    //data Verification, null or empty object are not processed
+    if(dataVerification != null && Object.keys(dataVerification).length !== 0){
         dataVerificationCtrl.dataVerification = dataVerification;
         file["dataVerification"] = dataVerification;
         server.saveParam("all", Store.currentSheetIndex, dataVerification, { "k": "dataVerification" });
@@ -188,6 +187,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         }, 1);
     }
 
+    /* 选区同步 */
+    selectHightlightShow();
     window.luckysheet_getcelldata_cache = null;
 }
 
