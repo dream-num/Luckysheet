@@ -28,6 +28,7 @@
     "rollup": "^2.32.1",
     "rollup-plugin-terser": "^6.1.0",
     "standard-version": "^8.0.2",
+    "uuid": "^8.3.2",
     "vuepress": "^1.5.0",
     "vuepress-plugin-baidu-autopush": "^1.0.1",
     "vuepress-plugin-code-copy": "^1.0.6",
