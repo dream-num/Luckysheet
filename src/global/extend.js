@@ -627,9 +627,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空行模板
-        let row = [];
+        let row = [],
+            curRow = [...d][index]
         for(let c = 0; c < d[0].length; c++){
-            row.push(null);
+            let cell = curRow[c],
+            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            row.push(templateCell);
         }
 
         //边框
@@ -779,9 +782,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空列模板
-        let col = [];
+        let col = [],
+            curd= [...d];
         for(let r = 0; r < d.length; r++){
-            col.push(null);
+            let cell = curd[r][index],
+            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            col.push(templateCell);
         }
 
         //边框
@@ -892,6 +898,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newDataVerification,
             newHyperlink
         );
+
     }
     else{
         file.data = d;

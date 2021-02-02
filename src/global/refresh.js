@@ -99,9 +99,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         Store.jfredo.push({ 
             "type": "datachange", 
             "data": Store.flowdata, 
-            "curdata": data, 
+            "curData": data, 
             "sheetIndex": Store.currentSheetIndex, 
-            "range": range, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
             "cdformat":  $.extend(true, [], file["luckysheet_conditionformat_save"]),
@@ -111,7 +110,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "curDataVerification": curDataVerification,
             "dynamicArray": $.extend(true, [], file["dynamicArray"]),
             "curDynamicArray": curDynamicArray,
-            "dataRange": [...file.luckysheet_select_save]
+            "range": range,
+            "dataRange": [...file.luckysheet_select_save]// 保留操作时的选区
         });
     }
 
@@ -344,7 +344,7 @@ function jfrefreshrange(data, range, cdformat) {
         Store.jfredo.push({ 
             "type": "rangechange", 
             "data": Store.flowdata, 
-            "curdata": data, 
+            "curData": data, 
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
             "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
@@ -452,7 +452,8 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
             "curDataVerification": dataVerification,
             "hyperlink": $.extend(true, {}, file.hyperlink),
             "curHyperlink": hyperlink,
-            "dataRange": [...file.luckysheet_select_save]
+            "range": file.luckysheet_select_save,
+            "dataRange": [...file.luckysheet_select_save]// 保留操作时的选区
         });
     }
 
@@ -688,7 +689,8 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
             "curDataVerification": dataVerification,
             "hyperlink": $.extend(true, {}, file.hyperlink),
             "curHyperlink": hyperlink,
-            "dataRange": [...file.luckysheet_select_save]
+            "range": file.luckysheet_select_save,
+            "dataRange": [...file.luckysheet_select_save] // 保留操作时的选区
         });
     }
 

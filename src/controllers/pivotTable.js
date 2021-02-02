@@ -534,8 +534,15 @@ const pivotTable = {
                 }
             }
 
-            $("#luckysheet-pivotTableFilter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + (winH - toffset.top - 350) + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
+            // 适配小屏设备
+            let containerH = winH - toffset.top - 350
+            if (containerH < 0) containerH = 100
+            //$("#luckysheet-pivotTableFilter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
+
+
+            $("#luckysheet-pivotTableFilter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
             loadingObj.close()
+
         }, 1);
 
         showrightclickmenu($menu, toffset.left - 250, toffset.top);

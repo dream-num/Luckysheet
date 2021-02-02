@@ -5408,7 +5408,6 @@ export default function luckysheetHandler() {
                             let $td = $(this);
                             let cell = {};
                             let txt = $td.text();
-
                             if ($.trim(txt).length == 0) {
                                 cell.v = null;
                                 cell.m = "";
@@ -5621,6 +5620,7 @@ export default function luckysheetHandler() {
             }
         }
         else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
+            
             // 阻止默认粘贴
             e.preventDefault();
 
@@ -5629,7 +5629,6 @@ export default function luckysheetHandler() {
                 clipboardData = e.originalEvent.clipboardData;
             }
             let text =  clipboardData.getData('text/plain');
-            
             // 插入
             document.execCommand("insertText", false, text);
         }

@@ -2076,9 +2076,6 @@ Use note:
 
 ### getConfig([setting])
 
-[todo]
-
-
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -2092,9 +2089,6 @@ Use note:
 
 ### setConfig([setting])
 
-[todo]
-
-
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -2104,6 +2098,19 @@ Use note:
 - **Explanation**：
 
 	Quickly set the current worksheet config configuration
+
+------------
+### updataSheet([setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Array} [data]: Worksheet Configuration
+    	+ {Function} [success]: callback function for the end of the operation
+	
+- **说明**：
+
+	Update the corresponding sheet according to the set sheet configuration
 
 ------------
 
