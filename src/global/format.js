@@ -1353,8 +1353,16 @@ var make_ssf = function make_ssf(SSF) {
             }
         // var retval = "";
         var retval =  tempV === 0 ? "0" : "";
-        for (i = 0; i !== out.length; ++i)
-            if (out[i] != null) retval += out[i].v;
+        // for (i = 0; i !== out.length; ++i)
+        //     if (out[i] != null) retval += out[i].v;
+        for (i = 0; i !== out.length; ++i){
+            if (out[i] != null && out[i].v.startsWith(".")){
+                retval += out[i].v;
+            }else{
+                retval =  out[i].v || retval;
+            }
+        }
+   
         return retval;
     }
     SSF._eval = eval_fmt;
