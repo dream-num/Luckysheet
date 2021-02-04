@@ -706,7 +706,14 @@ const server = {
 	            file["column"] += len;
 
 	            for(let i = 0; i < data.length; i++){
-	                data[i].splice(st_i, 0, addData[i]);
+					// data[i].splice(st_i, 0, addData[i]);
+
+					// 备注：区分插入的位置(可能是左侧插入或者右侧插入)
+					if(direction == "lefttop"){
+						data[i].splice(st_i, 0, addData[i]);
+					}else{
+						data[i].splice(st_i + 1, 0, addData[i]);
+					}
 	            }
 	        }
 
