@@ -427,9 +427,21 @@ const server = {
 	                file["config"][k] = {};
 	            }
 
-	            for(let key in value){
-	                file["config"][k][key] = value[key];
-	            }
+	            // for(let key in value){
+	            //     file["config"][k][key] = value[key];
+				// }
+				
+				// ⚠️ 上面的处理方式会导致部分配置项被遗漏，以致协同编辑的时候多视图出现不一致的情况，调整处理的策略为直接替换配置项：
+				// 可能的配置项为：
+				// columnlen: {0: 65, 1: 186, 2: 52}
+				// customHeight: {0: 1, 5: 1, 6: 1}
+				// customWidth: {0: 1, 1: 1, 2: 1}
+				// merge: {2_1: {…}, 4_2: {…}, 6_2: {…}}
+				// rowlen: {0: 19, 5: 93, 6: 117}
+				if(value && (typeof value == "object")){
+					file["config"][k] = value;
+				}
+
 	        }
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
