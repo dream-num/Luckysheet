@@ -164,10 +164,10 @@ export function setCellValue(row, column, value, options = {}) {
     }
     else if(value instanceof Object){
         let curv = {};
-        let cell = data[row][column];
-        if(isRealNull(cell)){
-            cell = {};
+        if(isRealNull(data[row][column])){
+            data[row][column] = {};
         }
+        let cell = data[row][column];
         if(value.f!=null && value.v==null){
             curv.f = value.f;
             if(value.ct!=null){
