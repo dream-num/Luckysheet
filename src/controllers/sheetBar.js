@@ -271,7 +271,8 @@ export function initialSheetBar(){
 
         if(0 === $(this).text().length){
            
-            alert(locale_sheetconfig.sheetNamecannotIsEmptyError);
+            tooltip.info("", locale_sheetconfig.sheetNamecannotIsEmptyError);
+            
             setTimeout(()=>{
                 $(this).text(oldSheetFileName);
                 luckysheetsheetnameeditor($(this));
