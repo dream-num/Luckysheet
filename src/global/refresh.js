@@ -99,7 +99,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         Store.jfredo.push({ 
             "type": "datachange", 
             "data": Store.flowdata, 
-            "curData": data, 
+            "curdata": data,
             "sheetIndex": Store.currentSheetIndex, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
@@ -344,7 +344,7 @@ function jfrefreshrange(data, range, cdformat) {
         Store.jfredo.push({ 
             "type": "rangechange", 
             "data": Store.flowdata, 
-            "curData": data, 
+            "curdata": data,
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
             "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
