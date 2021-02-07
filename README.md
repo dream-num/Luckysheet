@@ -131,6 +131,7 @@ npm run build
 - [luban-h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
+- [Furion](https://gitee.com/monksoul/Furion)
 
 ## Communication
 - [Github Discussions](https://github.com/mengshukeji/Luckysheet/discussions)
@@ -177,6 +178,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - *旭 ¥ 10
 - Quentin ¥ 20
 - 周宇凡 ¥ 100
+- *超 ¥ 10
 
 ## Authors and acknowledgment
 

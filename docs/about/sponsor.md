@@ -45,3 +45,4 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - *旭 ¥ 10
 - Quentin ¥ 20
 - 周宇凡 ¥ 100
+- *超 ¥ 10
