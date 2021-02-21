@@ -6861,6 +6861,35 @@ export default {
             'type'   : 'rangeall'
             }]
         }, {
+            "n": "PINYIN_XING",
+            "t": "13",
+            "d": "將姓名的姓轉換為拼音",
+            "a": "將姓名的姓轉換為拼音",
+            "m": [1, 15],
+            "p": [{
+                "name": "value",
+                "detail": "將姓名的姓轉換為拼音",
+                "example": "A2",
+                "require": "m",
+                "repeat": "n",
+                "type": "rangeall"
+            }]
+        },
+        {
+            "n": "PINYIN_MING",
+            "t": "13",
+            "d": "將姓名的名稱轉換為拼音",
+            "a": "將姓名的名稱轉換為拼音",
+            "m": [1, 15],
+            "p": [{
+                "name": "value",
+                "detail": "將姓名的名稱轉換為拼音",
+                "example": "A2",
+                "require": "m",
+                "repeat": "n",
+                "type": "rangeall"
+            }]
+        },  {
         'n': 'SUMX2MY2',
         't': 14,
         'd': '返回兩數組中對應數值的平方差之和。',

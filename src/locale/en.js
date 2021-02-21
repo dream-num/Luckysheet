@@ -6858,7 +6858,38 @@ export default {
             "repeat": "n",
             "type": "rangeall"
         }]
-    }, {
+    },
+    {
+        "n": "PINYIN_XING",
+        "t": "13",
+        "d": "Convert the surname to pinyin",
+        "a": "Convert the surname to pinyin",
+        "m": [1, 15],
+        "p": [{
+            "name": "value",
+            "detail": "Convert the surname to pinyin",
+            "example": "A2",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    {
+        "n": "PINYIN_MING",
+        "t": "13",
+        "d": "Convert the name of the name to Pinyin.",
+        "a": "Convert the name of the name to Pinyin.",
+        "m": [1, 15],
+        "p": [{
+            "name": "value",
+            "detail": "Convert the name of the name to Pinyin.",
+            "example": "A2",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    }, 
+    {
         "n": "SUMX2MY2",
         "t": 14,
         "d": "Calculates the sum of the differences of the squares of values in two arrays.",
