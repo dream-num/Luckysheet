@@ -6,6 +6,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 1. script全局引入时，所有API均挂载到window.luckysheet对象下面，可以在浏览器控制台打印看到；npm引入时，API也全部挂载在luckysheet对象下
 2. `success`回调函数第一个参数为API方法的返回值
 3. 需要新的API请到github [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose)中提交，根据点赞数决定是否开放新API
+4. API方法中所需的`order`参数为工作表对象中的`order`的值，而不是`index`
 
 ## 单元格操作
 
@@ -178,6 +179,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ {Boolean} [isWholeWord]: 是否整词匹配；默认为 `false`
 		+ {Boolean} [isCaseSensitive]: 是否区分大小写匹配；默认为 `false`
     	+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+    	+ {String} [type]: 单元格属性；默认值为`"m"`
 
 - **说明**：
 	
@@ -187,6 +189,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
    - 当前工作表查找`"value"`字符串
    		`luckysheet.find("value")`
+   - 当前工作表查找公式包含`"SUM"`的单元格
+   		`luckysheet.find("SUM",{type:"f"})`
 
 ------------
 
@@ -317,6 +321,18 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	冻结行列操作
 
 	特别注意，只有在`isRange`设置为`true`的时候，才需要设置`setting`中的`range`，且与一般的range格式不同。
+	
+	如果想在工作簿初始化后使用此API设置冻结，可以在工作簿创建后的钩子函数中执行，比如：
+	```js
+	luckysheet.create({
+    	hook:{
+				workbookCreateAfter:function(){
+					luckysheet.setBothFrozen(false);
+				}
+			}
+	});
+
+	```
 
 - **示例**:
 
@@ -568,7 +584,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 - **参数**：
 	
-	- {Number} [columnInfo]: 列数和宽度对应关系
+	- {Object} [columnInfo]: 列数和宽度对应关系
 	
 	- {PlainObject} [setting]: 可选参数
 		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
@@ -701,6 +717,159 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		```
 
 ------------
+
+### getRangeWithFlatten()
+ 
+- **说明**：
+
+	返回表示指定区域内所有单元格位置的数组，区别getRange方法，该方法以cell单元格(而非某块连续的区域)为单位来组织选区的数据。
+
+- **示例**:
+
+	- 在表格中选择指定的区域，然后执行
+		
+		`luckysheet.getRange()`
+		
+		则返回结果为：
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		其中，{"row":[0,0],"column":[0,2]} 表示的是一整块连续的区域。
+
+	- 在表格中选择上面的区域，然后执行
+		
+		`luckysheet.getRangeWithFlatten()`
+		
+		则返回结果为：
+		```json
+		[
+			{"r":0,"c":0},
+			{"r":0,"c":1},
+			{"r":0,"c":2},
+			{"r":1,"c":0},
+			{"r":3,"c":0}
+		]
+		```
+
+------------
+
+### getRangeValuesWithFlatte()
+ 
+- **说明**：
+
+	返回表示指定区域内所有单元格内容的对象数组
+
+- **示例**:
+
+	- 在表格中选择指定的区域，然后执行
+		
+		`luckysheet.getRange()`
+		
+		则返回结果为：
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		其中，{"row":[0,0],"column":[0,2]} 表示的是一整块连续的区域。
+
+	- 在表格中选择上面的区域，然后执行
+		
+		`luckysheet.getRangeValuesWithFlatte()`
+		
+		则返回结果为：
+		```json
+		[
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 1,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "1"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 2,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "2"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 3,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "3"
+			},
+			{
+				"v": "Background",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Background",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			},
+			{
+				"v": "Border",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Border",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			}
+		]
+		```
+------------
+
 
 ### getRangeAxis()
  
@@ -882,8 +1051,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		则返回结果为：
 		```json
 		[
-			{ "A": "value1", "B": "value3" },
-			{ "A": "value2", "B": "value4" }
+			{ "value1": "value2", "value3": "value4" }
 		]
 		```
 
@@ -894,7 +1062,8 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		则返回结果为：
 		```json
 		[
-			{ "value1": "value2", "value3": "value4" }
+			{ "A": "value1", "B": "value3" },
+			{ "A": "value2", "B": "value4" }
 		]
 		```
 
@@ -1201,7 +1370,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 					}
 				]
 			]
-		luckysheet.setRangeValue(data)
+		luckysheet.setRangeValue(data,{range:"A1:B2"})
 		```
 
 ------------
@@ -1731,10 +1900,10 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		+ `"flipUpDown"`: 上下翻转
 		+ `"flipLeftRight"`: 左右翻转
 		+ `"flipClockwise"`: 顺时针旋转
-		+ `"flipCounterClockwise"`: 逆时针旋转
-		+ `"Transpose"`: 转置
-		+ `"DeleteZeroByRow"`: 按行删除两端0值
-		+ `"DeleteZeroByColumn"`: 按列删除两端0值
+		+ `"flipCounterClockwise"`: 逆时针旋转api
+		+ `"transpose"`: 转置
+		+ `"deleteZeroByRow"`: 按行删除两端0值
+		+ `"deleteZeroByColumn"`: 按列删除两端0值
 		+ `"removeDuplicateByRow"`: 按行删除重复值
 		+ `"removeDuplicateByColumn"`: 按列删除重复值
 		+ `"newMatrix"`: 生产新矩阵
@@ -1893,7 +2062,20 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	快捷设置指定工作表config配置
 
 ------------
+### updataSheet([setting])
 
+- **参数**：
+
+    - {PlainObject} [setting]: 可选参数
+    	+ {Array} [data]: 需要更新的工作表配置，参考create这个API的option.data
+    	+ {Function} [success]: 操作结束的回调函数
+	
+- **说明**：
+
+	根据所传的工作表配置，更新相应的工作表
+
+	
+------------
 ### setSheetAdd([setting])
 
 - **参数**：
@@ -2279,6 +2461,19 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### getWorkbookName([,setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: 可选参数
+    	+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	获取工作簿名称
+
+------------
+
 ### undo([setting])
 
 - **参数**：
@@ -2305,19 +2500,65 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
-### refreshFormula([setting])
-
-[todo]
+### refreshFormula([success])
 
 - **参数**：
 
-	- {PlainObject} [setting]: 可选参数
-        + {Object | String} [range]: 选区范围,支持选区的格式为`"A1:B2"`、`"sheetName!A1:B2"`或者`{row:[0,1],column:[0,1]}`，只能为单个选区；默认为整个当前工作表
-        + {Function} [success]: 操作结束的回调函数
+	- {Function} [success]: 操作结束的回调函数
 
 - **说明**：
 	
-	强制刷新公式。当你直接修改了多个单元格的值，且没有触发刷新，且这些单元格跟公式相关联，则可以使用这个api最后强制触发一次公式刷新，一般是建议指定受影响的单元格范围便于防止性能问题，如果无法确定，则留空保持整个工作表遍历刷新。
+	强制刷新公式。当你直接修改了多个单元格的值，且没有触发刷新，且这些单元格跟公式相关联，则可以使用这个api最后强制触发一次公式刷新。
+
+------------
+
+### pagerInit([setting])
+
+- **参数**：
+
+	- {PlainObject} [setting]: 参数配置
+		+ {Number} 		[pageIndex]:  当前的页码（必填）。
+		+ {Number} 		[pageSize]:   每页显示多少条数据（必填）。
+		+ {Number} 		[total]:  总条数（必填）。
+		+ {Boolean} 	[showTotal]:  是否显示总数，默认关闭：false。
+		+ {Boolean} 	[showSkip]:  是否显示跳页，默认关闭：false。
+		+ {Boolean} 	[showPN]:  是否显示上下翻页，默认开启：true。
+		+ {Array} 		[selectOption]:  选择分页的条数。
+		+ {String} 		[prevPage]:  上翻页文字描述，默认"上一页"。
+		+ {String} 		[nextPage]:  下翻页文字描述，默认"下一页"。
+		+ {String} 		[totalTxt]:  数据总条数文字描述，默认"总共：{total}"。
+
+
+
+- **说明**：
+	
+	初始化分页器。ps：create阶段，可以直接配置options.pager参数，渲染阶段会将options.pager作为参数来初始化分页器，可通过钩子函数onTogglePager来监听页码的切换
+
+### refreshMenuButtonFocus([data],[r],[c],[success])
+
+- **参数**：
+
+	- {Array}  [data]: 操作数据
+	- {Number} [r]: 指定的行
+	- {Number} [c]: 指定的列
+	- {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+	
+	刷新指定单元格的顶部状态栏状态。
+
+------------
+
+### checkTheStatusOfTheSelectedCells(type,status)
+
+- **参数**：
+
+	- {String} type: 类型
+	- {String} status: 目标状态值
+
+- **说明**：
+	
+	检查选区内所有cell指定类型的状态是否满足条件（主要是粗体、斜体、删除线和下划线等等）。
 
 ------------
 
@@ -2437,6 +2678,48 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+## 图片
+
+### insertImage(src, [setting])
+
+- **参数**：
+
+	- {String} [src]: 图片src
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Number} [rowIndex]: 要插入图片的单元格行下标；默认为当前选区聚焦单元格行下标 || 0
+		+ {Number} [colIndex]: 要插入图片的单元格列下标；默认为当前选区聚焦单元格列下标 || 0
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	在指定的工作表中指定单元格位置插入图片
+
+### deleteImage([setting])
+
+- **参数**：
+
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {String | Array} [idList]: 要删除图片的id集合，也可为字符串`"all"`，all为所有的字符串；默认为`"all"`
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	删除指定工作表中的图片
+
+### getImageOption([setting])
+
+- **参数**：
+
+	- {PlainObject} [setting]: 可选参数
+		+ {Number} [order]: 工作表下标；默认值为当前工作表下标
+		+ {Function} [success]: 操作结束的回调函数
+
+- **说明**：
+
+	获取指定工作表的图片配置
+
 ## 工作表保护
 
 
@@ -2497,6 +2780,22 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 	导出的json字符串可以直接当作`luckysheet.create(options)`初始化工作簿时的参数`options`使用，使用场景在用户自己操作表格后想要手动保存全部的参数，再去别处初始化这个表格使用，类似一个luckysheet专有格式的导入导出。
 
 ------------
+
+### changLang([lang])
+
+- **参数**：
+
+	+ {String} [lang]: 语言类型；暂支持`"zh"`、`"en"`、`"es"`；默认为`"zh"`；
+
+- **说明**：
+
+	传入目标语言，切换到对应的语言界面
+
+### closeWebsocket()
+
+- **说明**：
+
+	关闭websocket连接
 
 ### getRangeByTxt([txt])
 

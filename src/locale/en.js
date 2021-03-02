@@ -6858,7 +6858,38 @@ export default {
             "repeat": "n",
             "type": "rangeall"
         }]
-    }, {
+    },
+    {
+        "n": "PINYIN_XING",
+        "t": "13",
+        "d": "Convert the surname to pinyin",
+        "a": "Convert the surname to pinyin",
+        "m": [1, 15],
+        "p": [{
+            "name": "value",
+            "detail": "Convert the surname to pinyin",
+            "example": "A2",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    {
+        "n": "PINYIN_MING",
+        "t": "13",
+        "d": "Convert the name of the name to Pinyin.",
+        "a": "Convert the name of the name to Pinyin.",
+        "m": [1, 15],
+        "p": [{
+            "name": "value",
+            "detail": "Convert the name of the name to Pinyin.",
+            "example": "A2",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    }, 
+    {
         "n": "SUMX2MY2",
         "t": 14,
         "d": "Calculates the sum of the differences of the squares of values in two arrays.",
@@ -8811,7 +8842,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"A1+5*2^2"',
+            "detail": "Formula or expression",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Undo',
         redo: 'Redo',
@@ -8903,6 +8950,9 @@ export default {
         update:"Update",
         delete:"Delete",
         insert:"Insert",
+        prevPage: "Previous",
+        nextPage: "Next",
+        total: "total:"
     },
     paint:{
         start: 'Paint format start',
@@ -8926,7 +8976,7 @@ export default {
         detailSave: 'Local cache restored',
         row: '',
         column: '',
-        loading:"Loading",
+        loading:"Loading...",
 
         copy:"Copy",
         return:"Exit",
@@ -9512,6 +9562,7 @@ export default {
         noHide:"Can't hide, at least keep one sheet tag",
         chartEditNoOpt:"This operation is not allowed in chart editing mode!",
         sheetNameSpecCharError:"The name cannot contain:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"Sheet name cannot be empty"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',
@@ -9574,6 +9625,8 @@ export default {
         ruleTypeItem4: 'Format only values above or below the average',
         ruleTypeItem4_title: 'Is a value that satisfies the following conditions',
         ruleTypeItem5: 'Format only unique or repeated values',
+        ruleTypeItem6: 'Use formulas to determine which cells to format',
+        formula: 'Formula',
         textColor: 'Text color',
         cellColor: 'Cell color',
         confirm: 'Confirm',

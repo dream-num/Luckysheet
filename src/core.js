@@ -71,9 +71,12 @@ luckysheet.create = function (setting) {
     Store.luckysheetfile = extendsetting.data;
     Store.defaultcolumnNum = extendsetting.column;
     Store.defaultrowNum = extendsetting.row;
+    Store.defaultFontSize = extendsetting.defaultFontSize;
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
+    Store.limitSheetNameLength =  extendsetting.limitSheetNameLength;
+    Store.defaultSheetNameMaxLength = extendsetting.defaultSheetNameMaxLength;
     Store.fontList = extendsetting.fontList;
     server.gridKey = extendsetting.gridKey;
     server.loadUrl = extendsetting.loadUrl;
@@ -87,6 +90,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.accuracy = extendsetting.accuracy;
     luckysheetConfigsetting.total = extendsetting.data[0].total;
 
+    luckysheetConfigsetting.loading = extendsetting.loading;
     luckysheetConfigsetting.allowCopy = extendsetting.allowCopy;
     luckysheetConfigsetting.showtoolbar = extendsetting.showtoolbar;
     luckysheetConfigsetting.showtoolbarConfig = extendsetting.showtoolbarConfig;
@@ -132,8 +136,15 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.container = extendsetting.container;
     luckysheetConfigsetting.hook = extendsetting.hook;
 
+    luckysheetConfigsetting.pager = extendsetting.pager;
+
+    luckysheetConfigsetting.initShowsheetbarConfig = false;
+
     if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
 
+    // Store the currently used plugins for monitoring asynchronous loading
+    Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
+    
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 
@@ -147,7 +158,8 @@ luckysheet.create = function (setting) {
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    $("#" + container).append(luckysheetlodingHTML());
+    const loadingObj=luckysheetlodingHTML("#" + container)
+    Store.loadingObj=loadingObj
 
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);

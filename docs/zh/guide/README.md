@@ -10,7 +10,7 @@ Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置�
 
 ## 在线案例
 
-- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)（注意：官方Java后台待整理后也会开源，采用OT算法。请大家别操作频繁，防止搞崩服务器）
+- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)
 
 ## 特性
 
@@ -125,15 +125,19 @@ npm run build
 
 #### CDN
 ```html
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/assets/iconfont/iconfont.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js"></script>
 ```
 
-注意，`https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js`这个路径会拉取到最新的luckysheet代码，想要指定luckysheet版本，请在luckysheet后面加上版本号，如：`https://cdn.jsdelivr.net/npm/luckysheet@2.0.0/dist/luckysheet.umd.js`
+注意，`https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js`这个路径意思是会拉取到最新的luckysheet代码，但是如果Luckysheet刚刚发布，jsdelivr网站可能还没来得及从npm上同步过去，故而使用这个路径还是会拉到上一个版本，我们推荐您直接指定最新版本。
+
+想要指定Luckysheet版本，请在所有的CDN依赖文件后面加上版本号，如：`https://cdn.jsdelivr.net/npm/luckysheet@2.1.12/dist/luckysheet.umd.js`。
+
+> 如何知道最新版本是哪一版？查看最新 [release记录](https://github.com/mengshukeji/Luckysheet/releases) 或者 [package.json](https://github.com/mengshukeji/Luckysheet/blob/master/package.json) 的`version`字段。
 
 如果不方便访问 jsdelivr.net，还可以采用本地方式引入
 

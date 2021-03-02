@@ -202,31 +202,20 @@ const luckysheetDropCell = {
         return isChnNumber;
     },
     isExtendNumber: function(txt){
-        let reg = /[0-9]/;
-        let isExtendNumber;
-        if(reg.test(txt.substr(txt.length - 1, 1))){
-            isExtendNumber = true;
-        }
-        else{
-            isExtendNumber = false;
-        }
+        let reg = /0|([1-9]+[0-9]*)/g;
+        let isExtendNumber = reg.test(txt);
 
         if(isExtendNumber){
-            let str = txt.split("");
-            str.reverse();
+            let match = txt.match(reg);
+            let matchTxt = match[match.length - 1];
+            let matchIndex = txt.lastIndexOf(matchTxt);
+            let beforeTxt = txt.substr(0, matchIndex);
+            let afterTxt = txt.substr(matchIndex + matchTxt.length);
 
-            let len = 0;
-            for(let i = 0; i < str.length; i++){
-                if(!reg.test(str[i])){
-                    len = i;
-                    break;
-                }
-            }
-
-            return [isExtendNumber, txt.substr(0, txt.length - len), txt.substr(txt.length - len, len)];
+            return [isExtendNumber, Number(matchTxt), beforeTxt, afterTxt];
         }
-        else{
-            return [isExtendNumber];
+        else {
+            return [isExtendNumber]
         }
     },
     isChnWeek1: function(txt){
@@ -519,12 +508,19 @@ const luckysheetDropCell = {
                                             cell.m = cell.v.toExponential(len).toString();
                                         }
                                         else{
-                                            let mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
-                                            cell.m = mask[0].toString();
+                                            let mask;
+                                            if(cell.ct.fa === "##0.00"){
+                                               /* 如果是数字类型 */
+                                               mask = genarate(Math.round(cell.v * 1000000000) / 1000000000 + ".00") ;
+                                               cell.m = mask[0].toString();
+                                            }else {
+                                                mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
+                                                cell.m = mask[0].toString();
+                                            }
                                         }
                                     }
 
-                                    cell.ct = { "fa": "General", "t": "n" };
+                                    cell.ct = cell.ct || { "fa": "General", "t": "n" };
                                 }
                                 else{
                                     let mask = genarate(cell.v);
@@ -913,7 +909,8 @@ const luckysheetDropCell = {
             let arrData = [];
             let arrIndex = [];
             let text = "";
-            let extendNumberStr = null;
+            let extendNumberBeforeStr = null;
+            let extendNumberAfterStr = null;
             let isSameStr = true;
 
             for(let b = b1; b <= b2; b++){
@@ -931,49 +928,60 @@ const luckysheetDropCell = {
                 if(!!data && !!data["v"] && data["f"] == null){
                     if(!!data["ct"] && data["ct"]["t"] == "n"){
                         str = "number";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(!!data["ct"] && data["ct"]["t"] == "d"){
                         str = "date";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isExtendNumber(data["m"])[0]){
                         str = "extendNumber";
 
-                        if(extendNumberStr == null){
+                        let isExtendNumber = _this.isExtendNumber(data["m"]);
+
+                        if(extendNumberBeforeStr == null || extendNumberAfterStr == null){
                             isSameStr = true;
-                            extendNumberStr = _this.isExtendNumber(data["m"])[1];
+                            extendNumberBeforeStr = isExtendNumber[2];
+                            extendNumberAfterStr = isExtendNumber[3];
                         }
-                        else{
-                            if(_this.isExtendNumber(data["m"])[1] != extendNumberStr){
+                        else {
+                            if(isExtendNumber[2] != extendNumberBeforeStr || isExtendNumber[3] != extendNumberAfterStr){
                                 isSameStr = false;
-                                extendNumberStr = _this.isExtendNumber(data["m"])[1];
+                                extendNumberBeforeStr = isExtendNumber[2];
+                                extendNumberAfterStr = isExtendNumber[3];
                             }
-                            else{
+                            else {
                                 isSameStr = true;
                             }
                         }
                     }
                     else if(_this.isChnNumber(data["m"])){
                         str = "chnNumber";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isChnWeek2(data["m"])){
                         str = "chnWeek2";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isChnWeek3(data["m"])){
                         str = "chnWeek3";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else{
                         str = "other";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                 }
                 else{
                     str = "other";
-                    extendNumberStr = null;
+                    extendNumberBeforeStr = null;
+                    extendNumberAfterStr = null;
                 }
 
                 if(str == "extendNumber"){
@@ -1439,7 +1447,7 @@ const luckysheetDropCell = {
                 applyData = _this.FillSeries(data, len, direction);
             }
             else if(dataType == "extendNumber"){
-                //扩展数字（一串字符最后面的是数字）
+                //扩展数字
                 if(data.length == 1){
                     let step;
                     if(direction == "down" || direction == "right"){
@@ -1456,7 +1464,7 @@ const luckysheetDropCell = {
 
                     for(let i = 0; i < data.length; i++){
                         let txt = data[i]["m"];
-                        dataNumArr.push(Number(_this.isExtendNumber(txt)[2]));
+                        dataNumArr.push(Number(_this.isExtendNumber(txt)[1]));
                     }
 
                     if(direction == "up" || direction == "left"){
@@ -2315,30 +2323,22 @@ const luckysheetDropCell = {
         let _this = this;
 
         let applyData = [];
+        let reg = /0|([1-9]+[0-9]*)/g;
 
         for(let i = 1; i <= len; i++){
             let index = (i - 1) % data.length;
             let d = $.extend(true, {}, data[index]);
 
             let last = data[data.length - 1]["m"];
-            let lastTxt = _this.isExtendNumber(last)[1];
-            let lastNum = _this.isExtendNumber(last)[2];
+            let match = last.match(reg)
+            let lastTxt = match[match.length -1];
+            
+            let num = Math.abs(Number(lastTxt) + step * i);
+            let lastIndex = last.lastIndexOf(lastTxt);
+            let valueTxt = last.substr(0, lastIndex) + num.toString() + last.substr(lastIndex + lastTxt.length);
 
-            if(lastNum==""){
-                let num = Math.abs(Number(lastTxt) + step * i);
-                if(lastTxt.substr(0,1)=="0"){
-                    if(lastTxt.length>num.toString().length){
-                        num = "0" + num.toString();
-                    }
-                }
-                d["v"] = num.toString();
-                d["m"] = num.toString();
-            }
-            else{
-                let num = Math.abs(Number(lastNum) + step * i);
-                d["v"] = lastTxt + num.toString();
-                d["m"] = lastTxt + num.toString();
-            }
+            d["v"] = valueTxt;
+            d["m"] = valueTxt;
 
             applyData.push(d);
         }

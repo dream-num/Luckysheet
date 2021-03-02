@@ -126,15 +126,19 @@ There are two ways to introduce dependencies
 
 #### CDN
 ```html
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/assets/iconfont/iconfont.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js"></script>
 ```
 
-Note that `https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js` will pull the latest luckysheet code. If you want to specify the luckysheet version, please add the version number after the luckysheet , Such as: `https://cdn.jsdelivr.net/npm/luckysheet@2.0.0/dist/luckysheet.umd.js`
+Note that the path of `https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js` means that the latest luckysheet code will be pulled, but if Luckysheet has just been released, the jsdelivr website may not have time Synchronize from npm, so using this path will still pull to the previous version. We recommend that you directly specify the latest version.
+
+To specify the Luckysheet version, please add the version number after all CDN dependent files, such as: `https://cdn.jsdelivr.net/npm/luckysheet@2.1.12/dist/luckysheet.umd.js`.
+
+> How do I know which version is the latest version? View the latest [release record](https://github.com/mengshukeji/Luckysheet/releases) or [package.json](https://github.com/mengshukeji/Luckysheet/blob/master/package.json)` version` field.
 
 If it is not convenient to access jsdelivr.net, you can also import it locally
 

@@ -8,6 +8,7 @@ import { inverse } from '../function/matrix_methods';
 import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
+import numeral from 'numeral';
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {
@@ -1605,7 +1606,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = null;
     
     if (val.length > 1) {
-        sheettxt = val[0];
+        sheettxt = val[0].replace(/''/g,"'");
         rangetxt = val[1];
 
         if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){

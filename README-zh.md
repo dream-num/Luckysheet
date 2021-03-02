@@ -10,22 +10,45 @@
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
+## 招聘
+字节跳动靠谱内推 - 前端工程师（上海 · 飞书）
+30 – 60K · 15薪
+1. 简历优先筛选
+2. 面试过程及时跟进
+3. 凭实力说话，薪资在行业有很强竞争力
+4. 包三餐和下午茶
+5. 有意向可以先咨询
+6. 框架: React、Electron
+
+<img src="https://minio.cnbabylon.com/public/luckysheet/feishu_jd.jpg" width = "250" alt="微信群" align="center" />
+
 ## 相关链接
- | 源码   | 文档 | Demo | 插件Demo | 论坛 | 资源 |
- | ------ | -------- | ------ | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
+ | 源码   | 文档 | Demo | 插件Demo | 论坛 |
+ | ------ | -------- | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) / [协同编辑Demo](http://luckysheet.lashuju.com/demo/) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
  | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
-## 在线案例
-
-- [协同编辑Demo](http://luckysheet.lashuju.com/demo/)
-- [Java后台Luckysheet Server](https://gitee.com/mengshukeji/LuckysheetServer)
-
 ## 插件
-- excel导入导出库: [Luckyexcel](https://gitee.com/mengshukeji/Luckyexcel)
-- 图表插件: [chartMix](https://gitee.com/mengshukeji/chartMix)
+- [Luckyexcel](https://gitee.com/mengshukeji/Luckyexcel)：excel导入导出库 
+- [chartMix](https://gitee.com/mengshukeji/chartMix)：图表插件
+
+## 生态
+
+| 工程 | 描述 |
+|---------|-------------|
+| [Luckysheet Vue]          | 在vue cli 3项目中使用Luckysheet和Luckyexcel|
+| [Luckysheet React]          | 在React项目中使用Luckysheet |
+| [Luckyexcel Node]          | 在koa2中使用Luckyexcel |
+| [Luckysheet Server]          | Java后台Luckysheet Server |
+| [Luckysheet Server Starter]          | LuckysheetServer 一键docker部署 |
+
+[Luckysheet Vue]: https://gitee.com/mengshukeji/luckysheet-vue
+[Luckysheet React]: https://gitee.com/mengshukeji/luckysheet-react
+[Luckyexcel Node]: https://gitee.com/mengshukeji/Luckyexcel-node
+[Luckysheet Server]: https://gitee.com/mengshukeji/LuckysheetServer
+[Luckysheet Server Starter]: https://gitee.com/mengshukeji/LuckysheetServerStarter
 
 ## 特性
 
@@ -38,6 +61,11 @@
 - **增强功能**：数据透视表，图表，评论，共享编辑，插入图片，矩阵计算，截图，复制到其他格式，EXCEL导入及导出等
 
 更详细的功能列表，请查阅：[特性](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/#%E7%89%B9%E6%80%A7)
+
+## 📖 学习资源
+
+- 新用户优先阅读：[用户指引](https://github.com/mengshukeji/Luckysheet/wiki/User-Guide)
+- 社区提供的教程、学习资料及配套解决方案请查阅：[教程与资源](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/resource.html)
 
 ## 📜 更新日志
 
@@ -61,12 +89,12 @@
 通过CDN引入依赖
 
 ```
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/assets/iconfont/iconfont.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js"></script>
 ```
 ### 第二步
 指定一个表格容器
@@ -110,9 +138,11 @@ npm run build
 - [鲁班h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
+- [Furion](https://gitee.com/monksoul/Furion)
 
 ## 交流
 
+- [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
 
   <img src="/docs/.vuepress/public/img/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
@@ -154,16 +184,30 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
 - yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200
+- 曹治军 ¥ 1
+- *特 ¥ 10
+- **权 ¥ 9.9
+- **sdmq ¥ 20
+- *旭 ¥ 10
+- Quentin ¥ 20
+- 周宇凡 ¥ 100
+- *超 ¥ 10
 
 ## 贡献者和感谢
 
 ### 核心团队活跃成员
 - [@wbfsa](https://github.com/wbfsa)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
+- [@flowerField](https://github.com/flowerField)
 
 ### 社区伙伴
 - [@danielcai1987](https://github.com/danielcai1987)
@@ -173,6 +217,8 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)
+- [@WJWM0316](https://github.com/WJWM0316)
 
 ## 版权信息
 [MIT](http://opensource.org/licenses/MIT)

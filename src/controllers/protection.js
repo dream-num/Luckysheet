@@ -723,7 +723,7 @@ export function closeProtectionModal(){
 
 
 
-function checkProtectionLockedSqref(r, c, aut, local_protection, isOpenAlert=true){
+function checkProtectionLockedSqref(r, c, aut, local_protection, isOpenAlert=true, isLock=true){
     let isPass = false;
     let rangeAut = aut.allowRangeList;
     if(rangeAut!=null && rangeAut.length>0){
@@ -763,7 +763,7 @@ function checkProtectionLockedSqref(r, c, aut, local_protection, isOpenAlert=tru
             }
         }
     }
-
+    if (!isPass && !isLock) isPass = true
     if(!isPass && isOpenAlert){
         let ht;
         if(aut.hintText != null && aut.hintText.length>0){
@@ -909,7 +909,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
         return true;
     }
 
-    if(cell!=null && cell.lo!=null && cell.lo!=1){
+    if(cell && cell.lo === 0){ // lo为0的时候才是可编辑
         return true;
     }
 
@@ -922,7 +922,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
 //cell hidden state
 export function checkProtectionCellHidden(r, c, sheetIndex){
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
-    if(sheetFile==null){
+    if(!sheetFile || !sheetFile.data[r] || !sheetFile.data[r][c]){
         return true;
     }
 
@@ -946,6 +946,7 @@ export function checkProtectionCellHidden(r, c, sheetIndex){
 //cell range locked state
 export function checkProtectionLockedRangeList(rangeList, sheetIndex){
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
+
     if(sheetFile==null){
         return true;
     }
@@ -973,8 +974,10 @@ export function checkProtectionLockedRangeList(rangeList, sheetIndex){
 
         for(let r=r1;r<=r2;r++){
             for(let c=c1;c<=c2;c++){
-                let isPass = checkProtectionLockedSqref(r, c , aut, local_protection);
-                if(isPass==false){
+                const cell = sheetFile.data[r][c] || {}
+                let isLock = cell.lo === undefined || cell.lo === 1, // 单元格是否锁定
+                    isPass = checkProtectionLockedSqref(r, c , aut, local_protection, true, isLock);
+                if(!isPass){
                     return false;
                 }
             }
@@ -1003,7 +1006,7 @@ export function checkProtectionSelectLockedOrUnLockedCells(r, c, sheetIndex){
         return true;
     }
 
-    if(cell!=null && cell.lo!=null && cell.lo!=1){//unlocked
+    if(cell && cell.lo === 0){ // lo为0的时候才是可编辑
         if(aut.selectunLockedCells==1 || aut.selectunLockedCells==null){
             return true;
         }

@@ -73,6 +73,7 @@ The following are all supported setting parameters
 - The height of the column header area [columnHeaderHeight](#columnHeaderHeight)
 - Whether to show the formula bar [sheetFormulaBar](#sheetFormulaBar)
 - Initialize the default font size [defaultFontSize](#defaultFontSize)
+- Pager [pager](#pager)
 
 ### container
 - Type: String
@@ -89,7 +90,7 @@ The following are all supported setting parameters
 ### lang
 - Type: String
 - Default: "en"
-- Usage: Internationalization settings, allowing to set the language of the workbook, supporting Chinese ("zh") and English ("en")
+- Usage: Internationalization settings, allow to set the language of the table, support simplified Chinese ("zh"), English ("en") and traditional Chinese ("zh_tw") and Spanish ("es")
 
 ------------
 ### gridKey
@@ -360,9 +361,54 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 ------------
 ### userInfo
-- Type: String
-- Default: `'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> rabbit'`
-- Usage: User information display style in the upper right corner
+- Type: String | Boolean | Object
+- Default: false
+- Usage: User information display style in the upper right corner,Support the following three formats
+	1. HTML template string, such as:
+	
+	```js
+	options:{
+		// Other configuration
+		userInfo:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky',
+	}
+	```
+
+	Or an ordinary string, such as:
+	
+	```js
+	options:{
+		// Other configuration
+		userInfo:'Lucky',
+	}
+	```
+ 
+	2. Boolean type, such as:
+   	
+	`false`: Do not show
+	```js
+	options:{
+		// Other configuration
+		userInfo:false, // Do not display user information
+	}
+
+	```
+	`ture`: Show the default string
+	```js
+	options:{
+		// Other configuration
+		userInfo:true, // Show HTML:'<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky'
+	}
+
+	```
+	3. Object format, set `userImage`: user avatar address and `userName`: user name, such as:
+	```js
+	options:{
+		// Other configuration
+		userImage:'https://cdn.jsdelivr.net/npm/luckyresources@1.0.3/assets/img/logo/logo.png', // Avatar url
+		userName:'Lucky', // username
+	}
+	```
+	4. Note that if set to `undefined` or not set, the same as setting `false`
 
 ------------
 ### userMenuItem
@@ -508,6 +554,36 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 
 ------------
 
+### limitSheetNameLength
+- Type: Boolean
+- Default: true
+- Usage：Is the length of the sheet name limited in scenarios such as sheet renaming
+
+------------
+
+### defaultSheetNameMaxLength
+- Type：Number
+- Default：31
+- Usage：Default maximum allowed sheet name length
+
+------------
+
+### pager
+- Type：Object
+- Default：null
+- Usage：Pager button settings, the first version of the solution is directly used jquery plug-in [sPage](https://github.com/jvbei/sPage)
+	Clicking the paging button will trigger the hook function `onTogglePager`, which returns the current page number, which is the same as the `backFun` method of `sPage`. This pager setting is only responsible for the UI part. For the specific data request and data rendering after switching paging, please enter the `onTogglePager` custom processing in the number of hook lines.
+	```js
+	pager: {
+		pageIndex: 1, //Current page number
+		pageSize: 10, //How many rows of data are displayed on each page
+		total: 50, //Total number of rows of data
+		selectOption: [10, 20] //Options that allow setting the number of rows per page
+	}
+	```
+
+------------
+
 ## Hook Function (TODO)
 
 When the hook function is used in secondary development, hooks will be implanted in each common mouse or keyboard operation, and the function passed in by the developer will be called to expand the function of Luckysheet.
@@ -516,49 +592,216 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 
 ## Cell
 
-### cellRenderAfter
-- Type: Function
-- Default: null
-- Usage: Triggered after the cell rendering ends
-- Parameter: 
-	- {Number} [r]: Row number of cell
-	- {Number} [c]: Column number of cell
-	- {Object} [v]: Cell object
+### cellEditBefore
 
-------------
-### cellHover
 - Type: Function
 - Default: null
-- Usage: Triggered when the mouse moves over the cell (hover)
+- Usage: Triggered before entering the cell editing mode. When a cell is selected and in the non-editing state, there are usually the following three conventional methods to trigger the edit mode
+   - Double click the cell
+   - Hit Enter
+   - Use API: enterEditMode
 - Parameter: 
-	- {Number} [r]: Row number of cell
-	- {Number} [c]: Column number of cell
-	- {Object} [v]: Cell object
+	- {Array} [range]: Current selection range
 
 ------------
 ### cellUpdateBefore
 
-- Type：Function
-- Default：null
-- Usage：Triggered before updating this cell
-- Parameter：
-	- {Number} [r]: Row number of cell
-	- {Number} [c]: Column number of cell
-	- {Object | String | Number} [value]: Cell content to be modified
+- Type: Function
+- Default: null
+- Usage: Triggered before updating this cell value, `return false` will not perform subsequent updates. After modifying the cell in the editing state, this hook is triggered before exiting the editing mode and updating the data.
+- Parameter: 
+	- {Number} [r]: The row number of the cell
+	- {Number} [c]: The column number of the cell
+	- {Object | String | Number} [value]: The content of the cell to be modified
 	- {Boolean} [isRefresh]: Whether to refresh the entire table
 
 ------------
 ### cellUpdated
 
-- Type：Function
-- Default：null
-- Usage：Triggered after updating this cell
-- Parameter：
-	- {Number} [r]: Row number of cell
-	- {Number} [c]: Column number of cell
+- Type: Function
+- Default: null
+- Usage: Triggered after updating this cell
+- Parameter: 
+	- {Number} [r]: The row number of the cell
+	- {Number} [c]: The column number of the cell
 	- {Object} [oldValue]: Cell object before modification
-	- {Object} [newValue]: Cell object after modification
+	- {Object} [newValue]: Modified cell object
 	- {Boolean} [isRefresh]: Whether to refresh the entire table
+
+------------
+### cellRenderBefore
+
+- Type: Function
+- Default: null
+- Usage: Triggered before the cell is rendered, `return false` will not render the cell
+- Parameter: 
+	- {Object} [cell]:Cell object
+	- {Object} [position]:
+		+ {Number} [r]: The row number of the cell
+		+ {Number} [c]: The column number of the cell
+		+ {Number} [start_r]: The horizontal coordinate of the upper left corner of the cell
+		+ {Number} [start_c]: The vertical coordinate of the upper left corner of the cell
+		+ {Number} [end_r]: The horizontal coordinate of the lower right corner of the cell
+		+ {Number} [end_c]: The vertical coordinate of the lower right corner of the cell
+	- {Object} [sheet]: Current sheet object
+	- {Object} [ctx]: The context of the current canvas
+
+------------
+### cellRenderAfter
+
+- Type: Function
+- Default: null
+- Usage: Triggered after the cell rendering ends, `return false` will not render the cell
+- Parameter: 
+	- {Object} [cell]: Cell object
+	- {Object} [position]:
+		+ {Number} [r]: The row number of the cell
+		+ {Number} [c]: The column number of the cell
+		+ {Number} [start_r]: The horizontal coordinate of the upper left corner of the cell
+		+ {Number} [start_c]: The vertical coordinate of the upper left corner of the cell
+		+ {Number} [end_r]: The horizontal coordinate of the lower right corner of the cell
+		+ {Number} [end_c]: The vertical coordinate of the lower right corner of the cell
+	- {Object} [sheet]: Current worksheet object
+	- {Object} [ctx]: The context of the current canvas
+
+- Example:
+
+	A case of drawing two pictures in the upper left corner and lower right corner of cell D1
+	:::::: details
+	```js
+	luckysheet.create({
+            hook: {
+                cellRenderAfter: function (cell, position, sheetFile, ctx) {
+                    var r = position.r;
+                    var c = position.c;
+                    if (r === 0 && c === 3) { // Specify to process cell D1
+                        if (!window.storeUserImage) {
+                            window.storeUserImage = {}
+                        }
+						
+                        if (!window.storeUserImage[r + '_' + c]) {
+                            window.storeUserImage[r + '_' + c] = {}
+                        }
+
+                        var img = null;
+                        var imgRight = null;
+
+                        if (window.storeUserImage[r + '_' + c].image && window.storeUserImage[r + '_' + c].imgRight) {
+							
+							// Fetch directly after loading
+                            img = window.storeUserImage[r + '_' + c].image;
+                            imgRight = window.storeUserImage[r + '_' + c].imgRight;
+
+                        } else {
+
+                            img = new Image();
+                            imgRight = new Image();
+
+                            img.src = 'https://www.dogedoge.com/favicon/developer.mozilla.org.ico';
+                            imgRight.src = 'https://www.dogedoge.com/static/icons/twemoji/svg/1f637.svg';
+
+							// The picture is cached in the memory, fetched directly next time, no need to reload
+                            window.storeUserImage[r + '_' + c].image = img;
+                            window.storeUserImage[r + '_' + c].imgRight = imgRight;
+
+                        }
+
+						
+                        if (img.complete) { //Direct rendering that has been loaded
+                            ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
+                        } else {
+                            img.onload = function () {
+                                ctx.drawImage(img, position.start_c, position.start_r, 10, 10);
+                            }
+
+                        }
+
+                        if (imgRight.complete) {
+                            ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
+                        } else {
+
+                            imgRight.onload = function () {
+                                ctx.drawImage(imgRight, position.end_c - 10, position.end_r - 10, 10, 10);
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+	```
+	:::
+
+------------
+### cellAllRenderBefore
+
+- Type: Function
+- Default: null
+- Usage:The method executed before all cells are rendered. Internally, this method is added before `luckysheetDrawMain` renders the table.
+- Parameter: 
+	- {Object} [data]: Two-dimensional array data of the current worksheet
+	- {Object} [sheet]: Current worksheet object
+	- {Object} [ctx]: The context of the current canvas
+
+------------
+### rowTitleCellRenderBefore
+
+- Type: Function
+- Default: null
+- Usage: Triggered before the row header cell is rendered, `return false` will not render the row header
+- Parameter: 
+	- {String} [rowNum]: Row number
+	- {Object} [position]:
+		+ {Number} [r]: The row number of the cell
+		+ {Number} [top]: The vertical coordinate of the upper left corner of the cell
+		+ {Number} [width]: Cell width
+		+ {Number} [height]: Cell height
+	- {Object} [ctx]: The context of the current canvas
+
+------------
+### rowTitleCellRenderAfter
+
+- Type: Function
+- Default: null
+- Usage: Triggered after the row header cell is rendered, `return false` will not render the row header
+- Parameter: 
+	- {String} [rowNum]: Row number
+	- {Object} [position]:
+		+ {Number} [r]: The row number of the cell
+		+ {Number} [top]: The vertical coordinate of the upper left corner of the cell
+		+ {Number} [width]: Cell width
+		+ {Number} [height]: Cell height
+	- {Object} [ctx]: The context of the current canvas
+
+------------
+### columnTitleCellRenderBefore
+
+- Type: Function
+- Default: null
+- Usage: Triggered before the column header cell is rendered, `return false` will not render the column header
+- Parameter: 
+	- {Object} [columnAbc]: Column header characters
+	- {Object} [position]:
+		- {Number} [c]: The column number of the cell
+		- {Number} [left]: The horizontal coordinate of the upper left corner of the cell
+		- {Number} [width]: Cell width
+		- {Number} [height]: Cell height
+	- {Object} [ctx]: The context of the current canvas
+
+------------
+### columnTitleCellRenderAfter
+
+- Type: Function
+- Default: null
+- Usage: Triggered after the column header cell is rendered, `return false` will not render the column header
+- Parameter: 
+	- {Object} [columnAbc]: Column header characters
+	- {Object} [position]:
+		- {Number} [c]: The column number of the cell
+		- {Number} [left]: The horizontal coordinate of the upper left corner of the cell
+		- {Number} [width]: Cell width
+		- {Number} [height]: Cell height
+	- {Object} [ctx]: The context of the current canvas
 
 ------------
 
@@ -569,7 +812,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Default: null
 - Usage: Frame selection or trigger after setting selection
 - Parameter: 
-	- {Object} [sheet]: Current sheet object
+	- {Object} [sheet]: Current worksheet object
 	- {Object | Array} [range]: Selection area, may be multiple selection areas
 
 ------------
@@ -912,7 +1155,7 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 ### updated
 - Type: Function
 - Default: null
-- Usage: The method executed after each operation is updated is executed after the canvas rendering, that is, every time the client performs a workbook operation, Luckysheet saves the operation in the history and triggers it. When undoing and redoing, it is also an operation, of course, the hook function will be triggered.
+- Usage: The method executed after each operation is updated is executed after the canvas rendering, monitor changes in worksheet content, that is, every time the client performs a workbook operation, Luckysheet saves the operation in the history and triggers it. When undoing and redoing, it is also an operation, of course, the hook function will be triggered.
 - Parameter: 
 	- {Object} [operate]: The history information of this operation will have different history records according to different operations. Refer to the source code [History](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/controlHistory.js )
     
@@ -1091,5 +1334,17 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
 - Type: Function
 - Default: null
 - Usage: Customized method of drilling down cell data, note that this hook function is mounted under options: `options.fireMousedown`
+
+------------
+
+## Pager
+
+### onTogglePager
+
+- Type: Function
+- Default: null
+- Usage: Click the page button to call back the function, return the current page number, refer to [sPage backFun](https://github.com/jvbei/sPage)
+- Parameter:
+	- {Object} [page]: Return the current page object
 
 ------------

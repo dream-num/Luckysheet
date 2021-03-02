@@ -1,13 +1,14 @@
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-
+import { getObjType } from '../utils/util';
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();
     const locale_info = _locale.info;
     const locale_print = _locale.print;
-    
+    const userInfo = luckysheetConfigsetting.userInfo === true ? '<i style="font-size:16px;color:#ff6a00;" class="fa fa-taxi" aria-hidden="true"></i> Lucky' : luckysheetConfigsetting.userInfo; // When true, use the default HTML string. The rendering of userInfo below uses nested template strings. Otherwise, when display is used and the image path is not passed in, there will be an undefined request
+
     return `<div class="luckysheet">
                     <canvas id="luckysheetTableContentF" style="display:none;" class="luckysheetTableContent"></canvas> 
                     <div class="luckysheet-work-area luckysheet-noselected-text"> 
@@ -20,8 +21,18 @@ const gridHTML = function(){
                                 <input data-tips="${locale_info.tips}" id="luckysheet_info_detail_input" class="luckysheet_info_detail_input luckysheet-mousedown-cancel" value="${locale_info.noName}" tabindex="0" dir="ltr" aria-label="${locale_info.rename}" style="visibility: visible; width: 149px;" data-tooltip="${locale_info.rename}"> 
                             </div> 
                             <div id="luckysheet_info_detail_update" class="luckysheet_info_detail_update"> ${locale_info.detailUpdate} </div> 
-                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div> 
-                            <div class="luckysheet_info_detail_user"> \${functionButton} <span id="luckysheet_info_detail_user"></span> </div> 
+                            <div id="luckysheet_info_detail_save" class="luckysheet_info_detail_save"> ${locale_info.wait} </div>
+                            
+                            \${functionButton}
+                            
+                            ${getObjType(userInfo) === 'string' ? `<div class="luckysheet_info_detail_user">
+                            <span id="luckysheet_info_detail_user">${userInfo}</span></div>` : ''}
+
+                            ${getObjType(userInfo) === 'object' ? `<div class="luckysheet_info_detail_user">                            
+                            <img src="${userInfo.userImage}" id="luckysheet_info_detail_user_img">
+                            <span id="luckysheet_info_detail_user">${userInfo.userName}</span>
+                            </div>` : ''}
+                            
                         </div> 
                         <div id="luckysheet-wa-editor" class="luckysheet-wa-editor toolbar"> \${menu} </div> 
                         <div id="luckysheet-wa-calculate" class="luckysheet-wa-calculate"> 
@@ -198,23 +209,25 @@ const gridHTML = function(){
                                 </table> 
                             </div> 
                             <div class="luckysheet-sheet-area luckysheet-noselected-text" id="luckysheet-sheet-area">
-                                <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="iconfont luckysheet-iconfont-jia1"></i></div>
-                                <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="iconfont luckysheet-iconfont-caidan2"></i></div>
-                                <div class="luckysheet-sheet-container" id="luckysheet-sheet-container">
-                                    <div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">
-                                        <div class="docs-sheet-fade3"></div>
-                                        <div class="docs-sheet-fade2"></div>
-                                        <div class="docs-sheet-fade1"></div>
+                                <div id="luckysheet-sheet-content">
+                                    <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="iconfont luckysheet-iconfont-jia1"></i></div>
+                                    <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="iconfont luckysheet-iconfont-caidan2"></i></div>
+                                    <div class="luckysheet-sheet-container" id="luckysheet-sheet-container">
+                                        <div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">
+                                            <div class="docs-sheet-fade3"></div>
+                                            <div class="docs-sheet-fade2"></div>
+                                            <div class="docs-sheet-fade1"></div>
+                                        </div>
+                                        <div class="docs-sheet-fade docs-sheet-fade-right" style="display: none;">
+                                            <div class="docs-sheet-fade1"></div>
+                                            <div class="docs-sheet-fade2"></div>
+                                            <div class="docs-sheet-fade3"></div>
+                                        </div>
+                                        <div class="luckysheet-sheet-container-c" id="luckysheet-sheet-container-c"></div>
                                     </div>
-                                    <div class="docs-sheet-fade docs-sheet-fade-right" style="display: none;">
-                                        <div class="docs-sheet-fade1"></div>
-                                        <div class="docs-sheet-fade2"></div>
-                                        <div class="docs-sheet-fade3"></div>
-                                    </div>
-                                    <div class="luckysheet-sheet-container-c" id="luckysheet-sheet-container-c"></div>
+                                    <div id="luckysheet-sheets-leftscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-left"></i></div>
+                                    <div id="luckysheet-sheets-rightscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-right"></i></div>
                                 </div>
-                                <div id="luckysheet-sheets-leftscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-left"></i></div>
-                                <div id="luckysheet-sheets-rightscroll" class="luckysheet-sheets-scroll lucky-button-custom"><i class="fa fa-caret-right"></i></div>
                             </div> 
                         </div> 
                         <div class="luckysheet-stat-area"> 
@@ -338,7 +351,7 @@ function rightclickHTML(){
                             ${rightclick.to}
                             <span class="luckysheet-cols-rows-shift-right">${rightclick.right}</span>
                             ${rightclick.add}
-                            <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                            <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                             <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
                         </div>
                     </div>
@@ -364,7 +377,7 @@ function rightclickHTML(){
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             <span class="luckysheet-cols-rows-shift-word luckysheet-mousedown-cancel">${rightclick.column}</span>
                             <span class="luckysheet-cols-rows-shift-size luckysheet-mousedown-cancel">${rightclick.width}</span>
-                            <input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="${rightclick.number}" value="" style="width:50px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;">
+                            <input type="number" class="luckysheet-mousedown-cancel rcsize" min="0" max="255" placeholder="${rightclick.number}" value="" style="width:50px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;">
                             px
                         </div>
                     </div>
@@ -427,9 +440,9 @@ function rightclickHTML(){
                 <div id="luckysheet-copy-arraymore-confirm" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         <span class="luckysheet-mousedown-cancel">${rightclick.array3}</span>
-                        <input type="number" id="luckysheet-copy-arraymore-row" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.row}" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;"/>
+                        <input type="number" id="luckysheet-copy-arraymore-row" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.row}" style="width:40px;height:20px;box-sizing:border-box;text-align: center;"/>
                             ×
-                            <input type="number" id="luckysheet-copy-arraymore-col" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.column}" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;"/>
+                            <input type="number" id="luckysheet-copy-arraymore-col" min="1" class="luckysheet-mousedown-cancel" placeholder="${rightclick.column}" style="width:40px;height:20px;box-sizing:border-box;text-align: center;"/>
                     </div>
                 </div>
                 <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
@@ -442,7 +455,7 @@ function rightclickHTML(){
                 <div id="luckysheet-copy-diagonaloffset" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${rightclick.diagonalOffset}
-                        <input type="number" id="luckysheet-copy-diagonaloffset-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.offset}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                        <input type="number" id="luckysheet-copy-diagonaloffset-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.offset}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         ${rightclick.column}
                     </div>
                 </div>
@@ -457,28 +470,28 @@ function rightclickHTML(){
                 <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${rightclick.to}${rightclick.top}${rightclick.add}
-                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         <span class="luckysheet-mousedown-cancel">${rightclick.row}</span>
                     </div>
                 </div>
                 <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${rightclick.to}${rightclick.bottom}${rightclick.add}
-                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         <span class="luckysheet-mousedown-cancel">${rightclick.row}</span>
                     </div>
                 </div>
                 <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${rightclick.to}${rightclick.left}${rightclick.add}
-                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         <span class="luckysheet-mousedown-cancel">${rightclick.column}</span>
                     </div>
                 </div>
                 <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${rightclick.to}${rightclick.right}${rightclick.add}
-                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                        <input type="text" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="1" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         <span class="luckysheet-mousedown-cancel">${rightclick.column}</span>
                     </div>
                 </div>
@@ -573,7 +586,7 @@ function rightclickHTML(){
                                 <option value="root">${rightclick.root}</option>
                                 <option value="log">${rightclick.log}</option>
                             </select>
-                            <input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="2" style="width:40px;height:20px;box-sizing:border-box;text-align: center;;margin-left:5px;"/>
+                            <input type="number" id="luckysheet-matrix-cal-value" class="luckysheet-mousedown-cancel" placeholder="${rightclick.number}" value="2" style="width:40px;height:20px;box-sizing:border-box;text-align: center;margin-left:5px;"/>
                         </div>
                     </div>
                 </div>
@@ -624,6 +637,12 @@ function sheetconfigHTML(){
     const sheetconfig = locale().sheetconfig;
 
     const config = customSheetRightClickConfig();
+
+    /* 如果配置项全部为flase，则隐藏入口且不再菜单项 */
+    if(Object.values(config).every(ele=> !ele)){
+        $('#luckysheet-sheet-container-c').addClass("luckysheet-sheet-container-menu-hide");
+        return "";
+    }
 
     let hideTopMenuseparator = true;
     let moveTopMenuseparator = true;
@@ -1039,7 +1058,7 @@ function menuToolBar (){
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(0, 0, 0); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar"></div>
+                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultTextColor}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-text-color iconfont luckysheet-iconfont-wenbenyanse"
                                 style="user-select: none;">
                                 </div>
@@ -1074,7 +1093,7 @@ function menuToolBar (){
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(255, 255, 255); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar"></div>
+                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultCellColor}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-cell-color iconfont luckysheet-iconfont-tianchong"
                                 style="user-select: none;">
                                 </div>
@@ -1558,11 +1577,107 @@ function menuToolBar (){
         `;
 } 
 
-const luckysheetlodingHTML = function(){ 
-    const _locale = locale()
-    const info =_locale.info;
-    return'<div id="luckysheetloadingdata" style="width:100%;text-align:center;position:absolute;top:0px;height:100%;font-size: 16px;z-index:1000000000;background:#fff;"><div style="position:relative;top:45%;width:100%;"> <div class="luckysheetLoaderGif"></div>  <span>'+info.loading+'...</span></div></div>';
+
+function customLoadingConfig() {
+    const _locale = locale();
+    const info = _locale.info;
+    const config = {
+        enable: true,
+        image: 'image://css/loading.gif',
+        text: info.loading,
+        viewBox: "32 32 64 64", // 只有为path时，才会使用
+        imageClass: '',
+        textClass: '',
+        customClass: ''
+    }
+    if (JSON.stringify(luckysheetConfigsetting.loading) !== '{}') {
+        Object.assign(config, luckysheetConfigsetting.loading);
+    }
+    return config;
 }
+
+const luckysheetloadingImage = function (config) {
+    if(typeof config.image==="function"){
+        return config.image()
+    }
+    const regE = new RegExp("^(image|path)://");
+    const regResult = regE.exec(config.image);
+    let imageHtml = '';
+    if (regResult !== null) {
+        const prefix = regResult[0];
+        const type = regResult[1];
+        const imageStr = regResult.input.substring(prefix.length);
+        switch (type) {
+            case "image":
+                imageHtml = `<div class="image-type" style="background-image: url(${imageStr});"></div>`;
+                break;
+            case "path":
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("class", "path-type");
+                svg.setAttribute("viewBox", config.viewBox);
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", imageStr);
+                path.setAttribute("fill", "currentColor");
+                svg.appendChild(path);
+                imageHtml = svg.outerHTML;
+                break;
+            default:
+                break;
+        }
+    }
+    return imageHtml;
+}
+
+const luckysheetlodingHTML = function (target, coverConfig) {
+    if (!target) {
+        return;
+    }
+    const config = customLoadingConfig();
+    if (coverConfig && JSON.stringify(coverConfig) !== "{}") {
+        Object.assign(config, coverConfig);
+    }
+    if (typeof config.enable === "boolean" && config.enable === false) {
+        return {
+            el: '',
+            show: show,
+            close: close
+        }
+    }
+    const imageHtml = luckysheetloadingImage(config);
+    const id = "luckysheet-loading-" + uuid.v4();
+    const loadingHtml = `
+        <div class="luckysheet-loading-content"> 
+            <div class="${config.imageClass} luckysheet-loading-image">
+                ${imageHtml}
+            </div>
+            <div class="${config.textClass} luckysheet-loading-text">
+            <span>${config.text}</span>
+            </div>    
+        </div>`;
+    const loading = document.createElement("div");
+    loading.id = id;
+    loading.className = "luckysheet-loading-mask " + config.customClass;
+    $(loading).html(loadingHtml);
+    $(target).append(loading);
+
+    function show() {
+        if(id){
+            $("#" + id).show();
+        }     
+    }
+
+    function close() {
+        if(id){
+            $("#" + id).hide();
+        }  
+    }
+    return {
+        el: loading,
+        show: show,
+        close: close
+    };
+}
+
 // var menusetting = {
 //     menu_selectall: '<div id="luckysheet-selectall-btn-title"><i class="fa fa-i-cursor"></i> 全选</div>',
 //     menu_copy: '<div id="luckysheet-copy-btn-title"><i class="fa fa-copy"></i> 复制</div>',

@@ -41,6 +41,7 @@ const uglifyOptions = {
 
 // babel config
 const babelConfig = {
+    compact:false,
     babelHelpers: 'bundled',
     exclude: 'node_modules/**', // Only compile our source code
     plugins: [
@@ -86,16 +87,18 @@ const paths = {
     css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
         'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/uuid/dist/umd/uuid.min.js',
         'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
         'src/plugins/js/jquery.mousewheel.min.js',
-        'src/plugins/js/numeral.min.js',
+        // 'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
         'src/plugins/js/localforage.min.js',
         'src/plugins/js/lodash.min.js',
         'src/plugins/js/jstat.min.js',
-        'src/plugins/js/crypto-api.min.js'
+        'src/plugins/js/crypto-api.min.js',
+        'src/plugins/js/jquery.sPage.min.js'
     ],
 
     //plugins concat

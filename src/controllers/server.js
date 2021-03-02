@@ -1,19 +1,22 @@
 import pako from 'pako'
 import { showloading, hideloading } from '../global/loading';
 import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from '../global/refresh';
+import editor from '../global/editor'
 import { sheetHTML, luckyColor } from './constant';
 import sheetmanage from './sheetmanage';
 import menuButton from './menuButton';
 import { createFilterOptions } from './filter';
 import luckysheetFreezen from './freezen';
 import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
+import dataVerificationCtrl from './dataVerificationCtrl';
+import hyperlinkCtrl from './hyperlinkCtrl';
 import { getObjType, replaceHtml, getByteLen } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
-import imageCtrl from './imageCtrl';
 import json from '../global/json';
 
 const server = {
@@ -22,7 +25,8 @@ const server = {
     updateUrl: null,
     updateImageUrl: null,
     title: null,
-    loadSheetUrl: null,
+		loadSheetUrl: null,
+		retryTimer:null,
     allowUpdate: false, //共享编辑模式
     historyParam: function(data, sheetIndex, range) {
     	let _this = this;
@@ -150,17 +154,21 @@ const server = {
         let _this = this;
 
         if('WebSocket' in window){
-	        _this.websocket = new WebSocket(_this.updateUrl + "?t=111&g=" + encodeURIComponent(_this.gridKey));
+			let wxUrl = _this.updateUrl + "?t=111&g=" + encodeURIComponent(_this.gridKey);
+			if(_this.updateUrl.indexOf('?') > -1){
+				wxUrl = _this.updateUrl + "&t=111&g=" + encodeURIComponent(_this.gridKey);
+			}
+
+	        _this.websocket = new WebSocket(wxUrl);
 
 	        //连接建立时触发
 	        _this.websocket.onopen = function() {
-
-	        console.info(locale().websocket.success);
-	        hideloading();
-				  _this.wxErrorCount = 0;
+	        	console.info(locale().websocket.success);
+	        	hideloading();
+				_this.wxErrorCount = 0;
 				
 	            //防止websocket长时间不发送消息导致断连
-	            setInterval(function(){
+				_this.retryTimer = setInterval(function(){
 	                _this.websocket.send("rub");
 	            }, 60000);
 	        }
@@ -168,7 +176,7 @@ const server = {
 	        //客户端接收服务端数据时触发
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
-				let data = eval('(' + result.data + ')');
+				let data = new Function("return " + result.data)();
 				console.info(data);
 				let type = data.type;
 				let {message,id} = data;
@@ -318,10 +326,14 @@ const server = {
 	        }
 
 	        //连接关闭时触发
-	        _this.websocket.onclose = function(){
+	        _this.websocket.onclose = function(e){
 				console.info(locale().websocket.close);
-				
-	            alert(locale().websocket.contact);
+				if(e.code === 1000){
+					clearInterval(_this.retryTimer)
+					_this.retryTimer = null
+				}else{
+					alert(locale().websocket.contact);
+				}
 	        }
 	    }
 	    else{
@@ -348,7 +360,8 @@ const server = {
 	        file.data[r][c] = value;
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
-	            Store.flowdata = file.data;
+				Store.flowdata = file.data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            //如果更新的单元格有批注
 	            if(value != null && value.ps != null){
@@ -383,7 +396,8 @@ const server = {
 	        }
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
-	            Store.flowdata = file.data;
+				Store.flowdata = file.data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 				
 	            //如果更新的单元格有批注
 	            for(let r = r1; r <= r2; r++){
@@ -413,9 +427,21 @@ const server = {
 	                file["config"][k] = {};
 	            }
 
-	            for(let key in value){
-	                file["config"][k][key] = value[key];
-	            }
+	            // for(let key in value){
+	            //     file["config"][k][key] = value[key];
+				// }
+				
+				// ⚠️ 上面的处理方式会导致部分配置项被遗漏，以致协同编辑的时候多视图出现不一致的情况，调整处理的策略为直接替换配置项：
+				// 可能的配置项为：
+				// columnlen: {0: 65, 1: 186, 2: 52}
+				// customHeight: {0: 1, 5: 1, 6: 1}
+				// customWidth: {0: 1, 1: 1, 2: 1}
+				// merge: {2_1: {…}, 4_2: {…}, 6_2: {…}}
+				// rowlen: {0: 19, 5: 93, 6: 117}
+				if(value && (typeof value == "object")){
+					file["config"][k] = value;
+				}
+
 	        }
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
@@ -514,12 +540,31 @@ const server = {
 	                }, 1);
 	            }
 			}
+			else if(k == "images"){ //图片
+				if(index == Store.currentSheetIndex){
+					imageCtrl.images = value;
+					imageCtrl.allImagesShow();
+					imageCtrl.init();
+				}
+			}
+			else if(k == "dataVerification"){ //数据验证
+				if(index == Store.currentSheetIndex){
+					dataVerificationCtrl.dataVerification = value;
+        			dataVerificationCtrl.init();
+				}
+			}
+			else if(k == "hyperlink"){ //链接
+				if(index == Store.currentSheetIndex){
+					hyperlinkCtrl.hyperlink = value;
+        			hyperlinkCtrl.init();
+				}
+			}
 	    }
 	    else if(type == "fc"){ //函数链calc
 	        let op = item.op, pos = item.pos;
 
 	        if(getObjType(value) != "object"){
-	            value = eval('('+ value +')');
+				value = new Function("return " + value)();
 	        }
 
 	        let r = value.r, c = value.c;
@@ -601,7 +646,8 @@ const server = {
 	        file["config"].borderInfo = borderInfo;
 
 	        if(index == Store.currentSheetIndex){
-	            Store.flowdata = data;
+				Store.flowdata = data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            Store.config["merge"] = mc;
 	            Store.config["borderInfo"] = borderInfo;
@@ -619,26 +665,55 @@ const server = {
 	        let rc = item.rc,
 	        	st_i = value.index,
 	        	len = value.len,
-	        	addData = value.data,
+				addData = value.data,
+				direction = value.direction,
 	        	mc = value.mc,
 	        	borderInfo = value.borderInfo;
-	        let data = file.data;
+	        let data = $.extend(true, [], file.data);
 
 	        if(rc == "r"){
-	            file["row"] += len;
+				file["row"] += len;
+				
+				//空行模板
+				let row = [];
+				for(let c = 0; c < data[0].length; c++){
+					row.push(null);
+				}
 
 	            let arr = [];
 	            for(let i = 0; i < len; i++){
-	                arr.push(JSON.stringify(addData[i]));
-	            }
+					if(addData[i] == null){
+						arr.push(JSON.stringify(row));
+					}
+					else{
+						arr.push(JSON.stringify(addData[i]));
+					}
+				}
 
-	            eval('data.splice(' + st_i + ', 0, ' + arr.join(",") + ')');
+				if(direction == "lefttop"){
+					if(st_i == 0){
+						new Function("data","return " + 'data.unshift(' + arr.join(",") + ')')(data);
+					}
+					else{
+						new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
+					}
+				}
+				else{ 
+					new Function("data","return " + 'data.splice(' + (st_i + 1) + ', 0, ' + arr.join(",") + ')')(data); 
+				}
 	        }
 	        else{
 	            file["column"] += len;
 
 	            for(let i = 0; i < data.length; i++){
-	                data[i].splice(st_i, 0, addData[i]);
+					// data[i].splice(st_i, 0, addData[i]);
+
+					// 备注：区分插入的位置(可能是左侧插入或者右侧插入)
+					if(direction == "lefttop"){
+						data[i].splice(st_i, 0, addData[i]);
+					}else{
+						data[i].splice(st_i + 1, 0, addData[i]);
+					}
 	            }
 	        }
 
@@ -647,11 +722,13 @@ const server = {
 	            data[r][c].mc = mc[x];
 	        }
 
+			file.data = data;
 	        file["config"].merge = mc;
 	        file["config"].borderInfo = borderInfo;
 
 	        if(index == Store.currentSheetIndex){
-	            Store.flowdata = data;
+				Store.flowdata = data;
+				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
 
 	            Store.config["merge"] = mc;
 	            Store.config["borderInfo"] = borderInfo;
@@ -991,7 +1068,7 @@ const server = {
             // console.log("request");
             if(_this.updateUrl != ""){
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
                         $("#luckysheet_info_detail_save").html("同步成功");
@@ -1051,7 +1128,7 @@ const server = {
             if(_this.updateImageUrl != ""){
                 // $.post(_this.updateImageUrl, { compress: true, gridKey: _this.gridKey, data:data1  }, function (data) {
                 $.post(_this.updateImageUrl, { compress: false, gridKey: _this.gridKey, data:data1  }, function (data) {
-                    let re = eval('('+ data +')')
+					let re = new Function("return " + data)();
                     if(re.status){
                         imageRequestLast = dayjs();
                     }

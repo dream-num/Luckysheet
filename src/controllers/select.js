@@ -6,7 +6,9 @@ import browser from '../global/browser';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
+import method from '../global/method';
 import locale from '../locale/locale';
+import { refreshMenuButtonFocus } from "../global/api";
 
 //公式函数 选区实体框
 function seletedHighlistByindex(id, r1, r2, c1, c2) {
@@ -179,9 +181,20 @@ function selectHightlightShow(isRestore = false) {
         if (Store.luckysheet_select_save.length == 1 && Store.luckysheet_select_save[0].row[0] == Store.luckysheet_select_save[0].row[1] && Store.luckysheet_select_save[0].column[0] == Store.luckysheet_select_save[0].column[1]) {
             dynamicArrayHightShow(Store.luckysheet_select_save[0].row[0], Store.luckysheet_select_save[0].column[0]);
         }
+    
+        /* 刷新当前状态栏 */
+        refreshMenuButtonFocus();
     }
 
     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].luckysheet_select_save = Store.luckysheet_select_save;
+            // Hook function, change the range selection box, selectHightlightShowillbe triggered multiple times when mousemove is moused, and thhistoricalvalue is used here to throttle
+        const luckysheet_select_save_previous = JSON.stringify(Store.luckysheet_select_save);
+
+        if(Store.luckysheet_select_save_previous == null |Store.luckysheet_select_save_previous !== luckysheet_select_save_previous){
+            method.createHookFunction('rangeSelect', Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)], Store.luckysheet_select_save);
+        }
+        
+        Store.luckysheet_select_save_previous = luckysheet_select_save_previous;
 }
 
 //选区标题栏
@@ -302,6 +315,7 @@ function selectIsOverlap(range) {
     if (range == null) {
         range = Store.luckysheet_select_save;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     let overlap = false;
     let map = {};
@@ -422,11 +436,11 @@ function collaborativeEditBox() {
                     }
                 } else {
                     // 合并取消变成多个单元格时执行
-                    change_width = all_width[count_col[0]] - all_width[count_col[0] - 1] -1 
+                    change_width = all_width[count_col[0]] - all_width[count_col[0] - 1] - 1
                     if(count_col[0] === 0) {
                         change_width = all_width[count_col[0]] - 1
                     }
-                    change_height = all_height[count_row[0]] - all_height[count_row[0] - 1] -1 
+                    change_height = all_height[count_row[0]] - all_height[count_row[0] - 1] - 1
                     if(count_row[0] === 0) {
                         change_height = all_height[count_row[0]] - 1
                     }
@@ -445,6 +459,7 @@ function selectionCopyShow(range) {
     if (range == null) {
         range = Store.luckysheet_selection_range;
     }
+    range = JSON.parse(JSON.stringify(range));
 
     if (range.length > 0) {
         for (let s = 0; s < range.length; s++) {
@@ -458,7 +473,7 @@ function selectionCopyShow(range) {
 
             let copyDomHtml = '<div class="luckysheet-selection-copy" style="display: block; left: ' + col_pre + 'px; width: ' + (col - col_pre - 1) + 'px; top: ' + row_pre + 'px; height: ' + (row - row_pre - 1) + 'px;">' +
                 '<div class="luckysheet-selection-copy-top luckysheet-copy"></div>' +
-                '<div class="luckysheet-selection-copy-right luckysheet-copy"d></iv>' +
+                '<div class="luckysheet-selection-copy-right luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-bottom luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-left luckysheet-copy"></div>' +
                 '<div class="luckysheet-selection-copy-hc"></div>' +

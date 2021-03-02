@@ -627,9 +627,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空行模板
-        let row = [];
+        let row = [],
+            curRow = [...d][index]
         for(let c = 0; c < d[0].length; c++){
-            row.push(null);
+            let cell = curRow[c],
+            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            row.push(templateCell);
         }
 
         //边框
@@ -713,14 +716,14 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
 
         if(direction == "lefttop"){
             if(index == 0){
-                new Function("return " + 'd.unshift(' + arr.join(",") + ')')();
+                new Function("d","return " + 'd.unshift(' + arr.join(",") + ')')(d);
             }
             else{
-                new Function("return " + 'd.splice(' + index + ', 0, ' + arr.join(",") + ')')();
+                new Function("d","return " + 'd.splice(' + index + ', 0, ' + arr.join(",") + ')')(d);
             }
         }
         else{ 
-            new Function("return " + 'd.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')')(); 
+            new Function("d","return " + 'd.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')')(d); 
         }
     }
     else {
@@ -779,9 +782,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空列模板
-        let col = [];
+        let col = [],
+            curd= [...d];
         for(let r = 0; r < d.length; r++){
-            col.push(null);
+            let cell = curd[r][index],
+            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            col.push(templateCell);
         }
 
         //边框
@@ -892,6 +898,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newDataVerification,
             newHyperlink
         );
+
     }
     else{
         file.data = d;
@@ -1006,6 +1013,37 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
 
     let file = Store.luckysheetfile[curOrder];
     let d = $.extend(true, [], file.data);
+
+    if(st < 0){
+        st = 0;
+    }
+
+    if(ed < 0){
+        ed = 0;
+    }
+
+    if(type == "row"){
+        if(st > d.length - 1){
+            st = d.length - 1;
+        }
+
+        if(ed > d.length - 1){
+            ed = d.length - 1;
+        }
+    }
+    else{
+        if(st > d[0].length - 1){
+            st = d[0].length - 1;
+        }
+
+        if(ed > d[0].length - 1){
+            ed = d[0].length - 1;
+        }
+    }
+
+    if(st > ed){
+        return
+    }
 
     let slen = ed - st + 1;
     let cfg = $.extend(true, {}, file.config);
@@ -1622,17 +1660,31 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             cfg["borderInfo"] = borderInfo;
         }
 
+        // 备注：该处理方式会在删除多行的时候会存在bug
+        // 说明：删除多行后，会把同一个row空数组(引用类型)添加成为data多行的数据源，导致设置这些行数据时产生错误。
+        //空白行模板
+        // let row = [];
+        // for (let c = 0; c < d[0].length; c++) {
+        //     row.push(null);
+        // }
+
+        // //删除选中行
+        // d.splice(st, slen);
+
+        // //删除多少行，增加多少行空白行                
+        // for (let r = 0; r < slen; r++) {
+        //     d.push(row);
+        // }
+
         //删除选中行
         d.splice(st, slen);
 
-        //空白行模板
-        let row = [];
-        for (let c = 0; c < d[0].length; c++) {
-            row.push(null);
-        }
-
         //删除多少行，增加多少行空白行                
         for (let r = 0; r < slen; r++) {
+            let row = [];
+            for (let c = 0; c < d[0].length; c++) {
+                row.push(null);
+            }
             d.push(row);
         }
     }

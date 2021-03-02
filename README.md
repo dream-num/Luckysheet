@@ -16,21 +16,33 @@ English| [简体中文](./README-zh.md)
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Links
- | Source Code   | Documentation | Demo | Plugins Demo | Forum | Resources |
- | ------ | -------- | ------ | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  | [LuckyResources](https://github.com/mengshukeji/LuckyResources) |
+ | Source Code   | Documentation | Demo | Plugins Demo | Forum |
+ | ------ | -------- | ------ | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://mengshukeji.github.io/LuckysheetDocs/) | [Online Demo](https://mengshukeji.github.io/LuckysheetDemo) / [Cooperative editing demo](http://luckysheet.lashuju.com/demo/) | [Import Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
  | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
-## Online Case
-
-- [Cooperative editing demo](http://luckysheet.lashuju.com/demo/)
-- [Java backend Luckysheet Server](https://github.com/mengshukeji/LuckysheetServer)
-
 ## Plugins
-- Excel import and export library: [Luckyexcel](https://github.com/mengshukeji/Luckyexcel)
-- Chart plugin: [chartMix](https://github.com/mengshukeji/chartMix)
+- [Luckyexcel](https://github.com/mengshukeji/Luckyexcel): Excel import and export library
+- [chartMix](https://github.com/mengshukeji/chartMix): Chart plugin
+
+## Ecosystem
+
+| Project | Description |
+|---------|-------------|
+| [Luckysheet Vue]          | Luckysheet and Luckyexcel in a vue cli3 project |
+| [Luckysheet React]          | Luckysheet in a React project |
+| [Luckyexcel Node]          | Use Luckyexcel in koa2 |
+| [Luckysheet Server]          | Java backend Luckysheet Server |
+| [Luckysheet Server Starter]          | LuckysheetServer docker deployment startup template |
+
+[Luckysheet Vue]: https://github.com/mengshukeji/luckysheet-vue
+[Luckysheet React]: https://github.com/mengshukeji/luckysheet-react
+[Luckyexcel Node]: https://github.com/mengshukeji/Luckyexcel-node
+[Luckysheet Server]: https://github.com/mengshukeji/LuckysheetServer
+[Luckysheet Server Starter]: https://github.com/mengshukeji/LuckysheetServerStarter
+
 
 ## Features
 
@@ -43,6 +55,10 @@ English| [简体中文](./README-zh.md)
 - **Enhanced functions**: Pivot tables, charts, comments, cooperative editing, insert picture, matrix calculations, screenshots, copying to other formats, EXCEL import and export, etc.
 
 For a more detailed feature list, please refer to: [Features](https://mengshukeji.github.io/LuckysheetDocs/guide/#features)
+
+## 📖 Resources
+- Priority reading for new users: [User Guide](https://github.com/mengshukeji/Luckysheet/wiki/User-Guide)
+- For the tutorials, learning materials and supporting solutions provided by the community, please refer to: [Tutorials and Resources](https://mengshukeji.github.io/LuckysheetDocs/guide/resource.html)
 
 ## 📜 Changelog
 
@@ -65,12 +81,12 @@ Please make sure to read the[ Contributing Guide](https://mengshukeji.github.io/
 ### First step
 Introduce dependencies through CDN
 ```
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/assets/iconfont/iconfont.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js"></script>
 ```
 ### Second step
 Specify a table container
@@ -115,9 +131,10 @@ npm run build
 - [luban-h5](https://github.com/ly525/luban-h5)
 - [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
+- [Furion](https://gitee.com/monksoul/Furion)
 
 ## Communication
-
+- [Github Discussions](https://github.com/mengshukeji/Luckysheet/discussions)
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
 
 [Chinese community](./README-zh.md)
@@ -151,16 +168,30 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 烦了烦 ¥ 10
 - 文顶顶 ¥ 200
 - yangxshn ¥ 10
+- 爱乐 ¥ 100
+- 小李飞刀刀 ¥ 66
+- 张铭 ¥ 200
+- 曹治军 ¥ 1
+- *特 ¥ 10
+- **权 ¥ 9.9
+- **sdmq ¥ 20
+- *旭 ¥ 10
+- Quentin ¥ 20
+- 周宇凡 ¥ 100
+- *超 ¥ 10
 
 ## Authors and acknowledgment
 
 ### Active Core Team Members
 - [@wbfsa](https://github.com/wbfsa)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
 - [@wpxp123456](https://github.com/wpxp123456)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
+- [@jerry-f](https://github.com/jerry-f)
+- [@flowerField](https://github.com/flowerField)
 
 ### Community Partners
 - [@danielcai1987](https://github.com/danielcai1987)
@@ -170,6 +201,8 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - [@gsw945](https://github.com/gsw945)
 - [@swen-xiong](https://github.com/swen-xiong)
 - [@lzmch](https://github.com/lzmch)
+- [@kdevilpf](https://github.com/kdevilpf)
+- [@WJWM0316](https://github.com/WJWM0316)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

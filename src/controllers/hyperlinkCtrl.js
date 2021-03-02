@@ -127,6 +127,10 @@ const hyperlinkCtrl = {
             let linkTooltip = $("#luckysheet-insertLink-dialog-linkTooltip").val();
 
             if(linkType == 'external'){
+                if(!/^http[s]?:\/\//.test(linkAddress)){
+                    linkAddress = 'https://' + linkAddress;
+                }
+
                 if(!/^http[s]?:\/\/([\w\-\.]+)+[\w-]*([\w\-\.\/\?%&=]+)?$/ig.test(linkAddress)){
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
                     return;

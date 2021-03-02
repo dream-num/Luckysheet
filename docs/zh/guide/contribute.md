@@ -35,7 +35,6 @@
 * 创建 [Issues](https://github.com/mengshukeji/Luckysheet/issues) ，描述清楚问题
 * 如果你要解决该issue则将issue assign到自己名下，如果你仅仅是提交Bug/特性/改进，并没有时间去贡献代码，则assignne设置为空
 * 如果是比较大的特性/改进，尽量先输出设计文档，走 [Luckysheet RFC](https://github.com/mengshukeji/Luckysheet-rfcs) 流程，供其他人review
-* 编码完成后，提交代码
 
 ## 如何认领 Issues
 

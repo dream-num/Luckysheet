@@ -1919,7 +1919,7 @@ export function rowColumnOperationInitial(){
 
     //删除单元格（左移、上移）
     $("#luckysheet-delCellsMoveLeft").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
@@ -1942,7 +1942,7 @@ export function rowColumnOperationInitial(){
         luckysheetDeleteCell('moveLeft', str, edr, stc, edc);
     });
     $("#luckysheet-delCellsMoveUp").click(function (event) {
-        $("#luckysheet-rightclick-menu").hide();
+        $("body .luckysheet-cols-menu").hide();
         luckysheetContainerFocus();
 
         const locale_drag = locale().drag;
@@ -2044,6 +2044,8 @@ export function rowColumnOperationInitial(){
             }
 
             jfrefreshgrid(d, Store.luckysheet_select_save);
+
+            $("#luckysheet-functionbox-cell").html("");
         }
     });
 
@@ -2063,6 +2065,12 @@ export function rowColumnOperationInitial(){
         let size = parseInt($(this).closest('.luckysheet-cols-menuitem').find("input[type='number']").val().trim());
         
         const locale_info = locale().info;
+
+          /* 对异常情况进行判断：NaN */
+        if(isNaN(size)){
+            tooltip.info("只允许使用数字来设置行列的宽高!", "");
+            return;
+        }
 
         let cfg = $.extend(true, {}, Store.config);
         let type;

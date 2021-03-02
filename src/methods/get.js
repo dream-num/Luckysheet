@@ -19,7 +19,17 @@ function getRangetxt(sheetIndex, range, currentIndex) {
     }
 
     if (sheetIndex != currentIndex) {
-        sheettxt = Store.luckysheetfile[getSheetIndex(sheetIndex)].name + "!";
+        //sheet名字包含'的，引用时应该替换为''
+        sheettxt = Store.luckysheetfile[getSheetIndex(sheetIndex)].name.replace(/'/g,"''");
+        //如果包含除a-z、A-Z、0-9、下划线等以外的字符那么就用单引号包起来
+        if(/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/.test(sheettxt))
+        {
+            sheettxt = sheettxt+"!";
+        }
+        else
+        {
+            sheettxt="'"+sheettxt+"'!";
+        }
     }
 
     let row0 = range["row"][0], row1 = range["row"][1];

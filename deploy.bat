@@ -3,6 +3,8 @@ npm run build
 cd dist
 git init
 git remote add origin https://github.com/mengshukeji/LuckysheetDemo.git
+git config --local user.email "1414556676@qq.com"
+git config --local user.name "Dushusir"
 git add .
 git commit -m 'deploy Luckysheet demo'
 git push -f origin master:gh-pages
@@ -20,6 +22,10 @@ git push -f origin master:gh-pages
 
 # ===============================================
 
+# add a tags
+git tag -a doc -m "doc"
+
+
 # replease
 npm run build
 npm run release -- --release-as patch
@@ -34,16 +40,28 @@ npm version patch
 git push -u origin master
 npm publish
 
+
+# ==============================================
+
+# test feature branch
+git checkout -b fea origin/feature
+git pull
+
+## After some test, create PR merge feature to master branch
+
+git checkout master
+git branch -d fea
+
 # ===============================================
 
 # test pull request: https://docs.github.com/cn/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/checking-out-pull-requests-locally
 
 # 139 is ID, dev is branch name
-git fetch origin pull/139/head:dev
-git checkout dev
+git fetch origin pull/139/head:test-139
+git checkout test-139
 # test code
-git push origin dev
-# create new PR ,merge dev to master
+git push origin test-139
+# create new PR ,merge test-139 to master
 
 # list all remote and local branchs
 git branch -a

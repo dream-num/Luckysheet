@@ -326,7 +326,7 @@ const method = {
                 luckysheetextendData(dataset["row"], newData);
 
                 setTimeout(function(){
-                    $("#luckysheetloadingdata").fadeOut().remove();
+                    Store.loadingObj.close()
                 }, 500);
 
                 if(func && typeof(func)=="function"){ 
@@ -359,7 +359,7 @@ const method = {
             let data = sheetmanage.buildGridData(file);
 
             setTimeout(function(){
-                $("#luckysheetloadingdata").fadeOut().remove();
+                Store.loadingObj.close()
             }, 500);
 
             file["data"] = data;
@@ -491,6 +491,9 @@ const method = {
                 dataVerificationCtrl[key] = defaultDataVerification[key];
             }
         }
+
+        // remove proxy
+        Store.asyncLoad = ['core'];
     },
     editorChart:function(c){
         let chart_selection_color = luckyColor[0];
