@@ -18,6 +18,8 @@ import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
 import json from '../global/json';
+import luckysheetConfigsetting from './luckysheetConfigsetting';
+import {customImageUpdate} from './imageUpdateCtrl';
 
 const server = {
     gridKey: null,
@@ -141,11 +143,31 @@ const server = {
 	        // d.s = params.s;
 	    }
 
-	    let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), { to: "string" });
+	    // TODO 配置自定义方式同步图片
+        const customImageUpdateMethodConfig = luckysheetConfigsetting.imageUpdateMethodConfig
+		if (JSON.stringify(customImageUpdateMethodConfig) !== "{}") {
+            if ("images" != d.k) {
+                let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), {to: "string"});
 
-		if(_this.websocket!=null){
-			_this.websocket.send(msg);
-		}
+                if (_this.websocket != null) {
+                    _this.websocket.send(msg);
+                }
+            } else {
+                customImageUpdate(customImageUpdateMethodConfig.method, customImageUpdateMethodConfig.url, d)
+                    .then((data) => {
+                        console.log(data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+            }
+        } else {
+            let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), {to: "string"});
+            if (_this.websocket != null) {
+                _this.websocket.send(msg);
+            }
+        }
 
 	},
     websocket: null,

@@ -140,6 +140,8 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.initShowsheetbarConfig = false;
 
+    luckysheetConfigsetting.imageUpdateMethodConfig = extendsetting.imageUpdateMethodConfig;
+
     if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
 
     // Store the currently used plugins for monitoring asynchronous loading
