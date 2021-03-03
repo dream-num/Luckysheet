@@ -1134,6 +1134,29 @@ export function rowColumnOperationInitial(){
 
 
     })
+    // custom right-click a cell buttton click
+    $(".luckysheetColsRowsHandleAdd_custom").click(function (event) {
+        $("#luckysheet-rightclick-menu").hide();
+        console.log("luckysheetColsRowsHandleAdd_custom", event);
+        //   luckysheetContainerFocus();
+
+        //   if (Store.allowEdit === false) {
+        //     return;
+        //   }
+
+        //   let st_index = Store.luckysheet_select_save[0].column[0];
+        //   luckysheetextendtable("column", st_index, 1, "lefttop");
+        const cellRightClickConfig =
+          luckysheetConfigsetting.cellRightClickConfig;
+        if (cellRightClickConfig.customs[Number(event.currentTarget.dataset.index)]) {
+            try {
+                cellRightClickConfig.customs[Number(event.currentTarget.dataset.index)].onClick();
+            } catch (e) {
+                console.error("custom click error", e);
+            }
+        }
+        
+    });
     // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
     // $("#luckysheet-addTopRows").click(function (event) {
     // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
