@@ -892,7 +892,7 @@ export function checkProtectionNotEnable(sheetIndex){
 }
 
 //cell locked state
-export function checkProtectionLocked(r, c, sheetIndex){
+export function checkProtectionLocked(r, c, sheetIndex, isOpenAlert=true, isLock=true){
 
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
     if(sheetFile==null){
@@ -916,7 +916,7 @@ export function checkProtectionLocked(r, c, sheetIndex){
     const _locale = locale();
     const local_protection = _locale.protection;
 
-    return checkProtectionLockedSqref(r, c , aut, local_protection);
+    return checkProtectionLockedSqref(r, c , aut, local_protection, isOpenAlert, isLock);
 }
 
 //cell hidden state
