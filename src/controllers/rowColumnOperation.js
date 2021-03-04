@@ -1135,25 +1135,24 @@ export function rowColumnOperationInitial(){
 
     })
     // custom right-click a cell buttton click
-    $(".luckysheetColsRowsHandleAdd_custom").click(function (event) {
+    $(".luckysheetColsRowsHandleAdd_custom").click(function (clickEvent) {
         $("#luckysheet-rightclick-menu").hide();
-        console.log("luckysheetColsRowsHandleAdd_custom", event);
-        //   luckysheetContainerFocus();
-
-        //   if (Store.allowEdit === false) {
-        //     return;
-        //   }
-
-        //   let st_index = Store.luckysheet_select_save[0].column[0];
-        //   luckysheetextendtable("column", st_index, 1, "lefttop");
         const cellRightClickConfig =
           luckysheetConfigsetting.cellRightClickConfig;
-        if (cellRightClickConfig.customs[Number(event.currentTarget.dataset.index)]) {
-            try {
-                cellRightClickConfig.customs[Number(event.currentTarget.dataset.index)].onClick();
-            } catch (e) {
-                console.error("custom click error", e);
-            }
+        const rowIndex = Store.luckysheet_select_save[0].row[0];
+        const columnIndex = Store.luckysheet_select_save[0].column[0];
+        if (
+          cellRightClickConfig.customs[
+            Number(clickEvent.currentTarget.dataset.index)
+          ]
+        ) {
+          try {
+            cellRightClickConfig.customs[
+              Number(clickEvent.currentTarget.dataset.index)
+            ].onClick(clickEvent, event, { rowIndex, columnIndex });
+          } catch (e) {
+            console.error("custom click error", e);
+          }
         }
         
     });

@@ -1881,8 +1881,8 @@
 			options.cellRightClickConfig = {
 				customs: [{
 					title: 'test',
-					onClick: function () {
-						console.log('function test click')
+					onClick: function (clickEvent, event, params) {
+						console.log('function test click', clickEvent, event, params)
 					}
 				}]
 			}
