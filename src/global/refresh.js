@@ -887,7 +887,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
             Store.visibledatarow.push(Store.rh_height);//行的临时长度分布
         }
-        Store.rh_height += 110;
+        Store.rh_height += 80;
         // sheetmanage.showSheet();
 
         if(Store.currentSheetIndex == source["sheetIndex"]){
@@ -942,6 +942,13 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, target["curData"]);
     formula.execFunctionGlobalData = null;
+
+    let index = getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[index];
+    file.scrollTop  = $("#luckysheet-cell-main").scrollTop();
+    file.scrollLeft = $("#luckysheet-cell-main").scrollLeft()
+    
+    sheetmanage.showSheet();
 
     refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();
