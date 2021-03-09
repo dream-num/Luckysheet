@@ -9733,6 +9733,7 @@ export default {
         selectCellRange: 'Click to select a cell range',
         selectCellRange2: 'Please select a range of cells',
         verificationCondition: 'Verification condition',
+        allowMultiSelect: "Allow multiple selection",
         dropdown: 'drop-down list',
         checkbox: 'Checkbox',
         number: 'Number',

@@ -9976,6 +9976,7 @@ export default {
         selectCellRange: '点击选择单元格范围',
         selectCellRange2: '请选择单元格范围',
         verificationCondition: '验证条件',
+        allowMultiSelect: '是否允许多选',
         dropdown: '下拉列表',
         checkbox: '复选框',
         number: '数字',
