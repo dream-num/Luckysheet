@@ -136,7 +136,6 @@ npm run build
 ## 合作项目
 
 - [鲁班h5](https://github.com/ly525/luban-h5)
-- [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 - [Furion](https://gitee.com/monksoul/Furion)
 
@@ -195,6 +194,9 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - Quentin ¥ 20
 - 周宇凡 ¥ 100
 - *超 ¥ 10
+- 维宁 ¥ 100
+- hyy ¥ 20
+- 雨亭寒江月 ¥ 50
 
 ## 贡献者和感谢
 
