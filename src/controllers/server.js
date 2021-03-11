@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import json from '../global/json';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {customImageUpdate} from './imageUpdateCtrl';
+import method from '../global/method';
 
 const server = {
     gridKey: null,
@@ -199,6 +200,7 @@ const server = {
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
 				let data = new Function("return " + result.data)();
+        method.createHookFunction('cooperativeMessage', data)
 				console.info(data);
 				let type = data.type;
 				let {message,id} = data;
