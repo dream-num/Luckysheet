@@ -934,7 +934,6 @@ var make_ssf = function make_ssf(SSF) {
     SSF.is_date = fmt_is_date;
 
     function eval_fmt(fmt, v, opts, flen) {
-        let tempV = v;
         var out = [],
             o = "",
             i = 0,
@@ -1351,17 +1350,9 @@ var make_ssf = function make_ssf(SSF) {
                 out[i].v = write_num(out[i].t, out[i].v, myv);
                 out[i].t = 't';
             }
-        // var retval = "";
-        var retval =  tempV === 0 ? "0" : "";
-        // for (i = 0; i !== out.length; ++i)
-        //     if (out[i] != null) retval += out[i].v;
-        for (i = 0; i !== out.length; ++i){
-            if (out[i] != null && out[i].v.startsWith(".")){
-                retval += out[i].v;
-            }else{
-                retval =  out[i].v || retval;
-            }
-        }
+        var retval = "";
+        for (i = 0; i !== out.length; ++i)
+            if (out[i] != null) retval += out[i].v;
    
         return retval;
     }

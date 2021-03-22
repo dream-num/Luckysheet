@@ -174,7 +174,12 @@ function setcellvalue(r, c, d, v) {
         else{
             if(isRealNum(vupdate) && !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(vupdate)){
 
-
+                if(typeof vupdate === "string"){
+                    let flag = vupdate.split("").every(ele=>ele == "0" || ele == ".");
+                    if(flag){
+                        vupdate = parseFloat(vupdate);
+                    }    
+                }
                 cell.v = vupdate;   /* 备注：如果使用parseFloat，1.1111111111111111会转换为1.1111111111111112 ? */
                 cell.ct = { "fa": "General", "t": "n" };
                 if(cell.v == Infinity || cell.v == -Infinity){
