@@ -165,7 +165,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
             //When resize, change the width of the more button container in real time
             $$('#luckysheet-icon-morebtn-div').style.left = '';//reset
 
-            const containerLeft = $$('#luckysheet').getBoundingClientRect().left;
+            const containerLeft = $$('#luckysheet').getBoundingClientRect ? $$('#luckysheet').getBoundingClientRect().left : 0;
             const morebtnLeft = $$('#luckysheet-icon-morebtn-div').getBoundingClientRect().left;//get real left info
 
             if(morebtnLeft < containerLeft){
