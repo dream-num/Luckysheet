@@ -1857,8 +1857,14 @@ const selection = {
             jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
+            // 选区格式刷存在超出边界的情况
+             if(maxh >= d.length){
+                maxh = d.length - 1;
+            }
+            cfg = rowlenByRange(d, minh, maxh, cfg); //更新行高
             let allParam = {
                 "cfg": cfg,
+                "RowlChange": true,
                 "cdformat": cdformat,
                 "dataVerification": dataVerification
             }
