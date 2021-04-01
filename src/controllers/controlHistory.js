@@ -85,7 +85,11 @@ const controlHistory = {
                 "dataVerification": ctr.dataVerification,
                 "dynamicArray": ctr.dynamicArray
             }
-            jfrefreshgrid(ctr.data, ctr.range, allParam);
+           // jfrefreshgrid(ctr.data, ctr.range, allParam);
+
+            /* ⚠️  这个🌶️  dataRange表示的才是数据更新的位置 */
+            jfrefreshgrid(ctr.data, ctr.dataRange, allParam);
+
             // formula.execFunctionGroup(null, null, null, null, ctr.data);//取之前的数据
         }
         else if (ctr.type == "pasteCut") {

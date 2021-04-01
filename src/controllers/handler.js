@@ -5289,7 +5289,7 @@ export default function luckysheetHandler() {
                 let reg = new RegExp('<tr.*?>(.*?)</tr>', 'g');
                 let reg2 = new RegExp('<td.*?>(.*?)</td>', 'g');
 
-                let regArr = txtdata.match(reg);
+                let regArr = txtdata.match(reg) || [];
 
                 for (let i = 0; i < regArr.length; i++) {
                     let cpRowArr = [];

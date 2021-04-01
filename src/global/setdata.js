@@ -85,17 +85,14 @@ function setcellvalue(r, c, d, v) {
     else if(vupdateStr.toUpperCase() === "TRUE"){
         cell.m = "TRUE";
         cell.ct = { "fa": "General", "t": "b" };
-        cell.ht = cell.ht || 0;
         cell.v = true;
     }
     else if(vupdateStr.toUpperCase() === "FALSE"){
         cell.m = "FALSE";
         cell.ct = { "fa": "General", "t": "b" };
-        cell.ht = cell.ht || 0;
         cell.v = false;
     }
     else if(vupdateStr.substr(-1) === "%" && isRealNum(vupdateStr.substring(0, vupdateStr.length-1))){
-            cell.ht = cell.ht || 2;
             cell.ct = {fa: "0%", t: "n"};
             cell.v = vupdateStr.substring(0, vupdateStr.length-1) / 100;
             cell.m = vupdate;
@@ -150,9 +147,6 @@ function setcellvalue(r, c, d, v) {
                     // cell.m = mask[0].toString();
                 }
             }
-            
-            /* 如果是公式计算之后得到的结果：总是设置对齐方式为右对齐 */
-             cell.ht = cell.ht || 2;
         }
         else if(cell.ct != null && cell.ct.fa == "@"){
             cell.m = vupdateStr;
@@ -180,10 +174,14 @@ function setcellvalue(r, c, d, v) {
         else{
             if(isRealNum(vupdate) && !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(vupdate)){
 
-
+                if(typeof vupdate === "string"){
+                    let flag = vupdate.split("").every(ele=>ele == "0" || ele == ".");
+                    if(flag){
+                        vupdate = parseFloat(vupdate);
+                    }    
+                }
                 cell.v = vupdate;   /* 备注：如果使用parseFloat，1.1111111111111111会转换为1.1111111111111112 ? */
                 cell.ct = { "fa": "General", "t": "n" };
-                cell.ht = cell.ht || 2;
                 if(cell.v == Infinity || cell.v == -Infinity){
                     cell.m = cell.v.toString();
                 }

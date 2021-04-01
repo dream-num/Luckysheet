@@ -99,7 +99,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         Store.jfredo.push({ 
             "type": "datachange", 
             "data": Store.flowdata, 
-            "curData": data, 
+            "curdata": data,
             "sheetIndex": Store.currentSheetIndex, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
@@ -344,7 +344,7 @@ function jfrefreshrange(data, range, cdformat) {
         Store.jfredo.push({ 
             "type": "rangechange", 
             "data": Store.flowdata, 
-            "curData": data, 
+            "curdata": data,
             "range": range, 
             "sheetIndex": Store.currentSheetIndex,
             "cdformat":  $.extend(true, [],  Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"]),
@@ -635,14 +635,29 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
                         data[r][c] = {};
                     }
     
+                    // if(r == mc.r && c == mc.c){
+                    //     data[r][c].mc = mc;
+                    // }
+                    // else{
+                    //     data[r][c].mc = { "r": mc.r, "c": mc.c };
+                    // }
+    
+                    // mcData.push({ "r": r, "c": c });        
+                    
+
                     if(r == mc.r && c == mc.c){
-                        data[r][c].mc = mc;
+                        if(JSON.stringify(data[r][c].mc) !=JSON.stringify(mc)){
+                            data[r][c].mc = mc;
+                            mcData.push({ "r": r, "c": c });   
+                        }
                     }
                     else{
-                        data[r][c].mc = { "r": mc.r, "c": mc.c };
-                    }
-    
-                    mcData.push({ "r": r, "c": c });                       
+                        let tempMc = { "r": mc.r, "c": mc.c };
+                        if(JSON.stringify(data[r][c].mc) != JSON.stringify(tempMc)){
+                            data[r][c].mc = tempMc;
+                            mcData.push({ "r": r, "c": c });   
+                        }
+                    }   
                 }
             }
         }
@@ -872,7 +887,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
             Store.visibledatarow.push(Store.rh_height);//行的临时长度分布
         }
-        Store.rh_height += 110;
+        Store.rh_height += 80;
         // sheetmanage.showSheet();
 
         if(Store.currentSheetIndex == source["sheetIndex"]){
@@ -927,6 +942,13 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, target["curData"]);
     formula.execFunctionGlobalData = null;
+
+    let index = getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[index];
+    file.scrollTop  = $("#luckysheet-cell-main").scrollTop();
+    file.scrollLeft = $("#luckysheet-cell-main").scrollLeft()
+    
+    sheetmanage.showSheet();
 
     refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();

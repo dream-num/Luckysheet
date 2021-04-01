@@ -18,6 +18,8 @@ import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
 import json from '../global/json';
+import luckysheetConfigsetting from './luckysheetConfigsetting';
+import {customImageUpdate} from './imageUpdateCtrl';
 
 const server = {
     gridKey: null,
@@ -141,11 +143,31 @@ const server = {
 	        // d.s = params.s;
 	    }
 
-	    let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), { to: "string" });
+	    // TODO 配置自定义方式同步图片
+        const customImageUpdateMethodConfig = luckysheetConfigsetting.imageUpdateMethodConfig
+		if (JSON.stringify(customImageUpdateMethodConfig) !== "{}") {
+            if ("images" != d.k) {
+                let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), {to: "string"});
 
-		if(_this.websocket!=null){
-			_this.websocket.send(msg);
-		}
+                if (_this.websocket != null) {
+                    _this.websocket.send(msg);
+                }
+            } else {
+                customImageUpdate(customImageUpdateMethodConfig.method, customImageUpdateMethodConfig.url, d)
+                    .then((data) => {
+                        console.log(data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+            }
+        } else {
+            let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), {to: "string"});
+            if (_this.websocket != null) {
+                _this.websocket.send(msg);
+            }
+        }
 
 	},
     websocket: null,
@@ -427,9 +449,21 @@ const server = {
 	                file["config"][k] = {};
 	            }
 
-	            for(let key in value){
-	                file["config"][k][key] = value[key];
-	            }
+	            // for(let key in value){
+	            //     file["config"][k][key] = value[key];
+				// }
+				
+				// ⚠️ 上面的处理方式会导致部分配置项被遗漏，以致协同编辑的时候多视图出现不一致的情况，调整处理的策略为直接替换配置项：
+				// 可能的配置项为：
+				// columnlen: {0: 65, 1: 186, 2: 52}
+				// customHeight: {0: 1, 5: 1, 6: 1}
+				// customWidth: {0: 1, 1: 1, 2: 1}
+				// merge: {2_1: {…}, 4_2: {…}, 6_2: {…}}
+				// rowlen: {0: 19, 5: 93, 6: 117}
+				if(value && (typeof value == "object")){
+					file["config"][k] = value;
+				}
+
 	        }
 
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
@@ -691,10 +725,17 @@ const server = {
 				}
 	        }
 	        else{
-	            file["column"] += len;
+				file["column"] += len;
 
 	            for(let i = 0; i < data.length; i++){
-	                data[i].splice(st_i, 0, addData[i]);
+					/* 在每一行的指定位置都插入一列 */
+					for (let j = 0; j < len; j++) {
+						if(direction == "lefttop"){
+							data[i].splice(st_i, 0, addData[j]);
+						}else{
+							data[i].splice(st_i + 1, 0, addData[j]);
+						}
+					}
 	            }
 	        }
 

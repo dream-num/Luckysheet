@@ -9773,7 +9773,7 @@ export default {
         noHide:"不能隐藏, 至少保留一个sheet标签",
         chartEditNoOpt:"图表编辑模式下不允许该操作！",
         sheetNameSpecCharError:"名称不能超过31个字符，首尾不能是' 且名称不能包含:\r\n[ ] : \\ ? * /",
-        sheetNamecannotIsEmptyError:"名称不能为空"
+        sheetNamecannotIsEmptyError:"名称不能为空!"
     },
     conditionformat: {
         conditionformat_greaterThan: '条件格式——大于',
