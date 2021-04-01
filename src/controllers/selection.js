@@ -1765,7 +1765,10 @@ const selection = {
                             }
 
                             if(getObjType(x[c]) == "object"){
-
+                                let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
+                                format.forEach(item=>{
+                                    Reflect.deleteProperty(x[c],item);
+                                })
                             }
                             else{
                                 x[c] = {"v": x[c] };
