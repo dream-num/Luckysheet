@@ -5452,8 +5452,7 @@ export default function luckysheetHandler() {
                                     break;
                                 }
                             }
-
-                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / 96) + 1;
+                            let fs = Math.round(parseInt($td.css("font-size")) * 72 / 96);
                             cell.fs = fs;
 
                             let fc = $td.css("color");
