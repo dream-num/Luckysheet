@@ -441,13 +441,16 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         else{
             row = Store.visibledatarow[moveX]; 
             row_pre = moveX - 1 == -1 ? 0 : Store.visibledatarow[moveX - 1];
-            row_index = moveX;
-            row_index_ed = moveX;
+            // row_index = moveX;
+            // row_index_ed = moveX;
 
             col = Store.visibledatacolumn[moveY]; 
             col_pre = moveY - 1 == -1 ? 0 : Store.visibledatacolumn[moveY - 1];
-            col_index = moveY;
-            col_index_ed = moveY;
+            // col_index = moveY;
+            // col_index_ed = moveY;
+            
+            row_index = row_index_ed = curR;
+            col_index = col_index_ed = curC;
         }
 
         last["row"] = [row_index, row_index_ed];
