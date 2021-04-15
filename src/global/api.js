@@ -3025,6 +3025,8 @@ export function setRangeMerge(type, options = {}) {
         if(has_PartMC){
             return tooltip.info('Cannot perform this operation on partially merged cells', '');
         }
+    }else {
+        cfg.merge = {}
     }
 
     //选区是否含有 合并的单元格
@@ -6652,7 +6654,7 @@ export function refreshFormula (success) {
  * @param {Array} data 工作簿配置，可以包含多个表
  * @param {Object} options 可选参数
  * @param {Function} options.success 操作结束的回调函数
- * 
+ *
  */
 export function updataSheet (options = {}) {
     let {data, success} = options
@@ -6728,7 +6730,7 @@ export function refreshMenuButtonFocus(data ,r,c , success){
 export function checkTheStatusOfTheSelectedCells(type,status){
 
     /* 获取选区内所有的单元格-扁平后的处理 */
-    let cells = getRangeWithFlatten();  
+    let cells = getRangeWithFlatten();
 
     let flag = cells.every(({r,c})=>{
         let cell = Store.flowdata[r][c];
