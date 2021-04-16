@@ -6,7 +6,15 @@ import { hasChinaword, isRealNull,checkWordByteLength } from './validate';
 import { isInlineStringCell } from '../controllers/inlineString';
 import Store from '../store';
 
-//计算范围行高
+/**
+ * 计算范围行高
+ *
+ * @param d 原始数据
+ * @param r1 起始行
+ * @param r2 截至行
+ * @param cfg 配置
+ * @returns 计算后的配置
+ */
 function rowlenByRange(d, r1, r2, cfg) {
     let cfg_clone = $.extend(true, {}, cfg);
     if(cfg_clone["rowlen"] == null){
@@ -71,6 +79,46 @@ function rowlenByRange(d, r1, r2, cfg) {
 
     return cfg_clone;
 }
+
+//根据内容计算行高
+function computeRowlenByContent(d, r) {
+    let currentRowLen = 0;
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for(let c = 0; c < d[r].length; c++){
+        let cell = d[r][c];
+
+        if(cell == null || cell.mc != null){
+            continue;
+        }
+
+        if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
+            let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+
+            let textInfo = getCellTextInfo(cell, canvas,{
+                r:r,
+                c:c,
+                cellWidth:cellWidth
+            });
+
+            let computeRowlen = 0;
+
+            if(textInfo!=null){
+                computeRowlen = textInfo.textHeightAll+2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if(computeRowlen > currentRowLen){
+                currentRowLen = computeRowlen;
+            }
+        }
+    }
+
+    return currentRowLen;
+}
+
 
 //计算表格行高数组
 function computeRowlenArr(rowHeight, cfg) {
@@ -1614,6 +1662,7 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
 
 export {
     rowlenByRange,
+    computeRowlenByContent,
     computeRowlenArr,
     getCellTextSplitArr,
     getMeasureText,
