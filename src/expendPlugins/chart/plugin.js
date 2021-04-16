@@ -1109,6 +1109,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["row"] = [shiftpositon_row, shiftpositon_row];
+    jfgird_select_save[0].row_focus =shiftpositon_row;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);
@@ -1145,6 +1146,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["column"] = [shiftpositon_col, shiftpositon_col];
+    jfgird_select_save[0].column_focus = shiftpositon_col;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);

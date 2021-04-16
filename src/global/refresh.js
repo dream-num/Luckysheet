@@ -635,14 +635,29 @@ function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVeri
                         data[r][c] = {};
                     }
     
+                    // if(r == mc.r && c == mc.c){
+                    //     data[r][c].mc = mc;
+                    // }
+                    // else{
+                    //     data[r][c].mc = { "r": mc.r, "c": mc.c };
+                    // }
+    
+                    // mcData.push({ "r": r, "c": c });        
+                    
+
                     if(r == mc.r && c == mc.c){
-                        data[r][c].mc = mc;
+                        if(JSON.stringify(data[r][c].mc) !=JSON.stringify(mc)){
+                            data[r][c].mc = mc;
+                            mcData.push({ "r": r, "c": c });   
+                        }
                     }
                     else{
-                        data[r][c].mc = { "r": mc.r, "c": mc.c };
-                    }
-    
-                    mcData.push({ "r": r, "c": c });                       
+                        let tempMc = { "r": mc.r, "c": mc.c };
+                        if(JSON.stringify(data[r][c].mc) != JSON.stringify(tempMc)){
+                            data[r][c].mc = tempMc;
+                            mcData.push({ "r": r, "c": c });   
+                        }
+                    }   
                 }
             }
         }

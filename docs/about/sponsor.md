@@ -46,3 +46,6 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - Quentin ¥ 20
 - 周宇凡 ¥ 100
 - *超 ¥ 10
+- 维宁 ¥ 100
+- hyy ¥ 20
+- 雨亭寒江月 ¥ 50

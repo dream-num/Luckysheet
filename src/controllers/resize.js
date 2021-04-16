@@ -5,6 +5,7 @@ import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from './sheetmanage';
 import tooltip from '../global/tooltip'
+import { $$ } from "../utils/util";
 
 let gridW = 0, 
     gridH = 0;
@@ -100,13 +101,15 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 </div> 
             </div>
          </div>`,
-        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px; right:0px;z-index:1003;padding:5.5px;display:none;height:auto;white-space:initial;"></div>';
+         // Add style left:$$('.luckysheet') left, when the worksheet does not fill the full screen
+        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px;right:0px;z-index:1003;padding:5.5px;visibility:hidden;height:auto;white-space:initial;"></div>';
     
     if($("#luckysheet-icon-morebtn-div").length == 0){
         $("body").append(morediv);
     }
 
-    $("#luckysheet-icon-morebtn-div").hide();
+    // $("#luckysheet-icon-morebtn-div").hide();
+    $$("#luckysheet-icon-morebtn-div").style.visibility = 'hidden';
     // $("#luckysheet-icon-morebtn-div > div").appendTo($("#luckysheet-wa-editor"));
 
     $("#luckysheet-icon-morebtn-div > div").each(function(){
@@ -158,8 +161,31 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         
         $("#luckysheet-wa-editor").append(morebtn);
         $("#luckysheet-icon-morebtn").click(function(){
+
+            //When resize, change the width of the more button container in real time
+            $$('#luckysheet-icon-morebtn-div').style.left = '';//reset
+
+            const containerLeft = $$('#luckysheet').getBoundingClientRect().left;
+            const morebtnLeft = $$('#luckysheet-icon-morebtn-div').getBoundingClientRect().left;//get real left info
+
+            if(morebtnLeft < containerLeft){
+                $$('#luckysheet-icon-morebtn-div').style.left = containerLeft + 'px';
+            }
+
             let right = $(window).width() - $("#luckysheet-icon-morebtn").offset().left - $("#luckysheet-icon-morebtn").width()+ $("body").scrollLeft();
-            $("#luckysheet-icon-morebtn-div").toggle().css("right", right < 0 ? 0 : right);
+            
+            
+            // $("#luckysheet-icon-morebtn-div").toggle().css("right", right < 0 ? 0 : right);
+            
+            // use native js operation
+            $$('#luckysheet-icon-morebtn-div').style.right = right < 0 ? 0 : right + 'px';
+
+            // change to visibility,morebtnLeft will get the actual value
+            if($$('#luckysheet-icon-morebtn-div').style.visibility === 'hidden'){
+                $$('#luckysheet-icon-morebtn-div').style.visibility = 'visible';
+            }else{
+                $$('#luckysheet-icon-morebtn-div').style.visibility = 'hidden';
+            }
 
             let $txt = $(this).find(".luckysheet-toolbar-menu-button-caption");
             if($txt.text().indexOf(locale_toolbar.toolMore) > -1){
@@ -558,6 +584,12 @@ export function menuToolBarWidth() {
         }
 
     });
+
+    //If the container does not occupy the full screen, we need to subtract the left margin
+    const containerLeft = $('#' + Store.container).offset().left;
+    toobarWidths.forEach((item,i)=>{
+        toobarWidths[i] -= containerLeft;
+    })
     
 }
 
