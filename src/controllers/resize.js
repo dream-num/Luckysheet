@@ -5,7 +5,8 @@ import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from './sheetmanage';
 import tooltip from '../global/tooltip'
-import { $$ } from "../utils/util";
+import { $$, getObjType } from "../utils/util";
+import { defaultToolbar, toolbarIdMap } from './toolbar';
 
 let gridW = 0, 
     gridH = 0;
@@ -329,157 +330,99 @@ export function menuToolBarWidth() {
 
     const toobarWidths = Store.toobarObject.toobarWidths = [];
     const toobarElements = Store.toobarObject.toobarElements = [];
-    const toobarConfig = Store.toobarObject.toobarConfig = {
-        undo: {
-            ele:'#luckysheet-icon-undo',
-            index:0,
-        }, //Undo redo
-        redo: {
-            ele:'#luckysheet-icon-redo',
-            index:1,
-        },
-        paintFormat: {
-            ele:['#luckysheet-icon-paintformat','#toolbar-separator-paint-format'],
-            index:2,
-        }, //Format brush
-        currencyFormat: {
-            ele:'#luckysheet-icon-currency',
-            index:3,
-        }, //currency format
-        percentageFormat: {
-            ele:'#luckysheet-icon-percent',
-            index:4,
-        }, //Percentage format
-        numberDecrease: {
-            ele:'#luckysheet-icon-fmt-decimal-decrease',
-            index:5,
-        }, //'Decrease the number of decimal places'
-        numberIncrease: {
-            ele:'#luckysheet-icon-fmt-decimal-increase',
-            index:6,
-        }, //'Increase the number of decimal places
-        moreFormats: {
-            ele:['#luckysheet-icon-fmt-other','#toolbar-separator-more-format'],
-            index:7,
-        }, //'More Formats'
-        font:  {
-            ele:['#luckysheet-icon-font-family','#toolbar-separator-font-family'],
-            index:8,
-        }, //'font'
-        fontSize: {
-            ele:['#luckysheet-icon-font-size','#toolbar-separator-font-size'],
-            index:9,
-        }, //'Font size'
-        bold: {
-            ele:'#luckysheet-icon-bold',
-            index:10,
-        }, //'Bold (Ctrl+B)'
-        italic: {
-            ele:'#luckysheet-icon-italic',
-            index:11,
-        }, //'Italic (Ctrl+I)'
-        strikethrough: {
-            ele:'#luckysheet-icon-strikethrough',
-            index:12,
-        }, //'Strikethrough (Alt+Shift+5)'
-        underline: {
-            ele:'#luckysheet-icon-underline',
-            index:13,
-        }, //'Underline (Alt+Shift+6)'
-        textColor: {
-            ele:['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
-            index:14,
-        }, //'Text color'
-        fillColor: {
-            ele:['#luckysheet-icon-cell-color','#luckysheet-icon-cell-color-menu'],
-            index:15,
-        }, //'Cell color'
-        border: {
-            ele:['#luckysheet-icon-border-all','#luckysheet-icon-border-menu'],
-            index:16,
-        }, //'border'
-        mergeCell: {
-            ele:['#luckysheet-icon-merge-button','#luckysheet-icon-merge-menu','#toolbar-separator-merge-cell'],
-            index:17,
-        }, //'Merge cells'
-        horizontalAlignMode: {
-            ele:['#luckysheet-icon-align','#luckysheet-icon-align-menu'],
-            index:18,
-        }, //'Horizontal alignment'
-        verticalAlignMode: {
-            ele:['#luckysheet-icon-valign','#luckysheet-icon-valign-menu'],
-            index:19,
-        }, //'Vertical alignment'
-        textWrapMode: {
-            ele:['#luckysheet-icon-textwrap','#luckysheet-icon-textwrap-menu'],
-            index:20,
-        }, //'Wrap mode'
-        textRotateMode: {
-            ele:['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
-            index:21,
-        }, //'Text Rotation Mode'
-		image:{
-            ele:'#luckysheet-insertImg-btn-title',
-            index:22,
-        }, //'Insert link'
-		link:{
-            ele:'#luckysheet-insertLink-btn-title',
-            index:23,
-        }, //'Insert picture'
-        chart: {
-            ele:'#luckysheet-chart-btn-title',
-            index:24,
-        }, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-        postil: {
-            ele:'#luckysheet-icon-postil',
-            index:25,
-        }, //'comment'
-        pivotTable: {
-            ele:['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
-            index:26,
-        }, //'PivotTable'
-        function: {
-            ele:['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
-            index:27,
-        }, //'formula'
-        frozenMode: {
-            ele:['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
-            index:28,
-        }, //'freeze mode'
-        sortAndFilter: {
-            ele:'#luckysheet-icon-autofilter',
-            index:29,
-        }, //'sort and filter'
-        conditionalFormat: {
-            ele:'#luckysheet-icon-conditionformat',
-            index:30,
-        }, //'Conditional Format'
-        dataVerification: {
-            ele:'#luckysheet-dataVerification-btn-title',
-            index:31,
-        }, // 'Data Verification'
-        splitColumn: {
-            ele:'#luckysheet-splitColumn-btn-title',
-            index:32,
-        }, //'Split column' 
-        screenshot: {
-            ele:'#luckysheet-chart-btn-screenshot',
-            index:33,
-        }, //'screenshot'
-        findAndReplace: {
-            ele:'#luckysheet-icon-seachmore',
-            index:34,
-        }, //'Find and Replace'
-        protection:{
-            ele:'#luckysheet-icon-protection',
-            index:35,
-        }, // 'Worksheet protection'
-		print:{
-            ele:'#luckysheet-icon-print',
-            index:36,
-        }, // 'print'
-    };
+    const toolbarConfig = Store.toobarObject.toolbarConfig = buildBoolBarConfig();
+    
+    /**
+     * 基于 showtoolbarConfig 配置 动态生成 toolbarConfig
+     * @returns {object} 
+     * @input showtoolbarConfig = ['undo', 'redo', '|' , 'font' , 'moreFormats', '|']
+     * {
+     *     undo: {ele: '#luckysheet-icon-undo', index: 0},
+     *     redo: {ele: ['#luckysheet-icon-redo', '#luckysheet-separator-redo'], index: 1},
+     *     undo: {ele: '#luckysheet-icon-font', index: 2},
+     *     moreFormats: {ele: ['#luckysheet-icon-fmt-other', '#luckysheet-separator-more-formats'], index: 3},
+     * }
+     */
+    function buildBoolBarConfig() {
+        const obj = {};
+        // 数组形式直接生成
+        if (getObjType(showtoolbarConfig) === 'array') {
+            // show 为 false
+            if (!showtoolbar) {
+                return obj;
+            }
+            let current,next;
+            let index = 0;
+            for (let i = 0; i<showtoolbarConfig.length; i++) {
+                current = showtoolbarConfig[i];
+                next = showtoolbarConfig[i + 1];
+                if (current !== '|') {
+                    obj[current] = {
+                        ele: toolbarIdMap[current],
+                        index: index++
+                    }
+                }
+                if (next === '|') {
+                    if (getObjType(obj[current].ele) === 'array') {
+                        obj[current].ele.push(`#toolbar-separator-${current.toLowerCase()}`);
+                    } else {
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${current.toLowerCase()}`];
+                    }
+                }
+            }
+            return obj;
+        }
+        // 否则为全部中从记录中挑选显示或隐藏
+        const config = defaultToolbar.reduce(function(total, curr) {
+            if (curr !== '|') {
+                total[curr] = true;
+            }
+            return total;
+        }, {});
+        if (!showtoolbar) {
+            for (let s in config) {
+                config[s] = false;
+            }
+        }
+        
+        if (JSON.stringify(showtoolbarConfig) !== '{}') {
+            if(showtoolbarConfig.hasOwnProperty('undoRedo')){
+                config.undo = config.redo = showtoolbarConfig.undoRedo;
+                delete showtoolbarConfig.undoRedo;
+            }
+            Object.assign(config, showtoolbarConfig);
+            
+            let current,next;
+            let index = 0;
+            for (let i = 0; i<defaultToolbar.length; i++) {
+                current = defaultToolbar[i];
+                next = defaultToolbar[i + 1];
+                if (current !== '|') {
+                    obj[current] = {
+                        ele: toolbarIdMap[current],
+                        index: index++
+                    }
+                }
+                if (next === '|') {
+                    if (getObjType(obj[current].ele) === 'array') {
+                        obj[current].ele.push(`#toolbar-separator-${current.toLowerCase()}`);
+                    } else {
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${current.toLowerCase()}`];
+                    }
+                }
+            }
+        }
 
+        return obj;
+    }
+
+    for (let s in toolbarConfig){
+        if (Object.prototype.hasOwnProperty.call(toolbarConfig, s)) {
+            toobarElements.push($.extend(true,{},toolbarConfig[s]));
+        }
+    }
+
+    /*
     const config = {
         undo: true, //Undo
         redo: true, //Redo
@@ -553,6 +496,7 @@ export function menuToolBarWidth() {
             }
         }
     }
+    */
 
     toobarElements.sort(sortToolbar);
 
