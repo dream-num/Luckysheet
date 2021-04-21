@@ -1,7 +1,7 @@
 import locale from '../locale/locale';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 
-import { getObjType } from '../utils/util';
+import { getObjType, camel2split } from '../utils/util';
 
 // 默认的工具栏按钮
 export const defaultToolbar = [
@@ -876,36 +876,24 @@ export function createToolbarHtml() {
             delete showtoolbarConfig.undoRedo;
         }
         Object.assign(config, showtoolbarConfig);
-
-        for (let i = 0; i < defaultToolbar.length; i++) {
-            let key = defaultToolbar[i];
-            if (!config[key]) {
-                // 如果当前元素隐藏 按照之前的规则 后面紧跟的 | 分割也不需要显示了
-                if (defaultToolbar[i + 1] === '|') {
-                    i++;
-                }
-                return;
+    }
+    for (let i = 0; i < defaultToolbar.length; i++) {
+        let key = defaultToolbar[i];
+        if (!config[key] && key !== '|') {
+            // 如果当前元素隐藏 按照之前的规则 后面紧跟的 | 分割也不需要显示了
+            if (defaultToolbar[i + 1] === '|') {
+                i++;
             }
-            if (key === '|') {
-                buttonHTML.push(
-                    `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-                );
-            } else {
-                buttonHTML.push(htmlMap[key]);
-            }
+            continue;
+        }
+        if (key === '|') {
+            buttonHTML.push(
+                `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+            );
+        } else {
+            buttonHTML.push(htmlMap[key]);
         }
     }
-
+    console.log(buttonHTML);
     return buttonHTML.join('');
-}
-
-/**
- * camel 形式的单词转换为 - 形式 如 fillColor -> fill-color
- * @param {string} camel camel 形式
- * @returns
- */
-function camel2split(camel) {
-    return camel.replace(/([A-Z])/g, function(all, group) {
-        return '-' + group.toLowerCase();
-    });
 }

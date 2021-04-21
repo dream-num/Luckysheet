@@ -5,7 +5,7 @@ import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from './sheetmanage';
 import tooltip from '../global/tooltip'
-import { $$, getObjType } from "../utils/util";
+import { $$, getObjType, camel2split } from "../utils/util";
 import { defaultToolbar, toolbarIdMap } from './toolbar';
 
 let gridW = 0, 
@@ -344,18 +344,14 @@ export function menuToolBarWidth() {
      * }
      */
     function buildBoolBarConfig() {
-        const obj = {};
-        // 数组形式直接生成
-        if (getObjType(showtoolbarConfig) === 'array') {
-            // show 为 false
-            if (!showtoolbar) {
-                return obj;
-            }
+        let obj = {};
+        function array2Config(arr) {
+            const obj = {};
             let current,next;
             let index = 0;
-            for (let i = 0; i<showtoolbarConfig.length; i++) {
-                current = showtoolbarConfig[i];
-                next = showtoolbarConfig[i + 1];
+            for (let i = 0; i<arr.length; i++) {
+                current = arr[i];
+                next = arr[i + 1];
                 if (current !== '|') {
                     obj[current] = {
                         ele: toolbarIdMap[current],
@@ -364,13 +360,21 @@ export function menuToolBarWidth() {
                 }
                 if (next === '|') {
                     if (getObjType(obj[current].ele) === 'array') {
-                        obj[current].ele.push(`#toolbar-separator-${current.toLowerCase()}`);
+                        obj[current].ele.push(`#toolbar-separator-${camel2split(current)}`);
                     } else {
-                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${current.toLowerCase()}`];
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${camel2split(current)}`];
                     }
                 }
             }
             return obj;
+        }
+        // 数组形式直接生成
+        if (getObjType(showtoolbarConfig) === 'array') {
+            // show 为 false
+            if (!showtoolbar) {
+                return obj;
+            }
+            return array2Config(showtoolbarConfig);
         }
         // 否则为全部中从记录中挑选显示或隐藏
         const config = defaultToolbar.reduce(function(total, curr) {
@@ -405,12 +409,14 @@ export function menuToolBarWidth() {
                 }
                 if (next === '|') {
                     if (getObjType(obj[current].ele) === 'array') {
-                        obj[current].ele.push(`#toolbar-separator-${current.toLowerCase()}`);
+                        obj[current].ele.push(`#toolbar-separator-${camel2split(current)}`);
                     } else {
-                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${current.toLowerCase()}`];
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${camel2split(current)}`];
                     }
                 }
             }
+        } else {
+            obj = array2Config(defaultToolbar);
         }
 
         return obj;
