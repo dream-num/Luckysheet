@@ -416,7 +416,7 @@ export function menuToolBarWidth() {
                 }
             }
         } else {
-            obj = array2Config(defaultToolbar);
+            obj = showtoolbar ? array2Config(defaultToolbar) : {};
         }
 
         return obj;
@@ -427,82 +427,6 @@ export function menuToolBarWidth() {
             toobarElements.push($.extend(true,{},toolbarConfig[s]));
         }
     }
-
-    /*
-    const config = {
-        undo: true, //Undo
-        redo: true, //Redo
-        paintFormat: true, //Format brush
-        currencyFormat: true, //currency format
-        percentageFormat: true, //Percentage format
-        numberDecrease: true, //'Decrease the number of decimal places'
-        numberIncrease: true, //'Increase the number of decimal places
-        moreFormats: true, //'More Formats'
-        font: true, //'font'
-        fontSize: true, //'Font size'
-        bold: true, //'Bold (Ctrl+B)'
-        italic: true, //'Italic (Ctrl+I)'
-        strikethrough: true, //'Strikethrough (Alt+Shift+5)'
-        underline: true, //'Underline (Alt+Shift+6)'
-        textColor: true, //'Text color'
-        fillColor: true, //'Cell color'
-        border: true, //'border'
-        mergeCell: true, //'Merge cells'
-        horizontalAlignMode: true, //'Horizontal alignment'
-        verticalAlignMode: true, //'Vertical alignment'
-        textWrapMode: true, //'Wrap mode'
-        textRotateMode: true, //'Text Rotation Mode'
-		image:true, // 'Insert picture'
-		link: true, // 'Insert link'(TODO)
-		chart: true, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-		postil:true, //'comment'
-		pivotTable: true, //'PivotTable'
-		function: true, //'formula'
-		frozenMode: true, //'freeze mode'
-		sortAndFilter: true, //'Sort and filter'
-		conditionalFormat: true, //'Conditional Format'
-		dataVerification: true, // 'Data Verification'
-		splitColumn: true, //'Split column'
-		screenshot: true, //'screenshot'
-		findAndReplace: true, //'Find and Replace'
-		protection: true, // 'Worksheet protection'
-		print: true, // 'print'
-    }
-
-    // false means all false
-    if(!showtoolbar){
-        for(let s in config){
-            config[s] = false;
-        }
-    }
-
-    // showtoolbarConfig determines the final result
-    if(JSON.stringify(showtoolbarConfig) !== '{}'){
-        if(showtoolbarConfig.hasOwnProperty('undoRedo')){
-            config.undo = config.redo = showtoolbarConfig.undoRedo;
-
-            delete showtoolbarConfig.undoRedo;
-        }
-        Object.assign(config,showtoolbarConfig);
-    } 
-
-    // 1. The button set to false, remove the dom
-    // 2. Build toobarWidths and toobarElements
-    for(let s in config){
-        if(config[s]){
-            toobarElements.push($.extend(true,{},toobarConfig[s]));
-
-        }else{
-            if(toobarConfig[s].ele instanceof Array){
-                for(const item of toobarConfig[s].ele){
-                    $(item).remove();
-                }
-            }else{
-                $(toobarConfig[s].ele).remove();
-            }
-        }
-    }
-    */
 
     toobarElements.sort(sortToolbar);
 
