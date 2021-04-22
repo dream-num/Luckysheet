@@ -894,6 +894,5 @@ export function createToolbarHtml() {
             buttonHTML.push(htmlMap[key]);
         }
     }
-    console.log(buttonHTML);
     return buttonHTML.join('');
 }
