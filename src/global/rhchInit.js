@@ -1,5 +1,5 @@
 import Store from '../store';
-import { computeRowlenByContent } from './getRowlen';
+import { computeRowlenByContent,computeColWidthByContent } from './getRowlen';
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 
 export default function rhchInit(rowheight, colwidth) {
@@ -76,6 +76,10 @@ export default function rhchInit(rowheight, colwidth) {
                 continue;
             }
 
+            // 自动行高计算
+            if (firstcolumnlen === 'auto') {
+                firstcolumnlen = computeColWidthByContent(Store.flowdata, c, rowheight);
+            }
             Store.ch_width += Math.round((firstcolumnlen + 1)*Store.zoomRatio);
 
             Store.visibledatacolumn.push(Store.ch_width);//列的临时长度分布

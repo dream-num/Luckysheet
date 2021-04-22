@@ -1420,8 +1420,12 @@ export function setColumnWidth(columnInfo, options = {}) {
         if(parseInt(c) >= 0){
             let len = columnInfo[c];
 
-            if(Number(len) >= 0){
-                cfg['columnlen'][parseInt(c)] = Number(len);
+            if (len === 'auto') {
+                cfg['columnlen'][parseInt(c)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['columnlen'][parseInt(c)] = Number(len);
+                }
             }
         }
     }

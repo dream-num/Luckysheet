@@ -135,6 +135,39 @@ function computeCellWidth(cell, col_index) {
     return colLocationArr[1] - colLocationArr[0] - 2;
 }
 
+function computeColWidthByContent(d, c, rh) {
+    let currentColLen = 0;
+    let rowlenArr = computeRowlenArr(rh, c)
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for (var i = 0; i < d.length; i++) {
+        var cell = d[i][c]
+
+        if (cell != null && (cell.v != null || isInlineStringCell(cell))) {
+            let cellHeight = rowlenArr[c];
+            let textInfo = getCellTextInfo(cell, canvas, {
+                r: i,
+                c: c,
+                cellHeight: cellHeight
+            });
+
+            let computeCollen = 0;
+
+            if (textInfo != null) {
+                computeCollen = textInfo.textWidthAll + 2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if (computeCollen > currentColLen) {
+                currentColLen = computeCollen;
+            }
+        }
+    }
+
+    return currentColLen;
+}
 
 //计算表格行高数组
 function computeRowlenArr(rowHeight, cfg) {
@@ -1677,6 +1710,7 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
 
 
 export {
+    computeColWidthByContent,
     rowlenByRange,
     computeRowlenByContent,
     computeRowlenArr,
