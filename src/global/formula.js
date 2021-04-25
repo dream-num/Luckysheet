@@ -3998,7 +3998,14 @@ const luckysheetformula = {
                 if ((s + s_next) in _this.operatorjson) {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.functionParser($.trim(str), cellRangeFunction));
+                            //debugger;
+                            if(isRealNum(str) && s=='%' && !isRealNum(s_next)) {
+                                str = str * 1.00 /100;
+                                cal2.unshift(str);
+                            }
+                            else {
+                                cal2.unshift(_this.functionParser($.trim(str), cellRangeFunction));
+                            }
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4027,7 +4034,15 @@ const luckysheetformula = {
                 else {
                     if (bracket.length == 0) {
                         if ($.trim(str).length > 0) {
-                            cal2.unshift(_this.functionParser($.trim(str), cellRangeFunction));
+                            //debugger;
+                            if(isRealNum(str) && s=='%' && !isRealNum(s_next)) {
+                                str = str * 1.00 /100;
+                                i++;
+                                continue;
+                            }
+                            else {
+                                cal2.unshift(_this.functionParser($.trim(str), cellRangeFunction));
+                            }
                         }
                         else if ($.trim(function_str).length > 0) {
                             cal2.unshift($.trim(function_str));
@@ -4135,6 +4150,11 @@ const luckysheetformula = {
             i++;
         }
         // console.log(function_str);
+        //debugger;
+        if (function_str.length ==0 && cal2.length > 0) {
+            function_str = _this.calPostfixExpression(cal2);
+        }
+
         return function_str;
     },
     insertUpdateDynamicArray: function (dynamicArrayItem) {
