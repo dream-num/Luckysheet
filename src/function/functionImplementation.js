@@ -11055,6 +11055,7 @@ const functionImplementation = {
         }
     },
     "LOOKUP": function() {
+        debugger;
         //必要参数个数错误检测
         if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
             return formula.error.na;
@@ -11070,7 +11071,7 @@ const functionImplementation = {
         }
 
         try {
-            //完成矢量形式（数组形式不推荐，未做）
+            //完成矢量形式（数组形式已修复）
             //=LOOKUP(4.19, A2:A6, B2:B6)
             //=LOOKUP(0, A2:A6, B2:B6)
             var cell_r = window.luckysheetCurrentRow;
@@ -11091,21 +11092,31 @@ const functionImplementation = {
                     searchkey = searchkey.v;
                 }
             }
-
-            //必须为一维数组
-            var range = arguments[1].data;
-            var range2;
-            var result = formula.error.na;
-
+            
             function sortNum(a,b){ //用于排序
                 return b - a;
             }
 
+            var result = formula.error.na;
+            
             //获得两个范围的数组
-            range= formula.getRangeArray(range)[0];
+            var range = arguments[1].data;
+            if(range) {
+                range= formula.getRangeArray(range)[0];
+            }
+            else {
+                range = arguments[1];
+            }
+
+            var range2;
             if(arguments[2]){
                 range2 = arguments[2].data;
-                range2 = formula.getRangeArray(range2)[0];
+                if(range2) {
+                    range2 = formula.getRangeArray(range2)[0];
+                }
+                else {
+                    range2 = arguments[2];
+                }
             }
 
             if(typeof(searchkey) == "string"){ //字符串直接判断是否相等
