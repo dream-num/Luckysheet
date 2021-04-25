@@ -11055,7 +11055,6 @@ const functionImplementation = {
         }
     },
     "LOOKUP": function() {
-        debugger;
         //必要参数个数错误检测
         if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
             return formula.error.na;
