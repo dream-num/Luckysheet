@@ -95,7 +95,6 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         else{
             curDynamicArray = dynamicArray;
         }
-        
         Store.jfredo.push({ 
             "type": "datachange", 
             "data": Store.flowdata, 

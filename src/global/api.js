@@ -6741,3 +6741,38 @@ export function checkTheStatusOfTheSelectedCells(type,status){
 
     return flag;
 }
+
+/**
+ * 设置单元格联想关键词数据
+ * @param {Object} options 可选参数
+ * @param {String} config.type 联想类型，默认list类型，
+ * @param {Array | String} config.data 联想数据，若为list类型，则data为 [{text: '测试数据111'}， {text: '测试数据222'}]，若为custom，则data是一个DOM节点数据
+ * @param {Function} config.clickCallBack 点击联想数据的回调函数, 只有list类型的点击回调才可以通过此方式设置，custom类型可直接用script的方式直接写到data里面
+ */
+export function automatedKeyword(options = {}){
+    let {type = 'list', data, clickCallBack} = options
+    let html = ''
+    if (type === 'list') {
+        html = `<div id="automatedWord-list">`
+        for (let i = 0; i < data.length; i++) {
+            html += `<div class="automatedWord-list-item">${data[i].text}</div>`
+        }
+        html += `</div>`
+    } else if (type === 'custom') {
+        html = data
+    }
+    $('#luckysheet-rich-text-editor-automatedWord').html(html)
+    $("#automatedWord-list .automatedWord-list-item").on('click', function (e) {
+        let text = e.target.innerText
+        $('#luckysheet-rich-text-editor').text(text)
+        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+        $('#luckysheet-rich-text-editor').blur()
+        if (clickCallBack && type === 'list') {
+            let index = $(this).index()
+            clickCallBack(data[index])
+        }
+    })
+    
+}
+
+

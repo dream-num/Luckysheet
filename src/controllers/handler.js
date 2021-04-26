@@ -27,6 +27,8 @@ import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
 import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
 import { openCellFormatModel } from './cellFormat';
+import cleargridelement from '../global/cleargridelement';
+
 
 import { 
     replaceHtml,
@@ -277,10 +279,42 @@ export default function luckysheetHandler() {
         }            
     });
 
+    let automatedWordHTML = '<div class="luckysheet-rich-text-editor-automatedWord" id="luckysheet-rich-text-editor-automatedWord"></div>',
+        isCellSearch = false,
+        sheetData = null,
+        selection = null
     $("#luckysheet-rich-text-editor").mouseup(function(e){
         menuButton.inputMenuButtonFocus(e.target);
-    });
-
+    }).on('input propertychange', function (e) {
+        if(!method.createHookFunction("cellInput", {
+            value: e.target.innerText,
+            selection,
+            cell: sheetData[selection.row_focus][selection.column_focus]
+        })){ return; }
+    }).on('blur', function () {
+        if (isCellSearch) {
+            cleargridelement()
+            isCellSearch = false
+        } else {
+            $('#luckysheet-rich-text-editor-automatedWord').remove();
+        }
+        sheetData = null
+        selection = null
+    }).on('focus', function (e) {
+        sheetData = Store.flowdata
+        selection = Store.luckysheet_select_save[0]
+        if (sheetData[selection.row_focus][selection.column_focus] && sheetData[selection.row_focus][selection.column_focus].t === 'a') isCellSearch = true;
+        let hasAutomatedWord = $('#luckysheet-rich-text-editor-automatedWord').length
+        if (isCellSearch && !hasAutomatedWord) {
+            $('#luckysheet-input-box').append(automatedWordHTML);
+            if(!method.createHookFunction("cellInput", {
+                value: e.target.innerText,
+                selection,
+                cell: sheetData[selection.row_focus][selection.column_focus]
+            })){ return; }
+        }
+    })
+    
     //表格mousedown
     $("#luckysheet-cell-main, #luckysheetTableContent").mousedown(function (event) {
         if($(event.target).hasClass('luckysheet-mousedown-cancel')){
@@ -4071,7 +4105,7 @@ export default function luckysheetHandler() {
                 "RowlChange": RowlChange,
                 "cdformat": cdformat
             }
-
+            console.log('2')
             jfrefreshgrid(d, range, allParam);
 
             selectHightlightShow();

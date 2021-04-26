@@ -7319,3 +7319,9 @@ fieldset[disabled] .btn-danger.focus {
     white-space: nowrap;
 }
 
+#luckysheet-rich-text-editor-automatedWord .automatedWord-list-item {
+    cursor: pointer;
+}
+#luckysheet-rich-text-editor-automatedWord .automatedWord-list-item:hover {
+    background: #f3f3f3;
+}

@@ -105,7 +105,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         "right": "auto", 
         "overflow-y": "auto",
         "box-sizing": "initial",
-        "display":"flex",
+        // "display":"flex",
     });
 
     if(luckysheetFreezen.freezenverticaldata != null || luckysheetFreezen.freezenhorizontaldata != null){
@@ -122,7 +122,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         let htValue = cell["ht"];
         let leftOrigin = "left", topOrigin = "top";
         if(htValue == "0"){//0 center, 1 left, 2 right
-            input_postition = { 
+            input_postition = {
                 "min-width": col - col_pre + 1- 8, 
                 "min-height": row - row_pre + 1- 4, 
                 // "transform":"scale("+ Store.zoomRatio +")",
