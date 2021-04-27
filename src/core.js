@@ -38,6 +38,7 @@ import * as api from './global/api';
 import flatpickr from 'flatpickr'
 import Mandarin from 'flatpickr/dist/l10n/zh.js'
 import { initListener } from './controllers/listener';
+import { luckysheetextendData } from './global/extend.js';
 
 let luckysheet = {};
 
@@ -244,6 +245,8 @@ luckysheet.selectHightlightShow = selectHightlightShow;
 
 // Reset parameters after destroying the table
 luckysheet.destroy = method.destroy;
+
+luckysheet.luckysheetextendData = luckysheetextendData;
 
 export {
     luckysheet
