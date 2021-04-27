@@ -275,7 +275,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置工具栏，可以与showtoolbar配合使用，`showtoolbarConfig`拥有更高的优先级。
-- 格式：
+- 格式1：
     ```json
     {
         undoRedo: false, //撤销重做，注意撤消重做是两个按钮，由这一个配置决定显示还是隐藏
@@ -316,7 +316,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		print:false, // '打印'
     }
     ```
-- 示例：
+- 示例1：
 	- 仅显示撤消重做和字体按钮：
 		
 		```js
@@ -341,7 +341,33 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				}
 			}
 		```
-
+- 格式2：
+    对象格式可以很方便控制显示隐藏，使用数组形式可轻松控制按钮顺序和位置， 以下为工具栏按钮和分隔符的默认配置。
+    ```json
+	[   
+		"undo", "redo", "paintFormat", "|", 
+		"currencyFormat", "percentageFormat", "numberDecrease", "numberIncrease", "moreFormats", "|", 
+		"font", "|", 
+		"fontSize", "|", 
+		"bold", "italic", "strikethrough", "underline", "textColor", "|", 
+		"fillColor", "border", "mergeCell", "|", 
+		"horizontalAlignMode", "verticalAlignMode", "textWrapMode", "textRotateMode", "|", 
+		"image", "link", "chart", "postil", "pivotTable", "|", 
+		"function", "frozenMode", "sortAndFilter", "conditionalFormat", "dataVerification", "splitColumn", "screenshot", "findAndReplace", "protection", "print"
+	]
+	```
+- 示例2： 
+	- 自定义按钮和位置， 保护放到最前面， 只要字体样式相关按钮。
+	    ```json
+		{
+			"showtoolbarConfig": [
+				"protection", "|", 
+				"font", "|", 
+				"fontSize", "|", 
+				"bold", "italic", "strikethrough", "underline", "textColor"
+			]
+		}
+		```
 ------------
 ### showinfobar
 - 类型：Boolean
