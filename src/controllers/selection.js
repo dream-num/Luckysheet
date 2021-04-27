@@ -1765,16 +1765,23 @@ const selection = {
                             }
 
                             if(getObjType(x[c]) == "object"){
-                                let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
-                                format.forEach(item=>{
-                                    Reflect.deleteProperty(x[c],item);
-                                })
+                                if(x[c].ct && x[c].ct.t === "inlineStr"){
+                                    delete value["ct"];
+                                }else{
+                                    let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
+                                    format.forEach(item=>{
+                                        Reflect.deleteProperty(x[c],item);
+                                    })
+                                }
                             }
                             else{
                                 x[c] = {"v": x[c] };
                             }
 
                             x[c] = $.extend(true, x[c], value);
+                            if(x[c].ct && x[c].ct.t === "inlineStr"){  
+                                x[c].ct.s.forEach(item=> item = $.extend(true, item, value))
+                            }
 
                             if(copyHasMC && ("mc" in x[c])){
                                 if(x[c]["mc"].rs != null){

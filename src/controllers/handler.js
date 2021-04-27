@@ -5684,8 +5684,7 @@ export default function luckysheetHandler() {
     });
 
     $('#luckysheet-wa-editor,#luckysheet-icon-morebtn-div,.luckysheet-toolbar-button').click(function(e){
-        // 取消格式刷状态
-        if(menuButton.luckysheetPaintModelOn){
+        if(this.id != 'luckysheet-icon-paintformat' && menuButton.luckysheetPaintModelOn){
             menuButton.cancelPaintModel();
         }
     })
