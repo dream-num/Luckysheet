@@ -843,11 +843,12 @@ export function createToolbarHtml() {
         if (!showtoolbar) {
             return '';
         }
-        let i = 0;
         showtoolbarConfig.forEach(function(key, i) {
             if (key === '|') {
+                // 应取前一个元素的的作为id
+                let prevKey = showtoolbarConfig[i - 1] || key;
                 buttonHTML.push(
-                    `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                    `<div id="toolbar-separator-${camel2split(prevKey)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
                 );
             } else {
                 buttonHTML.push(htmlMap[key]);
@@ -887,8 +888,10 @@ export function createToolbarHtml() {
             continue;
         }
         if (key === '|') {
+            // 应取前一个元素的的作为id
+            let prevKey = defaultToolbar[i - 1] || key;
             buttonHTML.push(
-                `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                `<div id="toolbar-separator-${camel2split(prevKey)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
             );
         } else {
             buttonHTML.push(htmlMap[key]);
