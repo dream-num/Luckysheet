@@ -237,6 +237,25 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 ------------
 
+### automatedKeyword([,setting])
+
+- **参数**：
+	
+	- {PlainObject} [setting]: 可选参数
+				+ {Array | DOM} [data]: 联想数据 如：[{text: '测试1', text: '测试2'}] 或者 '<div class="list"><div class="item">测试1</div><div class="item">测试2</div></div>'
+        + {Function} [clickCallBack]: 点击联想数据的回调函数
+- **说明**：
+	
+	设置联想单元格的联想数据
+
+- **示例**:
+
+   - 在hook的cellInput钩子里面，如果该单元格属性"t" === "a" （Associative cell），则是联想类型的单元格，拿到值之后再去请求联想数据，再调用此api来展示联想数据
+   		`luckysheet.automatedKeyword({data})`
+
+------------
+
+
 ## 行和列操作
 
 ### setHorizontalFrozen(isRange [,setting])

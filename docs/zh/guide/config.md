@@ -733,6 +733,17 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Boolean} [isRefresh]: 是否刷新整个表格
 
 ------------
+### cellInput
+
+- 类型：Function
+- 默认值：null
+- 作用：实时编辑这个单元格触发
+- 参数：
+	- {String} [value]: 单元格的value值
+	- {Object} [selection]: 当前选区
+	- {Object} [cell]: 当前单元格的对象
+	
+------------
 ### cellRenderBefore
 
 - 类型：Function
