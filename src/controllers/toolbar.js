@@ -666,7 +666,7 @@ export function createToolbarHtml() {
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
-                    
+
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
                     style="user-select: none;">
                         <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
@@ -675,7 +675,7 @@ export function createToolbarHtml() {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -714,7 +714,7 @@ export function createToolbarHtml() {
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
-                    
+
                     <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                         <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont luckysheet-iconfont-geshitiaojian"
                         style="user-select: none;">
@@ -783,7 +783,7 @@ export function createToolbarHtml() {
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
-   
+
                     <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                         <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont luckysheet-iconfont-sousuo"
                         style="user-select: none;">
@@ -818,7 +818,7 @@ export function createToolbarHtml() {
             style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
-   
+
                     <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
                         <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-autofilter iconfont luckysheet-iconfont-dayin"
                         style="user-select: none;">
@@ -846,9 +846,12 @@ export function createToolbarHtml() {
         let i = 0;
         showtoolbarConfig.forEach(function(key, i) {
             if (key === '|') {
-                buttonHTML.push(
-                    `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-                );
+                const nameKeys = defaultToolbar[i - 1]
+                if(nameKeys !== '|') {
+                    buttonHTML.push(
+                        `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                        );
+                }
             } else {
                 buttonHTML.push(htmlMap[key]);
             }
@@ -887,9 +890,12 @@ export function createToolbarHtml() {
             continue;
         }
         if (key === '|') {
-            buttonHTML.push(
-                `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-            );
+            const nameKeys = defaultToolbar[i - 1]
+            if(nameKeys !== '|') {
+                buttonHTML.push(
+                    `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                );
+            }
         } else {
             buttonHTML.push(htmlMap[key]);
         }
