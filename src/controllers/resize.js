@@ -117,7 +117,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         const $t = $(this)[0];
         const $container =  $("#luckysheet-wa-editor")[0];
 
-        $container.appendChild(document.createTextNode(" "));
+        // $container.appendChild(document.createTextNode(" "));
         $container.appendChild($t);
     });
 
@@ -440,7 +440,6 @@ export function menuToolBarWidth() {
             return -1;
         }
     }
-
     toobarElements.forEach((curr,index,arr)=>{
         arr[index] = curr.ele;
 

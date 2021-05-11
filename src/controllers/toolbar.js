@@ -846,10 +846,10 @@ export function createToolbarHtml() {
         let i = 0;
         showtoolbarConfig.forEach(function(key, i) {
             if (key === '|') {
-                const nameKeys = defaultToolbar[i - 1]
+                const nameKeys = showtoolbarConfig[i - 1]
                 if(nameKeys !== '|') {
                     buttonHTML.push(
-                        `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                        `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
                         );
                 }
             } else {
@@ -893,7 +893,7 @@ export function createToolbarHtml() {
             const nameKeys = defaultToolbar[i - 1]
             if(nameKeys !== '|') {
                 buttonHTML.push(
-                    `<div id="toolbar-separator-${camel2split(key)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+                    `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
                 );
             }
         } else {
