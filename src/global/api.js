@@ -1182,6 +1182,7 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
         order = curSheetOrder,
+        saveParam = true,
         success
     } = {...options}
 
@@ -1209,7 +1210,10 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
     }
 
     Store.luckysheetfile[order].config = cfg;
-    server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
+
+    if (saveParam) {
+        server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
+    }
 
     // 若操作sheet为当前sheet页，行高、列宽 刷新
     if (order == curSheetOrder) {
