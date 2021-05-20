@@ -99,7 +99,7 @@ const server = {
 	    d.i = index;
 	    d.v = value;
 
-		//切换sheet页不发后台，TODO：改为发后台+后台不广播 
+		//切换sheet页不发后台，TODO：改为发后台+后台不广播
 		if(type === 'shs'){
 			return;
 		}
@@ -188,7 +188,7 @@ const server = {
 	        	console.info(locale().websocket.success);
 	        	hideloading();
 				_this.wxErrorCount = 0;
-				
+
 	            //防止websocket长时间不发送消息导致断连
 				_this.retryTimer = setInterval(function(){
 	                _this.websocket.send("rub");
@@ -234,7 +234,7 @@ const server = {
 	                    value = item.v;
 					if(Store.cooperativeEdit.changeCollaborationSize.length === 0) {
 						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
-					}	 
+					}
 					let flag = Store.cooperativeEdit.changeCollaborationSize.some(value1 => {
 						return value1.id == id
 					})
@@ -244,10 +244,10 @@ const server = {
 								val.v = item.v[0]
 								val.i = index
 							}
-						})  
+						})
 					} else {
 						Store.cooperativeEdit.changeCollaborationSize.push({id:id,v:item.v[0],i:index})
-					}		
+					}
 	                if(getObjType(value) != "array" && getObjType(value) !== "object"){
 	                    value = JSON.parse(value);
 					}
@@ -259,16 +259,16 @@ const server = {
 							r = value.range[value.range.length - 1].row[0];
 							c = value.range[value.range.length - 1].column[0];
 							_this.multipleRangeShow(id, username, r, c, value.op);
-						
+
 						}else {
 
 							r = value[value.length - 1].row[0];
 							c = value[value.length - 1].column[0];
-	
+
 							_this.multipleRangeShow(id, username, r, c);
-						
+
 						}
-						
+
 					} else {
 						if(getObjType(value) === "object" && value.op === 'enterEdit'){
 							r = value.range[value.range.length - 1].row[0];
@@ -331,7 +331,11 @@ const server = {
 	                for(let i = 0; i < items.length; i++){
 	                    _this.wsUpdateMsg(item[i]);
 	                }
-	            }
+	            } else if (type == 5) {
+                showloading(data.data);
+              } else if (type == 6) {
+                hideloading();
+              }
 	        }
 
 	        //通信发生错误时触发
@@ -420,7 +424,7 @@ const server = {
 	        if(index == Store.currentSheetIndex){//更新数据为当前表格数据
 				Store.flowdata = file.data;
 				editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
-				
+
 	            //如果更新的单元格有批注
 	            for(let r = r1; r <= r2; r++){
 	                for(let c = c1; c <= c2; c++){
@@ -452,7 +456,7 @@ const server = {
 	            // for(let key in value){
 	            //     file["config"][k][key] = value[key];
 				// }
-				
+
 				// ⚠️ 上面的处理方式会导致部分配置项被遗漏，以致协同编辑的时候多视图出现不一致的情况，调整处理的策略为直接替换配置项：
 				// 可能的配置项为：
 				// columnlen: {0: 65, 1: 186, 2: 52}
@@ -695,7 +699,7 @@ const server = {
 
 	        if(rc == "r"){
 				file["row"] += len;
-				
+
 				//空行模板
 				let row = [];
 				for(let c = 0; c < data[0].length; c++){
@@ -720,8 +724,8 @@ const server = {
 						new Function("data","return " + 'data.splice(' + st_i + ', 0, ' + arr.join(",") + ')')(data);
 					}
 				}
-				else{ 
-					new Function("data","return " + 'data.splice(' + (st_i + 1) + ', 0, ' + arr.join(",") + ')')(data); 
+				else{
+					new Function("data","return " + 'data.splice(' + (st_i + 1) + ', 0, ' + arr.join(",") + ')')(data);
 				}
 	        }
 	        else{
@@ -827,18 +831,18 @@ const server = {
 	    else if(type == "shd"){ //删除sheet
 	        for(let i = 0; i < Store.luckysheetfile.length; i++){
 	            if(Store.luckysheetfile[i].index == value.deleIndex){
-	                
+
 					// 如果删除的是当前sheet，则切换到前一个sheet页
 					if(Store.currentSheetIndex === value.deleIndex){
 						const index = value.deleIndex;
 
 						Store.luckysheetfile[sheetmanage.getSheetIndex(index)].hide = 1;
-        
+
 						let luckysheetcurrentSheetitem = $("#luckysheet-sheets-item" + index);
 						luckysheetcurrentSheetitem.hide();
 
 						$("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
-						
+
 						let indicator = luckysheetcurrentSheetitem.nextAll(":visible");
 						if (luckysheetcurrentSheetitem.nextAll(":visible").length > 0) {
 							indicator = indicator.eq(0).data("index");
@@ -847,7 +851,7 @@ const server = {
 							indicator = luckysheetcurrentSheetitem.prevAll(":visible").eq(0).data("index");
 						}
 						$("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
-								
+
 						sheetmanage.changeSheetExec(indicator);
 					}
 
@@ -966,12 +970,12 @@ const server = {
 	        col = margeset.column[1];
 	        col_pre = margeset.column[0];
 		}
-		
+
 		// 超出16个字符就显示...
 		if(getByteLen(name) > 16){
 			name = getByteLen(name,16) + "...";
 		}
-		
+
 		// 如果正在编辑，就显示“正在输入”
 		if(value === 'enterEdit'){
 			name += " " + locale().edit.typing;
@@ -979,7 +983,7 @@ const server = {
 
 	    if($("#luckysheet-multipleRange-show-" + id).length > 0){
 			$("#luckysheet-multipleRange-show-" + id).css({ "position": "absolute", "left": col_pre - 1, "width": col - col_pre - 1, "top": row_pre - 1, "height": row - row_pre - 1 });
-			
+
 			$("#luckysheet-multipleRange-show-" + id + " .username").text(name);
 			$("#luckysheet-multipleRange-show-" + id + " .username").show();
 
@@ -999,11 +1003,11 @@ const server = {
 	        //                 '<div style="width: 100%;height: 100%;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.03;background-color: '+ luckyColor[_this.multipleIndex] +'"></div>'+
 			//                '</div>';
 
-			let itemHtml = `<div 
+			let itemHtml = `<div
 								id="luckysheet-multipleRange-show-${id}"
 								class="luckysheet-multipleRange-show"
-								data-color="${luckyColor[_this.multipleIndex]}" 
-								title="${name}" 
+								data-color="${luckyColor[_this.multipleIndex]}"
+								title="${name}"
 								style="position: absolute;left: ${col_pre - 1}px;width: ${col - col_pre - 1}px;top: ${row_pre - 1}px;height: ${row - row_pre - 1}px;border: 1px solid ${luckyColor[_this.multipleIndex]};z-index: 15;">
 
 								<div class="username" style="height: 19px;line-height:19px;width: max-content;position: absolute;bottom: ${row - row_pre - 1}px;right: 0;background-color: ${luckyColor[_this.multipleIndex]};color:#ffffff;padding:0 10px;">
@@ -1019,7 +1023,7 @@ const server = {
 	        $(itemHtml).appendTo($("#luckysheet-cell-main #luckysheet-multipleRange-show"));
 
 			_this.multipleIndex++;
-			
+
 			// 设定允许用户名消失的定时器，10秒后用户名可隐藏
 			// 10秒之类，用户操作界面不会隐藏用户名；10秒之后如果用户操作了界面，则隐藏用户名，没操作就不隐藏
 			if(Store.cooperativeEdit.usernameTimeout['user' + id] != null){
