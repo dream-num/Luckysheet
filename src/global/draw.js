@@ -1492,7 +1492,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     }
     else{
         //若单元格有条件格式数据条
-        if(checksCF != null && checksCF["dataBar"] != null){
+        if(checksCF != null && checksCF["dataBar"] != null && checksCF["dataBar"]["valueLen"] && checksCF["dataBar"]["valueLen"].toString() !== 'NaN'){
             let x =  (start_c + offsetLeft + space_width);
             let y =  (start_r + offsetTop + space_height);
             let w =  (cellWidth - space_width * 2);
