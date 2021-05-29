@@ -86,6 +86,36 @@ export function getCellValue(row, column, options = {}) {
 }
 
 /**
+ * 获取单元格的公式
+ * @param {Number} row 单元格所在行数；从0开始的整数，0表示第一行
+ * @param {Number} column 单元格所在列数；从0开始的整数，0表示第一列
+ * @param {Object} options 可选参数
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ */
+ export function getCellFormula(row, column, options = {}) {
+    if (!isRealNum(row) || !isRealNum(column)) {
+        return tooltip.info('Arguments row or column cannot be null or undefined.', '')
+    }
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let {
+        order = curSheetOrder
+    } = { ...options };
+    let targetSheetData = Store.luckysheetfile[order].data;
+    let cellData = targetSheetData[row][column];
+    let return_f;
+
+    if(getObjType(cellData) == "object"){
+        return_f = cellData["f"];
+    }
+
+    if(return_f == undefined){
+        return_f = null;
+    }
+
+    return return_f;
+}
+
+/**
  * 设置单元格的值
  *
  * 关键点：如果设置了公式，则需要更新公式链insertUpdateFunctionGroup，如果设置了不是公式，判断之前是公式，则需要清除公式delFunctionGroup
@@ -191,7 +221,7 @@ export function setCellValue(row, column, value, options = {}) {
             if(value.m!=null){
                 curv.m = value.m;
             }
-            formula.delFunctionGroup(row, column);
+            //formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, curv);//update text value
         }
         for(let attr in value){
@@ -210,7 +240,7 @@ export function setCellValue(row, column, value, options = {}) {
             data = luckysheetformula.updatecell(row, column, value, false).data;//update formula value or convert inline string html to object
         }
         else{
-            formula.delFunctionGroup(row, column);
+            //formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, value);
         }
     }
@@ -6640,6 +6670,7 @@ export function pagerInit (config) {
  * @param {Function} success 回调函数
  */
 export function refreshFormula (success) {
+    debugger;
     formula.execFunctionGroupForce(true);
     luckysheetrefreshgrid()
     setTimeout(() => {
