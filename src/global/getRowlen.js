@@ -1002,7 +1002,7 @@ function getCellTextInfo(cell , ctx, option){
                         if(preMeasureText!=null){
                             spaceOrTwoByte = {
                                 index:i,
-                                str:preStr,
+                                str:preStr + lastWord,
                                 width:preTextWidth,
                                 height:preTextHeight,
                                 asc:preMeasureText.actualBoundingBoxAscent,
