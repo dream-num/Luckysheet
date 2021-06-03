@@ -15,6 +15,7 @@ import { getSheetIndex } from '../methods/get';
 import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import imageCtrl from './imageCtrl';
 
 const selection = {
     clearcopy: function (e) {
@@ -595,6 +596,9 @@ const selection = {
                 else{
                     _this.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
+            }
+            else if(data.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
             }
             else if (triggerType != "btn") {
                 _this.pasteHandler(data);
