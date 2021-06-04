@@ -15,6 +15,7 @@ import { getSheetIndex } from '../methods/get';
 import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import imageCtrl from './imageCtrl';
 
 const selection = {
     clearcopy: function (e) {
@@ -595,6 +596,9 @@ const selection = {
                 else{
                     _this.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
+            }
+            else if(data.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
             }
             else if (triggerType != "btn") {
                 _this.pasteHandler(data);
@@ -1765,16 +1769,23 @@ const selection = {
                             }
 
                             if(getObjType(x[c]) == "object"){
-                                let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
-                                format.forEach(item=>{
-                                    Reflect.deleteProperty(x[c],item);
-                                })
+                                if(x[c].ct && x[c].ct.t === "inlineStr"){
+                                    delete value["ct"];
+                                }else{
+                                    let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
+                                    format.forEach(item=>{
+                                        Reflect.deleteProperty(x[c],item);
+                                    })
+                                }
                             }
                             else{
                                 x[c] = {"v": x[c] };
                             }
 
                             x[c] = $.extend(true, x[c], value);
+                            if(x[c].ct && x[c].ct.t === "inlineStr"){  
+                                x[c].ct.s.forEach(item=> item = $.extend(true, item, value))
+                            }
 
                             if(copyHasMC && ("mc" in x[c])){
                                 if(x[c]["mc"].rs != null){

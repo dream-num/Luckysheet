@@ -5,9 +5,10 @@ import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from './sheetmanage';
 import tooltip from '../global/tooltip'
-import { $$ } from "../utils/util";
+import { $$, getObjType, camel2split } from "../utils/util";
+import { defaultToolbar, toolbarIdMap } from './toolbar';
 
-let gridW = 0, 
+let gridW = 0,
     gridH = 0;
 
 export default function luckysheetsizeauto(isRefreshCanvas=true) {
@@ -40,7 +41,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     //     Store.sheetBarHeight = 31;
     // }
 
-    
+
     customSheetbarConfig();
 
     // if (!luckysheetConfigsetting.showstatisticBar) {
@@ -72,7 +73,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     if(luckysheetConfigsetting.showConfigWindowResize){//数据透视表  图表  交替颜色 Protection
         if($("#luckysheet-modal-dialog-slider-pivot").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-pivot").outerWidth();
-        } 
+        }
         else if($(".chartSetting").is(":visible")){
             gridW -= $(".chartSetting").outerWidth();
         }
@@ -81,29 +82,29 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         }
         if($("#luckysheet-modal-dialog-slider-protection").is(":visible")){
             gridW -= $("#luckysheet-modal-dialog-slider-protection").outerWidth();
-        } 
+        }
     }
 
     const _locale = locale();
     const locale_toolbar = _locale.toolbar;
-    let ismore = false, 
+    let ismore = false,
         toolbarW = 0,
-        morebtn = `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${locale_toolbar.toolMoreTip}" id="luckysheet-icon-morebtn" role="button" style="user-select: none;"> 
-            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;"> 
+        morebtn = `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${locale_toolbar.toolMoreTip}" id="luckysheet-icon-morebtn" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block" style="user-select: none;">
                 <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block" style="user-select: none;">
 
                     <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                         ${locale_toolbar.toolMore}
-                    </div> 
+                    </div>
                     <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige" style="user-select: none;font-size:12px;">
                     </div>
 
-                </div> 
+                </div>
             </div>
          </div>`,
          // Add style left:$$('.luckysheet') left, when the worksheet does not fill the full screen
         morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px;right:0px;z-index:1003;padding:5.5px;visibility:hidden;height:auto;white-space:initial;"></div>';
-    
+
     if($("#luckysheet-icon-morebtn-div").length == 0){
         $("body").append(morediv);
     }
@@ -115,8 +116,8 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     $("#luckysheet-icon-morebtn-div > div").each(function(){
         const $t = $(this)[0];
         const $container =  $("#luckysheet-wa-editor")[0];
-        
-        $container.appendChild(document.createTextNode(" "));
+
+        // $container.appendChild(document.createTextNode(" "));
         $container.appendChild($t);
     });
 
@@ -154,11 +155,11 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         }else{
             $("#luckysheet-icon-morebtn-div").append($(`${element}`));
         }
-        
+
     }
 
     if(ismore){
-        
+
         $("#luckysheet-wa-editor").append(morebtn);
         $("#luckysheet-icon-morebtn").click(function(){
 
@@ -173,10 +174,10 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
             }
 
             let right = $(window).width() - $("#luckysheet-icon-morebtn").offset().left - $("#luckysheet-icon-morebtn").width()+ $("body").scrollLeft();
-            
-            
+
+
             // $("#luckysheet-icon-morebtn-div").toggle().css("right", right < 0 ? 0 : right);
-            
+
             // use native js operation
             $$('#luckysheet-icon-morebtn-div').style.right = right < 0 ? 0 : right + 'px';
 
@@ -193,7 +194,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 const toolCloseHTML = `
                 <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                     ${locale_toolbar.toolClose}
-                </div> 
+                </div>
                 <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-shangyige" style="user-select: none;font-size:12px;">
                 </div>
                 `
@@ -204,17 +205,17 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 const toolMoreHTML = `
                 <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block" style="user-select: none;">
                     ${locale_toolbar.toolMore}
-                </div> 
+                </div>
                 <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige" style="user-select: none;font-size:12px;">
                 </div>
                 `
 
                 $(this).find(".luckysheet-toolbar-button-inner-box").html(toolMoreHTML);
             }
-            
+
         });
         //$("#luckysheet-wa-editor div").trigger("create");
-        
+
         // $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-menu-button").css("margin-right", -1);
         // $("#luckysheet-icon-morebtn-div .luckysheet-toolbar-button-split-left").css("margin-right", -3);
 
@@ -234,7 +235,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         // tooltip
         tooltip.createHoverTip("#luckysheet-icon-morebtn-div" ,".luckysheet-toolbar-menu-button, .luckysheet-toolbar-button, .luckysheet-toolbar-combo-button");
     }
-    
+
     $("#"+ Store.container + " .luckysheet-wa-editor .luckysheet-toolbar-button-split-left").off("hover").hover(function(){
         $(this).next(".luckysheet-toolbar-button-split-right").addClass("luckysheet-toolbar-button-split-right-hover");
     }, function(){
@@ -253,7 +254,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
     $("#" + Store.container).find(".luckysheet").height(gridH - 2).width(gridW - 2);
 
     changeSheetContainerSize(gridW, gridH)
-    
+
     if(isRefreshCanvas){
         luckysheetrefreshgrid($("#luckysheet-cell-main").scrollLeft(), $("#luckysheet-cell-main").scrollTop());
     }
@@ -273,7 +274,7 @@ export function changeSheetContainerSize(gridW, gridH){
     }
     Store.cellmainHeight = gridH - (Store.infobarHeight + Store.toolbarHeight + Store.calculatebarHeight + Store.columnHeaderHeight + Store.sheetBarHeight + Store.statisticBarHeight);
     Store.cellmainWidth = gridW - Store.rowHeaderWidth;
-    
+
     $("#luckysheet-cols-h-c, #luckysheet-cell-main").width(Store.cellmainWidth);
     $("#luckysheet-cell-main").height(Store.cellmainHeight);
     $("#luckysheet-rows-h").height(Store.cellmainHeight - Store.cellMainSrollBarSize);
@@ -285,13 +286,13 @@ export function changeSheetContainerSize(gridW, gridH){
     $("#luckysheet-scrollbar-x").width(Store.cellmainWidth).css("left", Store.rowHeaderWidth - 2);
 
     Store.luckysheetTableContentHW = [
-        Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize, 
+        Store.cellmainWidth + Store.rowHeaderWidth - Store.cellMainSrollBarSize,
         Store.cellmainHeight + Store.columnHeaderHeight - Store.cellMainSrollBarSize
     ];
 
-    $("#luckysheetTableContent, #luckysheetTableContentF").attr({ 
-        width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio), 
-        height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio) 
+    $("#luckysheetTableContent, #luckysheetTableContentF").attr({
+        width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio),
+        height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio)
     })
     .css({ width: Store.luckysheetTableContentHW[0], height: Store.luckysheetTableContentHW[1] });
 
@@ -312,15 +313,15 @@ export function changeSheetContainerSize(gridW, gridH){
     .end()
     .find(".luckysheet-freezebar-vertical-drop")
     .css({ "height": gridheight - 10 });
-    
+
     luckysheetFreezen.createAssistCanvas();
 }
 
 /**
- * 
- * 
+ *
+ *
  * Toolbar judgment rules: First set the display and hide of all tool buttons according to showtoolbar, and then override the judgment of showtoolbar according to showtoolbarConfig rules
- * 
+ *
  * The width value of each button in the statistics toolbar is used to calculate which needs to be placed in more buttons
  */
 export function menuToolBarWidth() {
@@ -329,228 +330,104 @@ export function menuToolBarWidth() {
 
     const toobarWidths = Store.toobarObject.toobarWidths = [];
     const toobarElements = Store.toobarObject.toobarElements = [];
-    const toobarConfig = Store.toobarObject.toobarConfig = {
-        undo: {
-            ele:'#luckysheet-icon-undo',
-            index:0,
-        }, //Undo redo
-        redo: {
-            ele:'#luckysheet-icon-redo',
-            index:1,
-        },
-        paintFormat: {
-            ele:['#luckysheet-icon-paintformat','#toolbar-separator-paint-format'],
-            index:2,
-        }, //Format brush
-        currencyFormat: {
-            ele:'#luckysheet-icon-currency',
-            index:3,
-        }, //currency format
-        percentageFormat: {
-            ele:'#luckysheet-icon-percent',
-            index:4,
-        }, //Percentage format
-        numberDecrease: {
-            ele:'#luckysheet-icon-fmt-decimal-decrease',
-            index:5,
-        }, //'Decrease the number of decimal places'
-        numberIncrease: {
-            ele:'#luckysheet-icon-fmt-decimal-increase',
-            index:6,
-        }, //'Increase the number of decimal places
-        moreFormats: {
-            ele:['#luckysheet-icon-fmt-other','#toolbar-separator-more-format'],
-            index:7,
-        }, //'More Formats'
-        font:  {
-            ele:['#luckysheet-icon-font-family','#toolbar-separator-font-family'],
-            index:8,
-        }, //'font'
-        fontSize: {
-            ele:['#luckysheet-icon-font-size','#toolbar-separator-font-size'],
-            index:9,
-        }, //'Font size'
-        bold: {
-            ele:'#luckysheet-icon-bold',
-            index:10,
-        }, //'Bold (Ctrl+B)'
-        italic: {
-            ele:'#luckysheet-icon-italic',
-            index:11,
-        }, //'Italic (Ctrl+I)'
-        strikethrough: {
-            ele:'#luckysheet-icon-strikethrough',
-            index:12,
-        }, //'Strikethrough (Alt+Shift+5)'
-        underline: {
-            ele:'#luckysheet-icon-underline',
-            index:13,
-        }, //'Underline (Alt+Shift+6)'
-        textColor: {
-            ele:['#luckysheet-icon-text-color','#luckysheet-icon-text-color-menu','#toolbar-separator-text-color'],
-            index:14,
-        }, //'Text color'
-        fillColor: {
-            ele:['#luckysheet-icon-cell-color','#luckysheet-icon-cell-color-menu'],
-            index:15,
-        }, //'Cell color'
-        border: {
-            ele:['#luckysheet-icon-border-all','#luckysheet-icon-border-menu'],
-            index:16,
-        }, //'border'
-        mergeCell: {
-            ele:['#luckysheet-icon-merge-button','#luckysheet-icon-merge-menu','#toolbar-separator-merge-cell'],
-            index:17,
-        }, //'Merge cells'
-        horizontalAlignMode: {
-            ele:['#luckysheet-icon-align','#luckysheet-icon-align-menu'],
-            index:18,
-        }, //'Horizontal alignment'
-        verticalAlignMode: {
-            ele:['#luckysheet-icon-valign','#luckysheet-icon-valign-menu'],
-            index:19,
-        }, //'Vertical alignment'
-        textWrapMode: {
-            ele:['#luckysheet-icon-textwrap','#luckysheet-icon-textwrap-menu'],
-            index:20,
-        }, //'Wrap mode'
-        textRotateMode: {
-            ele:['#luckysheet-icon-rotation','#luckysheet-icon-rotation-menu','#toolbar-separator-text-rotate'],
-            index:21,
-        }, //'Text Rotation Mode'
-		image:{
-            ele:'#luckysheet-insertImg-btn-title',
-            index:22,
-        }, //'Insert link'
-		link:{
-            ele:'#luckysheet-insertLink-btn-title',
-            index:23,
-        }, //'Insert picture'
-        chart: {
-            ele:'#luckysheet-chart-btn-title',
-            index:24,
-        }, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-        postil: {
-            ele:'#luckysheet-icon-postil',
-            index:25,
-        }, //'comment'
-        pivotTable: {
-            ele:['#luckysheet-pivot-btn-title','#toolbar-separator-pivot-table'],
-            index:26,
-        }, //'PivotTable'
-        function: {
-            ele:['#luckysheet-icon-function','#luckysheet-icon-function-menu'],
-            index:27,
-        }, //'formula'
-        frozenMode: {
-            ele:['#luckysheet-freezen-btn-horizontal','#luckysheet-icon-freezen-menu'],
-            index:28,
-        }, //'freeze mode'
-        sortAndFilter: {
-            ele:'#luckysheet-icon-autofilter',
-            index:29,
-        }, //'sort and filter'
-        conditionalFormat: {
-            ele:'#luckysheet-icon-conditionformat',
-            index:30,
-        }, //'Conditional Format'
-        dataVerification: {
-            ele:'#luckysheet-dataVerification-btn-title',
-            index:31,
-        }, // 'Data Verification'
-        splitColumn: {
-            ele:'#luckysheet-splitColumn-btn-title',
-            index:32,
-        }, //'Split column' 
-        screenshot: {
-            ele:'#luckysheet-chart-btn-screenshot',
-            index:33,
-        }, //'screenshot'
-        findAndReplace: {
-            ele:'#luckysheet-icon-seachmore',
-            index:34,
-        }, //'Find and Replace'
-        protection:{
-            ele:'#luckysheet-icon-protection',
-            index:35,
-        }, // 'Worksheet protection'
-		print:{
-            ele:'#luckysheet-icon-print',
-            index:36,
-        }, // 'print'
-    };
+    const toolbarConfig = Store.toobarObject.toolbarConfig = buildBoolBarConfig();
 
-    const config = {
-        undo: true, //Undo
-        redo: true, //Redo
-        paintFormat: true, //Format brush
-        currencyFormat: true, //currency format
-        percentageFormat: true, //Percentage format
-        numberDecrease: true, //'Decrease the number of decimal places'
-        numberIncrease: true, //'Increase the number of decimal places
-        moreFormats: true, //'More Formats'
-        font: true, //'font'
-        fontSize: true, //'Font size'
-        bold: true, //'Bold (Ctrl+B)'
-        italic: true, //'Italic (Ctrl+I)'
-        strikethrough: true, //'Strikethrough (Alt+Shift+5)'
-        underline: true, //'Underline (Alt+Shift+6)'
-        textColor: true, //'Text color'
-        fillColor: true, //'Cell color'
-        border: true, //'border'
-        mergeCell: true, //'Merge cells'
-        horizontalAlignMode: true, //'Horizontal alignment'
-        verticalAlignMode: true, //'Vertical alignment'
-        textWrapMode: true, //'Wrap mode'
-        textRotateMode: true, //'Text Rotation Mode'
-		image:true, // 'Insert picture'
-		link: true, // 'Insert link'(TODO)
-		chart: true, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-		postil:true, //'comment'
-		pivotTable: true, //'PivotTable'
-		function: true, //'formula'
-		frozenMode: true, //'freeze mode'
-		sortAndFilter: true, //'Sort and filter'
-		conditionalFormat: true, //'Conditional Format'
-		dataVerification: true, // 'Data Verification'
-		splitColumn: true, //'Split column'
-		screenshot: true, //'screenshot'
-		findAndReplace: true, //'Find and Replace'
-		protection: true, // 'Worksheet protection'
-		print: true, // 'print'
-    }
-
-    // false means all false
-    if(!showtoolbar){
-        for(let s in config){
-            config[s] = false;
-        }
-    }
-
-    // showtoolbarConfig determines the final result
-    if(JSON.stringify(showtoolbarConfig) !== '{}'){
-        if(showtoolbarConfig.hasOwnProperty('undoRedo')){
-            config.undo = config.redo = showtoolbarConfig.undoRedo;
-
-            delete showtoolbarConfig.undoRedo;
-        }
-        Object.assign(config,showtoolbarConfig);
-    } 
-
-    // 1. The button set to false, remove the dom
-    // 2. Build toobarWidths and toobarElements
-    for(let s in config){
-        if(config[s]){
-            toobarElements.push($.extend(true,{},toobarConfig[s]));
-
-        }else{
-            if(toobarConfig[s].ele instanceof Array){
-                for(const item of toobarConfig[s].ele){
-                    $(item).remove();
+    /**
+     * 基于 showtoolbarConfig 配置 动态生成 toolbarConfig
+     * @returns {object}
+     * @input showtoolbarConfig = ['undo', 'redo', '|' , 'font' , 'moreFormats', '|']
+     * {
+     *     undo: {ele: '#luckysheet-icon-undo', index: 0},
+     *     redo: {ele: ['#luckysheet-icon-redo', '#luckysheet-separator-redo'], index: 1},
+     *     undo: {ele: '#luckysheet-icon-font', index: 2},
+     *     moreFormats: {ele: ['#luckysheet-icon-fmt-other', '#luckysheet-separator-more-formats'], index: 3},
+     * }
+     */
+    function buildBoolBarConfig() {
+        let obj = {};
+        function array2Config(arr) {
+            const obj = {};
+            let current,next;
+            let index = 0;
+            for (let i = 0; i<arr.length; i++) {
+                current = arr[i];
+                next = arr[i + 1];
+                if (current !== '|') {
+                    obj[current] = {
+                        ele: toolbarIdMap[current],
+                        index: index++
+                    }
                 }
-            }else{
-                $(toobarConfig[s].ele).remove();
+                if (next === '|') {
+                    if (getObjType(obj[current].ele) === 'array') {
+                        obj[current].ele.push(`#toolbar-separator-${camel2split(current)}`);
+                    } else {
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${camel2split(current)}`];
+                    }
+                }
             }
+            return obj;
+        }
+        // 数组形式直接生成
+        if (getObjType(showtoolbarConfig) === 'array') {
+            // show 为 false
+            if (!showtoolbar) {
+                return obj;
+            }
+            return array2Config(showtoolbarConfig);
+        }
+        // 否则为全部中从记录中挑选显示或隐藏
+        const config = defaultToolbar.reduce(function(total, curr) {
+            if (curr !== '|') {
+                total[curr] = true;
+            }
+            return total;
+        }, {});
+        if (!showtoolbar) {
+            for (let s in config) {
+                config[s] = false;
+            }
+        }
+
+        if (JSON.stringify(showtoolbarConfig) !== '{}') {
+            if(showtoolbarConfig.hasOwnProperty('undoRedo')){
+                config.undo = config.redo = showtoolbarConfig.undoRedo;
+                // delete showtoolbarConfig.undoRedo;
+            }
+            Object.assign(config, showtoolbarConfig);
+
+            let current,next;
+            let index = 0;
+            for (let i = 0; i<defaultToolbar.length; i++) {
+                current = defaultToolbar[i];
+                next = defaultToolbar[i + 1];
+                if(config[current] === false) {
+                    continue;
+                }
+                if (current !== '|') {
+                    obj[current] = {
+                        ele: toolbarIdMap[current],
+                        index: index++
+                    }
+                }
+                if (next === '|') {
+                    if (getObjType(obj[current].ele) === 'array') {
+                        obj[current].ele.push(`#toolbar-separator-${camel2split(current)}`);
+                    } else {
+                        obj[current].ele = [obj[current].ele, `#toolbar-separator-${camel2split(current)}`];
+                    }
+                }
+            }
+        } else {
+            obj = showtoolbar ? array2Config(defaultToolbar) : {};
+        }
+
+        return obj;
+    }
+
+    for (let s in toolbarConfig){
+        if (Object.prototype.hasOwnProperty.call(toolbarConfig, s)) {
+            toobarElements.push($.extend(true,{},toolbarConfig[s]));
         }
     }
 
@@ -563,7 +440,6 @@ export function menuToolBarWidth() {
             return -1;
         }
     }
-
     toobarElements.forEach((curr,index,arr)=>{
         arr[index] = curr.ele;
 
@@ -590,7 +466,7 @@ export function menuToolBarWidth() {
     toobarWidths.forEach((item,i)=>{
         toobarWidths[i] -= containerLeft;
     })
-    
+
 }
 
 /**
@@ -607,18 +483,18 @@ function customSheetbarConfig() {
             menu: true, //Worksheet management menu
             sheet: true //Worksheet display
         }
-    
+
         if(!luckysheetConfigsetting.showsheetbar){
             for(let s in config){
                 config[s] = false;
             }
         }
-    
+
         // showsheetbarConfig determines the final result
         if(JSON.stringify(luckysheetConfigsetting.showsheetbarConfig) !== '{}'){
             Object.assign(config,luckysheetConfigsetting.showsheetbarConfig);
         }
-    
+
         luckysheetConfigsetting.showsheetbarConfig = config;
 
     }
@@ -634,19 +510,19 @@ function customSheetbarConfig() {
                     $('#luckysheet-sheets-add').hide();
                     isHide++;
                     break;
-            
+
                 case 'menu':
                     $('#luckysheet-sheets-m').hide();
                     isHide++;
                     break;
-            
+
                 case 'sheet':
                     $('#luckysheet-sheet-container').hide();
                     $('#luckysheet-sheets-leftscroll').hide();
                     $('#luckysheet-sheets-rightscroll').hide();
                     isHide++;
                     break;
-            
+
                 default:
                     break;
             }
@@ -677,18 +553,18 @@ function customStatisticBarConfig() {
             view: true, // print view
             zoom: true // Zoom
         }
-    
+
         if(!luckysheetConfigsetting.showstatisticBar){
             for(let s in config){
                 config[s] = false;
             }
         }
-    
+
         // showstatisticBarConfig determines the final result
         if(JSON.stringify(luckysheetConfigsetting.showstatisticBarConfig) !== '{}'){
             Object.assign(config,luckysheetConfigsetting.showstatisticBarConfig);
         }
-    
+
         luckysheetConfigsetting.showstatisticBarConfig = config;
 
     }
@@ -704,7 +580,7 @@ function customStatisticBarConfig() {
                     $('#luckysheet-sta-content').hide();
                     isHide++;
                     break;
-            
+
                 case 'view':
                     $('.luckysheet-print-viewList').hide();
                     isHide++;
@@ -714,7 +590,7 @@ function customStatisticBarConfig() {
                     $('#luckysheet-zoom-content').hide();
                     isHide++;
                     break;
-            
+
                 default:
                     break;
             }

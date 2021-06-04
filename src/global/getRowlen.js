@@ -4,6 +4,7 @@ import {checkstatusByCell} from './getdata';
 import {colLocationByIndex,colSpanLocationByIndex} from './location';
 import {checkWordByteLength, hasChinaword, isRealNull} from './validate';
 import {isInlineStringCell} from '../controllers/inlineString';
+
 import Store from '../store';
 
 /**
@@ -44,12 +45,23 @@ function rowlenByRange(d, r1, r2, cfg) {
         for(let c = 0; c < d[r].length; c++){
             let cell = d[r][c];
 
-            if(cell == null || cell.mc != null){
+            if(cell == null){
                 continue;
             }
 
             if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
-                let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+                let cellWidth;
+                if(cell.mc){
+                    if(c === cell.mc.c){
+                        let st_cellWidth = colLocationByIndex(c)[0];
+                        let ed_cellWidth = colLocationByIndex(cell.mc.c + cell.mc.cs - 1)[1];
+                        cellWidth = ed_cellWidth - st_cellWidth - 2;
+                    }else{
+                        continue;
+                    }
+                } else {
+                    cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+                }
 
                 let textInfo = getCellTextInfo(cell, canvas,{
                     r:r,
@@ -74,6 +86,10 @@ function rowlenByRange(d, r1, r2, cfg) {
 
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
+        }else{
+            if(cfg["rowlen"][r]){
+                cfg_clone["rowlen"][r] = cfg["rowlen"][r]
+            }
         }
     }
 
@@ -459,7 +475,6 @@ function getCellTextInfo(cell , ctx, option){
             }
 
             similarIndex++;
-
         }
         isInline = true;
     }
@@ -485,14 +500,6 @@ function getCellTextInfo(cell , ctx, option){
             return null;
         }
     }
-
-
-
-
-    // let measureText = getMeasureText(value, ctx);
-    // //luckysheetTableContent.measureText(value);
-    // let textWidth = measureText.width;
-    // let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
     if(tr=="3"){//vertical text
         ctx.textBaseline = 'top';
