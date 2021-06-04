@@ -377,7 +377,6 @@ function getCellTextInfo(cell , ctx, option){
             }
 
             similarIndex++;
-
         }
         isInline = true;
     }
@@ -403,14 +402,6 @@ function getCellTextInfo(cell , ctx, option){
             return null;
         }
     }
-
-
-
-
-    // let measureText = getMeasureText(value, ctx);
-    // //luckysheetTableContent.measureText(value);
-    // let textWidth = measureText.width;
-    // let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
     if(tr=="3"){//vertical text
         ctx.textBaseline = 'top';
@@ -920,7 +911,7 @@ function getCellTextInfo(cell , ctx, option){
                         if(preMeasureText!=null){
                             spaceOrTwoByte = {
                                 index:i,
-                                str:preStr,
+                                str:preStr + lastWord,
                                 width:preTextWidth,
                                 height:preTextHeight,
                                 asc:preMeasureText.actualBoundingBoxAscent,
