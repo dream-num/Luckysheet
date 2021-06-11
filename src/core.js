@@ -38,6 +38,7 @@ import * as api from './global/api';
 import flatpickr from 'flatpickr'
 import Mandarin from 'flatpickr/dist/l10n/zh.js'
 import { initListener } from './controllers/listener';
+import { hideloading, showloading } from './global/loading.js';
 
 let luckysheet = {};
 
@@ -146,7 +147,7 @@ luckysheet.create = function (setting) {
 
     // Store the currently used plugins for monitoring asynchronous loading
     Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
-    
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 
@@ -244,6 +245,9 @@ luckysheet.selectHightlightShow = selectHightlightShow;
 
 // Reset parameters after destroying the table
 luckysheet.destroy = method.destroy;
+
+luckysheet.showLoadingProgress = showloading;
+luckysheet.hideLoadingProgress = hideloading;
 
 export {
     luckysheet
