@@ -23,11 +23,10 @@ function setcellvalue(r, c, d, v) {
         else{
             if(v.f != null){
                 cell.f = v.f;
+            }else if(cell.hasOwnProperty('f')){
+                delete cell.f;
             }
-            // else{
-            //     delete cell.f;
-            // }
-    
+
             if(v.spl != null){
                 cell.spl = v.spl;
             }
@@ -36,7 +35,7 @@ function setcellvalue(r, c, d, v) {
                 cell.ct = v.ct;
             }
         }
-        
+
 
         if(getObjType(v.v) == "object"){
             vupdate = v.v.v;
@@ -68,7 +67,7 @@ function setcellvalue(r, c, d, v) {
     if(isRealNull(cell) || (getObjType(cell) === 'string' || getObjType(cell) === 'number') && cell === v){
         cell = {};
     }
-    
+
     let vupdateStr = vupdate.toString();
 
     if(vupdateStr.substr(0, 1) == "'"){
@@ -137,7 +136,7 @@ function setcellvalue(r, c, d, v) {
                     let v_p = Math.round(cell.v * 1000000000) / 1000000000;
                     if(cell.ct==null){
                         let mask = genarate(v_p);
-                        cell.m = mask[0].toString(); 
+                        cell.m = mask[0].toString();
                     }
                     else{
                         let mask = update(cell.ct.fa, v_p);
@@ -178,7 +177,7 @@ function setcellvalue(r, c, d, v) {
                     let flag = vupdate.split("").every(ele=>ele == "0" || ele == ".");
                     if(flag){
                         vupdate = parseFloat(vupdate);
-                    }    
+                    }
                 }
                 cell.v = vupdate;   /* 备注：如果使用parseFloat，1.1111111111111111会转换为1.1111111111111112 ? */
                 cell.ct = { "fa": "General", "t": "n" };
@@ -205,7 +204,7 @@ function setcellvalue(r, c, d, v) {
         if(cell.ct != null && /^(w|W)((0?)|(0\.0+))$/.test(cell.ct.fa) == false && cell.ct.t == "n" && cell.v != null && parseInt(cell.v).toString().length > 4){
             let autoFormatw = luckysheetConfigsetting.autoFormatw.toString().toUpperCase();
             let accuracy = luckysheetConfigsetting.accuracy;
-           
+
             let sfmt = setAccuracy(autoFormatw, accuracy);
 
             if(sfmt != "General") {
@@ -218,18 +217,18 @@ function setcellvalue(r, c, d, v) {
     d[r][c] = cell;
 }
 
-//new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式 
+//new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式
 function setAccuracy(autoFormatw, accuracy) {
     let acc = "0.";
     let fmt;
-    
+
     if(autoFormatw == "TRUE"){
         if(accuracy == undefined){
             return "w";
         }
         else{
             let alength = parseInt(accuracy);
-            
+
             if(alength == 0){
                 return "w0";
             }
@@ -250,7 +249,7 @@ function setAccuracy(autoFormatw, accuracy) {
         }
         else{
             let alength = parseInt(accuracy);
-            
+
             if(alength == 0){
                 return "0";
             }
@@ -261,11 +260,11 @@ function setAccuracy(autoFormatw, accuracy) {
 
                 fmt = acc;
             }
-            
+
         }
     }
 
-    return fmt.toString();     
+    return fmt.toString();
 }
 
 export {
