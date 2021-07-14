@@ -114,6 +114,10 @@ const dataVerificationCtrl = {
                                             <input class="formulaInputFocus data-verification-value1" placeholder="${dvText.placeholder1}" spellcheck="false">
                                             <i class="fa fa-table" aria-hidden="true" title="${dvText.selectCellRange}"></i>
                                         </div>
+                                        <div class="multi">
+                                            <input type="checkbox" id="data-verification-multi" class="data-verification-multi">
+                                            <label for="data-verification-multi">${dvText.allowMultiSelect}</label>
+                                        </div>
                                     </div>
                                     <div class="show-box-item show-box-item-checkbox">
                                         <div class="check-box">
@@ -257,9 +261,16 @@ const dataVerificationCtrl = {
             e.stopPropagation();
         });
         $(document).off("click.dropdownListItem").on("click.dropdownListItem", "#luckysheet-dataVerification-dropdown-List .dropdown-List-item", function(e) {
-            $("#luckysheet-dataVerification-dropdown-List").hide();
-            
+            var $item = $(this);
             let value = e.target.innerText;
+            if ($item.hasClass('multi')) {
+                $item.toggleClass('checked');
+                value = $.map($("#luckysheet-dataVerification-dropdown-List").children().filter('.checked'), function(el) {
+                    return el.innerText;
+                }).join(',');
+            } else {
+                $("#luckysheet-dataVerification-dropdown-List").hide();
+            }
             let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
             let rowIndex = last.row_focus;
             let colIndex = last.column_focus;
@@ -437,6 +448,8 @@ const dataVerificationCtrl = {
                 }
 
                 $("#luckysheet-dataVerification-dialog .show-box-item-dropdown .data-verification-value1").val(value1);
+                
+                $('#luckysheet-dataVerification-dialog #data-verification-multi').prop('checked', item.type2 ? true : false);
             }
             else if(value == 'checkbox'){
                 $("#luckysheet-dataVerification-dialog .show-box .show-box-item-checkbox").show();
@@ -635,6 +648,7 @@ const dataVerificationCtrl = {
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo1);
                     return;
                 }
+                type2 = $("#luckysheet-dataVerification-dialog #data-verification-multi").is(':checked');
             }
             else if(type == 'checkbox'){
                 value1 = $("#luckysheet-dataVerification-dialog .show-box-item-checkbox .data-verification-value1").val().trim();
@@ -839,6 +853,7 @@ const dataVerificationCtrl = {
         if(item.type == 'dropdown'){
             $("#luckysheet-dataVerification-dialog .show-box .show-box-item-dropdown").show();
             $("#luckysheet-dataVerification-dialog .show-box-item-dropdown .data-verification-value1").val(item.value1);
+            $('#luckysheet-dataVerification-dialog #data-verification-multi').prop('checked', item.type2 ? true : false);
         }
         else if(item.type == 'checkbox'){
             $("#luckysheet-dataVerification-dialog .show-box .show-box-item-checkbox").show();
@@ -1270,6 +1285,13 @@ const dataVerificationCtrl = {
         if(type == 'dropdown'){
             let list = _this.getDropdownList(value1);
 
+            // 多选的情况 检查每个都在下拉列表中
+            if(type2 && cellValue){
+                return cellValue.split(',').every(function (i) {
+                    return list.indexOf(i) !== -1;
+                });
+            }
+
             let result = false;
 
             for(let i = 0; i < list.length; i++){
@@ -1464,9 +1486,19 @@ const dataVerificationCtrl = {
         let list = _this.getDropdownList(item.value1);
 
         let optionHtml = '';
-        list.forEach(i => {
-            optionHtml += `<div class="dropdown-List-item luckysheet-mousedown-cancel">${i}</div>`;
-        })
+        if (item.type === 'dropdown' && item.type2) {
+            // 下拉多选的情况下 将已经选择的标出来
+            let cellValue = getcellvalue(rowIndex, colIndex, null);
+            let valueArr = isRealNull(cellValue) ? [] : cellValue.split(',');
+            list.forEach(i => {
+                let checked = valueArr.indexOf(i) !== -1;
+                optionHtml += `<div class="dropdown-List-item  luckysheet-mousedown-cancel multi${checked ? ' checked': ''}">${i}</div>`;
+            });
+        } else {
+            list.forEach(i => {
+                optionHtml += `<div class="dropdown-List-item luckysheet-mousedown-cancel">${i}</div>`;
+            });
+        }
 
         $("#luckysheet-dataVerification-dropdown-List")
         .html(optionHtml)

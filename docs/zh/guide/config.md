@@ -1470,6 +1470,18 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Number} [canvasHeight]: 滚动容器的高度
     
 ------------
+
+
+## 协作消息
+
+### cooperativeMessage
+
+- 类型：Function
+- 默认值：null
+- 作用：接受协作消息，二次开发。拓展协作消息指令集
+- 参数：
+	- {Object} : 收到服务器发送的整个协作消息体对象
+  
 ## 图片
 
 ### imageInsertBefore

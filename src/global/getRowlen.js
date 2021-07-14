@@ -1,12 +1,21 @@
-import { luckysheetfontformat } from '../utils/util';
+import {luckysheetfontformat} from '../utils/util';
 import menuButton from '../controllers/menuButton';
-import { checkstatusByCell } from './getdata';
-import { colLocationByIndex } from './location';
-import { hasChinaword, isRealNull,checkWordByteLength } from './validate';
-import { isInlineStringCell } from '../controllers/inlineString';
+import {checkstatusByCell} from './getdata';
+import {colLocationByIndex,colSpanLocationByIndex} from './location';
+import {checkWordByteLength, hasChinaword, isRealNull} from './validate';
+import {isInlineStringCell} from '../controllers/inlineString';
+
 import Store from '../store';
 
-//计算范围行高
+/**
+ * 计算范围行高
+ *
+ * @param d 原始数据
+ * @param r1 起始行
+ * @param r2 截至行
+ * @param cfg 配置
+ * @returns 计算后的配置
+ */
 function rowlenByRange(d, r1, r2, cfg) {
     let cfg_clone = $.extend(true, {}, cfg);
     if(cfg_clone["rowlen"] == null){
@@ -85,6 +94,95 @@ function rowlenByRange(d, r1, r2, cfg) {
     }
 
     return cfg_clone;
+}
+
+//根据内容计算行高
+function computeRowlenByContent(d, r) {
+    let currentRowLen = 0;
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for(let c = 0; c < d[r].length; c++){
+        let cell = d[r][c];
+
+        if (cell == null) {
+            continue;
+        }
+
+        if (cell.mc != null) {
+            if (1 !== cell.mc.rs) {
+                continue;
+            }
+        }
+
+
+        if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
+            let cellWidth = computeCellWidth(cell, c);
+
+            let textInfo = getCellTextInfo(cell, canvas,{
+                r:r,
+                c:c,
+                cellWidth:cellWidth
+            });
+
+            let computeRowlen = 0;
+
+            if (textInfo != null) {
+                computeRowlen = textInfo.textHeightAll + 2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if (computeRowlen > currentRowLen) {
+                currentRowLen = computeRowlen;
+            }
+        }
+    }
+
+    return currentRowLen;
+}
+
+function computeCellWidth(cell, col_index) {
+    let colLocationArr = colLocationByIndex(col_index);
+    if (cell.mc && cell.mc.c !== cell.mc.cs) {
+        colLocationArr = colSpanLocationByIndex(col_index, cell.mc.cs);
+    }
+
+    return colLocationArr[1] - colLocationArr[0] - 2;
+}
+
+function computeColWidthByContent(d, c, rh) {
+    let currentColLen = 0;
+    let rowlenArr = computeRowlenArr(rh, c)
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for (var i = 0; i < d.length; i++) {
+        var cell = d[i][c]
+
+        if (cell != null && (cell.v != null || isInlineStringCell(cell))) {
+            let cellHeight = rowlenArr[c];
+            let textInfo = getCellTextInfo(cell, canvas, {
+                r: i,
+                c: c,
+                cellHeight: cellHeight
+            });
+
+            let computeCollen = 0;
+
+            if (textInfo != null) {
+                computeCollen = textInfo.textWidthAll + 2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if (computeCollen > currentColLen) {
+                currentColLen = computeCollen;
+            }
+        }
+    }
+
+    return currentColLen;
 }
 
 //计算表格行高数组
@@ -1619,7 +1717,9 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
 
 
 export {
+    computeColWidthByContent,
     rowlenByRange,
+    computeRowlenByContent,
     computeRowlenArr,
     getCellTextSplitArr,
     getMeasureText,

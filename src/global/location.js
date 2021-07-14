@@ -24,13 +24,27 @@ function rowLocation(y) {
     else if (row_index == -1 && y <= 0) {
         row_index = 0;
     }
-    
+
     return rowLocationByIndex(row_index);
 }
 
 function colLocationByIndex(col_index){
-    let col = 0, col_pre = 0;            
+    let col = 0, col_pre = 0;
     col = Store.visibledatacolumn[col_index];
+
+    if (col_index == 0) {
+        col_pre = 0;
+    }
+    else {
+        col_pre = Store.visibledatacolumn[col_index - 1];
+    }
+
+    return [col_pre, col, col_index];
+}
+
+function colSpanLocationByIndex(col_index, span){
+    let col = 0, col_pre = 0;
+    col = Store.visibledatacolumn[col_index + span - 1];
 
     if (col_index == 0) {
         col_pre = 0;
@@ -57,7 +71,7 @@ function colLocation(x) {
 
 function mouseposition(x, y) {
     let container_offset = $("#" + Store.container).offset();
-    
+
     let newX = x - container_offset.left - Store.rowHeaderWidth,
         newY = y - container_offset.top - Store.infobarHeight - Store.toolbarHeight - Store.calculatebarHeight - Store.columnHeaderHeight;
 
@@ -68,6 +82,7 @@ export {
     rowLocationByIndex,
     rowLocation,
     colLocationByIndex,
+    colSpanLocationByIndex,
     colLocation,
     mouseposition,
 }

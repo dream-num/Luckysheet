@@ -117,7 +117,8 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         const $t = $(this)[0];
         const $container =  $("#luckysheet-wa-editor")[0];
 
-        // $container.appendChild(document.createTextNode(" "));
+        $container.appendChild(document.createTextNode(" "));
+
         $container.appendChild($t);
     });
 
@@ -392,7 +393,7 @@ export function menuToolBarWidth() {
         if (JSON.stringify(showtoolbarConfig) !== '{}') {
             if(showtoolbarConfig.hasOwnProperty('undoRedo')){
                 config.undo = config.redo = showtoolbarConfig.undoRedo;
-                // delete showtoolbarConfig.undoRedo;
+
             }
             Object.assign(config, showtoolbarConfig);
 
@@ -401,10 +402,8 @@ export function menuToolBarWidth() {
             for (let i = 0; i<defaultToolbar.length; i++) {
                 current = defaultToolbar[i];
                 next = defaultToolbar[i + 1];
-                if(config[current] === false) {
-                    continue;
-                }
-                if (current !== '|') {
+                if (current !== '|' && config[current]) {
+
                     obj[current] = {
                         ele: toolbarIdMap[current],
                         index: index++

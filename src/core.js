@@ -39,6 +39,7 @@ import flatpickr from 'flatpickr'
 import Mandarin from 'flatpickr/dist/l10n/zh.js'
 import { initListener } from './controllers/listener';
 import { hideloading, showloading } from './global/loading.js';
+import { luckysheetextendData } from './global/extend.js';
 
 let luckysheet = {};
 
@@ -122,6 +123,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
     luckysheetConfigsetting.workbookCreateBefore = extendsetting.workbookCreateBefore;
     luckysheetConfigsetting.workbookCreateAfter = extendsetting.workbookCreateAfter;
+    luckysheetConfigsetting.remoteFunction = extendsetting.remoteFunction;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
@@ -248,6 +250,7 @@ luckysheet.destroy = method.destroy;
 
 luckysheet.showLoadingProgress = showloading;
 luckysheet.hideLoadingProgress = hideloading;
+luckysheet.luckysheetextendData = luckysheetextendData;
 
 export {
     luckysheet
