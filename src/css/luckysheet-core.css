@@ -860,7 +860,8 @@
     left: 0;
     position: absolute;
     right: 0;
-    top: 6px;
+    top: 50%;
+    transform: translateY(-50%);
     resize: none;
     /* border: 1px #b9b9b9 solid; */
     font-family: arial, sans, sans-serif;
@@ -896,6 +897,12 @@
     width: 13px;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
+}
+.luckysheet-wa-calculate-help-tool .fa-caret-down {
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
 }
 
 .luckysheet-wa-calculate-help-tool:hover {

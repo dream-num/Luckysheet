@@ -45,7 +45,7 @@ const gridHTML = function(){
                                     </div> 
                                 </div>  
                                 <div class="luckysheet-wa-calculate-help-tool">
-                                    <i class="fa fa-caret-down" aria-hidden="true" style="margin-top: 7px;"></i>
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
                                 </div> 
                             </div> 
                             <div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">
