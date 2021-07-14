@@ -7200,6 +7200,14 @@ fieldset[disabled] .btn-danger.focus {
     cursor: pointer;
     color: #6598F3;
 }
+#luckysheet-dataVerification-dialog .box-item .multi {
+    margin-top: 10px;
+    line-height: 30px;
+    font-size: 12px;
+}
+#luckysheet-dataVerification-dialog .box-item .multi input {
+    vertical-align: text-top;
+}
 #luckysheet-dataVerification-dialog .box-item .show-box{
     margin-top: 10px;
 }
@@ -7302,6 +7310,24 @@ fieldset[disabled] .btn-danger.focus {
     padding: 5px 10px;
     box-sizing: border-box;
     cursor: pointer;
+}
+
+#luckysheet-dataVerification-dropdown-List .dropdown-List-item.multi {
+    padding-left: 0;
+}
+#luckysheet-dataVerification-dropdown-List .dropdown-List-item.multi:before{
+    content: "";
+    width: 14px;
+    font-family: "iconfont" !important;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    margin-right: 2px;
+}
+#luckysheet-dataVerification-dropdown-List .dropdown-List-item.multi.checked:before{
+    content: "\e7c8"; 
 }
 #luckysheet-dataVerification-dropdown-List .dropdown-List-item:hover{
     background-color: #E1E1E1;

@@ -1344,8 +1344,10 @@ options.data示例如下：
     + `"date"`(日期)
     + `"validity"`(有效性)；
   + {String | Null} [type2]: 条件类型；
-    + 类型`type`值为`"dropdown"/"checkbox"`时，`type2`值可为        
+    + 类型`type`值为`"checkbox"`时，`type2`值可为        
         + `null`；
+    + 类型`type`值为`"dropdown"`时，`type2`值可为
+        + `true` （多选） `false` （单选）
     + 类型`type`值为`"number"/"number_integer"/"number_decimal"/"text_length"`时，`type2`值可为
       + `"bw"`(介于)
       + `"nb"`(不介于)
