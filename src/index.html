@@ -1883,6 +1883,14 @@
 				},
 				imageClass:"loadingAnimation"
 			}
+			options.cellRightClickConfig = {
+				customs: [{
+					title: 'test',
+					onClick: function (clickEvent, event, params) {
+						console.log('function test click', clickEvent, event, params)
+					}
+				}]
+			}
 			luckysheet.create(options);
 			})
 	</script>

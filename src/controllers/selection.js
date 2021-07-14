@@ -15,6 +15,7 @@ import { getSheetIndex } from '../methods/get';
 import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import imageCtrl from './imageCtrl';
 
 const selection = {
     clearcopy: function (e) {
@@ -438,6 +439,17 @@ const selection = {
                     if(c_value == null){
                         c_value = getcellvalue(r, c, d);
                     }
+                    if(c_value == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                      c_value = d[r][c].ct.s.map(val=>{
+                        const font = $('<font></font>')
+                        val.fs && font.css('font-size',val.fs)
+                        val.bl && font.css('font-weight',val.border)
+                        val.it && font.css('font-style',val.italic)
+                        val.cl==1 && font.css('text-decoration','underline')
+                        font.text(val.v)
+                        return font[0].outerHTML
+                      }).join('');
+                    }
 
                     if(c_value == null){
                         c_value = "";
@@ -595,6 +607,9 @@ const selection = {
                 else{
                     _this.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
+            }
+            else if(data.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
             }
             else if (triggerType != "btn") {
                 _this.pasteHandler(data);

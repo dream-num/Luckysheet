@@ -45,7 +45,7 @@ const gridHTML = function(){
                                     </div> 
                                 </div>  
                                 <div class="luckysheet-wa-calculate-help-tool">
-                                    <i class="fa fa-caret-down" aria-hidden="true" style="margin-top: 7px;"></i>
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
                                 </div> 
                             </div> 
                             <div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">
@@ -289,6 +289,14 @@ function rightclickHTML(){
         dataMenuseparator = false;
     }
 
+    const customsButtons = (config.customs || [{title: 'test'}]).map((item, index) => `
+            <div data-index="${index}" class="luckysheetColsRowsHandleAdd_custom luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                ${item.title}
+                </div>
+            </div>`
+        ).join("");
+
     const rightclickContainer =  `<div id="luckysheet-rightclick-menu" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-mousedown-cancel">
                 <div id="luckysheet-copy-btn" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-copy-btn" data-clipboard-action="copy" data-clipboard-target="#luckysheet-copy-content" style="display:${config.copy ? 'block' : 'none'};">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${rightclick.copy}</div>
@@ -423,6 +431,7 @@ function rightclickHTML(){
                     <div id="luckysheetCellFormatRightClickMenu" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${config.cellFormat ? 'block' : 'none'};">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${toolbar.cellFormat}</div>
                     </div>
+                    ${customsButtons}
                 </div>
             </div>
             <div id="luckysheetcopyfor_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">

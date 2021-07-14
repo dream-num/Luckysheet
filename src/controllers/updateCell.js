@@ -217,7 +217,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
     if((value == null || value.toString() == "") && !cover){
         value = "<br/>";
     }
-    
+    value = formula.xssDeal(value);
     if(!checkProtectionCellHidden(row_index, col_index, Store.currentSheetIndex) && value.length>0 && value.substr(0, 63)=='<span dir="auto" class="luckysheet-formula-text-color">=</span>'){
         $("#luckysheet-rich-text-editor").html("");
     }

@@ -9716,6 +9716,7 @@ export default {
         selectCellRange: 'Haz clic para seleccionar un rango de celdas',
         selectCellRange2: 'Selecciona un rango de celdas',
         verificationCondition: 'Condición de verificación',
+        allowMultiSelect: "Permitir selección múltiple",
         dropdown: 'lista desplegable',
         checkbox: 'Casilla de verificación',
         number: 'Número',

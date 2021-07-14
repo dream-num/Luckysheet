@@ -1082,7 +1082,62 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
         success();
     }
 }
+/**
+ * 在第index行或列的位置，插入number行或列
+ * @param {String} type 插入行或列 row-行  column-列
+ * @param {Number} index 在第几行插入空白行，从0开始
+ * @param {Object} options 可选参数
+ * @param {Number} options.number 插入的空白行数；默认为 1
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function insertRowBottomOrColumnRight(type, index = 0, options = {}) {
+    if(!isRealNum(index)){
+        return tooltip.info('The index parameter is invalid.', '');
+    }
 
+    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
+    let {
+        number = 1,
+        order = curSheetOrder,
+        success
+    } = {...options}
+
+    let _locale = locale();
+    let locale_info = _locale.info;
+    if (!isRealNum(number)) {
+        if(isEditMode()){
+            alert(locale_info.tipInputNumber);
+        } else{
+            tooltip.info(locale_info.tipInputNumber, "");
+        }
+        return;
+    }
+
+    number = parseInt(number);
+    if (number < 1 || number > 100) {
+        if(isEditMode()){
+            alert(locale_info.tipInputNumberLimit);
+        } else{
+            tooltip.info(locale_info.tipInputNumberLimit, "");
+        }
+        return;
+    }
+
+    // 默认在行上方增加行，列左侧增加列
+    let sheetIndex;
+    if(order){
+        if(Store.luckysheetfile[order]){
+            sheetIndex = Store.luckysheetfile[order].index;
+        }
+    }
+
+    luckysheetextendtable(type, index, number, "rightbottom", sheetIndex);
+
+    if (success && typeof success === 'function') {
+        success();
+    }
+}
 /**
  * 在第row行的位置，插入number行空白行
  * @param {Number} row 在第几行插入空白行，从0开始
@@ -1094,7 +1149,17 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
 export function insertRow(row = 0, options = {}) {
     insertRowOrColumn('row', row, options)
 }
-
+/**
+ * 在第row行的位置，插入number行空白行
+ * @param {Number} row 在第几行插入空白行，从0开始
+ * @param {Object} options 可选参数
+ * @param {Number} options.number 插入的空白行数；默认为 1
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function insertRowBottom(row = 0, options = {}) {
+    insertRowBottomOrColumnRight('row', row, options)
+}
 /**
  * 在第column列的位置，插入number列空白列
  * @param {Number} column 在第几列插入空白列，从0开始
@@ -1106,7 +1171,17 @@ export function insertRow(row = 0, options = {}) {
 export function insertColumn(column = 0, options = {}) {
     insertRowOrColumn('column', column, options)
 }
-
+/**
+ * 在第column列的位置，插入number列空白列
+ * @param {Number} column 在第几列插入空白列，从0开始
+ * @param {Object} options 可选参数
+ * @param {Number} options.number 插入的空白列数；默认为 1
+ * @param {Number} options.order 工作表索引；默认值为当前工作表索引
+ * @param {Function} options.success 操作结束的回调函数
+ */
+export function insertColumnRight(column = 0, options = {}) {
+    insertRowBottomOrColumnRight('column', column, options)
+}
 /**
  * 删除指定的行或列。删除行列之后，行列的序号并不会变化，下面的行（右侧的列）会补充到上（左）面，注意观察数据是否被正确删除即可。
  * @param {String} type 删除行或列 row-行  column-列
@@ -1332,7 +1407,7 @@ export function showColumn(startIndex, endIndex, options = {}) {
 
 
 /**
- * 设置指定行的高度
+ * 设置指定行的高度。优先级最高，高于默认行高和用户自定义行高。
  * @param {Object} rowInfo 行数和高度对应关系
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1363,8 +1438,12 @@ export function setRowHeight(rowInfo, options = {}) {
         if(parseInt(r) >= 0){
             let len = rowInfo[r];
 
-            if(Number(len) >= 0){
-                cfg['rowlen'][parseInt(r)] = Number(len);
+            if (len === 'auto') {
+                cfg['rowlen'][parseInt(r)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['rowlen'][parseInt(r)] = Number(len);
+                }
             }
         }
     }
@@ -1416,8 +1495,12 @@ export function setColumnWidth(columnInfo, options = {}) {
         if(parseInt(c) >= 0){
             let len = columnInfo[c];
 
-            if(Number(len) >= 0){
-                cfg['columnlen'][parseInt(c)] = Number(len);
+            if (len === 'auto') {
+                cfg['columnlen'][parseInt(c)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['columnlen'][parseInt(c)] = Number(len);
+                }
             }
         }
     }
