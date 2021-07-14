@@ -4,6 +4,7 @@ import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
 import menuButton from './menuButton';
 import server from './server';
+import method from '../global/method';
 import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import { 
     getObjType, 
@@ -1103,7 +1104,10 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
-        luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "lefttop")){ 
+			return; 
+		}
+		luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
 
 
@@ -1117,6 +1121,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, 1, "lefttop")){ 
+			return; 
+		}
         luckysheetextendtable('row', st_index, 1, "lefttop");
 
 
@@ -1330,6 +1337,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "rightbottom")){
+			return; 
+		}
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
 
@@ -1476,7 +1486,10 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0], 
             ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
-        luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
+        if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+        	return; 
+        }
+		luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
     });
     $("#luckysheet-delRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
@@ -1506,6 +1519,9 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].row[0], 
             ed_index = Store.luckysheet_select_save[0].row[1];
+		if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+			return; 
+		}
         luckysheetdeletetable('row', st_index, ed_index);
     })
     $("#luckysheet-delCols").click(function (event) {
