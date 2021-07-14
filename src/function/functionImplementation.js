@@ -1,3 +1,4 @@
+import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 import { luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue } from './func';
 import { inverse } from './matrix_methods';
 import { getSheetIndex, getluckysheetfile,getRangetxt } from '../methods/get';
@@ -3336,7 +3337,7 @@ const functionImplementation = {
                         }
                         else{
                             if (typeof value !== 'string') {
-                                if (new Function("return " + value + criter)()) {  
+                                if (new Function("return " + value + criter)()) {
                                     matches++;
                                 }
                             }
@@ -27583,6 +27584,40 @@ const functionImplementation = {
         catch (e) {
             var err = e;
             //计算错误检测
+            err = formula.errorInfo(err);
+            return [formula.error.v, err];
+        }
+    },
+    "REMOTE": function() {
+        if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
+            return formula.error.na;
+        }
+
+        try {
+            const cellRow = window.luckysheetCurrentRow;
+            const cellColumn = window.luckysheetCurrentColumn;
+            const cellFunction = window.luckysheetCurrentFunction;
+
+            const remoteFunction = func_methods.getFirstValue(arguments[0]);
+            if(valueIsError(remoteFunction)){
+                return remoteFunction;
+            }
+
+            luckysheetConfigsetting.remoteFunction(remoteFunction, data => {
+                const flowData = editor.deepCopyFlowData(Store.flowdata);
+                formula.execFunctionGroup(cellRow, cellColumn, data);
+                flowData[cellRow][cellColumn] = {
+                    "v": data,
+                    "f": cellFunction
+                };
+                jfrefreshgrid(flowData, [{"row": [cellRow, cellRow], "column": [cellColumn, cellColumn]}]);
+            });
+
+            return "Loading...";
+        }
+        catch (e) {
+            console.log(e);
+            var err = e;
             err = formula.errorInfo(err);
             return [formula.error.v, err];
         }

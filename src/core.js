@@ -122,6 +122,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.beforeCreateDom = extendsetting.beforeCreateDom;
     luckysheetConfigsetting.workbookCreateBefore = extendsetting.workbookCreateBefore;
     luckysheetConfigsetting.workbookCreateAfter = extendsetting.workbookCreateAfter;
+    luckysheetConfigsetting.remoteFunction = extendsetting.remoteFunction;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
@@ -147,7 +148,7 @@ luckysheet.create = function (setting) {
 
     // Store the currently used plugins for monitoring asynchronous loading
     Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
-    
+
     // Register plugins
     initPlugins(extendsetting.plugins , extendsetting.data);
 
