@@ -345,7 +345,11 @@ const server = {
 	                for(let i = 0; i < items.length; i++){
 	                    _this.wsUpdateMsg(item[i]);
 	                }
-	            }
+	            } else if (type == 5) {
+                showloading(data.data);
+              } else if (type == 6) {
+                hideloading();
+              }
 	        }
 
 	        //通信发生错误时触发
