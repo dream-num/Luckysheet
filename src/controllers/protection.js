@@ -922,7 +922,7 @@ export function checkProtectionLocked(r, c, sheetIndex, isOpenAlert=true, isLock
 //cell hidden state
 export function checkProtectionCellHidden(r, c, sheetIndex){
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
-    if(!sheetFile || !sheetFile.data[r] || !sheetFile.data[r][c]){
+    if(!sheetFile || (sheetFile.data && !sheetFile.data[r]) || (sheetFile.data && !sheetFile.data[r][c])){
         return true;
     }
 
