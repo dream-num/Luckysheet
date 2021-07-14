@@ -1407,7 +1407,7 @@ export function showColumn(startIndex, endIndex, options = {}) {
 
 
 /**
- * 设置指定行的高度
+ * 设置指定行的高度。优先级最高，高于默认行高和用户自定义行高。
  * @param {Object} rowInfo 行数和高度对应关系
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1438,8 +1438,12 @@ export function setRowHeight(rowInfo, options = {}) {
         if(parseInt(r) >= 0){
             let len = rowInfo[r];
 
-            if(Number(len) >= 0){
-                cfg['rowlen'][parseInt(r)] = Number(len);
+            if (len === 'auto') {
+                cfg['rowlen'][parseInt(r)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['rowlen'][parseInt(r)] = Number(len);
+                }
             }
         }
     }
@@ -1491,8 +1495,12 @@ export function setColumnWidth(columnInfo, options = {}) {
         if(parseInt(c) >= 0){
             let len = columnInfo[c];
 
-            if(Number(len) >= 0){
-                cfg['columnlen'][parseInt(c)] = Number(len);
+            if (len === 'auto') {
+                cfg['columnlen'][parseInt(c)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['columnlen'][parseInt(c)] = Number(len);
+                }
             }
         }
     }
