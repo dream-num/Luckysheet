@@ -5326,7 +5326,7 @@ export default function luckysheetHandler() {
 
                     for(let c = copy_c1; c <= copy_c2; c++){
                         let cell = d[r][c];
-
+                        let isInlineStr = false
                         if(cell != null && cell.mc != null && cell.mc.rs == null){
                             continue;
                         }
@@ -5344,13 +5344,27 @@ export default function luckysheetHandler() {
                             v = "";
                         }
 
-                        if(v == null){
-                            v = "";
+                        
+                        if(v == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                          v = d[r][c].ct.s.map(val=>val.v).join('');
+                          isInlineStr = true;
                         }
-
-                        if(cpDataArr[r - copy_r1][c - copy_c1] != v){
+                        if(v == null){
+                          v = "";
+                        }
+                        if(isInlineStr){
+                          const cpData = $(cpDataArr[r - copy_r1][c - copy_c1]).text().replace(/\s|\n/g,' ')
+                          const storeValue = v.replace(/\n/g,'').replace(/\s/g,' ')
+                          if(cpData != storeValue){
                             isEqual = false;
                             break;
+                          }
+                        }
+                        else{
+                          if(cpDataArr[r - copy_r1][c - copy_c1] != v){
+                            isEqual = false;
+                            break;
+                          }
                         }
                     }
                 }

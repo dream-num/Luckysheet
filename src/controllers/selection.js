@@ -439,6 +439,17 @@ const selection = {
                     if(c_value == null){
                         c_value = getcellvalue(r, c, d);
                     }
+                    if(c_value == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                      c_value = d[r][c].ct.s.map(val=>{
+                        const font = $('<font></font>')
+                        val.fs && font.css('font-size',val.fs)
+                        val.bl && font.css('font-weight',val.border)
+                        val.it && font.css('font-style',val.italic)
+                        val.cl==1 && font.css('text-decoration','underline')
+                        font.text(val.v)
+                        return font[0].outerHTML
+                      }).join('');
+                    }
 
                     if(c_value == null){
                         c_value = "";
