@@ -177,7 +177,7 @@ function reloadBrowser(done) {
 }
 
 //Package the core code
-async function core() {
+async function core_rollup() {
     const bundle = await rollup({
         input: 'src/index.js',
         plugins: [
@@ -213,6 +213,20 @@ async function core() {
         });
     }
 
+}
+
+async function core() {
+
+    await require('esbuild').buildSync({
+        format: 'iife',
+        globalName: 'luckysheet',    
+        entryPoints: ['src/index.js'],
+        bundle: true,
+        // minify: true,
+        sourcemap: true,
+        outfile: 'dist/luckysheet.umd.js',
+        logLevel: 'error',
+      })
 }
 
 // According to the build tag in html, package js and css

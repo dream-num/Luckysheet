@@ -38,6 +38,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.1",
     "dayjs": "^1.9.6",
+    "esbuild": "^0.11.6",
     "flatpickr": "^4.6.6",
     "jquery": "^2.2.4",
     "numeral": "^2.0.6",
