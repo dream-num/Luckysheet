@@ -289,7 +289,7 @@ function rightclickHTML(){
         dataMenuseparator = false;
     }
 
-    const customsButtons = (config.customs || [{title: 'test'}]).map((item, index) => `
+    const customsButtons = (config.customs || []).map((item, index) => `
             <div data-index="${index}" class="luckysheetColsRowsHandleAdd_custom luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                 <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                 ${item.title}
