@@ -32,6 +32,13 @@ const babel = require('@rollup/plugin-babel').default;
 // Distinguish development and production environments
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
+const pkg = require('./package.json');
+const banner = `/*! @preserve
+ * ${pkg.name}
+ * version: ${pkg.version}
+ * https://github.com/mengshukeji/Luckysheet
+ */`;
+
 // uglify js Compression configuration https://github.com/mishoo/UglifyJS#minify-options
 const uglifyOptions = {
     compress: {
@@ -170,7 +177,7 @@ function reloadBrowser(done) {
 }
 
 //Package the core code
-async function core() {
+async function core_rollup() {
     const bundle = await rollup({
         input: 'src/index.js',
         plugins: [
@@ -192,7 +199,7 @@ async function core() {
         name: 'luckysheet',
         sourcemap: true,
         inlineDynamicImports:true,
-
+        banner: banner
     });
 
     if(production){
@@ -202,9 +209,26 @@ async function core() {
             name: 'luckysheet',
             sourcemap: true,
             inlineDynamicImports:true,
+            banner: banner
         });
     }
 
+}
+
+async function core() {
+
+    await require('esbuild').buildSync({
+        format: 'iife',
+        globalName: 'luckysheet',    
+        entryPoints: ['src/index.js'],
+        bundle: true,
+        minify: production,
+        banner: { js: banner },
+        target: ['es2015'],
+        sourcemap: true,
+        outfile: 'dist/luckysheet.umd.js',
+        logLevel: 'error',
+      })
 }
 
 // According to the build tag in html, package js and css

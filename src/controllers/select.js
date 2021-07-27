@@ -403,10 +403,10 @@ function collaborativeEditBox() {
             if (Object.keys(range).length > 0 ) {
                 let flag_sure_merge = false
                 if(range.v.length > 1) {
-                    flag_sure_merge = Object.keys(range.v[1][0]).length > 0
+                    flag_sure_merge = range.v[1][0] == null || Object.keys(range.v[1][0]).length > 0
                 }
                 if(range.v[0].length > 1) {
-                    flag_sure_merge = Object.keys(range.v[0][1]).length > 0
+                    flag_sure_merge = range.v[0][1] == null || Object.keys(range.v[0][1]).length > 0
                 }
                 if(flag_sure_merge) {
                     // 合并成一个时执行

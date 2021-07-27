@@ -118,8 +118,8 @@ const menuButton = {
         let _this = this;
 
         //格式刷
-        $("#luckysheet-icon-paintformat").click(function(){
-
+        $("#luckysheet-icon-paintformat").click(function(e){
+            e.stopPropagation();
             let _locale = locale();
             let locale_paint = _locale.paint;
 
@@ -275,8 +275,8 @@ const menuButton = {
 
                 return;
             }
-
-            let prefix = "", main = "";
+            //Uncaught ReferenceError: Cannot access 'fa' before initialization
+            let prefix = "", main = "", fa = [];
             if(foucsStatus.fa.indexOf(".")>-1){
                 fa = foucsStatus.fa.split(".");
                 prefix = fa[0];
@@ -286,7 +286,7 @@ const menuButton = {
                 return;
             }
 
-            let fa = main.split("");
+            fa = main.split("");
             let tail = "";
             for(let i = fa.length-1; i >= 0; i--){
                 let c = fa[i];
@@ -358,7 +358,9 @@ const menuButton = {
                 return;
             }
 
-            let prefix = "", main = "";
+            //Uncaught ReferenceError: Cannot access 'fa' before initialization
+            let prefix = "", main = "", fa = [];
+            
             if(foucsStatus.fa.indexOf(".")>-1){
                 fa = foucsStatus.fa.split(".");
                 prefix = fa[0];
@@ -368,7 +370,7 @@ const menuButton = {
                 main = foucsStatus.fa;
             }
 
-            let fa = main.split("");
+            fa = main.split("");
             let tail = "";
             for(let i = fa.length - 1; i >= 0; i--){
                 let c = fa[i];

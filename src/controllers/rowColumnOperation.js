@@ -4,6 +4,7 @@ import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
 import menuButton from './menuButton';
 import server from './server';
+import method from '../global/method';
 import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import { 
     getObjType, 
@@ -1103,7 +1104,10 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
-        luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "lefttop")){ 
+			return; 
+		}
+		luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
 
 
@@ -1117,6 +1121,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, 1, "lefttop")){ 
+			return; 
+		}
         luckysheetextendtable('row', st_index, 1, "lefttop");
 
 
@@ -1134,6 +1141,29 @@ export function rowColumnOperationInitial(){
 
 
     })
+
+    // custom right-click a cell buttton click
+    $(".luckysheetColsRowsHandleAdd_custom").click(function (clickEvent) {
+        $("#luckysheet-rightclick-menu").hide();
+        const cellRightClickConfig =
+          luckysheetConfigsetting.cellRightClickConfig;
+        const rowIndex = Store.luckysheet_select_save[0].row[0];
+        const columnIndex = Store.luckysheet_select_save[0].column[0];
+        if (
+          cellRightClickConfig.customs[
+            Number(clickEvent.currentTarget.dataset.index)
+          ]
+        ) {
+          try {
+            cellRightClickConfig.customs[
+              Number(clickEvent.currentTarget.dataset.index)
+            ].onClick(clickEvent, event, { rowIndex, columnIndex });
+          } catch (e) {
+            console.error("custom click error", e);
+          }
+        }
+        
+    });
     // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
     // $("#luckysheet-addTopRows").click(function (event) {
     // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
@@ -1307,6 +1337,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "rightbottom")){
+			return; 
+		}
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
 
@@ -1453,7 +1486,10 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0], 
             ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
-        luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
+        if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+        	return; 
+        }
+		luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
     });
     $("#luckysheet-delRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
@@ -1483,6 +1519,9 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].row[0], 
             ed_index = Store.luckysheet_select_save[0].row[1];
+		if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+			return; 
+		}
         luckysheetdeletetable('row', st_index, ed_index);
     })
     $("#luckysheet-delCols").click(function (event) {
