@@ -196,6 +196,11 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - Mads_chan ¥ 1
 - LK ¥ 100
 - 智连方舟 李汪石 ¥ 168
+- **发 ¥ 260
+- *超 ¥ 10
+- *勇 ¥ 10
+- *腾 ¥ 15
+- 名字好难起 ¥ 20
 
 ## Authors and acknowledgment
 

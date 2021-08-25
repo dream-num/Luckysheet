@@ -5,3 +5,5 @@ dist
 docs/.vuepress/dist
 
 .idea
+.history
+.vs
