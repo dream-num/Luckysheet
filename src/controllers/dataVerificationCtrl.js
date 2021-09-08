@@ -1452,7 +1452,7 @@ const dataVerificationCtrl = {
                 return false;
             }
 
-            if(type2 == 'phone' && !/^[1][3,4,5,7,8][0-9]{9}$/.test(cellValue)){
+            if(type2 == 'phone' && !/^1[3456789]\d{9}$/.test(cellValue)){
                 return false;
             }
         }
