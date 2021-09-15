@@ -32,7 +32,7 @@ import { countfunc } from '../global/count';
 import { hideMenuByCancel } from '../global/cursorPos';
 import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
 import { setluckysheetfile } from '../methods/set';
-import {isInlineStringCell,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
+import {isInlineStringCell,isInlineStringCT,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
 import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontformat,luckysheetContainerFocus } from '../utils/util';
 import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
@@ -3269,7 +3269,7 @@ const menuButton = {
                             for(let c = c1; c <= c2; c++){
                                 let cell = d[r][c];
 
-                                if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                                if(cell != null && (isInlineStringCT(cell.ct) || !isRealNull(cell.v) || cell.f != null) && !isfirst){
                                     fv = $.extend(true, {}, cell);
                                     isfirst = true;
                                 }
