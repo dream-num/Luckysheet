@@ -7352,3 +7352,8 @@ fieldset[disabled] .btn-danger.focus {
     white-space: nowrap;
 }
 
+#luckysheet-icon-undo.disabled,
+#luckysheet-icon-redo.disabled {
+    cursor: default;
+    opacity: .4;
+}
