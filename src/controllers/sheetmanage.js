@@ -278,11 +278,11 @@ const sheetmanage = {
 
         // 钩子 sheetCreateAfter 不应该在这里 应在绘制完成后 因此在 changeSheet 实现
     },
-    setSheetHide: function(index) {
+    setSheetHide: function(index, isDelete) {
         let _this = this;
         let currentIdx = _this.getSheetIndex(index);
         // 钩子 sheetHideBefore
-        if(!method.createHookFunction('sheetHideBefore', {sheet: Store.luckysheetfile[currentIdx]})){
+        if(!isDelete && !method.createHookFunction('sheetHideBefore', {sheet: Store.luckysheetfile[currentIdx]})){
             return;
         }
         Store.luckysheetfile[currentIdx].hide = 1;
@@ -322,7 +322,9 @@ const sheetmanage = {
 
         server.saveParam("sh", luckysheetcurrentSheetitem.data("index"), 1, { "op": "hide", "cur": indicator });
         // 钩子 sheetHideAfter
-        method.createHookFunction('sheetHideAfter', {sheet: Store.luckysheetfile[currentIdx]});
+        if (!isDelete) {
+            method.createHookFunction('sheetHideAfter', {sheet: Store.luckysheetfile[currentIdx]});
+        }
     },
     setSheetShow: function(index) {
         let _this = this;
@@ -587,14 +589,14 @@ const sheetmanage = {
 
         let arrIndex = _this.getSheetIndex(index);
 
-        const file = Store.luckysheetfile[currentIdx];
+        const file = Store.luckysheetfile[arrIndex];
 
         // 钩子 sheetDeleteBefore
         if(!method.createHookFunction('sheetDeleteBefore', { sheet: file })){
             return;
         }
 
-        _this.setSheetHide(index);
+        _this.setSheetHide(index, true);
 
         $("#luckysheet-sheets-item" + index).remove();
         $("#luckysheet-datavisual-selection-set-" + index).remove();
