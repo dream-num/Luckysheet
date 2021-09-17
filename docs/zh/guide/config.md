@@ -1366,7 +1366,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称前
@@ -1376,7 +1376,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称后
