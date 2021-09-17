@@ -1256,15 +1256,15 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ## 工作表
 
-### sheetCreatekBefore
-（TODO）
+### sheetCreateBefore
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页前触发，sheet页新建也包含数据透视表新建
 
 ------------
 ### sheetCreateAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页后触发，sheet页新建也包含数据透视表新建

@@ -228,6 +228,10 @@ const sheetmanage = {
             // alert("非编辑模式下不允许该操作！");
             return;
         }
+        // 钩子 sheetCreateBefore
+        if(!method.createHookFunction('sheetCreateBefore')){
+            return;
+        }
 
         let _this = this;
 
@@ -271,6 +275,8 @@ const sheetmanage = {
         }
 
         _this.changeSheetExec(index, isPivotTable, true);
+
+        // 钩子 sheetCreateAfter 不应该在这里 应在绘制完成后 因此在 changeSheet 实现
     },
     setSheetHide: function(index) {
         let _this = this;
@@ -1147,6 +1153,11 @@ const sheetmanage = {
             $("#luckysheet-cell-main #luckysheet-multipleRange-show").empty();
             server.multipleIndex = 0;
         }
+        let file = Store.luckysheetfile[_this.getSheetIndex(index)]
+        // 钩子 sheetCreateAfter
+        if (isNewSheet) {
+            method.createHookFunction('sheetCreateAfter', { sheet: file }); 
+        }
         
         // 钩子函数
         method.createHookFunction('sheetActivate', index, isPivotInitial, isNewSheet);
@@ -1157,7 +1168,6 @@ const sheetmanage = {
         _this.storeSheetParamALL();
         _this.setCurSheet(index);
 
-        let file = Store.luckysheetfile[_this.getSheetIndex(index)]
   
         if (!!file.isPivotTable) {
             Store.luckysheetcurrentisPivotTable = true;
