@@ -326,11 +326,17 @@ const sheetmanage = {
     },
     setSheetShow: function(index) {
         let _this = this;
-
-        Store.luckysheetfile[_this.getSheetIndex(index)].hide = 0;
+        const file = Store.luckysheetfile[_this.getSheetIndex(index)]
+        // 钩子 sheetShowBefore
+        if(!method.createHookFunction('sheetShowBefore', {sheet: file})){
+            return;
+        }
+        file.hide = 0;
         _this.changeSheetExec(index);
 
         server.saveParam("sh", index, 0, {"op": "show", "cur": null});
+        // 钩子 sheetShowAfter
+        method.createHookFunction('sheetShowAfter', {sheet: file});
     },
     sheetMaxIndex: 0,
     ordersheet: function(property) {
