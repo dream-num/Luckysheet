@@ -1272,6 +1272,24 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]: 当前新创建的sheet页的配置
 
 ------------
+### sheetCopyBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页前触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [targetSheet]: 被拷贝的sheet页配置
+	- {Object} [copySheet]: 拷贝得到的sheet页的配置
+------------
+### sheetCopyAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页后触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [sheet]: 当前创建的sheet页的配置
+
+------------
 ### sheetHideBefore
 
 - 类型：Function

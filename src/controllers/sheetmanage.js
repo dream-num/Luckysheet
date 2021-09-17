@@ -478,6 +478,14 @@ const sheetmanage = {
         copyjson.order = order;
         copyjson.index = index;
         copyjson.name = _this.generateCopySheetName(Store.luckysheetfile, copyjson.name);
+
+        // 钩子 sheetCreateBefore
+        if(!method.createHookFunction('sheetCopyBefore', {
+            targetSheet: Store.luckysheetfile[copyarrindex],
+            copySheet: copyjson
+        })){
+            return;
+        }
         
         let colorset = '';
         if(copyjson.color != null){
@@ -496,7 +504,7 @@ const sheetmanage = {
 
         server.saveParam("shc", index, { "copyindex": copyindex, "name": copyjson.name });
 
-        _this.changeSheetExec(index);
+        _this.changeSheetExec(index, undefined, undefined, true);
         _this.reOrderAllSheet();
 
         if (Store.clearjfundo) {
@@ -1149,7 +1157,7 @@ const sheetmanage = {
             }
         }
     },
-    changeSheet: function(index, isPivotInitial, isNewSheet) {
+    changeSheet: function(index, isPivotInitial, isNewSheet, isCopySheet) {
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
             return;
@@ -1169,6 +1177,10 @@ const sheetmanage = {
         // 钩子 sheetCreateAfter
         if (isNewSheet) {
             method.createHookFunction('sheetCreateAfter', { sheet: file }); 
+        }
+        // 钩子 sheetCopyAfter
+        if (isCopySheet) {
+            method.createHookFunction('sheetCopyAfter', { sheet: file }); 
         }
         
         // 钩子函数
@@ -1489,7 +1501,7 @@ const sheetmanage = {
 
         return null;
     },
-    changeSheetExec: function(index, isPivotInitial, isNewSheet) {
+    changeSheetExec: function(index, isPivotInitial, isNewSheet, isCopySheet) {
         
         let $sheet = $("#luckysheet-sheets-item" + index);
 
@@ -1498,7 +1510,7 @@ const sheetmanage = {
         $sheet.addClass("luckysheet-sheets-item-active").show();
 
         cleargridelement();
-        this.changeSheet(index, isPivotInitial, isNewSheet);
+        this.changeSheet(index, isPivotInitial, isNewSheet, isCopySheet);
         
         $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu").hide();
 
