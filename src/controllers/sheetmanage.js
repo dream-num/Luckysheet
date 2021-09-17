@@ -586,6 +586,14 @@ const sheetmanage = {
         }
 
         let arrIndex = _this.getSheetIndex(index);
+
+        const file = Store.luckysheetfile[currentIdx];
+
+        // 钩子 sheetDeleteBefore
+        if(!method.createHookFunction('sheetDeleteBefore', { sheet: file })){
+            return;
+        }
+
         _this.setSheetHide(index);
 
         $("#luckysheet-sheets-item" + index).remove();
@@ -600,6 +608,8 @@ const sheetmanage = {
             removedsheet[0].type = "deleteSheet";
             Store.jfredo.push(removedsheet[0]);
         }
+        // 钩子 sheetDeleteAfter
+        method.createHookFunction('sheetDeleteAfter', { sheet: file });
     },
     nulldata: null,
     getGridData: function(d) {

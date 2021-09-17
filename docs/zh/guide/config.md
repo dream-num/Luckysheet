@@ -1348,7 +1348,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除前
@@ -1357,7 +1357,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除后
