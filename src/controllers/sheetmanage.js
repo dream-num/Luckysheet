@@ -281,6 +281,10 @@ const sheetmanage = {
     setSheetHide: function(index) {
         let _this = this;
         let currentIdx = _this.getSheetIndex(index);
+        // 钩子 sheetHideBefore
+        if(!method.createHookFunction('sheetHideBefore', {sheet: Store.luckysheetfile[currentIdx]})){
+            return;
+        }
         Store.luckysheetfile[currentIdx].hide = 1;
         
         let luckysheetcurrentSheetitem = $("#luckysheet-sheets-item" + index);
@@ -317,6 +321,8 @@ const sheetmanage = {
         _this.changeSheetExec(indicator);
 
         server.saveParam("sh", luckysheetcurrentSheetitem.data("index"), 1, { "op": "hide", "cur": indicator });
+        // 钩子 sheetHideAfter
+        method.createHookFunction('sheetHideAfter', {sheet: Store.luckysheetfile[currentIdx]});
     },
     setSheetShow: function(index) {
         let _this = this;

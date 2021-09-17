@@ -1272,6 +1272,24 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Object} [sheet]: 当前新创建的sheet页的配置
 
 ------------
+### sheetHideBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页前触发
+- 参数：
+	- {Object} [sheet]: 将要隐藏的sheet页的配置
+
+------------
+### sheetHideAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页后触发
+- 参数：
+	- {Object} [sheet]: 要隐藏的sheet页的配置
+
+------------
 ### sheetMoveBefore
 （TODO）
 - 类型：Function
