@@ -169,7 +169,7 @@ const hyperlinkCtrl = {
 
             cell.fc = 'rgb(0, 0, 255)';
             cell.un = 1;
-            cell.v = linkText;
+            cell.v = cell.m = linkText;
 
             d[rowIndex][colIndex] = cell;
 
