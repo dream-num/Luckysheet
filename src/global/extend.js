@@ -11,7 +11,15 @@ import {checkProtectionAuthorityNormal,checkProtectionNotEnable} from '../contro
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-//增加行列
+/**
+ * 增加行列
+ * @param {string} type 行或列 ['row', 'column'] 之一
+ * @param {number} index 插入的位置 index
+ * @param {number} value 插入 多少 行（列）
+ * @param {string} direction 哪个方向插入 ['lefttop','rightbottom'] 之一
+ * @param {string | number} sheetIndex 操作的 sheet 的 index 属性
+ * @returns 
+ */
 function luckysheetextendtable(type, index, value, direction, sheetIndex) {
     sheetIndex = sheetIndex || Store.currentSheetIndex;
 
@@ -634,7 +642,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
             row.push(templateCell);
         }
-
+        var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
             let borderInfo = []; 
@@ -689,6 +697,10 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 }
                 else if(rangeType == "cell"){
                     let row_index = cfg["borderInfo"][i].value.row_index;
+                    // 位置相同标识边框相关 先缓存
+                    if (row_index === index) {
+                        cellBorderConfig.push(JSON.parse(JSON.stringify(cfg["borderInfo"][i])));
+                    }
 
                     if(direction == "lefttop"){
                         if(index <= row_index){
@@ -712,6 +724,20 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         let arr = [];
         for (let r = 0; r < value; r++) {
             arr.push(JSON.stringify(row));
+            // 同步拷贝 type 为 cell 类型的边框
+            if (cellBorderConfig.length) {
+                var cellBorderConfigCopy = JSON.parse(JSON.stringify(cellBorderConfig));
+                cellBorderConfigCopy.forEach(item=>{
+                    if (direction === 'rightbottom') {
+                        // 向下插入时 基于模板行位置直接递增即可
+                        item.value.row_index += (r + 1);
+                    } else if (direction === 'lefttop') {
+                        // 向上插入时 目标行移动到后面 新增n行到前面 对于新增的行来说 也是递增，不过是从0开始
+                        item.value.row_index += r;
+                    }
+                });
+                cfg["borderInfo"].push(...cellBorderConfigCopy);
+            }
         }
 
         if(direction == "lefttop"){
@@ -789,7 +815,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
             col.push(templateCell);
         }
-
+        var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
             let borderInfo = []; 
@@ -844,6 +870,10 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 }
                 else if(rangeType == "cell"){
                     let col_index = cfg["borderInfo"][i].value.col_index;
+                    // 位置相同标识边框相关 先缓存
+                    if (col_index === index) {
+                        cellBorderConfig.push(JSON.parse(JSON.stringify(cfg["borderInfo"][i])));
+                    }
 
                     if(direction == "lefttop"){
                         if(index <= col_index){
@@ -862,6 +892,23 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
 
             cfg["borderInfo"] = borderInfo;
+        }
+
+        // 处理相关的 type 为 cell 类型的边框
+        if (cellBorderConfig.length) {
+            for (let i = 0; i < value; i++) {
+                var cellBorderConfigCopy = JSON.parse(JSON.stringify(cellBorderConfig));
+                cellBorderConfigCopy.forEach(item=>{
+                    if (direction === 'rightbottom') {
+                        // 向右插入时 基于模板列位置直接递增即可
+                        item.value.col_index += (i + 1);
+                    } else if (direction === 'lefttop') {
+                        // 向左插入时 目标列移动到后面 新增n列到前面 对于新增的列来说 也是递增，不过是从0开始
+                        item.value.col_index += i;
+                    }
+                });
+                cfg["borderInfo"].push(...cellBorderConfigCopy);
+            }
         }
         
         for (let r = 0; r < d.length; r++) {
