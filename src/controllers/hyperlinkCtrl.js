@@ -178,7 +178,7 @@ const hyperlinkCtrl = {
                 currentHyperlink, 
                 Store.currentSheetIndex, 
                 d, 
-                { row: [rowIndex, rowIndex], column: [colIndex, colIndex] }
+                [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
             );
 
             $("#luckysheet-modal-dialog-mask").hide();
