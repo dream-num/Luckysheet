@@ -3,6 +3,7 @@ import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import { getObjType } from '../utils/util';
 import { createToolbarHtml } from './toolbar';
+import * as uuid from "uuid";
 //dom variable
 const gridHTML = function(){ 
     const _locale = locale();

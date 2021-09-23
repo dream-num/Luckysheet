@@ -1,4 +1,4 @@
-import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
+import { arrayRemoveItem } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
@@ -8,38 +8,40 @@ import { getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow } f
 import { rowLocation, colLocation, mouseposition } from '../../global/location'
 import { setluckysheet_scroll_status } from '../../methods/set'
 import {
-    luckysheetMoveHighlightCell,
-    luckysheetMoveHighlightCell2, 
-    luckysheetMoveHighlightRange,
     luckysheetMoveHighlightRange2,
     luckysheetMoveEndCell
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
+import Vue from "vue";
+import Vuex from "vuex";
+import "echarts";
+import chartmix from "./chartmix.umd.min";
+import "./chartmix.css"
+// import "./index.css"
+
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
-    'https://cdn.jsdelivr.net/npm/vue@2.6.11',
-    'https://unpkg.com/vuex@3.4.0',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'expendPlugins/chart/chartmix.umd.min.js',
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css',
+    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
+    // 'expendPlugins/chart/chartmix.css',
     // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
 function chart(data, isDemo) {
-    loadLinks(dependLinks);
+    // loadLinks(dependLinks);
 
-    seriesLoadScripts(dependScripts, null, function () {
+    // seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
         console.info('chartmix::', chartmix.default)
 
@@ -100,7 +102,7 @@ function chart(data, isDemo) {
         // After the chart is loaded, mark it
         arrayRemoveItem(chartInfo.asyncLoad,'chart');
 
-    });
+    // });
 }
 
 // rendercharts

@@ -28,6 +28,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const terser = require('rollup-plugin-terser').terser;
 // rollup babel plugin, support the latest ES grammar
 const babel = require('@rollup/plugin-babel').default;
+const gulpFont = require('gulp-font');
 // const gulpBabel = require('gulp-babel');
 // Distinguish development and production environments
 const production = process.env.NODE_ENV === 'production' ? true : false;
@@ -94,11 +95,11 @@ const paths = {
     css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
         'node_modules/jquery/dist/jquery.min.js',
-        'node_modules/uuid/dist/umd/uuid.min.js',
-        'src/plugins/js/clipboard.min.js',
+        // 'node_modules/uuid/dist/umd/uuid.min.js',
+        // 'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
-        'src/plugins/js/jquery.mousewheel.min.js',
+        // 'src/plugins/js/jquery.mousewheel.min.js',
         // 'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
         'src/plugins/js/localforage.min.js',
@@ -229,6 +230,21 @@ async function core() {
         outfile: 'dist/luckysheet.umd.js',
         logLevel: 'error',
       })
+
+    if(production){
+        await require('esbuild').buildSync({
+            format: 'esm',
+            globalName: 'luckysheet',
+            entryPoints: ['src/index.js'],
+            bundle: true,
+            minify: production,
+            banner: { js: banner },
+            target: ['es2015'],
+            sourcemap: true,
+            outfile: 'dist/luckysheet.esm.js',
+            logLevel: 'error',
+        })
+    }
 }
 
 // According to the build tag in html, package js and css

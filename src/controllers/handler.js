@@ -1,3 +1,4 @@
+import "jquery-mousewheel";
 import mobileinit from './mobile';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetFreezen from './freezen';
