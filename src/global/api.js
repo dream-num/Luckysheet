@@ -2903,7 +2903,7 @@ export function setSingleRangeFormat(attr, value, options = {}) {
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Function} options.success 操作结束的回调函数
  */
-export function setRangeFormat(attr, value, options = {}) {
+ export function setRangeFormat(attr, value, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
     let {
@@ -2946,15 +2946,15 @@ export function setRangeFormat(attr, value, options = {}) {
         result.push(setSingleRangeFormat(attr, value, { range: range[i], order: order }));
     }
 
+    let fileData = $.extend(true, [], file.data);
     if(result.some(i => i === 'error')) {
         file.data.length = 0;
-        file.data.push(...sheetData);
+        file.data.push(...fileData);
         return false;
     }
 
-    let fileData = $.extend(true, [], file.data);
     file.data.length = 0;
-    file.data.push(...sheetData);
+    file.data.push(...fileData);
 
     if(file.index == Store.currentSheetIndex){
         jfrefreshgrid(fileData, undefined, undefined, true, false);
