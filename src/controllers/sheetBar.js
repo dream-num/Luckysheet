@@ -17,6 +17,7 @@ import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {pagerInit} from '../global/api'
+import method from '../global/method';
 
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
@@ -325,6 +326,11 @@ export function initialSheetBar(){
             Store.jfundo.length = 0;
             Store.jfredo.push(redo);
         }
+        // 钩子： sheetEditNameAfter
+        method.createHookFunction('sheetEditNameAfter', {
+            i: Store.luckysheetfile[index].index,
+            oldName: oldtxt, newName: txt 
+        });
     });
 
     $("#luckysheet-sheet-area").on("keydown", "span.luckysheet-sheets-item-name", function (e) {
@@ -342,6 +348,11 @@ export function initialSheetBar(){
     });
 
     $("#luckysheetsheetconfigrename").click(function () {
+        var $name = luckysheetcurrentSheetitem.find("span.luckysheet-sheets-item-name")
+        // 钩子 sheetEditNameBefore
+        if (!method.createHookFunction('sheetEditNameBefore', { i: luckysheetcurrentSheetitem.data('index') , name: $name.text() })){
+            return;
+        }
         luckysheetsheetnameeditor(luckysheetcurrentSheetitem.find("span.luckysheet-sheets-item-name"));
         $("#luckysheet-input-box").removeAttr("style");
         $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu").hide();
