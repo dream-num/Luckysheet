@@ -409,6 +409,10 @@ const luckysheetSearchReplace = {
                         if(value != null && value != ""){
                             value = value.toString();
 
+                            // 1. 勾选整词 直接匹配
+                            // 2. 勾选了正则 结合是否勾选 构造正则 
+                            // 3. 什么都没选 用字符串 indexOf 匹配
+
                             if(wordCheck){ //整词
                                 if(caseCheck){
                                     if(searchText == value){
@@ -430,6 +434,7 @@ const luckysheetSearchReplace = {
                             }
                             else if(regCheck){ //正则表达式
                                 let reg;
+                                // 是否区分大小写
                                 if(caseCheck){
                                     reg = new RegExp(func_methods.getRegExpStr(searchText), "g");
                                 }
@@ -444,20 +449,8 @@ const luckysheetSearchReplace = {
                                     }
                                 }
                             }
-                            else if(caseCheck){ //区分大小写
-                                let reg = new RegExp(func_methods.getRegExpStr(searchText), "g");
-
-                                if(reg.test(value)){
-                                    if(!((r + "_" + c) in obj)){
-                                        obj[r + "_" + c] = 0;
-                                        arr.push({"r": r, "c": c});
-                                    }
-                                }
-                            }
                             else{
-                                let reg = new RegExp(func_methods.getRegExpStr(searchText), "ig");
-
-                                if(reg.test(value)){
+                                if(~value.indexOf(searchText)){
                                     if(!((r + "_" + c) in obj)){
                                         obj[r + "_" + c] = 0;
                                         arr.push({"r": r, "c": c});
