@@ -10,18 +10,6 @@
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
-## 招聘
-字节跳动靠谱内推 - 前端工程师（上海 · 飞书）
-30 – 60K · 15薪
-1. 简历优先筛选
-2. 面试过程及时跟进
-3. 凭实力说话，薪资在行业有很强竞争力
-4. 包三餐和下午茶
-5. 有意向可以先咨询
-6. 框架: React、Electron
-
-<img src="https://minio.cnbabylon.com/public/luckysheet/feishu_jd.jpg" width = "250" alt="微信群" align="center" />
-
 ## 相关链接
  | 源码   | 文档 | Demo | 插件Demo | 论坛 |
  | ------ | -------- | ------ | ------ | ------ |
@@ -219,16 +207,19 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 
 ### 核心团队活跃成员
 - [@wbfsa](https://github.com/wbfsa)
-- [@iamxuchen800117](https://github.com/iamxuchen800117)
-- [@wpxp123456](https://github.com/wpxp123456)
+- [@eiji-th](https://github.com/eiji-th)
+- [@fly-95](https://github.com/fly-95)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
+- [@wpxp123456](https://github.com/wpxp123456)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 - [@jerry-f](https://github.com/jerry-f)
 - [@flowerField](https://github.com/flowerField)
 
 ### 社区伙伴
+- [@yiwasheng](https://github.com/yiwasheng)
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)
