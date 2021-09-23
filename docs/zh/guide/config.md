@@ -60,6 +60,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
 - 允许添加行 [enableAddRow](#enableAddRow)
+- 默认添加行的数目 [addRowCount](#addRowCount)
 - 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
 - 用户信息菜单 [userMenuItem](#userMenuItem)
@@ -468,6 +469,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：true
 - 作用：允许添加行
+
+### addRowCount
+- Number
+- 默认值：100
+- 作用：配置新增行处默认新增的行数目
 
 ------------
 ### enableAddBackTop
