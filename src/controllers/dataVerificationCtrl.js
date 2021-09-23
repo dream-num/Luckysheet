@@ -582,6 +582,19 @@ const dataVerificationCtrl = {
                 $("#luckysheet-dataVerification-dialog .show-box-item-number .input2").show();
             }
         });
+        // 文本长度选择变化
+        $(document).off("change.textLengthSelect").on("change.textLengthSelect", "#data-verification-textLength-select", function(e) {
+            $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input").hide();
+
+            let value = this.value;
+
+            if(value == 'bw' || value == 'nb'){
+                $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input1").show();
+            }
+            else{
+                $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input2").show();
+            }
+        });
 
         $(document).off("change.dateSelect").on("change.dateSelect", "#data-verification-date-select", function(e) {
             $("#luckysheet-dataVerification-dialog .show-box-item-date .input").hide();
