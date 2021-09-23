@@ -5046,9 +5046,15 @@ export default function luckysheetHandler() {
 
     //回退 重做 按钮
     $("#luckysheet-icon-undo").click(function (event) {
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
         controlHistory.redo(event);
     });
     $("#luckysheet-icon-redo").click(function (event) {
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
         controlHistory.undo(event);
     });
 
