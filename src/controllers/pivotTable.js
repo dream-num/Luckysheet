@@ -731,9 +731,7 @@ const pivotTable = {
         redo["type"] = "pivotTable_change";
         redo["curdata"] = $.extend(true, [], data);
         redo["sheetIndex"] = Store.currentSheetIndex;
-
-        let pivotTable = _this.getPivotTableData();
-        redo["pivotTablecur"] = pivotTable; 
+        redo["pivotTablecur"] = _this.getPivotTableData();
 
         if(Store.clearjfundo){
             Store.jfundo.length  = 0;
