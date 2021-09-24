@@ -15,6 +15,8 @@ English| [简体中文](./README-zh.md)
 ## Introduction
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
+> Luckysheet 3.x is currently being rewritten in Typescript.
+
 ## Links
  | Source Code   | Documentation | Demo | Plugins Demo | Forum |
  | ------ | -------- | ------ | ------ | ------ |
