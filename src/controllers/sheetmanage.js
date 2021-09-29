@@ -1536,7 +1536,7 @@ const sheetmanage = {
         const $wrap = $('#luckysheet-sheet-container-c');
         if (!$wrap.length) return;
         var sw = $wrap[0].scrollWidth;
-        var w = $wrap.width();
+        var w = Math.ceil($wrap.width());
 
         if (sw > w) {
             if(luckysheetConfigsetting.showsheetbarConfig.sheet){
