@@ -1533,14 +1533,12 @@ const sheetmanage = {
         this.sheetBarShowAndHide(index);
     },
     sheetArrowShowAndHide(){
-        let containerW = $("#luckysheet-sheet-container").width();
+        const $wrap = $('#luckysheet-sheet-container-c');
+        if (!$wrap.length) return;
+        var sw = $wrap[0].scrollWidth;
+        var w = $wrap.width();
 
-        let c_width = 0;
-        $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item:visible").each(function(){
-            c_width += $(this).outerWidth();
-        });
-
-        if (c_width >= containerW) {
+        if (sw > w) {
             if(luckysheetConfigsetting.showsheetbarConfig.sheet){
                 $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
                 $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
