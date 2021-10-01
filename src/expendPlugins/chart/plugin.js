@@ -1,4 +1,4 @@
-import { arrayRemoveItem } from '../../utils/util'
+import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
@@ -8,40 +8,39 @@ import { getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow } f
 import { rowLocation, colLocation, mouseposition } from '../../global/location'
 import { setluckysheet_scroll_status } from '../../methods/set'
 import {
+    luckysheetMoveHighlightCell,
+    luckysheetMoveHighlightCell2,
+    luckysheetMoveHighlightRange,
     luckysheetMoveHighlightRange2,
     luckysheetMoveEndCell
 } from '../../controllers/sheetMove';
 import { isEditMode } from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import Vue from "vue";
-import Vuex from "vuex";
-import "echarts";
-import chartmix from "./chartmix.umd.min";
-import "./chartmix.css"
-// import "./index.css"
-
+import "element-ui/lib/theme-chalk/index.css";
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
-    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    // 'expendPlugins/chart/chartmix.umd.min.js',
+    'https://cdn.jsdelivr.net/npm/vue@2.6.11',
+    'https://unpkg.com/vuex@3.4.0',
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
+    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    'expendPlugins/chart/chartmix.umd.min.js',
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    // 'expendPlugins/chart/chartmix.css',
+    'expendPlugins/chart/chartmix.css',
     // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
 // Initialize the chart component
 function chart(data, isDemo) {
-    // loadLinks(dependLinks);
+    loadLinks(dependLinks);
 
-    // seriesLoadScripts(dependScripts, null, function () {
+    seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
         console.info('chartmix::', chartmix.default)
 
@@ -89,7 +88,7 @@ function chart(data, isDemo) {
         // Initialize the rendering chart
         for (let i = 0; i < data.length; i++) {
             // if (data[i].status == '1') {
-                renderCharts(data[i].chart, isDemo)
+            renderCharts(data[i].chart, isDemo)
             // }
         }
 
@@ -102,7 +101,7 @@ function chart(data, isDemo) {
         // After the chart is loaded, mark it
         arrayRemoveItem(chartInfo.asyncLoad,'chart');
 
-    // });
+    });
 }
 
 // rendercharts
@@ -169,68 +168,68 @@ function renderCharts(chartLists, isDemo) {
         })
         $t.mousedown(function (e) {  // move chart
 
-                if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-                    //当前图表显示区域高亮
-                    showNeedRangeShow(chart_id);
-                    setluckysheet_scroll_status(true);
+            if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
+                //当前图表显示区域高亮
+                showNeedRangeShow(chart_id);
+                setluckysheet_scroll_status(true);
 
-                    //允许拖动渲染框
-                    if (
-                        !$(e.target).is(".luckysheet-modal-dialog-controll") &&
-                        !$(e.target).is(".luckysheet-modal-controll-btn") &&
-                        !$(e.target).is("i")
-                    ) {
-                        // Debounce
-                        chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
-                            function () {
-                                chartInfo.chartparam.luckysheetCurrentChartMove = true;
-                            },
-                            100
-                        );
-                    }
+                //允许拖动渲染框
+                if (
+                    !$(e.target).is(".luckysheet-modal-dialog-controll") &&
+                    !$(e.target).is(".luckysheet-modal-controll-btn") &&
+                    !$(e.target).is("i")
+                ) {
+                    // Debounce
+                    chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
+                        function () {
+                            chartInfo.chartparam.luckysheetCurrentChartMove = true;
+                        },
+                        100
+                    );
+                }
 
-                    var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
-                    var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
-                    //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
-                    chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
-                        e.pageX - toffset.left,
-                        e.pageY - toffset.top,
-                        tpsition.left,
-                        tpsition.top,
-                        $("#luckysheet-scrollbar-x").scrollLeft(),
-                        $("#luckysheet-scrollbar-y").scrollTop()
-                    ];
-                    chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollHeight;
-                    chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollWidth;
+                var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
+                var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
+                //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
+                chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
+                    e.pageX - toffset.left,
+                    e.pageY - toffset.top,
+                    tpsition.left,
+                    tpsition.top,
+                    $("#luckysheet-scrollbar-x").scrollLeft(),
+                    $("#luckysheet-scrollbar-y").scrollTop()
+                ];
+                chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
+                    "#luckysheet-cell-main"
+                )[0].scrollHeight;
+                chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
+                    "#luckysheet-cell-main"
+                )[0].scrollWidth;
 
-                    if (
-                        !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
-                        $(e.target).filter("[class*='sp-palette']").length == 0 &&
-                        $(e.target).filter("[class*='sp-thumb']").length == 0 &&
-                        $(e.target).filter("[class*='sp-']").length == 0
-                    ) {
-                        $("#luckysheet-rightclick-menu").hide();
-                        $("#luckysheet-cols-h-hover").hide();
-                        $("#luckysheet-cols-menu-btn").hide();
-                        $("#luckysheet-rightclick-menu").hide();
-                        $(
-                            "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
-                        ).hide();
-                        $(
-                            "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
-                        ).hide();
-
-                    }
-
-                    e.stopPropagation();
+                if (
+                    !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
+                    $(e.target).filter("[class*='sp-palette']").length == 0 &&
+                    $(e.target).filter("[class*='sp-thumb']").length == 0 &&
+                    $(e.target).filter("[class*='sp-']").length == 0
+                ) {
+                    $("#luckysheet-rightclick-menu").hide();
+                    $("#luckysheet-cols-h-hover").hide();
+                    $("#luckysheet-cols-menu-btn").hide();
+                    $("#luckysheet-rightclick-menu").hide();
+                    $(
+                        "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
+                    ).hide();
+                    $(
+                        "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
+                    ).hide();
 
                 }
 
-            }).find(".luckysheet-modal-dialog-resize-item")
+                e.stopPropagation();
+
+            }
+
+        }).find(".luckysheet-modal-dialog-resize-item")
             .mousedown(function (e) {
                 if (chartInfo.chartparam.luckysheetCurrentChartActive) {
                     chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
@@ -478,7 +477,7 @@ function chart_selection() {
             var y = mouse[1] + scrollTop
 
             var winH =
-                $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+                    $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
                 winW = $(window).width() + scrollLeft
 
             var rowLocation = _rowLocation(y),
@@ -759,7 +758,7 @@ function chart_selection() {
             var y = mouse[1] + scrollTop
 
             var winH =
-                $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+                    $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
                 winW = $(window).width() + scrollLeft
 
             var rowLocation = _rowLocation(y),
@@ -1342,17 +1341,17 @@ function createLuckyChart(width, height, left, top) {
  * @param {JQuery} $container 图表的容器DIV
  */
 function setChartMoveableEffect($container) {
-  $container.find('.luckysheet-modal-dialog-content').hover(function () {
-    $container.removeClass("chart-moveable");
-  }, function () {
-    $container.addClass("chart-moveable");
-  });
+    $container.find('.luckysheet-modal-dialog-content').hover(function () {
+        $container.removeClass("chart-moveable");
+    }, function () {
+        $container.addClass("chart-moveable");
+    });
 
-  $container.hover(function () {
-    $container.addClass("chart-moveable");
-  }, function () {
-    $container.removeClass("chart-moveable");
-  });
+    $container.hover(function () {
+        $container.addClass("chart-moveable");
+    }, function () {
+        $container.removeClass("chart-moveable");
+    });
 }
 
 // delete chart

@@ -2884,8 +2884,6 @@ export function setSingleRangeFormat(attr, value, options = {}) {
 
     for (let r = range.row[0]; r <= range.row[1]; r++) {
         for (let c = range.column[0]; c <= range.column[1]; c++) {
-            console.log('r',r);
-            console.log('c',c);
             setCellValue(r, c, {[attr]: value}, {
                 order: order,
                 isRefresh: false,
@@ -4703,7 +4701,6 @@ export function matrixOperation(type, options = {}) {
             break;
         case 'newMatrix':
             // TODO
-            console.log("TODO")
             break;
     }
     editor.controlHandler(arr, range)

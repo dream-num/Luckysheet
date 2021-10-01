@@ -955,7 +955,6 @@ const luckysheetPostil = {
     },
     htmlEscape: function(text){
         return text.replace(/[<>"&]/g, function(match, pos, originalText){
-            console.log(match, pos, originalText)
             switch(match){
                 case '<': {
                     return '&lt';

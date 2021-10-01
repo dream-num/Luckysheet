@@ -845,7 +845,6 @@ function defineBasicReactive(obj, key, value, callback) {
       },
       set(newValue) {
         if (value === newValue) return
-        console.log(`发现 ${key} 属性 ${value} -> ${newValue}`)
 
         setTimeout(() => {
             callback(value,newValue);

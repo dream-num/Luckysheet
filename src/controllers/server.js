@@ -155,9 +155,6 @@ const server = {
                 }
             } else {
                 customImageUpdate(customImageUpdateMethodConfig.method, customImageUpdateMethodConfig.url, d)
-                    .then((data) => {
-                        console.log(data);
-                    })
                     .catch((err) => {
                         console.log(err);
                     });

@@ -575,7 +575,6 @@ function getCellTextInfo(cell , ctx, option){
                 }
 
                 textH_all_Column[colIndex].push(item);
-                console.log("normal",i,colIndex,shareCell, preShareCell, textH_all_Column);
                 preShareCell = shareCell;
 
             }
@@ -818,7 +817,6 @@ function getCellTextInfo(cell , ctx, option){
 
                     if(rt!=0){//rotate
                         // console.log("all",anchor, i , str);
-                        console.log(height,space_height, cellHeight, shareCells,(height+space_height)>cellHeight);
                         if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && tb=="2" && i!= inlineStringArr.length){
                             // console.log("cut",anchor, i , str);
 

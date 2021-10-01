@@ -51,6 +51,7 @@
     "vuex": "^3.6.2"
   },
   "scripts": {
+    "prod": "cross-env NODE_ENV=production gulp prod",
     "build": "cross-env NODE_ENV=production gulp build",
     "dev": "cross-env NODE_ENV=development gulp dev",
     "docs:dev": "vuepress dev docs",

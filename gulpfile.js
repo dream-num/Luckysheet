@@ -125,6 +125,11 @@ const paths = {
     dist: 'dist',
 };
 
+gulp.task('fonts', function() {
+    gulp.src('node_modules/element-ui/lib/theme-chalk/fonts/*{ttf,woff,woff2,svg,eot}')
+        .pipe(gulp.dest('./build/src/fonts/'))
+});
+
 // Clear the dist directory
 function clean() {
     return del([paths.dist]);
@@ -226,25 +231,29 @@ async function core() {
         minify: production,
         banner: { js: banner },
         target: ['es2015'],
-        sourcemap: true,
+        // sourcemap: true,
         outfile: 'dist/luckysheet.umd.js',
+        loader: { 
+            '.ttf': 'file',
+            '.woff': 'file',
+        },
         logLevel: 'error',
       })
 
-    if(production){
-        await require('esbuild').buildSync({
-            format: 'esm',
-            globalName: 'luckysheet',
-            entryPoints: ['src/index.js'],
-            bundle: true,
-            minify: production,
-            banner: { js: banner },
-            target: ['es2015'],
-            sourcemap: true,
-            outfile: 'dist/luckysheet.esm.js',
-            logLevel: 'error',
-        })
-    }
+    // if(production){
+    //     await require('esbuild').buildSync({
+    //         format: 'esm',
+    //         globalName: 'luckysheet',
+    //         entryPoints: ['src/index.js'],
+    //         bundle: true,
+    //         minify: production,
+    //         banner: { js: banner },
+    //         target: ['es2015'],
+    //         sourcemap: true,
+    //         outfile: 'dist/luckysheet.esm.js',
+    //         logLevel: 'error',
+    //     })
+    // }
 }
 
 // According to the build tag in html, package js and css
@@ -264,10 +273,23 @@ function plugins() {
 }
 
 function css() {
-    return  src(paths.css)
+    return src(paths.css)
         .pipe(concat(paths.concatCss))
         .pipe(gulpif(production, cleanCSS()))
         .pipe(dest(paths.destCss));
+}
+
+function cssFonts() {
+    return src('node_modules/element-ui/lib/theme-chalk/fonts/*.{ttf,woff,woff2,svg,eot}', { read: false })
+        .pipe(gulpFont({
+            ext: '.css',
+            fontface: 'fonts',
+            relative: '/fonts',
+            dest: 'dist/fonts',
+            embed: ['woff', 'ttf'],
+            collate: false
+        }))
+        .pipe(dest('dist/fonts'));
 }
 
 function pluginsJs() {
@@ -313,7 +335,9 @@ function copyStaticCssImages(){
 
 const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
 const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
+const prod = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticCssImages, core));
 
 exports.dev = dev;
 exports.build = build;
+exports.prod = prod;
 exports.default = dev;

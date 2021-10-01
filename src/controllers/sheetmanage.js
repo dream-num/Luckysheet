@@ -947,7 +947,7 @@ const sheetmanage = {
                 });
             } catch(e) {
                 ini();
-                console.log("缓存操作失败");
+                console.log("Cache operation failed");
             }
         }, 1);
     },
