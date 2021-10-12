@@ -94,7 +94,7 @@ const paths = {
     plugins: ['src/plugins/*.css'],
     css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
-        'node_modules/jquery/dist/jquery.min.js',
+        // 'node_modules/jquery/dist/jquery.min.js',
         // 'node_modules/uuid/dist/umd/uuid.min.js',
         // 'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
@@ -124,11 +124,6 @@ const paths = {
     // Package directory
     dist: 'dist',
 };
-
-gulp.task('fonts', function() {
-    gulp.src('node_modules/element-ui/lib/theme-chalk/fonts/*{ttf,woff,woff2,svg,eot}')
-        .pipe(gulp.dest('./build/src/fonts/'))
-});
 
 // Clear the dist directory
 function clean() {
@@ -335,7 +330,7 @@ function copyStaticCssImages(){
 
 const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
 const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
-const prod = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticCssImages, core));
+const prod = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticCssImages, core));
 
 exports.dev = dev;
 exports.build = build;

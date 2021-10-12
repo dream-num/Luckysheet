@@ -1,122 +1,101 @@
-import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
-import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
-import { getdatabyselection, getcellvalue } from '../../global/getdata';
+import {arrayRemoveItem} from '../../utils/util'
+import {generateRandomKey, replaceHtml} from '../../utils/chartUtil'
+import {getdatabyselection, getcellvalue} from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
-import { luckysheet_getcelldata } from '../../function/func';
-import { getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow } from '../../methods/get'
-import { rowLocation, colLocation, mouseposition } from '../../global/location'
-import { setluckysheet_scroll_status } from '../../methods/set'
-import {
-    luckysheetMoveHighlightCell,
-    luckysheetMoveHighlightCell2,
-    luckysheetMoveHighlightRange,
-    luckysheetMoveHighlightRange2,
-    luckysheetMoveEndCell
-} from '../../controllers/sheetMove';
-import { isEditMode } from '../../global/validate';
+import {luckysheet_getcelldata} from '../../function/func';
+import {getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow} from '../../methods/get'
+import {rowLocation, colLocation, mouseposition} from '../../global/location'
+import {setluckysheet_scroll_status} from '../../methods/set'
+import {luckysheetMoveHighlightRange2, luckysheetMoveEndCell} from '../../controllers/sheetMove';
+import {isEditMode} from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
-import "element-ui/lib/theme-chalk/index.css";
+import './umd/chartmix.css';
+import chartmix from './umd/chartmix.umd';
+
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
-// Dynamically load dependent scripts and styles
-const dependScripts = [
-    'https://cdn.jsdelivr.net/npm/vue@2.6.11',
-    'https://unpkg.com/vuex@3.4.0',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.min.js',
-    // 'http://26.26.26.1:8000/chartmix.umd.js'
-]
-
-const dependLinks = [
-    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css',
-    // 'http://26.26.26.1:8000/chartmix.css'
-]
-
 // Initialize the chart component
 function chart(data, isDemo) {
-    loadLinks(dependLinks);
+    let outDom = document.getElementsByTagName('body')[0]
+    chartmix.install({ dom: outDom, lang: chartInfo.lang })
 
-    seriesLoadScripts(dependScripts, null, function () {
-        const store = new Vuex.Store()
-        console.info('chartmix::', chartmix.default)
+    $('.chartSetting').css({
+        top: '1px',
+        bottom: '1px',
+        position: 'absolute',
+        right: '0px',
+        width: '350px',
+        background: '#fff',
 
-        Vue.use(chartmix.default, { store })
-        let outDom = document.getElementsByTagName('body')[0]
-        chartmix.default.initChart(outDom, chartInfo.lang)
+        border: '1px solid #E5E5E5',
+        'z-index': 1004,
+        'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-webkit-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-moz-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-moz-user-select': 'none',
+        '-khtml-user-select': 'none',
+        '-webkit-user-select': 'none',
+        '-ms-user-select': 'none',
+        'user-select': 'none',
+        'padding-left': '30px',
+        display: 'none'
+    })
 
-        $('.chartSetting').css({
-            top: '1px',
-            bottom: '1px',
-            position: 'absolute',
-            right: '0px',
-            width: '350px',
-            background: '#fff',
+    chartInfo.createChart = chartmix.createChart
+    chartInfo.highlightChart = chartmix.highlightChart
+    chartInfo.deleteChart = chartmix.deleteChart
+    chartInfo.resizeChart = chartmix.resizeChart
+    chartInfo.changeChartRange = chartmix.changeChartRange
+    chartInfo.changeChartCellData = chartmix.changeChartCellData
+    chartInfo.getChartJson = chartmix.getChartJson
+    chartInfo.chart_selection = chart_selection()
+    chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
+    chartInfo.chartparam.changeChartCellData = chartmix.changeChartCellData
+    chartInfo.chartparam.renderChart = chartmix.renderChart
+    chartInfo.chartparam.getChartJson = chartmix.getChartJson
+    chartInfo.chartparam.insertToStore = chartmix.insertToStore
 
-            border: '1px solid #E5E5E5',
-            'z-index': 1004,
-            'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-webkit-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-moz-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-moz-user-select': 'none',
-            '-khtml-user-select': 'none',
-            '-webkit-user-select': 'none',
-            '-ms-user-select': 'none',
-            'user-select': 'none',
-            'padding-left': '30px',
-            display: 'none'
-        })
-
-
-        chartInfo.createChart = chartmix.default.createChart
-        chartInfo.highlightChart = chartmix.default.highlightChart
-        chartInfo.deleteChart = chartmix.default.deleteChart
-        chartInfo.resizeChart = chartmix.default.resizeChart
-        chartInfo.changeChartRange = chartmix.default.changeChartRange
-        chartInfo.changeChartCellData = chartmix.default.changeChartCellData
-        chartInfo.getChartJson = chartmix.default.getChartJson
-        chartInfo.chart_selection = chart_selection()
-        chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
-        chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData
-        chartInfo.chartparam.renderChart = chartmix.default.renderChart
-        chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
-        chartInfo.chartparam.insertToStore = chartmix.default.insertToStore
-
-        // Initialize the rendering chart
-        for (let i = 0; i < data.length; i++) {
-            // if (data[i].status == '1') {
+    // Initialize the rendering chart
+    for (let i = 0; i < data.length; i++) {
+        // if (data[i].status == '1') {
+        try {
             renderCharts(data[i].chart, isDemo)
-            // }
+        } catch (e) {
+            console.error(e);
         }
+        // }
+    }
 
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].status == '1') {
-                renderChartShow(data[i].index)
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].status == '1') {
+            try {
+                renderChartShow(data[i].index);
+            } catch (e) {
+                console.error(e);
             }
         }
+    }
 
-        // After the chart is loaded, mark it
-        arrayRemoveItem(chartInfo.asyncLoad,'chart');
+    // After the chart is loaded, mark it
+    arrayRemoveItem(chartInfo.asyncLoad, 'chart');
 
-    });
 }
 
 // rendercharts
 function renderCharts(chartLists, isDemo) {
 
     // no chart
-    if(chartLists == undefined){
+    if (chartLists == undefined) {
         return;
     }
-
+          co
     for (let i = 0; i < chartLists.length; i++) {
         let chart = chartLists[i]
 
         if (isDemo) {
-            chartInfo.chartparam.insertToStore({ chart_id: chart.chart_id, chartOptions: chart.chartOptions })
+            chartInfo.chartparam.insertToStore({chart_id: chart.chart_id, chartOptions: chart.chartOptions})
         }
 
         let chart_id = chart.chart_id
@@ -128,7 +107,7 @@ function renderCharts(chartLists, isDemo) {
             replaceHtml(modelChartShowHTML, {
                 id: chart_id_c,
                 addclass: 'luckysheet-data-visualization-chart',
-                title: '图表生成',
+                title: 'Creating chart',
                 content: ''
             })
         ).appendTo($('.luckysheet-cell-main'))
@@ -143,7 +122,7 @@ function renderCharts(chartLists, isDemo) {
         let chart_json
         chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
 
-        chartInfo.chartparam.renderChart({ chart_id: chart.chart_id, chartOptions: chart_json })
+        chartInfo.chartparam.renderChart({chart_id: chart.chart_id, chartOptions: chart_json})
         chartInfo.currentChart = chart_json
 
         //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
@@ -550,7 +529,7 @@ function chart_selection() {
 
                 //更新
                 if (rangeRowCheck.exits && rangeColCheck.exits) {
-                    chart_json.rangeArray = [{ row: [st_r, row_e], column: [st_c, col_e] }]
+                    chart_json.rangeArray = [{row: [st_r, row_e], column: [st_c, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
                         column: [st_c, col_e]
@@ -571,7 +550,7 @@ function chart_selection() {
                         column: chart_json.rangeSplitArray.coltitle.column
                     }
                 } else if (rangeRowCheck.exits) {
-                    chart_json.rangeArray = [{ row: [st_r, row_e], column: [col_s, col_e] }]
+                    chart_json.rangeArray = [{row: [st_r, row_e], column: [col_s, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
                         column: [col_s, col_e]
@@ -582,7 +561,7 @@ function chart_selection() {
                         column: chart_json.rangeSplitArray.content.column
                     }
                 } else if (rangeColCheck.exits) {
-                    chart_json.rangeArray = [{ row: [row_s, row_e], column: [st_c, col_e] }]
+                    chart_json.rangeArray = [{row: [row_s, row_e], column: [st_c, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
                         column: [st_c, col_e]
@@ -594,7 +573,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [row_s, row_e], column: [col_s, col_e] }
+                        {row: [row_s, row_e], column: [col_s, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
@@ -635,7 +614,7 @@ function chart_selection() {
                 //更新
                 if (rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [st_c, col_e] }
+                        {row: chart_json.rangeArray[0].row, column: [st_c, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -652,7 +631,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [col_s, col_e] }
+                        {row: chart_json.rangeArray[0].row, column: [col_s, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -692,7 +671,7 @@ function chart_selection() {
 
                 if (rangeRowCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [st_r, row_e], column: chart_json.rangeArray[0].column }
+                        {row: [st_r, row_e], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
@@ -709,7 +688,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [row_s, row_e], column: chart_json.rangeArray[0].column }
+                        {row: [row_s, row_e], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
@@ -858,7 +837,7 @@ function chart_selection() {
 
                 if (!rangeRowCheck.exits && !rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [obj_r1, obj_r2], column: [obj_c1, obj_c2] }
+                        {row: [obj_r1, obj_r2], column: [obj_c1, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [obj_r1, obj_r2],
@@ -866,7 +845,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [st_r, obj_r2], column: [st_c, obj_c2] }
+                        {row: [st_r, obj_r2], column: [st_c, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, obj_r2],
@@ -941,7 +920,7 @@ function chart_selection() {
                 //更新
                 if (!rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2] }
+                        {row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -949,7 +928,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [st_c, obj_c2] }
+                        {row: chart_json.rangeArray[0].row, column: [st_c, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -1014,7 +993,7 @@ function chart_selection() {
                 //更新
                 if (!rangeRowCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column }
+                        {row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [obj_r1, obj_r2],
@@ -1022,7 +1001,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [st_r, obj_r2], column: chart_json.rangeArray[0].column }
+                        {row: [st_r, obj_r2], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, obj_r2],
@@ -1110,7 +1089,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["row"] = [shiftpositon_row, shiftpositon_row];
-    jfgird_select_save[0].row_focus =shiftpositon_row;
+    jfgird_select_save[0].row_focus = shiftpositon_row;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);
@@ -1155,15 +1134,9 @@ function createLuckyChart(width, height, left, top) {
     jfgird_select_save = luckysheet.getluckysheet_select_save()
 
     var rangeArray = $.extend(true, [], jfgird_select_save);
-
     var rangeTxt = getRangetxt(chartInfo.currentSheetIndex, rangeArray[0], chartInfo.currentSheetIndex)
-
-
     let chartData = getdatabyselection()
-    console.dir(chartData)
-
     let chart_id = generateRandomKey('chart')
-
     let chart_id_c = chart_id + '_c'
 
     let modelChartShowHTML =
@@ -1180,9 +1153,11 @@ function createLuckyChart(width, height, left, top) {
 
     let container = document.getElementById(chart_id_c)
 
-    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
+    let {
+        render,
+        chart_json
+    } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
     // chartInfo.currentChart = chart_json.chartOptions
-    console.dir(JSON.stringify(chart_json))
 
     width = width ? width : 400
     height = height ? height : 250
@@ -1391,6 +1366,7 @@ function showNeedRangeShow(chart_id) {
     //操作DOM当前图表选择区域高亮
     selectRangeBorderShow(chart_id)
 }
+
 //隐藏当前sheet所有的图表高亮区域
 function hideAllNeedRangeShow() {
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
@@ -1539,4 +1515,4 @@ function renderChartShow(index) {
 
 }
 
-export { chart, createLuckyChart, hideAllNeedRangeShow, renderChartShow }
+export {chart, createLuckyChart, hideAllNeedRangeShow, renderChartShow}
