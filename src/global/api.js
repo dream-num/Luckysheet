@@ -5834,7 +5834,8 @@ export function redo(options = {}) {
  * 返回所有工作表配置
  */
 export function getAllSheets() {
-    let data = $.extend(true, [], Store.luckysheetfile);
+    const file = getluckysheetfile()
+    let data = $.extend(true, [], file);
 
     data.forEach((item, index, arr) => {
         if(item.data != null && item.data.length > 0){

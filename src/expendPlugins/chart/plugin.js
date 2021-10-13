@@ -19,7 +19,7 @@ let _colLocation = colLocation
 // Initialize the chart component
 function chart(data, isDemo) {
     let outDom = document.getElementsByTagName('body')[0]
-    chartmix.install({ dom: outDom, lang: chartInfo.lang })
+    chartmix.install({dom: outDom, lang: chartInfo.lang})
 
     $('.chartSetting').css({
         top: '1px',
@@ -58,70 +58,69 @@ function chart(data, isDemo) {
     chartInfo.chartparam.insertToStore = chartmix.insertToStore
 
     // Initialize the rendering chart
-    for (let i = 0; i < data.length; i++) {
-        // if (data[i].status == '1') {
-        try {
-            renderCharts(data[i].chart, isDemo)
-        } catch (e) {
-            console.error(e);
-        }
-        // }
-    }
-
-    for (let i = 0; i < data.length; i++) {
-        if (data[i].status == '1') {
+    setTimeout(() => {
+        for (let i = 0; i < data.length; i++) {
+            // if (data[i].status == '1') {
             try {
-                renderChartShow(data[i].index);
+                renderCharts(data[i].chart, isDemo)
             } catch (e) {
                 console.error(e);
             }
+            // }
         }
-    }
 
-    // After the chart is loaded, mark it
-    arrayRemoveItem(chartInfo.asyncLoad, 'chart');
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].status == '1') {
+                try {
+                    renderChartShow(data[i].index);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        }
 
+        // After the chart is loaded, mark it
+        arrayRemoveItem(chartInfo.asyncLoad, 'chart');
+    }, 10);
 }
 
 // rendercharts
-function renderCharts(chartLists, isDemo) {
-
+function renderCharts(chartLists) {
     // no chart
     if (chartLists == undefined) {
         return;
     }
-          co
+
     for (let i = 0; i < chartLists.length; i++) {
         let chart = chartLists[i]
 
-        if (isDemo) {
-            chartInfo.chartparam.insertToStore({chart_id: chart.chart_id, chartOptions: chart.chartOptions})
-        }
+        chartInfo.chartparam.insertToStore({chart_id: chart.chart_id, chartOptions: chart.chartOptions})
 
         let chart_id = chart.chart_id
         let chart_id_c = chart_id + '_c'
         let modelChartShowHTML =
-            '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
+            `<div id="${chart_id_c}" class="luckysheet-modal-dialog luckysheet-modal-dialog-chart luckysheet-data-visualization-chart" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> 
+            <div class="luckysheet-modal-dialog-resize"> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt" data-type="lt"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt" data-type="mt"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm" data-type="lm"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm" data-type="rm"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt" data-type="rt"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb" data-type="lb"></div>
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb" data-type="mb"></div> 
+            <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb" data-type="rb"></div> 
+            </div><div class="luckysheet-modal-dialog-controll"> 
+            <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update" role="button" tabindex="0" aria-label="Modify the chart" title="Modify the chart"><i class="fa fa-pencil" aria-hidden="true"></i></span> 
+            <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max" role="butluckysheet_chartIns_indexton" tabindex="0" aria-label="Maximize" title="Maximize"><i class="fa fa-window-maximize" aria-hidden="true"></i></span> 
+            <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del" role="button" tabindex="0" aria-label="Delete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></span> 
+            </div><div class="luckysheet-modal-dialog-content" id="${chart_id}"></div></div>`
 
-        let $t = $(
-            replaceHtml(modelChartShowHTML, {
-                id: chart_id_c,
-                addclass: 'luckysheet-data-visualization-chart',
-                title: 'Creating chart',
-                content: ''
-            })
-        ).appendTo($('.luckysheet-cell-main'))
-
+        let $t = $(modelChartShowHTML)
+        $t.appendTo($('.luckysheet-cell-main'))
         setChartMoveableEffect($t);
 
-        $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
-
-        let container = document.getElementById(chart_id_c)
-
-
-        let chart_json
-        chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
-
+        let container = $t[0]
+        let chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
         chartInfo.chartparam.renderChart({chart_id: chart.chart_id, chartOptions: chart_json})
         chartInfo.currentChart = chart_json
 
@@ -311,7 +310,7 @@ function chart_selection() {
         create: function () {
             var chart_json = chartInfo.currentChart
 
-            if (chart_json.rangeArray.length > 1) {
+            if (!chart_json || chart_json.rangeArray.length > 1) {
                 return
             }
 
