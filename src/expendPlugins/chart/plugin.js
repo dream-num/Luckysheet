@@ -101,6 +101,7 @@ function renderCharts(chartLists) {
         let chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
         chartInfo.chartparam.renderChart({chart_id: chart.chart_id, chartOptions: chart_json})
         chartInfo.currentChart = chart_json
+        chartInfo.currentSheetChart = chart
 
         let width = chart.width
         let height = chart.height
@@ -1061,6 +1062,7 @@ function showNeedRangeShow(chart_id) {
             chartLists[chartId].needRangeShow = true;
 
             chartInfo.currentChart = chartInfo.getChartJson(chart_id)
+            chartInfo.currentSheetChart = chartLists[chartId]
         }
         // }
     }
@@ -1189,6 +1191,7 @@ function renderChartShow(index) {
                     //一个sheet页只有一个图表高亮显示,//重要！因为在store了做了存储，所以能在此处找到对应图表设置显示隐藏
                     //操作DOM当前图表选择区域高亮
                     chartInfo.currentChart = chartInfo.getChartJson(chart.chart_id)
+                    chartInfo.currentSheetChart = chart
                     selectRangeBorderShow(chart.chart_id)
                 }
             })
@@ -1276,13 +1279,13 @@ function initChart($t, container, chart_id, width, height, left, top) {
             }
 
             var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
-            var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
+            var tposition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
             //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
             chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
                 e.pageX - toffset.left,
                 e.pageY - toffset.top,
-                tpsition.left,
-                tpsition.top,
+                tposition.left,
+                tposition.top,
                 $("#luckysheet-scrollbar-x").scrollLeft(),
                 $("#luckysheet-scrollbar-y").scrollTop()
             ];
@@ -1302,7 +1305,6 @@ function initChart($t, container, chart_id, width, height, left, top) {
                 $("#luckysheet-rightclick-menu").hide();
                 $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu").hide();
                 $("body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu").hide();
-
             }
 
             e.stopPropagation();

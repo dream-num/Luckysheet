@@ -2461,6 +2461,8 @@ export default function luckysheetHandler() {
                     }
 
                     Store.chartparam.luckysheetCurrentChartMoveObj.css({ "top": top, "left": left });
+                    Store.currentSheetChart.top = top
+                    Store.currentSheetChart.left = left
 
                     if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
                         luckysheetFreezen.scrollAdapt();
@@ -2536,6 +2538,10 @@ export default function luckysheetHandler() {
                     Store.chartparam.luckysheetCurrentChartResizeObj.css(resizedata);
                     // resize chart
                     Store.resizeChart(Store.chartparam.luckysheetCurrentChart)
+                    Store.currentSheetChart.top = top
+                    Store.currentSheetChart.left = left
+                    Store.currentSheetChart.height = height
+                    Store.currentSheetChart.width = width
                 }
                 //image move
                 else if (imageCtrl.move) {
