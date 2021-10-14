@@ -9792,6 +9792,7 @@ export default {
         tooltipInfo5: 'The text content cannot be empty',
         tooltipInfo6: 'The value entered is not a date type',
         tooltipInfo7: 'Date 2 cannot be less than date 1',
+        textlengthInteger: 'Text length must be an integer greater than or equal to 0',
     },
     formula:{
         sum:"Sum",

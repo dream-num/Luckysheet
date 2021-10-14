@@ -10020,6 +10020,7 @@ export default {
         tooltipInfo5: '文本内容不能为空',
         tooltipInfo6: '输入的值不是日期类型',
         tooltipInfo7: '日期2不能小于日期1',
+        textlengthInteger: '文本长度必须是大于等于0的整数',
     },
     formula:{
         sum:"求和",
