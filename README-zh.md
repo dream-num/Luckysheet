@@ -4,12 +4,12 @@
 
 </div>
 
+# Luckysheet 3.x 目前正在使用Typescript重构
+
 简体中文 | [English](./README.md)
 
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
-
-> Luckysheet 3.x 目前正在使用Typescript重构。
 
 ## 相关链接
  | 源码   | 文档 | Demo | 插件Demo | 论坛 |
