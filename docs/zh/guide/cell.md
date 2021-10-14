@@ -74,6 +74,13 @@
         <td>Style.Font object's Underline property</td>
     </tr>
     <tr>
+        <td>un</td>
+        <td>underline</td>
+        <td>下划线</td>
+        <td>0 无 、 1 有</td>
+        <td></td>
+    </tr>
+    <tr>
         <td>vt</td>
         <td>verticaltype</td>
         <td>垂直对齐</td>
