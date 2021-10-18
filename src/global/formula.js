@@ -5715,7 +5715,7 @@ const luckysheetformula = {
                 updateValue.v = item.v;
                 updateValue.f = item.f;
                 setcellvalue(item.r, item.c, data, updateValue);
-                server.saveParam("v", item.index, item.v, {
+                server.saveParam("v", item.index, data[item.r][item.c], {
                     "r": item.r,
                     "c": item.c
                 });
