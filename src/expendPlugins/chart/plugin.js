@@ -26,7 +26,7 @@ function chart(data, isDemo) {
         bottom: '1px',
         position: 'absolute',
         right: '0px',
-        width: '350px',
+        width: '381px',
         background: '#fff',
 
         border: '1px solid #E5E5E5',
@@ -39,7 +39,6 @@ function chart(data, isDemo) {
         '-webkit-user-select': 'none',
         '-ms-user-select': 'none',
         'user-select': 'none',
-        'padding-left': '30px',
         display: 'none'
     })
 
@@ -1310,6 +1309,7 @@ function initChart($t, container, chart_id, width, height, left, top) {
             e.stopPropagation();
         }
     });
+    
     $t.find(".luckysheet-modal-dialog-resize-item").mousedown(function (e) {
         if (chartInfo.chartparam.luckysheetCurrentChartActive) {
             chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
