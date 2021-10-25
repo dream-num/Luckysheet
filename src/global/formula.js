@@ -721,6 +721,10 @@ const luckysheetformula = {
                     break;
                 }
             }
+            if (!sheetdata) {
+                console.log('sheetdata not found for sheettxt:', sheettxt)
+                return null
+            }
         }
         else {
             let i = formulaIndex;
@@ -4262,10 +4266,10 @@ const luckysheetformula = {
             for (let i = 0; i < calcChain.length; i++) {
                 let calc = calcChain[i];
                 if (calc.r == r && calc.c == c && calc.index == index) {
-                    server.saveParam("fc", index, JSON.stringify(calc), {
-                        "op": "update",
-                        "pos": i
-                    });
+                    // server.saveParam("fc", index, JSON.stringify(calc), {
+                    //     "op": "update",
+                    //     "pos": i
+                    // });
                     break;
                 }
             }
@@ -4295,10 +4299,10 @@ const luckysheetformula = {
         for (let i = 0; i < calcChain.length; i++) {
             let calc = calcChain[i];
             if (calc.r == r && calc.c == c && calc.index == index) {
-                server.saveParam("fc", index, JSON.stringify(calc), {
-                    "op": "update",
-                    "pos": i
-                });
+                // server.saveParam("fc", index, JSON.stringify(calc), {
+                //     "op": "update",
+                //     "pos": i
+                // });
                 return;
             }
         }
@@ -5715,10 +5719,10 @@ const luckysheetformula = {
                 updateValue.v = item.v;
                 updateValue.f = item.f;
                 setcellvalue(item.r, item.c, data, updateValue);
-                server.saveParam("v", item.index, data[item.r][item.c], {
-                    "r": item.r,
-                    "c": item.c
-                });
+                // server.saveParam("v", item.index, data[item.r][item.c], {
+                //     "r": item.r,
+                //     "c": item.c
+                // });
             }
 
             editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
@@ -5862,7 +5866,7 @@ const luckysheetformula = {
                 }
                 else if (!isRealNull(result.data)) {
                     //只有data长或宽大于1才可能是选区
-                    if (result.cell > 1 || result.rowl > 1) {
+                    if (result.cell >= 0 || result.rowl >= 0) {
                         result = result.data;
                     }
                     else//否则就是单个不为null的没有值v的单元格
