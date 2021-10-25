@@ -5631,13 +5631,17 @@ export default function luckysheetHandler() {
                 }
                 else {
                     txtdata = clipboardData.getData("text/plain");
+
                     let htmldata = formula.functionHTMLGenerate(txtdata)
                     let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                     let row_index = last["row_focus"], col_index = last["column_focus"];
                     luckysheetupdateCell(row_index, col_index, Store.flowdata);
                     $("#luckysheet-rich-text-editor").html(htmldata);
-                    $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());                }
+                    $("#luckysheet-functionbox-cell").html(htmldata);
                     formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
+
+                    luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
+                }
             }
         }
         else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
