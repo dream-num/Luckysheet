@@ -9149,10 +9149,10 @@ export default {
         { "text": 'Percent', "value": "#0.00%", "example": "12.21%" },
         { "text": 'Scientific', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": 'Accounting', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": 'Accounting', "value": "$(0.00)", "example": "$(1200.09)" },
 
 
-        { "text": 'Currency', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": 'Currency', "value": "$0.00", "example": "$1200.09" },
 
 
         { "text": "", "value": "split", "example": "" },
