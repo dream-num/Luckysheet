@@ -283,11 +283,11 @@ const luckysheetMoreFormat = {
             "pos": "after",
             "value": "Kč"
         }, {
-            "name": "津巴布韦元",
+            "name": "Zimbabwean Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "Zimbabwean Dollar",
+            "name": "Qatari Rial",
             "pos": "before",
             "value": "Rial"
         }, {
@@ -373,7 +373,7 @@ const luckysheetMoreFormat = {
         }, {
             "name": "Mongolian Tugrik",
             "pos": "before",
-            "value": "?"
+            "value": "₮"
         }, {
             "name": "Bangladeshi Taka",
             "pos": "before",
@@ -505,7 +505,7 @@ const luckysheetMoreFormat = {
         }, {
             "name": "Thai Baht",
             "pos": "before",
-            "value": "?"
+            "value": "฿"
         }, {
             "name": "Tanzanian Shilling",
             "pos": "before",
@@ -642,22 +642,59 @@ const luckysheetMoreFormat = {
     ],
     dateFmtList: [
         {
-            "name": "1930-08-05",
-            "value": "yyyy-MM-dd"
-        },        {
-            "name": "1930-08-05",
+            "name": "28.10.2021",
+            "value": "dd.MM.yyyy"
+        },
+        {
+            "name": "10/28/2021",
+            "value": "M/d/yyyy"
+        },
+        {
+            "name": "10/28/21",
+            "value": "M/d/yy"
+        },
+        {
+            "name": "2021-08-25",
             "value": "yyyy-MM-dd"
         },
         {
-            "name": "1930/8/5",
+            "name": "2021-08-25",
+            "value": "yyyy-MM-dd"
+        },
+        {
+            "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
         {
-            "name": "08-05",
+            "name": "28. 10. 2021.",
+            "value": "d. M. yyyy."
+        },
+        {
+            "name": "28-10-2021",
+            "value": "dd-MM-yyyy"
+        },
+        {
+            "name": "28-10-21",
+            "value": "dd-MM-yy"
+        },
+        {
+            "name": "28.10.21",
+            "value": "dd.MM.yy"
+        },
+        {
+            "name": "28/10/2021",
+            "value": "dd/MM/yyyy"
+        },
+        {
+            "name": "2021.08.25",
+            "value": "yyyy.MM.dd"
+        },
+        {
+            "name": "08-25",
             "value": "MM-dd"
         },
         {
-            "name": "8-5",
+            "name": "8-25",
             "value": "M-d"
         },
         {
@@ -669,7 +706,7 @@ const luckysheetMoreFormat = {
             "value": "h:mm"
         },
         {
-            "name": "08-05 01:30",
+            "name": "08-25 01:30",
             "value": "MM-dd hh:mm"
         }
     ],
@@ -789,7 +826,7 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.UnitedArabEmiratesDirham,'pos': 'before','value': 'dh'},
             {'name': currencyDetail.ArubanFlorin,'pos': 'before','value': 'Afl'},
             {'name': currencyDetail.OmaniRial,'pos': 'before','value': 'Rial'},
-            {'name': currencyDetail.Azerbaijanimanat,'pos': 'before','value': '?'},
+            {'name': currencyDetail.Azerbaijanimanat,'pos': 'before','value': '₼'},
             {'name': currencyDetail.EgyptianPound,'pos': 'before','value': '￡'},
             {'name': currencyDetail.EthiopianBirr,'pos': 'before','value': 'Birr'},
             {'name': currencyDetail.AngolaKwanza,'pos': 'before','value': 'Kz'},
@@ -808,33 +845,33 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.BulgarianLev,'pos': 'before','value': 'lev'},
             {'name': currencyDetail.IcelandKrona,'pos': 'before','value': 'kr'},
             {'name': currencyDetail.BosniaHerzegovinaConvertibleMark,'pos': 'before','value': 'KM'},
-            {'name': currencyDetail.PolishZloty,'pos': 'after','value': 'z?'},
+            {'name': currencyDetail.PolishZloty,'pos': 'after','value': 'zł.'},
             {'name': currencyDetail.Boliviano,'pos': 'before','value': 'Bs'},
             {'name': currencyDetail.BelizeDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.BotswanaPula,'pos': 'before','value': 'P'},
             {'name': currencyDetail.NotDannuzhamu,'pos': 'before','value': 'Nu'},
             {'name': currencyDetail.BurundiFranc,'pos': 'before','value': 'FBu'},
-            {'name': currencyDetail.NorthKoreanWon,'pos': 'before','value': '?KP'},
+            {'name': currencyDetail.NorthKoreanWon,'pos': 'before','value': '₩'},
             {'name': currencyDetail.DanishKrone,'pos': 'after','value': 'kr'},
             {'name': currencyDetail.EastCaribbeanDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.DominicaPeso,'pos': 'before','value': 'RD$'},
-            {'name': currencyDetail.RussianRuble,'pos': 'after','value': '?'},
+            {'name': currencyDetail.RussianRuble,'pos': 'after','value': '₽'},
             {'name': currencyDetail.EritreanNakfa,'pos': 'before','value': 'Nfk'},
             {'name': currencyDetail.CFAfranc,'pos': 'before','value': 'CFA'},
-            {'name': currencyDetail.PhilippinePeso,'pos': 'before','value': '?'},
+            {'name': currencyDetail.PhilippinePeso,'pos': 'before','value': '₱'},
             {'name': currencyDetail.FijiDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.CapeVerdeEscudo,'pos': 'before','value': 'CVE'},
             {'name': currencyDetail.FalklandIslandsPound,'pos': 'before','value': '￡'},
             {'name': currencyDetail.GambianDalasi,'pos': 'before','value': 'GMD'},
             {'name': currencyDetail.Congolesefranc,'pos': 'before','value': 'FrCD'},
             {'name': currencyDetail.ColombianPeso,'pos': 'before','value': '$'},
-            {'name': currencyDetail.CostaRicanColon,'pos': 'before','value': '?'},
+            {'name': currencyDetail.CostaRicanColon,'pos': 'before','value': '₡'},
             {'name': currencyDetail.CubanPeso,'pos': 'before','value': '$'},
             {'name': currencyDetail.Cubanconvertiblepeso,'pos': 'before','value': '$'},
             {'name': currencyDetail.GuyanaDollar,'pos': 'before','value': '$'},
-            {'name': currencyDetail.KazakhstanTenge,'pos': 'before','value': '?'},
+            {'name': currencyDetail.KazakhstanTenge,'pos': 'before','value': '₸'},
             {'name': currencyDetail.Haitiangourde,'pos': 'before','value': 'HTG'},
-            {'name': currencyDetail.won,'pos': 'before','value': '?'},
+            {'name': currencyDetail.won,'pos': 'before','value': '₩'},
             {'name': currencyDetail.NetherlandsAntillesGuilder,'pos': 'before','value': 'NAf.'},
             {'name': currencyDetail.Honduraslempiras,'pos': 'before','value': 'L'},
             {'name': currencyDetail.DjiboutiFranc,'pos': 'before','value': 'Fdj'},
@@ -843,7 +880,7 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.CanadianDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.GhanaianCedi,'pos': 'before','value': 'GHS'},
             {'name': currencyDetail.Cambodianriel,'pos': 'before','value': 'Riel'},
-            {'name': currencyDetail.CzechKoruna,'pos': 'after','value': 'K?'},
+            {'name': currencyDetail.CzechKoruna,'pos': 'after','value': 'Kč'},
             {'name': currencyDetail.ZimbabweDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.QatariRiyal,'pos': 'before','value': 'Rial'},
             {'name': currencyDetail.CaymanIslandsDollar,'pos': 'before','value': '$'},
@@ -852,7 +889,7 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.CroatianKuna,'pos': 'before','value': 'kn'},
             {'name': currencyDetail.KenyanShilling,'pos': 'before','value': 'Ksh'},
             {'name': currencyDetail.LesothoLoti,'pos': 'before','value': 'LSL'},
-            {'name': currencyDetail.LaoKip,'pos': 'before','value': '?'},
+            {'name': currencyDetail.LaoKip,'pos': 'before','value': '₭'},
             {'name': currencyDetail.LebanesePound,'pos': 'before','value': 'L￡'},
             {'name': currencyDetail.Lithuanianlitas,'pos': 'before','value': 'Lt'},
             {'name': currencyDetail.LibyanDinar,'pos': 'before','value': 'din'},
@@ -866,8 +903,8 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.MacedoniawearingDinar,'pos': 'before','value': 'din'},
             {'name': currencyDetail.MauritiusRupee,'pos': 'before','value': 'MURs'},
             {'name': currencyDetail.MauritanianOuguiya,'pos': 'before','value': 'MRO'},
-            {'name': currencyDetail.MongolianTugrik,'pos': 'before','value': '?'},
-            {'name': currencyDetail.BangladeshiTaka,'pos': 'before','value': '?'},
+            {'name': currencyDetail.MongolianTugrik,'pos': 'before','value': '₮'},
+            {'name': currencyDetail.BangladeshiTaka,'pos': 'before','value': 'ó'},
             {'name': currencyDetail.PeruvianNuevoSol,'pos': 'before','value': 'S/'},
             {'name': currencyDetail.MyanmarKyat,'pos': 'before','value': 'K'},
             {'name': currencyDetail.MoldovanLeu,'pos': 'before','value': 'MDL'},
@@ -879,7 +916,7 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.SouthSudanesePound,'pos': 'before','value': '￡'},
             {'name': currencyDetail.NicaraguaCordoba,'pos': 'before','value': 'C$'},
             {'name': currencyDetail.NepaleseRupee,'pos': 'before','value': 'Rs'},
-            {'name': currencyDetail.NigerianNaira,'pos': 'before','value': '?'},
+            {'name': currencyDetail.NigerianNaira,'pos': 'before','value': '₦'},
             {'name': currencyDetail.NorwegianKrone,'pos': 'after','value': 'kr'},
             {'name': currencyDetail.GeorgianLari,'pos': 'before','value': 'GEL'},
             {'name': currencyDetail.RenminbiOffshore,'pos': 'before','value': '￥'},
@@ -899,12 +936,12 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.SomaliShilling,'pos': 'before','value': 'SOS'},
             {'name': currencyDetail.TajikistanSomoni,'pos': 'before','value': 'Som'},
             {'name': currencyDetail.PacificFranc,'pos': 'after','value': 'FCFP'},
-            {'name': currencyDetail.ThaiBaht,'pos': 'before','value': '?'},
+            {'name': currencyDetail.ThaiBaht,'pos': 'before','value': '฿'},
             {'name': currencyDetail.TanzanianShilling,'pos': 'before','value': 'TSh'},
             {'name': currencyDetail.TonganPaanga,'pos': 'before','value': 'T$'},
             {'name': currencyDetail.TrinidadandTobagoDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.TunisianDinar,'pos': 'before','value': 'din'},
-            {'name': currencyDetail.TurkishLira,'pos': 'before','value': '?'},
+            {'name': currencyDetail.TurkishLira,'pos': 'before','value': '₺'},
             {'name': currencyDetail.VanuatuVatu,'pos': 'before','value': 'VUV'},
             {'name': currencyDetail.GuatemalanQuetzal,'pos': 'before','value': 'Q'},
             {'name': currencyDetail.CommissionBolivar,'pos': 'before','value': 'Bs'},
@@ -912,7 +949,7 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.UgandanShilling,'pos': 'before','value': 'UGX'},
             {'name': currencyDetail.UkrainianHryvnia,'pos': 'before','value': 'грн.'},
             {'name': currencyDetail.UruguayanPeso,'pos': 'before','value': '$'},
-            {'name': currencyDetail.Uzbekistansom,'pos': 'before','value': 'so?m'},
+            {'name': currencyDetail.Uzbekistansom,'pos': 'before','value': "So'm"},
             {'name': currencyDetail.WesternSamoaTala,'pos': 'before','value': 'WST'},
             {'name': currencyDetail.SingaporeDollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.NT,'pos': 'before','value': 'NT$'},
@@ -924,11 +961,11 @@ const luckysheetMoreFormat = {
             {'name': currencyDetail.YemeniRial,'pos': 'before','value': 'Rial'},
             {'name': currencyDetail.IraqiDinar,'pos': 'before','value': 'din'},
             {'name': currencyDetail.IranianRial,'pos': 'before','value': 'Rial'},
-            {'name': currencyDetail.NewIsraeliShekel,'pos': 'before','value': '?'},
-            {'name': currencyDetail.IndianRupee,'pos': 'before','value': '?'},
+            {'name': currencyDetail.NewIsraeliShekel,'pos': 'before','value': '₪'},
+            {'name': currencyDetail.IndianRupee,'pos': 'before','value': '₹'},
             {'name': currencyDetail.IndonesianRupiah,'pos': 'before','value': 'Rp'},
             {'name': currencyDetail.JordanianDinar,'pos': 'before','value': 'din'},
-            {'name': currencyDetail.VND,'pos': 'after','value': '?'},
+            {'name': currencyDetail.VND,'pos': 'after','value': '₫'},
             {'name': currencyDetail.ZambianKwacha,'pos': 'before','value': 'ZMW'},
             {'name': currencyDetail.GibraltarPound,'pos': 'before','value': '￡'},
             {'name': currencyDetail.ChileanPeso,'pos': 'before','value': '$'},
@@ -1146,10 +1183,10 @@ const luckysheetMoreFormat = {
 
                 if(decimal.toString() == "NaN" || decimal < 0 || decimal > 9){
                     if(isEditMode()){
-                        alert("小数位数必须在0-9之间！");
+                        alert("The number of decimal places must be between 0-9!");
                     }   
                     else{
-                        tooltip.info("小数位数必须在0-9之间！", "");
+                        tooltip.info("The number of decimal places must be between 0-9!", "");
                     }
 
                     return;
