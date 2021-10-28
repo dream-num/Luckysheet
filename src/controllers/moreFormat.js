@@ -11,631 +11,631 @@ import locale from '../locale/locale';
 const luckysheetMoreFormat = {
     moneyFmtList: [
         {
-            "name": "人民币",
-            "pos": "before",
-            "value": "¥"
-        }, {
-            "name": "美元",
+            "name": "Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "欧元",
+            "name": "EUR",
             "pos": "before",
             "value": "€"
         }, {
-            "name": "英镑",
+            "name": "Renminbi",
+            "pos": "before",
+            "value": "¥"
+        }, {
+            "name": "GBP",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "港元",
+            "name": "Hong Kong dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "日元",
+            "name": "JPY",
             "pos": "before",
             "value": "￥"
         }, {
-            "name": "阿尔巴尼亚列克",
+            "name": "Albanian Lek",
             "pos": "before",
             "value": "Lek"
         }, {
-            "name": "阿尔及利亚第纳尔",
+            "name": "Algerian Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "阿富汗尼",
+            "name": "Afghani",
             "pos": "after",
             "value": "Af"
         }, {
-            "name": "阿根廷比索",
+            "name": "Argentine Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "阿拉伯联合酋长国迪拉姆",
+            "name": "United Arab Emirates Dirham",
             "pos": "before",
             "value": "dh"
         }, {
-            "name": "阿鲁巴弗罗林",
+            "name": "Aruban Florin",
             "pos": "before",
             "value": "Afl"
         }, {
-            "name": "阿曼里亚尔",
+            "name": "Omani Rial",
             "pos": "before",
             "value": "Rial"
         }, {
-            "name": "阿塞拜疆马纳特",
+            "name": "Azerbaijani Manat",
             "pos": "before",
-            "value": "?"
+            "value": "₼"
         }, {
-            "name": "埃及镑",
+            "name": "Egyptian Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "埃塞俄比亚比尔",
+            "name": "Ethiopian Birr",
             "pos": "before",
             "value": "Birr"
         }, {
-            "name": "安哥拉宽扎",
+            "name": "Angolan Kwanza",
             "pos": "before",
             "value": "Kz"
         }, {
-            "name": "澳大利亚元",
+            "name": "Australian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "澳门元",
+            "name": "Macau Pataca",
             "pos": "before",
             "value": "MOP"
         }, {
-            "name": "巴巴多斯元",
+            "name": "Barbadian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "巴布亚新几内亚基那",
+            "name": "Papua New Guinea Kina",
             "pos": "before",
             "value": "PGK"
         }, {
-            "name": "巴哈马元",
+            "name": "Bahamian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "巴基斯坦卢比",
+            "name": "Pakistani Rupee",
             "pos": "before",
             "value": "Rs"
         }, {
-            "name": "巴拉圭瓜拉尼",
+            "name": "Paraguayan Guarani",
             "pos": "after",
             "value": "Gs"
         }, {
-            "name": "巴林第纳尔",
+            "name": "Bahraini Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "巴拿马巴波亚",
+            "name": "Panamanian Balboa",
             "pos": "before",
             "value": "B/"
         }, {
-            "name": "巴西里亚伊",
+            "name": "Brasiliai",
             "pos": "before",
             "value": "R$"
         }, {
-            "name": "白俄罗斯卢布",
+            "name": "Belarusian Ruble",
             "pos": "after",
             "value": "р"
         }, {
-            "name": "百慕大元",
+            "name": "Bermudian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "保加利亚列弗",
+            "name": "Bulgarian Lev",
             "pos": "before",
             "value": "lev"
         }, {
-            "name": "冰岛克朗",
+            "name": "Iceland Krona",
             "pos": "before",
             "value": "kr"
         }, {
-            "name": "波黑可兑换马克",
+            "name": "Bosnia and Herzegovina convertible mark",
             "pos": "before",
             "value": "KM"
         }, {
-            "name": "波兰兹罗提",
+            "name": "Polish Zloty",
             "pos": "after",
-            "value": "z?"
+            "value": "zł."
         }, {
-            "name": "玻利维亚诺",
+            "name": "Boliviano",
             "pos": "before",
             "value": "Bs"
         }, {
-            "name": "伯利兹元",
+            "name": "Belize Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "博茨瓦纳普拉",
+            "name": "Botswana Pula",
             "pos": "before",
             "value": "P"
         }, {
-            "name": "不丹努扎姆",
+            "name": "Nuzam, Bhutan",
             "pos": "before",
             "value": "Nu"
         }, {
-            "name": "布隆迪法郎",
+            "name": "Burundian Franc",
             "pos": "before",
             "value": "FBu"
         }, {
-            "name": "朝鲜圆",
+            "name": "North Korean Won",
             "pos": "before",
-            "value": "?KP"
+            "value": "₩"
         }, {
-            "name": "丹麦克朗",
+            "name": "Danish Krone",
             "pos": "after",
             "value": "kr"
         }, {
-            "name": "东加勒比元",
+            "name": "East Caribbean Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "多米尼加比索",
+            "name": "Dominican Peso",
             "pos": "before",
             "value": "RD$"
         }, {
-            "name": "俄国卢布",
+            "name": "Russian ruble",
             "pos": "after",
-            "value": "?"
+            "value": "₽"
         }, {
-            "name": "厄立特里亚纳克法",
+            "name": "Eritrean Nakfa",
             "pos": "before",
             "value": "Nfk"
         }, {
-            "name": "非洲金融共同体法郎",
+            "name": "CFA franc",
             "pos": "before",
             "value": "CFA"
         }, {
-            "name": "菲律宾比索",
+            "name": "Philippine Peso",
             "pos": "before",
-            "value": "?"
+            "value": "₱"
         }, {
-            "name": "斐济元",
+            "name": "Fijian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "佛得角埃斯库多",
+            "name": "Escudo, Cape Verde",
             "pos": "before",
             "value": "CVE"
         }, {
-            "name": "福克兰群岛镑",
+            "name": "Falkland Islands Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "冈比亚达拉西",
+            "name": "Dalasi, Gambia",
             "pos": "before",
             "value": "GMD"
         }, {
-            "name": "刚果法郎",
+            "name": "Congolese Franc",
             "pos": "before",
             "value": "FrCD"
         }, {
-            "name": "哥伦比亚比索",
+            "name": "Colombian Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "哥斯达黎加科朗",
+            "name": "Costa Rican Colon",
             "pos": "before",
-            "value": "?"
+            "value": "₡"
         }, {
-            "name": "古巴比索",
-            "pos": "before",
-            "value": "$"
-        }, {
-            "name": "古巴可兑换比索",
+            "name": "Cuban Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "圭亚那元",
+            "name": "Cuban Convertible Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "哈萨克斯坦坚戈",
+            "name": "Guyanese Dollar",
             "pos": "before",
-            "value": "?"
+            "value": "$"
         }, {
-            "name": "海地古德",
+            "name": "Kazakhstan tenge",
+            "pos": "before",
+            "value": "₸"
+        }, {
+            "name": "Haitian Gourde",
             "pos": "before",
             "value": "HTG"
         }, {
-            "name": "韩元",
+            "name": "won",
             "pos": "before",
-            "value": "?"
+            "value": "₩"
         }, {
-            "name": "荷属安的列斯盾",
+            "name": "Netherlands Antilles guilder",
             "pos": "before",
             "value": "NAf."
         }, {
-            "name": "洪都拉斯拉伦皮拉",
+            "name": "La Lempira, Honduras",
             "pos": "before",
             "value": "L"
         }, {
-            "name": "吉布提法郎",
+            "name": "Djiboutian Franc",
             "pos": "before",
             "value": "Fdj"
         }, {
-            "name": "吉尔吉斯斯坦索姆",
+            "name": "Kyrgyzstan Som",
             "pos": "before",
             "value": "KGS"
         }, {
-            "name": "几内亚法郎",
+            "name": "Guinean Franc",
             "pos": "before",
             "value": "FG"
         }, {
-            "name": "加拿大元",
+            "name": "Canadian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "加纳塞地",
+            "name": "Ghanaian Cedi",
             "pos": "before",
             "value": "GHS"
         }, {
-            "name": "柬埔寨瑞尔",
+            "name": "Cambodian Riel",
             "pos": "before",
             "value": "Riel"
         }, {
-            "name": "捷克克朗",
+            "name": "Czech Koruna",
             "pos": "after",
-            "value": "K?"
+            "value": "Kč"
         }, {
             "name": "津巴布韦元",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "卡塔尔里亚尔",
+            "name": "Zimbabwean Dollar",
             "pos": "before",
             "value": "Rial"
         }, {
-            "name": "开曼群岛元",
+            "name": "Cayman Islands Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "科摩罗法郎",
+            "name": "Comorian Franc",
             "pos": "before",
             "value": "CF"
         }, {
-            "name": "科威特第纳尔",
+            "name": "Kuwaiti Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "克罗地亚库纳",
+            "name": "Croatian Kuna",
             "pos": "before",
             "value": "kn"
         }, {
-            "name": "肯尼亚先令",
+            "name": "Kenyan Shilling",
             "pos": "before",
             "value": "Ksh"
         }, {
-            "name": "莱索托洛蒂",
+            "name": "Lesotho Lotti",
             "pos": "before",
             "value": "LSL"
         }, {
-            "name": "老挝基普",
+            "name": "Lao Kip",
             "pos": "before",
-            "value": "?"
+            "value": "₭"
         }, {
-            "name": "黎巴嫩镑",
+            "name": "Lebanese Pound",
             "pos": "before",
             "value": "L￡"
         }, {
-            "name": "立陶宛立特",
+            "name": "Lithuanian Litas",
             "pos": "before",
             "value": "Lt"
         }, {
-            "name": "利比亚第纳尔",
+            "name": "Libyan Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "利比亚元",
+            "name": "Libyan Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "卢旺达法郎",
+            "name": "Rwandan franc",
             "pos": "before",
             "value": "RF"
         }, {
-            "name": "罗马尼亚列伊",
+            "name": "Romanian Lei",
             "pos": "before",
             "value": "RON"
         }, {
-            "name": "马达加斯加阿里亚里",
+            "name": "Madagascar Ariari",
             "pos": "before",
             "value": "Ar"
         }, {
-            "name": "马尔代夫拉菲亚",
+            "name": "Maldives Rufiyaa",
             "pos": "before",
             "value": "Rf"
         }, {
-            "name": "马拉维克瓦查",
+            "name": "Malawian Kwacha",
             "pos": "before",
             "value": "MWK"
         }, {
-            "name": "马来西亚林吉特",
+            "name": "Malaysian Ringgit",
             "pos": "before",
             "value": "RM"
         }, {
-            "name": "马其顿戴第纳尔",
+            "name": "Macedonian Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "毛里求斯卢比",
+            "name": "Mauritian Rupee",
             "pos": "before",
             "value": "MURs"
         }, {
-            "name": "毛里塔尼亚乌吉亚",
+            "name": "Ouguia, Mauritania",
             "pos": "before",
             "value": "MRO"
         }, {
-            "name": "蒙古图格里克",
+            "name": "Mongolian Tugrik",
             "pos": "before",
             "value": "?"
         }, {
-            "name": "孟加拉塔卡",
+            "name": "Bangladeshi Taka",
             "pos": "before",
-            "value": "?"
+            "value": "ó"
         }, {
-            "name": "秘鲁新索尔",
+            "name": "Peruvian New Sol",
             "pos": "before",
             "value": "S/"
         }, {
-            "name": "缅甸开亚特",
+            "name": "Kyat",
             "pos": "before",
             "value": "K"
         }, {
-            "name": "摩尔多瓦列伊",
+            "name": "Moldovan Lei",
             "pos": "before",
             "value": "MDL"
         }, {
-            "name": "摩洛哥迪拉姆",
+            "name": "Moroccan Dirham",
             "pos": "before",
             "value": "dh"
         }, {
-            "name": "莫桑比克梅蒂卡尔",
+            "name": "Metical, Mozambique",
             "pos": "before",
             "value": "MTn"
         }, {
-            "name": "墨西哥比索",
+            "name": "Mexican Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "纳米比亚元",
+            "name": "Namibian Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "南非兰特",
+            "name": "South African Rand",
             "pos": "before",
             "value": "R"
         }, {
-            "name": "南苏丹镑",
+            "name": "South Sudanese Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "尼加拉瓜科多巴",
+            "name": "Cordoba, Nicaragua",
             "pos": "before",
             "value": "C$"
         }, {
-            "name": "尼泊尔卢比",
+            "name": "Nepalese Rupee",
             "pos": "before",
             "value": "Rs"
         }, {
-            "name": "尼日利亚奈拉",
+            "name": "Nigerian Naira",
             "pos": "before",
-            "value": "?"
+            "value": "₦"
         }, {
-            "name": "挪威克朗",
+            "name": "Norwegian Krone",
             "pos": "after",
             "value": "kr"
         }, {
-            "name": "乔治亚拉瑞",
+            "name": "Georgia Lara",
             "pos": "before",
             "value": "GEL"
         }, {
-            "name": "人民币（离岸）",
+            "name": "RMB (Offshore)",
             "pos": "before",
             "value": "￥"
         }, {
-            "name": "瑞典克朗",
+            "name": "Swedish Krona",
             "pos": "after",
             "value": "kr"
         }, {
-            "name": "瑞士法郎",
+            "name": "Swiss franc",
             "pos": "before",
             "value": "CHF"
         }, {
-            "name": "塞尔维亚第纳尔",
+            "name": "Serbian Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "塞拉利昂利昂",
+            "name": "Sierra Leone",
             "pos": "before",
             "value": "SLL"
         }, {
-            "name": "塞舌尔卢比",
+            "name": "Seychelles Rupee",
             "pos": "before",
             "value": "SCR"
         }, {
-            "name": "沙特里亚尔",
+            "name": "Saudi Riyal",
             "pos": "before",
             "value": "Rial"
         }, {
-            "name": "圣多美多布拉",
+            "name": "Sao Tome Dobra",
             "pos": "before",
             "value": "Db"
         }, {
-            "name": "圣赫勒拿群岛磅",
+            "name": "St. Helena Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "斯里兰卡卢比",
+            "name": "Sri Lankan Rupee",
             "pos": "before",
             "value": "Rs"
         }, {
-            "name": "斯威士兰里兰吉尼",
+            "name": "Swaziland Lilangeni",
             "pos": "before",
             "value": "SZL"
         }, {
-            "name": "苏丹镑",
+            "name": "Sudanese Pound",
             "pos": "before",
             "value": "SDG"
         }, {
-            "name": "苏里南元",
+            "name": "Surinamese Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "所罗门群岛元",
+            "name": "Solomon Islands Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "索马里先令",
+            "name": "Somali Shilling",
             "pos": "before",
             "value": "SOS"
         }, {
-            "name": "塔吉克斯坦索莫尼",
+            "name": "Somoni, Tajikistan",
             "pos": "before",
             "value": "Som"
         }, {
-            "name": "太平洋法郎",
+            "name": "Pacific Franc",
             "pos": "after",
             "value": "FCFP"
         }, {
-            "name": "泰国铢",
+            "name": "Thai Baht",
             "pos": "before",
             "value": "?"
         }, {
-            "name": "坦桑尼亚先令",
+            "name": "Tanzanian Shilling",
             "pos": "before",
             "value": "TSh"
         }, {
-            "name": "汤加潘加",
+            "name": "Tongan Panga",
             "pos": "before",
             "value": "T$"
         }, {
-            "name": "特立尼达和多巴哥元",
+            "name": "Trinidad and Tobago Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "突尼斯第纳尔",
+            "name": "Tunisian Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "土耳其里拉",
+            "name": "Turkish Lira",
             "pos": "before",
-            "value": "?"
+            "value": "₺"
         }, {
-            "name": "瓦努阿图瓦图",
+            "name": "Vanuatu Vatu",
             "pos": "before",
             "value": "VUV"
         }, {
-            "name": "危地马拉格查尔",
+            "name": "Guatemalan Quetzal",
             "pos": "before",
             "value": "Q"
         }, {
-            "name": "委内瑞拉博利瓦",
+            "name": "Venezuelan Bolivar",
             "pos": "before",
             "value": "Bs"
         }, {
-            "name": "文莱元",
+            "name": "Brunei Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "乌干达先令",
+            "name": "Ugandan Shilling",
             "pos": "before",
             "value": "UGX"
         }, {
-            "name": "乌克兰格里夫尼亚",
+            "name": "Ukrainian hryvnia",
             "pos": "before",
             "value": "грн."
         }, {
-            "name": "乌拉圭比索",
+            "name": "Uruguayan Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "乌兹别克斯坦苏姆",
+            "name": "Uzbekistani Soum",
             "pos": "before",
-            "value": "so?m"
+            "value": "So'm"
         }, {
-            "name": "西萨摩亚塔拉",
+            "name": "Tara, Western Samoa",
             "pos": "before",
             "value": "WST"
         }, {
-            "name": "新加坡元",
+            "name": "Singapore Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "新台币",
+            "name": "New Taiwan Dollar",
             "pos": "before",
             "value": "NT$"
         }, {
-            "name": "新西兰元",
+            "name": "New Zealand Dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "匈牙利福林",
+            "name": "Hungarian Forint",
             "pos": "before",
             "value": "Ft"
         }, {
-            "name": "叙利亚镑",
+            "name": "Syrian Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "牙买加元",
+            "name": "Jamaican dollar",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "亚美尼亚德拉姆",
+            "name": "Armenian Dram",
             "pos": "before",
             "value": "Dram"
         }, {
-            "name": "也门里亚尔",
+            "name": "Yemeni Rial",
             "pos": "before",
             "value": "Rial"
         }, {
-            "name": "伊拉克第纳尔",
+            "name": "Iraqi Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "伊朗里亚尔",
+            "name": "Iranian Rial",
             "pos": "before",
             "value": "Rial"
         }, {
-            "name": "以色列新谢克尔",
+            "name": "Israeli New Shekel",
             "pos": "before",
-            "value": "?"
+            "value": "₪"
         }, {
-            "name": "印度卢比",
+            "name": "Indian Rupee",
             "pos": "before",
-            "value": "?"
+            "value": "₹"
         }, {
-            "name": "印度尼西亚卢比",
+            "name": "Indonesian Rupiah",
             "pos": "before",
             "value": "Rp"
         }, {
-            "name": "约旦第纳尔",
+            "name": "Jordanian Dinar",
             "pos": "before",
             "value": "din"
         }, {
-            "name": "越南盾",
+            "name": "Vietnamese Dong",
             "pos": "after",
-            "value": "?"
+            "value": "₫"
         }, {
-            "name": "赞比亚克瓦查",
+            "name": "Zambian Kwacha",
             "pos": "before",
             "value": "ZMW"
         }, {
-            "name": "直布罗陀镑",
+            "name": "Gibraltar Pound",
             "pos": "before",
             "value": "￡"
         }, {
-            "name": "智利比索",
+            "name": "Chilean Peso",
             "pos": "before",
             "value": "$"
         }, {
-            "name": "中非金融合作法郎",
+            "name": "China-Africa Financial Cooperation Franc",
             "pos": "before",
             "value": "FCFA"
         }
@@ -644,14 +644,13 @@ const luckysheetMoreFormat = {
         {
             "name": "1930-08-05",
             "value": "yyyy-MM-dd"
+        },        {
+            "name": "1930-08-05",
+            "value": "yyyy-MM-dd"
         },
         {
             "name": "1930/8/5",
             "value": "yyyy/MM/dd"
-        },
-        {
-            "name": "1930年8月5日",
-            "value": 'yyyy"年"M"月"d"日"'
         },
         {
             "name": "08-05",
@@ -662,10 +661,6 @@ const luckysheetMoreFormat = {
             "value": "M-d"
         },
         {
-            "name": "8月5日",
-            "value": 'M"月"d"日"'
-        },
-        {
             "name": "13:30:30",
             "value": "h:mm:ss"
         },
@@ -674,29 +669,9 @@ const luckysheetMoreFormat = {
             "value": "h:mm"
         },
         {
-            "name": "下午01:30",
-            "value": '上午/下午 hh:mm'
-        },
-        {
-            "name": "下午1:30",
-            "value": '上午/下午 h:mm'
-        },
-        {
-            "name": "下午1:30:30",
-            "value": '上午/下午 h:mm:ss'
-        },
-        {
-            "name": "08-05 下午01:30",
-            "value": "MM-dd 上午/下午 hh:mm"
-        },
-        // {
-        //     "name": "1930年8月5日星期二",
-        //     "value": ''
-        // },
-        // {
-        //     "name": "1930年8月5日星期二 下午1:30:30",
-        //     "value": ''
-        // },
+            "name": "08-05 01:30",
+            "value": "MM-dd hh:mm"
+        }
     ],
     numFmtList: [
         {
@@ -801,9 +776,9 @@ const luckysheetMoreFormat = {
         const locale_button = locale().button;
 
         this.moneyFmtList = [
-            {'name': currencyDetail.RMB,'pos': 'before','value': '¥'},
             {'name': currencyDetail.USdollar,'pos': 'before','value': '$'},
             {'name': currencyDetail.EUR,'pos': 'before','value': '€'},
+            {'name': currencyDetail.RMB,'pos': 'before','value': '¥'},
             {'name': currencyDetail.GBP,'pos': 'before','value': '￡'},
             {'name': currencyDetail.HK,'pos': 'before','value': '$'},
             {'name': currencyDetail.JPY,'pos': 'before','value': '￥'},

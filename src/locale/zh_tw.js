@@ -9353,10 +9353,10 @@ export default {
         { "text": '百分比', "value": "#0.00%", "example": "12.21%" },
         { "text": '科學計數', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '會計', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": '會計', "value": "$(0.00)", "example": "$(1200.09)" },
         //{ "text": "財務", "value": "(#.####)", "example": "(1200.09)" },
         { "text": '萬元', "value": "w", "example": "1亿2000万2500" },
-        { "text": '貨幣', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": '貨幣', "value": "$0.00", "example": "$1200.09" },
         //{ "text": "貨幣整數", "value": "¥####", "example": "¥1200" },
         { "text": '萬元2位小數', "value": "w0.00", "example": "2万2500.55" },
         { "text": "", "value": "split", "example": "" },
@@ -9513,7 +9513,6 @@ export default {
     },
     filter: {
         "filter"     : "篩選",
-        "clearFilter": "清除篩選",
 
         sortByAsc        : "以A-Z昇冪排列",
         sortByDesc       : "以Z-A降序排列",

@@ -231,7 +231,7 @@ const menuButton = {
         $("#luckysheet-icon-currency").click(function(){
             let d = editor.deepCopyFlowData(Store.flowdata);//取数据
 
-            _this.updateFormat(d, "ct", "¥ #.00");
+            _this.updateFormat(d, "ct", "$ #.00");
         });
 
         //百分比

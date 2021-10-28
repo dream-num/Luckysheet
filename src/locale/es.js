@@ -9133,10 +9133,10 @@ export default {
         { "text": 'Porcentaje', "value": "#0.00%", "example": "12.21%" },
         { "text": 'Científico', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": 'Contabilidad', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": 'Contabilidad', "value": "$(0.00)", "example": "$(1200.09)" },
 
 
-        { "text": 'Moneda', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": 'Moneda', "value": "$0.00", "example": "$1200.09" },
 
 
         { "text": "", "value": "partir", "example": "" },

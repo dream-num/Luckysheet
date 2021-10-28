@@ -9360,10 +9360,10 @@ export default {
         { "text": '百分比', "value": "#0.00%", "example": "12.21%" },
         { "text": '科学计数', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '会计', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": '会计', "value": "$(0.00)", "example": "$(1200.09)" },
         //{ "text": "财务", "value": "(#.####)", "example": "(1200.09)" },
         { "text": '万元', "value": "w", "example": "1亿2000万2500" },
-        { "text": '货币', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": '货币', "value": "$0.00", "example": "$1200.09" },
         //{ "text": "货币整数", "value": "¥####", "example": "¥1200" },
         { "text": '万元2位小数', "value": "w0.00", "example": "2万2500.55" },
         { "text": "", "value": "split", "example": "" },
@@ -9520,7 +9520,6 @@ export default {
     },
     filter:{
         "filter":"筛选", 
-        "clearFilter":"清除筛选", 
 
         sortByAsc:"以A-Z升序排列",
         sortByDesc:"以Z-A降序排列",
