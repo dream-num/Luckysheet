@@ -11,10 +11,6 @@ const fitFormat = (formatStr) => {
     dateFormat = dateFormat.replace(/d/g, 'D');
     dateFormat = dateFormat.replace(/h/g, 'H');
 
-    dateFormat = dateFormat.replace(/上午\/下午/g, 'A');
-    dateFormat = dateFormat.replace(/上午/g, 'A');
-    dateFormat = dateFormat.replace(/下午/g, 'A');
-
     dateFormat = dateFormat.replace(/AM\/PM/g, 'A');
     dateFormat = dateFormat.replace(/AM/g, 'A');
     dateFormat = dateFormat.replace(/PM/g, 'A');

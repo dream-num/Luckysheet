@@ -1182,11 +1182,12 @@ const luckysheetMoreFormat = {
                 let decimal = parseInt($("#luckysheet-moreFormat-dialog .decimal input").val().trim());
 
                 if(decimal.toString() == "NaN" || decimal < 0 || decimal > 9){
+                    const msg = "The number of decimal places must be between 0-9!";
                     if(isEditMode()){
-                        alert("The number of decimal places must be between 0-9!");
+                        alert(msg);
                     }   
                     else{
-                        tooltip.info("The number of decimal places must be between 0-9!", "");
+                        tooltip.info(msg, "");
                     }
 
                     return;

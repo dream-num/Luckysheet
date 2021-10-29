@@ -584,7 +584,7 @@ const controlHistory = {
             
 
             $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide().find("input").val();
-            $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text("无");
+            $("#luckysheet-filter-selected span").data("type", "0").data("type", null).text("without");
 
             $('#luckysheet-filter-selected-sheet' + Store.currentSheetIndex + ', #luckysheet-filter-options-sheet' + Store.currentSheetIndex).remove();
             $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();

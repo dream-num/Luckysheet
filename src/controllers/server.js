@@ -202,7 +202,7 @@ const server = {
 				let type = data.type;
 				let {message,id} = data;
 				// 用户退出时，关闭协同编辑时其提示框
-				if(message === '用户退出') {
+				if(message === 'User logout') {
 					$("#luckysheet-multipleRange-show-" + id).hide();
 					Store.cooperativeEdit.changeCollaborationSize = Store.cooperativeEdit.changeCollaborationSize.filter(value => {
 						return value.id != id
@@ -1107,12 +1107,12 @@ const server = {
                 $.post(_this.updateUrl, { compress: iscommpress, gridKey: _this.gridKey, data: params }, function (data) {
 					let re = new Function("return " + data)();
                     if(re.status){
-                        $("#luckysheet_info_detail_update").html("最近存档时间:"+ dayjs().format("M-D H:m:s"));
-                        $("#luckysheet_info_detail_save").html("同步成功");
+                        $("#luckysheet_info_detail_update").html("Last archive time: "+ dayjs().format("M-D H:m:s"));
+                        $("#luckysheet_info_detail_save").html("Synchronized successfully");
                         _this.clearcachelocaldata();
                     }
                     else{
-                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>同步失败</span>");
+                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>Sync failed</span>");
                         _this.restorecachelocaldata();
                     }
                     _this.requestlast = dayjs();
@@ -1170,7 +1170,7 @@ const server = {
                         imageRequestLast = dayjs();
                     }
                     else{
-                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>网络不稳定</span>");
+                        $("#luckysheet_info_detail_save").html("<span style='color:#ff2121'>Unstable network</span>");
                     }
                     _this.imageRequestLock =true;
                 });

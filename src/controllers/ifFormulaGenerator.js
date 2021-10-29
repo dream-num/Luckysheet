@@ -506,13 +506,13 @@ const ifFormulaGenerator = {
         for(let j = 0; j < arr.length - 1; j++){
             let markText;
             if(j == 0){
-                markText = "小于" + arr[j + 1];
+                markText = "Less than " + arr[j + 1];
             }
             else if(j == arr.length - 2){
-                markText = "大于等于" + arr[j];
+                markText = "Greater or equal to " + arr[j];
             }
             else{
-                markText = arr[j] + "到" + arr[j + 1];
+                markText = arr[j] + " to " + arr[j + 1];
             }
 
             let itemHtml =  '<div class="item">'+

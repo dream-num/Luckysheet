@@ -46,7 +46,7 @@ function labelFilterOptionState($top, optionstate, rowhidden, caljs, notSave, st
     else {
         $top.removeClass("luckysheet-filter-options-active").data("rowhidden", "").data("caljs", "").html('<i class="fa fa-caret-down luckysheet-mousedown-cancel" aria-hidden="true"></i>');
 
-        $top.data("byconditionvalue", "null").data("byconditiontype", "0").data("byconditiontext", "无").data("byconditionvalue1", "").data("byconditionvalue2", "");
+        $top.data("byconditionvalue", "null").data("byconditiontype", "0").data("byconditiontext", "without").data("byconditionvalue1", "").data("byconditionvalue2", "");
     }
 
     if(!!notSave){

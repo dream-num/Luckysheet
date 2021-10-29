@@ -7,168 +7,168 @@
   "glyphs": [
     {
       "icon_id": "17878780",
-      "name": "链接",
+      "name": "Link",
       "font_class": "lianjie",
       "unicode": "e7f8",
       "unicode_decimal": 59384
     },
     {
       "icon_id": "17612330",
-      "name": "打印区域",
+      "name": "Print area",
       "font_class": "dayinquyu",
       "unicode": "e7f5",
       "unicode_decimal": 59381
     },
     {
       "icon_id": "17612331",
-      "name": "打印页面配置",
+      "name": "Print page configuration",
       "font_class": "dayinyemianpeizhi",
       "unicode": "e7f6",
       "unicode_decimal": 59382
     },
     {
       "icon_id": "17612332",
-      "name": "打印标题",
+      "name": "Print title",
       "font_class": "dayinbiaoti",
       "unicode": "e7f7",
       "unicode_decimal": 59383
     },
     {
       "icon_id": "17600443",
-      "name": "分页预览",
+      "name": "Pagination preview",
       "font_class": "fenyeyulan",
       "unicode": "e7f2",
       "unicode_decimal": 59378
     },
     {
       "icon_id": "17600444",
-      "name": "普通",
+      "name": "ordinary",
       "font_class": "putong",
       "unicode": "e7f3",
       "unicode_decimal": 59379
     },
     {
       "icon_id": "17600445",
-      "name": "页面布局",
+      "name": "Page Layout",
       "font_class": "yemianbuju",
       "unicode": "e7f4",
       "unicode_decimal": 59380
     },
     {
       "icon_id": "17597312",
-      "name": "表格锁定",
+      "name": "Table lock",
       "font_class": "biaogesuoding",
       "unicode": "e7ee",
       "unicode_decimal": 59374
     },
     {
       "icon_id": "17444514",
-      "name": "转到",
+      "name": "Go to",
       "font_class": "zhuandao1",
       "unicode": "e7f1",
       "unicode_decimal": 59377
     },
     {
       "icon_id": "17444503",
-      "name": "右箭头",
+      "name": "Right arrow",
       "font_class": "youjiantou",
       "unicode": "e7ed",
       "unicode_decimal": 59373
     },
     {
       "icon_id": "17444507",
-      "name": "菜单",
+      "name": "menu",
       "font_class": "caidan2",
       "unicode": "e7ef",
       "unicode_decimal": 59375
     },
     {
       "icon_id": "17444508",
-      "name": "替换",
+      "name": "replace",
       "font_class": "tihuan",
       "unicode": "e7f0",
       "unicode_decimal": 59376
     },
     {
       "icon_id": "17392794",
-      "name": "冻结",
+      "name": "freeze",
       "font_class": "dongjie1",
       "unicode": "e7e1",
       "unicode_decimal": 59361
     },
     {
       "icon_id": "17392795",
-      "name": "剪",
+      "name": "Cut",
       "font_class": "jian1",
       "unicode": "e7e2",
       "unicode_decimal": 59362
     },
     {
       "icon_id": "17392796",
-      "name": "加",
+      "name": "add",
       "font_class": "jia1",
       "unicode": "e7e3",
       "unicode_decimal": 59363
     },
     {
       "icon_id": "17392797",
-      "name": "溢出",
+      "name": "overflow",
       "font_class": "yichu1",
       "unicode": "e7e4",
       "unicode_decimal": 59364
     },
     {
       "icon_id": "17392798",
-      "name": "升序",
+      "name": "Ascending",
       "font_class": "shengxu1",
       "unicode": "e7e5",
       "unicode_decimal": 59365
     },
     {
       "icon_id": "17392799",
-      "name": "内框线",
+      "name": "Inner border",
       "font_class": "neikuangxian",
       "unicode": "e7e6",
       "unicode_decimal": 59366
     },
     {
       "icon_id": "17392800",
-      "name": "清除筛选",
+      "name": "Clear filter",
       "font_class": "qingchushaixuan",
       "unicode": "e7e7",
       "unicode_decimal": 59367
     },
     {
       "icon_id": "17392801",
-      "name": "文本向上",
+      "name": "Text up",
       "font_class": "wenbenxiangshang",
       "unicode": "e7e8",
       "unicode_decimal": 59368
     },
     {
       "icon_id": "17392802",
-      "name": "降序",
+      "name": "Descending",
       "font_class": "jiangxu1",
       "unicode": "e7e9",
       "unicode_decimal": 59369
     },
     {
       "icon_id": "17392803",
-      "name": "内框横线",
+      "name": "Inner frame horizontal line",
       "font_class": "neikuanghengxian",
       "unicode": "e7ea",
       "unicode_decimal": 59370
     },
     {
       "icon_id": "17392804",
-      "name": "内框竖线",
+      "name": "Inner frame vertical line",
       "font_class": "neikuangshuxian",
       "unicode": "e7eb",
       "unicode_decimal": 59371
     },
     {
       "icon_id": "17392805",
-      "name": "自定义排序",
+      "name": "Custom sort",
       "font_class": "zidingyipaixu",
       "unicode": "e7ec",
       "unicode_decimal": 59372
@@ -189,133 +189,133 @@
     },
     {
       "icon_id": "16730159",
-      "name": "文本倾斜",
+      "name": "Text slanted",
       "font_class": "wenbenqingxie1",
       "unicode": "e7de",
       "unicode_decimal": 59358
     },
     {
       "icon_id": "16728412",
-      "name": "加粗",
+      "name": "Bold",
       "font_class": "jiacu",
       "unicode": "e7d9",
       "unicode_decimal": 59353
     },
     {
       "icon_id": "16728080",
-      "name": "搜索",
+      "name": "search",
       "font_class": "sousuo",
       "unicode": "e78a",
       "unicode_decimal": 59274
     },
     {
       "icon_id": "16728081",
-      "name": "关闭",
+      "name": "closure",
       "font_class": "guanbi",
       "unicode": "e78b",
       "unicode_decimal": 59275
     },
     {
       "icon_id": "16728082",
-      "name": "下一个",
+      "name": "Next",
       "font_class": "xiayige",
       "unicode": "e78c",
       "unicode_decimal": 59276
     },
     {
       "icon_id": "16728083",
-      "name": "下拉",
+      "name": "drop down",
       "font_class": "xiala",
       "unicode": "e78d",
       "unicode_decimal": 59277
     },
     {
       "icon_id": "16728084",
-      "name": "文本颜色",
+      "name": "Text color",
       "font_class": "wenbenyanse",
       "unicode": "e78e",
       "unicode_decimal": 59278
     },
     {
       "icon_id": "16728085",
-      "name": "上一个",
+      "name": "Previous",
       "font_class": "shangyige",
       "unicode": "e78f",
       "unicode_decimal": 59279
     },
     {
       "icon_id": "16728086",
-      "name": "数据透视",
+      "name": "Pivot",
       "font_class": "shujutoushi",
       "unicode": "e790",
       "unicode_decimal": 59280
     },
     {
       "icon_id": "16728087",
-      "name": "填充",
+      "name": "filling",
       "font_class": "tianchong",
       "unicode": "e791",
       "unicode_decimal": 59281
     },
     {
       "icon_id": "16728088",
-      "name": "增加小数位",
+      "name": "Increase decimal places",
       "font_class": "zengjiaxiaoshuwei",
       "unicode": "e792",
       "unicode_decimal": 59282
     },
     {
       "icon_id": "16728089",
-      "name": "编辑2",
+      "name": "Edit 2",
       "font_class": "bianji2",
       "unicode": "e793",
       "unicode_decimal": 59283
     },
     {
       "icon_id": "16728090",
-      "name": "截屏",
+      "name": "Screenshot",
       "font_class": "jieping",
       "unicode": "e794",
       "unicode_decimal": 59284
     },
     {
       "icon_id": "16728092",
-      "name": "减小小数位",
+      "name": "Decrease decimal places",
       "font_class": "jianxiaoxiaoshuwei",
       "unicode": "e796",
       "unicode_decimal": 59286
     },
     {
       "icon_id": "16728093",
-      "name": "菜单",
+      "name": "menu",
       "font_class": "caidan",
       "unicode": "e797",
       "unicode_decimal": 59287
     },
     {
       "icon_id": "16728094",
-      "name": "数据库",
+      "name": "database",
       "font_class": "shujuku",
       "unicode": "e798",
       "unicode_decimal": 59288
     },
     {
       "icon_id": "16728095",
-      "name": "无边框",
+      "name": "Rimless",
       "font_class": "wubiankuang",
       "unicode": "e799",
       "unicode_decimal": 59289
     },
     {
       "icon_id": "16728096",
-      "name": "编辑",
+      "name": "edit",
       "font_class": "bianji",
       "unicode": "e79a",
       "unicode_decimal": 59290
     },
     {
       "icon_id": "16728097",
-      "name": "清除样式",
+      "name": "Clear style",
       "font_class": "qingchuyangshi",
       "unicode": "e79b",
       "unicode_decimal": 59291

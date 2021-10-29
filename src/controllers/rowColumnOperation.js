@@ -2109,7 +2109,7 @@ export function rowColumnOperationInitial(){
 
           /* 对异常情况进行判断：NaN */
         if(isNaN(size)){
-            tooltip.info("只允许使用数字来设置行列的宽高!", "");
+            tooltip.info("Only allow numbers to set the width and height of rows and columns!", "");
             return;
         }
 

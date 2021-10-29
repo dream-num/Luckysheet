@@ -634,11 +634,12 @@ const selection = {
             return;
         }
         if(Store.luckysheet_select_save.length > 1){
+            const msg = "Cannot perform this operation on multiple selection areas, please select a single area and try again";
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(msg);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>Hint', msg);
             }
         }
 
@@ -668,11 +669,12 @@ const selection = {
             }
 
             if(has_PartMC){
+                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对合并单元格做部分更改");
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint', msg);
                 }
 
                 return;
@@ -749,7 +751,7 @@ const selection = {
                     }
 
                     let fontset = luckysheetfontformat(x[c]);
-                    let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
+                    let oneLineTextHeight = menuButton.getTextSize("Field", fontset)[1];
                     //比较计算高度和当前高度取最大高度
                     if(oneLineTextHeight > currentRowLen){
                         currentRowLen = oneLineTextHeight;
@@ -809,11 +811,12 @@ const selection = {
             }
 
             if(has_PartMC){
+                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
                 }
                 return;
             }
@@ -918,11 +921,12 @@ const selection = {
         }
 
         if(has_PartMC){
+            const msg = "Partial changes cannot be made to merged cells";
             if(isEditMode()){
-                alert("不能对合并单元格做部分更改");
+                alert(msg);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
             }
             return;
         }
@@ -1396,11 +1400,12 @@ const selection = {
         }
 
         if(has_PartMC){
+            const msg = "Partial changes cannot be made to merged cells";
             if(isEditMode()){
-                alert("不能对合并单元格做部分更改");
+                alert(msg);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
             }
             return;
         }
@@ -1664,11 +1669,12 @@ const selection = {
             }
 
             if(has_PartMC){
+                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
                 }
                 return;
             }

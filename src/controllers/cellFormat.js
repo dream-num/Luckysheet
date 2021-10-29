@@ -129,9 +129,9 @@ function initialCellFormatModel(){
                     <p>
                         ${local_cellFormat.protectionTips}
                     </p>
-                    <label for="luckysheet-protection-check-locked"><input id="luckysheet-protection-check-locked" name="luckysheet-protection-check-locked" type="checkbox">${local_cellFormat.locked}</label><span>部分选中</span>
+                    <label for="luckysheet-protection-check-locked"><input id="luckysheet-protection-check-locked" name="luckysheet-protection-check-locked" type="checkbox">${local_cellFormat.locked}</label><span>Partially selected</span>
                     <br/>
-                    <label for="luckysheet-protection-check-hidden"><input id="luckysheet-protection-check-hidden" name="luckysheet-protection-check-hidden" type="checkbox">${local_cellFormat.hidden}</label><span>全部选中</span>
+                    <label for="luckysheet-protection-check-hidden"><input id="luckysheet-protection-check-hidden" name="luckysheet-protection-check-hidden" type="checkbox">${local_cellFormat.hidden}</label><span>Select all</span>
                 </div>
             </div>
         `, 
