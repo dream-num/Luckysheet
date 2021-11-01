@@ -496,10 +496,10 @@ const functionImplementation = {
             }
 
             if (parseInt(UUserCard.substr(16, 1)) % 2 == 1) {
-                return "男";
+                return "Male";
             }
             else {
-                return "女";
+                return "Female";
             }
         }
         catch (e) {
@@ -571,7 +571,7 @@ const functionImplementation = {
                 return dayjs(birthday).format("YYYY-MM-DD");
             }
             else if(parseInt(datetype) == 2){
-                return dayjs(birthday).format("YYYY年M月D日");
+                return dayjs(birthday).format("YYYY-M-D");
             }
         }
         catch (e) {
@@ -607,7 +607,7 @@ const functionImplementation = {
                 return formula.error.v;
             }
 
-            var native = "未知";
+            var native = "Unknown";
             var provinceArray = formula.classlist.province;
 
             if (UUserCard.substring(0, 2) in provinceArray) {
@@ -650,7 +650,7 @@ const functionImplementation = {
             }
 
             var dataNum = cityData.length,
-                native = "未知";
+                native = "Unknown";
 
             for (var i = 0; i < dataNum; i++) {
                 if (UUserCard.substring(0, 6) == cityData[i].code) {
@@ -706,19 +706,19 @@ const functionImplementation = {
 
             var d = new Date(1999, month, day, 0, 0, 0);
             var arr = [];
-            arr.push(["魔羯座", new Date(1999, 0, 1, 0, 0, 0)]);
-            arr.push(["水瓶座", new Date(1999, 0, 20, 0, 0, 0)]);
-            arr.push(["双鱼座", new Date(1999, 1, 19, 0, 0, 0)]);
-            arr.push(["白羊座", new Date(1999, 2, 21, 0, 0, 0)]);
-            arr.push(["金牛座", new Date(1999, 3, 21, 0, 0, 0)]);
-            arr.push(["双子座", new Date(1999, 4, 21, 0, 0, 0)]);
-            arr.push(["巨蟹座", new Date(1999, 5, 22, 0, 0, 0)]);
-            arr.push(["狮子座", new Date(1999, 6, 23, 0, 0, 0)]);
-            arr.push(["处女座", new Date(1999, 7, 23, 0, 0, 0)]);
-            arr.push(["天秤座", new Date(1999, 8, 23, 0, 0, 0)]);
-            arr.push(["天蝎座", new Date(1999, 9, 23, 0, 0, 0)]);
-            arr.push(["射手座", new Date(1999, 10, 22, 0, 0, 0)]);
-            arr.push(["魔羯座", new Date(1999, 11, 22, 0, 0, 0)]);
+            arr.push(["Capricorn", new Date(1999, 0, 1, 0, 0, 0)]);
+            arr.push(["Aquarius", new Date(1999, 0, 20, 0, 0, 0)]);
+            arr.push(["Pisces", new Date(1999, 1, 19, 0, 0, 0)]);
+            arr.push(["Aries", new Date(1999, 2, 21, 0, 0, 0)]);
+            arr.push(["Taurus", new Date(1999, 3, 21, 0, 0, 0)]);
+            arr.push(["Gemini", new Date(1999, 4, 21, 0, 0, 0)]);
+            arr.push(["Cancer", new Date(1999, 5, 22, 0, 0, 0)]);
+            arr.push(["Leo", new Date(1999, 6, 23, 0, 0, 0)]);
+            arr.push(["Virgo", new Date(1999, 7, 23, 0, 0, 0)]);
+            arr.push(["Libra", new Date(1999, 8, 23, 0, 0, 0)]);
+            arr.push(["Scorpio", new Date(1999, 9, 23, 0, 0, 0)]);
+            arr.push(["Sagittarius", new Date(1999, 10, 22, 0, 0, 0)]);
+            arr.push(["Capricorn", new Date(1999, 11, 22, 0, 0, 0)]);
             //console.log(birthday, arr, i);
             for (var i = arr.length - 1; i >= 0; i--) {
                 if (d >= arr[i][1]) {
@@ -726,7 +726,7 @@ const functionImplementation = {
                 }
             }
 
-            return "未找到匹配星座信息";
+            return "No matching constellation information found";
         }
         catch (e) {
             var err = e;
@@ -768,14 +768,14 @@ const functionImplementation = {
 
             birthday = new Date(birthday);
 
-            var list = new Array("猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗");
+            var list = new Array("Pig", "Mouse", "CattleCattle", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Sheep", "Monkey", "Chick", "Dog");
             var index = (parseInt(birthday.getFullYear()) + 9) % 12;
 
             if (index != null && !isNaN(index)) {
                 return list[index];
             }
             else {
-                return "未找到匹配生肖信息";
+                return "No matching zodiac information found";
             }
         }
         catch (e) {
@@ -1108,7 +1108,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -1208,7 +1208,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -1304,7 +1304,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -1400,7 +1400,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -1496,7 +1496,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -1592,7 +1592,7 @@ const functionImplementation = {
                 }
 
                 if(!isdatetime(date)){
-                    return [formula.error.v, "日期错误"];
+                    return [formula.error.v, "Wrong date"];
                 }
 
                 date = dayjs(date).format("YYYY-MM-DD");
@@ -11024,10 +11024,10 @@ const functionImplementation = {
                 isaccurate = !!arguments[3];
             }
             if (index > range.rowl) {
-                return [formula.error.v, "索引超过了范围的长度，" + range[0].length];
+                return [formula.error.v, "Index exceeds the length of the range，" + range[0].length];
             }
             if (index < 1) {
-                return [formula.error.v, "索引必须大于1"];
+                return [formula.error.v, "Index must be greater than 1"];
             }
 
             var result = formula.error.na;
@@ -11156,7 +11156,7 @@ const functionImplementation = {
 
                         var index = rangeNow.indexOf(searchkey);
                         if(index == (rangeNow.length -1)){
-                            return [formula.error.na, "找不到对应参数"];
+                            return [formula.error.na, "Can't find the corresponding parameter"];
                         }else{
                             var mat = rangeNow[index + 1];
                             if(arguments[2]){

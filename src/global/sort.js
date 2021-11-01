@@ -186,11 +186,12 @@ function sortSelection(isAsc) {
         return;
     }
     if(Store.luckysheet_select_save.length > 1){
+        const msg = "Cannot perform this operation on multiple selection areas, please select a single area and try again"
         if(isEditMode()){
-            alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+            alert(msg);
         }
         else{
-            tooltip.info("不能对多重选择区域执行此操作，请选择单个区域，然后再试", "");
+            tooltip.info(msg, "");
         }
 
         return;
@@ -254,11 +255,12 @@ function sortSelection(isAsc) {
     }
 
     if(hasMc){
+        const msg = "There are merged cells in the selection, this operation cannot be performed!"
         if(isEditMode()){
-            alert("选区有合并单元格，无法执行此操作！");
+            alert(msg);
         }
         else{
-            tooltip.info("选区有合并单元格，无法执行此操作！", "");
+            tooltip.info(msg, "");
         }
 
         return;
@@ -345,11 +347,12 @@ function sortColumnSeletion(colIndex, isAsc) {
     }
 
     if(hasMc){
+        const msg = "Column sorting will extend to the entire table selection area. The selection area has merged cells. This operation cannot be performed. Please select the function column sorting function!"
         if(isEditMode()){
-            alert("列排序会扩展至整个表格选区，选区有合并单元格，无法执行此操作，请选择功能栏排序功能！");
+            alert(msg);
         }
         else{
-            tooltip.info("列排序会扩展至整个表格选区，选区有合并单元格，无法执行此操作，请选择功能栏排序功能！", "");
+            tooltip.info(msg, "");
         }
 
         return;

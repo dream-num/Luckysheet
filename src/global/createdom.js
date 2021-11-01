@@ -69,7 +69,7 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
         totalPage:luckysheetConfigsetting.pageInfo.totalPage?luckysheetConfigsetting.pageInfo.totalPage:"",
         currentPage:luckysheetConfigsetting.pageInfo.currentPage?luckysheetConfigsetting.pageInfo.currentPage:"",
     });
-    let pageControll = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">'+ pageInfo +'</span> <button id="luckysheet-bottom-page-next" class="btn btn-danger" style="">下一页</button>';
+    let pageControll = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">'+ pageInfo +'</span> <button id="luckysheet-bottom-page-next" class="btn btn-danger" style="">Next page</button>';
     let pageControll2 = ' <span id="luckysheet-bottom-page-info" style="font-size: 14px;color: #f34141;">'+pageInfo+'</span>';
 
     let bottomControll = "";

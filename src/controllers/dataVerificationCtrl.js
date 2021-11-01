@@ -33,26 +33,26 @@ const dataVerificationCtrl = {
     selectRange: [],
     selectStatus: false,
     optionLabel: {
-        'number': '数值',
-        'number_integer': '整数',
-        'number_decimal': '小数',
-        'bw': '介于',
-        'nb': '不介于',
-        'eq': '等于',
-        'ne': '不等于',
-        'gt': '大于',
-        'lt': '小于',
-        'gte': '大于等于',
-        'lte': '小于等于',
-        'include': '包括',
-        'exclude': '不包括',
-        'equal': '等于',
-        'bf': '早于',
-        'nbf': '不早于',
-        'af': '晚于',
-        'naf': '不晚于',
-        'card': '身份证号码',
-        'phone': '手机号'
+        'number': 'Numerical value',
+        'number_integer': 'Integer',
+        'number_decimal': 'Decimal',
+        'bw': 'Between',
+        'nb': 'Not between',
+        'eq': 'Equal',
+        'ne': 'not equal to',
+        'gt': 'more than',
+        'lt': 'Less than',
+        'gte': 'Greater or equal to',
+        'lte': 'Less than or equal to',
+        'include': 'Include',
+        'exclude': 'Exclude',
+        'equal': 'Equal',
+        'bf': 'Before',
+        'nbf': 'Not before',
+        'af': 'After',
+        'naf': 'Not after',
+        'card': 'Identification number',
+        'phone': 'Phone number'
     },
     optionLabel_en: {
         'number': 'numeric',
@@ -381,7 +381,7 @@ const dataVerificationCtrl = {
             let txt = $(this).parents("#luckysheet-dataVerificationRange-dialog").find("input").val();
 
             if(_this.getRangeByTxt(txt).length > 1){
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '不能对多重选择区域执行此操作，请选择单个区域，然后再试');
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', 'Cannot perform this operation on multiple selection areas, please select a single area and try again');
                 return;
             }
 
@@ -1058,14 +1058,13 @@ const dataVerificationCtrl = {
 
         //提示语
         if(item.hintShow){
-            let hintText;
-
-            if(Store.lang == 'en'){
-                hintText = '<span style="color:#f5a623;">Hint: </span>';
+            let hint;
+            if(Store.lang == 'Cn'){
+                hint = '提示';
+            } else{
+                hint = 'Hint';
             }
-            else{
-                hintText = '<span style="color:#f5a623;">提示：</span>';
-            }
+            let hintText = `<span style="color:#f5a623;">${hint}：</span>`;
 
             hintText += _this.getHintText(item);
 
@@ -1087,14 +1086,15 @@ const dataVerificationCtrl = {
         let validate = _this.validateCellData(cellValue, item);
 
         if(!validate){
-            let failureText;
+            let txt;
 
-            if(Store.lang == 'en'){
-                failureText = '<span style="color:#f72626;">Failure: </span>';
+            if(Store.lang == 'cn'){
+                txt = '失效';
             }
             else{
-                failureText = '<span style="color:#f72626;">失效：</span>';
+                txt = 'Failure';
             }
+            let failureText = `<span style="color:#f72626;">${txt}：</span>`;
 
             failureText += _this.getFailureText(item);
 
@@ -1110,80 +1110,67 @@ const dataVerificationCtrl = {
         let hintText = item.hintText || '';
 
         if(hintText.length == 0){
-            if(Store.lang == 'en'){
-                if(item.type == 'dropdown'){
-                    hintText += 'please select an option in the drop-down list';
-                }
-                else if(item.type == 'checkbox'){
-
-                }
-                else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
-                    hintText += 'please enter a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
-                        hintText += ' and ' + item.value2;
-                    }
-                }
-                else if(item.type == 'text_content'){
-                    hintText += 'please enter text ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-                }
-                else if(item.type == 'text_length'){
-                    hintText += 'please enter text with length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-                    
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
-                        hintText += ' and ' + item.value2;
-                    }
-                }
-                else if(item.type == 'date'){
-                    hintText += 'please enter a date ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
-                        hintText += ' and ' + item.value2;
-                    }
-                }
-                else if(item.type == 'validity'){
-                    hintText += 'please enter the correct ' + _this.optionLabel_en[item.type2];
-                }
-            }
-            else{
-                if(item.type == 'dropdown'){
+            if (Store.lang == 'cn') {
+                if (item.type == 'dropdown') {
                     hintText += '请选择下拉列表中的选项';
-                }
-                else if(item.type == 'checkbox'){
+                } else if (item.type == 'checkbox') {
 
-                }
-                else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
+                } else if (item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal') {
                     hintText += '请输入' + _this.optionLabel[item.type2] + item.value1;
 
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
                         hintText += '和' + item.value2 + '之间';
                     }
 
                     hintText += '的' + _this.optionLabel[item.type];
-                }
-                else if(item.type == 'text_content'){
+                } else if (item.type == 'text_content') {
                     hintText += '请输入内容' + _this.optionLabel[item.type2] + item.value1 + '的文本';
-                }
-                else if(item.type == 'text_length'){
+                } else if (item.type == 'text_length') {
                     hintText += '请输入长度' + _this.optionLabel[item.type2] + item.value1;
-                    
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
                         hintText += '和' + item.value2 + '之间';
                     }
 
                     hintText += '的文本';
-                }
-                else if(item.type == 'date'){
+                } else if (item.type == 'date') {
                     hintText += '请输入' + _this.optionLabel[item.type2] + item.value1;
 
-                    if(item.type2 == 'bw' || item.type2 == 'nb'){
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
                         hintText += '和' + item.value2 + '之间';
                     }
 
                     hintText += '的日期';
-                }
-                else if(item.type == 'validity'){
+                } else if (item.type == 'validity') {
                     hintText += '请输入正确的' + _this.optionLabel[item.type2];
+                }
+            } else {
+                if (item.type == 'dropdown') {
+                    hintText += 'please select an option in the drop-down list';
+                } else if (item.type == 'checkbox') {
+
+                } else if (item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal') {
+                    hintText += 'please enter a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
+                        hintText += ' and ' + item.value2;
+                    }
+                } else if (item.type == 'text_content') {
+                    hintText += 'please enter text ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+                } else if (item.type == 'text_length') {
+                    hintText += 'please enter text with length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
+                        hintText += ' and ' + item.value2;
+                    }
+                } else if (item.type == 'date') {
+                    hintText += 'please enter a date ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                    if (item.type2 == 'bw' || item.type2 == 'nb') {
+                        hintText += ' and ' + item.value2;
+                    }
+                } else if (item.type == 'validity') {
+                    hintText += 'please enter the correct ' + _this.optionLabel_en[item.type2];
                 }
             }
         }
@@ -1195,80 +1182,67 @@ const dataVerificationCtrl = {
 
         let failureText = '';
 
-        if(Store.lang == 'en'){
-            if(item.type == 'dropdown'){
-                failureText += 'what you selected is not an option in the drop-down list';
-            }
-            else if(item.type == 'checkbox'){
-
-            }
-            else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
-                failureText += 'what you entered is not a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    failureText += ' and ' + item.value2;
-                }
-            }
-            else if(item.type == 'text_content'){
-                failureText += 'what you entered is not text that ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-            }
-            else if(item.type == 'text_length'){
-                failureText += 'the text you entered is not length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-                
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    failureText += ' and ' + item.value2;
-                }
-            }
-            else if(item.type == 'date'){
-                failureText += 'the date you entered is not ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
-
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
-                    failureText += ' and ' + item.value2;
-                }
-            }
-            else if(item.type == 'validity'){
-                failureText += 'what you entered is not a correct ' + _this.optionLabel_en[item.type2];
-            }
-        }
-        else{
-            if(item.type == 'dropdown'){
+        if (Store.lang == 'cn') {
+            if (item.type == 'dropdown') {
                 failureText += '你选择的不是下拉列表中的选项';
-            }
-            else if(item.type == 'checkbox'){
+            } else if (item.type == 'checkbox') {
 
-            }
-            else if(item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal'){
+            } else if (item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal') {
                 failureText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
 
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
                     failureText += '和' + item.value2 + '之间';
                 }
 
                 failureText += '的' + _this.optionLabel[item.type];
-            }
-            else if(item.type == 'text_content'){
+            } else if (item.type == 'text_content') {
                 failureText += '你输入的不是内容' + _this.optionLabel[item.type2] + item.value1 + '的文本';
-            }
-            else if(item.type == 'text_length'){
+            } else if (item.type == 'text_length') {
                 failureText += '你输入的不是长度' + _this.optionLabel[item.type2] + item.value1;
-                
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
+
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
                     failureText += '和' + item.value2 + '之间';
                 }
 
                 failureText += '的文本';
-            }
-            else if(item.type == 'date'){
+            } else if (item.type == 'date') {
                 failureText += '你输入的不是' + _this.optionLabel[item.type2] + item.value1;
 
-                if(item.type2 == 'bw' || item.type2 == 'nb'){
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
                     failureText += '和' + item.value2 + '之间';
                 }
 
                 failureText += '的日期';
-            }
-            else if(item.type == 'validity'){
+            } else if (item.type == 'validity') {
                 failureText += '你输入的不是一个正确的' + _this.optionLabel[item.type2];
+            }
+        } else {
+            if (item.type == 'dropdown') {
+                failureText += 'what you selected is not an option in the drop-down list';
+            } else if (item.type == 'checkbox') {
+
+            } else if (item.type == 'number' || item.type == 'number_integer' || item.type == 'number_decimal') {
+                failureText += 'what you entered is not a ' + _this.optionLabel_en[item.type] + ' ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
+                    failureText += ' and ' + item.value2;
+                }
+            } else if (item.type == 'text_content') {
+                failureText += 'what you entered is not text that ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+            } else if (item.type == 'text_length') {
+                failureText += 'the text you entered is not length ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
+                    failureText += ' and ' + item.value2;
+                }
+            } else if (item.type == 'date') {
+                failureText += 'the date you entered is not ' + _this.optionLabel_en[item.type2] + ' ' + item.value1;
+
+                if (item.type2 == 'bw' || item.type2 == 'nb') {
+                    failureText += ' and ' + item.value2;
+                }
+            } else if (item.type == 'validity') {
+                failureText += 'what you entered is not a correct ' + _this.optionLabel_en[item.type2];
             }
         }
 

@@ -132,9 +132,9 @@ const tooltip = {
         $("body").append(replaceHtml(modelHTML, { 
             "id": id, 
             "addclass": "luckysheet-chart-point-config-c", 
-            "title": "数据点批量设置", 
+            "title": "Data point batch setting",
             "content": luckysheetchartpointconfigHTML, 
-            "botton": '<button class="btn btn-danger luckysheet-model-save-btn">&nbsp;&nbsp;保存设置&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>', 
+            "botton": '<button class="btn btn-danger luckysheet-model-save-btn">&nbsp;&nbsp;Save Settings&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;Cancel&nbsp;&nbsp;</button>',
             "style": "z-index:100003;height:80%;width:80%;top:10%;left:10%;" 
         }));
         $("#luckysheet-modal-dialog-mask").show();

@@ -9140,7 +9140,9 @@ export default {
 
 
         { "text": "", "value": "partir", "example": "" },
-        { "text": 'Fecha', "value": "yyyy-MM-dd", "example": "2017-11-29" },
+        { "text": 'Fecha (-)', "value": "yyyy-MM-dd", "example": "2017-11-29" },
+        // { "text": 'Fecha (.)', "value": "dd.MM.yyyy", "example": "28.10.2021" },
+        { "text": 'Fecha (/)', "value": "M/d/yyyy", "example": "10/28/2021" },
         { "text": 'Hora', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": 'Hora 24H', "value": "hh:mm", "example": "15:00" },
         { "text": 'Fecha Hora', "value": "yyyy-MM-dd hh:mm AM/PM", "example": "2017-11-29 3:00 PM" },
@@ -9149,20 +9151,56 @@ export default {
         { "text": 'Formatos personalizados', "value": "fmtOtherSelf", "example": "más" }
     ],
     dateFmtList:[
+        // {
+        //     "name": "28.10.2021",
+        //     "value": "dd.MM.yyyy"
+        // },
         {
-            "name": "1930-08-05",
+            "name": "10/28/2021",
+            "value": "M/d/yyyy"
+        },
+        {
+            "name": "10/28/21",
+            "value": "M/d/yy"
+        },
+        {
+            "name": "2021-08-25",
             "value": "yyyy-MM-dd"
         },
         {
-            "name": "1930/8/5",
+            "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
+        // {
+        //     "name": "28. 10. 2021.",
+        //     "value": "d. M. yyyy."
+        // },
         {
-            "name": "08-05",
+            "name": "28-10-2021",
+            "value": "dd-MM-yyyy"
+        },
+        {
+            "name": "28-10-21",
+            "value": "dd-MM-yy"
+        },
+        // {
+        //     "name": "28.10.21",
+        //     "value": "dd.MM.yy"
+        // },
+        {
+            "name": "28/10/2021",
+            "value": "dd/MM/yyyy"
+        },
+        // {
+        //     "name": "2021.08.25",
+        //     "value": "yyyy.MM.dd"
+        // },
+        {
+            "name": "08-25",
             "value": "MM-dd"
         },
         {
-            "name": "8-5",
+            "name": "8-25",
             "value": "M-d"
         },
         {
@@ -9174,20 +9212,8 @@ export default {
             "value": "h:mm"
         },
         {
-            "name": "PM 01:30",
-            "value": 'AM/PM hh:mm'
-        },
-        {
-            "name": "PM 1:30",
-            "value": 'AM/PM h:mm'
-        },
-        {
-            "name": "PM 1:30:30",
-            "value": 'AM/PM h:mm:ss'
-        },
-        {
-            "name": "08-05 PM 01:30",
-            "value": "MM-dd AM/PM hh:mm"
+            "name": "08-25 01:30",
+            "value": "MM-dd hh:mm"
         }
     ],
     fontFamily:{
