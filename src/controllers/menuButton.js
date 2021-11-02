@@ -23,31 +23,18 @@ import {genarate, update, is_date} from '../global/format';
 import {jfrefreshgrid, luckysheetrefreshgrid} from '../global/refresh';
 import {sortSelection} from '../global/sort';
 import luckysheetformula from '../global/formula';
-import {rowLocationByIndex, colLocationByIndex} from '../global/location';
-import {isdatatypemulti} from '../global/datecontroll';
-import {rowlenByRange, getCellTextSplitArr} from '../global/getRowlen';
-import {setcellvalue} from '../global/setdata';
-import {getFontStyleByCell, checkstatusByCell} from '../global/getdata';
-import {countfunc} from '../global/count';
-import {hideMenuByCancel} from '../global/cursorPos';
-import {getSheetIndex, getRangetxt, getluckysheetfile} from '../methods/get';
-import {setluckysheetfile} from '../methods/set';
-import {
-    isInlineStringCell,
-    updateInlineStringFormat,
-    convertCssToStyleList,
-    inlineStyleAffectAttribute,
-    updateInlineStringFormatOutside
-} from './inlineString';
-import {
-    replaceHtml,
-    getObjType,
-    rgbTohex,
-    mouseclickposition,
-    luckysheetfontformat,
-    luckysheetContainerFocus
-} from '../utils/util';
-import {openProtectionModal, checkProtectionFormatCells, checkProtectionNotEnable} from './protection';
+import { rowLocationByIndex, colLocationByIndex } from '../global/location';
+import { isdatatypemulti } from '../global/datecontroll';
+import { rowlenByRange } from '../global/getRowlen';
+import { setcellvalue } from '../global/setdata';
+import { getFontStyleByCell, checkstatusByCell} from '../global/getdata';
+import { countfunc } from '../global/count';
+import { hideMenuByCancel } from '../global/cursorPos';
+import { getSheetIndex, getRangetxt, getluckysheetfile } from '../methods/get';
+import { setluckysheetfile } from '../methods/set';
+import {isInlineStringCell,isInlineStringCT,updateInlineStringFormat,convertCssToStyleList,inlineStyleAffectAttribute,updateInlineStringFormatOutside} from './inlineString';
+import { replaceHtml, getObjType, mouseclickposition, luckysheetContainerFocus } from '../utils/util';
+import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
 import {checkTheStatusOfTheSelectedCells} from '../global/api';
@@ -3509,7 +3496,7 @@ const menuButton = {
                             for (let c = c1; c <= c2; c++) {
                                 let cell = d[r][c];
 
-                                if (cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst) {
+                                if(cell != null && (isInlineStringCT(cell.ct) || !isRealNull(cell.v) || cell.f != null) && !isfirst){
                                     fv = $.extend(true, {}, cell);
                                     isfirst = true;
                                 }

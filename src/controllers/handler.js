@@ -4518,8 +4518,8 @@ export default function luckysheetHandler() {
 
         let $t = $(this), value = $("#luckysheet-bottom-add-row-input").val();
 
-        if (value == "") {
-            value = 100;
+        if (value == "") {            
+            value = luckysheetConfigsetting.addRowCount || 100;
         }
 
         if (isNaN(parseInt(value))) {
@@ -5053,9 +5053,15 @@ export default function luckysheetHandler() {
 
     //回退 重做 按钮
     $("#luckysheet-icon-undo").click(function (event) {
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
         controlHistory.redo(event);
     });
     $("#luckysheet-icon-redo").click(function (event) {
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
         controlHistory.undo(event);
     });
 

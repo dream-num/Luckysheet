@@ -9,11 +9,13 @@
 
 </div>
 
+# Luckysheet 3.x is currently being rewritten in Typescript
 
 English| [简体中文](./README-zh.md)
 
 ## Introduction
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
+
 
 ## Links
  | Source Code   | Documentation | Demo | Plugins Demo | Forum |
@@ -201,21 +203,26 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - *勇 ¥ 10
 - *腾 ¥ 15
 - 名字好难起 ¥ 20
+- 大山 ¥ 1
+- waiting ¥ 1000
 
 ## Authors and acknowledgment
 
 ### Active Core Team Members
 - [@wbfsa](https://github.com/wbfsa)
-- [@iamxuchen800117](https://github.com/iamxuchen800117)
-- [@wpxp123456](https://github.com/wpxp123456)
+- [@eiji-th](https://github.com/eiji-th)
+- [@fly-95](https://github.com/fly-95)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
+- [@wpxp123456](https://github.com/wpxp123456)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 - [@jerry-f](https://github.com/jerry-f)
 - [@flowerField](https://github.com/flowerField)
 
 ### Community Partners
+- [@yiwasheng](https://github.com/yiwasheng)
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)

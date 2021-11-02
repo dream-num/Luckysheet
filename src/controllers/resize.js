@@ -402,6 +402,9 @@ export function menuToolBarWidth() {
             for (let i = 0; i<defaultToolbar.length; i++) {
                 current = defaultToolbar[i];
                 next = defaultToolbar[i + 1];
+                if (config[current] === false) {
+                    continue;
+                }
                 if (current !== '|' && config[current]) {
 
                     obj[current] = {

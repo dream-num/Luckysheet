@@ -2047,6 +2047,7 @@ export function rowColumnOperationInitial(){
 
                 return;
             }
+            const hyperlinkMap = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].hyperlink;
 
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let r1 = Store.luckysheet_select_save[s].row[0], 
@@ -2077,6 +2078,10 @@ export function rowColumnOperationInitial(){
                         }
                         else{
                             d[r][c] = null;
+                        }
+                        // 同步清除 hyperlink
+                        if (hyperlinkMap && hyperlinkMap[`${r}_${c}`]) {
+                            delete hyperlinkMap[`${r}_${c}`];
                         }
                     }
                 }

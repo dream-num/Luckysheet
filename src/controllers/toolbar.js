@@ -106,7 +106,7 @@ export function createToolbarHtml() {
     const fontarray = locale().fontarray;
     const defaultFmtArray = locale().defaultFmt;
     const htmlMap = {
-        undo: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.undo}"
+        undo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.undo}"
         id="luckysheet-icon-undo" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -120,7 +120,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`,
-        redo: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.redo}"
+        redo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.redo}"
         id="luckysheet-icon-redo" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">

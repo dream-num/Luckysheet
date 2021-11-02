@@ -60,6 +60,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
 - 允许添加行 [enableAddRow](#enableAddRow)
+- 默认添加行的数目 [addRowCount](#addRowCount)
 - 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
 - 用户信息菜单 [userMenuItem](#userMenuItem)
@@ -468,6 +469,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：true
 - 作用：允许添加行
+
+### addRowCount
+- Number
+- 默认值：100
+- 作用：配置新增行处默认新增的行数目
 
 ------------
 ### enableAddBackTop
@@ -1256,20 +1262,74 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ## 工作表
 
-### sheetCreatekBefore
-（TODO）
+### sheetCreateBefore
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页前触发，sheet页新建也包含数据透视表新建
 
 ------------
 ### sheetCreateAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页后触发，sheet页新建也包含数据透视表新建
 - 参数：
 	- {Object} [sheet]: 当前新创建的sheet页的配置
+
+------------
+### sheetCopyBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页前触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [targetSheet]: 被拷贝的sheet页配置
+	- {Object} [copySheet]: 拷贝得到的sheet页的配置
+------------
+### sheetCopyAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页后触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [sheet]: 当前创建的sheet页的配置
+
+------------
+### sheetHideBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页前触发
+- 参数：
+	- {Object} [sheet]: 将要隐藏的sheet页的配置
+
+------------
+### sheetHideAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页后触发
+- 参数：
+	- {Object} [sheet]: 要隐藏的sheet页的配置
+
+------------
+### sheetShowBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：显示sheet页前触发
+- 参数：
+	- {Object} [sheet]: 将要显示的sheet页的配置
+
+------------
+### sheetShowAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：显示sheet页后触发
+- 参数：
+	- {Object} [sheet]: 要显示的sheet页的配置
 
 ------------
 ### sheetMoveBefore
@@ -1294,7 +1354,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除前
@@ -1303,7 +1363,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除后
@@ -1312,7 +1372,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称前
@@ -1322,7 +1382,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称后
