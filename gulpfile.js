@@ -274,19 +274,6 @@ function css() {
         .pipe(dest(paths.destCss));
 }
 
-function cssFonts() {
-    return src('node_modules/element-ui/lib/theme-chalk/fonts/*.{ttf,woff,woff2,svg,eot}', { read: false })
-        .pipe(gulpFont({
-            ext: '.css',
-            fontface: 'fonts',
-            relative: '/fonts',
-            dest: 'dist/fonts',
-            embed: ['woff', 'ttf'],
-            collate: false
-        }))
-        .pipe(dest('dist/fonts'));
-}
-
 function pluginsJs() {
     if (!production) {
         paths.pluginsJs.unshift('node_modules/jquery/dist/jquery.min.js')
