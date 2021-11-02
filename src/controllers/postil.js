@@ -872,6 +872,9 @@ const luckysheetPostil = {
             let value = $("#" + id).find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
             // Hook function
             if(!method.createHookFunction('commentUpdateBefore',r,c,value)){
+                if (!Store.flowdata[r][c].ps.isshow) {
+                    $("#" + id).remove();
+                }
                 return;
             }
 
