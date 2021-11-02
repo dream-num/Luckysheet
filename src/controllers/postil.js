@@ -222,8 +222,8 @@ const luckysheetPostil = {
             fromY = 2;
         }
 
-        let width = _this.defaultWidth * Store.zoomRatio
-        let height = _this.defaultHeight * Store.zoomRatio
+        let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+        let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
 
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
