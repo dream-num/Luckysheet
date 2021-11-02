@@ -288,6 +288,11 @@ function cssFonts() {
 }
 
 function pluginsJs() {
+    if (!production) {
+        paths.pluginsJs.unshift('node_modules/jquery/dist/jquery.min.js')
+        paths.pluginsJs.push('src/plugins/js/jquery.mousewheel.min.js')
+    }
+
     return  src(paths.pluginsJs)
         .pipe(concat(paths.concatPluginsJs))
         .pipe(gulpif(production, uglify(uglifyOptions)))
