@@ -1,4 +1,3 @@
-const gulp = require('gulp');
 // gulp core function
 const { src, dest, series, parallel, watch } = require('gulp');
 // gulp compress js
@@ -28,12 +27,12 @@ const commonjs = require('@rollup/plugin-commonjs');
 const terser = require('rollup-plugin-terser').terser;
 // rollup babel plugin, support the latest ES grammar
 const babel = require('@rollup/plugin-babel').default;
-const gulpFont = require('gulp-font');
 // const gulpBabel = require('gulp-babel');
 // Distinguish development and production environments
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
 const pkg = require('./package.json');
+const fs = require("fs");
 const banner = `/*! @preserve
  * ${pkg.name}
  * version: ${pkg.version}
@@ -217,7 +216,12 @@ async function core_rollup() {
 }
 
 async function core() {
-
+    // fix for the numeral.js amd preference
+    const file = "node_modules\\numeral\\numeral.js"
+    let text = fs.readFileSync(file, "utf8");
+    text = text.replace("define.amd", "define.a");
+    fs.writeFileSync(file, text);
+    
     await require('esbuild').buildSync({
         format: 'iife',
         globalName: 'luckysheet',    
@@ -232,23 +236,8 @@ async function core() {
             '.ttf': 'file',
             '.woff': 'file',
         },
-        logLevel: 'error',
-      })
-
-    // if(production){
-    //     await require('esbuild').buildSync({
-    //         format: 'esm',
-    //         globalName: 'luckysheet',
-    //         entryPoints: ['src/index.js'],
-    //         bundle: true,
-    //         minify: production,
-    //         banner: { js: banner },
-    //         target: ['es2015'],
-    //         sourcemap: true,
-    //         outfile: 'dist/luckysheet.esm.js',
-    //         logLevel: 'error',
-    //     })
-    // }
+        logLevel: 'error'
+    })
 }
 
 // According to the build tag in html, package js and css
