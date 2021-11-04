@@ -675,7 +675,7 @@ const selection = {
                     alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint', msg);
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', msg);
                 }
 
                 return;
@@ -817,7 +817,7 @@ const selection = {
                     alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
                 }
                 return;
             }
@@ -927,7 +927,7 @@ const selection = {
                 alert(msg);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
             }
             return;
         }
@@ -1406,7 +1406,7 @@ const selection = {
                 alert(msg);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
             }
             return;
         }
@@ -1675,7 +1675,7 @@ const selection = {
                     alert(msg);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>hint',msg);
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
                 }
                 return;
             }
