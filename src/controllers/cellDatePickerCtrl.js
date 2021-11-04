@@ -3,8 +3,8 @@ import formula from '../global/formula';
 import Store from '../store';
 import flatpickr from 'flatpickr'
 import dayjs from "dayjs";
-import { update, datenum_local } from '../global/format';
-import { setCellValue, setCellFormat } from '../global/api';
+import {update, datenum_local} from '../global/format';
+import {setCellValue, setCellFormat} from '../global/api';
 
 const fitFormat = (formatStr) => {
     let dateFormat = formatStr.replace(/y/g, 'Y');
@@ -96,7 +96,7 @@ const cellDatePickerCtrl = {
             onChange: function (selectedDates, dateStr) {
                 let currentVal = datenum_local(new Date(selectedDates))
                 $("#luckysheet-rich-text-editor").text(dateStr);
-                setCellValue(r, c, currentVal, { isRefresh: false })
+                setCellValue(r, c, currentVal, {isRefresh: false})
                 setCellFormat(r, c, 'ct', cell.ct)
                 if (!enableTime) {
                     formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
