@@ -38,6 +38,7 @@ import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable}
 import Store from '../store';
 import locale from '../locale/locale';
 import {checkTheStatusOfTheSelectedCells} from '../global/api';
+import DOMPurify from "dompurify";
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
@@ -458,7 +459,7 @@ const menuButton = {
                     luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), itemname = $t.attr("itemname");
-                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").html(" " + itemname + " ");
+                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
 
                     if (itemvalue == "fmtOtherSelf") {
                         return;
@@ -533,7 +534,7 @@ const menuButton = {
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), itemname = $t.attr("itemname");
                     _this.focus($menuButton, itemvalue);
-                    $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + itemname + " ");
+                    $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
 
                     let d = editor.deepCopyFlowData(Store.flowdata);
 
@@ -3645,7 +3646,7 @@ const menuButton = {
             }
 
             _this.focus($menuButton, itemvalue);
-            $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + itemname + " ");
+            $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
         } else if (attr == "fs") {
             let $menuButton = $("#luckysheet-icon-font-size-menuButton");
             let itemvalue = foucsStatus, $input = $("#luckysheet-icon-font-size input");
@@ -4152,7 +4153,7 @@ const menuButton = {
         }
 
         if ($("#luckysheetTextSizeTest").length == 0) {
-            $('<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden;margin:0;padding:0;">' + text + '</span>').appendTo($('body'));
+            $(DOMPurify.sanitize('<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden;margin:0;padding:0;">' + text + '</span>')).appendTo($('body'));
         }
 
         let o = $("#luckysheetTextSizeTest").text(text).css({'font': f}),
@@ -4175,7 +4176,7 @@ const menuButton = {
         if (isnull) {
             let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + formula.toUpperCase() + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
 
-            $("#luckysheet-rich-text-editor").html(formulaTxt);
+            $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
 
             let currSelection = window.getSelection();
             let $span = $("#luckysheet-rich-text-editor").find("span");
@@ -4193,7 +4194,7 @@ const menuButton = {
             "row": rowh,
             "column": columnh
         }, Store.currentSheetIndex) + '</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
-        $("#luckysheet-rich-text-editor").html(formulaTxt);
+        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
 
         luckysheetformula.israngeseleciton();
         luckysheetformula.rangestart = true;
@@ -4636,7 +4637,7 @@ const menuButton = {
 
             let $menuButton = $("#luckysheet-icon-font-family-menuButton");
             let itemset = this.createButtonMenu(this.fontSelectList);
-            $menuButton.html(itemset);
+            $menuButton.html(DOMPurify.sanitize(itemset));
         }
     },
     fontInitial: function (fontList) {

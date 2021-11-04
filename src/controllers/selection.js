@@ -16,6 +16,7 @@ import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import imageCtrl from './imageCtrl';
+import DOMPurify from "dompurify";
 
 const selection = {
     clearcopy: function (e) {
@@ -527,7 +528,7 @@ const selection = {
 
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content");
-            textarea.html(cpdata);
+            textarea.html(DOMPurify.sanitize(cpdata));
             textarea.focus();
             textarea.select();
             document.execCommand("selectAll");

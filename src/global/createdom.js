@@ -12,13 +12,11 @@ import {
     sheetconfigHTML,
 } from '../controllers/constant';
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
-import luckysheetPostil from '../controllers/postil';
-import { datagridgrowth } from './getdata';
-import editor from './editor';
 import rhchInit from './rhchInit';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 export default function luckysheetcreatedom(colwidth, rowheight, data, menu, title) {
     // //最少30行
@@ -98,7 +96,7 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
 
     gh = replaceHtml(gh, { "flow": flowHTML, "rowHeader": "<div style='height:" + Store.rh_height + "px' id='luckysheetrowHeader_0' class='luckysheetsheetchange'></div>", "columnHeader": colsheader, "functionButton": luckysheetConfigsetting.functionButton });//设置需要显示的菜单
 
-    $("#" + Store.container).append(gh);
+    $("#" + Store.container).append(DOMPurify.sanitize(gh));
 
     $("#luckysheet-scrollbar-x div").width(Store.ch_width);
     $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
@@ -106,11 +104,11 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     //新建行菜单
     $("body").append(maskHTML);
     $("body").append(colsmenuHTML);
-    $("body").append(rightclickHTML());
+    $("body").append(DOMPurify.sanitize(rightclickHTML()));
     $("body").append(inputHTML);
     $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "filter" }));
     $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
-    $("body").append(sheetconfigHTML());
+    $("body").append(DOMPurify.sanitize(sheetconfigHTML()));
 
     $("#luckysheet-rows-h").width((Store.rowHeaderWidth-1.5));
     $("#luckysheet-cols-h-c").height((Store.columnHeaderHeight-1.5));

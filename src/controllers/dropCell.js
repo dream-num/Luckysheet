@@ -14,6 +14,7 @@ import { getObjType, replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import dayjs from 'dayjs'
+import DOMPurify from "dompurify";
 
 //选区下拉
 const luckysheetDropCell = {
@@ -286,10 +287,8 @@ const luckysheetDropCell = {
             col_index = copy_c;
         }
 
-        let row = rowLocationByIndex(row_index)[1],
-            row_pre = rowLocationByIndex(row_index)[0];
-        let col = colLocationByIndex(col_index)[1],
-            col_pre = colLocationByIndex(col_index)[0];
+        let row = rowLocationByIndex(row_index)[1];
+        let col = colLocationByIndex(col_index)[1];
 
         $("#luckysheet-dropCell-icon").remove();
         $("#luckysheet-cell-main").append(_this.iconHtml);
@@ -304,7 +303,7 @@ const luckysheetDropCell = {
             $("#luckysheet-dropCell-typeList").remove();
             const _locale = locale();
             const locale_dropCell = _locale.dropCell;
-            $("body").append(replaceHtml(_this.typeListHtml,{
+            $("body").append(DOMPurify.sanitize(replaceHtml(_this.typeListHtml,{
                 copyCell:locale_dropCell.copyCell,
                 sequence:locale_dropCell.sequence,
                 onlyFormat:locale_dropCell.onlyFormat,
@@ -314,7 +313,7 @@ const luckysheetDropCell = {
                 month:locale_dropCell.month,
                 year:locale_dropCell.year,
                 chineseNumber:locale_dropCell.chineseNumber,
-            }));
+            })));
 
             let typeItemHide = _this.typeItemHide();
             if(!typeItemHide[0] && !typeItemHide[1] && !typeItemHide[2] && !typeItemHide[3] && !typeItemHide[4] && !typeItemHide[5] && !typeItemHide[6]){

@@ -5,6 +5,7 @@ import { modelHTML } from './constant';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 //if公式生成器
 const ifFormulaGenerator = {
@@ -168,7 +169,7 @@ const ifFormulaGenerator = {
                                     '<input type="text" class="markText formulaInputFocus" value="">'+
                                     '<i class="fa fa-remove" aria-hidden="true"></i>'+
                                 '</div>';
-                $("#luckysheet-ifFormulaGenerator-dialog .ifList").append(itemHtml);                
+                $("#luckysheet-ifFormulaGenerator-dialog .ifList").append(DOMPurify.sanitize(itemHtml));
             }
             else{
                 let smallRange = $(this).parents("#luckysheet-ifFormulaGenerator-dialog").find("#smallRange").val().trim();
@@ -263,7 +264,7 @@ const ifFormulaGenerator = {
             
             luckysheetupdateCell(row_index, col_index, Store.flowdata);
 
-            $("#luckysheet-rich-text-editor").html("=" + str);
+            $("#luckysheet-rich-text-editor").html("=" + DOMPurify.sanitize(str));
             $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
 
             $("#luckysheet-wa-functionbox-confirm").click();
@@ -363,14 +364,14 @@ const ifFormulaGenerator = {
                       '</div>'+
                       '<div class="ifList">'+ifListHtml+'</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-ifFormulaGenerator-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-dialog", 
             "title": locale_formula.ifGenerate, 
             "content": content, 
             "botton": '<button id="luckysheet-ifFormulaGenerator-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-ifFormulaGenerator-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 590).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -428,14 +429,14 @@ const ifFormulaGenerator = {
             value = "";
         }
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
             "title": locale_formula.ifGenTipSelectCell, 
             "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectCellPlace+'" value="'+ value +'">', 
             "botton": '<button id="luckysheet-ifFormulaGenerator-singleRange-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-ifFormulaGenerator-singleRange-cancel" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-ifFormulaGenerator-singleRange-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -452,14 +453,14 @@ const ifFormulaGenerator = {
         const locale_formula = _locale.formula;
         const locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
             "addclass": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
             "title": locale_formula.ifGenTipSelectRange, 
             "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectRangePlace+'" value="">', 
             "botton": '<button id="luckysheet-ifFormulaGenerator-multiRange-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-ifFormulaGenerator-multiRange-cancel" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-ifFormulaGenerator-multiRange-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -531,7 +532,7 @@ const ifFormulaGenerator = {
                                 '<input type="text" class="markText formulaInputFocus" value="'+ markText +'">'+
                                 '<i class="fa fa-remove" aria-hidden="true"></i>'+
                             '</div>';
-            $("#luckysheet-ifFormulaGenerator-dialog .ifList").append(itemHtml);
+            $("#luckysheet-ifFormulaGenerator-dialog .ifList").append(DOMPurify.sanitize(itemHtml));
         }
     },
     info: function(title){
@@ -541,14 +542,14 @@ const ifFormulaGenerator = {
         const _locale = locale();
         const locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-ifFormulaGenerator-info", 
             "addclass": "", 
             "title": title, 
             "content": "", 
             "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-ifFormulaGenerator-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();

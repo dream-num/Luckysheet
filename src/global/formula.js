@@ -28,6 +28,7 @@ import Store from '../store';
 import locale from '../locale/locale';
 import json from './json';
 import method from './method';
+import DOMPurify from "dompurify";
 
 const luckysheetformula = {
     error: {
@@ -315,7 +316,7 @@ const luckysheetformula = {
     dontupdate: function () {
         let _this = this;
         Store.luckysheetCellUpdate.length = 0; //clear array
-        $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(_this.oldvalue);
+        $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(DOMPurify.sanitize(_this.oldvalue));
         _this.cancelNormalSelected();
         if (_this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -323,7 +324,7 @@ const luckysheetformula = {
     },
     xssDeal: function(str) {
         if (typeof str !== 'string') return str;
-        return str.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
+        return DOMPurify.sanitize(str);
     },
     fucntionboxshow: function(r, c) {
 
@@ -972,7 +973,7 @@ const luckysheetformula = {
         }
 
         let listHTML = _this.searchFunctionHTML(list);
-        $("#luckysheet-formula-search-c").html(listHTML).show();
+        $("#luckysheet-formula-search-c").html(DOMPurify.sanitize(listHTML)).show();
         $("#luckysheet-formula-help-c").hide();
 
         let $c = $editer.parent(),
@@ -1043,8 +1044,8 @@ const luckysheetformula = {
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
 
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-function-name").html($func.n);
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-parameter-content").html($func.d);
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-function-name").html(DOMPurify.sanitize($func.n));
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-parameter-content").html(DOMPurify.sanitize(($func.d)));
 
         let helpformula = '<span class="luckysheet-arguments-help-function-name">${name}</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> ${param} </span> <span class="luckysheet-arguments-paren">)</span>';
         let helpformulaItem = '<span class="luckysheet-arguments-help-parameter" dir="auto">${param}</span>';
@@ -1086,9 +1087,9 @@ const luckysheetformula = {
         fht = fht.substr(0, fht.length - 2);
         ahf = ahf.substr(0, ahf.length - 2);
 
-        $("#luckysheet-formula-help-c .luckysheet-formula-help-title .luckysheet-arguments-parameter-holder").html(fht); //介绍
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-formula .luckysheet-arguments-parameter-holder").html(ahf); //示例
-        $("#luckysheet-formula-help-c .luckysheet-formula-help-content-param").html(fhcp); //参数
+        $("#luckysheet-formula-help-c .luckysheet-formula-help-title .luckysheet-arguments-parameter-holder").html(DOMPurify.sanitize(fht)); //介绍
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-formula .luckysheet-arguments-parameter-holder").html(DOMPurify.sanitize(ahf)); //示例
+        $("#luckysheet-formula-help-c .luckysheet-formula-help-content-param").html(DOMPurify.sanitize(fhcp)); //参数
 
         if (paramIndex == null) {
             $("#luckysheet-formula-help-c .luckysheet-formula-help-title-formula .luckysheet-arguments-help-function-name").css("font-weight", "bold");
@@ -2610,7 +2611,7 @@ const luckysheetformula = {
                 }
 
                 let function_str = _this.functionHTMLGenerate(functionHtmlTxt);
-                $("#luckysheet-rich-text-editor").html(function_str);
+                $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(function_str));
                 $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
 
                 if (isVal) {
@@ -2625,7 +2626,7 @@ const luckysheetformula = {
                 let anchorOffset = currSelection.anchorNode;
                 $editor = $(anchorOffset).closest("div");
 
-                let $span = $editor.find("span[rangeindex='" + _this.rangechangeindex + "']").html(range);
+                let $span = $editor.find("span[rangeindex='" + _this.rangechangeindex + "']").html(DOMPurify.sanitize(range));
 
                 _this.setCaretPosition($span.get(0), 0, range.length);
             }
@@ -3008,7 +3009,7 @@ const luckysheetformula = {
         };
         let range = _this.getSelectedFromRange(selected);
         let rangetxt = getRangetxt(Store.currentSheetIndex, range, _this.rangetosheet);
-        let $span = _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(rangetxt);
+        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(DOMPurify.sanitize(rangetxt));
         luckysheetRangeLast(_this.rangeResizeTo[0]);
         luckysheetCurrentChartResizeObj.css(selected).data("range", range);
     },
@@ -3095,7 +3096,7 @@ const luckysheetformula = {
         };
         let range = _this.getSelectedFromRange(selected);
         let rangetxt = getRangetxt(Store.currentSheetIndex, range, _this.rangetosheet);
-        let $span = _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(rangetxt);
+        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(DOMPurify.sanitize(rangetxt));
         luckysheetRangeLast(_this.rangeResizeTo[0]);
         _this.rangeMoveRangedata = range;
         obj.css(selected);

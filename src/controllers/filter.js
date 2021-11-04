@@ -25,6 +25,7 @@ import {
 import { orderbydata, orderbydata1D } from '../global/sort';
 import json from '../global/json';
 import { update, genarate } from '../global/format';
+import DOMPurify from "dompurify";
 
 //筛选配置状态
 function labelFilterOptionState($top, optionstate, rowhidden, caljs, notSave, str, edr, cindex, stc, edc) {
@@ -236,7 +237,7 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
         col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
     
     let newSelectedHTML = '<div id="luckysheet-filter-selected-sheet'+ Store.currentSheetIndex +'" class="luckysheet-cell-selected luckysheet-filter-selected"  style="left:'+ col_pre +'px;width:'+ (col - col_pre - 1) +'px;top:'+ row_pre +'px;height:'+ (row - row_pre - 1) +'px;display:block;border-color:#897BFF;z-index:20;background:none;"></div>';
-    $("#luckysheet-cell-main").append(newSelectedHTML);
+    $("#luckysheet-cell-main").append(DOMPurify.sanitize(newSelectedHTML));
     
     let optionHTML = "";
 
@@ -278,7 +279,7 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
         }
     }
 
-    $("#luckysheet-cell-main").append('<div id="luckysheet-filter-options-sheet'+ Store.currentSheetIndex +'" class="luckysheet-filter-options-c">' + optionHTML + '</div>');
+    $("#luckysheet-cell-main").append(DOMPurify.sanitize('<div id="luckysheet-filter-options-sheet'+ Store.currentSheetIndex +'" class="luckysheet-filter-options-c">' + optionHTML + '</div>'));
     $("#luckysheet-rightclick-menu").hide();
     $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
 
@@ -349,7 +350,7 @@ function initialFilterHandler(){
     $("#luckysheet-filter-submenu").mouseover(function () {
         clearTimeout(hidefilersubmenu);
     }).find(".luckysheet-cols-menuitem").click(function (e) {
-        $("#luckysheet-filter-selected span").html($(this).find(".luckysheet-cols-menuitem-content").text()).data("value", $(this).data("value"));
+        $("#luckysheet-filter-selected span").html(DOMPurify.sanitize($(this).find(".luckysheet-cols-menuitem-content").text())).data("value", $(this).data("value"));
         $("#luckysheet-filter-menu .luckysheet-filter-selected-input").hide();
 
         let $type = $(this).data("type");
@@ -734,7 +735,7 @@ function initialFilterHandler(){
             if (containerH < 0) containerH = 100
             //$("#luckysheet-filter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
 
-            $("#luckysheet-filter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
+            $("#luckysheet-filter-byvalue-select").append(DOMPurify.sanitize("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>"));
             loadingObj.close();
         }, 1);
 
@@ -860,7 +861,7 @@ function initialFilterHandler(){
             }
             //颜色筛选子菜单
             $("#luckysheet-filter-orderby-color-submenu").remove();
-            $("body").append('<div id="luckysheet-filter-orderby-color-submenu" class="luckysheet-cols-menu luckysheet-mousedown-cancel">'+content+'</div>');
+            $("body").append(DOMPurify.sanitize('<div id="luckysheet-filter-orderby-color-submenu" class="luckysheet-cols-menu luckysheet-mousedown-cancel">'+content+'</div>'));
             let $t = $("#luckysheet-filter-orderby-color-submenu").end();
             let $con = $(this).parent();
             let winW = $(window).width(), winH = $(window).height();

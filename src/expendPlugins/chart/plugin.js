@@ -12,6 +12,7 @@ import {isEditMode} from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
 import './umd/chartmix.css';
 import chartmix from './umd/chartmix.umd';
+import DOMPurify from "dompurify";
 
 let _rowLocation = rowLocation
 let _colLocation = colLocation
@@ -217,7 +218,7 @@ function chart_selection() {
                 rangeSplitArray.content.column[1] + st_c
             )
 
-            $rangeShow.append(chart_rowtitle_html + chart_coltitle_html + chart_content_html)
+            $rangeShow.append(DOMPurify.sanitize(chart_rowtitle_html + chart_coltitle_html + chart_content_html))
 
             function getRangeShowHtml(type, r1, r2, c1, c2) {
                 var visibledatarow = getvisibledatarow()

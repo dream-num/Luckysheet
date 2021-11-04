@@ -2,6 +2,7 @@ import {getFontStyleByCell, textTrim} from "../global/getdata";
 import {selectTextContent,selectTextContentCross,selectTextContentCollapse} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
+import DOMPurify from "dompurify";
 
 export const inlineStyleAffectAttribute = {"bl":1, "it":1 , "ff":1, "cl":1, "un":1,"fs":1,"fc":1};
 export const inlineStyleAffectCssName = {"font-weight":1, "font-style":1 , "font-family":1, "text-decoration":1, "border-bottom":1,"font-size":1,"color":1};
@@ -136,7 +137,7 @@ export function updateInlineStringFormat(cell, attr, value, $input){
             }
             else{
                 spanIndex = 0;
-                $(span).html(cont);
+                $(span).html(DOMPurify.sanitize(cont));
             }
             
 
@@ -204,7 +205,7 @@ export function updateInlineStringFormat(cell, attr, value, $input){
                     cont += "<span style='"+ span.style.cssText +"'>" + content + "</span>";
                 }
 
-                $textEditor.html(cont);
+                $textEditor.html(DOMPurify.sanitize(cont));
 
                 // console.log(replaceSpans, cont);
                 // replaceSpans.replaceWith(cont);
@@ -318,7 +319,7 @@ export function enterKeyControll(cell){
                 startOffset = textSpan.get(spanIndex).innerHTML.length-1;
             }
             else{
-                $(startSpan).html(cont);
+                $(startSpan).html(DOMPurify.sanitize(cont));
                 spanIndex = 0;
             }
             

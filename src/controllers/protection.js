@@ -1,18 +1,16 @@
 import Store from '../store';
 import locale from '../locale/locale';
 import { modelHTML } from './constant';
-import { getSheetIndex } from '../methods/get';
-import { setluckysheet_scroll_status } from '../methods/set';
 import sheetmanage from './sheetmanage';
 import luckysheetsizeauto from './resize';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import { replaceHtml,transformRangeToAbsolute,openSelfModel } from '../utils/util';
 import { selectionCopyShow } from './select';
 import tooltip from '../global/tooltip';
-import cleargridelement from '../global/cleargridelement';
+import DOMPurify from "dompurify";
 
 let isInitialProtection = false, isInitialProtectionAddRang = false, rangeItemListCache=[], isAddRangeItemState=true, updateRangeItemIndex = null, validationAuthority=null, updatingSheetFile=null, firstInputSheetProtectionPassword = true;
-let sqrefMapCache = {}, inputRangeProtectionPassword = {}, initialRangePasswordHtml=false;
+let inputRangeProtectionPassword = {}, initialRangePasswordHtml=false;
 
 const authorityItemArr = [
     "selectLockedCells",
@@ -61,7 +59,7 @@ function addRangeItem(item){
         </div>
     `;
 
-    $("#luckysheet-protection-rangeItem-container").append(rangeItemTemplate);
+    $("#luckysheet-protection-rangeItem-container").append(DOMPurify.sanitize(rangeItemTemplate));
 }
 
 function initialEvent(file){
@@ -261,18 +259,15 @@ function initialEvent(file){
                 passwordTxt = '<i class="icon iconfont luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
             }
 
-            $name.html(name+passwordTxt).attr("title",name);
+            $name.html(DOMPurify.sanitize(name+passwordTxt)).attr("title",name);
 
             let $range = $rangeitem.find(".luckysheet-protection-rangeItem-range");
 
-            $range.html(rangeText).attr("title",rangeText);
+            $range.html(DOMPurify.sanitize(rangeText)).attr("title",rangeText);
         }
-
-
 
         $("#luckysheet-protection-rangeItem-dialog").hide();
         $("#luckysheet-modal-dialog-mask").hide();
-
     });
 
 
@@ -461,7 +456,7 @@ function initialEvent(file){
 }
 
 //protect range config
-function initialProtectionRangeModal(file){
+function initialProtectionRangeModal(){
     if(isInitialProtectionAddRang){
         return;
     }
@@ -817,7 +812,7 @@ function openRangePasswordModal(rangeAut) {
 
     let $hint = $("#luckysheet-protection-range-validation-hint");
     if(rangeAut.hintText != null && rangeAut.hintText.length>0){
-        $hint.html(rangeAut.hintText);
+        $hint.html(DOMPurify.sanitize(rangeAut.hintText));
     }
     else{
         $hint.html(local_protection.defaultRangeHintText);

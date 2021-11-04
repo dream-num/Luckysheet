@@ -30,7 +30,7 @@ import tooltip from '../global/tooltip';
 import locale from '../locale/locale';
 import {enterKeyControll} from './inlineString';
 import Store from '../store';
-
+import DOMPurify from "dompurify";
 
 let luckysheet_shiftkeydown = false;
 
@@ -444,7 +444,7 @@ export function keyboardInitial(){
                         luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
 
                         let value = getNowDateTime(2);
-                        $("#luckysheet-rich-text-editor").html(value);
+                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(value));
                         luckysheetRangeLast($("#luckysheet-rich-text-editor")[0]);
                         formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
                     }
@@ -715,7 +715,7 @@ export function keyboardInitial(){
                     luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
 
                     let value = getNowDateTime(1);
-                    $("#luckysheet-rich-text-editor").html(value);
+                    $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(value));
                     luckysheetRangeLast($("#luckysheet-rich-text-editor")[0]);
                     formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
                 }

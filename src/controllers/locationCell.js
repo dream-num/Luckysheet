@@ -8,6 +8,7 @@ import { selectHightlightShow } from './select';
 import conditionformat from './conditionformat';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 //定位
 const luckysheetLocationCell = {
@@ -90,14 +91,14 @@ const luckysheetLocationCell = {
                         '</div>'+
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-locationCell-dialog", 
             "addclass": "luckysheet-locationCell-dialog", 
             "title": locale_location.location, 
             "content": content, 
             "botton": '<button id="luckysheet-locationCell-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-locationCell-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 400).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();

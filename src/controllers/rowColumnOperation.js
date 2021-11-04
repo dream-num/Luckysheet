@@ -1,4 +1,3 @@
-
 import pivotTable from './pivotTable';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
@@ -9,8 +8,7 @@ import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from '.
 import { 
     getObjType, 
     showrightclickmenu,
-    luckysheetContainerFocus, 
-    luckysheetfontformat,
+    luckysheetContainerFocus,
     $$
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
@@ -30,16 +28,16 @@ import {
     jfrefreshgridall, 
     jfrefreshgrid_rhcw,
 } from '../global/refresh';
-import { getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import locale from '../locale/locale';
-import {getMeasureText,getCellTextInfo} from '../global/getRowlen';
+import {getCellTextInfo} from '../global/getRowlen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import {isInlineStringCell} from './inlineString';
 import {checkProtectionLockedRangeList, checkProtectionAllSelected,checkProtectionAuthorityNormal  } from './protection';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
+import DOMPurify from "dompurify";
 
 export function rowColumnOperationInitial(){
 
@@ -169,7 +167,7 @@ export function rowColumnOperationInitial(){
                             formula.functionRangeIndex = textRange;
                         }
 
-                        $("#luckysheet-rich-text-editor").html(vText);
+                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText));
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
@@ -179,7 +177,7 @@ export function rowColumnOperationInitial(){
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(vText);
+                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText));
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择
@@ -598,7 +596,7 @@ export function rowColumnOperationInitial(){
                             formula.functionRangeIndex = textRange;
                         }
 
-                        $("#luckysheet-rich-text-editor").html(vText);
+                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText));
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
@@ -608,7 +606,7 @@ export function rowColumnOperationInitial(){
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(vText);
+                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText));
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择

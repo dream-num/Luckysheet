@@ -7833,7 +7833,7 @@ export default {
         }, {
             "name": "Birthday format",
             "example": "0",
-            "detail": "Date type, default:0:[1900/01/01], 1:[1900-01-01], 2:[1900年1月1日]",
+            "detail": "Date type, default:0:[1900/01/01], 1:[1900-01-01]",
             "require": "o",
             "repeat": "n",
             "type": "rangeall"
@@ -9318,7 +9318,7 @@ export default {
 
     },
     filter:{
-       filter:"create filter",
+       filter:"Create filter",
 
        sortByAsc:"Sort A-Z",
        sortByDesc:"Sort Z-A",
@@ -9646,8 +9646,8 @@ export default {
         clearColorSelect: 'Clear color select',
         sheet: 'Sheet',
         currentSheet: 'Current Sheet',
-        dataBar: 'data bar',
-        dataBarColor: 'data bar color',
+        dataBar: 'Data bar',
+        dataBarColor: 'Data bar color',
         gradientDataBar_1: 'Blue-white gradient data bar',
         gradientDataBar_2: 'Green-white gradient data bar',
         gradientDataBar_3: 'Red-white gradient data bar',
@@ -9660,7 +9660,7 @@ export default {
         solidColorDataBar_4: 'Orange data bar',
         solidColorDataBar_5: 'Light blue data bar',
         solidColorDataBar_6: 'Purple data bar',
-        colorGradation: 'color gradation',
+        colorGradation: 'Color gradation',
         colorGradation_1: 'Green-yellow-red color gradation',
         colorGradation_2: 'Red-yellow-green color gradation',
         colorGradation_3: 'Green-white-red color gradation',
@@ -9673,7 +9673,7 @@ export default {
         colorGradation_10: 'White-green color gradation',
         colorGradation_11: 'Green-yellow color gradation',
         colorGradation_12: 'Yellow-green color gradation',
-        icons: 'icons',
+        icons: 'Icons',
         pleaseSelectIcon: 'Please click to select a group of icons:',
         cellValue: 'Cell value',
         specificText: 'Specific text',
@@ -9775,7 +9775,7 @@ export default {
         selectCellRange2: 'Please select a range of cells',
         verificationCondition: 'Verification condition',
         allowMultiSelect: "Allow multiple selection",
-        dropdown: 'drop-down list',
+        dropdown: 'Drop-down list',
         checkbox: 'Checkbox',
         number: 'Number',
         number_integer: 'Number-integer',
@@ -9911,9 +9911,9 @@ export default {
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
 
-        pasteMustKeybordAlert:"在表格中进行复制粘贴: Ctrl + C 进行复制, Ctrl + V 进行粘贴, Ctrl + X 进行剪切",
-        pasteMustKeybordAlertHTMLTitle:"在表格中进行复制粘贴",
-        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
+        pasteMustKeybordAlert:"Copy and paste in the table: Ctrl + C - make a copy, Ctrl + V - paste, Ctrl + X - cut",
+        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the table",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;- make a copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;- paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;- cut",
     },
     pivotTable:{
         title:"Pivot Table",

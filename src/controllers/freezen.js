@@ -28,8 +28,6 @@ const luckysheetFreezen = {
             return arr;
         }
 
-        let pre = arr.slice(0, cutindex);
-        let premax = pre[pre.length - 1];
         let ret = arr.slice(cutindex);
         
         // for (let i = 0; i < ret.length; i++) {

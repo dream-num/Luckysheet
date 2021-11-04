@@ -1,23 +1,21 @@
 import Store from "../store";
 import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
-import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
+import { getSheetIndex, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 import method from './method';
 import formula from './formula';
 import func_methods from "./func_methods";
 import tooltip from "./tooltip";
-import json from "./json";
 import editor from "./editor";
 import luckysheetformula from './formula';
 import cleargridelement from './cleargridelement';
-import { genarate, update } from './format';
-import { setAccuracy,setcellvalue } from "./setdata";
+import { setcellvalue } from "./setdata";
 import { orderbydata } from "./sort";
 import { rowlenByRange } from "./getRowlen";
 import { getdatabyselection, getcellvalue } from "./getdata";
 import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
 import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
-import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
+import { isRealNull,  isRealNum, isEditMode, hasPartMC } from "./validate";
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
 import { luckysheetDrawMain } from './draw';
@@ -41,7 +39,7 @@ import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
-const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
+import DOMPurify from "dompurify";
 
 /**
  * 获取单元格的值
@@ -4860,13 +4858,13 @@ export function setSheetAdd(options = {}) {
         }
     }
 
-    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+    $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
         "index": index,
         "active": "",
         "name": sheetname,
         "style": "",
         "colorset": ""
-    }));
+    })));
 
     let sheetconfig = {
         "name": "",
@@ -5019,14 +5017,14 @@ export function setSheetCopy(options = {}) {
         afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
     }
 
-    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+    $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
         "index": copyjson.index,
         "active": "",
         "name": copyjson.name,
         "order": copyjson.order,
         "style": "",
         "colorset": colorset
-    }));
+    })));
     $("#luckysheet-sheets-item" + copyjson.index).insertAfter(afterObj);
     Store.luckysheetfile.splice(targetOrder, 0, copyjson);
 
@@ -5234,7 +5232,7 @@ export function setSheetColor(color, options = {}) {
     file.color = color;
 
     $("#luckysheet-sheets-item" + file.index).find(".luckysheet-sheets-item-color").remove();
-    $("#luckysheet-sheets-item" + file.index).append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>');
+    $("#luckysheet-sheets-item" + file.index).append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>'));
 
     server.saveParam("all", file.index, color, { "k": "color" });
 

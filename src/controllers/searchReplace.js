@@ -12,8 +12,8 @@ import tooltip from '../global/tooltip';
 import func_methods from '../global/func_methods';
 import Store from '../store';
 import locale from '../locale/locale';
-import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionLocked} from './protection';
-
+import {checkProtectionLocked} from './protection';
+import DOMPurify from "dompurify";
 
 //查找替换
 const luckysheetSearchReplace = {
@@ -358,7 +358,7 @@ const luckysheetSearchReplace = {
             }
         }
         
-        $('<div id="searchAllbox"><div class="boxTitle"><span>'+ locale_findAndReplace.searchTargetSheet +'</span><span>'+locale_findAndReplace.searchTargetCell+'</span><span>'+locale_findAndReplace.searchTargetValue+'</span></div><div class="boxMain">' + searchAllHtml + '</div></div>').appendTo($("#luckysheet-search-replace"));
+        $(DOMPurify.sanitize('<div id="searchAllbox"><div class="boxTitle"><span>'+ locale_findAndReplace.searchTargetSheet +'</span><span>'+locale_findAndReplace.searchTargetCell+'</span><span>'+locale_findAndReplace.searchTargetValue+'</span></div><div class="boxMain">' + searchAllHtml + '</div></div>')).appendTo($("#luckysheet-search-replace"));
         
         $("#luckysheet-search-replace #searchAllbox .boxItem").eq(0).addClass("on").siblings().removeClass("on");
 

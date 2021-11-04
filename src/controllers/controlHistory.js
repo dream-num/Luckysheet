@@ -25,6 +25,7 @@ import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 import { selectHightlightShow } from './select';
 import method from '../global/method';
+import DOMPurify from "dompurify";
 
 function formulaHistoryHanddler(ctr, type="redo"){
     if(ctr==null){
@@ -324,7 +325,7 @@ const controlHistory = {
         }
         else if (ctr.type == "sheetName") {
             Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].name = ctr.oldtxt;
-            $("#luckysheet-sheets-item" + ctr.sheetIndex).find(".luckysheet-sheets-item-name").html(ctr.oldtxt);
+            $("#luckysheet-sheets-item" + ctr.sheetIndex).find(".luckysheet-sheets-item-name").html(DOMPurify.sanitize(ctr.oldtxt));
 
             server.saveParam("all", ctr.sheetIndex, ctr.oldtxt, { "k": "name" });
         }
@@ -335,7 +336,7 @@ const controlHistory = {
             luckysheetcurrentSheetitem.find(".luckysheet-sheets-item-color").remove();
 
             if(ctr.oldcolor != null){
-                luckysheetcurrentSheetitem.append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + ctr.oldcolor + ';"></div>');
+                luckysheetcurrentSheetitem.append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + ctr.oldcolor + ';"></div>'));
             }
 
             server.saveParam("all", ctr.sheetIndex, ctr.oldcolor, { "k": "color" });
@@ -646,7 +647,7 @@ const controlHistory = {
         }
         else if (ctr.type == "sheetName") {
             Store.luckysheetfile[getSheetIndex(ctr.sheetIndex)].name = ctr.txt;
-            $("#luckysheet-sheets-item" + ctr.sheetIndex).find(".luckysheet-sheets-item-name").html(ctr.txt);
+            $("#luckysheet-sheets-item" + ctr.sheetIndex).find(".luckysheet-sheets-item-name").html(DOMPurify.sanitize(ctr.txt));
             
             server.saveParam("all", ctr.sheetIndex, ctr.txt, { "k": "name" });
         }
@@ -657,7 +658,7 @@ const controlHistory = {
             luckysheetcurrentSheetitem.find(".luckysheet-sheets-item-color").remove();
             
             if(ctr.color != null){
-                luckysheetcurrentSheetitem.append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + ctr.color + ';"></div>');
+                luckysheetcurrentSheetitem.append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + ctr.color + ';"></div>'));
             }
             
             server.saveParam("all", ctr.sheetIndex, ctr.color, { "k": "color" });

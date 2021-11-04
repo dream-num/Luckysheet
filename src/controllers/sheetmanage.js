@@ -30,6 +30,7 @@ import {changeSheetContainerSize, menuToolBarWidth} from './resize';
 import {zoomNumberDomBind} from './zoom';
 import menuButton from './menuButton';
 import method from '../global/method';
+import DOMPurify from "dompurify";
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -240,7 +241,7 @@ const sheetmanage = {
 
         let sheetname = _this.generateRandomSheetName(Store.luckysheetfile, isPivotTable);
         
-        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" }));
+        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" })));
 
         let sheetconfig = { 
             "name": sheetname, 
@@ -434,7 +435,7 @@ const sheetmanage = {
             $("#luckysheet-cell-main").append('<div ' + display + ' id="luckysheet-datavisual-selection-set-' + sheetIndex + '" class="luckysheet-datavisual-selection-set"></div>');
         }
 
-        $("#luckysheet-sheet-container-c").append(btn.join(""));
+        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(btn.join("")));
 
         _this.locationSheet();
     },
@@ -495,7 +496,7 @@ const sheetmanage = {
         }
 
         let copyobject = $("#luckysheet-sheets-item" + copyindex);
-        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset }));
+        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset })));
         $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
         Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
@@ -548,7 +549,7 @@ const sheetmanage = {
             colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + data.color + ';"></div>';
         }
 
-        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset }));
+        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset })));
 
         if(isBefore){
             let previndex = data.order;

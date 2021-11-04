@@ -8,6 +8,7 @@ import { luckysheet_count_show } from './select';
 import { replaceHtml, getObjType } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 //插入函数
 const insertFormula = {
@@ -30,11 +31,11 @@ const insertFormula = {
                 for(let i = 0; i < functionlist.length; i++){
                     if(/^[a-zA-Z]+$/.test(txt)){
                         if(functionlist[i].n.indexOf(txt) != "-1"){
-                            $('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>').appendTo($("#formulaTypeList"));
+                            $(DOMPurify.sanitize('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>')).appendTo($("#formulaTypeList"));
                         }
                     }
                     else if(functionlist[i].a.indexOf(txt) != "-1"){
-                        $('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>').appendTo($("#formulaTypeList"));
+                        $(DOMPurify.sanitize('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>')).appendTo($("#formulaTypeList"));
                     }
                 }
             }
@@ -56,7 +57,7 @@ const insertFormula = {
             let formula = $("#luckysheet-search-formula .listBox.on").attr("name");
             let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">'+ formula.toUpperCase() +'</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
             
-            $("#luckysheet-rich-text-editor").html(formulaTxt);
+            $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
             $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
 
             _this.formulaParmDialog(formula);
@@ -90,14 +91,14 @@ const insertFormula = {
             $("#luckysheet-search-formula-parm .parmDetailsBox").empty();
 
             let parmName = $(this).parents(".parmBox").find(".name").text();
-            $('<span>'+ parmName +':</span><span>'+ parmDetail +'</span>').appendTo($("#luckysheet-search-formula-parm .parmDetailsBox"));
+            $(DOMPurify.sanitize('<span>'+ parmName +':</span><span>'+ parmDetail +'</span>')).appendTo($("#luckysheet-search-formula-parm .parmDetailsBox"));
             
             //公式参数可自增（参数自增最多5个）
             if(parmRepeat == "y"){
                 let parmCount = $("#luckysheet-search-formula-parm .parmBox").length;
 
                 if(parmCount < 5 && parmIndex == (parmCount - 1)){
-                    $('<div class="parmBox"><div class="name">'+ locale_formulaMore.valueTitle +''+ (parmCount + 1) +'</div><div class="txt"><input class="formulaInputFocus" /><i class="fa fa-table" aria-hidden="true" title="'+locale_formulaMore.tipSelectDataRange+'"></i></div><div class="val">=</div></div>').appendTo($("#luckysheet-search-formula-parm .parmListBox"));
+                    $(DOMPurify.sanitize('<div class="parmBox"><div class="name">'+ locale_formulaMore.valueTitle +''+ (parmCount + 1) +'</div><div class="txt"><input class="formulaInputFocus" /><i class="fa fa-table" aria-hidden="true" title="'+locale_formulaMore.tipSelectDataRange+'"></i></div><div class="val">=</div></div>')).appendTo($("#luckysheet-search-formula-parm .parmListBox"));
                 }
             }
         });
@@ -135,24 +136,24 @@ const insertFormula = {
             $("#luckysheet-search-formula-parm-select").remove();
             
             if($(this).parents(".parmBox").find(".txt input").val() == ""){
-                $("body").append(replaceHtml(modelHTML, { 
+                $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
                     "title": locale_formulaMore.tipSelectDataRange, 
                     "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='"+ locale_formulaMore.tipDataRangeTile +"' readonly='true' placeholder='"+ locale_formulaMore.tipDataRangeTile +"'>", 
                     "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">'+locale_button.confirm+'</button>', 
                     "style": "z-index:100003" 
-                }));
+                })));
             }
             else{
-                $("body").append(replaceHtml(modelHTML, { 
+                $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
                     "title": locale_formulaMore.tipSelectDataRange, 
                     "content": "<input id='luckysheet-search-formula-parm-select-input' class='luckysheet-datavisual-range-container' style='font-size: 14px;padding:5px;max-width:none;' spellcheck='false' aria-label='"+ locale_formulaMore.tipDataRangeTile +"' readonly='true' value='"+ $(this).parents(".parmBox").find(".txt input").val() +"'>", 
                     "botton": '<button id="luckysheet-search-formula-parm-select-confirm" class="btn btn-primary">'+locale_button.confirm+'</button>', 
                     "style": "z-index:100003" 
-                }));
+                })));
             }
 
             let $t = $("#luckysheet-search-formula-parm-select").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
@@ -190,14 +191,14 @@ const insertFormula = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-search-formula").remove();
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-search-formula", 
             "addclass": "luckysheet-search-formula", 
             "title": "", 
             "content": "<div class='inpbox'><label for='searchFormulaListInput'>"+ locale_formulaMore.findFunctionTitle +"：</label><input class='formulaInputFocus' id='searchFormulaListInput' placeholder='"+ locale_formulaMore.tipInputFunctionName +"' spellcheck='false'/></div><div class='selbox'><label>"+locale_formulaMore.selectCategory+"：</label><select id='formulaTypeSelect'><option value='0'>"+locale_formulaMore.Math+"</option><option value='1'>"+locale_formulaMore.Statistical+"</option><option value='2'>"+locale_formulaMore.Lookup+"</option><option value='3'>"+locale_formulaMore.luckysheet+"</option><option value='4'>"+locale_formulaMore.dataMining+"</option><option value='5'>"+locale_formulaMore.Database+"</option><option value='6'>"+locale_formulaMore.Date+"</option><option value='7'>"+locale_formulaMore.Filter+"</option><option value='8'>"+locale_formulaMore.Financial+"</option><option value='9'>"+locale_formulaMore.Engineering+"</option><option value='10'>"+locale_formulaMore.Logical+"</option><option value='11'>"+locale_formulaMore.Operator+"</option><option value='12'>"+locale_formulaMore.Text+"</option><option value='13'>"+locale_formulaMore.Parser+"</option><option value='14'>"+locale_formulaMore.Array+"</option><option value='-1'>"+locale_formulaMore.other+"</option></select></div><div class='listbox'><label>"+locale_formulaMore.selectFunctionTitle+"：</label><div id='formulaTypeList'></div></div>", 
             "botton": '<button id="luckysheet-search-formula-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-search-formula").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -214,7 +215,7 @@ const insertFormula = {
                     
         for(let i = 0; i < functionlist.length; i++){
             if((type == "-1" && functionlist[i].t > 14) || functionlist[i].t == type){
-                $('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>').appendTo($("#formulaTypeList"));
+                $(DOMPurify.sanitize('<div class="listBox" name="'+ functionlist[i].n +'"><span>'+ functionlist[i].n +'</span><span>'+ functionlist[i].a +'</span></div>')).appendTo($("#formulaTypeList"));
             }
         }
 
@@ -276,14 +277,14 @@ const insertFormula = {
         $("#luckysheet-modal-dialog-mask").hide();
         
         $("#luckysheet-search-formula-parm").remove();
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-search-formula-parm", 
             "addclass": "luckysheet-search-formula-parm", 
             "title": parm_title, 
             "content": parm_content, 
             "botton": '<button id="luckysheet-search-formula-parm-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-search-formula-parm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -467,7 +468,7 @@ const insertFormula = {
         }
 
         let function_str = formula.functionHTMLGenerate(functionHtmlTxt);
-        $("#luckysheet-rich-text-editor").html(function_str);
+        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(function_str));
         $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
         
         if(isVal){ //公式计算

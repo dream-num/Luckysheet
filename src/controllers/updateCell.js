@@ -17,6 +17,7 @@ import {isInlineStringCell} from './inlineString';
 import Store from '../store';
 import server from './server';
 import method from '../global/method';
+import DOMPurify from "dompurify";
 
 export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocus) {
     if(!checkProtectionLocked(row_index1, col_index1, Store.currentSheetIndex)){
@@ -112,7 +113,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         $("#luckysheet-input-box").css("z-index", 10002);
     }
     
-    $("#luckysheet-input-box-index").html(chatatABC(col_index) + (row_index + 1)).hide();
+    $("#luckysheet-input-box-index").html(DOMPurify.sanitize(chatatABC(col_index) + (row_index + 1))).hide();
     $("#luckysheet-wa-functionbox-cancel, #luckysheet-wa-functionbox-confirm").addClass("luckysheet-wa-calculate-active");
     
     let value = "", isCenter=false;

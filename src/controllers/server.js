@@ -17,10 +17,10 @@ import Store from '../store';
 import { collaborativeEditBox } from './select'
 import locale from '../locale/locale';
 import dayjs from "dayjs";
-import json from '../global/json';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {customImageUpdate} from './imageUpdateCtrl';
 import method from '../global/method';
+import DOMPurify from "dompurify";
 
 const server = {
     gridKey: null,
@@ -498,14 +498,14 @@ const server = {
 	        file[k] = value;
 
 	        if(k == "name"){ //工作表名
-	            $("#luckysheet-sheet-container-c #luckysheet-sheets-item" + index).find("span.luckysheet-sheets-item-name").html(value);
+	            $("#luckysheet-sheet-container-c #luckysheet-sheets-item" + index).find("span.luckysheet-sheets-item-name").html(DOMPurify.sanitize(value));
 	        }
 	        else if(k == "color"){ //工作表颜色
 	            let currentSheetItem = $("#luckysheet-sheet-container-c #luckysheet-sheets-item" + index);
 	            currentSheetItem.find(".luckysheet-sheets-item-color").remove();
 
 	            if(value != null || value != ""){
-	                currentSheetItem.append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value + ';"></div>');
+	                currentSheetItem.append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value + ';"></div>'));
 	            }
 	        }
 	        else if(k == "pivotTable"){ //PivotTable
@@ -820,7 +820,7 @@ const server = {
 	            colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value.color + ';"></div>';
 	        }
 
-	        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": value.index, "active": "", "name": value.name, "style": "", "colorset": colorset }));
+	        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": value.index, "active": "", "name": value.name, "style": "", "colorset": colorset })));
 	        $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + value.index + '" class="luckysheet-datavisual-selection-set"></div>');
 	    }
 	    else if(type == "shc"){ //复制sheet
@@ -835,7 +835,7 @@ const server = {
 	        Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
 	        let copyobject = $("#luckysheet-sheets-item" + copyindex);
-	        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "style": "", "colorset": "" }));
+	        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "style": "", "colorset": "" })));
 	        $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
 	        $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + copyjson.index + '" class="luckysheet-datavisual-selection-set"></div>');
 	    }
@@ -895,7 +895,7 @@ const server = {
 	                    colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + datav.color + ';"></div>';
 	                }
 
-	                $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": datav.index, "active": "", "name": datav.name, "style": "", "colorset": colorset }));
+	                $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": datav.index, "active": "", "name": datav.name, "style": "", "colorset": colorset })));
 	                $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + datav.index + '" class="luckysheet-datavisual-selection-set"></div>');
 	                break;
 	            }

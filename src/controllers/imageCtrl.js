@@ -213,7 +213,7 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-imageCtrl-colorSelect-dialog", 
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
             "title": locale_imageCtrl.borderTile, 
@@ -224,7 +224,7 @@ const imageCtrl = {
             "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">${locale_button.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${locale_button.cancel}</button>`, 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-imageCtrl-colorSelect-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -663,7 +663,7 @@ const imageCtrl = {
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, imgItem);
 
-        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
+        $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
 
         _this.images[id] = imgItem;
         _this.ref();
@@ -918,7 +918,7 @@ const imageCtrl = {
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, img);
 
-        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
+        $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
 
         _this.images[id] = img;
         _this.ref();
@@ -940,7 +940,7 @@ const imageCtrl = {
         for(let imgId in _this.images){
             let imgItem = _this.images[imgId];
             let modelHtml = _this.modelHtml(imgId, imgItem);
-            $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
+            $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
         }
     },
     moveChangeSize: function(rc, index, size) {

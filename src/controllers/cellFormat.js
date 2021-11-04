@@ -7,7 +7,7 @@ import {checkProtectionNotEnable} from './protection';
 import { jfrefreshgrid } from '../global/refresh';
 import locale from '../locale/locale';
 import { setcellvalue } from '../global/setdata';
-
+import DOMPurify from "dompurify";
 
 let isInitialCellFormatModel = false;
 
@@ -114,7 +114,7 @@ function initialCellFormatModel(){
     const locale_button = _locale.button;
 
     //Password input initial
-    $("body").append(replaceHtml(modelHTML, { 
+    $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
         "id": "luckysheet-cellFormat-config", 
         "addclass": "luckysheet-cellFormat-config", 
         "title": local_cellFormat.cellFormatTitle, 
@@ -138,7 +138,7 @@ function initialCellFormatModel(){
         "botton":  `<button id="luckysheet-cellFormat-confirm" class="btn btn-primary">${locale_button.confirm}</button>
                     <button class="btn btn-default luckysheet-model-close-btn">${locale_button.cancel}</button>`, 
         "style": "z-index:100003" 
-    }));
+    })));
 
     initialCellFormatModelEvent();
 }

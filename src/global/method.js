@@ -12,6 +12,7 @@ import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 import editor from './editor';
 import luckysheetcreatesheet from './createsheet';
 import Store from '../store';
+import DOMPurify from "dompurify";
 
 const defaultConfig = {
     defaultStore:{
@@ -183,12 +184,7 @@ const defaultConfig = {
         formulaContainSheetList:{},
         cellTextToIndexList:{},
         isFunctionRangeSave: false,
-        execvertex: {},
-        execFunctionGroupData: null,
-        execFunctionExist: null,
-        formulaContainSheetList:{},
         formulaContainCellList:{},
-        cellTextToIndexList:{},
         execFunctionGlobalData:{},
         groupValuesRefreshData: [],
         functionResizeData: {},
@@ -302,7 +298,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
+        $("#luckysheet-grid-window-1").append(DOMPurify.sanitize(luckysheetlodingHTML()));
         param.currentPage++;
         
         let dataType = 'application/json;charset=UTF-8';
@@ -347,7 +343,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
+        $("#luckysheet-grid-window-1").append(DOMPurify.sanitize(luckysheetlodingHTML()));
 
         let arg = {"gridKey" : server.gridKey, "index": index};
         param = $.extend(true, param, arg);

@@ -13,7 +13,8 @@ import sheetmanage from './sheetmanage';
 import locale from '../locale/locale';
 import {checkProtectionFormatCells} from './protection';
 import Store from '../store';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import DOMPurify from "dompurify";
 
 //条件格式
 const conditionformat = {
@@ -969,7 +970,7 @@ const conditionformat = {
             $(this).addClass("on").siblings().removeClass("on");
 
             let index = $(this).index();
-            $(this).parents(".luckysheet-newEditorRule-dialog").find(".ruleExplainBox").html(_this.getRuleExplain(index));
+            $(this).parents(".luckysheet-newEditorRule-dialog").find(".ruleExplainBox").html(DOMPurify.sanitize(_this.getRuleExplain(index)));
 
             _this.colorSelectInit();
         });
@@ -1431,7 +1432,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-singleRange-dialog",
             "addclass": "luckysheet-singleRange-dialog",
             "title": conditionformat_Text.selectCell,
@@ -1439,7 +1440,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-singleRange-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -1461,7 +1462,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-multiRange-dialog",
             "addclass": "luckysheet-multiRange-dialog",
             "title": conditionformat_Text.selectRange,
@@ -1469,7 +1470,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="${dataItem}">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-multiRange-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-multiRange-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -1571,7 +1572,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-conditionformat-dialog",
             "addclass": "luckysheet-conditionformat-dialog",
             "title": title,
@@ -1579,7 +1580,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:9999"
-        }));
+        })));
         let $t = $("#luckysheet-conditionformat-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -1662,14 +1663,14 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-CFicons-dialog",
             "addclass": "luckysheet-CFicons-dialog",
             "title": conditionformat_Text.icons,
             "content": content,
             "botton": `<button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.close}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-CFicons-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
@@ -1724,7 +1725,7 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-administerRule-dialog",
             "addclass": "luckysheet-administerRule-dialog",
             "title": conditionformat_Text.conditionformatManageRules,
@@ -1732,7 +1733,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-administerRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
@@ -1813,7 +1814,7 @@ const conditionformat = {
                                     '</div>' +
                                 '</div>';
 
-                $("#luckysheet-administerRule-dialog .ruleList .listBox").prepend(itemHtml);
+                $("#luckysheet-administerRule-dialog .ruleList .listBox").prepend(DOMPurify.sanitize(itemHtml));
             }
 
             $("#luckysheet-administerRule-dialog .ruleList .listBox .item canvas").each(function(i){
@@ -1990,7 +1991,7 @@ const conditionformat = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-newConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.newFormatRule,
@@ -1998,7 +1999,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-newConditionRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
@@ -2091,7 +2092,7 @@ const conditionformat = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-editorConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.editFormatRule,
@@ -2099,7 +2100,7 @@ const conditionformat = {
             "botton":  `<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-editorConditionRule-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 400)
@@ -2249,14 +2250,14 @@ const conditionformat = {
     infoDialog: function(title, content){
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-conditionformat-info-dialog").remove();
-        $("body").append(replaceHtml(modelHTML, {
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-conditionformat-info-dialog",
             "addclass": "",
             "title": title,
             "content": content,
             "botton": `<button id="luckysheet-conditionformat-info-dialog-close" class="btn btn-default">${locale().conditionformat.close}</button>`,
             "style": "z-index:100003"
-        }));
+        })));
         let $t = $("#luckysheet-conditionformat-info-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)

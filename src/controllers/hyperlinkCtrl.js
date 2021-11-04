@@ -14,6 +14,7 @@ import menuButton from './menuButton';
 import { getSheetIndex } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
+import DOMPurify from "dompurify";
 
 const hyperlinkCtrl = {
     item: {
@@ -74,7 +75,7 @@ const hyperlinkCtrl = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-insertLink-dialog", 
             "addclass": "luckysheet-insertLink-dialog", 
             "title": toolbarText.insertLink, 
@@ -82,7 +83,7 @@ const hyperlinkCtrl = {
             "botton":  `<button id="luckysheet-insertLink-dialog-confirm" class="btn btn-primary">${buttonText.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${buttonText.cancel}</button>`, 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-insertLink-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 350).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();

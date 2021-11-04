@@ -28,6 +28,7 @@ import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
 import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
 import { openCellFormatModel } from './cellFormat';
+import DOMPurify from "dompurify";
 
 import { 
     replaceHtml,
@@ -529,7 +530,7 @@ export default function luckysheetHandler() {
 
                         /* 在显示前重新 + 右侧的圆括号) */
 
-                        $("#luckysheet-rich-text-editor").html(vText + ")");
+                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText) + ")");
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
@@ -539,7 +540,7 @@ export default function luckysheetHandler() {
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(vText + ")");
+                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText) + ")");
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择
@@ -5407,7 +5408,7 @@ export default function luckysheetHandler() {
             }
             else {
                 if (txtdata.indexOf("table") > -1) {
-                    $("#luckysheet-copy-content").html(txtdata);
+                    $("#luckysheet-copy-content").html(DOMPurify.sanitize(txtdata));
 
                     let data = new Array($("#luckysheet-copy-content").find("table tr").length);
                     let colLen = 0;
@@ -5686,7 +5687,7 @@ export default function luckysheetHandler() {
                         total: luckysheetConfigsetting.total,
                         totalPage: luckysheetConfigsetting.pageInfo.totalPage,
                     });
-                    $("#luckysheet-bottom-page-info").html(pageInfoFull);
+                    $("#luckysheet-bottom-page-info").html(DOMPurify.sanitize(pageInfoFull));
                 }
                 else {
                     let pageInfo = replaceHtml(locale_info.pageInfo, {
@@ -5695,7 +5696,7 @@ export default function luckysheetHandler() {
                         currentPage: luckysheetConfigsetting.pageInfo.currentPage
 
                     });
-                    $("#luckysheet-bottom-page-info").html(pageInfo);
+                    $("#luckysheet-bottom-page-info").html(DOMPurify.sanitize(pageInfo));
                 }
             });
         }).mousedown(function (e) {

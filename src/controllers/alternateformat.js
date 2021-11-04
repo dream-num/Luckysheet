@@ -1,4 +1,3 @@
-
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import { replaceHtml } from '../utils/util';
 import formula from '../global/formula';
@@ -11,6 +10,7 @@ import server from './server';
 import { selectHightlightShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 //交替颜色
 const alternateformat = {
@@ -211,7 +211,7 @@ const alternateformat = {
                              '</div>';
         }
 
-        $("#luckysheet-modal-dialog-slider-alternateformat #luckysheet-alternateformat-modelList").append(modelListHtml);
+        $("#luckysheet-modal-dialog-slider-alternateformat #luckysheet-alternateformat-modelList").append(DOMPurify.sanitize(modelListHtml));
 
         //自定义 模板
         let modelCustom = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["luckysheet_alternateformat_save_modelCustom"];
@@ -258,7 +258,7 @@ const alternateformat = {
                                     '</div>';
             }
 
-            $("#luckysheet-modal-dialog-slider-alternateformat #luckysheet-alternateformat-modelCustom").append(modelCustomHtml);
+            $("#luckysheet-modal-dialog-slider-alternateformat #luckysheet-alternateformat-modelCustom").append(DOMPurify.sanitize(modelCustomHtml));
         }
     },
     init: function(){
@@ -727,14 +727,14 @@ const alternateformat = {
             title = alternatingColors.selectionCellColor;
         }
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-alternateformat-colorSelect-dialog", 
             "addclass": "luckysheet-alternateformat-colorSelect-dialog", 
             "title": title, 
             "content": "<div class='currenColor' data-source='"+ source +"'>"+ alternatingColors.currentColor +"：<span title='"+ currenColor +"' style='background-color:"+ currenColor +"'></span></div><div class='colorshowbox'></div>", 
             "botton": '<button id="luckysheet-alternateformat-colorSelect-dialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-alternateformat-colorSelect-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -801,14 +801,14 @@ const alternateformat = {
         const alternatingColors =_locale.alternatingColors;
         const locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-alternateformat-rangeDialog", 
             "addclass": "luckysheet-alternateformat-rangeDialog", 
             "title": alternatingColors.selectRange, 
             "content": '<input readonly="readonly" placeholder="'+alternatingColors.tipSelectRange+'" value="'+value+'"/>', 
             "botton": '<button id="luckysheet-alternateformat-rangeDialog-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button id="luckysheet-alternateformat-rangeDialog-close" class="btn btn-default">'+locale_button.cancel+'</button>', 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-alternateformat-rangeDialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)

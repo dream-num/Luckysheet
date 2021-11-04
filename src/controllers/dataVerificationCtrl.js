@@ -15,6 +15,7 @@ import sheetmanage from './sheetmanage';
 import { getSheetIndex, getRangetxt } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
+import DOMPurify from "dompurify";
 
 const dataVerificationCtrl = {
     defaultItem: {
@@ -226,7 +227,7 @@ const dataVerificationCtrl = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-dataVerification-dialog", 
             "addclass": "luckysheet-dataVerification-dialog", 
             "title": toolbarText.dataVerification, 
@@ -235,7 +236,7 @@ const dataVerificationCtrl = {
                         <button id="luckysheet-dataVerification-dialog-delete" class="btn btn-default">${dvText.deleteVerification}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${buttonText.cancel}</button>`, 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-dataVerification-dialog").find(".luckysheet-modal-dialog-content").css("min-width", 350).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -965,7 +966,7 @@ const dataVerificationCtrl = {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-dataVerificationRange-dialog").remove();
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-dataVerificationRange-dialog", 
             "addclass": "luckysheet-dataVerificationRange-dialog", 
             "title": dvText.selectCellRange, 
@@ -973,7 +974,7 @@ const dataVerificationCtrl = {
             "botton":  `<button id="luckysheet-dataVerificationRange-dialog-confirm" class="btn btn-primary" data-source="${dataSource}">${buttonText.confirm}</button>
                         <button id="luckysheet-dataVerificationRange-dialog-close" class="btn btn-default">${buttonText.close}</button>`, 
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-dataVerificationRange-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -1090,7 +1091,7 @@ const dataVerificationCtrl = {
 
             hintText += _this.getHintText(item);
 
-            $("#luckysheet-dataVerification-showHintBox").html(hintText).show().css({
+            $("#luckysheet-dataVerification-showHintBox").html(DOMPurify.sanitize(hintText)).show().css({
                 'left': col_pre,
                 'top': row
             });
@@ -1120,7 +1121,7 @@ const dataVerificationCtrl = {
 
             failureText += _this.getFailureText(item);
 
-            $("#luckysheet-dataVerification-showHintBox").html(failureText).show().css({
+            $("#luckysheet-dataVerification-showHintBox").html(DOMPurify.sanitize(failureText)).show().css({
                 'left': col_pre,
                 'top': row
             });
@@ -1497,7 +1498,7 @@ const dataVerificationCtrl = {
         }
 
         $("#luckysheet-dataVerification-dropdown-List")
-        .html(optionHtml)
+        .html(DOMPurify.sanitize(optionHtml))
         .prop("data-index", rowIndex + '_' + colIndex)
         .show()
         .css({
