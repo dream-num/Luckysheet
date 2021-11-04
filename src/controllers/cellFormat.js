@@ -1,5 +1,5 @@
 import Store from '../store';
-import { replaceHtml,transformRangeToAbsolute,openSelfModel } from '../utils/util';
+import { replaceHtml,openSelfModel } from '../utils/util';
 import { modelHTML } from './constant';
 import sheetmanage from './sheetmanage';
 import menuButton from './menuButton';
@@ -7,7 +7,6 @@ import {checkProtectionNotEnable} from './protection';
 import { jfrefreshgrid } from '../global/refresh';
 import locale from '../locale/locale';
 import { setcellvalue } from '../global/setdata';
-import DOMPurify from "dompurify";
 
 let isInitialCellFormatModel = false;
 
@@ -114,7 +113,7 @@ function initialCellFormatModel(){
     const locale_button = _locale.button;
 
     //Password input initial
-    $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+    $("body").append(replaceHtml(modelHTML, {
         "id": "luckysheet-cellFormat-config", 
         "addclass": "luckysheet-cellFormat-config", 
         "title": local_cellFormat.cellFormatTitle, 
@@ -138,7 +137,7 @@ function initialCellFormatModel(){
         "botton":  `<button id="luckysheet-cellFormat-confirm" class="btn btn-primary">${locale_button.confirm}</button>
                     <button class="btn btn-default luckysheet-model-close-btn">${locale_button.cancel}</button>`, 
         "style": "z-index:100003" 
-    })));
+    }));
 
     initialCellFormatModelEvent();
 }
@@ -148,7 +147,6 @@ export function openCellFormatModel(){
 
     const _locale = locale();
     const local_cellFormat = _locale.cellFormat;
-    const locale_button = _locale.button;
 
     $("#luckysheet-rightclick-menu").hide();
 
@@ -186,15 +184,15 @@ export function openCellFormatModel(){
 
     let tipsLock="", tipshidden="";
     if(locked){
-        tipsLock = lockedCount==count?local_cellFormat.tipsAll:local_cellFormat.tipsPart;
+        tipsLock = lockedCount === count ? local_cellFormat.tipsAll : local_cellFormat.tipsPart;
     }
 
     if(hidden){
-        tipshidden = hiddenCount==count?local_cellFormat.tipsAll:local_cellFormat.tipsPart;
+        tipshidden = hiddenCount === count ? local_cellFormat.tipsAll : local_cellFormat.tipsPart;
     }
 
-    $("#luckysheet-protection-check-locked").prop('checked',locked).parent().next().html(tipsLock);
-    $("#luckysheet-protection-check-hidden").prop('checked',hidden).parent().next().html(tipshidden);
+    $("#luckysheet-protection-check-locked").prop('checked',locked).parent().next().text(tipsLock);
+    $("#luckysheet-protection-check-hidden").prop('checked',hidden).parent().next().text(tipshidden);
 
 
     openSelfModel("luckysheet-cellFormat-config");
