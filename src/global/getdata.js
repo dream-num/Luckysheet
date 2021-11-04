@@ -302,10 +302,6 @@ export function getInlineStringNoStyle(r, c){
 
 export function getInlineStringStyle(r, c, data){
     let ct = getcellvalue(r, c, data, "ct");
-    if (data == null) {
-        data = Store.flowdata;
-    }
-    let cell = data[r][c];
     if(isInlineStringCT(ct)){
         let strings = ct.s, value="";
         for(let i=0;i<strings.length;i++){
