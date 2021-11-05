@@ -530,7 +530,7 @@ export default function luckysheetHandler() {
 
                         /* 在显示前重新 + 右侧的圆括号) */
 
-                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText) + ")");
+                        $("#luckysheet-rich-text-editor").html(vText + ")");
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
@@ -540,7 +540,7 @@ export default function luckysheetHandler() {
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText) + ")");
+                    $("#luckysheet-functionbox-cell").html(vText + ")");
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择
@@ -5687,7 +5687,7 @@ export default function luckysheetHandler() {
                         total: luckysheetConfigsetting.total,
                         totalPage: luckysheetConfigsetting.pageInfo.totalPage,
                     });
-                    $("#luckysheet-bottom-page-info").html(DOMPurify.sanitize(pageInfoFull));
+                    $("#luckysheet-bottom-page-info").html(pageInfoFull);
                 }
                 else {
                     let pageInfo = replaceHtml(locale_info.pageInfo, {
@@ -5696,7 +5696,7 @@ export default function luckysheetHandler() {
                         currentPage: luckysheetConfigsetting.pageInfo.currentPage
 
                     });
-                    $("#luckysheet-bottom-page-info").html(DOMPurify.sanitize(pageInfo));
+                    $("#luckysheet-bottom-page-info").html(pageInfo);
                 }
             });
         }).mousedown(function (e) {
