@@ -9301,8 +9301,8 @@ export default {
         "hasTitle":"Data has a header row",
         "sortBy":"Sort by",
         "addOthers":"Add another sort column",
-        "close":"close",
-        "confirm":"sort",
+        "close":"Close",
+        "confirm":"Sort",
 
         "columnOperation":"Column",
         "secondaryTitle":"then by",

@@ -25,7 +25,6 @@ import {
 import {orderbydata, orderbydata1D} from '../global/sort';
 import json from '../global/json';
 import {update, genarate} from '../global/format';
-import DOMPurify from "dompurify";
 import escapeHtml from "escape-html";
 
 //筛选配置状态
@@ -234,46 +233,51 @@ function createFilterOptions(luckysheet_filter_save, filterObj) {
     let col = Store.visibledatacolumn[c2],
         col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
 
-    let newSelectedHTML = '<div id="luckysheet-filter-selected-sheet' + Store.currentSheetIndex + '" class="luckysheet-cell-selected luckysheet-filter-selected"  style="left:' + col_pre + 'px;width:' + (col - col_pre - 1) + 'px;top:' + row_pre + 'px;height:' + (row - row_pre - 1) + 'px;display:block;border-color:#897BFF;z-index:20;background:none;"></div>';
-    $("#luckysheet-cell-main").append(DOMPurify.sanitize(newSelectedHTML));
+    let newSelectedHTML = `<div id="luckysheet-filter-selected-sheet${escapeHtml(Store.currentSheetIndex)}" class="luckysheet-cell-selected luckysheet-filter-selected"
+        style="left:${col_pre}px;width:${col - col_pre - 1}px;top:${row_pre}px;height:${row - row_pre - 1}px;display:block;border-color:#897BFF;z-index:20;background:none;"></div>`;
+    $("#luckysheet-cell-main").append(newSelectedHTML);
 
     let optionHTML = "";
 
     for (let c = c1; c <= c2; c++) {
         if (filterObj == null || filterObj[c - c1] == null) {
-            optionHTML += '<div data-rowhidden="" data-str="' + r1 + '" data-edr="' + r2 + '" data-cindex="' + c + '" data-stc="' + c1 + '" data-edc="' + c2 + '" class="luckysheet-filter-options" style="left:' + (Store.visibledatacolumn[c] - 20) + 'px;top:' + row_pre + 'px;display:block;"><i class="fa fa-caret-down" aria-hidden="true"></i></div>';
+            optionHTML += `<div data-rowhidden="" data-str="${r1}" data-edr="${r2}" data-cindex="${c}" data-stc="${c1}" data-edc="${c2}" 
+                            class="luckysheet-filter-options" style="left:${Store.visibledatacolumn[c] - 20}px;top:${row_pre}px;display:block;">
+                            <i class="fa fa-caret-down" aria-hidden="true"></i></div>`;
         } else {
             let caljs_data;
 
             if (filterObj[c - c1].caljs != null) {
                 let caljs_value1_data;
                 if (filterObj[c - c1].caljs["value1"] != null) {
-                    caljs_value1_data = 'data-byconditionvalue1="' + filterObj[c - c1].caljs["value1"] + '" ';
+                    caljs_value1_data = `data-byconditionvalue1="${escapeHtml(filterObj[c - c1].caljs["value1"])}" `;
                 } else {
                     caljs_value1_data = '';
                 }
 
                 let caljs_value2_data;
                 if (filterObj[c - c1].caljs["value2"] != null) {
-                    caljs_value2_data = 'data-byconditionvalue2="' + filterObj[c - c1].caljs["value2"] + '" ';
+                    caljs_value2_data = `data-byconditionvalue2="${escapeHtml(filterObj[c - c1].caljs["value2"])}" `;
                 } else {
                     caljs_value2_data = '';
                 }
 
-                caljs_data = 'data-caljs="' + JSON.stringify(filterObj[c - c1].caljs) + '" ' +
-                    'data-byconditionvalue="' + filterObj[c - c1].caljs["value"] + '" ' +
-                    'data-byconditiontype="' + filterObj[c - c1].caljs["type"] + '" ' +
-                    'data-byconditiontext="' + filterObj[c - c1].caljs["text"] + '" ' +
-                    caljs_value1_data + caljs_value2_data;
+                caljs_data = `data-caljs="${escapeHtml(JSON.stringify(filterObj[c - c1].caljs))}" 
+                              data-byconditionvalue="${escapeHtml(filterObj[c - c1].caljs["value"])}" 
+                              data-byconditiontype="${escapeHtml(filterObj[c - c1].caljs["type"])}" 
+                              data-byconditiontext="${escapeHtml(filterObj[c - c1].caljs["text"])}" ${caljs_value1_data}${caljs_value2_data}`;
             } else {
                 caljs_data = '';
             }
 
-            optionHTML += '<div data-rowhidden="' + JSON.stringify(filterObj[c - c1].rowhidden).replace(/\"/g, "'") + '" ' + caljs_data + ' data-str="' + r1 + '" data-edr="' + r2 + '" data-cindex="' + c + '" data-stc="' + c1 + '" data-edc="' + c2 + '" class="luckysheet-filter-options luckysheet-filter-options-active" style="left:' + (Store.visibledatacolumn[c] - 20) + 'px;top:' + row_pre + 'px;display:block;"><i class="fa fa-filter luckysheet-mousedown-cancel" aria-hidden="true"></i></div>';
+            optionHTML += `<div data-rowhidden="${escapeHtml(JSON.stringify(filterObj[c - c1].rowhidden).replace(/"/g, "'"))}" ${caljs_data} 
+                            data-str="${r1}" data-edr="${r2}" data-cindex="${c}" data-stc="${c1}" data-edc="${c2}" class="luckysheet-filter-options luckysheet-filter-options-active" 
+                            style="left:${Store.visibledatacolumn[c] - 20}px;top:${row_pre}px;display:block;">
+                            <i class="fa fa-filter luckysheet-mousedown-cancel" aria-hidden="true"></i></div>`;
         }
     }
 
-    $("#luckysheet-cell-main").append(DOMPurify.sanitize('<div id="luckysheet-filter-options-sheet' + Store.currentSheetIndex + '" class="luckysheet-filter-options-c">' + optionHTML + '</div>'));
+    $("#luckysheet-cell-main").append(`<div id="luckysheet-filter-options-sheet${Store.currentSheetIndex}" class="luckysheet-filter-options-c">${optionHTML}</div>`);
     $("#luckysheet-rightclick-menu").hide();
     $("#luckysheet-filter-menu, #luckysheet-filter-submenu").hide();
 
@@ -597,19 +601,11 @@ function initialFilterHandler() {
                             }
 
                             //日是否选中状态
-                            if ((y in dvmap_uncheck) && (m in dvmap_uncheck) && (d in dvmap_uncheck)) {
-                                dayHtml += '<div class="day luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '-' + mT + '-' + dT + '">' +
-                                    '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                    '<label class="luckysheet-mousedown-cancel">' + d + '</label>' +
-                                    '<span class="count luckysheet-mousedown-cancel">( ' + dayL + ' )</span>' +
-                                    '</div>';
-                            } else {
-                                dayHtml += '<div class="day luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '-' + mT + '-' + dT + '">' +
-                                    '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                    '<label class="luckysheet-mousedown-cancel">' + d + '</label>' +
-                                    '<span class="count luckysheet-mousedown-cancel">( ' + dayL + ' )</span>' +
-                                    '</div>';
-                            }
+                            const contains = (y in dvmap_uncheck) && (m in dvmap_uncheck) && (d in dvmap_uncheck);
+                            dayHtml += `<div class="day luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}-${escapeHtml(mT)}-${escapeHtml(dT)}">
+                                        <input class="luckysheet-mousedown-cancel" type="checkbox" ${!contains ? 'checked="checked"' : ""}/>
+                                        <label class="luckysheet-mousedown-cancel">${escapeHtml(d)}</label>
+                                        <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(dayL)} )</span></div>`;
                         }
 
                         ysum += msum;
@@ -623,52 +619,25 @@ function initialFilterHandler() {
                         }
 
                         //月是否选中状态
-                        if ((y in dvmap_uncheck) && (m in dvmap_uncheck)) {
-                            monthHtml += '<div class="monthBox luckysheet-mousedown-cancel">' +
-                                '<div class="month luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '-' + mT2 + '">' +
-                                '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + m + '' + locale_filter.filiterMonthText + '</label>' +
-                                '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
-                                '</div>' +
-                                '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
-                                '</div>';
-                        } else {
-                            monthHtml += '<div class="monthBox luckysheet-mousedown-cancel">' +
-                                '<div class="month luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '-' + mT2 + '">' +
-                                '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + m + '' + locale_filter.filiterMonthText + '</label>' +
-                                '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
-                                '</div>' +
-                                '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
-                                '</div>';
-                        }
+                        const contains = (y in dvmap_uncheck) && (m in dvmap_uncheck);
+                        monthHtml += `<div class="monthBox luckysheet-mousedown-cancel">
+                                      <div class="month luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}-${escapeHtml(mT2)}">
+                                      <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
+                                      <input class="luckysheet-mousedown-cancel" type="checkbox" ${!contains ? 'checked="checked"' : ""}/>
+                                      <label class="luckysheet-mousedown-cancel">${escapeHtml(m)}${locale_filter.filiterMonthText}</label>
+                                      <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(msum)} )</span></div>
+                                      <div class="dayList luckysheet-mousedown-cancel">${escapeHtml(dayHtml)}</div></div>`;
                     }
 
                     //年是否选中状态
-                    let yearHtml;
-                    if (y in dvmap_uncheck) {
-                        yearHtml = '<div class="yearBox luckysheet-mousedown-cancel">' +
-                            '<div class="year luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '">' +
-                            '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                            '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                            '<label class="luckysheet-mousedown-cancel">' + y + '' + locale_filter.filiterYearText + '</label>' +
-                            '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
-                            '</div>' +
-                            '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
-                            '</div>';
-                    } else {
-                        yearHtml = '<div class="yearBox luckysheet-mousedown-cancel">' +
-                            '<div class="year luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '">' +
-                            '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                            '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                            '<label class="luckysheet-mousedown-cancel">' + y + '' + locale_filter.filiterYearText + '</label>' +
-                            '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
-                            '</div>' +
-                            '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
-                            '</div>';
-                    }
+                    const contains = y in dvmap_uncheck;
+                    let yearHtml = `<div class="yearBox luckysheet-mousedown-cancel">
+                                        <div class="year luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}">
+                                        <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
+                                        <input class="luckysheet-mousedown-cancel" type="checkbox" ${!contains ? 'checked="checked"' : ""}/>
+                                        <label class="luckysheet-mousedown-cancel">${escapeHtml(y)}${locale_filter.filiterYearText}</label>
+                                        <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(ysum)} )</span></div>
+                                        <div class="monthList luckysheet-mousedown-cancel">${escapeHtml(monthHtml)}</div></div>`;
 
                     item.unshift(yearHtml);
                 }
@@ -696,7 +665,7 @@ function initialFilterHandler() {
                                         data-filter="${escapeHtml(v)}#$$$#${escapeHtml(x)}" title="${escapeHtml(text)}">
                                         <input class="luckysheet-mousedown-cancel" type="checkbox" ${!contains ? 'checked="checked"' : ""}/>
                                         <label class="luckysheet-mousedown-cancel">${escapeHtml(text)}</label>
-                                        <span class="luckysheet-mousedown-cancel count">( ${vmap[v][x]} )</span>
+                                        <span class="luckysheet-mousedown-cancel count">( ${escapeHtml(vmap[v][x])} )</span>
                                     </div>`;
 
                         item.push(dataHtml);
@@ -707,9 +676,8 @@ function initialFilterHandler() {
             // 适配小屏设备
             let containerH = winH - toffset.top - 350
             if (containerH < 0) containerH = 100
-            //$("#luckysheet-filter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
 
-            $("#luckysheet-filter-byvalue-select").append(DOMPurify.sanitize("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>"));
+            $("#luckysheet-filter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
             loadingObj.close();
         }, 1);
 
@@ -726,9 +694,7 @@ function initialFilterHandler() {
             let $menu = $("#luckysheet-filter-menu");
             let st_r = $menu.data("str"),
                 ed_r = $menu.data("edr"),
-                cindex = $menu.data("cindex"),
-                st_c = $menu.data("stc"),
-                ed_c = $menu.data("edc");
+                cindex = $menu.data("cindex");
             let bgMap = {}; //单元格颜色
             let fcMap = {}; //字体颜色
 
@@ -796,42 +762,44 @@ function initialFilterHandler() {
                     }
                 }
             }
-            //
+
             let filterBgColorHtml = '';
             if (JSON.stringify(bgMap).length > 2 && Object.keys(bgMap).length > 1) {
                 let bgColorItemHtml = '';
                 for (let b in bgMap) {
-                    if (bgMap[b] == 0) {
-                        bgColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + b + '" title="' + b + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/></div>';
-                    } else {
-                        bgColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + b + '" title="' + b + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox"/></div>';
-                    }
+                    bgColorItemHtml += `<div class="item luckysheet-mousedown-cancel">
+                                        <label class="luckysheet-mousedown-cancel" style="background-color: ${escapeHtml(b)}" title="${escapeHtml(b)}"></label>
+                                        <input class="luckysheet-mousedown-cancel" type="checkbox" ${bgMap[b] == 0 ? 'checked="checked"' : ""}/></div>`;
                 }
-                filterBgColorHtml = '<div id="filterBgColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">' + locale_filter.filiterByColorTip + '</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + bgColorItemHtml + '</div></div>';
+                filterBgColorHtml = `<div id="filterBgColor" class="box luckysheet-mousedown-cancel">
+                                     <div class="title luckysheet-mousedown-cancel">${locale_filter.filiterByColorTip}</div>
+                                     <div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">${bgColorItemHtml}</div></div>`;
             }
 
             let filterFcColorHtml = '';
             if (JSON.stringify(fcMap).length > 2 && Object.keys(fcMap).length > 1) {
                 let fcColorItemHtml = '';
                 for (let f in fcMap) {
-                    if (fcMap[f] == 0) {
-                        fcColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + f + '" title="' + f + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/></div>';
-                    } else {
-                        fcColorItemHtml += '<div class="item luckysheet-mousedown-cancel"><label class="luckysheet-mousedown-cancel" style="background-color: ' + f + '" title="' + f + '"></label><input class="luckysheet-mousedown-cancel" type="checkbox"/></div>';
-                    }
+                    fcColorItemHtml += `<div class="item luckysheet-mousedown-cancel">
+                                        <label class="luckysheet-mousedown-cancel" style="background-color: ${escapeHtml(f)}" title="${escapeHtml(f)}"></label>
+                                        <input class="luckysheet-mousedown-cancel" type="checkbox" ${fcMap[f] == 0 ? 'checked="checked"' : ""}/></div>`;
                 }
-                filterFcColorHtml = '<div id="filterFcColor" class="box luckysheet-mousedown-cancel"><div class="title luckysheet-mousedown-cancel">' + locale_filter.filiterByTextColorTip + '</div><div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">' + fcColorItemHtml + '</div></div>';
+                filterFcColorHtml = `<div id="filterFcColor" class="box luckysheet-mousedown-cancel">
+                                     <div class="title luckysheet-mousedown-cancel">${locale_filter.filiterByTextColorTip}</div>
+                                     <div style="max-height:128px;overflow:auto;" class="luckysheet-mousedown-cancel">${fcColorItemHtml}</div></div>`;
             }
             //
             let content;
             if (filterBgColorHtml == '' && filterFcColorHtml == '') {
-                content = '<div class="luckysheet-mousedown-cancel" style="padding: 10px 30px;text-align: center;">' + locale_filter.filterContainerOneColorTip + '</div>';
+                content = `<div class="luckysheet-mousedown-cancel" style="padding: 10px 30px;text-align: center;">${locale_filter.filterContainerOneColorTip}</div>`;
             } else {
-                content = filterBgColorHtml + filterFcColorHtml + '<div class="luckysheet-mousedown-cancel"><button id="luckysheet-filter-orderby-color-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin: 5px 20px;width: 70px;">' + locale_button.confirm + '</button></div>';
+                content = `${filterBgColorHtml + filterFcColorHtml}
+                            <div class="luckysheet-mousedown-cancel">
+                            <button id="luckysheet-filter-orderby-color-confirm" class="btn btn-primary luckysheet-mousedown-cancel" style="margin: 5px 20px;width: 70px;">${locale_button.confirm}</button></div>`;
             }
             //颜色筛选子菜单
             $("#luckysheet-filter-orderby-color-submenu").remove();
-            $("body").append(DOMPurify.sanitize('<div id="luckysheet-filter-orderby-color-submenu" class="luckysheet-cols-menu luckysheet-mousedown-cancel">' + content + '</div>'));
+            $("body").append(`<div id="luckysheet-filter-orderby-color-submenu" class="luckysheet-cols-menu luckysheet-mousedown-cancel">${content}</div>`);
             let $t = $("#luckysheet-filter-orderby-color-submenu").end();
             let $con = $(this).parent();
             let winW = $(window).width(), winH = $(window).height();
