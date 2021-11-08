@@ -87,7 +87,7 @@ function rowlenByRange(d, r1, r2, cfg) {
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
         }else{
-            if(cfg["rowlen"][r]){
+            if(cfg["rowlen"]?.[r]){
                 cfg_clone["rowlen"][r] = cfg["rowlen"][r]
             }
         }
