@@ -120,8 +120,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
     file.data = Store.flowdata;
 
-    //config, null or empty object are not processed
-    if(cfg != null  && Object.keys(cfg).length !== 0){
+    // 必须要处理，可能之前的config为空，则也需要清空
+    if(cfg != null){
         Store.config = cfg;
         file.config = Store.config;
 
