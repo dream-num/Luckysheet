@@ -222,8 +222,8 @@ const luckysheetPostil = {
             fromY = 2;
         }
 
-        let width = _this.defaultWidth * Store.zoomRatio
-        let height = _this.defaultHeight * Store.zoomRatio
+        let width = postil["width"] == null ? _this.defaultWidth * Store.zoomRatio : postil["width"] * Store.zoomRatio;
+        let height = postil["height"] == null ? _this.defaultHeight * Store.zoomRatio : postil["height"] * Store.zoomRatio;
 
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
@@ -872,6 +872,9 @@ const luckysheetPostil = {
             let value = $("#" + id).find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
             // Hook function
             if(!method.createHookFunction('commentUpdateBefore',r,c,value)){
+                if (!Store.flowdata[r][c].ps.isshow) {
+                    $("#" + id).remove();
+                }
                 return;
             }
 
