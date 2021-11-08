@@ -9,6 +9,7 @@ import { replaceHtml, getObjType } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 //插入函数
 const insertFormula = {
@@ -55,9 +56,11 @@ const insertFormula = {
         //选择公式后弹出参数栏弹框
         $(document).off("click.fxFormulaCf").on("click.fxFormulaCf", "#luckysheet-search-formula-confirm", function(){
             let formula = $("#luckysheet-search-formula .listBox.on").attr("name");
-            let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">'+ formula.toUpperCase() +'</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
+            let formulaTxt = `<span dir="auto" class="luckysheet-formula-text-color">=</span>
+                              <span dir="auto" class="luckysheet-formula-text-color">${escapeHtml(formula.toUpperCase())}</span>
+                              <span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>`;
             
-            $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
+            $("#luckysheet-rich-text-editor").html(formulaTxt);
             $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
 
             _this.formulaParmDialog(formula);
