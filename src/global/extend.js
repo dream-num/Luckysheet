@@ -640,6 +640,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         for(let c = 0; c < d[0].length; c++){
             let cell = curRow[c],
             templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            delete templateCell.ps;
             row.push(templateCell);
         }
         var cellBorderConfig = [];
@@ -813,6 +814,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         for(let r = 0; r < d.length; r++){
             let cell = curd[r][index],
             templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            delete templateCell.ps;
             col.push(templateCell);
         }
         var cellBorderConfig = [];
