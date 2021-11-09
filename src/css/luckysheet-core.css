@@ -5362,7 +5362,6 @@ fieldset[disabled] .btn-danger.focus {
 #luckysheet-search-formula-parm .parmDetailsBox {
     max-height: 100px;
     padding: 5px 0 5px 20px;
-    overflow-y: scroll;
 }
 
 #luckysheet-search-formula-parm .parmDetailsBox span {

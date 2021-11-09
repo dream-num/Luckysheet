@@ -251,7 +251,7 @@ export function rowColumnOperationInitial(){
 
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
-                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                    formula.setCaretPosition($span.get(0), 0, $span.html()?.length);
                 }, 1);
 
                 return;
