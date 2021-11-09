@@ -8,6 +8,7 @@ import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import tooltip from '../global/tooltip';
 
 const imageCtrl = {
     imgItem: {
@@ -49,7 +50,29 @@ const imageCtrl = {
     cropChangeXY: null,
     cropChangeObj: null,
     copyImgItemObj: null,
-    inserImg: function(src){
+    insertImg: function (file) {
+        const uploadImage = Store.toJsonOptions && Store.toJsonOptions['uploadImage'];
+        if (typeof uploadImage === 'function') {
+            // 上传形式
+            uploadImage(file).then(url => {
+                imageCtrl._insertImg(url);
+            }).catch(error => {
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '图片上传失败');
+            });
+        } else {
+            // 内部base64形式
+            let render = new FileReader();
+            render.readAsDataURL(file);
+
+            render.onload = function(event){
+                let src = event.target.result;
+                imageCtrl._insertImg(src);
+                $("#luckysheet-imgUpload").val("");
+            }
+        }
+    },
+
+    _insertImg: function(src){
         let _this = this;
         
         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];

@@ -1476,13 +1476,7 @@ export default function luckysheetHandler() {
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
                 return;
             }
-            let render = new FileReader();
-            render.readAsDataURL(files[0]);
-
-            render.onload = function(event){
-                let src = event.target.result;
-                imageCtrl.inserImg(src);
-            }
+            imageCtrl.insertImg(files[0]);
         }
         handleCellDragStopEvent(e);
     }, false);
@@ -4886,14 +4880,7 @@ export default function luckysheetHandler() {
             return;
         }
         let file = e.currentTarget.files[0];
-        let render = new FileReader();
-        render.readAsDataURL(file);
-
-        render.onload = function(event){
-            let src = event.target.result;
-            imageCtrl.inserImg(src);
-            $("#luckysheet-imgUpload").val("");
-        }
+        imageCtrl.insertImg(file);
     });
 
     //菜单栏 插入链接按钮
@@ -5620,12 +5607,7 @@ export default function luckysheetHandler() {
                 }
                 //复制的是图片
                 else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
-                    let render = new FileReader();
-                    render.readAsDataURL(clipboardData.files[0]);
-                    render.onload = function(event){
-                        let src = event.target.result;
-                        imageCtrl.inserImg(src);
-                    }
+                    imageCtrl.insertImg(clipboardData.files[0]);
 
                     return;
                 }
