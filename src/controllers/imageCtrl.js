@@ -9,6 +9,7 @@ import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import tooltip from '../global/tooltip';
+import method from '../global/method';
 
 const imageCtrl = {
     imgItem: {
@@ -877,15 +878,24 @@ const imageCtrl = {
     },
     removeImgItem: function() {
         let _this = this;
+        let imgItem = _this.images[_this.currentImgId];
+
+        // 钩子 imageDeleteBefore
+        if(!method.createHookFunction('imageDeleteBefore', imgItem)){
+            return;
+        }
         
         $("#luckysheet-modal-dialog-activeImage").hide();
         $("#luckysheet-modal-dialog-cropping").hide();
         $("#luckysheet-modal-dialog-slider-imageCtrl").hide();
         $("#" + _this.currentImgId).remove();
 
+
         delete _this.images[_this.currentImgId];
         _this.currentImgId = null;
 
+        // 钩子 imageDeleteAfter
+        method.createHookFunction('imageDeleteAfter', imgItem);
         _this.ref();
     },
     copyImgItem: function(e) {
