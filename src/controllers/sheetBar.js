@@ -271,20 +271,15 @@ export function initialSheetBar(){
             return;
         }
 
+        let $t = $(this);
+        let txt = $t.text(), oldtxt = $t.data("oldtxt");
+
         if(0 === $(this).text().length){
-
             tooltip.info("", locale_sheetconfig.sheetNamecannotIsEmptyError);
-
-            setTimeout(()=>{
-                $(this).text(oldSheetFileName);
-                luckysheetsheetnameeditor($(this));
-                $(this).focus();
-            }, 1);
+            $t.text(oldtxt).attr("contenteditable", "false");
             return;
         }
 
-        let $t = $(this);
-        let txt = $t.text(), oldtxt = $t.data("oldtxt");
         if(txt.length>31 || txt.charAt(0)=="'" || txt.charAt(txt.length-1)=="'" || /[：\:\\\/？\?\*\[\]]+/.test(txt)){
             alert(locale_sheetconfig.sheetNameSpecCharError);
             setTimeout(()=>{
