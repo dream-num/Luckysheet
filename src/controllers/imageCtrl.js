@@ -119,8 +119,8 @@ const imageCtrl = {
     modelHtml: function(id, imgItem) {
         let _this = this;
 
-        let imgUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imgUrlHandle'];
-        let src = typeof imgUrlHandle === 'function' ? imgUrlHandle(imgItem.src) : imgItem.src;
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let src = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
         let imgItemParam = _this.getImgItemParam(imgItem);
 
         let width = imgItemParam.width * Store.zoomRatio;
@@ -393,8 +393,8 @@ const imageCtrl = {
                 "top": top,
                 "position": position
             });
-            let imgUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imgUrlHandle'];
-            let imgUrl = typeof imgUrlHandle === 'function' ? imgUrlHandle(item.src) : item.src;
+            let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+            let imgUrl = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
                 "background-image": "url(" + imgUrl + ")",
                 "background-size": item.default.width * Store.zoomRatio + "px " + item.default.height * Store.zoomRatio + "px",
