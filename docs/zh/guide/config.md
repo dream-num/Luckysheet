@@ -723,7 +723,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型： `function (file) => Promise(imgUrl)`，接受file对象，返回Promise，值为上传完成的图片url
 - 默认值： `undefined`
 
-:::deatil 查看示例配置
+:::details 查看示例配置
 
 ```js
 {
@@ -773,7 +773,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 - 类型： `function (string) => string`，接受原始路径，返回新路径
 - 默认值： `undefined`
-- 作用，处理图片显示时的路径。 
+- 作用，处理图片显示时的路径。  
   如上传返回地址为接口地址，如： `rest/attach/[fileguid]`， 则需要处理为 `http://localhost:8080/xxx/rest/attach/[fileguid]` 才能显示，但将前面域名信息写入数据，后续使用可能会有问题，因此可使用此方法处理路径，全路径仅在展示使用，数据内仅存储 `rest/attach/[fileguid]`
 
 ```js
