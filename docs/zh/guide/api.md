@@ -33,7 +33,7 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 		
 		`luckysheet.getCellValue(0, 0)`
 
-	- 返回指定data数据的第2行第2列单元格的原始值。
+	- 返回指定data数据的第2行第2列单元格的显示值。
 		
 		`luckysheet.getCellValue(1, 1, {type:"m"})`
 
