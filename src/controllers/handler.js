@@ -3168,17 +3168,20 @@ export default function luckysheetHandler() {
                         "left": left,
                         "top": top
                     });
+
+                    let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+                    let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
         
                     $("#luckysheet-modal-dialog-cropping .cropping-mask").css({
                         "width": imgItem.default.width,
                         "height": imgItem.default.height,
-                        "background-image": "url(" + imgItem.src + ")",
+                        "background-image": "url(" + imgSrc + ")",
                         "left": -offsetLeft,
                         "top": -offsetTop
                     })
         
                     $("#luckysheet-modal-dialog-cropping .cropping-content").css({
-                        "background-image": "url(" + imgItem.src + ")",
+                        "background-image": "url(" + imgSrc + ")",
                         "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
                         "background-position": -offsetLeft + "px " + -offsetTop + "px"
                     })

@@ -97,7 +97,8 @@ const imageCtrl = {
 
             _this.addImgItem(img);
         }
-        image.src = src;
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        image.src = typeof imageUrlHandle === 'function' ? imageUrlHandle(src) : src;
     },
     generateRandomId: function(prefix) {
         if(prefix == null){
@@ -773,16 +774,19 @@ const imageCtrl = {
             "position": position
         });
 
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
+
         $("#luckysheet-modal-dialog-cropping .cropping-mask").css({
             "width": item.default.width,
             "height": item.default.height,
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "left": -item.crop.offsetLeft,
             "top": -item.crop.offsetTop
         })
 
         $("#luckysheet-modal-dialog-cropping .cropping-content").css({
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": item.default.width + "px " + item.default.height + "px",
             "background-position": -item.crop.offsetLeft + "px " + -item.crop.offsetTop + "px"
         })
@@ -820,9 +824,11 @@ const imageCtrl = {
             "top": top,
             "position": position
         });
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
 
         $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": item.default.width + "px " + item.default.height + "px",
             "background-position": -item.crop.offsetLeft + "px " + -item.crop.offsetTop + "px"
         })
@@ -868,8 +874,11 @@ const imageCtrl = {
             "position": position
         });
 
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
+
         $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-            "background-image": "url(" + imgItem.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
             "background-position": -imgItem.crop.offsetLeft + "px " + -imgItem.crop.offsetTop + "px"
         })
