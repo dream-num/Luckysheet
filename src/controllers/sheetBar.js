@@ -281,11 +281,8 @@ export function initialSheetBar(){
         }
 
         if(txt.length>31 || txt.charAt(0)=="'" || txt.charAt(txt.length-1)=="'" || /[：\:\\\/？\?\*\[\]]+/.test(txt)){
-            alert(locale_sheetconfig.sheetNameSpecCharError);
-            setTimeout(()=>{
-                luckysheetsheetnameeditor($(this));
-                $(this).focus();
-            }, 1);
+            tooltip.info("", locale_sheetconfig.sheetNameSpecCharError);
+            $t.text(oldtxt).attr("contenteditable", "false");
             return;
         }
 
