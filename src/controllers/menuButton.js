@@ -37,7 +37,7 @@ import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontfo
 import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
-import {checkTheStatusOfTheSelectedCells, frozenFirstRow} from '../global/api';
+import { checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn } from '../global/api';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
@@ -1645,24 +1645,25 @@ const menuButton = {
                         // luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenColumn"){ //首列冻结
-                        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-                        let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-                        if(col_st == -1){
-                            col_st = 0;
-                        }
-                        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                        let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-                        luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
+                        frozenFirstColumn();
+                        // let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                        // let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+                        // if(col_st == -1){
+                        //     col_st = 0;
+                        // }
+                        // let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                        // let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        // luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
-                        if (luckysheetFreezen.freezenhorizontaldata != null) {
-                            luckysheetFreezen.cancelFreezenHorizontal();
-                            luckysheetFreezen.createAssistCanvas();
-                            luckysheetrefreshgrid();
-                        }
+                        // if (luckysheetFreezen.freezenhorizontaldata != null) {
+                        //     luckysheetFreezen.cancelFreezenHorizontal();
+                        //     luckysheetFreezen.createAssistCanvas();
+                        //     luckysheetrefreshgrid();
+                        // }
 
-                        luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
-                        luckysheetFreezen.createAssistCanvas();
-                        luckysheetrefreshgrid();
+                        // luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
+                        // luckysheetFreezen.createAssistCanvas();
+                        // luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenRC"){ //首行列冻结
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();

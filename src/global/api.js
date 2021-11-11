@@ -651,18 +651,20 @@ export function frozenFirstColumn(order) {
 
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
-        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+        // let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
 
-        let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-        if(col_st == -1){
-            col_st = 0;
-        }
+        // let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+        // if(col_st == -1){
+        //     col_st = 0;
+        // }
+        let col_st = 0;
 
-        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+        // let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+        let left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
         let freezenverticaldata = [
             Store.visibledatacolumn[col_st],
             col_st + 1,
-            scrollLeft,
+            0,
             luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
             left
         ];
