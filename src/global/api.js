@@ -609,18 +609,20 @@ export function frozenFirstRow(order) {
 
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
-        let scrollTop = $("#luckysheet-cell-main").scrollTop();
+        // let scrollTop = $("#luckysheet-cell-main").scrollTop();
 
-        let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-        if(row_st == -1){
-            row_st = 0;
-        }
-
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+        // let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+        // if(row_st == -1){
+        //     row_st = 0;
+        // }
+        let row_st = 0;
+        
+        // let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+        let top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
         let freezenhorizontaldata = [
             Store.visibledatarow[row_st],
             row_st + 1,
-            scrollTop,
+            0,
             luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
             top
         ];

@@ -37,7 +37,7 @@ import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontfo
 import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
-import {checkTheStatusOfTheSelectedCells} from '../global/api';
+import {checkTheStatusOfTheSelectedCells, frozenFirstRow} from '../global/api';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
@@ -1624,24 +1624,25 @@ const menuButton = {
                     luckysheetFreezen.saveFrozen(itemvalue);
 
                     if(itemvalue == "freezenRow"){ //首行冻结
-                        let scrollTop = $("#luckysheet-cell-main").scrollTop();
-                        let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-                        if(row_st == -1){
-                            row_st = 0;
-                        }
-                        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                        let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                        luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+                        frozenFirstRow();
+                        // let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                        // let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+                        // if(row_st == -1){
+                        //     row_st = 0;
+                        // }
+                        // let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                        // let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                        // luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
 
-                        if (luckysheetFreezen.freezenverticaldata != null) {
-                            luckysheetFreezen.cancelFreezenVertical();
-                            luckysheetFreezen.createAssistCanvas();
-                            luckysheetrefreshgrid();
-                        }
+                        // if (luckysheetFreezen.freezenverticaldata != null) {
+                        //     luckysheetFreezen.cancelFreezenVertical();
+                        //     luckysheetFreezen.createAssistCanvas();
+                        //     luckysheetrefreshgrid();
+                        // }
 
-                        luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
-                        luckysheetFreezen.createAssistCanvas();
-                        luckysheetrefreshgrid();
+                        // luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
+                        // luckysheetFreezen.createAssistCanvas();
+                        // luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenColumn"){ //首列冻结
                         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();

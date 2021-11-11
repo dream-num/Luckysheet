@@ -9,6 +9,8 @@ import luckysheetDropCell from './dropCell';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import Store from '../store';
 import locale from '../locale/locale';
+import { luckysheetrefreshgrid } from '../global/refresh';
+
 
 const luckysheetFreezen = {
     freezenHorizontalHTML: '<div id="luckysheet-freezebar-horizontal" class="luckysheet-freezebar" tabindex="0"><div class="luckysheet-freezebar-handle luckysheet-freezebar-horizontal-handle" ><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-title" ></div><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-bar" ></div></div><div class="luckysheet-freezebar-drop luckysheet-freezebar-horizontal-drop" ><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-title" ></div><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-bar" >&nbsp;</div></div></div>',
@@ -370,24 +372,34 @@ const luckysheetFreezen = {
         }
 
         if (freezenhorizontaldata == null) {
-            let scrollTop = $("#luckysheet-cell-main").scrollTop();
-            let dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-            if (dataset_row_st == -1) {
-                dataset_row_st = 0;
-            }
+            // let scrollTop = $("#luckysheet-cell-main").scrollTop();
+            // let dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+            // if (dataset_row_st == -1) {
+            //     dataset_row_st = 0;
+            // }
+            dataset_row_st = 0;
 
-            top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            // top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            top = Store.visibledatarow[dataset_row_st] - 2 + Store.columnHeaderHeight;
             freezenhorizontaldata = [
                 Store.visibledatarow[dataset_row_st], 
                 dataset_row_st + 1, 
-                scrollTop, 
+                0, 
                 _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
                 top
             ];
             _this.saveFreezen(freezenhorizontaldata, top, null, null);
+            // todo: 没有下面代码 如果有滚动，冻结之后首行的行号仍显示的之前滚动的行号
+            // todo: 不 setTimeout 这里直接刷新的话，冻结的首行显示有问题，没有列的分割线
+            setTimeout(() => {
+                luckysheetFreezen.createAssistCanvas();
+                luckysheetrefreshgrid();
+            });
         }
 
         _this.freezenhorizontaldata = freezenhorizontaldata;
+        
+
 
         // $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> '+locale().freezen.freezenCancel);
 
@@ -414,6 +426,7 @@ const luckysheetFreezen = {
         $("#luckysheet-freezen-btn-horizontal").html(freezeHTML);
 
         $("#luckysheet-freezebar-horizontal").show().find(".luckysheet-freezebar-horizontal-handle").css({ "top": top }).end().find(".luckysheet-freezebar-horizontal-drop").css({ "top": top });
+
     },
     createAssistCanvas: function(){
         let _this = this;
