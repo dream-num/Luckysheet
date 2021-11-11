@@ -879,6 +879,7 @@ const server = {
 
 	        $("#luckysheet-sheets-item" + value.deleIndex).remove();
 			$("#luckysheet-datavisual-selection-set-" + value.deleIndex).remove();
+			sheetmanage.locationSheet()
 
 	    }
 	    else if(type == "shr"){ //sheet位置
@@ -920,6 +921,7 @@ const server = {
 	            file.hide = 0;
 	            $("#luckysheet-sheets-item" + index).show();
 	        }
+				sheetmanage.locationSheet()
 	    }
 	    else if(type == "c"){ //图表操作 TODO
 	        let op = item.op, cid = item.cid;

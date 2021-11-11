@@ -319,6 +319,7 @@ const sheetmanage = {
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         
         _this.changeSheetExec(indicator);
+        _this.locationSheet();
 
         server.saveParam("sh", luckysheetcurrentSheetitem.data("index"), 1, { "op": "hide", "cur": indicator });
         // 钩子 sheetHideAfter
@@ -438,6 +439,7 @@ const sheetmanage = {
 
         _this.locationSheet();
     },
+    // *控制sheet栏的左右滚动按钮是否显示
     locationSheet: function() {
         let $c = $("#luckysheet-sheet-container-c"), winW = $("#"+Store.container).width();
         let $cursheet = $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item-active").eq(0);
@@ -455,13 +457,16 @@ const sheetmanage = {
         setTimeout(function(){
             $c.scrollLeft(scrollLeftpx - 10);
 
-            if (c_width >= winW * 0.7) {
-                if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+            if (luckysheetConfigsetting.showsheetbarConfig.sheet){
+                if (c_width >= winW * 0.7) {
                     $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
                     $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+                } else {
+                    $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "none");
+                    $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
                 }
-                
             }
+
         }, 1)
     },
     copySheet: function(copyindex, e) {
@@ -1550,6 +1555,7 @@ const sheetmanage = {
             $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
         }
     },
+    // *显示sheet栏左右的灰色
     sheetBarShowAndHide(index){
         let $c = $("#luckysheet-sheet-container-c");
 
