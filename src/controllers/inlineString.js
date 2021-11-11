@@ -3,6 +3,7 @@ import {selectTextContent, selectTextContentCross, selectTextContentCollapse} fr
 import locale from '../locale/locale';
 import Store from '../store';
 import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 export const inlineStyleAffectAttribute = {"bl": 1, "it": 1, "ff": 1, "cl": 1, "un": 1, "fs": 1, "fc": 1};
 export const inlineStyleAffectCssName = {
@@ -226,7 +227,7 @@ export function enterKeyControll(cell) {
             startSpan = $(startContainer).find("span");
             if (startSpan.length == 0) {
                 // 在末尾换行操作会导致数据丢失(覆盖)
-                startContainer.innerHTML = `<span>${startContainer.innerText}</span>`;
+                startContainer.innerHTML = `<span>${escapeHtml(startContainer.innerText)}</span>`;
                 startSpan = $(startContainer).find("span");
             }
             startSpan = startSpan.get(startSpan.length - 1);
@@ -252,13 +253,13 @@ export function enterKeyControll(cell) {
             if ((spanIndex == textSpan.length - 1) && sright == "") {
                 let txt = textSpan[spanIndex].innerHTML;
                 if (txt.substr(txt.length - 1, 1) == "\n") {
-                    cont = "<span style='" + startSpan.style.cssText + "'>" + sleft + "\n" + "</span>";
+                    cont = "<span style='" + startSpan.style.cssText + "'>" + escapeHtml(sleft) + "\n" + "</span>";
                 } else {
-                    cont = "<span style='" + startSpan.style.cssText + "'>" + sleft + "\n\n" + "</span>";
+                    cont = "<span style='" + startSpan.style.cssText + "'>" + escapeHtml(sleft) + "\n\n" + "</span>";
                 }
 
             } else {
-                cont = "<span style='" + startSpan.style.cssText + "'>" + sleft + "\n" + sright + "</span>";
+                cont = "<span style='" + startSpan.style.cssText + "'>" + escapeHtml(sleft) + "\n" + escapeHtml(sright) + "</span>";
             }
 
             $(startSpan).replaceWith(cont);
@@ -266,9 +267,9 @@ export function enterKeyControll(cell) {
 
             let cssText = getFontStyleByCell(cell);
             if (sright == "") {
-                cont = "<span style='" + cssText + "'>" + sleft + "\n\n" + "</span>";
+                cont = "<span style='" + cssText + "'>" + escapeHtml(sleft) + "\n\n" + "</span>";
             } else {
-                cont = "<span style='" + cssText + "'>" + sleft + "\n" + sright + "</span>";
+                cont = "<span style='" + cssText + "'>" + escapeHtml(sleft) + "\n" + escapeHtml(sright) + "</span>";
             }
 
             if (startContainer.id == "luckysheet-rich-text-editor") {
@@ -277,7 +278,7 @@ export function enterKeyControll(cell) {
                 spanIndex = textSpan.length - 1;
                 startOffset = textSpan.get(spanIndex).innerHTML.length - 1;
             } else {
-                $(startSpan).html(DOMPurify.sanitize(cont));
+                $(startSpan).html(cont);
                 spanIndex = 0;
             }
 

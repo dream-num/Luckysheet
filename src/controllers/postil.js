@@ -1,6 +1,5 @@
 import { rowLocation, colLocation, mouseposition } from '../global/location';
 import editor from '../global/editor';
-import formula from '../global/formula';
 import { luckysheetRangeLast } from '../global/cursorPos';
 import { luckysheetrefreshgrid } from '../global/refresh';
 import { setluckysheet_scroll_status } from '../methods/set';
@@ -12,6 +11,7 @@ import {checkProtectionAuthorityNormal} from './protection';
 import server from './server';
 import Store from '../store';
 import method from '../global/method';
+import escapeHtml from "escape-html";
 
 //批注
 const luckysheetPostil = {
@@ -348,18 +348,13 @@ const luckysheetPostil = {
         let isshow = postil["isshow"] == null ? false : postil["isshow"];
 
         if(isshow){
-            let row = Store.visibledatarow[r], 
-                row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1];
-            let col = Store.visibledatacolumn[c], 
-                col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
+            let row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1];
+            let col = Store.visibledatacolumn[c];
 
             let margeset = menuButton.mergeborer(Store.flowdata, r, c);
             if(!!margeset){
-                row = margeset.row[1];
                 row_pre = margeset.row[0];
-                
                 col = margeset.column[1];
-                col_pre = margeset.column[0];
             }
 
             let toX = col;
@@ -957,22 +952,7 @@ const luckysheetPostil = {
         });
     },
     htmlEscape: function(text){
-        return text.replace(/[<>"&]/g, function(match, pos, originalText){
-            switch(match){
-                case '<': {
-                    return '&lt';
-                }
-                case '>': {
-                    return '&gt';
-                }
-                case '&': {
-                    return '&amp';
-                }
-                case '\"': {
-                    return '&quot;';
-                }
-            }
-        })
+        return escapeHtml(text);
     }
 }
 

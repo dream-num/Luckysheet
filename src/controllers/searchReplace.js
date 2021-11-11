@@ -13,7 +13,7 @@ import func_methods from '../global/func_methods';
 import Store from '../store';
 import locale from '../locale/locale';
 import {checkProtectionLocked} from './protection';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 //查找替换
 const luckysheetSearchReplace = {
@@ -338,27 +338,27 @@ const luckysheetSearchReplace = {
         }
 
         let searchAllHtml = '';
-
+              
         for(let i = 0; i < searchIndexArr.length; i++){
             let value_ShowEs = valueShowEs(searchIndexArr[i].r, searchIndexArr[i].c, Store.flowdata).toString();
 
             if(value_ShowEs.indexOf("</") > -1 && value_ShowEs.indexOf(">") > -1){
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
-                                    '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
+                                    '<span>' + escapeHtml(Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name) + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span>' + value_ShowEs + '</span>' +
+                                    '<span>' + escapeHtml(value_ShowEs) + '</span>' +
                                  '</div>';
             }
             else{
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
                                     '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span title="' + value_ShowEs + '">' + value_ShowEs + '</span>' +
+                                    '<span title="' + escapeHtml(value_ShowEs) + '">' + escapeHtml(value_ShowEs) + '</span>' +
                                  '</div>';
             }
         }
         
-        $(DOMPurify.sanitize('<div id="searchAllbox"><div class="boxTitle"><span>'+ locale_findAndReplace.searchTargetSheet +'</span><span>'+locale_findAndReplace.searchTargetCell+'</span><span>'+locale_findAndReplace.searchTargetValue+'</span></div><div class="boxMain">' + searchAllHtml + '</div></div>')).appendTo($("#luckysheet-search-replace"));
+        $(`<div id="searchAllbox"><div class="boxTitle"><span>${locale_findAndReplace.searchTargetSheet}</span><span>${locale_findAndReplace.searchTargetCell}</span><span>${locale_findAndReplace.searchTargetValue}</span></div><div class="boxMain">${searchAllHtml}</div></div>`).appendTo($("#luckysheet-search-replace"));
         
         $("#luckysheet-search-replace #searchAllbox .boxItem").eq(0).addClass("on").siblings().removeClass("on");
 

@@ -14,7 +14,6 @@ import { getObjType, replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import dayjs from 'dayjs'
-import DOMPurify from "dompurify";
 
 //选区下拉
 const luckysheetDropCell = {
@@ -303,7 +302,7 @@ const luckysheetDropCell = {
             $("#luckysheet-dropCell-typeList").remove();
             const _locale = locale();
             const locale_dropCell = _locale.dropCell;
-            $("body").append(DOMPurify.sanitize(replaceHtml(_this.typeListHtml,{
+            $("body").append(replaceHtml(_this.typeListHtml,{
                 copyCell:locale_dropCell.copyCell,
                 sequence:locale_dropCell.sequence,
                 onlyFormat:locale_dropCell.onlyFormat,
@@ -313,7 +312,7 @@ const luckysheetDropCell = {
                 month:locale_dropCell.month,
                 year:locale_dropCell.year,
                 chineseNumber:locale_dropCell.chineseNumber,
-            })));
+            }));
 
             let typeItemHide = _this.typeItemHide();
             if(!typeItemHide[0] && !typeItemHide[1] && !typeItemHide[2] && !typeItemHide[3] && !typeItemHide[4] && !typeItemHide[5] && !typeItemHide[6]){

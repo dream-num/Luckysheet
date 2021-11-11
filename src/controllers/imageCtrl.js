@@ -8,6 +8,7 @@ import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import escapeHtml from "escape-html";
 
 const imageCtrl = {
     imgItem: {
@@ -106,7 +107,7 @@ const imageCtrl = {
 
         let borderWidth = imgItem.border.width;
 
-        return  `<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
+        return  `<div id="${escapeHtml(id)}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
                     <div class="luckysheet-modal-dialog-content" style="width:100%;height:100%;overflow:hidden;position:relative;">
                         <img src="${src}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
                     </div>
@@ -213,18 +214,18 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
 
-        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-imageCtrl-colorSelect-dialog", 
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
             "title": locale_imageCtrl.borderTile, 
             "content": `<div class="currenColor">
-                            ${locale_imageCtrl.borderCur}:<span title="${currenColor}" style="background-color:${currenColor}"></span>
+                            ${locale_imageCtrl.borderCur}:<span title="${escapeHtml(currenColor)}" style="background-color:${escapeHtml(currenColor)}"></span>
                         </div>
                         <div class="colorshowbox"></div>`, 
             "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">${locale_button.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${locale_button.cancel}</button>`, 
             "style": "z-index:100003" 
-        })));
+        }));
         let $t = $("#luckysheet-imageCtrl-colorSelect-dialog")
                 .find(".luckysheet-modal-dialog-content")
                 .css("min-width", 300)
@@ -663,7 +664,7 @@ const imageCtrl = {
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, imgItem);
 
-        $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
+        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
 
         _this.images[id] = imgItem;
         _this.ref();
@@ -918,7 +919,7 @@ const imageCtrl = {
         let id = _this.generateRandomId();
         let modelHtml = _this.modelHtml(id, img);
 
-        $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
+        $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
 
         _this.images[id] = img;
         _this.ref();
@@ -940,7 +941,7 @@ const imageCtrl = {
         for(let imgId in _this.images){
             let imgItem = _this.images[imgId];
             let modelHtml = _this.modelHtml(imgId, imgItem);
-            $("#luckysheet-image-showBoxs .img-list").append(DOMPurify.sanitize(modelHtml));
+            $("#luckysheet-image-showBoxs .img-list").append(modelHtml);
         }
     },
     moveChangeSize: function(rc, index, size) {

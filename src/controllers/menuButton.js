@@ -38,11 +38,10 @@ import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable}
 import Store from '../store';
 import locale from '../locale/locale';
 import {checkTheStatusOfTheSelectedCells} from '../global/api';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
-    // "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
     "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel ${iconClass}" style="user-select: none;">${example}</span></div></div>',
     "split": '<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>',
     "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${resetColor}</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
@@ -81,8 +80,8 @@ const menuButton = {
                 if (item.example == "more") {
                     // itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
-                        "name": item.text,
+                        "value": escapeHtml(item.value),
+                        "name": escapeHtml(item.text),
                         "example": "",
                         "sub": "luckysheet-cols-submenu",
                         "iconClass": "iconfont luckysheet-iconfont-youjiantou"
@@ -90,8 +89,8 @@ const menuButton = {
 
                 } else {
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
-                        "name": item.text,
+                        "value": escapeHtml(item.value),
+                        "name": escapeHtml(item.text),
                         "example": item.example,
                         "sub": "",
                         "iconClass": ""
@@ -459,7 +458,7 @@ const menuButton = {
                     luckysheetContainerFocus();
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), itemname = $t.attr("itemname");
-                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
+                    $("#luckysheet-icon-fmt-other").find(".luckysheet-toolbar-menu-button-caption").text(itemname);
 
                     if (itemvalue == "fmtOtherSelf") {
                         return;
@@ -508,18 +507,6 @@ const menuButton = {
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
             if ($menuButton.length == 0) {
-                // const locale_fontarray = locale().fontarray;
-                // let itemdata = [];
-
-                // for(let a=0;a<locale_fontarray.length;a++){
-                //     let fItem = locale_fontarray[a];
-                //     let ret = {};
-                //     ret.value = a;
-                //     ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:"+fItem+"'>"+fItem+"</span>";
-                //     ret.example = "";
-                //     itemdata.push(ret);
-                // }
-
                 let itemset = _this.createButtonMenu(_this.fontSelectList);
 
                 let menu = replaceHtml(_this.menu, {"id": "font-family", "item": itemset, "subclass": "", "sub": ""});
@@ -534,7 +521,7 @@ const menuButton = {
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue"), itemname = $t.attr("itemname");
                     _this.focus($menuButton, itemvalue);
-                    $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
+                    $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").text(itemname);
 
                     let d = editor.deepCopyFlowData(Store.flowdata);
 
@@ -3622,7 +3609,6 @@ const menuButton = {
         } else if (attr == "ff") {
             let menuButtonId = "luckysheet-icon-font-family-menuButton";
             let $menuButton = $("#" + menuButtonId);
-            // const locale_fontarray = locale().fontarray;
             let itemname = locale_fontarray[0], itemvalue = 0;
             if (foucsStatus != null) {
                 if (isdatatypemulti(foucsStatus)["num"]) {
@@ -3646,7 +3632,7 @@ const menuButton = {
             }
 
             _this.focus($menuButton, itemvalue);
-            $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").html(" " + DOMPurify.sanitize(itemname) + " ");
+            $("#luckysheet-icon-font-family").find(".luckysheet-toolbar-menu-button-caption").text(itemname);
         } else if (attr == "fs") {
             let $menuButton = $("#luckysheet-icon-font-size-menuButton");
             let itemvalue = foucsStatus, $input = $("#luckysheet-icon-font-size input");
@@ -3736,16 +3722,16 @@ const menuButton = {
             const _locale = locale();
             const locale_defaultFmt = _locale.defaultFmt;
             if (!foucsStatus) {
-                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" " + locale_defaultFmt[0].text + " ");
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").text(locale_defaultFmt[0].text);
                 return;
             }
             const {fa} = foucsStatus;
             const format = locale_defaultFmt.find(f => f.value === fa);
             if (format) {
-                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" " + format.text + " ");
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").text(format.text);
             } else {
                 const otherFormat = locale_defaultFmt.find(f => f.value === "fmtOtherSelf");
-                $menuButton.find(".luckysheet-toolbar-menu-button-caption").html(" " + otherFormat.text + " ");
+                $menuButton.find(".luckysheet-toolbar-menu-button-caption").text(otherFormat.text);
             }
         }
     },
@@ -4153,7 +4139,7 @@ const menuButton = {
         }
 
         if ($("#luckysheetTextSizeTest").length == 0) {
-            $(DOMPurify.sanitize('<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden;margin:0;padding:0;">' + text + '</span>')).appendTo($('body'));
+            $(`<span id="luckysheetTextSizeTest" style="float:left;white-space:nowrap;visibility:hidden;margin:0;padding:0;">${escapeHtml(text)}</span>`).appendTo($('body'));
         }
 
         let o = $("#luckysheetTextSizeTest").text(text).css({'font': f}),
@@ -4165,20 +4151,17 @@ const menuButton = {
         return [w, h];
     },
     activeFormulaInput: function (row_index, col_index, rowh, columnh, formula, isnull) {
-        let _this = this;
-
         if (isnull == null) {
             isnull = false;
         }
 
         luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
-
+              console.log(formula)
         if (isnull) {
-            let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + formula.toUpperCase() + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
+            let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + escapeHtml(formula.toUpperCase()) + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
 
-            $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
+            $("#luckysheet-rich-text-editor").html(formulaTxt);
 
-            let currSelection = window.getSelection();
             let $span = $("#luckysheet-rich-text-editor").find("span");
             luckysheetformula.setCaretPosition($span.get($span.length - 2), 0, 1);
 
@@ -4190,11 +4173,12 @@ const menuButton = {
             col_pre = colLocationByIndex(columnh[0])[0],
             col = colLocationByIndex(columnh[1])[1];
 
-        let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + formula.toUpperCase() + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span class="luckysheet-formula-functionrange-cell" rangeindex="0" dir="auto" style="color:' + luckyColor[0] + ';">' + getRangetxt(Store.currentSheetIndex, {
+        let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + escapeHtml(formula.toUpperCase()) + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span class="luckysheet-formula-functionrange-cell" rangeindex="0" dir="auto" style="color:' + luckyColor[0] + ';">' +
+            escapeHtml(getRangetxt(Store.currentSheetIndex, {
             "row": rowh,
             "column": columnh
-        }, Store.currentSheetIndex) + '</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
-        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(formulaTxt));
+        }, Store.currentSheetIndex)) + '</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
+        $("#luckysheet-rich-text-editor").html(formulaTxt);
 
         luckysheetformula.israngeseleciton();
         luckysheetformula.rangestart = true;
@@ -4631,13 +4615,13 @@ const menuButton = {
             ret.value = fontName;
             ret.index = this.fontSelectList.length;
             ret.type = "userDefined";
-            ret.text = "<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:" + fontName + "'>" + fontName + "</span>";
+            ret.text = `<span class='luckysheet-mousedown-cancel' style='font-size:11px;font-family:${escapeHtml(fontName)}'>${escapeHtml(fontName)}</span>`;
             ret.example = "";
             this.fontSelectList.push(ret);
 
             let $menuButton = $("#luckysheet-icon-font-family-menuButton");
             let itemset = this.createButtonMenu(this.fontSelectList);
-            $menuButton.html(DOMPurify.sanitize(itemset));
+            $menuButton.html(itemset);
         }
     },
     fontInitial: function (fontList) {
