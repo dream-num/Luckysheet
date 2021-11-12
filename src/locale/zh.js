@@ -9088,7 +9088,7 @@ export default {
         textWrapMode: '换行方式',
         textRotate: '文本旋转',
         textRotateMode: '旋转方式',
-        freezeTopRow: '冻结首行',
+        freezeTopRow: '冻结第一行',
         sortAndFilter: '排序和筛选',
         findAndReplace: '查找替换',
         sum: '求和',
@@ -9483,9 +9483,9 @@ export default {
         "rotationDown":"向下90°"
     },
     freezen:{
-        default:"冻结首行",
-        freezenRow:"冻结首行",
-        freezenColumn:"冻结首列",
+        default:"冻结第一行",
+        freezenRow:"冻结第一行",
+        freezenColumn:"冻结第A列",
         freezenRC:"冻结行列",
         freezenRowRange:"冻结行到选区",
         freezenColumnRange:"冻结列到选区",

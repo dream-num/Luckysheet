@@ -8878,7 +8878,7 @@ export default {
         textWrapMode: 'Text wrap mode',
         textRotate: 'Text rotate',
         textRotateMode: 'Text rotate mode',
-        freezeTopRow: 'Freeze top row',
+        freezeTopRow: 'Freeze first row',
         sortAndFilter: 'Sort and filter',
         findAndReplace: 'Find and replace',
         sum: 'SUM',
