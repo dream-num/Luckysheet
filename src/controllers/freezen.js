@@ -25,6 +25,10 @@ const luckysheetFreezen = {
     windowWidth: null,
     freezenhorizontaldata: null,
     freezenverticaldata: null,
+    // 定义冻结首行、首列是实际的第一行第一列还是当前视图的第一行第一列
+    // excel 为视图的第一行第一列，但此处实现有问题，如滚动到15行冻结首行，当前冻结了15行，保存再进去实际冻结了第一行
+    // 冻结真实的第一行、第一列更符合直觉
+    freezenRealFirstRowColumn: true, 
     cutVolumn: function (arr, cutindex) {
         if(cutindex <= 0){
             return arr;
@@ -102,20 +106,33 @@ const luckysheetFreezen = {
         }
 
         if (freezenverticaldata == null) {
-            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-            let dataset_col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-            if (dataset_col_st == -1) {
-                dataset_col_st = 0;
+            if (_this.freezenRealFirstRowColumn) {
+                let dataset_col_st = 0;
+                left = Store.visibledatacolumn[dataset_col_st] - 2 + Store.rowHeaderWidth;
+                freezenverticaldata = [
+                    Store.visibledatacolumn[dataset_col_st], 
+                    dataset_col_st + 1, 
+                    0, 
+                    _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
+                    left
+                ];
+            } else {
+                let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                let dataset_col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+                if (dataset_col_st == -1) {
+                    dataset_col_st = 0;
+                }
+    
+                left = Store.visibledatacolumn[dataset_col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                freezenverticaldata = [
+                    Store.visibledatacolumn[dataset_col_st], 
+                    dataset_col_st + 1, 
+                    scrollLeft, 
+                    _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
+                    left
+                ];
             }
 
-            left = Store.visibledatacolumn[dataset_col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-            freezenverticaldata = [
-                Store.visibledatacolumn[dataset_col_st], 
-                dataset_col_st + 1, 
-                scrollLeft, 
-                _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
-                left
-            ];
             _this.saveFreezen(null, null, freezenverticaldata, left);
         }
 
@@ -372,34 +389,44 @@ const luckysheetFreezen = {
         }
 
         if (freezenhorizontaldata == null) {
-            // let scrollTop = $("#luckysheet-cell-main").scrollTop();
-            // let dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-            // if (dataset_row_st == -1) {
-            //     dataset_row_st = 0;
-            // }
-            dataset_row_st = 0;
-
-            // top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-            top = Store.visibledatarow[dataset_row_st] - 2 + Store.columnHeaderHeight;
-            freezenhorizontaldata = [
-                Store.visibledatarow[dataset_row_st], 
-                dataset_row_st + 1, 
-                0, 
-                _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
-                top
-            ];
-            _this.saveFreezen(freezenhorizontaldata, top, null, null);
-            // todo: 没有下面代码 如果有滚动，冻结之后首行的行号仍显示的之前滚动的行号
-            // todo: 不 setTimeout 这里直接刷新的话，冻结的首行显示有问题，没有列的分割线
-            setTimeout(() => {
-                luckysheetFreezen.createAssistCanvas();
-                luckysheetrefreshgrid();
-            });
+            let dataset_row_st;
+            if (_this.freezenRealFirstRowColumn) {
+                dataset_row_st = 0;
+                top = Store.visibledatarow[dataset_row_st] - 2 + Store.columnHeaderHeight;
+                freezenhorizontaldata = [
+                    Store.visibledatarow[dataset_row_st], 
+                    dataset_row_st + 1, 
+                    0, 
+                    _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
+                    top
+                ];
+                _this.saveFreezen(freezenhorizontaldata, top, null, null);
+                // todo: 没有下面代码 如果有滚动，冻结之后首行的行号仍显示的之前滚动的行号
+                // todo: 不 setTimeout 这里直接刷新的话，冻结的首行显示有问题，没有列的分割线
+                setTimeout(() => {
+                    luckysheetFreezen.createAssistCanvas();
+                    luckysheetrefreshgrid();
+                });
+            } else {
+                let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+                if (dataset_row_st == -1) {
+                    dataset_row_st = 0;
+                }
+    
+                top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                freezenhorizontaldata = [
+                    Store.visibledatarow[dataset_row_st], 
+                    dataset_row_st + 1, 
+                    scrollTop, 
+                    _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
+                    top
+                ];
+                _this.saveFreezen(freezenhorizontaldata, top, null, null);
+            }
         }
 
         _this.freezenhorizontaldata = freezenhorizontaldata;
-        
-
 
         // $("#luckysheet-freezen-btn-horizontal").html('<i class="fa fa-list-alt"></i> '+locale().freezen.freezenCancel);
 
