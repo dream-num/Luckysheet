@@ -970,6 +970,7 @@ const server = {
     multipleIndex: 0,
     multipleRangeShow: function(id, name, r, c, value) {
     	let _this = this;
+			const fullName = name;
 
 	    let row = Store.visibledatarow[r],
 	        row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1],
@@ -1021,7 +1022,7 @@ const server = {
 								id="luckysheet-multipleRange-show-${id}"
 								class="luckysheet-multipleRange-show"
 								data-color="${luckyColor[_this.multipleIndex]}"
-								title="${name}"
+								title="${fullName}"
 								style="position: absolute;left: ${col_pre - 1}px;width: ${col - col_pre - 1}px;top: ${row_pre - 1}px;height: ${row - row_pre - 1}px;border: 1px solid ${luckyColor[_this.multipleIndex]};z-index: 15;">
 
 								<div class="username" style="height: 19px;line-height:19px;width: max-content;position: absolute;bottom: ${row - row_pre - 1}px;right: 0;background-color: ${luckyColor[_this.multipleIndex]};color:#ffffff;padding:0 10px;">
