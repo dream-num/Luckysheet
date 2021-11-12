@@ -174,10 +174,12 @@ export function initialSheetBar(){
         let $t = $(this), $cur = $(e.target), $item = $cur.closest(".luckysheet-sheets-item");
 
         if (e.which == "3") {
-            luckysheetsheetrightclick($t, $cur, e);
-            luckysheetcurrentSheetitem = $item;
-            showsheetconfigmenu();
-            return;
+            setTimeout(() => {
+                luckysheetsheetrightclick($t, $cur, e);
+                luckysheetcurrentSheetitem = $item;
+                showsheetconfigmenu();
+                return;
+            }, 0);
         }
 
         if ($item.hasClass("luckysheet-sheets-item-active") && $item.find(".luckysheet-sheets-item-name").attr("contenteditable") == "false") {
