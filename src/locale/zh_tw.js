@@ -9486,6 +9486,8 @@ export default {
         freezenCancel     : "取消凍結",
 
         noSeletionError: "没有選區",
+        rangeRCOverErrorTitle: "凍結提醒",
+        rangeRCOverError: "凍結窗格超過可見範圍，會導致無法正常操作，請重新設定凍結區域。"
     },
     sort: {
         "asc"   : "昇冪",

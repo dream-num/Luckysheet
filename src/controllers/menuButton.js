@@ -1710,6 +1710,7 @@ const menuButton = {
                         luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenRowRange"){ //选区行冻结
+
                         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
                                 alert(locale_freezen.noSeletionError);
@@ -1720,7 +1721,11 @@ const menuButton = {
 
                             return;
                         }
-                        
+                        // 固定超出屏幕范围
+                        let rangeTop = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].top;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && rangeTop > $("#luckysheet-cell-main").height()) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
+                        }
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();
                         let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
 
@@ -1760,7 +1765,11 @@ const menuButton = {
 
                             return;
                         }
-                        
+                        // 固定超出屏幕范围
+                        let rangeLeft = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].left;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && rangeLeft > $("#luckysheet-cell-main").width()) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
+                        }
                         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
                         let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
 
@@ -1799,6 +1808,13 @@ const menuButton = {
                             }
 
                             return;
+                        }
+
+                        // 固定超出屏幕范围
+                        let rangeTop = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].top;
+                        let rangeLeft = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].left;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && (rangeTop > $("#luckysheet-cell-main").height() || rangeLeft > $("#luckysheet-cell-main").width())) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
                         }
                         
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();

@@ -9250,6 +9250,8 @@ export default {
         freezenCancel:"Cancelar",
 
         noSeletionError:"No hay rango para seleccionar",
+        rangeRCOverErrorTitle: "Recordatorio de congelación",
+        rangeRCOverError: "El panel de congelación excede el rango visible y puede causar que no funcione correctamente. Reinicie el área de congelación."
     },
     sort:{
         "asc":"Ascendente ",

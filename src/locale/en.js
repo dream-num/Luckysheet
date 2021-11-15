@@ -9265,7 +9265,8 @@ export default {
         freezenRCRange:"Freezen both range",
         freezenCancel:"Cancel",
 
-        noSeletionError:"No Range to be selected",
+        noSeletionError:"No Range to be selected",        rangeRCOverErrorTitle: "Freeze reminder",
+        rangeRCOverError: "The frozen pane is beyond the visible range, which will lead to abnormal operation. Please reset the frozen area."
     },
     sort:{
         "asc":"Ascending ",

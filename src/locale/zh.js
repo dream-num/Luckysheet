@@ -9493,6 +9493,8 @@ export default {
         freezenCancel:"取消冻结",
 
         noSeletionError:"没有选区",
+        rangeRCOverErrorTitle: "冻结提醒",
+        rangeRCOverError: "冻结窗格超过可见范围，会导致无法正常操作，请重新设置冻结区域。"
     },
     sort:{
         "asc":"升序",
