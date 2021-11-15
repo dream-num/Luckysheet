@@ -49,6 +49,26 @@ const luckysheetFreezen = {
 
         const _locale = locale();
         const locale_freezen = _locale.freezen;
+        // 解决freeze 不垂直居中的问题
+        const freezeHTML = `
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-function iconfont luckysheet-iconfont-dongjie1"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        ${locale_freezen.default}
+                    </div>
+                </div>
+            </div>
+        `
+
+        $("#luckysheet-freezen-btn-horizontal").html(freezeHTML);
 
         $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> '+locale_freezen.freezenColumn);
         _this.freezenverticaldata = null;
