@@ -4956,6 +4956,8 @@ export default function luckysheetHandler() {
             }
 
             luckysheetFreezen.scrollAdapt();
+            // cancel 之后 勾勾取消
+            $('#luckysheet-icon-freezen-menu-menuButton').find('.fa.fa-check').remove();
         }
         else {
 

@@ -1619,6 +1619,9 @@ const menuButton = {
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
+                    if (itemvalue === locale_freezen.freezenCancel) {
+                        $menuButton.find('.fa.fa-check').remove();
+                    }
 
                     // store frozen
                     luckysheetFreezen.saveFrozen(itemvalue);
