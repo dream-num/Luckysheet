@@ -33,10 +33,6 @@ export function formulaBarInitial(){
 
             let row_index = last["row_focus"], col_index = last["column_focus"];
             
-            // let $input = $("#luckysheet-rich-text-editor"),value = $input.text();
-            // if(value) {
-            //     formula.updatecell(row_index, col_index);
-            // }
             luckysheetupdateCell(row_index, col_index, Store.flowdata, null, true);
             formula.rangeResizeTo = $("#luckysheet-functionbox-cell");
         }
@@ -45,9 +41,6 @@ export function formulaBarInitial(){
             return;
         }
 
-        let ctrlKey = event.ctrlKey;
-        let altKey = event.altKey;
-        let shiftKey = event.shiftKey;
         let kcode = event.keyCode;
         let $inputbox = $("#luckysheet-input-box");
 
@@ -59,7 +52,6 @@ export function formulaBarInitial(){
                 formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
                 Store.luckysheet_select_save = [{ "row": [Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[0]], "column": [Store.luckysheetCellUpdate[1], Store.luckysheetCellUpdate[1]], "row_focus": Store.luckysheetCellUpdate[0], "column_focus": Store.luckysheetCellUpdate[1] }];
                 luckysheetMoveHighlightCell("down", 1, "rangeOfSelect");
-                //$("#luckysheet-functionbox-cell").blur();
                 $("#luckysheet-rich-text-editor").focus();
             }
             event.preventDefault();
@@ -67,7 +59,6 @@ export function formulaBarInitial(){
         else if (kcode == keycode.ESC && parseInt($inputbox.css("top")) > 0) {
             formula.dontupdate();
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
-            //$("#luckysheet-functionbox-cell").blur();
             $("#luckysheet-rich-text-editor").focus();
             event.preventDefault();
         }

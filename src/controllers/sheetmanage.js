@@ -26,11 +26,11 @@ import { selectHightlightShow, selectionCopyShow } from './select';
 import Store from '../store';
 import locale from '../locale/locale';
 import { renderChartShow } from '../expendPlugins/chart/plugin';
-import {changeSheetContainerSize, menuToolBarWidth} from './resize';
+import {menuToolBarWidth} from './resize';
 import {zoomNumberDomBind} from './zoom';
 import menuButton from './menuButton';
 import method from '../global/method';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -241,7 +241,7 @@ const sheetmanage = {
 
         let sheetname = _this.generateRandomSheetName(Store.luckysheetfile, isPivotTable);
         
-        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" })));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": index, "active": "", "name": sheetname, "style": "","colorset":"" }));
 
         let sheetconfig = { 
             "name": sheetname, 
@@ -412,30 +412,26 @@ const sheetmanage = {
 
             let colorset = '';
             if(Store.luckysheetfile[i].color != null){
-                colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + Store.luckysheetfile[i].color + ';"></div>';
+                colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(Store.luckysheetfile[i].color)};"></div>`;
             }
 
             if (Store.currentSheetIndex == sheetIndex) { //使用Store.luckysheetfile中的index比较，而不是order
-                btn.push(replaceHtml(sheetHTML, { "index": sheetIndex, "active": "luckysheet-sheets-item-active", "name": Store.luckysheetfile[i].name, "style": "","colorset":colorset }));
+                btn.push(replaceHtml(sheetHTML, { "index": escapeHtml(sheetIndex), "active": "luckysheet-sheets-item-active", "name": escapeHtml(Store.luckysheetfile[i].name), "style": "","colorset":colorset }));
             }
             else {
                 if (Store.luckysheetfile[i].hide == 1) {
-                    btn.push(replaceHtml(sheetHTML, { "index": sheetIndex, "active": "", "name": Store.luckysheetfile[i].name, "style": "display:none;","colorset":colorset }));
+                    btn.push(replaceHtml(sheetHTML, { "index": escapeHtml(sheetIndex), "active": "", "name": escapeHtml(Store.luckysheetfile[i].name), "style": "display:none;","colorset":colorset }));
                 }
                 else {
-                    btn.push(replaceHtml(sheetHTML, { "index": sheetIndex, "active": "", "name": Store.luckysheetfile[i].name, "style": "","colorset":colorset }));
+                    btn.push(replaceHtml(sheetHTML, { "index": escapeHtml(sheetIndex), "active": "", "name": escapeHtml(Store.luckysheetfile[i].name), "style": "","colorset":colorset }));
                 }
                 display = "style='display:none;'";
             }
-            //Store.luckysheetfile[i].index = i; //index即为默认
-            // if(sheetIndex > this.sheetMaxIndex){
-            //     this.sheetMaxIndex = sheetIndex;
-            // }
 
-            $("#luckysheet-cell-main").append('<div ' + display + ' id="luckysheet-datavisual-selection-set-' + sheetIndex + '" class="luckysheet-datavisual-selection-set"></div>');
+            $("#luckysheet-cell-main").append(`<div ${display} id="luckysheet-datavisual-selection-set-${escapeHtml(sheetIndex)}" class="luckysheet-datavisual-selection-set"></div>`);
         }
 
-        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(btn.join("")));
+        $("#luckysheet-sheet-container-c").append(btn.join(""));
 
         _this.locationSheet();
     },
@@ -492,11 +488,11 @@ const sheetmanage = {
         
         let colorset = '';
         if(copyjson.color != null){
-            colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + copyjson.color + ';"></div>';
+            colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(copyjson.color)};"></div>`;
         }
 
         let copyobject = $("#luckysheet-sheets-item" + copyindex);
-        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": copyjson.index, "active": "", "name": copyjson.name, "order": copyjson.order, "style": "", "colorset": colorset })));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": escapeHtml(copyjson.index), "active": "", "name": escapeHtml(copyjson.name), "order": escapeHtml(copyjson.order), "style": "", "colorset": colorset }));
         $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
         Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
@@ -546,10 +542,10 @@ const sheetmanage = {
 
         let colorset = '';
         if(data.color != null){
-            colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + data.color + ';"></div>';
+            colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(data.color)};"></div>`;
         }
 
-        $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, { "index": data.index, "active": "", "name": data.name, "order": data.order, "style": "", "colorset": colorset })));
+        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": escapeHtml(data.index), "active": "", "name": escapeHtml(data.name), "order": escapeHtml(data.order), "style": "", "colorset": colorset }));
 
         if(isBefore){
             let previndex = data.order;

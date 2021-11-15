@@ -8,6 +8,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import { isInlineStringCT,isInlineStringCell,convertCssToStyleList } from '../controllers/inlineString';
 import locale from '../locale/locale';
 import Store from '../store';
+import escapeHtml from "escape-html";
 
 //Get selection range value
 export function getdatabyselection(range, sheetIndex) {
@@ -164,18 +165,28 @@ export function getcellvalue(r, c, data, type) {
             retv = formula.functionHTMLGenerate(retv);
         }
         else if(type == "f") {
-            retv = d_value["v"];
+            retv = escapeHtml(d_value["v"]);
         }
         else if(d_value && d_value.ct && d_value.ct.t == 'd') {
             retv = d_value.m;
+            retv = escapeValue(retv);
+        } else {
+            retv = escapeValue(retv);
         }
     }
 
     if(retv == undefined){
         retv = null;
     }
-
+        
     return retv;
+}
+
+function escapeValue(value) {
+    if (typeof value === "string") {
+        value = escapeHtml(value);
+    }
+    return value;
 }
 
 //Data increase in rows and columns

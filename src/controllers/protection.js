@@ -810,7 +810,6 @@ function openRangePasswordModal(rangeAut) {
 
     let $hint = $("#luckysheet-protection-range-validation-hint");
     if(rangeAut.hintText != null && rangeAut.hintText.length>0){
-        console.log(rangeAut)
         $hint.text(rangeAut.hintText);
     }
     else{

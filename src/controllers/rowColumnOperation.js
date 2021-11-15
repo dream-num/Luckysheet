@@ -37,7 +37,7 @@ import {isInlineStringCell} from './inlineString';
 import {checkProtectionLockedRangeList, checkProtectionAllSelected,checkProtectionAuthorityNormal  } from './protection';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 export function rowColumnOperationInitial(){
 
@@ -167,17 +167,19 @@ export function rowColumnOperationInitial(){
                             formula.functionRangeIndex = textRange;
                         }
 
-                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText));
+                        $("#luckysheet-rich-text-editor").html(vText);
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText));
+                    $("#luckysheet-functionbox-cell").html(vText);
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择
@@ -596,17 +598,19 @@ export function rowColumnOperationInitial(){
                             formula.functionRangeIndex = textRange;
                         }
 
-                        $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(vText));
+                        $("#luckysheet-rich-text-editor").html(vText);
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(DOMPurify.sanitize(vText));
+                    $("#luckysheet-functionbox-cell").html(vText);
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择

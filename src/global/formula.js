@@ -306,7 +306,7 @@ const luckysheetformula = {
     dontupdate: function () {
         let _this = this;
         Store.luckysheetCellUpdate.length = 0; //clear array
-        $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(DOMPurify.sanitize(_this.oldvalue));
+        $("#luckysheet-functionbox-cell, #luckysheet-rich-text-editor").html(_this.oldvalue);
         _this.cancelNormalSelected();
         if (_this.rangetosheet != Store.currentSheetIndex) {
             sheetmanage.changeSheetExec(_this.rangetosheet);
@@ -346,8 +346,6 @@ const luckysheetformula = {
     //获得某个单元格或区域的偏移一定距离后的单元格( Sheet1!B6:C8 格式)
     cellOffset: function (range, rows, cols, height, width) {// 参数：range or cell , rows,cols,height,width
         let startCell = range.startCell;
-        let rowl = range.rowl;
-        let coll = range.coll;
         let startCellRow = parseInt(startCell.replace(/[^0-9]/g, ""));
         let startCellCol = ABCatNum(startCell.replace(/[^A-Za-z]/g, ""));
 
@@ -914,7 +912,7 @@ const luckysheetformula = {
         }
 
         let listHTML = _this.searchFunctionHTML(list);
-        $("#luckysheet-formula-search-c").html(DOMPurify.sanitize(listHTML)).show();
+        $("#luckysheet-formula-search-c").html(listHTML).show();
         $("#luckysheet-formula-help-c").hide();
 
         let $c = $editer.parent(),
@@ -983,12 +981,10 @@ const luckysheetformula = {
 
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
+                                                              
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-function-name").html($func.n);
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-parameter-content").html(($func.d));
 
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-function-name").html(DOMPurify.sanitize($func.n));
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-parameter-content").html(DOMPurify.sanitize(($func.d)));
-
-        let helpformula = '<span class="luckysheet-arguments-help-function-name">${name}</span> <span class="luckysheet-arguments-paren">(</span> <span class="luckysheet-arguments-parameter-holder"> ${param} </span> <span class="luckysheet-arguments-paren">)</span>';
-        let helpformulaItem = '<span class="luckysheet-arguments-help-parameter" dir="auto">${param}</span>';
         let helpformulaArg = '<div class="luckysheet-arguments-help-section"><div class="luckysheet-arguments-help-section-title">${param}</div><span class="luckysheet-arguments-help-parameter-content">${content}</span></div>';
 
         //"n": "AVERAGE",
@@ -1009,11 +1005,11 @@ const luckysheetformula = {
 
             if (paramitem.repeat == "y") {
                 name += ", ...";
-                nameli += '<span class="luckysheet-arguments-help-argument-info">...-' + locale_formulaMore.allowRepeatText + '</span>';
+                nameli += `<span class="luckysheet-arguments-help-argument-info">...-${locale_formulaMore.allowRepeatText}</span>`;
             }
             if (paramitem.require == "o") {
                 name = "[" + name + "]";
-                nameli += '<span class="luckysheet-arguments-help-argument-info">-[' + locale_formulaMore.allowOptionText + ']</span>';
+                nameli += `<span class="luckysheet-arguments-help-argument-info">-[${locale_formulaMore.allowOptionText}]</span>`;
             }
 
             fht += '<span class="luckysheet-arguments-help-parameter" dir="auto">' + name + '</span>, ';
@@ -1027,9 +1023,9 @@ const luckysheetformula = {
         fht = fht.substr(0, fht.length - 2);
         ahf = ahf.substr(0, ahf.length - 2);
 
-        $("#luckysheet-formula-help-c .luckysheet-formula-help-title .luckysheet-arguments-parameter-holder").html(DOMPurify.sanitize(fht)); //介绍
-        $("#luckysheet-formula-help-c .luckysheet-arguments-help-formula .luckysheet-arguments-parameter-holder").html(DOMPurify.sanitize(ahf)); //示例
-        $("#luckysheet-formula-help-c .luckysheet-formula-help-content-param").html(DOMPurify.sanitize(fhcp)); //参数
+        $("#luckysheet-formula-help-c .luckysheet-formula-help-title .luckysheet-arguments-parameter-holder").html(fht); //介绍
+        $("#luckysheet-formula-help-c .luckysheet-arguments-help-formula .luckysheet-arguments-parameter-holder").html(ahf); //示例
+        $("#luckysheet-formula-help-c .luckysheet-formula-help-content-param").html(fhcp); //参数
 
         if (paramIndex == null) {
             $("#luckysheet-formula-help-c .luckysheet-formula-help-title-formula .luckysheet-arguments-help-function-name").css("font-weight", "bold");
@@ -2371,10 +2367,10 @@ const luckysheetformula = {
     rangetosheet: null,
     rangeSetValueTo: null,
     func_selectedrange: {}, //函数选区范围
-    rangeSetValue: function (selected, obj) {
+    rangeSetValue: function (selected) {
         let _this = this;
 
-        let range = "", rf = selected["row"][0], cf = selected["column"][0];
+        let range, rf = selected["row"][0], cf = selected["column"][0];
         if (Store.config["merge"] != null && (rf + "_" + cf) in Store.config["merge"]) {
             range = getRangetxt(Store.currentSheetIndex, {
                 column: [cf, cf],
@@ -2443,7 +2439,7 @@ const luckysheetformula = {
                 }
 
                 let function_str = _this.functionHTMLGenerate(functionHtmlTxt);
-                $("#luckysheet-rich-text-editor").html(DOMPurify.sanitize(function_str));
+                $("#luckysheet-rich-text-editor").html(function_str);
                 $("#luckysheet-functionbox-cell").html($("#luckysheet-rich-text-editor").html());
 
                 if (isVal) {
@@ -2457,13 +2453,13 @@ const luckysheetformula = {
                 let anchorOffset = currSelection.anchorNode;
                 $editor = $(anchorOffset).closest("div");
 
-                let $span = $editor.find("span[rangeindex='" + _this.rangechangeindex + "']").html(DOMPurify.sanitize(range));
+                let $span = $editor.find("span[rangeindex='" + _this.rangechangeindex + "']").text(range);
 
                 _this.setCaretPosition($span.get(0), 0, range.length);
             }
         } else {
-            let function_str = '<span class="luckysheet-formula-functionrange-cell" rangeindex="' + _this.functionHTMLIndex + '" dir="auto" style="color:' + luckyColor[_this.functionHTMLIndex] + ';">' + range + '</span>';
-            let $t = $(function_str).insertAfter(_this.rangeSetValueTo);
+            let function_str = `<span class="luckysheet-formula-functionrange-cell" rangeindex="${_this.functionHTMLIndex}" dir="auto" style="color:${luckyColor[_this.functionHTMLIndex]};">${range}</span>`;
+            $(function_str).insertAfter(_this.rangeSetValueTo);
             _this.rangechangeindex = _this.functionHTMLIndex;
             $editor = $(_this.rangeSetValueTo).closest("div");
 
@@ -2829,7 +2825,7 @@ const luckysheetformula = {
         };
         let range = _this.getSelectedFromRange(selected);
         let rangetxt = getRangetxt(Store.currentSheetIndex, range, _this.rangetosheet);
-        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(DOMPurify.sanitize(rangetxt));
+        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").text(rangetxt);
         luckysheetRangeLast(_this.rangeResizeTo[0]);
         luckysheetCurrentChartResizeObj.css(selected).data("range", range);
     },
@@ -2852,7 +2848,7 @@ const luckysheetformula = {
 
         return ret;
     },
-    rangeResizeDragged: function (event, luckysheetCurrentChartResizeObj, luckysheetCurrentChartResizeXy, luckysheetCurrentChartResize, luckysheetCurrentChartResizeWinW, luckysheetCurrentChartResizeWinH) {
+    rangeResizeDragged: function () {
         let _this = this;
 
         _this.rangeResize = null;
@@ -2916,12 +2912,12 @@ const luckysheetformula = {
         };
         let range = _this.getSelectedFromRange(selected);
         let rangetxt = getRangetxt(Store.currentSheetIndex, range, _this.rangetosheet);
-        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").html(DOMPurify.sanitize(rangetxt));
+        _this.rangeResizeTo.find("span[rangeindex='" + rangeindex + "']").text(rangetxt);
         luckysheetRangeLast(_this.rangeResizeTo[0]);
         _this.rangeMoveRangedata = range;
         obj.css(selected);
     },
-    rangeMoveDragged: function (obj) {
+    rangeMoveDragged: function () {
         let _this = this;
 
         _this.rangeMove = false;
@@ -3127,11 +3123,8 @@ const luckysheetformula = {
             $editer = $input;
         let value1 = $editer.html(),
             value1txt = $editer.text();
-        let xssDeal = this.xssDeal
         setTimeout(function () {
-            let value = $editer.text(),
-                valuetxt = value;
-            value = xssDeal(value);
+            let value = $editer.text();
             if (value.length > 0 && value.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
                 value = _this.functionHTMLGenerate(value);
                 value1 = _this.functionHTMLGenerate(value1txt);
@@ -3165,41 +3158,16 @@ const luckysheetformula = {
                 _this.rangeHightlightselected($editer, kcode);
 
             } else if (value1txt.substr(0, 1) != "=") {
-                //&& value1.indexOf("span")>-1
-                // $editer.html(value1);
-
-                // let w = window.getSelection();
-                // if(w!=null && w.type!="None"){
-                //     let range = w.getRangeAt(0);
-                //     let c = range.startContainer;
-
-                //     if(c.id=="luckysheet-rich-text-editor" || $(c).closest("#luckysheet-rich-text-editor")){
-                //         $functionbox.html(value);
-                //     }
-                //     else if(c.id=="luckysheet-functionbox-cell" || $(c).closest("#luckysheet-functionbox-cell")){
-                //         if(value1.indexOf("span")>-1){
-
-                //         }
-                //         else{
-                //             $editer.html(value);
-                //         }
-                //     }
-
-                // }
-                // console.trace();
-                // console.log(value, $copy.attr("id"));
-
                 if ($copy.attr("id") == "luckysheet-rich-text-editor") {
                     if ($copy.html().substr(0, 5) == "<span") {
 
                     } else {
-                        $copy.html(value);
+                        $copy.text(value);
                     }
                 } else {
-                    $copy.html(value);
+                    $copy.text(value);
                 }
             }
-
 
         }, 1);
     },
@@ -3207,7 +3175,7 @@ const luckysheetformula = {
         let _this = this;
 
         if (txt.length == 0 || txt.substr(0, 1) != "=") {
-            return txt;
+            return escapeHtml(txt);
         }
 
         _this.functionHTMLIndex = 0;
@@ -4075,8 +4043,7 @@ const luckysheetformula = {
         let funcstack = txt.split("");
         let i = 0,
             str = "",
-            function_str = "",
-            ispassby = true;
+            function_str = "";
 
         let matchConfig = {
             "bracket": 0,

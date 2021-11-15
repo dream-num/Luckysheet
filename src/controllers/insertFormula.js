@@ -466,7 +466,7 @@ const insertFormula = {
         if (isVal) { //公式计算
             let fp = $.trim(formula.functionParserExe($("#luckysheet-rich-text-editor").text()));
 
-            let result = null;
+            let result;
 
             try {
                 result = new Function("return " + fp)();

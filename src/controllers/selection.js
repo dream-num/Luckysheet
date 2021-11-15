@@ -16,7 +16,7 @@ import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import imageCtrl from './imageCtrl';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 const selection = {
     clearcopy: function (e) {
@@ -30,7 +30,6 @@ const selection = {
 
         Store.luckysheet_selection_range = [];
         selectionCopyShow();
-        // Store.luckysheet_copy_save = {};
 
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content").css("visibility", "hidden");
@@ -171,9 +170,6 @@ const selection = {
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        // rowIndexArr = rowIndexArr.sort();
-        // colIndexArr = colIndexArr.sort();
-
         for (let i = 0; i < rowIndexArr.length; i++) {
             let r = rowIndexArr[i];
 
@@ -200,7 +196,7 @@ const selection = {
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
                         else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
+                            colgroup += `<colgroup width="${escapeHtml(Store.config["columnlen"][c.toString()])}px"></colgroup>`;
                         }
                     }
 
@@ -209,7 +205,7 @@ const selection = {
                             style += 'height:19px;';
                         }
                         else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
+                            style += `height:${escapeHtml(Store.config["rowlen"][r.toString()])}px;`;
                         }
                     }
 
@@ -226,7 +222,7 @@ const selection = {
 
                     if(getObjType(d[r][c]) == "object" && ("mc" in d[r][c])){
                         if("rs" in d[r][c]["mc"]){
-                            span = 'rowspan="'+ d[r][c]["mc"].rs +'" colspan="'+ d[r][c]["mc"].cs +'"';
+                            span = `rowspan="${escapeHtml(d[r][c]["mc"].rs)}" colspan="${escapeHtml(d[r][c]["mc"].cs)}"`;
 
                             //边框
                             if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
@@ -499,7 +495,7 @@ const selection = {
                             colgroup += '<colgroup width="72px"></colgroup>';
                         }
                         else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
+                            colgroup += `<colgroup width="${escapeHtml(Store.config["columnlen"][c.toString()])}px"></colgroup>`;
                         }
                     }
 
@@ -508,7 +504,7 @@ const selection = {
                             style += 'height:19px;';
                         }
                         else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
+                            style += `height:${escapeHtml(Store.config["rowlen"][r.toString()])}px;`;
                         }
                     }
 
@@ -522,13 +518,13 @@ const selection = {
 
             cpdata += "</tr>";
         }
-        cpdata = '<table data-type="luckysheet_copy_action_table">' + colgroup + cpdata + '</table>';
+        cpdata = `<table data-type="luckysheet_copy_action_table">${colgroup}${cpdata}</table>`;
 
         Store.iscopyself = true;
 
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content");
-            textarea.html(DOMPurify.sanitize(cpdata));
+            textarea.html(cpdata);
             textarea.focus();
             textarea.select();
             document.execCommand("selectAll");
@@ -538,15 +534,6 @@ const selection = {
             setTimeout(function () {
                 $("#luckysheet-copy-content").blur();
             }, 10);
-
-            // var oInput = document.createElement('input');
-            // oInput.setAttribute('readonly', 'readonly');
-            // oInput.value = cpdata;
-            // document.body.appendChild(oInput);
-            // oInput.select(); // 选择对象
-            // document.execCommand("Copy");
-            // oInput.style.display='none';
-            // document.body.removeChild(oInput);
         }
         else {
             clipboardData.setData('Text', cpdata);

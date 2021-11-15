@@ -3305,8 +3305,6 @@ const menuButton = {
 
     },
     updateFormat: function (d, attr, foucsStatus) {
-        let _this = this;
-
         if (!checkProtectionFormatCells(Store.currentSheetIndex)) {
             return;
         }
@@ -3314,9 +3312,6 @@ const menuButton = {
         if (Store.allowEdit === false) {
             return;
         }
-
-        let canvasElement = document.createElement('canvas');
-        let canvas = canvasElement.getContext("2d");
 
         if (attr in inlineStyleAffectAttribute) {
             if (parseInt($("#luckysheet-input-box").css("top")) > 0) {
@@ -4156,7 +4151,7 @@ const menuButton = {
         }
 
         luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
-              console.log(formula)
+
         if (isnull) {
             let formulaTxt = '<span dir="auto" class="luckysheet-formula-text-color">=</span><span dir="auto" class="luckysheet-formula-text-color">' + escapeHtml(formula.toUpperCase()) + '</span><span dir="auto" class="luckysheet-formula-text-color">(</span><span dir="auto" class="luckysheet-formula-text-color">)</span>';
 
@@ -4502,10 +4497,8 @@ const menuButton = {
         let cf_compute = conditionformat.getComputeMap();
         let checksCF = conditionformat.checksCF(r, c, cf_compute);
 
-        const locale_fontarray = locale().fontarray;
-
         let cell = d[r][c];
-        let ct = cell.ct, isInline = false;
+        let isInline = false;
         if (isInlineStringCell(cell)) {
             isInline = true;
         }
@@ -4533,40 +4526,6 @@ const menuButton = {
                     style += "background: " + value + ";";
                 }
             }
-
-            // if(!isInline){
-            //     if(key == "bl" && value != "0"){
-            //         style += "font-weight: bold;";
-            //     }
-
-            //     if(key == "it" && value != "0"){
-            //         style += "font-style:italic;";
-            //     }
-
-            //     if(key == "ff" && value != "0"){
-            //         let f = value;
-            //         if(!isNaN(parseInt(value))){
-            //             f = locale_fontarray[parseInt(value)];
-            //         }
-            //         style += "font-family: " + f + ";";
-            //     }
-
-            //     if(key == "fs" && value != "10"){
-            //         style += "font-size: "+ value + "pt;";
-            //     }
-
-            //     if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
-            //         if(checksCF != null && checksCF["textColor"] != null){
-            //             style += "color: " + checksCF["textColor"] + ";";
-            //         }
-            //         else if(checksAF != null){
-            //             style += "color: " + checksAF[0] + ";";
-            //         }
-            //         else{
-            //             style += "color: " + value + ";";  
-            //         }
-            //     }
-            // }
 
             if (key == "ht" && value != "1") {
                 if (value == "0") {

@@ -277,7 +277,6 @@ const alternateformat = {
         });
 
         $(document).off("keydown.AFrangeInput").on("keydown.AFrangeInput", "#luckysheet-alternateformat-range input", function (e) {
-            let rangeValue = $(this).val().trim();
             if (e.keyCode == 13) {
                 _this.update();
             }

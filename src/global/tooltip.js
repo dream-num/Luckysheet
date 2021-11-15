@@ -19,7 +19,7 @@ const tooltip = {
             "addclass": "", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
+            "botton": `<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;${locale_button.close}&nbsp;&nbsp;</button>`,
             "style": "z-index:100003" 
         })));
         let $t = $("#luckysheet-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
@@ -49,7 +49,7 @@ const tooltip = {
             "style": "z-index:100003", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;'+ name1 +'&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;'+ name2 +'&nbsp;&nbsp;</button>' 
+            "botton": `<button class="btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;${name1}&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;${name2}&nbsp;&nbsp;</button>`
         })));
         let $t = $("#luckysheet-confirm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
@@ -85,7 +85,7 @@ const tooltip = {
             "style": "z-index:100003", 
             "title": title, 
             "content": content, 
-            "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadBtn +'&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadCopy +'&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadClose +'&nbsp;&nbsp;</button>' 
+            "botton": `<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;${locale_screenshot.downLoadBtn}&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;${locale_screenshot.downLoadCopy}&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;${locale_screenshot.downLoadClose}&nbsp;&nbsp;</button>`
         })));
         let $t = $("#luckysheet-confirm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 

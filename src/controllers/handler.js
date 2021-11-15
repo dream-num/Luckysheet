@@ -68,11 +68,12 @@ import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
 import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
+import escapeHtml from "escape-html";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
 
-    const os = browser.detectOS(), isMobile = browser.mobilecheck();
+    const isMobile = browser.mobilecheck();
 
     //移动端
     if(isMobile){
@@ -106,7 +107,7 @@ export default function luckysheetHandler() {
 
     
 
-    $("#luckysheet-sheet-container-c").mousewheel(function (event, delta) {
+    $("#luckysheet-sheet-container-c").mousewheel(function (event) {
         let scrollNum = event.deltaFactor<40?1:(event.deltaFactor<80?2:3);
         let scrollLeft = $(this).scrollLeft();
         if(event.deltaY != 0){
@@ -138,15 +139,15 @@ export default function luckysheetHandler() {
     $("#luckysheet-cell-main").scroll(function () {
         
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
     const _locale = locale();
     const locale_drag = _locale.drag;
     const locale_info = _locale.info;
-    let prev, mousewheelArrayUniqueTimeout;
-    $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
+    let mousewheelArrayUniqueTimeout;
+    $("#luckysheet-grid-window-1").mousewheel(function (event) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
             scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
         let visibledatacolumn_c = Store.visibledatacolumn, 
@@ -258,7 +259,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10); 
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
@@ -267,7 +268,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10);
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
@@ -534,6 +535,8 @@ export default function luckysheetHandler() {
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText)
                     }
 
                     formula.rangestart = false;
@@ -1146,7 +1149,6 @@ export default function luckysheetHandler() {
 
             let x = event.pageX;
             let y = event.pageY;
-            let data = Store.flowdata;
 
             let obj_s = Store.luckysheet_select_save[0];
 
@@ -5667,7 +5669,6 @@ export default function luckysheetHandler() {
             let mobile = luckysheetConfigsetting.pageInfo.mobile;
             let frezon = luckysheetConfigsetting.pageInfo.frezon;
             let currentPage = luckysheetConfigsetting.pageInfo.currentPage;
-            let totalPage = luckysheetConfigsetting.pageInfo.totalPage;
             let pageUrl = luckysheetConfigsetting.pageInfo.pageUrl;
 
             

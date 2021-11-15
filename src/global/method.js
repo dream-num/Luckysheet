@@ -12,7 +12,6 @@ import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 import editor from './editor';
 import luckysheetcreatesheet from './createsheet';
 import Store from '../store';
-import DOMPurify from "dompurify";
 
 const defaultConfig = {
     defaultStore:{
@@ -298,7 +297,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(DOMPurify.sanitize(luckysheetlodingHTML()));
+        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
         param.currentPage++;
         
         let dataType = 'application/json;charset=UTF-8';
@@ -333,8 +332,6 @@ const method = {
     },
     //重载
     reload: function(param, index, url, func){
-        let _this = this;
-
         if(index == null){
             index = Store.currentSheetIndex;
         }
@@ -343,7 +340,7 @@ const method = {
             url = server.loadSheetUrl;
         }
 
-        $("#luckysheet-grid-window-1").append(DOMPurify.sanitize(luckysheetlodingHTML()));
+        $("#luckysheet-grid-window-1").append(luckysheetlodingHTML());
 
         let arg = {"gridKey" : server.gridKey, "index": index};
         param = $.extend(true, param, arg);

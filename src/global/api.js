@@ -39,7 +39,7 @@ import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 /**
  * 获取单元格的值
@@ -69,7 +69,7 @@ export function getCellValue(row, column, options = {}) {
             return_v = formula.functionHTMLGenerate(return_v);
         }
         else if(type == "f") {
-            return_v = cellData["v"];
+            return_v = escapeHtml(cellData["v"]);
         }
         else if(cellData && cellData.ct && cellData.ct.fa == 'yyyy-MM-dd') {
             return_v = cellData.m;
@@ -4858,13 +4858,13 @@ export function setSheetAdd(options = {}) {
         }
     }
 
-    $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
-        "index": index,
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+        "index": escapeHtml(index),
         "active": "",
-        "name": sheetname,
+        "name": escapeHtml(sheetname),
         "style": "",
         "colorset": ""
-    })));
+    }));
 
     let sheetconfig = {
         "name": "",
@@ -5017,14 +5017,14 @@ export function setSheetCopy(options = {}) {
         afterObj = $("#luckysheet-sheets-item" + Store.luckysheetfile[targetOrder - 1].index);
     }
 
-    $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
-        "index": copyjson.index,
+    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+        "index": escapeHtml(copyjson.index),
         "active": "",
-        "name": copyjson.name,
-        "order": copyjson.order,
+        "name": escapeHtml(copyjson.name),
+        "order": escapeHtml(copyjson.order),
         "style": "",
         "colorset": colorset
-    })));
+    }));
     $("#luckysheet-sheets-item" + copyjson.index).insertAfter(afterObj);
     Store.luckysheetfile.splice(targetOrder, 0, copyjson);
 
@@ -5232,7 +5232,7 @@ export function setSheetColor(color, options = {}) {
     file.color = color;
 
     $("#luckysheet-sheets-item" + file.index).find(".luckysheet-sheets-item-color").remove();
-    $("#luckysheet-sheets-item" + file.index).append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>'));
+    $("#luckysheet-sheets-item" + file.index).append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(color)};"></div>`);
 
     server.saveParam("all", file.index, color, { "k": "color" });
 

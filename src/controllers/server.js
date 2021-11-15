@@ -474,7 +474,7 @@ const server = {
                 currentSheetItem.find(".luckysheet-sheets-item-color").remove();
 
                 if (value != null || value != "") {
-                    currentSheetItem.append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value + ';"></div>'));
+                    currentSheetItem.append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(value)};"></div>`);
                 }
             } else if (k == "pivotTable") { //PivotTable
                 // luckysheet.pivotTable.changePivotTable(index);
@@ -755,14 +755,14 @@ const server = {
                 colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value.color + ';"></div>';
             }
 
-            $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
-                "index": value.index,
+            $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+                "index": escapeHtml(value.index),
                 "active": "",
-                "name": value.name,
+                "name": escapeHtml(value.name),
                 "style": "",
                 "colorset": colorset
-            })));
-            $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + value.index + '" class="luckysheet-datavisual-selection-set"></div>');
+            }));
+            $("#luckysheet-cell-main").append(`<div id="luckysheet-datavisual-selection-set-${escapeHtml(value.index)}" class="luckysheet-datavisual-selection-set"></div>`);
         } else if (type == "shc") { //复制sheet
             let copyindex = value.copyindex, name = value.name;
 
@@ -775,15 +775,15 @@ const server = {
             Store.luckysheetfile.splice(copyarrindex + 1, 0, copyjson);
 
             let copyobject = $("#luckysheet-sheets-item" + copyindex);
-            $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
-                "index": copyjson.index,
+            $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+                "index": escapeHtml(copyjson.index),
                 "active": "",
-                "name": copyjson.name,
+                "name": escapeHtml(copyjson.name),
                 "style": "",
                 "colorset": ""
-            })));
+            }));
             $("#luckysheet-sheets-item" + copyjson.index).insertAfter(copyobject);
-            $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + copyjson.index + '" class="luckysheet-datavisual-selection-set"></div>');
+            $("#luckysheet-cell-main").append(`<div id="luckysheet-datavisual-selection-set-${escapeHtml(copyjson.index)}" class="luckysheet-datavisual-selection-set"></div>`);
         } else if (type == "shd") { //删除sheet
             for (let i = 0; i < Store.luckysheetfile.length; i++) {
                 if (Store.luckysheetfile[i].index == value.deleIndex) {
@@ -837,14 +837,14 @@ const server = {
                         colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + datav.color + ';"></div>';
                     }
 
-                    $("#luckysheet-sheet-container-c").append(DOMPurify.sanitize(replaceHtml(sheetHTML, {
-                        "index": datav.index,
+                    $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
+                        "index": escapeHtml(datav.index),
                         "active": "",
-                        "name": datav.name,
+                        "name": escapeHtml(datav.name),
                         "style": "",
                         "colorset": colorset
-                    })));
-                    $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + datav.index + '" class="luckysheet-datavisual-selection-set"></div>');
+                    }));
+                    $("#luckysheet-cell-main").append(`<div id="luckysheet-datavisual-selection-set-${escapeHtml(datav.index)}" class="luckysheet-datavisual-selection-set"></div>`);
                     break;
                 }
             }

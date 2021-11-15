@@ -16,7 +16,7 @@ import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {pagerInit} from '../global/api'
 import method from '../global/method';
-import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
 let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";
@@ -56,7 +56,7 @@ function showsheetconfigmenu() {
                 }
 
                 luckysheetcurrentSheetitem.find(".luckysheet-sheets-item-color").remove();
-                luckysheetcurrentSheetitem.append(DOMPurify.sanitize('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>'));
+                luckysheetcurrentSheetitem.append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${color};"></div>`);
                 let index = getSheetIndex(Store.currentSheetIndex);
                 Store.luckysheetfile[index].color = color;
                 server.saveParam("all", Store.currentSheetIndex, color, { "k": "color" });
@@ -103,14 +103,12 @@ function showsheetconfigmenu() {
     let index = getSheetIndex(Store.currentSheetIndex);
     if (Store.luckysheetfile[index].color != null && Store.luckysheetfile[index].color.length > 0) {
         $("#luckysheetsheetconfigcolorur").spectrum("set", Store.luckysheetfile[index].color);
-
     }
 
     $("#luckysheetsheetconfigcolorur").parent().find("span, div, button, input, a").addClass("luckysheet-mousedown-cancel");
 
     // 如果全部按钮设置了隐藏，则不显示
     const config = luckysheetConfigsetting.sheetRightClickConfig;
-    // if(!config.delete && !config.copy && !config.rename && !config.color && !config.hide && !config.move){
     if(Object.values(config).every(ele=> !ele)){
         return;
     }
@@ -129,7 +127,7 @@ let luckysheetsheetrightclick = function ($t, $cur, e) {
         setTimeout(function () {
             formula.setCaretPosition(formula.rangeSetValueTo.get(0), 0, formula.rangeSetValueTo.text().length);
             formula.createRangeHightlight();
-            $("#luckysheet-input-box-index").find(".luckysheet-input-box-index-sheettxt").remove().end().prepend(DOMPurify.sanitize("<span class='luckysheet-input-box-index-sheettxt'>" + sheetmanage.getSheetName(formula.rangetosheet) + "!</span>")).show();
+            $("#luckysheet-input-box-index").find(".luckysheet-input-box-index-sheettxt").remove().end().prepend(`<span class='luckysheet-input-box-index-sheettxt'>${escapeHtml(sheetmanage.getSheetName(formula.rangetosheet))}!</span>`).show();
             $("#luckysheet-input-box-index").css({"left": $("#luckysheet-input-box").css("left"), "top": (parseInt($("#luckysheet-input-box").css("top")) - 20) + "px", "z-index": $("#luckysheet-input-box").css("z-index")});
         }, 1);
     }
@@ -164,7 +162,6 @@ export function initialSheetBar(){
 
     $("#luckysheet-sheet-area").on("mousedown", "div.luckysheet-sheets-item", function (e) {
         if(isEditMode()){
-            // alert("非编辑模式下不允许该操作！");
             return;
         }
 
@@ -206,7 +203,6 @@ export function initialSheetBar(){
     }).on("click", "div.luckysheet-sheets-item", function (e) {
 
         if(isEditMode()){
-            // alert("非编辑模式下不允许该操作！");
             return;
         }
 
@@ -476,7 +472,7 @@ export function initialSheetBar(){
     });
 
     let initialOpenSheet = true;
-    $("#luckysheet-sheets-m").click(function (e) {
+    $("#luckysheet-sheets-m").click(function () {
         //保存正在编辑的单元格内容
         if (parseInt($("#luckysheet-input-box").css("top")) > 0) {
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
@@ -497,17 +493,16 @@ export function initialSheetBar(){
             }
 
             if (f["color"] != null && f["color"].length > 0) {
-                style += "border-right:4px solid " + f["color"] + ";";
+                style += `border-right:4px solid ${escapeHtml(f["color"])};`;
             }
 
-            item += replaceHtml(sheetselectlistitemHTML, { "index": f["index"], "name": f["name"], "icon": icon, "style": style });
+            item += replaceHtml(sheetselectlistitemHTML, { "index": escapeHtml(f["index"]), "name": escapeHtml(f["name"]), "icon": icon, "style": style });
         }
 
         if (initialOpenSheet) {
-            $("#" + Store.container).append(DOMPurify.sanitize(replaceHtml(sheetselectlistHTML, { "item": item })));
+            $("#" + Store.container).append(replaceHtml(sheetselectlistHTML, { "item": item }));
             $("#luckysheet-sheet-list").on("click", ".luckysheet-cols-menuitem", function (e) {
                 if(isEditMode()){
-                    // tooltip.info("提示", "图表编辑模式下不允许该操作！");
                     alert(locale_sheetconfig.chartEditNoOpt);
                     return;
                 }
@@ -524,7 +519,7 @@ export function initialSheetBar(){
             initialOpenSheet = false;
         }
         else {
-            $("#luckysheet-sheet-list").html(DOMPurify.sanitize(item));
+            $("#luckysheet-sheet-list").html(item);
         }
 
         let $t = $("#luckysheet-sheet-list");
