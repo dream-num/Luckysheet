@@ -8545,11 +8545,11 @@ export default {
         errorInfo:"Cannot perform this operation on multiple selection areas, please select a single area and try again",
         textTitle:"Format style",
         custom:"CUSTOM",
-        close:"close",
+        close:"Close",
         selectionTextColor:"Click to select text color",
         selectionCellColor:"Click to select cell color",
         removeColor:"Remove alternating colors",
-        colorShow:"color",
+        colorShow:"Color",
         currentColor:"Current",
 
         tipSelectRange:"Please select the range of alternating colors",
@@ -8565,7 +8565,7 @@ export default {
         insert:"Insert",
         prevPage: "Previous",
         nextPage: "Next",
-        total: "total:"
+        total: "Total:"
     },
     paint:{
         start: 'Paint format start',
@@ -8596,10 +8596,10 @@ export default {
         rename:"Rename",
         tips:"WorkBook rename",
         noName:"Untitled spreadsheet",
-        wait:"waiting for update",
+        wait:"Waiting for update",
 
         add:"Add",
-        addLast:"more rows at bottom",
+        addLast:"More rows at bottom",
         backTop:"Back to the top",
         pageInfo:'Total ${total}，${totalPage} page，current ${currentPage}',
         nextPage:"Next",
