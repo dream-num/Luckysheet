@@ -143,6 +143,9 @@ const server = {
                 }
             } else {
                 customImageUpdate(customImageUpdateMethodConfig.method, customImageUpdateMethodConfig.url, d)
+                    .then((data) => {
+                        console.log(data);
+                    })
                     .catch((err) => {
                         console.log(err);
                     });
@@ -572,7 +575,6 @@ const server = {
                     }
                 }
             }
-
             setTimeout(function () {
                 luckysheetrefreshgrid();
             }, 1);
@@ -752,7 +754,7 @@ const server = {
 
             let colorset = '';
             if (value.color != null) {
-                colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + value.color + ';"></div>';
+                colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ' + value.color + ';"></div>';
             }
 
             $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
@@ -763,6 +765,9 @@ const server = {
                 "colorset": colorset
             }));
             $("#luckysheet-cell-main").append(`<div id="luckysheet-datavisual-selection-set-${escapeHtml(value.index)}" class="luckysheet-datavisual-selection-set"></div>`);
+            
+            // *添加sheet之后,要判断是否需要显示sheet滚动按钮
+            sheetmanage.locationSheet()
         } else if (type == "shc") { //复制sheet
             let copyindex = value.copyindex, name = value.name;
 
@@ -820,6 +825,7 @@ const server = {
 
             $("#luckysheet-sheets-item" + value.deleIndex).remove();
             $("#luckysheet-datavisual-selection-set-" + value.deleIndex).remove();
+            sheetmanage.locationSheet()
 
         } else if (type == "shr") { //sheet位置
             for (let x in value) {
@@ -834,7 +840,7 @@ const server = {
 
                     let colorset = '';
                     if (value.color != null) {
-                        colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + datav.color + ';"></div>';
+                        colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${datav.color};"></div>`;
                     }
 
                     $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
@@ -863,6 +869,7 @@ const server = {
                 file.hide = 0;
                 $("#luckysheet-sheets-item" + index).show();
             }
+            sheetmanage.locationSheet()
         } else if (type == "c") { //图表操作 TODO
             let op = item.op, cid = item.cid;
 
@@ -909,6 +916,7 @@ const server = {
     multipleIndex: 0,
     multipleRangeShow: function (id, name, r, c, value) {
         let _this = this;
+        const fullName = name;
 
         let row = Store.visibledatarow[r],
             row_pre = r - 1 == -1 ? 0 : Store.visibledatarow[r - 1],
@@ -958,7 +966,7 @@ const server = {
 								id="luckysheet-multipleRange-show-${id}"
 								class="luckysheet-multipleRange-show"
 								data-color="${luckyColor[_this.multipleIndex]}"
-								title="${escapeHtml(name)}"
+								title="${escapeHtml(fullName)}"
 								style="position: absolute;left: ${col_pre - 1}px;width: ${col - col_pre - 1}px;top: ${row_pre - 1}px;height: ${row - row_pre - 1}px;border: 1px solid ${luckyColor[_this.multipleIndex]};z-index: 15;">
 
 								<div class="username" style="height: 19px;line-height:19px;width: max-content;position: absolute;bottom: ${row - row_pre - 1}px;right: 0;background-color: ${luckyColor[_this.multipleIndex]};color:#ffffff;padding:0 10px;">
@@ -1019,7 +1027,6 @@ const server = {
     requestTimeOut: null,
     request: function () {
         let _this = this;
-        let key = this.gridKey;
 
         _this.cachelocaldata(function (cahce_key, params) {
             if (params.length == 0) {
@@ -1161,8 +1168,6 @@ const server = {
             if (data == null) {
                 data = [];
             }
-
-            //此处不去重，在request同步后台时统一循环一次去重
 
             if (value instanceof Array) {
                 data = data.concat(value);

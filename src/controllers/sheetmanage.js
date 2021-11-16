@@ -320,6 +320,7 @@ const sheetmanage = {
         $("#luckysheet-sheets-item" + indicator).addClass("luckysheet-sheets-item-active");
         
         _this.changeSheetExec(indicator);
+        _this.locationSheet();
 
         server.saveParam("sh", luckysheetcurrentSheetitem.data("index"), 1, { "op": "hide", "cur": indicator });
         // 钩子 sheetHideAfter
@@ -435,6 +436,7 @@ const sheetmanage = {
 
         _this.locationSheet();
     },
+    // *控制sheet栏的左右滚动按钮是否显示
     locationSheet: function() {
         let $c = $("#luckysheet-sheet-container-c"), winW = $("#"+Store.container).width();
         let $cursheet = $("#luckysheet-sheet-container-c > div.luckysheet-sheets-item-active").eq(0);
@@ -452,13 +454,16 @@ const sheetmanage = {
         setTimeout(function(){
             $c.scrollLeft(scrollLeftpx - 10);
 
-            if (c_width >= winW * 0.7) {
-                if(luckysheetConfigsetting.showsheetbarConfig.sheet){
+            if (luckysheetConfigsetting.showsheetbarConfig.sheet){
+                if (c_width >= winW * 0.7) {
                     $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "inline-block");
                     $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
+                } else {
+                    $("#luckysheet-sheet-area .luckysheet-sheets-scroll").css("display", "none");
+                    $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
                 }
-                
             }
+
         }, 1)
     },
     copySheet: function(copyindex, e) {
@@ -1238,7 +1243,10 @@ const sheetmanage = {
                 file["data"] = data;
                 file["load"] = "1";
 
-                _this.loadOtherFile(file);
+                // *这里不应该调用loadOtherFile去加载其余页面的数据,
+                // *因为loadOtherFile里判断后会调用buildGridData把其余的sheet的数据设置为空的二维数组,即使那个sheet在服务端存在数据.
+                // *这就导致一个数据丢失问题.
+                // _this.loadOtherFile(file);
 
                 // let sheetindexset = _this.checkLoadSheetIndex(file);
                 // let sheetindex = [];
@@ -1547,6 +1555,7 @@ const sheetmanage = {
             $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
         }
     },
+    // *显示sheet栏左右的灰色
     sheetBarShowAndHide(index){
         let $c = $("#luckysheet-sheet-container-c");
 
