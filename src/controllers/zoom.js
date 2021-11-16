@@ -252,11 +252,6 @@ export function zoomInitial(){
     );
 }
 
-
-function zoomSlierDown(){
-
-}
-
 function positionToRatio(pos){
     let ratio = 1;
     if(pos<50){
