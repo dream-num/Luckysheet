@@ -825,6 +825,9 @@ const server = {
 
 	        $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, { "index": value.index, "active": "", "name": value.name, "style": "", "colorset": colorset }));
 	        $("#luckysheet-cell-main").append('<div id="luckysheet-datavisual-selection-set-' + value.index + '" class="luckysheet-datavisual-selection-set"></div>');
+
+					// *添加sheet之后,要判断是否需要显示sheet滚动按钮
+					sheetmanage.locationSheet()
 	    }
 	    else if(type == "shc"){ //复制sheet
 	        let copyindex = value.copyindex, name = value.name;
