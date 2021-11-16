@@ -276,8 +276,6 @@ export function getOrigincell(r, c, i) {
     }
 
     return data[r][c];
-
-
 }
 
 export function getRealCellValue(r, c){
@@ -571,7 +569,7 @@ export function checkstatusByCell(cell, a){
         }
     }
 
-    return foucsStatus;
+    return escapeValue(foucsStatus);
 }
 
 export function textTrim(x) {

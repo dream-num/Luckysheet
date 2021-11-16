@@ -13,6 +13,7 @@ import luckysheetsizeauto from '../../controllers/resize';
 import './umd/chartmix.css';
 import chartmix from './umd/chartmix.umd';
 import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
 
 let _rowLocation = rowLocation
 let _colLocation = colLocation
@@ -1212,7 +1213,7 @@ function renderChartShow(index) {
 function renderChartContainer(chart_id) {
     let chart_id_c = chart_id + '_c'
     let modelChartShowHTML =
-        `<div id="${chart_id_c}" class="luckysheet-modal-dialog luckysheet-modal-dialog-chart luckysheet-data-visualization-chart" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> 
+        `<div id="${escapeHtml(chart_id_c)}" class="luckysheet-modal-dialog luckysheet-modal-dialog-chart luckysheet-data-visualization-chart" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> 
             <div class="luckysheet-modal-dialog-resize"> 
             <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt" data-type="lt"></div> 
             <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt" data-type="mt"></div> 
@@ -1226,7 +1227,7 @@ function renderChartContainer(chart_id) {
             <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update" role="button" tabindex="0" aria-label="Modify the chart" title="Modify"><i class="fa fa-pencil" aria-hidden="true"></i></span> 
 <!--            <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max" role="butluckysheet_chartIns_indexton" tabindex="0" aria-label="Maximize" title="Maximize"><i class="fa fa-window-maximize" aria-hidden="true"></i></span> -->
             <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del" role="button" tabindex="0" aria-label="Delete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></span> 
-            </div><div class="luckysheet-modal-dialog-content" id="${chart_id}"></div></div>`
+            </div><div class="luckysheet-modal-dialog-content" id="${escapeHtml(chart_id)}"></div></div>`
 
     let $t = $(modelChartShowHTML)
     $t.appendTo($('.luckysheet-cell-main'))

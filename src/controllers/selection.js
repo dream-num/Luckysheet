@@ -93,7 +93,7 @@ const selection = {
             style += "solid ";
         }
 
-        return style + color + ";";
+        return style + escapeHtml(color) + ";";
     },
     copy: function (e) {//copy事件
         let clipboardData = window.clipboardData; //for IE
