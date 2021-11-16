@@ -8,6 +8,8 @@ import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import tooltip from '../global/tooltip';
+import method from '../global/method';
 
 const imageCtrl = {
     imgItem: {
@@ -49,7 +51,29 @@ const imageCtrl = {
     cropChangeXY: null,
     cropChangeObj: null,
     copyImgItemObj: null,
-    inserImg: function(src){
+    insertImg: function (file) {
+        const uploadImage = Store.toJsonOptions && Store.toJsonOptions['uploadImage'];
+        if (typeof uploadImage === 'function') {
+            // 上传形式
+            uploadImage(file).then(url => {
+                imageCtrl._insertImg(url);
+            }).catch(error => {
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '图片上传失败');
+            });
+        } else {
+            // 内部base64形式
+            let render = new FileReader();
+            render.readAsDataURL(file);
+
+            render.onload = function(event){
+                let src = event.target.result;
+                imageCtrl._insertImg(src);
+                $("#luckysheet-imgUpload").val("");
+            }
+        }
+    },
+
+    _insertImg: function(src){
         let _this = this;
         
         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
@@ -73,7 +97,8 @@ const imageCtrl = {
 
             _this.addImgItem(img);
         }
-        image.src = src;
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        image.src = typeof imageUrlHandle === 'function' ? imageUrlHandle(src) : src;
     },
     generateRandomId: function(prefix) {
         if(prefix == null){
@@ -95,7 +120,8 @@ const imageCtrl = {
     modelHtml: function(id, imgItem) {
         let _this = this;
 
-        let src = imgItem.src;
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let src = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
         let imgItemParam = _this.getImgItemParam(imgItem);
 
         let width = imgItemParam.width * Store.zoomRatio;
@@ -368,9 +394,10 @@ const imageCtrl = {
                 "top": top,
                 "position": position
             });
-
+            let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+            let imgUrl = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
             $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-                "background-image": "url(" + item.src + ")",
+                "background-image": "url(" + imgUrl + ")",
                 "background-size": item.default.width * Store.zoomRatio + "px " + item.default.height * Store.zoomRatio + "px",
                 "background-position": -item.crop.offsetLeft * Store.zoomRatio + "px " + -item.crop.offsetTop * Store.zoomRatio + "px"
             })
@@ -747,16 +774,19 @@ const imageCtrl = {
             "position": position
         });
 
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
+
         $("#luckysheet-modal-dialog-cropping .cropping-mask").css({
             "width": item.default.width,
             "height": item.default.height,
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "left": -item.crop.offsetLeft,
             "top": -item.crop.offsetTop
         })
 
         $("#luckysheet-modal-dialog-cropping .cropping-content").css({
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": item.default.width + "px " + item.default.height + "px",
             "background-position": -item.crop.offsetLeft + "px " + -item.crop.offsetTop + "px"
         })
@@ -794,9 +824,11 @@ const imageCtrl = {
             "top": top,
             "position": position
         });
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
 
         $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-            "background-image": "url(" + item.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": item.default.width + "px " + item.default.height + "px",
             "background-position": -item.crop.offsetLeft + "px " + -item.crop.offsetTop + "px"
         })
@@ -842,8 +874,11 @@ const imageCtrl = {
             "position": position
         });
 
+        let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+        let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
+
         $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
-            "background-image": "url(" + imgItem.src + ")",
+            "background-image": "url(" + imgSrc + ")",
             "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
             "background-position": -imgItem.crop.offsetLeft + "px " + -imgItem.crop.offsetTop + "px"
         })
@@ -852,15 +887,24 @@ const imageCtrl = {
     },
     removeImgItem: function() {
         let _this = this;
+        let imgItem = _this.images[_this.currentImgId];
+
+        // 钩子 imageDeleteBefore
+        if(!method.createHookFunction('imageDeleteBefore', imgItem)){
+            return;
+        }
         
         $("#luckysheet-modal-dialog-activeImage").hide();
         $("#luckysheet-modal-dialog-cropping").hide();
         $("#luckysheet-modal-dialog-slider-imageCtrl").hide();
         $("#" + _this.currentImgId).remove();
 
+
         delete _this.images[_this.currentImgId];
         _this.currentImgId = null;
 
+        // 钩子 imageDeleteAfter
+        method.createHookFunction('imageDeleteAfter', imgItem);
         _this.ref();
     },
     copyImgItem: function(e) {

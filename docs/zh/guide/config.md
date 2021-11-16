@@ -78,6 +78,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 是否限制工作表名长度 [limitSheetNameLength](#limitSheetNameLength)
 - 默认允许工作表名的最大长度 [defaultSheetNameMaxLength](#defaultSheetNameMaxLength)
 - 分页器 [pager](#pager)
+- 自定义图片上传 [uploadImage](#uploadImage)
+- 自定义图片地址处理 [imageUrlHandle](#imageUrlHandle)
 
 ### container
 - 类型：String
@@ -713,6 +715,79 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		totalTxt: '', // 数据总条数文字描述，默认"总共：{total}"
 	}
 	```
+
+### uploadImage
+
+用于自定义图片的上传，默认情况下，插入的图片是以base64的形式放入sheet数据中，如果需要单独上传图片，仅在sheet中引用图片地址可使用此配置。
+
+- 类型： `function (file) => Promise(imgUrl)`，接受file对象，返回Promise，值为上传完成的图片url
+- 默认值： `undefined`
+
+:::details 查看示例配置
+
+```js
+{
+    uploadImage: function (file) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://192.168.210.159/miniuiServer/imageUploader.php');
+
+			// 额外的请求头
+            var headers = {};
+            if (headers) {
+                Object.keys(headers).forEach(function (k) {
+                    xhr.setRequestHeader(k, headers[k]);
+                });
+            }
+            var data = new FormData();
+			// 要上传的图片文件
+            data.append('file', file, file.name || '');
+
+            xhr.send(data);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var res = JSON.parse(xhr.responseText);
+                        var url = res.downloadUrl;
+                        if (url) {
+                            resolve(url); // 给上传的后的地址
+                        } else {
+                            reject('image upload error');
+                        }
+                    } else {
+                        reject('image upload error');
+                    }
+                }
+            };
+        });
+    }
+}
+
+```
+
+:::
+
+### imageUrlHandle
+
+图片上传的路径处理函数，和 [uploadImage](#uploadImage) 相关，一般只有使用自定义图片上传才需要此配置。
+
+- 类型： `function (string) => string`，接受原始路径，返回新路径
+- 默认值： `undefined`
+- 作用，处理图片显示时的路径。  
+  如上传返回地址为接口地址，如： `rest/attach/[fileguid]`， 则需要处理为 `http://localhost:8080/xxx/rest/attach/[fileguid]` 才能显示，但将前面域名信息写入数据，后续使用可能会有问题，因此可使用此方法处理路径，全路径仅在展示使用，数据内仅存储 `rest/attach/[fileguid]`
+
+```js
+{
+    // 处理上传图片的地址
+    imageUrlHandle: function (url) {
+        // 已经是 // http data 开头则不处理 
+        if (/^(?:\/\/|(?:http|https|data):)/i.test(url)) {
+            return url;
+        }
+        return location.origin + url;
+    }
+}
+```
 
 ------------
 
@@ -1461,6 +1536,33 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：工作表从活动状态转为非活动状态后
 - 参数：
 	- {Number} [i]: sheet页的`index`
+  
+### imageDeleteBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：图片删除前触发
+- 参数：
+	- {Object} [imageItem]: 要删除的图片配置对象
+
+### imageDeleteAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：图片删除后触发，如果自定义了图片上传，可在此处发请求删除图片
+- 参数：
+	- {Object} [imageItem]: 删除的图片配置对象
+
+```js
+{
+	hook: {
+		imageDeleteAfter: function (imageItem) {
+			var src = imgItem.src;
+			$.post('/rest/file/deletebyurl', {downloadUrl: src});
+		}
+	}
+}
+```
 
 ------------
 

@@ -1476,13 +1476,7 @@ export default function luckysheetHandler() {
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
                 return;
             }
-            let render = new FileReader();
-            render.readAsDataURL(files[0]);
-
-            render.onload = function(event){
-                let src = event.target.result;
-                imageCtrl.inserImg(src);
-            }
+            imageCtrl.insertImg(files[0]);
         }
         handleCellDragStopEvent(e);
     }, false);
@@ -3174,17 +3168,20 @@ export default function luckysheetHandler() {
                         "left": left,
                         "top": top
                     });
+
+                    let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
+                    let imgSrc = typeof imageUrlHandle === 'function' ? imageUrlHandle(imgItem.src) : imgItem.src;
         
                     $("#luckysheet-modal-dialog-cropping .cropping-mask").css({
                         "width": imgItem.default.width,
                         "height": imgItem.default.height,
-                        "background-image": "url(" + imgItem.src + ")",
+                        "background-image": "url(" + imgSrc + ")",
                         "left": -offsetLeft,
                         "top": -offsetTop
                     })
         
                     $("#luckysheet-modal-dialog-cropping .cropping-content").css({
-                        "background-image": "url(" + imgItem.src + ")",
+                        "background-image": "url(" + imgSrc + ")",
                         "background-size": imgItem.default.width + "px " + imgItem.default.height + "px",
                         "background-position": -offsetLeft + "px " + -offsetTop + "px"
                     })
@@ -4886,14 +4883,7 @@ export default function luckysheetHandler() {
             return;
         }
         let file = e.currentTarget.files[0];
-        let render = new FileReader();
-        render.readAsDataURL(file);
-
-        render.onload = function(event){
-            let src = event.target.result;
-            imageCtrl.inserImg(src);
-            $("#luckysheet-imgUpload").val("");
-        }
+        imageCtrl.insertImg(file);
     });
 
     //菜单栏 插入链接按钮
@@ -5620,12 +5610,7 @@ export default function luckysheetHandler() {
                 }
                 //复制的是图片
                 else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
-                    let render = new FileReader();
-                    render.readAsDataURL(clipboardData.files[0]);
-                    render.onload = function(event){
-                        let src = event.target.result;
-                        imageCtrl.inserImg(src);
-                    }
+                    imageCtrl.insertImg(clipboardData.files[0]);
 
                     return;
                 }
