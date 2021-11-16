@@ -1241,7 +1241,10 @@ const sheetmanage = {
                 file["data"] = data;
                 file["load"] = "1";
 
-                _this.loadOtherFile(file);
+                // *这里不应该调用loadOtherFile去加载其余页面的数据,
+                // *因为loadOtherFile里判断后会调用buildGridData把其余的sheet的数据设置为空的二维数组,即使那个sheet在服务端存在数据.
+                // *这就导致一个数据丢失问题.
+                // _this.loadOtherFile(file);
 
                 // let sheetindexset = _this.checkLoadSheetIndex(file);
                 // let sheetindex = [];
