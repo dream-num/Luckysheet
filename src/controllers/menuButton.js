@@ -37,7 +37,7 @@ import { replaceHtml, getObjType, rgbTohex, mouseclickposition, luckysheetfontfo
 import {openProtectionModal,checkProtectionFormatCells,checkProtectionNotEnable} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
-import {checkTheStatusOfTheSelectedCells} from '../global/api';
+import { checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn } from '../global/api';
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
@@ -1619,77 +1619,98 @@ const menuButton = {
 
                     let $t = $(this), itemvalue = $t.attr("itemvalue");
                     _this.focus($menuButton, itemvalue);
+                    if (itemvalue === 'freezenCancel') {
+                        $menuButton.find('.fa.fa-check').remove();
+                    }
 
                     // store frozen
                     luckysheetFreezen.saveFrozen(itemvalue);
 
                     if(itemvalue == "freezenRow"){ //首行冻结
-                        let scrollTop = $("#luckysheet-cell-main").scrollTop();
-                        let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-                        if(row_st == -1){
-                            row_st = 0;
-                        }
-                        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                        let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                        luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+                        frozenFirstRow();
+                        // let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                        // let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+                        // if(row_st == -1){
+                        //     row_st = 0;
+                        // }
+                        // let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                        // let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                        // luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
 
-                        if (luckysheetFreezen.freezenverticaldata != null) {
-                            luckysheetFreezen.cancelFreezenVertical();
-                            luckysheetFreezen.createAssistCanvas();
-                            luckysheetrefreshgrid();
-                        }
+                        // if (luckysheetFreezen.freezenverticaldata != null) {
+                        //     luckysheetFreezen.cancelFreezenVertical();
+                        //     luckysheetFreezen.createAssistCanvas();
+                        //     luckysheetrefreshgrid();
+                        // }
 
-                        luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
-                        luckysheetFreezen.createAssistCanvas();
-                        luckysheetrefreshgrid();
+                        // luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
+                        // luckysheetFreezen.createAssistCanvas();
+                        // luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenColumn"){ //首列冻结
-                        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-                        let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-                        if(col_st == -1){
-                            col_st = 0;
-                        }
-                        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                        let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-                        luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
+                        frozenFirstColumn();
+                        // let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                        // let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+                        // if(col_st == -1){
+                        //     col_st = 0;
+                        // }
+                        // let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                        // let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        // luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
-                        if (luckysheetFreezen.freezenhorizontaldata != null) {
-                            luckysheetFreezen.cancelFreezenHorizontal();
-                            luckysheetFreezen.createAssistCanvas();
-                            luckysheetrefreshgrid();
-                        }
+                        // if (luckysheetFreezen.freezenhorizontaldata != null) {
+                        //     luckysheetFreezen.cancelFreezenHorizontal();
+                        //     luckysheetFreezen.createAssistCanvas();
+                        //     luckysheetrefreshgrid();
+                        // }
 
-                        luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
-                        luckysheetFreezen.createAssistCanvas();
-                        luckysheetrefreshgrid();
+                        // luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
+                        // luckysheetFreezen.createAssistCanvas();
+                        // luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenRC"){ //首行列冻结
-                        let scrollTop = $("#luckysheet-cell-main").scrollTop();
-                        let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-                        if(row_st == -1){
-                            row_st = 0;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+                            let row_st = 0;
+                            let top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
+                            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                            luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+
+                            luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
+
+                            let col_st = 0;
+                            let left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
+                            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                            luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
+
+                            luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
+                        } else {
+                            let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                            let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+                            if(row_st == -1){
+                                row_st = 0;
+                            }
+                            let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                            let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                            luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+
+                            luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
+
+                            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                            let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+                            if(col_st == -1){
+                                col_st = 0;
+                            }
+                            let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                            let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                            luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
+
+                            luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
                         }
-                        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                        let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                        luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
-
-                        luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
-
-                        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-                        let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-                        if(col_st == -1){
-                            col_st = 0;
-                        }
-                        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                        let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
-                        luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
-
-                        luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
-
                         luckysheetFreezen.createAssistCanvas();
                         luckysheetrefreshgrid();
                     }
                     else if(itemvalue == "freezenRowRange"){ //选区行冻结
+
                         if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
                             if(isEditMode()){
                                 alert(locale_freezen.noSeletionError);
@@ -1700,7 +1721,11 @@ const menuButton = {
 
                             return;
                         }
-                        
+                        // 固定超出屏幕范围
+                        let rangeTop = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].top;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && rangeTop > $("#luckysheet-cell-main").height()) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
+                        }
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();
                         let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
 
@@ -1740,7 +1765,11 @@ const menuButton = {
 
                             return;
                         }
-                        
+                        // 固定超出屏幕范围
+                        let rangeLeft = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].left;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && rangeLeft > $("#luckysheet-cell-main").width()) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
+                        }
                         let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
                         let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
 
@@ -1779,6 +1808,13 @@ const menuButton = {
                             }
 
                             return;
+                        }
+
+                        // 固定超出屏幕范围
+                        let rangeTop = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].top;
+                        let rangeLeft = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].left;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn && (rangeTop > $("#luckysheet-cell-main").height() || rangeLeft > $("#luckysheet-cell-main").width())) {
+                            return  tooltip.info(locale_freezen.rangeRCOverErrorTitle, locale_freezen.rangeRCOverError);
                         }
                         
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();

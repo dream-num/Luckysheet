@@ -609,21 +609,34 @@ export function frozenFirstRow(order) {
 
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
-        let scrollTop = $("#luckysheet-cell-main").scrollTop();
+        let freezenhorizontaldata, row_st, top;
+        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+            let row_st = 0;
+            top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
+            freezenhorizontaldata = [
+                Store.visibledatarow[row_st],
+                row_st + 1,
+                0,
+                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
+                top
+            ];
+        } else {
+            let scrollTop = $("#luckysheet-cell-main").scrollTop();
+            row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+            if(row_st == -1){
+                row_st = 0;
+            }
 
-        let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-        if(row_st == -1){
-            row_st = 0;
+            top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+            freezenhorizontaldata = [
+                Store.visibledatarow[row_st],
+                row_st + 1,
+                scrollTop,
+                luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
+                top
+            ];
         }
-
-        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-        let freezenhorizontaldata = [
-            Store.visibledatarow[row_st],
-            row_st + 1,
-            scrollTop,
-            luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1),
-            top
-        ];
+        
         luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
 
         if (luckysheetFreezen.freezenverticaldata != null) {
@@ -649,21 +662,35 @@ export function frozenFirstColumn(order) {
 
     // 冻结为当前sheet页
     if (!order || order == getSheetIndex(Store.currentSheetIndex)) {
-        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-
-        let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-        if(col_st == -1){
+        let freezenverticaldata, col_st, left;
+        if (luckysheetFreezen.freezenRealFirstRowColumn) {
             col_st = 0;
+            left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
+            freezenverticaldata = [
+                Store.visibledatacolumn[col_st],
+                col_st + 1,
+                0,
+                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
+                left
+            ];
+        } else {
+            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+
+            col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+            if(col_st == -1){
+                col_st = 0;
+            }
+
+            left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+            freezenverticaldata = [
+                Store.visibledatacolumn[col_st],
+                col_st + 1,
+                scrollLeft,
+                luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
+                left
+            ];
         }
 
-        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-        let freezenverticaldata = [
-            Store.visibledatacolumn[col_st],
-            col_st + 1,
-            scrollLeft,
-            luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1),
-            left
-        ];
         luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
         if (luckysheetFreezen.freezenhorizontaldata != null) {

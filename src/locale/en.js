@@ -8878,7 +8878,7 @@ export default {
         textWrapMode: 'Text wrap mode',
         textRotate: 'Text rotate',
         textRotateMode: 'Text rotate mode',
-        freezeTopRow: 'Freeze top row',
+        freezeTopRow: 'Freeze first row',
         sortAndFilter: 'Sort and filter',
         findAndReplace: 'Find and replace',
         sum: 'SUM',
@@ -9265,7 +9265,8 @@ export default {
         freezenRCRange:"Freezen both range",
         freezenCancel:"Cancel",
 
-        noSeletionError:"No Range to be selected",
+        noSeletionError:"No Range to be selected",        rangeRCOverErrorTitle: "Freeze reminder",
+        rangeRCOverError: "The frozen pane is beyond the visible range, which will lead to abnormal operation. Please reset the frozen area."
     },
     sort:{
         "asc":"Ascending ",

@@ -9089,7 +9089,7 @@ export default {
         textWrapMode       : '換行管道',
         textRotate         : '文字旋轉',
         textRotateMode     : '旋轉管道',
-        freezeTopRow       : '凍結首行',
+        freezeTopRow       : '凍結第一行',
         sortAndFilter      : '排序和篩選',
         findAndReplace     : '查找替換',
         sum                : '求和',
@@ -9476,9 +9476,9 @@ export default {
         "rotationDown": "向下90°"
     },
     freezen: {
-        default           : "凍結首行",
-        freezenRow        : "凍結首行",
-        freezenColumn     : "凍結首列",
+        default           : "凍結第一行",
+        freezenRow        : "凍結第一行",
+        freezenColumn     : "凍結第A列",
         freezenRC         : "凍結行列",
         freezenRowRange   : "凍結行到選區",
         freezenColumnRange: "凍結列到選區",
@@ -9486,6 +9486,8 @@ export default {
         freezenCancel     : "取消凍結",
 
         noSeletionError: "没有選區",
+        rangeRCOverErrorTitle: "凍結提醒",
+        rangeRCOverError: "凍結窗格超過可見範圍，會導致無法正常操作，請重新設定凍結區域。"
     },
     sort: {
         "asc"   : "昇冪",
