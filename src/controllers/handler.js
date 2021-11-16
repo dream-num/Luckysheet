@@ -1084,7 +1084,8 @@ export default function luckysheetHandler() {
             }
 
             if (!browser.mobilecheck()) { //非移动端聚焦输入框
-                luckysheetactiveCell();
+                // 注释以下代码 fix 工作表不在页面顶部时，单击单元格后会scroll到页面顶部的问题
+                // luckysheetactiveCell();
             }
 
             //允许编辑后的后台更新时
