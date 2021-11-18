@@ -555,7 +555,7 @@ function initialProtectionRIghtBar(file){
                 </div>
                 <div class="luckysheet-slider-protection-row" style="height:47px;margin-top:4px;">
                     <div class="luckysheet-slider-protection-column" style="width:98%;">
-                        <textarea class="luckysheet-protection-textarea" id="protection-hint"  placeHolder="${local_protection.enterHintTitle}"></textarea>
+                        <textarea class="luckysheet-protection-textarea" id="protection-hint"  placeHolder="${local_protection.enterHint}"></textarea>
                     </div>
                 </div>
             </div>
