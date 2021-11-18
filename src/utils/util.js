@@ -479,20 +479,27 @@ function showrightclickmenu($menu, x, y) {
 function luckysheetactiveCell() {
     if (!!Store.fullscreenmode) {
         setTimeout(function () {
-            $("#luckysheet-rich-text-editor").focus().select();
+            // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+            const input = document.getElementById('luckysheet-rich-text-editor');
+            input.focus({preventScroll:true});
+            $("#luckysheet-rich-text-editor").select();
+            // $("#luckysheet-rich-text-editor").focus().select();
         }, 50);
     }
 }
 
 //单元格编辑聚焦
 function luckysheetContainerFocus() {
+    
     // $("#" + Store.container).focus({ 
     //     preventScroll: true 
     // });
     
     // fix jquery error: Uncaught TypeError: ((n.event.special[g.origType] || {}).handle || g.handler).apply is not a function
+    // $("#" + Store.container).attr("tabindex", 0).focus();
 
-    $("#" + Store.container).attr("tabindex", 0).focus();
+    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+    document.getElementById(Store.container).focus({preventScroll:true});
 }
 
 //数字格式

@@ -3060,7 +3060,7 @@ fieldset[disabled] .btn-danger.focus {
     position: absolute;
     font: normal normal 400 13px arial, sans, sans-serif;
     text-align: left;
-    top: -10000px;
+    top: -100000px;
     max-height: 9900px;
     max-width: 9900px;
     border: 2px #5292f7 solid;
