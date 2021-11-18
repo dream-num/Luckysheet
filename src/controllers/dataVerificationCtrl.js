@@ -16,6 +16,7 @@ import {getSheetIndex, getRangetxt} from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
 import escapeHtml from "escape-html";
+import unescapeHtml from "unescape-html";
 
 const dataVerificationCtrl = {
     defaultItem: {
@@ -330,7 +331,7 @@ const dataVerificationCtrl = {
 
             selectionCopyShow(_this.selectRange);
         });
-        $(document).off("click.dvRange2").on("click.dvRange2", "#luckysheet-dataVerification-dialog .show-box-item-dropdown .range .fa-table", function (e) {
+        $(document).off("click.dvRange2").on("click.dvRange2", "#luckysheet-dataVerification-dialog .show-box-item-dropdown .range .fa-table", function () {
             $("#luckysheet-dataVerification-dialog").hide();
 
             let dataSource = "1";
@@ -377,7 +378,7 @@ const dataVerificationCtrl = {
 
             selectionCopyShow(_this.selectRange);
         });
-        $(document).off("click.dvRangeConfirm").on("click.dvRangeConfirm", "#luckysheet-dataVerificationRange-dialog-confirm", function (e) {
+        $(document).off("click.dvRangeConfirm").on("click.dvRangeConfirm", "#luckysheet-dataVerificationRange-dialog-confirm", function () {
             let dataSource = $(this).attr("data-source");
             let txt = $(this).parents("#luckysheet-dataVerificationRange-dialog").find("input").val();
 
@@ -432,7 +433,7 @@ const dataVerificationCtrl = {
         })
 
         //验证条件 下拉框
-        $(document).off("change.typeSelect").on("change.typeSelect", "#data-verification-type-select", function (e) {
+        $(document).off("change.typeSelect").on("change.typeSelect", "#data-verification-type-select", function () {
             $("#luckysheet-dataVerification-dialog .show-box .show-box-item").hide();
 
             let value = this.value;
@@ -1075,7 +1076,7 @@ const dataVerificationCtrl = {
             return;
         }
 
-        let validate = _this.validateCellData(cellValue, item);
+        let validate = _this.validateCellData(unescapeHtml(cellValue), item);
 
         if (!validate) {
             let txt;
@@ -1241,7 +1242,7 @@ const dataVerificationCtrl = {
     },
     validateCellData: function (cellValue, item) {
         let _this = this;
-
+            
         let type = item.type,
             type2 = item.type2,
             value1 = item.value1,

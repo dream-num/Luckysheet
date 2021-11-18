@@ -165,7 +165,7 @@ export function getcellvalue(r, c, data, type) {
             retv = formula.functionHTMLGenerate(retv);
         }
         else if(type == "f") {
-            retv = escapeHtml(d_value["v"]);
+            retv = escapeValue(d_value["v"]);
         }
         else if(d_value && d_value.ct && d_value.ct.t == 'd') {
             retv = d_value.m;
@@ -178,7 +178,7 @@ export function getcellvalue(r, c, data, type) {
     if(retv == undefined){
         retv = null;
     }
-        
+
     return retv;
 }
 

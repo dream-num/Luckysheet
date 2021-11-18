@@ -19,6 +19,7 @@ import method from './method';
 import Store from '../store';
 import locale from '../locale/locale';
 import sheetmanage from '../controllers/sheetmanage';
+import unescapeHtml from "unescape-html";
 
 function luckysheetDrawgridRowTitle(scrollHeight, drawHeight, offsetTop) {
     if (scrollHeight == null) {
@@ -311,7 +312,7 @@ function luckysheetDrawgridColumnTitle(scrollWidth, drawWidth, offsetLeft) {
 
             let horizonAlignPos = Math.round((start_c + (end_c - start_c) / 2 + offsetLeft)  - textMetrics.width / 2);
             let verticalAlignPos = Math.round(Store.columnHeaderHeight / 2 );
-            
+
             luckysheetTableContent.fillText(abc, horizonAlignPos/Store.zoomRatio, verticalAlignPos/Store.zoomRatio);
             luckysheetTableContent.restore();//restore scale after draw text
         }
@@ -1190,7 +1191,7 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
         let verticalFixed = browser.luckysheetrefreshfixed();
         let verticalAlignPos = (end_r + offsetTop - 2) ; 
         luckysheetTableContent.textBaseline = 'bottom';
-        
+
         luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos, verticalAlignPos);
     }
 
@@ -1330,7 +1331,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
     let dataVerification = dataVerificationCtrl.dataVerification;
 
-    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(value, dataVerification[r + '_' + c])){
+    if(dataVerification != null && dataVerification[r + '_' + c] != null && !dataVerificationCtrl.validateCellData(unescapeHtml(value), dataVerification[r + '_' + c])){
         //单元格左上角红色小三角标示
         let dv_w = 5 * Store.zoomRatio, dv_h = 5 * Store.zoomRatio; //红色小三角宽高
 
@@ -1486,7 +1487,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
 
         //文本
         luckysheetTableContent.fillStyle = menuButton.checkstatus(Store.flowdata, r, c , "fc");
-        luckysheetTableContent.fillText(value == null ? "" : value, horizonAlignPos + 14, verticalAlignPos_text);
+        luckysheetTableContent.fillText(value == null ? "" : unescapeHtml(value), horizonAlignPos + 14, verticalAlignPos_text);
         
         luckysheetTableContent.restore();
     }

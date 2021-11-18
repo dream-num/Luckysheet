@@ -249,7 +249,6 @@ function getMeasureText(value, ctx, fontset){
     }
     else{
         if(fontset!=null){
-            let preFont = ctx.font;
             ctx.font = fontset;
         }
 

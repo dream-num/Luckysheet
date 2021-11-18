@@ -4514,9 +4514,9 @@ const menuButton = {
 
             if (checksAF != null || (checksCF != null && checksCF["cellColor"] != null)) {
                 if (checksCF != null && checksCF["cellColor"] != null) {
-                    style += "background: " + checksCF["cellColor"] + ";";
+                    style += "background: " + escapeHtml(checksCF["cellColor"]) + ";";
                 } else if (checksAF != null) {
-                    style += "background: " + checksAF[1] + ";";
+                    style += "background: " + escapeHtml(checksAF[1]) + ";";
                 }
             }
 
@@ -4526,11 +4526,11 @@ const menuButton = {
 
             if (key == "bg" || checksAF != null || (checksCF != null && checksCF["cellColor"] != null)) {
                 if (checksCF != null && checksCF["cellColor"] != null) {
-                    style += "background: " + checksCF["cellColor"] + ";";
+                    style += "background: " + escapeHtml(checksCF["cellColor"]) + ";";
                 } else if (checksAF != null) {
-                    style += "background: " + checksAF[1] + ";";
+                    style += "background: " + escapeHtml(checksAF[1]) + ";";
                 } else {
-                    style += "background: " + value + ";";
+                    style += "background: " + escapeHtml(value) + ";";
                 }
             }
 

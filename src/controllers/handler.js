@@ -69,6 +69,7 @@ import locale from '../locale/locale';
 import Store from '../store';
 import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
 import escapeHtml from "escape-html";
+import unescapeHtml from "unescape-html";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -5265,9 +5266,6 @@ export default function luckysheetHandler() {
     //表格格式处理
     menuButton.initialMenuButton();
 
-    let dpi_x = document.getElementById('testdpidiv').offsetWidth * Store.devicePixelRatio;
-    let dpi_y = document.getElementById('testdpidiv').offsetHeight * Store.devicePixelRatio;
-
     //粘贴事件处理
     $(document).on("paste.luckysheetEvent", function (e) {
         if (isEditMode()) {//此模式下禁用粘贴
@@ -5369,7 +5367,7 @@ export default function luckysheetHandler() {
                           }
                         }
                         else{
-                          if(cpDataArr[r - copy_r1][c - copy_c1] != v){
+                          if(unescapeHtml(cpDataArr[r - copy_r1][c - copy_c1]) != v){
                             isEqual = false;
                             break;
                           }
@@ -5380,7 +5378,6 @@ export default function luckysheetHandler() {
 
             const locale_fontjson = locale().fontjson;
 
-            
             // hook
             if(!method.createHookFunction('rangePasteBefore',Store.luckysheet_select_save,txtdata)){
                 return;

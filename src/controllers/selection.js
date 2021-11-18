@@ -613,7 +613,6 @@ const selection = {
         }, 10);
     },
     pasteHandler: function (data, borderInfo) {
-
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
@@ -754,7 +753,6 @@ const selection = {
             }
 
             Store.luckysheet_select_save = [{ "row": [minh, maxh], "column": [minc, maxc] }];
-
 
             if(addr > 0 || addc > 0 || RowlChange){
                 let allParam = {

@@ -56,7 +56,7 @@ function showsheetconfigmenu() {
                 }
 
                 luckysheetcurrentSheetitem.find(".luckysheet-sheets-item-color").remove();
-                luckysheetcurrentSheetitem.append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${color};"></div>`);
+                luckysheetcurrentSheetitem.append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(color)};"></div>`);
                 let index = getSheetIndex(Store.currentSheetIndex);
                 Store.luckysheetfile[index].color = color;
                 server.saveParam("all", Store.currentSheetIndex, color, { "k": "color" });

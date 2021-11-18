@@ -754,7 +754,7 @@ const server = {
 
             let colorset = '';
             if (value.color != null) {
-                colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ' + value.color + ';"></div>';
+                colorset = '<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ' + escapeHtml(value.color) + ';"></div>';
             }
 
             $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
@@ -840,7 +840,7 @@ const server = {
 
                     let colorset = '';
                     if (value.color != null) {
-                        colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${datav.color};"></div>`;
+                        colorset = `<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(datav.color)};"></div>`;
                     }
 
                     $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
