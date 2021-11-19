@@ -1250,7 +1250,6 @@ const menuButton = {
 
         //合并单元格
         $("#luckysheet-icon-merge-button").click(function(){
-
             if(!checkProtectionNotEnable(Store.currentSheetIndex)){
                 return;
             }
@@ -3201,6 +3200,11 @@ const menuButton = {
         jfrefreshgrid(d, Store.luckysheet_select_save, allParam, false);
     },
     updateFormat_mc: function(d, foucsStatus){
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
