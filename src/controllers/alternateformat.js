@@ -1051,9 +1051,7 @@ const alternateformat = {
         let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
         let ruleArr = file["luckysheet_alternateformat_save"];
 
-        let computeMap = this.compute(ruleArr);
-
-        return computeMap;
+        return this.compute(ruleArr);
     },
     compute: function (obj) {
         //计算存储

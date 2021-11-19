@@ -240,8 +240,7 @@ const pivotTable = {
         let $t = $filter.parent(),
             toffset = $t.offset(),
             $menu = $("#luckysheet-pivotTableFilter-menu"),
-            winH = $(window).height(),
-            winW = $(window).width();
+            winH = $(window).height();
 
         let cindex = $t.data("index");
 
@@ -400,19 +399,11 @@ const pivotTable = {
                             }
 
                             //日是否选中状态
-                            if ((y in dvmap_uncheck) && (m in dvmap_uncheck) && (d in dvmap_uncheck)) {
-                                dayHtml += '<div class="day luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '-' + mT + '-' + dT + '">' +
-                                    '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                    '<label class="luckysheet-mousedown-cancel">' + d + '</label>' +
-                                    '<span class="count luckysheet-mousedown-cancel">( ' + dayL + ' )</span>' +
-                                    '</div>';
-                            } else {
-                                dayHtml += '<div class="day luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '-' + mT + '-' + dT + '">' +
-                                    '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                    '<label class="luckysheet-mousedown-cancel">' + d + '</label>' +
-                                    '<span class="count luckysheet-mousedown-cancel">( ' + dayL + ' )</span>' +
-                                    '</div>';
-                            }
+                            const contains = (y in dvmap_uncheck) && (m in dvmap_uncheck) && (d in dvmap_uncheck);
+                            dayHtml += `<div class="day luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y + '-' + mT + '-' + dT)}">
+                                        <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
+                                        <label class="luckysheet-mousedown-cancel">${escapeHtml(d)}</label>
+                                        <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(dayL)} )</span></div>`;
                         }
 
                         ysum += msum;
@@ -426,52 +417,25 @@ const pivotTable = {
                         }
 
                         //月是否选中状态
-                        if ((y in dvmap_uncheck) && (m in dvmap_uncheck)) {
-                            monthHtml += '<div class="monthBox luckysheet-mousedown-cancel">' +
-                                '<div class="month luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '-' + mT2 + '">' +
-                                '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + m + '' + locale_filter.filiterMonthText + '</label>' +
-                                '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
-                                '</div>' +
-                                '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
-                                '</div>';
-                        } else {
-                            monthHtml += '<div class="monthBox luckysheet-mousedown-cancel">' +
-                                '<div class="month luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '-' + mT2 + '">' +
-                                '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + m + '' + locale_filter.filiterMonthText + '</label>' +
-                                '<span class="count luckysheet-mousedown-cancel">( ' + msum + ' )</span>' +
-                                '</div>' +
-                                '<div class="dayList luckysheet-mousedown-cancel">' + dayHtml + '</div>' +
-                                '</div>';
-                        }
+                        const contains = (y in dvmap_uncheck) && (m in dvmap_uncheck);
+                        monthHtml += `<div class="monthBox luckysheet-mousedown-cancel">
+                                      <div class="month luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}-${escapeHtml(mT2)}">
+                                      <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
+                                      <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
+                                      <label class="luckysheet-mousedown-cancel">${escapeHtml(m)}${locale_filter.filiterMonthText}</label>
+                                      <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(msum)} )</span></div>
+                                      <div class="dayList luckysheet-mousedown-cancel">${dayHtml}</div></div>`;
                     }
 
                     //年是否选中状态
-                    let yearHtml;
-                    if (y in dvmap_uncheck) {
-                        yearHtml = '<div class="yearBox luckysheet-mousedown-cancel">' +
-                            '<div class="year luckysheet-mousedown-cancel cf" data-check="false" title="' + y + '">' +
-                            '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                            '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                            '<label class="luckysheet-mousedown-cancel">' + y + '' + locale_filter.filiterYearText + '</label>' +
-                            '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
-                            '</div>' +
-                            '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
-                            '</div>';
-                    } else {
-                        yearHtml = '<div class="yearBox luckysheet-mousedown-cancel">' +
-                            '<div class="year luckysheet-mousedown-cancel cf" data-check="true" title="' + y + '">' +
-                            '<i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>' +
-                            '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                            '<label class="luckysheet-mousedown-cancel">' + y + '' + locale_filter.filiterYearText + '</label>' +
-                            '<span class="count luckysheet-mousedown-cancel">( ' + ysum + ' )</span>' +
-                            '</div>' +
-                            '<div class="monthList luckysheet-mousedown-cancel">' + monthHtml + '</div>' +
-                            '</div>';
-                    }
+                    const contains = y in dvmap_uncheck;
+                    let yearHtml = `<div class="yearBox luckysheet-mousedown-cancel">
+                                <div class="year luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}">
+                                <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
+                                <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
+                                <label class="luckysheet-mousedown-cancel">${escapeHtml(y)}${locale_filter.filiterYearText}</label>
+                                <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(ysum)} )</span></div>
+                                <div class="monthList luckysheet-mousedown-cancel">${monthHtml}</div></div>`;
 
                     item.unshift(yearHtml);
                 }
@@ -493,20 +457,11 @@ const pivotTable = {
                         }
 
                         //是否选中状态
-                        let dataHtml;
-                        if ((v + "#$$$#" + x) in vmap_uncheck) {
-                            dataHtml = '<div class="textBox luckysheet-mousedown-cancel cf" data-check="false" data-filter="' + (v + "#$$$#" + x) + '" title="' + x + '">' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + text + '</label>' +
-                                '<span class="luckysheet-mousedown-cancel count">( ' + vmap[v][x] + ' )</span>' +
-                                '</div>';
-                        } else {
-                            dataHtml = '<div class="textBox luckysheet-mousedown-cancel cf" data-check="true" data-filter="' + (v + "#$$$#" + x) + '" title="' + x + '">' +
-                                '<input class="luckysheet-mousedown-cancel" type="checkbox" checked="checked"/>' +
-                                '<label class="luckysheet-mousedown-cancel">' + text + '</label>' +
-                                '<span class="luckysheet-mousedown-cancel count">( ' + vmap[v][x] + ' )</span>' +
-                                '</div>';
-                        }
+                        const contains = (v + "#$$$#" + x) in vmap_uncheck;
+                        let dataHtml = `<div class="textBox luckysheet-mousedown-cancel cf" data-check="${!contains}" data-filter="${escapeHtml(v)}#$$$#${escapeHtml(x)}" title="${escapeHtml(x)}">
+                                    <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
+                                    <label class="luckysheet-mousedown-cancel">${escapeHtml(text)}</label>
+                                    <span class="luckysheet-mousedown-cancel count">( ${escapeHtml(vmap[v][x])} )</span></div>`;
 
                         item.push(dataHtml);
                     }

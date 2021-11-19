@@ -354,22 +354,22 @@ export function getFontStyleByCell(cell,checksAF,checksCF, isCheck=true){
             else{
                 f = value;
             }
-            style += "font-family: " + f + ";";
+            style += "font-family: " + escapeHtml(f) + ";";
         }
 
         if(key == "fs" && value != "10"){
-            style += "font-size: "+ value + "pt;";
+            style += "font-size: "+ escapeHtml(value) + "pt;";
         }
 
         if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
             if(checksCF != null && checksCF["textColor"] != null){
-                style += "color: " + checksCF["textColor"] + ";";
+                style += "color: " + escapeHtml(checksCF["textColor"]) + ";";
             }
             else if(checksAF != null){
-                style += "color: " + checksAF[0] + ";";
+                style += "color: " + escapeHtml(checksAF[0]) + ";";
             }
             else{
-                style += "color: " + value + ";";  
+                style += "color: " + escapeHtml(value) + ";";
             }
         }
 
@@ -386,7 +386,7 @@ export function getFontStyleByCell(cell,checksAF,checksCF, isCheck=true){
             if(fs==null){
                 fs = cell["fs"];
             }
-            style += "border-bottom: "+ Math.floor(fs/9) +"px solid "+ color +";";
+            style += "border-bottom: "+ Math.floor(fs/9) +"px solid "+ escapeHtml(color) +";";
         }
 
     }
