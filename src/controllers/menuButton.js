@@ -942,7 +942,11 @@ const menuButton = {
 
         //边框设置
         $("#luckysheet-icon-border-all").click(function(){
-
+            // *如果禁止前台编辑，则中止下一步操作
+            if (!checkIsAllowEdit()) {
+                tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+                return
+            }
             if(!checkProtectionFormatCells(Store.currentSheetIndex)){
                 return;
             }
@@ -1100,6 +1104,11 @@ const menuButton = {
                 
                 // border choose menu
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
+                    // *如果禁止前台编辑，则中止下一步操作
+                    if (!checkIsAllowEdit()) {
+                        tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+                        return
+                    }
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
