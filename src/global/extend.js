@@ -638,8 +638,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         let row = [],
             curRow = [...d][index]
         for(let c = 0; c < d[0].length; c++){
+            // *这个地方的Store.defaultCell不能使用引用.
             let cell = curRow[c],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            templateCell = cell ? { ...cell, v: '', m: '' } : JSON.parse(JSON.stringify(Store.defaultCell));
             delete templateCell.ps;
             row.push(templateCell);
         }
@@ -812,8 +813,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         let col = [],
             curd= [...d];
         for(let r = 0; r < d.length; r++){
+            // *这个地方的Store.defaultCell不能使用引用.
             let cell = curd[r][index],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
+            templateCell = cell ? { ...cell, v: '', m: '' } : JSON.parse(JSON.stringify(Store.defaultCell));
             delete templateCell.ps;
             col.push(templateCell);
         }
