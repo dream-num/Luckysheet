@@ -789,6 +789,11 @@ const menuButton = {
 
                 //交替颜色
                 $menuButton.find(".luckysheet-icon-alternateformat").click(function(){
+                    // *如果禁止前台编辑，则中止下一步操作
+                    if (Store.allowEdit === false) {
+                        tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+                        return
+                    }
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
