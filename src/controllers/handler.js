@@ -4893,6 +4893,11 @@ export default function luckysheetHandler() {
 
     //菜单栏 插入链接按钮
     $("#luckysheet-insertLink-btn-title").click(function () {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         if(!checkProtectionNotEnable(Store.currentSheetIndex)){
             return;
         }
