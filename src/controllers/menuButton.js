@@ -16,7 +16,7 @@ import {luckysheetupdateCell} from './updateCell';
 import insertFormula from './insertFormula';
 import sheetmanage from './sheetmanage';
 import luckysheetPostil from './postil';
-import { isRealNum, isRealNull, isEditMode, hasPartMC } from '../global/validate';
+import { isRealNum, isRealNull, isEditMode, hasPartMC, checkIsAllowEdit } from '../global/validate';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import { genarate, update, is_date } from '../global/format';
@@ -120,7 +120,7 @@ const menuButton = {
         //格式刷
         $("#luckysheet-icon-paintformat").click(function(e){
             // *如果禁止前台编辑，则中止下一步操作
-            if(Store.allowEdit === false){
+            if (!checkIsAllowEdit()) {
                 tooltip.info("", locale().pivotTable.errorNotAllowEdit);
                 return
             }
@@ -180,7 +180,7 @@ const menuButton = {
         });
         $("#luckysheet-icon-paintformat").dblclick(function(){
             // *如果禁止前台编辑，则中止下一步操作
-            if (Store.allowEdit === false) {
+            if (!checkIsAllowEdit()) {
                 tooltip.info("", locale().pivotTable.errorNotAllowEdit);
                 return
             }
@@ -790,7 +790,7 @@ const menuButton = {
                 //交替颜色
                 $menuButton.find(".luckysheet-icon-alternateformat").click(function(){
                     // *如果禁止前台编辑，则中止下一步操作
-                    if (Store.allowEdit === false) {
+                    if (!checkIsAllowEdit()) {
                         tooltip.info("", locale().pivotTable.errorNotAllowEdit);
                         return
                     }
@@ -3143,7 +3143,9 @@ const menuButton = {
             return;
         }
 
-        if(Store.allowEdit===false){
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
             return;
         }
 
