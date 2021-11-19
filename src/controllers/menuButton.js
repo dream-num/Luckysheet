@@ -119,6 +119,11 @@ const menuButton = {
 
         //格式刷
         $("#luckysheet-icon-paintformat").click(function(e){
+            // *如果禁止前台编辑，则中止下一步操作
+            if(Store.allowEdit === false){
+                tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+                return
+            }
             e.stopPropagation();
             let _locale = locale();
             let locale_paint = _locale.paint;
@@ -174,6 +179,11 @@ const menuButton = {
             _this.luckysheetPaintSingle = true;
         });
         $("#luckysheet-icon-paintformat").dblclick(function(){
+            // *如果禁止前台编辑，则中止下一步操作
+            if (Store.allowEdit === false) {
+                tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+                return
+            }
             let _locale = locale();
             let locale_paint = _locale.paint;
             if(Store.luckysheet_select_save == null || Store.luckysheet_select_save.length == 0){
