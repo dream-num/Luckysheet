@@ -912,6 +912,10 @@ export function rowColumnOperationInitial(){
 
     //表格行标题 改变行高按钮
     $("#luckysheet-rows-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -956,6 +960,10 @@ export function rowColumnOperationInitial(){
 
     //表格列标题 改变列宽按钮
     $("#luckysheet-cols-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
