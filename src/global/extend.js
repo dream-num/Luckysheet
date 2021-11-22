@@ -917,16 +917,18 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             let row = d[r];
 
             for(let i = 0; i < value; i++){
+                // *这里不能是引用,不然添加多列时添加的都是同一个引用,修改一个cell会同步到多个
+                const COLR = JSON.parse(JSON.stringify(col[r]))
                 if(direction == "lefttop"){
                     if(index == 0){
-                        row.unshift(col[r]);
+                        row.unshift(COLR);
                     }
                     else{
-                        row.splice(index, 0, col[r]);
+                        row.splice(index, 0, COLR);
                     }
                 }
                 else{
-                    row.splice((index + 1), 0, col[r]);
+                    row.splice((index + 1), 0, COLR);
                 }
             }
         }
