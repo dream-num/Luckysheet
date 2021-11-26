@@ -634,16 +634,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["rowhidden"] = rowhidden_new;
         }
 
-        //空行模板
-        let row = [],
-            curRow = [...d][index]
-        for(let c = 0; c < d[0].length; c++){
-            // *这个地方的Store.defaultCell不能使用引用.
-            let cell = curRow[c],
-            templateCell = cell ? { ...cell, v: '', m: '' } : JSON.parse(JSON.stringify(Store.defaultCell));
-            delete templateCell.ps;
-            row.push(templateCell);
+        // *添加空行模板这里请保持为push null;
+        let row = [];
+        for (let c = 0; c < d[0].length; c++) {
+            row.push(null);
         }
+
         var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
@@ -809,16 +805,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["colhidden"] = colhidden_new;
         }
 
-        //空列模板
-        let col = [],
-            curd= [...d];
-        for(let r = 0; r < d.length; r++){
-            // *这个地方的Store.defaultCell不能使用引用.
-            let cell = curd[r][index],
-            templateCell = cell ? { ...cell, v: '', m: '' } : JSON.parse(JSON.stringify(Store.defaultCell));
-            delete templateCell.ps;
-            col.push(templateCell);
+        // *添加空列模板这里请保持为push null;
+        let col = [];
+        for (let r = 0; r < d.length; r++) {
+            col.push(null);
         }
+
         var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
