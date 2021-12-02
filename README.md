@@ -205,6 +205,7 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 名字好难起 ¥ 20
 - 大山 ¥ 1
 - waiting ¥ 1000
+- **宇 ¥ 10.00
 
 ## Authors and acknowledgment
 
