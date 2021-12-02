@@ -38,6 +38,7 @@ import locale from '../locale/locale';
 import numeral from 'numeral';
 import {luckysheetlodingHTML} from '../controllers/constant';
 import escapeHtml from "escape-html";
+import unescapeHtml from "unescape-html";
 
 const pivotTable = {
     pivotDatas: null,
@@ -640,7 +641,7 @@ const pivotTable = {
                 for (let c = 0; c < clen; c++) {
                     let value = "";
                     if (ret[r] != null && ret[r][c] != null) {
-                        value = getcellvalue(r, c, ret);
+                        value = unescapeHtml(getcellvalue(r, c, ret));
                     }
                     x[c] = value;
                 }

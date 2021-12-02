@@ -173,6 +173,8 @@ export function getcellvalue(r, c, data, type) {
         } else {
             retv = escapeValue(retv);
         }
+    } else {
+        retv = escapeValue(retv);
     }
 
     if(retv == undefined){
