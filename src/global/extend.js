@@ -69,7 +69,11 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == r + rs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    if(rs == 1){
+                        merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
