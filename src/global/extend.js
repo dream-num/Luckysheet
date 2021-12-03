@@ -83,7 +83,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < c){
                 merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
             }
-            else if(index == c){
+            else if(index == c && cs != 1){
                 if(direction == "lefttop"){
                     merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
                 }
