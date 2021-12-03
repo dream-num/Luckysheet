@@ -55,7 +55,8 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < r){
                 merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
             }
-            else if(index == r){
+            // *这里要判断一下rs是否等于1,因为如果这个合并单元格的行数只有一行时r = r+ rs-1,这种情况不应该进行单元格的加高
+            else if (index == r && rs != 1) {
                 if(direction == "lefttop"){
                     merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
                 }
