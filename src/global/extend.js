@@ -96,7 +96,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == c + cs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    // *这是要判断一下这个合并单元格的列宽是否=1,如果cs等于1的情况下,向左插入列，这个合并单元格会右移
+                    if(cs == 1){
+                        merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
