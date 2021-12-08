@@ -423,7 +423,7 @@ const pivotTable = {
                                       <div class="month luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}-${escapeHtml(mT2)}">
                                       <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
                                       <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
-                                      <label class="luckysheet-mousedown-cancel">${escapeHtml(m)}${locale_filter.filiterMonthText}</label>
+                                      <label class="luckysheet-mousedown-cancel">${escapeHtml(m)} ${locale_filter.filiterMonthText}</label>
                                       <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(msum)} )</span></div>
                                       <div class="dayList luckysheet-mousedown-cancel">${dayHtml}</div></div>`;
                     }
@@ -434,7 +434,7 @@ const pivotTable = {
                                 <div class="year luckysheet-mousedown-cancel cf" data-check="${!contains}" title="${escapeHtml(y)}">
                                 <i class="fa fa-caret-right luckysheet-mousedown-cancel" aria-hidden="true"></i>
                                 <input class="luckysheet-mousedown-cancel" type="checkbox" ${contains ? "" : 'checked="checked"'}/>
-                                <label class="luckysheet-mousedown-cancel">${escapeHtml(y)}${locale_filter.filiterYearText}</label>
+                                <label class="luckysheet-mousedown-cancel">${escapeHtml(y)} ${locale_filter.filiterYearText}</label>
                                 <span class="count luckysheet-mousedown-cancel">( ${escapeHtml(ysum)} )</span></div>
                                 <div class="monthList luckysheet-mousedown-cancel">${monthHtml}</div></div>`;
 
