@@ -2309,13 +2309,12 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     -o-transition: opacity 0.218s;
     transition: opacity 0.218s;
     background: #fff;
-    border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, .2);
     cursor: default;
     font-size: 13px;
     margin: 0;
     outline: none;
-    padding: 6px 0;
+    padding: 12px 0 6px 0px;
     position: absolute;
     z-index: 1004;
     box-sizing: border-box;
@@ -2336,6 +2335,10 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     vertical-align: middle;
     padding-right: 24px;
     user-select: none;
+}
+
+.luckysheet-cols-menu .luckysheet-cols-menuitem:last-child {
+    margin-bottom: 6px;
 }
 
 /* 右击菜单项目 hover背景色 */
