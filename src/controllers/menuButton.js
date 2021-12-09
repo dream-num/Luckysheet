@@ -1762,9 +1762,14 @@ const menuButton = {
                         if(row_st == -1){
                             row_st = 0;
                         }
-
-                        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                        let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                        let top,freezenhorizontaldata;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+                            top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
+                            freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                        } else {
+                            top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                            freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                        }
                         luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
 
                         if (luckysheetFreezen.freezenverticaldata != null) {
@@ -1806,9 +1811,14 @@ const menuButton = {
                         if(col_st == -1){
                             col_st = 0;
                         }
-
-                        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                        let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        let left,freezenverticaldata;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+                            left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
+                            freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        } else {
+                            left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                            freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        }
                         luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
                         if (luckysheetFreezen.freezenhorizontaldata != null) {
@@ -1853,10 +1863,16 @@ const menuButton = {
                         if(row_st == -1){
                             row_st = 0;
                         }
-
-                        let top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-                        let freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
-                        luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+                        let top,freezenhorizontaldata;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+                            top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
+                            freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                            luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+                        } else {
+                            top = Store.visibledatarow[row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                            freezenhorizontaldata = [Store.visibledatarow[row_st], row_st + 1, scrollTop, luckysheetFreezen.cutVolumn(Store.visibledatarow, row_st + 1), top];
+                            luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
+                        }
 
                         luckysheetFreezen.createFreezenHorizontal(freezenhorizontaldata, top);
 
@@ -1872,9 +1888,14 @@ const menuButton = {
                         if(col_st == -1){
                             col_st = 0;
                         }
-                        
-                        let left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-                        let freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        let left,freezenverticaldata;
+                        if (luckysheetFreezen.freezenRealFirstRowColumn) {
+                           left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
+                           freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, 0, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        } else {
+                           left = Store.visibledatacolumn[col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                           freezenverticaldata = [Store.visibledatacolumn[col_st], col_st + 1, scrollLeft, luckysheetFreezen.cutVolumn(Store.visibledatacolumn, col_st + 1), left];
+                        }
                         luckysheetFreezen.saveFreezen(null, null, freezenverticaldata, left);
 
                         luckysheetFreezen.createFreezenVertical(freezenverticaldata, left);
