@@ -1292,7 +1292,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "merge-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#"+menuButtonId).width(110);
+                $menuButton = $("#"+menuButtonId);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function(){
