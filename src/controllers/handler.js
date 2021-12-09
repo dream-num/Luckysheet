@@ -45,7 +45,7 @@ import {
     mouseposition 
 } from '../global/location';
 import { rowlenByRange } from '../global/getRowlen';
-import { isRealNull, hasPartMC, isEditMode } from '../global/validate';
+import { isRealNull, hasPartMC, isEditMode, checkIsAllowEdit } from '../global/validate';
 import { countfunc } from '../global/count';
 import browser from '../global/browser';
 import formula from '../global/formula';
@@ -4863,6 +4863,11 @@ export default function luckysheetHandler() {
 
     //菜单栏 插入图片按钮
     $("#luckysheet-insertImg-btn-title").click(function () {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects")){
             return;
         }
@@ -4888,6 +4893,11 @@ export default function luckysheetHandler() {
 
     //菜单栏 插入链接按钮
     $("#luckysheet-insertLink-btn-title").click(function () {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         if(!checkProtectionNotEnable(Store.currentSheetIndex)){
             return;
         }

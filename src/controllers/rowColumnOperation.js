@@ -21,7 +21,7 @@ import {
     colLocationByIndex, 
     mouseposition 
 } from '../global/location';
-import { isRealNull, isRealNum, hasPartMC, isEditMode } from '../global/validate';
+import { isRealNull, isRealNum, hasPartMC, isEditMode, checkIsAllowEdit } from '../global/validate';
 import { countfunc } from '../global/count';
 import formula from '../global/formula';
 import { luckysheetextendtable, luckysheetdeletetable, luckysheetDeleteCell } from '../global/extend';
@@ -381,6 +381,10 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-rows-change-size").css("opacity", 0);
     }).mouseup(function (event) {
         if (event.which == 3) {
+            // *如果禁止前台编辑，则中止下一步操作
+            if (!checkIsAllowEdit()) {
+                return
+            }
             if(isEditMode()){ //非编辑模式下禁止右键功能框
                 return;
             }
@@ -815,6 +819,10 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-cols-change-size").css("opacity", 0);
     }).mouseup(function (event) {
         if (event.which == 3) {
+            // *如果禁止前台编辑，则中止下一步操作
+            if (!checkIsAllowEdit()) {
+                return
+            }
             if(isEditMode()){ //非编辑模式下禁止右键功能框
                 return;
             }
@@ -904,6 +912,10 @@ export function rowColumnOperationInitial(){
 
     //表格行标题 改变行高按钮
     $("#luckysheet-rows-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -948,6 +960,10 @@ export function rowColumnOperationInitial(){
 
     //表格列标题 改变列宽按钮
     $("#luckysheet-cols-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -996,6 +1012,11 @@ export function rowColumnOperationInitial(){
 
     // 列标题的下拉箭头
     $("#luckysheet-cols-menu-btn").click(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         let $menu = $("#luckysheet-rightclick-menu");
         let offset = $(this).offset();
         $("#luckysheet-cols-rows-shift").show();

@@ -587,7 +587,7 @@ export function keyboardInitial(){
                     $("#luckysheet-icon-italic").click();
                 }
                 else if (kcode == 86) {//Ctrl + V  粘贴
-                    if(isEditMode()){//此模式下禁用粘贴
+                    if (isEditMode() || Store.allowEdit === false){//此模式下禁用粘贴
                         return;
                     }
 
