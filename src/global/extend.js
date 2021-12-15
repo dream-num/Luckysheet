@@ -55,7 +55,8 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < r){
                 merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
             }
-            else if(index == r){
+            // *这里要判断一下rs是否等于1,因为如果这个合并单元格的行数只有一行时r = r+ rs-1,这种情况不应该进行单元格的加高
+            else if (index == r && rs != 1) {
                 if(direction == "lefttop"){
                     merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
                 }
@@ -68,7 +69,11 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == r + rs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    if(rs == 1){
+                        merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
@@ -82,7 +87,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < c){
                 merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
             }
-            else if(index == c){
+            else if(index == c && cs != 1){
                 if(direction == "lefttop"){
                     merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
                 }
@@ -95,7 +100,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == c + cs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    // *这是要判断一下这个合并单元格的列宽是否=1,如果cs等于1的情况下,向左插入列，这个合并单元格会右移
+                    if(cs == 1){
+                        merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
@@ -634,15 +644,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["rowhidden"] = rowhidden_new;
         }
 
-        //空行模板
-        let row = [],
-            curRow = [...d][index]
-        for(let c = 0; c < d[0].length; c++){
-            let cell = curRow[c],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
-            delete templateCell.ps;
-            row.push(templateCell);
+        // *添加空行模板这里请保持为push null;
+        let row = [];
+        for (let c = 0; c < d[0].length; c++) {
+            row.push(null);
         }
+
         var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
@@ -808,15 +815,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["colhidden"] = colhidden_new;
         }
 
-        //空列模板
-        let col = [],
-            curd= [...d];
-        for(let r = 0; r < d.length; r++){
-            let cell = curd[r][index],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
-            delete templateCell.ps;
-            col.push(templateCell);
+        // *添加空列模板这里请保持为push null;
+        let col = [];
+        for (let r = 0; r < d.length; r++) {
+            col.push(null);
         }
+
         var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
@@ -917,16 +921,18 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             let row = d[r];
 
             for(let i = 0; i < value; i++){
+                // *这里不能是引用,不然添加多列时添加的都是同一个引用,修改一个cell会同步到多个
+                const COLR = JSON.parse(JSON.stringify(col[r]))
                 if(direction == "lefttop"){
                     if(index == 0){
-                        row.unshift(col[r]);
+                        row.unshift(COLR);
                     }
                     else{
-                        row.splice(index, 0, col[r]);
+                        row.splice(index, 0, COLR);
                     }
                 }
                 else{
-                    row.splice((index + 1), 0, col[r]);
+                    row.splice((index + 1), 0, COLR);
                 }
             }
         }

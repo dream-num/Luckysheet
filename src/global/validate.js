@@ -76,6 +76,20 @@ function isEditMode() {
     }
 }
 
+/**
+ * @description: 检查是否允许前台进行表格编辑
+ * @param {*}
+ * @return {Boolean} true:允许编辑 fasle:不允许
+ */
+function checkIsAllowEdit(){
+    if (Store.allowEdit) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 //范围是否只包含部分合并单元格
 function hasPartMC(cfg, r1, r2, c1, c2) {
     let hasPartMC = false;
@@ -200,6 +214,7 @@ export {
     valueIsError,
     hasChinaword,
     isEditMode,
+    checkIsAllowEdit,
     hasPartMC,
     checkWordByteLength
 }
