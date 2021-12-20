@@ -1,5 +1,5 @@
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
-import { luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue } from './func';
+import { luckysheet_getcelldata, luckysheet_parseData, luckysheet_getValue, luckysheet_calcADPMM } from './func';
 import { inverse } from './matrix_methods';
 import { getSheetIndex, getluckysheetfile,getRangetxt } from '../methods/get';
 import menuButton from '../controllers/menuButton';
