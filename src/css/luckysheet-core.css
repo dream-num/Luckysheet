@@ -2314,7 +2314,7 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     font-size: 13px;
     margin: 0;
     outline: none;
-    padding: 12px 0 6px 0px;
+    padding: 12px 0 6px 0;
     position: absolute;
     z-index: 1004;
     box-sizing: border-box;
