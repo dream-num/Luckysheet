@@ -1589,7 +1589,7 @@ function luckysheet_calcADPMM(fp, sp, tp){
     return value;
 }
 
-function luckysheet_getcelldata(txt) {
+function luckysheet_getcelldata(txt, sheetId) {
     if (window.luckysheet_getcelldata_cache == null) {
         window.luckysheet_getcelldata_cache = {};
     }
@@ -1604,7 +1604,7 @@ function luckysheet_getcelldata(txt) {
         rangetxt = "",
         sheetIndex = -1,
         sheetdata = null;
-    
+
     if (val.length > 1) {
         sheettxt = val[0].replace(/''/g,"'");
         rangetxt = val[1];
@@ -1626,7 +1626,7 @@ function luckysheet_getcelldata(txt) {
         }
     } 
     else {
-        let index = getSheetIndex(Store.calculateSheetIndex);
+        let index = getSheetIndex(sheetId || Store.calculateSheetIndex);
         sheettxt = luckysheetfile[index].name;
         sheetIndex = luckysheetfile[index].index;
         // sheetdata = Store.flowdata;

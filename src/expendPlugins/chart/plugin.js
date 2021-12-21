@@ -4,7 +4,7 @@ import {getdatabyselection, getcellvalue} from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
 import {luckysheet_getcelldata} from '../../function/func';
-import {getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow} from '../../methods/get'
+import {getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow, getluckysheetfile} from '../../methods/get'
 import {rowLocation, colLocation, mouseposition} from '../../global/location'
 import {setluckysheet_scroll_status} from '../../methods/set'
 import {luckysheetMoveHighlightRange2, luckysheetMoveEndCell} from '../../controllers/sheetMove';
@@ -14,6 +14,7 @@ import './umd/chartmix.css';
 import chartmix from './umd/chartmix.umd';
 import DOMPurify from "dompurify";
 import escapeHtml from "escape-html";
+import Store from "../../store";
 
 let _rowLocation = rowLocation
 let _colLocation = colLocation
@@ -114,48 +115,52 @@ function renderCharts(chartLists) {
 }
 
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
-    let chart = chartInfo.currentChart
-    if (!chart) {
-        return
-    }
-    if (chart.rangeArray.length === 1) {
-        var row = chart.rangeArray[0].row;
-        var column = chart.rangeArray[0].column;
-        //不在范围内的不更新
-        if (
-            r_st > row[1] ||
-            r_ed < row[0] ||
-            c_st > column[1] ||
-            c_ed < column[0]
-        ) {
-            return
-        }
-        //根据原有的范围取得数据
-        var luckysheetgetcellrange = formula.getcellrange(
-            chart.rangeTxt
-        );
-        var sheetIndex =
-            luckysheetgetcellrange.sheetIndex == -1
-                ? 0
-                : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+    getluckysheetfile().forEach(file => {
+        if(file.chart){
+            file.chart.forEach((chartObj) => {
+                const chart = chartInfo.chartparam.getChartJson(chartObj.chart_id);
 
-        var selection = {
-            row: luckysheetgetcellrange.row,
-            column: luckysheetgetcellrange.column,
-            dataSheetIndex: sheetIndex
-        }; //数组
-        var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
+                if (!chart) {
+                    return
+                }
+                if (chart.rangeArray.length === 1) {
+                    var row = chart.rangeArray[0].row;
+                    var column = chart.rangeArray[0].column;
+                    //不在范围内的不更新
+                    if (
+                        r_st > row[1] ||
+                        r_ed < row[0] ||
+                        c_st > column[1] ||
+                        c_ed < column[0]
+                    ) {
+                        return
+                    }
+                    //根据原有的范围取得数据
+                    var luckysheetgetcellrange = formula.getcellrange(
+                        chart.rangeTxt
+                    );
+                    var sheetIndex =
+                        luckysheetgetcellrange.sheetIndex == -1
+                            ? 0
+                            : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
 
-        if (
-            typeof getcelldata === "object" &&
-            getcelldata.length != 0 &&
-            getcelldata.data.length != null
-        ) {
-            //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
-            var chartData = getcelldata.data;
-            chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+                    if (sheetIndex !== Store.currentSheetIndex) return;
+
+                    var getcelldata = luckysheet_getcelldata(chart.rangeTxt, sheetIndex);
+
+                    if (
+                        typeof getcelldata === "object" &&
+                        getcelldata.length != 0 &&
+                        getcelldata.data.length != null
+                    ) {
+                        //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+                        var chartData = getcelldata.data;
+                        chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+                    }
+                }
+            })
         }
-    }
+    });
 }
 
 function chart_selection() {
