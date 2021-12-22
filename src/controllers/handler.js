@@ -5184,23 +5184,11 @@ export default function luckysheetHandler() {
 
         let $id = $(this).parent().attr("id");
         if ($id == "luckysheet-chart-rangeShow-content") {
-            if (chart_json.rangeRowCheck.exits) {
-                 row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
-            }
-            else {
-                 row_s = chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeSplitArray.content.row[0];
-            }
+             row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
+             row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
 
-            if (chart_json.rangeColCheck.exits) {
-                 col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
-            }
-            else {
-                 col_s = chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeSplitArray.content.column[1];
-            }
+             col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
+             col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
 
             Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }

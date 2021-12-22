@@ -644,10 +644,10 @@ function chart_selection() {
                         row_s = visibledatarow.length - 1
                     }
                 } else {
-                    var row_s = st_r - chartInfo.chart_selection.rangeResizexy[0] + row_index
+                    var row_s = r1 - chartInfo.chart_selection.rangeResizexy[0] + row_index
 
-                    if (row_s < 0 || y < 0) {
-                        row_s = 0
+                    if (y < 0) {
+                        row_s = st_r
                     } else if (row_s >= visibledatarow.length - 1 || y > winH) {
                         row_s = visibledatarow.length - 1
                     }
@@ -663,10 +663,10 @@ function chart_selection() {
                         col_s = visibledatacolumn.length - 1
                     }
                 } else {
-                    var col_s = st_c - chartInfo.chart_selection.rangeResizexy[1] + col_index
+                    var col_s = c1 - chartInfo.chart_selection.rangeResizexy[1] + col_index
 
-                    if (col_s < 0 || x < 0) {
-                        col_s = 0
+                    if (x < 0) {
+                        col_s = st_c
                     } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
                         col_s = visibledatacolumn.length - 1
                     }
@@ -697,6 +697,10 @@ function chart_selection() {
                     chart_json.rangeSplitArray.range = {
                         row: [obj_r1, obj_r2],
                         column: [obj_c1, obj_c2]
+                    }
+                    chart_json.rangeSplitArray.content = {
+                        row: [0, obj_r2 - obj_r1],
+                        column: [0, obj_c2 - obj_c1]
                     }
                 } else {
                     chart_json.rangeArray = [
