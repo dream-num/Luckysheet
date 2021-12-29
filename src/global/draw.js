@@ -1154,13 +1154,15 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
     else{
         luckysheetTableContent.fillStyle = fillStyle;
     }
-    
+
+    // 这里计算canvas需要绘制的矩形范围时,需要留下原本单元格边框的位置
+    // 让 fillRect 绘制矩形的起始xy坐标增加1,绘制长宽减少1
 
     let cellsize = [
-         (start_c + offsetLeft + borderfix[0]), 
-         (start_r + offsetTop  + borderfix[1]), 
-         (end_c - start_c + borderfix[2]-(!!isMerge?1:0)), 
-         (end_r - start_r + borderfix[3])
+        (start_c + offsetLeft + borderfix[0] + 1), 
+        (start_r + offsetTop  + borderfix[1] + 1), 
+        (end_c - start_c + borderfix[2]-(!!isMerge?1:0) - 1), 
+        (end_r - start_r + borderfix[3] - 1)
     ];
 
     //单元格渲染前，考虑到合并单元格会再次渲染一遍，统一放到这里
@@ -1225,16 +1227,18 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
 
     //即溢出单元格跨此单元格，此单元格不绘制右边框
     if(!cellOverflow_colInObj.colIn || cellOverflow_colInObj.colLast){
-        //右边框
-        if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+
+        // 右边框
+        // 无论是否有背景色，都默认绘制右边框
+        if(!Store.luckysheetcurrentisPivotTable && Store.showGridLines){
             luckysheetTableContent.beginPath();
             luckysheetTableContent.moveTo(
-                 (end_c + offsetLeft - 2 + bodrder05), 
-                 (start_r + offsetTop)
+                (end_c + offsetLeft - 2 + bodrder05), 
+                (start_r + offsetTop)
             );
             luckysheetTableContent.lineTo(
-                 (end_c + offsetLeft - 2 + bodrder05), 
-                 (end_r + offsetTop)
+                (end_c + offsetLeft - 2 + bodrder05), 
+                (end_r + offsetTop)
             );
             luckysheetTableContent.lineWidth = 1;
 
@@ -1244,16 +1248,17 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
         }
     }
 
-    //下边框
-    if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+    // 下边框
+    // 无论是否有背景色，都默认绘制下边框
+    if(!Store.luckysheetcurrentisPivotTable && Store.showGridLines){
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
-             (start_c + offsetLeft - 1), 
-             (end_r + offsetTop - 2 + bodrder05)
+            (start_c + offsetLeft - 1), 
+            (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineTo(
-             (end_c + offsetLeft - 1), 
-             (end_r + offsetTop - 2 + bodrder05)
+            (end_c + offsetLeft - 1), 
+            (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineWidth = 1;
 
@@ -1307,12 +1312,15 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     }
 
     let borderfix = menuButton.borderfix(Store.flowdata, r, c);
-    // console.log(value, fillStyle,borderfix);
+
+    // 这里计算canvas需要绘制的矩形范围时,需要留下原本单元格边框的位置
+    // 让 fillRect 绘制矩形的起始xy坐标增加1,绘制长宽减少1
+
     let cellsize = [
-        (start_c + offsetLeft + borderfix[0]), 
-        (start_r + offsetTop  + borderfix[1]), 
-        (end_c - start_c + borderfix[2]-(!!isMerge?1:0)), 
-        (end_r - start_r + borderfix[3])
+        (start_c + offsetLeft + borderfix[0] + 1), 
+        (start_r + offsetTop  + borderfix[1] + 1), 
+        (end_c - start_c + borderfix[2]-(!!isMerge?1:0) - 1), 
+        (end_r - start_r + borderfix[3] + 1)
     ];
 
     //单元格渲染前，考虑到合并单元格会再次渲染一遍，统一放到这里
@@ -1759,16 +1767,18 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     }
 
     if(cellOverflow_bd_r_render){
-        //右边框
-        if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+
+        // 右边框
+        // 无论是否有背景色，都默认绘制右边框
+        if(!Store.luckysheetcurrentisPivotTable && Store.showGridLines){
             luckysheetTableContent.beginPath();
             luckysheetTableContent.moveTo(
-                 (end_c + offsetLeft - 2 + bodrder05), 
-                 (start_r + offsetTop)
+                (end_c + offsetLeft - 2 + bodrder05), 
+                (start_r + offsetTop)
             );
             luckysheetTableContent.lineTo(
-                 (end_c + offsetLeft - 2 + bodrder05), 
-                 (end_r + offsetTop)
+                (end_c + offsetLeft - 2 + bodrder05), 
+                (end_r + offsetTop)
             );
             luckysheetTableContent.lineWidth = 1;
             luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
@@ -1777,16 +1787,17 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
         }
     }
 
-    //下边框
-    if(!Store.luckysheetcurrentisPivotTable && !fillStyle && Store.showGridLines){
+    // 下边框
+    // 无论是否有背景色，都默认绘制下边框
+    if(!Store.luckysheetcurrentisPivotTable && Store.showGridLines){
         luckysheetTableContent.beginPath();
         luckysheetTableContent.moveTo(
-             (start_c + offsetLeft - 1), 
-             (end_r + offsetTop - 2 + bodrder05)
+            (start_c + offsetLeft - 1), 
+            (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineTo(
-             (end_c + offsetLeft - 1), 
-             (end_r + offsetTop - 2 + bodrder05)
+            (end_c + offsetLeft - 1), 
+            (end_r + offsetTop - 2 + bodrder05)
         );
         luckysheetTableContent.lineWidth = 1;
         luckysheetTableContent.strokeStyle = luckysheetdefaultstyle.strokeStyle;
