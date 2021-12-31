@@ -147,15 +147,38 @@ const menuButton = {
                 return;
             }
 
+            // *增加了对选区范围是否为部分合并单元格的校验，如果为部分合并单元格，就阻止格式刷的下一步
+            // TODO 这里也可以改为：判断到是合并单元格的一部分后，格式刷执行黏贴格式后删除范围单元格的 mc 值
+
+            let has_PartMC = false;
+
+            let r1 = Store.luckysheet_select_save[0].row[0], 
+                r2 = Store.luckysheet_select_save[0].row[1];
+
+            let c1 = Store.luckysheet_select_save[0].column[0], 
+                c2 = Store.luckysheet_select_save[0].column[1];
+
+            has_PartMC = hasPartMC(Store.config, r1, r2, c1, c2);
+
+            if(has_PartMC){
+                // *提示后中止下一步
+                tooltip.info('无法对部分合并单元格执行此操作', '');
+                return;
+            }
+
+
             tooltip.popover("<i class='fa fa-paint-brush'></i> "+locale_paint.start+"", "topCenter", true, null, locale_paint.end,function(){
                 _this.cancelPaintModel();
             });
+            
             $("#luckysheet-sheettable_0").addClass("luckysheetPaintCursor");
 
             Store.luckysheet_selection_range = [{ "row": Store.luckysheet_select_save[0].row, "column": Store.luckysheet_select_save[0].column }];
+
             selectionCopyShow();
 
             let RowlChange = false, HasMC = false;
+
             for(let r = Store.luckysheet_select_save[0].row[0]; r <= Store.luckysheet_select_save[0].row[1]; r++){
                 if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
                     continue;
