@@ -1662,7 +1662,8 @@ export function getDefaultRowHeight(options = {}) {
         }
     }, 1)
 
-    return Store.luckysheetfile[order].defaultRowHeight;
+    // *返回指定的工作表默认行高，如果未配置就返回全局的默认行高
+    return Store.luckysheetfile[order].defaultRowHeight || Store.defaultrowlen;
 }
 
 
@@ -1684,7 +1685,8 @@ export function getDefaultColWidth(options = {}) {
         }
     }, 1)
 
-    return Store.luckysheetfile[order].defaultColWidth;
+    // *返回指定的工作表默认列宽，如果未配置就返回全局的默认列宽
+    return Store.luckysheetfile[order].defaultColWidth || Store.defaultcollen;
 }
 
 
