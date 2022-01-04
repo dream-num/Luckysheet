@@ -150,7 +150,7 @@ export default function luckysheetHandler() {
     let mousewheelArrayUniqueTimeout;
     $("#luckysheet-grid-window-1").mousewheel(function (event) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-            scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+            scrollTop = Math.ceil($("#luckysheet-scrollbar-y").scrollTop());
         let visibledatacolumn_c = Store.visibledatacolumn, 
             visibledatarow_c = Store.visibledatarow;
 
@@ -187,7 +187,7 @@ export default function luckysheetHandler() {
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
         // visibledatarow_c = ArrayUnique(visibledatarow_c);
 
-        let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
+        // let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
         if (luckysheetFreezen.freezenhorizontaldata != null) {

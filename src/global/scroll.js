@@ -1,20 +1,18 @@
 import luckysheetFreezen from '../controllers/freezen';
-import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import { luckysheetrefreshgrid } from '../global/refresh';
-import Store from '../store';
 import method from '../global/method'
 
-let scrollRequestAnimationFrameIni = true,scrollRequestAnimationFrame = false, scrollTimeOutCancel=null;
+// let scrollRequestAnimationFrame = false;
 
-function execScroll(){
-    let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-        scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
-    luckysheetrefreshgrid(scrollLeft, scrollTop);
-    scrollRequestAnimationFrame = window.requestAnimationFrame(execScroll);
-}
+// function execScroll(){
+//     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
+//         scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+//     luckysheetrefreshgrid(scrollLeft, scrollTop);
+//     scrollRequestAnimationFrame = window.requestAnimationFrame(execScroll);
+// }
 
 //全局滚动事件
-export default function luckysheetscrollevent(isadjust) {
+export default function luckysheetscrollevent() {
     let $t = $("#luckysheet-cell-main");
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
         scrollTop = $("#luckysheet-scrollbar-y").scrollTop(),
