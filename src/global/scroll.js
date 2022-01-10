@@ -15,7 +15,7 @@ import method from '../global/method'
 export default function luckysheetscrollevent() {
     let $t = $("#luckysheet-cell-main");
     let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-        scrollTop = $("#luckysheet-scrollbar-y").scrollTop(),
+        scrollTop = Math.ceil($("#luckysheet-scrollbar-y").scrollTop()),
         canvasHeight = $("#luckysheetTableContent").height(); // canvas高度
 
     // clearTimeout(scrollTimeOutCancel);
