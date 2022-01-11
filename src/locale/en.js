@@ -8878,7 +8878,7 @@ export default {
         borderHorizontal:'Border horizontal',
         borderVertical:'Border vertical',
         borderColor:'Border color',
-        borderSize:'Border size',
+        borderSize:'Border type',
     },
     merge:{
         mergeAll:"Merge all",
@@ -8918,7 +8918,7 @@ export default {
         freezenRowRange:"Freezen row range",
         freezenColumnRange:"Freezen column range",
         freezenRCRange:"Freezen both range",
-        freezenCancel:"Cancel",
+        freezenCancel:"Unfreeze",
 
         noSeletionError:"No Range to be selected",        rangeRCOverErrorTitle: "Freeze reminder",
         rangeRCOverError: "The frozen pane is beyond the visible range, which will lead to abnormal operation. Please reset the frozen area."

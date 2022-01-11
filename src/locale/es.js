@@ -8862,7 +8862,7 @@ export default {
         borderHorizontal:'Border horizontal',
         borderVertical:'Border vertical',
         borderColor:'Border color',
-        borderSize:'Border size',
+        borderSize:'Border type',
     },
     merge:{
         mergeAll:"Unir todo",
