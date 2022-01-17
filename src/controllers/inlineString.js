@@ -186,7 +186,8 @@ export function updateInlineStringFormat(cell, attr, value, $input){
                 if(startSpanIndex<endSpanIndex){
                     for(let i=startSpanIndex+1;i<endSpanIndex;i++){
                         let span = spans.get(i), content = span.innerHTML;
-                        cont += "<span style='"+ span.style.cssText +"'>" + content + "</span>";
+                        let cssText = getCssText(span.style.cssText, attr, value);
+                        cont += "<span style='"+ cssText +"'>" + content + "</span>";
                     }
                 }
 
