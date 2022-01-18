@@ -16,8 +16,9 @@ module.exports = {
 		
 	},
 	themeConfig: {
+		domain: 'https://mengshukeji.github.io/LuckysheetDemo',
 		logo: '/img/logo.png',
-		
+		author: 'Luckysheet',
 		// 仓库地址
 		repo: 'mengshukeji/Luckysheet',
 		// 允许编辑链接文字
@@ -42,7 +43,14 @@ module.exports = {
 				nav: [
 					{ text: 'Home', link: '/' },
 					{ text: 'Guide', link: '/guide/' },
-					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
+					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{
+						text: 'More',
+						ariaLabel: 'More',
+						items: [
+						  { text: 'About', link: '/about/' }
+						]
+					},
 				],
 				// 侧边栏 
 				sidebar: {
@@ -53,7 +61,14 @@ module.exports = {
 						'cell',
 						'operate',
 						'api',
-						'FAQ'
+						'resource',
+						'FAQ',
+						'contribute'
+					],
+					'/about/': [
+						'',
+						'sponsor',
+						'company'
 					],
 				},
 			},
@@ -77,7 +92,14 @@ module.exports = {
 				nav: [
 					{ text: '首页', link: '/zh/' },
 					{ text: '指南', link: '/zh/guide/' },
-					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' }
+					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{
+						text: '了解更多',
+						ariaLabel: '了解更多',
+						items: [
+						  { text: '关于', link: '/zh/about/' }
+						]
+					},
 				],
 				// 侧边栏 
 				sidebar: {
@@ -88,11 +110,38 @@ module.exports = {
 						'cell',
 						'operate',
 						'api',
-						'FAQ'
+						'resource',
+						'FAQ',
+						'contribute'
+					],
+					'/zh/about/': [
+						'',
+						'sponsor',
+						'company'
 					],
 				},
 			},
 			
 		},	
 	},
+	plugins: {
+		'vuepress-plugin-baidu-autopush': {},
+		'sitemap': {
+			hostname: 'https://mengshukeji.github.io/LuckysheetDocs'
+		},
+		'vuepress-plugin-code-copy': true,
+		'seo': {
+			siteTitle: (_, $site) => $site.title,
+			title: $page => $page.title,
+			description: $page => $page.frontmatter.description,
+			author: (_, $site) => $site.themeConfig.author,
+			tags: $page => $page.frontmatter.tags,
+			twitterCard: _ => 'summary_large_image',
+			type: $page => ['guide'].some(folder => $page.regularPath.startsWith('/' + folder)) ? 'article' : 'website',
+			url: (_, $site, path) => ($site.themeConfig.domain || '') + path,
+			image: ($page, $site) => $page.frontmatter.image && (($site.themeConfig.domain && !$page.frontmatter.image.startsWith('http') || '') + $page.frontmatter.image),
+			publishedAt: $page => $page.frontmatter.date && new Date($page.frontmatter.date),
+			modifiedAt: $page => $page.lastUpdated && new Date($page.lastUpdated),
+		}
+	}
 }

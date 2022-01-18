@@ -12,6 +12,8 @@ import tooltip from '../global/tooltip';
 import func_methods from '../global/func_methods';
 import Store from '../store';
 import locale from '../locale/locale';
+import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionLocked} from './protection';
+
 
 //查找替换
 const luckysheetSearchReplace = {
@@ -407,6 +409,10 @@ const luckysheetSearchReplace = {
                         if(value != null && value != ""){
                             value = value.toString();
 
+                            // 1. 勾选整词 直接匹配
+                            // 2. 勾选了正则 结合是否勾选 构造正则 
+                            // 3. 什么都没选 用字符串 indexOf 匹配
+
                             if(wordCheck){ //整词
                                 if(caseCheck){
                                     if(searchText == value){
@@ -428,6 +434,7 @@ const luckysheetSearchReplace = {
                             }
                             else if(regCheck){ //正则表达式
                                 let reg;
+                                // 是否区分大小写
                                 if(caseCheck){
                                     reg = new RegExp(func_methods.getRegExpStr(searchText), "g");
                                 }
@@ -442,20 +449,8 @@ const luckysheetSearchReplace = {
                                     }
                                 }
                             }
-                            else if(caseCheck){ //区分大小写
-                                let reg = new RegExp(func_methods.getRegExpStr(searchText), "g");
-
-                                if(reg.test(value)){
-                                    if(!((r + "_" + c) in obj)){
-                                        obj[r + "_" + c] = 0;
-                                        arr.push({"r": r, "c": c});
-                                    }
-                                }
-                            }
                             else{
-                                let reg = new RegExp(func_methods.getRegExpStr(searchText), "ig");
-
-                                if(reg.test(value)){
+                                if(~value.indexOf(searchText)){
                                     if(!((r + "_" + c) in obj)){
                                         obj[r + "_" + c] = 0;
                                         arr.push({"r": r, "c": c});
@@ -575,6 +570,10 @@ const luckysheetSearchReplace = {
 
             let v = replaceText;
 
+            if(!checkProtectionLocked(r, c, Store.currentSheetIndex)){
+                return;
+            }
+
             setcellvalue(r, c, d, v);
         }
         else{
@@ -588,6 +587,10 @@ const luckysheetSearchReplace = {
 
             r = searchIndexArr[count].r;
             c = searchIndexArr[count].c;
+
+            if(!checkProtectionLocked(r, c, Store.currentSheetIndex)){
+                return;
+            }
 
             let v = valueShowEs(r, c, d).toString().replace(reg, replaceText);
 
@@ -695,17 +698,22 @@ const luckysheetSearchReplace = {
         let replaceText = $("#luckysheet-search-replace #replaceInput input").val();
 
         let d = editor.deepCopyFlowData(Store.flowdata);
-
+        let replaceCount = 0;
         if(wordCheck){
             for(let i = 0; i < searchIndexArr.length; i++){
                 let r = searchIndexArr[i].r;
                 let c = searchIndexArr[i].c;
+
+                if(!checkProtectionLocked(r, c, Store.currentSheetIndex, false)){
+                    continue;
+                }
 
                 let v = replaceText;
 
                 setcellvalue(r, c, d, v);
 
                 range.push({ "row": [r, r], "column": [c, c] });
+                replaceCount++;
             }
         }
         else{
@@ -721,11 +729,16 @@ const luckysheetSearchReplace = {
                 let r = searchIndexArr[i].r;
                 let c = searchIndexArr[i].c;
 
+                if(!checkProtectionLocked(r, c, Store.currentSheetIndex, false)){
+                    continue;
+                }
+
                 let v = valueShowEs(r, c, d).toString().replace(reg, replaceText);
 
                 setcellvalue(r, c, d, v);
 
                 range.push({ "row": [r, r], "column": [c, c] });
+                replaceCount++;
             }
         }
 
@@ -739,7 +752,7 @@ const luckysheetSearchReplace = {
         selectHightlightShow();
 
         let succeedInfo = replaceHtml(locale_findAndReplace.successTip, { 
-            "xlength": searchIndexArr.length
+            "xlength": replaceCount
         });
         if(isEditMode()){
             alert(succeedInfo);

@@ -11,7 +11,15 @@ import {checkProtectionAuthorityNormal,checkProtectionNotEnable} from '../contro
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
 
-//增加行列
+/**
+ * 增加行列
+ * @param {string} type 行或列 ['row', 'column'] 之一
+ * @param {number} index 插入的位置 index
+ * @param {number} value 插入 多少 行（列）
+ * @param {string} direction 哪个方向插入 ['lefttop','rightbottom'] 之一
+ * @param {string | number} sheetIndex 操作的 sheet 的 index 属性
+ * @returns 
+ */
 function luckysheetextendtable(type, index, value, direction, sheetIndex) {
     sheetIndex = sheetIndex || Store.currentSheetIndex;
 
@@ -47,7 +55,8 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < r){
                 merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
             }
-            else if(index == r){
+            // *这里要判断一下rs是否等于1,因为如果这个合并单元格的行数只有一行时r = r+ rs-1,这种情况不应该进行单元格的加高
+            else if (index == r && rs != 1) {
                 if(direction == "lefttop"){
                     merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
                 }
@@ -60,7 +69,11 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == r + rs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    if(rs == 1){
+                        merge_new[(r + value) + "_" + c] = { "r": r + value, "c": c, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs + value, "cs": cs };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
@@ -74,7 +87,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             if(index < c){
                 merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
             }
-            else if(index == c){
+            else if(index == c && cs != 1){
                 if(direction == "lefttop"){
                     merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
                 }
@@ -87,7 +100,12 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             }
             else if(index == c + cs - 1){
                 if(direction == "lefttop"){
-                    merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    // *这是要判断一下这个合并单元格的列宽是否=1,如果cs等于1的情况下,向左插入列，这个合并单元格会右移
+                    if(cs == 1){
+                        merge_new[r + "_" + (c + value)] = { "r": r, "c": c + value, "rs": rs, "cs": cs };
+                    } else {
+                        merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs + value };
+                    }
                 }
                 else{
                     merge_new[r + "_" + c] = { "r": r, "c": c, "rs": rs, "cs": cs };
@@ -427,7 +445,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             freezen_row_st += value;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 
@@ -482,9 +500,17 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == r){
                     if(direction == "lefttop"){
                         newDataVerification[(r + value) + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i) + "_" + c] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[(r + i + 1) + "_" + c] = item;
+                        }
                     }
                 }
                 else{
@@ -498,13 +524,65 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 else if(index == c){
                     if(direction == "lefttop"){
                         newDataVerification[r + "_" + (c + value)] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i)] = item;
+                        }
                     }
                     else{
                         newDataVerification[r + "_" + c] = item;
+
+                        for(let i = 0; i < value; i++){
+                            newDataVerification[r + "_" + (c + i + 1)] = item;
+                        }
                     }
                 }
                 else{
                     newDataVerification[r + "_" + c] = item;
+                }
+            }
+        }
+    }
+
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(index < r){
+                    newHyperlink[(r + value) + "_" + c] = item;
+                }
+                else if(index == r){
+                    if(direction == "lefttop"){
+                        newHyperlink[(r + value) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(index < c){
+                    newHyperlink[r + "_" + (c + value)] = item;
+                }
+                else if(index == c){
+                    if(direction == "lefttop"){
+                        newHyperlink[r + "_" + (c + value)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else{
+                    newHyperlink[r + "_" + c] = item;
                 }
             }
         }
@@ -566,12 +644,13 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["rowhidden"] = rowhidden_new;
         }
 
-        //空行模板
+        // *添加空行模板这里请保持为push null;
         let row = [];
-        for(let c = 0; c < d[0].length; c++){
+        for (let c = 0; c < d[0].length; c++) {
             row.push(null);
         }
 
+        var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
             let borderInfo = []; 
@@ -626,6 +705,10 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 }
                 else if(rangeType == "cell"){
                     let row_index = cfg["borderInfo"][i].value.row_index;
+                    // 位置相同标识边框相关 先缓存
+                    if (row_index === index) {
+                        cellBorderConfig.push(JSON.parse(JSON.stringify(cfg["borderInfo"][i])));
+                    }
 
                     if(direction == "lefttop"){
                         if(index <= row_index){
@@ -649,18 +732,32 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         let arr = [];
         for (let r = 0; r < value; r++) {
             arr.push(JSON.stringify(row));
+            // 同步拷贝 type 为 cell 类型的边框
+            if (cellBorderConfig.length) {
+                var cellBorderConfigCopy = JSON.parse(JSON.stringify(cellBorderConfig));
+                cellBorderConfigCopy.forEach(item=>{
+                    if (direction === 'rightbottom') {
+                        // 向下插入时 基于模板行位置直接递增即可
+                        item.value.row_index += (r + 1);
+                    } else if (direction === 'lefttop') {
+                        // 向上插入时 目标行移动到后面 新增n行到前面 对于新增的行来说 也是递增，不过是从0开始
+                        item.value.row_index += r;
+                    }
+                });
+                cfg["borderInfo"].push(...cellBorderConfigCopy);
+            }
         }
 
         if(direction == "lefttop"){
             if(index == 0){
-                eval('d.unshift(' + arr.join(",") + ')');
+                new Function("d","return " + 'd.unshift(' + arr.join(",") + ')')(d);
             }
             else{
-                eval('d.splice(' + index + ', 0, ' + arr.join(",") + ')');
+                new Function("d","return " + 'd.splice(' + index + ', 0, ' + arr.join(",") + ')')(d);
             }
         }
-        else{
-            eval('d.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')');    
+        else{ 
+            new Function("d","return " + 'd.splice(' + (index + 1) + ', 0, ' + arr.join(",") + ')')(d); 
         }
     }
     else {
@@ -718,12 +815,13 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             cfg["colhidden"] = colhidden_new;
         }
 
-        //空列模板
+        // *添加空列模板这里请保持为push null;
         let col = [];
-        for(let r = 0; r < d.length; r++){
+        for (let r = 0; r < d.length; r++) {
             col.push(null);
         }
 
+        var cellBorderConfig = [];
         //边框
         if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
             let borderInfo = []; 
@@ -778,6 +876,10 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 }
                 else if(rangeType == "cell"){
                     let col_index = cfg["borderInfo"][i].value.col_index;
+                    // 位置相同标识边框相关 先缓存
+                    if (col_index === index) {
+                        cellBorderConfig.push(JSON.parse(JSON.stringify(cfg["borderInfo"][i])));
+                    }
 
                     if(direction == "lefttop"){
                         if(index <= col_index){
@@ -797,21 +899,40 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
 
             cfg["borderInfo"] = borderInfo;
         }
+
+        // 处理相关的 type 为 cell 类型的边框
+        if (cellBorderConfig.length) {
+            for (let i = 0; i < value; i++) {
+                var cellBorderConfigCopy = JSON.parse(JSON.stringify(cellBorderConfig));
+                cellBorderConfigCopy.forEach(item=>{
+                    if (direction === 'rightbottom') {
+                        // 向右插入时 基于模板列位置直接递增即可
+                        item.value.col_index += (i + 1);
+                    } else if (direction === 'lefttop') {
+                        // 向左插入时 目标列移动到后面 新增n列到前面 对于新增的列来说 也是递增，不过是从0开始
+                        item.value.col_index += i;
+                    }
+                });
+                cfg["borderInfo"].push(...cellBorderConfigCopy);
+            }
+        }
         
         for (let r = 0; r < d.length; r++) {
             let row = d[r];
 
             for(let i = 0; i < value; i++){
+                // *这里不能是引用,不然添加多列时添加的都是同一个引用,修改一个cell会同步到多个
+                const COLR = JSON.parse(JSON.stringify(col[r]))
                 if(direction == "lefttop"){
                     if(index == 0){
-                        row.unshift(col[r]);
+                        row.unshift(COLR);
                     }
                     else{
-                        row.splice(index, 0, col[r]);
+                        row.splice(index, 0, COLR);
                     }
                 }
                 else{
-                    row.splice((index + 1), 0, col[r]);
+                    row.splice((index + 1), 0, COLR);
                 }
             }
         }
@@ -829,8 +950,10 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
+
     }
     else{
         file.data = d;
@@ -841,6 +964,7 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
     
     let range = null;
@@ -944,6 +1068,37 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
 
     let file = Store.luckysheetfile[curOrder];
     let d = $.extend(true, [], file.data);
+
+    if(st < 0){
+        st = 0;
+    }
+
+    if(ed < 0){
+        ed = 0;
+    }
+
+    if(type == "row"){
+        if(st > d.length - 1){
+            st = d.length - 1;
+        }
+
+        if(ed > d.length - 1){
+            ed = d.length - 1;
+        }
+    }
+    else{
+        if(st > d[0].length - 1){
+            st = d[0].length - 1;
+        }
+
+        if(ed > d[0].length - 1){
+            ed = d[0].length - 1;
+        }
+    }
+
+    if(st > ed){
+        return
+    }
 
     let slen = ed - st + 1;
     let cfg = $.extend(true, {}, file.config);
@@ -1356,7 +1511,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             freezen_row_st = freezen_st;
         }
 
-        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columeHeaderHeight;
+        let freezen_top = Store.visibledatarow[freezen_row_st] - 2 - freezen_scrollTop + Store.columnHeaderHeight;
 
         newFreezen.freezenhorizontaldata = [
             Store.visibledatarow[freezen_row_st], 
@@ -1429,6 +1584,34 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
                 }
                 else if(c > ed){
                     newDataVerification[r + "_" + (c - slen)] = item;
+                }
+            }
+        }
+    }
+
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+            
+            if(type == "row"){
+                if(r < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(r > ed){
+                    newHyperlink[(r - slen) + "_" + c] = item;
+                }
+            }
+            else if(type == "column"){
+                if(c < st){
+                    newHyperlink[r + "_" + c] = item;
+                }
+                else if(c > ed){
+                    newHyperlink[r + "_" + (c - slen)] = item;
                 }
             }
         }
@@ -1532,17 +1715,31 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             cfg["borderInfo"] = borderInfo;
         }
 
+        // 备注：该处理方式会在删除多行的时候会存在bug
+        // 说明：删除多行后，会把同一个row空数组(引用类型)添加成为data多行的数据源，导致设置这些行数据时产生错误。
+        //空白行模板
+        // let row = [];
+        // for (let c = 0; c < d[0].length; c++) {
+        //     row.push(null);
+        // }
+
+        // //删除选中行
+        // d.splice(st, slen);
+
+        // //删除多少行，增加多少行空白行                
+        // for (let r = 0; r < slen; r++) {
+        //     d.push(row);
+        // }
+
         //删除选中行
         d.splice(st, slen);
 
-        //空白行模板
-        let row = [];
-        for (let c = 0; c < d[0].length; c++) {
-            row.push(null);
-        }
-
         //删除多少行，增加多少行空白行                
         for (let r = 0; r < slen; r++) {
+            let row = [];
+            for (let c = 0; c < d[0].length; c++) {
+                row.push(null);
+            }
             d.push(row);
         }
     }
@@ -1670,7 +1867,8 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             newCFarr, 
             newAFarr, 
             newFreezen,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -1682,6 +1880,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         file.luckysheet_conditionformat_save = newCFarr;
         file.luckysheet_alternateformat_save = newAFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 
@@ -2073,6 +2272,36 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         }
     }
 
+    //超链接配置变动
+    let hyperlink = file.hyperlink;
+    let newHyperlink = {};
+    if(hyperlink != null){
+        for(let key in hyperlink){
+            let r = Number(key.split('_')[0]),
+                c = Number(key.split('_')[1]);
+            let item = hyperlink[key];
+
+            if(r < str || r > edr || c < stc || c > edc){
+                if(type == "moveLeft"){
+                    if(c > edc && r >= str && r <= edr){
+                        newHyperlink[r + "_" + (c - clen)] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+                else if(type == "moveUp"){
+                    if(r > edr && c >= stc && c <= edc){
+                        newHyperlink[(r - rlen) + "_" + c] = item;
+                    }
+                    else{
+                        newHyperlink[r + "_" + c] = item;
+                    }
+                }
+            }
+        }
+    }
+
     //边框配置变动
     if(cfg["borderInfo"] && cfg["borderInfo"].length > 0){
         let borderInfo = []; 
@@ -2112,20 +2341,20 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
                 let row_index = cfg["borderInfo"][i].value.row_index;
                 let col_index = cfg["borderInfo"][i].value.col_index;
 
-                if(row_index < str || col_index < stc){
-                    borderInfo.push(cfg["borderInfo"][i]);
-                }
-                else if(row_index > edr || col_index > edc){
-                    if(row_index > edr){
-                        row_index -= rlen;
-                        cfg["borderInfo"][i].value.row_index = row_index;
+                if(row_index < str || row_index > edr || col_index < stc || col_index > edc){
+                    if(type == 'moveLeft'){
+                        if(col_index > edc && row_index >= str && row_index <= edr){
+                            col_index -= clen;
+                            cfg["borderInfo"][i].value.col_index = col_index;
+                        }
                     }
-
-                    if(col_index > edc){
-                        col_index -= clen;
-                        cfg["borderInfo"][i].value.col_index = col_index;
+                    else if(type == 'moveUp'){
+                        if(row_index > edr && col_index >= stc && col_index <= edc){
+                            row_index -= rlen;
+                            cfg["borderInfo"][i].value.row_index = row_index;
+                        }
                     }
-
+    
                     borderInfo.push(cfg["borderInfo"][i]);
                 }
             }
@@ -2184,7 +2413,8 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
             newCalcChain,
             newFilterObj,
             newCFarr,
-            newDataVerification
+            newDataVerification,
+            newHyperlink
         );
     }
     else{
@@ -2195,6 +2425,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
         file.filter_select = newFilterObj.filter_select;
         file.luckysheet_conditionformat_save = newCFarr;
         file.dataVerification = newDataVerification;
+        file.hyperlink = newHyperlink;
     }
 }
 

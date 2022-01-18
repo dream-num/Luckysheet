@@ -6,6 +6,7 @@ import menuButton from './menuButton';
 import { selectHightlightShow } from './select';
 import pivotTable from './pivotTable';
 import Store from '../store';
+import server from './server';
 
 function luckysheetMoveEndCell(postion, type, isScroll, terminal, onlyvalue) {
     if (isScroll == null) {
@@ -440,13 +441,16 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
         else{
             row = Store.visibledatarow[moveX]; 
             row_pre = moveX - 1 == -1 ? 0 : Store.visibledatarow[moveX - 1];
-            row_index = moveX;
-            row_index_ed = moveX;
+            // row_index = moveX;
+            // row_index_ed = moveX;
 
             col = Store.visibledatacolumn[moveY]; 
             col_pre = moveY - 1 == -1 ? 0 : Store.visibledatacolumn[moveY - 1];
-            col_index = moveY;
-            col_index_ed = moveY;
+            // col_index = moveY;
+            // col_index_ed = moveY;
+            
+            row_index = row_index_ed = curR;
+            col_index = col_index_ed = curC;
         }
 
         last["row"] = [row_index, row_index_ed];
@@ -622,6 +626,9 @@ function luckysheetMoveHighlightCell(postion, index, type, isScroll) {
 
     clearTimeout(Store.countfuncTimeout);
     countfunc();
+    
+    // 移动单元格通知后台
+    server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
 }
 
 //ctrl + 方向键  调整单元格

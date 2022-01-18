@@ -1,4 +1,4 @@
-const sheetFormula = {
+ window.sheetFormula = {
 	"name": "Formula",
 	"color": "",
 	"config": {
@@ -6597,4 +6597,4 @@ const sheetFormula = {
 	"frozen": {"type":"row"}
 }
 
-export default sheetFormula
+// export default sheetFormula

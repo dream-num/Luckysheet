@@ -3126,7 +3126,7 @@ export default {
         "t": 2,
         "d": "Returns the content of a cell, specified by row and column offset.",
         "a": "Content of cell specified by row and column offset.",
-        "m": [3, 3],
+        "m": [2, 3],
         "p": [{
             "name": "reference",
             "detail": "The array of cells to be offset into.",
@@ -8811,7 +8811,23 @@ export default {
             "repeat": "n",
             "type": "rangenumber"
         }]
-    }],
+    },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "Evaluate a formula or expression expressed in words and return the result",
+        "a": "Evaluate according to literal formula or expression.",
+        "m": [1, 1],
+        "p": [{
+            "name": "expression",
+            "example": '"A1+5*2^2"',
+            "detail": "Formula or expression",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
+    ],
     toolbar: {
         undo: 'Deshacer',
         redo: 'Rehacer',
@@ -8826,6 +8842,7 @@ export default {
         bold: 'Negrita (Ctrl+B)',
         italic : 'Itálica (Ctrl+I)',
         strikethrough: 'Tachar (Alt+Shift+5)',
+        underline: 'Guion bajo',
         textColor: 'Color texto',
         chooseColor: 'elegir color',
         resetColor: 'Reinicializar',
@@ -8901,6 +8918,9 @@ export default {
         update:"Actualizar",
         delete:"Eliminar",
         insert:"Insertar",
+        prevPage: "Previous",
+        nextPage: "Next",
+        total: "total:"
     },
     paint:{
         start: 'Inicio clonar formato',
@@ -8924,7 +8944,7 @@ export default {
         detailSave: 'Cache local restaurado',
         row: '',
         column: '',
-        loading:"Cargando",
+        loading:"Cargando...",
 
         copy:"Copiar",
         return:"Salir",
@@ -9230,6 +9250,8 @@ export default {
         freezenCancel:"Cancelar",
 
         noSeletionError:"No hay rango para seleccionar",
+        rangeRCOverErrorTitle: "Recordatorio de congelación",
+        rangeRCOverError: "El panel de congelación excede el rango visible y puede causar que no funcione correctamente. Reinicie el área de congelación."
     },
     sort:{
         "asc":"Ascendente ",
@@ -9508,6 +9530,8 @@ export default {
         redoDelete:"Se puede deshacer con Ctrl+Z",
         noHide:"No se puede ocultar, al menos conserva una etiqueta de hoja",
         chartEditNoOpt:"¡Esta operación no está permitida en el modo de edición de gráficos!",
+        sheetNameSpecCharError:"El nombre no puede contener:[ ] : \ ? * / ' \"",
+        sheetNamecannotIsEmptyError:"El nombre de la hoja no puede estar vacío"
     },
     conditionformat: {
         conditionformat_greaterThan: 'Conditionformat-GreaterThan',
@@ -9570,6 +9594,8 @@ export default {
         ruleTypeItem4: 'Aplicar formato solo a los valores superiores o inferiores al promedio',
         ruleTypeItem4_title: 'Es un valor que cumple las siguientes condiciones',
         ruleTypeItem5: 'Aplicar formato solo a valores únicos o repetidos',
+        ruleTypeItem6: 'Use fórmulas para determinar qué celdas formatear',
+        formula: 'fórmula',
         textColor: 'Color Texto',
         cellColor: 'Color Celda',
         confirm: 'Confirma',
@@ -9692,6 +9718,7 @@ export default {
         selectCellRange: 'Haz clic para seleccionar un rango de celdas',
         selectCellRange2: 'Selecciona un rango de celdas',
         verificationCondition: 'Condición de verificación',
+        allowMultiSelect: "Permitir selección múltiple",
         dropdown: 'lista desplegable',
         checkbox: 'Casilla de verificación',
         number: 'Número',
@@ -9735,6 +9762,7 @@ export default {
         tooltipInfo5: 'El contenido del texto no puede estar vacío',
         tooltipInfo6: 'El valor ingresado no es una fecha',
         tooltipInfo7: 'La segunda fecha no puede ser menor que la primera',
+        textlengthInteger: 'La longitud del texto debe ser un entero mayor o igual a 0',
     },
     formula:{
         sum:"Suma",
@@ -9977,5 +10005,16 @@ export default {
         menuItemAreas:"Imprimir áreas",
         menuItemRows:"Imprimir títulos de filas",
         menuItemColumns:"Imprimir títulos de columnas",
+    },
+    edit:{
+        typing:"mecanografía",
+    },
+    websocket:{
+        success: 'Éxito de la conexión de WebSocket',
+        refresh: 'Se produjo un error en la conexión de WebSocket, ¡actualice la página!',
+        wait: 'Se produjo un error en la conexión de WebSocket, ¡tenga paciencia!',
+        close: 'Conexión WebSocket cerrada',
+        contact: 'Ocurrió un error de comunicación con el servidor, actualice la página y vuelva a intentarlo; de lo contrario, comuníquese con el administrador.',
+        support: 'El navegador actual no es compatible con WebSocket',
     }
   };

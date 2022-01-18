@@ -13,6 +13,7 @@ import { getSheetIndex } from '../methods/get';
 import { getObjType, replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import dayjs from 'dayjs'
 
 //选区下拉
 const luckysheetDropCell = {
@@ -72,10 +73,10 @@ const luckysheetDropCell = {
     direction: null, //down-往下拖拽，right-往右拖拽，up-往上拖拽，left-往左拖拽
     chnNumChar: {"零": 0, "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9},
     chnNameValue: {
-        "十": {value: 10, secUnit: false}, 
-        "百": {value: 100, secUnit: false}, 
-        "千": {value: 1000, secUnit: false}, 
-        "万": {value: 10000, secUnit: true}, 
+        "十": {value: 10, secUnit: false},
+        "百": {value: 100, secUnit: false},
+        "千": {value: 1000, secUnit: false},
+        "万": {value: 10000, secUnit: true},
         "亿": {value: 100000000, secUnit: true}
     },
     ChineseToNumber: function(chnStr){
@@ -92,7 +93,7 @@ const luckysheetDropCell = {
 
             if(typeof num != "undefined"){
                 number = num;
-                
+
                 if(i == str.length - 1){
                     section += number;
                 }
@@ -100,7 +101,7 @@ const luckysheetDropCell = {
             else{
                 let unit = _this.chnNameValue[str[i]].value;
                 secUnit = _this.chnNameValue[str[i]].secUnit;
-                
+
                 if(secUnit){
                     section = (section + number) * unit;
                     rtn += section;
@@ -201,43 +202,32 @@ const luckysheetDropCell = {
         return isChnNumber;
     },
     isExtendNumber: function(txt){
-        let reg = /[0-9]/;
-        let isExtendNumber;
-        if(reg.test(txt.substr(txt.length - 1, 1))){
-            isExtendNumber = true;
-        }
-        else{
-            isExtendNumber = false;
-        }
+        let reg = /0|([1-9]+[0-9]*)/g;
+        let isExtendNumber = reg.test(txt);
 
         if(isExtendNumber){
-            let str = txt.split("");
-            str.reverse();
-            
-            let len = 0;
-            for(let i = 0; i < str.length; i++){
-                if(!reg.test(str[i])){
-                    len = i;
-                    break;
-                }
-            }
+            let match = txt.match(reg);
+            let matchTxt = match[match.length - 1];
+            let matchIndex = txt.lastIndexOf(matchTxt);
+            let beforeTxt = txt.substr(0, matchIndex);
+            let afterTxt = txt.substr(matchIndex + matchTxt.length);
 
-            return [isExtendNumber, txt.substr(0, txt.length - len), txt.substr(txt.length - len, len)];    
+            return [isExtendNumber, Number(matchTxt), beforeTxt, afterTxt];
         }
-        else{
-            return [isExtendNumber];
+        else {
+            return [isExtendNumber]
         }
     },
     isChnWeek1: function(txt){
         let _this = this;
-            
+
         let isChnWeek1;
         if(txt.length == 1){
             if(txt == "日" || _this.ChineseToNumber(txt) < 7){
                 isChnWeek1 = true;
             }
             else{
-                isChnWeek1 = false;    
+                isChnWeek1 = false;
             }
         }
         else{
@@ -281,11 +271,11 @@ const luckysheetDropCell = {
     createIcon: function(){
         let _this = this;
 
-        let copy_r = _this.copyRange["row"][1], 
+        let copy_r = _this.copyRange["row"][1],
             copy_c = _this.copyRange["column"][1];
-        let apply_r = _this.applyRange["row"][1], 
+        let apply_r = _this.applyRange["row"][1],
             apply_c = _this.applyRange["column"][1];
-        
+
         let row_index, col_index;
         if(apply_r >= copy_r && apply_c >= copy_c){
             row_index = apply_r;
@@ -293,12 +283,12 @@ const luckysheetDropCell = {
         }
         else{
             row_index = copy_r;
-            col_index = copy_c;   
+            col_index = copy_c;
         }
 
-        let row = rowLocationByIndex(row_index)[1], 
+        let row = rowLocationByIndex(row_index)[1],
             row_pre = rowLocationByIndex(row_index)[0];
-        let col = colLocationByIndex(col_index)[1], 
+        let col = colLocationByIndex(col_index)[1],
             col_pre = colLocationByIndex(col_index)[0];
 
         $("#luckysheet-dropCell-icon").remove();
@@ -346,11 +336,11 @@ const luckysheetDropCell = {
             if(!typeItemHide[3]){
                 $("#luckysheet-dropCell-typeList .luckysheet-cols-menuitem[data-type=8]").hide();
             }
-            
+
             let left = $(this).offset().left;
             let top = $(this).offset().top + 25;
             let winH = $(window).height(), winW = $(window).width();
-            let menuW = $("#luckysheet-dropCell-typeList").width(), 
+            let menuW = $("#luckysheet-dropCell-typeList").width(),
                 menuH = $("#luckysheet-dropCell-typeList").height();
 
             if (left + menuW > winW) {
@@ -369,7 +359,7 @@ const luckysheetDropCell = {
             $("#luckysheet-dropCell-icon").mouseleave(function(){ $(this).css("backgroundColor", "#ffe8e8") });
 
             let type = _this.applyType;
-            $("#luckysheet-dropCell-typeList .luckysheet-cols-menuitem[data-type="+ type +"]").find("span").append('<i class="fa fa-check luckysheet-mousedown-cancel"></i>');                
+            $("#luckysheet-dropCell-typeList .luckysheet-cols-menuitem[data-type="+ type +"]").find("span").append('<i class="fa fa-check luckysheet-mousedown-cancel"></i>');
             event.stopPropagation();
         });
 
@@ -385,7 +375,7 @@ const luckysheetDropCell = {
 
             $("#luckysheet-dropCell-typeList").hide();
             $("#luckysheet-dropCell-icon").css("backgroundColor", "#f1f1f1");
-            $("#luckysheet-dropCell-icon").mouseleave(function(){ $(this).css("backgroundColor", "#f1f1f1") }); 
+            $("#luckysheet-dropCell-icon").mouseleave(function(){ $(this).css("backgroundColor", "#f1f1f1") });
 
             countfunc();
         });
@@ -397,12 +387,12 @@ const luckysheetDropCell = {
         let str_r = copyRange["row"][0], end_r = copyRange["row"][1];
         let str_c = copyRange["column"][0], end_c = copyRange["column"][1];
 
-        let hasNumber = false, 
-            hasExtendNumber = false, 
-            hasDate = false, 
-            hasChn = false, 
-            hasChnWeek1 = false, 
-            hasChnWeek2 = false, 
+        let hasNumber = false,
+            hasExtendNumber = false,
+            hasDate = false,
+            hasChn = false,
+            hasChnWeek1 = false,
+            hasChnWeek2 = false,
             hasChnWeek3 = false;
 
         for(let r = str_r; r <= end_r; r++){
@@ -438,7 +428,7 @@ const luckysheetDropCell = {
         }
 
         return [hasNumber, hasExtendNumber, hasDate, hasChn, hasChnWeek1, hasChnWeek2, hasChnWeek3];
-    }, 
+    },
     update: function(){
         let _this = this;
 
@@ -452,7 +442,7 @@ const luckysheetDropCell = {
 
         let d = editor.deepCopyFlowData(Store.flowdata);
         let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-        
+
         let cfg = $.extend(true, {}, Store.config);
         let borderInfoCompute = getBorderInfoCompute();
         let dataVerification = $.extend(true, {}, file["dataVerification"]);
@@ -465,7 +455,7 @@ const luckysheetDropCell = {
         let copy_str_r = copyRange["row"][0], copy_end_r = copyRange["row"][1];
         let copy_str_c = copyRange["column"][0], copy_end_c = copyRange["column"][1];
         let copyData = _this.getCopyData(d, copy_str_r, copy_end_r, copy_str_c, copy_end_c, direction);
-        
+
         let csLen;
         if(direction == "down" || direction == "up"){
             csLen = copy_end_r - copy_str_r + 1;
@@ -484,9 +474,9 @@ const luckysheetDropCell = {
 
             for(let i = apply_str_c; i <= apply_end_c; i++){
                 let copyD = copyData[i - apply_str_c];
-                
+
                 let applyData = _this.getApplyData(copyD, csLen, asLen);
-                
+
                 if(direction == "down"){
                     for(let j = apply_str_r; j <= apply_end_r; j++){
                         let cell = applyData[j - apply_str_r];
@@ -518,12 +508,19 @@ const luckysheetDropCell = {
                                             cell.m = cell.v.toExponential(len).toString();
                                         }
                                         else{
-                                            let mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
-                                            cell.m = mask[0].toString();
+                                            let mask;
+                                            if(cell.ct.fa === "##0.00"){
+                                               /* 如果是数字类型 */
+                                               mask = genarate(Math.round(cell.v * 1000000000) / 1000000000 + ".00") ;
+                                               cell.m = mask[0].toString();
+                                            }else {
+                                                mask = genarate(Math.round(cell.v * 1000000000) / 1000000000);
+                                                cell.m = mask[0].toString();
+                                            }
                                         }
                                     }
 
-                                    cell.ct = { "fa": "General", "t": "n" };
+                                    cell.ct = cell.ct || { "fa": "General", "t": "n" };
                                 }
                                 else{
                                     let mask = genarate(cell.v);
@@ -672,7 +669,7 @@ const luckysheetDropCell = {
 
             for(let i = apply_str_r; i <= apply_end_r; i++){
                 let copyD = copyData[i - apply_str_r];
-                    
+
                 let applyData = _this.getApplyData(copyD, csLen, asLen);
 
                 if(direction == "right"){
@@ -894,15 +891,15 @@ const luckysheetDropCell = {
 
         let a1, a2, b1, b2;
         if(direction == "down" || direction == "up"){
-            a1 = c1; 
-            a2 = c2; 
-            b1 = r1; 
+            a1 = c1;
+            a2 = c2;
+            b1 = r1;
             b2 = r2;
         }
         else if(direction == "right" || direction == "left"){
-            a1 = r1; 
-            a2 = r2; 
-            b1 = c1; 
+            a1 = r1;
+            a2 = r2;
+            b1 = c1;
             b2 = c2;
         }
 
@@ -912,7 +909,8 @@ const luckysheetDropCell = {
             let arrData = [];
             let arrIndex = [];
             let text = "";
-            let extendNumberStr = null;
+            let extendNumberBeforeStr = null;
+            let extendNumberAfterStr = null;
             let isSameStr = true;
 
             for(let b = b1; b <= b2; b++){
@@ -930,49 +928,60 @@ const luckysheetDropCell = {
                 if(!!data && !!data["v"] && data["f"] == null){
                     if(!!data["ct"] && data["ct"]["t"] == "n"){
                         str = "number";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(!!data["ct"] && data["ct"]["t"] == "d"){
                         str = "date";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isExtendNumber(data["m"])[0]){
                         str = "extendNumber";
-                        
-                        if(extendNumberStr == null){
+
+                        let isExtendNumber = _this.isExtendNumber(data["m"]);
+
+                        if(extendNumberBeforeStr == null || extendNumberAfterStr == null){
                             isSameStr = true;
-                            extendNumberStr = _this.isExtendNumber(data["m"])[1];
+                            extendNumberBeforeStr = isExtendNumber[2];
+                            extendNumberAfterStr = isExtendNumber[3];
                         }
-                        else{
-                            if(_this.isExtendNumber(data["m"])[1] != extendNumberStr){
+                        else {
+                            if(isExtendNumber[2] != extendNumberBeforeStr || isExtendNumber[3] != extendNumberAfterStr){
                                 isSameStr = false;
-                                extendNumberStr = _this.isExtendNumber(data["m"])[1];
+                                extendNumberBeforeStr = isExtendNumber[2];
+                                extendNumberAfterStr = isExtendNumber[3];
                             }
-                            else{
+                            else {
                                 isSameStr = true;
                             }
                         }
                     }
                     else if(_this.isChnNumber(data["m"])){
                         str = "chnNumber";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isChnWeek2(data["m"])){
                         str = "chnWeek2";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else if(_this.isChnWeek3(data["m"])){
                         str = "chnWeek3";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                     else{
                         str = "other";
-                        extendNumberStr = null;
+                        extendNumberBeforeStr = null;
+                        extendNumberAfterStr = null;
                     }
                 }
                 else{
                     str = "other";
-                    extendNumberStr = null;
+                    extendNumberBeforeStr = null;
+                    extendNumberAfterStr = null;
                 }
 
                 if(str == "extendNumber"){
@@ -1046,7 +1055,7 @@ const luckysheetDropCell = {
                             arrData = [];
                             arrData.push(data);
                             arrIndex = [];
-                            arrIndex.push(b - b1 + 1); 
+                            arrIndex.push(b - b1 + 1);
                         }
                     }
                 }
@@ -1121,7 +1130,7 @@ const luckysheetDropCell = {
                             arrData = [];
                             arrData.push(data);
                             arrIndex = [];
-                            arrIndex.push(b - b1 + 1); 
+                            arrIndex.push(b - b1 + 1);
                         }
                     }
                 }
@@ -1163,8 +1172,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_number[i]["index"]);
-                applyD_number.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_number.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //扩展数字型（即一串字符最后面的是数字）
@@ -1187,8 +1196,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_extendNumber[i]["index"]);
-                applyD_extendNumber.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_extendNumber.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //日期类型
@@ -1211,8 +1220,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_date[i]["index"]);
-                applyD_date.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_date.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //中文小写数字 或 一~日
@@ -1235,8 +1244,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_chnNumber[i]["index"]);
-                applyD_chnNumber.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_chnNumber.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //周一~周日
@@ -1259,8 +1268,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_chnWeek2[i]["index"]);
-                applyD_chnWeek2.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_chnWeek2.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //星期一~星期日
@@ -1283,8 +1292,8 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_chnWeek3[i]["index"]);
-                applyD_chnWeek3.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_chnWeek3.push({"data": arrData, "index": arrIndex});
+            }
         }
 
         //其它
@@ -1304,10 +1313,10 @@ const luckysheetDropCell = {
                 }
 
                 let arrIndex = _this.getDataIndex(csLen, asLen, copyD_other[i]["index"]);
-                applyD_other.push({"data": arrData, "index": arrIndex}); 
-            }    
+                applyD_other.push({"data": arrData, "index": arrIndex});
+            }
         }
-        
+
         for(let x = 1; x <= asLen; x++){
             if(applyD_number.length > 0){
                 for(let y = 0; y < applyD_number.length; y++){
@@ -1373,7 +1382,7 @@ const luckysheetDropCell = {
 
         for(let j = 0; j < indexArr.length; j++){
             if(indexArr[j] <= rsd){
-                s++; 
+                s++;
             }
             else{
                 break;
@@ -1430,15 +1439,15 @@ const luckysheetDropCell = {
                 data.reverse();
             }
 
-            applyData = _this.FillCopy(data, len); 
+            applyData = _this.FillCopy(data, len);
         }
         else if(type == "1"){ //填充序列
             if(dataType == "number"){
-                //数据类型是 数字 
+                //数据类型是 数字
                 applyData = _this.FillSeries(data, len, direction);
             }
             else if(dataType == "extendNumber"){
-                //扩展数字（一串字符最后面的是数字）
+                //扩展数字
                 if(data.length == 1){
                     let step;
                     if(direction == "down" || direction == "right"){
@@ -1455,7 +1464,7 @@ const luckysheetDropCell = {
 
                     for(let i = 0; i < data.length; i++){
                         let txt = data[i]["m"];
-                        dataNumArr.push(Number(_this.isExtendNumber(txt)[2]));
+                        dataNumArr.push(Number(_this.isExtendNumber(txt)[1]));
                     }
 
                     if(direction == "up" || direction == "left"){
@@ -1474,7 +1483,7 @@ const luckysheetDropCell = {
                     }
                 }
             }
-            else if(dataType == "date"){ 
+            else if(dataType == "date"){
                 //数据类型是 日期
                 if(data.length == 1){
                     //以一天为step
@@ -1496,18 +1505,18 @@ const luckysheetDropCell = {
                     let judgeDate = _this.judgeDate(data);
                     if(judgeDate[0] && judgeDate[3]){
                         //日一样，月差为等差数列，以月差为step
-                        let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                        let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
                         applyData = _this.FillMonths(data, len, step);
                     }
                     else if(!judgeDate[0] && judgeDate[2]){
                         //日不一样，日差为等差数列，以日差为step
-                        let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "days");
+                        let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "days");
                         applyData = _this.FillDays(data, len, step);
                     }
                     else{
                         //其它，复制数据
                         applyData = _this.FillCopy(data, len);
-                    }   
+                    }
                 }
             }
             else if(dataType == "chnNumber"){
@@ -1727,7 +1736,7 @@ const luckysheetDropCell = {
                     data.reverse();
                 }
 
-                let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "days");
+                let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "days");
                 applyData = _this.FillDays(data, len, step);
             }
             else{
@@ -1738,12 +1747,12 @@ const luckysheetDropCell = {
                 let judgeDate = _this.judgeDate(data);
                 if(judgeDate[0] && judgeDate[3]){
                     //日一样，且月差为等差数列，以月差为step
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
                     applyData = _this.FillMonths(data, len, step);
                 }
                 else if(!judgeDate[0] && judgeDate[2]){
                     //日不一样，且日差为等差数列，以日差为step
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "days");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "days");
                     applyData = _this.FillDays(data, len, step);
                 }
                 else{
@@ -1767,12 +1776,12 @@ const luckysheetDropCell = {
                 for(let i = 1; i <= newLen; i++){
                     let d = $.extend(true, {}, data[0]);
 
-                    let day = moment(d["m"]).add(i, "days").day();
+                    let day = dayjs(d["m"]).add(i, "days").day();
                     if(day == 0 || day == 6){
                         continue;
                     }
 
-                    let date = moment(d["m"]).add(step * i, "days").format("YYYY-MM-DD");
+                    let date = dayjs(d["m"]).add(step * i, "days").format("YYYY-MM-DD");
                     d["m"] = date;
                     d["v"] = genarate(date)[2];
                     applyData.push(d);
@@ -1783,30 +1792,30 @@ const luckysheetDropCell = {
                 }
             }
             else if(data.length == 2){
-                if(moment(data[1]["m"]).date() == moment(data[0]["m"]).date() && moment(data[1]["m"]).diff(moment(data[0]["m"]), "months") != 0){
+                if(dayjs(data[1]["m"]).date() == dayjs(data[0]["m"]).date() && dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months") != 0){
                     //日一样，且月差大于一月，以月差为step（若那天为休息日，则向前取最近的工作日）
                     if(direction == "up" || direction == "left"){
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
 
                     for(let i = 1; i <= len; i++){
                         let index = (i - 1) % data.length;
                         let d = $.extend(true, {}, data[index]);
 
-                        let day = moment(data[data.length - 1]).add(step * i, "months").day(),
+                        let day = dayjs(data[data.length - 1]).add(step * i, "months").day(),
                             date;
                         if(day == 0){
-                            date = moment(data[data.length - 1]).add(step * i, "months").subtract(2, "days").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]).add(step * i, "months").subtract(2, "days").format("YYYY-MM-DD");
                         }
                         else if(day == 6){
-                            date = moment(data[data.length - 1]).add(step * i, "months").subtract(1, "days").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]).add(step * i, "months").subtract(1, "days").format("YYYY-MM-DD");
                         }
                         else{
-                            date = moment(data[data.length - 1]).add(step * i, "months").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]).add(step * i, "months").format("YYYY-MM-DD");
                         }
-                        
+
                         d["m"] = date;
                         d["v"] = genarate(date)[2];
                         applyData.push(d);
@@ -1814,7 +1823,7 @@ const luckysheetDropCell = {
                 }
                 else{
                     //日不一样
-                    if(Math.abs(moment(data[1]["m"]).diff(moment(data[0]["m"]))) > 7){
+                    if(Math.abs(dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]))) > 7){
                         //若日差大于7天，以一月为step（若那天是休息日，则向前取最近的工作日）
                         let step_month;
                         if(direction == "down" || direction == "right"){
@@ -1832,19 +1841,19 @@ const luckysheetDropCell = {
 
                             let num = Math.ceil(i / data.length);
                             if(index == 0){
-                                step = moment(d["m"]).add(step_month * num, "months").diff(moment(d["m"]), "days");
+                                step = dayjs(d["m"]).add(step_month * num, "months").diff(dayjs(d["m"]), "days");
                             }
 
-                            let day = moment(d["m"]).add(step, "days").day(),
+                            let day = dayjs(d["m"]).add(step, "days").day(),
                                 date;
                             if(day == 0){
-                                date = moment(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
                             }
                             else if(day == 6){
-                                date = moment(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
                             }
                             else{
-                                date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                             }
 
                             d["m"] = date;
@@ -1870,19 +1879,19 @@ const luckysheetDropCell = {
 
                             let num = Math.ceil(i / data.length);
                             if(index == 0){
-                                step = moment(d["m"]).add(step_day * num, "days").diff(moment(d["m"]), "days");
+                                step = dayjs(d["m"]).add(step_day * num, "days").diff(dayjs(d["m"]), "days");
                             }
 
-                            let day = moment(d["m"]).add(step, "days").day(),
+                            let day = dayjs(d["m"]).add(step, "days").day(),
                                 date;
                             if(day == 0){
-                                date = moment(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
                             }
                             else if(day == 6){
-                                date = moment(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
                             }
                             else{
-                                date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                             }
 
                             d["m"] = date;
@@ -1900,22 +1909,22 @@ const luckysheetDropCell = {
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
 
                     for(let i = 1; i <= len; i++){
                         let index = (i - 1) % data.length;
                         let d = $.extend(true, {}, data[index]);
 
-                        let day = moment(data[data.length - 1]["m"]).add(step * i, "months").day(),
+                        let day = dayjs(data[data.length - 1]["m"]).add(step * i, "months").day(),
                             date;
                         if(day == 0){
-                            date = moment(data[data.length - 1]["m"]).add(step * i, "months").subtract(2, "days").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]["m"]).add(step * i, "months").subtract(2, "days").format("YYYY-MM-DD");
                         }
                         else if(day == 6){
-                            date = moment(data[data.length - 1]["m"]).add(step * i, "months").subtract(1, "days").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]["m"]).add(step * i, "months").subtract(1, "days").format("YYYY-MM-DD");
                         }
                         else{
-                            date = moment(data[data.length - 1]["m"]).add(step * i, "months").format("YYYY-MM-DD");
+                            date = dayjs(data[data.length - 1]["m"]).add(step * i, "months").format("YYYY-MM-DD");
                         }
 
                         d["m"] = date;
@@ -1925,7 +1934,7 @@ const luckysheetDropCell = {
                 }
                 else if(!judgeDate[0] && judgeDate[2]){
                     //日不一样，且日差为等差数列
-                    if(Math.abs(moment(data[1]["m"]).diff(moment(data[0]["m"]))) > 7){
+                    if(Math.abs(dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]))) > 7){
                         //若日差大于7天，以一月为step（若那天是休息日，则向前取最近的工作日）
                         let step_month
                         if(direction == "down" || direction == "right"){
@@ -1943,19 +1952,19 @@ const luckysheetDropCell = {
 
                             let num = Math.ceil(i / data.length);
                             if(index == 0){
-                                step = moment(d["m"]).add(step_month * num, "months").diff(moment(d["m"]), "days");
+                                step = dayjs(d["m"]).add(step_month * num, "months").diff(dayjs(d["m"]), "days");
                             }
 
-                            let day = moment(d["m"]).add(step, "days").day(),
+                            let day = dayjs(d["m"]).add(step, "days").day(),
                                 date;
                             if(day == 0){
-                                date = moment(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
                             }
                             else if(day == 6){
-                                date = moment(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
                             }
                             else{
-                                date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                             }
 
                             d["m"] = date;
@@ -1981,19 +1990,19 @@ const luckysheetDropCell = {
 
                             let num = Math.ceil(i / data.length);
                             if(index == 0){
-                                step = moment(d["m"]).add(step_day * num, "days").diff(moment(d["m"]), "days");
+                                step = dayjs(d["m"]).add(step_day * num, "days").diff(dayjs(d["m"]), "days");
                             }
 
-                            let day = moment(d["m"]).add(step, "days").day(),
+                            let day = dayjs(d["m"]).add(step, "days").day(),
                                 date;
                             if(day == 0){
-                                date = moment(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(2, "days").format("YYYY-MM-DD");
                             }
                             else if(day == 6){
-                                date = moment(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").subtract(1, "days").format("YYYY-MM-DD");
                             }
                             else{
-                                date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+                                date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                             }
 
                             d["m"] = date;
@@ -2026,13 +2035,13 @@ const luckysheetDropCell = {
                 applyData = _this.FillMonths(data, len, step);
             }
             else if(data.length == 2){
-                if(moment(data[1]["m"]).date() == moment(data[0]["m"]).date() && moment(data[1]["m"]).diff(moment(data[0]["m"]), "months") != 0){
+                if(dayjs(data[1]["m"]).date() == dayjs(data[0]["m"]).date() && dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months") != 0){
                     //日一样，且月差大于一月，以月差为step
                     if(direction == "up" || direction == "left"){
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
                     applyData = _this.FillMonths(data, len, step);
                 }
                 else{
@@ -2053,10 +2062,10 @@ const luckysheetDropCell = {
 
                         let num = Math.ceil(i / data.length);
                         if(index == 0){
-                            step = moment(d["m"]).add(step_month * num, "months").diff(moment(d["m"]), "days");
+                            step = dayjs(d["m"]).add(step_month * num, "months").diff(dayjs(d["m"]), "days");
                         }
-                        
-                        let date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+
+                        let date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                         d["m"] = date;
                         d["v"] = genarate(date)[2];
                         applyData.push(d);
@@ -2071,7 +2080,7 @@ const luckysheetDropCell = {
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
                     applyData = _this.FillMonths(data, len, step);
                 }
                 else if(!judgeDate[0] && judgeDate[2]){
@@ -2092,10 +2101,10 @@ const luckysheetDropCell = {
 
                         let num = Math.ceil(i / data.length);
                         if(index == 0){
-                            step = moment(d["m"]).add(step_month * num, "months").diff(moment(d["m"]), "days");
+                            step = dayjs(d["m"]).add(step_month * num, "months").diff(dayjs(d["m"]), "days");
                         }
-                        
-                        let date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+
+                        let date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                         d["m"] = date;
                         d["v"] = genarate(date)[2];
                         applyData.push(d);
@@ -2125,13 +2134,13 @@ const luckysheetDropCell = {
                 applyData = _this.FillYears(data, len, step);
             }
             else if(data.length == 2){
-                if(moment(data[1]["m"]).date() == moment(data[0]["m"]).date() && moment(data[1]["m"]).month() == moment(data[0]["m"]).month() && moment(data[1]["m"]).diff(moment(data[0]["m"]), "years") != 0){
+                if(dayjs(data[1]["m"]).date() == dayjs(data[0]["m"]).date() && dayjs(data[1]["m"]).month() == dayjs(data[0]["m"]).month() && dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "years") != 0){
                     //日月一样，且年差大于一年，以年差为step
                     if(direction == "up" || direction == "left"){
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "years");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "years");
                     applyData = _this.FillYears(data, len, step);
                 }
                 else{
@@ -2152,10 +2161,10 @@ const luckysheetDropCell = {
 
                         let num = Math.ceil(i / data.length);
                         if(index == 0){
-                            step = moment(d["m"]).add(step_year * num, "years").diff(moment(d["m"]), "days");
+                            step = dayjs(d["m"]).add(step_year * num, "years").diff(dayjs(d["m"]), "days");
                         }
-                        
-                        let date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+
+                        let date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                         d["m"] = date;
                         d["v"] = genarate(date)[2];
                         applyData.push(d);
@@ -2170,7 +2179,7 @@ const luckysheetDropCell = {
                         data.reverse();
                     }
 
-                    let step = moment(data[1]["m"]).diff(moment(data[0]["m"]), "years");
+                    let step = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "years");
                     applyData = _this.FillYears(data, len, step);
                 }
                 else if((judgeDate[0] && judgeDate[3]) || judgeDate[2]){
@@ -2191,10 +2200,10 @@ const luckysheetDropCell = {
 
                         let num = Math.ceil(i / data.length);
                         if(index == 0){
-                            step = moment(d["m"]).add(step_year * num, "years").diff(moment(d["m"]), "days");
+                            step = dayjs(d["m"]).add(step_year * num, "years").diff(dayjs(d["m"]), "days");
                         }
-                        
-                        let date = moment(d["m"]).add(step, "days").format("YYYY-MM-DD");
+
+                        let date = dayjs(d["m"]).add(step, "days").format("YYYY-MM-DD");
                         d["m"] = date;
                         d["v"] = genarate(date)[2];
                         applyData.push(d);
@@ -2243,7 +2252,7 @@ const luckysheetDropCell = {
                 }
             }
         }
-        
+
         return applyData;
     },
     FillCopy: function(data, len){
@@ -2254,7 +2263,7 @@ const luckysheetDropCell = {
             let d = $.extend(true, {}, data[index]);
 
             applyData.push(d);
-        } 
+        }
 
         return applyData;
     },
@@ -2281,7 +2290,7 @@ const luckysheetDropCell = {
                 else if(direction == "up" || direction == "left"){
                     num = Number(data[0]["v"]) / Math.pow(Number(data[1]["v"]) / Number(data[0]["v"]), i);
                 }
-                
+
                 d["v"] = num;
                 d["m"] = update(d["ct"]["fa"], num);
                 applyData.push(d);
@@ -2314,30 +2323,22 @@ const luckysheetDropCell = {
         let _this = this;
 
         let applyData = [];
+        let reg = /0|([1-9]+[0-9]*)/g;
 
         for(let i = 1; i <= len; i++){
             let index = (i - 1) % data.length;
             let d = $.extend(true, {}, data[index]);
 
             let last = data[data.length - 1]["m"];
-            let lastTxt = _this.isExtendNumber(last)[1];
-            let lastNum = _this.isExtendNumber(last)[2];
+            let match = last.match(reg)
+            let lastTxt = match[match.length -1];
+            
+            let num = Math.abs(Number(lastTxt) + step * i);
+            let lastIndex = last.lastIndexOf(lastTxt);
+            let valueTxt = last.substr(0, lastIndex) + num.toString() + last.substr(lastIndex + lastTxt.length);
 
-            if(lastNum==""){
-                let num = Math.abs(Number(lastTxt) + step * i);
-                if(lastTxt.substr(0,1)=="0"){
-                    if(lastTxt.length>num.toString().length){
-                        num = "0" + num.toString();
-                    }
-                }
-                d["v"] = num.toString();
-                d["m"] = num.toString();
-            }
-            else{
-                let num = Math.abs(Number(lastNum) + step * i);
-                d["v"] = lastTxt + num.toString();
-                d["m"] = lastTxt + num.toString();
-            }
+            d["v"] = valueTxt;
+            d["m"] = valueTxt;
 
             applyData.push(d);
         }
@@ -2356,9 +2357,9 @@ const luckysheetDropCell = {
             delete d["v"];
 
             applyData.push(d);
-        } 
+        }
 
-        return applyData; 
+        return applyData;
     },
     FillWithoutFormat: function(dataArr){
         let applyData = [];
@@ -2387,7 +2388,7 @@ const luckysheetDropCell = {
             let d = $.extend(true, {}, data[index]);
 
             let date = update("yyyy-MM-dd", d["v"]);
-            date = moment(date).add(step * i, "days").format("YYYY-MM-DD");
+            date = dayjs(date).add(step * i, "days").format("YYYY-MM-DD");
 
             d["v"] = genarate(date)[2];
             d["m"] = update(d["ct"]["fa"], d["v"]);
@@ -2405,11 +2406,11 @@ const luckysheetDropCell = {
             let d = $.extend(true, {}, data[index]);
 
             let date = update("yyyy-MM-dd", d["v"]);
-            date = moment(date).add(step * i, "months").format("YYYY-MM-DD");
-            
+            date = dayjs(date).add(step * i, "months").format("YYYY-MM-DD");
+
             d["v"] = genarate(date)[2];
             d["m"] = update(d["ct"]["fa"], d["v"]);
-            
+
             applyData.push(d);
         }
 
@@ -2423,11 +2424,11 @@ const luckysheetDropCell = {
             let d = $.extend(true, {}, data[index]);
 
             let date = update("yyyy-MM-dd", d["v"]);
-            date = moment(date).add(step * i, "years").format("YYYY-MM-DD");
-            
+            date = dayjs(date).add(step * i, "years").format("YYYY-MM-DD");
+
             d["v"] = genarate(date)[2];
             d["m"] = update(d["ct"]["fa"], d["v"]);
-            
+
             applyData.push(d);
         }
 
@@ -2449,7 +2450,7 @@ const luckysheetDropCell = {
             else{
                 num = _this.ChineseToNumber(data[data.length - 1]["m"]) + step * i;
             }
-            
+
             if(num < 0){
                 num = Math.ceil(Math.abs(num) / 7) * 7 + num;
             }
@@ -2507,7 +2508,7 @@ const luckysheetDropCell = {
                 let txt = last.substr(last.length - 1, 1);
                 num = _this.ChineseToNumber(txt) + step * i;
             }
-            
+
             if(num < 0){
                 num = Math.ceil(Math.abs(num) / 7) * 7 + num;
             }
@@ -2565,7 +2566,7 @@ const luckysheetDropCell = {
                 let txt = last.substr(last.length - 1, 1);
                 num = _this.ChineseToNumber(txt) + step * i;
             }
-            
+
             if(num < 0){
                 num = Math.ceil(Math.abs(num) / 7) * 7 + num;
             }
@@ -2678,7 +2679,7 @@ const luckysheetDropCell = {
 
         let ax = getAverage(xArr); //x数组 平均值
         let ay = getAverage(yArr); //y数组 平均值
-        
+
         let sum_d = 0, sum_n = 0;
         for(let j = 0; j < xArr.length; j++){
             //分母和
@@ -2700,40 +2701,40 @@ const luckysheetDropCell = {
         return Math.round((a + b * x) * 100000) / 100000;
     },
     judgeDate: function(data){
-        let isSameDay = true, 
-            isSameMonth = true, 
-            isEqualDiffDays = true, 
-            isEqualDiffMonths = true, 
+        let isSameDay = true,
+            isSameMonth = true,
+            isEqualDiffDays = true,
+            isEqualDiffMonths = true,
             isEqualDiffYears = true;
-        let sameDay = moment(data[0]["m"]).date(), 
-            sameMonth = moment(data[0]["m"]).month(); 
-        let equalDiffDays = moment(data[1]["m"]).diff(moment(data[0]["m"]), "days");
-        let equalDiffMonths = moment(data[1]["m"]).diff(moment(data[0]["m"]), "months");
-        let equalDiffYears = moment(data[1]["m"]).diff(moment(data[0]["m"]), "years");
+        let sameDay = dayjs(data[0]["m"]).date(),
+            sameMonth = dayjs(data[0]["m"]).month();
+        let equalDiffDays = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "days");
+        let equalDiffMonths = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "months");
+        let equalDiffYears = dayjs(data[1]["m"]).diff(dayjs(data[0]["m"]), "years");
 
         for(let i = 1; i < data.length; i++){
             //日是否一样
-            if(moment(data[i]["m"]).date() != sameDay){
+            if(dayjs(data[i]["m"]).date() != sameDay){
                 isSameDay = false;
             }
             //月是否一样
-            if(moment(data[i]["m"]).month() != sameMonth){
+            if(dayjs(data[i]["m"]).month() != sameMonth){
                 isSameMonth = false;
             }
             //日差是否是 等差数列
-            if(moment(data[i]["m"]).diff(moment(data[i - 1]["m"]), "days") != equalDiffDays){
+            if(dayjs(data[i]["m"]).diff(dayjs(data[i - 1]["m"]), "days") != equalDiffDays){
                 isEqualDiffDays = false;
             }
             //月差是否是 等差数列
-            if(moment(data[i]["m"]).diff(moment(data[i - 1]["m"]), "months") != equalDiffMonths){
+            if(dayjs(data[i]["m"]).diff(dayjs(data[i - 1]["m"]), "months") != equalDiffMonths){
                 isEqualDiffMonths = false;
             }
             //年差是否是 等差数列
-            if(moment(data[i]["m"]).diff(moment(data[i - 1]["m"]), "years") != equalDiffYears){
+            if(dayjs(data[i]["m"]).diff(dayjs(data[i - 1]["m"]), "years") != equalDiffYears){
                 isEqualDiffYears = false;
             }
         }
-        
+
         if(equalDiffDays == 0){
             isEqualDiffDays = false;
         }

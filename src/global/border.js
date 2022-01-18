@@ -3,7 +3,7 @@ import { getObjType } from '../utils/util';
 import Store from '../store';
 
 //获取表格边框数据计算值
-function getBorderInfoCompute(sheetIndex) {
+function getBorderInfoComputeRange(dataset_row_st,dataset_row_ed,dataset_col_st,dataset_col_ed,sheetIndex) {
     let borderInfoCompute = {};
 
     let cfg, data; 
@@ -33,6 +33,22 @@ function getBorderInfoCompute(sheetIndex) {
                     let bd_r1 = borderRange[j].row[0], bd_r2 = borderRange[j].row[1];
                     let bd_c1 = borderRange[j].column[0], bd_c2 = borderRange[j].column[1];
 
+                    if(bd_r1<dataset_row_st){
+                        bd_r1 = dataset_row_st;
+                    }
+
+                    if(bd_r2>dataset_row_ed){
+                        bd_r2 = dataset_row_ed;
+                    }
+
+                    if(bd_c1<dataset_col_st){
+                        bd_c1 = dataset_col_st;
+                    }
+
+                    if(bd_c2>dataset_col_ed){
+                        bd_c2 = dataset_col_ed;
+                    }
+
                     if(borderType == "border-left"){
                         for(let bd_r = bd_r1; bd_r <= bd_r2; bd_r++){
                             if (cfg["rowhidden"] != null && cfg["rowhidden"][bd_r] != null) {
@@ -59,6 +75,14 @@ function getBorderInfoCompute(sheetIndex) {
                                 }
                                 else{
                                     borderInfoCompute[bd_r + "_" + bd_c_left].r = { "color": borderColor, "style": borderStyle }; 
+                                }
+                            }
+
+                            let mc = cfg["merge"] || {};  
+                            for (const key in mc) {
+                                let {c,r,cs,rs} = mc[key];
+                                if(bd_c1 <= c + cs - 1 && bd_c1 > c && bd_r >= r && bd_r <= r + rs -1){
+                                    borderInfoCompute[bd_r + "_" + bd_c1].l = null;
                                 }
                             }
                         }
@@ -91,6 +115,13 @@ function getBorderInfoCompute(sheetIndex) {
                                     borderInfoCompute[bd_r + "_" + bd_c_right].l = { "color": borderColor, "style": borderStyle }; 
                                 }
                             }
+                            let mc = cfg["merge"] || {};  
+                            for (const key in mc) {
+                                let {c,r,cs,rs} = mc[key];
+                                if(bd_c2 < c + cs - 1 && bd_c2 >= c && bd_r >= r && bd_r <= r + rs -1){
+                                    borderInfoCompute[bd_r + "_" + bd_c2].r = null;
+                                }
+                            }
                         }
                     }
                     else if(borderType == "border-top"){
@@ -121,6 +152,14 @@ function getBorderInfoCompute(sheetIndex) {
                                     borderInfoCompute[bd_r_top + "_" + bd_c].b = { "color": borderColor, "style": borderStyle };
                                 }
                             }
+
+                            let mc = cfg["merge"] || {};  
+                            for (const key in mc) {
+                                let {c,r,cs,rs} = mc[key];
+                                if(bd_r1 <= r + rs - 1 && bd_r1 > r && bd_c >= c && bd_c <= c + cs -1){
+                                    borderInfoCompute[bd_r1 + "_" + bd_c].t = null;
+                                }
+                            }
                         }
                     }
                     else if(borderType == "border-bottom"){
@@ -149,6 +188,14 @@ function getBorderInfoCompute(sheetIndex) {
                                 }
                                 else{
                                     borderInfoCompute[bd_r_bottom + "_" + bd_c].t = { "color": borderColor, "style": borderStyle }; 
+                                }
+                            }
+
+                            let mc = cfg["merge"] || {};  
+                            for (const key in mc) {
+                                let {c,r,cs,rs} = mc[key];
+                                if(bd_r2 < r + rs - 1 && bd_r2 >= r && bd_c >= c && bd_c <= c + cs -1){
+                                    borderInfoCompute[bd_r2 + "_" + bd_c].b = null;
                                 }
                             }
                         }
@@ -812,6 +859,10 @@ function getBorderInfoCompute(sheetIndex) {
 
                 let bd_r = value.row_index, bd_c = value.col_index;
 
+                if(bd_r < dataset_row_st || bd_r > dataset_row_ed || bd_c < dataset_col_st || bd_c > dataset_col_ed){
+                    continue;
+                }
+
                 if (cfg["rowhidden"] != null && cfg["rowhidden"][bd_r] != null) {
                     continue;
                 }
@@ -1029,6 +1080,25 @@ function getBorderInfoCompute(sheetIndex) {
     return borderInfoCompute;
 }
 
+function getBorderInfoCompute(sheetIndex) {
+    let borderInfoCompute = {};
+
+    let cfg, data; 
+    if(sheetIndex == null){
+        cfg = Store.config;
+        data = Store.flowdata;
+    }
+    else{
+        cfg = Store.luckysheetfile[getSheetIndex(sheetIndex)].config;
+        data = Store.luckysheetfile[getSheetIndex(sheetIndex)].data;
+    }
+
+    borderInfoCompute = getBorderInfoComputeRange(0, data.length,0, data[0].length, sheetIndex);
+
+    return borderInfoCompute;
+}
+
 export {
     getBorderInfoCompute,
+    getBorderInfoComputeRange
 }

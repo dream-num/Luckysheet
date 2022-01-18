@@ -1,6 +1,6 @@
 # 表格操作
 
-每一次操作都会保存历史记录，用于撤销和重做，如果在表格初始化的时候设置了`allowUpdate`为`true`和`updateUrl`数据更新地址，则会通过websocket将操作实时更新到后台，并且支持共享编辑。
+每一次操作都会保存历史记录，用于撤销和重做，如果在表格初始化的时候开启了[共享编辑](/zh/guide/config.html#updateurl)功能，则会通过websocket将操作实时更新到后台。
 
 > 源码 [`src/controllers/server.js`](https://github.com/mengshukeji/Luckysheet/blob/master/src/controllers/server.js) 模块实现了后台保存功能
 
@@ -1266,3 +1266,18 @@
     ```js
     luckysheetfile[0].chart[v.chart_id] = v;
     ```
+
+## 后端返回格式
+
+websocket 后端返回的数据格式
+```js
+{
+    createTime: 命令发送时间
+    data:{} 修改的命令
+    id: "7a"   websocket的id
+    returnMessage: "success"
+    status: "0"  0告诉前端需要根据data的命令修改  1无意义
+    type: 0：连接成功，1：发送给当前连接的用户，2：发送信息给其他用户，3：发送选区位置信息，999：用户连接断开
+    username: 用户名
+}
+```

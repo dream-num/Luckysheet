@@ -5,6 +5,8 @@ import sheetmanage from './sheetmanage';
 import {changeSheetContainerSize} from './resize';
 import { jfrefreshgrid_rhcw } from '../global/refresh';
 import server from './server';
+import luckysheetPostil from './postil';
+import imageCtrl from './imageCtrl';
 
 
 
@@ -25,10 +27,19 @@ export function zoomChange(ratio){
                 "sheetIndex": Store.currentSheetIndex, 
             });
         }
-    
+        currentWheelZoom = null;
         Store.zoomRatio = ratio;
 
         let currentSheet = sheetmanage.getSheetByIndex();
+
+        //批注
+        luckysheetPostil.buildAllPs(currentSheet.data);
+
+        //图片
+        imageCtrl.images = currentSheet.images;
+        imageCtrl.allImagesShow();
+        imageCtrl.init();
+
         if(currentSheet.config==null){
             currentSheet.config = {};
         }
@@ -66,9 +77,17 @@ export function zoomRefreshView(){
     // $scrollTop.scrollTop(st+hc-hp);
 }
 
-
+let currentWheelZoom = null;
 export function zoomInitial(){
 
+    // 缩放步长
+    const ZOOM_WHEEL_STEP = 0.02; // ctrl + 鼠标滚轮
+    const ZOOM_STEP = 0.1; // 点击以及 Ctrl + +-
+    
+    // 缩放最大最小比例
+    const MAX_ZOOM_RATIO = 4;
+    const MIN_ZOOM_RATIO = .1;
+    
     $("#luckysheet-zoom-minus").click(function(){
         let currentRatio;
         if(Store.zoomRatio==null){
@@ -78,14 +97,14 @@ export function zoomInitial(){
             currentRatio = Math.ceil(Store.zoomRatio*10)/10;
         }
 
-        currentRatio = currentRatio-0.1;
+        currentRatio = currentRatio-ZOOM_STEP;
 
         if(currentRatio==Store.zoomRatio){
-            currentRatio = currentRatio-0.1;
+            currentRatio = currentRatio-ZOOM_STEP;
         }
 
-        if(currentRatio<=0.1){
-            currentRatio = 0.1;
+        if(currentRatio<=MIN_ZOOM_RATIO){
+            currentRatio = MIN_ZOOM_RATIO;
         }
 
         // Store.zoomRatio = currentRatio;
@@ -102,14 +121,14 @@ export function zoomInitial(){
             currentRatio = Math.floor(Store.zoomRatio*10)/10;
         }
 
-        currentRatio = currentRatio+0.1;
+        currentRatio = currentRatio+ZOOM_STEP;
 
         if(currentRatio==Store.zoomRatio){
-            currentRatio = currentRatio+0.1;
+            currentRatio = currentRatio+ZOOM_STEP;
         }
 
-        if(currentRatio>=4){
-            currentRatio = 4;
+        if(currentRatio>=MAX_ZOOM_RATIO){
+            currentRatio = MAX_ZOOM_RATIO;
         }
 
         // Store.zoomRatio = currentRatio;
@@ -138,13 +157,13 @@ export function zoomInitial(){
             let pos = cursorLeft + offsetX; 
             let currentRatio = positionToRatio(pos);
 
-            if(currentRatio>4){
-                currentRatio =4;
+            if(currentRatio>MAX_ZOOM_RATIO){
+                currentRatio = MAX_ZOOM_RATIO;
                 pos = 100;
             }
 
-            if(currentRatio<0.1){
-                currentRatio =0.1;
+            if(currentRatio<MIN_ZOOM_RATIO){
+                currentRatio = MIN_ZOOM_RATIO;
                 pos = 0;
             }
 
@@ -172,11 +191,65 @@ export function zoomInitial(){
     });
 
     zoomNumberDomBind(Store.zoomRatio);
-}
 
+    currentWheelZoom = null;
+    // 拦截系统缩放快捷键 Ctrl + wheel
+    document.addEventListener(
+        'wheel',
+        function (ev) {
+            if (!ev.ctrlKey || !ev.deltaY) {
+                return;
+            }
+            if (currentWheelZoom === null) {
+                currentWheelZoom = Store.zoomRatio || 1;
+            }
+            currentWheelZoom += ev.deltaY < 0 ? ZOOM_WHEEL_STEP : -ZOOM_WHEEL_STEP;
+            if (currentWheelZoom >= MAX_ZOOM_RATIO) {
+                currentWheelZoom = MAX_ZOOM_RATIO;
+            } else if (currentWheelZoom < MIN_ZOOM_RATIO) {
+                currentWheelZoom = MIN_ZOOM_RATIO;
+            }
+            zoomChange(currentWheelZoom);
+            zoomNumberDomBind(currentWheelZoom);
+            ev.preventDefault();
+            ev.stopPropagation();
+        },
+        { capture: true, passive: false }
+    );
 
-function zoomSlierDown(){
-
+    // 拦截系统缩放快捷键 Ctrl + +/- 0
+    document.addEventListener(
+        'keydown',
+        function (ev) {
+            if (!ev.ctrlKey) {
+                return;
+            }
+            let handled = false;
+            let zoom = Store.zoomRatio || 1;
+            if (ev.key === '-' || ev.which === 189) {
+                zoom -= ZOOM_STEP;
+                handled = true;
+            } else if (ev.key === '+' || ev.which === 187) {
+                zoom += ZOOM_STEP;
+                handled = true;
+            } else if (ev.key === '0' || ev.which === 48) {
+                zoom = 1;
+                handled = true;
+            }
+    
+            if (handled) {
+                ev.preventDefault();
+                if (zoom >= MAX_ZOOM_RATIO) {
+                    zoom = MAX_ZOOM_RATIO;
+                } else if (zoom < MIN_ZOOM_RATIO) {
+                    zoom = MIN_ZOOM_RATIO;
+                }
+                zoomChange(zoom);
+                zoomNumberDomBind(zoom);
+            }
+        },
+        { capture: true }
+    );
 }
 
 function positionToRatio(pos){

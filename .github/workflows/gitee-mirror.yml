@@ -1,0 +1,40 @@
+# 使用 GitHub Action 来解决手动同步到 Gitee 的问题
+# 效果：github repo 代码更新之后，会自动同步至 gitee
+# 使用到的 GitHub Action：https://github.com/Yikun/hub-mirror-action
+
+# This is a basic workflow to help you get started with Actions
+
+name: gitee-mirror<sync2gitee.com>
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Mirror the Github organization repos to Gitee.
+      uses: Yikun/hub-mirror-action@master
+      with:
+        src: github/mengshukeji
+        dst: gitee/mengshukeji
+        # 这里请填写与gitee上公钥匹配的的 ssh private key，参见：https://gitee.com/profile/sshkeys
+        # 填写地址：https://github.com/ly525/luban-h5/settings/secrets
+        dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+        # 这里请填写 gitee的令牌，参见：https://gitee.com/profile/personal_access_tokens
+        # 填写地址：https://github.com/ly525/luban-h5/settings/secrets
+        dst_token: ${{ secrets.GITEE_TOKEN }}
+        # 项目同步白名单，可以选择填写多个，以英文逗号分割
+        static_list: "Luckyexcel,Luckysheet,LuckysheetDemo,LuckyexcelDemo,LuckysheetDocs,chartMix,LuckysheetServer"
+        # 是否强制同步
+        force_update: true
+        # 账号类型：对 luban-h5 而言是 user，因为是个人项目；如果是企业项目，请填写 org，因为是组织下的项目
+        account_type: user

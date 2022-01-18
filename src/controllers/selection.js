@@ -8,13 +8,14 @@ import formula from '../global/formula';
 import { getBorderInfoCompute } from '../global/border';
 import { getdatabyselection, getcellvalue, datagridgrowth } from '../global/getdata';
 import { rowlenByRange } from '../global/getRowlen';
-import { isEditMode, hasPartMC } from '../global/validate';
+import { isEditMode, hasPartMC, isRealNum } from '../global/validate';
 import { jfrefreshgrid, jfrefreshgrid_pastcut } from '../global/refresh';
 import { genarate, update } from '../global/format';
 import { getSheetIndex } from '../methods/get';
 import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import imageCtrl from './imageCtrl';
 
 const selection = {
     clearcopy: function (e) {
@@ -29,7 +30,7 @@ const selection = {
         Store.luckysheet_selection_range = [];
         selectionCopyShow();
         // Store.luckysheet_copy_save = {};
-        
+
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content").css("visibility", "hidden");
             textarea.val(cpdata);
@@ -46,19 +47,19 @@ const selection = {
     getHtmlBorderStyle: function(type, color){
         let style = "";
         let borderType = {
-            "0": "none", 
-            "1": "Thin", 
-            "2": "Hair", 
-            "3": "Dotted", 
-            "4": "Dashed", 
-            "5": "DashDot", 
-            "6": "DashDotDot", 
-            "7": "Double", 
-            "8": "Medium", 
-            "9": "MediumDashed", 
-            "10": "MediumDashDot", 
-            "11": "MediumDashDotDot", 
-            "12": "SlantedDashDot", 
+            "0": "none",
+            "1": "Thin",
+            "2": "Hair",
+            "3": "Dotted",
+            "4": "Dashed",
+            "5": "DashDot",
+            "6": "DashDotDot",
+            "7": "Double",
+            "8": "Medium",
+            "9": "MediumDashed",
+            "10": "MediumDashDot",
+            "11": "MediumDashDotDot",
+            "12": "SlantedDashDot",
             "13": "Thick"
         };
         type = borderType[type.toString()];
@@ -70,7 +71,7 @@ const selection = {
             style += "1.5pt ";
         }
         else {
-            style += "0.5pt ";    
+            style += "0.5pt ";
         }
 
         if(type == "Hair"){
@@ -83,7 +84,7 @@ const selection = {
             style += "dashed ";
         }
         else if(type.indexOf("Dotted") > -1){
-            style += "dotted "; 
+            style += "dotted ";
         }
         else if(type.indexOf("Dashed") > -1){
             style += "dashed ";
@@ -150,26 +151,26 @@ const selection = {
         selectionCopyShow();
 
         //luckysheet内copy保存
-        Store.luckysheet_copy_save = { 
-            "dataSheetIndex": Store.currentSheetIndex, 
-            "copyRange": copyRange, 
-            "RowlChange": RowlChange, 
-            "HasMC": HasMC 
+        Store.luckysheet_copy_save = {
+            "dataSheetIndex": Store.currentSheetIndex,
+            "copyRange": copyRange,
+            "RowlChange": RowlChange,
+            "HasMC": HasMC
         };
 
         //copy范围数据拼接成table 赋给剪贴板
         let _this = this;
-        
+
         let borderInfoCompute;
         if(Store.config["borderInfo"] && Store.config["borderInfo"].length > 0){ //边框
             borderInfoCompute = getBorderInfoCompute();
         }
 
-        let cpdata = "", 
+        let cpdata = "",
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        // rowIndexArr = rowIndexArr.sort(); 
+        // rowIndexArr = rowIndexArr.sort();
         // colIndexArr = colIndexArr.sort();
 
         for (let i = 0; i < rowIndexArr.length; i++) {
@@ -228,9 +229,9 @@ const selection = {
 
                             //边框
                             if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
-                                let bl_obj = { "color": {}, "style": {} }, 
-                                    br_obj = { "color": {}, "style": {} }, 
-                                    bt_obj = { "color": {}, "style": {} }, 
+                                let bl_obj = { "color": {}, "style": {} },
+                                    br_obj = { "color": {}, "style": {} },
+                                    bt_obj = { "color": {}, "style": {} },
                                     bb_obj = { "color": {}, "style": {} };
 
                                 for(let bd_r = r; bd_r < (r + d[r][c]["mc"].rs); bd_r++){
@@ -276,7 +277,7 @@ const selection = {
                                         if(bd_c == c && borderInfoCompute[bd_r + "_" + bd_c] && borderInfoCompute[bd_r + "_" + bd_c].l){
                                             let linetype = borderInfoCompute[r + "_" + c].l.style;
                                             let bcolor = borderInfoCompute[bd_r + "_" + bd_c].l.color;
-                                            
+
                                             if(bl_obj["style"][linetype] == null){
                                                 bl_obj["style"][linetype] = 1;
                                             }
@@ -438,16 +439,27 @@ const selection = {
                     if(c_value == null){
                         c_value = getcellvalue(r, c, d);
                     }
+                    if(c_value == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                      c_value = d[r][c].ct.s.map(val=>{
+                        const font = $('<font></font>')
+                        val.fs && font.css('font-size',val.fs)
+                        val.bl && font.css('font-weight',val.border)
+                        val.it && font.css('font-style',val.italic)
+                        val.cl==1 && font.css('text-decoration','underline')
+                        font.text(val.v)
+                        return font[0].outerHTML
+                      }).join('');
+                    }
 
                     if(c_value == null){
-                        c_value = " ";
+                        c_value = "";
                     }
 
                     column += c_value;
                 }
                 else {
                     let style = "";
-                    
+
                     //边框
                     if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
                         //左边框
@@ -500,7 +512,7 @@ const selection = {
                     }
 
                     column = replaceHtml(column, {"style": style, "span": ""});
-                    column += " ";
+                    column += "";
                 }
 
                 column += '</td>';
@@ -520,10 +532,20 @@ const selection = {
             textarea.select();
             document.execCommand("selectAll");
             document.execCommand("Copy");
+
             // 等50毫秒，keyPress事件发生了再去处理数据
-            setTimeout(function () { 
-                $("#luckysheet-copy-content").blur(); 
+            setTimeout(function () {
+                $("#luckysheet-copy-content").blur();
             }, 10);
+
+            // var oInput = document.createElement('input');
+            // oInput.setAttribute('readonly', 'readonly');
+            // oInput.value = cpdata;
+            // document.body.appendChild(oInput);
+            // oInput.select(); // 选择对象
+            // document.execCommand("Copy");
+            // oInput.style.display='none';
+            // document.body.removeChild(oInput);
         }
         else {
             clipboardData.setData('Text', cpdata);
@@ -557,7 +579,7 @@ const selection = {
             return false;//否则设不生效
         }
     },
-    isPasteAction: false, 
+    isPasteAction: false,
     paste: function (e, triggerType) {//paste事件
         let _this = this;
 
@@ -586,6 +608,9 @@ const selection = {
                     _this.pasteHandlerOfCopyPaste(Store.luckysheet_copy_save);
                 }
             }
+            else if(data.indexOf("luckysheet_copy_action_image") > - 1){
+                imageCtrl.pasteImgItem();
+            }
             else if (triggerType != "btn") {
                 _this.pasteHandler(data);
             }
@@ -613,7 +638,7 @@ const selection = {
                 alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对多重选择区域执行此操作，请选择单个区域，然后再试"); 
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对多重选择区域执行此操作，请选择单个区域，然后再试");
             }
         }
 
@@ -632,27 +657,27 @@ const selection = {
             let copyh = data.length, copyc = data[0].length;
 
             let minh = Store.luckysheet_select_save[0].row[0], //应用范围首尾行
-                maxh = minh + copyh - 1;            
+                maxh = minh + copyh - 1;
             let minc = Store.luckysheet_select_save[0].column[0], //应用范围首尾列
-                maxc = minc + copyc - 1;         
+                maxc = minc + copyc - 1;
 
             //应用范围包含部分合并单元格，则return提示
             let has_PartMC = false;
             if(cfg["merge"] != null){
                 has_PartMC = hasPartMC(cfg, minh, maxh, minc, maxc);
             }
-            
+
             if(has_PartMC){
                 if(isEditMode()){
                     alert("不能对合并单元格做部分更改");
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对合并单元格做部分更改");  
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对合并单元格做部分更改");
                 }
 
                 return;
             }
-            
+
             let d = editor.deepCopyFlowData(Store.flowdata);//取数据
             let rowMaxLength = d.length;
             let cellMaxLength = d[0].length;
@@ -666,12 +691,12 @@ const selection = {
             if(cfg["rowlen"] == null){
                 cfg["rowlen"] = {};
             }
-            
+
             let RowlChange = false;
             let offsetMC = {};
             for (let h = minh; h <= maxh; h++) {
                 let x = [].concat(d[h]);
-                
+
                 let currentRowLen = Store.defaultrowlen;
                 if(cfg["rowlen"][h] != null){
                     currentRowLen = cfg["rowlen"][h];
@@ -700,29 +725,29 @@ const selection = {
 
                             cfg["merge"][x[c]["mc"].r + "_" + x[c]["mc"].c] = x[c]["mc"];
 
-                            offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c]; 
+                            offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c];
                         }
                         else{
-                            x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }                                        
+                            x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }
                         }
                     }
 
                     if(borderInfo[(h - minh) + "_" + (c - minc)]){
                         let bd_obj = {
                             "rangeType": "cell",
-                            "value": { 
-                                "row_index": h, 
-                                "col_index": c, 
-                                "l": borderInfo[(h - minh) + "_" + (c - minc)].l, 
+                            "value": {
+                                "row_index": h,
+                                "col_index": c,
+                                "l": borderInfo[(h - minh) + "_" + (c - minc)].l,
                                 "r": borderInfo[(h - minh) + "_" + (c - minc)].r,
                                 "t": borderInfo[(h - minh) + "_" + (c - minc)].t,
-                                "b": borderInfo[(h - minh) + "_" + (c - minc)].b 
+                                "b": borderInfo[(h - minh) + "_" + (c - minc)].b
                             }
                         }
 
                         cfg["borderInfo"].push(bd_obj);
                     }
-                    
+
                     let fontset = luckysheetfontformat(x[c]);
                     let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
                     //比较计算高度和当前高度取最大高度
@@ -739,8 +764,8 @@ const selection = {
             }
 
             Store.luckysheet_select_save = [{ "row": [minh, maxh], "column": [minc, maxc] }];
-            
-            
+
+
             if(addr > 0 || addc > 0 || RowlChange){
                 let allParam = {
                     "cfg": cfg,
@@ -759,9 +784,9 @@ const selection = {
         else {
             data = data.replace(/\r/g, "");
             let dataChe = [];
-            let che = data.split("\n"), 
+            let che = data.split("\n"),
                 colchelen = che[0].split("\t").length;
-            
+
             for (let i = 0; i < che.length; i++) {
                 if (che[i].split("\t").length < colchelen) {
                     continue;
@@ -769,7 +794,7 @@ const selection = {
 
                 dataChe.push(che[i].split("\t"));
             }
-            
+
             let d = editor.deepCopyFlowData(Store.flowdata);//取数据
 
             let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
@@ -782,13 +807,13 @@ const selection = {
             if(Store.config["merge"] != null){
                 has_PartMC = hasPartMC(Store.config, curR, curR + rlen - 1, curC, curC + clen - 1);
             }
-            
+
             if(has_PartMC){
                 if(isEditMode()){
                     alert("不能对合并单元格做部分更改");
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");  
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
                 }
                 return;
             }
@@ -801,14 +826,40 @@ const selection = {
             for (let r = 0; r < rlen; r++) {
                 let x = [].concat(d[r + curR]);
                 for (let c = 0; c < clen; c++) {
-                    let cell = {};
+                    let originCell = x[c + curC];
+                    let value = dataChe[r][c];
+                    if(isRealNum(value)){
+                        // 如果单元格设置了纯文本格式，那么就不要转成数值类型了，防止数值过大自动转成科学计数法
+                        if (originCell && originCell.ct && originCell.ct.fa === '@') {
+                            value = String(value);
+                        } else {
+                            value = parseFloat(value);
+                        } 
+                    }
+                    if(originCell instanceof Object){
+                        originCell.v = value;
+                        if(originCell.ct!=null && originCell.ct.fa!=null){
+                            originCell.m = update(originCell["ct"]["fa"], value);
+                        }
+                        else{
+                            originCell.m = value;
+                        }
 
-                    let mask = genarate(dataChe[r][c]);
-                    cell.v = mask[2];
-                    cell.ct = mask[1];
-                    cell.m = mask[0];
+                        if(originCell.f!=null && originCell.f.length>0){
+                            originCell.f = "";
+                            formula.delFunctionGroup(r + curR,c + curC,Store.currentSheetIndex);
+                        }
+                    }
+                    else{
+                        let cell = {};
+                        let mask = genarate(value);
+                        cell.v = mask[2];
+                        cell.ct = mask[1];
+                        cell.m = mask[0];
 
-                    x[c + curC] = cell;
+                        x[c + curC] = cell;
+                    }
+
                 }
                 d[r + curR] = x;
             }
@@ -865,13 +916,13 @@ const selection = {
         if(cfg["merge"] != null){
             has_PartMC = hasPartMC(cfg, minh, maxh, minc, maxc);
         }
-        
+
         if(has_PartMC){
             if(isEditMode()){
                 alert("不能对合并单元格做部分更改");
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");  
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
             }
             return;
         }
@@ -888,7 +939,7 @@ const selection = {
         let borderInfoCompute = getBorderInfoCompute(copySheetIndex);
         let c_dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(copySheetIndex)]["dataVerification"]);
         let dataVerification = $.extend(true, {}, Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)]["dataVerification"]);
-        
+
         //剪切粘贴在当前表操作，删除剪切范围内数据、合并单元格和数据验证
         if(Store.currentSheetIndex == copySheetIndex){
             for(let i = c_r1; i <= c_r2; i++){
@@ -921,9 +972,9 @@ const selection = {
 
                         for(let j = 0; j < bd_range.length; j++){
                             bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(
-                                bd_range[j], 
-                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                                {"row": [minh, maxh], "column": [minc, maxc]}, 
+                                bd_range[j],
+                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                                {"row": [minh, maxh], "column": [minc, maxc]},
                                 "restPart"
                             ));
                         }
@@ -1016,10 +1067,10 @@ const selection = {
 
                         cfg["merge"][x[c]["mc"].r + "_" + x[c]["mc"].c] = x[c]["mc"];
 
-                        offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c]; 
+                        offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c];
                     }
                     else{
-                        x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }                                        
+                        x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }
                     }
                 }
             }
@@ -1029,7 +1080,7 @@ const selection = {
 
         last["row"] = [minh, maxh];
         last["column"] = [minc, maxc];
-        
+
         //若有行高改变，重新计算行高改变
         if(copyRowlChange){
             if(Store.currentSheetIndex != copySheetIndex){
@@ -1084,9 +1135,9 @@ const selection = {
 
                         for(let j = 0; j < bd_range.length; j++){
                             bd_emptyRange = bd_emptyRange.concat(conditionformat.CFSplitRange(
-                                bd_range[j], 
-                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                                {"row": [minh, maxh], "column": [minc, maxc]}, 
+                                bd_range[j],
+                                {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                                {"row": [minh, maxh], "column": [minc, maxc]},
                                 "restPart"
                             ));
                         }
@@ -1120,18 +1171,18 @@ const selection = {
 
                     for(let j = 0; j < source_curCdformat_cellrange.length; j++){
                         let range = conditionformat.CFSplitRange(
-                            source_curCdformat_cellrange[j], 
-                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            source_curCdformat_cellrange[j],
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                            {"row": [minh, maxh], "column": [minc, maxc]},
                             "restPart"
                         );
 
                         emptyRange = emptyRange.concat(range);
 
                         let range2 = conditionformat.CFSplitRange(
-                            source_curCdformat_cellrange[j], 
-                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            source_curCdformat_cellrange[j],
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                            {"row": [minh, maxh], "column": [minc, maxc]},
                             "operatePart"
                         );
 
@@ -1156,7 +1207,7 @@ const selection = {
                 target_curCdformat = target_curCdformat.concat(ruleArr);
             }
 
-            //数据验证 
+            //数据验证
             for(let i = c_r1; i <= c_r2; i++){
                 for(let j = c_c1; j <= c_c2; j++){
                     delete c_dataVerification[i + "_" + j];
@@ -1205,9 +1256,9 @@ const selection = {
 
                     for(let j = 0; j < cellrange.length; j++){
                         let range = conditionformat.CFSplitRange(
-                            cellrange[j], 
-                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                            {"row": [minh, maxh], "column": [minc, maxc]}, 
+                            cellrange[j],
+                            {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                            {"row": [minh, maxh], "column": [minc, maxc]},
                             "allPart"
                         );
 
@@ -1343,13 +1394,13 @@ const selection = {
         if(cfg["merge"] != null){
             has_PartMC = hasPartMC(cfg, minh, maxh, minc, maxc);
         }
-        
+
         if(has_PartMC){
             if(isEditMode()){
                 alert("不能对合并单元格做部分更改");
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");  
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
             }
             return;
         }
@@ -1493,10 +1544,10 @@ const selection = {
 
                                 cfg["merge"][x[c]["mc"].r + "_" + x[c]["mc"].c] = x[c]["mc"];
 
-                                offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c]; 
+                                offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c];
                             }
                             else{
-                                x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }                                        
+                                x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }
                             }
                         }
                     }
@@ -1511,7 +1562,7 @@ const selection = {
         if(copyRange["copyRange"].length == 1){
             let c_file = Store.luckysheetfile[getSheetIndex(copySheetIndex)];
             let a_file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
-            
+
             let ruleArr_cf = $.extend(true, [], c_file["luckysheet_conditionformat_save"]);
 
             if(ruleArr_cf != null && ruleArr_cf.length > 0){
@@ -1531,9 +1582,9 @@ const selection = {
 
                             for(let j = 0; j < cf_range.length; j++){
                                 let range = conditionformat.CFSplitRange(
-                                    cf_range[j], 
-                                    {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                                    {"row": [mth, maxrowCache - 1], "column": [mtc, maxcellCahe - 1]}, 
+                                    cf_range[j],
+                                    {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                                    {"row": [mth, maxrowCache - 1], "column": [mtc, maxcellCahe - 1]},
                                     "operatePart"
                                 );
 
@@ -1573,7 +1624,7 @@ const selection = {
                 "dataVerification": dataVerification
             }
             jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
-            
+
             selectHightlightShow();
         }
     },
@@ -1595,7 +1646,7 @@ const selection = {
             c_r2 = copyRange["copyRange"][0].row[1],
             c_c1 = copyRange["copyRange"][0].column[0],
             c_c2 = copyRange["copyRange"][0].column[1];
-        
+
         let copyData = $.extend(true, [], getdatabyselection({"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, copySheetIndex));
 
         //应用范围
@@ -1611,18 +1662,18 @@ const selection = {
             if(cfg["merge"] != null){
                 has_PartMC = hasPartMC(cfg, minh, minh + copyh - 1, minc, minc + copyc - 1);
             }
-            
+
             if(has_PartMC){
                 if(isEditMode()){
                     alert("不能对合并单元格做部分更改");
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");  
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
                 }
                 return;
             }
 
-            maxh = minh + copyh - 1; 
+            maxh = minh + copyh - 1;
             maxc = minc + copyc - 1;
         }
 
@@ -1724,14 +1775,28 @@ const selection = {
                             delete value["f"];
                             delete value["spl"];
 
-                            if(getObjType(x[c]) == "object"){
+                            if(value.ct && value.ct.t == 'inlineStr'){
+                                delete value.ct;
+                            }
 
+                            if(getObjType(x[c]) == "object"){
+                                if(x[c].ct && x[c].ct.t === "inlineStr"){
+                                    delete value["ct"];
+                                }else{
+                                    let format = ['bg','fc','ct','ht','vt','bl','it','cl','un','fs','ff','tb']
+                                    format.forEach(item=>{
+                                        Reflect.deleteProperty(x[c],item);
+                                    })
+                                }
                             }
                             else{
                                 x[c] = {"v": x[c] };
                             }
 
                             x[c] = $.extend(true, x[c], value);
+                            if(x[c].ct && x[c].ct.t === "inlineStr"){  
+                                x[c].ct.s.forEach(item=> item = $.extend(true, item, value))
+                            }
 
                             if(copyHasMC && ("mc" in x[c])){
                                 if(x[c]["mc"].rs != null){
@@ -1747,10 +1812,10 @@ const selection = {
 
                                     cfg["merge"][x[c]["mc"].r + "_" + x[c]["mc"].c] = x[c]["mc"];
 
-                                    offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c]; 
+                                    offsetMC[value["mc"].r + "_" + value["mc"].c] = [x[c]["mc"].r, x[c]["mc"].c];
                                 }
                                 else{
-                                    x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }                                        
+                                    x[c] = { "mc": { r: offsetMC[value["mc"].r + "_" + value["mc"].c][0], c: offsetMC[value["mc"].r + "_" + value["mc"].c][1] } }
                                 }
                             }
 
@@ -1781,9 +1846,9 @@ const selection = {
 
                 for(let j = 0; j < cdformat_cellrange.length; j++){
                     let range = conditionformat.CFSplitRange(
-                        cdformat_cellrange[j], 
-                        {"row": [c_r1, c_r2], "column": [c_c1, c_c2]}, 
-                        {"row": [minh, maxh], "column": [minc, maxc]}, 
+                        cdformat_cellrange[j],
+                        {"row": [c_r1, c_r2], "column": [c_c1, c_c2]},
+                        {"row": [minh, maxh], "column": [minc, maxc]},
                         "operatePart"
                     );
 
@@ -1814,13 +1879,19 @@ const selection = {
             jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
         }
         else{
+            // 选区格式刷存在超出边界的情况
+             if(maxh >= d.length){
+                maxh = d.length - 1;
+            }
+            cfg = rowlenByRange(d, minh, maxh, cfg); //更新行高
             let allParam = {
                 "cfg": cfg,
+                "RowlChange": true,
                 "cdformat": cdformat,
                 "dataVerification": dataVerification
             }
             jfrefreshgrid(d, Store.luckysheet_select_save, allParam);
-            
+
             selectHightlightShow();
         }
     },
@@ -1871,7 +1942,7 @@ const selection = {
             if (Store.config["rowhidden"] != null && Store.config["rowhidden"][r] != null) {
                 continue;
             }
-            
+
             for (let c = 0; c < data1cache[0].length; c++) {
                 if (getcellvalue(r, c, data1cache) != getcellvalue(r, c, data2cache)) {
                     return false;

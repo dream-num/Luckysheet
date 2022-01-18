@@ -6,6 +6,7 @@ import menuButton from './menuButton';
 import {checkProtectionNotEnable} from './protection';
 import { jfrefreshgrid } from '../global/refresh';
 import locale from '../locale/locale';
+import { setcellvalue } from '../global/setdata';
 
 
 let isInitialCellFormatModel = false;
@@ -22,9 +23,17 @@ function initialCellFormatModelEvent(){
         hidden = hidden==true?1:0;
 
         let d = recycleSeletion(
-            function(cell){
-                cell.lo = locked;
-                cell.hi = hidden;
+            function(cell, r, c, data){
+                if(cell==null){
+                    setcellvalue(r, c, data, {
+                        lo:locked,
+                        hi:hidden
+                    });
+                }
+                else{
+                    cell.lo = locked;
+                    cell.hi = hidden;
+                }
             },
             function(){
                 alert(local_cellFormat.sheetDataIsNullAlert);
@@ -79,7 +88,8 @@ function recycleSeletion(cycleFunction, dataIsNullFunction){
                         // }
 
                         // count++;
-                        cycleFunction(cell);
+
+                        cycleFunction(cell, r, c, data);
                     }
                 }
             }
@@ -152,12 +162,12 @@ export function openCellFormatModel(){
         recycleSeletion(
             function(cell){
                 // let cell = data[r][c];
-                if(cell.lo==null || cell.lo==1){
+                if(cell==null || cell.lo==null || cell.lo==1){
                     locked = true;
                     lockedCount++;
                 }
 
-                if(cell.hi==1){
+                if(cell!=null && cell.hi==1){
                     hidden = true;
                     hiddenCount++;
                 }

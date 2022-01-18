@@ -1,9 +1,11 @@
 import { columeHeader_word, columeHeader_word_index, luckysheetdefaultFont } from '../controllers/constant';
 import menuButton from '../controllers/menuButton';
 import { isdatatype, isdatatypemulti } from '../global/datecontroll';
-import { hasChinaword } from '../global/validate';
+import { hasChinaword,isRealNum } from '../global/validate';
 import Store from '../store';
-import locale from '../locale/locale'; 
+import locale from '../locale/locale';
+import numeral from 'numeral';
+// import method from '../global/method';
 
 /**
  * Common tool methods
@@ -37,6 +39,10 @@ function common_extend(jsonbject1, jsonbject2) {
     }
 
     for (let attr in jsonbject2) {
+        // undefined is equivalent to no setting
+        if(jsonbject2[attr] == undefined){
+            continue;
+        }
         resultJsonObject[attr] = jsonbject2[attr];
     }
 
@@ -71,6 +77,38 @@ function getObjType(obj) {
     // }
 
     return map[toString.call(obj)];
+}
+
+//获取当前日期时间
+function getNowDateTime(format) {
+    let now = new Date();
+    let year = now.getFullYear();  //得到年份
+    let month = now.getMonth();  //得到月份
+    let date = now.getDate();  //得到日期
+    let day = now.getDay();  //得到周几
+    let hour = now.getHours();  //得到小时
+    let minu = now.getMinutes();  //得到分钟
+    let sec = now.getSeconds();  //得到秒
+
+    month = month + 1;
+    if (month < 10) month = "0" + month;
+    if (date < 10) date = "0" + date;
+    if (hour < 10) hour = "0" + hour;
+    if (minu < 10) minu = "0" + minu;
+    if (sec < 10) sec = "0" + sec;
+
+    let time = '';
+
+    //日期
+    if(format == 1) {
+        time = year + "-" + month + "-" + date;
+    }
+    //日期时间
+    else if(format == 2) {
+        time = year + "-" + month + "-" + date+ " " + hour + ":" + minu + ":" + sec;
+    }
+
+    return time;
 }
 
 //颜色 16进制转rgb
@@ -293,8 +331,16 @@ function createABCdim(x, count) {
     }
 };
 
-//计算字符串字节长度
-function getByteLen(val) {
+/**
+ * 计算字符串字节长度
+ * @param {*} val 字符串
+ * @param {*} subLen 要截取的字符串长度
+ */
+function getByteLen(val,subLen) {
+    if(subLen === 0){
+        return "";
+    }
+
     if (val == null) {
         return 0;
     }
@@ -309,6 +355,11 @@ function getByteLen(val) {
         else {
             len += 1;
         }
+
+        if(isRealNum(subLen) && len === ~~subLen){
+            return val.substring(0,i)
+        }
+
     }
 
     return len;
@@ -357,7 +408,7 @@ function luckysheetfontformat(format) {
 
         //font-size/line-height
         if (!format.fs) {
-            font += "10pt ";
+            font += Store.defaultFontSize + "pt ";
         }
         else {
             font += Math.ceil(format.fs) + "pt ";
@@ -428,20 +479,27 @@ function showrightclickmenu($menu, x, y) {
 function luckysheetactiveCell() {
     if (!!Store.fullscreenmode) {
         setTimeout(function () {
-            $("#luckysheet-rich-text-editor").focus().select();
+            // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+            const input = document.getElementById('luckysheet-rich-text-editor');
+            input.focus({preventScroll:true});
+            $("#luckysheet-rich-text-editor").select();
+            // $("#luckysheet-rich-text-editor").focus().select();
         }, 50);
     }
 }
 
 //单元格编辑聚焦
 function luckysheetContainerFocus() {
+    
     // $("#" + Store.container).focus({ 
     //     preventScroll: true 
     // });
     
     // fix jquery error: Uncaught TypeError: ((n.event.special[g.origType] || {}).handle || g.handler).apply is not a function
+    // $("#" + Store.container).attr("tabindex", 0).focus();
 
-    $("#" + Store.container).attr("tabindex", 0).focus();
+    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+    document.getElementById(Store.container).focus({preventScroll:true});
 }
 
 //数字格式
@@ -738,12 +796,105 @@ function openSelfModel(id, isshowMask=true){
     }
 }
 
+/**
+ * 监控对象变更
+ * @param {*} data 
+ */
+// const createProxy = (data,list=[]) => {
+//     if (typeof data === 'object' && data.toString() === '[object Object]') {
+//       for (let k in data) {
+//         if(list.includes(k)){
+//             if (typeof data[k] === 'object') {
+//               defineObjectReactive(data, k, data[k])
+//             } else {
+//               defineBasicReactive(data, k, data[k])
+//             }
+//         }
+//       }
+//     }
+// }
 
+const createProxy = (data, k, callback) => {
+    if(!data.hasOwnProperty(k)){ 
+        console.info('No %s in data',k);
+        return; 
+    };
+
+    if (getObjType(data) === 'object') {
+        if (getObjType(data[k]) === 'object' || getObjType(data[k]) === 'array') {
+            defineObjectReactive(data, k, data[k], callback)
+        } else {
+            defineBasicReactive(data, k, data[k], callback)
+        }
+    }
+}
+  
+function defineObjectReactive(obj, key, value, callback) {
+    // 递归
+    obj[key] = new Proxy(value, {
+      set(target, property, val, receiver) {
+        
+          setTimeout(() => {
+            callback(target, property, val, receiver);
+          }, 0);
+
+        return Reflect.set(target, property, val, receiver)
+      }
+    })
+}
+  
+function defineBasicReactive(obj, key, value, callback) {
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: false,
+      get() {
+        return value
+      },
+      set(newValue) {
+        if (value === newValue) return
+        console.log(`发现 ${key} 属性 ${value} -> ${newValue}`)
+
+        setTimeout(() => {
+            callback(value,newValue);
+        }, 0);
+
+        value = newValue
+
+      }
+    })
+}
+
+/**
+ * Remove an item in the specified array
+ * @param {array} array Target array 
+ * @param {string} item What needs to be removed
+ */
+function arrayRemoveItem(array, item) {
+    array.some((curr, index, arr)=>{
+        if(curr === item){
+            arr.splice(index, 1);
+            return curr === item;
+        }
+    })
+}
+
+/**
+ * camel 形式的单词转换为 - 形式 如 fillColor -> fill-color
+ * @param {string} camel camel 形式
+ * @returns
+ */
+ function camel2split(camel) {
+    return camel.replace(/([A-Z])/g, function(all, group) {
+        return '-' + group.toLowerCase();
+    });
+}
+  
 export {
     isJsonString,
     common_extend,
     replaceHtml,
     getObjType,
+    getNowDateTime,
     hexToRgb,
     rgbTohex,
     ABCatNum,
@@ -764,5 +915,8 @@ export {
     loadLinks,
     luckysheetContainerFocus,
     transformRangeToAbsolute,
-    openSelfModel
+    openSelfModel,
+    createProxy,
+    arrayRemoveItem,
+    camel2split
 }

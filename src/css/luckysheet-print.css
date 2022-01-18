@@ -1,7 +1,8 @@
 .luckysheet-print-viewList{
-    position: absolute;
+    position: relative;
+    float: right;
     width:126px;
-    right: 222px;
+    /* right: 222px; */
     height: 22px;
     line-height: 22px;
     text-align: center;
@@ -14,6 +15,7 @@
 
 .luckysheet-print-viewBtn {
     position: absolute;
+    top: 0;
     left: 0px;
     width: 42px;
     height:22px;

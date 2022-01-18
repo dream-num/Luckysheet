@@ -1,6 +1,7 @@
 import { isRealNum, valueIsError } from './validate';
 import { isdatetime } from './datecontroll';
 import { getcellvalue } from './getdata';
+import numeral from 'numeral';
 
 var SSF = ({});
 var make_ssf = function make_ssf(SSF) {
@@ -1352,6 +1353,7 @@ var make_ssf = function make_ssf(SSF) {
         var retval = "";
         for (i = 0; i !== out.length; ++i)
             if (out[i] != null) retval += out[i].v;
+   
         return retval;
     }
     SSF._eval = eval_fmt;
@@ -1650,7 +1652,7 @@ function datenum(v, date1904) {
     return (epoch - dnthresh) / (24 * 60 * 60 * 1000);
 }
 
-function datenum_local(v, date1904) {
+export function datenum_local(v, date1904) {
     var epoch = Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), v.getSeconds());
     var dnthresh_utc = Date.UTC(1899, 11, 31, 0, 0, 0);
 
@@ -1763,7 +1765,18 @@ export function genarate(value) {//万 单位格式增加！！！
         return null;
     }
 
-    if(value.toString().substr(0, 1) === "'"){
+    if (/^-?[0-9]{1,}[,][0-9]{3}(.[0-9]{1,2})?$/.test(value)) { // 表述金额的字符串，如：12,000.00 或者 -12,000.00
+        m = value
+        v = Number(value.split('.')[0].replace(',', ''))
+        let fa = "#,##0"
+        if (value.split('.')[1]) {
+            fa = "#,##0."
+            for (let i = 0; i < value.split('.')[1].length; i++) {
+                fa += 0
+            }
+        }
+        ct= {fa, t: "n"}
+    } else if(value.toString().substr(0, 1) === "'"){
         m = value.toString().substr(1);
         ct = { "fa": "@", "t": "s" };
     }
@@ -1787,7 +1800,6 @@ export function genarate(value) {//万 单位格式增加！！！
     }
     else if(isRealNum(value) && Math.abs(parseFloat(value)) > 0 && (Math.abs(parseFloat(value)) >= 1e+11 || Math.abs(parseFloat(value)) < 1e-9)){
         v = numeral(value).value();
-
         var str = v.toExponential();
         if(str.indexOf(".") > -1){
             var strlen = str.split(".")[1].split("e")[0].length;

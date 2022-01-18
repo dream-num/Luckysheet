@@ -1,12 +1,21 @@
-import { luckysheetfontformat } from '../utils/util';
+import {luckysheetfontformat} from '../utils/util';
 import menuButton from '../controllers/menuButton';
-import { getcellvalue,checkstatusByCell } from './getdata';
-import { colLocationByIndex } from './location';
-import { hasChinaword, isRealNull } from './validate';
-import { isInlineStringCell } from '../controllers/inlineString';
+import {checkstatusByCell} from './getdata';
+import {colLocationByIndex,colSpanLocationByIndex} from './location';
+import {checkWordByteLength, hasChinaword, isRealNull} from './validate';
+import {isInlineStringCell} from '../controllers/inlineString';
+
 import Store from '../store';
 
-//计算范围行高
+/**
+ * 计算范围行高
+ *
+ * @param d 原始数据
+ * @param r1 起始行
+ * @param r2 截至行
+ * @param cfg 配置
+ * @returns 计算后的配置
+ */
 function rowlenByRange(d, r1, r2, cfg) {
     let cfg_clone = $.extend(true, {}, cfg);
     if(cfg_clone["rowlen"] == null){
@@ -19,16 +28,13 @@ function rowlenByRange(d, r1, r2, cfg) {
 
     let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
     canvas.textBaseline = 'top'; //textBaseline以top计算
-    
+
     for(let r = r1; r <= r2; r++){
         if (cfg_clone["rowhidden"] != null && cfg_clone["rowhidden"][r] != null) {
             continue;
         }
 
         let currentRowLen = Store.defaultrowlen;
-        // if(cfg_clone["rowlen"][r] != null){
-        //     currentRowLen = cfg_clone["rowlen"][r];
-        // }
 
         if(cfg_clone["customHeight"][r]==1){
             continue;
@@ -44,7 +50,18 @@ function rowlenByRange(d, r1, r2, cfg) {
             }
 
             if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
-                let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+                let cellWidth;
+                if(cell.mc){
+                    if(c === cell.mc.c){
+                        let st_cellWidth = colLocationByIndex(c)[0];
+                        let ed_cellWidth = colLocationByIndex(cell.mc.c + cell.mc.cs - 1)[1];
+                        cellWidth = ed_cellWidth - st_cellWidth - 2;
+                    }else{
+                        continue;
+                    }
+                } else {
+                    cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 2;
+                }
 
                 let textInfo = getCellTextInfo(cell, canvas,{
                     r:r,
@@ -53,62 +70,10 @@ function rowlenByRange(d, r1, r2, cfg) {
                 });
 
                 let computeRowlen = 0;
-                // console.log("rowlen", textInfo);
+
                 if(textInfo!=null){
                     computeRowlen = textInfo.textHeightAll+2;
                 }
-
-                // let fontset = luckysheetfontformat(cell);
-                // canvas.font = fontset;
-
-                // let value = getcellvalue(r, c, d).toString(); //单元格文本
-                // let measureText = getMeasureText(value, canvas);
-
-                // let textMetrics = measureText.width; //文本宽度
-                // let oneLineTextHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
-                // let spaceHeight = Math.ceil(oneLineTextHeight/3);
-                // let computeRowlen; //计算行高
-                // let word_space_height = oneLineTextHeight/3;
-                // if(cell.tb == "2"){
-                //     //自动换行
-                //     let cellWidth = colLocationByIndex(c)[1] - colLocationByIndex(c)[0] - 4; //单元格宽度
-
-                //     if(textMetrics > cellWidth){
-                //         let strArr = []; //文本截断数组
-                //         strArr = getCellTextSplitArr(value, strArr, cellWidth, canvas);
-
-                //         computeRowlen = (oneLineTextHeight+word_space_height) * strArr.length + spaceHeight;
-                //     }
-                //     else{
-                //         computeRowlen = oneLineTextHeight + spaceHeight;
-                //     }
-                // }
-                // else if(cell.tr != null){
-                //     //单元格有旋转标示
-                //     let tr = cell.tr;
-                                
-                //     if(tr == "0"){
-                //         //无旋转
-                //         computeRowlen = oneLineTextHeight + spaceHeight;    
-                //     }
-                //     else if(tr == "1" || tr == "2"){
-                //         //向下倾斜（45 旋转）----向上倾斜（-45 旋转）
-                //         computeRowlen = 0.707 * (textMetrics + oneLineTextHeight) + spaceHeight;
-                //     }
-                //     else if(tr == "3"){
-                //         //竖排文字
-                //         computeRowlen = value.length * oneLineTextHeight + spaceHeight;
-                //     }
-                //     else if(tr == "4" || tr == "5"){
-                //         //向下90（90 旋转）----向上90（-90 旋转）
-                //         computeRowlen = textMetrics + spaceHeight;
-                //     }
-
-                //     computeRowlen = Math.round(computeRowlen);
-                // }
-                // else{
-                //     computeRowlen = oneLineTextHeight + spaceHeight;
-                // }
 
                 //比较计算高度和当前高度取最大高度
                 if(computeRowlen > currentRowLen){
@@ -118,13 +83,106 @@ function rowlenByRange(d, r1, r2, cfg) {
         }
 
         currentRowLen = currentRowLen/Store.zoomRatio;
-        console.log(currentRowLen);
+
         if(currentRowLen != Store.defaultrowlen){
             cfg_clone["rowlen"][r] = currentRowLen;
+        }else{
+            if(cfg["rowlen"]?.[r]){
+                cfg_clone["rowlen"][r] = cfg["rowlen"][r]
+            }
         }
     }
 
     return cfg_clone;
+}
+
+//根据内容计算行高
+function computeRowlenByContent(d, r) {
+    let currentRowLen = 0;
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for(let c = 0; c < d[r].length; c++){
+        let cell = d[r][c];
+
+        if (cell == null) {
+            continue;
+        }
+
+        if (cell.mc != null) {
+            if (1 !== cell.mc.rs) {
+                continue;
+            }
+        }
+
+
+        if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
+            let cellWidth = computeCellWidth(cell, c);
+
+            let textInfo = getCellTextInfo(cell, canvas,{
+                r:r,
+                c:c,
+                cellWidth:cellWidth
+            });
+
+            let computeRowlen = 0;
+
+            if (textInfo != null) {
+                computeRowlen = textInfo.textHeightAll + 2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if (computeRowlen > currentRowLen) {
+                currentRowLen = computeRowlen;
+            }
+        }
+    }
+
+    return currentRowLen;
+}
+
+function computeCellWidth(cell, col_index) {
+    let colLocationArr = colLocationByIndex(col_index);
+    if (cell.mc && cell.mc.c !== cell.mc.cs) {
+        colLocationArr = colSpanLocationByIndex(col_index, cell.mc.cs);
+    }
+
+    return colLocationArr[1] - colLocationArr[0] - 2;
+}
+
+function computeColWidthByContent(d, c, rh) {
+    let currentColLen = 0;
+    let rowlenArr = computeRowlenArr(rh, c)
+
+    let canvas = $("#luckysheetTableContent").get(0).getContext("2d");
+    canvas.textBaseline = 'top'; //textBaseline以top计算
+
+    for (var i = 0; i < d.length; i++) {
+        var cell = d[i][c]
+
+        if (cell != null && (cell.v != null || isInlineStringCell(cell))) {
+            let cellHeight = rowlenArr[c];
+            let textInfo = getCellTextInfo(cell, canvas, {
+                r: i,
+                c: c,
+                cellHeight: cellHeight
+            });
+
+            let computeCollen = 0;
+
+            if (textInfo != null) {
+                computeCollen = textInfo.textWidthAll + 2;
+            }
+
+            //比较计算高度和当前高度取最大高度
+            if (computeCollen > currentColLen) {
+                currentColLen = computeCollen;
+            }
+        }
+    }
+
+    return currentColLen;
 }
 
 //计算表格行高数组
@@ -134,7 +192,7 @@ function computeRowlenArr(rowHeight, cfg) {
 
     for (let i = 0; i < rowHeight; i++) {
         let rowlen = Store.defaultrowlen;
-        
+
         if (cfg["rowlen"] != null && cfg["rowlen"][i] != null) {
             rowlen = cfg["rowlen"][i];
         }
@@ -147,7 +205,7 @@ function computeRowlenArr(rowHeight, cfg) {
         else {
             rh_height += rowlen + 1;
         }
-        
+
         rowlenArr.push(rh_height);//行的临时长度分布
     }
 
@@ -196,13 +254,13 @@ function getMeasureText(value, ctx, fontset){
         }
 
         let measureText = ctx.measureText(value), cache = {};
-        var regu = "^[ ]+$";
-        var re = new RegExp(regu);
+        // var regu = "^[ ]+$";
+        // var re = new RegExp(regu);
         // if(measureText.actualBoundingBoxRight==null || re.test(value)){
         //     cache.width = measureText.width;
         // }
         // else{
-        //     //measureText.actualBoundingBoxLeft + 
+        //     //measureText.actualBoundingBoxLeft +
         //     cache.width = measureText.actualBoundingBoxRight;
         // }
 
@@ -235,6 +293,37 @@ function getMeasureText(value, ctx, fontset){
 
             //console.log(value, oneLineTextHeight, measureText.actualBoundingBoxDescent+measureText.actualBoundingBoxAscent,ctx.font);
         }
+
+        if(ctx.textBaseline == 'alphabetic'){
+            let descText = "gjpqy", matchText="abcdABCD";
+            let descTextMeasure = Store.measureTextCache[descText + "_" + ctx.font];
+            if(fontset!=null){
+                descTextMeasure = Store.measureTextCache[descText + "_" + fontset];
+            }
+
+            let matchTextMeasure = Store.measureTextCache[matchText + "_" + ctx.font];
+            if(fontset!=null){
+                matchTextMeasure = Store.measureTextCache[matchText + "_" + fontset];
+            }
+
+            if(descTextMeasure == null){
+                descTextMeasure = ctx.measureText(descText);
+            }
+
+            if(matchTextMeasure == null){
+                matchTextMeasure = ctx.measureText(matchText);
+            }
+
+            if(cache.actualBoundingBoxDescent<=matchTextMeasure.actualBoundingBoxDescent){
+                cache.actualBoundingBoxDescent = descTextMeasure.actualBoundingBoxDescent;
+                if(cache.actualBoundingBoxDescent==null){
+                    cache.actualBoundingBoxDescent = 0;
+                }
+            }
+
+
+        }
+
         cache.width *= Store.zoomRatio;
         cache.actualBoundingBoxDescent *= Store.zoomRatio;
         cache.actualBoundingBoxAscent *= Store.zoomRatio;
@@ -338,10 +427,10 @@ function getCellTextInfo(cell , ctx, option){
             let scfontset = luckysheetfontformat(shareCell);
             let fc = shareCell.fc, cl=shareCell.cl,un = shareCell.un, v = shareCell.v, fs=shareCell.fs;
             v = v.replace(/\r\n/g, "_x000D_").replace(/&#13;&#10;/g, "_x000D_").replace(/\r/g, "_x000D_").replace(/\n/g, "_x000D_");
-            let splitArr = v.split("_x000D_"), preNewValue=null;
+            let splitArr = v.split("_x000D_");
             for(let x=0;x<splitArr.length;x++){
                 let newValue = splitArr[x];
-                
+
                 if(newValue=="" && x!=splitArr.length-1){
                     inlineStringArr.push({
                         fontset:scfontset,
@@ -367,10 +456,10 @@ function getCellTextInfo(cell , ctx, option){
                             si:similarIndex,
                             fs:fs==null?11:fs,
                         });
-                        
+
                     }
 
-                    if(x!=splitArr.length-1 && preNewValue!="" ){
+                    if(x!=splitArr.length-1 ){
                         inlineStringArr.push({
                             fontset:scfontset,
                             fc:fc==null?"#000":fc,
@@ -380,15 +469,12 @@ function getCellTextInfo(cell , ctx, option){
                             fs:fs==null?11:fs,
                         });
                         similarIndex++;
-                    } 
+                    }
                 }
 
-                preNewValue = newValue;
-                
             }
 
             similarIndex++;
-            
         }
         isInline = true;
     }
@@ -399,7 +485,7 @@ function getCellTextInfo(cell , ctx, option){
         cancelLine = checkstatusByCell(cell ,"cl");//cancelLine
         underLine = checkstatusByCell(cell ,"un");//underLine
         fontSize = checkstatusByCell(cell ,"fs");
-    
+
         if(cell instanceof Object){
             value = cell.m;
             if(value == null){
@@ -409,26 +495,18 @@ function getCellTextInfo(cell , ctx, option){
         else{
             value = cell;
         }
-    
+
         if(isRealNull(value)){
             return null;
         }
     }
-
-    
-
-
-    // let measureText = getMeasureText(value, ctx); 
-    // //luckysheetTableContent.measureText(value);
-    // let textWidth = measureText.width;
-    // let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
     if(tr=="3"){//vertical text
         ctx.textBaseline = 'top';
 
 
         let textW_all = 0; //拆分后宽高度合计
-        let textH_all = 0; 
+        let textH_all = 0;
         let colIndex=0, textH_all_cache=0, textH_all_Column = {}, textH_all_ColumnHeight=[];
         if(isInline){
             let preShareCell = null;
@@ -438,8 +516,8 @@ function getCellTextInfo(cell , ctx, option){
                 if(shareCell.wrap===true){
                     value = "M";
                     showValue = "";
-                    
-                    
+
+
                     if( preShareCell!=null && preShareCell.wrap!==true && (i<inlineStringArr.length-1)){
                         // console.log("wrap",i,colIndex,preShareCell.wrap);
                         textH_all_ColumnHeight.push(textH_all_cache);
@@ -455,11 +533,11 @@ function getCellTextInfo(cell , ctx, option){
 
                 let textW = measureText.width + space_width;
                 let textH = measureText.actualBoundingBoxAscent + measureText.actualBoundingBoxDescent + space_height;
-                
+
                 // textW_all += textW;
                 textH_all_cache += textH;
-    
-    
+
+
                 if(tb=="2" && !shareCell.wrap){
                     if(textH_all_cache>cellHeight && textH_all_Column[colIndex]!=null){
                         // textW_all += textW;
@@ -470,11 +548,11 @@ function getCellTextInfo(cell , ctx, option){
                         colIndex +=1;
                     }
                 }
-    
+
                 if(i== inlineStringArr.length-1){
                     textH_all_ColumnHeight.push(textH_all_cache);
                 }
-    
+
                 if(textH_all_Column[colIndex]==null){
                     textH_all_Column[colIndex]= [];
                 }
@@ -495,36 +573,36 @@ function getCellTextInfo(cell , ctx, option){
                 if(shareCell.wrap===true){
                     item.wrap=true;
                 }
-    
+
                 textH_all_Column[colIndex].push(item);
                 console.log("normal",i,colIndex,shareCell, preShareCell, textH_all_Column);
                 preShareCell = shareCell;
-                
+
             }
         }
-        else{        
-            let measureText = getMeasureText(value, ctx); 
+        else{
+            let measureText = getMeasureText(value, ctx);
             let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
             value = value.toString();
-            
+
             let vArr = [];
             if(value.length > 1){
-                vArr = value.split("");    
+                vArr = value.split("");
             }
             else{
                 vArr.push(value);
             }
             let oneWordWidth =  getMeasureText(vArr[0], ctx).width;
-            
+
             for(let i = 0; i < vArr.length; i++){
                 let textW = oneWordWidth + space_width;
                 let textH = textHeight + space_height;
-                
+
                 // textW_all += textW;
                 textH_all_cache += textH;
-    
-    
+
+
                 if(tb=="2"){
                     if(textH_all_cache>cellHeight && textH_all_Column[colIndex]!=null){
                         // textW_all += textW;
@@ -534,15 +612,15 @@ function getCellTextInfo(cell , ctx, option){
                         colIndex +=1;
                     }
                 }
-    
+
                 if(i== vArr.length-1){
                     textH_all_ColumnHeight.push(textH_all_cache);
                 }
-    
+
                 if(textH_all_Column[colIndex]==null){
                     textH_all_Column[colIndex]= [];
                 }
-    
+
                 textH_all_Column[colIndex].push({
                     content:vArr[i],
                     style:fontset,
@@ -554,7 +632,7 @@ function getCellTextInfo(cell , ctx, option){
                     asc:measureText.actualBoundingBoxAscent,
                     desc:measureText.actualBoundingBoxDescent
                 });
-                
+
             }
         }
 
@@ -579,7 +657,7 @@ function getCellTextInfo(cell , ctx, option){
             // console.log("verticalWrap", textContent,cell, option);
             return textContent;
         }
-        
+
         let cumColumnWidth = 0;
         for(let i = 0; i < textH_all_ColumnHeight.length; i++){
             let columnHeight = textH_all_ColumnHeight[i];
@@ -589,7 +667,7 @@ function getCellTextInfo(cell , ctx, option){
             let cumWordHeight = 0;
             for(let c=0;c<col.length;c++){
                 let word = col[c];
-                
+
                 let left = space_width + cumColumnWidth;
                 if(horizonAlign == "0"){
                     left = cellWidth / 2 + cumColumnWidth - textW_all/2 + space_width*textH_all_ColumnHeight.length;
@@ -612,8 +690,8 @@ function getCellTextInfo(cell , ctx, option){
                 word.top = top;
 
                 drawLineInfo(word, cancelLine, underLine,{
-                    width:columnWidth, 
-                    height:word.height, 
+                    width:columnWidth,
+                    height:word.height,
                     left:left,
                     top:top+word.height-space_height,
                     asc:word.height,
@@ -640,7 +718,7 @@ function getCellTextInfo(cell , ctx, option){
         if(tb=="2" || isInline){//wrap
 
             let textW_all = 0; //拆分后宽高度合计
-            let textH_all = 0; 
+            let textH_all = 0;
             let textW_all_inner = 0;
 
             // let oneWordWidth =  getMeasureText(vArr[0], ctx).width;
@@ -649,14 +727,14 @@ function getCellTextInfo(cell , ctx, option){
             textContent.rotate = rt;
             rt = Math.abs(rt);
 
-            let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth, i=1, wrapStyle={};
+            let anchor = 0, preHeight = 0, preWidth=0, preStr, preTextHeight, preTextWidth, preMeasureText, i=1, wrapStyle={}, spaceOrTwoByte=null, spaceOrTwoByteIndex=null;
             if(isInline){
                 while(i <= inlineStringArr.length){
                     let shareCells = inlineStringArr.slice(anchor, i);
                     if(shareCells[shareCells.length-1].wrap===true){
 
                         anchor = i;
-                        
+
                         if(shareCells.length>1){
                             for(let s=0;s<shareCells.length-1;s++){
                                 let sc = shareCells[s];
@@ -673,13 +751,13 @@ function getCellTextInfo(cell , ctx, option){
                                     inline:true,
                                     fs:sc.fs
                                 }
-    
+
                                 // if(rt!=0){//rotate
                                 //     item.textHeight = sc.textHeight;
                                 //     item.textWidth = sc.textWidth;
                                 // }
-    
-                                text_all_split[splitIndex].push(item); 
+
+                                text_all_split[splitIndex].push(item);
                             }
                         }
 
@@ -721,39 +799,80 @@ function getCellTextInfo(cell , ctx, option){
                             sc.measureText = getMeasureText(sc.v, ctx, sc.fontset);
                         }
                         textWidth += sc.measureText.width;
-                        textHeight += sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent;
+                        textHeight = Math.max(sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent);
+                        // console.log(sc.v,sc.measureText.width,sc.measureText.actualBoundingBoxAscent,sc.measureText.actualBoundingBoxDescent);
                     }
-    
+
                     let width = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
-    
+
                     let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
-                    
+
                     // textW_all += textW;
-    
+
+
+                    let lastWord = shareCells[shareCells.length-1];
+                    if(lastWord.v==" " || checkWordByteLength(lastWord.v)==2){
+                        spaceOrTwoByteIndex = i;
+                    }
+
+
                     if(rt!=0){//rotate
                         // console.log("all",anchor, i , str);
-                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && tb=="2"){
+                        console.log(height,space_height, cellHeight, shareCells,(height+space_height)>cellHeight);
+                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && tb=="2" && i!= inlineStringArr.length){
                             // console.log("cut",anchor, i , str);
-                            anchor = i-1;
-                            
-                            for(let s=0;s<shareCells.length-1;s++){
-                                let sc = shareCells[s];
-                                text_all_split[splitIndex].push({
-                                    content:sc.v,
-                                    style:sc,
-                                    width:sc.measureText.width,
-                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
-                                    left:0,
-                                    top:0,
-                                    splitIndex:splitIndex,
-                                    asc:sc.measureText.actualBoundingBoxAscent,
-                                    desc:sc.measureText.actualBoundingBoxDescent,
-                                    inline:true,
-                                    fs:sc.fs
-                                });
+
+                            if(spaceOrTwoByteIndex!=null && spaceOrTwoByteIndex<i){
+
+                                for(let s=0;s<spaceOrTwoByteIndex-anchor;s++){
+                                    let sc = shareCells[s];
+                                    text_all_split[splitIndex].push({
+                                        content:sc.v,
+                                        style:sc,
+                                        width:sc.measureText.width,
+                                        height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
+                                        left:0,
+                                        top:0,
+                                        splitIndex:splitIndex,
+                                        asc:sc.measureText.actualBoundingBoxAscent,
+                                        desc:sc.measureText.actualBoundingBoxDescent,
+                                        inline:true,
+                                        fs:sc.fs
+                                    });
+                                }
+                                anchor = spaceOrTwoByteIndex;
+
+                                i = spaceOrTwoByteIndex + 1;
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByteIndex = null;
+
                             }
-    
-                            splitIndex +=1;
+                            else{
+
+                                anchor = i-1;
+
+                                for(let s=0;s<shareCells.length-1;s++){
+                                    let sc = shareCells[s];
+                                    text_all_split[splitIndex].push({
+                                        content:sc.v,
+                                        style:sc,
+                                        width:sc.measureText.width,
+                                        height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
+                                        left:0,
+                                        top:0,
+                                        splitIndex:splitIndex,
+                                        asc:sc.measureText.actualBoundingBoxAscent,
+                                        desc:sc.measureText.actualBoundingBoxDescent,
+                                        inline:true,
+                                        fs:sc.fs
+                                    });
+                                }
+
+                                splitIndex +=1;
+                            }
+
                         }
                         else if(i== inlineStringArr.length){
                             // console.log("last",anchor, i , str);
@@ -786,28 +905,59 @@ function getCellTextInfo(cell , ctx, option){
                         }
                     }
                     else{//plain
-                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && tb=="2"){
-    
-                            anchor = i-1;
+                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && tb=="2" && i!= inlineStringArr.length){
 
-                            for(let s=0;s<shareCells.length-1;s++){
-                                let sc = shareCells[s];
-                                text_all_split[splitIndex].push({
-                                    content:sc.v,
-                                    style:sc,
-                                    width:sc.measureText.width,
-                                    height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
-                                    left:0,
-                                    top:0,
-                                    splitIndex:splitIndex,
-                                    asc:sc.measureText.actualBoundingBoxAscent,
-                                    desc:sc.measureText.actualBoundingBoxDescent,
-                                    inline:true,
-                                    fs:sc.fs
-                                });
+
+                            if(spaceOrTwoByteIndex!=null && spaceOrTwoByteIndex<i){
+
+                                for(let s=0;s<spaceOrTwoByteIndex-anchor;s++){
+                                    let sc = shareCells[s];
+                                    text_all_split[splitIndex].push({
+                                        content:sc.v,
+                                        style:sc,
+                                        width:sc.measureText.width,
+                                        height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
+                                        left:0,
+                                        top:0,
+                                        splitIndex:splitIndex,
+                                        asc:sc.measureText.actualBoundingBoxAscent,
+                                        desc:sc.measureText.actualBoundingBoxDescent,
+                                        inline:true,
+                                        fs:sc.fs
+                                    });
+                                }
+                                anchor = spaceOrTwoByteIndex;
+
+                                i = spaceOrTwoByteIndex + 1;
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByteIndex = null;
+
                             }
-    
-                            splitIndex +=1;
+                            else{
+                                anchor = i-1;
+
+                                for(let s=0;s<shareCells.length-1;s++){
+                                    let sc = shareCells[s];
+                                    text_all_split[splitIndex].push({
+                                        content:sc.v,
+                                        style:sc,
+                                        width:sc.measureText.width,
+                                        height:sc.measureText.actualBoundingBoxAscent+sc.measureText.actualBoundingBoxDescent,
+                                        left:0,
+                                        top:0,
+                                        splitIndex:splitIndex,
+                                        asc:sc.measureText.actualBoundingBoxAscent,
+                                        desc:sc.measureText.actualBoundingBoxDescent,
+                                        inline:true,
+                                        fs:sc.fs
+                                    });
+                                }
+
+                                splitIndex +=1;
+                            }
+
                         }
                         else if(i== inlineStringArr.length){
                             if(text_all_split[splitIndex]==null){
@@ -830,7 +980,7 @@ function getCellTextInfo(cell , ctx, option){
                                     fs:sc.fs
                                 });
                             }
-    
+
                             break;
                         }
                         else{
@@ -850,33 +1000,81 @@ function getCellTextInfo(cell , ctx, option){
                     let measureText =  getMeasureText(str, ctx);
                     let textWidth = measureText.width;
                     let textHeight = measureText.actualBoundingBoxAscent+measureText.actualBoundingBoxDescent;
-    
+
                     let width = textWidth * Math.cos(rt*Math.PI/180) + textHeight * Math.sin(rt*Math.PI/180);//consider text box wdith and line height
-    
+
                     let height = textWidth * Math.sin(rt*Math.PI/180) + textHeight * Math.cos(rt*Math.PI/180);//consider text box wdith and line height
-                    
+                    let lastWord = str.substr(str.length-1,1);
+                    if(lastWord==" " || checkWordByteLength(lastWord)==2){
+                        if(preMeasureText!=null){
+                            spaceOrTwoByte = {
+                                index:i,
+                                str:preStr + lastWord,
+                                width:preTextWidth,
+                                height:preTextHeight,
+                                asc:preMeasureText.actualBoundingBoxAscent,
+                                desc:preMeasureText.actualBoundingBoxDescent,
+                            };
+                        }
+
+                    }
                     // textW_all += textW;
-    
+                    // console.log(str,anchor,i);
                     if(rt!=0){//rotate
                         // console.log("all",anchor, i , str);
-                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null){
+                        if((height+space_height)>cellHeight && text_all_split[splitIndex]!=null && i!= value.length){
                             // console.log("cut",anchor, i , str);
-                            anchor = i-1;
-    
-                            text_all_split[splitIndex].push({
-                                content:preStr,
-                                style:fontset,
-                                left:0,
-                                top:0,
-                                splitIndex:splitIndex,
-                                height:preTextHeight,
-                                width:preTextWidth,
-                                asc:measureText.actualBoundingBoxAscent,
-                                desc:measureText.actualBoundingBoxDescent,
-                                fs:fontSize,
-                            });
-    
-                            splitIndex +=1;
+
+                            if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
+
+                                anchor = spaceOrTwoByte.index;
+
+                                i = spaceOrTwoByte.index + 1;
+
+                                text_all_split[splitIndex].push({
+                                    content:spaceOrTwoByte.str,
+                                    style:fontset,
+                                    width:spaceOrTwoByte.width,
+                                    height:spaceOrTwoByte.height,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:spaceOrTwoByte.asc,
+                                    desc:spaceOrTwoByte.desc,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(1,anchor,i,splitIndex , spaceOrTwoByte.str);
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByte = null;
+
+
+
+                            }
+                            else{
+                                anchor = i-1;
+
+                                text_all_split[splitIndex].push({
+                                    content:preStr,
+                                    style:fontset,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    height:preTextHeight,
+                                    width:preTextWidth,
+                                    asc:measureText.actualBoundingBoxAscent,
+                                    desc:measureText.actualBoundingBoxDescent,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(2,anchor,i, splitIndex, preStr);
+
+                                splitIndex +=1;
+
+
+                            }
                         }
                         else if(i== value.length){
                             // console.log("last",anchor, i , str);
@@ -905,24 +1103,58 @@ function getCellTextInfo(cell , ctx, option){
                         }
                     }
                     else{//plain
-                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null){
-    
-                            anchor = i-1;
-                
-                            text_all_split[splitIndex].push({
-                                content:preStr,
-                                style:fontset,
-                                width:preTextWidth,
-                                height:preTextHeight,
-                                left:0,
-                                top:0,
-                                splitIndex:splitIndex,
-                                asc:measureText.actualBoundingBoxAscent,
-                                desc:measureText.actualBoundingBoxDescent,
-                                fs:fontSize,
-                            });
-    
-                            splitIndex +=1;
+                        if((width+space_width)>cellWidth && text_all_split[splitIndex]!=null && i!= value.length){
+                            // console.log(spaceOrTwoByte, i, anchor);
+                            if(spaceOrTwoByte!=null && spaceOrTwoByte.index<i){
+
+                                anchor = spaceOrTwoByte.index;
+
+                                i = spaceOrTwoByte.index + 1;
+
+                                text_all_split[splitIndex].push({
+                                    content:spaceOrTwoByte.str,
+                                    style:fontset,
+                                    width:spaceOrTwoByte.width,
+                                    height:spaceOrTwoByte.height,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:spaceOrTwoByte.asc,
+                                    desc:spaceOrTwoByte.desc,
+                                    fs:fontSize,
+                                });
+
+                                splitIndex +=1;
+
+                                spaceOrTwoByte = null;
+
+
+
+                            }
+                            else{
+
+                                spaceOrTwoByte = null;
+                                anchor = i-1;
+
+                                text_all_split[splitIndex].push({
+                                    content:preStr,
+                                    style:fontset,
+                                    width:preTextWidth,
+                                    height:preTextHeight,
+                                    left:0,
+                                    top:0,
+                                    splitIndex:splitIndex,
+                                    asc:measureText.actualBoundingBoxAscent,
+                                    desc:measureText.actualBoundingBoxDescent,
+                                    fs:fontSize,
+                                });
+
+                                // console.log(2);
+
+
+
+                                splitIndex +=1;
+                            }
                         }
                         else if(i== value.length){
                             if(text_all_split[splitIndex]==null){
@@ -940,7 +1172,7 @@ function getCellTextInfo(cell , ctx, option){
                                 desc:measureText.actualBoundingBoxDescent,
                                 fs:fontSize,
                             });
-    
+
                             break;
                         }
                         else{
@@ -950,12 +1182,15 @@ function getCellTextInfo(cell , ctx, option){
                             i++;
                         }
                     }
-    
+
                     preStr = str;
                     preTextHeight = textHeight;
                     preTextWidth = textWidth;
-    
+                    preMeasureText = measureText;
+
                 }
+
+                // console.log(text_all_split)
             }
 
             let split_all_size = [], oneLinemaxWordCount=0;
@@ -1010,8 +1245,8 @@ function getCellTextInfo(cell , ctx, option){
             // console.log(textH_all,textW_all,textW_all_inner);
             // let cumColumnWidth = 0;
             let cumWordHeight = 0,cumColumnWidth = 0;
-            let rtPI = rt*Math.PI/180;               
-            let lastLine = split_all_size[splitLen-1]; 
+            let rtPI = rt*Math.PI/180;
+            let lastLine = split_all_size[splitLen-1];
             let lastLineSpaceHeight = lastLine.lineHeight;
             textH_all = textH_all - lastLineSpaceHeight + lastLine.desc;
             let rw = (textH_all)/Math.sin(rtPI) + textW_all_inner*Math.cos(rtPI);
@@ -1048,7 +1283,7 @@ function getCellTextInfo(cell , ctx, option){
                     let size = split_all_size[i];
 
                     cumColumnWidth = 0;
-                    
+
                     for(let c=splitLists.length-1;c>=0;c--){
                         let wordGroup = splitLists[c];
                         let left, top;
@@ -1059,7 +1294,7 @@ function getCellTextInfo(cell , ctx, option){
                             if(horizonAlign == "0"){//center
                                 let sh = textH_all/Math.sin(rtPI);
                                 if(verticalAlign == "0"){//mid
-                                    
+
                                     left = x + cellWidth/2 - (textW_all/2) + lastLineSpaceHeight*Math.cos(rtPI)/2;
                                     top = y + cellHeight/2 - textH_all/2 - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
@@ -1100,17 +1335,17 @@ function getCellTextInfo(cell , ctx, option){
                                     top = y + cellHeight - rw*Math.sin(rtPI) - lastLineSpaceHeight*Math.cos(rtPI);
                                 }
                             }
-                            
+
                         }
-                        
+
                         wordGroup.left = left;
                         wordGroup.top = top;
 
                         // console.log(left, top,  cumWordHeight, size.height);
 
                         drawLineInfo(wordGroup, cancelLine, underLine,{
-                            width:wordGroup.width, 
-                            height:wordGroup.height, 
+                            width:wordGroup.width,
+                            height:wordGroup.height,
                             left:left-wordGroup.width,
                             top:top,
                             asc:size.asc,
@@ -1138,7 +1373,7 @@ function getCellTextInfo(cell , ctx, option){
                     let size = split_all_size[i];
 
                     cumColumnWidth = 0;
-                    
+
                     for(let c=0;c<splitLists.length;c++){
                         let wordGroup = splitLists[c];
                         let left, top;
@@ -1150,7 +1385,7 @@ function getCellTextInfo(cell , ctx, option){
                             if(horizonAlign == "0"){//center
                                 let sh = textH_all/Math.sin(rtPI);
                                 if(verticalAlign == "0"){//mid
-                                    
+
                                     left = x + cellWidth/2 - (textW_all/2) - lastLineSpaceHeight*Math.cos(rtPI)/2;
                                     top = y + cellHeight/2 - textH_all/2 + lastLineSpaceHeight*Math.cos(rtPI)/2;
                                 }
@@ -1193,8 +1428,8 @@ function getCellTextInfo(cell , ctx, option){
                             }
 
                             drawLineInfo(wordGroup, cancelLine, underLine,{
-                                width:wordGroup.width, 
-                                height:wordGroup.height, 
+                                width:wordGroup.width,
+                                height:wordGroup.height,
                                 left:left,
                                 top:top,
                                 asc:size.asc,
@@ -1212,7 +1447,7 @@ function getCellTextInfo(cell , ctx, option){
                             else if(horizonAlign == "2"){
                                 left = cellWidth + cumColumnWidth - size.width;
                             }
-    
+
                             top = (cellHeight - space_height)  + cumWordHeight +size.asc-textH_all;
                             if(verticalAlign == "0"){
                                 top = cellHeight / 2 + cumWordHeight - textH_all/2 + size.asc;
@@ -1220,12 +1455,12 @@ function getCellTextInfo(cell , ctx, option){
                             else if(verticalAlign == "1"){
                                 top = space_height  + cumWordHeight+ size.asc;
                             }
-    
-                            
+
+
 
                             drawLineInfo(wordGroup, cancelLine, underLine,{
-                                width:wordGroup.width, 
-                                height:wordGroup.height, 
+                                width:wordGroup.width,
+                                height:wordGroup.height,
                                 left:left,
                                 top:top,
                                 asc:size.asc,
@@ -1233,7 +1468,7 @@ function getCellTextInfo(cell , ctx, option){
                                 fs:wordGroup.fs
                             });
                         }
-                    
+
 
                         wordGroup.left = left;
                         wordGroup.top = top;
@@ -1273,7 +1508,7 @@ function getCellTextInfo(cell , ctx, option){
                     else if(verticalAlign == "1"){//top
                         textContent.textLeftAll = cellWidth/2;
                         textContent.textTopAll = rh/2;
-                        
+
                     }
                     else if(verticalAlign == "2"){//bottom
                         textContent.textLeftAll = cellWidth/2;
@@ -1317,7 +1552,7 @@ function getCellTextInfo(cell , ctx, option){
 
         }
         else{
-            let measureText = getMeasureText(value, ctx); 
+            let measureText = getMeasureText(value, ctx);
             let textWidth = measureText.width;
             let textHeight = measureText.actualBoundingBoxDescent + measureText.actualBoundingBoxAscent;
 
@@ -1337,7 +1572,7 @@ function getCellTextInfo(cell , ctx, option){
                 textContent.textHeightAll = textHeightAll+textHeight/2-measureText.actualBoundingBoxDescent-space_height;
             }
             textContent.textWidthAll = textWidthAll;
-            
+
             // console.log(textContent.textWidthAll , textContent.textHeightAll);
             if(isMode=="onlyWidth"){
                 // console.log("plain", textContent,cell, option);
@@ -1353,9 +1588,9 @@ function getCellTextInfo(cell , ctx, option){
             else if(horizonAlign == "2"){ //右对齐
                 left = (cellWidth - space_width)  - width + textHeight * Math.sin(rtPI)*isRotateUp;
             }
-            
+
             let top = (cellHeight - space_height)  - height + measureText.actualBoundingBoxAscent * Math.cos(rtPI) + textWidth * Math.sin(rtPI)*isRotateUp; //默认为2，下对齐
-            if(verticalAlign == "0"){ //居中对齐 
+            if(verticalAlign == "0"){ //居中对齐
                 top = cellHeight / 2  - (height / 2) + measureText.actualBoundingBoxAscent* Math.cos(rtPI) + textWidth * Math.sin(rtPI)*isRotateUp;
             }
             else if(verticalAlign == "1"){ //上对齐
@@ -1374,8 +1609,8 @@ function getCellTextInfo(cell , ctx, option){
             }
 
             drawLineInfo(wordGroup, cancelLine, underLine,{
-                width:textWidth, 
-                height:textHeight, 
+                width:textWidth,
+                height:textHeight,
                 left:left,
                 top:top,
                 asc:measureText.actualBoundingBoxAscent,
@@ -1428,10 +1663,10 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
          if(underLine=="1" || underLine=="2"){
             let item = {};
             item.startX = left;
-            item.startY = top;
+            item.startY = top + 3;
 
             item.endX = left + width;
-            item.endY = top;
+            item.endY = top + 3;
 
             item.fs = fs;
 
@@ -1479,8 +1714,12 @@ function drawLineInfo(wordGroup, cancelLine,underLine,option){
     }
 }
 
+
+
 export {
+    computeColWidthByContent,
     rowlenByRange,
+    computeRowlenByContent,
     computeRowlenArr,
     getCellTextSplitArr,
     getMeasureText,

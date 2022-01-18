@@ -2,6 +2,7 @@ import { getObjType } from '../utils/util';
 import { isRealNum, isRealNull, valueIsError } from './validate';
 import { update } from './format';
 import formula from './formula';
+import dayjs from "dayjs";
 
 const error = {
     v: "#VALUE!",    //错误的参数或运算符
@@ -21,30 +22,39 @@ const func_methods = {
 
         if(rangeObj.data == null){
             if(!isNeglectNullCell){
-                if(nullCellType == "number"){
+                if(nullCellType === "number"){
                     dataArr.push(0);
                 }
-                else if(nullCellType == "text"){
+                else if(nullCellType === "text"){
                     dataArr.push("");
                 }
             }
         }
         else{
-            if(getObjType(rangeObj.data) == "array"){
+            if(getObjType(rangeObj.data) === "array"){
                 for(let i = 0; i < rangeObj.data.length; i++){
                     for(let j = 0; j < rangeObj.data[i].length; j++){
-                        if(rangeObj.data[i][j] != null && !isRealNull(rangeObj.data[i][j].v)){
-                            dataArr.push(rangeObj.data[i][j].v);
+                        let cell = rangeObj.data[i][j];
+                        let value = cell
+
+                        if(getObjType(cell) === 'object'){
+                            value = cell.v
+                        }
+
+                        if(value == null ){
+                            if(!isNeglectNullCell){
+                                if(nullCellType === "number"){
+                                    value = 0;
+                                }
+                                else if(nullCellType === "text"){
+                                    value = '';
+                                }
+
+                                dataArr.push(value);
+                            }
                         }
                         else{
-                            if(!isNeglectNullCell){
-                                if(nullCellType == "number"){
-                                    dataArr.push(0);
-                                }
-                                else if(nullCellType == "text"){
-                                    dataArr.push("");
-                                }
-                            }
+                            dataArr.push(value);
                         }
                     }
                 }
@@ -90,17 +100,19 @@ const func_methods = {
                     let rowArr = [];
 
                     for(let j = 0; j < rangeObj.data[i].length; j++){
-                        let value;
+                        let cell = rangeObj.data[i][j];
+                        let value = cell;
 
-                        if(rangeObj.data[i][j] != null && !isRealNull(rangeObj.data[i][j].v)){
-                            value = rangeObj.data[i][j].v;
+                        if(getObjType(cell) === 'object'){
+                            value = cell.v
                         }
-                        else{
-                            if(nullCellType == "number"){
+
+                        if(value == null){
+                            if(nullCellType === "number"){
                                 value = 0;
                             }
-                            else if(nullCellType == "text"){
-                                value = "";
+                            else if(nullCellType === "text"){
+                                value = '';
                             }
                         }
 
@@ -158,7 +170,7 @@ const func_methods = {
                 }
 
                 dataArr.push(arr[i]);
-            }   
+            }
         }
 
         return dataArr;
@@ -182,7 +194,7 @@ const func_methods = {
 
             for(let i = 0; i < arr.length; i++){
                 rowArr.push(arr[i]);
-            }   
+            }
 
             dataArr.push(rowArr);
         }
@@ -329,7 +341,7 @@ const func_methods = {
         }
 
         if(getObjType(cumulative) == "boolean"){
-            
+
         }
         else if(getObjType(cumulative) == "string" && (cumulative.toLowerCase() == "true" || cumulative.toLowerCase() == "false")){
             if(cumulative.toLowerCase() == "true"){
@@ -443,21 +455,21 @@ const func_methods = {
     },
     //阶乘
     factorial: function(num){
-        if (num == 0 || num == 1) { 
-            return 1; 
-        } 
-        else { 
-            return (num * this.factorial(num - 1)); 
-        } 
+        if (num == 0 || num == 1) {
+            return 1;
+        }
+        else {
+            return (num * this.factorial(num - 1));
+        }
     },
     //双阶乘
     factorialDouble: function(num){
-        if (num <= 0) { 
-            return 1; 
-        } 
-        else { 
-            return (num * this.factorialDouble(num - 2)); 
-        } 
+        if (num <= 0) {
+            return 1;
+        }
+        else {
+            return (num * this.factorialDouble(num - 2));
+        }
     },
     //总体方差
     variance: function(num_arr){
@@ -476,7 +488,7 @@ const func_methods = {
 
         for(let j = 0; j < num_arr.length; j++){
             let number = num_arr[j];
- 
+
             sum_variance += (number - avg) * (number - avg);
         }
 
@@ -499,7 +511,7 @@ const func_methods = {
 
         for(let j = 0; j < num_arr.length; j++){
             let number = num_arr[j];
- 
+
             sum_variance += (number - avg) * (number - avg);
         }
 
@@ -522,7 +534,7 @@ const func_methods = {
 
         for(let j = 0; j < num_arr.length; j++){
             let number = num_arr[j];
- 
+
             sum_variance += (number - avg) * (number - avg);
         }
 
@@ -545,7 +557,7 @@ const func_methods = {
 
         for(let j = 0; j < num_arr.length; j++){
             let number = num_arr[j];
- 
+
             sum_variance += (number - avg) * (number - avg);
         }
 
@@ -559,22 +571,22 @@ const func_methods = {
     feb29Between: function(date1, date2){
         let _this = this;
 
-        let year1 = moment(date1).year();
-        let mar1year1 = moment().set({ 'year': year1, 'month': 2, 'date': 1 });
+        let year1 = dayjs(date1).year();
+        let mar1year1 = dayjs().set({ 'year': year1, 'month': 2, 'date': 1 });
 
-        if (_this.isLeapYear(year1) && moment(date1) < moment(mar1year1) && moment(date2) >= moment(mar1year1)) {
+        if (_this.isLeapYear(year1) && dayjs(date1) < dayjs(mar1year1) && dayjs(date2) >= dayjs(mar1year1)) {
             return true;
         }
 
-        let year2 = moment(date2).year();
-        let mar1year2 = moment().set({ 'year': year2, 'month': 2, 'date': 1 });
-        
-        return (_this.isLeapYear(year2) && moment(date2) >= moment(mar1year2) && moment(date1) < moment(mar1year2));
+        let year2 = dayjs(date2).year();
+        let mar1year2 = dayjs().set({ 'year': year2, 'month': 2, 'date': 1 });
+
+        return (_this.isLeapYear(year2) && dayjs(date2) >= dayjs(mar1year2) && dayjs(date1) < dayjs(mar1year2));
     },
     //SQL 查询
     findResultIndex: function(database, criterias){
         let matches = {};
-                
+
         for (let i = 1; i < database[0].length; ++i) {
             matches[i] = true;
         }
@@ -608,7 +620,7 @@ const func_methods = {
                     hasMatchingCriteria = true;
 
                     for (let p = 1; p < criteria.length; ++p) {
-                        currentCriteriaResult = currentCriteriaResult || eval(database[k][l] + criteria[p]);  // jshint ignore:line
+                        currentCriteriaResult = currentCriteriaResult || (new Function("return " + database[k][l] + criteria[p])());  // jshint ignore:line
                     }
                 }
 
@@ -625,12 +637,12 @@ const func_methods = {
                 result.push(n - 1);
             }
         }
-        
+
         return result;
     },
     findField: function(database, title){
         let index = null;
-                
+
         for (let i = 0; i < database.length; i++) {
             if (database[i][0] == title) {
                 index = i;
@@ -641,33 +653,33 @@ const func_methods = {
         if (index == null) {
             return error.v;
         }
-        
+
         return index;
     },
     rest: function(array, idx){
         idx = idx || 1;
-                
+
         if (!array || typeof array.slice !== 'function') {
             return array;
         }
-        
+
         return array.slice(idx);
     },
     compact: function(array){
-        if (!array) { 
-            return array; 
+        if (!array) {
+            return array;
         }
-        
+
         let result = [];
-        
+
         for (let i = 0; i < array.length; ++i) {
-            if (!array[i]) { 
-                continue; 
+            if (!array[i]) {
+                continue;
             }
-            
+
             result.push(array[i]);
         }
-            
+
         return result;
     }
 }

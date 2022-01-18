@@ -1,0 +1,128 @@
+.spage-total {
+    display: inline-block;
+    margin-right: 10px;
+    line-height: 29px;
+    color: #666;
+    font-size: 14px
+}
+
+.spage-number {
+    display: inline-block;
+    color: #666;
+    font-size: 14px
+}
+.selectNum {
+    font-size: 14px;
+    height: 27px;
+    box-sizing: border-box;
+    vertical-align: top;
+    line-height: 27px;
+    border: 1px solid #ddd;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.spage-number button {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: -1px;
+    padding: 0 10px;
+    line-height: 27px;
+    border: 1px solid #ddd;
+    text-align: center;
+    transition: all .2s;
+    cursor: pointer;
+    outline: none;
+    background: 0 0;
+    user-select: none;
+    color: #333;
+    background: #fff;
+    vertical-align: middle;
+}
+.prevBtn, .nextBtn {
+    width: 16px;
+    height: 27px;
+    background: url(images/js.png) no-repeat center center;
+    background-size: 100% auto;
+    display: block;
+    transform: rotate(180deg);
+}
+.nextBtn {
+    transform: rotate(0);
+}
+.spage-number button.active {
+    background: #2d98e6;
+    color: #fff;
+    border-color: #2d98e6;
+    z-index: 3
+}
+
+.spage-number button.active:hover {
+    background: #2d98e6;
+    color: #fff;
+    border-color: #2d98e6;
+    z-index: 3
+}
+
+.spage-number button:hover {
+    background-color: #eee
+}
+
+.spage-number button.button-disabled {
+    cursor: not-allowed;
+    color: #ccc
+}
+
+.spage-number .spage-after,
+.spage-before {
+    padding: 0;
+    width: 40px
+}
+
+.spage-skip {
+    display: inline-block;
+    margin-left: 5px;
+    line-height: 27px;
+    color: #666;
+    font-size: 14px
+}
+
+.spage-skip input {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 45px;
+    height: 29px;
+    text-align: center;
+    vertical-align: top;
+    border: 1px solid #ddd;
+    background: 0 0;
+    outline: none;
+    transition: all .2s
+}
+
+.spage-skip input:focus {
+    border-color: #2d98e6
+}
+
+.spage-skip button {
+    display: inline-block;
+    padding: 0 14px;
+    line-height: 27px;
+    vertical-align: top;
+    color: #333;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all .2s;
+    outline: none;
+    background: 0 0;
+    user-select: none;
+    background-color: #fff;
+}
+
+.spage-skip button:hover {
+    background: #2d98e6;
+    color: #fff;
+    border: 1px solid #2d98e6
+}
+
+

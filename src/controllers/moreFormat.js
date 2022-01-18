@@ -675,19 +675,19 @@ const luckysheetMoreFormat = {
         },
         {
             "name": "下午01:30",
-            "value": 'AM/PM hh:mm'
+            "value": '上午/下午 hh:mm'
         },
         {
             "name": "下午1:30",
-            "value": 'AM/PM h:mm'
+            "value": '上午/下午 h:mm'
         },
         {
             "name": "下午1:30:30",
-            "value": 'AM/PM h:mm:ss'
+            "value": '上午/下午 h:mm:ss'
         },
         {
             "name": "08-05 下午01:30",
-            "value": "MM-dd AM/PM hh:mm"
+            "value": "MM-dd 上午/下午 hh:mm"
         },
         // {
         //     "name": "1930年8月5日星期二",

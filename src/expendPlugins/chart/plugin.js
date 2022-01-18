@@ -1,4 +1,4 @@
-import { seriesLoadScripts, loadLinks, $$ } from '../../utils/util'
+import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
 import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
@@ -9,7 +9,7 @@ import { rowLocation, colLocation, mouseposition } from '../../global/location'
 import { setluckysheet_scroll_status } from '../../methods/set'
 import {
     luckysheetMoveHighlightCell,
-    luckysheetMoveHighlightCell2,
+    luckysheetMoveHighlightCell2, 
     luckysheetMoveHighlightRange,
     luckysheetMoveHighlightRange2,
     luckysheetMoveEndCell
@@ -25,13 +25,13 @@ const dependScripts = [
     'https://unpkg.com/vuex@3.4.0',
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.min.js'
+    'expendPlugins/chart/chartmix.umd.min.js',
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
 const dependLinks = [
     'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css'
+    'expendPlugins/chart/chartmix.css',
     // 'http://26.26.26.1:8000/chartmix.css'
 ]
 
@@ -84,7 +84,7 @@ function chart(data, isDemo) {
         chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
         chartInfo.chartparam.insertToStore = chartmix.default.insertToStore
 
-        // 初始化渲染图表
+        // Initialize the rendering chart
         for (let i = 0; i < data.length; i++) {
             // if (data[i].status == '1') {
                 renderCharts(data[i].chart, isDemo)
@@ -96,6 +96,9 @@ function chart(data, isDemo) {
                 renderChartShow(data[i].index)
             }
         }
+
+        // After the chart is loaded, mark it
+        arrayRemoveItem(chartInfo.asyncLoad,'chart');
 
     });
 }
@@ -128,6 +131,8 @@ function renderCharts(chartLists, isDemo) {
                 content: ''
             })
         ).appendTo($('.luckysheet-cell-main'))
+
+        setChartMoveableEffect($t);
 
         $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
 
@@ -1104,6 +1109,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["row"] = [shiftpositon_row, shiftpositon_row];
+    jfgird_select_save[0].row_focus =shiftpositon_row;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);
@@ -1140,6 +1146,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["column"] = [shiftpositon_col, shiftpositon_col];
+    jfgird_select_save[0].column_focus = shiftpositon_col;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);
@@ -1213,6 +1220,8 @@ function createLuckyChart(width, height, left, top) {
     $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
         delChart(chart_id)
     })
+
+    setChartMoveableEffect($t);
 
     // edit current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
@@ -1324,6 +1333,24 @@ function createLuckyChart(width, height, left, top) {
 
             }
         })
+}
+
+/**
+ * 设置图表可拖动区域高亮效果，鼠标经过可拖动区域时鼠标显示“十字”，不可拖动区域显示箭头
+ * @param {JQuery} $container 图表的容器DIV
+ */
+function setChartMoveableEffect($container) {
+  $container.find('.luckysheet-modal-dialog-content').hover(function () {
+    $container.removeClass("chart-moveable");
+  }, function () {
+    $container.addClass("chart-moveable");
+  });
+
+  $container.hover(function () {
+    $container.addClass("chart-moveable");
+  }, function () {
+    $container.removeClass("chart-moveable");
+  });
 }
 
 // delete chart

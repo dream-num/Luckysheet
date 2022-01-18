@@ -8,6 +8,7 @@ import { inverse } from '../function/matrix_methods';
 import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
+import numeral from 'numeral';
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {
@@ -1577,7 +1578,7 @@ function luckysheet_calcADPMM(fp, sp, tp){
         value = numeral(fp).subtract(tp).value();
     }
     else if(sp=="%"){
-        value = eval(parseFloat(fp) + sp+ "(" + parseFloat(tp) + ")");
+        value = new Function("return " + parseFloat(fp) + sp + "(" + parseFloat(tp) + ")" )();
     }
     else if(sp=="/"){
         value = numeral(fp).divide(tp).value();
@@ -1605,8 +1606,12 @@ function luckysheet_getcelldata(txt) {
         sheetdata = null;
     
     if (val.length > 1) {
-        sheettxt = val[0];
+        sheettxt = val[0].replace(/''/g,"'");
         rangetxt = val[1];
+
+        if(sheettxt.substr(0,1)=="'" && sheettxt.substr(sheettxt.length-1,1)=="'"){
+            sheettxt = sheettxt.substring(1,sheettxt.length-1);
+        }
         
         for (let i in luckysheetfile) {
             if (sheettxt == luckysheetfile[i].name) {
@@ -1628,6 +1633,7 @@ function luckysheet_getcelldata(txt) {
         sheetdata = luckysheetfile[index].data;
         rangetxt = val[0];
 
+        // 取消execFunctionGroupData，改用execFunctionGlobalData
         // if (formula.execFunctionGroupData != null) {
         //     sheetdata = formula.execFunctionGroupData;
         // }
@@ -1913,6 +1919,40 @@ function luckysheet_offset_check() {
     });
 }
 
+
+function luckysheet_getSpecialReference(isCellFirst, param1, param2) {
+    let functionRange, rangeTxt;
+    if(isCellFirst){
+        rangeTxt = param1;
+        functionRange = param2;
+    }
+    else{
+        functionRange = param1;
+        rangeTxt = param2;
+    }
+
+    if(functionRange.startCell.indexOf(":")>-1 || rangeTxt.indexOf(":")>-1){
+        return error.v;
+    }
+
+
+    if(isCellFirst){
+        return luckysheet_getcelldata(rangeTxt + ":" +functionRange.startCell);
+    }
+    else{
+        let rangeT = rangeTxt, sheetName="";
+        if(rangeTxt.indexOf("!")>-1){
+            let rangetxtArr = rangeTxt.split("!");
+            sheetName = rangetxtArr[0] + "!";
+            rangeT = rangetxtArr[1];
+        }
+        return luckysheet_getcelldata(sheetName + functionRange.startCell + ":" + rangeT);
+    }
+
+    
+
+}
+
 export {
     luckysheet_compareWith,
     luckysheet_getarraydata,
@@ -1922,5 +1962,6 @@ export {
     luckysheet_indirect_check,
     luckysheet_indirect_check_return,
     luckysheet_offset_check,
-    luckysheet_calcADPMM
+    luckysheet_calcADPMM,
+    luckysheet_getSpecialReference
 }

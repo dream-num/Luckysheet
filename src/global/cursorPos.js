@@ -51,7 +51,7 @@ function hideMenuByCancel(event){
 
     // Right-click the menu in the title bar, and click on the elements whose class is luckysheet-cols-rows-shift-left and luckysheet-cols-rows-shift-right will trigger the hiding of the menu bar. It should be prohibited. Exclude these two elements. There may be more Other elements will also jump here for more testing
 
-    if(event.target.classList.contains('luckysheet-cols-rows-shift-left') || event.target.classList.contains('luckysheet-cols-rows-shift-right')){
+    if(event.target.classList && (event.target.classList.contains('luckysheet-cols-rows-shift-left') || event.target.classList.contains('luckysheet-cols-rows-shift-right'))){
         return;
     }
 

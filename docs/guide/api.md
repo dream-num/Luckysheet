@@ -6,6 +6,7 @@ Use note:
 1. When script is introduced globally, all APIs are mounted under the window.luckysheet object, which can be printed and seen in the browser console; when npm is introduced, all APIs are also mounted under the luckysheet object
 2. The first parameter of the `success` callback function is the return value of the API method
 3. If you need a new API, please submit it to github [Issues](https://github.com/mengshukeji/Luckysheet/issues/new/choose), and decide whether to open the new API according to the number of likes
+4. The required `order` parameter in the API method is the value of `order` in the worksheet object, not `index`
 
 ## Cell operation
 
@@ -175,6 +176,7 @@ Use note:
         + {Boolean} [isWholeWord]: Whether to match the whole word; the default is `false`
         + {Boolean} [isCaseSensitive]: Whether to match case sensitively; the default is `false`
         + {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {String} [type]: cell attribute; the default value is `"m"`
 
 - **Explanation**：
 	
@@ -184,6 +186,8 @@ Use note:
 
     - Find the string `"value"` in the current worksheet
     `luckysheet.find("value")`
+	- Find cells in the current worksheet whose formula contains `"SUM"`
+    `luckysheet.find("SUM",{type:"f"})`
 
 ------------
 
@@ -209,6 +213,25 @@ Use note:
 
      - Find the string `"value"` in the current worksheet and replace it with `"out"`
     	`luckysheet.replace("value", "out")`
+
+------------
+
+### exitEditMode([,setting])
+ 
+
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Exit edit mode. After double-clicking the cell with the mouse, it will enter the cell editing mode. After the editing is completed, when the mouse clicks on the input box elsewhere to lose focus, the editing mode will be exited, and the value of the cell will be saved. This Api is the operation of automatically exiting the editing mode, mainly to trigger the automatic saving of cells.
+
+- **Usage**:
+
+   - Manually trigger to exit edit mode
+   		`luckysheet.exitEditMode()`
 
 ------------
 
@@ -296,6 +319,16 @@ Use note:
 	Freeze rank operation
 
 	Pay special attention to the setting of `range` in `setting` only when `isRange` is set to `true`, which is different from the general range format.
+
+	If you want to use this API to set the freeze after the workbook is initialized, you can execute it in the hook function after the workbook is created, such as:
+	```js
+	luckysheet.create({
+		hook:{
+			workbookCreateAfter:function(){
+				luckysheet.setBothFrozen(false);
+			}
+		}
+	});
 
 - **Usage**:
 
@@ -522,6 +555,154 @@ Use note:
 
 ------------
 
+### setRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Object} [rowInfo]: Correspondence between number of rows and height
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the height of the specified ~~row~~
+
+- **Usage**:
+
+   - Set the height of the first row to 50px and the height of the second row to 60px
+
+		`luckysheet.setRowHeight({0：50，1：60})`
+
+------------
+
+### setColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Object} [columnInfo]: Correspondence between the number of columns and the width
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set the width of the specified column
+
+- **Usage**:
+
+   - Set the width of the first column to 50px and the width of the second column to 60px
+
+		`luckysheet.setColumnWidth({0：50，1：60})`
+
+------------
+
+### getRowHeight(rowInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [rowInfo]: The number of rows
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the height of the specified row, get the object corresponding to the number of rows and height
+
+- **Usage**:
+
+   - The height of the first row is 50px, the height of the second row is 60px, get these values
+
+		`luckysheet.getRowHeight([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getColumnWidth(columnInfo [,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {Array} [columnInfo]: The number of columns
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the width of the specified column, get the object of the corresponding relationship between the number of columns and the width
+
+- **Usage**:
+
+   - The width of the first column is 50px, the width of the second column is 60px, get these values
+
+		`luckysheet.getColumnWidth([0,1])`
+		Return to get
+		`{0：50，1：60}`
+
+------------
+
+### getDefaultRowHeight([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+	
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default row height of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default row height of the current worksheet
+
+		`luckysheet.getDefaultRowHeight()`
+		Return to get
+		`19`
+
+------------
+
+### getDefaultColWidth([,setting])
+
+(TODO)
+ 
+- **Parameter**：
+		
+	- {PlainObject} [setting]: optional parameters
+		+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+        + {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Get the default column width of the specified worksheet
+
+- **Usage**:
+
+   - Returns the default column width of the current worksheet
+
+		`luckysheet.getDefaultColWidth()`
+		Return to get
+		`73`
+
+------------
+
 ## Selection operation
 
 ### getRange()
@@ -543,6 +724,179 @@ Use note:
 			{ "row": [0,1], "column": [0,1] },
 			{ "row": [3,4], "column": [1,2] }
 		]
+		```
+
+------------
+
+
+### getRangeWithFlatten()
+ 
+- **Explanation**：
+
+	Returns an array representing the positions of all cells in the specified area, which is different from the getrange method, which organizes the data of the selection by cell (rather than a continuous area).
+
+- **Usage**:
+
+	- Select the specified area in the table, and then execute
+		
+		`luckysheet.getRange()`
+		
+		The returned result is:
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		Where，{"row":[0,0],"column":[0,2]} denote a whole continuous region.
+
+	- Select the area above in the table and execute
+		
+		`luckysheet.getRangeWithFlatten()`
+		
+		The returned result is:
+		```json
+		[
+			{"r":0,"c":0},
+			{"r":0,"c":1},
+			{"r":0,"c":2},
+			{"r":1,"c":0},
+			{"r":3,"c":0}
+		]
+		```
+
+------------
+
+
+### getRangeValuesWithFlatte()
+ 
+- **Explanation**：
+
+	Returns an array of objects representing the contents of all cells in a specified range
+
+- **Usage**:
+
+	- Select the specified area in the table, and then execute
+		
+		`luckysheet.getRange()`
+		
+		The returned result is:
+		```json
+		[
+			{"row":[0,0],"column":[0,2]},
+			{"row":[1,1],"column":[0,0]},
+			{"row":[3,3],"column":[0,0]}
+		]
+		```
+		Where，{"row":[0,0],"column":[0,2]} denote a whole continuous region.
+
+	- Select the area above in the table and execute
+		
+		`luckysheet.getRangeValuesWithFlatte()`
+		
+		The returned result is:
+		```json
+		[
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 1,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "1"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 2,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "2"
+			},
+			{
+				"bg": null,
+				"bl": 0,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1,
+				"v": 3,
+				"ct": {
+					"fa": "General",
+					"t": "n"
+				},
+				"m": "3"
+			},
+			{
+				"v": "Background",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Background",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			},
+			{
+				"v": "Border",
+				"ct": {
+					"fa": "General",
+					"t": "g"
+				},
+				"m": "Border",
+				"bg": null,
+				"bl": 1,
+				"it": 0,
+				"ff": 0,
+				"fs": 11,
+				"fc": "rgb(51, 51, 51)",
+				"ht": 1,
+				"vt": 1
+			}
+		]
+		```
+------------
+
+### getRangeAxis()
+ 
+- **Explanation**：
+
+	Returns an array of coordinate strings corresponding to the current selection. Multiple selections may exist. Each selection may be a single cell (such as A1) or a rectangular region of multiple cells (such as D9: E12)
+
+- **Usage**:
+
+	- The current selection is"E10:E14"、"A7:B13"、"C4"、 "A3" and "C6:D9", execute
+		
+		`luckysheet.getRangeAxis()`
+		
+		The returned result is:
+		```json
+		["E10:E14", "A7:B13", "C4", "A3", "C6:D9"]
 		```
 
 ------------
@@ -683,7 +1037,6 @@ Use note:
 ------------
 
 ### getRangeJson(title [,setting])
- 
 
 - **Parameter**：
 
@@ -710,8 +1063,7 @@ Use note:
 		The returned result is:
 		```json
 		[
-			{ "A": "value1", "B": "value3" },
-			{ "A": "value2", "B": "value4" }
+			{ "value1": "value2", "value3": "value4" }
 		]
 		```
 
@@ -722,7 +1074,8 @@ Use note:
 		The returned result is:
 		```json
 		[
-			{ "value1": "value2", "value3": "value4" }
+			{ "A": "value1", "B": "value3" },
+			{ "A": "value2", "B": "value4" }
 		]
 		```
 
@@ -935,8 +1288,6 @@ Use note:
 
 ### setRangeShow(range [,setting])<div id='setRangeShow'></div>
 
-[todo]
-
 - **Parameter**：
 
 	- {Array | Object | String} [range]: The range of the selection, the format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1],column: [0,1]}`, allows an array of multiple selections; the default is the current selection
@@ -1034,7 +1385,7 @@ Use note:
 					}
 				]
 			]
-		luckysheet.setRangeValue(data)
+		luckysheet.setRangeValue(data,{range:"A1:B2"})
 		```
 
 ------------
@@ -1579,9 +1930,9 @@ Use note:
 		+ `"flipLeftRight"`: flip left and right
 		+ `"flipClockwise"`: rotate clockwise
 		+ `"flipCounterClockwise"`: rotate counterclockwise
-		+ `"Transpose"`: Transpose
-		+ `"DeleteZeroByRow"`: delete 0 values at both ends by row
-		+ `"DeleteZeroByColumn"`: delete zero values at both ends by column
+		+ `"transpose"`: Transpose
+		+ `"deleteZeroByRow"`: delete 0 values at both ends by row
+		+ `"deleteZeroByColumn"`: delete zero values at both ends by column
 		+ `"removeDuplicateByRow"`: delete duplicate values by row
 		+ `"removeDuplicateByColumn"`: remove duplicate values by column
 		+ `"newMatrix"`: Produce a new matrix
@@ -1656,13 +2007,12 @@ Use note:
 
 ### getAllSheets()
 
-[todo]
 
 - **Explanation**：
 
 	Return all worksheet configurations, the format is the same as the worksheet configuration, and the results obtained can be used as options.data when the form is initialized.
 
-	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, you can use [toJson](#toJson())
+	Therefore, this API is suitable for manually operating and configuring a table, and then taking out all the worksheet information to save it, and then use it for table creation in other places. If you want to get all the workbook data including the workbook configuration, it is recommended to use [toJson](#toJson()), and it can be directly used to initialize Luckysheet.
 
 - **Usage**:
 
@@ -1676,6 +2026,13 @@ Use note:
 - **Explanation**：
 
 	Returns a one-dimensional array `luckysheetfile` of all table data structures. Unlike the `getAllSheets` method, the worksheet parameters obtained by this method will contain many internal variables. The most obvious difference is that the table data operation will maintain `luckysheetfile[i]. data`, and the initialization data uses `options.data[i].celldata`, so `luckysheetfile` can be used for debugging, but the initialization table is not applicable.
+
+	In addition, a `load = 1` will be added to the loaded worksheet parameters, this parameter needs to be set to 0 when initializing the data. Therefore, to initialize the workbook with the data obtained by `getLuckysheetfile()`, two tasks need to be done:
+
+    - Convert celldata to data, refer to: [transToData](/zh/guide/api.html#transtodata-celldata-setting)
+    - Load reset to 0 or delete this field
+
+	Now there is `getAllSheets` to complete this work, no need to manually convert the data.
 
 - **Usage**:
 
@@ -1719,9 +2076,6 @@ Use note:
 
 ### getConfig([setting])
 
-[todo]
-
-
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -1735,9 +2089,6 @@ Use note:
 
 ### setConfig([setting])
 
-[todo]
-
-
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -1749,13 +2100,26 @@ Use note:
 	Quickly set the current worksheet config configuration
 
 ------------
+### updataSheet([setting])
+
+- **参数**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Array} [data]: Worksheet Configuration
+    	+ {Function} [success]: callback function for the end of the operation
+	
+- **说明**：
+
+	Update the corresponding sheet according to the set sheet configuration
+
+------------
 
 ### setSheetAdd([setting])
 
 - **Parameter**：
 
     - {PlainObject} [setting]: optional parameters
-        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object
+        + {Object} [sheetObject]: The data of the newly added worksheet; the default value is an empty object.Worksheet data format reference [options.data](/guide/sheet.html#initial)
         + {Number} [order]: New worksheet subscript; the default value is the last subscript
         + {Function} [success]: callback function for the end of the operation
 	
@@ -1994,6 +2358,74 @@ Use note:
 
 ------------
 
+### setSheetZoom(zoom [,setting])
+
+[todo]
+
+
+- **Parameter**：
+
+    - {Number} [zoom]: Worksheet zoom ratio
+
+	- {PlainObject} [setting]: optional parameters
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Set worksheet zoom ratio
+
+
+- **Usage**:
+
+	- Set the current worksheet zoom ratio to 0.5
+	```js
+	luckysheet.setSheetZoom(0.5)
+	```
+
+------------
+
+### showGridLines([setting])
+
+- **Parameter**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: The subscript of the worksheet that needs to show the grid lines; the default value is the subscript of the current worksheet
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Show the grid lines of the specified subscript worksheet, and return the worksheet object of the operation
+
+- **Usage**:
+
+	- Show the grid lines of the current worksheet
+	`luckysheet.showGridLines()`
+	- Show the grid lines of the third worksheet
+	`luckysheet.showGridLines({order:2})`
+
+------------
+
+### hideGridLines([setting])
+
+- **Parameter**：
+
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: The subscript of the worksheet that needs to hdie the grid lines; the default value is the subscript of the current worksheet
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Hide the grid lines of the specified subscript worksheet, and return the worksheet object of the operation
+
+- **Usage**:
+
+	- Hide grid lines of current worksheet
+	`luckysheet.hideGridLines()`
+	- Hide the grid lines of the third worksheet
+	`luckysheet.hideGridLines({order:2})`
+
+------------
+
 ## Workbook operations
 
 ### create(options [,setting])
@@ -2027,9 +2459,6 @@ Use note:
 ------------
 
 ### scroll([setting])
-
-[todo]
-
 
 - **参数**：
 	
@@ -2090,8 +2519,6 @@ Use note:
 
 ### setWorkbookName(name [,setting])
 
-[todo]
-
 - **Parameter**：
 
 	- {Number} [name]: Workbook name
@@ -2101,6 +2528,19 @@ Use note:
 - **Explanation**：
 	
 	Set workbook name
+
+------------
+
+### getWorkbookName(name [,setting])
+
+- **Parameter**：
+
+	- {PlainObject} [setting]: optional parameters
+		+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	get workbook name
 
 ------------
 
@@ -2136,7 +2576,47 @@ Use note:
 
 ------------
 
-## chart
+### refreshFormula([setting])
+
+- **Parameter**：
+
+	-  {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Force refresh formula. When you directly modify the values of multiple cells without triggering a refresh, and these cells are associated with formulas, you can use this API to force a formula refresh to be triggered at the end.
+
+------------
+
+### refreshMenuButtonFocus([data],[r],[c],[success])
+
+- **Parameter**：
+
+	- {Array}  [data]: Operational data
+	- {Number} [r]: Specified row
+	- {Number} [c]: Specified column
+	- {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Refreshes the top status bar status of the specified cell.
+
+------------
+
+### checkTheStatusOfTheSelectedCells(type,status)
+
+- **Parameter**：
+
+	- {String} type: type
+	- {String} status: Target state value
+
+- **Explanation**：
+	
+	Check whether the status of all specified types of cells in the selection meets the conditions (mainly bold, italics, strikeouts, underscores, etc.).
+
+------------
+
+## Chart
 
 ### insertChart([setting])
 
@@ -2218,6 +2698,63 @@ Use note:
 
 ------------
 
+## Data Verification
+
+### setDataVerification(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for data verification
+    - {PlainObject} [setting]: optional parameters
+        + {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to set the data verification function and set the parameters
+
+------------
+
+### deleteDataVerification([setting])
+
+[todo, to be confirmed whether it is reasonable]
+
+- **Parameter**：
+	
+    - {PlainObject} [setting]: optional parameters
+		+ {Array | Object | String} [range]: The selection area for data verification, The format of the supported selection is `"A1:B2"`, `"sheetName!A1:B2"` or `{row:[0,1] ,column:[0,1]}`, can only be a single selection; the default is the current selection
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet range to delete the data verification function
+
+------------
+
+## Worksheet Protection
+
+
+### setProtection(option, [setting])
+
+[todo]
+
+- **Parameter**：
+	
+	- {Object} [option]: Configuration information for worksheet protection
+    - {PlainObject} [setting]: optional parameters
+    	+ {Number} [order]: Worksheet subscript; the default value is the current worksheet subscript
+    	+ {Function} [success]: callback function for the end of the operation
+
+- **Explanation**：
+	
+	Specify the worksheet to set the worksheet protection
+
+------------
+
 ## Public method
 
 ### transToCellData(data [,setting])<div id='transToCellData'></div>
@@ -2253,8 +2790,6 @@ Use note:
 ------------
 
 ### toJson()
-
-[todo]
 
 - **Explanation**：
 	

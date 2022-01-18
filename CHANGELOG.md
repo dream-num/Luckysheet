@@ -2,6 +2,239 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.13](https://github.com/mengshukeji/Luckysheet/compare/v2.1.12...v2.1.13) (2021-01-19)
+
+
+### Bug Fixes
+
+* **bug:** bug ([025823b](https://github.com/mengshukeji/Luckysheet/commit/025823b9f386c8048aa44b62f076a739eaa980c0)), closes [#435](https://github.com/mengshukeji/Luckysheet/issues/435)
+* **bug:** bug ([a8ff967](https://github.com/mengshukeji/Luckysheet/commit/a8ff967be9cdcf3bbcb0045888951a26a852500a)), closes [#398](https://github.com/mengshukeji/Luckysheet/issues/398)
+* **bug:** bug ([deb3a96](https://github.com/mengshukeji/Luckysheet/commit/deb3a965b881d747f9a2171f7d9c9f967d671901))
+* **bug:** bug ([5ce1f4a](https://github.com/mengshukeji/Luckysheet/commit/5ce1f4a0b753b7a95569b5285d749389e4d8b943)), closes [#433](https://github.com/mengshukeji/Luckysheet/issues/433)
+* **bug:** bug ([932e821](https://github.com/mengshukeji/Luckysheet/commit/932e8215563248f97547ad21a429ef3f8ed0682b)), closes [#423](https://github.com/mengshukeji/Luckysheet/issues/423) [#424](https://github.com/mengshukeji/Luckysheet/issues/424)
+* **bug:** bug ([06636f6](https://github.com/mengshukeji/Luckysheet/commit/06636f6a3c08128fe50aa880baabc9420fce4092)), closes [#154](https://github.com/mengshukeji/Luckysheet/issues/154) [#410](https://github.com/mengshukeji/Luckysheet/issues/410) [#416](https://github.com/mengshukeji/Luckysheet/issues/416)
+* **bug:** history bug ([973eec8](https://github.com/mengshukeji/Luckysheet/commit/973eec8b71ea963bb23c9fe35c985e86c85ef019))
+* **bug:** setRangeFormat history ([065148b](https://github.com/mengshukeji/Luckysheet/commit/065148b5a97e9090479f401463c548c3346757ec))
+* **bug:** setRangeShow api ([5bbc45b](https://github.com/mengshukeji/Luckysheet/commit/5bbc45b68e807a2c58c328d93fe8079f3e56fa9f))
+* bug ([7412c5b](https://github.com/mengshukeji/Luckysheet/commit/7412c5b4f5aa0afd93f3e0210d3f3fe182c67273))
+* **bug:** 文本自动换行bug ([bc926e5](https://github.com/mengshukeji/Luckysheet/commit/bc926e5c49f008c14b4b5e1fdf13713fd6e995b5))
+* 换行 ([94022a4](https://github.com/mengshukeji/Luckysheet/commit/94022a48b6407523c5924e94c86fb2ada0fab301))
+* **bug:** 渲染换行空行 ([4162b7a](https://github.com/mengshukeji/Luckysheet/commit/4162b7a049f109715a9246ce610d05882d5a5f12))
+* **hook:** cellrender ([d444980](https://github.com/mengshukeji/Luckysheet/commit/d44498086fcd3b1b2bf75e95c6a236bc79a1df13))
+* **let:** let declar ([71ade32](https://github.com/mengshukeji/Luckysheet/commit/71ade32abd3989230db609ec37f92e931a4473f0))
+* **pivottable:** fix ([7cecb12](https://github.com/mengshukeji/Luckysheet/commit/7cecb12ae3a1a0bd0d5bdce803429d4464388e31)), closes [#439](https://github.com/mengshukeji/Luckysheet/issues/439) [#447](https://github.com/mengshukeji/Luckysheet/issues/447)
+* **pivottable:** init ([5b19e8b](https://github.com/mengshukeji/Luckysheet/commit/5b19e8b06bdd95c2b799d2cc1d6ae677b96617cd))
+* **pivottable:** refresh ([78330c9](https://github.com/mengshukeji/Luckysheet/commit/78330c95db2735c8139b0320c2e81ee6f438adea))
+
+### [2.1.12](https://github.com/mengshukeji/Luckysheet/compare/v2.1.11...v2.1.12) (2020-12-22)
+
+
+### Features
+
+* **api:** find ([ea97233](https://github.com/mengshukeji/Luckysheet/commit/ea97233a668b3a682f6f0b1ad3fec251b01c33ab))
+
+
+### Bug Fixes
+
+* **bug:** bug ([9357792](https://github.com/mengshukeji/Luckysheet/commit/9357792fd1c49737398cf86cdf87d9dbfe35df26)), closes [#359](https://github.com/mengshukeji/Luckysheet/issues/359) [#360](https://github.com/mengshukeji/Luckysheet/issues/360) [#376](https://github.com/mengshukeji/Luckysheet/issues/376) [#382](https://github.com/mengshukeji/Luckysheet/issues/382)
+* **bug:** bug ([19560eb](https://github.com/mengshukeji/Luckysheet/commit/19560eba3fe36cce4ee65ba3e8ac80ab7ec8d620)), closes [#367](https://github.com/mengshukeji/Luckysheet/issues/367) [#370](https://github.com/mengshukeji/Luckysheet/issues/370)
+* **bug:** bug ([0f257e8](https://github.com/mengshukeji/Luckysheet/commit/0f257e8f153bb6c0cf38fb85200c587aabac164c)), closes [#361](https://github.com/mengshukeji/Luckysheet/issues/361) [#364](https://github.com/mengshukeji/Luckysheet/issues/364) [#365](https://github.com/mengshukeji/Luckysheet/issues/365)
+* **bug:** copy bug ([2bcbab9](https://github.com/mengshukeji/Luckysheet/commit/2bcbab9a9f4727fd03930962a2dbdcaec3401597))
+* **feature:** functionButton ([5983cb0](https://github.com/mengshukeji/Luckysheet/commit/5983cb015e092e2edc1d3f27dba2d585fb4db099)), closes [#336](https://github.com/mengshukeji/Luckysheet/issues/336) [#381](https://github.com/mengshukeji/Luckysheet/issues/381)
+* copy ([d177cc8](https://github.com/mengshukeji/Luckysheet/commit/d177cc8f5ee01d32932d1137920883209ec24be4))
+
+### [2.1.10](https://github.com/mengshukeji/Luckysheet/compare/v2.1.9...v2.1.10) (2020-12-18)
+
+
+### Bug Fixes
+
+* **rowtitle:** bug ([8faeffe](https://github.com/mengshukeji/Luckysheet/commit/8faeffee08840a5e8119d9fc8ac7204248105616))
+
+### [2.1.9](https://github.com/mengshukeji/Luckysheet/compare/v2.1.8...v2.1.9) (2020-12-17)
+
+
+### Bug Fixes
+
+* **bug:** bug ([54ae143](https://github.com/mengshukeji/Luckysheet/commit/54ae143aa268b5ce0253752a2a92b2ab22601b42)), closes [#222](https://github.com/mengshukeji/Luckysheet/issues/222) [#355](https://github.com/mengshukeji/Luckysheet/issues/355)
+* **numeral:** userInfo ([871d381](https://github.com/mengshukeji/Luckysheet/commit/871d3819f7c734b604f19da1ba81bf5ee0ea0814)), closes [#338](https://github.com/mengshukeji/Luckysheet/issues/338)
+
+### [2.1.8](https://github.com/mengshukeji/Luckysheet/compare/v2.1.7...v2.1.8) (2020-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **bug:** n
+
+### Features
+
+* **api add:** image ([16131b2](https://github.com/mengshukeji/Luckysheet/commit/16131b2776cd278bb7bddae674c206aa739f3a46)), closes [#270](https://github.com/mengshukeji/Luckysheet/issues/270)
+* **changlang:** changLang ([cbc81e9](https://github.com/mengshukeji/Luckysheet/commit/cbc81e9e17ca56e09f9e697e5372650f3d6a476b)), closes [#318](https://github.com/mengshukeji/Luckysheet/issues/318)
+* **collaborative editing:** collaborative editing ([6fe8726](https://github.com/mengshukeji/Luckysheet/commit/6fe87260e8986cd83e7bcf655594389c01739107)), closes [#199](https://github.com/mengshukeji/Luckysheet/issues/199) [#201](https://github.com/mengshukeji/Luckysheet/issues/201) [#202](https://github.com/mengshukeji/Luckysheet/issues/202)
+* **condition format:** formula condition ([6c98bde](https://github.com/mengshukeji/Luckysheet/commit/6c98bded8dcf16aab4bcc89a63a62d3878c06cd3)), closes [#186](https://github.com/mengshukeji/Luckysheet/issues/186)
+* **demo:** proxy ([bc64807](https://github.com/mengshukeji/Luckysheet/commit/bc64807de9e3f8f60ddc529c6b795c95aff1884c))
+* **feature:** closeWebsocket api and ctrl ; ([9153bc7](https://github.com/mengshukeji/Luckysheet/commit/9153bc799db2aea947f2ba70a7b947daca55b844)), closes [#328](https://github.com/mengshukeji/Luckysheet/issues/328) [#326](https://github.com/mengshukeji/Luckysheet/issues/326)
+* **hook:** add ([2c6b1c2](https://github.com/mengshukeji/Luckysheet/commit/2c6b1c21b3ad6535671745fd7483d9318f7e55ec))
+* **print feature:** develop ([a0921b6](https://github.com/mengshukeji/Luckysheet/commit/a0921b62d73b8b3edcaf1c72dd9e35cd43848f2f))
+
+
+### Bug Fixes
+
+* **add forcecaculation config:** add ([e96d210](https://github.com/mengshukeji/Luckysheet/commit/e96d210fe544caa8b912720a274374bccb0cef7d))
+* **bug:** bug ([95e26c3](https://github.com/mengshukeji/Luckysheet/commit/95e26c3fa07fa74c238c0c7b96b5b7ff91b79889)), closes [#330](https://github.com/mengshukeji/Luckysheet/issues/330)
+* **bug:** bug ([c003f8a](https://github.com/mengshukeji/Luckysheet/commit/c003f8a4281f346c89226061851f71693208574a)), closes [#184](https://github.com/mengshukeji/Luckysheet/issues/184) [#337](https://github.com/mengshukeji/Luckysheet/issues/337)
+* **bug:** bug ([4900b4a](https://github.com/mengshukeji/Luckysheet/commit/4900b4a0f2a82528e130d7281bb1f153ed3297fe)), closes [#331](https://github.com/mengshukeji/Luckysheet/issues/331)
+* **bug:** bug ([b93ea6b](https://github.com/mengshukeji/Luckysheet/commit/b93ea6b66e444d387f230602dd02034b4b237369)), closes [#284](https://github.com/mengshukeji/Luckysheet/issues/284) [#296](https://github.com/mengshukeji/Luckysheet/issues/296)
+* **bug:** bug ([57ff2b9](https://github.com/mengshukeji/Luckysheet/commit/57ff2b959b4be8d5cad559624d92f00e996d315f)), closes [#182](https://github.com/mengshukeji/Luckysheet/issues/182) [#220](https://github.com/mengshukeji/Luckysheet/issues/220)
+* **bug:** bug ([31bdc4f](https://github.com/mengshukeji/Luckysheet/commit/31bdc4feae0037c92074b244e9e52363298b164d)), closes [#263](https://github.com/mengshukeji/Luckysheet/issues/263)
+* **bug:** bug ([385bc03](https://github.com/mengshukeji/Luckysheet/commit/385bc039c91727655ea771c7a48d6f0890a275fb)), closes [#243](https://github.com/mengshukeji/Luckysheet/issues/243) [#226](https://github.com/mengshukeji/Luckysheet/issues/226)
+* **bug:** bug ([88aa6c5](https://github.com/mengshukeji/Luckysheet/commit/88aa6c5b59964078c6a9cfffb41308c196a44953)), closes [#278](https://github.com/mengshukeji/Luckysheet/issues/278) [#276](https://github.com/mengshukeji/Luckysheet/issues/276) [#267](https://github.com/mengshukeji/Luckysheet/issues/267) [#215](https://github.com/mengshukeji/Luckysheet/issues/215)
+* **bug:** copy to excel ([5cf72ec](https://github.com/mengshukeji/Luckysheet/commit/5cf72ec0781f0e3b2ddc77eac228812507ce66a2)), closes [#319](https://github.com/mengshukeji/Luckysheet/issues/319)
+* **bug:** data verification range select ([6d60679](https://github.com/mengshukeji/Luckysheet/commit/6d606791abaa5d410ce68cfb49f8bc9c2dfaf609))
+* **cell:** render ([ba21140](https://github.com/mengshukeji/Luckysheet/commit/ba2114055ba62b0401c76075054588642fa4fbf1))
+* **demo:** websocket url ([cf77ec3](https://github.com/mengshukeji/Luckysheet/commit/cf77ec3307c0d44bc5303f606762c003d4f50b86))
+* **dynamic array refresh fix:** fix ([b7d634f](https://github.com/mengshukeji/Luckysheet/commit/b7d634f0425dd8cb337784b10094d0952edc460a))
+* **fix #209:** highlight ([ab2d8b7](https://github.com/mengshukeji/Luckysheet/commit/ab2d8b7b5467200e12c8d4c1ece014ebfc6ee7cc)), closes [#209](https://github.com/mengshukeji/Luckysheet/issues/209)
+* **fix #209 ,fix #219:** highlight follow checkout keep highlight ([c547596](https://github.com/mengshukeji/Luckysheet/commit/c5475964e41eb7bb12d87b679dffba4b988abb30)), closes [#209](https://github.com/mengshukeji/Luckysheet/issues/209) [#219](https://github.com/mengshukeji/Luckysheet/issues/219)
+* **fix #209 fix #219:** highlight follow checkout page ([0a5ca86](https://github.com/mengshukeji/Luckysheet/commit/0a5ca86ab808d2cb1da8cb14d93c5d787c50f540)), closes [#209](https://github.com/mengshukeji/Luckysheet/issues/209) [#219](https://github.com/mengshukeji/Luckysheet/issues/219)
+* **fix #209 fix #219:** highlight follow, checkout keep highlight ([2c7b0bb](https://github.com/mengshukeji/Luckysheet/commit/2c7b0bbdf5adf1b2a6fc537e37825ab01ee3cf96)), closes [#209](https://github.com/mengshukeji/Luckysheet/issues/209) [#219](https://github.com/mengshukeji/Luckysheet/issues/219)
+* **fix #290:** userinfo ([80d67e1](https://github.com/mengshukeji/Luckysheet/commit/80d67e157d010f8e59c472b2e6046c04efe9b966)), closes [#290](https://github.com/mengshukeji/Luckysheet/issues/290)
+* **fix #290:** userinfo ([dddfc8f](https://github.com/mengshukeji/Luckysheet/commit/dddfc8f9418991466025682309e73950da6611cd)), closes [#290](https://github.com/mengshukeji/Luckysheet/issues/290)
+* **fix #290:** userinfo ([27a770e](https://github.com/mengshukeji/Luckysheet/commit/27a770ee863356d2ef120970723bb048c510d9aa)), closes [#290](https://github.com/mengshukeji/Luckysheet/issues/290)
+* **main canvas:** bottom space ([23c8a78](https://github.com/mengshukeji/Luckysheet/commit/23c8a78cb3bd387c7c609250de41b187105475b5))
+* **tojson:** bug ([1c94783](https://github.com/mengshukeji/Luckysheet/commit/1c94783677bcfe6488caf39028f18e5b2505a737))
+*  setCellValue API 可设置自定义的属性，不显式设置v, v 不会丢失 ([6d45cf2](https://github.com/mengshukeji/Luckysheet/commit/6d45cf2ce63dca282f4a40ce5aaf628f94bfc8d1))
+* jfrefreshgrid 函数第二个参数应该是个数组 ([c7cf87a](https://github.com/mengshukeji/Luckysheet/commit/c7cf87a49b1b8ce64fb21249cd05950fabc0e546))
+* setCellFormat data  引用 ([ed50e47](https://github.com/mengshukeji/Luckysheet/commit/ed50e47b44e079bc76419ba3f96f04d964c70610))
+* setCellValue 刷新页面时的历史记录问题 ([a2cf969](https://github.com/mengshukeji/Luckysheet/commit/a2cf96978f97b289d603aa404bcfaf8a0d64f87b))
+* 修复alert ([94e0020](https://github.com/mengshukeji/Luckysheet/commit/94e0020acd49aed50810e6c133688c950690ab3c))
+* 修复主动关闭socket仍然alert弹窗 ([e0bdb2c](https://github.com/mengshukeji/Luckysheet/commit/e0bdb2c4015355e428c5e8d567196d607606a38e))
+* 修复主动关闭socket定时器仍运行问题 ([82a8731](https://github.com/mengshukeji/Luckysheet/commit/82a87319342c698c1a1a58972a9d59ab3b7e91cd))
+* 初始化表单状态下标调整 ([3a54312](https://github.com/mengshukeji/Luckysheet/commit/3a54312c93a6daebf575639dd612e0d01be2a296))
+* 复制选区虚线框正确显示 ([9d6a2ee](https://github.com/mengshukeji/Luckysheet/commit/9d6a2eed05ae660fb65515217e156817fc4d6443))
+* 解决单击非时间日期单元格后还会跳出日期时间弹框 ([fc9eb4e](https://github.com/mengshukeji/Luckysheet/commit/fc9eb4e7984af6991b79acae6a2a5c0bbea5254f))
+* **fix forcecaculation feature:** complete ([7568ceb](https://github.com/mengshukeji/Luckysheet/commit/7568ceb442acdfdedeb6d6e4d623bdcd2a8c4018))
+* **formula contain text bug:** add iscell method ([89358d3](https://github.com/mengshukeji/Luckysheet/commit/89358d36045baca791f2b5e9d2152349bf5903cf))
+* **formula update fix:** formula update only one level, when cell value change. Fix it ([cf6c5be](https://github.com/mengshukeji/Luckysheet/commit/cf6c5be8a45616e1002db0ff4b04b47c3ed4c38e))
+
+### [2.1.7](https://github.com/mengshukeji/Luckysheet/compare/v2.1.6...v2.1.7) (2020-11-26)
+
+
+### Features
+
+* **demo:** tool function ([3baf93c](https://github.com/mengshukeji/Luckysheet/commit/3baf93cdb57238ee73ace3e7b9bca142fad81584))
+* 修改日期能够正常的弹出格式框和设置对应格式的日期时间 ([2c27044](https://github.com/mengshukeji/Luckysheet/commit/2c2704473c1c5a77091acda45a46f39ebbad3592))
+* 修改日期能够正常的弹出格式框和设置对应格式的日期时间 ([67c44e7](https://github.com/mengshukeji/Luckysheet/commit/67c44e7a68d948fcb90bd499ecc15cfb2bea5127))
+
+
+### Bug Fixes
+
+* **formula:** function ([dad6e2b](https://github.com/mengshukeji/Luckysheet/commit/dad6e2b2d144a31f4cfaaf84c90588e1a02ee006))
+* **formular:** docs ([ddac582](https://github.com/mengshukeji/Luckysheet/commit/ddac582f696898a1a46fc0ce3eb5d245d20077ae))
+* **hook:** function ([fb43a56](https://github.com/mengshukeji/Luckysheet/commit/fb43a56222c3d4c77b84efa9ff37eed8e1333a1a))
+* **hook function:** cellupdate ([5e8f71f](https://github.com/mengshukeji/Luckysheet/commit/5e8f71f32e5104769dbe6e0c61de3cd26b286344))
+* ie11右下角菜单图标会出现错位 ([34fd6e7](https://github.com/mengshukeji/Luckysheet/commit/34fd6e74cb87f9563ff28979d9f5f8a192fb558a))
+* 重复create会出现很多问题 ([8f22790](https://github.com/mengshukeji/Luckysheet/commit/8f227904fe9600ea17fdc346924d73c3bc81a041))
+
+### [2.1.6](https://github.com/mengshukeji/Luckysheet/compare/v2.1.5...v2.1.6) (2020-11-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* yes
+
+q
+
+### Features
+
+* **api:** hook function ([a0db530](https://github.com/mengshukeji/Luckysheet/commit/a0db530295bca24b81b02171a073f6b6f1227ce6))
+* **hook:** add hook function ([215dec2](https://github.com/mengshukeji/Luckysheet/commit/215dec27d796ee9b5be7857a425093a53db84332))
+* q ([54a42a2](https://github.com/mengshukeji/Luckysheet/commit/54a42a274a96eb3334602fd0de65e1d4b2fc492a))
+* **bottom alignment of english letters:** fix ([a596d2f](https://github.com/mengshukeji/Luckysheet/commit/a596d2fcd617cac196e3336a8dfe8ac9ba58c9f7))
+* **config:** sheetRightClickConfig ([59c7cb3](https://github.com/mengshukeji/Luckysheet/commit/59c7cb34a33450e59023fd1ae5e615f3e40ef0d9))
+* add underline button ([df56ba6](https://github.com/mengshukeji/Luckysheet/commit/df56ba6f359bb12eb765b26b973100c554601eca))
+* use npm dependencies ([e4bd439](https://github.com/mengshukeji/Luckysheet/commit/e4bd439a0e96dbec0cb3a45e01aaecb129fab2ad))
+* **row and column width:** batch change the height and width of the selected row and column ([956bd2a](https://github.com/mengshukeji/Luckysheet/commit/956bd2a01012b429c58a14b5b88d02a02350b662))
+
+
+### Bug Fixes
+
+* **bug fix:** [#26](https://github.com/mengshukeji/Luckysheet/issues/26) [#91](https://github.com/mengshukeji/Luckysheet/issues/91) ([a26ffd8](https://github.com/mengshukeji/Luckysheet/commit/a26ffd8ac388db475dfd38e4ae83098eeeee8bc8))
+* **cooperative:** bug ([9e48c72](https://github.com/mengshukeji/Luckysheet/commit/9e48c72a47022188d387558b5b5f3a6250878c65))
+* **demo:** ie11 ([e7ddc39](https://github.com/mengshukeji/Luckysheet/commit/e7ddc397c8b1e421c63f3e9f661ced99a3d81556)), closes [#234](https://github.com/mengshukeji/Luckysheet/issues/234)
+* **fix #212:** cancel highlight ([289d3ef](https://github.com/mengshukeji/Luckysheet/commit/289d3ef46ebadf9662d272109a1f24d2a8b0dc1d)), closes [#212](https://github.com/mengshukeji/Luckysheet/issues/212)
+* **fix #219:** checkout ([15dca04](https://github.com/mengshukeji/Luckysheet/commit/15dca040840d228f6326d4eecad917df38e15f04)), closes [#219](https://github.com/mengshukeji/Luckysheet/issues/219)
+* **fix #219:** clear info ([080f027](https://github.com/mengshukeji/Luckysheet/commit/080f0275b80143026cc30e8450c901715fc51c19)), closes [#219](https://github.com/mengshukeji/Luckysheet/issues/219)
+* sheet menu position ([a40f679](https://github.com/mengshukeji/Luckysheet/commit/a40f679fde6700c90cd66c66bb070afabb31fb83))
+* **iconfont:** conflict ([bf4d539](https://github.com/mengshukeji/Luckysheet/commit/bf4d539dddc4cef232f8eae602b39980ded5b208))
+* **mousemove hook error:** fix ([89b93e7](https://github.com/mengshukeji/Luckysheet/commit/89b93e71460750be8f736df0dbc13675daf5d72d))
+
+### [2.1.5](https://github.com/mengshukeji/Luckysheet/compare/v2.1.4...v2.1.5) (2020-11-03)
+
+
+### Features
+
+* **cell date picker:** cell date picker and bug solve ([2996ae9](https://github.com/mengshukeji/Luckysheet/commit/2996ae9cab724714903d00e0b63022abc4a1a3b6))
+* **cell hooks add:** go to document for detail ([927ff46](https://github.com/mengshukeji/Luckysheet/commit/927ff46949f688a5bcffcb3fe48dc6b4b12b61c9))
+* **config:** custom menu button config ([14eb78e](https://github.com/mengshukeji/Luckysheet/commit/14eb78e153cbce726adf9e093702f9b93af1fa03))
+* **config:** sheetbar ([3555746](https://github.com/mengshukeji/Luckysheet/commit/3555746f4cc8ef2c1fe163a34edd428f1a6377ed))
+* **date format:** date format Chinese ([8f8d0cb](https://github.com/mengshukeji/Luckysheet/commit/8f8d0cb8c5563a31afba3fe11b525e6bccd5eb56))
+* **hyperlink:** add hyperlink function ([439dff4](https://github.com/mengshukeji/Luckysheet/commit/439dff4330ab5053643331286091d44ae910fb8d))
+* **hyperlink:** perfect hyperlink function ([5adfc60](https://github.com/mengshukeji/Luckysheet/commit/5adfc6055bf4cfed7f1ff40933d292057196bc7e))
+* **statisticbar:** config docs ([c1ed417](https://github.com/mengshukeji/Luckysheet/commit/c1ed417074e89e665f9ef39ee186db9106904c4e))
+* **tojson:** api/docs ([8e410f5](https://github.com/mengshukeji/Luckysheet/commit/8e410f5d3cd61724230b3024898d6de3c6c41101))
+
+
+### Bug Fixes
+
+* **bug:** bug ([ad73f9a](https://github.com/mengshukeji/Luckysheet/commit/ad73f9a679d77721d8af0a483dffe70b90e56412)), closes [#129](https://github.com/mengshukeji/Luckysheet/issues/129)
+* **bug:** bug ([801cbe5](https://github.com/mengshukeji/Luckysheet/commit/801cbe5a8040d80f2e672b3607c0b92c922281a9))
+* **bug:** bug ([f8716c1](https://github.com/mengshukeji/Luckysheet/commit/f8716c18db05c7ab8bf59d1feb0dc4c3b364c560)), closes [#67](https://github.com/mengshukeji/Luckysheet/issues/67) [#85](https://github.com/mengshukeji/Luckysheet/issues/85)
+* **bug:** bug ([0909f5e](https://github.com/mengshukeji/Luckysheet/commit/0909f5e4c957e3d3248a8c86d6e092c5a5396112)), closes [#142](https://github.com/mengshukeji/Luckysheet/issues/142) [#132](https://github.com/mengshukeji/Luckysheet/issues/132)
+* **bug:** dataVerification and sheet move and delete cell bug ([4815d86](https://github.com/mengshukeji/Luckysheet/commit/4815d86ce564da43aa1ced3b48d38e88afc39f77))
+* **conflict:** conflict ([b11de26](https://github.com/mengshukeji/Luckysheet/commit/b11de26c4d2dbdd7e9d4363558e95d4433f26585))
+* **conflict:** toolbar ([8cfa6ac](https://github.com/mengshukeji/Luckysheet/commit/8cfa6ac1bec8bcb156fe45e8c488aa7026b65738))
+* **fix  bug with inline string rotate wrap:** add change to max, fix height error ([1988687](https://github.com/mengshukeji/Luckysheet/commit/198868719ffb19738ee5ecc1ee060a0840fa92df))
+* **hide row/column:** right click menu ([8070858](https://github.com/mengshukeji/Luckysheet/commit/8070858f6c35f11ee8cf2692d8828d0e78c46d92)), closes [#37](https://github.com/mengshukeji/Luckysheet/issues/37)
+* **restore demo:** restore demo ([e799862](https://github.com/mengshukeji/Luckysheet/commit/e7998627400b82bf082bad3c984f4d26e3c9f43a))
+
+### [2.1.3](https://github.com/mengshukeji/Luckysheet/compare/v2.1.2...v2.1.3) (2020-10-22)
+
+
+### Features
+
+* **api add:** getRowHeight getColumnWidth getDefaultRowHeight getDefaultColumnWidth ([a72f38b](https://github.com/mengshukeji/Luckysheet/commit/a72f38b641a999bdf15281029777222e0bf79e85))
+* **api add:** setRowHeight setColumnWidth setSheetZoom setDataVerification deleteDataVerification ([0fd06cc](https://github.com/mengshukeji/Luckysheet/commit/0fd06cc4d7f465967b3bcc91e0b2484ba61b71f6))
+* **api add:** setSheetOrder refresh getScreenshot setWorkbookName undo redo ([b2a4617](https://github.com/mengshukeji/Luckysheet/commit/b2a46171c2cfcd9682537a801a1ea68e7e2d3ba0))
+* **api and config:** api exitEditMode() scroll() config defaultFontSize ([5eedc48](https://github.com/mengshukeji/Luckysheet/commit/5eedc48a764727bebe09fd626087b158b2979c1e))
+* **support spanish:** support Spanish ([41c527c](https://github.com/mengshukeji/Luckysheet/commit/41c527c6f39a8cb3a99d3fc70603f29ab7ba0a82))
+
+
+### Bug Fixes
+
+* **api:** api ([14d72eb](https://github.com/mengshukeji/Luckysheet/commit/14d72ebe56a2f87f0df5d14595c60e41fe9af077))
+* **bug:** postil image zoom ([76dbb5c](https://github.com/mengshukeji/Luckysheet/commit/76dbb5cc613c8290696e917c554aff934050b6a2))
+* **destroy function repaire:** repair ([02b9fe7](https://github.com/mengshukeji/Luckysheet/commit/02b9fe75f28a87a475bd0593522b20d030d31b85))
+* **event name:** fix ([f64ba54](https://github.com/mengshukeji/Luckysheet/commit/f64ba54455e2a757c72fb4c0110fef2cc5ccdaab))
+* **fix focus after formula edit:** fix ([0ee5f31](https://github.com/mengshukeji/Luckysheet/commit/0ee5f31f5ce84c1a7fab2af17ff102790603e3bb))
+* **fix text whole text wrap bug:** fix ([ef3d324](https://github.com/mengshukeji/Luckysheet/commit/ef3d324e80bc648080b1e5a53108b30dccf74520))
+* **function array value error:** fix it ([31e4b3d](https://github.com/mengshukeji/Luckysheet/commit/31e4b3d9e4cf16f005f8cede059b7cb1cab05031))
+* **function update fix:** fix bug ([28835bb](https://github.com/mengshukeji/Luckysheet/commit/28835bb7533087eb16866b4cdaebe94231c7832b))
+* **image:** resize and change row or column size ([05c49a2](https://github.com/mengshukeji/Luckysheet/commit/05c49a2fad21706ee7e232fe75d213fed3724109))
+* **image fuzzy:** fix it ([8fb1a88](https://github.com/mengshukeji/Luckysheet/commit/8fb1a88669d772a0067edb614e5974ada7301c9c))
+* **image zoom:** fix ([1337178](https://github.com/mengshukeji/Luckysheet/commit/1337178a991b4aa99a6e255e50d69e2c8ca47b82))
+* **index offset indirect fix:** improve the overall execution efficiency of the function ([7a2f8d0](https://github.com/mengshukeji/Luckysheet/commit/7a2f8d02daf2cc0180adc56dafcfb1d1f6d022ec))
+* **inline style:** inline style cell delete bug ([8067a01](https://github.com/mengshukeji/Luckysheet/commit/8067a012ec59a39c5a389d357c3ba2c19bc6acb9))
+* **lineheight change to 0.5:** similar to excel ([760378b](https://github.com/mengshukeji/Luckysheet/commit/760378b369b9bf71da0182ea3b413a0accb23c38))
+* **more btn:** fix more btn align middle ([c5112e9](https://github.com/mengshukeji/Luckysheet/commit/c5112e9700cd89d4820cbbbefdc0e1d3d0ed940a))
+* **more formats toolbar:** fix more formats toolbar can't sync with cell, fix mac delete button can't delete cell, fix can't delete cell with inline-style ([23fcb13](https://github.com/mengshukeji/Luckysheet/commit/23fcb137cb594cfb4bc6dfe2ac86d306c42427f9))
+* **selection bug:** fix it ([b83447d](https://github.com/mengshukeji/Luckysheet/commit/b83447d61805192d0310b20e97821eb01b790fb7))
+* **setcellvalue delete function fix:** fix it ([00b351f](https://github.com/mengshukeji/Luckysheet/commit/00b351fa0dc01c32cf9c6b8852937e7d2ceb292d))
+* **sheet name contains squotes bug:** formla can not execute, when sheet name contains squotes ([fc1dd83](https://github.com/mengshukeji/Luckysheet/commit/fc1dd837d4a3d1639914923201e853e55a865143))
+* **text wrap postion bug:** wrap and rotation postion wrong ([9538972](https://github.com/mengshukeji/Luckysheet/commit/9538972f910ed77e02ccb55c0b96386fcf87297b))
+* **the bug with first word is space:** fix ti ([6ae8319](https://github.com/mengshukeji/Luckysheet/commit/6ae83196cb50fafbf5657104babd124fac27b818))
+* **update number add quote automatically:** similar to excel ([05b01a6](https://github.com/mengshukeji/Luckysheet/commit/05b01a6c95a5d0736c51c5c1ca41e9eb463122d8))
+* **validation of "0" values:** fix ([7255c51](https://github.com/mengshukeji/Luckysheet/commit/7255c51d7b46523ff423ee5560b78d18f8535821))
+
 ## [2.1.0](https://github.com/mengshukeji/Luckysheet/compare/v2.0.0...v2.1.0) (2020-10-10)
 
 

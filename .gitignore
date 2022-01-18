@@ -3,3 +3,7 @@ node_modules
 package-lock.json
 dist
 docs/.vuepress/dist
+
+.idea
+.history
+.vs

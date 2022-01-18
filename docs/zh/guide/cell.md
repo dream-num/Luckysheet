@@ -74,6 +74,13 @@
         <td>Style.Font object's Underline property</td>
     </tr>
     <tr>
+        <td>un</td>
+        <td>underline</td>
+        <td>下划线</td>
+        <td>0 无 、 1 有</td>
+        <td></td>
+    </tr>
+    <tr>
         <td>vt</td>
         <td>verticaltype</td>
         <td>垂直对齐</td>
@@ -151,15 +158,6 @@
             value: "jhbk"//批注内容<br>
         }
         </code>
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>ae</td>
-        <td>allowEdit</td>
-        <td>是否允许编辑[暂未实现]</td>
-        <td>
-        0: 只读，不可编辑 1：可以编辑，默认为 1
         </td>
         <td></td>
     </tr>
@@ -339,7 +337,7 @@ Luckysheet在存储数字类型的内容时，支持多种格式转换，所以�
 ]
 ```
 
-> borderInfo 详细参考：[表格数据config](/zh/guide/data.html#config)
+> borderInfo 详细参考：[config.borderInfo](/zh/guide/sheet.html#config-borderinfo)
 
 ## 简化的单元格数据
 

@@ -1,7 +1,8 @@
 .luckysheet-zoom-content{
-    position: absolute;
+    position: relative;
+    float: right;
     width:210px;
-    right: 0px;
+    /* right: 0px; */
     height: 22px;
     line-height: 22px;
     text-align: right;
@@ -15,6 +16,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-minus{
     position: absolute;
+    top: 0;
     left: 0px;
     width: 20px;
     height:20px;
@@ -36,6 +38,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-slider{
     position: absolute;
+    top: 0;
     left: 25px;
     width: 100px;
     height: 100%;
@@ -46,6 +49,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-line{
     position: absolute;
+    top: 10px;
     width: 100px;
     height: 2px;
     background: #E1E4E8;
@@ -53,6 +57,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-cursor{
     position: absolute;
+    top: 7px;
     width: 8px;
     height: 8px;
     border-radius: 8px;
@@ -70,6 +75,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-slider .luckysheet-zoom-hundred{
     position: absolute;
+    top: 9px;
     width: 2px;
     height: 4px;
     left: 49px;
@@ -79,6 +85,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-plus{
     position: absolute;
+    top: 0;
     left: 130px;
     width: 20px;
     height:20px;
@@ -100,6 +107,7 @@
 
 .luckysheet-zoom-content .luckysheet-zoom-ratioText{
     position: absolute;
+    top: 0;
     left: 155px;
     width: 60px;
     color: #1E1E1F;

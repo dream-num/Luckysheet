@@ -35,6 +35,8 @@ import server from './server';
 import {checkProtectionAuthorityNormal} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
+import numeral from 'numeral';
+import { luckysheetlodingHTML } from '../controllers/constant';
 
 const pivotTable = {
     pivotDatas: null,
@@ -56,7 +58,7 @@ const pivotTable = {
         let realIndex = getSheetIndex(sheetIndex);
 
         if (getObjType(Store.luckysheetfile[realIndex].pivotTable) != "object"){
-            Store.luckysheetfile[realIndex].pivotTable = eval('('+ Store.luckysheetfile[realIndex].pivotTable +')');
+            Store.luckysheetfile[realIndex].pivotTable = new Function("return " + Store.luckysheetfile[realIndex].pivotTable )();
         }
 
         if (Store.luckysheetfile[realIndex].pivotTable != null) {
@@ -134,9 +136,10 @@ const pivotTable = {
         let rowhidden = {};
         if (_this.filterparm != null) {
             for (let f in _this.filterparm) {
+                // 目的是取出rowhidden
                 for (let h in _this.filterparm[f]) {
-                    if (h.rowhidden != null) {
-                        rowhidden = $.extend(true, rowhidden, h.rowhidden);
+                    if (h === 'rowhidden' && _this.filterparm[f][h] != null) {
+                        rowhidden = $.extend(true, rowhidden, _this.filterparm[f][h]);
                     }
                 }
             }
@@ -281,8 +284,8 @@ const pivotTable = {
         else if (byconditiontype == "1") {
             $("#luckysheet-pivotTableFilter-menu .luckysheet-pivotTableFilter-selected-input").eq(0).show().find("input").val($t.data("byconditionvalue1"));
         }
-
-        $("#luckysheet-pivotTableFilter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size: 14px;"> <div class="luckysheetLoaderGif"> </div> <span>'+locale_filter.filiterMoreDataTip+'</span></div>');
+        const loadingObj = luckysheetlodingHTML("#luckysheet-pivotTableFilter-byvalue-select",{text:locale_filter.filiterMoreDataTip});
+        $("#luckysheet-pivotTableFilter-byvalue-select").empty().append(loadingObj.el)
         
         let rowhiddenother = {}; //其它筛选列的隐藏行
         $("#luckysheet-modal-dialog-pivotTable-list .luckysheet-modal-dialog-slider-list-item").not($t.get(0)).each(function () {
@@ -531,7 +534,15 @@ const pivotTable = {
                 }
             }
 
-            $("#luckysheet-pivotTableFilter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + (winH - toffset.top - 350) + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
+            // 适配小屏设备
+            let containerH = winH - toffset.top - 350
+            if (containerH < 0) containerH = 100
+            //$("#luckysheet-pivotTableFilter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
+
+
+            $("#luckysheet-pivotTableFilter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
+            loadingObj.close()
+
         }, 1);
 
         showrightclickmenu($menu, toffset.left - 250, toffset.top);
@@ -670,6 +681,7 @@ const pivotTable = {
 
         _this.getCellData(index);
         _this.initialPivotManage(true);
+        _this.refreshPivotTable(); //初始化在一个普通sheet页，从此普通sheet页切换到数据透视表页时，需要刷新下数据，否则还是旧数据
     },
     refreshPivotTable: function (isRefreshCanvas=true) {
         let _this = this;
@@ -719,12 +731,10 @@ const pivotTable = {
         redo["type"] = "pivotTable_change";
         redo["curdata"] = $.extend(true, [], data);
         redo["sheetIndex"] = Store.currentSheetIndex;
-
-        let pivotTable = _this.getPivotTableData();
-        redo["pivotTablecur"] = pivotTable; 
+        redo["pivotTablecur"] = _this.getPivotTableData();
 
         if(Store.clearjfundo){
-            Store.jfundo = [];
+            Store.jfundo.length  = 0;
             Store.jfredo.push(redo);
         }
         
@@ -860,7 +870,7 @@ const pivotTable = {
             pivotTable = $.extend(true, {}, Store.luckysheetfile[index]["pivotTable"]);
         }
         else{
-            pivotTable = eval('('+ pivotTable +')');
+            pivotTable = new Function("return " + pivotTable )();
         }
 
         return pivotTable
@@ -2628,7 +2638,8 @@ const pivotTable = {
         }
 
         if (isdatatypemulti(d_value)["num"] === true) {
-            let num = numFormat(d_value);
+            //fix issue 265
+            let num = numFormat(d_value,6);
             dataposition[indicator]["digitaldata"].push(num);
             dataposition[indicator]["count"] += 1;
             dataposition[indicator]["sum"] += num;
@@ -2728,7 +2739,7 @@ const pivotTable = {
                     let orderby = r == 0 ? "self" : ((row[r - 1].orderby == "self" || row[r - 1].orderby == null) ? item : (showType == "column" ? item + values[parseInt(row[r - 1].orderby)].fullname : item + locale_pivotTable.valueSum));
                     
                     if(name == null){
-                        name = locale_filter.valueBlank;;
+                        name = locale_filter.valueBlank;
                     }
 
                     curentLevelarr_row.push({ "name": name, "fullname": item, "index": r, "orderby": orderby, "children": [] });
@@ -2855,7 +2866,7 @@ const pivotTable = {
                 }
             }
             else if (json.sumtype == "PRODUCT") {
-                json.result = eval(json.digitaldata.join("*"));
+                json.result = new Function("return " + json.digitaldata.join("*"))();
             }
             else if (json.sumtype == "STDEV") {
                 let mean = json.sum / json.count;

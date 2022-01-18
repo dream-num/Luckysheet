@@ -2,9 +2,37 @@
   "id": "1990368",
   "name": "lucksheet",
   "font_family": "iconfont",
-  "css_prefix_text": "icon-",
+  "css_prefix_text": "luckysheet-iconfont-",
   "description": "",
   "glyphs": [
+    {
+      "icon_id": "17878780",
+      "name": "链接",
+      "font_class": "lianjie",
+      "unicode": "e7f8",
+      "unicode_decimal": 59384
+    },
+    {
+      "icon_id": "17612330",
+      "name": "打印区域",
+      "font_class": "dayinquyu",
+      "unicode": "e7f5",
+      "unicode_decimal": 59381
+    },
+    {
+      "icon_id": "17612331",
+      "name": "打印页面配置",
+      "font_class": "dayinyemianpeizhi",
+      "unicode": "e7f6",
+      "unicode_decimal": 59382
+    },
+    {
+      "icon_id": "17612332",
+      "name": "打印标题",
+      "font_class": "dayinbiaoti",
+      "unicode": "e7f7",
+      "unicode_decimal": 59383
+    },
     {
       "icon_id": "17600443",
       "name": "分页预览",

@@ -3126,7 +3126,7 @@ export default {
         't': 2,
         'd': '返回表格或中的元素值，此元素由行号和列号的索引值给定。',
         'a': '返回表格或中的元素值，此元素由行号和列号的索引值给定。',
-        'm': [3, 3],
+        'm': [2, 3],
         'p': [{
             'name': 'array',
             'detail': '单元格区域或数组常量。',
@@ -7785,7 +7785,7 @@ export default {
     }, {
         "n": "AGE_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出年龄。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出年龄。支持15位或18位身份证",
         "a": "根据身份证号得到年龄。",
         "m": [1, 2],
         "p": [{
@@ -7808,7 +7808,7 @@ export default {
     {
         "n": "SEX_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出性别。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出性别。支持15位或18位身份证",
         "a": "根据身份证号得到性别。",
         "m": [1, 1],
         "p": [{
@@ -7824,7 +7824,7 @@ export default {
     {
         "n": "BIRTHDAY_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出生日。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出生日。支持15位或18位身份证",
         "a": "根据身份证号得到生日。",
         "m": [1, 2],
         "p": [{
@@ -7847,7 +7847,7 @@ export default {
     {
         "n": "PROVINCE_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出籍贯的省份。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出籍贯的省份。支持15位或18位身份证",
         "a": "根据身份证号得到籍贯的省份。",
         "m": [1, 1],
         "p": [{
@@ -7863,7 +7863,7 @@ export default {
     {
         "n": "CITY_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出籍贯的城市。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出籍贯的城市。支持15位或18位身份证",
         "a": "根据身份证号得到籍贯的城市。",
         "m": [1, 1],
         "p": [{
@@ -7879,7 +7879,7 @@ export default {
     {
         "n": "STAR_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出星座。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出星座。支持15位或18位身份证",
         "a": "根据身份证号得到星座。",
         "m": [1, 1],
         "p": [{
@@ -7895,7 +7895,7 @@ export default {
     {
         "n": "ANIMAL_BY_IDCARD",
         "t": "3",
-        "d": "根据中国身份证号计算出生肖（鼠、牛、虎、兔...）。支持15为或18位身份证",
+        "d": "根据中国身份证号计算出生肖（鼠、牛、虎、兔...）。支持15位或18位身份证",
         "a": "根据身份证号得到生肖。",
         "m": [1, 1],
         "p": [{
@@ -7911,7 +7911,7 @@ export default {
     {
         "n": "ISIDCARD",
         "t": "3",
-        "d": "验证身份证的格式是否正确。支持15为或18位身份证",
+        "d": "验证身份证的格式是否正确。支持15位或18位身份证",
         "a": "验证身份证格式正确性。",
         "m": [1, 1],
         "p": [{
@@ -9037,6 +9037,21 @@ export default {
             'type': 'rangenumber'
         }]
     },
+    {
+        "n": "EVALUATE",
+        "t": "3",
+        "d": "对以文字表示的公式或者表达式求值，并返回结果。",
+        "a": "根据文字公式或者表达式求值。",
+        "m": [1, 1],
+        "p": [{
+            "name": "公式",
+            "example": '"A1+5*2^2"',
+            "detail": "公式或表达式",
+            "require": "m",
+            "repeat": "n",
+            "type": "rangeall"
+        }]
+    },
     ],
     toolbar: {
         undo: '撤销',
@@ -9052,6 +9067,7 @@ export default {
         bold: '粗体 (Ctrl+B)',
         italic: '斜体 (Ctrl+I)',
         strikethrough: '删除线 (Alt+Shift+5)',
+        underline: '下划线',
         textColor: '文本颜色',
         chooseColor: '颜色选择',
         resetColor: '重置颜色',
@@ -9072,7 +9088,7 @@ export default {
         textWrapMode: '换行方式',
         textRotate: '文本旋转',
         textRotateMode: '旋转方式',
-        freezeTopRow: '冻结首行',
+        freezeTopRow: '冻结第一行',
         sortAndFilter: '排序和筛选',
         findAndReplace: '查找替换',
         sum: '求和',
@@ -9085,6 +9101,7 @@ export default {
         screenshot: '截图',
         splitColumn: '分列',
         insertImage: '插入图片',
+        insertLink: '插入链接',
         dataVerification: '数据验证',
         protection:"保护工作表内容",
 
@@ -9127,6 +9144,9 @@ export default {
         update:"Update",
         delete:"Delete",
         insert:"新建",
+        prevPage: "上一页",
+        nextPage: "下一页",
+        total: "总共："
     },
     paint: {
         start: '格式刷开启',
@@ -9150,7 +9170,7 @@ export default {
         detailSave: '已恢复本地缓存',
         row: '行',
         column: '列',
-        loading:"渲染中",
+        loading:"渲染中···",
 
         copy:"副本",
         return:"返回",
@@ -9390,19 +9410,19 @@ export default {
         },
         {
             "name": "下午01:30",
-            "value": 'AM/PM hh:mm'
+            "value": '上午/下午 hh:mm'
         },
         {
             "name": "下午1:30",
-            "value": 'AM/PM h:mm'
+            "value": '上午/下午 h:mm'
         },
         {
             "name": "下午1:30:30",
-            "value": 'AM/PM h:mm:ss'
+            "value": '上午/下午 h:mm:ss'
         },
         {
             "name": "08-05 下午01:30",
-            "value": "MM-dd AM/PM hh:mm"
+            "value": "MM-dd 上午/下午 hh:mm"
         },
         // {
         //     "name": "1930年8月5日星期二",
@@ -9463,16 +9483,18 @@ export default {
         "rotationDown":"向下90°"
     },
     freezen:{
-        default:"冻结首行",
-        freezenRow:"冻结首行",
-        freezenColumn:"冻结首列",
-        freezenRC:"冻结行列",
+        default:"冻结第一行",
+        freezenRow:"冻结第一行",
+        freezenColumn:"冻结第A列",
+        freezenRC:"冻结第一行第A列",
         freezenRowRange:"冻结行到选区",
         freezenColumnRange:"冻结列到选区",
         freezenRCRange:"冻结行列到选区",
         freezenCancel:"取消冻结",
 
         noSeletionError:"没有选区",
+        rangeRCOverErrorTitle: "冻结提醒",
+        rangeRCOverError: "冻结窗格超过可见范围，会导致无法正常操作，请重新设置冻结区域。"
     },
     sort:{
         "asc":"升序",
@@ -9752,7 +9774,8 @@ export default {
         redoDelete:"可以通过Ctrl+Z撤销删除",
         noHide:"不能隐藏, 至少保留一个sheet标签",
         chartEditNoOpt:"图表编辑模式下不允许该操作！",
-
+        sheetNameSpecCharError:"名称不能超过31个字符，首尾不能是' 且名称不能包含:\r\n[ ] : \\ ? * /",
+        sheetNamecannotIsEmptyError:"名称不能为空!"
     },
     conditionformat: {
         conditionformat_greaterThan: '条件格式——大于',
@@ -9815,6 +9838,8 @@ export default {
         ruleTypeItem4: '仅对高于或低于平均值的数值设置格式',
         ruleTypeItem4_title: '为满足以下条件的值',
         ruleTypeItem5: '仅对唯一值或重复值设置格式',
+        ruleTypeItem6: '使用公式确定要设置格式的单元格',
+        formula: '公式',
         textColor: '文本颜色',
         cellColor: '单元格颜色',
         confirm: '确定',
@@ -9933,11 +9958,27 @@ export default {
         fiveQuadrantDiagram: '五象限图',
         fiveBoxes: '5个框',
     },
+    insertLink: {
+        linkText: "文本",
+        linkType: "链接类型",
+        external: "外部链接",
+        internal: "内部链接",
+        linkAddress: "链接地址",
+        linkSheet: "工作表",
+        linkCell: "单元格引用",
+        linkTooltip: "提示",
+        placeholder1: "请输入网页链接地址",
+        placeholder2: "请输入要引用的单元格，例A1",
+        placeholder3: "请输入提示内容",
+        tooltipInfo1: "请输入有效的链接",
+        tooltipInfo2: "请输入正确的单元格引用",
+    },
     dataVerification: {
         cellRange: '单元格范围',
         selectCellRange: '点击选择单元格范围',
         selectCellRange2: '请选择单元格范围',
         verificationCondition: '验证条件',
+        allowMultiSelect: '是否允许多选',
         dropdown: '下拉列表',
         checkbox: '复选框',
         number: '数字',
@@ -9981,6 +10022,7 @@ export default {
         tooltipInfo5: '文本内容不能为空',
         tooltipInfo6: '输入的值不是日期类型',
         tooltipInfo7: '日期2不能小于日期1',
+        textlengthInteger: '文本长度必须是大于等于0的整数',
     },
     formula:{
         sum:"求和",
@@ -10220,6 +10262,17 @@ export default {
         menuItemAreas:"打印区域",
         menuItemRows:"打印标题行",
         menuItemColumns:"打印标题列",
+    },
+    edit:{
+        typing:"正在输入",
+    },
+    websocket:{
+        success: 'WebSocket连接成功',
+        refresh: 'WebSocket连接发生错误, 请刷新页面！',
+        wait: 'WebSocket连接发生错误, 请耐心等待！',
+        close: 'WebSocket连接关闭',
+        contact: '服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！',
+        support: '当前浏览器不支持WebSocket',
     }
 
 };

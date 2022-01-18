@@ -219,7 +219,7 @@
         ```
 
     ### config.borderInfo
-    - Type：Object
+    - Type：Array
     - Default：{}
     - Usage：The border information of the cell
     - example:
