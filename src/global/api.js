@@ -64,8 +64,6 @@ export function getCellValue(row, column, options = {}) {
     let cellData = targetSheetData[row][column];
     let return_v;
 
-    debugger
-
     if(getObjType(cellData) == "object"){
         return_v = cellData[type];
 
