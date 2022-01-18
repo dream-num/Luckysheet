@@ -73,14 +73,16 @@ export function getCellValue(row, column, options = {}) {
         else if(type == "f") {
             return_v = cellData["v"];
         }
-        else if(cellData && cellData.ct && cellData.ct.fa == 'yyyy-MM-dd') {
-            return_v = cellData.m;
-        }
-        // 修复当单元格内有换行获取不到值的问题
-        else if (cellData && cellData.ct.t === 'inlineStr') {
-            let inlineStrValueArr = cellData.ct.s;
-            if (inlineStrValueArr) {
-                return_v =  inlineStrValueArr.map(i => i.v).join()
+        else if(cellData && cellData.ct ) {
+            if (cellData.ct.fa == 'yyyy-MM-dd') {
+                return_v = cellData.m;
+            }
+            // 修复当单元格内有换行获取不到值的问题
+            else if (cellData.ct.hasOwnProperty("t") && cellData.ct.t === 'inlineStr') {
+                let inlineStrValueArr = cellData.ct.s;
+                if (inlineStrValueArr) {
+                    return_v =  inlineStrValueArr.map(i => i.v).join("")
+                }
             }
         }
 
