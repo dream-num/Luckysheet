@@ -932,13 +932,22 @@ const server = {
             col_pre = margeset.column[0];
         }
 
+        // *处理光标在靠左或者靠上顶着的时候，光标显示不全的问题
+        if(col_pre <= 0){
+            col_pre += 1
+        }
+
+        if(row_pre <= 0){
+            row_pre +=1
+        }
+
         // 超出16个字符就显示...
-        if (getByteLen(name) > 16) {
-            name = getByteLen(name, 16) + "...";
+        if(getByteLen(name) > 16){
+            name = getByteLen(name,16) + "...";
         }
 
         // 如果正在编辑，就显示“正在输入”
-        if (value === 'enterEdit') {
+        if(value === 'enterEdit'){
             name += " " + locale().edit.typing;
         }
 

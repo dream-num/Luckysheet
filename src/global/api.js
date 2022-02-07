@@ -71,12 +71,22 @@ export function getCellValue(row, column, options = {}) {
         else if(type == "f") {
             return_v = escapeHtml(cellData["v"]);
         }
-        else if(cellData && cellData.ct && cellData.ct.fa == 'yyyy-MM-dd') {
-            return_v = cellData.m;
+        else if(cellData && cellData.ct ) {
+            if (cellData.ct.fa == 'yyyy-MM-dd') {
+                return_v = cellData.m;
+            }
+            // 修复当单元格内有换行获取不到值的问题
+            else if (cellData.ct.hasOwnProperty("t") && cellData.ct.t === 'inlineStr') {
+                let inlineStrValueArr = cellData.ct.s;
+                if (inlineStrValueArr) {
+                    return_v =  inlineStrValueArr.map(i => i.v).join("")
+                }
+            }
         }
+
     }
 
-    if(return_v == undefined){
+    if(return_v == undefined ){
         return_v = null;
     }
 
@@ -634,7 +644,7 @@ export function frozenFirstRow(order) {
                 top
             ];
         }
-        
+
         luckysheetFreezen.saveFreezen(freezenhorizontaldata, top, null, null);
 
         if (luckysheetFreezen.freezenverticaldata != null) {
@@ -1660,7 +1670,8 @@ export function getDefaultRowHeight(options = {}) {
         }
     }, 1)
 
-    return Store.luckysheetfile[order].defaultRowHeight;
+    // *返回指定的工作表默认行高，如果未配置就返回全局的默认行高
+    return Store.luckysheetfile[order].defaultRowHeight || Store.defaultrowlen;
 }
 
 
@@ -1682,7 +1693,8 @@ export function getDefaultColWidth(options = {}) {
         }
     }, 1)
 
-    return Store.luckysheetfile[order].defaultColWidth;
+    // *返回指定的工作表默认列宽，如果未配置就返回全局的默认列宽
+    return Store.luckysheetfile[order].defaultColWidth || Store.defaultcollen;
 }
 
 
