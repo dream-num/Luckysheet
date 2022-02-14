@@ -3571,7 +3571,7 @@ export default function luckysheetHandler() {
 
             d[ps_r][ps_c].ps.left = luckysheetPostil.currentObj.position().left;
             d[ps_r][ps_c].ps.top = luckysheetPostil.currentObj.position().top;
-            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").text();
+            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
 
             rc.push(ps_r + "_" + ps_c);
 
@@ -3605,7 +3605,7 @@ export default function luckysheetHandler() {
             d[ps_r][ps_c].ps.top = luckysheetPostil.currentObj.position().top;
             d[ps_r][ps_c].ps.width = luckysheetPostil.currentObj.outerWidth();
             d[ps_r][ps_c].ps.height = luckysheetPostil.currentObj.outerHeight();
-            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").text();
+            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
 
             rc.push(ps_r + "_" + ps_c);
 
