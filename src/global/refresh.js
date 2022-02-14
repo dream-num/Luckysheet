@@ -120,8 +120,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     editor.webWorkerFlowDataCache(Store.flowdata);//worker存数据
     file.data = Store.flowdata;
 
-    //config, null or empty object are not processed
-    if(cfg != null  && Object.keys(cfg).length !== 0){
+    // 必须要处理，可能之前的config为空，则也需要清空
+    if(cfg != null){
         Store.config = cfg;
         file.config = Store.config;
 
@@ -887,7 +887,7 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
 
             Store.visibledatarow.push(Store.rh_height);//行的临时长度分布
         }
-        Store.rh_height += 110;
+        Store.rh_height += 80;
         // sheetmanage.showSheet();
 
         if(Store.currentSheetIndex == source["sheetIndex"]){
@@ -942,6 +942,13 @@ function jfrefreshgrid_pastcut(source, target, RowlChange){
     formula.execFunctionExist.reverse();
     formula.execFunctionGroup(null, null, null, null, target["curData"]);
     formula.execFunctionGlobalData = null;
+
+    let index = getSheetIndex(Store.currentSheetIndex);
+    let file = Store.luckysheetfile[index];
+    file.scrollTop  = $("#luckysheet-cell-main").scrollTop();
+    file.scrollLeft = $("#luckysheet-cell-main").scrollLeft()
+    
+    sheetmanage.showSheet();
 
     refreshCanvasTimeOut = setTimeout(function () {
         luckysheetrefreshgrid();

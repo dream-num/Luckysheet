@@ -9,6 +9,8 @@ import luckysheetDropCell from './dropCell';
 import { rowLocationByIndex, colLocationByIndex } from '../global/location';
 import Store from '../store';
 import locale from '../locale/locale';
+import { luckysheetrefreshgrid } from '../global/refresh';
+
 
 const luckysheetFreezen = {
     freezenHorizontalHTML: '<div id="luckysheet-freezebar-horizontal" class="luckysheet-freezebar" tabindex="0"><div class="luckysheet-freezebar-handle luckysheet-freezebar-horizontal-handle" ><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-title" ></div><div class="luckysheet-freezebar-handle-bar luckysheet-freezebar-horizontal-handle-bar" ></div></div><div class="luckysheet-freezebar-drop luckysheet-freezebar-horizontal-drop" ><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-title" ></div><div class="luckysheet-freezebar-drop-bar luckysheet-freezebar-horizontal-drop-bar" >&nbsp;</div></div></div>',
@@ -23,6 +25,10 @@ const luckysheetFreezen = {
     windowWidth: null,
     freezenhorizontaldata: null,
     freezenverticaldata: null,
+    // 定义冻结首行、首列是实际的第一行第一列还是当前视图的第一行第一列
+    // excel 为视图的第一行第一列，但此处实现有问题，如滚动到15行冻结首行，当前冻结了15行，保存再进去实际冻结了第一行
+    // 冻结真实的第一行、第一列更符合直觉
+    freezenRealFirstRowColumn: true, 
     cutVolumn: function (arr, cutindex) {
         if(cutindex <= 0){
             return arr;
@@ -43,6 +49,26 @@ const luckysheetFreezen = {
 
         const _locale = locale();
         const locale_freezen = _locale.freezen;
+        // 解决freeze 不垂直居中的问题
+        const freezeHTML = `
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                        <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-function iconfont luckysheet-iconfont-dongjie1"
+                        style="user-select: none;">
+                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        ${locale_freezen.default}
+                    </div>
+                </div>
+            </div>
+        `
+
+        $("#luckysheet-freezen-btn-horizontal").html(freezeHTML);
 
         $("#luckysheet-freezen-btn-vertical").html('<i class="fa fa-indent"></i> '+locale_freezen.freezenColumn);
         _this.freezenverticaldata = null;
@@ -100,20 +126,33 @@ const luckysheetFreezen = {
         }
 
         if (freezenverticaldata == null) {
-            let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-            let dataset_col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
-            if (dataset_col_st == -1) {
-                dataset_col_st = 0;
+            if (_this.freezenRealFirstRowColumn) {
+                let dataset_col_st = 0;
+                left = Store.visibledatacolumn[dataset_col_st] - 2 + Store.rowHeaderWidth;
+                freezenverticaldata = [
+                    Store.visibledatacolumn[dataset_col_st], 
+                    dataset_col_st + 1, 
+                    0, 
+                    _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
+                    left
+                ];
+            } else {
+                let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+                let dataset_col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
+                if (dataset_col_st == -1) {
+                    dataset_col_st = 0;
+                }
+    
+                left = Store.visibledatacolumn[dataset_col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
+                freezenverticaldata = [
+                    Store.visibledatacolumn[dataset_col_st], 
+                    dataset_col_st + 1, 
+                    scrollLeft, 
+                    _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
+                    left
+                ];
             }
 
-            left = Store.visibledatacolumn[dataset_col_st] - 2 - scrollLeft + Store.rowHeaderWidth;
-            freezenverticaldata = [
-                Store.visibledatacolumn[dataset_col_st], 
-                dataset_col_st + 1, 
-                scrollLeft, 
-                _this.cutVolumn(Store.visibledatacolumn, dataset_col_st + 1), 
-                left
-            ];
             _this.saveFreezen(null, null, freezenverticaldata, left);
         }
 
@@ -370,21 +409,41 @@ const luckysheetFreezen = {
         }
 
         if (freezenhorizontaldata == null) {
-            let scrollTop = $("#luckysheet-cell-main").scrollTop();
-            let dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-            if (dataset_row_st == -1) {
+            let dataset_row_st;
+            if (_this.freezenRealFirstRowColumn) {
                 dataset_row_st = 0;
+                top = Store.visibledatarow[dataset_row_st] - 2 + Store.columnHeaderHeight;
+                freezenhorizontaldata = [
+                    Store.visibledatarow[dataset_row_st], 
+                    dataset_row_st + 1, 
+                    0, 
+                    _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
+                    top
+                ];
+                _this.saveFreezen(freezenhorizontaldata, top, null, null);
+                // todo: 没有下面代码 如果有滚动，冻结之后首行的行号仍显示的之前滚动的行号
+                // todo: 不 setTimeout 这里直接刷新的话，冻结的首行显示有问题，没有列的分割线
+                setTimeout(() => {
+                    luckysheetFreezen.createAssistCanvas();
+                    luckysheetrefreshgrid();
+                });
+            } else {
+                let scrollTop = $("#luckysheet-cell-main").scrollTop();
+                dataset_row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
+                if (dataset_row_st == -1) {
+                    dataset_row_st = 0;
+                }
+    
+                top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
+                freezenhorizontaldata = [
+                    Store.visibledatarow[dataset_row_st], 
+                    dataset_row_st + 1, 
+                    scrollTop, 
+                    _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
+                    top
+                ];
+                _this.saveFreezen(freezenhorizontaldata, top, null, null);
             }
-
-            top = Store.visibledatarow[dataset_row_st] - 2 - scrollTop + Store.columnHeaderHeight;
-            freezenhorizontaldata = [
-                Store.visibledatarow[dataset_row_st], 
-                dataset_row_st + 1, 
-                scrollTop, 
-                _this.cutVolumn(Store.visibledatarow, dataset_row_st + 1), 
-                top
-            ];
-            _this.saveFreezen(freezenhorizontaldata, top, null, null);
         }
 
         _this.freezenhorizontaldata = freezenhorizontaldata;
@@ -414,6 +473,7 @@ const luckysheetFreezen = {
         $("#luckysheet-freezen-btn-horizontal").html(freezeHTML);
 
         $("#luckysheet-freezebar-horizontal").show().find(".luckysheet-freezebar-horizontal-handle").css({ "top": top }).end().find(".luckysheet-freezebar-horizontal-drop").css({ "top": top });
+
     },
     createAssistCanvas: function(){
         let _this = this;

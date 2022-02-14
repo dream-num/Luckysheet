@@ -9250,6 +9250,8 @@ export default {
         freezenCancel:"Cancelar",
 
         noSeletionError:"No hay rango para seleccionar",
+        rangeRCOverErrorTitle: "Recordatorio de congelación",
+        rangeRCOverError: "El panel de congelación excede el rango visible y puede causar que no funcione correctamente. Reinicie el área de congelación."
     },
     sort:{
         "asc":"Ascendente ",
@@ -9716,6 +9718,7 @@ export default {
         selectCellRange: 'Haz clic para seleccionar un rango de celdas',
         selectCellRange2: 'Selecciona un rango de celdas',
         verificationCondition: 'Condición de verificación',
+        allowMultiSelect: "Permitir selección múltiple",
         dropdown: 'lista desplegable',
         checkbox: 'Casilla de verificación',
         number: 'Número',
@@ -9759,6 +9762,7 @@ export default {
         tooltipInfo5: 'El contenido del texto no puede estar vacío',
         tooltipInfo6: 'El valor ingresado no es una fecha',
         tooltipInfo7: 'La segunda fecha no puede ser menor que la primera',
+        textlengthInteger: 'La longitud del texto debe ser un entero mayor o igual a 0',
     },
     formula:{
         sum:"Suma",

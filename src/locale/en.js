@@ -8827,6 +8827,21 @@ export default {
             "type": "rangeall"
         }]
     },
+    {
+        "n": "REMOTE",
+        "t": "5",
+        "d": "Calls a function on a remote server",
+        "a": "Calls a function on a remote back end server/API.",
+        "m": [1, 1],
+        "p": [{
+            "name": "remote_expression",
+            "example": 'SUM(A1:A10000000)',
+            "detail": "Formula",
+            "require": "m",
+            "repeat": "n",
+            "type": "string"
+        }]
+    },
     ],
     toolbar: {
         undo: 'Undo',
@@ -8863,7 +8878,7 @@ export default {
         textWrapMode: 'Text wrap mode',
         textRotate: 'Text rotate',
         textRotateMode: 'Text rotate mode',
-        freezeTopRow: 'Freeze top row',
+        freezeTopRow: 'Freeze first row',
         sortAndFilter: 'Sort and filter',
         findAndReplace: 'Find and replace',
         sum: 'SUM',
@@ -9250,7 +9265,8 @@ export default {
         freezenRCRange:"Freezen both range",
         freezenCancel:"Cancel",
 
-        noSeletionError:"No Range to be selected",
+        noSeletionError:"No Range to be selected",        rangeRCOverErrorTitle: "Freeze reminder",
+        rangeRCOverError: "The frozen pane is beyond the visible range, which will lead to abnormal operation. Please reset the frozen area."
     },
     sort:{
         "asc":"Ascending ",
@@ -9391,7 +9407,7 @@ export default {
         byRow: 'By row',
         byCol: 'By column',
         generateNewMatrix: 'Generate new matrix',
-        
+
     },
     comment:{
         "insert":"Insert",
@@ -9449,7 +9465,7 @@ export default {
         "semicolon":"semicolon",
         "comma":"comma",
         "space":"space",
-        
+
     },
     findAndReplace:{
         find:"Find",
@@ -9509,7 +9525,7 @@ export default {
         locationTiplessTwoRow:"Please select at least two rows",
         locationTiplessTwoColumn:"Please select at least two columns",
         locationTipNotFindCell:"Cell not found"
-    
+
     },
     sheetconfig: {
         delete: 'Delete',
@@ -9733,6 +9749,7 @@ export default {
         selectCellRange: 'Click to select a cell range',
         selectCellRange2: 'Please select a range of cells',
         verificationCondition: 'Verification condition',
+        allowMultiSelect: "Allow multiple selection",
         dropdown: 'drop-down list',
         checkbox: 'Checkbox',
         number: 'Number',
@@ -9776,6 +9793,7 @@ export default {
         tooltipInfo5: 'The text content cannot be empty',
         tooltipInfo6: 'The value entered is not a date type',
         tooltipInfo7: 'Date 2 cannot be less than date 1',
+        textlengthInteger: 'Text length must be an integer greater than or equal to 0',
     },
     formula:{
         sum:"Sum",
@@ -10031,4 +10049,3 @@ export default {
         support: 'The current browser does not support WebSocket',
     }
   };
-  

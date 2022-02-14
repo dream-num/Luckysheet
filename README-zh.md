@@ -2,25 +2,14 @@
 
 ![logo](/docs/.vuepress/public/img/logo_text.png)
 
-
 </div>
+
+# Luckysheet 3.x 目前正在使用Typescript重构
 
 简体中文 | [English](./README.md)
 
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
-
-## 招聘
-字节跳动靠谱内推 - 前端工程师（上海 · 飞书）
-30 – 60K · 15薪
-1. 简历优先筛选
-2. 面试过程及时跟进
-3. 凭实力说话，薪资在行业有很强竞争力
-4. 包三餐和下午茶
-5. 有意向可以先咨询
-6. 框架: React、Electron
-
-<img src="https://minio.cnbabylon.com/public/luckysheet/feishu_jd.jpg" width = "250" alt="微信群" align="center" />
 
 ## 相关链接
  | 源码   | 文档 | Demo | 插件Demo | 论坛 |
@@ -144,7 +133,7 @@ npm run build
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
-| 官方微信群 |  群满则加小编微信，备注:加群  | QQ群 |
+| 官方微信群 |  群满则加小编微信:dushusir2，备注:加群  | QQ群:926131495 |
 |---|---|---|
 | <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_wechat_group.png" width="200" /> | <img src="https://minio.cnbabylon.com/public/luckysheet/dushusir_wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_qq_group.jpg" width="200" /> |
 
@@ -194,21 +183,50 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 维宁 ¥ 100
 - hyy ¥ 20
 - 雨亭寒江月 ¥ 50
+- **功 ¥ 10
+- **光 ¥ 20
+- terrywan ¥ 100
+- 王晓洪 ¥ 10
+- Sun ¥ 10
+- 忧绣 ¥ 100
+- Jasonx ¥ 10
+- 国勇 ¥ 66.6
+- 郎志 ¥ 100
+- 匿名 ¥ 1
+- ni ¥ 100
+- 苏 ¥ 50
+- Mads_chan ¥ 1
+- LK ¥ 100
+- 智连方舟 李汪石 ¥ 168
+- **发 ¥ 260
+- *超 ¥ 10
+- *勇 ¥ 10
+- *腾 ¥ 15
+- 名字好难起 ¥ 20
+- 大山 ¥ 1
+- waiting ¥ 1000
+- **宇 ¥ 10.00
+- 刘小帅的哥哥 ¥ 20.00
+- 宁静致远 ¥ 10.00
+- Eleven ¥ 1.00
 
 ## 贡献者和感谢
 
 ### 核心团队活跃成员
 - [@wbfsa](https://github.com/wbfsa)
-- [@iamxuchen800117](https://github.com/iamxuchen800117)
-- [@wpxp123456](https://github.com/wpxp123456)
+- [@eiji-th](https://github.com/eiji-th)
+- [@fly-95](https://github.com/fly-95)
 - [@tonytonychopper123](https://github.com/tonytonychopper123)
 - [@Dushusir](https://github.com/Dushusir)
+- [@iamxuchen800117](https://github.com/iamxuchen800117)
+- [@wpxp123456](https://github.com/wpxp123456)
 - [@c19c19i](https://weibo.com/u/3884623955)
 - [@zhangchen915](https://github.com/zhangchen915)
 - [@jerry-f](https://github.com/jerry-f)
 - [@flowerField](https://github.com/flowerField)
 
 ### 社区伙伴
+- [@yiwasheng](https://github.com/yiwasheng)
 - [@danielcai1987](https://github.com/danielcai1987)
 - [@qq6690876](https://github.com/qq6690876)
 - [@javahuang](https://github.com/javahuang)

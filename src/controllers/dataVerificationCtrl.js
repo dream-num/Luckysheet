@@ -114,6 +114,10 @@ const dataVerificationCtrl = {
                                             <input class="formulaInputFocus data-verification-value1" placeholder="${dvText.placeholder1}" spellcheck="false">
                                             <i class="fa fa-table" aria-hidden="true" title="${dvText.selectCellRange}"></i>
                                         </div>
+                                        <div class="multi">
+                                            <input type="checkbox" id="data-verification-multi" class="data-verification-multi">
+                                            <label for="data-verification-multi">${dvText.allowMultiSelect}</label>
+                                        </div>
                                     </div>
                                     <div class="show-box-item show-box-item-checkbox">
                                         <div class="check-box">
@@ -257,9 +261,16 @@ const dataVerificationCtrl = {
             e.stopPropagation();
         });
         $(document).off("click.dropdownListItem").on("click.dropdownListItem", "#luckysheet-dataVerification-dropdown-List .dropdown-List-item", function(e) {
-            $("#luckysheet-dataVerification-dropdown-List").hide();
-            
+            var $item = $(this);
             let value = e.target.innerText;
+            if ($item.hasClass('multi')) {
+                $item.toggleClass('checked');
+                value = $.map($("#luckysheet-dataVerification-dropdown-List").children().filter('.checked'), function(el) {
+                    return el.innerText;
+                }).join(',');
+            } else {
+                $("#luckysheet-dataVerification-dropdown-List").hide();
+            }
             let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
             let rowIndex = last.row_focus;
             let colIndex = last.column_focus;
@@ -437,6 +448,8 @@ const dataVerificationCtrl = {
                 }
 
                 $("#luckysheet-dataVerification-dialog .show-box-item-dropdown .data-verification-value1").val(value1);
+                
+                $('#luckysheet-dataVerification-dialog #data-verification-multi').prop('checked', item.type2 ? true : false);
             }
             else if(value == 'checkbox'){
                 $("#luckysheet-dataVerification-dialog .show-box .show-box-item-checkbox").show();
@@ -569,6 +582,19 @@ const dataVerificationCtrl = {
                 $("#luckysheet-dataVerification-dialog .show-box-item-number .input2").show();
             }
         });
+        // 文本长度选择变化
+        $(document).off("change.textLengthSelect").on("change.textLengthSelect", "#data-verification-textLength-select", function(e) {
+            $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input").hide();
+
+            let value = this.value;
+
+            if(value == 'bw' || value == 'nb'){
+                $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input1").show();
+            }
+            else{
+                $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input2").show();
+            }
+        });
 
         $(document).off("change.dateSelect").on("change.dateSelect", "#data-verification-date-select", function(e) {
             $("#luckysheet-dataVerification-dialog .show-box-item-date .input").hide();
@@ -635,6 +661,7 @@ const dataVerificationCtrl = {
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo1);
                     return;
                 }
+                type2 = $("#luckysheet-dataVerification-dialog #data-verification-multi").is(':checked');
             }
             else if(type == 'checkbox'){
                 value1 = $("#luckysheet-dataVerification-dialog .show-box-item-checkbox .data-verification-value1").val().trim();
@@ -686,11 +713,20 @@ const dataVerificationCtrl = {
                     return;
                 }
 
+                if (!Number.isInteger(Number(value1)) || Number(value1) < 0) {
+                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.textlengthInteger);
+                    return;
+                }
+
                 if(type2 == 'bw' || type2 == 'nb'){
                     value2 = $("#luckysheet-dataVerification-dialog .show-box-item-textLength .input:visible .data-verification-value2").val().trim();
                 
                     if(!isRealNum(value2)){
                         tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.tooltipInfo3);
+                        return;
+                    }
+                    if (!Number.isInteger(Number(value2)) || Number(value2) < 0) {
+                        tooltip.info('<i class="fa fa-exclamation-triangle"></i>', dvText.textlengthInteger);
                         return;
                     }
 
@@ -839,6 +875,7 @@ const dataVerificationCtrl = {
         if(item.type == 'dropdown'){
             $("#luckysheet-dataVerification-dialog .show-box .show-box-item-dropdown").show();
             $("#luckysheet-dataVerification-dialog .show-box-item-dropdown .data-verification-value1").val(item.value1);
+            $('#luckysheet-dataVerification-dialog #data-verification-multi').prop('checked', item.type2 ? true : false);
         }
         else if(item.type == 'checkbox'){
             $("#luckysheet-dataVerification-dialog .show-box .show-box-item-checkbox").show();
@@ -1270,6 +1307,13 @@ const dataVerificationCtrl = {
         if(type == 'dropdown'){
             let list = _this.getDropdownList(value1);
 
+            // 多选的情况 检查每个都在下拉列表中
+            if(type2 && cellValue){
+                return cellValue.split(',').every(function (i) {
+                    return list.indexOf(i) !== -1;
+                });
+            }
+
             let result = false;
 
             for(let i = 0; i < list.length; i++){
@@ -1426,11 +1470,11 @@ const dataVerificationCtrl = {
             }
         }
         else if(type == 'validity'){
-            if(type2 == 'card' && !/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(cellValue)){
+            if(type2 == 'card' && !validateIdCard(cellValue)){
                 return false;
             }
 
-            if(type2 == 'phone' && !/^[1][3,4,5,7,8][0-9]{9}$/.test(cellValue)){
+            if(type2 == 'phone' && !/^1[3456789]\d{9}$/.test(cellValue)){
                 return false;
             }
         }
@@ -1464,9 +1508,19 @@ const dataVerificationCtrl = {
         let list = _this.getDropdownList(item.value1);
 
         let optionHtml = '';
-        list.forEach(i => {
-            optionHtml += `<div class="dropdown-List-item luckysheet-mousedown-cancel">${i}</div>`;
-        })
+        if (item.type === 'dropdown' && item.type2) {
+            // 下拉多选的情况下 将已经选择的标出来
+            let cellValue = getcellvalue(rowIndex, colIndex, null);
+            let valueArr = isRealNull(cellValue) ? [] : cellValue.split(',');
+            list.forEach(i => {
+                let checked = valueArr.indexOf(i) !== -1;
+                optionHtml += `<div class="dropdown-List-item  luckysheet-mousedown-cancel multi${checked ? ' checked': ''}">${i}</div>`;
+            });
+        } else {
+            list.forEach(i => {
+                optionHtml += `<div class="dropdown-List-item luckysheet-mousedown-cancel">${i}</div>`;
+            });
+        }
 
         $("#luckysheet-dataVerification-dropdown-List")
         .html(optionHtml)
@@ -1617,6 +1671,44 @@ const dataVerificationCtrl = {
             luckysheetrefreshgrid();
         }, 1);
     },
+}
+
+function validateIdCard(idCard) {
+    // 15位和18位身份证号码的正则表达式
+    var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+
+    // 如果通过该验证，说明身份证格式正确，但准确性还需计算
+    if (regIdCard.test(idCard)) {
+        if (idCard.length == 18) {
+            var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); // 将前17位加权因子保存在数组里
+            var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); // 这是除以11后，可能产生的11位余数、验证码，也保存成数组
+            var idCardWiSum = 0; // 用来保存前17位各自乖以加权因子后的总和
+            for (var i = 0; i < 17; i++) {
+                idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+            }
+
+            var idCardMod = idCardWiSum % 11; // 计算出校验码所在数组的位置
+            var idCardLast = idCard.substring(17); // 得到最后一位身份证号码
+
+            // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+            if (idCardMod == 2) {
+                if (idCardLast == "X" || idCardLast == "x") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // 用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+                if (idCardLast == idCardY[idCardMod]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    } else {
+        return false;
+    }
 }
 
 export default dataVerificationCtrl;

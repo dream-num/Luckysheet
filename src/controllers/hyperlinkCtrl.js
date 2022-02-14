@@ -169,7 +169,7 @@ const hyperlinkCtrl = {
 
             cell.fc = 'rgb(0, 0, 255)';
             cell.un = 1;
-            cell.v = linkText;
+            cell.v = cell.m = linkText;
 
             d[rowIndex][colIndex] = cell;
 
@@ -178,7 +178,7 @@ const hyperlinkCtrl = {
                 currentHyperlink, 
                 Store.currentSheetIndex, 
                 d, 
-                { row: [rowIndex, rowIndex], column: [colIndex, colIndex] }
+                [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
             );
 
             $("#luckysheet-modal-dialog-mask").hide();
@@ -353,7 +353,7 @@ const hyperlinkCtrl = {
         //共享编辑模式
         if(server.allowUpdate){ 
             server.saveParam("all", sheetIndex, currentHyperlink, { "k": "hyperlink" });
-            server.historyParam(Store.flowdata, sheetIndex, range);
+            server.historyParam(Store.flowdata, sheetIndex, range[0]);
         }
 
         setTimeout(function () {

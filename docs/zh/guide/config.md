@@ -60,6 +60,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 底部计数栏 [showstatisticBar](#showstatisticBar)
 - 自定义计数栏 [showstatisticBarConfig](#showstatisticBarConfig)
 - 允许添加行 [enableAddRow](#enableAddRow)
+- 默认添加行的数目 [addRowCount](#addRowCount)
 - 允许回到顶部 [enableAddBackTop](#enableAddBackTop)
 - 用户信息 [userInfo](#userInfo)
 - 用户信息菜单 [userMenuItem](#userMenuItem)
@@ -77,6 +78,8 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 是否限制工作表名长度 [limitSheetNameLength](#limitSheetNameLength)
 - 默认允许工作表名的最大长度 [defaultSheetNameMaxLength](#defaultSheetNameMaxLength)
 - 分页器 [pager](#pager)
+- 自定义图片上传 [uploadImage](#uploadImage)
+- 自定义图片地址处理 [imageUrlHandle](#imageUrlHandle)
 
 ### container
 - 类型：String
@@ -275,7 +278,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Object
 - 默认值：{}
 - 作用：自定义配置工具栏，可以与showtoolbar配合使用，`showtoolbarConfig`拥有更高的优先级。
-- 格式：
+- 格式1：
     ```json
     {
         undoRedo: false, //撤销重做，注意撤消重做是两个按钮，由这一个配置决定显示还是隐藏
@@ -316,7 +319,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		print:false, // '打印'
     }
     ```
-- 示例：
+- 示例1：
 	- 仅显示撤消重做和字体按钮：
 		
 		```js
@@ -341,7 +344,33 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 				}
 			}
 		```
-
+- 格式2：
+    对象格式可以很方便控制显示隐藏，使用数组形式可轻松控制按钮顺序和位置， 以下为工具栏按钮和分隔符的默认配置。
+    ```json
+	[   
+		"undo", "redo", "paintFormat", "|", 
+		"currencyFormat", "percentageFormat", "numberDecrease", "numberIncrease", "moreFormats", "|", 
+		"font", "|", 
+		"fontSize", "|", 
+		"bold", "italic", "strikethrough", "underline", "textColor", "|", 
+		"fillColor", "border", "mergeCell", "|", 
+		"horizontalAlignMode", "verticalAlignMode", "textWrapMode", "textRotateMode", "|", 
+		"image", "link", "chart", "postil", "pivotTable", "|", 
+		"function", "frozenMode", "sortAndFilter", "conditionalFormat", "dataVerification", "splitColumn", "screenshot", "findAndReplace", "protection", "print"
+	]
+	```
+- 示例2： 
+	- 自定义按钮和位置， 保护放到最前面， 只要字体样式相关按钮。
+	    ```json
+		{
+			"showtoolbarConfig": [
+				"protection", "|", 
+				"font", "|", 
+				"fontSize", "|", 
+				"bold", "italic", "strikethrough", "underline", "textColor"
+			]
+		}
+		```
 ------------
 ### showinfobar
 - 类型：Boolean
@@ -442,6 +471,11 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 类型：Boolean
 - 默认值：true
 - 作用：允许添加行
+
+### addRowCount
+- Number
+- 默认值：100
+- 作用：配置新增行处默认新增的行数目
 
 ------------
 ### enableAddBackTop
@@ -681,6 +715,79 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 		totalTxt: '', // 数据总条数文字描述，默认"总共：{total}"
 	}
 	```
+
+### uploadImage
+
+用于自定义图片的上传，默认情况下，插入的图片是以base64的形式放入sheet数据中，如果需要单独上传图片，仅在sheet中引用图片地址可使用此配置。
+
+- 类型： `function (file) => Promise(imgUrl)`，接受file对象，返回Promise，值为上传完成的图片url
+- 默认值： `undefined`
+
+:::details 查看示例配置
+
+```js
+{
+    uploadImage: function (file) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://192.168.210.159/miniuiServer/imageUploader.php');
+
+			// 额外的请求头
+            var headers = {};
+            if (headers) {
+                Object.keys(headers).forEach(function (k) {
+                    xhr.setRequestHeader(k, headers[k]);
+                });
+            }
+            var data = new FormData();
+			// 要上传的图片文件
+            data.append('file', file, file.name || '');
+
+            xhr.send(data);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var res = JSON.parse(xhr.responseText);
+                        var url = res.downloadUrl;
+                        if (url) {
+                            resolve(url); // 给上传的后的地址
+                        } else {
+                            reject('image upload error');
+                        }
+                    } else {
+                        reject('image upload error');
+                    }
+                }
+            };
+        });
+    }
+}
+
+```
+
+:::
+
+### imageUrlHandle
+
+图片上传的路径处理函数，和 [uploadImage](#uploadImage) 相关，一般只有使用自定义图片上传才需要此配置。
+
+- 类型： `function (string) => string`，接受原始路径，返回新路径
+- 默认值： `undefined`
+- 作用，处理图片显示时的路径。  
+  如上传返回地址为接口地址，如： `rest/attach/[fileguid]`， 则需要处理为 `http://localhost:8080/xxx/rest/attach/[fileguid]` 才能显示，但将前面域名信息写入数据，后续使用可能会有问题，因此可使用此方法处理路径，全路径仅在展示使用，数据内仅存储 `rest/attach/[fileguid]`
+
+```js
+{
+    // 处理上传图片的地址
+    imageUrlHandle: function (url) {
+        // 已经是 // http data 开头则不处理 
+        if (/^(?:\/\/|(?:http|https|data):)/i.test(url)) {
+            return url;
+        }
+        return location.origin + url;
+    }
+}
+```
 
 ------------
 
@@ -1230,20 +1337,74 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ## 工作表
 
-### sheetCreatekBefore
-（TODO）
+### sheetCreateBefore
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页前触发，sheet页新建也包含数据透视表新建
 
 ------------
 ### sheetCreateAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：创建sheet页后触发，sheet页新建也包含数据透视表新建
 - 参数：
 	- {Object} [sheet]: 当前新创建的sheet页的配置
+
+------------
+### sheetCopyBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页前触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [targetSheet]: 被拷贝的sheet页配置
+	- {Object} [copySheet]: 拷贝得到的sheet页的配置
+------------
+### sheetCopyAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：拷贝创建sheet页后触发，sheet页新建也包含数据透视表新建
+- 参数：
+	- {Object} [sheet]: 当前创建的sheet页的配置
+
+------------
+### sheetHideBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页前触发
+- 参数：
+	- {Object} [sheet]: 将要隐藏的sheet页的配置
+
+------------
+### sheetHideAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：隐藏sheet页后触发
+- 参数：
+	- {Object} [sheet]: 要隐藏的sheet页的配置
+
+------------
+### sheetShowBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：显示sheet页前触发
+- 参数：
+	- {Object} [sheet]: 将要显示的sheet页的配置
+
+------------
+### sheetShowAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：显示sheet页后触发
+- 参数：
+	- {Object} [sheet]: 要显示的sheet页的配置
 
 ------------
 ### sheetMoveBefore
@@ -1268,7 +1429,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除前
@@ -1277,7 +1438,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetDeleteAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet删除后
@@ -1286,7 +1447,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameBefore
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称前
@@ -1296,7 +1457,7 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 
 ------------
 ### sheetEditNameAfter
-（TODO）
+
 - 类型：Function
 - 默认值：null
 - 作用：sheet修改名称后
@@ -1375,6 +1536,33 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 - 作用：工作表从活动状态转为非活动状态后
 - 参数：
 	- {Number} [i]: sheet页的`index`
+  
+### imageDeleteBefore
+
+- 类型：Function
+- 默认值：null
+- 作用：图片删除前触发
+- 参数：
+	- {Object} [imageItem]: 要删除的图片配置对象
+
+### imageDeleteAfter
+
+- 类型：Function
+- 默认值：null
+- 作用：图片删除后触发，如果自定义了图片上传，可在此处发请求删除图片
+- 参数：
+	- {Object} [imageItem]: 删除的图片配置对象
+
+```js
+{
+	hook: {
+		imageDeleteAfter: function (imageItem) {
+			var src = imgItem.src;
+			$.post('/rest/file/deletebyurl', {downloadUrl: src});
+		}
+	}
+}
+```
 
 ------------
 
@@ -1444,6 +1632,18 @@ Luckysheet开放了更细致的自定义配置选项，分别有
 	- {Number} [canvasHeight]: 滚动容器的高度
     
 ------------
+
+
+## 协作消息
+
+### cooperativeMessage
+
+- 类型：Function
+- 默认值：null
+- 作用：接受协作消息，二次开发。拓展协作消息指令集
+- 参数：
+	- {Object} : 收到服务器发送的整个协作消息体对象
+  
 ## 图片
 
 ### imageInsertBefore

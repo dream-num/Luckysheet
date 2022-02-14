@@ -4,6 +4,7 @@ import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
 import menuButton from './menuButton';
 import server from './server';
+import method from '../global/method';
 import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import { 
     getObjType, 
@@ -20,7 +21,7 @@ import {
     colLocationByIndex, 
     mouseposition 
 } from '../global/location';
-import { isRealNull, isRealNum, hasPartMC, isEditMode } from '../global/validate';
+import { isRealNull, isRealNum, hasPartMC, isEditMode, checkIsAllowEdit } from '../global/validate';
 import { countfunc } from '../global/count';
 import formula from '../global/formula';
 import { luckysheetextendtable, luckysheetdeletetable, luckysheetDeleteCell } from '../global/extend';
@@ -380,6 +381,10 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-rows-change-size").css("opacity", 0);
     }).mouseup(function (event) {
         if (event.which == 3) {
+            // *如果禁止前台编辑，则中止下一步操作
+            if (!checkIsAllowEdit()) {
+                return
+            }
             if(isEditMode()){ //非编辑模式下禁止右键功能框
                 return;
             }
@@ -814,6 +819,10 @@ export function rowColumnOperationInitial(){
         $("#luckysheet-cols-change-size").css("opacity", 0);
     }).mouseup(function (event) {
         if (event.which == 3) {
+            // *如果禁止前台编辑，则中止下一步操作
+            if (!checkIsAllowEdit()) {
+                return
+            }
             if(isEditMode()){ //非编辑模式下禁止右键功能框
                 return;
             }
@@ -903,6 +912,10 @@ export function rowColumnOperationInitial(){
 
     //表格行标题 改变行高按钮
     $("#luckysheet-rows-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -947,6 +960,10 @@ export function rowColumnOperationInitial(){
 
     //表格列标题 改变列宽按钮
     $("#luckysheet-cols-change-size").mousedown(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            return
+        }
         //有批注在编辑时
         luckysheetPostil.removeActivePs();
 
@@ -995,6 +1012,11 @@ export function rowColumnOperationInitial(){
 
     // 列标题的下拉箭头
     $("#luckysheet-cols-menu-btn").click(function (event) {
+        // *如果禁止前台编辑，则中止下一步操作
+        if (!checkIsAllowEdit()) {
+            tooltip.info("", locale().pivotTable.errorNotAllowEdit);
+            return
+        }
         let $menu = $("#luckysheet-rightclick-menu");
         let offset = $(this).offset();
         $("#luckysheet-cols-rows-shift").show();
@@ -1103,7 +1125,10 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
-        luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "lefttop")){ 
+			return; 
+		}
+		luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
     });
 
 
@@ -1117,6 +1142,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, 1, "lefttop")){ 
+			return; 
+		}
         luckysheetextendtable('row', st_index, 1, "lefttop");
 
 
@@ -1134,6 +1162,29 @@ export function rowColumnOperationInitial(){
 
 
     })
+
+    // custom right-click a cell buttton click
+    $(".luckysheetColsRowsHandleAdd_custom").click(function (clickEvent) {
+        $("#luckysheet-rightclick-menu").hide();
+        const cellRightClickConfig =
+          luckysheetConfigsetting.cellRightClickConfig;
+        const rowIndex = Store.luckysheet_select_save[0].row[0];
+        const columnIndex = Store.luckysheet_select_save[0].column[0];
+        if (
+          cellRightClickConfig.customs[
+            Number(clickEvent.currentTarget.dataset.index)
+          ]
+        ) {
+          try {
+            cellRightClickConfig.customs[
+              Number(clickEvent.currentTarget.dataset.index)
+            ].onClick(clickEvent, event, { rowIndex, columnIndex });
+          } catch (e) {
+            console.error("custom click error", e);
+          }
+        }
+        
+    });
     // Add the row up, and click the text area to trigger the confirmation instead of clicking the confirmation button to enhance the experience
     // $("#luckysheet-addTopRows").click(function (event) {
     // $("#luckysheetColsRowsHandleAdd_sub .luckysheet-cols-menuitem:first-child").click(function (event) {
@@ -1307,6 +1358,9 @@ export function rowColumnOperationInitial(){
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "rightbottom")){
+			return; 
+		}
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
 
@@ -1453,7 +1507,10 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0], 
             ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
-        luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
+        if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+        	return; 
+        }
+		luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
     });
     $("#luckysheet-delRows").click(function (event) {
         $("#luckysheet-rightclick-menu").hide();
@@ -1483,6 +1540,9 @@ export function rowColumnOperationInitial(){
 
         let st_index = Store.luckysheet_select_save[0].row[0], 
             ed_index = Store.luckysheet_select_save[0].row[1];
+		if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index)){
+			return; 
+		}
         luckysheetdeletetable('row', st_index, ed_index);
     })
     $("#luckysheet-delCols").click(function (event) {
@@ -2008,6 +2068,7 @@ export function rowColumnOperationInitial(){
 
                 return;
             }
+            const hyperlinkMap = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].hyperlink;
 
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let r1 = Store.luckysheet_select_save[s].row[0], 
@@ -2038,6 +2099,10 @@ export function rowColumnOperationInitial(){
                         }
                         else{
                             d[r][c] = null;
+                        }
+                        // 同步清除 hyperlink
+                        if (hyperlinkMap && hyperlinkMap[`${r}_${c}`]) {
+                            delete hyperlinkMap[`${r}_${c}`];
                         }
                     }
                 }

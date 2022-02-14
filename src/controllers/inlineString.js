@@ -186,7 +186,8 @@ export function updateInlineStringFormat(cell, attr, value, $input){
                 if(startSpanIndex<endSpanIndex){
                     for(let i=startSpanIndex+1;i<endSpanIndex;i++){
                         let span = spans.get(i), content = span.innerHTML;
-                        cont += "<span style='"+ span.style.cssText +"'>" + content + "</span>";
+                        let cssText = getCssText(span.style.cssText, attr, value);
+                        cont += "<span style='"+ cssText +"'>" + content + "</span>";
                     }
                 }
 
@@ -259,7 +260,8 @@ export function enterKeyControll(cell){
         if(startContainer.id=="luckysheet-rich-text-editor"){
             startSpan = $(startContainer).find("span");
             if(startSpan.length==0){
-                startContainer.innerHTML = "<span></span>";
+                // 在末尾换行操作会导致数据丢失(覆盖)
+                startContainer.innerHTML = `<span>${startContainer.innerText}</span>`;
                 startSpan = $(startContainer).find("span");
             }
             startSpan = startSpan.get(startSpan.length-1);
@@ -270,7 +272,9 @@ export function enterKeyControll(cell){
             range.deleteContents();
         }
 
-        let startContent = startSpan.innerHTML;
+        // 如果拷贝的内容为：pc&web ，那么innerHTML得到的值为：pc&amp;web ，执行换行操作存在问题
+        // let startContent = startSpan.innerHTML; 
+        let startContent = startSpan.innerText;
         let sleft="" , sright="";
         let s1=0, s2=startOffset;
 
