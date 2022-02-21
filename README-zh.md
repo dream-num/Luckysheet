@@ -133,7 +133,7 @@ npm run build
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
-| 官方微信群 |  群满则加小编微信，备注:加群  | QQ群 |
+| 官方微信群 |  群满则加小编微信:dushusir2，备注:加群  | QQ群:926131495 |
 |---|---|---|
 | <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_wechat_group.png" width="200" /> | <img src="https://minio.cnbabylon.com/public/luckysheet/dushusir_wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_qq_group.jpg" width="200" /> |
 
