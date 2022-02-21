@@ -5000,7 +5000,8 @@ const luckysheetformula = {
             // _this.execFunctionGroupData[u.r][u.c] = value;
             _this.execFunctionGlobalData[formulaCell.r + "_" + formulaCell.c + "_" + formulaCell.index] = {
                 v: v[1],
-                f: v[2]
+                f: v[2],
+                ct: getcellvalue(formulaCell.r, formulaCell.c, null, "ct")
             };
         }
         // console.log(formulaRunList);
@@ -5264,7 +5265,8 @@ const luckysheetformula = {
         // _this.execFunctionGroupData[u.r][u.c] = value;
         _this.execFunctionGlobalData[u.r + "_" + u.c + "_" + u.index] = {
             v: v[1],
-            f: v[2]
+            f: v[2],
+            ct: getcellvalue(u.r, u.c, null, "ct")
         };
     },
     groupValuesRefreshData: [],
