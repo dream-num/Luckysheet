@@ -3522,12 +3522,31 @@ fieldset[disabled] .btn-danger.focus {
     width: 50%;
     /*min-width: 860px;*/
     height: 50%;
+    border: none;
+    background: transparent;
 }
 
 .luckysheet-data-visualization-chart .luckysheet-modal-dialog-content {
     width: 100%;
     height: 100%;
     overflow: hidden;
+}
+
+.luckysheet-data-visualization-chart .luckysheet-modal-dialog-content > div {
+    top: 100%;
+    left: 100%;
+    transform: translate(-100%, -100%);
+}
+
+.luckysheet-data-visualization-chart > .crop-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border: 1px solid #acacac;
+    border: 1px solid rgba(0, 0, 0, .333);
 }
 
 .luckysheet-datavisual-modal {
