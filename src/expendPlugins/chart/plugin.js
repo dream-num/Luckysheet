@@ -996,7 +996,7 @@ function createLuckyChart(width, height, left, top) {
     let chartData = getdatabyselection()
     let chart_id = generateRandomKey('chart')
     let {$t, container} = renderChartContainer(chart_id);
-    const render = $t.children('.luckysheet-modal-dialog-content')[0];
+    const render = $t.find('.luckysheet-modal-dialog-content')[0];
     let {chart_json} = chartInfo.createChart(render, chartData, chart_id, rangeArray, rangeTxt)
     // chartInfo.currentChart = chart_json.chartOptions
 
@@ -1262,7 +1262,7 @@ function initChart($t, container, chart_id, width, height, left, top) {
         showChartSettingComponent()
     })
 
-    $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
+    $t.find('.luckysheet-modal-dialog-content').mousedown(function (e) {
         if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
             //当前图表显示区域高亮
             showNeedRangeShow(chart_id);
