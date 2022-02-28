@@ -3520,7 +3520,6 @@ fieldset[disabled] .btn-danger.focus {
 
 .luckysheet-data-visualization-chart {
     width: 50%;
-    /*min-width: 860px;*/
     height: 50%;
     border: none;
     background: transparent;
@@ -3545,7 +3544,6 @@ fieldset[disabled] .btn-danger.focus {
     width: 100%;
     height: 100%;
     background: #fff;
-    border: 1px solid #acacac;
     border: 1px solid rgba(0, 0, 0, .333);
 }
 
@@ -4306,7 +4304,6 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-name {
-    cursor: pointer;
     height: 25px;
     line-height: 25px;
     cursor: move;
