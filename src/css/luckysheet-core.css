@@ -3532,10 +3532,10 @@ fieldset[disabled] .btn-danger.focus {
     overflow: hidden;
 }
 
-.luckysheet-data-visualization-chart .luckysheet-modal-dialog-content > div {
-    top: 100%;
-    left: 100%;
-    transform: translate(-100%, -100%);
+.luckysheet-data-visualization-chart .luckysheet-modal-dialog-content > div:first-child {
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
 }
 
 .luckysheet-data-visualization-chart > .crop-container {
