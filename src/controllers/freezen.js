@@ -1030,7 +1030,7 @@ const luckysheetFreezen = {
             $chartCrop.css({ "width": "", "height": "", "visibility": "visible" });
 
             if (position.top < freezenTop) {
-                const croppedHeight = Math.max(position.top + height - freezenTop, 0);
+                const croppedHeight = Math.max(position.top + height - 40 - freezenTop, 0);
                 if (croppedHeight) {
                     $chartCrop.height(croppedHeight - 2);
                 } else {
@@ -1039,7 +1039,7 @@ const luckysheetFreezen = {
             }
 
             if (position.left < freezenLeft) {
-                const croppedWidth = Math.max(position.left + width - freezenLeft, 0);
+                const croppedWidth = Math.max(position.left + width - 20 - freezenLeft, 0);
                 if (croppedWidth) {
                     $chartCrop.width(croppedWidth - 2);
                 } else {
