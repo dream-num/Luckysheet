@@ -100,8 +100,6 @@ const selection = {
         if (!clipboardData) { // for chrome
             clipboardData = e.originalEvent.clipboardData;
         }
-        console.log('clipboardData', clipboardData);
-        
 
         Store.luckysheet_selection_range = [];
         //copy范围
@@ -189,9 +187,17 @@ const selection = {
                 cpdata += `<tr height="${Store.config['rowlen'][r.toString()]}">`;
             }
 
-
             for (let j = 0; j < colIndexArr.length; j++) {
                 let c = colIndexArr[j];
+
+                if(r == rowIndexArr[0]){
+                    if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
+                        colgroup += '<colgroup width="72px"></colgroup>';
+                    }
+                    else {
+                        colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
+                    }
+                }
 
                 if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
                     continue;
@@ -201,15 +207,6 @@ const selection = {
 
                 if (d[r] != null && d[r][c] != null) {
                     let style = "", span = "";
-
-                    if(r == rowIndexArr[0]){
-                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
-                            colgroup += '<colgroup width="72px"></colgroup>';
-                        }
-                        else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
 
                     let reg = /^(w|W)((0?)|(0\.0+))$/;
                     let c_value;
@@ -508,15 +505,6 @@ const selection = {
                     }
 
                     column += "";
-
-                    if(r == rowIndexArr[0]){
-                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
-                            colgroup += '<colgroup width="72px"></colgroup>';
-                        }
-                        else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
 
                     column = replaceHtml(column, {"style": style, "span": ""});
                     column += "";
