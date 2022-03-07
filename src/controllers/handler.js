@@ -5453,6 +5453,12 @@ export default function luckysheetHandler() {
                                 cell.bl = 1;
                             }
 
+                            // 检测下划线
+                            let un = $td.css('text-decoration')
+                            if (un.indexOf('underline') != -1) {
+                              cell.un = 1;
+                            }
+                            
                             let it = $td.css("font-style");
                             if (it == "normal") {
                                 cell.it = 0;

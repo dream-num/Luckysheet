@@ -4548,6 +4548,11 @@ const menuButton = {
                     style += "align-items: flex-end;";
                 }
             }
+
+            if(key == "un" && value){
+                style += 'text-decoration:underline;';
+            }
+
         }
 
         if(!isInline){
