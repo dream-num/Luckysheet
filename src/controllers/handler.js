@@ -5486,6 +5486,7 @@ export default function luckysheetHandler() {
                             let fc = $td.css("color");
                             cell.fc = fc;
 
+                            // 水平对齐属性
                             let ht = $td.css("text-align");
                             if (ht == "center") {
                                 cell.ht = 0;
@@ -5497,6 +5498,7 @@ export default function luckysheetHandler() {
                                 cell.ht = 1;
                             }
 
+                            // 垂直对齐属性
                             let vt = $td.css("vertical-align");
                             if (vt == "middle") {
                                 cell.vt = 0;
