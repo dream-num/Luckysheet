@@ -4540,7 +4540,7 @@ const menuButton = {
                 }
             }
 
-            if(key == "vt" && value != "1"){
+            if(key == "vt"){
                 if(value == "0"){
                     style += "vertical-align: middle;";
                 }
