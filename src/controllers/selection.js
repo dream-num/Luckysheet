@@ -100,6 +100,8 @@ const selection = {
         if (!clipboardData) { // for chrome
             clipboardData = e.originalEvent.clipboardData;
         }
+        console.log('clipboardData', clipboardData);
+        
 
         Store.luckysheet_selection_range = [];
         //copy范围
@@ -439,16 +441,33 @@ const selection = {
                     if(c_value == null){
                         c_value = getcellvalue(r, c, d);
                     }
-                    if(c_value == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
-                      c_value = d[r][c].ct.s.map(val=>{
-                        const font = $('<font></font>')
-                        val.fs && font.css('font-size',val.fs)
-                        val.bl && font.css('font-weight',val.border)
-                        val.it && font.css('font-style',val.italic)
-                        val.cl==1 && font.css('text-decoration','underline')
-                        font.text(val.v)
-                        return font[0].outerHTML
-                      }).join('');
+                    if (c_value == null &&d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                        c_value = d[r][c].ct.s
+                            .map((val) => {
+                                const brDom = $('<br style="mso-data-placement:same-cell;">');
+                                const splitValue = val.v.split('\r\n');
+                                return splitValue
+                                    .map((item) => {
+                                        if (!item) {
+                                            return '';
+                                        }
+                                        const font = $('<font></font>');
+                                        val.fs && font.css('font-size', `${val.fs}pt`); //  字号
+                                        val.bl && font.css('font-weight', 'bold'); //  加粗
+                                        val.it && font.css('font-style', 'italic'); //  斜体
+                                        val.un && font.css('text-decoration', 'underline'); // 下划线
+                                        val.fc && font.css('color', val.fc); //  字体颜色
+                                        if (val.cl) {
+                                            // 判断删除线
+                                            font.append(`<s>${item}</s>`);
+                                        } else {
+                                            font.text(item);
+                                        }
+                                        return font[0].outerHTML;
+                                    })
+                                    .join(brDom[0].outerHTML);
+                            })
+                            .join('');
                     }
 
                     if(c_value == null){
