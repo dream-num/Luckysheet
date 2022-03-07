@@ -182,7 +182,13 @@ const selection = {
                 continue;
             }
 
-            cpdata += '<tr>';
+            // 将行高绑定到 <tr> 标签上
+            if (Store.config == null || Store.config['rowlen'] == null || Store.config['rowlen'][r.toString()] == null) {
+                cpdata += '<tr height="19">';
+            } else {
+                cpdata += `<tr height="${Store.config['rowlen'][r.toString()]}">`;
+            }
+
 
             for (let j = 0; j < colIndexArr.length; j++) {
                 let c = colIndexArr[j];
@@ -202,15 +208,6 @@ const selection = {
                         }
                         else {
                             colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
-
-                    if(c == colIndexArr[0]){
-                        if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
-                            style += 'height:19px;';
-                        }
-                        else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
                         }
                     }
 
@@ -518,15 +515,6 @@ const selection = {
                         }
                         else {
                             colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
-
-                    if(c == colIndexArr[0]){
-                        if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
-                            style += 'height:19px;';
-                        }
-                        else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
                         }
                     }
 
