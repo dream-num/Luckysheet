@@ -372,18 +372,6 @@ export function getFontStyleByCell(cell,checksAF,checksCF, isCheck=true){
             style += "text-decoration: line-through;";
         }
 
-        if(key == "un" && (value == "1" || value == "3")){
-            let color = cell["_color"];
-            if(color==null){
-                color = cell["fc"];
-            }
-            let fs = cell["_fontSize"];
-            if(fs==null){
-                fs = cell["fs"];
-            }
-            style += "border-bottom: "+ Math.floor(fs/9) +"px solid "+ color +";";
-        }
-
     }
     return style;
 }
