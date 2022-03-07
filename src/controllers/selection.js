@@ -192,10 +192,10 @@ const selection = {
 
                 if(r == rowIndexArr[0]){
                     if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
-                        colgroup += '<colgroup width="72px"></colgroup>';
+                        colgroup += '<col width="72px"></col>';
                     }
                     else {
-                        colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
+                        colgroup += '<col width="'+ Store.config["columnlen"][c.toString()] +'px"></col>';
                     }
                 }
 
@@ -516,7 +516,7 @@ const selection = {
 
             cpdata += "</tr>";
         }
-        cpdata = '<table data-type="luckysheet_copy_action_table">' + colgroup + cpdata + '</table>';
+        cpdata = '<table data-type="luckysheet_copy_action_table">' + `<colgroup>${colgroup}</colgroup>` + cpdata + '</table>';
 
         Store.iscopyself = true;
 
