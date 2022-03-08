@@ -5453,6 +5453,12 @@ export default function luckysheetHandler() {
                                 cell.bl = 1;
                             }
 
+                            // 检测下划线
+                            let un = $td.css('text-decoration')
+                            if (un.indexOf('underline') != -1) {
+                              cell.un = 1;
+                            }
+                            
                             let it = $td.css("font-style");
                             if (it == "normal") {
                                 cell.it = 0;
@@ -5480,6 +5486,7 @@ export default function luckysheetHandler() {
                             let fc = $td.css("color");
                             cell.fc = fc;
 
+                            // 水平对齐属性
                             let ht = $td.css("text-align");
                             if (ht == "center") {
                                 cell.ht = 0;
@@ -5491,6 +5498,7 @@ export default function luckysheetHandler() {
                                 cell.ht = 1;
                             }
 
+                            // 垂直对齐属性
                             let vt = $td.css("vertical-align");
                             if (vt == "middle") {
                                 cell.vt = 0;

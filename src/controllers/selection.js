@@ -180,10 +180,24 @@ const selection = {
                 continue;
             }
 
-            cpdata += '<tr>';
+            // 将行高绑定到 <tr> 标签上
+            if (Store.config == null || Store.config['rowlen'] == null || Store.config['rowlen'][r.toString()] == null) {
+                cpdata += '<tr height="19">';
+            } else {
+                cpdata += `<tr height="${Store.config['rowlen'][r.toString()]}">`;
+            }
 
             for (let j = 0; j < colIndexArr.length; j++) {
                 let c = colIndexArr[j];
+
+                if(r == rowIndexArr[0]){
+                    if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
+                        colgroup += '<col width="72px"></col>';
+                    }
+                    else {
+                        colgroup += '<col width="'+ Store.config["columnlen"][c.toString()] +'px"></col>';
+                    }
+                }
 
                 if (Store.config["colhidden"] != null && Store.config["colhidden"][c] != null) {
                     continue;
@@ -193,24 +207,6 @@ const selection = {
 
                 if (d[r] != null && d[r][c] != null) {
                     let style = "", span = "";
-
-                    if(r == rowIndexArr[0]){
-                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
-                            colgroup += '<colgroup width="72px"></colgroup>';
-                        }
-                        else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
-
-                    if(c == colIndexArr[0]){
-                        if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
-                            style += 'height:19px;';
-                        }
-                        else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
-                        }
-                    }
 
                     let reg = /^(w|W)((0?)|(0\.0+))$/;
                     let c_value;
@@ -439,16 +435,33 @@ const selection = {
                     if(c_value == null){
                         c_value = getcellvalue(r, c, d);
                     }
-                    if(c_value == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
-                      c_value = d[r][c].ct.s.map(val=>{
-                        const font = $('<font></font>')
-                        val.fs && font.css('font-size',val.fs)
-                        val.bl && font.css('font-weight',val.border)
-                        val.it && font.css('font-style',val.italic)
-                        val.cl==1 && font.css('text-decoration','underline')
-                        font.text(val.v)
-                        return font[0].outerHTML
-                      }).join('');
+                    if (c_value == null &&d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
+                        c_value = d[r][c].ct.s
+                            .map((val) => {
+                                const brDom = $('<br style="mso-data-placement:same-cell;">');
+                                const splitValue = val.v.split('\r\n');
+                                return splitValue
+                                    .map((item) => {
+                                        if (!item) {
+                                            return '';
+                                        }
+                                        const font = $('<font></font>');
+                                        val.fs && font.css('font-size', `${val.fs}pt`); //  字号
+                                        val.bl && font.css('font-weight', 'bold'); //  加粗
+                                        val.it && font.css('font-style', 'italic'); //  斜体
+                                        val.un && font.css('text-decoration', 'underline'); // 下划线
+                                        val.fc && font.css('color', val.fc); //  字体颜色
+                                        if (val.cl) {
+                                            // 判断删除线
+                                            font.append(`<s>${item}</s>`);
+                                        } else {
+                                            font.text(item);
+                                        }
+                                        return font[0].outerHTML;
+                                    })
+                                    .join(brDom[0].outerHTML);
+                            })
+                            .join('');
                     }
 
                     if(c_value == null){
@@ -493,24 +506,6 @@ const selection = {
 
                     column += "";
 
-                    if(r == rowIndexArr[0]){
-                        if(Store.config == null || Store.config["columnlen"] == null || Store.config["columnlen"][c.toString()] == null){
-                            colgroup += '<colgroup width="72px"></colgroup>';
-                        }
-                        else {
-                            colgroup += '<colgroup width="'+ Store.config["columnlen"][c.toString()] +'px"></colgroup>';
-                        }
-                    }
-
-                    if(c == colIndexArr[0]){
-                        if(Store.config == null || Store.config["rowlen"] == null || Store.config["rowlen"][r.toString()] == null){
-                            style += 'height:19px;';
-                        }
-                        else {
-                            style += 'height:'+ Store.config["rowlen"][r.toString()] + 'px;';
-                        }
-                    }
-
                     column = replaceHtml(column, {"style": style, "span": ""});
                     column += "";
                 }
@@ -521,7 +516,7 @@ const selection = {
 
             cpdata += "</tr>";
         }
-        cpdata = '<table data-type="luckysheet_copy_action_table">' + colgroup + cpdata + '</table>';
+        cpdata = '<table data-type="luckysheet_copy_action_table">' + `<colgroup>${colgroup}</colgroup>` + cpdata + '</table>';
 
         Store.iscopyself = true;
 

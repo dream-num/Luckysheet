@@ -4540,14 +4540,22 @@ const menuButton = {
                 }
             }
 
-            if(key == "vt" && value != "1"){
+            if(key == "vt"){
                 if(value == "0"){
-                    style += "align-items: center;";
+                    style += "vertical-align: middle;";
+                }
+                else if(value == "1"){
+                    style += 'vertical-align: top;';
                 }
                 else if(value == "2"){
-                    style += "align-items: flex-end;";
+                    style += "vertical-align: bottom;";
                 }
             }
+
+            if(key == "un" && value){
+                style += 'text-decoration:underline;';
+            }
+
         }
 
         if(!isInline){
