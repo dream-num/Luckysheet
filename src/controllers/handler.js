@@ -3571,7 +3571,7 @@ export default function luckysheetHandler() {
 
             d[ps_r][ps_c].ps.left = luckysheetPostil.currentObj.position().left;
             d[ps_r][ps_c].ps.top = luckysheetPostil.currentObj.position().top;
-            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").text();
+            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
 
             rc.push(ps_r + "_" + ps_c);
 
@@ -3605,7 +3605,7 @@ export default function luckysheetHandler() {
             d[ps_r][ps_c].ps.top = luckysheetPostil.currentObj.position().top;
             d[ps_r][ps_c].ps.width = luckysheetPostil.currentObj.outerWidth();
             d[ps_r][ps_c].ps.height = luckysheetPostil.currentObj.outerHeight();
-            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").text();
+            d[ps_r][ps_c].ps.value = luckysheetPostil.currentObj.find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
 
             rc.push(ps_r + "_" + ps_c);
 
@@ -5290,9 +5290,9 @@ export default function luckysheetHandler() {
             if (txtdata.indexOf("luckysheet_copy_action_table") > - 1 && Store.luckysheet_copy_save["copyRange"] != null && Store.luckysheet_copy_save["copyRange"].length > 0) {
                 //剪贴板内容解析
                 let cpDataArr = [];
-
-                let reg = new RegExp('<tr.*?>(.*?)</tr>', 'g');
-                let reg2 = new RegExp('<td.*?>(.*?)</td>', 'g');
+                
+                let reg = new RegExp('<tr.*?>(.*?)</tr>', 'gs');
+                let reg2 = new RegExp('<td.*?>(.*?)</td>', 'gs');
 
                 let regArr = txtdata.match(reg) || [];
 
@@ -5303,7 +5303,7 @@ export default function luckysheetHandler() {
 
                     if (reg2Arr != null) {
                         for (let j = 0; j < reg2Arr.length; j++) {
-                            let cpValue = reg2Arr[j].replace(/<td.*?>/g, "").replace(/<\/td>/g, "");
+                            let cpValue = reg2Arr[j].replace(/<td.*?>/gs, "").replace(/<\/td>/gs, "");
                             cpRowArr.push(cpValue);
                         }
                     }
