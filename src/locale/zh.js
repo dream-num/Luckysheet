@@ -10240,7 +10240,7 @@ export default {
 
         checkPasswordSucceedalert:"解锁成功，可以编辑该区域!",
         defaultRangeHintText:"该单元格正在受密码保护。",
-        defaultSheetHintText:"该单元格或图表位于受保护的工作表中，若要进行更改，请取消工作表保护，您可能需要输入密码。",
+        defaultSheetHintText:"该单元格或图表位于受保护的工作表中，若要进行更改，请取消工作表保护",
     },
     cellFormat:{
         cellFormatTitle:"设置单元格格式",

@@ -10233,7 +10233,7 @@ export default {
 
         checkPasswordSucceedalert: "解鎖成功,可以編輯該區域!",
         defaultRangeHintText     : "該儲存格正在受密碼保護",
-        defaultSheetHintText     : "該儲存格或圖表位於受保護的工作表中,若要進行更改,請取消工作表保護,您可能需要輸入密碼。",
+        defaultSheetHintText     : "該儲存格或圖表位於受保護的工作表中,若要進行更改,請取消工作表保護",
     },
     cellFormat: {
         cellFormatTitle     : "設定儲存格格式",
