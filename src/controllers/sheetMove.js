@@ -1779,8 +1779,6 @@ function getNextIndex(direction, focusIndex, strIndex, endIndex) {
             stNull = false;
         }
 
-        console.log(stNull, "stNull");
-
         let cellNull = [], i = 0;
         for(let r = strIndex + 1; r <= endIndex; r++){
             let cell = Store.flowdata[r][focusIndex];

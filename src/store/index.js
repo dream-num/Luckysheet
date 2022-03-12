@@ -115,6 +115,7 @@ const Store = {
     luckysheet_function:null,
     chart_selection: {},
     currentChart: '',
+    currentSheetChart: '',
     scrollRefreshSwitch:true,
 
     measureTextCache:{},

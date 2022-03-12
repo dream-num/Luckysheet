@@ -8,6 +8,7 @@ import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
+import escapeHtml from "escape-html";
 import tooltip from '../global/tooltip';
 import method from '../global/method';
 
@@ -58,7 +59,7 @@ const imageCtrl = {
             uploadImage(file).then(url => {
                 imageCtrl._insertImg(url);
             }).catch(error => {
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '图片上传失败');
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', 'Image upload failed');
             });
         } else {
             // 内部base64形式
@@ -132,11 +133,11 @@ const imageCtrl = {
 
         let borderWidth = imgItem.border.width;
 
-        return  `<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
+        return  `<div id="${escapeHtml(id)}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${escapeHtml(position)};left:${left}px;top:${top}px;z-index:200;">
                     <div class="luckysheet-modal-dialog-content" style="width:100%;height:100%;overflow:hidden;position:relative;">
-                        <img src="${src}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
+                        <img src="${escapeHtml(src)}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
                     </div>
-                    <div class="luckysheet-modal-dialog-border" style="border:${borderWidth}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius * Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
+                    <div class="luckysheet-modal-dialog-border" style="border:${escapeHtml(borderWidth)}px ${escapeHtml(imgItem.border.style)} ${escapeHtml(imgItem.border.color)};border-radius:${imgItem.border.radius * Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
                 </div>`;
     },
     getSliderHtml: function() {
@@ -239,12 +240,12 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-imageCtrl-colorSelect-dialog", 
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
             "title": locale_imageCtrl.borderTile, 
             "content": `<div class="currenColor">
-                            ${locale_imageCtrl.borderCur}:<span title="${currenColor}" style="background-color:${currenColor}"></span>
+                            ${locale_imageCtrl.borderCur}:<span title="${escapeHtml(currenColor)}" style="background-color:${escapeHtml(currenColor)}"></span>
                         </div>
                         <div class="colorshowbox"></div>`, 
             "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">${locale_button.confirm}</button>

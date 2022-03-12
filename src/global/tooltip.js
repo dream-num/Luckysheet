@@ -3,6 +3,8 @@ import browser from './browser';
 import { replaceHtml } from '../utils/util';
 import locale from '../locale/locale';
 import server from '../controllers/server';
+import * as clipboard from "../plugins/js/clipboard.min";
+import DOMPurify from "dompurify";
 
 const tooltip = {
     info: function (title, content) {
@@ -12,14 +14,14 @@ const tooltip = {
         let _locale = locale();
         let locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-info", 
             "addclass": "", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;'+locale_button.close+'&nbsp;&nbsp;</button>', 
+            "botton": `<button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;${locale_button.close}&nbsp;&nbsp;</button>`,
             "style": "z-index:100003" 
-        }));
+        })));
         let $t = $("#luckysheet-info").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -41,14 +43,14 @@ const tooltip = {
             name2 = locale_button.cancel;
         }
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-confirm", 
             "addclass": "", 
             "style": "z-index:100003", 
             "title": title, 
             "content": content, 
-            "botton": '<button class="btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;'+ name1 +'&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;'+ name2 +'&nbsp;&nbsp;</button>' 
-        }));
+            "botton": `<button class="btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;${name1}&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;${name2}&nbsp;&nbsp;</button>`
+        })));
         let $t = $("#luckysheet-confirm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -77,14 +79,14 @@ const tooltip = {
         const locale_screenshot = _locale.screenshot;
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-confirm").remove();
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-confirm", 
             "addclass": "", 
             "style": "z-index:100003", 
             "title": title, 
             "content": content, 
-            "botton": '<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadBtn +'&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadCopy +'&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;'+ locale_screenshot.downLoadClose +'&nbsp;&nbsp;</button>' 
-        }));
+            "botton": `<a style="text-decoration:none;color:#fff;" class="download btn btn-primary luckysheet-model-conform-btn">&nbsp;&nbsp;${locale_screenshot.downLoadBtn}&nbsp;&nbsp;</a>&nbsp;&nbsp;<button class="btn btn-primary luckysheet-model-copy-btn">&nbsp;&nbsp;${locale_screenshot.downLoadCopy}&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-cancel-btn">&nbsp;&nbsp;${locale_screenshot.downLoadClose}&nbsp;&nbsp;</button>`
+        })));
         let $t = $("#luckysheet-confirm").find(".luckysheet-modal-dialog-content").css("min-width", 300).end(), 
             myh = $t.outerHeight(), 
             myw = $t.outerWidth();
@@ -128,14 +130,14 @@ const tooltip = {
         });
     },
     chartPointConfig: function (id, savefunc1, closefunc2) {
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": id, 
             "addclass": "luckysheet-chart-point-config-c", 
-            "title": "数据点批量设置", 
+            "title": "Data point batch setting",
             "content": luckysheetchartpointconfigHTML, 
-            "botton": '<button class="btn btn-danger luckysheet-model-save-btn">&nbsp;&nbsp;保存设置&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>', 
+            "botton": '<button class="btn btn-danger luckysheet-model-save-btn">&nbsp;&nbsp;Save Settings&nbsp;&nbsp;</button><button class="btn btn-default luckysheet-model-close-btn">&nbsp;&nbsp;Cancel&nbsp;&nbsp;</button>',
             "style": "z-index:100003;height:80%;width:80%;top:10%;left:10%;" 
-        }));
+        })));
         $("#luckysheet-modal-dialog-mask").show();
         let winw = $(window).width(), winh = $(window).height();
         $("#" + id).find(".luckysheet-chart-point-config").css("height", winh - 160);

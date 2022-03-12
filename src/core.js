@@ -256,3 +256,5 @@ luckysheet.luckysheetextendData = luckysheetextendData;
 export {
     luckysheet
 }
+
+window.luckysheet = luckysheet;

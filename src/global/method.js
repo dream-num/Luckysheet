@@ -183,12 +183,7 @@ const defaultConfig = {
         formulaContainSheetList:{},
         cellTextToIndexList:{},
         isFunctionRangeSave: false,
-        execvertex: {},
-        execFunctionGroupData: null,
-        execFunctionExist: null,
-        formulaContainSheetList:{},
         formulaContainCellList:{},
-        cellTextToIndexList:{},
         execFunctionGlobalData:{},
         groupValuesRefreshData: [],
         functionResizeData: {},
@@ -337,8 +332,6 @@ const method = {
     },
     //重载
     reload: function(param, index, url, func){
-        let _this = this;
-
         if(index == null){
             index = Store.currentSheetIndex;
         }

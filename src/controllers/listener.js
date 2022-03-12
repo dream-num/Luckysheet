@@ -4,7 +4,6 @@
 import {createProxy} from '../utils/util';
 import Store from '../store/index';
 import method from '../global/method';
-import { getluckysheetfile } from '../methods/get'
 import { toJson } from '../global/api';
 
 let undoTimer,redoTimer;
@@ -23,20 +22,20 @@ function redoAccessible(len) {
 
 const initListener = function(){
     // createProxy(Store,['jfredo']);
-    createProxy(Store, 'jfredo',(target, property, val, receiver)=>{
+    createProxy(Store, 'jfredo',(target, property, val)=>{
         if (property !== 'length') {
             //  钩子函数
             method.createHookFunction('updated',val)
         }
         undoAccessible(Store.jfredo.length);
     } );
-    createProxy(Store, 'jfundo',(target, property, val, receiver)=>{
+    createProxy(Store, 'jfundo',()=>{
         redoAccessible(Store.jfundo.length);
     } );
     
 
 
-    createProxy(Store, 'asyncLoad', (target, property, val, receiver)=>{
+    createProxy(Store, 'asyncLoad', (target, property, val)=>{
         if(property === 'length' && val === 0){
             method.createHookFunction('workbookCreateAfter', toJson())
         }

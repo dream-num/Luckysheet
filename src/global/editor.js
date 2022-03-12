@@ -35,7 +35,7 @@ const editor = {
                 _this.deepCopyFlowDataWorker.terminate();
             }
 
-            let funcTxt = 'data:text/javascript;chartset=US-ASCII,onmessage = function (e) { postMessage(e.data); };';
+            let funcTxt = 'data:text/javascript;charset=US-ASCII,onmessage = function (e) { postMessage(e.data); };';
             _this.deepCopyFlowDataState = false;
 
             //适配IE

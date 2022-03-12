@@ -2309,13 +2309,12 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     -o-transition: opacity 0.218s;
     transition: opacity 0.218s;
     background: #fff;
-    border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, .2);
     cursor: default;
     font-size: 13px;
     margin: 0;
     outline: none;
-    padding: 6px 0;
+    padding: 12px 0 6px 0;
     position: absolute;
     z-index: 1004;
     box-sizing: border-box;
@@ -2336,6 +2335,10 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
     vertical-align: middle;
     padding-right: 24px;
     user-select: none;
+}
+
+.luckysheet-cols-menu .luckysheet-cols-menuitem:last-child {
+    margin-bottom: 6px;
 }
 
 /* 右击菜单项目 hover背景色 */
@@ -3517,14 +3520,32 @@ fieldset[disabled] .btn-danger.focus {
 
 .luckysheet-data-visualization-chart {
     width: 50%;
-    /*min-width: 860px;*/
     height: 50%;
+    border: none;
+    background: transparent;
 }
 
 .luckysheet-data-visualization-chart .luckysheet-modal-dialog-content {
     width: 100%;
     height: 100%;
     overflow: hidden;
+}
+
+.luckysheet-data-visualization-chart .luckysheet-modal-dialog-content > div:first-child {
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
+}
+
+.luckysheet-data-visualization-chart > .crop-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 20px);
+    height: calc(100% - 40px);
+    padding: 20px 10px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .333);
 }
 
 .luckysheet-datavisual-modal {
@@ -3583,159 +3604,6 @@ fieldset[disabled] .btn-danger.focus {
     bottom: 0px;
     width: 100%;
     display: none;
-}
-
-
-
-.luckysheet-datavisual-quick {}
-
-.luckysheet-datavisual-quick-menu {
-    width: 90px;
-    overflow: auto;
-    margin-top: 5px;
-}
-
-.luckysheet-datavisual-quick-menu::-webkit-scrollbar {
-    display: none;
-}
-
-.luckysheet-datavisual-quick-menu>div {
-    text-align: left;
-    padding: 4px 4px;
-    border-right: 3px solid #fff;
-    color: #777;
-    cursor: pointer;
-    line-height: 1.4em;
-    word-wrap: break-word;
-    /*margin: 4px 0px;*/
-}
-
-.luckysheet-datavisual-quick-menu>div:hover {
-    color: #000;
-}
-
-.luckysheet-datavisual-quick-menu>div i {
-    width: 15px;
-}
-
-.luckysheet-datavisual-quick-menu>div:hover i {
-    color: #FF7E7E;
-}
-
-.luckysheet-datavisual-quick-menu>div.luckysheet-datavisual-quick-menu-active {
-    border-right: 3px solid #FF7E7E;
-    color: #000;
-    font-weight: bold;
-}
-
-.luckysheet-datavisual-quick-menu>div.luckysheet-datavisual-quick-menu-active:hover i {
-    color: #000;
-}
-
-.luckysheet-datavisual-quick-range {
-    padding: 5px 0px;
-}
-
-.luckysheet-datavisual-range-container {
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-top: 1px solid #c0c0c0;
-    min-width: 20px;
-    width: 100%;
-    max-width: 200px;
-    display: inline-block;
-}
-
-.luckysheet-datavisual-range-container-focus {
-    border: 1px solid #4d90fe;
-    box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.3);
-    outline: none;
-}
-
-.luckysheet-datavisual-range-input,
-.luckysheet-datavisual-range-input:focus {
-    background: transparent !important;
-    border: none !important;
-    box-sizing: border-box;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    height: 25px;
-    margin: 0;
-    outline: none !important;
-    padding: 1px 8px !important;
-    width: 100%;
-}
-
-.luckysheet-datavisual-range-button-container {
-    overflow: hidden;
-    padding: 0 0 0 8px;
-    text-align: right;
-    width: 21px;
-}
-
-.luckysheet-datavisual-range-button-container div {
-    padding: 2px 10px 0px 10px;
-    font-size: 18px;
-    cursor: pointer;
-    color: #6598F3;
-}
-
-.luckysheet-datavisual-range-button-container div:hover {
-    color: #FF7E7E;
-}
-
-.luckysheet-datavisual-range-config {
-    /*display: inline-block;*/
-}
-
-.luckysheet-datavisual-quick-m {
-    margin-top: 5px;
-}
-
-.luckysheet-datavisual-quick-list {
-    left: 90px;
-    right: 0px;
-    bottom: 0px;
-    top: 110px;
-    position: absolute;
-    overflow: auto;
-    border-top: 1px solid #e5e5e5;
-    padding: 5px 3px 35px 3px;
-}
-
-.luckysheet-datavisual-quick-list-title {
-    padding: 4px 6px;
-    background: #e5e5e5;
-    margin-top: 10px;
-}
-
-.luckysheet-datavisual-quick-list-ul {
-    overflow: hidden;
-}
-
-.luckysheet-datavisual-quick-list-item {
-    display: inline-block;
-    margin: 5px 8px;
-    border: 1px solid #DADADA;
-    width: 100px;
-    height: 80px;
-}
-
-.luckysheet-datavisual-quick-list-item:hover {
-    border: 1px solid #FF7E7E;
-    box-shadow: 0px 0px 20px #FF7E7E;
-}
-
-.luckysheet-datavisual-quick-list-item img {
-    display: inline-block;
-    width: 100px;
-    height: 80px;
-}
-
-.luckysheet-datavisual-quick-list-item-active {
-    border: 1px solid #6598F3;
-    box-shadow: 0px 0px 20px #6598F3;
 }
 
 /*.luckysheet-datavisual-right {
@@ -4437,7 +4305,6 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheet-modal-dialog-slider-list .luckysheet-slider-list-item-name {
-    cursor: pointer;
     height: 25px;
     line-height: 25px;
     cursor: move;
@@ -5515,7 +5382,6 @@ fieldset[disabled] .btn-danger.focus {
 #luckysheet-search-formula-parm .parmDetailsBox {
     max-height: 100px;
     padding: 5px 0 5px 20px;
-    overflow-y: scroll;
 }
 
 #luckysheet-search-formula-parm .parmDetailsBox span {

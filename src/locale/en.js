@@ -7783,377 +7783,6 @@ export default {
             "type": "range"
         }]
     }, {
-        "n": "AGE_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the age based on the Chinese ID number. Support 15 or 18",
-        "a": "Get age based on ID number.",
-        "m": [1, 2],
-        "p": [{
-            "name": "ID number",
-            "example": "A1",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Deadline",
-            "example": "\"2017-10-01\"",
-            "detail": "The deadline or range of age calculation. The default is the current day.",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedatetime"
-        }]
-    }, {
-        "n": "SEX_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate gender based on Chinese ID number. Support 15 or 18",
-        "a": "Get gender based on ID number.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "BIRTHDAY_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the birthday based on the Chinese ID number. Support 15 or 18",
-        "a": "Get the birthday based on the ID number.",
-        "m": [1, 2],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Birthday format",
-            "example": "0",
-            "detail": "Date type, default:0:[1900/01/01], 1:[1900-01-01], 2:[1900年1月1日]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "PROVINCE_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the province of birthplace based on the Chinese ID number. Support 15 or 18",
-        "a": "Get the province of birthplace based on the ID number.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "CITY_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the city of birthplace based on the Chinese ID number. Support 15 or 18",
-        "a": "Get the city of birthplace based on the ID number.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "STAR_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the constellation based on the Chinese ID number. Support 15 or 18",
-        "a": "Get the constellation based on the ID number.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "ANIMAL_BY_IDCARD",
-        "t": "3",
-        "d": "Calculate the zodiac (rat, ox, tiger, rabbit...) based on the Chinese ID number. Support 15 or 18",
-        "a": "Get the zodiac according to the ID number.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "ISIDCARD",
-        "t": "3",
-        "d": "Verify that the format of the ID card is correct. Support 15 or 18",
-        "a": "Verify the correctness of the ID card format.",
-        "m": [1, 1],
-        "p": [{
-            "name": "ID number",
-            "example": "\"31033519900101XXXX\"",
-            "detail": "15-digit or 18-digit ID number or range.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    }, {
-        "n": "DM_TEXT_CUTWORD",
-        "t": "4",
-        "d": "Text segmentation. Split a series of words into a series of individual words",
-        "a": "Chinese text segmentation.",
-        "m": [1, 2],
-        "p": [{
-            "name": "Text",
-            "example": "\"I came to Beijing Tsinghua University\"",
-            "detail": "Any text that needs word segmentation.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Word segmentation mode",
-            "example": "0",
-            "detail": "The default is 0[precision mode], 1[full mode], 2[search engine mode].",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DM_TEXT_TFIDF",
-        "t": "4",
-        "d": "Use tf-idf algorithm for keyword extraction. Identify keywords from a series of text",
-        "a": "tf-idf keyword recognition.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Text",
-            "example": "\"I came to Beijing Tsinghua University\"",
-            "detail": "Any text that needs word segmentation.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Number of keywords",
-            "example": "20",
-            "detail": "The number of keywords returned by the algorithm, the default is 20",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }, {
-            "name": "Corpus",
-            "example": "1",
-            "detail": "Select a corpus in a specific field, the default is 0[General], 1[Finance], 2[Medical]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DM_TEXT_TEXTRANK",
-        "t": "4",
-        "d": "Use TextRank algorithm to extract keywords. Identify keywords from a series of text",
-        "a": "TextRank keyword recognition.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Text",
-            "example": "\"I came to Beijing Tsinghua University\"",
-            "detail": "Any text that needs word segmentation.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Number of keywords",
-            "example": "20",
-            "detail": "The number of keywords returned by the algorithm, the default is 20",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }, {
-            "name": "Corpus",
-            "example": "1",
-            "detail": "Select a corpus in a specific field, the default is 0[General], 1[Finance], 2[Medical]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_CLOSE",
-        "t": "5",
-        "d": "According to the stock code and date, return the corresponding stock closing price of A shares.",
-        "a": "Returns the closing price of stock.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_OPEN",
-        "t": "5",
-        "d": "According to the stock code and date, return the opening price of stock.",
-        "a": "Return the opening price of a shares.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_MAX",
-        "t": "5",
-        "d": "According to the stock code and date, return the highest price of stock.",
-        "a": "Return the highest price of stock.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_MIN",
-        "t": "5",
-        "d": "According to the stock code and date, return the lowest price of stock.",
-        "a": "Returns the lowest price of stock.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_VOLUMN",
-        "t": "5",
-        "d": "According to the stock code and date, return the corresponding stock trading volume of A shares.",
-        "a": "Returns the corresponding stock trading volume of A shares.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
-        "n": "DATA_CN_STOCK_AMOUNT",
-        "t": "5",
-        "d": "According to the stock code and date, return the corresponding stock turnover of A shares.",
-        "a": "Returns the corresponding stock turnover of A shares.",
-        "m": [1, 3],
-        "p": [{
-            "name": "Stock code",
-            "example": "\"000001\"",
-            "detail": "6-digit stock code, required.",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "Date",
-            "example": "2015-01-08",
-            "detail": "The trading day of the stock, the default is the latest trading day",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "Reversion and exclusion",
-            "example": "0",
-            "detail": "Select the ex right restoration type of the stock, default to 0 [former reversion], 1 [original price], 2 [post reversion]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    }, {
         "n": "ISDATE",
         "t": "6",
         "d": "Returns whether a value is a date.",
@@ -8916,11 +8545,11 @@ export default {
         errorInfo:"Cannot perform this operation on multiple selection areas, please select a single area and try again",
         textTitle:"Format style",
         custom:"CUSTOM",
-        close:"close",
+        close:"Close",
         selectionTextColor:"Click to select text color",
         selectionCellColor:"Click to select cell color",
         removeColor:"Remove alternating colors",
-        colorShow:"color",
+        colorShow:"Color",
         currentColor:"Current",
 
         tipSelectRange:"Please select the range of alternating colors",
@@ -8936,7 +8565,7 @@ export default {
         insert:"Insert",
         prevPage: "Previous",
         nextPage: "Next",
-        total: "total:"
+        total: "Total:"
     },
     paint:{
         start: 'Paint format start',
@@ -8967,10 +8596,10 @@ export default {
         rename:"Rename",
         tips:"WorkBook rename",
         noName:"Untitled spreadsheet",
-        wait:"waiting for update",
+        wait:"Waiting for update",
 
         add:"Add",
-        addLast:"more rows at bottom",
+        addLast:"More rows at bottom",
         backTop:"Back to the top",
         pageInfo:'Total ${total}，${totalPage} page，current ${currentPage}',
         nextPage:"Next",
@@ -9149,14 +8778,16 @@ export default {
         { "text": 'Percent', "value": "#0.00%", "example": "12.21%" },
         { "text": 'Scientific', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": 'Accounting', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": 'Accounting', "value": "$(0.00)", "example": "$(1200.09)" },
 
 
-        { "text": 'Currency', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": 'Currency', "value": "$0.00", "example": "$1200.09" },
 
 
         { "text": "", "value": "split", "example": "" },
-        { "text": 'Date', "value": "yyyy-MM-dd", "example": "2017-11-29" },
+        // { "text": 'Date (.)', "value": "dd\\.MM\\.yyyy", "example": "28.10.2021" },
+        { "text": 'Date (/)', "value": "M/d/yyyy", "example": "10/28/2021" },
+        { "text": 'Date (-)', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": 'Time', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": 'Time 24H', "value": "hh:mm", "example": "15:00" },
         { "text": 'Date time', "value": "yyyy-MM-dd hh:mm AM/PM", "example": "2017-11-29 3:00 PM" },
@@ -9165,20 +8796,56 @@ export default {
         { "text": 'Custom formats', "value": "fmtOtherSelf", "example": "more" }
     ],
     dateFmtList:[
+        // {
+        //     "name": "28.10.2021",
+        //     "value": "dd.MM.yyyy"
+        // },
         {
-            "name": "1930-08-05",
+            "name": "10/28/2021",
+            "value": "M/d/yyyy"
+        },
+        {
+            "name": "10/28/21",
+            "value": "M/d/yy"
+        },
+        {
+            "name": "2021-08-25",
             "value": "yyyy-MM-dd"
         },
         {
-            "name": "1930/8/5",
+            "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
+        // {
+        //     "name": "28. 10. 2021.",
+        //     "value": "d. M. yyyy."
+        // },
         {
-            "name": "08-05",
+            "name": "28-10-2021",
+            "value": "dd-MM-yyyy"
+        },
+        {
+            "name": "28-10-21",
+            "value": "dd-MM-yy"
+        },
+        // {
+        //     "name": "28.10.21",
+        //     "value": "dd.MM.yy"
+        // },
+        {
+            "name": "28/10/2021",
+            "value": "dd/MM/yyyy"
+        },
+        // {
+        //     "name": "2021.08.25",
+        //     "value": "yyyy.MM.dd"
+        // },
+        {
+            "name": "08-25",
             "value": "MM-dd"
         },
         {
-            "name": "8-5",
+            "name": "8-25",
             "value": "M-d"
         },
         {
@@ -9190,20 +8857,8 @@ export default {
             "value": "h:mm"
         },
         {
-            "name": "PM 01:30",
-            "value": 'AM/PM hh:mm'
-        },
-        {
-            "name": "PM 1:30",
-            "value": 'AM/PM h:mm'
-        },
-        {
-            "name": "PM 1:30:30",
-            "value": 'AM/PM h:mm:ss'
-        },
-        {
-            "name": "08-05 PM 01:30",
-            "value": "MM-dd AM/PM hh:mm"
+            "name": "08-25 01:30",
+            "value": "MM-dd hh:mm"
         }
     ],
     fontFamily:{
@@ -9212,18 +8867,18 @@ export default {
     fontarray: ["Times New Roman","Arial","Tahoma","Verdana"],
     fontjson: {"times new roman":0,"arial":1,"tahoma":2,"verdana":3},
     border:{
-        borderTop:'borderTop',
-        borderBottom:'borderBottom',
-        borderLeft:'borderLeft',
-        borderRight:'borderRight',
-        borderNone:'borderNone',
-        borderAll:'borderAll',
-        borderOutside:'borderOutside',
-        borderInside:'borderInside',
-        borderHorizontal:'borderHorizontal',
-        borderVertical:'borderVertical',
-        borderColor:'borderColor',
-        borderSize:'borderSize',
+        borderTop:'Border top',
+        borderBottom:'Border bottom',
+        borderLeft:'Border left',
+        borderRight:'Border right',
+        borderNone:'Border none',
+        borderAll:'Border all',
+        borderOutside:'Border outside',
+        borderInside:'Border inside',
+        borderHorizontal:'Border horizontal',
+        borderVertical:'Border vertical',
+        borderColor:'Border color',
+        borderSize:'Border type',
     },
     merge:{
         mergeAll:"Merge all",
@@ -9234,9 +8889,9 @@ export default {
         partiallyError:"Cannot perform this operation on partially merged cells",
     },
     align:{
-        left:"left",
-        center:"center",
-        right:"right",
+        left:"Left",
+        center:"Center",
+        right:"Right",
 
         top:"Top",
         middle:"Middle",
@@ -9263,7 +8918,7 @@ export default {
         freezenRowRange:"Freezen row range",
         freezenColumnRange:"Freezen column range",
         freezenRCRange:"Freezen both range",
-        freezenCancel:"Cancel",
+        freezenCancel:"Unfreeze",
 
         noSeletionError:"No Range to be selected",        rangeRCOverErrorTitle: "Freeze reminder",
         rangeRCOverError: "The frozen pane is beyond the visible range, which will lead to abnormal operation. Please reset the frozen area."
@@ -9276,8 +8931,8 @@ export default {
         "hasTitle":"Data has a header row",
         "sortBy":"Sort by",
         "addOthers":"Add another sort column",
-        "close":"close",
-        "confirm":"sort",
+        "close":"Close",
+        "confirm":"Sort",
 
         "columnOperation":"Column",
         "secondaryTitle":"then by",
@@ -9293,7 +8948,7 @@ export default {
 
     },
     filter:{
-       filter:"create filter",
+       filter:"Create filter",
 
        sortByAsc:"Sort A-Z",
        sortByDesc:"Sort Z-A",
@@ -9621,8 +9276,8 @@ export default {
         clearColorSelect: 'Clear color select',
         sheet: 'Sheet',
         currentSheet: 'Current Sheet',
-        dataBar: 'data bar',
-        dataBarColor: 'data bar color',
+        dataBar: 'Data bar',
+        dataBarColor: 'Data bar color',
         gradientDataBar_1: 'Blue-white gradient data bar',
         gradientDataBar_2: 'Green-white gradient data bar',
         gradientDataBar_3: 'Red-white gradient data bar',
@@ -9635,7 +9290,7 @@ export default {
         solidColorDataBar_4: 'Orange data bar',
         solidColorDataBar_5: 'Light blue data bar',
         solidColorDataBar_6: 'Purple data bar',
-        colorGradation: 'color gradation',
+        colorGradation: 'Color gradation',
         colorGradation_1: 'Green-yellow-red color gradation',
         colorGradation_2: 'Red-yellow-green color gradation',
         colorGradation_3: 'Green-white-red color gradation',
@@ -9648,7 +9303,7 @@ export default {
         colorGradation_10: 'White-green color gradation',
         colorGradation_11: 'Green-yellow color gradation',
         colorGradation_12: 'Yellow-green color gradation',
-        icons: 'icons',
+        icons: 'Icons',
         pleaseSelectIcon: 'Please click to select a group of icons:',
         cellValue: 'Cell value',
         specificText: 'Specific text',
@@ -9750,7 +9405,7 @@ export default {
         selectCellRange2: 'Please select a range of cells',
         verificationCondition: 'Verification condition',
         allowMultiSelect: "Allow multiple selection",
-        dropdown: 'drop-down list',
+        dropdown: 'Drop-down list',
         checkbox: 'Checkbox',
         number: 'Number',
         number_integer: 'Number-integer',
@@ -9886,9 +9541,9 @@ export default {
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
 
-        pasteMustKeybordAlert:"在表格中进行复制粘贴: Ctrl + C 进行复制, Ctrl + V 进行粘贴, Ctrl + X 进行剪切",
-        pasteMustKeybordAlertHTMLTitle:"在表格中进行复制粘贴",
-        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
+        pasteMustKeybordAlert:"Copy and paste in the table: Ctrl + C - make a copy, Ctrl + V - paste, Ctrl + X - cut",
+        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the table",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;- make a copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;- paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;- cut",
     },
     pivotTable:{
         title:"Pivot Table",

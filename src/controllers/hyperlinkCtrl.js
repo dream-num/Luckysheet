@@ -14,6 +14,7 @@ import menuButton from './menuButton';
 import { getSheetIndex } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
+import escapeHtml from "escape-html";
 
 const hyperlinkCtrl = {
     item: {
@@ -74,7 +75,7 @@ const hyperlinkCtrl = {
                             </div>
                         </div>`;
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-insertLink-dialog", 
             "addclass": "luckysheet-insertLink-dialog", 
             "title": toolbarText.insertLink, 
@@ -131,7 +132,9 @@ const hyperlinkCtrl = {
                     linkAddress = 'https://' + linkAddress;
                 }
 
-                if(!/^http[s]?:\/\/([\w\-\.]+)+[\w-]*([\w\-\.\/\?%&=]+)?$/ig.test(linkAddress)){
+                try {
+                    new URL(linkAddress);
+                } catch {
                     tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
                     return;
                 }
@@ -306,22 +309,17 @@ const hyperlinkCtrl = {
             linkTooltip = item.linkAddress;
         }
 
-        let row = Store.visibledatarow[row_index], 
-            row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-        let col = Store.visibledatacolumn[col_index], 
-            col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
+        let row = Store.visibledatarow[row_index];
+        let col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
         if(!!margeset){
             row = margeset.row[1];
-            row_pre = margeset.row[0];
-            
-            col = margeset.column[1];
             col_pre = margeset.column[0];
         }
 
         let html = `<div id="luckysheet-hyperlink-overshow" style="background:#fff;padding:5px 10px;border:1px solid #000;box-shadow:2px 2px #999;position:absolute;left:${col_pre}px;top:${row + 5}px;z-index:100;">
-                        <div>${linkTooltip}</div>
-                        <div>单击鼠标可以追踪</div>
+                        <div>${escapeHtml(linkTooltip)}</div>
+                        <div>Click the mouse to track</div>
                     </div>`;
 
         $(html).appendTo($("#luckysheet-cell-main"));

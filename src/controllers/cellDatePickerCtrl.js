@@ -3,22 +3,18 @@ import formula from '../global/formula';
 import Store from '../store';
 import flatpickr from 'flatpickr'
 import dayjs from "dayjs";
-import { update, datenum_local } from '../global/format';
-import { setCellValue, setCellFormat } from '../global/api';
+import {update, datenum_local} from '../global/format';
+import {setCellValue, setCellFormat} from '../global/api';
 
 const fitFormat = (formatStr) => {
     let dateFormat = formatStr.replace(/y/g, 'Y');
     dateFormat = dateFormat.replace(/d/g, 'D');
     dateFormat = dateFormat.replace(/h/g, 'H');
 
-    dateFormat = dateFormat.replace(/上午\/下午/g, 'A');
-    dateFormat = dateFormat.replace(/上午/g, 'A');
-    dateFormat = dateFormat.replace(/下午/g, 'A');
-
     dateFormat = dateFormat.replace(/AM\/PM/g, 'A');
     dateFormat = dateFormat.replace(/AM/g, 'A');
     dateFormat = dateFormat.replace(/PM/g, 'A');
-    dateFormat = dateFormat.replace(/\"/g, '');
+    dateFormat = dateFormat.replace(/"/g, '');
 
     if (dateFormat.includes('A')) {
         dateFormat = dateFormat.replace(/H/g, 'h');
@@ -29,9 +25,9 @@ const fitFormat = (formatStr) => {
 const cellDatePickerCtrl = {
     cellFocus: function (r, c, cell) {
         let row = Store.visibledatarow[r],
-            row_pre = r == 0 ? 0 : Store.visibledatarow[r - 1];
+            row_pre = r === 0 ? 0 : Store.visibledatarow[r - 1];
         let col = Store.visibledatacolumn[c],
-            col_pre = c == 0 ? 0 : Store.visibledatacolumn[c - 1];
+            col_pre = c === 0 ? 0 : Store.visibledatacolumn[c - 1];
 
         let margeset = menuButton.mergeborer(Store.flowdata, r, c);
         let type = cell.ct.fa || 'YYYY-MM-DD';
@@ -88,10 +84,10 @@ const cellDatePickerCtrl = {
                     fp.destroy()
                 }, 0);
             },
-            parseDate: (datestr, format) => {
+            parseDate: (datestr) => {
                 return dayjs(datestr).toDate();
             },
-            formatDate: (date, format, locale) => {
+            formatDate: (date, format) => {
                 if (hasChineseTime) {
                     return dayjs(date).format(format).replace('AM', '上午').replace('PM', '下午')
                 }
@@ -99,8 +95,8 @@ const cellDatePickerCtrl = {
             },
             onChange: function (selectedDates, dateStr) {
                 let currentVal = datenum_local(new Date(selectedDates))
-                $("#luckysheet-rich-text-editor").html(dateStr);
-                setCellValue(r, c, currentVal, { isRefresh: false })
+                $("#luckysheet-rich-text-editor").text(dateStr);
+                setCellValue(r, c, currentVal, {isRefresh: false})
                 setCellFormat(r, c, 'ct', cell.ct)
                 if (!enableTime) {
                     formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);

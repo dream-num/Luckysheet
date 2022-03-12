@@ -31,7 +31,6 @@ import locale from '../locale/locale';
 import {enterKeyControll} from './inlineString';
 import Store from '../store';
 
-
 let luckysheet_shiftkeydown = false;
 
 function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
@@ -94,7 +93,7 @@ function formulaMoveEvent(dir, ctrlKey, shiftKey, event){
         }
         else if(formula.israngeseleciton()){
             let anchor = $(window.getSelection().anchorNode);
-            // console.log(anchor.parent().next().text());
+
             if(anchor.parent().next().text() == null || anchor.parent().next().text() == ""){
                 let vText = $("#luckysheet-input-box #luckysheet-input-box-index").text();
                 let range = formula.getcellrange(vText);
@@ -317,7 +316,7 @@ export function keyboardInitial(){
                     }
                 }
             }
-            
+
             return;
         }
 
@@ -444,7 +443,7 @@ export function keyboardInitial(){
                         luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
 
                         let value = getNowDateTime(2);
-                        $("#luckysheet-rich-text-editor").html(value);
+                        $("#luckysheet-rich-text-editor").text(value);
                         luckysheetRangeLast($("#luckysheet-rich-text-editor")[0]);
                         formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
                     }
@@ -715,7 +714,7 @@ export function keyboardInitial(){
                     luckysheetupdateCell(row_index, col_index, Store.flowdata, true);
 
                     let value = getNowDateTime(1);
-                    $("#luckysheet-rich-text-editor").html(value);
+                    $("#luckysheet-rich-text-editor").text(value);
                     luckysheetRangeLast($("#luckysheet-rich-text-editor")[0]);
                     formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
                 }
@@ -731,8 +730,6 @@ export function keyboardInitial(){
                     formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
                 }
                 else if (String.fromCharCode(kcode).toLocaleUpperCase() == "A") {//Ctrl + A  全选
-                    // $("#luckysheet-left-top").trigger("mousedown");
-                    // $(document).trigger("mouseup");
                     $("#luckysheet-left-top").click()
                 }
 
@@ -860,7 +857,7 @@ export function keyboardInitial(){
                 }
             }
         }
-        
+
         luckysheetactiveCell();
 
         event.stopPropagation();
@@ -873,7 +870,6 @@ export function keyboardInitial(){
         }
 
         let ctrlKey = event.ctrlKey;
-        let altKey = event.altKey;
         let shiftKey = event.shiftKey;
         let kcode = event.keyCode;
 
@@ -932,20 +928,17 @@ export function keyboardInitial(){
         }
 
         //输入框中文输入后 shift 和 空格 处理
-        if(parseInt($("#luckysheet-input-box").css("top")) > 0 && (kcode == 13 || kcode == 16 || kcode == 32)){
+        // if(parseInt($("#luckysheet-input-box").css("top")) > 0 && (kcode == 13 || kcode == 16 || kcode == 32)){
             // if(event.target.id=="luckysheet-input-box" || event.target.id=="luckysheet-rich-text-editor"){
             //     formula.functionInputHanddler($("#luckysheet-functionbox-cell"), $("#luckysheet-rich-text-editor"), kcode);
             // }
-        }
+        // }
 
         e.preventDefault();
     });
 
     //top workBook rename
     $("#luckysheet_info_detail_input").val(server.title).css("width", getByteLen(server.title) * 10).keydown(function(){
-        let ctrlKey = event.ctrlKey;
-        let altKey = event.altKey;
-        let shiftKey = event.shiftKey;
         let kcode = event.keyCode;
         let $t = $(this);
         if(kcode == keycode.ENTER){
@@ -974,7 +967,6 @@ export function keyboardInitial(){
 
     // 右击菜单的input输入框 敲击Enter一样生效
     $("#" + Store.container).add("input.luckysheet-mousedown-cancel").keydown(function (event) {
-
         const element =  event.target.closest('.luckysheet-cols-menuitem');
         if (typeof(element) != 'undefined' && element != null && event.keyCode === 13){
             $(element).trigger('click');

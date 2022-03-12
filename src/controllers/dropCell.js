@@ -286,10 +286,8 @@ const luckysheetDropCell = {
             col_index = copy_c;
         }
 
-        let row = rowLocationByIndex(row_index)[1],
-            row_pre = rowLocationByIndex(row_index)[0];
-        let col = colLocationByIndex(col_index)[1],
-            col_pre = colLocationByIndex(col_index)[0];
+        let row = rowLocationByIndex(row_index)[1];
+        let col = colLocationByIndex(col_index)[1];
 
         $("#luckysheet-dropCell-icon").remove();
         $("#luckysheet-cell-main").append(_this.iconHtml);

@@ -1,18 +1,16 @@
 import Store from '../store';
 import locale from '../locale/locale';
 import { modelHTML } from './constant';
-import { getSheetIndex } from '../methods/get';
-import { setluckysheet_scroll_status } from '../methods/set';
 import sheetmanage from './sheetmanage';
 import luckysheetsizeauto from './resize';
 import dataVerificationCtrl from './dataVerificationCtrl';
 import { replaceHtml,transformRangeToAbsolute,openSelfModel } from '../utils/util';
 import { selectionCopyShow } from './select';
 import tooltip from '../global/tooltip';
-import cleargridelement from '../global/cleargridelement';
+import escapeHtml from "escape-html";
 
 let isInitialProtection = false, isInitialProtectionAddRang = false, rangeItemListCache=[], isAddRangeItemState=true, updateRangeItemIndex = null, validationAuthority=null, updatingSheetFile=null, firstInputSheetProtectionPassword = true;
-let sqrefMapCache = {}, inputRangeProtectionPassword = {}, initialRangePasswordHtml=false;
+let inputRangeProtectionPassword = {}, initialRangePasswordHtml=false;
 
 const authorityItemArr = [
     "selectLockedCells",
@@ -49,11 +47,11 @@ function addRangeItem(item){
             <div class="luckysheet-protection-rangeItem-del" title="${locale_button.delete}">
                 <i class="icon iconfont luckysheet-iconfont-shanchu"></i>
             </div>
-            <div class="luckysheet-protection-rangeItem-name" title="${title}">
-                ${title}${passwordTxt}
+            <div class="luckysheet-protection-rangeItem-name" title="${escapeHtml(title)}">
+                ${escapeHtml(title)}${passwordTxt}
             </div>
-            <div class="luckysheet-protection-rangeItem-range" title="${sqref}">
-                ${sqref}
+            <div class="luckysheet-protection-rangeItem-range" title="${escapeHtml(sqref)}">
+                ${escapeHtml(sqref)}
             </div>
             <div class="luckysheet-protection-rangeItem-update" title="${locale_button.update}">
                 <i class="icon iconfont luckysheet-iconfont-bianji"></i>
@@ -190,8 +188,6 @@ function initialEvent(file){
 
         let index = $rangeItemContainer.find("> div.luckysheet-protection-rangeItem").index($rangeItem);
 
-        let item = rangeItemListCache[index];
-
         rangeItemListCache.splice(index, 1);
         $rangeItem.remove();
     });
@@ -261,18 +257,15 @@ function initialEvent(file){
                 passwordTxt = '<i class="icon iconfont luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
             }
 
-            $name.html(name+passwordTxt).attr("title",name);
+            $name.html(escapeHtml(name) + passwordTxt).attr("title",name);
 
             let $range = $rangeitem.find(".luckysheet-protection-rangeItem-range");
 
-            $range.html(rangeText).attr("title",rangeText);
+            $range.text(rangeText).attr("title",rangeText);
         }
-
-
 
         $("#luckysheet-protection-rangeItem-dialog").hide();
         $("#luckysheet-modal-dialog-mask").hide();
-
     });
 
 
@@ -461,7 +454,7 @@ function initialEvent(file){
 }
 
 //protect range config
-function initialProtectionRangeModal(file){
+function initialProtectionRangeModal(){
     if(isInitialProtectionAddRang){
         return;
     }
@@ -817,7 +810,7 @@ function openRangePasswordModal(rangeAut) {
 
     let $hint = $("#luckysheet-protection-range-validation-hint");
     if(rangeAut.hintText != null && rangeAut.hintText.length>0){
-        $hint.html(rangeAut.hintText);
+        $hint.text(rangeAut.hintText);
     }
     else{
         $hint.html(local_protection.defaultRangeHintText);
@@ -854,9 +847,7 @@ function openRangePasswordModal(rangeAut) {
         else{
             alert(local_protection.checkPasswordWrongalert);
         }
-
     });
-    
 }
 
 //protection state

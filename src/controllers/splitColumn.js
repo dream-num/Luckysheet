@@ -8,6 +8,7 @@ import { getcellvalue } from '../global/getdata';
 import { jfrefreshgrid } from '../global/refresh';
 import Store from '../store';
 import locale from '../locale/locale';
+import DOMPurify from "dompurify";
 
 //分列
 const luckysheetSplitColumn = {
@@ -168,7 +169,7 @@ const luckysheetSplitColumn = {
 
         let tableHtml = '<table>' + trHtml + '</table>';
 
-        $("#luckysheet-splitColumn-dialog #splitColumnData").append(tableHtml);
+        $("#luckysheet-splitColumn-dialog #splitColumnData").append(DOMPurify.sanitize(tableHtml));
     },
     getRegStr: function(){
         let regStr = '', mark = 0;
