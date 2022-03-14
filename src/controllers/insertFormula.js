@@ -135,7 +135,7 @@ const insertFormula = {
             $("#luckysheet-search-formula-parm-select").remove();
             
             if($(this).parents(".parmBox").find(".txt input").val() == ""){
-                $("body").append(replaceHtml(modelHTML, { 
+                $("body").first().append(replaceHtml(modelHTML, { 
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
                     "title": locale_formulaMore.tipSelectDataRange, 
@@ -145,7 +145,7 @@ const insertFormula = {
                 }));
             }
             else{
-                $("body").append(replaceHtml(modelHTML, { 
+                $("body").first().append(replaceHtml(modelHTML, { 
                     "id": "luckysheet-search-formula-parm-select", 
                     "addclass": "luckysheet-search-formula-parm-select", 
                     "title": locale_formulaMore.tipSelectDataRange, 
@@ -190,7 +190,7 @@ const insertFormula = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-search-formula").remove();
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").first().append(replaceHtml(modelHTML, { 
             "id": "luckysheet-search-formula", 
             "addclass": "luckysheet-search-formula", 
             "title": "", 
@@ -276,7 +276,7 @@ const insertFormula = {
         $("#luckysheet-modal-dialog-mask").hide();
         
         $("#luckysheet-search-formula-parm").remove();
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").first().append(replaceHtml(modelHTML, { 
             "id": "luckysheet-search-formula-parm", 
             "addclass": "luckysheet-search-formula-parm", 
             "title": parm_title, 

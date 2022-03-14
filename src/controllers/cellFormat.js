@@ -114,7 +114,7 @@ function initialCellFormatModel(){
     const locale_button = _locale.button;
 
     //Password input initial
-    $("body").append(replaceHtml(modelHTML, { 
+    $("body").first().append(replaceHtml(modelHTML, { 
         "id": "luckysheet-cellFormat-config", 
         "addclass": "luckysheet-cellFormat-config", 
         "title": local_cellFormat.cellFormatTitle, 

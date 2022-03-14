@@ -103,10 +103,10 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
             </div>
          </div>`,
          // Add style left:$$('.luckysheet') left, when the worksheet does not fill the full screen
-        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").scrollTop()) +'px;right:0px;z-index:1003;padding:5.5px;visibility:hidden;height:auto;white-space:initial;"></div>';
+        morediv = '<div id="luckysheet-icon-morebtn-div" class="luckysheet-wa-editor" style="position:absolute;top:'+ (Store.infobarHeight + Store.toolbarHeight + $("#" + Store.container).offset().top + $("body").first().scrollTop()) +'px;right:0px;z-index:1003;padding:5.5px;visibility:hidden;height:auto;white-space:initial;"></div>';
 
     if($("#luckysheet-icon-morebtn-div").length == 0){
-        $("body").append(morediv);
+        $("body").first().append(morediv);
     }
 
     // $("#luckysheet-icon-morebtn-div").hide();
@@ -175,7 +175,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
                 $$('#luckysheet-icon-morebtn-div').style.left = containerLeft + 'px';
             }
 
-            let right = $(window).width() - $("#luckysheet-icon-morebtn").offset().left - $("#luckysheet-icon-morebtn").width()+ $("body").scrollLeft();
+            let right = $(window).width() - $("#luckysheet-icon-morebtn").offset().left - $("#luckysheet-icon-morebtn").width()+ $("body").first().scrollLeft();
 
 
             // $("#luckysheet-icon-morebtn-div").toggle().css("right", right < 0 ? 0 : right);
