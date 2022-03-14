@@ -568,16 +568,16 @@ const imageCtrl = {
             case "border-width":
                 imgItem.border.width = value;
                 borderDiv.css({
-                    "border-width": value,
-                    "left": -value,
-                    "right": -value,
-                    "top": -value,
-                    "bottom": -value
+                    "border-width": value * Store.zoomRatio,
+                    "left": -value * Store.zoomRatio,
+                    "right": -value * Store.zoomRatio,
+                    "top": -value * Store.zoomRatio,
+                    "bottom": -value * Store.zoomRatio
                 });
                 break;
             case "border-radius":
-                imgItem.border.radius = value;
-                borderDiv.css("border-radius", value);
+                imgItem.border.radius = value * Store.zoomRatio;
+                borderDiv.css("border-radius", value * Store.zoomRatio);
                 break;
             case "border-style":
                 imgItem.border.style = value;
