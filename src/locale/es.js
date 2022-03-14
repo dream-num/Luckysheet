@@ -9636,7 +9636,7 @@ export default {
 
         checkPasswordSucceedalert:"Desbloqueo conseguido!",
         defaultRangeHintText:"La celda está protegida con contraseña.",
-        defaultSheetHintText:"La celda o el gráfico están en una hoja de trabajo protegida. Para realizar cambios, desprotege la hoja de trabajo. Es posible que tengas que ingresar una contraseña",
+        defaultSheetHintText:"La celda o el gráfico están en una hoja de trabajo protegida. Para realizar cambios, desprotege la hoja de trabajo.",
     },
     cellFormat:{
         cellFormatTitle:"Formatear celdas",

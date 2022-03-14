@@ -9667,7 +9667,7 @@ export default {
 
         checkPasswordSucceedalert:"Unlock Succeed!",
         defaultRangeHintText:"The cell is being password protected.",
-        defaultSheetHintText:"The cell or chart is in a protected worksheet. To make changes, please unprotect the worksheet. You may need to enter a password",
+        defaultSheetHintText:"The cell or chart is in a protected worksheet. To make changes, please unprotect the worksheet.",
     },
     cellFormat:{
         cellFormatTitle:"Format cells",

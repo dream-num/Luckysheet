@@ -32,6 +32,7 @@ const babel = require('@rollup/plugin-babel').default;
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
 const pkg = require('./package.json');
+const path = require("path");
 const fs = require("fs");
 const banner = `/*! @preserve
  * ${pkg.name}
@@ -217,7 +218,7 @@ async function core_rollup() {
 
 async function core() {
     // fix for the numeral.js amd preference
-    const file = "node_modules\\numeral\\numeral.js"
+    const file = path.join("node_modules","numeral", "numeral.js");
     let text = fs.readFileSync(file, "utf8");
     text = text.replace("define.amd", "define.a");
     fs.writeFileSync(file, text);
