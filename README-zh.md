@@ -133,9 +133,9 @@ npm run build
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
-| 官方微信群 |  群满则加小编微信:dushusir2，备注:加群  | QQ群:926131495 |
-|---|---|---|
-| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_wechat_group.png" width="200" /> | <img src="https://minio.cnbabylon.com/public/luckysheet/dushusir_wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_qq_group.jpg" width="200" /> |
+|  加小编微信:dushusir2，备注:加群  | QQ群:926131495 |
+|---|---|
+|<img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/dushusir_wechat.jpg" width="200" />| <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/luckysheet_qq_group.jpg" width="200" /> |
 
 
 [英文社群](./README.md)
@@ -150,7 +150,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 
 | PayPal |  微信  | 支付宝 |
 |---|---|---|
-| [Paypal Me](https://www.paypal.me/wbfsa) | <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="200" /> |
+| [Paypal Me](https://www.paypal.me/wbfsa) | <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/wechat.jpg" width="200" />| <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/alipay.jpg" width="200" /> |
 
 ### Patreon和OpenCollective有什么区别？
 
