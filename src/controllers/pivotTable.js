@@ -916,18 +916,18 @@ const pivotTable = {
 
 
 
-            $("body").append(luckysheetPivotTableHTML());
+            $("body").first().append(luckysheetPivotTableHTML());
             $("#luckysheet-modal-dialog-slider-close").click(function () {
                 $("#luckysheet-modal-dialog-slider-pivot").hide();
                 luckysheetsizeauto();
             });
 
-            $("body").append(replaceHtml(modelHTML, { "id": "luckysheet-data-pivotTable-selection", "addclass": "luckysheet-data-pivotTable-selection", "title": locale_pivotTable.titleSelectionDataRange, "content": '<input id="luckysheet-pivotTable-range-selection-input" class="luckysheet-datavisual-range-container" style="font-size: 14px;padding:5px;max-width:none;" spellcheck="false" aria-label="'+locale_pivotTable.titleDataRange+'" placeholder="'+locale_pivotTable.titleDataRange+'">', "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>' }));
+            $("body").first().append(replaceHtml(modelHTML, { "id": "luckysheet-data-pivotTable-selection", "addclass": "luckysheet-data-pivotTable-selection", "title": locale_pivotTable.titleSelectionDataRange, "content": '<input id="luckysheet-pivotTable-range-selection-input" class="luckysheet-datavisual-range-container" style="font-size: 14px;padding:5px;max-width:none;" spellcheck="false" aria-label="'+locale_pivotTable.titleDataRange+'" placeholder="'+locale_pivotTable.titleDataRange+'">', "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">'+locale_button.confirm+'</button><button class="btn btn-default luckysheet-model-close-btn">'+locale_button.cancel+'</button>' }));
 
-            $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "pivotTableFilter" }));
-            $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "pivotTableFilter" }));
-            $("body").append(pivottableconfigHTML());
-            $("body").append(pivottablesumHTML());
+            $("body").first().append(replaceHtml(filtermenuHTML(), { "menuid": "pivotTableFilter" }));
+            $("body").first().append(replaceHtml(filtersubmenuHTML(), { "menuid": "pivotTableFilter" }));
+            $("body").first().append(pivottableconfigHTML());
+            $("body").first().append(pivottablesumHTML());
 
             $("#luckysheet-pivotTableFilter-orderby-asc").remove();
             $("#luckysheet-pivotTableFilter-orderby-desc").next().remove();
@@ -1940,7 +1940,7 @@ const pivotTable = {
                 _this.movesave.index = $cur.data("index");
                 
                 if ($("#luckysheet-modal-dialog-slider-pivot-move").length == 0) {
-                    $("body").append('<div id="luckysheet-modal-dialog-slider-pivot-move">' + _this.movesave.name + '</div>');
+                    $("body").first().append('<div id="luckysheet-modal-dialog-slider-pivot-move">' + _this.movesave.name + '</div>');
                 }
 
                 _this.movesave.width = $("#luckysheet-modal-dialog-slider-pivot-move").outerWidth();

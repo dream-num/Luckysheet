@@ -57,7 +57,7 @@ const luckysheetSplitColumn = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").first().append(replaceHtml(modelHTML, { 
             "id": "luckysheet-splitColumn-dialog", 
             "addclass": "luckysheet-splitColumn-dialog", 
             "title": locale_splitText.splitTextTitle, 

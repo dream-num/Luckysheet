@@ -90,7 +90,7 @@ const luckysheetLocationCell = {
                         '</div>'+
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").first().append(replaceHtml(modelHTML, { 
             "id": "luckysheet-locationCell-dialog", 
             "addclass": "luckysheet-locationCell-dialog", 
             "title": locale_location.location, 

@@ -104,13 +104,13 @@ export default function luckysheetcreatedom(colwidth, rowheight, data, menu, tit
     $("#luckysheet-scrollbar-y div").height(Store.rh_height + Store.columnHeaderHeight - Store.cellMainSrollBarSize - 3);
 
     //新建行菜单
-    $("body").append(maskHTML);
-    $("body").append(colsmenuHTML);
-    $("body").append(rightclickHTML());
-    $("body").append(inputHTML);
-    $("body").append(replaceHtml(filtermenuHTML(), { "menuid": "filter" }));
-    $("body").append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
-    $("body").append(sheetconfigHTML());
+    $("body").first().append(maskHTML);
+    $("body").first().append(colsmenuHTML);
+    $("body").first().append(rightclickHTML());
+    $("body").first().append(inputHTML);
+    $("body").first().append(replaceHtml(filtermenuHTML(), { "menuid": "filter" }));
+    $("body").first().append(replaceHtml(filtersubmenuHTML(), { "menuid": "filter" }));
+    $("body").first().append(sheetconfigHTML());
 
     $("#luckysheet-rows-h").width((Store.rowHeaderWidth-1.5));
     $("#luckysheet-cols-h-c").height((Store.columnHeaderHeight-1.5));
