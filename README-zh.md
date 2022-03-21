@@ -28,12 +28,14 @@
 | 工程 | 描述 |
 |---------|-------------|
 | [Luckysheet Vue]          | 在vue cli 3项目中使用Luckysheet和Luckyexcel|
+| [Luckysheet Vue3]          | 在vue3, vite项目中使用Luckysheet和Luckyexcel|
 | [Luckysheet React]          | 在React项目中使用Luckysheet |
 | [Luckyexcel Node]          | 在koa2中使用Luckyexcel |
 | [Luckysheet Server]          | Java后台Luckysheet Server |
 | [Luckysheet Server Starter]          | LuckysheetServer 一键docker部署 |
 
 [Luckysheet Vue]: https://gitee.com/mengshukeji/luckysheet-vue
+[Luckysheet Vue3]: https://gitee.com/hjwforever/luckysheet-vue3-vite.git
 [Luckysheet React]: https://gitee.com/mengshukeji/luckysheet-react
 [Luckyexcel Node]: https://gitee.com/mengshukeji/Luckyexcel-node
 [Luckysheet Server]: https://gitee.com/mengshukeji/LuckysheetServer

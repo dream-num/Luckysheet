@@ -34,12 +34,14 @@ English| [简体中文](./README-zh.md)
 | Project | Description |
 |---------|-------------|
 | [Luckysheet Vue]          | Luckysheet and Luckyexcel in a vue cli3 project |
+| [Luckysheet Vue3]          | Luckysheet and Luckyexcel in a vue3 project with vite|
 | [Luckysheet React]          | Luckysheet in a React project |
 | [Luckyexcel Node]          | Use Luckyexcel in koa2 |
 | [Luckysheet Server]          | Java backend Luckysheet Server |
 | [Luckysheet Server Starter]          | LuckysheetServer docker deployment startup template |
 
 [Luckysheet Vue]: https://github.com/mengshukeji/luckysheet-vue
+[Luckysheet Vue3]: https://github.com/hjwforever/luckysheet-vue3-vite
 [Luckysheet React]: https://github.com/mengshukeji/luckysheet-react
 [Luckyexcel Node]: https://github.com/mengshukeji/Luckyexcel-node
 [Luckysheet Server]: https://github.com/mengshukeji/LuckysheetServer
