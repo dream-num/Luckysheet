@@ -641,10 +641,10 @@ const luckysheetMoreFormat = {
         }
     ],
     dateFmtList: [
-        // {
-        //     "name": "28.10.2021",
-        //     "value": "dd.MM.yyyy"
-        // },
+        {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
         {
             "name": "10/28/2021",
             "value": "M/d/yyyy"
@@ -665,10 +665,10 @@ const luckysheetMoreFormat = {
             "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
-        // {
-        //     "name": "28. 10. 2021.",
-        //     "value": "d. M. yyyy."
-        // },
+        {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy."
+        },
         {
             "name": "28-10-2021",
             "value": "dd-MM-yyyy"
@@ -677,18 +677,18 @@ const luckysheetMoreFormat = {
             "name": "28-10-21",
             "value": "dd-MM-yy"
         },
-        // {
-        //     "name": "28.10.21",
-        //     "value": "dd.MM.yy"
-        // },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
         {
             "name": "28/10/2021",
             "value": "dd/MM/yyyy"
         },
-        // {
-        //     "name": "2021.08.25",
-        //     "value": "yyyy.MM.dd"
-        // },
+        {
+            "name": "2021.08.25",
+            "value": "yyyy\".\"MM\".\"dd"
+        },
         {
             "name": "08-25",
             "value": "MM-dd"

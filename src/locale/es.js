@@ -8770,7 +8770,7 @@ export default {
 
         { "text": "", "value": "partir", "example": "" },
         { "text": 'Fecha (-)', "value": "yyyy-MM-dd", "example": "2017-11-29" },
-        // { "text": 'Fecha (.)', "value": "dd.MM.yyyy", "example": "28.10.2021" },
+        { "text": 'Fecha (.)', "value": "dd\".\"MM\".\"yyyy", "example": "28.10.2021" },
         { "text": 'Fecha (/)', "value": "M/d/yyyy", "example": "10/28/2021" },
         { "text": 'Hora', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": 'Hora 24H', "value": "hh:mm", "example": "15:00" },
@@ -8780,10 +8780,10 @@ export default {
         { "text": 'Formatos personalizados', "value": "fmtOtherSelf", "example": "más" }
     ],
     dateFmtList:[
-        // {
-        //     "name": "28.10.2021",
-        //     "value": "dd.MM.yyyy"
-        // },
+        {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
         {
             "name": "10/28/2021",
             "value": "M/d/yyyy"
@@ -8800,10 +8800,10 @@ export default {
             "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
-        // {
-        //     "name": "28. 10. 2021.",
-        //     "value": "d. M. yyyy."
-        // },
+        {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy\".\""
+        },
         {
             "name": "28-10-2021",
             "value": "dd-MM-yyyy"
@@ -8812,18 +8812,18 @@ export default {
             "name": "28-10-21",
             "value": "dd-MM-yy"
         },
-        // {
-        //     "name": "28.10.21",
-        //     "value": "dd.MM.yy"
-        // },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
         {
             "name": "28/10/2021",
             "value": "dd/MM/yyyy"
         },
-        // {
-        //     "name": "2021.08.25",
-        //     "value": "yyyy.MM.dd"
-        // },
+        {
+            "name": "2021.08.25",
+            "value": "yyyy\".\"MM\".\"dd"
+        },
         {
             "name": "08-25",
             "value": "MM-dd"

@@ -87,7 +87,7 @@ const menuButton = {
                 if (item.example == "more") {
                     // itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
+                        "value": escapeHtml(item.value),
                         "name": item.text,
                         "example": "",
                         "sub": "luckysheet-cols-submenu",
@@ -96,7 +96,7 @@ const menuButton = {
 
                 } else {
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
+                        "value": escapeHtml(item.value),
                         "name": item.text,
                         "example": item.example,
                         "sub": "",
