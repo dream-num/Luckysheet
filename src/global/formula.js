@@ -5001,7 +5001,7 @@ const luckysheetformula = {
             _this.execFunctionGlobalData[formulaCell.r + "_" + formulaCell.c + "_" + formulaCell.index] = {
                 v: v[1],
                 f: v[2],
-                ct: getcellvalue(formulaCell.r, formulaCell.c, null, "ct")
+                ct: getcellvalue(formulaCell.r, formulaCell.c, sheetData[formulaCell.index], "ct")
             };
         }
         // console.log(formulaRunList);

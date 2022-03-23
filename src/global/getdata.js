@@ -138,6 +138,9 @@ export function getcellvalue(r, c, data, type) {
 
     let d_value;
 
+    if (r >= data.length || c >= data[r].length) {
+        return data;
+    }
     if (r != null && c != null) {
         d_value = data[r][c];
     }
