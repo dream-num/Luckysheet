@@ -14,7 +14,7 @@ const tooltip = {
         let _locale = locale();
         let locale_button = _locale.button;
 
-        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+        $("body").first().append(DOMPurify.sanitize(replaceHtml(modelHTML, {
             "id": "luckysheet-info", 
             "addclass": "", 
             "title": title, 
@@ -43,8 +43,8 @@ const tooltip = {
             name2 = locale_button.cancel;
         }
 
-        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
-            "id": "luckysheet-confirm", 
+        $("body").first().append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+            "id": "luckysheet-confirm",
             "addclass": "", 
             "style": "z-index:100003", 
             "title": title, 
@@ -79,8 +79,8 @@ const tooltip = {
         const locale_screenshot = _locale.screenshot;
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-confirm").remove();
-        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
-            "id": "luckysheet-confirm", 
+        $("body").first().append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+            "id": "luckysheet-confirm",
             "addclass": "", 
             "style": "z-index:100003", 
             "title": title, 
@@ -130,8 +130,8 @@ const tooltip = {
         });
     },
     chartPointConfig: function (id, savefunc1, closefunc2) {
-        $("body").append(DOMPurify.sanitize(replaceHtml(modelHTML, {
-            "id": id, 
+        $("body").first().append(DOMPurify.sanitize(replaceHtml(modelHTML, {
+            "id": id,
             "addclass": "luckysheet-chart-point-config-c", 
             "title": "Data point batch setting",
             "content": luckysheetchartpointconfigHTML, 
@@ -193,7 +193,7 @@ const tooltip = {
                 }
 
                 if ($toolup.length == 0) {
-                    $("body").append(luckysheetToolHTML);
+                    $("body").first().append(luckysheetToolHTML);
                     $toolup = $("#luckysheet-tooltip-up");
                 }
 
@@ -231,7 +231,7 @@ const tooltip = {
 
         let htmldiv = '<div id="luckysheetpopover" class="luckysheetpopover"><div class="luckysheetpopover-content">'+locale_paint.start+'</div><div class="luckysheetpopover-btn">'+ btntxt +'</div></div>';
         $("#luckysheetpopover").remove();
-        $("body").append(htmldiv);
+        $("body").first().append(htmldiv);
         $("#luckysheetpopover .luckysheetpopover-content").html(content);
 
         let w = $("#luckysheetpopover").outerWidth(),

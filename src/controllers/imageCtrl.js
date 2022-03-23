@@ -209,7 +209,7 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-slider-imageCtrl").remove();
 
         let sliderHtml = _this.getSliderHtml();
-        $("body").append(sliderHtml);
+        $("body").first().append(sliderHtml);
         luckysheetsizeauto();
 
         let imgItem = _this.images[_this.currentImgId];
@@ -240,8 +240,8 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
 
-        $("body").append(replaceHtml(modelHTML, {
-            "id": "luckysheet-imageCtrl-colorSelect-dialog", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-imageCtrl-colorSelect-dialog",
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
             "title": locale_imageCtrl.borderTile, 
             "content": `<div class="currenColor">
