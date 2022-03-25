@@ -650,6 +650,10 @@ const luckysheetformula = {
             rangetxt = txt;
         }
 
+        if (!sheetdata) {
+            sheetdata = Store.flowdata;
+        }
+
         if (rangetxt.indexOf(":") == -1) {
             let row = parseInt(rangetxt.replace(/[^0-9]/g, "")) - 1;
             let col = ABCatNum(rangetxt.replace(/[^A-Za-z]/g, ""));
