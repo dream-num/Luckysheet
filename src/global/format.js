@@ -2,6 +2,7 @@ import { isRealNum, valueIsError } from './validate';
 import { isdatetime } from './datecontroll';
 import { getcellvalue } from './getdata';
 import numeral from 'numeral';
+import NP from 'number-precision'
 
 var SSF = ({});
 var make_ssf = function make_ssf(SSF) {
@@ -1443,11 +1444,13 @@ var make_ssf = function make_ssf(SSF) {
              //var v =300101886.436;
             var acc = sfmt.slice(1); //取得0/0.0/0.00
             var isNegative = false;
-            if(!isNaN(v) && Number(v) < 0){
+            if(Number(v) < 0){
                 isNegative = true;
                 v = Math.abs(v);
             }
 
+            v = NP.strip(v);
+            
             if(acc != ""){
                 v = numeral(v).format(acc); //处理精确度
             }

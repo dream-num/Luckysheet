@@ -46,6 +46,7 @@
     "flatpickr": "^4.6.6",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
+    "number-precision": "^1.5.2",
     "numeral": "^2.0.6",
     "pako": "^1.0.11",
     "unescape-html": "^1.1.0",
