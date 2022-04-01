@@ -8,6 +8,7 @@ import { jfrefreshgrid } from './refresh';
 import {checkProtectionAuthorityNormal} from '../controllers/protection';
 import Store from '../store';
 import numeral from 'numeral';
+import {getFrozenRows} from "../controllers/freezen";
 
 //数据排序方法
 function orderbydata(data, index, isAsc) {
@@ -328,6 +329,8 @@ function sortColumnSeletion(colIndex, isAsc) {
         return;
     }
 
+    str = str || getFrozenRows();
+    
     let hasMc = false; //排序选区是否有合并单元格
     let data = [];
 
