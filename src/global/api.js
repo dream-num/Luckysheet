@@ -10,7 +10,7 @@ import editor from "./editor";
 import luckysheetformula from './formula';
 import cleargridelement from './cleargridelement';
 import { setcellvalue } from "./setdata";
-import { orderbydata } from "./sort";
+import {applySortResult, orderbydata} from "./sort";
 import { rowlenByRange } from "./getRowlen";
 import { getdatabyselection, getcellvalue } from "./getdata";
 import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
@@ -3493,12 +3493,7 @@ export function setRangeSort(type, options = {}) {
     }
 
     data = orderbydata([].concat(data), 0, type === 'asc');
-
-    for(let r = r1; r <= r2; r++){
-        for(let c = c1; c <= c2; c++){
-            fileData[r][c] = data[r - r1][c - c1];
-        }
-    }
+    applySortResult(fileData, data, r1, r2, c1, c2);
 
     let allParam = {};
     if(cfg["rowlen"] != null){
@@ -3598,12 +3593,7 @@ export function setRangeSortMulti(hasTitle, sort, options = {}) {
         i -= c1;
         data = orderbydata([].concat(data), i, sortItem.sort === 'asc');
     })
-
-    for(let r = str; r <= r2; r++){
-        for(let c = c1; c <= c2; c++){
-            fileData[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(fileData, data, str, r2, c1, c2);
 
     let allParam = {};
     if(cfg["rowlen"] != null){

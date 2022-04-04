@@ -9,12 +9,15 @@ import {checkProtectionAuthorityNormal} from '../controllers/protection';
 import Store from '../store';
 import numeral from 'numeral';
 import {getFrozenRows} from "../controllers/freezen";
+import luckysheetformula from "./formula";
 
 //数据排序方法
 function orderbydata(data, index, isAsc) {
     if (isAsc == null) {
         isAsc = true;
     }
+
+    data.forEach((row, i) => row.initialIndex = i);
 
     let a = function (x, y) {
         let x1 = x[index] , y1 = y[index];
@@ -268,12 +271,7 @@ function sortSelection(isAsc) {
     }
 
     data = orderbydata(data, 0, isAsc);
-
-    for(let r = str; r <= edr; r++){
-        for(let c = c1; c <= c2; c++){
-            d[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(d, data, str, edr, c1, c2);
 
     let allParam = {};
     if(Store.config["rowlen"] != null){
@@ -362,12 +360,7 @@ function sortColumnSeletion(colIndex, isAsc) {
     }
 
     data = orderbydata(data, colIndex, isAsc);
-
-    for(let r = str; r <= edr; r++){
-        for(let c = c1; c <= c2; c++){
-            d[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(d, data, str, edr, c1, c2);
 
     let allParam = {};
     if(Store.config["rowlen"] != null){
@@ -383,9 +376,28 @@ function sortColumnSeletion(colIndex, isAsc) {
     jfrefreshgrid(d, [{ "row": [str, edr], "column": [c1, c2] }], allParam);
 }
 
+function applySortResult(destination, sortedData, r1, r2, c1, c2) {
+    for (let r = r1; r <= r2; r++) {
+        for (let c = c1; c <= c2; c++) {
+            const sortedRow = r - r1;
+            destination[r][c] = sortedData[sortedRow][c - c1];
+            updateSortedFormula(destination[r][c], sortedData[sortedRow].initialIndex, sortedRow);
+        }
+    }
+}
+
+function updateSortedFormula(cellData, oldRow, newRow) {
+    if (cellData && cellData.f && oldRow !== newRow) {
+        const step = newRow - oldRow;
+        const mode = step > 0 ? "down" : "up";
+        cellData.f = "=" + luckysheetformula.functionCopy(cellData.f, mode, Math.abs(step));
+    }
+}
+
 export {
     orderbydata,
     orderbydata1D,
     sortSelection,
     sortColumnSeletion,
+    applySortResult
 }

@@ -12,7 +12,7 @@ import {
     jfrefreshgrid,
 } from '../global/refresh';
 import {getcellvalue} from '../global/getdata';
-import {orderbydata, sortColumnSeletion} from '../global/sort';
+import {applySortResult, orderbydata, sortColumnSeletion} from '../global/sort';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import {isdatatype} from '../global/datecontroll';
@@ -208,12 +208,7 @@ export function orderByInitial() {
 
                     data = orderbydata([].concat(data), i, asc);
                 });
-
-                for (let r = str; r <= r2; r++) {
-                    for (let c = c1; c <= c2; c++) {
-                        d[r][c] = data[r - str][c - c1];
-                    }
-                }
+                applySortResult(d, data, str, r2, c1, c2);
 
                 let allParam = {};
                 if (Store.config["rowlen"] != null) {

@@ -22,7 +22,7 @@ import {
     jfrefreshgrid,
     jfrefreshgrid_rhcw,
 } from '../global/refresh';
-import {orderbydata, orderbydata1D} from '../global/sort';
+import {applySortResult, orderbydata, orderbydata1D} from '../global/sort';
 import json from '../global/json';
 import {update, genarate} from '../global/format';
 import escapeHtml from "escape-html";
@@ -116,12 +116,7 @@ function orderbydatafiler(str, stc, edr, edc, index, asc) {
     }
 
     data = orderbydata(data, index - stc, asc);
-
-    for (let r = str; r <= edr; r++) {
-        for (let c = stc; c <= edc; c++) {
-            d[r][c] = data[r - str][c - stc];
-        }
-    }
+    applySortResult(d, data, str, edr, stc, edc);
 
     let allParam = {};
     if (Store.config["rowlen"] != null) {
