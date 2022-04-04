@@ -19,6 +19,7 @@ import {isdatatype} from '../global/datecontroll';
 import Store from '../store';
 import locale from '../locale/locale';
 import escapeHtml from "escape-html";
+import {getFrozenRows} from "./freezen";
 
 export function orderByInitial() {
     const _locale = locale();
@@ -241,10 +242,10 @@ export function orderByInitial() {
 
         $("#luckysheet-sort-dialog .luckysheet-sort-dialog-tr").remove();
 
-        $("#luckysheet-sort-haveheader").prop("checked", false);
+        $("#luckysheet-sort-haveheader").prop("checked", getFrozenRows() > r1).change();
         $("#luckysheet-sort-dialog input:radio:first").prop("checked", "checked");
 
-        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html(`${locale_sort.sortRangeTitle}<span>${chatatABC(c1)}${r1 + 1}</span>${locale_sort.sortRangeTitleTo}<span>${chatatABC(c2)}${r2 + 1}</span>`);
+        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html(`${locale_sort.sortRangeTitle}<span> ${chatatABC(c1)}${r1 + 1} </span>${locale_sort.sortRangeTitleTo}<span> ${chatatABC(c2)}${r2 + 1}</span>`);
 
         let $t = $("#luckysheet-sort-dialog"), myh = $t.outerHeight(), myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
