@@ -2457,6 +2457,11 @@ export default function luckysheetHandler() {
                     if (left + myw + 22 + 36 > Store.chartparam.luckysheetCurrentChartMoveWinW) {
                         left = Store.chartparam.luckysheetCurrentChartMoveWinW - myw - 22 - 36;
                     }
+                    // black magic for chart with frozen cells on sheet
+                    if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
+                        top += 0.5;
+                        left += 0.5;
+                    }
 
                     Store.chartparam.luckysheetCurrentChartMoveObj.css({ "top": top, "left": left });
                     Store.currentSheetChart.top = top
