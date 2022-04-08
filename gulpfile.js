@@ -241,6 +241,31 @@ async function core() {
     })
 }
 
+async function core_debug() {
+    // fix for the numeral.js amd preference
+    const file = path.join("node_modules","numeral", "numeral.js");
+    let text = fs.readFileSync(file, "utf8");
+    text = text.replace("define.amd", "define.a");
+    fs.writeFileSync(file, text);
+
+    await require('esbuild').buildSync({
+        format: 'iife',
+        globalName: 'luckysheet',
+        entryPoints: ['src/index.js'],
+        bundle: true,
+        minify: false,
+        banner: { js: banner },
+        target: ['es2015'],
+        sourcemap: true,
+        outfile: 'dist/luckysheet.umd.js',
+        loader: {
+            '.ttf': 'file',
+            '.woff': 'file',
+        },
+        logLevel: 'error'
+    })
+}
+
 // According to the build tag in html, package js and css
 function pluginsCss() {
     return src(paths.pluginsCss)
@@ -313,8 +338,10 @@ function copyStaticCssImages(){
 const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
 const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
 const prod = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticCssImages, core));
+const debug = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticCssImages, core_debug));
 
 exports.dev = dev;
 exports.build = build;
 exports.prod = prod;
+exports.debug = debug;
 exports.default = dev;

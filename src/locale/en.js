@@ -8785,7 +8785,7 @@ export default {
 
 
         { "text": "", "value": "split", "example": "" },
-        // { "text": 'Date (.)', "value": "dd\\.MM\\.yyyy", "example": "28.10.2021" },
+        { "text": 'Date (.)', "value": "dd\".\"MM\".\"yyyy", "example": "28.10.2021" },
         { "text": 'Date (/)', "value": "M/d/yyyy", "example": "10/28/2021" },
         { "text": 'Date (-)', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": 'Time', "value": "hh:mm AM/PM", "example": "3:00 PM" },
@@ -8796,10 +8796,10 @@ export default {
         { "text": 'Custom formats', "value": "fmtOtherSelf", "example": "more" }
     ],
     dateFmtList:[
-        // {
-        //     "name": "28.10.2021",
-        //     "value": "dd.MM.yyyy"
-        // },
+        {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
         {
             "name": "10/28/2021",
             "value": "M/d/yyyy"
@@ -8816,10 +8816,10 @@ export default {
             "name": "2021/08/25",
             "value": "yyyy/MM/dd"
         },
-        // {
-        //     "name": "28. 10. 2021.",
-        //     "value": "d. M. yyyy."
-        // },
+        {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy\".\""
+        },
         {
             "name": "28-10-2021",
             "value": "dd-MM-yyyy"
@@ -8828,18 +8828,18 @@ export default {
             "name": "28-10-21",
             "value": "dd-MM-yy"
         },
-        // {
-        //     "name": "28.10.21",
-        //     "value": "dd.MM.yy"
-        // },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
         {
             "name": "28/10/2021",
             "value": "dd/MM/yyyy"
         },
-        // {
-        //     "name": "2021.08.25",
-        //     "value": "yyyy.MM.dd"
-        // },
+        {
+            "name": "2021\".\"08\".\"25",
+            "value": "yyyy\".\"MM\".\"dd"
+        },
         {
             "name": "08-25",
             "value": "MM-dd"

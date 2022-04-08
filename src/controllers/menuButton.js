@@ -87,7 +87,7 @@ const menuButton = {
                 if (item.example == "more") {
                     // itemset += replaceHtml(_this.item, {"value": item.value, "name": item.text, "example": "►", "sub": "luckysheet-cols-submenu"});
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
+                        "value": escapeHtml(item.value),
                         "name": item.text,
                         "example": "",
                         "sub": "luckysheet-cols-submenu",
@@ -96,7 +96,7 @@ const menuButton = {
 
                 } else {
                     itemset += replaceHtml(_this.item, {
-                        "value": item.value,
+                        "value": escapeHtml(item.value),
                         "name": item.text,
                         "example": item.example,
                         "sub": "",
@@ -131,6 +131,7 @@ const menuButton = {
     luckysheetPaintSingle: false,
     initialMenuButton: function () {
         let _this = this;
+        const body = $("body").first();
 
         //格式刷
         $("#luckysheet-icon-paintformat").click(function(e){
@@ -486,7 +487,7 @@ const menuButton = {
                 });
 
                 //luckysheet-icon-fmt-other-menuButton_sub
-                $("body").append(menu + submenu);
+                body.append(menu + submenu);
                 $menuButton = $("#" + menuButtonId).width(250);
                 _this.focus($menuButton);
 
@@ -548,7 +549,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "font-family", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(200);
                 _this.focus($menuButton);
 
@@ -623,7 +624,7 @@ const menuButton = {
                     "resetColor": locale_toolbar.resetColor
                 });
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId);
 
                 $("#" + menuButtonId).find(".luckysheet-color-selected").spectrum({
@@ -768,7 +769,7 @@ const menuButton = {
                     "resetColor": locale_toolbar.resetColor
                 });
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId);
 
                 $("#" + menuButtonId).find(".luckysheet-color-selected").spectrum({
@@ -929,7 +930,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "font-size", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton, 10);
 
@@ -1219,7 +1220,7 @@ const menuButton = {
                     resetColor: locale_toolbar.resetColor
                 });
 
-                $("body").append(menu + colormenu + submenu);
+                body.append(menu + colormenu + submenu);
                 $menuButton = $("#" + menuButtonId).width(170);
                 _this.focus($menuButton, "border-all");
 
@@ -1461,7 +1462,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "merge-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#"+menuButtonId);
                 _this.focus($menuButton);
 
@@ -1565,7 +1566,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "align-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(120);
                 _this.focus($menuButton);
 
@@ -1638,7 +1639,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "valign-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(120);
                 _this.focus($menuButton, "bottom");
 
@@ -1702,7 +1703,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "textwrap-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(120);
                 _this.focus($menuButton, "clip");
 
@@ -1781,7 +1782,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "rotation-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
 
                 // 文字旋转总 Stack Vertically 太长了，拉宽到160
                 $menuButton = $("#" + menuButtonId).width(160);
@@ -1838,7 +1839,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "freezen-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(170);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -2138,7 +2139,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "autofilter", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(150);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -2246,7 +2247,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "seachmore", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -2364,7 +2365,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "function-menu", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -2670,7 +2671,7 @@ const menuButton = {
                     "subclass": "luckysheet-menuButton-sub"
                 });
 
-                $("body").append(menu + submenu + submenu2 + submenu3 + submenu4 + submenu6);
+                body.append(menu + submenu + submenu2 + submenu3 + submenu4 + submenu6);
                 $menuButton = $("#" + menuButtonId).width(190);
                 $("#luckysheet-icon-highlightCellRule-menuButton").width(160);
                 $("#luckysheet-icon-projectSelectRule-menuButton").width(180);
@@ -3068,7 +3069,7 @@ const menuButton = {
             let itemset = _this.createButtonMenu(itemdata);
             let menu = replaceHtml(_this.menu, {"id": "postil", "item": itemset, "subclass": "", "sub": ""});
 
-            $("body").append(menu);
+            body.append(menu);
             $menuButton = $("#" + menuButtonId).width(150);
 
             $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -3142,7 +3143,7 @@ const menuButton = {
 
                 let menu = replaceHtml(_this.menu, {"id": "print", "item": itemset, "subclass": "", "sub": ""});
 
-                $("body").append(menu);
+                body.append(menu);
                 $menuButton = $("#" + menuButtonId).width(180);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -3169,7 +3170,7 @@ const menuButton = {
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         });
 
-        $("body").on("mouseover mouseleave", ".luckysheet-menuButton .luckysheet-cols-submenu", function (e) {
+        body.on("mouseover mouseleave", ".luckysheet-menuButton .luckysheet-cols-submenu", function (e) {
             let $t = $(this), attrid = $t.attr("itemvalue"),
                 $attr = $("#luckysheet-icon-" + attrid + "-menuButton");
 
@@ -4616,12 +4617,20 @@ const menuButton = {
                 }
             }
 
-            if (key == "vt" && value != "1") {
-                if (value == "0") {
-                    style += "align-items: center;";
-                } else if (value == "2") {
-                    style += "align-items: flex-end;";
+            if(key == "vt"){
+                if(value == "0"){
+                    style += "vertical-align: middle;";
                 }
+                else if(value == "1"){
+                    style += 'vertical-align: top;';
+                }
+                else if(value == "2"){
+                    style += "vertical-align: bottom;";
+                }
+            }
+
+            if(key == "un" && value){
+                style += 'text-decoration:underline;';
             }
         }
 

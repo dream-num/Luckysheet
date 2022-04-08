@@ -2,6 +2,7 @@ import { isRealNum, valueIsError } from './validate';
 import { isdatetime } from './datecontroll';
 import { getcellvalue } from './getdata';
 import numeral from 'numeral';
+import NP from 'number-precision'
 
 var SSF = ({});
 var make_ssf = function make_ssf(SSF) {
@@ -1443,111 +1444,15 @@ var make_ssf = function make_ssf(SSF) {
              //var v =300101886.436;
             var acc = sfmt.slice(1); //取得0/0.0/0.00
             var isNegative = false;
-            if(!isNaN(v) && Number(v) < 0){
+            if(Number(v) < 0){
                 isNegative = true;
                 v = Math.abs(v);
             }
-            var vInt = parseInt(v);
-             
-            var vlength = vInt.toString().length;
-            if( vlength> 4){
-                if(vlength > 8){
-                    var y =parseInt (v / 100000000);  //亿
-                    var w = parseInt(parseFloat(v).subtract(y*100000000) / 10000); //万
-                    var q = parseFloat(v).subtract(y*100000000 + w*10000); //千以后
-                    if(acc != ""){
-                        q = numeral(q).format(acc); //处理精确度
-                    }
-                    v = y + "亿" + w + "万" + q;
-                }else{
-                    var w = parseInt(v / 10000); //万
-                    var q = parseFloat(v).subtract(w*10000) //千以后
-                    if(acc != ""){
-                        q = numeral(q).format(acc); //处理精确度
-                    }
-                    v = w + "万" + q;
-                }
-                
 
-                if(v.indexOf("亿0万0") != -1){
-                    v = v.replace("0万0","");
-                }else if(v.indexOf("亿0万") != -1){
-                    v = v.replace("0万","");
-                }else if(v.indexOf("万0") != -1){
-                    v = v.replace("万0","万");
-                }
-
-                //舍弃正则后顾断言写法，旧浏览器不识别（360 V9）
-                if (v.indexOf("亿") != -1 && v.indexOf("万") == -1) { //1亿/1亿111 => 1亿/1亿0111
-                    var afterYi = v.substring(v.indexOf("亿") + 1);
-                    if (afterYi.substring(0, 1) !== "." && afterYi != "") {
-                        switch ((parseInt(afterYi) + "").length) {
-                            case 1:
-                                afterYi = "000" + afterYi;
-                                break;
-                            case 2:
-                                afterYi = "00" + afterYi;
-                                break;
-                            case 3:
-                                afterYi = "0" + afterYi;
-                                break;
-                        }
-                        v = v.substring(0, v.indexOf("亿") + 1) + afterYi;
-                    }
-                } else if (v.indexOf("亿") == -1 && v.indexOf("万") != -1) { //3万0011
-                    var afterWan = v.substring(v.indexOf("万") + 1);
-                    if (afterWan.substring(0, 1) !== "." && afterWan != "") {
-                        switch ((parseInt(afterWan) + "").length) {
-                            case 1:
-                                afterWan = "000" + afterWan;
-                                break;
-                            case 2:
-                                afterWan = "00" + afterWan;
-                                break;
-                            case 3:
-                                afterWan = "0" + afterWan;
-                                break;
-                        }
-                        v = v.substring(0, v.indexOf("万") + 1) + afterWan;
-                    }
-                } else if (v.indexOf("亿") != -1 && v.indexOf("万") != -1) { //1亿0053万0611
-                    var afterYi = v.substring(v.indexOf("亿") + 1,v.indexOf("万")),
-                        afterWan = v.substring(v.indexOf("万") + 1);
-
-                    switch ((parseInt(afterYi) + "").length) {
-                        case 1:
-                            afterYi = "000" + afterYi;
-                            break;
-                        case 2:
-                            afterYi = "00" + afterYi;
-                            break;
-                        case 3:
-                            afterYi = "0" + afterYi;
-                            break;
-                    }
-                    v = v.substring(0, v.indexOf("亿") + 1) + afterYi + v.substring(v.indexOf("万"))
-                    
-
-                    if (afterWan.substring(0, 1) !== "." && afterWan != "") {
-                        switch ((parseInt(afterWan) + "").length) {
-                            case 1:
-                                afterWan = "000" + afterWan;
-                                break;
-                            case 2:
-                                afterWan = "00" + afterWan;
-                                break;
-                            case 3:
-                                afterWan = "0" + afterWan;
-                                break;
-                        }
-                        v = v.substring(0, v.indexOf("万") + 1) + afterWan
-                    }
-                }
-
-            }else{
-                if(acc != ""){
-                    v = numeral(v).format(acc); //处理精确度
-                }
+            v = NP.strip(v);
+            
+            if(acc != ""){
+                v = numeral(v).format(acc); //处理精确度
             }
             if(isNegative){
                 return '-' + v;

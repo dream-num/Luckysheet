@@ -1757,3 +1757,11 @@ const luckysheetFreezen = {
 }
 
 export default luckysheetFreezen;
+
+export const getFrozenRows = function() {
+    const currentSheet = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+    if (currentSheet.freezen && currentSheet.freezen.horizontal && currentSheet.freezen.horizontal.freezenhorizontaldata) {
+        return currentSheet.freezen.horizontal.freezenhorizontaldata[1];
+    }
+    return 0;
+}

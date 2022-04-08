@@ -364,8 +364,8 @@ const ifFormulaGenerator = {
                       '</div>'+
                       '<div class="ifList">'+ifListHtml+'</div>';
 
-        $("body").append(replaceHtml(modelHTML, {
-            "id": "luckysheet-ifFormulaGenerator-dialog", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-ifFormulaGenerator-dialog",
             "addclass": "luckysheet-ifFormulaGenerator-dialog", 
             "title": locale_formula.ifGenerate, 
             "content": content, 
@@ -429,8 +429,8 @@ const ifFormulaGenerator = {
             value = "";
         }
 
-        $("body").append(replaceHtml(modelHTML, {
-            "id": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-ifFormulaGenerator-singleRange-dialog",
             "addclass": "luckysheet-ifFormulaGenerator-singleRange-dialog", 
             "title": locale_formula.ifGenTipSelectCell, 
             "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectCellPlace+'" value="'+ escapeHtml(value) +'">',
@@ -453,8 +453,8 @@ const ifFormulaGenerator = {
         const locale_formula = _locale.formula;
         const locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, {
-            "id": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-ifFormulaGenerator-multiRange-dialog",
             "addclass": "luckysheet-ifFormulaGenerator-multiRange-dialog", 
             "title": locale_formula.ifGenTipSelectRange, 
             "content": '<input readonly="readonly" placeholder="'+locale_formula.ifGenTipSelectRangePlace+'" value="">', 
@@ -542,8 +542,8 @@ const ifFormulaGenerator = {
         const _locale = locale();
         const locale_button = _locale.button;
 
-        $("body").append(replaceHtml(modelHTML, {
-            "id": "luckysheet-ifFormulaGenerator-info", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-ifFormulaGenerator-info",
             "addclass": "", 
             "title": title, 
             "content": "", 

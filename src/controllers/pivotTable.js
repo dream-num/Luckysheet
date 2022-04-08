@@ -829,15 +829,15 @@ const pivotTable = {
 
         if (_this.initial) {
             _this.initial = false;
+            const body = $("body").first();
 
-
-            $("body").append(luckysheetPivotTableHTML());
+            body.append(luckysheetPivotTableHTML());
             $("#luckysheet-modal-dialog-slider-close").click(function () {
                 $("#luckysheet-modal-dialog-slider-pivot").hide();
                 luckysheetsizeauto();
             });
 
-            $("body").append(replaceHtml(modelHTML, {
+            body.append(replaceHtml(modelHTML, {
                 "id": "luckysheet-data-pivotTable-selection",
                 "addclass": "luckysheet-data-pivotTable-selection",
                 "title": locale_pivotTable.titleSelectionDataRange,
@@ -845,10 +845,10 @@ const pivotTable = {
                 "botton": '<button id="luckysheet-pivotTable-selection-confirm" class="btn btn-primary">' + locale_button.confirm + '</button><button class="btn btn-default luckysheet-model-close-btn">' + locale_button.cancel + '</button>'
             }));
 
-            $("body").append(replaceHtml(filtermenuHTML(), {"menuid": "pivotTableFilter"}));
-            $("body").append(replaceHtml(filtersubmenuHTML(), {"menuid": "pivotTableFilter"}));
-            $("body").append(pivottableconfigHTML());
-            $("body").append(pivottablesumHTML());
+            body.append(replaceHtml(filtermenuHTML(), {"menuid": "pivotTableFilter"}));
+            body.append(replaceHtml(filtersubmenuHTML(), {"menuid": "pivotTableFilter"}));
+            body.append(pivottableconfigHTML());
+            body.append(pivottablesumHTML());
 
             $("#luckysheet-pivotTableFilter-orderby-asc").remove();
             $("#luckysheet-pivotTableFilter-orderby-desc").next().remove();
@@ -1786,7 +1786,7 @@ const pivotTable = {
                 _this.movesave.index = $cur.data("index");
 
                 if ($("#luckysheet-modal-dialog-slider-pivot-move").length == 0) {
-                    $("body").append('<div id="luckysheet-modal-dialog-slider-pivot-move">' + escapeHtml(_this.movesave.name) + '</div>');
+                    body.append('<div id="luckysheet-modal-dialog-slider-pivot-move">' + escapeHtml(_this.movesave.name) + '</div>');
                 }
 
                 _this.movesave.width = $("#luckysheet-modal-dialog-slider-pivot-move").outerWidth();

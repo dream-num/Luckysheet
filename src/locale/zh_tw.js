@@ -8957,6 +8957,7 @@ export default {
         //{ "text": "貨幣整數", "value": "¥####", "example": "¥1200" },
         { "text": '萬元2位小數', "value": "w0.00", "example": "2万2500.55" },
         { "text": "", "value": "split", "example": "" },
+        { "text": 'Date (.)', "value": "dd\".\"MM\".\"yyyy", "example": "28.10.2021" },
         { "text": '日期', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": '時間', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": '時間24H', "value": "hh:mm", "example": "15:00" },
@@ -8967,6 +8968,10 @@ export default {
     ],
     dateFmtList: [
         {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
+        {
             "name" : "1930-08-05",
             "value": "yyyy-MM-dd"
         },
@@ -8975,8 +8980,20 @@ export default {
             "value": "yyyy/MM/dd"
         },
         {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy\".\""
+        },
+        {
             "name" : "1930年8月5日",
             "value": 'yyyy"年"M"月"d"日"'
+        },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
+        {
+            "name": "2021\".\"08\".\"25",
+            "value": "yyyy\".\"MM\".\"dd"
         },
         {
             "name" : "08-05",

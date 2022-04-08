@@ -56,7 +56,7 @@ const luckysheetSearchReplace = {
                         '</div>' +
                       '</div>';
 
-        $("body").append(replaceHtml(modelHTML, { 
+        $("body").first().append(replaceHtml(modelHTML, { 
             "id": "luckysheet-search-replace", 
             "addclass": "luckysheet-search-replace", 
             "title": "", 

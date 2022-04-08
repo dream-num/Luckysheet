@@ -75,3 +75,9 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 刘小帅的哥哥 ¥ 20.00
 - 宁静致远 ¥ 10.00
 - Eleven ¥ 1.00
+- **帆 ¥ 188
+- henry ¥ 100
+- .波罗 ¥ 50
+- 花落有家 ¥ 50
+- 踏遍南水北山 ¥ 1
+- LC ¥ 5

@@ -12,13 +12,14 @@ import {
     jfrefreshgrid,
 } from '../global/refresh';
 import {getcellvalue} from '../global/getdata';
-import {orderbydata, sortColumnSeletion} from '../global/sort';
+import {applySortResult, orderbydata, sortColumnSeletion} from '../global/sort';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import {isdatatype} from '../global/datecontroll';
 import Store from '../store';
 import locale from '../locale/locale';
 import escapeHtml from "escape-html";
+import {getFrozenRows} from "./freezen";
 
 export function orderByInitial() {
     const _locale = locale();
@@ -63,7 +64,7 @@ export function orderByInitial() {
 
             let content = `<div style="overflow: hidden;" class="luckysheet-sort-modal"><div><label><input type="checkbox" id="luckysheet-sort-haveheader"/><span>${locale_sort.hasTitle}</span></label></div><div style="overflow-y:auto;" id="luckysheet-sort-dialog-tablec"><table data-itemcount="0" cellspacing="0"> <tr><td>${locale_sort.hasTitle} <select name="sort_0"> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> </select> </td> <td> <div><label><input value="asc" type="radio" checked="checked" name="sort_0"><span>${locale_sort.asc}A-Z</span></label></div> <div><label><input value="desc" type="radio" name="sort_0"><span>${locale_sort.desc}Z-A</span></label></div></td></tr></table></div><div style="background: #e5e5e5;border-top: 1px solid #f5f5f5; height: 1px; width: 100%;margin:2px 0px;margin-bottom:10px;"></div> <div> <span style="font-weight: bold; text-decoration: underline;text-align:center;color: blue;cursor: pointer;" class="luckysheet-sort-dialog-additem">+ ${locale_sort.addOthers}</span> </div> </div>`;
 
-            $("body").append(replaceHtml(modelHTML, {
+            $("body").first().append(replaceHtml(modelHTML, {
                 "id": "luckysheet-sort-dialog",
                 "addclass": "",
                 "title": _locale.sort.sortTitle,
@@ -207,12 +208,7 @@ export function orderByInitial() {
 
                     data = orderbydata([].concat(data), i, asc);
                 });
-
-                for (let r = str; r <= r2; r++) {
-                    for (let c = c1; c <= c2; c++) {
-                        d[r][c] = data[r - str][c - c1];
-                    }
-                }
+                applySortResult(d, data, str, r2, c1, c2);
 
                 let allParam = {};
                 if (Store.config["rowlen"] != null) {
@@ -241,10 +237,10 @@ export function orderByInitial() {
 
         $("#luckysheet-sort-dialog .luckysheet-sort-dialog-tr").remove();
 
-        $("#luckysheet-sort-haveheader").prop("checked", false);
+        $("#luckysheet-sort-haveheader").prop("checked", getFrozenRows() > r1).change();
         $("#luckysheet-sort-dialog input:radio:first").prop("checked", "checked");
 
-        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html(`${locale_sort.sortRangeTitle}<span>${chatatABC(c1)}${r1 + 1}</span>${locale_sort.sortRangeTitleTo}<span>${chatatABC(c2)}${r2 + 1}</span>`);
+        $("#luckysheet-sort-dialog .luckysheet-modal-dialog-title-text").html(`${locale_sort.sortRangeTitle}<span> ${chatatABC(c1)}${r1 + 1} </span>${locale_sort.sortRangeTitleTo}<span> ${chatatABC(c2)}${r2 + 1}</span>`);
 
         let $t = $("#luckysheet-sort-dialog"), myh = $t.outerHeight(), myw = $t.outerWidth();
         let winw = $(window).width(), winh = $(window).height();
