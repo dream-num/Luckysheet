@@ -5,12 +5,8 @@ function isdatetime(s) {
     if (s == null || s.toString().length < 5) {
         return false;
     }
-    else if(checkDateTime(s)){
-        return true;
-    }
-    else {
-        return false;
-    }
+
+    return checkDateTime(s);
 
     function checkDateTime(str){
         var reg1 = /^(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2})(:(\d{1,2}))?)?$/;
