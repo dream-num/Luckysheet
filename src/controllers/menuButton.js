@@ -19,12 +19,12 @@ import luckysheetPostil from './postil';
 import { isRealNum, isRealNull, isEditMode, hasPartMC, checkIsAllowEdit } from '../global/validate';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
-import {genarate, update, is_date} from '../global/format';
+import {genarate, update, is_date, datenum_local} from '../global/format';
 import {jfrefreshgrid, luckysheetrefreshgrid} from '../global/refresh';
 import {sortSelection} from '../global/sort';
 import luckysheetformula from '../global/formula';
 import {rowLocationByIndex, colLocationByIndex} from '../global/location';
-import {isdatatypemulti} from '../global/datecontroll';
+import {isdatatypemulti, parseDateByFormat} from '../global/datecontroll';
 import {rowlenByRange} from '../global/getRowlen';
 import {setcellvalue} from '../global/setdata';
 import {getFontStyleByCell, checkstatusByCell} from '../global/getdata';
@@ -46,6 +46,7 @@ import Store from '../store';
 import locale from '../locale/locale';
 import escapeHtml from "escape-html";
 import {checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn} from '../global/api';
+import {fitFormat} from "./cellDatePickerCtrl";
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
@@ -3289,8 +3290,12 @@ const menuButton = {
 
                     if (is_date(foucsStatus) || foucsStatus === 14 || foucsStatus === 15 || foucsStatus === 16 || foucsStatus === 17 || foucsStatus === 18 || foucsStatus === 19 || foucsStatus === 20 || foucsStatus === 21 || foucsStatus === 22 || foucsStatus === 45 || foucsStatus === 46 || foucsStatus === 47) {
                         type = "d";
+                        const date = parseDateByFormat(value, fitFormat(foucsStatus));
+                        if (date instanceof Date && !isNaN(date.getTime())) {
+                            d[r][c]["v"] = datenum_local(date);
+                        }
                     } else if (foucsStatus == "@" || foucsStatus === 49) {
-                        type = "s"
+                        type = "s";
                     } else if (foucsStatus == "General" || foucsStatus === 0) {
                         // type = "g"; 
                         type = isRealNum(value) ? "n" : "g";

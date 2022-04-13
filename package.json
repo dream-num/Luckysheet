@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "dayjs": "^1.9.6",
+    "dayjs": "^1.11.0",
     "dompurify": "^2.3.3",
     "echarts": "^5.2.1",
     "element-ui": "^2.15.6",
