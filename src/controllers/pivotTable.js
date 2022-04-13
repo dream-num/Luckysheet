@@ -1052,9 +1052,9 @@ const pivotTable = {
                     $check.each(function (i, e) {
                         let $p = $(e).parents(".luckysheet-mousedown-cancel");
                         if ($p.hasClass("day")) { //日期
-                            let day = $(e).siblings("label").text().toString();
-                            let month = $(e).parents(".monthBox").find(".month label").text().toString();
-                            let year = $(e).parents(".yearBox").find(".year label").text().toString();
+                            let day = $(e).siblings("label").text().trim();
+                            let month = $(e).parents(".monthBox").find(".month label").text().trim();
+                            let year = $(e).parents(".yearBox").find(".year label").text().trim();
                             let itemV = year + "-" + month + "-" + day;
 
                             if (itemV.indexOf(v) == -1) {
@@ -1569,17 +1569,17 @@ const pivotTable = {
                         }
 
                         if ($(e).closest(".day").length > 0) {
-                            let day = $(e).siblings("label").text();
+                            let day = $(e).siblings("label").text().trim();
                             if (Number(day) < 10) {
                                 day = "0" + day;
                             }
 
-                            let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "");
+                            let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "").trim();
                             if (Number(month) < 10) {
                                 month = "0" + month;
                             }
 
-                            let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "");
+                            let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "").trim();
 
                             let itemV = locale_filter.filterDateFormatTip + "#$$$#" + year + "-" + month + "-" + day;
 
