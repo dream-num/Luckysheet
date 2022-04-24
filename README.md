@@ -217,6 +217,16 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 花落有家 ¥ 50
 - 踏遍南水北山 ¥ 1
 - LC ¥ 5
+- **明 ¥ 8.80
+- *军 ¥ 20
+- 张彪 ¥ 50
+- 企业文档云@肖敏 ¥ 10
+- 匿名 ¥ 50
+- 逍遥行 ¥ 10
+- z.wasaki ¥ 50
+- Make Children ¥ 20
+- Foam ¥ 20
+- 奥特曼( o|o)ノ三 ¥ 50
 
 ## Authors and acknowledgment
 
