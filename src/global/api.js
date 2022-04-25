@@ -18,6 +18,7 @@ import { getdatabyselection, getcellvalue } from "./getdata";
 import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
 import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
 import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
+import {isInlineStringCT} from '../controllers/inlineString';
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
 import { luckysheetDrawMain } from './draw';
@@ -3207,7 +3208,7 @@ export function setRangeMerge(type, options = {}) {
                     for(let c = c1; c <= c2; c++){
                         let cell = data[r][c];
 
-                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                        if(cell != null && (isInlineStringCT(cell.ct) || !isRealNull(cell.v) || cell.f != null) && !isfirst){
                             fv = $.extend(true, {}, cell);
                             isfirst = true;
                         }
@@ -3228,7 +3229,7 @@ export function setRangeMerge(type, options = {}) {
                     for(let r = r1; r <= r2; r++){
                         let cell = data[r][c];
 
-                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                        if(cell != null && (isInlineStringCT(cell.ct) || !isRealNull(cell.v) || cell.f != null) && !isfirst){
                             fv = $.extend(true, {}, cell);
                             isfirst = true;
                         }
@@ -3249,7 +3250,7 @@ export function setRangeMerge(type, options = {}) {
                     for(let c = c1; c <= c2; c++){
                         let cell = data[r][c];
 
-                        if(cell != null && (!isRealNull(cell.v) || cell.f != null) && !isfirst){
+                        if(cell != null && (isInlineStringCT(cell.ct) || !isRealNull(cell.v) || cell.f != null) && !isfirst){
                             fv = $.extend(true, {}, cell);
                             isfirst = true;
                         }
