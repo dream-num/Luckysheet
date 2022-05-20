@@ -189,7 +189,7 @@
         "top": 10, //批注框上边距
         "width": 91, //批注框宽度
         "height": 48, //批注框高度
-        "value": "I am a comment", //批准内容
+        "value": "I am a comment", //批注内容
         "isshow": true //批注框为显示状态
     },
     "f": "=SUM(233)" //单元格是一个求和公式
