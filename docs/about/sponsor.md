@@ -91,3 +91,6 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - Make Children ¥ 20
 - Foam ¥ 20
 - 奥特曼( o|o)ノ三 ¥ 50
+- **凯 ¥ 10
+- **兵 ¥ 20
+- **川 ¥ 1
