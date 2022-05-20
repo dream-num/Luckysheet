@@ -135,9 +135,9 @@ npm run build
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
-|  加小编微信:dushusir2，备注:加群  | QQ群:926131495 |
+|  加小编微信:dushusir2，备注:加群  | QQ群:767964895 |
 |---|---|
-|<img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/dushusir_wechat.jpg" width="200" />| <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/luckysheet_qq_group.jpg" width="200" /> |
+|<img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/dushusir_wechat.jpg" width="200" />| <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/luckysheet_qq_group_2.jpeg" width="200" /> |
 
 
 [英文社群](./README.md)
