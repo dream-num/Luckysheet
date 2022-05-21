@@ -230,6 +230,16 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - **凯 ¥ 10
 - **兵 ¥ 20
 - **川 ¥ 1
+- 二万 ¥ 50
+- 蔚然成林 ¥ 10
+- 邹杰 ¥ 10
+- 张永强 ¥ 50
+- 鱼得水 ¥ 50
+- Ccther ¥ 1
+- Eric Cheng ¥ 10
+- 佚名 ¥ 1
+- 花叶 ¥ 50
+- GT ¥ 20
 
 ## Authors and acknowledgment
 
