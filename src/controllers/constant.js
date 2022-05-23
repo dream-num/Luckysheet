@@ -842,7 +842,11 @@ function customLoadingConfig() {
     const info = _locale.info;
     const config = {
         enable: true,
-        image: 'image://css/loading.gif',
+        image: ()=>{
+            return `<svg viewBox="25 25 50 50" class="circular">
+            <circle cx="50" cy="50" r="20" fill="none"></circle>
+            </svg>`
+        },
         text: info.loading,
         viewBox: "32 32 64 64", // 只有为path时，才会使用
         imageClass: '',
