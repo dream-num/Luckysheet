@@ -64,8 +64,7 @@ export function updateInlineStringFormat(cell, attr, value) {
     if ($textEditor.length > 0) {
         if (startContainer === endContainer) {
             let span = startContainer.parentNode, spanIndex, inherit = false;
-
-            let content = span.innerHTML;
+            let content = span.innerText;
 
             let fullContent = $textEditor.html();
             if (fullContent.substr(0, 5) != "<span") {
@@ -265,8 +264,8 @@ export function enterKeyControll(cell) {
 
             $(startSpan).replaceWith(cont);
         } else {
+            let cssText = startSpan.style.cssText;
 
-            let cssText = getFontStyleByCell(cell);
             if (sright == "") {
                 cont = "<span style='" + cssText + "'>" + escapeHtml(sleft) + "\n\n" + "</span>";
             } else {

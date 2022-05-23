@@ -4963,6 +4963,7 @@ export function setSheetAdd(options = {}) {
     if (success && typeof success === 'function') {
         success();
     }
+    return sheetconfig;
 }
 
 
