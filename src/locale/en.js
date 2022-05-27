@@ -8837,6 +8837,10 @@ export default {
             "value": "dd/MM/yyyy"
         },
         {
+            "name": "1/06/2022",
+            "value": "d/MM/yyyy"
+        },
+        {
             "name": "2021\".\"08\".\"25",
             "value": "yyyy\".\"MM\".\"dd"
         },
