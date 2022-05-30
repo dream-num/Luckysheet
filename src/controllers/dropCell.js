@@ -477,10 +477,11 @@ const luckysheetDropCell = {
 
                 if(direction == "down"){
                     for(let j = apply_str_r; j <= apply_end_r; j++){
-                        let cell = applyData[j - apply_str_r];
+                        const index = j - apply_str_r;
+                        let cell = applyData[index];
 
                         if(cell.f != null){
-                            let f = "=" + formula.functionCopy(cell.f, "down", j - apply_str_r + 1);
+                            let f = "=" + formula.functionCopy(cell.f, "down", Math.floor(index / csLen) + csLen);
                             let v = formula.execfunction(f, j, i);
 
                             formula.execFunctionGroup(j, i, v[1], undefined, d);
@@ -531,7 +532,7 @@ const luckysheetDropCell = {
                         d[j][i] = cell;
 
                         //边框
-                        let bd_r = copy_str_r + (j - apply_str_r) % csLen;
+                        let bd_r = copy_str_r + index % csLen;
                         let bd_c = i;
 
                         if(borderInfoCompute[bd_r + "_" + bd_c]){
