@@ -2479,7 +2479,7 @@ const pivotTable = {
             }
         }
 
-        if (d_value != "") {
+        if (d_value !== "") {
             dataposition[indicator]["data"].push(d_value);
             dataposition[indicator]["counta"] += 1;
             if (!(d_value in dataposition[indicator]["countuniquedata"])) {
