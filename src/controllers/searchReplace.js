@@ -391,6 +391,8 @@ const luckysheetSearchReplace = {
             caseCheck = true;
         }
 
+        searchText = caseCheck ? searchText : searchText.toLowerCase();
+
         for(let s = 0; s < range.length; s++){
             let r1 = range[s].row[0], r2 = range[s].row[1];
             let c1 = range[s].column[0], c2 = range[s].column[1];
@@ -423,8 +425,7 @@ const luckysheetSearchReplace = {
                                     }
                                 }
                                 else{
-                                    let txt = searchText.toLowerCase();
-                                    if(txt == value.toLowerCase()){
+                                    if(searchText == value.toLowerCase()){
                                         if(!((r + "_" + c) in obj)){
                                             obj[r + "_" + c] = 0;
                                             arr.push({"r": r, "c": c});
@@ -450,6 +451,7 @@ const luckysheetSearchReplace = {
                                 }
                             }
                             else{
+                                value = caseCheck ? value : value.toLowerCase();
                                 if(~value.indexOf(searchText)){
                                     if(!((r + "_" + c) in obj)){
                                         obj[r + "_" + c] = 0;
