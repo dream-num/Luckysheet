@@ -5406,7 +5406,8 @@ export default function luckysheetHandler() {
 
                     let data = new Array($("#luckysheet-copy-content").find("table tr").length);
                     let colLen = 0;
-                    $("#luckysheet-copy-content").find("table tr").eq(0).find("td").each(function () {
+                    const cellElements = "th, td";
+                    $("#luckysheet-copy-content").find("table tr").eq(0).find(cellElements).each(function () {
                         let colspan = parseInt($(this).attr("colspan"));
                         if (isNaN(colspan)) {
                             colspan = 1;
@@ -5423,7 +5424,7 @@ export default function luckysheetHandler() {
                     $("#luckysheet-copy-content").find("table tr").each(function () {
                         let $tr = $(this);
                         let c = 0;
-                        $tr.find("td").each(function () {
+                        $tr.find(cellElements).each(function () {
                             let $td = $(this);
                             let cell = {};
                             let txt = $td.text();
