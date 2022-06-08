@@ -967,7 +967,7 @@ export function keyboardInitial(){
 
     // 右击菜单的input输入框 敲击Enter一样生效
     $("#" + Store.container).add("input.luckysheet-mousedown-cancel").keydown(function (event) {
-        const element =  event.target.closest('.luckysheet-cols-menuitem');
+        const element =  $(event.target).closest('.luckysheet-cols-menuitem');
         if (typeof(element) != 'undefined' && element != null && event.keyCode === 13){
             $(element).trigger('click');
         }

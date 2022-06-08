@@ -4241,10 +4241,12 @@ fieldset[disabled] .btn-danger.focus {
 .luckysheet-modal-dialog-slider-content {
     background: #EFEFEF;
     margin-top: 39px;
+    margin-bottom: 45px;
     width: 100%;
     position: absolute;
-    top: 0px;
-    bottom: 0px;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
     font-size: 12px;
 }
 

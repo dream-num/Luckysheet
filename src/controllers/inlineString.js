@@ -64,7 +64,6 @@ export function updateInlineStringFormat(cell, attr, value) {
     if ($textEditor.length > 0) {
         if (startContainer === endContainer) {
             let span = startContainer.parentNode, spanIndex, inherit = false;
-
             let content = span.innerText;
 
             let fullContent = $textEditor.html();
@@ -265,10 +264,8 @@ export function enterKeyControll(cell) {
 
             $(startSpan).replaceWith(cont);
         } else {
-            // 这里不能取整个单元格的样式，因为如果设置了部分样式的话就会出问题
-            // let cssText = getFontStyleByCell(cell);
-
             let cssText = startSpan.style.cssText;
+
             if (sright == "") {
                 cont = "<span style='" + cssText + "'>" + escapeHtml(sleft) + "\n\n" + "</span>";
             } else {

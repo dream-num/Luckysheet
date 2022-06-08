@@ -569,21 +569,19 @@ function initialProtectionRIghtBar(file){
                         </div>
                     </div>
                 </div>
-
                 <div id="luckysheet-protection-rangeItem-container" class="luckysheet-slider-protection-row" style="top:25px;bottom:0px;position:absolute">
-                   
                 </div>
             </div>
-            <div class="luckysheet-slider-protection-config" style="bottom:0px;height:45px">
-                <div class="luckysheet-slider-protection-column luckysheet-protection-column-5x" style="left:0px;">
-                    <div class="luckysheet-slider-protection-ok" id="luckysheet-slider-protection-ok">
-                        ${locale_button.confirm}
-                    </div>
+        </div>
+        <div class="luckysheet-slider-protection-config" style="bottom:0px;height:45px">
+            <div class="luckysheet-slider-protection-column luckysheet-protection-column-5x" style="left:0px;">
+                <div class="luckysheet-slider-protection-ok" id="luckysheet-slider-protection-ok">
+                    ${locale_button.confirm}
                 </div>
-                <div class="luckysheet-slider-protection-column luckysheet-protection-column-5x" style="left:50%;">
-                    <div class="luckysheet-slider-protection-cancel" id="luckysheet-slider-protection-cancel">
-                        ${locale_button.cancel}
-                    </div>
+            </div>
+            <div class="luckysheet-slider-protection-column luckysheet-protection-column-5x" style="left:50%;">
+                <div class="luckysheet-slider-protection-cancel" id="luckysheet-slider-protection-cancel">
+                    ${locale_button.cancel}
                 </div>
             </div>
         </div>

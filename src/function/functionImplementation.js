@@ -10694,7 +10694,7 @@ const functionImplementation = {
             var day = dayjs(start_date);
 
             for (i = 0; i < days; i++) {
-                var d = dayjs(day).weekday();
+                var d = dayjs(day).day();
                 var dec = false;
 
                 if(getObjType(weekend) == "array"){
@@ -11412,7 +11412,7 @@ const functionImplementation = {
 
             while (d < days) {
                 start_date = dayjs(start_date).add(1, 'days');
-                var day = dayjs(start_date).weekday();
+                var day = start_date.day();
 
                 if(getObjType(weekend)){
                     if (day === weekend[0] || day === weekend[1]) {

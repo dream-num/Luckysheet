@@ -19,84 +19,41 @@ function orderbydata(data, index, isAsc) {
 
     data.forEach((row, i) => row.initialIndex = i);
 
-    let a = function (x, y) {
-        let x1 = x[index] , y1 = y[index];
+    const sortDirection = isAsc ? 1 : -1;
 
-        if(getObjType(x[index]) == "object"){
+    const sort = function (x, y) {
+        let x1 = x[index], y1 = y[index];
+
+        if (getObjType(x[index]) == "object") {
             x1 = x[index].v;
         }
 
-        if(getObjType(y[index]) == "object"){
+        if (getObjType(y[index]) == "object") {
             y1 = y[index].v;
         }
 
-        if(isRealNull(x1)){
+        if (isRealNull(x1)) {
             return 1;
         }
 
-        if(isRealNull(y1)){
+        if (isRealNull(y1)) {
             return -1;
         }
 
         if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(x1, y1);
+            return sortDirection * diff(x1, y1);
+        } else if (isRealNum(x1) && isRealNum(y1)) {
+            return sortDirection * (numeral(x1).value() - numeral(y1).value());
+        } else if (!isRealNum(x1) && !isRealNum(y1)) {
+            return sortDirection * x1.localeCompare(y1);
+        } else if (!isRealNum(x1)) {
+            return sortDirection;
+        } else if (!isRealNum(y1)) {
+            return -sortDirection;
         }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(x1).value() - numeral(y1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return x1.localeCompare(y1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return 1;
-        }
-        else if (!isRealNum(y1)) {
-            return -1;
-        }
-    }
+    };
 
-    let d = function (x, y) {
-        let x1 = x[index] , y1 = y[index];
-
-        if(getObjType(x[index]) == "object"){
-            x1 = x[index].v;
-        }
-
-        if(getObjType(y[index]) == "object"){
-            y1 = y[index].v;
-        }
-
-        if(isRealNull(x1)){
-            return 1;
-        }
-
-        if(isRealNull(y1)){
-            return -1;
-        }
-
-        if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(y1, x1);
-        }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(y1).value() - numeral(x1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return y1.localeCompare(x1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return -1;
-        }
-        else if (!isRealNum(y1)) {
-            return 1;
-        }
-    }
-
-    if (isAsc) {
-        return data.sort(a);
-    }
-    else {
-        return data.sort(d);
-    }
+    return data.sort(sort);
 }
 
 function orderbydata1D(data, isAsc) {
@@ -104,84 +61,41 @@ function orderbydata1D(data, isAsc) {
         isAsc = true;
     }
 
-    let a = function (x, y) {
+    const sortDirection = isAsc ? 1 : -1;
+
+    const sort = function (x, y) {
         let x1 = x, y1 = y;
 
-        if(getObjType(x) == "object"){
+        if (getObjType(x) == "object") {
             x1 = x.v;
         }
 
-        if(getObjType(y) == "object"){
+        if (getObjType(y) == "object") {
             y1 = y.v;
         }
 
-        if(x1 == null){
+        if (x1 == null) {
             x1 = "";
         }
 
-        if(y1 == null){
+        if (y1 == null) {
             y1 = "";
         }
 
         if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(x1, y1);
+            return sortDirection * diff(x1, y1);
+        } else if (isRealNum(x1) && isRealNum(y1)) {
+            return sortDirection * (numeral(x1).value() - numeral(y1).value());
+        } else if (!isRealNum(x1) && !isRealNum(y1)) {
+            return sortDirection * x1.localeCompare(y1);
+        } else if (!isRealNum(x1)) {
+            return sortDirection;
+        } else if (!isRealNum(y1)) {
+            return -sortDirection;
         }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(x1).value() - numeral(y1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return x1.localeCompare(y1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return 1;
-        }
-        else if (!isRealNum(y1)) {
-            return -1;
-        }
-    }
+    };
 
-    let d = function (x, y) {
-        let x1 = x, y1 = y;
-
-        if(getObjType(x) == "object"){
-            x1 = x.v;
-        }
-
-        if(getObjType(y) == "object"){
-            y1 = y.v;
-        }
-
-        if(x1 == null){
-            x1 = "";
-        }
-
-        if(y1 == null){
-            y1 = "";
-        }
-
-        if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(y1, x1);
-        }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(y1).value() - numeral(x1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return y1.localeCompare(x1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return -1;
-        }
-        else if (!isRealNum(y1)) {
-            return 1;
-        }
-    }
-
-    if (isAsc) {
-        return data.sort(a);
-    }
-    else {
-        return data.sort(d);
-    }
+    return data.sort(sort);
 }
 
 //排序选区数据

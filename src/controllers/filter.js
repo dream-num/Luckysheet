@@ -1252,9 +1252,9 @@ function initialFilterHandler() {
         if (v != "") {
             $("#luckysheet-filter-byvalue-select .ListBox input[type='checkbox']").each(function (i, e) {
                 if ($(e).closest(".day").length > 0) {
-                    let day = $(e).siblings("label").text().toString();
-                    let month = $(e).closest(".monthBox").find(".month label").text().toString();
-                    let year = $(e).closest(".yearBox").find(".year label").text().toString();
+                    let day = $(e).siblings("label").text().toString().trim();
+                    let month = $(e).closest(".monthBox").find(".month label").text().trim();
+                    let year = $(e).closest(".yearBox").find(".year label").text().trim();
                     let itemV = year + "-" + month + "-" + day;
 
                     if (itemV.indexOf(v) == -1) {
@@ -1565,17 +1565,17 @@ function initialFilterHandler() {
                 }
 
                 if ($(e).closest(".day").length > 0) {
-                    let day = $(e).siblings("label").text();
+                    let day = $(e).siblings("label").text().trim();
                     if (Number(day) < 10) {
                         day = "0" + Number(day);
                     }
 
-                    let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "");
+                    let month = $(e).closest(".monthBox").find(".month label").text().replace(locale_filter.filiterMonthText, "").trim();
                     if (Number(month) < 10) {
                         month = "0" + Number(month);
                     }
 
-                    let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "");
+                    let year = $(e).closest(".yearBox").find(".year label").text().replace(locale_filter.filiterYearText, "").trim();
 
                     let itemV = locale_filter.filterDateFormatTip + "#$$$#" + year + "-" + month + "-" + day;
 
