@@ -116,6 +116,10 @@ function computeRowlenByContent(d, r) {
             }
         }
 
+        if(Store.config["colhidden"] != null && Store.config["colhidden"][c] != null){
+            continue;
+        }
+
 
         if(cell != null && (cell.v != null || isInlineStringCell(cell)) ){
             let cellWidth = computeCellWidth(cell, c);
