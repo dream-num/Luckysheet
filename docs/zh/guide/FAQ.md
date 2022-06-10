@@ -28,8 +28,7 @@ luckysheet.transToData(celldata)
 
 ## 如何在Vue/React项目中使用Luckysheet？
 
-**<span style="font-size:20px;">A</span>**：参考
-
+**<span style="font-size:20px;">A</span>**：参考
 - Vue案例：[luckysheet-vue](https://github.com/mengshukeji/luckysheet-vue)
 - React案例：[luckysheet-react](https://github.com/mengshukeji/luckysheet-react)
 
