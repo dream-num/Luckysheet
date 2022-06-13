@@ -481,7 +481,7 @@ const luckysheetDropCell = {
                         let cell = applyData[index];
 
                         if(cell.f != null){
-                            let f = "=" + formula.functionCopy(cell.f, "down", Math.floor(index / csLen) + csLen);
+                            let f = "=" + formula.functionCopy(cell.f, "down", (Math.floor(index / csLen) + 1) * csLen);
                             let v = formula.execfunction(f, j, i);
 
                             formula.execFunctionGroup(j, i, v[1], undefined, d);
