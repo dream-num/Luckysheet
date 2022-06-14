@@ -675,6 +675,11 @@ var make_ssf = function make_ssf(SSF) {
                     return write_num_flt(type, "#,##0.00", val).replace(/^0\./, ".");
                 default:
             }
+
+            if (fmt.indexOf("0,") === 0) {
+                return write_num_flt(type, fmt.replace(",", "."), val).replace(".", ",");
+            }
+
             throw new Error("unsupported format |" + fmt + "|");
         }
 
@@ -807,6 +812,10 @@ var make_ssf = function make_ssf(SSF) {
                     return x !== "0" ? sign + x : "";
                 default:
                     if (fmt.match(/\.[0#?]*$/)) return write_num_int(type, fmt.slice(0, fmt.lastIndexOf(".")), val) + hashq(fmt.slice(fmt.lastIndexOf(".")));
+            }
+            
+            if (fmt.indexOf("0,") === 0) {
+                return write_num_int(type, fmt.replace(",", "."), val).replace(".", ",");
             }
             throw new Error("unsupported format |" + fmt + "|");
         }

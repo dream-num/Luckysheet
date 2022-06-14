@@ -336,6 +336,12 @@ const menuButton = {
 
                 return;
             }
+
+            if (foucsStatus.fa.indexOf("0,0") !== -1) {
+                _this.updateFormat(d, "ct", foucsStatus.fa.substr(0, foucsStatus.fa.length - 1));
+                return;
+            }
+
             //Uncaught ReferenceError: Cannot access 'fa' before initialization
             let prefix = "", main = "", fa = [];
             if (foucsStatus.fa.indexOf(".") > -1) {
@@ -411,6 +417,11 @@ const menuButton = {
                     }
                 }
 
+                return;
+            }
+
+            if (foucsStatus.fa.indexOf("0,") !== -1) {
+                _this.updateFormat(d, "ct", foucsStatus.fa + "0");
                 return;
             }
 
@@ -3281,7 +3292,12 @@ const menuButton = {
                         value = d[r][c];
                     }
 
-                    if (foucsStatus != "@" && isRealNum(value)) {
+                    if (foucsStatus.indexOf("0,") !== -1) {
+                        if (typeof value === "number" && d[r][c]["m"])  {
+                            value = d[r][c]["m"];
+                        }
+                        value = parseFloat(value.replace(",", "."));
+                    } else if (foucsStatus != "@" && isRealNum(value)) {
                         value = parseFloat(value);
                     }
 
@@ -3308,6 +3324,7 @@ const menuButton = {
                         }
                         d[r][c]["ct"]["fa"] = foucsStatus;
                         d[r][c]["ct"]["t"] = type;
+                        d[r][c]["v"] = value;
                     } else {
                         d[r][c] = {"ct": {"fa": foucsStatus, "t": type}, "v": value, "m": mask};
                     }
