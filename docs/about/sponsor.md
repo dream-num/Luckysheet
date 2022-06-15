@@ -104,3 +104,13 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 佚名 ¥ 1
 - 花叶 ¥ 50
 - GT ¥ 20
+- 菜菜心 ¥ 10
+- fisher ¥ 1
+- JC ¥ 5
+- 佚名 ¥ 20
+- 独孤一剑 ¥ 50
+- mxt ¥ 20
+- 一叶迷山 ¥ 100
+- Jeff ¥ 100
+- 八千多条狗🐶 ¥ 100
+- 晓峰 ¥ 10
