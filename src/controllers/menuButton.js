@@ -337,8 +337,10 @@ const menuButton = {
                 return;
             }
 
-            if (foucsStatus.fa.indexOf("0,0") !== -1) {
-                _this.updateFormat(d, "ct", foucsStatus.fa.substr(0, foucsStatus.fa.length - 1));
+            if (foucsStatus.fa.indexOf("0,") !== -1) {
+                if (foucsStatus.fa.indexOf("0,0") !== -1) {
+                    _this.updateFormat(d, "ct", foucsStatus.fa.slice(0, -1));
+                }
                 return;
             }
 
@@ -3292,11 +3294,13 @@ const menuButton = {
                         value = d[r][c];
                     }
 
-                    if (foucsStatus.indexOf("0,") !== -1) {
+                    if (foucsStatus.indexOf("0,") !== -1 && (!d[r][c].ct?.fa || d[r][c].ct.fa.indexOf("0,") === -1)) {
                         if (typeof value === "number" && d[r][c]["m"])  {
                             value = d[r][c]["m"];
                         }
-                        value = parseFloat(value.replace(",", "."));
+                        if (typeof value === "string") {
+                            value = parseFloat(value.replace(",", "."));
+                        }
                     } else if (foucsStatus != "@" && isRealNum(value)) {
                         value = parseFloat(value);
                     }

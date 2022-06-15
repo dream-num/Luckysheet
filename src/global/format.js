@@ -951,6 +951,11 @@ var make_ssf = function make_ssf(SSF) {
             lst = 't',
             dt, j, cc;
         var hr = 'H';
+        
+        if (fmt.indexOf("0,") === fmt.length - 2) {
+            fmt = fmt.replace(",", "");
+        }
+
         /* Tokenize */
         while (i < fmt.length) {
             switch ((c = fmt.charAt(i))) {
