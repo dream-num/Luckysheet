@@ -2,6 +2,7 @@
 import defaultSetting from './config.js';
 import { common_extend } from './utils/util';
 import Store from './store';
+import { locales } from './locale/locale';
 import server from './controllers/server';
 import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
 import sheetmanage from './controllers/sheetmanage';
@@ -252,6 +253,8 @@ luckysheet.destroy = method.destroy;
 luckysheet.showLoadingProgress = showloading;
 luckysheet.hideLoadingProgress = hideloading;
 luckysheet.luckysheetextendData = luckysheetextendData;
+
+luckysheet.locales = locales;
 
 export {
     luckysheet
