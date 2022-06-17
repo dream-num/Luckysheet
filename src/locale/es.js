@@ -9859,6 +9859,11 @@ export default {
         pasteMustKeybordAlertHTMLTitle:"在表格中进行复制粘贴",
         pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
     },
+    paste: {
+        warning:"Advertencia",
+        errorNotAllowMulti:"No se puede realizar esta operación en varias áreas de selección, selecciona un solo rango y vuelve a intentarlo",
+        errorNotAllowMerged: "No se pueden realizar cambios parciales en las celdas fusionadas",
+    },
     pivotTable:{
         title:"Tabla Dinámica",
         closePannel:"Cerrar",

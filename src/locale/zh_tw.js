@@ -10112,6 +10112,11 @@ export default {
         pasteMustKeybordAlertHTMLTitle: "Copy and paste in the Sheet",
         pasteMustKeybordAlertHTML     : "<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;to copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;to paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;to cut",
     },
+    paste: {
+        warning            : "提示",
+        errorNotAllowMulti : "不能對多重選擇區域執行此操作,請選擇單個區域,然後再試",
+        errorNotAllowMerged: "不能对合并单元格做部分更改",
+    },
     pivotTable: {
         title                : "數據透視錶",
         closePannel          : "關閉",
