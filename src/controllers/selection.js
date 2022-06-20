@@ -628,12 +628,16 @@ const selection = {
         if(Store.allowEdit===false){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         if(Store.luckysheet_select_save.length > 1){
             if(isEditMode()){
-                alert("不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                alert(locale_paste.errorNotAllowMulti);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对多重选择区域执行此操作，请选择单个区域，然后再试");
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`, locale_paste.errorNotAllowMulti);
             }
         }
 
@@ -664,10 +668,10 @@ const selection = {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示', "不能对合并单元格做部分更改");
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`, locale_paste.errorNotAllowMerged);
                 }
 
                 return;
@@ -805,10 +809,10 @@ const selection = {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
                 }
                 return;
             }
@@ -882,6 +886,9 @@ const selection = {
             return;
         }
 
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -914,10 +921,10 @@ const selection = {
 
         if(has_PartMC){
             if(isEditMode()){
-                alert("不能对合并单元格做部分更改");
+                alert(locale_paste.errorNotAllowMerged);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
             }
             return;
         }
@@ -1308,6 +1315,10 @@ const selection = {
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -1392,10 +1403,10 @@ const selection = {
 
         if(has_PartMC){
             if(isEditMode()){
-                alert("不能对合并单元格做部分更改");
+                alert(locale_paste.errorNotAllowMerged);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
             }
             return;
         }
@@ -1627,6 +1638,10 @@ const selection = {
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -1660,10 +1675,10 @@ const selection = {
 
             if(has_PartMC){
                 if(isEditMode()){
-                    alert("不能对合并单元格做部分更改");
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>提示',"不能对合并单元格做部分更改");
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
                 }
                 return;
             }

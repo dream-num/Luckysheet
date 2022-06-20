@@ -9886,9 +9886,14 @@ export default {
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
 
-        pasteMustKeybordAlert:"在表格中进行复制粘贴: Ctrl + C 进行复制, Ctrl + V 进行粘贴, Ctrl + X 进行剪切",
-        pasteMustKeybordAlertHTMLTitle:"在表格中进行复制粘贴",
-        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;进行复制<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;进行粘贴<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;进行剪切",
+        pasteMustKeybordAlert:"Copy and paste in the Sheet: Ctrl + C to copy, Ctrl + V to paste, Ctrl + X to cut",
+        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the Sheet",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;to copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;to paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;to cut",
+    },
+    paste: {
+        warning:"Warning",
+        errorNotAllowMulti:"Cannot perform this operation on multiple selection areas, please select a single range and try again",
+        errorNotAllowMerged:"Cannot make partial changes to merged cells",
     },
     pivotTable:{
         title:"Pivot Table",
