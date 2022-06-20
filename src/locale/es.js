@@ -9289,7 +9289,9 @@ export default {
        filiterInputNone:"Ninguno",
 
        filiterInputTip:"Introduce valor de filtro",
+       filiterRangeStart:"",
        filiterRangeStartTip:"Valor para fórmula",
+       filiterRangeEnd:"e",
        filiterRangeEndTip:"Valor para fórmula",
 
        filterValueByAllBtn:"Seleccionar todos",

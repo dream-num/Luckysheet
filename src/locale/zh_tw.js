@@ -9526,7 +9526,9 @@ export default {
         filiterInputNone: "無",
 
         filiterInputTip     : "輸入篩選值",
+        filiterRangeStart   : "從",
         filiterRangeStartTip: "範圍開始",
+        filiterRangeEnd     : "到",
         filiterRangeEndTip  : "範圍结束",
 
         filterValueByAllBtn    : "全選",
