@@ -325,6 +325,13 @@ const luckysheetformula = {
         if (typeof str !== 'string') return str;
         return str.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
     },
+    ltGtSignDeal: function (str) {
+        if (typeof str !== 'string') return str;
+        if (str.substr(0, 5) === "<span" || str.startsWith('=')) {
+            return str
+        }
+        return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    },
     fucntionboxshow: function(r, c) {
 
         if (!checkProtectionCellHidden(r, c, Store.currentSheetIndex)) {
@@ -3407,10 +3414,12 @@ const luckysheetformula = {
 
                     }
                     else {
+                        value = _this.ltGtSignDeal(value);
                         $copy.html(value);
                     }
                 }
                 else {
+                    value = _this.ltGtSignDeal(value);
                     $copy.html(value);
                 }
             }
