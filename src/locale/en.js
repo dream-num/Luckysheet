@@ -9304,7 +9304,9 @@ export default {
        filiterInputNone:"None",
 
        filiterInputTip:"Enter filter value",
+       filiterRangeStart:"",
        filiterRangeStartTip:"Value for formula",
+       filiterRangeEnd:"and",
        filiterRangeEndTip:"Value for formula",
 
        filterValueByAllBtn:"Check all",
