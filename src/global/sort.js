@@ -300,6 +300,9 @@ function sortColumnSeletion(colIndex, isAsc) {
         isAsc = true;
     }
 
+    const _locale = locale();
+    const locale_sort = _locale.sort;
+
     let d = editor.deepCopyFlowData(Store.flowdata);
 
     let r1 = 0, r2 = d.length - 1;
@@ -351,10 +354,10 @@ function sortColumnSeletion(colIndex, isAsc) {
 
     if(hasMc){
         if(isEditMode()){
-            alert("列排序会扩展至整个表格选区，选区有合并单元格，无法执行此操作，请选择功能栏排序功能！");
+            alert(locale_sort.columnSortMergeError);
         }
         else{
-            tooltip.info("列排序会扩展至整个表格选区，选区有合并单元格，无法执行此操作，请选择功能栏排序功能！", "");
+            tooltip.info(locale_sort.columnSortMergeError, "");
         }
 
         return;
