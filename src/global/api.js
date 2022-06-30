@@ -5479,7 +5479,12 @@ export function setSheetZoom(zoom, options = {}) {
 
     if(file.index == Store.currentSheetIndex){
         Store.zoomRatio = zoom;
-
+        // 图片
+        let currentSheet = sheetmanage.getSheetByIndex();
+        imageCtrl.images = currentSheet.images;
+        imageCtrl.allImagesShow();
+        imageCtrl.init();
+        
         zoomNumberDomBind();
         zoomRefreshView();
     }
