@@ -7,6 +7,7 @@ import { rowlenByRange } from './getRowlen';
 import { jfrefreshgrid } from './refresh';
 import {checkProtectionAuthorityNormal} from '../controllers/protection';
 import Store from '../store';
+import locale from '../locale/locale';
 import numeral from 'numeral';
 import {getFrozenRows} from "../controllers/freezen";
 import luckysheetformula from "./formula";
@@ -103,13 +104,16 @@ function sortSelection(isAsc) {
     if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "sort")){
         return;
     }
+
+    const _locale = locale();
+    const locale_sort = _locale.sort;
+
     if(Store.luckysheet_select_save.length > 1){
-        const msg = "Cannot perform this operation on multiple selection areas, please select a single area and try again"
         if(isEditMode()){
-            alert(msg);
+            alert(locale_sort.noRangeError);
         }
         else{
-            tooltip.info(msg, "");
+            tooltip.info(locale_sort.noRangeError, "");
         }
 
         return;
@@ -173,12 +177,11 @@ function sortSelection(isAsc) {
     }
 
     if(hasMc){
-        const msg = "There are merged cells in the selection, this operation cannot be performed!"
         if(isEditMode()){
-            alert(msg);
+            alert(locale_sort.mergeError);
         }
         else{
-            tooltip.info(msg, "");
+            tooltip.info(locale_sort.mergeError, "");
         }
 
         return;

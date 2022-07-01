@@ -8964,7 +8964,9 @@ export default {
        filiterInputNone:"None",
 
        filiterInputTip:"Enter filter value",
+       filiterRangeStart:"From",
        filiterRangeStartTip:"Value for formula",
+       filiterRangeEnd:"to",
        filiterRangeEndTip:"Value for formula",
 
        filterValueByAllBtn:"Check all",
@@ -9546,9 +9548,14 @@ export default {
         notLessOne:"The number of rows and columns cannot be less than 1",
         offsetColumnLessZero:"The offset column cannot be negative!",
 
-        pasteMustKeybordAlert:"Copy and paste in the table: Ctrl + C - make a copy, Ctrl + V - paste, Ctrl + X - cut",
-        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the table",
-        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;- make a copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;- paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;- cut",
+        pasteMustKeybordAlert:"Copy and paste in the Sheet: Ctrl + C to copy, Ctrl + V to paste, Ctrl + X to cut",
+        pasteMustKeybordAlertHTMLTitle:"Copy and paste in the Sheet",
+        pasteMustKeybordAlertHTML:"<span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + C</span>&nbsp;&nbsp;to copy<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + V</span>&nbsp;&nbsp;to paste<br/><span style='line-height: 1.0;font-size:36px;font-weight: bold;color:#666;'>Ctrl + X</span>&nbsp;&nbsp;to cut",
+    },
+    paste: {
+        warning:"Warning",
+        errorNotAllowMulti:"Cannot perform this operation on multiple selection areas, please select a single range and try again",
+        errorNotAllowMerged:"Cannot make partial changes to merged cells",
     },
     pivotTable:{
         title:"Pivot Table",

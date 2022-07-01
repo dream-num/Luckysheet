@@ -614,13 +614,16 @@ const selection = {
         if(Store.allowEdit===false){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         if(Store.luckysheet_select_save.length > 1){
-            const msg = "Cannot perform this operation on multiple selection areas, please select a single area and try again";
             if(isEditMode()){
-                alert(msg);
+                alert(locale_paste.errorNotAllowMulti);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>Hint', msg);
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`, locale_paste.errorNotAllowMulti);
             }
         }
 
@@ -650,12 +653,11 @@ const selection = {
             }
 
             if(has_PartMC){
-                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert(msg);
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', msg);
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`, locale_paste.errorNotAllowMerged);
                 }
 
                 return;
@@ -791,12 +793,11 @@ const selection = {
             }
 
             if(has_PartMC){
-                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert(msg);
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
                 }
                 return;
             }
@@ -870,6 +871,9 @@ const selection = {
             return;
         }
 
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -901,12 +905,11 @@ const selection = {
         }
 
         if(has_PartMC){
-            const msg = "Partial changes cannot be made to merged cells";
             if(isEditMode()){
-                alert(msg);
+                alert(locale_paste.errorNotAllowMerged);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
             }
             return;
         }
@@ -1297,6 +1300,10 @@ const selection = {
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -1380,12 +1387,11 @@ const selection = {
         }
 
         if(has_PartMC){
-            const msg = "Partial changes cannot be made to merged cells";
             if(isEditMode()){
-                alert(msg);
+                alert(locale_paste.errorNotAllowMerged);
             }
             else{
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
+                tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
             }
             return;
         }
@@ -1617,6 +1623,10 @@ const selection = {
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
+
+        const _locale = locale()
+        const locale_paste = _locale.paste;
+
         let cfg = $.extend(true, {}, Store.config);
         if(cfg["merge"] == null){
             cfg["merge"] = {};
@@ -1649,12 +1659,11 @@ const selection = {
             }
 
             if(has_PartMC){
-                const msg = "Partial changes cannot be made to merged cells";
                 if(isEditMode()){
-                    alert(msg);
+                    alert(locale_paste.errorNotAllowMerged);
                 }
                 else{
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>',msg);
+                    tooltip.info(`<i class="fa fa-exclamation-triangle"></i>${locale_paste.warning}`,locale_paste.errorNotAllowMerged);
                 }
                 return;
             }

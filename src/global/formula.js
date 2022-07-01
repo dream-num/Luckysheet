@@ -278,7 +278,6 @@ const luckysheetformula = {
         return DOMPurify.sanitize(str);
     },
     fucntionboxshow: function (r, c) {
-
         if (!checkProtectionCellHidden(r, c, Store.currentSheetIndex)) {
             $("#luckysheet-functionbox-cell").html("");
             return;

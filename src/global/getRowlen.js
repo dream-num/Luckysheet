@@ -148,7 +148,7 @@ function computeRowlenByContent(d, r) {
 
 function computeCellWidth(cell, col_index) {
     let colLocationArr = colLocationByIndex(col_index);
-    if (cell.mc && cell.mc.c !== cell.mc.cs) {
+    if (cell.mc && 1 !== cell.mc.cs) {
         colLocationArr = colSpanLocationByIndex(col_index, cell.mc.cs);
     }
 
