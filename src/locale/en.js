@@ -8964,9 +8964,9 @@ export default {
        filiterInputNone:"None",
 
        filiterInputTip:"Enter filter value",
-       filiterRangeStart:"From",
+       filiterRangeStart:"",
        filiterRangeStartTip:"Value for formula",
-       filiterRangeEnd:"to",
+       filiterRangeEnd:"and",
        filiterRangeEndTip:"Value for formula",
 
        filterValueByAllBtn:"Check all",
