@@ -79,7 +79,7 @@ const sheetmanage = {
         let copyWord = "(" + locale_info.copy;
         const copy_i = name.toString().indexOf(copyWord);
 
-        if (copy_i > -1) {
+        if (~copy_i) {
             name = name.toString().substring(0, copy_i);
         }
 
@@ -87,17 +87,17 @@ const sheetmanage = {
         let nameCopy = name + copyWord;
         const sheetNames = [];
 
-        for(let i = 0; i < file.length; i++){
+        for (let i = 0; i < file.length; i++) {
             let fileName = file[i].name.toString();
             sheetNames.push(fileName);
             let st_i = fileName.indexOf(nameCopy);
 
-            if(st_i === 0){
+            if(st_i === 0) {
                 index = index || 2;
                 let ed_i = fileName.indexOf(")", st_i + nameCopy.length);
                 let num = fileName.substring(st_i + nameCopy.length, ed_i);
 
-                if(isRealNum(num)){
+                if (isRealNum(num)) {
                     if(parseInt(num) >= index){
                         index = parseInt(num) + 1;
                     }
@@ -108,15 +108,15 @@ const sheetmanage = {
         let sheetCopyName;
 
         do {
-        let postfix = copyWord + index + ")";
+            let postfix = copyWord + index + ")";
 
-        const lengthLimit = 31 - postfix.length;
-        sheetCopyName = name;
-        if (sheetCopyName.length > lengthLimit) {
-            sheetCopyName = sheetCopyName.slice(0, lengthLimit - 1) + "…";
-        }
+            const lengthLimit = 31 - postfix.length;
+            sheetCopyName = name;
+            if (sheetCopyName.length > lengthLimit) {
+                sheetCopyName = sheetCopyName.slice(0, lengthLimit - 1) + "…";
+            }
 
-        sheetCopyName = sheetCopyName + postfix;
+            sheetCopyName = sheetCopyName + postfix;
         } while (~sheetNames.indexOf(sheetCopyName) && (index = (index || 1) + 1))
 
         return sheetCopyName;
