@@ -1,5 +1,5 @@
 import {arrayRemoveItem} from '../../utils/util'
-import {generateRandomKey, replaceHtml} from '../../utils/chartUtil'
+import {generateRandomKey} from '../../utils/chartUtil'
 import {getdatabyselection, getcellvalue} from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
