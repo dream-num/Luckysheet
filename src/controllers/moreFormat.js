@@ -6,6 +6,7 @@ import tooltip from '../global/tooltip';
 import { isEditMode } from '../global/validate';
 import Store from '../store';
 import locale from '../locale/locale';
+import { replacePointAndComma } from "../global/format";
 
 //更多格式
 const luckysheetMoreFormat = {
@@ -768,6 +769,14 @@ const luckysheetMoreFormat = {
             "value": "$#,##0.00_);[Red]($#,##0.00)"
         },
         {
+            "name": "€ 1,234.56",
+            "value": "\"€\" #,##0.00"
+        },
+        {
+            "name": "€1,234.56",
+            "value": "€#,##0.00_);(€#,##0.00)"
+        },
+        {
             "name": "1234.56",
             "value": "@"
         },
@@ -982,109 +991,19 @@ const luckysheetMoreFormat = {
 
         this.dateFmtList = locale().dateFmtList;
 
-        this.numFmtList = [
-            {
-                "name": "1235",
-                "value": "0"
-            },
-            {
-                "name": "1234.56",
-                "value": "0.00"
-            },
-            {
-                "name": "1234,56",
-                "value": "0,00"
-            },
-            {
-                "name": "1,235",
-                "value": "#,##0"
-            },
-            {
-                "name": "1,234.56",
-                "value": "#,##0.00"
-            },
-            {
-                "name": "1,235",
-                "value": "#,##0_);(#,##0)"
-            },
-            {
-                "name": "1,235",
-                "value": "#,##0_);[Red](#,##0)"
-            },
-            {
-                "name": "1,234.56",
-                "value": "#,##0.00_);(#,##0.00)"
-            },
-            {
-                "name": "1,234.56",
-                "value": "#,##0.00_);[Red](#,##0.00)"
-            },
-            {
-                "name": "$1,235",
-                "value": "$#,##0_);($#,##0)"
-            },
-            {
-                "name": "$1,235",
-                "value": "$#,##0_);[Red]($#,##0)"
-            },
-            {
-                "name": "$1,234.56",
-                "value": "$#,##0.00_);($#,##0.00)"
-            },
-            {
-                "name": "$1,234.56",
-                "value": "$#,##0.00_);[Red]($#,##0.00)"
-            },
-            {
-                "name": "1234.56",
-                "value": "@"
-            },
-            {
-                "name": "123456%",
-                "value": "0%"
-            },
-            {
-                "name": "123456.00%",
-                "value": "0.00%"
-            },
-            {
-                "name": "1.23E+03",
-                "value": "0.00E+00"
-            },
-            {
-                "name": "1.2E+3",
-                "value": "##0.0E+0"
-            },
-            {
-                "name": "1234 5/9",
-                "value": "# ?/?"
-            },
-            {
-                "name": "1234 14/25",
-                "value": "# ??/??"
-            },
-            {
-                "name": "$ 1,235",
-                "value": '_($* #,##0_);_(...($* "-"_);_(@_)'
-            },
-            {
-                "name": "1,235",
-                "value": '_(* #,##0_);_(*..._(* "-"_);_(@_)'
-            },
-            {
-                "name": "$ 1,234.56",
-                "value": '_($* #,##0.00_);_(...($* "-"_);_(@_)'
-            },
-            {
-                "name": "1,234.56",
-                "value": '_(* #,##0.00_);...* "-"??_);_(@_)'
-            },
-        ]    
-
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-moreFormat-dialog").remove();
 
         let title = "", content = '';
+
+        const decimalSeparatorHTML =
+            `<div class="decimal">
+              <label>${locale_format.decimalSeparator}：</label>
+              <select id="decimalSeparator">
+                <option value=".">Point (.)</option>
+                <option value=",">Comma (,)</option>
+              </select>
+            </div>`;
 
         if(type == "morecurrency"){ //货币
             title = locale_format.titleCurrency;
@@ -1108,6 +1027,7 @@ const luckysheetMoreFormat = {
                             '<label>'+ locale_format.decimalPlaces +'：</label>'+
                             '<input type="number" class="formulaInputFocus" value="2" min="0" max="9"/>'+
                         '</div>'+
+                        decimalSeparatorHTML+
                         '<div class="listbox">'+ listHtml +'</div>'+
                       '</div>';
         }
@@ -1146,6 +1066,7 @@ const luckysheetMoreFormat = {
             }
 
             content = '<div class="box" id="moredigit">'+
+                        decimalSeparatorHTML+
                         '<div class="listbox">'+ listHtml +'</div>'+
                       '</div>';
         }
@@ -1184,6 +1105,7 @@ const luckysheetMoreFormat = {
 
             let value = $("#luckysheet-moreFormat-dialog .listbox .listItem.on .value").text();
             let id = $(this).parents("#luckysheet-moreFormat-dialog").find(".box").attr("id");
+            const getDecimalSeparatorValue = () =>  $("#decimalSeparator").val().trim();
 
             if(id == "morecurrency"){ //货币
                 if(value.indexOf("?") != -1){
@@ -1211,7 +1133,7 @@ const luckysheetMoreFormat = {
                         str += "0";
                     }
 
-                    str = "0." + str;
+                    str = "0" + getDecimalSeparatorValue() + str;
                 }
                 else{
                     str = "#";
@@ -1232,6 +1154,10 @@ const luckysheetMoreFormat = {
                 menuButton.updateFormat(d, "ct", value);
             }
             else if(id == "moredigit"){ //数字
+                if (getDecimalSeparatorValue() === ",") {
+                    value = replacePointAndComma(value);
+                }
+
                 menuButton.updateFormat(d, "ct", value);
             }
         })

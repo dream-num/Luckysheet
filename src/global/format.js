@@ -676,10 +676,6 @@ var make_ssf = function make_ssf(SSF) {
                 default:
             }
 
-            if (fmt.indexOf("0,") === 0) {
-                return write_num_flt(type, fmt.replace(",", "."), val).replace(".", ",");
-            }
-
             throw new Error("unsupported format |" + fmt + "|");
         }
 
@@ -813,10 +809,7 @@ var make_ssf = function make_ssf(SSF) {
                 default:
                     if (fmt.match(/\.[0#?]*$/)) return write_num_int(type, fmt.slice(0, fmt.lastIndexOf(".")), val) + hashq(fmt.slice(fmt.lastIndexOf(".")));
             }
-            
-            if (fmt.indexOf("0,") === 0) {
-                return write_num_int(type, fmt.replace(",", "."), val).replace(".", ",");
-            }
+
             throw new Error("unsupported format |" + fmt + "|");
         }
         return function write_num(type, fmt, val) {
@@ -1897,8 +1890,43 @@ export function genarate(value) {//万 单位格式增加！！！
     return [m, ct, v];
 }
 
+const commaEsc = "tfac-comma-tfac";
+export function replacePointAndComma(str) {
+    return str
+      .replaceAll(",", commaEsc)
+      .replaceAll(".", ",")
+      .replaceAll(commaEsc, ".");
+}
+
+function isNeedReplaceCommaAndPoint(fmt) {
+    return fmt.indexOf("0,") !== -1 || fmt.indexOf(".#") !== -1;
+}
+
+function convertToPointFormat(fmt) {
+    return fmt.replaceAll(".#", ",#").replaceAll("0,", "0.");
+}
+
+export function strWithCommaToFloat(str) {
+    let result = str;
+    if (typeof str === "string" && str.indexOf(",") !== -1) {
+        result = str.match(/[\d,]/g).join("").replace(",", ".");
+        result = parseFloat(result);
+    }
+
+    return isNaN(result) ? str : result;
+}
+
 export function update(fmt, v) {
-    return SSF.format(fmt, v);
+    let result;
+    if (isNeedReplaceCommaAndPoint(fmt)) {
+        fmt = convertToPointFormat(fmt);
+        result = SSF.format(fmt, v);
+        result =  replacePointAndComma(result);
+    } else {
+        result = SSF.format(fmt, v);
+    }
+
+    return result;
 }
 
 export function is_date(fmt, v) {

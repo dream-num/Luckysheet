@@ -1,6 +1,6 @@
 import { getObjType } from '../utils/util';
 import { isRealNull, isRealNum, valueIsError } from './validate';
-import { genarate, update } from './format';
+import { genarate, strWithCommaToFloat, update } from './format';
 import server from '../controllers/server';
 import luckysheetConfigsetting from '../controllers/luckysheetConfigsetting';
 import Store from '../store/index'
@@ -69,6 +69,11 @@ function setcellvalue(r, c, d, v) {
     }
 
     let vupdateStr = vupdate.toString();
+
+    if (vupdateStr.includes(",") && cell.ct?.fa.includes("0,")) {
+        vupdate = strWithCommaToFloat(vupdate);
+        vupdateStr = vupdate.toString();
+    }
 
     if(vupdateStr.substr(0, 1) == "'"){
         cell.m = vupdateStr.substr(1);
