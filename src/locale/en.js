@@ -3217,6 +3217,7 @@ export default {
         "t": 2,
         "d": "Creates a hyperlink inside a cell.",
         "a": "Creates a hyperlink inside a cell.",
+        "m": [2, 2],
         "p": [{
             "name": "url",
             "detail": "The full URL of the link location enclosed in quotation marks, or a reference to a cell containing such a URL.",

@@ -101,9 +101,6 @@ const hyperlinkCtrl = {
     init: function (){
         let _this = this;
 
-        const _locale = locale();
-        const hyperlinkText = _locale.insertLink;
-
         //链接类型
         $(document).off("change.linkType").on("change.linkType", "#luckysheet-insertLink-dialog-linkType", function(e){
             let value = this.value;
@@ -127,66 +124,73 @@ const hyperlinkCtrl = {
             let linkCell = $("#luckysheet-insertLink-dialog-linkCell").val();
             let linkTooltip = $("#luckysheet-insertLink-dialog-linkTooltip").val();
 
-            if(linkType == 'external'){
-                if(!/^http[s]?:\/\//.test(linkAddress)){
-                    linkAddress = 'https://' + linkAddress;
-                }
-
-                try {
-                    new URL(linkAddress);
-                } catch {
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
-                    return;
-                }
-            }
-            else{
-                if(!formula.iscelldata(linkCell)){
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo2);
-                    return;
-                }
-
-                linkAddress = linkSheet + "!" + linkCell;
-            }
-
-            if(linkText == null || linkText.replace(/\s/g, '') == ''){
-                linkText = linkAddress;
-            }
-
-            let item = {
-                linkType: linkType,
-                linkAddress: linkAddress,
-                linkTooltip: linkTooltip,
-            }
-
-            let historyHyperlink = $.extend(true, {}, _this.hyperlink);
-            let currentHyperlink = $.extend(true, {}, _this.hyperlink);
-
-            currentHyperlink[rowIndex + "_" + colIndex] = item;
-
-            let d = editor.deepCopyFlowData(Store.flowdata);
-            let cell = d[rowIndex][colIndex];
-
-            if(cell == null){
-                cell = {};
-            }
-
-            cell.fc = 'rgb(0, 0, 255)';
-            cell.un = 1;
-            cell.v = cell.m = linkText;
-
-            d[rowIndex][colIndex] = cell;
-
-            _this.ref(
-                historyHyperlink, 
-                currentHyperlink, 
-                Store.currentSheetIndex, 
-                d, 
-                [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
-            );
+            _this.setLink(linkType, linkAddress, linkText, linkSheet, linkCell, linkTooltip, rowIndex, colIndex);
 
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-insertLink-dialog").hide();
         })
+    },
+    setLink: function (linkType, linkAddress, linkText, linkSheet, linkCell, linkTooltip, rowIndex, colIndex) {
+        let _this = this;
+        const _locale = locale();
+        const hyperlinkText = _locale.insertLink;
+
+        if(linkType == 'external'){
+            if(!/^http[s]?:\/\//.test(linkAddress)){
+                linkAddress = 'https://' + linkAddress;
+            }
+
+            try {
+                new URL(linkAddress);
+            } catch {
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
+                return;
+            }
+        }
+        else if (linkSheet && linkCell) {
+            if(!formula.iscelldata(linkCell)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo2);
+                return;
+            }
+
+            linkAddress = linkSheet + "!" + linkCell;
+        }
+
+        if(linkText == null || linkText.replace(/\s/g, '') == ''){
+            linkText = linkAddress;
+        }
+
+        let item = {
+            linkType: linkType,
+            linkAddress: linkAddress,
+            linkTooltip: linkTooltip,
+        }
+
+        let historyHyperlink = $.extend(true, {}, _this.hyperlink);
+        let currentHyperlink = $.extend(true, {}, _this.hyperlink);
+
+        currentHyperlink[rowIndex + "_" + colIndex] = item;
+
+        let d = editor.deepCopyFlowData(Store.flowdata);
+        let cell = d[rowIndex][colIndex];
+
+        if(cell == null){
+            cell = {};
+        }
+
+        cell.fc = 'rgb(0, 0, 255)';
+        cell.un = 1;
+        cell.v = cell.m = linkText;
+
+        d[rowIndex][colIndex] = cell;
+
+        _this.ref(
+            historyHyperlink,
+            currentHyperlink,
+            Store.currentSheetIndex,
+            d,
+            [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
+        );
     },
     dataAllocation: function(){
         let _this = this;
