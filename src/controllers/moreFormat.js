@@ -1000,8 +1000,8 @@ const luckysheetMoreFormat = {
             `<div class="decimal">
               <label>${locale_format.decimalSeparator}：</label>
               <select id="decimalSeparator">
-                <option value=".">Point (.)</option>
-                <option value=",">Comma (,)</option>
+                <option value=".">${locale_format.optionPoint}</option>
+                <option value=",">${locale_format.optionComma}</option>
               </select>
             </div>`;
 

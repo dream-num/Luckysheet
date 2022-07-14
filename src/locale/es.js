@@ -8566,6 +8566,8 @@ export default {
         titleCurrency: 'Formatos de moneda',
         decimalPlaces: 'Decimales',
         decimalSeparator: 'Decimal separator',
+        optionComma: 'Comma (,)',
+        optionPoint: 'Point (.)',
         titleDateTime: 'Formatos de fecha y hora',
         titleNumber: 'Formatos de números'
     },

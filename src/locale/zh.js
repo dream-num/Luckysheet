@@ -8759,6 +8759,9 @@ export default {
 
         titleCurrency: '货币格式',
         decimalPlaces: '小数位数',
+        decimalSeparator: '小数分隔符',
+        optionComma: '逗号 (,)',
+        optionPoint: '点 (.)',
         titleDateTime: '日期与时间格式',
         titleNumber: '数字格式'
     },

@@ -1890,12 +1890,8 @@ export function genarate(value) {//万 单位格式增加！！！
     return [m, ct, v];
 }
 
-const commaEsc = "tfac-comma-tfac";
 export function replacePointAndComma(str) {
-    return str
-      .replaceAll(",", commaEsc)
-      .replaceAll(".", ",")
-      .replaceAll(commaEsc, ".");
+    return str.split(".").map(part => part.replaceAll(",", ".")).join(",")
 }
 
 function isNeedReplaceCommaAndPoint(fmt) {
@@ -1909,11 +1905,18 @@ function convertToPointFormat(fmt) {
 export function strWithCommaToFloat(str) {
     let result = str;
     if (typeof str === "string" && str.indexOf(",") !== -1) {
-        result = str.match(/[\d,]/g).join("").replace(",", ".");
+        result = str.match(/^-|[\d,]|(E[\+-])/g).join("").replace(",", ".");
         result = parseFloat(result);
+        if (!isNaN(result)) {
+            if (str.slice(-1) === "%") {
+                result /= 100;
+            }
+
+            return result
+        }
     }
 
-    return isNaN(result) ? str : result;
+    return str;
 }
 
 export function update(fmt, v) {

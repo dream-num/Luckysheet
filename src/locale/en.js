@@ -8582,6 +8582,8 @@ export default {
         titleCurrency: 'Currency formats',
         decimalPlaces: 'Decimal places',
         decimalSeparator: 'Decimal separator',
+        optionComma: 'Comma (,)',
+        optionPoint: 'Point (.)',
         titleDateTime: 'Date and time formats',
         titleNumber: 'Number formats'
     },
