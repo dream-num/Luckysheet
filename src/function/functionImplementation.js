@@ -17,6 +17,7 @@ import { getObjType, ABCatNum, chatatABC, numFormat } from '../utils/util';
 import Store from '../store';
 import dayjs from 'dayjs';
 import numeral from 'numeral';
+import hyperlinkCtrl from "../controllers/hyperlinkCtrl";
 
 //公式函数计算
 const functionImplementation = {
@@ -10200,7 +10201,11 @@ const functionImplementation = {
         }
 
         try {
-            return formula.error.v;
+            const linkAddress = func_methods.getFirstValue(arguments[0]);
+            const linkText = func_methods.getFirstValue(arguments[1]);
+            const linkType = formula.iscelldata(linkAddress) ? "internal" : "external";
+            hyperlinkCtrl.setLink(linkType, linkAddress, linkText, "", "", "", luckysheetCurrentRow, luckysheetCurrentColumn);
+            return linkText;
         }
         catch (e) {
             var err = e;
