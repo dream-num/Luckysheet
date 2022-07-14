@@ -8753,6 +8753,9 @@ export default {
         moreNumber   : '更多數位格式',
         titleCurrency: '貨幣格式',
         decimalPlaces: '小數位數',
+        decimalSeparator: '小数分隔符',
+        optionComma: '逗號 (,)',
+        optionPoint: '點 (.)',
         titleDateTime: '日期與時間格式',
         titleNumber  : '數位格式'
     },

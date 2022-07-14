@@ -19,7 +19,7 @@ import luckysheetPostil from './postil';
 import { isRealNum, isRealNull, isEditMode, hasPartMC, checkIsAllowEdit } from '../global/validate';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
-import {genarate, update, is_date, datenum_local} from '../global/format';
+import {genarate, update, is_date, datenum_local, strWithCommaToFloat} from '../global/format';
 import {jfrefreshgrid, luckysheetrefreshgrid} from '../global/refresh';
 import {sortSelection} from '../global/sort';
 import luckysheetformula from '../global/formula';
@@ -321,6 +321,13 @@ const menuButton = {
                 foucsStatus = mask[1];
             }
 
+            if (foucsStatus.fa.indexOf("0,") !== -1) {
+                if (foucsStatus.fa.indexOf("0,0") !== -1) {
+                    _this.updateFormat(d, "ct", foucsStatus.fa.replaceAll("0,0", "0,"));
+                }
+                return;
+            }
+
             //万亿格式
             let reg = /^(w|W)((0?)|(0\.0+))$/;
             if (reg.test(foucsStatus.fa)) {
@@ -334,13 +341,6 @@ const menuButton = {
                     _this.updateFormat(d, "ct", foucsStatus.fa);
                 }
 
-                return;
-            }
-
-            if (foucsStatus.fa.indexOf("0,") !== -1) {
-                if (foucsStatus.fa.indexOf("0,0") !== -1) {
-                    _this.updateFormat(d, "ct", foucsStatus.fa.slice(0, -1));
-                }
                 return;
             }
 
@@ -423,7 +423,7 @@ const menuButton = {
             }
 
             if (foucsStatus.fa.indexOf("0,") !== -1) {
-                _this.updateFormat(d, "ct", foucsStatus.fa + "0");
+                _this.updateFormat(d, "ct", foucsStatus.fa.replaceAll("0,", "0,0"));
                 return;
             }
 
@@ -3289,23 +3289,26 @@ const menuButton = {
                     let cell = d[r][c], value = null;
 
                     if (getObjType(cell) == "object") {
-                        value = d[r][c]["v"];
+                        value = cell["v"];
                     } else {
-                        value = d[r][c];
+                        value = cell;
                     }
+                    const currentMask = cell?.["m"] || "";
 
-                    if (foucsStatus.indexOf("0,") !== -1 && (!d[r][c].ct?.fa || d[r][c].ct.fa.indexOf("0,") === -1)) {
-                        if (typeof value === "number" && d[r][c]["m"])  {
-                            value = d[r][c]["m"];
+                    if (foucsStatus.indexOf("0,") !== -1 && (currentMask.includes(",") || typeof value === "string")) {
+                        const normalMask = currentMask.match(/[\w,]/g).join("").replace(",", ".");
+
+                        if (typeof value === "number" && normalMask && value == normalMask.replace(".", "")) {
+                            value = normalMask;
                         }
                         if (typeof value === "string") {
-                            value = parseFloat(value.replace(",", "."));
+                            value = strWithCommaToFloat(value);
                         }
                     } else if (foucsStatus != "@" && isRealNum(value)) {
                         value = parseFloat(value);
                     }
 
-                    let mask = update(foucsStatus, value);
+                    let mask = update(foucsStatus.replace(/(0,)([^0])/g, "0$2").replace(/,$/g, ""), value);
                     let type = "n";
 
                     if (is_date(foucsStatus) || foucsStatus === 14 || foucsStatus === 15 || foucsStatus === 16 || foucsStatus === 17 || foucsStatus === 18 || foucsStatus === 19 || foucsStatus === 20 || foucsStatus === 21 || foucsStatus === 22 || foucsStatus === 45 || foucsStatus === 46 || foucsStatus === 47) {
