@@ -3296,7 +3296,7 @@ const menuButton = {
                     const currentMask = cell?.["m"] || "";
 
                     if (foucsStatus.indexOf("0,") !== -1 && (currentMask.includes(",") || typeof value === "string")) {
-                        const normalMask = currentMask.match(/[\w,]/g).join("").replace(",", ".");
+                        const normalMask = currentMask.match(/[\d,]/g).join("").replace(",", ".");
 
                         if (typeof value === "number" && normalMask && value == normalMask.replace(".", "")) {
                             value = normalMask;

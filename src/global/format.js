@@ -1903,10 +1903,13 @@ function convertToPointFormat(fmt) {
 }
 
 export function strWithCommaToFloat(str) {
-    let result = str;
-    if (typeof str === "string" && str.indexOf(",") !== -1) {
-        result = str.match(/^-|[\d,]|(E[\+-])/g).join("").replace(",", ".");
-        result = parseFloat(result);
+    if (str && typeof str === "string") {
+        let result = parseFloat(str);
+        if (str.indexOf(",") !== -1 || isNaN(result)) {
+            result = str.match(/^-|[\d,]|(E[\+-])/g)?.join("").replace(",", ".");
+            result = parseFloat(result);
+        }
+
         if (!isNaN(result)) {
             if (str.slice(-1) === "%") {
                 result /= 100;
