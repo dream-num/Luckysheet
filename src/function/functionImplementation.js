@@ -3388,7 +3388,7 @@ const functionImplementation = {
             }
 
             for(var i = 0; i < rangeData.length; i++){
-                if(results[i]){
+                if(results[i] && isRealNum(rangeData[i])){
                     sum = luckysheet_calcADPMM(sum, "+", rangeData[i]); //parseFloat(rangeData[i]);
                 }
             }
