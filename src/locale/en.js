@@ -9262,7 +9262,7 @@ export default {
         selectRange_value: 'Value in the selected range',
         pleaseSelectRange: 'Please select application range',
         selectDataRange: 'Select data range',
-        selectCell: 'select cell',
+        selectCell: 'Select cell',
         pleaseSelectCell: 'Please select cell',
         pleaseSelectADate: 'Please select a date',
         pleaseEnterInteger: 'Please enter an integer between 1 and 1000',
