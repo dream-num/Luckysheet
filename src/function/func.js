@@ -9,6 +9,7 @@ import { getSheetIndex, getluckysheetfile, getRangetxt } from '../methods/get';
 import { getObjType, ABCatNum } from '../utils/util';
 import Store from '../store';
 import numeral from 'numeral';
+import { dayjs, isdatetime } from "../global/datecontroll";
 
 //函数功能：比较或运算
 function luckysheet_compareWith() {
@@ -18,6 +19,8 @@ function luckysheet_compareWith() {
 
     //参数一
     let data_fp = arguments[0];
+    let data_tp = arguments[2];
+
     let fp;
     if(getObjType(data_fp) == "object" && data_fp.startCell != null){ //参数是选区
         if(sp == "&"){
@@ -32,11 +35,10 @@ function luckysheet_compareWith() {
         }
     }
     else{
-        fp = data_fp;
+        fp = stringToDateNumIfDateFormat(data_fp, data_tp);
     }
 
     //参数二
-    let data_tp = arguments[2];
     let tp;
     if(getObjType(data_tp) == "object" && data_tp.startCell != null){ //参数是选区
         if(sp == "&"){
@@ -51,7 +53,7 @@ function luckysheet_compareWith() {
         }
     }
     else{
-        tp = data_tp;
+        tp = stringToDateNumIfDateFormat(data_tp, data_fp);
     }
 
     if(valueIsError(fp)){
@@ -96,6 +98,17 @@ function luckysheet_compareWith() {
     }
     else if(sp == "/" && (tp == 0 || tp == null)){
         return error.d;
+    }
+
+    function stringToDateNumIfDateFormat(data, comparedCell) {
+        if (getObjType(data) === "string" && isdatetime(data) && getObjType(comparedCell.data) === "object" && comparedCell.data.ct?.t === "d") {
+            const generatedData = genarate(data);
+            if (generatedData?.[1]?.t === "d") {
+                return generatedData[2];
+            }
+        }
+
+        return data;
     }
 
     //计算result
