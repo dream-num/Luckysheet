@@ -777,6 +777,10 @@ const luckysheetMoreFormat = {
             "value": "€#,##0.00_);(€#,##0.00)"
         },
         {
+            "name": "1,234.56 €",
+            "value": "#,##0.00 €"
+        },
+        {
             "name": "1234.56",
             "value": "@"
         },
