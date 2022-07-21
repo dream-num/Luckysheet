@@ -8954,7 +8954,7 @@ export default {
 
         "noRangeError":"Cannot perform this operation on multiple selection areas, please select a single range and try again",
         "mergeError":"There are merged cells in the selection, this operation cannot be performed!",
-
+        "columnSortMergeError":"Column sorting will extend to the entire table selection. There are merged cells, this operation cannot be performed. Please use the sort feature in the toolbar.",
     },
     filter:{
        filter:"Create filter",

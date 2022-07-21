@@ -126,6 +126,7 @@ luckysheet.create = function (setting) {
     luckysheetConfigsetting.workbookCreateBefore = extendsetting.workbookCreateBefore;
     luckysheetConfigsetting.workbookCreateAfter = extendsetting.workbookCreateAfter;
     luckysheetConfigsetting.remoteFunction = extendsetting.remoteFunction;
+    luckysheetConfigsetting.customFunctions = extendsetting.customFunctions;
 
     luckysheetConfigsetting.fireMousedown = extendsetting.fireMousedown;
     luckysheetConfigsetting.forceCalculation = extendsetting.forceCalculation;
@@ -156,7 +157,7 @@ luckysheet.create = function (setting) {
     initPlugins(extendsetting.plugins , extendsetting.data);
 
     // Store formula information, including internationalization
-    functionlist();
+    functionlist(extendsetting.customFunctions);
 
     let devicePixelRatio = extendsetting.devicePixelRatio;
     if(devicePixelRatio == null){

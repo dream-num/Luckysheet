@@ -9130,7 +9130,7 @@ export default {
 
         "noRangeError": "不能對多重選擇區域執行此操作,請選擇單個區域,然後再試",
         "mergeError"  : "選區有合併儲存格,無法執行此操作！",
-
+        "columnSortMergeError": "列排序會擴展至整個表格選區，選區有合並單元格，無法執行此操作，請選擇功能欄排序功能！",
     },
     filter: {
         "filter"     : "篩選",

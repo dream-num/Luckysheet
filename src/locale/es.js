@@ -8939,7 +8939,7 @@ export default {
 
         "noRangeError":"No se puede realizar esta operación en múltiples áreas de selección, selecciona un solo rango e intenta nuevamente",
         "mergeError":"Hay celdas combinadas en la selección, ¡esta operación no se puede realizar!",
-
+        "columnSortMergeError":"La ordenación de las columnas se extiende a toda la selección de la tabla. Esta operación no puede realizarse si hay celdas fusionadas. Utilice la función de clasificación de la barra de herramientas.",
     },
     filter:{
        filter:"crear filtro", 

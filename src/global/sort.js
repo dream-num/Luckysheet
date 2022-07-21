@@ -213,6 +213,9 @@ function sortColumnSeletion(colIndex, isAsc) {
         isAsc = true;
     }
 
+    const _locale = locale();
+    const locale_sort = _locale.sort;
+
     let d = editor.deepCopyFlowData(Store.flowdata);
 
     let r1 = 0, r2 = d.length - 1;
@@ -267,10 +270,12 @@ function sortColumnSeletion(colIndex, isAsc) {
     if(hasMc){
         const msg = "Column sorting will extend to the entire table selection area. The selection area has merged cells. This operation cannot be performed. Please select the function column sorting function!"
         if(isEditMode()){
-            alert(msg);
+
+            alert(locale_sort.columnSortMergeError);
         }
         else{
-            tooltip.info(msg, "");
+            tooltip.info(locale_sort.columnSortMergeError, "");
+
         }
 
         return;
