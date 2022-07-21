@@ -450,10 +450,20 @@ const luckysheetSearchReplace = {
                                 }
                             }
                             else{
-                                if(~value.indexOf(searchText)){
-                                    if(!((r + "_" + c) in obj)){
-                                        obj[r + "_" + c] = 0;
-                                        arr.push({"r": r, "c": c});
+                                if(caseCheck){
+                                    if(~value.indexOf(searchText)){
+                                        if(!((r + "_" + c) in obj)){
+                                            obj[r + "_" + c] = 0;
+                                            arr.push({"r": r, "c": c});
+                                        }
+                                    }
+                                }
+                                else{
+                                    if(~value.toLowerCase().indexOf(searchText.toLowerCase())){
+                                        if(!((r + "_" + c) in obj)){
+                                            obj[r + "_" + c] = 0;
+                                            arr.push({"r": r, "c": c});
+                                        }
                                     }
                                 }
                             }
