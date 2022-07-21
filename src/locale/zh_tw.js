@@ -3217,6 +3217,7 @@ export default {
         't': 2,
         'd': '在儲存格內創建一個超連結。',
         'a': '在儲存格內創建一個超連結。',
+        "m": [2, 2],
         'p': [{
             'name'   : '網址',
             'detail' : '以引號括住的連結位置的完整網址,或對包含這種網址的儲存格的引用。\n\n僅允許某些連結類型。其中包括:http://、https://、mailto:、aim:、ftp://、gopher://、telnet://和news://,明確禁用使用其他協定。如果指定的是其他協定,將會在儲存格中顯示連結標籤,但該標籤不會以連結形式呈現。\n\n如果未指定協定,則假設使用http://,並將其作為網址的首碼。',
@@ -7784,409 +7785,6 @@ export default {
             'repeat' : 'n',
             'type'   : 'range'
             }]
-    }, {
-        "n": "AGE_BY_IDCARD",
-        "t": "3",
-        "d": "據中國身份證號計算出年齡。支持15位或18位身份證",
-        "a": "據中國身份證號計算出年齡",
-        "m": [1, 2],
-        "p": [{
-            "name"   : "身份證號",
-            "example": "A1",
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "截止日期",
-            "example": '"2017-10-01"',
-            "detail" : "年齡計算的截止日期或範圍,默認為當日。",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedatetime"
-        }]
-    },
-    // SEX_BY_IDCARD
-    {
-        "n": "SEX_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出性別。支持15位或18位身份證",
-        "a": "根據身份證號得到性別。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // BIRTHDAY_BY_IDCARD
-    {
-        "n": "BIRTHDAY_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出生日。支持15位或18位身份證",
-        "a": "根據身份證號得到生日。",
-        "m": [1, 2],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "生日格式",
-            "example": '0',
-            "detail" : "日期類型,默認0:[1900/01/01],1:[1900-01-01],2:[1900年1月1日]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // PROVINCE_BY_IDCARD
-    {
-        "n": "PROVINCE_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出籍貫的省份。支持15位或18位身份證",
-        "a": "根據身份證號得到籍貫的省份。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // CITY_BY_IDCARD
-    {
-        "n": "CITY_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出籍貫的都市。支持15位或18位身份證",
-        "a": "根據身份證號得到籍貫的都市。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // STAR_BY_IDCARD
-    {
-        "n": "STAR_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出星座。支持15位或18位身份證",
-        "a": "根據身份證號得到星座。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // ANIMAL_BY_IDCARD
-    {
-        "n": "ANIMAL_BY_IDCARD",
-        "t": "3",
-        "d": "根據中國身份證號計算出生肖（鼠、牛、虎、兔…）。支持15位或18位身份證",
-        "a": "根據身份證號得到生肖。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // ISIDCARD
-    {
-        "n": "ISIDCARD",
-        "t": "3",
-        "d": "驗證身份證的格式是否正確。支持15位或18位身份證",
-        "a": "驗證身份證格式正確性。",
-        "m": [1, 1],
-        "p": [{
-            "name"   : "身份證號",
-            "example": '"31033519900101XXXX"',
-            "detail" : "15位或者18位的身份證號或範圍。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }]
-    },
-    // DM_TEXT_CUTWORD
-    {
-        "n": "DM_TEXT_CUTWORD",
-        "t": "4",
-        "d": "文字分詞。把一連串文字折開為一系列單獨詞語",
-        "a": "中文文字分詞。",
-        "m": [1, 2],
-        "p": [{
-            "name"   : "文字",
-            "example": '"我來到北京清華大學"',
-            "detail" : "任意需要分詞的文字。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "分詞模式",
-            "example": '0',
-            "detail" : "默認為0[精確模式]，1[全模式]，2[搜尋引擎模式]。",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DM_TEXT_TFIDF
-    {
-        "n": "DM_TEXT_TFIDF",
-        "t": "4",
-        "d": "採用tf-idf算灋進行關鍵字選取。從一連串文字中識別關鍵字",
-        "a": "tf-idf關鍵字識別。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "文字",
-            "example": '"我來到北京清華大學"',
-            "detail" : "任意需要分詞的文字。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "關鍵字個數",
-            "example": '20',
-            "detail" : "算灋返回的關鍵字個數，默認20",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }, {
-            "name"   : "語料庫",
-            "example": '1',
-            "detail" : "選擇特定領域的語料庫，默認0[通用]，1[金融]，2[醫療]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DM_TEXT_TEXTRANK
-    {
-        "n": "DM_TEXT_TEXTRANK",
-        "t": "4",
-        "d": "採用TextRank算灋進行關鍵字選取。從一連串文字中識別關鍵字",
-        "a": "TextRank關鍵字識別。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "文字",
-            "example": '"我來到北京清華大學"',
-            "detail" : "任意需要分詞的文字。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "關鍵字個數",
-            "example": '20',
-            "detail" : "算灋返回的關鍵字個數，默認20",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }, {
-            "name"   : "語料庫",
-            "example": '1',
-            "detail" : "選擇特定領域的語料庫，默認0[通用]，1[金融]，2[醫療]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_CLOSE
-    {
-        "n": "DATA_CN_STOCK_CLOSE",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票收盤價。",
-        "a": "返回A股對應股票收盤價。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日，默認為最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_OPEN
-    {
-        "n": "DATA_CN_STOCK_OPEN",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票開盤價。",
-        "a": "返回A股對應股票開盤價。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日，默認為最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_MAX
-    {
-        "n": "DATA_CN_STOCK_MAX",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票最高價。",
-        "a": "返回A股對應股票最高價。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日，默認為最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_MIN
-    {
-        "n": "DATA_CN_STOCK_MIN",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票最低價。",
-        "a": "返回A股對應股票最低價。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日,默认为最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_VOLUMN
-    {
-        "n": "DATA_CN_STOCK_VOLUMN",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票成交量。",
-        "a": "返回A股對應股票成交量。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日，默認為最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_AMOUNT
-    {
-        "n": "DATA_CN_STOCK_AMOUNT",
-        "t": "5",
-        "d": "根據股票代碼和日期，返回A股對應股票成交額。",
-        "a": "返回A股對應股票成交額。",
-        "m": [1, 3],
-        "p": [{
-            "name"   : "股票代碼",
-            "example": '"000001"',
-            "detail" : "6位股票代碼，必填項。",
-            "require": "m",
-            "repeat" : "n",
-            "type"   : "rangeall"
-        }, {
-            "name"   : "日期",
-            "example": '2015-01-08',
-            "detail" : "股票的交易日，默認為最新交易日",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangedate"
-        }, {
-            "name"   : "複權除權",
-            "example": '0',
-            "detail" : "選擇股票的除權複權類型，默認0[前複權]，1[原始價格]，2[後複權]",
-            "require": "o",
-            "repeat" : "n",
-            "type"   : "rangenumber"
-        }]
     },
     // ISDATE
     {
@@ -9156,6 +8754,9 @@ export default {
         moreNumber   : '更多數位格式',
         titleCurrency: '貨幣格式',
         decimalPlaces: '小數位數',
+        decimalSeparator: '小数分隔符',
+        optionComma: '逗號 (,)',
+        optionPoint: '點 (.)',
         titleDateTime: '日期與時間格式',
         titleNumber  : '數位格式'
     },
@@ -9349,17 +8950,19 @@ export default {
         { "text": '自動', "value": "General", "example": "" },
         { "text": '純文字', "value": "@", "example": "" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '數位', "value": "##0.00", "example": "1000.12" },
+        { "text": '數位 (.)', "value": "##0.00", "example": "1000.12" },
+        { "text": '數位 (,)', "value": "##0,00", "example": "1000,12" },
         { "text": '百分比', "value": "#0.00%", "example": "12.21%" },
         { "text": '科學計數', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '會計', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": '會計', "value": "$(0.00)", "example": "$(1200.09)" },
         //{ "text": "財務", "value": "(#.####)", "example": "(1200.09)" },
         { "text": '萬元', "value": "w", "example": "1亿2000万2500" },
-        { "text": '貨幣', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": '貨幣', "value": "$0.00", "example": "$1200.09" },
         //{ "text": "貨幣整數", "value": "¥####", "example": "¥1200" },
         { "text": '萬元2位小數', "value": "w0.00", "example": "2万2500.55" },
         { "text": "", "value": "split", "example": "" },
+        { "text": 'Date (.)', "value": "dd\".\"MM\".\"yyyy", "example": "28.10.2021" },
         { "text": '日期', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": '時間', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": '時間24H', "value": "hh:mm", "example": "15:00" },
@@ -9370,6 +8973,10 @@ export default {
     ],
     dateFmtList: [
         {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
+        {
             "name" : "1930-08-05",
             "value": "yyyy-MM-dd"
         },
@@ -9378,8 +8985,20 @@ export default {
             "value": "yyyy/MM/dd"
         },
         {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy\".\""
+        },
+        {
             "name" : "1930年8月5日",
             "value": 'yyyy"年"M"月"d"日"'
+        },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
+        {
+            "name": "2021\".\"08\".\"25",
+            "value": "yyyy\".\"MM\".\"dd"
         },
         {
             "name" : "08-05",
@@ -9515,7 +9134,6 @@ export default {
     },
     filter: {
         "filter"     : "篩選",
-        "clearFilter": "清除篩選",
 
         sortByAsc        : "以A-Z昇冪排列",
         sortByDesc       : "以Z-A降序排列",
@@ -10240,7 +9858,7 @@ export default {
 
         checkPasswordSucceedalert: "解鎖成功,可以編輯該區域!",
         defaultRangeHintText     : "該儲存格正在受密碼保護",
-        defaultSheetHintText     : "該儲存格或圖表位於受保護的工作表中,若要進行更改,請取消工作表保護,您可能需要輸入密碼。",
+        defaultSheetHintText     : "該儲存格或圖表位於受保護的工作表中,若要進行更改,請取消工作表保護",
     },
     cellFormat: {
         cellFormatTitle     : "設定儲存格格式",

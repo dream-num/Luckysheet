@@ -1,3 +1,4 @@
+import "jquery-mousewheel";
 import mobileinit from './mobile';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetFreezen from './freezen';
@@ -19,7 +20,7 @@ import luckysheetsizeauto from './resize';
 import { 
     luckysheetMoveHighlightCell, 
 } from './sheetMove';
-import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show,selectHelpboxFill } from './select';
+import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show } from './select';
 import selection from './selection';
 import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
@@ -27,6 +28,7 @@ import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
 import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
 import { openCellFormatModel } from './cellFormat';
+import DOMPurify from "dompurify";
 
 import { 
     replaceHtml,
@@ -66,11 +68,13 @@ import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
 import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
+import escapeHtml from "escape-html";
+import unescapeHtml from "unescape-html";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
 
-    const os = browser.detectOS(), isMobile = browser.mobilecheck();
+    const isMobile = browser.mobilecheck();
 
     //移动端
     if(isMobile){
@@ -104,7 +108,7 @@ export default function luckysheetHandler() {
 
     
 
-    $("#luckysheet-sheet-container-c").mousewheel(function (event, delta) {
+    $("#luckysheet-sheet-container-c").mousewheel(function (event) {
         let scrollNum = event.deltaFactor<40?1:(event.deltaFactor<80?2:3);
         let scrollLeft = $(this).scrollLeft();
         if(event.deltaY != 0){
@@ -136,17 +140,17 @@ export default function luckysheetHandler() {
     $("#luckysheet-cell-main").scroll(function () {
         
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
     const _locale = locale();
     const locale_drag = _locale.drag;
     const locale_info = _locale.info;
-    let prev, mousewheelArrayUniqueTimeout;
-    $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
+    let mousewheelArrayUniqueTimeout;
+    $("#luckysheet-grid-window-1").mousewheel(function (event) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-            scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+            scrollTop = Math.ceil($("#luckysheet-scrollbar-y").scrollTop());
         let visibledatacolumn_c = Store.visibledatacolumn, 
             visibledatarow_c = Store.visibledatarow;
 
@@ -183,7 +187,7 @@ export default function luckysheetHandler() {
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
         // visibledatarow_c = ArrayUnique(visibledatarow_c);
 
-        let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
+        // let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
         if (luckysheetFreezen.freezenhorizontaldata != null) {
@@ -256,7 +260,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10); 
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
@@ -265,7 +269,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10);
     })
-    .mousewheel(function (event, delta) {
+    .mousewheel(function (event) {
         event.preventDefault();
     });
 
@@ -532,6 +536,8 @@ export default function luckysheetHandler() {
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText)
                     }
 
                     formula.rangestart = false;
@@ -605,7 +611,7 @@ export default function luckysheetHandler() {
 
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
-                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                    formula.setCaretPosition($span.get(0), 0, $span.html()?.length);
                 }, 1);
                 return;
             }
@@ -1144,7 +1150,6 @@ export default function luckysheetHandler() {
 
             let x = event.pageX;
             let y = event.pageY;
-            let data = Store.flowdata;
 
             let obj_s = Store.luckysheet_select_save[0];
 
@@ -2452,8 +2457,15 @@ export default function luckysheetHandler() {
                     if (left + myw + 22 + 36 > Store.chartparam.luckysheetCurrentChartMoveWinW) {
                         left = Store.chartparam.luckysheetCurrentChartMoveWinW - myw - 22 - 36;
                     }
+                    // black magic for chart with frozen cells on sheet
+                    if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
+                        top += 0.5;
+                        left += 0.5;
+                    }
 
                     Store.chartparam.luckysheetCurrentChartMoveObj.css({ "top": top, "left": left });
+                    Store.currentSheetChart.top = top
+                    Store.currentSheetChart.left = left
 
                     if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
                         luckysheetFreezen.scrollAdapt();
@@ -2529,6 +2541,10 @@ export default function luckysheetHandler() {
                     Store.chartparam.luckysheetCurrentChartResizeObj.css(resizedata);
                     // resize chart
                     Store.resizeChart(Store.chartparam.luckysheetCurrentChart)
+                    Store.currentSheetChart.top = top
+                    Store.currentSheetChart.left = left
+                    Store.currentSheetChart.height = height
+                    Store.currentSheetChart.width = width
                 }
                 //image move
                 else if (imageCtrl.move) {
@@ -5173,23 +5189,11 @@ export default function luckysheetHandler() {
 
         let $id = $(this).parent().attr("id");
         if ($id == "luckysheet-chart-rangeShow-content") {
-            if (chart_json.rangeRowCheck.exits) {
-                 row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
-            }
-            else {
-                 row_s = chart_json.rangeSplitArray.content.row[0];
-                 row_e = chart_json.rangeSplitArray.content.row[0];
-            }
+             row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
+             row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
 
-            if (chart_json.rangeColCheck.exits) {
-                 col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
-            }
-            else {
-                 col_s = chart_json.rangeSplitArray.content.column[0];
-                 col_e = chart_json.rangeSplitArray.content.column[1];
-            }
+             col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
+             col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
 
             Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }
@@ -5264,9 +5268,6 @@ export default function luckysheetHandler() {
 
     //表格格式处理
     menuButton.initialMenuButton();
-
-    let dpi_x = document.getElementById('testdpidiv').offsetWidth * Store.devicePixelRatio;
-    let dpi_y = document.getElementById('testdpidiv').offsetHeight * Store.devicePixelRatio;
 
     //粘贴事件处理
     $(document).on("paste.luckysheetEvent", function (e) {
@@ -5369,7 +5370,7 @@ export default function luckysheetHandler() {
                           }
                         }
                         else{
-                          if(cpDataArr[r - copy_r1][c - copy_c1] != v){
+                          if(unescapeHtml(cpDataArr[r - copy_r1][c - copy_c1]) != v){
                             isEqual = false;
                             break;
                           }
@@ -5380,7 +5381,6 @@ export default function luckysheetHandler() {
 
             const locale_fontjson = locale().fontjson;
 
-            
             // hook
             if(!method.createHookFunction('rangePasteBefore',Store.luckysheet_select_save,txtdata)){
                 return;
@@ -5402,7 +5402,7 @@ export default function luckysheetHandler() {
             }
             else {
                 if (txtdata.indexOf("table") > -1) {
-                    $("#luckysheet-copy-content").html(txtdata);
+                    $("#luckysheet-copy-content").html(DOMPurify.sanitize(txtdata));
 
                     let data = new Array($("#luckysheet-copy-content").find("table tr").length);
                     let colLen = 0;
@@ -5665,7 +5665,6 @@ export default function luckysheetHandler() {
             let mobile = luckysheetConfigsetting.pageInfo.mobile;
             let frezon = luckysheetConfigsetting.pageInfo.frezon;
             let currentPage = luckysheetConfigsetting.pageInfo.currentPage;
-            let totalPage = luckysheetConfigsetting.pageInfo.totalPage;
             let pageUrl = luckysheetConfigsetting.pageInfo.pageUrl;
 
             

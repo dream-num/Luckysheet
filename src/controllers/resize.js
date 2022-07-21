@@ -109,9 +109,7 @@ export default function luckysheetsizeauto(isRefreshCanvas=true) {
         $("body").first().append(morediv);
     }
 
-    // $("#luckysheet-icon-morebtn-div").hide();
     $$("#luckysheet-icon-morebtn-div").style.visibility = 'hidden';
-    // $("#luckysheet-icon-morebtn-div > div").appendTo($("#luckysheet-wa-editor"));
 
     $("#luckysheet-icon-morebtn-div > div").each(function(){
         const $t = $(this)[0];

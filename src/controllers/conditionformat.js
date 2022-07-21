@@ -1,25 +1,26 @@
-import { getSheetIndex, getRangetxt } from '../methods/get';
-import { replaceHtml, getObjType, chatatABC } from '../utils/util';
+import {getSheetIndex, getRangetxt} from '../methods/get';
+import {replaceHtml, getObjType, chatatABC} from '../utils/util';
 import formula from '../global/formula';
-import { isRealNull, isEditMode } from '../global/validate';
+import {isRealNull, isEditMode} from '../global/validate';
 import tooltip from '../global/tooltip';
-import { luckysheetrefreshgrid } from '../global/refresh';
-import { getcellvalue } from '../global/getdata';
-import { genarate } from '../global/format';
-import { modelHTML, luckysheet_CFiconsImg } from './constant';
+import {luckysheetrefreshgrid} from '../global/refresh';
+import {getcellvalue} from '../global/getdata';
+import {genarate} from '../global/format';
+import {modelHTML, luckysheet_CFiconsImg} from './constant';
 import server from './server';
-import { selectionCopyShow } from './select';
+import {selectionCopyShow} from './select';
 import sheetmanage from './sheetmanage';
 import locale from '../locale/locale';
 import {checkProtectionFormatCells} from './protection';
 import Store from '../store';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import escapeHtml from "escape-html";
 
-//条件格式
+//Conditional Formatting
 const conditionformat = {
     fileClone: [],
-    editorRule: null, //{"sheetIndex": sheetIndex,"itemIndex": itemIndex,"data": luckysheetfile[sheetIndex].luckysheet_conditionformat_save[itemIndex]}
-    ruleTypeHtml: function(){
+    editorRule: null,
+    ruleTypeHtml: function () {
         const conditionformat_Text = locale().conditionformat;
 
         return `<div class="ruleTypeBox">
@@ -49,7 +50,7 @@ const conditionformat = {
                     </div>
                 </div>`;
     },
-    textCellColorHtml: function(){
+    textCellColorHtml: function () {
         const conditionformat_Text = locale().conditionformat;
 
         return `<div id="textCellColor">
@@ -68,65 +69,65 @@ const conditionformat = {
     selectRange: [],
     selectStatus: false,
     dataBarList: [
-        { "format": ["#638ec6", "#ffffff"] },  //蓝-白渐变 数据条
-        { "format": ["#63c384", "#ffffff"] },  //绿-白渐变 数据条
-        { "format": ["#ff555a", "#ffffff"] },  //红-白渐变 数据条
-        { "format": ["#ffb628", "#ffffff"] },  //橙-白渐变 数据条
-        { "format": ["#008aef", "#ffffff"] },  //浅蓝-白渐变 数据条
-        { "format": ["#d6007b", "#ffffff"] },  //紫-白渐变 数据条
+        {"format": ["#638ec6", "#ffffff"]},
+        {"format": ["#63c384", "#ffffff"]},
+        {"format": ["#ff555a", "#ffffff"]},
+        {"format": ["#ffb628", "#ffffff"]},
+        {"format": ["#008aef", "#ffffff"]},
+        {"format": ["#d6007b", "#ffffff"]},
 
-        { "format": ["#638ec6"] },  //蓝色 数据条
-        { "format": ["#63c384"] },  //绿色 数据条
-        { "format": ["#ff555a"] },  //红色 数据条
-        { "format": ["#ffb628"] },  //橙色 数据条
-        { "format": ["#008aef"] },  //浅蓝色 数据条
-        { "format": ["#d6007b"] }   //紫色 数据条
+        {"format": ["#638ec6"]},
+        {"format": ["#63c384"]},
+        {"format": ["#ff555a"]},
+        {"format": ["#ffb628"]},
+        {"format": ["#008aef"]},
+        {"format": ["#d6007b"]}
     ],
     colorGradationList: [
-        { "format": ["rgb(99, 190, 123)", "rgb(255, 235, 132)", "rgb(248, 105, 107)"] },  //绿-黄-红色阶
-        { "format": ["rgb(248, 105, 107)", "rgb(255, 235, 132)", "rgb(99, 190, 123)"] },  //红-黄-绿色阶
+        {"format": ["rgb(99, 190, 123)", "rgb(255, 235, 132)", "rgb(248, 105, 107)"]},
+        {"format": ["rgb(248, 105, 107)", "rgb(255, 235, 132)", "rgb(99, 190, 123)"]},
 
-        { "format": ["rgb(99, 190, 123)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //绿-白-红色阶
-        { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(99, 190, 123)"] },  //红-白-绿色阶
+        {"format": ["rgb(99, 190, 123)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"]},
+        {"format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(99, 190, 123)"]},
 
-        { "format": ["rgb(90, 138, 198)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //蓝-白-红色阶
-        { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(90, 138, 198)"] },  //红-白-蓝色阶
+        {"format": ["rgb(90, 138, 198)", "rgb(252, 252, 255)", "rgb(248, 105, 107)"]},
+        {"format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)", "rgb(90, 138, 198)"]},
 
-        { "format": ["rgb(252, 252, 255)", "rgb(248, 105, 107)"] },  //白-红色阶
-        { "format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)"] },  //红-白色阶
+        {"format": ["rgb(252, 252, 255)", "rgb(248, 105, 107)"]},
+        {"format": ["rgb(248, 105, 107)", "rgb(252, 252, 255)"]},
 
-        { "format": ["rgb(99, 190, 123)", "rgb(252, 252, 255)"] },  //绿-白色阶
-        { "format": ["rgb(252, 252, 255)", "rgb(99, 190, 123)"] },  //白-绿色阶
+        {"format": ["rgb(99, 190, 123)", "rgb(252, 252, 255)"]},
+        {"format": ["rgb(252, 252, 255)", "rgb(99, 190, 123)"]},
 
-        { "format": ["rgb(99, 190, 123)", "rgb(255, 235, 132)"] },  //绿-黄色阶
-        { "format": ["rgb(255, 235, 132)", "rgb(99, 190, 123)"] }   //黄-绿色阶
+        {"format": ["rgb(99, 190, 123)", "rgb(255, 235, 132)"]},
+        {"format": ["rgb(255, 235, 132)", "rgb(99, 190, 123)"]}   
     ],
-    init: function(){
+    init: function () {
         let _this = this;
 
         const conditionformat_Text = locale().conditionformat;
 
-        // 管理规则
-        $(document).off("change.CFchooseSheet").on("change.CFchooseSheet", "#luckysheet-administerRule-dialog .chooseSheet", function(){
+        // Management rules
+        $(document).off("change.CFchooseSheet").on("change.CFchooseSheet", "#luckysheet-administerRule-dialog .chooseSheet", function () {
             let index = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
             _this.getConditionRuleList(index);
         });
-        $(document).off("click.CFadministerRuleItem").on("click.CFadministerRuleItem", "#luckysheet-administerRule-dialog .ruleList .listBox .item", function(){
+        $(document).off("click.CFadministerRuleItem").on("click.CFadministerRuleItem", "#luckysheet-administerRule-dialog .ruleList .listBox .item", function () {
             $(this).addClass("on").siblings().removeClass("on");
         });
 
-        $(document).off("click.CFadministerRuleConfirm").on("click.CFadministerRuleConfirm", "#luckysheet-administerRule-dialog-confirm", function(){
-            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+        $(document).off("click.CFadministerRuleConfirm").on("click.CFadministerRuleConfirm", "#luckysheet-administerRule-dialog-confirm", function () {
+            if (!checkProtectionFormatCells(Store.currentSheetIndex)) {
                 return;
             }
 
-            //保存之前的规则
+            //Save the previous rules
             let fileH = $.extend(true, [], Store.luckysheetfile);
             let historyRules = _this.getHistoryRules(fileH);
 
-            //保存当前的规则
+            //Save current rules
             let fileClone = $.extend(true, [], _this.fileClone);
-            for(let c = 0; c < fileClone.length; c++){
+            for (let c = 0; c < fileClone.length; c++) {
                 let sheetIndex = fileClone[c]["index"];
                 Store.luckysheetfile[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"] = fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"];
             }
@@ -134,32 +135,32 @@ const conditionformat = {
             let fileC = $.extend(true, [], Store.luckysheetfile);
             let currentRules = _this.getCurrentRules(fileC);
 
-            //刷新一次表格
+            //Refresh the table once
             _this.ref(historyRules, currentRules);
 
-            //隐藏一些dom
+            //Hide some dom
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-administerRule-dialog").hide();
 
-            //发送给后台
-            if(server.allowUpdate){
+            //Send to background
+            if (server.allowUpdate) {
                 let files = $.extend(true, [], Store.luckysheetfile);
-                for(let i = 0; i < files.length; i++){
-                    server.saveParam("all", files[i]["index"], files[i]["luckysheet_conditionformat_save"], { "k": "luckysheet_conditionformat_save" });
+                for (let i = 0; i < files.length; i++) {
+                    server.saveParam("all", files[i]["index"], files[i]["luckysheet_conditionformat_save"], {"k": "luckysheet_conditionformat_save"});
                 }
             }
         });
 
-        $(document).off("click.CFadministerRuleClose").on("click.CFadministerRuleClose", "#luckysheet-administerRule-dialog-close", function(){
+        $(document).off("click.CFadministerRuleClose").on("click.CFadministerRuleClose", "#luckysheet-administerRule-dialog-close", function () {
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-administerRule-dialog").hide();
             _this.fileClone = [];
         });
-        $(document).off("click.CFadministerRuleFa").on("click.CFadministerRuleFa", "#luckysheet-administerRule-dialog .item .fa-table", function(){
+        $(document).off("click.CFadministerRuleFa").on("click.CFadministerRuleFa", "#luckysheet-administerRule-dialog .item .fa-table", function () {
             $(this).parents("#luckysheet-administerRule-dialog").hide();
 
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet select option:selected").val();
-            if(sheetIndex != Store.currentSheetIndex){
+            if (sheetIndex != Store.currentSheetIndex) {
                 sheetmanage.changeSheetExec(sheetIndex);
             }
 
@@ -171,8 +172,8 @@ const conditionformat = {
             _this.selectRange = [];
 
             let range = _this.getRangeByTxt(txt);
-            if(range.length > 0){
-                for(let s = 0; s < range.length; s++){
+            if (range.length > 0) {
+                for (let s = 0; s < range.length; s++) {
                     let r1 = range[s].row[0], r2 = range[s].row[1];
                     let c1 = range[s].column[0], c2 = range[s].column[1];
 
@@ -200,12 +201,12 @@ const conditionformat = {
 
             selectionCopyShow(_this.selectRange);
         });
-        $(document).off("click.CFmultiRangeConfirm").on("click.CFmultiRangeConfirm", "#luckysheet-multiRange-dialog-confirm", function(){
+        $(document).off("click.CFmultiRangeConfirm").on("click.CFmultiRangeConfirm", "#luckysheet-multiRange-dialog-confirm", function () {
             $(this).parents("#luckysheet-multiRange-dialog").hide();
 
             let dataItem = $(this).attr("data-item");
             let v = $(this).parents("#luckysheet-multiRange-dialog").find("input").val();
-            $("#luckysheet-administerRule-dialog .item[data-item="+dataItem+"] input").val(v);
+            $("#luckysheet-administerRule-dialog .item[data-item=" + dataItem + "] input").val(v);
 
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
             _this.fileClone[getSheetIndex(sheetIndex)]["luckysheet_conditionformat_save"][dataItem].cellrange = _this.getRangeByTxt(v);
@@ -216,7 +217,7 @@ const conditionformat = {
             let range = [];
             selectionCopyShow(range);
         });
-        $(document).off("click.CFmultiRangeClose").on("click.CFmultiRangeClose", "#luckysheet-multiRange-dialog-close", function(){
+        $(document).off("click.CFmultiRangeClose").on("click.CFmultiRangeClose", "#luckysheet-multiRange-dialog-close", function () {
             $(this).parents("#luckysheet-multiRange-dialog").hide();
             $("#luckysheet-modal-dialog-mask").show();
             $("#luckysheet-administerRule-dialog").show();
@@ -229,18 +230,17 @@ const conditionformat = {
             selectionCopyShow(range);
         });
 
-        // 新建规则
-        $(document).off("click.CFnewConditionRule").on("click.CFnewConditionRule", "#newConditionRule", function(){
+        // New rule
+        $(document).off("click.CFnewConditionRule").on("click.CFnewConditionRule", "#newConditionRule", function () {
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
-            if(!checkProtectionFormatCells(sheetIndex)){
+            if (!checkProtectionFormatCells(sheetIndex)) {
                 return;
             }
 
-            if(Store.luckysheet_select_save.length == 0){
-                if(isEditMode()){
+            if (Store.luckysheet_select_save.length == 0) {
+                if (isEditMode()) {
                     alert(conditionformat_Text.pleaseSelectRange);
-                }
-                else{
+                } else {
                     tooltip.info(conditionformat_Text.pleaseSelectRange, "");
                 }
                 return;
@@ -248,9 +248,9 @@ const conditionformat = {
 
             _this.newConditionRuleDialog(1);
         });
-        $(document).off("click.CFnewConditionRuleConfirm").on("click.CFnewConditionRuleConfirm", "#luckysheet-newConditionRule-dialog-confirm", function(){
+        $(document).off("click.CFnewConditionRuleConfirm").on("click.CFnewConditionRuleConfirm", "#luckysheet-newConditionRule-dialog-confirm", function () {
 
-            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+            if (!checkProtectionFormatCells(Store.currentSheetIndex)) {
                 return;
             }
 
@@ -259,14 +259,13 @@ const conditionformat = {
             let type2 = $("#luckysheet-newConditionRule-dialog ." + type1 + "Box #type2 option:selected").val();
 
             let format, rule;
-            if(index == 0){
-                if(type1 == "dataBar"){ //数据条
+            if (index == 0) {
+                if (type1 == "dataBar") {
                     let color = $(this).parents("#luckysheet-newConditionRule-dialog").find(".dataBarBox .luckysheet-conditionformat-config-color").spectrum("get").toHexString();
 
-                    if(type2 == "gradient"){ //渐变填充
+                    if (type2 == "gradient") {
                         format = [color, "#ffffff"];
-                    }
-                    else if(type2 == "solid"){ //实心填充
+                    } else if (type2 == "solid") {
                         format = [color];
                     }
 
@@ -275,16 +274,14 @@ const conditionformat = {
                         "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                         "format": format
                     };
-                }
-                else if(type1 == "colorGradation"){ //色阶
+                } else if (type1 == "colorGradation") { 
                     let maxcolor = $(this).parents("#luckysheet-newConditionRule-dialog").find(".colorGradationBox .maxVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
                     let midcolor = $(this).parents("#luckysheet-newConditionRule-dialog").find(".colorGradationBox .midVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
                     let mincolor = $(this).parents("#luckysheet-newConditionRule-dialog").find(".colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
 
-                    if(type2 == "threeColor"){ //三色
+                    if (type2 == "threeColor") { //三色
                         format = [maxcolor, midcolor, mincolor];
-                    }
-                    else if(type2 == "twoColor"){ //双色
+                    } else if (type2 == "twoColor") { //双色
                         format = [maxcolor, mincolor];
                     }
 
@@ -293,8 +290,7 @@ const conditionformat = {
                         "cellrange": $.extend(true, [], Store.luckysheet_select_save),
                         "format": format
                     };
-                }
-                else if(type1 == "icons"){ //图标集
+                } else if (type1 == "icons") { //图标集
                     let len = $(this).parents("#luckysheet-newConditionRule-dialog").find(".iconsBox .model").attr("data-len");
                     let leftMin = $(this).parents("#luckysheet-newConditionRule-dialog").find(".iconsBox .model").attr("data-leftmin");
                     let top = $(this).parents("#luckysheet-newConditionRule-dialog").find(".iconsBox .model").attr("data-top");
@@ -311,116 +307,101 @@ const conditionformat = {
                         "format": format
                     };
                 }
-            }
-            else{
+            } else {
                 let conditionName = "", conditionRange = [], conditionValue = [];
 
-                if(index == 1){
-                    if(type1 == "number"){ //单元格值
+                if (index == 1) {
+                    if (type1 == "number") { //单元格值
                         conditionName = type2;
 
-                        if(type2 == "betweenness"){
+                        if (type2 == "betweenness") {
                             let v1 = $("#luckysheet-newConditionRule-dialog #conditionVal input").val().trim();
                             let v2 = $("#luckysheet-newConditionRule-dialog #conditionVal2 input").val().trim();
 
                             //条件值是否是选区
                             let rangeArr1 = _this.getRangeByTxt(v1);
-                            if(rangeArr1.length > 1){
+                            if (rangeArr1.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr1.length == 1){
+                            } else if (rangeArr1.length == 1) {
                                 let r1 = rangeArr1[0].row[0], r2 = rangeArr1[0].row[1];
                                 let c1 = rangeArr1[0].column[0], c2 = rangeArr1[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    conditionRange.push({"row": rangeArr1[0].row, "column": rangeArr1[0].column});
                                     conditionValue.push(v1);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr1.length == 0){
-                                if(isNaN(v1) || v1 == ""){
+                            } else if (rangeArr1.length == 0) {
+                                if (isNaN(v1) || v1 == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v1);
                                 }
                             }
 
                             let rangeArr2 = _this.getRangeByTxt(v2);
-                            if(rangeArr2.length > 1){
+                            if (rangeArr2.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr2.length == 1){
+                            } else if (rangeArr2.length == 1) {
                                 let r1 = rangeArr2[0].row[0], r2 = rangeArr2[0].row[1];
                                 let c1 = rangeArr2[0].column[0], c2 = rangeArr2[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                                    conditionRange.push({"row": rangeArr2[0].row, "column": rangeArr2[0].column});
                                     conditionValue.push(v2);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr2.length == 0){
-                                if(isNaN(v2) || v2 == ""){
+                            } else if (rangeArr2.length == 0) {
+                                if (isNaN(v2) || v2 == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v2);
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             //条件值
                             let v = $("#luckysheet-newConditionRule-dialog #conditionVal input").val().trim();
 
                             //条件值是否是选区
                             let rangeArr = _this.getRangeByTxt(v);
-                            if(rangeArr.length > 1){
+                            if (rangeArr.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr.length == 1){
+                            } else if (rangeArr.length == 1) {
                                 let r1 = rangeArr[0].row[0], r2 = rangeArr[0].row[1];
                                 let c1 = rangeArr[0].column[0], c2 = rangeArr[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
+                                    conditionRange.push({"row": rangeArr[0].row, "column": rangeArr[0].column});
                                     conditionValue.push(v);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr.length == 0){
-                                if(isNaN(v) || v == ""){
+                            } else if (rangeArr.length == 0) {
+                                if (isNaN(v) || v == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v);
                                 }
                             }
                         }
-                    }
-                    else if(type1 == "text"){ //特定文本
+                    } else if (type1 == "text") { //特定文本
                         conditionName = "textContains";
 
                         //条件值
@@ -428,64 +409,55 @@ const conditionformat = {
 
                         //条件值是否是选区
                         let rangeArr = _this.getRangeByTxt(v);
-                        if(rangeArr.length > 1){
+                        if (rangeArr.length > 1) {
                             _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                             return;
-                        }
-                        else if(rangeArr.length == 1){
+                        } else if (rangeArr.length == 1) {
                             let r1 = rangeArr[0].row[0], r2 = rangeArr[0].row[1];
                             let c1 = rangeArr[0].column[0], c2 = rangeArr[0].column[1];
 
-                            if(r1 == r2 && c1 == c2){
+                            if (r1 == r2 && c1 == c2) {
                                 v = getcellvalue(r1, c1, Store.flowdata);
 
-                                conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
+                                conditionRange.push({"row": rangeArr[0].row, "column": rangeArr[0].column});
                                 conditionValue.push(v);
-                            }
-                            else{
+                            } else {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
-                        }
-                        else if(rangeArr.length == 0){
-                            if(v == ""){
+                        } else if (rangeArr.length == 0) {
+                            if (v == "") {
                                 _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                 return;
-                            }
-                            else{
+                            } else {
                                 conditionValue.push(v);
                             }
                         }
-                    }
-                    else if(type1 == "date"){ //发生日期
+                    } else if (type1 == "date") { //发生日期
                         conditionName = "occurrenceDate";
 
                         //条件值
                         let v = $("#luckysheet-newConditionRule-dialog #daterange-btn").val();
 
-                        if(v == "" || v == null){
+                        if (v == "" || v == null) {
                             _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
 
                         conditionValue.push(v);
                     }
-                }
-                else if(index == 2){ //排名靠前靠后
+                } else if (index == 2) { //排名靠前靠后
                     //条件名称
-                    if(type1 == "top"){
-                        if($("#luckysheet-newConditionRule-dialog #isPercent").is(":selected")){
+                    if (type1 == "top") {
+                        if ($("#luckysheet-newConditionRule-dialog #isPercent").is(":selected")) {
                             conditionName = "top10%";
-                        }
-                        else{
+                        } else {
                             conditionName = "top10";
                         }
-                    }
-                    else if(type1 == "last"){
-                        if($("#luckysheet-newConditionRule-dialog #isPercent").is(":selected")){
+                    } else if (type1 == "last") {
+                        if ($("#luckysheet-newConditionRule-dialog #isPercent").is(":selected")) {
                             conditionName = "last10%";
-                        }
-                        else{
+                        } else {
                             conditionName = "last10";
                         }
                     }
@@ -493,34 +465,30 @@ const conditionformat = {
                     //条件值
                     let v = $("#luckysheet-newConditionRule-dialog #conditionVal input").val().trim();
 
-                    if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
+                    if (parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000) {
                         _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
 
                     conditionValue.push(parseInt(v));
-                }
-                else if(index == 3){ //平均值
-                    if(type1 == "AboveAverage"){
+                } else if (index == 3) { //平均值
+                    if (type1 == "AboveAverage") {
                         conditionName = "AboveAverage";
                         conditionValue.push("AboveAverage");
-                    }
-                    else if(type1 == "SubAverage"){
+                    } else if (type1 == "SubAverage") {
                         conditionName = "SubAverage";
                         conditionValue.push("SubAverage");
                     }
-                }
-                else if(index == 4){ //重复值
+                } else if (index == 4) { //重复值
                     conditionName = "duplicateValue";
                     conditionValue.push(type1);
-                }
-                else if(index == 5){ //公式
+                } else if (index == 5) { //公式
                     conditionName = "formula";
 
                     //条件值
-                    let v = $("#luckysheet-newConditionRule-dialog #formulaConditionVal input").val().trim(); 
+                    let v = $("#luckysheet-newConditionRule-dialog #formulaConditionVal input").val().trim();
 
-                    if(v == ""){
+                    if (v == "") {
                         _this.infoDialog("Condition value cannot be empty!", "");
                         return;
                     }
@@ -530,18 +498,16 @@ const conditionformat = {
 
                 //格式颜色
                 let textcolor;
-                if($("#luckysheet-newConditionRule-dialog #checkTextColor").is(":checked")){
+                if ($("#luckysheet-newConditionRule-dialog #checkTextColor").is(":checked")) {
                     textcolor = $("#luckysheet-newConditionRule-dialog #textcolorshow").spectrum("get").toHexString();
-                }
-                else{
+                } else {
                     textcolor = null;
                 }
 
                 let cellcolor;
-                if($("#luckysheet-newConditionRule-dialog #checkCellColor").is(":checked")){
+                if ($("#luckysheet-newConditionRule-dialog #checkCellColor").is(":checked")) {
                     cellcolor = $("#luckysheet-newConditionRule-dialog #cellcolorshow").spectrum("get").toHexString();
-                }
-                else{
+                } else {
                     cellcolor = null;
                 }
 
@@ -565,7 +531,7 @@ const conditionformat = {
             //新建规则的入口
             let source = $(this).attr("data-source");
 
-            if(source == 0){
+            if (source == 0) {
                 $("#luckysheet-modal-dialog-mask").hide();
 
                 //保存之前的规则
@@ -584,11 +550,10 @@ const conditionformat = {
                 _this.ref(historyRules, currentRules);
 
                 //发送给后台
-                if(server.allowUpdate){
-                    server.saveParam("all", Store.currentSheetIndex, ruleArr, { "k": "luckysheet_conditionformat_save" });
+                if (server.allowUpdate) {
+                    server.saveParam("all", Store.currentSheetIndex, ruleArr, {"k": "luckysheet_conditionformat_save"});
                 }
-            }
-            else if(source == 1){
+            } else if (source == 1) {
                 //临时存储新规则
                 let ruleArr = !!_this.fileClone[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] ? _this.fileClone[getSheetIndex(Store.currentSheetIndex)]["luckysheet_conditionformat_save"] : [];
                 ruleArr.push(rule);
@@ -598,13 +563,13 @@ const conditionformat = {
                 _this.administerRuleDialog();
             }
         });
-        $(document).off("click.CFnewConditionRuleClose").on("click.CFnewConditionRuleClose", "#luckysheet-newConditionRule-dialog-close", function(){
+        $(document).off("click.CFnewConditionRuleClose").on("click.CFnewConditionRuleClose", "#luckysheet-newConditionRule-dialog-close", function () {
             //新建规则的入口
             let source = $(this).attr("data-source");
-            if(source == 0){
+            if (source == 0) {
                 $("#luckysheet-modal-dialog-mask").hide();
             }
-            if(source == 1){
+            if (source == 1) {
                 $("#luckysheet-administerRule-dialog").show();
             }
 
@@ -618,11 +583,11 @@ const conditionformat = {
         });
 
         // 编辑规则
-        $(document).off("click.CFeditorConditionRule").on("click.CFeditorConditionRule", "#editorConditionRule", function(){
+        $(document).off("click.CFeditorConditionRule").on("click.CFeditorConditionRule", "#editorConditionRule", function () {
 
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
 
-            if(!checkProtectionFormatCells(sheetIndex)){
+            if (!checkProtectionFormatCells(sheetIndex)) {
                 return;
             }
 
@@ -636,7 +601,7 @@ const conditionformat = {
             _this.editorRule = rule;
             _this.editorConditionRuleDialog();
         });
-        $(document).off("click.CFeditorConditionRuleConfirm").on("click.CFeditorConditionRuleConfirm", "#luckysheet-editorConditionRule-dialog-confirm",function(){
+        $(document).off("click.CFeditorConditionRuleConfirm").on("click.CFeditorConditionRuleConfirm", "#luckysheet-editorConditionRule-dialog-confirm", function () {
             let index = $("#luckysheet-editorConditionRule-dialog .ruleTypeItem.on").index();
             let type1 = $("#luckysheet-editorConditionRule-dialog #type1 option:selected").val();
             let type2 = $("#luckysheet-editorConditionRule-dialog ." + type1 + "Box #type2 option:selected").val();
@@ -644,14 +609,13 @@ const conditionformat = {
             let cellrange = _this.editorRule["data"].cellrange;
 
             let format, rule;
-            if(index == 0){
-                if(type1 == "dataBar"){ //数据条
+            if (index == 0) {
+                if (type1 == "dataBar") { //数据条
                     let color = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".dataBarBox .luckysheet-conditionformat-config-color").spectrum("get").toHexString();
 
-                    if(type2 == "gradient"){ //渐变填充
+                    if (type2 == "gradient") { //渐变填充
                         format = [color, "#ffffff"];
-                    }
-                    else if(type2 == "solid"){ //实心填充
+                    } else if (type2 == "solid") { //实心填充
                         format = [color];
                     }
 
@@ -660,16 +624,14 @@ const conditionformat = {
                         "cellrange": cellrange,
                         "format": format
                     };
-                }
-                else if(type1 == "colorGradation"){ //色阶
+                } else if (type1 == "colorGradation") { //色阶
                     let maxcolor = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".colorGradationBox .maxVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
                     let midcolor = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".colorGradationBox .midVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
                     let mincolor = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("get").toRgbString();
 
-                    if(type2 == "threeColor"){ //三色
+                    if (type2 == "threeColor") { //三色
                         format = [maxcolor, midcolor, mincolor];
-                    }
-                    else if(type2 == "twoColor"){ //双色
+                    } else if (type2 == "twoColor") { //双色
                         format = [maxcolor, mincolor];
                     }
 
@@ -678,8 +640,7 @@ const conditionformat = {
                         "cellrange": cellrange,
                         "format": format
                     };
-                }
-                else if(type1 == "icons"){ //图标集
+                } else if (type1 == "icons") { //图标集
                     let len = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".iconsBox .model").attr("data-len");
                     let leftMin = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".iconsBox .model").attr("data-leftmin");
                     let top = $(this).parents("#luckysheet-editorConditionRule-dialog").find(".iconsBox .model").attr("data-top");
@@ -696,116 +657,101 @@ const conditionformat = {
                         "format": format
                     };
                 }
-            }
-            else{
+            } else {
                 let conditionName = "", conditionRange = [], conditionValue = [];
 
-                if(index == 1){
-                    if(type1 == "number"){ //单元格值
+                if (index == 1) {
+                    if (type1 == "number") { //单元格值
                         conditionName = type2;
 
-                        if(type2 == "betweenness"){
+                        if (type2 == "betweenness") {
                             let v1 = $("#luckysheet-editorConditionRule-dialog #conditionVal input").val().trim();
                             let v2 = $("#luckysheet-editorConditionRule-dialog #conditionVal2 input").val().trim();
 
                             //条件值是否是选区
                             let rangeArr1 = _this.getRangeByTxt(v1);
-                            if(rangeArr1.length > 1){
+                            if (rangeArr1.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr1.length == 1){
+                            } else if (rangeArr1.length == 1) {
                                 let r1 = rangeArr1[0].row[0], r2 = rangeArr1[0].row[1];
                                 let c1 = rangeArr1[0].column[0], c2 = rangeArr1[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    conditionRange.push({"row": rangeArr1[0].row, "column": rangeArr1[0].column});
                                     conditionValue.push(v1);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr1.length == 0){
-                                if(isNaN(v1) || v1 == ""){
+                            } else if (rangeArr1.length == 0) {
+                                if (isNaN(v1) || v1 == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v1);
                                 }
                             }
 
                             let rangeArr2 = _this.getRangeByTxt(v2);
-                            if(rangeArr2.length > 1){
+                            if (rangeArr2.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr2.length == 1){
+                            } else if (rangeArr2.length == 1) {
                                 let r1 = rangeArr2[0].row[0], r2 = rangeArr2[0].row[1];
                                 let c1 = rangeArr2[0].column[0], c2 = rangeArr2[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                                    conditionRange.push({"row": rangeArr2[0].row, "column": rangeArr2[0].column});
                                     conditionValue.push(v2);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr2.length == 0){
-                                if(isNaN(v2) || v2 == ""){
+                            } else if (rangeArr2.length == 0) {
+                                if (isNaN(v2) || v2 == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v2);
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             //条件值
                             let v = $("#luckysheet-editorConditionRule-dialog #conditionVal input").val().trim();
 
                             //条件值是否是选区
                             let rangeArr = _this.getRangeByTxt(v);
-                            if(rangeArr.length > 1){
+                            if (rangeArr.length > 1) {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
-                            }
-                            else if(rangeArr.length == 1){
+                            } else if (rangeArr.length == 1) {
                                 let r1 = rangeArr[0].row[0], r2 = rangeArr[0].row[1];
                                 let c1 = rangeArr[0].column[0], c2 = rangeArr[0].column[1];
 
-                                if(r1 == r2 && c1 == c2){
+                                if (r1 == r2 && c1 == c2) {
                                     v = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
+                                    conditionRange.push({"row": rangeArr[0].row, "column": rangeArr[0].column});
                                     conditionValue.push(v);
-                                }
-                                else{
+                                } else {
                                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                     return;
                                 }
-                            }
-                            else if(rangeArr.length == 0){
-                                if(isNaN(v) || v == ""){
+                            } else if (rangeArr.length == 0) {
+                                if (isNaN(v) || v == "") {
                                     _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                     return;
-                                }
-                                else{
+                                } else {
                                     conditionValue.push(v);
                                 }
                             }
                         }
-                    }
-                    else if(type1 == "text"){ //特定文本
+                    } else if (type1 == "text") { //特定文本
                         conditionName = "textContains";
 
                         //条件值
@@ -813,64 +759,55 @@ const conditionformat = {
 
                         //条件值是否是选区
                         let rangeArr = _this.getRangeByTxt(v);
-                        if(rangeArr.length > 1){
+                        if (rangeArr.length > 1) {
                             _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                             return;
-                        }
-                        else if(rangeArr.length == 1){
+                        } else if (rangeArr.length == 1) {
                             let r1 = rangeArr[0].row[0], r2 = rangeArr[0].row[1];
                             let c1 = rangeArr[0].column[0], c2 = rangeArr[0].column[1];
 
-                            if(r1 == r2 && c1 == c2){
+                            if (r1 == r2 && c1 == c2) {
                                 v = getcellvalue(r1, c1, Store.flowdata);
 
-                                conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
+                                conditionRange.push({"row": rangeArr[0].row, "column": rangeArr[0].column});
                                 conditionValue.push(v);
-                            }
-                            else{
+                            } else {
                                 _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                                 return;
                             }
-                        }
-                        else if(rangeArr.length == 0){
-                            if(isNaN(v) || v == ""){
+                        } else if (rangeArr.length == 0) {
+                            if (isNaN(v) || v == "") {
                                 _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                                 return;
-                            }
-                            else{
+                            } else {
                                 conditionValue.push(v);
                             }
                         }
-                    }
-                    else if(type1 == "date"){ //发生日期
+                    } else if (type1 == "date") { //发生日期
                         conditionName = "occurrenceDate";
 
                         //条件值
                         let v = $("#luckysheet-editorConditionRule-dialog #daterange-btn").val();
 
-                        if(v == "" || v == null){
+                        if (v == "" || v == null) {
                             _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                             return;
                         }
 
                         conditionValue.push(v);
                     }
-                }
-                else if(index == 2){ //排名靠前靠后
+                } else if (index == 2) { //排名靠前靠后
                     //条件名称
-                    if(type1 == "top"){
-                        if($("#luckysheet-editorConditionRule-dialog #isPercent").is(":selected")){
+                    if (type1 == "top") {
+                        if ($("#luckysheet-editorConditionRule-dialog #isPercent").is(":selected")) {
                             conditionName = "top10%";
-                        }
-                        else{
+                        } else {
                             conditionName = "top10";
                         }
-                    }
-                    else if(type1 == "last"){
-                        if($("#luckysheet-editorConditionRule-dialog #isPercent").is(":selected")){
+                    } else if (type1 == "last") {
+                        if ($("#luckysheet-editorConditionRule-dialog #isPercent").is(":selected")) {
                             conditionName = "last10%";
-                        }
-                        else{
+                        } else {
                             conditionName = "last10";
                         }
                     }
@@ -878,34 +815,30 @@ const conditionformat = {
                     //条件值
                     let v = $("#luckysheet-editorConditionRule-dialog #conditionVal input").val().trim();
 
-                    if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
+                    if (parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000) {
                         _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                         return;
                     }
 
                     conditionValue.push(v);
-                }
-                else if(index == 3){ //平均值
-                    if(type1 == "AboveAverage"){
+                } else if (index == 3) { //平均值
+                    if (type1 == "AboveAverage") {
                         conditionName = "AboveAverage";
                         conditionValue.push("AboveAverage");
-                    }
-                    else if(type1 == "SubAverage"){
+                    } else if (type1 == "SubAverage") {
                         conditionName = "SubAverage";
                         conditionValue.push("SubAverage");
                     }
-                }
-                else if(index == 4){ //重复值
+                } else if (index == 4) { //重复值
                     conditionName = "duplicateValue";
                     conditionValue.push(type1);
-                }
-                else if(index == 5){ //公式
+                } else if (index == 5) { //公式
                     conditionName = "formula";
 
                     //条件值
-                    let v = $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val().trim(); 
-                    console.log(v)
-                    if(v == ""){
+                    let v = $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val().trim();
+
+                    if (v == "") {
                         _this.infoDialog("Condition value cannot be empty!", "");
                         return;
                     }
@@ -915,18 +848,16 @@ const conditionformat = {
 
                 //格式颜色
                 let textcolor;
-                if($("#luckysheet-editorConditionRule-dialog #checkTextColor").is(":checked")){
+                if ($("#luckysheet-editorConditionRule-dialog #checkTextColor").is(":checked")) {
                     textcolor = $("#luckysheet-editorConditionRule-dialog #textcolorshow").spectrum("get").toHexString();
-                }
-                else{
+                } else {
                     textcolor = null;
                 }
 
                 let cellcolor;
-                if($("#luckysheet-editorConditionRule-dialog #checkCellColor").is(":checked")){
+                if ($("#luckysheet-editorConditionRule-dialog #checkCellColor").is(":checked")) {
                     cellcolor = $("#luckysheet-editorConditionRule-dialog #cellcolorshow").spectrum("get").toHexString();
-                }
-                else{
+                } else {
                     cellcolor = null;
                 }
 
@@ -954,7 +885,7 @@ const conditionformat = {
             $("#luckysheet-editorConditionRule-dialog").hide();
             _this.administerRuleDialog();
         });
-        $(document).off("click.CFeditorConditionRuleClose").on("click.CFeditorConditionRuleClose", "#luckysheet-editorConditionRule-dialog-close",function(){
+        $(document).off("click.CFeditorConditionRuleClose").on("click.CFeditorConditionRuleClose", "#luckysheet-editorConditionRule-dialog-close", function () {
             //编辑规则隐藏，管理规则显示
             $("#luckysheet-editorConditionRule-dialog").hide();
             $("#luckysheet-administerRule-dialog").show();
@@ -965,7 +896,7 @@ const conditionformat = {
         });
 
         // 新建规则、编辑规则 类型切换
-        $(document).off("click.CFnewEditorRuleItem").on("click.CFnewEditorRuleItem", ".luckysheet-newEditorRule-dialog .ruleTypeItem", function(){
+        $(document).off("click.CFnewEditorRuleItem").on("click.CFnewEditorRuleItem", ".luckysheet-newEditorRule-dialog .ruleTypeItem", function () {
             $(this).addClass("on").siblings().removeClass("on");
 
             let index = $(this).index();
@@ -973,47 +904,44 @@ const conditionformat = {
 
             _this.colorSelectInit();
         });
-        $(document).off("change.CFnewEditorRuleType1").on("change.CFnewEditorRuleType1", ".luckysheet-newEditorRule-dialog #type1", function(){
+        $(document).off("change.CFnewEditorRuleType1").on("change.CFnewEditorRuleType1", ".luckysheet-newEditorRule-dialog #type1", function () {
             let optionVal = $(this).find("option:selected").val();
 
-            if(optionVal == "dataBar" || optionVal == "colorGradation" || optionVal == "icons" || optionVal == "number" || optionVal == "text" || optionVal == "date"){
+            if (optionVal == "dataBar" || optionVal == "colorGradation" || optionVal == "icons" || optionVal == "number" || optionVal == "text" || optionVal == "date") {
                 $(this).parents(".luckysheet-newEditorRule-dialog").find("." + optionVal + "Box").show().siblings().hide();
             }
 
-            if(optionVal == "date"){
+            if (optionVal == "date") {
                 _this.daterangeInit($(this).parents(".luckysheet-newEditorRule-dialog").attr("id"));
             }
         });
-        $(document).off("change.CFnewEditorRuleType2").on("change.CFnewEditorRuleType2", ".luckysheet-newEditorRule-dialog #type2", function(){
+        $(document).off("change.CFnewEditorRuleType2").on("change.CFnewEditorRuleType2", ".luckysheet-newEditorRule-dialog #type2", function () {
             let type1 = $(this).parents(".luckysheet-newEditorRule-dialog").find("#type1 option:selected").val();
 
-            if(type1 == "colorGradation"){
+            if (type1 == "colorGradation") {
                 let type2 = $(this).find("option:selected").val();
 
-                if(type2 == "threeColor"){
+                if (type2 == "threeColor") {
                     $(this).parents(".luckysheet-newEditorRule-dialog").find(".midVal").show();
-                }
-                else{
+                } else {
                     $(this).parents(".luckysheet-newEditorRule-dialog").find(".midVal").hide();
                 }
-            }
-            else if(type1 == "number"){
+            } else if (type1 == "number") {
                 let type2 = $(this).find("option:selected").val();
 
-                if(type2 == "betweenness"){
+                if (type2 == "betweenness") {
                     $(this).parents(".luckysheet-newEditorRule-dialog").find(".txt").show();
                     $(this).parents(".luckysheet-newEditorRule-dialog").find("#conditionVal2").show();
-                }
-                else{
+                } else {
                     $(this).parents(".luckysheet-newEditorRule-dialog").find(".txt").hide();
                     $(this).parents(".luckysheet-newEditorRule-dialog").find("#conditionVal2").hide();
                 }
             }
         });
-        $(document).off("click.CFiconsShowbox").on("click.CFiconsShowbox", ".luckysheet-newEditorRule-dialog .iconsBox .showbox", function(){
+        $(document).off("click.CFiconsShowbox").on("click.CFiconsShowbox", ".luckysheet-newEditorRule-dialog .iconsBox .showbox", function () {
             $(this).parents(".iconsBox").find("ul").toggle();
         });
-        $(document).off("click.CFiconsLi").on("click.CFiconsLi", ".luckysheet-newEditorRule-dialog .iconsBox li", function(){
+        $(document).off("click.CFiconsLi").on("click.CFiconsLi", ".luckysheet-newEditorRule-dialog .iconsBox li", function () {
             let len = $(this).find("div").attr("data-len");
             let leftmin = $(this).find("div").attr("data-leftmin");
             let top = $(this).find("div").attr("data-top");
@@ -1030,10 +958,10 @@ const conditionformat = {
         });
 
         // 删除规则
-        $(document).off("click.CFdeleteConditionRule").on("click.CFdeleteConditionRule", "#deleteConditionRule", function(){
+        $(document).off("click.CFdeleteConditionRule").on("click.CFdeleteConditionRule", "#deleteConditionRule", function () {
             let sheetIndex = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
 
-            if(!checkProtectionFormatCells(sheetIndex)){
+            if (!checkProtectionFormatCells(sheetIndex)) {
                 return;
             }
 
@@ -1043,9 +971,9 @@ const conditionformat = {
         });
 
         // 规则子菜单弹出层 点击确定修改样式
-        $(document).off("click.CFdefault").on("click.CFdefault", "#luckysheet-conditionformat-dialog-confirm", function(){
+        $(document).off("click.CFdefault").on("click.CFdefault", "#luckysheet-conditionformat-dialog-confirm", function () {
 
-            if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+            if (!checkProtectionFormatCells(Store.currentSheetIndex)) {
                 return;
             }
 
@@ -1057,149 +985,129 @@ const conditionformat = {
 
             //条件值
             let conditionValue = [];
-            if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains"){
+            if (conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains") {
                 let v = $("#luckysheet-conditionformat-dialog #conditionVal").val().trim();
 
                 //条件值是否是选区
                 let rangeArr = _this.getRangeByTxt(v);
-                if(rangeArr.length > 1){
+                if (rangeArr.length > 1) {
                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
-                }
-                else if(rangeArr.length == 1){
+                } else if (rangeArr.length == 1) {
                     let r1 = rangeArr[0].row[0], r2 = rangeArr[0].row[1];
                     let c1 = rangeArr[0].column[0], c2 = rangeArr[0].column[1];
 
-                    if(r1 == r2 && c1 == c2){
+                    if (r1 == r2 && c1 == c2) {
                         v = getcellvalue(r1, c1, Store.flowdata);
 
-                        conditionRange.push({ "row": rangeArr[0].row, "column": rangeArr[0].column });
+                        conditionRange.push({"row": rangeArr[0].row, "column": rangeArr[0].column});
                         conditionValue.push(v);
-                    }
-                    else{
+                    } else {
                         _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
-                }
-                else if(rangeArr.length == 0){
-                    if(isNaN(v) || v == ""){
+                } else if (rangeArr.length == 0) {
+                    if (isNaN(v) || v == "") {
                         _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
-                    }
-                    else{
+                    } else {
                         conditionValue.push(v);
                     }
                 }
-            }
-            else if(conditionName == "betweenness"){//介于
+            } else if (conditionName == "betweenness") {//介于
                 let v1 = $("#luckysheet-conditionformat-dialog #conditionVal").val().trim();
                 let v2 = $("#luckysheet-conditionformat-dialog #conditionVal2").val().trim();
 
                 //条件值是否是选区
                 let rangeArr1 = _this.getRangeByTxt(v1);
-                if(rangeArr1.length > 1){
+                if (rangeArr1.length > 1) {
                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
-                }
-                else if(rangeArr1.length == 1){
+                } else if (rangeArr1.length == 1) {
                     let r1 = rangeArr1[0].row[0], r2 = rangeArr1[0].row[1];
                     let c1 = rangeArr1[0].column[0], c2 = rangeArr1[0].column[1];
 
-                    if(r1 == r2 && c1 == c2){
+                    if (r1 == r2 && c1 == c2) {
                         v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                        conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                        conditionRange.push({"row": rangeArr1[0].row, "column": rangeArr1[0].column});
                         conditionValue.push(v1);
-                    }
-                    else{
+                    } else {
                         _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
-                }
-                else if(rangeArr1.length == 0){
-                    if(isNaN(v1) || v1 == ""){
+                } else if (rangeArr1.length == 0) {
+                    if (isNaN(v1) || v1 == "") {
                         _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
-                    }
-                    else{
+                    } else {
                         conditionValue.push(v1);
                     }
                 }
 
                 let rangeArr2 = _this.getRangeByTxt(v2);
-                if(rangeArr2.length > 1){
+                if (rangeArr2.length > 1) {
                     _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                     return;
-                }
-                else if(rangeArr2.length == 1){
+                } else if (rangeArr2.length == 1) {
                     let r1 = rangeArr2[0].row[0], r2 = rangeArr2[0].row[1];
                     let c1 = rangeArr2[0].column[0], c2 = rangeArr2[0].column[1];
 
-                    if(r1 == r2 && c1 == c2){
+                    if (r1 == r2 && c1 == c2) {
                         v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                        conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                        conditionRange.push({"row": rangeArr2[0].row, "column": rangeArr2[0].column});
                         conditionValue.push(v2);
-                    }
-                    else{
+                    } else {
                         _this.infoDialog(conditionformat_Text.onlySingleCell, "");
                         return;
                     }
-                }
-                else if(rangeArr2.length == 0){
-                    if(isNaN(v2) || v2 == ""){
+                } else if (rangeArr2.length == 0) {
+                    if (isNaN(v2) || v2 == "") {
                         _this.infoDialog(conditionformat_Text.conditionValueCanOnly, "");
                         return;
-                    }
-                    else{
+                    } else {
                         conditionValue.push(v2);
                     }
                 }
-            }
-            else if(conditionName == "occurrenceDate"){//日期
+            } else if (conditionName == "occurrenceDate") {//日期
                 let v = $("#luckysheet-conditionformat-dialog #daterange-btn").val();
 
-                if(v == "" || v == null){
+                if (v == "" || v == null) {
                     _this.infoDialog(conditionformat_Text.pleaseSelectADate, "");
                     return;
                 }
 
                 conditionValue.push(v);
-            }
-            else if(conditionName == "duplicateValue"){//重复值
+            } else if (conditionName == "duplicateValue") {//重复值
                 conditionValue.push($("#luckysheet-conditionformat-dialog #conditionVal option:selected").val());
-            }
-            else if(conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%"){
+            } else if (conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%") {
                 let v = $("#luckysheet-conditionformat-dialog #conditionVal").val().trim();
 
-                if(parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000){
+                if (parseInt(v) != v || parseInt(v) < 1 || parseInt(v) > 1000) {
                     _this.infoDialog(conditionformat_Text.pleaseEnterInteger, "");
                     return;
                 }
 
                 conditionValue.push(v);
-            }
-            else if(conditionName == "AboveAverage"){ //高于平均值
+            } else if (conditionName == "AboveAverage") { //高于平均值
                 conditionValue.push("AboveAverage");
-            }
-            else if(conditionName == "SubAverage"){ //低于平均值
+            } else if (conditionName == "SubAverage") { //低于平均值
                 conditionValue.push("SubAverage");
             }
 
             //格式颜色
             let textcolor;
-            if($("#checkTextColor").is(":checked")){
+            if ($("#checkTextColor").is(":checked")) {
                 textcolor = $("#textcolorshow").spectrum("get").toHexString();
-            }
-            else{
+            } else {
                 textcolor = null;
             }
 
             let cellcolor;
-            if($("#checkCellColor").is(":checked")){
+            if ($("#checkCellColor").is(":checked")) {
                 cellcolor = $("#cellcolorshow").spectrum("get").toHexString();
-            }
-            else{
+            } else {
                 cellcolor = null;
             }
 
@@ -1234,17 +1142,17 @@ const conditionformat = {
             $("#luckysheet-conditionformat-dialog").hide();
 
             //发送给后台
-            if(server.allowUpdate){
-                server.saveParam("all", Store.currentSheetIndex, ruleArr, { "k": "luckysheet_conditionformat_save" });
+            if (server.allowUpdate) {
+                server.saveParam("all", Store.currentSheetIndex, ruleArr, {"k": "luckysheet_conditionformat_save"});
             }
         });
 
         // 图标集弹出层 选择
-        $(document).off("click.CFicons").on("click.CFicons", "#luckysheet-CFicons-dialog .item", function(){
+        $(document).off("click.CFicons").on("click.CFicons", "#luckysheet-CFicons-dialog .item", function () {
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-CFicons-dialog").hide();
 
-            if(Store.luckysheet_select_save.length > 0){
+            if (Store.luckysheet_select_save.length > 0) {
                 let cellrange = $.extend(true, [], Store.luckysheet_select_save);
                 let format = {
                     "len": $(this).attr("data-len"),
@@ -1257,45 +1165,38 @@ const conditionformat = {
         });
 
         // 选择单元格
-        $(document).on("click", ".range .fa-table", function(){
+        $(document).on("click", ".range .fa-table", function () {
             let id = $(this).parents(".luckysheet-modal-dialog").attr("id");
             $("#" + id).hide();
             //入口
             let source;
-            
-            if(id == "luckysheet-conditionformat-dialog"){
+
+            if (id == "luckysheet-conditionformat-dialog") {
                 let $id = $(this).siblings("input").attr("id");
-                
-                if($id == "conditionVal"){
+
+                if ($id == "conditionVal") {
                     source = "0_1";
-                }
-                else{
+                } else {
                     source = "0_2";
                 }
-            }
-            else if(id == "luckysheet-newConditionRule-dialog"){
+            } else if (id == "luckysheet-newConditionRule-dialog") {
                 let $id = $(this).parents(".range").attr("id");
 
-                if($id == "formulaConditionVal"){
+                if ($id == "formulaConditionVal") {
                     source = "1_0";
-                }
-                else if($id == "conditionVal"){
+                } else if ($id == "conditionVal") {
                     source = "1_1";
-                }
-                else{
+                } else {
                     source = "1_2";
                 }
-            }
-            else if(id == "luckysheet-editorConditionRule-dialog"){
+            } else if (id == "luckysheet-editorConditionRule-dialog") {
                 let $id = $(this).parents(".range").attr("id");
 
-                if($id == "formulaConditionVal"){
+                if ($id == "formulaConditionVal") {
                     source = "2_0";
-                }
-                else if($id == "conditionVal"){
+                } else if ($id == "conditionVal") {
                     source = "2_1";
-                }
-                else{
+                } else {
                     source = "2_2";
                 }
             }
@@ -1305,42 +1206,35 @@ const conditionformat = {
             _this.singleRangeDialog(source, v);
             selectionCopyShow(_this.getRangeByTxt(v));
         });
-        $(document).on("click", "#luckysheet-singleRange-dialog-confirm", function(){
+        $(document).on("click", "#luckysheet-singleRange-dialog-confirm", function () {
             $("#luckysheet-modal-dialog-mask").show();
             $(this).parents("#luckysheet-singleRange-dialog").hide();
 
             let source = $(this).attr("data-source");
             let v = $(this).parents("#luckysheet-singleRange-dialog").find("input").val();
 
-            if(source == "0_1"){
+            if (source == "0_1") {
                 $("#luckysheet-conditionformat-dialog").show();
                 $("#luckysheet-conditionformat-dialog #conditionVal").val(v);
-            }
-            else if(source == "0_2"){
+            } else if (source == "0_2") {
                 $("#luckysheet-conditionformat-dialog").show();
                 $("#luckysheet-conditionformat-dialog #conditionVal2").val(v);
-            }
-            else if(source == "1_0"){
+            } else if (source == "1_0") {
                 $("#luckysheet-newConditionRule-dialog").show();
                 $("#luckysheet-newConditionRule-dialog #formulaConditionVal input").val(v);
-            }
-            else if(source == "1_1"){
+            } else if (source == "1_1") {
                 $("#luckysheet-newConditionRule-dialog").show();
                 $("#luckysheet-newConditionRule-dialog #conditionVal input").val(v);
-            }
-            else if(source == "1_2"){
+            } else if (source == "1_2") {
                 $("#luckysheet-newConditionRule-dialog").show();
                 $("#luckysheet-newConditionRule-dialog #conditionVal2 input").val(v);
-            }
-            else if(source == "2_0"){
+            } else if (source == "2_0") {
                 $("#luckysheet-editorConditionRule-dialog").show();
                 $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val(v);
-            }
-            else if(source == "2_1"){
+            } else if (source == "2_1") {
                 $("#luckysheet-editorConditionRule-dialog").show();
                 $("#luckysheet-editorConditionRule-dialog #conditionVal input").val(v);
-            }
-            else if(source == "2_2"){
+            } else if (source == "2_2") {
                 $("#luckysheet-editorConditionRule-dialog").show();
                 $("#luckysheet-editorConditionRule-dialog #conditionVal2 input").val(v);
             }
@@ -1348,18 +1242,16 @@ const conditionformat = {
             let range = [];
             selectionCopyShow(range);
         });
-        $(document).on("click", "#luckysheet-singleRange-dialog-close", function(){
+        $(document).on("click", "#luckysheet-singleRange-dialog-close", function () {
             $("#luckysheet-modal-dialog-mask").show();
             $(this).parents("#luckysheet-singleRange-dialog").hide();
 
             let source = $(this).attr("data-source");
-            if(source == "0_1" || source == "0_2"){
+            if (source == "0_1" || source == "0_2") {
                 $("#luckysheet-conditionformat-dialog").show();
-            }
-            else if(source == "1_0" || source == "1_1" || source == "1_2"){
+            } else if (source == "1_0" || source == "1_1" || source == "1_2") {
                 $("#luckysheet-newConditionRule-dialog").show();
-            }
-            else if(source == "2_0" || source == "2_1" || source == "2_2"){
+            } else if (source == "2_0" || source == "2_1" || source == "2_2") {
                 $("#luckysheet-editorConditionRule-dialog").show();
             }
 
@@ -1368,35 +1260,33 @@ const conditionformat = {
         });
 
         // 弹出层右上角关闭按钮
-        $(document).on("click", ".luckysheet-modal-dialog-title-close", function(){
+        $(document).on("click", ".luckysheet-modal-dialog-title-close", function () {
             let id = $(this).parents(".luckysheet-modal-dialog").attr("id");
 
             //新建规则弹出层
-            if(id == "luckysheet-newConditionRule-dialog"){
+            if (id == "luckysheet-newConditionRule-dialog") {
                 let source = $("#" + id).find("#luckysheet-newConditionRule-dialog-close").attr("data-source");
                 //新建规则入口
-                if(source == 1){
+                if (source == 1) {
                     $("#luckysheet-administerRule-dialog").show();
                 }
             }
 
             //编辑规则弹出层
-            if(id == "luckysheet-editorConditionRule-dialog"){
+            if (id == "luckysheet-editorConditionRule-dialog") {
                 $("#luckysheet-administerRule-dialog").show();
             }
 
             //选择单元格弹出层
-            if(id == "luckysheet-singleRange-dialog"){
+            if (id == "luckysheet-singleRange-dialog") {
                 $("#luckysheet-modal-dialog-mask").show();
 
                 let source = $(this).parents("#luckysheet-singleRange-dialog").find("#luckysheet-singleRange-dialog-confirm").attr("data-source");
-                if(source == "0_1" || source == "0_2"){
+                if (source == "0_1" || source == "0_2") {
                     $("#luckysheet-conditionformat-dialog").show();
-                }
-                else if(source == "1_1" || source == "1_2"){
+                } else if (source == "1_1" || source == "1_2") {
                     $("#luckysheet-newConditionRule-dialog").show();
-                }
-                else if(source == "2_1" || source == "2_2"){
+                } else if (source == "2_1" || source == "2_2") {
                     $("#luckysheet-editorConditionRule-dialog").show();
                 }
 
@@ -1405,7 +1295,7 @@ const conditionformat = {
             }
 
             //选择应用范围弹出层
-            if(id == "luckysheet-multiRange-dialog"){
+            if (id == "luckysheet-multiRange-dialog") {
                 $("#luckysheet-modal-dialog-mask").show();
 
                 $("#luckysheet-administerRule-dialog").show();
@@ -1415,17 +1305,17 @@ const conditionformat = {
             }
 
             //提示框
-            if(id == "luckysheet-conditionformat-info-dialog"){
+            if (id == "luckysheet-conditionformat-info-dialog") {
                 $("#luckysheet-modal-dialog-mask").show();
             }
         });
 
         //提示框
-        $(document).on("click", "#luckysheet-conditionformat-info-dialog-close", function(){
+        $(document).on("click", "#luckysheet-conditionformat-info-dialog-close", function () {
             $(this).parents("#luckysheet-conditionformat-info-dialog").hide();
         });
     },
-    singleRangeDialog: function(source, value){
+    singleRangeDialog: function (source, value) {
         $("#luckysheet-modal-dialog-mask").hide();
         $("#luckysheet-singleRange-dialog").remove();
 
@@ -1435,9 +1325,9 @@ const conditionformat = {
             "id": "luckysheet-singleRange-dialog",
             "addclass": "luckysheet-singleRange-dialog",
             "title": conditionformat_Text.selectCell,
-            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectCell}" value="${value}"/>`,
-            "botton":  `<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectCell}" value="${escapeHtml(value)}"/>`,
+            "botton": `<button id="luckysheet-singleRange-dialog-confirm" class="btn btn-primary" data-source="${escapeHtml(source)}">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-singleRange-dialog-close" class="btn btn-default" data-source="${escapeHtml(source)}">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-singleRange-dialog")
@@ -1453,7 +1343,7 @@ const conditionformat = {
             "top": (winh + scrollTop - myh) / 3
         }).show();
     },
-    multiRangeDialog: function(dataItem, value){
+    multiRangeDialog: function (dataItem, value) {
         let _this = this;
 
         $("#luckysheet-modal-dialog-mask").hide();
@@ -1465,8 +1355,8 @@ const conditionformat = {
             "id": "luckysheet-multiRange-dialog",
             "addclass": "luckysheet-multiRange-dialog",
             "title": conditionformat_Text.selectRange,
-            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectRange}" value="${value}"/>`,
-            "botton":  `<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="${dataItem}">${conditionformat_Text.confirm}</button>
+            "content": `<input readonly="readonly" placeholder="${conditionformat_Text.pleaseSelectRange}" value="${escapeHtml(value)}"/>`,
+            "botton": `<button id="luckysheet-multiRange-dialog-confirm" class="btn btn-primary" data-item="${escapeHtml(dataItem)}">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-multiRange-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
         }));
@@ -1485,50 +1375,51 @@ const conditionformat = {
 
         selectionCopyShow(_this.getRangeByTxt(value));
     },
-    getTxtByRange: function(range){
-        if(range.length > 0){
+    getTxtByRange: function (range) {
+        if (range.length > 0) {
             let txt = [];
 
-            for(let s = 0; s < range.length; s++){
+            for (let s = 0; s < range.length; s++) {
                 let r1 = range[s].row[0], r2 = range[s].row[1];
                 let c1 = range[s].column[0], c2 = range[s].column[1];
 
-                txt.push(getRangetxt(Store.currentSheetIndex, { "row": [r1, r2], "column": [c1, c2] }, Store.currentSheetIndex));
+                txt.push(getRangetxt(Store.currentSheetIndex, {
+                    "row": [r1, r2],
+                    "column": [c1, c2]
+                }, Store.currentSheetIndex));
             }
 
             return txt.join(",");
         }
     },
-    getRangeByTxt: function(txt){
+    getRangeByTxt: function (txt) {
         let range = [];
 
         txt = txt.toString();
 
-        if(txt.indexOf(",") != -1){
+        if (txt.indexOf(",") != -1) {
             let arr = txt.split(",");
-            for(let i = 0; i < arr.length; i++){
-                if(formula.iscelldata(arr[i])){
+            for (let i = 0; i < arr.length; i++) {
+                if (formula.iscelldata(arr[i])) {
                     range.push(formula.getcellrange(arr[i]));
-                }
-                else{
+                } else {
                     range = [];
                     break;
                 }
             }
-        }
-        else{
-            if(formula.iscelldata(txt)){
+        } else {
+            if (formula.iscelldata(txt)) {
                 range.push(formula.getcellrange(txt));
             }
         }
         return range;
     },
-    colorSelectInit: function(){
+    colorSelectInit: function () {
         const conditionformat_Text = locale().conditionformat;
 
         $(".luckysheet-conditionformat-config-color").spectrum({
             showPalette: true,
-            showPaletteOnly:true,
+            showPaletteOnly: true,
             preferredFormat: "hex",
             clickoutFiresChange: false,
             showInitial: true,
@@ -1542,28 +1433,28 @@ const conditionformat = {
             // color: currenColor,
             cancelText: conditionformat_Text.cancel,
             chooseText: conditionformat_Text.confirmColor,
-            togglePaletteMoreText: "自定义",
-            togglePaletteLessText: "收起",
+            togglePaletteMoreText: "Customize",
+            togglePaletteLessText: "Put away",
             togglePaletteOnly: true,
             clearText: conditionformat_Text.clearColorSelect,
-            noColorSelectedText: "没有颜色被选择",
+            noColorSelectedText: "No color is selected",
             localStorageKey: "spectrum.textcolor" + server.gridKey,
-            palette: [["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
-            ["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
-            ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
-            ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
-            ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
-            ["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
-            ["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
-            ["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]],
-            change: function(color){
+            palette: [["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
+                ["#f00", "#f90", "#ff0", "#0f0", "#0ff", "#00f", "#90f", "#f0f"],
+                ["#f4cccc", "#fce5cd", "#fff2cc", "#d9ead3", "#d0e0e3", "#cfe2f3", "#d9d2e9", "#ead1dc"],
+                ["#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#9fc5e8", "#b4a7d6", "#d5a6bd"],
+                ["#e06666", "#f6b26b", "#ffd966", "#93c47d", "#76a5af", "#6fa8dc", "#8e7cc3", "#c27ba0"],
+                ["#c00", "#e69138", "#f1c232", "#6aa84f", "#45818e", "#3d85c6", "#674ea7", "#a64d79"],
+                ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
+                ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]],
+            change: function (color) {
                 if (color != null) {
                     color = color.toHexString();
                 }
             }
         });
     },
-    conditionformatDialog: function(title, content){
+    conditionformatDialog: function (title, content) {
         let _this = this;
 
         $("#luckysheet-modal-dialog-mask").show();
@@ -1576,7 +1467,7 @@ const conditionformat = {
             "addclass": "luckysheet-conditionformat-dialog",
             "title": title,
             "content": content,
-            "botton":  `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+            "botton": `<button id="luckysheet-conditionformat-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button class="btn btn-default luckysheet-model-close-btn">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:9999"
         }));
@@ -1596,17 +1487,17 @@ const conditionformat = {
         _this.init();
         _this.colorSelectInit();
 
-        if(title == locale().conditionformat.conditionformat_occurrenceDate){
+        if (title == locale().conditionformat.conditionformat_occurrenceDate) {
             _this.daterangeInit("luckysheet-conditionformat-dialog");
         }
     },
-    CFiconsDialog: function(){　
+    CFiconsDialog: function () {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-CFicons-dialog").remove();
 
         const conditionformat_Text = locale().conditionformat;
 
-        let content =  `<div class="box">
+        let content = `<div class="box">
                             <div style="margin-bottom: 10px;">${conditionformat_Text.pleaseSelectIcon}</div>
                             <div class="title">${conditionformat_Text.direction}</div>
                             <div class="list">
@@ -1683,7 +1574,7 @@ const conditionformat = {
             "top": (winh + scrollTop - myh) / 3
         }).show();
     },
-    administerRuleDialog: function(){
+    administerRuleDialog: function () {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-administerRule-dialog").remove();
 
@@ -1691,20 +1582,19 @@ const conditionformat = {
 
         //工作表
         let opHtml = '';
-        for(let j = 0; j < Store.luckysheetfile.length; j++){
-            if(Store.luckysheetfile[j].status == "1"){
-                opHtml +=  `<option value="${Store.luckysheetfile[j]["index"]}" selected="selected">
-                                ${conditionformat_Text.currentSheet}：${Store.luckysheetfile[j]["name"]}
+        for (let j = 0; j < Store.luckysheetfile.length; j++) {
+            if (Store.luckysheetfile[j].status == "1") {
+                opHtml += `<option value="${escapeHtml(Store.luckysheetfile[j]["index"])}" selected="selected">
+                                ${conditionformat_Text.currentSheet}：${escapeHtml(Store.luckysheetfile[j]["name"])}
                             </option>`;
-            }
-            else{
-                opHtml +=  `<option value="${Store.luckysheetfile[j]["index"]}">
-                                ${conditionformat_Text.sheet}：${Store.luckysheetfile[j]["name"]}
+            } else {
+                opHtml += `<option value="${escapeHtml(Store.luckysheetfile[j]["index"])}">
+                                ${conditionformat_Text.sheet}：${escapeHtml(Store.luckysheetfile[j]["name"])}
                             </option>`;
             }
         }
 
-        let content =  `<div class="chooseSheet">
+        let content = `<div class="chooseSheet">
                             <label>${conditionformat_Text.showRules}：</label>
                             <select>${opHtml}</select>
                         </div>
@@ -1729,7 +1619,7 @@ const conditionformat = {
             "addclass": "luckysheet-administerRule-dialog",
             "title": conditionformat_Text.conditionformatManageRules,
             "content": content,
-            "botton":  `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+            "botton": `<button id="luckysheet-administerRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-administerRule-dialog-close" class="btn btn-default">${conditionformat_Text.close}</button>`,
             "style": "z-index:100003"
         }));
@@ -1750,53 +1640,50 @@ const conditionformat = {
         let index = $("#luckysheet-administerRule-dialog .chooseSheet option:selected").val();
         this.getConditionRuleList(index);
     },
-    getConditionRuleList: function(index){
+    getConditionRuleList: function (index) {
 
         let _this = this;
 
         $("#luckysheet-administerRule-dialog .ruleList .listBox").empty();
 
         let ruleArr = _this.fileClone[getSheetIndex(index)].luckysheet_conditionformat_save; //条件格式规则集合
-        if(ruleArr != null && ruleArr.length > 0){
+        if (ruleArr != null && ruleArr.length > 0) {
             const conditionformat_Text = locale().conditionformat;
 
-            for(let i = 0; i < ruleArr.length; i++){
+            for (let i = 0; i < ruleArr.length; i++) {
                 let type = ruleArr[i]["type"];            //规则类型
                 let format = ruleArr[i]["format"];        //规则样式
                 let cellrange = ruleArr[i]["cellrange"];  //规则应用范围
 
                 let ruleName;         //规则名称
                 let formatHtml = '';  //样式dom
-                if(type == "dataBar"){
+                if (type == "dataBar") {
                     ruleName = conditionformat_Text.dataBar;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
-                }
-                else if(type == "colorGradation"){
+                } else if (type == "colorGradation") {
                     ruleName = conditionformat_Text.colorGradation;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
-                }
-                else if(type == "icons"){
+                } else if (type == "icons") {
                     ruleName = conditionformat_Text.icons;
 
                     formatHtml = '<canvas width="46" height="18" style="width: 46px;height: 18px;margin: 3px 0 0 5px;"></canvas>';
-                }
-                else{
+                } else {
                     ruleName = _this.getConditionRuleName(ruleArr[i].conditionName, ruleArr[i].conditionRange, ruleArr[i].conditionValue);
 
-                    if(format["textColor"] != null){
-                        formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.textColor +'" style="background-color:' + format["textColor"] + '"></span>';
+                    if (format["textColor"] != null) {
+                        formatHtml += '<span class="colorbox" title="' + conditionformat_Text.textColor + '" style="background-color:' + escapeHtml(format["textColor"]) + '"></span>';
                     }
 
-                    if(format["cellColor"] != null){
-                        formatHtml += '<span class="colorbox" title="'+ conditionformat_Text.cellColor +'" style="background-color:' + format["cellColor"] + '"></span>';
+                    if (format["cellColor"] != null) {
+                        formatHtml += '<span class="colorbox" title="' + conditionformat_Text.cellColor + '" style="background-color:' + escapeHtml(format["cellColor"]) + '"></span>';
                     }
                 }
 
                 //应用范围dom
                 let rangeTxtArr = [];
-                for(let s = 0; s < cellrange.length; s++){
+                for (let s = 0; s < cellrange.length; s++) {
                     let r1 = cellrange[s].row[0], r2 = cellrange[s].row[1];
                     let c1 = cellrange[s].column[0], c2 = cellrange[s].column[1];
 
@@ -1804,27 +1691,27 @@ const conditionformat = {
                 }
 
                 //条件格式规则列表dom
-                let itemHtml =  '<div class="item" data-item="' + i + '">' +
-                                    '<div class="ruleName" title="' + ruleName + '">' + ruleName + '</div>' +
-                                    '<div class="format">' + formatHtml + '</div>' +
-                                    '<div class="ruleRange">' +
-                                        '<input class="formulaInputFocus" readonly="true" value="' + rangeTxtArr.join(",") + '"/>' +
-                                        '<i class="fa fa-table" aria-hidden="true" title="'+ conditionformat_Text.selectRange +'"></i>' +
-                                    '</div>' +
-                                '</div>';
+                let itemHtml = '<div class="item" data-item="' + i + '">' +
+                    '<div class="ruleName" title="' + escapeHtml(ruleName) + '">' + escapeHtml(ruleName) + '</div>' +
+                    '<div class="format">' + formatHtml + '</div>' +
+                    '<div class="ruleRange">' +
+                    '<input class="formulaInputFocus" readonly="true" value="' + escapeHtml(rangeTxtArr.join(",")) + '"/>' +
+                    '<i class="fa fa-table" aria-hidden="true" title="' + conditionformat_Text.selectRange + '"></i>' +
+                    '</div>' +
+                    '</div>';
 
                 $("#luckysheet-administerRule-dialog .ruleList .listBox").prepend(itemHtml);
             }
 
-            $("#luckysheet-administerRule-dialog .ruleList .listBox .item canvas").each(function(i){
+            $("#luckysheet-administerRule-dialog .ruleList .listBox .item canvas").each(function (i) {
                 let x = $(this).closest(".item").attr("data-item");
 
                 let type = ruleArr[x]["type"];
                 let format = ruleArr[x]["format"];
 
                 let can = $(this).get(0).getContext("2d");
-                if(type == "dataBar"){
-                    if(format.length == 2){
+                if (type == "dataBar") {
+                    if (format.length == 2) {
                         let my_gradient = can.createLinearGradient(0, 0, 46, 0);
                         my_gradient.addColorStop(0, format[0]);
                         my_gradient.addColorStop(1, format[1]);
@@ -1841,8 +1728,7 @@ const conditionformat = {
                         can.strokeStyle = format[0];
                         can.stroke();
                         can.closePath();
-                    }
-                    else if(format.length == 1){
+                    } else if (format.length == 1) {
                         can.fillStyle = format[0];
                         can.fillRect(0, 0, 46, 18);
 
@@ -1857,24 +1743,21 @@ const conditionformat = {
                         can.stroke();
                         can.closePath();
                     }
-                }
-                else if(type == "colorGradation"){
+                } else if (type == "colorGradation") {
                     let my_gradient = can.createLinearGradient(0, 0, 46, 0);
 
-                    if(format.length == 3){
+                    if (format.length == 3) {
                         my_gradient.addColorStop(0, format[0]);
                         my_gradient.addColorStop(0.5, format[1]);
                         my_gradient.addColorStop(1, format[2]);
-                    }
-                    else if(format.length == 2){
+                    } else if (format.length == 2) {
                         my_gradient.addColorStop(0, format[0]);
                         my_gradient.addColorStop(1, format[1]);
                     }
 
                     can.fillStyle = my_gradient;
                     can.fillRect(0, 0, 46, 18);
-                }
-                else if(type == "icons"){
+                } else if (type == "icons") {
                     let len = format["len"];
                     let l = format["leftMin"];
                     let t = format["top"];
@@ -1884,10 +1767,9 @@ const conditionformat = {
                     let w2 = 46;
                     let h2 = 46 * 32 / w1;
 
-                    if(l == "0"){
+                    if (l == "0") {
                         can.drawImage(luckysheet_CFiconsImg, 0, t * 32, w1, h1, 0, (18 - h2) / 2, w2, h2);
-                    }
-                    else if(l == "5"){
+                    } else if (l == "5") {
                         can.drawImage(luckysheet_CFiconsImg, 210, t * 32, w1, h1, 0, (18 - h2) / 2, w2, h2);
                     }
                 }
@@ -1896,79 +1778,64 @@ const conditionformat = {
             $("#luckysheet-administerRule-dialog .ruleList .listBox .item").eq(0).addClass("on");
         }
     },
-    getConditionRuleName: function(conditionName, conditionRange, conditionValue){
+    getConditionRuleName: function (conditionName, conditionRange, conditionValue) {
         //v 有条件单元格取条件单元格，若无取条件值
         let v
-        if(conditionRange[0]!=null){
+        if (conditionRange[0] != null) {
             v = chatatABC(conditionRange[0]["column"][0]) + (conditionRange[0]["row"][0] + 1);
-        }
-        else{
+        } else {
             v = conditionValue[0];
         }
 
         const conditionformat_Text = locale().conditionformat;
 
         //返回条件格式规则名称
-        if(conditionName == "greaterThan"){
+        if (conditionName == "greaterThan") {
             return conditionformat_Text.cellValue + " > " + v;
-        }
-        else if(conditionName == "lessThan"){
+        } else if (conditionName == "lessThan") {
             return conditionformat_Text.cellValue + " < " + v;
-        }
-        else if(conditionName == "betweenness"){
+        } else if (conditionName == "betweenness") {
             let v2;
-            if(conditionRange[1] != null){
+            if (conditionRange[1] != null) {
                 v2 = chatatABC(conditionRange[1]["column"][0]) + (conditionRange[1]["row"][0] + 1);
-            }
-            else{
+            } else {
                 v2 = conditionValue[1];
             }
             return conditionformat_Text.cellValue + " " + conditionformat_Text.between + " " + v + " " + conditionformat_Text.in + " " + v2 + " " + conditionformat_Text.between2;
-        }
-        else if(conditionName == "equal"){
+        } else if (conditionName == "equal") {
             return conditionformat_Text.cellValue + " = " + v;
-        }
-        else if(conditionName == "textContains"){
+        } else if (conditionName == "textContains") {
             return conditionformat_Text.cellValue + conditionformat_Text.contain + " =" + v;
-        }
-        else if(conditionName == "occurrenceDate"){
+        } else if (conditionName == "occurrenceDate") {
             return conditionValue;
-        }
-        else if(conditionName == "duplicateValue"){
-            if(conditionValue == "0"){
+        } else if (conditionName == "duplicateValue") {
+            if (conditionValue == "0") {
                 return conditionformat_Text.duplicateValue;
             }
-            if(conditionValue == "1"){
+            if (conditionValue == "1") {
                 return conditionformat_Text.uniqueValue;
             }
-        }
-        else if(conditionName == "top10"){
+        } else if (conditionName == "top10") {
             return conditionformat_Text.top + " " + v + " " + conditionformat_Text.oneself;
-        }
-        else if(conditionName == "top10%"){
+        } else if (conditionName == "top10%") {
             return conditionformat_Text.top + " " + v + "% " + conditionformat_Text.oneself;
-        }
-        else if(conditionName == "last10"){
+        } else if (conditionName == "last10") {
             return conditionformat_Text.last + " " + v + " " + conditionformat_Text.oneself;
-        }
-        else if(conditionName == "last10%"){
+        } else if (conditionName == "last10%") {
             return conditionformat_Text.last + " " + v + "% " + conditionformat_Text.oneself;
-        }
-        else if(conditionName == "AboveAverage"){
+        } else if (conditionName == "AboveAverage") {
             return conditionformat_Text.aboveAverage;
-        }
-        else if(conditionName == "SubAverage"){
+        } else if (conditionName == "SubAverage") {
             return conditionformat_Text.belowAverage;
-        }
-        else if(conditionName == "formula"){
-            if(v.slice(0, 1) != '='){
+        } else if (conditionName == "formula") {
+            if (v.slice(0, 1) != '=') {
                 v = '=' + v;
             }
 
             return conditionformat_Text.formula + ': ' + v;
         }
     },
-    newConditionRuleDialog: function(source){
+    newConditionRuleDialog: function (source) {
         let _this = this;
 
         const conditionformat_Text = locale().conditionformat;
@@ -1982,21 +1849,21 @@ const conditionformat = {
         $("#luckysheet-newConditionRule-dialog").remove();
 
         let content = '<div>' +
-                        '<div class="boxTitle">' + conditionformat_Text.chooseRuleType + '：</div>' +
-                        _this.ruleTypeHtml() +
-                        '<div class="boxTitle">' + conditionformat_Text.editRuleDescription + '：</div>' +
-                        '<div class="ruleExplainBox">' +
-                            ruleExplainHtml +
-                        '</div>' +
-                      '</div>';
+            '<div class="boxTitle">' + conditionformat_Text.chooseRuleType + '：</div>' +
+            _this.ruleTypeHtml() +
+            '<div class="boxTitle">' + conditionformat_Text.editRuleDescription + '：</div>' +
+            '<div class="ruleExplainBox">' +
+            ruleExplainHtml +
+            '</div>' +
+            '</div>';
 
         $("body").first().append(replaceHtml(modelHTML, {
             "id": "luckysheet-newConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.newFormatRule,
             "content": content,
-            "botton":  `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="${source}">${conditionformat_Text.confirm}</button>
-                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${source}">${conditionformat_Text.cancel}</button>`,
+            "botton": `<button id="luckysheet-newConditionRule-dialog-confirm" class="btn btn-primary" data-source="${escapeHtml(source)}">${conditionformat_Text.confirm}</button>
+                        <button id="luckysheet-newConditionRule-dialog-close" class="btn btn-default" data-source="${escapeHtml(source)}">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
         }));
         let $t = $("#luckysheet-newConditionRule-dialog")
@@ -2017,14 +1884,14 @@ const conditionformat = {
 
         _this.colorSelectInit();
     },
-    editorConditionRuleDialog: function(){
+    editorConditionRuleDialog: function () {
         let _this = this;
 
         const conditionformat_Text = locale().conditionformat;
 
         let rule = _this.editorRule.data;
 
-        if(rule == null){
+        if (rule == null) {
             return;
         }
 
@@ -2033,43 +1900,35 @@ const conditionformat = {
             conditionName = rule["conditionName"];
 
         let index, type1;
-        if(ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons"){
+        if (ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons") {
             index = 0;
             type1 = ruleType;
-        }
-        else{
-            if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "betweenness" || conditionName == "equal" || conditionName == "textContains" || conditionName == "occurrenceDate"){
+        } else {
+            if (conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "betweenness" || conditionName == "equal" || conditionName == "textContains" || conditionName == "occurrenceDate") {
                 index = 1;
 
-                if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "betweenness" || conditionName == "equal"){
+                if (conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "betweenness" || conditionName == "equal") {
                     type1 = "number";
-                }
-                else if(conditionName == "textContains"){
+                } else if (conditionName == "textContains") {
                     type1 = "text";
-                }
-                else if(conditionName == "occurrenceDate"){
+                } else if (conditionName == "occurrenceDate") {
                     type1 = "date";
                 }
-            }
-            else if(conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%"){
+            } else if (conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%") {
                 index = 2;
 
-                if(conditionName == "top10" || conditionName == "top10%"){
+                if (conditionName == "top10" || conditionName == "top10%") {
                     type1 = "top";
-                }
-                else if(conditionName == "last10" || conditionName == "last10%"){
+                } else if (conditionName == "last10" || conditionName == "last10%") {
                     type1 = "last";
                 }
-            }
-            else if(conditionName == "AboveAverage" || conditionName == "SubAverage"){
+            } else if (conditionName == "AboveAverage" || conditionName == "SubAverage") {
                 index = 3;
                 type1 = conditionName;
-            }
-            else if(conditionName == "duplicateValue"){
+            } else if (conditionName == "duplicateValue") {
                 index = 4;
                 type1 = rule["conditionValue"];
-            }
-            else if(conditionName == "formula"){
+            } else if (conditionName == "formula") {
                 index = 5;
             }
         }
@@ -2083,20 +1942,20 @@ const conditionformat = {
         $("#luckysheet-editorConditionRule-dialog").remove();
 
         let content = '<div>' +
-                        '<div class="boxTitle">'+ conditionformat_Text.chooseRuleType +'：</div>' +
-                        _this.ruleTypeHtml() +
-                        '<div class="boxTitle">'+ conditionformat_Text.editRuleDescription +'：</div>' +
-                        '<div class="ruleExplainBox">' +
-                            ruleExplainHtml +
-                        '</div>' +
-                      '</div>';
+            '<div class="boxTitle">' + conditionformat_Text.chooseRuleType + '：</div>' +
+            _this.ruleTypeHtml() +
+            '<div class="boxTitle">' + conditionformat_Text.editRuleDescription + '：</div>' +
+            '<div class="ruleExplainBox">' +
+            ruleExplainHtml +
+            '</div>' +
+            '</div>';
 
         $("body").first().append(replaceHtml(modelHTML, {
             "id": "luckysheet-editorConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.editFormatRule,
             "content": content,
-            "botton":  `<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
+            "botton": `<button id="luckysheet-editorConditionRule-dialog-confirm" class="btn btn-primary">${conditionformat_Text.confirm}</button>
                         <button id="luckysheet-editorConditionRule-dialog-close" class="btn btn-default">${conditionformat_Text.cancel}</button>`,
             "style": "z-index:100003"
         }));
@@ -2120,29 +1979,27 @@ const conditionformat = {
 
         //type1
         $("#luckysheet-editorConditionRule-dialog #type1").val(type1);
-        if(type1 == "dataBar" || type1 == "colorGradation" || type1 == "icons" || type1 == "number" || type1 == "text" || type1 == "date"){
+        if (type1 == "dataBar" || type1 == "colorGradation" || type1 == "icons" || type1 == "number" || type1 == "text" || type1 == "date") {
             $("#luckysheet-editorConditionRule-dialog ." + type1 + "Box").show();
             $("#luckysheet-editorConditionRule-dialog ." + type1 + "Box").siblings().hide();
         }
 
-        if(type1 == "date"){
+        if (type1 == "date") {
             _this.daterangeInit("luckysheet-editorConditionRule-dialog");
         }
 
         //type2  format  value
-        if(ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons"){
-            if(type1 == "dataBar"){
-                if(ruleFormat.length == 2){
+        if (ruleType == "dataBar" || ruleType == "colorGradation" || ruleType == "icons") {
+            if (type1 == "dataBar") {
+                if (ruleFormat.length == 2) {
                     $("#luckysheet-editorConditionRule-dialog .dataBarBox #type2").val("gradient");
-                }
-                else if(ruleFormat.length == 1){
+                } else if (ruleFormat.length == 1) {
                     $("#luckysheet-editorConditionRule-dialog .dataBarBox #type2").val("solid");
                 }
 
                 $("#luckysheet-editorConditionRule-dialog .dataBarBox .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);
-            }
-            else if(type1 == "colorGradation"){
-                if(ruleFormat.length == 3){
+            } else if (type1 == "colorGradation") {
+                if (ruleFormat.length == 3) {
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox #type2").val("threeColor");
 
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .midVal").show();
@@ -2150,8 +2007,7 @@ const conditionformat = {
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .maxVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .midVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[1]);
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[2]);
-                }
-                else if(ruleFormat.length == 2){
+                } else if (ruleFormat.length == 2) {
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox #type2").val("twoColor");
 
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .midVal").hide();
@@ -2159,14 +2015,13 @@ const conditionformat = {
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .maxVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[0]);
                     $("#luckysheet-editorConditionRule-dialog .colorGradationBox .minVal .luckysheet-conditionformat-config-color").spectrum("set", ruleFormat[1]);
                 }
-            }
-            else if(type1 == "icons"){
+            } else if (type1 == "icons") {
                 let len = ruleFormat["len"];
                 let l = ruleFormat["leftMin"];
                 let t = ruleFormat["top"];
 
-                $("#luckysheet-editorConditionRule-dialog .iconsBox li").each(function(i, e){
-                    if($(e).find("div").attr("data-len") == len && $(e).find("div").attr("data-leftmin") == l && $(e).find("div").attr("data-top") == t){
+                $("#luckysheet-editorConditionRule-dialog .iconsBox li").each(function (i, e) {
+                    if ($(e).find("div").attr("data-len") == len && $(e).find("div").attr("data-leftmin") == l && $(e).find("div").attr("data-top") == t) {
                         $("#luckysheet-editorConditionRule-dialog .iconsBox .showbox .model").css("background-position", $(e).find("div").css("background-position"));
                         $("#luckysheet-editorConditionRule-dialog .iconsBox .showbox .model").attr("data-len", $(e).find("div").attr("data-len"));
                         $("#luckysheet-editorConditionRule-dialog .iconsBox .showbox .model").attr("data-leftmin", $(e).find("div").attr("data-leftmin"));
@@ -2177,66 +2032,66 @@ const conditionformat = {
                     }
                 });
             }
-        }
-        else{
-            if(type1 == "number"){
+        } else {
+            if (type1 == "number") {
                 $("#luckysheet-editorConditionRule-dialog .numberBox #type2").val(conditionName);
 
                 let val1;
-                if(rule.conditionRange[0] != null){
-                    val1 = getRangetxt(Store.currentSheetIndex, { "row": rule.conditionRange[0]["row"], "column": rule.conditionRange[0]["column"] }, Store.currentSheetIndex);
-                }
-                else{
+                if (rule.conditionRange[0] != null) {
+                    val1 = getRangetxt(Store.currentSheetIndex, {
+                        "row": rule.conditionRange[0]["row"],
+                        "column": rule.conditionRange[0]["column"]
+                    }, Store.currentSheetIndex);
+                } else {
                     val1 = rule.conditionValue[0];
                 }
 
                 $("#luckysheet-editorConditionRule-dialog .numberBox #conditionVal input").val(val1);
 
-                if(conditionName == "betweenness"){
+                if (conditionName == "betweenness") {
                     $("#luckysheet-editorConditionRule-dialog .numberBox .txt").show();
                     $("#luckysheet-editorConditionRule-dialog .numberBox #conditionVal2").show();
 
                     let val2;
-                    if(rule.conditionRange[1] != null){
-                        val2 = getRangetxt(Store.currentSheetIndex, { "row": rule.conditionRange[1]["row"], "column": rule.conditionRange[1]["column"] }, Store.currentSheetIndex);
-                    }
-                    else{
+                    if (rule.conditionRange[1] != null) {
+                        val2 = getRangetxt(Store.currentSheetIndex, {
+                            "row": rule.conditionRange[1]["row"],
+                            "column": rule.conditionRange[1]["column"]
+                        }, Store.currentSheetIndex);
+                    } else {
                         val2 = rule.conditionValue[1];
                     }
 
                     $("#luckysheet-editorConditionRule-dialog .numberBox #conditionVal2 input").val(val2);
-                }
-                else{
+                } else {
                     $("#luckysheet-editorConditionRule-dialog .numberBox .txt").hide();
                     $("#luckysheet-editorConditionRule-dialog .numberBox #conditionVal2").hide();
                 }
-            }
-            else if(type1 == "text"){
+            } else if (type1 == "text") {
                 let val1;
-                if(rule.conditionRange[0] != null){
-                    val1 = getRangetxt(Store.currentSheetIndex, { "row": rule.conditionRange[0]["row"], "column": rule.conditionRange[0]["column"] }, Store.currentSheetIndex);
-                }
-                else{
+                if (rule.conditionRange[0] != null) {
+                    val1 = getRangetxt(Store.currentSheetIndex, {
+                        "row": rule.conditionRange[0]["row"],
+                        "column": rule.conditionRange[0]["column"]
+                    }, Store.currentSheetIndex);
+                } else {
                     val1 = rule.conditionValue[0];
                 }
 
                 $("#luckysheet-editorConditionRule-dialog .textBox #conditionVal input").val(val1);
-            }
-            else if(type1 == "date"){
+            } else if (type1 == "date") {
                 _this.daterangeInit("luckysheet-editorConditionRule-dialog");
 
                 let val1 = rule.conditionValue[0];
                 $("#luckysheet-editorConditionRule-dialog .dateBox #daterange-btn").val(val1);
-            }
-            else if(type1 == "top" || type1 == "last"){
+            } else if (type1 == "top" || type1 == "last") {
                 let val1 = rule.conditionValue[0];
 
-                if(conditionName == "top10%" || conditionName == "last10%"){
+                if (conditionName == "top10%" || conditionName == "last10%") {
                     $("#luckysheet-editorConditionRule-dialog #isPercent").attr("checked", "checked");
                 }
-            }
-            else{
-                if(conditionName == "formula"){
+            } else {
+                if (conditionName == "formula") {
                     let val1 = rule.conditionValue[0];
                     $("#luckysheet-editorConditionRule-dialog #formulaConditionVal input").val(val1);
                 }
@@ -2246,7 +2101,7 @@ const conditionformat = {
             $("#luckysheet-editorConditionRule-dialog #cellcolorshow").spectrum("set", ruleFormat.cellColor);
         }
     },
-    infoDialog: function(title, content){
+    infoDialog: function (title, content) {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-conditionformat-info-dialog").remove();
         $("body").first().append(replaceHtml(modelHTML, {
@@ -2270,15 +2125,15 @@ const conditionformat = {
             "top": (winh + scrollTop - myh) / 3
         }).show();
     },
-    getRuleExplain: function(index){
+    getRuleExplain: function (index) {
         const conditionformat_Text = locale().conditionformat;
 
         let textCellColorHtml = this.textCellColorHtml();
 
         let ruleExplainHtml;
-        switch(index){
+        switch (index) {
             case 0: //基于各自值设置所有单元格的格式
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem1}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.ruleTypeItem1}：</div>
                                     <div style="height: 30px;margin-bottom: 5px;">
                                         <label style="display: block;width: 80px;height: 30px;line-height: 30px;float: left;">${conditionformat_Text.formatStyle}：</label>
                                         <select id="type1">
@@ -2354,7 +2209,7 @@ const conditionformat = {
                                     </div>`;
                 break;
             case 1: //只为包含以下内容的单元格设置格式
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
                                     <div style="height: 30px;margin-bottom: 10px;">
                                         <select id="type1">
                                             <option value="number">${conditionformat_Text.cellValue}</option>
@@ -2398,7 +2253,7 @@ const conditionformat = {
                                     <div class="title">${conditionformat_Text.setFormat}: </div>${textCellColorHtml}`;
                 break;
             case 2: //仅对排名靠前或靠后的数值设置格式
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem3_title}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.ruleTypeItem3_title}：</div>
                                     <div style="height: 30px;margin-bottom: 10px;">
                                         <select id="type1">
                                             <option value="top">${conditionformat_Text.top}</option>
@@ -2413,7 +2268,7 @@ const conditionformat = {
                                     <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
             case 3: //仅对高于或低于平均值的数值设置格式
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem4_title}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.ruleTypeItem4_title}：</div>
                                     <div style="height: 30px;margin-bottom: 10px;">
                                         <select id="type1">
                                             <option value="AboveAverage">${conditionformat_Text.above}</option>
@@ -2424,7 +2279,7 @@ const conditionformat = {
                                     <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
             case 4: //仅对唯一值或重复值设置格式
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.all}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.all}：</div>
                                     <div style="height: 30px;margin-bottom: 10px;">
                                         <select id="type1">
                                             <option value="0">${conditionformat_Text.duplicateValue}</option>
@@ -2435,7 +2290,7 @@ const conditionformat = {
                                     <div class="title">${conditionformat_Text.setFormat}：</div>${textCellColorHtml}`;
                 break;
             case 5: //使用公式确定要设置格式的单元格
-                ruleExplainHtml =  `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
+                ruleExplainHtml = `<div class="title">${conditionformat_Text.ruleTypeItem2_title}：</div>
                                     <div style="height: 30px;margin-bottom: 10px;">
                                         <div class="inpbox range" id="formulaConditionVal" style="width: 250px;">
                                             <input class="formulaInputFocus" style="width: 200px;"/>
@@ -2448,7 +2303,7 @@ const conditionformat = {
 
         return ruleExplainHtml;
     },
-    daterangeInit: function(id){
+    daterangeInit: function (id) {
         const conditionformat_Text = locale().conditionformat;
 
         //日期选择插件
@@ -2484,7 +2339,7 @@ const conditionformat = {
             }
         });
     },
-    CFSplitRange: function(range1, range2, range3, type){
+    CFSplitRange: function (range1, range2, range3, type) {
         let range = [];
 
         let offset_r = range3["row"][0] - range2["row"][0];
@@ -2493,378 +2348,394 @@ const conditionformat = {
         let r1 = range1["row"][0], r2 = range1["row"][1];
         let c1 = range1["column"][0], c2 = range1["column"][1];
 
-        if(r1 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]){
+        if (r1 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 全部
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
                 ];
-            }
-            else if(type == "restPart"){ //剩余部分
+            } else if (type == "restPart") { //剩余部分
                 range = [];
-            }
-            else if(type == "operatePart"){ //操作部分
+            } else if (type == "operatePart") { //操作部分
                 range = [
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
                 ];
             }
-        }
-        else if(r1 >= range2["row"][0] && r1 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r1 >= range2["row"][0] && r1 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 行贯穿 条件格式应用范围 上部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {"row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {"row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(r2 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r2 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 行贯穿 条件格式应用范围 下部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {"row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c]}
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(r1 < range2["row"][0] && r2 > range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r1 < range2["row"][0] && r2 > range2["row"][1] && c1 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 行贯穿 条件格式应用范围 中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, c2 + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, c2 + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(c1 >= range2["column"][0] && c1 <= range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]){
+        } else if (c1 >= range2["column"][0] && c1 <= range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]) {
             //选区 列贯穿 条件格式应用范围 左部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, r2], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, r2], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c]}
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, r2], "column": [range2["column"][1] + 1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c]}
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, r2], "column": [range2["column"][1] + 1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(c2 >= range2["column"][0] && c2 <= range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]){
+        } else if (c2 >= range2["column"][0] && c2 <= range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]) {
             //选区 列贯穿 条件格式应用范围 右部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
+                    {"row": [r1, r2], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c]}
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, r2], "column": [c1, range2["column"][0] - 1]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {"row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c]}
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, r2], "column": [c1, range2["column"][0] - 1] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(c1 < range2["column"][0] && c2 > range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]){
+        } else if (c1 < range2["column"][0] && c2 > range2["column"][1] && r1 >= range2["row"][0] && r2 <= range2["row"][1]) {
             //选区 列贯穿 条件格式应用范围 中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [r1, r2], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, r2], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [r1, r2], "column": [range2["column"][1] + 1, c2]},
+                    {
+                        "row": [r1 + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, r2], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [r1, r2], "column": [range2["column"][1] + 1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [r1 + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [r1, r2], "column": [range2["column"][1] + 1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(r1 >= range2["row"][0] && r1 <= range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]){
+        } else if (r1 >= range2["row"][0] && r1 <= range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 左上角部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(r1 >= range2["row"][0] && r1 <= range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r1 >= range2["row"][0] && r1 <= range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 右上角部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
+                    {"row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(r2 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]){
+        } else if (r2 >= range2["row"][0] && r2 <= range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 左下角部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(r2 >= range2["row"][0] && r2 <= range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r2 >= range2["row"][0] && r2 <= range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 右下角部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1]},
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(r1 < range2["row"][0] && r2 > range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]){
+        } else if (r1 < range2["row"][0] && r2 > range2["row"][1] && c1 >= range2["column"][0] && c1 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 左中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [c1 + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [c1 + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(r1 < range2["row"][0] && r2 > range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]){
+        } else if (r1 < range2["row"][0] && r2 > range2["row"][1] && c2 >= range2["column"][0] && c2 <= range2["column"][1]) {
             //选区 包含 条件格式应用范围 右中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, c2 + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, c2 + offset_c] }
-                ];
-            }
-        }
-        else if(c1 < range2["column"][0] && c2 > range2["column"][1] && r1 >= range2["row"][0] && r1 <= range2["row"][1]){
+        } else if (c1 < range2["column"][0] && c2 > range2["column"][1] && r1 >= range2["row"][0] && r1 <= range2["row"][1]) {
             //选区 包含 条件格式应用范围 上中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [r1 + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [r1, range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [r1 + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(c1 < range2["column"][0] && c2 > range2["column"][1] && r2 >= range2["row"][0] && r2 <= range2["row"][1]){
+        } else if (c1 < range2["column"][0] && c2 > range2["column"][1] && r2 >= range2["row"][0] && r2 <= range2["row"][1]) {
             //选区 包含 条件格式应用范围 下中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, r2 + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], r2], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][0], r2], "column": [range2["column"][1] + 1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, r2 + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else if(r1 < range2["row"][0] && r2 > range2["row"][1] && c1 < range2["column"][0] && c2 > range2["column"][1]){
+        } else if (r1 < range2["row"][0] && r2 > range2["row"][1] && c1 < range2["column"][0] && c2 > range2["column"][1]) {
             //选区 包含 条件格式应用范围 正中间部分
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] },
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]},
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
+                ];
+            } else if (type == "restPart") { //剩余部分
+                range = [
+                    {"row": [r1, range2["row"][0] - 1], "column": [c1, c2]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1]},
+                    {"row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2]},
+                    {"row": [range2["row"][1] + 1, r2], "column": [c1, c2]}
+                ];
+            } else if (type == "operatePart") { //操作部分
+                range = [
+                    {
+                        "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r],
+                        "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c]
+                    }
                 ];
             }
-            else if(type == "restPart"){ //剩余部分
-                range = [
-                    { "row": [r1, range2["row"][0] - 1], "column": [c1, c2] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [c1, range2["column"][0] - 1] },
-                    { "row": [range2["row"][0], range2["row"][1]], "column": [range2["column"][1] + 1, c2] },
-                    { "row": [range2["row"][1] + 1, r2], "column": [c1, c2] }
-                ];
-            }
-            else if(type == "operatePart"){ //操作部分
-                range = [
-                    { "row": [range2["row"][0] + offset_r, range2["row"][1] + offset_r], "column": [range2["column"][0] + offset_c, range2["column"][1] + offset_c] }
-                ];
-            }
-        }
-        else{
+        } else {
             //选区 在 条件格式应用范围 之外
 
-            if(type == "allPart"){ //所有部分
+            if (type == "allPart") { //所有部分
                 range = [
-                    { "row": [r1, r2], "column": [c1, c2] }
+                    {"row": [r1, r2], "column": [c1, c2]}
                 ];
-            }
-            else if(type == "restPart"){ //剩余部分
+            } else if (type == "restPart") { //剩余部分
                 range = [
-                    { "row": [r1, r2], "column": [c1, c2] }
+                    {"row": [r1, r2], "column": [c1, c2]}
                 ];
-            }
-            else if(type == "operatePart"){ //操作部分
+            } else if (type == "operatePart") { //操作部分
                 range = [];
             }
         }
 
         return range;
     },
-    getcolorGradation: function(color1, color2, value1, value2, value){
+    getcolorGradation: function (color1, color2, value1, value2, value) {
         let rgb1 = color1.split(',');
         let r1 = parseInt(rgb1[0].split('(')[1]);
         let g1 = parseInt(rgb1[1]);
@@ -2879,52 +2750,51 @@ const conditionformat = {
         let g = Math.round(g1 - (g1 - g2) / (value1 - value2) * (value1 - value));
         let b = Math.round(b1 - (b1 - b2) / (value1 - value2) * (value1 - value));
 
-        return "rgb("+ r +", "+ g +", "+ b +")";
+        return "rgb(" + r + ", " + g + ", " + b + ")";
     },
-    getCFPartRange: function(sheetIndex, range1, range2){
+    getCFPartRange: function (sheetIndex, range1, range2) {
         let ruleArr = [];
 
         let cf = Store.luckysheetfile[getSheetIndex(sheetIndex)].luckysheet_conditionformat_save;
-        if(cf != null && cf.length > 0){
-            label:  for(let i = 0; i < cf.length; i++){
-                        let cellrange = cf[i].cellrange;
+        if (cf != null && cf.length > 0) {
+            label:  for (let i = 0; i < cf.length; i++) {
+                let cellrange = cf[i].cellrange;
 
-                        for(let j = 0; j < cellrange.length; j++){
-                            let r1 = cellrange[j].row[0], r2 = cellrange[j].row[1];
-                            let c1 = cellrange[j].column[0], c2 = cellrange[j].column[1];
+                for (let j = 0; j < cellrange.length; j++) {
+                    let r1 = cellrange[j].row[0], r2 = cellrange[j].row[1];
+                    let c1 = cellrange[j].column[0], c2 = cellrange[j].column[1];
 
-                            for(let s = 0; s < range.length; s++){
-                                if((range[s].row[0] >= r1 && range[s].row[0] <= r2) || (range[s].row[1] >= r1 && range[s].row[1] <= r2) || (range[s].column[0] >= c1 && range[s].column[0] <= c2) || (range[s].column[1] >= c1 && range[s].column[1] <= c2)){
-                                    ruleArr.push(cf[i]);
+                    for (let s = 0; s < range.length; s++) {
+                        if ((range[s].row[0] >= r1 && range[s].row[0] <= r2) || (range[s].row[1] >= r1 && range[s].row[1] <= r2) || (range[s].column[0] >= c1 && range[s].column[0] <= c2) || (range[s].column[1] >= c1 && range[s].column[1] <= c2)) {
+                            ruleArr.push(cf[i]);
 
-                                    continue label;
-                                }
-                            }
+                            continue label;
                         }
                     }
+                }
+            }
         }
 
         return ruleArr;
     },
-    checksCF: function(r, c, computeMap){
-        if(computeMap != null &&　(r + "_" + c) in computeMap){
+    checksCF: function (r, c, computeMap) {
+        if (computeMap != null && (r + "_" + c) in computeMap) {
             return computeMap[r + "_" + c];
-        }
-        else{
+        } else {
             return null;
         }
     },
-    getComputeMap: function(sheetIndex){
+    getComputeMap: function (sheetIndex) {
         let index = getSheetIndex(Store.currentSheetIndex);
 
-        if(sheetIndex != null){
+        if (sheetIndex != null) {
             index = getSheetIndex(sheetIndex);
         }
 
         let ruleArr = Store.luckysheetfile[index]["luckysheet_conditionformat_save"];
         let data = Store.luckysheetfile[index]["data"];
 
-        if(data == null){
+        if (data == null) {
             return null;
         }
 
@@ -2932,40 +2802,40 @@ const conditionformat = {
 
         return computeMap;
     },
-    compute: function(ruleArr, d){
+    compute: function (ruleArr, d) {
         let _this = this;
 
-        if(ruleArr == null){
+        if (ruleArr == null) {
             ruleArr = [];
         }
 
         //条件计算存储
         let computeMap = {};
 
-        if(ruleArr.length > 0){
-            for(let i = 0; i < ruleArr.length; i++){
+        if (ruleArr.length > 0) {
+            for (let i = 0; i < ruleArr.length; i++) {
                 let type = ruleArr[i]["type"];
                 let cellrange = ruleArr[i]["cellrange"];
                 let format = ruleArr[i]["format"];
 
-                if(type == "dataBar"){ //数据条
+                if (type == "dataBar") { //数据条
                     let max = null, min = null;
 
-                    for(let s = 0; s < cellrange.length; s++){
-                        for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                            for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                if(d[r] == null || d[r][c] == null){
+                    for (let s = 0; s < cellrange.length; s++) {
+                        for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                            for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                if (d[r] == null || d[r][c] == null) {
                                     continue;
                                 }
 
                                 let cell = d[r][c];
 
-                                if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                    if(max == null || parseInt(cell.v) > max){
+                                if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                    if (max == null || parseInt(cell.v) > max) {
                                         max = parseInt(cell.v);
                                     }
 
-                                    if(min == null || parseInt(cell.v) < min){
+                                    if (min == null || parseInt(cell.v) < min) {
                                         min = parseInt(cell.v);
                                     }
                                 }
@@ -2973,73 +2843,106 @@ const conditionformat = {
                         }
                     }
 
-                    if(max != null && min != null){
-                        if(min < 0){ //选区范围内有负数
+                    if (max != null && min != null) {
+                        if (min < 0) { //选区范围内有负数
                             let plusLen = Math.round(max / (max - min) * 10) / 10;                //正数所占比
                             let minusLen = Math.round(Math.abs(min) / (max - min) * 10) / 10;     //负数所占比
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) < 0){ //负数
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) < 0) { //负数
                                                 let valueLen = Math.round(Math.abs(parseInt(cell.v)) / Math.abs(min) * 100) / 100;
 
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["dataBar"] = { "valueType": "minus", "minusLen": minusLen, "valueLen": valueLen, "format": format };
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "minus", "minusLen": minusLen, "valueLen": valueLen, "format": format } };
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["dataBar"] = {
+                                                        "valueType": "minus",
+                                                        "minusLen": minusLen,
+                                                        "valueLen": valueLen,
+                                                        "format": format
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "dataBar": {
+                                                            "valueType": "minus",
+                                                            "minusLen": minusLen,
+                                                            "valueLen": valueLen,
+                                                            "format": format
+                                                        }
+                                                    };
                                                 }
                                             }
 
-                                            if(parseInt(cell.v) > 0){ //正数
+                                            if (parseInt(cell.v) > 0) { //正数
                                                 let valueLen = Math.round(parseInt(cell.v) / max * 100) / 100;
 
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["dataBar"] = { "valueType": "plus", "plusLen": plusLen, "minusLen": minusLen, "valueLen": valueLen, "format": format };
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "minusLen": minusLen, "valueLen": valueLen, "format": format } };
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["dataBar"] = {
+                                                        "valueType": "plus",
+                                                        "plusLen": plusLen,
+                                                        "minusLen": minusLen,
+                                                        "valueLen": valueLen,
+                                                        "format": format
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "dataBar": {
+                                                            "valueType": "plus",
+                                                            "plusLen": plusLen,
+                                                            "minusLen": minusLen,
+                                                            "valueLen": valueLen,
+                                                            "format": format
+                                                        }
+                                                    };
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             let plusLen = 1;
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
                                             let valueLen;
-                                            if(max == 0){
+                                            if (max == 0) {
                                                 valueLen = 1;
-                                            }
-                                            else{
+                                            } else {
                                                 valueLen = Math.round(parseInt(cell.v) / max * 100) / 100;
                                             }
 
-                                            if((r + "_" + c) in computeMap){
-                                                computeMap[r + "_" + c]["dataBar"] = { "valueType": "plus", "plusLen": plusLen, "valueLen": valueLen, "format": format };
-                                            }
-                                            else{
-                                                computeMap[r + "_" + c] = { "dataBar": { "valueType": "plus", "plusLen": plusLen, "valueLen": valueLen, "format": format } };
+                                            if ((r + "_" + c) in computeMap) {
+                                                computeMap[r + "_" + c]["dataBar"] = {
+                                                    "valueType": "plus",
+                                                    "plusLen": plusLen,
+                                                    "valueLen": valueLen,
+                                                    "format": format
+                                                };
+                                            } else {
+                                                computeMap[r + "_" + c] = {
+                                                    "dataBar": {
+                                                        "valueType": "plus",
+                                                        "plusLen": plusLen,
+                                                        "valueLen": valueLen,
+                                                        "format": format
+                                                    }
+                                                };
                                             }
                                         }
                                     }
@@ -3047,28 +2950,27 @@ const conditionformat = {
                             }
                         }
                     }
-                }
-                else if(type == "colorGradation"){ //色阶
+                } else if (type == "colorGradation") { //色阶
                     let max = null, min = null, sum = 0, count = 0;
 
-                    for(let s = 0; s < cellrange.length; s++){
-                        for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                            for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                if(d[r] == null || d[r][c] == null){
+                    for (let s = 0; s < cellrange.length; s++) {
+                        for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                            for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                if (d[r] == null || d[r][c] == null) {
                                     continue;
                                 }
 
                                 let cell = d[r][c];
 
-                                if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
+                                if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
                                     count++;
                                     sum += parseInt(cell.v);
 
-                                    if(max == null || parseInt(cell.v) > max){
+                                    if (max == null || parseInt(cell.v) > max) {
                                         max = parseInt(cell.v);
                                     }
 
-                                    if(min == null || parseInt(cell.v) < min){
+                                    if (min == null || parseInt(cell.v) < min) {
                                         min = parseInt(cell.v);
                                     }
                                 }
@@ -3076,98 +2978,83 @@ const conditionformat = {
                         }
                     }
 
-                    if(max != null && min != null){
-                        if(format.length == 3){ //三色色阶
+                    if (max != null && min != null) {
+                        if (format.length == 3) { //三色色阶
                             let avg = Math.floor(sum / count);
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) == min){
-                                                if((r + "_" + c) in computeMap){
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) == min) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = format[2];
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": format[2]};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[2] };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) > min && parseInt(cell.v) < avg){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) > min && parseInt(cell.v) < avg) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v));
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v))};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[2], format[1], min, avg, parseInt(cell.v)) };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) == avg){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) == avg) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = format[1];
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": format[1]};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) > avg && parseInt(cell.v) < max){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) > avg && parseInt(cell.v) < max) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v));
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v))};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], avg, max, parseInt(cell.v)) };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) == max){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) == max) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = format[0];
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": format[0]};
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(format.length == 2){ //两色色阶
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                        } else if (format.length == 2) { //两色色阶
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) == min){
-                                                if((r + "_" + c) in computeMap){
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) == min) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = format[1];
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": format[1]};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[1] };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) > min && parseInt(cell.v) < max){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) > min && parseInt(cell.v) < max) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v));
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v))};
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": _this.getcolorGradation(format[1], format[0], min, max, parseInt(cell.v)) };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) == max){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) == max) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["cellColor"] = format[0];
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "cellColor": format[0] };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"cellColor": format[0]};
                                                 }
                                             }
                                         }
@@ -3176,29 +3063,28 @@ const conditionformat = {
                             }
                         }
                     }
-                }
-                else if(type == "icons"){ //图标集
+                } else if (type == "icons") { //图标集
                     let len = parseInt(format["len"]);
                     let leftMin = parseInt(format["leftMin"]);
                     let top = parseInt(format["top"]);
 
                     let max = null, min = null;
 
-                    for(let s = 0; s < cellrange.length; s++){
-                        for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                            for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                if(d[r] == null || d[r][c] == null){
+                    for (let s = 0; s < cellrange.length; s++) {
+                        for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                            for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                if (d[r] == null || d[r][c] == null) {
                                     continue;
                                 }
 
                                 let cell = d[r][c];
 
-                                if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                    if(max == null || parseInt(cell.v) > max){
+                                if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                    if (max == null || parseInt(cell.v) > max) {
                                         max = parseInt(cell.v);
                                     }
 
-                                    if(min == null || parseInt(cell.v) < min){
+                                    if (min == null || parseInt(cell.v) < min) {
                                         min = parseInt(cell.v);
                                     }
                                 }
@@ -3206,154 +3092,174 @@ const conditionformat = {
                         }
                     }
 
-                    if(max != null && min != null){
+                    if (max != null && min != null) {
                         let a = Math.floor((max - min + 1) / len);
                         let b = (max - min + 1) % len;
 
-                        if(len == 3){ //一组图标有三个
+                        if (len == 3) { //一组图标有三个
                             let v1, v2, v3;
-                            if(b == 2){
+                            if (b == 2) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2];
                                 v3 = [min + a * 2 + 1, max];
-                            }
-                            else{
+                            } else {
                                 v1 = [min, min + a - 1];
                                 v2 = [min + a, min + a * 2 - 1];
                                 v3 = [min + a * 2, max];
                             }
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 2,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 2,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
+                                            } else if (parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 1,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 1,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                            }
-                                            else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"icons": {"left": leftMin, "top": top}};
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(len == 4){ //一组图标有四个
+                        } else if (len == 4) { //一组图标有四个
                             let v1, v2, v3, v4;
-                            if(b == 2){
+                            if (b == 2) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2];
                                 v3 = [min + a * 2 + 1, min + a * 3];
                                 v4 = [min + a * 3 + 1, max];
-                            }
-                            else if(b == 3){
+                            } else if (b == 3) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2];
                                 v3 = [min + a * 2 + 1, min + a * 3 + 1];
                                 v4 = [min + a * 3 + 2, max];
-                            }
-                            else{
+                            } else {
                                 v1 = [min, min + a - 1];
                                 v2 = [min + a, min + a * 2 - 1];
                                 v3 = [min + a * 2, min + a * 3 - 1];
                                 v4 = [min + a * 3, max];
                             }
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 3, "top": top};
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 3,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 3,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };
+                                            } else if (parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 2,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 2,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                            }
-                                            else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
+                                            } else if (parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 1,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 1,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"icons": {"left": leftMin, "top": top}};
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(len == 5){ //一组图标有五个
+                        } else if (len == 5) { //一组图标有五个
                             let v1, v2, v3, v4, v5;
-                            if(b == 2){
+                            if (b == 2) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2];
                                 v3 = [min + a * 2 + 1, min + a * 3];
                                 v4 = [min + a * 3 + 1, min + a * 4];
                                 v5 = [min + a * 4 + 1, max];
-                            }
-                            else if(b == 3){
+                            } else if (b == 3) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2];
                                 v3 = [min + a * 2 + 1, min + a * 3 + 1];
                                 v4 = [min + a * 3 + 2, min + a * 4 + 1];
                                 v5 = [min + a * 4 + 2, max];
-                            }
-                            else if(b == 4){
+                            } else if (b == 4) {
                                 v1 = [min, min + a];
                                 v2 = [min + a + 1, min + a * 2 + 1];
                                 v3 = [min + a * 2 + 2, min + a * 3 + 1];
                                 v4 = [min + a * 3 + 2, min + a * 4 + 2];
                                 v5 = [min + a * 4 + 3, max];
-                            }
-                            else{
+                            } else {
                                 v1 = [min, min + a - 1];
                                 v2 = [min + a, min + a * 2 - 1];
                                 v3 = [min + a * 2, min + a * 3 - 1];
@@ -3361,54 +3267,77 @@ const conditionformat = {
                                 v5 = [min + a * 4, max];
                             }
 
-                            for(let s = 0; s < cellrange.length; s++){
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                            for (let s = 0; s < cellrange.length; s++) {
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         let cell = d[r][c];
 
-                                        if(getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null){
-                                            if(parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 4, "top": top};
+                                        if (getObjType(cell) == "object" && cell["ct"] != null && cell["ct"].t == "n" && cell.v != null) {
+                                            if (parseInt(cell.v) >= v1[0] && parseInt(cell.v) <= v1[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 4,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 4,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 4, "top": top} };
+                                            } else if (parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 3,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 3,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                            }
-                                            else if(parseInt(cell.v) >= v2[0] && parseInt(cell.v) <= v2[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 3, "top": top};
+                                            } else if (parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 2,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 2,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 3, "top": top} };
+                                            } else if (parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]) {
+                                                if ((r + "_" + c) in computeMap) {
+                                                    computeMap[r + "_" + c]["icons"] = {
+                                                        "left": leftMin + 1,
+                                                        "top": top
+                                                    };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "icons": {
+                                                            "left": leftMin + 1,
+                                                            "top": top
+                                                        }
+                                                    };
                                                 }
-                                            }
-                                            else if(parseInt(cell.v) >= v3[0] && parseInt(cell.v) <= v3[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 2, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 2, "top": top} };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) >= v4[0] && parseInt(cell.v) <= v4[1]){
-                                                if((r + "_" + c) in computeMap){
-                                                    computeMap[r + "_" + c]["icons"] = {"left": leftMin + 1, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin + 1, "top": top} };
-                                                }
-                                            }
-                                            else if(parseInt(cell.v) >= v5[0] && parseInt(cell.v) <= v5[1]){
-                                                if((r + "_" + c) in computeMap){
+                                            } else if (parseInt(cell.v) >= v5[0] && parseInt(cell.v) <= v5[1]) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["icons"] = {"left": leftMin, "top": top};
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "icons": {"left": leftMin, "top": top} };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {"icons": {"left": leftMin, "top": top}};
                                                 }
                                             }
                                         }
@@ -3417,8 +3346,7 @@ const conditionformat = {
                             }
                         }
                     }
-                }
-                else{
+                } else {
                     //获取变量值
                     let conditionName = ruleArr[i].conditionName,         //条件名称
                         conditionValue0 = ruleArr[i].conditionValue[0],   //条件值1
@@ -3426,339 +3354,330 @@ const conditionformat = {
                         textColor = format.textColor,          //条件格式文本颜色 fc
                         cellColor = format.cellColor;          //条件格式单元格颜色 bg
 
-                    for(let s = 0; s < cellrange.length; s++){
+                    for (let s = 0; s < cellrange.length; s++) {
                         //条件类型判断
-                        if(conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains"){
+                        if (conditionName == "greaterThan" || conditionName == "lessThan" || conditionName == "equal" || conditionName == "textContains") {
                             //循环应用范围计算
-                            for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                    if(d[r] == null || d[r][c] == null){
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
                                         continue;
                                     }
 
                                     //单元格值
                                     let cell = d[r][c];
 
-                                    if(getObjType(cell) != "object" || isRealNull(cell.v)){
+                                    if (getObjType(cell) != "object" || isRealNull(cell.v)) {
                                         continue;
                                     }
 
                                     //符合条件
-                                    if(conditionName == "greaterThan" && cell.v > conditionValue0){
-                                        if((r + "_" + c) in computeMap){
+                                    if (conditionName == "greaterThan" && cell.v > conditionValue0) {
+                                        if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                         }
-                                        else{
-                                            computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
-                                        }
-                                    }
-                                    else if(conditionName == "lessThan" && cell.v < conditionValue0){
-                                        if((r + "_" + c) in computeMap){
+                                    } else if (conditionName == "lessThan" && cell.v < conditionValue0) {
+                                        if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                         }
-                                        else{
-                                            computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
-                                        }
-                                    }
-                                    else if(conditionName == "equal" && cell.v == conditionValue0){
-                                        if((r + "_" + c) in computeMap){
+                                    } else if (conditionName == "equal" && cell.v == conditionValue0) {
+                                        if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                         }
-                                        else{
-                                            computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
-                                        }
-                                    }
-                                    else if(conditionName == "textContains" && cell.v.toString().indexOf(conditionValue0) != -1){
-                                        if((r + "_" + c) in computeMap){
+                                    } else if (conditionName == "textContains" && cell.v.toString().indexOf(conditionValue0) != -1) {
+                                        if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                        }
-                                        else{
-                                            computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(conditionName == "betweenness"){
+                        } else if (conditionName == "betweenness") {
                             //比较条件值1和条件值2的大小
                             let vBig, vSmall;
-                            if(conditionValue0 > conditionValue1){
+                            if (conditionValue0 > conditionValue1) {
                                 vBig = conditionValue0;
                                 vSmall = conditionValue1;
-                            }
-                            else{
+                            } else {
                                 vBig = conditionValue1;
                                 vSmall = conditionValue0;
                             }
                             //循环应用范围计算
-                            for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                    if(d[r] == null || d[r][c] == null){
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
                                         continue;
                                     }
 
                                     //单元格值
                                     let cell = d[r][c];
 
-                                    if(getObjType(cell) != "object" || isRealNull(cell.v)){
+                                    if (getObjType(cell) != "object" || isRealNull(cell.v)) {
                                         continue;
                                     }
 
                                     //符合条件
-                                    if(cell.v >= vSmall && cell.v <= vBig){
-                                        if((r + "_" + c) in computeMap){
+                                    if (cell.v >= vSmall && cell.v <= vBig) {
+                                        if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                        }
-                                        else{
-                                            computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(conditionName == "occurrenceDate"){
+                        } else if (conditionName == "occurrenceDate") {
                             //获取日期所对应的数值
                             let dBig, dSmall;
-                            if(conditionValue0.toString().indexOf("-") == -1){
+                            if (conditionValue0.toString().indexOf("-") == -1) {
                                 dBig = genarate(conditionValue0)[2];
                                 dSmall = genarate(conditionValue0)[2];
-                            }
-                            else{
+                            } else {
                                 let str = conditionValue0.toString().split("-");
                                 dBig = genarate(str[1].trim())[2];
                                 dSmall = genarate(str[0].trim())[2];
                             }
                             //循环应用范围计算
-                            for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                    if(d[r] == null || d[r][c] == null){
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
                                         continue;
                                     }
 
                                     //单元格值类型为日期类型
-                                    if(d[r][c].ct != null && d[r][c].ct.t == "d"){
+                                    if (d[r][c].ct != null && d[r][c].ct.t == "d") {
                                         //单元格值
                                         let cellVal = getcellvalue(r, c, d);
                                         //符合条件
-                                        if(cellVal >= dSmall && cellVal <= dBig){
-                                            if((r + "_" + c) in computeMap){
+                                        if (cellVal >= dSmall && cellVal <= dBig) {
+                                            if ((r + "_" + c) in computeMap) {
                                                 computeMap[r + "_" + c]["textColor"] = textColor;
                                                 computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                            }
-                                            else{
-                                                computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                            } else {
+                                                computeMap[r + "_" + c] = {
+                                                    "textColor": textColor,
+                                                    "cellColor": cellColor
+                                                };
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(conditionName == "duplicateValue"){
+                        } else if (conditionName == "duplicateValue") {
                             //应用范围单元格值处理
                             let dmap = {};
-                            for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
                                     let item = getcellvalue(r, c, d);
-                                    if(!(item in dmap)){
+                                    if (!(item in dmap)) {
                                         dmap[item] = [];
                                     }
                                     dmap[item].push({"r": r, "c": c});
                                 }
                             }
                             //循环应用范围计算
-                            if(conditionValue0 == "0"){//重复值
-                                for(let x in dmap){
-                                    if(x != "null" && x != "undefined" && dmap[x].length > 1){
-                                        for(let j = 0; j < dmap[x].length; j++){
-                                            if((dmap[x][j].r + "_" + dmap[x][j].c) in computeMap){
+                            if (conditionValue0 == "0") {//重复值
+                                for (let x in dmap) {
+                                    if (x != "null" && x != "undefined" && dmap[x].length > 1) {
+                                        for (let j = 0; j < dmap[x].length; j++) {
+                                            if ((dmap[x][j].r + "_" + dmap[x][j].c) in computeMap) {
                                                 computeMap[dmap[x][j].r + "_" + dmap[x][j].c]["textColor"] = textColor;
                                                 computeMap[dmap[x][j].r + "_" + dmap[x][j].c]["cellColor"] = cellColor;
-                                            }
-                                            else{
-                                                computeMap[dmap[x][j].r + "_" + dmap[x][j].c] = { "textColor": textColor, "cellColor": cellColor };
+                                            } else {
+                                                computeMap[dmap[x][j].r + "_" + dmap[x][j].c] = {
+                                                    "textColor": textColor,
+                                                    "cellColor": cellColor
+                                                };
                                             }
                                         }
                                     }
                                 }
                             }
-                            if(conditionValue0 == "1"){//唯一值
-                                for(let x in dmap){
-                                    if(x != "null" && x != "undefined" && dmap[x].length == 1){
-                                        if((dmap[x][0].r + "_" + dmap[x][0].c) in computeMap){
+                            if (conditionValue0 == "1") {//唯一值
+                                for (let x in dmap) {
+                                    if (x != "null" && x != "undefined" && dmap[x].length == 1) {
+                                        if ((dmap[x][0].r + "_" + dmap[x][0].c) in computeMap) {
                                             computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["textColor"] = textColor;
                                             computeMap[dmap[x][0].r + "_" + dmap[x][0].c]["cellColor"] = cellColor;
-                                        }
-                                        else{
-                                            computeMap[dmap[x][0].r + "_" + dmap[x][0].c] = { "textColor": textColor, "cellColor": cellColor };
+                                        } else {
+                                            computeMap[dmap[x][0].r + "_" + dmap[x][0].c] = {
+                                                "textColor": textColor,
+                                                "cellColor": cellColor
+                                            };
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%" || conditionName == "AboveAverage" || conditionName == "SubAverage"){
+                        } else if (conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%" || conditionName == "AboveAverage" || conditionName == "SubAverage") {
                             //应用范围单元格值(数值型)
-                            let dArr=[];
-                            for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                    if(d[r] == null || d[r][c] == null){
+                            let dArr = [];
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
                                         continue;
                                     }
 
                                     //单元格值类型为数字类型
-                                    if(d[r][c].ct != null && d[r][c].ct.t == "n"){
+                                    if (d[r][c].ct != null && d[r][c].ct.t == "n") {
                                         dArr.push(getcellvalue(r, c, d));
                                     }
                                 }
                             }
                             //数组处理
-                            if(conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%"){
+                            if (conditionName == "top10" || conditionName == "top10%" || conditionName == "last10" || conditionName == "last10%") {
                                 //从大到小排序
-                                for(let j = 0; j < dArr.length; j++){
-                                    for(let k = 0; k < dArr.length - 1 - j; k++){
-                                        if(dArr[k]<dArr[k+1]){
-                                            let temp=dArr[k];
-                                            dArr[k]=dArr[k+1];
-                                            dArr[k+1]=temp;
+                                for (let j = 0; j < dArr.length; j++) {
+                                    for (let k = 0; k < dArr.length - 1 - j; k++) {
+                                        if (dArr[k] < dArr[k + 1]) {
+                                            let temp = dArr[k];
+                                            dArr[k] = dArr[k + 1];
+                                            dArr[k + 1] = temp;
                                         }
                                     }
                                 }
                                 //取条件值数组
                                 let cArr
-                                if(conditionName == "top10"){
+                                if (conditionName == "top10") {
                                     cArr = dArr.slice(0, conditionValue0); //前10项数组
-                                }
-                                else if(conditionName == "top10%"){
-                                    cArr = dArr.slice(0, Math.floor(conditionValue0*dArr.length/100)); //前10%数组
-                                }
-                                else if(conditionName == "last10"){
-                                    cArr = dArr.slice((dArr.length-conditionValue0), dArr.length); //最后10项数组
-                                }
-                                else if(conditionName == "last10%"){
-                                    cArr = dArr.slice((dArr.length-Math.floor(conditionValue0*dArr.length/100)), dArr.length); //最后10%数组
+                                } else if (conditionName == "top10%") {
+                                    cArr = dArr.slice(0, Math.floor(conditionValue0 * dArr.length / 100)); //前10%数组
+                                } else if (conditionName == "last10") {
+                                    cArr = dArr.slice((dArr.length - conditionValue0), dArr.length); //最后10项数组
+                                } else if (conditionName == "last10%") {
+                                    cArr = dArr.slice((dArr.length - Math.floor(conditionValue0 * dArr.length / 100)), dArr.length); //最后10%数组
                                 }
                                 //循环应用范围计算
-                                for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                    for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                        if(d[r] == null || d[r][c] == null){
+                                for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                    for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                        if (d[r] == null || d[r][c] == null) {
                                             continue;
                                         }
 
                                         //单元格值
                                         let cellVal = getcellvalue(r, c, d);
                                         //符合条件
-                                        if(cArr.indexOf(cellVal) != -1){
-                                            if((r + "_" + c) in computeMap){
+                                        if (cArr.indexOf(cellVal) != -1) {
+                                            if ((r + "_" + c) in computeMap) {
                                                 computeMap[r + "_" + c]["textColor"] = textColor;
                                                 computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                            }
-                                            else{
-                                                computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                            } else {
+                                                computeMap[r + "_" + c] = {
+                                                    "textColor": textColor,
+                                                    "cellColor": cellColor
+                                                };
                                             }
                                         }
                                     }
                                 }
-                            }
-                            else if(conditionName == "AboveAverage" || conditionName == "SubAverage"){
+                            } else if (conditionName == "AboveAverage" || conditionName == "SubAverage") {
                                 //计算数组平均值
                                 let sum = 0;
-                                for(let j = 0; j < dArr.length; j++){
+                                for (let j = 0; j < dArr.length; j++) {
                                     sum += dArr[j];
                                 }
                                 let averageNum = sum / dArr.length;
                                 //循环应用范围计算
-                                if(conditionName == "AboveAverage"){ //高于平均值
-                                    for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                        for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                            if(d[r] == null || d[r][c] == null){
+                                if (conditionName == "AboveAverage") { //高于平均值
+                                    for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                        for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                            if (d[r] == null || d[r][c] == null) {
                                                 continue;
                                             }
 
                                             //单元格值
                                             let cellVal = getcellvalue(r, c, d);
                                             //符合条件
-                                            if(cellVal > averageNum){
-                                                if((r + "_" + c) in computeMap){
+                                            if (cellVal > averageNum) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["textColor"] = textColor;
                                                     computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "textColor": textColor,
+                                                        "cellColor": cellColor
+                                                    };
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                else if(conditionName == "SubAverage"){ //低于平均值
-                                    for(let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++){
-                                        for(let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++){
-                                            if(d[r] == null || d[r][c] == null){
+                                } else if (conditionName == "SubAverage") { //低于平均值
+                                    for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                        for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                            if (d[r] == null || d[r][c] == null) {
                                                 continue;
                                             }
 
                                             //单元格值
                                             let cellVal = getcellvalue(r, c, d);
                                             //符合条件
-                                            if(cellVal < averageNum){
-                                                if((r + "_" + c) in computeMap){
+                                            if (cellVal < averageNum) {
+                                                if ((r + "_" + c) in computeMap) {
                                                     computeMap[r + "_" + c]["textColor"] = textColor;
                                                     computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                                }
-                                                else{
-                                                    computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                                } else {
+                                                    computeMap[r + "_" + c] = {
+                                                        "textColor": textColor,
+                                                        "cellColor": cellColor
+                                                    };
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        else if(conditionName == "formula"){
+                        } else if (conditionName == "formula") {
                             let str = cellrange[s].row[0],
                                 edr = cellrange[s].row[1],
                                 stc = cellrange[s].column[0],
                                 edc = cellrange[s].column[1];
 
                             let formulaTxt = conditionValue0;
-                            if(conditionValue0.toString().slice(0, 1) != '='){
+                            if (conditionValue0.toString().slice(0, 1) != '=') {
                                 formulaTxt = '=' + conditionValue0;
                             }
 
-                            for(let r = str; r <= edr; r++){
-                                for(let c = stc; c <= edc; c++){
+                            for (let r = str; r <= edr; r++) {
+                                for (let c = stc; c <= edc; c++) {
                                     let func = formulaTxt;
                                     let offsetRow = r - str;
                                     let offsetCol = c - stc;
 
-                                    if(offsetRow > 0){
+                                    if (offsetRow > 0) {
                                         func = "=" + formula.functionCopy(func, "down", offsetRow);
                                     }
 
-                                    if(offsetCol > 0){
+                                    if (offsetCol > 0) {
                                         func = "=" + formula.functionCopy(func, "right", offsetCol);
                                     }
 
                                     let funcV = formula.execfunction(func);
                                     let v = funcV[1];
 
-                                    if(typeof v != 'boolean'){
+                                    if (typeof v != 'boolean') {
                                         v = !!Number(v);
                                     }
 
-                                    if(!v){
+                                    if (!v) {
                                         continue;
                                     }
 
-                                    if((r + "_" + c) in computeMap){
+                                    if ((r + "_" + c) in computeMap) {
                                         computeMap[r + "_" + c]["textColor"] = textColor;
                                         computeMap[r + "_" + c]["cellColor"] = cellColor;
-                                    }
-                                    else{
-                                        computeMap[r + "_" + c] = { "textColor": textColor, "cellColor": cellColor };
+                                    } else {
+                                        computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
                                     }
                                 }
                             }
@@ -3770,8 +3689,8 @@ const conditionformat = {
 
         return computeMap;
     },
-    updateItem: function(type, cellrange, format){
-        if(!checkProtectionFormatCells(Store.currentSheetIndex)){
+    updateItem: function (type, cellrange, format) {
+        if (!checkProtectionFormatCells(Store.currentSheetIndex)) {
             return;
         }
 
@@ -3784,10 +3703,9 @@ const conditionformat = {
 
         //保存当前的规则
         let ruleArr;
-        if(type == "delSheet"){
+        if (type == "delSheet") {
             ruleArr = [];
-        }
-        else{
+        } else {
             let rule = {
                 "type": type,
                 "cellrange": cellrange,
@@ -3806,31 +3724,37 @@ const conditionformat = {
         _this.ref(historyRules, currentRules);
 
         //发送给后台
-        if(server.allowUpdate){
-            server.saveParam("all", Store.currentSheetIndex, ruleArr, { "k": "luckysheet_conditionformat_save" });
+        if (server.allowUpdate) {
+            server.saveParam("all", Store.currentSheetIndex, ruleArr, {"k": "luckysheet_conditionformat_save"});
         }
     },
-    getHistoryRules: function(fileH){
+    getHistoryRules: function (fileH) {
         let historyRules = [];
 
-        for(let h = 0; h < fileH.length; h++){
-            historyRules.push({"sheetIndex": fileH[h]["index"], "luckysheet_conditionformat_save": fileH[h]["luckysheet_conditionformat_save"]});
+        for (let h = 0; h < fileH.length; h++) {
+            historyRules.push({
+                "sheetIndex": fileH[h]["index"],
+                "luckysheet_conditionformat_save": fileH[h]["luckysheet_conditionformat_save"]
+            });
         }
 
         return historyRules;
     },
-    getCurrentRules: function(fileC){
+    getCurrentRules: function (fileC) {
         let currentRules = [];
 
-        for(let c = 0; c < fileC.length; c++){
-            currentRules.push({"sheetIndex": fileC[c]["index"], "luckysheet_conditionformat_save": fileC[c]["luckysheet_conditionformat_save"]});
+        for (let c = 0; c < fileC.length; c++) {
+            currentRules.push({
+                "sheetIndex": fileC[c]["index"],
+                "luckysheet_conditionformat_save": fileC[c]["luckysheet_conditionformat_save"]
+            });
         }
 
         return currentRules;
     },
-    ref: function(historyRules, currentRules){
+    ref: function (historyRules, currentRules) {
         if (Store.clearjfundo) {
-            Store.jfundo.length  = 0;
+            Store.jfundo.length = 0;
 
             let redo = {};
             redo["type"] = "updateCF";

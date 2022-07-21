@@ -3217,6 +3217,7 @@ export default {
         't': 2,
         'd': '在单元格内创建一个超链接。',
         'a': '在单元格内创建一个超链接。',
+        "m": [2, 2],
         'p': [{
             'name': '网址',
             'detail': '以引号括住的链接位置的完整网址，或对包含这种网址的单元格的引用。\n\n仅允许某些链接类型。其中包括：http://、https://、mailto:、aim:、ftp://、gopher://、telnet://和news://，明确禁用使用其他协议。如果指定的是其他协议，将会在单元格中显示链接标签，但该标签不会以链接形式呈现。\n\n如果未指定协议，则假设使用http://，并将其作为网址的前缀。',
@@ -7782,409 +7783,6 @@ export default {
             'repeat': 'n',
             'type': 'range'
         }]
-    }, {
-        "n": "AGE_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出年龄。支持15位或18位身份证",
-        "a": "根据身份证号得到年龄。",
-        "m": [1, 2],
-        "p": [{
-            "name": "身份证号",
-            "example": "A1",
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "截止日期",
-            "example": '"2017-10-01"',
-            "detail": "年龄计算的截止日期或范围，默认为当日。",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedatetime"
-        }]
-    },
-    // SEX_BY_IDCARD
-    {
-        "n": "SEX_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出性别。支持15位或18位身份证",
-        "a": "根据身份证号得到性别。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // BIRTHDAY_BY_IDCARD
-    {
-        "n": "BIRTHDAY_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出生日。支持15位或18位身份证",
-        "a": "根据身份证号得到生日。",
-        "m": [1, 2],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "生日格式",
-            "example": '0',
-            "detail": "日期类型,默认0:[1900/01/01], 1:[1900-01-01], 2:[1900年1月1日]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // PROVINCE_BY_IDCARD
-    {
-        "n": "PROVINCE_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出籍贯的省份。支持15位或18位身份证",
-        "a": "根据身份证号得到籍贯的省份。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // CITY_BY_IDCARD
-    {
-        "n": "CITY_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出籍贯的城市。支持15位或18位身份证",
-        "a": "根据身份证号得到籍贯的城市。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // STAR_BY_IDCARD
-    {
-        "n": "STAR_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出星座。支持15位或18位身份证",
-        "a": "根据身份证号得到星座。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // ANIMAL_BY_IDCARD
-    {
-        "n": "ANIMAL_BY_IDCARD",
-        "t": "3",
-        "d": "根据中国身份证号计算出生肖（鼠、牛、虎、兔...）。支持15位或18位身份证",
-        "a": "根据身份证号得到生肖。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // ISIDCARD
-    {
-        "n": "ISIDCARD",
-        "t": "3",
-        "d": "验证身份证的格式是否正确。支持15位或18位身份证",
-        "a": "验证身份证格式正确性。",
-        "m": [1, 1],
-        "p": [{
-            "name": "身份证号",
-            "example": '"31033519900101XXXX"',
-            "detail": "15位或者18位的身份证号或范围。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }]
-    },
-    // DM_TEXT_CUTWORD
-    {
-        "n": "DM_TEXT_CUTWORD",
-        "t": "4",
-        "d": "文本分词。把一连串文字拆分为一系列单独词语",
-        "a": "中文文本分词。",
-        "m": [1, 2],
-        "p": [{
-            "name": "文本",
-            "example": '"我来到北京清华大学"',
-            "detail": "任意需要分词的文本。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "分词模式",
-            "example": '0',
-            "detail": "默认为0[精确模式], 1[全模式], 2[搜索引擎模式]。",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DM_TEXT_TFIDF
-    {
-        "n": "DM_TEXT_TFIDF",
-        "t": "4",
-        "d": "采用tf-idf算法进行关键词提取。从一连串文字中识别关键词",
-        "a": "tf-idf关键词识别。",
-        "m": [1, 3],
-        "p": [{
-            "name": "文本",
-            "example": '"我来到北京清华大学"',
-            "detail": "任意需要分词的文本。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "关键词个数",
-            "example": '20',
-            "detail": "算法返回的关键词个数，默认20",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }, {
-            "name": "语料库",
-            "example": '1',
-            "detail": "选择特定领域的语料库，默认0[通用], 1[金融], 2[医疗]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DM_TEXT_TEXTRANK
-    {
-        "n": "DM_TEXT_TEXTRANK",
-        "t": "4",
-        "d": "采用TextRank算法进行关键词提取。从一连串文字中识别关键词",
-        "a": "TextRank关键词识别。",
-        "m": [1, 3],
-        "p": [{
-            "name": "文本",
-            "example": '"我来到北京清华大学"',
-            "detail": "任意需要分词的文本。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "关键词个数",
-            "example": '20',
-            "detail": "算法返回的关键词个数，默认20",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }, {
-            "name": "语料库",
-            "example": '1',
-            "detail": "选择特定领域的语料库，默认0[通用], 1[金融], 2[医疗]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_CLOSE
-    {
-        "n": "DATA_CN_STOCK_CLOSE",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票收盘价。",
-        "a": "返回A股对应股票收盘价。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_OPEN
-    {
-        "n": "DATA_CN_STOCK_OPEN",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票开盘价。",
-        "a": "返回A股对应股票开盘价。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_MAX
-    {
-        "n": "DATA_CN_STOCK_MAX",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票最高价。",
-        "a": "返回A股对应股票最高价。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_MIN
-    {
-        "n": "DATA_CN_STOCK_MIN",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票最低价。",
-        "a": "返回A股对应股票最低价。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_VOLUMN
-    {
-        "n": "DATA_CN_STOCK_VOLUMN",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票成交量。",
-        "a": "返回A股对应股票成交量。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
-    },
-    // DATA_CN_STOCK_AMOUNT
-    {
-        "n": "DATA_CN_STOCK_AMOUNT",
-        "t": "5",
-        "d": "根据股票代码和日期，返回A股对应股票成交额。",
-        "a": "返回A股对应股票成交额。",
-        "m": [1, 3],
-        "p": [{
-            "name": "股票代码",
-            "example": '"000001"',
-            "detail": "6位股票代码，必填项。",
-            "require": "m",
-            "repeat": "n",
-            "type": "rangeall"
-        }, {
-            "name": "日期",
-            "example": '2015-01-08',
-            "detail": "股票的交易日，默认为最新交易日",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangedate"
-        }, {
-            "name": "复权除权",
-            "example": '0',
-            "detail": "选择股票的除权复权类型，默认0[前复权], 1[原始价格], 2[后复权]",
-            "require": "o",
-            "repeat": "n",
-            "type": "rangenumber"
-        }]
     },
     // ISDATE
     {
@@ -9162,6 +8760,9 @@ export default {
 
         titleCurrency: '货币格式',
         decimalPlaces: '小数位数',
+        decimalSeparator: '小数分隔符',
+        optionComma: '逗号 (,)',
+        optionPoint: '点 (.)',
         titleDateTime: '日期与时间格式',
         titleNumber: '数字格式'
     },
@@ -9356,17 +8957,19 @@ export default {
         { "text": '自动', "value": "General", "example": "" },
         { "text": '纯文本', "value": "@", "example": "" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '数字', "value": "##0.00", "example": "1000.12" },
+        { "text": '数字 (.)', "value": "##0.00", "example": "1000.12" },
+        { "text": '数字 (,)', "value": "##0,00", "example": "1000,12" },
         { "text": '百分比', "value": "#0.00%", "example": "12.21%" },
         { "text": '科学计数', "value": "0.00E+00", "example": "1.01E+5" },
         { "text": "", "value": "split", "example": "" },
-        { "text": '会计', "value": "¥(0.00)", "example": "¥(1200.09)" },
+        { "text": '会计', "value": "$(0.00)", "example": "$(1200.09)" },
         //{ "text": "财务", "value": "(#.####)", "example": "(1200.09)" },
         { "text": '万元', "value": "w", "example": "1亿2000万2500" },
-        { "text": '货币', "value": "¥0.00", "example": "¥1200.09" },
+        { "text": '货币', "value": "$0.00", "example": "$1200.09" },
         //{ "text": "货币整数", "value": "¥####", "example": "¥1200" },
         { "text": '万元2位小数', "value": "w0.00", "example": "2万2500.55" },
         { "text": "", "value": "split", "example": "" },
+        { "text": 'Date (.)', "value": "dd\".\"MM\".\"yyyy", "example": "28.10.2021" },
         { "text": '日期', "value": "yyyy-MM-dd", "example": "2017-11-29" },
         { "text": '时间', "value": "hh:mm AM/PM", "example": "3:00 PM" },
         { "text": '时间24H', "value": "hh:mm", "example": "15:00" },
@@ -9377,6 +8980,10 @@ export default {
     ],
     dateFmtList:[
         {
+            "name": "28.10.2021",
+            "value": "dd\".\"MM\".\"yyyy"
+        },
+        {
             "name": "1930-08-05",
             "value": "yyyy-MM-dd"
         },
@@ -9385,8 +8992,20 @@ export default {
             "value": "yyyy/MM/dd"
         },
         {
+            "name": "28. 10. 2021.",
+            "value": "d\".\" M\".\" yyyy\".\""
+        },
+        {
             "name": "1930年8月5日",
             "value": 'yyyy"年"M"月"d"日"'
+        },
+        {
+            "name": "28.10.21",
+            "value": "dd\".\"MM\".\"yy"
+        },
+        {
+            "name": "2021\".\"08\".\"25",
+            "value": "yyyy\".\"MM\".\"dd"
         },
         {
             "name": "08-05",
@@ -9522,7 +9141,6 @@ export default {
     },
     filter:{
         "filter":"筛选", 
-        "clearFilter":"清除筛选", 
 
         sortByAsc:"以A-Z升序排列",
         sortByDesc:"以Z-A降序排列",
@@ -10247,7 +9865,7 @@ export default {
 
         checkPasswordSucceedalert:"解锁成功，可以编辑该区域!",
         defaultRangeHintText:"该单元格正在受密码保护。",
-        defaultSheetHintText:"该单元格或图表位于受保护的工作表中，若要进行更改，请取消工作表保护，您可能需要输入密码。",
+        defaultSheetHintText:"该单元格或图表位于受保护的工作表中，若要进行更改，请取消工作表保护",
     },
     cellFormat:{
         cellFormatTitle:"设置单元格格式",

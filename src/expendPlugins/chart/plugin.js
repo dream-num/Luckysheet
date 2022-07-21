@@ -1,329 +1,166 @@
-import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
-import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
-import { getdatabyselection, getcellvalue } from '../../global/getdata';
+import {arrayRemoveItem} from '../../utils/util'
+import {generateRandomKey} from '../../utils/chartUtil'
+import {getdatabyselection, getcellvalue} from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
-import { luckysheet_getcelldata } from '../../function/func';
-import { getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow } from '../../methods/get'
-import { rowLocation, colLocation, mouseposition } from '../../global/location'
-import { setluckysheet_scroll_status } from '../../methods/set'
-import {
-    luckysheetMoveHighlightCell,
-    luckysheetMoveHighlightCell2, 
-    luckysheetMoveHighlightRange,
-    luckysheetMoveHighlightRange2,
-    luckysheetMoveEndCell
-} from '../../controllers/sheetMove';
-import { isEditMode } from '../../global/validate';
+import {luckysheet_getcelldata} from '../../function/func';
+import {getSheetIndex, getRangetxt, getvisibledatacolumn, getvisibledatarow, getluckysheetfile} from '../../methods/get'
+import {rowLocation, colLocation, mouseposition} from '../../global/location'
+import {setluckysheet_scroll_status} from '../../methods/set'
+import {luckysheetMoveHighlightRange2, luckysheetMoveEndCell} from '../../controllers/sheetMove';
+import {isEditMode} from '../../global/validate';
 import luckysheetsizeauto from '../../controllers/resize';
+import './umd/chartmix.css';
+import chartmix from './umd/chartmix.umd';
+import DOMPurify from "dompurify";
+import escapeHtml from "escape-html";
+import Store from "../../store";
+
 let _rowLocation = rowLocation
 let _colLocation = colLocation
 
-// Dynamically load dependent scripts and styles
-const dependScripts = [
-    'https://cdn.jsdelivr.net/npm/vue@2.6.11',
-    'https://unpkg.com/vuex@3.4.0',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
-    'expendPlugins/chart/chartmix.umd.min.js',
-    // 'http://26.26.26.1:8000/chartmix.umd.js'
-]
-
-const dependLinks = [
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css',
-    'expendPlugins/chart/chartmix.css',
-    // 'http://26.26.26.1:8000/chartmix.css'
-]
-
 // Initialize the chart component
 function chart(data, isDemo) {
-    loadLinks(dependLinks);
+    let outDom = document.getElementsByTagName('body')[0]
+    chartmix.install({dom: outDom, lang: chartInfo.lang})
 
-    seriesLoadScripts(dependScripts, null, function () {
-        const store = new Vuex.Store()
-        console.info('chartmix::', chartmix.default)
+    $('.chartSetting').css({
+        top: '1px',
+        bottom: '1px',
+        position: 'absolute',
+        right: '0px',
+        width: '381px',
+        background: '#fff',
 
-        Vue.use(chartmix.default, { store })
-        let outDom = document.getElementsByTagName('body')[0]
-        chartmix.default.initChart(outDom, chartInfo.lang)
+        border: '1px solid #E5E5E5',
+        'z-index': 1004,
+        'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-webkit-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-moz-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
+        '-moz-user-select': 'none',
+        '-khtml-user-select': 'none',
+        '-webkit-user-select': 'none',
+        '-ms-user-select': 'none',
+        'user-select': 'none',
+        display: 'none'
+    })
 
-        $('.chartSetting').css({
-            top: '1px',
-            bottom: '1px',
-            position: 'absolute',
-            right: '0px',
-            width: '350px',
-            background: '#fff',
+    chartInfo.createChart = chartmix.createChart
+    chartInfo.highlightChart = chartmix.highlightChart
+    chartInfo.deleteChart = chartmix.deleteChart
+    chartInfo.resizeChart = chartmix.resizeChart
+    chartInfo.changeChartRange = chartmix.changeChartRange
+    chartInfo.changeChartCellData = chartmix.changeChartCellData
+    chartInfo.getChartJson = chartmix.getChartJson
+    chartInfo.chart_selection = chart_selection()
+    chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
+    chartInfo.chartparam.changeChartCellData = chartmix.changeChartCellData
+    chartInfo.chartparam.renderChart = chartmix.renderChart
+    chartInfo.chartparam.getChartJson = chartmix.getChartJson
+    chartInfo.chartparam.insertToStore = chartmix.insertToStore
 
-            border: '1px solid #E5E5E5',
-            'z-index': 1004,
-            'box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-webkit-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-moz-box-shadow': '0px 2px 4px rgba(0,0,0,0.2)',
-            '-moz-user-select': 'none',
-            '-khtml-user-select': 'none',
-            '-webkit-user-select': 'none',
-            '-ms-user-select': 'none',
-            'user-select': 'none',
-            'padding-left': '30px',
-            display: 'none'
-        })
-
-
-        chartInfo.createChart = chartmix.default.createChart
-        chartInfo.highlightChart = chartmix.default.highlightChart
-        chartInfo.deleteChart = chartmix.default.deleteChart
-        chartInfo.resizeChart = chartmix.default.resizeChart
-        chartInfo.changeChartRange = chartmix.default.changeChartRange
-        chartInfo.changeChartCellData = chartmix.default.changeChartCellData
-        chartInfo.getChartJson = chartmix.default.getChartJson
-        chartInfo.chart_selection = chart_selection()
-        chartInfo.chartparam.jfrefreshchartall = jfrefreshchartall
-        chartInfo.chartparam.changeChartCellData = chartmix.default.changeChartCellData
-        chartInfo.chartparam.renderChart = chartmix.default.renderChart
-        chartInfo.chartparam.getChartJson = chartmix.default.getChartJson
-        chartInfo.chartparam.insertToStore = chartmix.default.insertToStore
-
-        // Initialize the rendering chart
+    // Initialize the rendering chart
+    setTimeout(() => {
         for (let i = 0; i < data.length; i++) {
             // if (data[i].status == '1') {
+            try {
                 renderCharts(data[i].chart, isDemo)
+            } catch (e) {
+                console.error(e);
+            }
             // }
         }
 
         for (let i = 0; i < data.length; i++) {
             if (data[i].status == '1') {
-                renderChartShow(data[i].index)
+                try {
+                    renderChartShow(data[i].index);
+                } catch (e) {
+                    console.error(e);
+                }
             }
         }
 
         // After the chart is loaded, mark it
-        arrayRemoveItem(chartInfo.asyncLoad,'chart');
-
-    });
+        arrayRemoveItem(chartInfo.asyncLoad, 'chart');
+    }, 10);
 }
 
 // rendercharts
-function renderCharts(chartLists, isDemo) {
-
+function renderCharts(chartLists) {
     // no chart
-    if(chartLists == undefined){
+    if (chartLists == undefined) {
         return;
     }
 
     for (let i = 0; i < chartLists.length; i++) {
         let chart = chartLists[i]
 
-        if (isDemo) {
-            chartInfo.chartparam.insertToStore({ chart_id: chart.chart_id, chartOptions: chart.chartOptions })
-        }
+        chartInfo.chartparam.insertToStore({chart_id: chart.chart_id, chartOptions: chart.chartOptions})
 
         let chart_id = chart.chart_id
-        let chart_id_c = chart_id + '_c'
-        let modelChartShowHTML =
-            '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
-
-        let $t = $(
-            replaceHtml(modelChartShowHTML, {
-                id: chart_id_c,
-                addclass: 'luckysheet-data-visualization-chart',
-                title: '图表生成',
-                content: ''
-            })
-        ).appendTo($('.luckysheet-cell-main'))
-
-        setChartMoveableEffect($t);
-
-        $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
-
-        let container = document.getElementById(chart_id_c)
-
-
-        let chart_json
-        chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
-
-        chartInfo.chartparam.renderChart({ chart_id: chart.chart_id, chartOptions: chart_json })
+        let {$t, container} = renderChartContainer(chart_id);
+        let chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
+        chartInfo.chartparam.renderChart({chart_id: chart.chart_id, chartOptions: chart_json})
         chartInfo.currentChart = chart_json
-
-        //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
-        showNeedRangeShow(chart_id);
-
-        // delete current chart
-        $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
-            delChart(chart_id)
-        })
-
-        // edit current chart
-        $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-            showChartSettingComponent()
-        })
-
-        $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
-            if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-                //当前图表显示区域高亮
-                showNeedRangeShow(chart_id);
-            }
-            e.stopPropagation()
-        })
-        $t.mousedown(function (e) {  // move chart
-
-                if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-                    //当前图表显示区域高亮
-                    showNeedRangeShow(chart_id);
-                    setluckysheet_scroll_status(true);
-
-                    //允许拖动渲染框
-                    if (
-                        !$(e.target).is(".luckysheet-modal-dialog-controll") &&
-                        !$(e.target).is(".luckysheet-modal-controll-btn") &&
-                        !$(e.target).is("i")
-                    ) {
-                        // Debounce
-                        chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
-                            function () {
-                                chartInfo.chartparam.luckysheetCurrentChartMove = true;
-                            },
-                            100
-                        );
-                    }
-
-                    var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
-                    var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
-                    //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
-                    chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
-                        e.pageX - toffset.left,
-                        e.pageY - toffset.top,
-                        tpsition.left,
-                        tpsition.top,
-                        $("#luckysheet-scrollbar-x").scrollLeft(),
-                        $("#luckysheet-scrollbar-y").scrollTop()
-                    ];
-                    chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollHeight;
-                    chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollWidth;
-
-                    if (
-                        !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
-                        $(e.target).filter("[class*='sp-palette']").length == 0 &&
-                        $(e.target).filter("[class*='sp-thumb']").length == 0 &&
-                        $(e.target).filter("[class*='sp-']").length == 0
-                    ) {
-                        $("#luckysheet-rightclick-menu").hide();
-                        $("#luckysheet-cols-h-hover").hide();
-                        $("#luckysheet-cols-menu-btn").hide();
-                        $("#luckysheet-rightclick-menu").hide();
-                        $(
-                            "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
-                        ).hide();
-                        $(
-                            "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
-                        ).hide();
-
-                    }
-
-                    e.stopPropagation();
-
-                }
-
-            }).find(".luckysheet-modal-dialog-resize-item")
-            .mousedown(function (e) {
-                if (chartInfo.chartparam.luckysheetCurrentChartActive) {
-                    chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
-
-                    var mouse = mouseposition(e.pageX, e.pageY),
-                        scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
-                        scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
-                    var x = mouse[0] + scrollLeft;
-                    var y = mouse[1] + scrollTop;
-                    var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
-                    //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
-                    chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
-                        x,
-                        y,
-                        $t.width(),
-                        $t.height(),
-                        position.left + scrollLeft,
-                        position.top + scrollTop,
-                        scrollLeft,
-                        scrollTop
-                    ];
-                    chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollHeight;
-                    chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $(
-                        "#luckysheet-cell-main"
-                    )[0].scrollWidth;
-
-                    chartInfo.chartparam.luckysheetCurrentChart = chart_id;
-
-                    e.stopPropagation();
-
-                }
-            })
-
+        chartInfo.currentSheetChart = chart
 
         let width = chart.width
         let height = chart.height
         let left = chart.left
         let top = chart.top
-        container.style.width = width + 'px'
-        container.style.height = height + 'px'
-        container.style.position = 'absolute'
-        container.style.background = '#fff'
-        container.style.left = left + 'px'
-        container.style.top = top + 'px'
-        container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
-        chartInfo.zIndex++
 
+        initChart($t, container, chart_id, width, height, left, top)
     }
 }
 
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
-    let chart = chartInfo.currentChart
-    if (!chart) {
-        return
-    }
-    if (chart.rangeArray.length == 1) {
-        var row = chart.rangeArray[0].row;
-        var column = chart.rangeArray[0].column;
-        //不在范围内的不更新
-        if (
-            r_st > row[1] ||
-            r_ed < row[0] ||
-            c_st > column[1] ||
-            c_ed < column[0]
-        ) {
-            return
-        }
-        //根据原有的范围取得数据
-        var luckysheetgetcellrange = formula.getcellrange(
-            chart.rangeTxt
-        );
-        var sheetIndex =
-            luckysheetgetcellrange.sheetIndex == -1
-                ? 0
-                : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+    getluckysheetfile().forEach(file => {
+        if(file.chart){
+            file.chart.forEach((chartObj) => {
+                const chart = chartInfo.chartparam.getChartJson(chartObj.chart_id);
 
-        var selection = {
-            row: luckysheetgetcellrange.row,
-            column: luckysheetgetcellrange.column,
-            dataSheetIndex: sheetIndex
-        }; //数组
-        var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
+                if (!chart) {
+                    return
+                }
+                if (chart.rangeArray.length === 1) {
+                    var row = chart.rangeArray[0].row;
+                    var column = chart.rangeArray[0].column;
+                    //不在范围内的不更新
+                    if (
+                        r_st > row[1] ||
+                        r_ed < row[0] ||
+                        c_st > column[1] ||
+                        c_ed < column[0]
+                    ) {
+                        return
+                    }
+                    //根据原有的范围取得数据
+                    var luckysheetgetcellrange = formula.getcellrange(
+                        chart.rangeTxt
+                    );
+                    var sheetIndex =
+                        luckysheetgetcellrange.sheetIndex == -1
+                            ? 0
+                            : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
 
-        if (
-            typeof getcelldata === "object" &&
-            getcelldata.length != 0 &&
-            getcelldata.data.length != null
-        ) {
-            //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
-            var chartData = getcelldata.data;
-            chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+                    if (sheetIndex !== Store.currentSheetIndex) return;
+
+                    var getcelldata = luckysheet_getcelldata(chart.rangeTxt, sheetIndex);
+
+                    if (
+                        typeof getcelldata === "object" &&
+                        getcelldata.length != 0 &&
+                        getcelldata.data.length != null
+                    ) {
+                        //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+                        var chartData = getcelldata.data;
+                        chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+                    }
+                }
+            })
         }
-    }
+    });
 }
 
 function chart_selection() {
@@ -331,11 +168,11 @@ function chart_selection() {
         create: function () {
             var chart_json = chartInfo.currentChart
 
-            if (chart_json.rangeArray.length > 1) {
+            if (!chart_json || chart_json.rangeArray.length > 1) {
                 return
             }
 
-            $('#luckysheet-chart-rangeShow').empty()
+            const $rangeShow = $('#luckysheet-chart-rangeShow').empty()
             $('#luckysheet-cell-selected-boxs').hide()
             $('#luckysheet-cell-selected-focus').hide()
             $('#luckysheet-rows-h-selected').empty()
@@ -387,9 +224,7 @@ function chart_selection() {
                 rangeSplitArray.content.column[1] + st_c
             )
 
-            $('#luckysheet-chart-rangeShow').append(
-                chart_rowtitle_html + chart_coltitle_html + chart_content_html
-            )
+            $rangeShow.append(DOMPurify.sanitize(chart_rowtitle_html + chart_coltitle_html + chart_content_html))
 
             function getRangeShowHtml(type, r1, r2, c1, c2) {
                 var visibledatarow = getvisibledatarow()
@@ -469,14 +304,14 @@ function chart_selection() {
             var rangeSplitArray = chart_json.rangeSplitArray
 
             var mouse = mouseposition(event.pageX, event.pageY)
-            var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
-            var scrollTop = $('#luckysheet-cell-main').scrollTop()
+            const $main = $('#luckysheet-cell-main')
+            var scrollLeft = $main.scrollLeft()
+            var scrollTop = $main.scrollTop()
 
             var x = mouse[0] + scrollLeft
             var y = mouse[1] + scrollTop
 
-            var winH =
-                $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+            var winH = $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
                 winW = $(window).width() + scrollLeft
 
             var rowLocation = _rowLocation(y),
@@ -489,7 +324,7 @@ function chart_selection() {
 
             var $id = chartInfo.chart_selection.rangeMoveObj.attr('id')
 
-            if ($id == 'luckysheet-chart-rangeShow-content') {
+            if ($id === 'luckysheet-chart-rangeShow-content') {
                 //行
                 var row_s =
                     chartInfo.chart_selection.rangeMoveIndex[0] -
@@ -549,7 +384,7 @@ function chart_selection() {
 
                 //更新
                 if (rangeRowCheck.exits && rangeColCheck.exits) {
-                    chart_json.rangeArray = [{ row: [st_r, row_e], column: [st_c, col_e] }]
+                    chart_json.rangeArray = [{row: [st_r, row_e], column: [st_c, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
                         column: [st_c, col_e]
@@ -570,7 +405,7 @@ function chart_selection() {
                         column: chart_json.rangeSplitArray.coltitle.column
                     }
                 } else if (rangeRowCheck.exits) {
-                    chart_json.rangeArray = [{ row: [st_r, row_e], column: [col_s, col_e] }]
+                    chart_json.rangeArray = [{row: [st_r, row_e], column: [col_s, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
                         column: [col_s, col_e]
@@ -581,7 +416,7 @@ function chart_selection() {
                         column: chart_json.rangeSplitArray.content.column
                     }
                 } else if (rangeColCheck.exits) {
-                    chart_json.rangeArray = [{ row: [row_s, row_e], column: [st_c, col_e] }]
+                    chart_json.rangeArray = [{row: [row_s, row_e], column: [st_c, col_e]}]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
                         column: [st_c, col_e]
@@ -593,14 +428,14 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [row_s, row_e], column: [col_s, col_e] }
+                        {row: [row_s, row_e], column: [col_s, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
                         column: [col_s, col_e]
                     }
                 }
-            } else if ($id == 'luckysheet-chart-rangeShow-rowtitle') {
+            } else if ($id === 'luckysheet-chart-rangeShow-rowtitle') {
                 //列
                 var col_s =
                     chartInfo.chart_selection.rangeMoveIndex[1] -
@@ -634,7 +469,7 @@ function chart_selection() {
                 //更新
                 if (rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [st_c, col_e] }
+                        {row: chart_json.rangeArray[0].row, column: [st_c, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -651,14 +486,14 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [col_s, col_e] }
+                        {row: chart_json.rangeArray[0].row, column: [col_s, col_e]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
                         column: [col_s, col_e]
                     }
                 }
-            } else if ($id == 'luckysheet-chart-rangeShow-coltitle') {
+            } else if ($id === 'luckysheet-chart-rangeShow-coltitle') {
                 //行
                 var row_s =
                     chartInfo.chart_selection.rangeMoveIndex[0] -
@@ -691,7 +526,7 @@ function chart_selection() {
 
                 if (rangeRowCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [st_r, row_e], column: chart_json.rangeArray[0].column }
+                        {row: [st_r, row_e], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, row_e],
@@ -708,7 +543,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [row_s, row_e], column: chart_json.rangeArray[0].column }
+                        {row: [row_s, row_e], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [row_s, row_e],
@@ -750,14 +585,14 @@ function chart_selection() {
             var rangeSplitArray = chart_json.rangeSplitArray
 
             var mouse = mouseposition(event.pageX, event.pageY)
-            var scrollLeft = $('#luckysheet-cell-main').scrollLeft()
-            var scrollTop = $('#luckysheet-cell-main').scrollTop()
+            const $main = $('#luckysheet-cell-main')
+            var scrollLeft = $main.scrollLeft()
+            var scrollTop = $main.scrollTop()
 
             var x = mouse[0] + scrollLeft
             var y = mouse[1] + scrollTop
 
-            var winH =
-                $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
+            var winH = $(window).height() + scrollTop - sheetBarHeight - statisticBarHeight,
                 winW = $(window).width() + scrollLeft
 
             var rowLocation = _rowLocation(y),
@@ -770,7 +605,7 @@ function chart_selection() {
 
             var $id = chartInfo.chart_selection.rangeResizeObj.attr('id')
 
-            if ($id == 'luckysheet-chart-rangeShow-content') {
+            if ($id === 'luckysheet-chart-rangeShow-content') {
                 var r1, r2, c1, c2
 
                 if (chartInfo.chart_selection.rangeResize == 'lt') {
@@ -809,10 +644,10 @@ function chart_selection() {
                         row_s = visibledatarow.length - 1
                     }
                 } else {
-                    var row_s = st_r - chartInfo.chart_selection.rangeResizexy[0] + row_index
+                    var row_s = r1 - chartInfo.chart_selection.rangeResizexy[0] + row_index
 
-                    if (row_s < 0 || y < 0) {
-                        row_s = 0
+                    if (y < 0) {
+                        row_s = st_r
                     } else if (row_s >= visibledatarow.length - 1 || y > winH) {
                         row_s = visibledatarow.length - 1
                     }
@@ -828,10 +663,10 @@ function chart_selection() {
                         col_s = visibledatacolumn.length - 1
                     }
                 } else {
-                    var col_s = st_c - chartInfo.chart_selection.rangeResizexy[1] + col_index
+                    var col_s = c1 - chartInfo.chart_selection.rangeResizexy[1] + col_index
 
-                    if (col_s < 0 || x < 0) {
-                        col_s = 0
+                    if (x < 0) {
+                        col_s = st_c
                     } else if (col_s >= visibledatacolumn.length - 1 || x > winW) {
                         col_s = visibledatacolumn.length - 1
                     }
@@ -857,15 +692,19 @@ function chart_selection() {
 
                 if (!rangeRowCheck.exits && !rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [obj_r1, obj_r2], column: [obj_c1, obj_c2] }
+                        {row: [obj_r1, obj_r2], column: [obj_c1, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [obj_r1, obj_r2],
                         column: [obj_c1, obj_c2]
                     }
+                    chart_json.rangeSplitArray.content = {
+                        row: [0, obj_r2 - obj_r1],
+                        column: [0, obj_c2 - obj_c1]
+                    }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [st_r, obj_r2], column: [st_c, obj_c2] }
+                        {row: [st_r, obj_r2], column: [st_c, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, obj_r2],
@@ -940,7 +779,7 @@ function chart_selection() {
                 //更新
                 if (!rangeColCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2] }
+                        {row: chart_json.rangeArray[0].row, column: [obj_c1, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -948,7 +787,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: chart_json.rangeArray[0].row, column: [st_c, obj_c2] }
+                        {row: chart_json.rangeArray[0].row, column: [st_c, obj_c2]}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: chart_json.rangeArray[0].row,
@@ -1013,7 +852,7 @@ function chart_selection() {
                 //更新
                 if (!rangeRowCheck.exits) {
                     chart_json.rangeArray = [
-                        { row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column }
+                        {row: [obj_r1, obj_r2], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [obj_r1, obj_r2],
@@ -1021,7 +860,7 @@ function chart_selection() {
                     }
                 } else {
                     chart_json.rangeArray = [
-                        { row: [st_r, obj_r2], column: chart_json.rangeArray[0].column }
+                        {row: [st_r, obj_r2], column: chart_json.rangeArray[0].column}
                     ]
                     chart_json.rangeSplitArray.range = {
                         row: [st_r, obj_r2],
@@ -1056,7 +895,6 @@ function chart_selection() {
             )
             // 渲染
             chartInfo.changeChartRange(updateJson.chart_id, updateJson.chartData, updateJson.rangeArray, updateJson.rangeTxt)
-
         }
     }
 }
@@ -1109,7 +947,7 @@ function createLuckyChart(width, height, left, top) {
     }
 
     jfgird_select_save[0]["row"] = [shiftpositon_row, shiftpositon_row];
-    jfgird_select_save[0].row_focus =shiftpositon_row;
+    jfgird_select_save[0].row_focus = shiftpositon_row;
     luckysheet.setluckysheet_select_save(jfgird_select_save);
 
     chartInfo.luckysheet_shiftpositon = $.extend(true, {}, jfgird_select_save[0]);
@@ -1154,49 +992,21 @@ function createLuckyChart(width, height, left, top) {
     jfgird_select_save = luckysheet.getluckysheet_select_save()
 
     var rangeArray = $.extend(true, [], jfgird_select_save);
-
     var rangeTxt = getRangetxt(chartInfo.currentSheetIndex, rangeArray[0], chartInfo.currentSheetIndex)
-
-
     let chartData = getdatabyselection()
-    console.dir(chartData)
-
     let chart_id = generateRandomKey('chart')
-
-    let chart_id_c = chart_id + '_c'
-
-    let modelChartShowHTML =
-        '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
-
-    let $t = $(
-        replaceHtml(modelChartShowHTML, {
-            id: chart_id_c,
-            addclass: 'luckysheet-data-visualization-chart',
-            title: '图表生成',
-            content: ''
-        })
-    ).appendTo($('.luckysheet-cell-main'))
-
-    let container = document.getElementById(chart_id_c)
-
-    let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
+    let {$t, container} = renderChartContainer(chart_id);
+    const render = $t.find('.luckysheet-modal-dialog-content')[0];
+    let {chart_json} = chartInfo.createChart(render, chartData, chart_id, rangeArray, rangeTxt)
     // chartInfo.currentChart = chart_json.chartOptions
-    console.dir(JSON.stringify(chart_json))
+
+    render.style.width = '100%'
+    render.style.height = '100%'
 
     width = width ? width : 400
     height = height ? height : 250
     left = left ? left : 0
     top = top ? top : 0
-    container.style.width = width + 'px'
-    container.style.height = height + 'px'
-    container.style.position = 'absolute'
-    container.style.background = '#fff'
-    container.style.left = left + 'px'
-    container.style.top = top + 'px'
-    render.style.width = '100%'
-    render.style.height = '100%'
-    container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
-    chartInfo.zIndex++
 
     // insert chartinfo
     let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
@@ -1213,126 +1023,7 @@ function createLuckyChart(width, height, left, top) {
         sheetIndex: sheetFile.index
     })
 
-    //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
-    showNeedRangeShow(chart_id);
-
-    // delete current chart
-    $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
-        delChart(chart_id)
-    })
-
-    setChartMoveableEffect($t);
-
-    // edit current chart
-    $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-        showChartSettingComponent()
-    })
-
-    $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
-        if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-            //当前图表显示区域高亮
-            showNeedRangeShow(chart_id);
-        }
-        e.stopPropagation()
-    })
-    $t.mousedown(function (e) {  //move chart
-
-        if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
-            //当前图表显示区域高亮
-            showNeedRangeShow(chart_id);
-            setluckysheet_scroll_status(true);
-
-            //允许拖动渲染框
-            if (
-                !$(e.target).is(".luckysheet-modal-dialog-controll") &&
-                !$(e.target).is(".luckysheet-modal-controll-btn") &&
-                !$(e.target).is("i")
-            ) {
-                // Debounce
-                chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
-                    function () {
-                        chartInfo.chartparam.luckysheetCurrentChartMove = true;
-                    },
-                    100
-                );
-            }
-
-            var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
-            var tpsition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
-            //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
-            chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
-                e.pageX - toffset.left,
-                e.pageY - toffset.top,
-                tpsition.left,
-                tpsition.top,
-                $("#luckysheet-scrollbar-x").scrollLeft(),
-                $("#luckysheet-scrollbar-y").scrollTop()
-            ];
-            chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $(
-                "#luckysheet-cell-main"
-            )[0].scrollHeight;
-            chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $(
-                "#luckysheet-cell-main"
-            )[0].scrollWidth;
-
-            if (
-                !$(e.target).hasClass("luckysheet-mousedown-cancel") &&
-                $(e.target).filter("[class*='sp-palette']").length == 0 &&
-                $(e.target).filter("[class*='sp-thumb']").length == 0 &&
-                $(e.target).filter("[class*='sp-']").length == 0
-            ) {
-                $("#luckysheet-rightclick-menu").hide();
-                $("#luckysheet-cols-h-hover").hide();
-                $("#luckysheet-cols-menu-btn").hide();
-                $("#luckysheet-rightclick-menu").hide();
-                $(
-                    "#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu"
-                ).hide();
-                $(
-                    "body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu"
-                ).hide();
-
-            }
-
-            e.stopPropagation();
-
-        }
-
-    }).find(".luckysheet-modal-dialog-resize-item")
-        .mousedown(function (e) {
-            if (chartInfo.chartparam.luckysheetCurrentChartActive) {
-                chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
-
-                var mouse = mouseposition(e.pageX, e.pageY),
-                    scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
-                    scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
-                var x = mouse[0] + scrollLeft;
-                var y = mouse[1] + scrollTop;
-                var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
-                //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
-                chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
-                    x,
-                    y,
-                    $t.width(),
-                    $t.height(),
-                    position.left + scrollLeft,
-                    position.top + scrollTop,
-                    scrollLeft,
-                    scrollTop
-                ];
-                chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollHeight;
-                chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $(
-                    "#luckysheet-cell-main"
-                )[0].scrollWidth;
-
-                chartInfo.chartparam.luckysheetCurrentChart = chart_id;
-
-                e.stopPropagation();
-
-            }
-        })
+    initChart($t, container, chart_id, width, height, left, top)
 }
 
 /**
@@ -1340,17 +1031,17 @@ function createLuckyChart(width, height, left, top) {
  * @param {JQuery} $container 图表的容器DIV
  */
 function setChartMoveableEffect($container) {
-  $container.find('.luckysheet-modal-dialog-content').hover(function () {
-    $container.removeClass("chart-moveable");
-  }, function () {
-    $container.addClass("chart-moveable");
-  });
+    $container.find('.luckysheet-modal-dialog-content').hover(function () {
+        $container.removeClass("chart-moveable");
+    }, function () {
+        $container.addClass("chart-moveable");
+    });
 
-  $container.hover(function () {
-    $container.addClass("chart-moveable");
-  }, function () {
-    $container.removeClass("chart-moveable");
-  });
+    $container.hover(function () {
+        $container.addClass("chart-moveable");
+    }, function () {
+        $container.removeClass("chart-moveable");
+    });
 }
 
 // delete chart
@@ -1371,7 +1062,6 @@ function delChart(chart_id) {
 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
 function showNeedRangeShow(chart_id) {
-
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
 
     for (let chartId in chartLists) {
@@ -1382,14 +1072,15 @@ function showNeedRangeShow(chart_id) {
             chartLists[chartId].needRangeShow = true;
 
             chartInfo.currentChart = chartInfo.getChartJson(chart_id)
+            chartInfo.currentSheetChart = chartLists[chartId]
         }
         // }
-
     }
 
     //操作DOM当前图表选择区域高亮
     selectRangeBorderShow(chart_id)
 }
+
 //隐藏当前sheet所有的图表高亮区域
 function hideAllNeedRangeShow() {
     let chartLists = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)].chart;
@@ -1398,7 +1089,6 @@ function hideAllNeedRangeShow() {
         //当前sheet的图表设置为false
         chartLists[chartId].needRangeShow = false
         // }
-
     }
 
     //操作DOM 当前图表选择区域隐藏
@@ -1407,7 +1097,6 @@ function hideAllNeedRangeShow() {
 
 //选择区域高亮
 function selectRangeBorderShow(chart_id) {
-
     let $t = $('#' + chart_id + '_c')
 
     // Highlight of data range
@@ -1419,12 +1108,9 @@ function selectRangeBorderShow(chart_id) {
     chartInfo.chartparam.luckysheetCurrentChart = chart_id
 
     //luckysheet取cell-main，后续扩展到其他的用户自定义元素
-    $('#luckysheet-cell-main')
-        .find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize')
-        .hide()
-    $('#luckysheet-cell-main')
-        .find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll')
-        .hide()
+    const $main = $('#luckysheet-cell-main')
+    $main.find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize').hide()
+    $main.find('.luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll').hide()
 
     $t.css('z-index', chartInfo.chartparam.luckysheetCurrentChartZIndexRank++)
     $t.find('.luckysheet-modal-dialog-resize').show()
@@ -1445,7 +1131,6 @@ function selectRangeBorderShow(chart_id) {
 
 //选择区域高亮隐藏
 function selectRangeBorderHide(settingShow) {
-
     $('#luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-resize, #luckysheet-cell-main .luckysheet-modal-dialog-chart .luckysheet-modal-dialog-controll').hide()
     $('#luckysheet-cell-main').find('.luckysheet-datavisual-selection-set div').remove()
     chartInfo.chartparam.luckysheetCurrentChartActive = false
@@ -1486,13 +1171,11 @@ function hideChartSettingComponent(refresh) {
 
         chartInfo.chartparam.luckysheetCurrentChartActive = false
         if (!isEditMode() && !refresh) {
-
             setTimeout(function () {
                 luckysheetsizeauto()
             }, 0)
 
         }
-
     }
 }
 
@@ -1518,11 +1201,10 @@ function renderChartShow(index) {
                     //一个sheet页只有一个图表高亮显示,//重要！因为在store了做了存储，所以能在此处找到对应图表设置显示隐藏
                     //操作DOM当前图表选择区域高亮
                     chartInfo.currentChart = chartInfo.getChartJson(chart.chart_id)
+                    chartInfo.currentSheetChart = chart
                     selectRangeBorderShow(chart.chart_id)
                 }
-
             })
-
         }
 
         // 隐藏其他页的图表
@@ -1535,7 +1217,153 @@ function renderChartShow(index) {
             })
         }
     });
-
 }
 
-export { chart, createLuckyChart, hideAllNeedRangeShow, renderChartShow }
+function renderChartContainer(chart_id) {
+    let chart_id_c = chart_id + '_c'
+    let modelChartShowHTML =
+        `<div id="${escapeHtml(chart_id_c)}" class="luckysheet-modal-dialog luckysheet-modal-dialog-chart luckysheet-data-visualization-chart" tabindex="0" role="dialog" aria-labelledby=":41e" dir="ltr"> 
+            <div class="crop-container">
+                <div class="luckysheet-modal-dialog-resize"> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt" data-type="lt"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt" data-type="mt"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm" data-type="lm"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm" data-type="rm"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt" data-type="rt"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb" data-type="lb"></div>
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb" data-type="mb"></div> 
+                    <div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb" data-type="rb"></div> 
+                </div>
+                <div class="luckysheet-modal-dialog-controll"> 
+                    <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update" role="button" tabindex="0" aria-label="Modify the chart" title="Modify"><i class="fa fa-pencil" aria-hidden="true"></i></span> 
+                    <span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del" role="button" tabindex="0" aria-label="Delete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></span> 
+                </div>
+                <div class="luckysheet-modal-dialog-content" id="${escapeHtml(chart_id)}"></div>
+            </div>
+        </div>`
+
+    let $t = $(modelChartShowHTML)
+    $t.appendTo($('.luckysheet-cell-main'))
+    let container = $t[0]
+
+    return {$t, container};
+}
+
+function initChart($t, container, chart_id, width, height, left, top) {
+    setChartMoveableEffect($t);
+    //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
+    showNeedRangeShow(chart_id);
+
+    $t.find(".luckysheet-modal-controll-del").click(function () {
+        delChart(chart_id)
+    })
+
+    $t.find(".luckysheet-modal-controll-update").click(function () {
+        showChartSettingComponent()
+    })
+
+    $t.find('.luckysheet-modal-dialog-content').mousedown(function (e) {
+        if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
+            //当前图表显示区域高亮
+            showNeedRangeShow(chart_id);
+        }
+        e.stopPropagation()
+    })
+
+    $t.mousedown(function (e) {  // move chart
+        if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
+            //当前图表显示区域高亮
+            showNeedRangeShow(chart_id);
+            setluckysheet_scroll_status(true);
+
+            const $target = $(e.target);
+            //允许拖动渲染框
+            if (
+                !$target.is(".luckysheet-modal-dialog-controll") &&
+                !$target.is(".luckysheet-modal-controll-btn") &&
+                !$target.is("i")
+            ) {
+                // Debounce
+                chartInfo.chartparam.luckysheetCurrentChartMoveTimeout = setTimeout(
+                    function () {
+                        chartInfo.chartparam.luckysheetCurrentChartMove = true;
+                    },
+                    100
+                );
+            }
+
+            var toffset = chartInfo.chartparam.luckysheetCurrentChartMoveObj.offset();
+            var tposition = chartInfo.chartparam.luckysheetCurrentChartMoveObj.position();
+            //luckysheetCurrentChartMoveXy: [鼠标点相对chart框的距离X方向，鼠标点相对chart框的距离Y方向，chart框相对cell-main的距离X方向，chart框相对cell-main的距离Y方向，水平滚动条的位置，垂直滚动条的位置]
+            chartInfo.chartparam.luckysheetCurrentChartMoveXy = [
+                e.pageX - toffset.left,
+                e.pageY - toffset.top,
+                tposition.left,
+                tposition.top,
+                $("#luckysheet-scrollbar-x").scrollLeft(),
+                $("#luckysheet-scrollbar-y").scrollTop()
+            ];
+
+            const $main = $("#luckysheet-cell-main");
+            chartInfo.chartparam.luckysheetCurrentChartMoveWinH = $main[0].scrollHeight;
+            chartInfo.chartparam.luckysheetCurrentChartMoveWinW = $main[0].scrollWidth;
+
+            if (
+                !$target.hasClass("luckysheet-mousedown-cancel") &&
+                $target.filter("[class*='sp-palette']").length === 0 &&
+                $target.filter("[class*='sp-thumb']").length === 0 &&
+                $target.filter("[class*='sp-']").length === 0
+            ) {
+                $("#luckysheet-cols-h-hover").hide();
+                $("#luckysheet-cols-menu-btn").hide();
+                $("#luckysheet-rightclick-menu").hide();
+                $("#luckysheet-sheet-list, #luckysheet-rightclick-sheet-menu, #luckysheet-user-menu").hide();
+                $("body > .luckysheet-filter-menu, body > .luckysheet-filter-submenu, body > .luckysheet-cols-menu").hide();
+            }
+
+            e.stopPropagation();
+        }
+    });
+    
+    $t.find(".luckysheet-modal-dialog-resize-item").mousedown(function (e) {
+        if (chartInfo.chartparam.luckysheetCurrentChartActive) {
+            chartInfo.chartparam.luckysheetCurrentChartResize = $(this).data("type"); //开始状态resize
+
+            var mouse = mouseposition(e.pageX, e.pageY),
+                scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(),
+                scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
+            var x = mouse[0] + scrollLeft;
+            var y = mouse[1] + scrollTop;
+            var position = chartInfo.chartparam.luckysheetCurrentChartResizeObj.position();
+            //参数：x,y:鼠标位置，$t.width(), $t.height(): chart框宽高， position.left + scrollLeft, position.top + scrollTop ：chart框位置 ，scrollLeft, scrollTop：滚动条位置
+            chartInfo.chartparam.luckysheetCurrentChartResizeXy = [
+                x,
+                y,
+                $t.width(),
+                $t.height(),
+                position.left + scrollLeft,
+                position.top + scrollTop,
+                scrollLeft,
+                scrollTop
+            ];
+
+            const $main = $("#luckysheet-cell-main")
+            chartInfo.chartparam.luckysheetCurrentChartResizeWinH = $main[0].scrollHeight;
+            chartInfo.chartparam.luckysheetCurrentChartResizeWinW = $main[0].scrollWidth;
+            chartInfo.chartparam.luckysheetCurrentChart = chart_id;
+
+            e.stopPropagation();
+        }
+    })
+
+    container.style.width = width + 'px'
+    container.style.height = height + 'px'
+    container.style.position = 'absolute'
+    //container.style.background = '#fff'
+    container.style.left = left + 'px'
+    container.style.top = top + 'px'
+    container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
+    chartInfo.zIndex++
+}
+
+export {chart, createLuckyChart, hideAllNeedRangeShow, renderChartShow}

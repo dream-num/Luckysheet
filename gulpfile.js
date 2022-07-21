@@ -1,4 +1,3 @@
-const gulp = require('gulp');
 // gulp core function
 const { src, dest, series, parallel, watch } = require('gulp');
 // gulp compress js
@@ -33,6 +32,8 @@ const babel = require('@rollup/plugin-babel').default;
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
 const pkg = require('./package.json');
+const path = require("path");
+const fs = require("fs");
 const banner = `/*! @preserve
  * ${pkg.name}
  * version: ${pkg.version}
@@ -93,12 +94,12 @@ const paths = {
     plugins: ['src/plugins/*.css'],
     css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
-        'node_modules/jquery/dist/jquery.min.js',
-        'node_modules/uuid/dist/umd/uuid.min.js',
-        'src/plugins/js/clipboard.min.js',
+        // 'node_modules/jquery/dist/jquery.min.js',
+        // 'node_modules/uuid/dist/umd/uuid.min.js',
+        // 'src/plugins/js/clipboard.min.js',
         'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
-        'src/plugins/js/jquery.mousewheel.min.js',
+        // 'src/plugins/js/jquery.mousewheel.min.js',
         // 'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
         'src/plugins/js/localforage.min.js',
@@ -216,7 +217,12 @@ async function core_rollup() {
 }
 
 async function core() {
-
+    // fix for the numeral.js amd preference
+    const file = path.join("node_modules","numeral", "numeral.js");
+    let text = fs.readFileSync(file, "utf8");
+    text = text.replace("define.amd", "define.a");
+    fs.writeFileSync(file, text);
+    
     await require('esbuild').buildSync({
         format: 'iife',
         globalName: 'luckysheet',    
@@ -225,10 +231,39 @@ async function core() {
         minify: production,
         banner: { js: banner },
         target: ['es2015'],
+        // sourcemap: true,
+        outfile: 'dist/luckysheet.umd.js',
+        loader: { 
+            '.ttf': 'file',
+            '.woff': 'file',
+        },
+        logLevel: 'error'
+    })
+}
+
+async function core_debug() {
+    // fix for the numeral.js amd preference
+    const file = path.join("node_modules","numeral", "numeral.js");
+    let text = fs.readFileSync(file, "utf8");
+    text = text.replace("define.amd", "define.a");
+    fs.writeFileSync(file, text);
+
+    await require('esbuild').buildSync({
+        format: 'iife',
+        globalName: 'luckysheet',
+        entryPoints: ['src/index.js'],
+        bundle: true,
+        minify: false,
+        banner: { js: banner },
+        target: ['es2015'],
         sourcemap: true,
         outfile: 'dist/luckysheet.umd.js',
-        logLevel: 'error',
-      })
+        loader: {
+            '.ttf': 'file',
+            '.woff': 'file',
+        },
+        logLevel: 'error'
+    })
 }
 
 // According to the build tag in html, package js and css
@@ -248,13 +283,18 @@ function plugins() {
 }
 
 function css() {
-    return  src(paths.css)
+    return src(paths.css)
         .pipe(concat(paths.concatCss))
         .pipe(gulpif(production, cleanCSS()))
         .pipe(dest(paths.destCss));
 }
 
 function pluginsJs() {
+    if (!production) {
+        paths.pluginsJs.unshift('node_modules/jquery/dist/jquery.min.js')
+        paths.pluginsJs.push('src/plugins/js/jquery.mousewheel.min.js')
+    }
+
     return  src(paths.pluginsJs)
         .pipe(concat(paths.concatPluginsJs))
         .pipe(gulpif(production, uglify(uglifyOptions)))
@@ -297,7 +337,11 @@ function copyStaticCssImages(){
 
 const dev = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core), watcher, serve);
 const build = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticHtml, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticExpendPlugins, copyStaticDemoData, copyStaticCssImages, core));
+const prod = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticCssImages, core));
+const debug = series(clean, parallel(pluginsCss, plugins, css, pluginsJs, copyStaticFonts, copyStaticAssets, copyStaticImages, copyStaticCssImages, core_debug));
 
 exports.dev = dev;
 exports.build = build;
+exports.prod = prod;
+exports.debug = debug;
 exports.default = dev;

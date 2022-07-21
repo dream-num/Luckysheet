@@ -4,7 +4,7 @@ function luckysheetRangeLast(obj) {
     let range;
     
     if(document.createRange){ //chrome, firefox, opera, safari, ie9+
-        if(obj.innerHTML != obj.innerText || obj.innerHTML == ""){
+        if(obj.innerHTML != obj.innerText || obj.innerHTML == "" || obj.innerHTML == "<br>"){
             obj.focus(); //解决ff不获取焦点无法定位问题
             range = window.getSelection();//创建range
             range.selectAllChildren(obj);//range 选择obj下所有子内容

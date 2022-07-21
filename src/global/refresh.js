@@ -1152,17 +1152,15 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
     }
 
     if (luckysheetFreezen.freezenverticaldata != null || luckysheetFreezen.freezenhorizontaldata != null) {
-        let freezen_horizon_px, freezen_horizon_ed, freezen_horizon_scrollTop;
-        let freezen_vertical_px, freezen_vertical_ed, freezen_vertical_scrollTop;
+        let freezen_horizon_px, freezen_horizon_scrollTop;
+        let freezen_vertical_px, freezen_vertical_scrollTop;
         let drawWidth = Store.luckysheetTableContentHW[0], drawHeight = Store.luckysheetTableContentHW[1];
         
         if (luckysheetFreezen.freezenverticaldata != null && luckysheetFreezen.freezenhorizontaldata != null) {
             freezen_horizon_px = luckysheetFreezen.freezenhorizontaldata[0];
-            freezen_horizon_ed = luckysheetFreezen.freezenhorizontaldata[1];
             freezen_horizon_scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
 
             freezen_vertical_px = luckysheetFreezen.freezenverticaldata[0];
-            freezen_vertical_ed = luckysheetFreezen.freezenverticaldata[1];
             freezen_vertical_scrollTop = luckysheetFreezen.freezenverticaldata[2];
 
             //左上canvas freezen_3
@@ -1232,7 +1230,6 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
         }
         else if (luckysheetFreezen.freezenhorizontaldata != null) {
             freezen_horizon_px = luckysheetFreezen.freezenhorizontaldata[0];
-            freezen_horizon_ed = luckysheetFreezen.freezenhorizontaldata[1];
             freezen_horizon_scrollTop = luckysheetFreezen.freezenhorizontaldata[2];
 
             luckysheetDrawMain(
@@ -1267,7 +1264,6 @@ function luckysheetrefreshgrid(scrollWidth, scrollHeight) {
         }
         else if (luckysheetFreezen.freezenverticaldata != null) {
             freezen_vertical_px = luckysheetFreezen.freezenverticaldata[0];
-            freezen_vertical_ed = luckysheetFreezen.freezenverticaldata[1];
             freezen_vertical_scrollTop = luckysheetFreezen.freezenverticaldata[2];
             
             luckysheetDrawMain(

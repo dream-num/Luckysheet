@@ -16,6 +16,7 @@ import { replaceHtml, getObjType, luckysheetfontformat } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
 import imageCtrl from './imageCtrl';
+import escapeHtml from "escape-html";
 
 const selection = {
     clearcopy: function (e) {
@@ -29,7 +30,6 @@ const selection = {
 
         Store.luckysheet_selection_range = [];
         selectionCopyShow();
-        // Store.luckysheet_copy_save = {};
 
         if (!clipboardData) {
             let textarea = $("#luckysheet-copy-content").css("visibility", "hidden");
@@ -93,7 +93,7 @@ const selection = {
             style += "solid ";
         }
 
-        return style + color + ";";
+        return style + escapeHtml(color) + ";";
     },
     copy: function (e) {//copy事件
         let clipboardData = window.clipboardData; //for IE
@@ -170,9 +170,6 @@ const selection = {
             d = editor.deepCopyFlowData(Store.flowdata);
         let colgroup = "";
 
-        // rowIndexArr = rowIndexArr.sort();
-        // colIndexArr = colIndexArr.sort();
-
         for (let i = 0; i < rowIndexArr.length; i++) {
             let r = rowIndexArr[i];
 
@@ -184,7 +181,7 @@ const selection = {
             if (Store.config == null || Store.config['rowlen'] == null || Store.config['rowlen'][r.toString()] == null) {
                 cpdata += '<tr height="19">';
             } else {
-                cpdata += `<tr height="${Store.config['rowlen'][r.toString()]}">`;
+                cpdata += `<tr height="${escapeHtml(Store.config['rowlen'][r.toString()])}">`;
             }
 
             for (let j = 0; j < colIndexArr.length; j++) {
@@ -195,7 +192,7 @@ const selection = {
                         colgroup += '<col width="72px"></col>';
                     }
                     else {
-                        colgroup += '<col width="'+ Store.config["columnlen"][c.toString()] +'px"></col>';
+                        colgroup += `<col width="${escapeHtml(Store.config["columnlen"][c.toString()])}px"></col>`;
                     }
                 }
 
@@ -221,7 +218,7 @@ const selection = {
 
                     if(getObjType(d[r][c]) == "object" && ("mc" in d[r][c])){
                         if("rs" in d[r][c]["mc"]){
-                            span = 'rowspan="'+ d[r][c]["mc"].rs +'" colspan="'+ d[r][c]["mc"].cs +'"';
+                            span = `rowspan="${escapeHtml(d[r][c]["mc"].rs)}" colspan="${escapeHtml(d[r][c]["mc"].cs)}"`;
 
                             //边框
                             if(borderInfoCompute && borderInfoCompute[r + "_" + c]){
@@ -453,7 +450,7 @@ const selection = {
                                         val.fc && font.css('color', val.fc); //  字体颜色
                                         if (val.cl) {
                                             // 判断删除线
-                                            font.append(`<s>${item}</s>`);
+                                            font.append(`<s>${escapeHtml(item)}</s>`);
                                         } else {
                                             font.text(item);
                                         }
@@ -467,8 +464,6 @@ const selection = {
                     if(c_value == null){
                         c_value = "";
                     }
-                    
-                    c_value = formula.ltGtSignDeal(c_value)
 
                     column += c_value;
                 }
@@ -507,7 +502,6 @@ const selection = {
                     }
 
                     column += "";
-
                     column = replaceHtml(column, {"style": style, "span": ""});
                     column += "";
                 }
@@ -518,7 +512,7 @@ const selection = {
 
             cpdata += "</tr>";
         }
-        cpdata = '<table data-type="luckysheet_copy_action_table">' + `<colgroup>${colgroup}</colgroup>` + cpdata + '</table>';
+        cpdata = `<table data-type="luckysheet_copy_action_table"><colgroup>${colgroup}</colgroup>${cpdata}</table>`;
 
         Store.iscopyself = true;
 
@@ -534,15 +528,6 @@ const selection = {
             setTimeout(function () {
                 $("#luckysheet-copy-content").blur();
             }, 10);
-
-            // var oInput = document.createElement('input');
-            // oInput.setAttribute('readonly', 'readonly');
-            // oInput.value = cpdata;
-            // document.body.appendChild(oInput);
-            // oInput.select(); // 选择对象
-            // document.execCommand("Copy");
-            // oInput.style.display='none';
-            // document.body.removeChild(oInput);
         }
         else {
             clipboardData.setData('Text', cpdata);
@@ -622,7 +607,6 @@ const selection = {
         }, 10);
     },
     pasteHandler: function (data, borderInfo) {
-
         if(!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)){
             return;
         }
@@ -750,7 +734,7 @@ const selection = {
                     }
 
                     let fontset = luckysheetfontformat(x[c]);
-                    let oneLineTextHeight = menuButton.getTextSize("田", fontset)[1];
+                    let oneLineTextHeight = menuButton.getTextSize("Field", fontset)[1];
                     //比较计算高度和当前高度取最大高度
                     if(oneLineTextHeight > currentRowLen){
                         currentRowLen = oneLineTextHeight;
@@ -765,7 +749,6 @@ const selection = {
             }
 
             Store.luckysheet_select_save = [{ "row": [minh, maxh], "column": [minc, maxc] }];
-
 
             if(addr > 0 || addc > 0 || RowlChange){
                 let allParam = {

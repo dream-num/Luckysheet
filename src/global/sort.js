@@ -9,6 +9,8 @@ import {checkProtectionAuthorityNormal} from '../controllers/protection';
 import Store from '../store';
 import locale from '../locale/locale';
 import numeral from 'numeral';
+import {getFrozenRows} from "../controllers/freezen";
+import luckysheetformula from "./formula";
 
 //数据排序方法
 function orderbydata(data, index, isAsc) {
@@ -16,84 +18,43 @@ function orderbydata(data, index, isAsc) {
         isAsc = true;
     }
 
-    let a = function (x, y) {
-        let x1 = x[index] , y1 = y[index];
+    data.forEach((row, i) => row.initialIndex = i);
 
-        if(getObjType(x[index]) == "object"){
+    const sortDirection = isAsc ? 1 : -1;
+
+    const sort = function (x, y) {
+        let x1 = x[index], y1 = y[index];
+
+        if (getObjType(x[index]) == "object") {
             x1 = x[index].v;
         }
 
-        if(getObjType(y[index]) == "object"){
+        if (getObjType(y[index]) == "object") {
             y1 = y[index].v;
         }
 
-        if(isRealNull(x1)){
+        if (isRealNull(x1)) {
             return 1;
         }
 
-        if(isRealNull(y1)){
+        if (isRealNull(y1)) {
             return -1;
         }
 
         if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(x1, y1);
+            return sortDirection * diff(x1, y1);
+        } else if (isRealNum(x1) && isRealNum(y1)) {
+            return sortDirection * (numeral(x1).value() - numeral(y1).value());
+        } else if (!isRealNum(x1) && !isRealNum(y1)) {
+            return sortDirection * x1.localeCompare(y1);
+        } else if (!isRealNum(x1)) {
+            return sortDirection;
+        } else if (!isRealNum(y1)) {
+            return -sortDirection;
         }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(x1).value() - numeral(y1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return x1.localeCompare(y1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return 1;
-        }
-        else if (!isRealNum(y1)) {
-            return -1;
-        }
-    }
+    };
 
-    let d = function (x, y) {
-        let x1 = x[index] , y1 = y[index];
-
-        if(getObjType(x[index]) == "object"){
-            x1 = x[index].v;
-        }
-
-        if(getObjType(y[index]) == "object"){
-            y1 = y[index].v;
-        }
-
-        if(isRealNull(x1)){
-            return 1;
-        }
-
-        if(isRealNull(y1)){
-            return -1;
-        }
-
-        if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(y1, x1);
-        }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(y1).value() - numeral(x1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return y1.localeCompare(x1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return -1;
-        }
-        else if (!isRealNum(y1)) {
-            return 1;
-        }
-    }
-
-    if (isAsc) {
-        return data.sort(a);
-    }
-    else {
-        return data.sort(d);
-    }
+    return data.sort(sort);
 }
 
 function orderbydata1D(data, isAsc) {
@@ -101,84 +62,41 @@ function orderbydata1D(data, isAsc) {
         isAsc = true;
     }
 
-    let a = function (x, y) {
+    const sortDirection = isAsc ? 1 : -1;
+
+    const sort = function (x, y) {
         let x1 = x, y1 = y;
 
-        if(getObjType(x) == "object"){
+        if (getObjType(x) == "object") {
             x1 = x.v;
         }
 
-        if(getObjType(y) == "object"){
+        if (getObjType(y) == "object") {
             y1 = y.v;
         }
 
-        if(x1 == null){
+        if (x1 == null) {
             x1 = "";
         }
 
-        if(y1 == null){
+        if (y1 == null) {
             y1 = "";
         }
 
         if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(x1, y1);
+            return sortDirection * diff(x1, y1);
+        } else if (isRealNum(x1) && isRealNum(y1)) {
+            return sortDirection * (numeral(x1).value() - numeral(y1).value());
+        } else if (!isRealNum(x1) && !isRealNum(y1)) {
+            return sortDirection * x1.localeCompare(y1);
+        } else if (!isRealNum(x1)) {
+            return sortDirection;
+        } else if (!isRealNum(y1)) {
+            return -sortDirection;
         }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(x1).value() - numeral(y1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return x1.localeCompare(y1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return 1;
-        }
-        else if (!isRealNum(y1)) {
-            return -1;
-        }
-    }
+    };
 
-    let d = function (x, y) {
-        let x1 = x, y1 = y;
-
-        if(getObjType(x) == "object"){
-            x1 = x.v;
-        }
-
-        if(getObjType(y) == "object"){
-            y1 = y.v;
-        }
-
-        if(x1 == null){
-            x1 = "";
-        }
-
-        if(y1 == null){
-            y1 = "";
-        }
-
-        if (isdatetime(x1) && isdatetime(y1)) {
-            return diff(y1, x1);
-        }
-        else if (isRealNum(x1) && isRealNum(y1)) {
-            return numeral(y1).value() - numeral(x1).value();
-        }
-        else if (!isRealNum(x1) && !isRealNum(y1)) {
-            return y1.localeCompare(x1, "zh");
-        }
-        else if (!isRealNum(x1)) {
-            return -1;
-        }
-        else if (!isRealNum(y1)) {
-            return 1;
-        }
-    }
-
-    if (isAsc) {
-        return data.sort(a);
-    }
-    else {
-        return data.sort(d);
-    }
+    return data.sort(sort);
 }
 
 //排序选区数据
@@ -270,12 +188,7 @@ function sortSelection(isAsc) {
     }
 
     data = orderbydata(data, 0, isAsc);
-
-    for(let r = str; r <= edr; r++){
-        for(let c = c1; c <= c2; c++){
-            d[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(d, data, str, edr, c1, c2);
 
     let allParam = {};
     if(Store.config["rowlen"] != null){
@@ -334,6 +247,8 @@ function sortColumnSeletion(colIndex, isAsc) {
         return;
     }
 
+    str = str || getFrozenRows();
+    
     let hasMc = false; //排序选区是否有合并单元格
     let data = [];
 
@@ -353,23 +268,21 @@ function sortColumnSeletion(colIndex, isAsc) {
     }
 
     if(hasMc){
+        const msg = "Column sorting will extend to the entire table selection area. The selection area has merged cells. This operation cannot be performed. Please select the function column sorting function!"
         if(isEditMode()){
+
             alert(locale_sort.columnSortMergeError);
         }
         else{
             tooltip.info(locale_sort.columnSortMergeError, "");
+
         }
 
         return;
     }
 
     data = orderbydata(data, colIndex, isAsc);
-
-    for(let r = str; r <= edr; r++){
-        for(let c = c1; c <= c2; c++){
-            d[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(d, data, str, edr, c1, c2);
 
     let allParam = {};
     if(Store.config["rowlen"] != null){
@@ -385,9 +298,28 @@ function sortColumnSeletion(colIndex, isAsc) {
     jfrefreshgrid(d, [{ "row": [str, edr], "column": [c1, c2] }], allParam);
 }
 
+function applySortResult(destination, sortedData, r1, r2, c1, c2) {
+    for (let r = r1; r <= r2; r++) {
+        for (let c = c1; c <= c2; c++) {
+            const sortedRow = r - r1;
+            destination[r][c] = sortedData[sortedRow][c - c1];
+            updateSortedFormula(destination[r][c], sortedData[sortedRow].initialIndex, sortedRow);
+        }
+    }
+}
+
+function updateSortedFormula(cellData, oldRow, newRow) {
+    if (cellData && cellData.f && oldRow !== newRow) {
+        const step = newRow - oldRow;
+        const mode = step > 0 ? "down" : "up";
+        cellData.f = "=" + luckysheetformula.functionCopy(cellData.f, mode, Math.abs(step));
+    }
+}
+
 export {
     orderbydata,
     orderbydata1D,
     sortSelection,
     sortColumnSeletion,
+    applySortResult
 }

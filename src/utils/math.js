@@ -121,38 +121,31 @@ function fixed(num, precision) {
 /**
  * Calculation +-/* Solve the problem of js accuracy
  */
-Number.prototype.add = function (value) {
+const parseNumber = (value) => {
     let  number = parseFloat(value);
     if (typeof number !== 'number' || Number.isNaN(number)) {
-        throw new Error('请输入数字或者数字字符串～');
-    };
+        throw new Error('Please enter a number or a string of numbers～');
+    }
+    return number;
+};
+
+Number.prototype.add = function (value) {
+    const number = parseNumber(value);
     return operation(this, number, 'add');
 };
 Number.prototype.subtract = function (value) {
-    let  number = parseFloat(value);
-    if (typeof number !== 'number' || Number.isNaN(number)) {
-        throw new Error('请输入数字或者数字字符串～');
-    }
+    const number = parseNumber(value);
     return operation(this, number, 'subtract');
 };
 Number.prototype.multiply = function (value) {
-    let  number = parseFloat(value);
-    if (typeof number !== 'number' || Number.isNaN(number)) {
-        throw new Error('请输入数字或者数字字符串～');
-    }
+    const number = parseNumber(value);
     return operation(this, number, 'multiply');
 };
 Number.prototype.divide = function (value) {
-    let  number = parseFloat(value);
-    if (typeof number !== 'number' || Number.isNaN(number)) {
-        throw new Error('请输入数字或者数字字符串～');
-    }
+    const number = parseNumber(value);
     return operation(this, number, 'divide');
 };
 Number.prototype.tofixed = function (value) {
-    let  precision = parseFloat(value);
-    if (typeof precision !== 'number' || Number.isNaN(precision)) {
-        throw new Error('请输入数字或者数字字符串～');
-    }
-    return fixed(this, precision);
+    const number = parseNumber(value)
+    return fixed(this, number);
 };

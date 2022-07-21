@@ -14,6 +14,7 @@ import menuButton from './menuButton';
 import { getSheetIndex } from '../methods/get';
 import locale from '../locale/locale';
 import Store from '../store';
+import escapeHtml from "escape-html";
 
 const hyperlinkCtrl = {
     item: {
@@ -74,8 +75,8 @@ const hyperlinkCtrl = {
                             </div>
                         </div>`;
 
-        $("body").first().append(replaceHtml(modelHTML, { 
-            "id": "luckysheet-insertLink-dialog", 
+        $("body").first().append(replaceHtml(modelHTML, {
+            "id": "luckysheet-insertLink-dialog",
             "addclass": "luckysheet-insertLink-dialog", 
             "title": toolbarText.insertLink, 
             "content": content, 
@@ -100,9 +101,6 @@ const hyperlinkCtrl = {
     init: function (){
         let _this = this;
 
-        const _locale = locale();
-        const hyperlinkText = _locale.insertLink;
-
         //链接类型
         $(document).off("change.linkType").on("change.linkType", "#luckysheet-insertLink-dialog-linkType", function(e){
             let value = this.value;
@@ -126,64 +124,73 @@ const hyperlinkCtrl = {
             let linkCell = $("#luckysheet-insertLink-dialog-linkCell").val();
             let linkTooltip = $("#luckysheet-insertLink-dialog-linkTooltip").val();
 
-            if(linkType == 'external'){
-                if(!/^http[s]?:\/\//.test(linkAddress)){
-                    linkAddress = 'https://' + linkAddress;
-                }
-
-                if(!/^http[s]?:\/\/([\w\-\.]+)+[\w-]*([\w\-\.\/\?%&=]+)?$/ig.test(linkAddress)){
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
-                    return;
-                }
-            }
-            else{
-                if(!formula.iscelldata(linkCell)){
-                    tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo2);
-                    return;
-                }
-
-                linkAddress = linkSheet + "!" + linkCell;
-            }
-
-            if(linkText == null || linkText.replace(/\s/g, '') == ''){
-                linkText = linkAddress;
-            }
-
-            let item = {
-                linkType: linkType,
-                linkAddress: linkAddress,
-                linkTooltip: linkTooltip,
-            }
-
-            let historyHyperlink = $.extend(true, {}, _this.hyperlink);
-            let currentHyperlink = $.extend(true, {}, _this.hyperlink);
-
-            currentHyperlink[rowIndex + "_" + colIndex] = item;
-
-            let d = editor.deepCopyFlowData(Store.flowdata);
-            let cell = d[rowIndex][colIndex];
-
-            if(cell == null){
-                cell = {};
-            }
-
-            cell.fc = 'rgb(0, 0, 255)';
-            cell.un = 1;
-            cell.v = cell.m = linkText;
-
-            d[rowIndex][colIndex] = cell;
-
-            _this.ref(
-                historyHyperlink, 
-                currentHyperlink, 
-                Store.currentSheetIndex, 
-                d, 
-                [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
-            );
+            _this.setLink(linkType, linkAddress, linkText, linkSheet, linkCell, linkTooltip, rowIndex, colIndex);
 
             $("#luckysheet-modal-dialog-mask").hide();
             $("#luckysheet-insertLink-dialog").hide();
         })
+    },
+    setLink: function (linkType, linkAddress, linkText, linkSheet, linkCell, linkTooltip, rowIndex, colIndex) {
+        let _this = this;
+        const _locale = locale();
+        const hyperlinkText = _locale.insertLink;
+
+        if(linkType == 'external'){
+            if(!/^http[s]?:\/\//.test(linkAddress)){
+                linkAddress = 'https://' + linkAddress;
+            }
+
+            try {
+                new URL(linkAddress);
+            } catch {
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo1);
+                return;
+            }
+        }
+        else if (linkSheet && linkCell) {
+            if(!formula.iscelldata(linkCell)){
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', hyperlinkText.tooltipInfo2);
+                return;
+            }
+
+            linkAddress = linkSheet + "!" + linkCell;
+        }
+
+        if(linkText == null || linkText.replace(/\s/g, '') == ''){
+            linkText = linkAddress;
+        }
+
+        let item = {
+            linkType: linkType,
+            linkAddress: linkAddress,
+            linkTooltip: linkTooltip,
+        }
+
+        let historyHyperlink = $.extend(true, {}, _this.hyperlink);
+        let currentHyperlink = $.extend(true, {}, _this.hyperlink);
+
+        currentHyperlink[rowIndex + "_" + colIndex] = item;
+
+        let d = editor.deepCopyFlowData(Store.flowdata);
+        let cell = d[rowIndex][colIndex];
+
+        if(cell == null){
+            cell = {};
+        }
+
+        cell.fc = 'rgb(0, 0, 255)';
+        cell.un = 1;
+        cell.v = cell.m = linkText;
+
+        d[rowIndex][colIndex] = cell;
+
+        _this.ref(
+            historyHyperlink,
+            currentHyperlink,
+            Store.currentSheetIndex,
+            d,
+            [{ row: [rowIndex, rowIndex], column: [colIndex, colIndex] }]
+        );
     },
     dataAllocation: function(){
         let _this = this;
@@ -306,22 +313,17 @@ const hyperlinkCtrl = {
             linkTooltip = item.linkAddress;
         }
 
-        let row = Store.visibledatarow[row_index], 
-            row_pre = row_index - 1 == -1 ? 0 : Store.visibledatarow[row_index - 1];
-        let col = Store.visibledatacolumn[col_index], 
-            col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
+        let row = Store.visibledatarow[row_index];
+        let col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
         if(!!margeset){
             row = margeset.row[1];
-            row_pre = margeset.row[0];
-            
-            col = margeset.column[1];
             col_pre = margeset.column[0];
         }
 
         let html = `<div id="luckysheet-hyperlink-overshow" style="background:#fff;padding:5px 10px;border:1px solid #000;box-shadow:2px 2px #999;position:absolute;left:${col_pre}px;top:${row + 5}px;z-index:100;">
-                        <div>${linkTooltip}</div>
-                        <div>单击鼠标可以追踪</div>
+                        <div>${escapeHtml(linkTooltip)}</div>
+                        <div>Click the mouse to track</div>
                     </div>`;
 
         $(html).appendTo($("#luckysheet-cell-main"));

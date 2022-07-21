@@ -34,8 +34,6 @@ const luckysheetFreezen = {
             return arr;
         }
 
-        let pre = arr.slice(0, cutindex);
-        let premax = pre[pre.length - 1];
         let ret = arr.slice(cutindex);
         
         // for (let i = 0; i < ret.length; i++) {
@@ -1015,175 +1013,42 @@ const luckysheetFreezen = {
             selectHightlightShow();
         }
     },
+
     scrollAdaptOfchart: function(){
-        let _this = this;
+        const freezenTop = this.freezenhorizontaldata ? this.freezenhorizontaldata[0] - this.freezenhorizontaldata[2] : 0;
+        const freezenLeft = this.freezenverticaldata ? this.freezenverticaldata[0] - this.freezenverticaldata[2] : 0;
 
-        let scrollTop = $("#luckysheet-cell-main").scrollTop();
-        let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
+        const $cellMain = $("#luckysheet-cell-main");
 
-        if(_this.freezenhorizontaldata != null && _this.freezenverticaldata != null){
-            let freezenTop = _this.freezenhorizontaldata[0] - _this.freezenhorizontaldata[2];
-            let freezenLeft = _this.freezenverticaldata[0] - _this.freezenverticaldata[2];
+        $cellMain.find(".luckysheet-data-visualization-chart:visible").each(function(i, chart) {
+            const $chart = $(chart);
+            const $chartCrop = $chart.children(".crop-container");
+            const position = $chart.position();
+            const width = chart.clientWidth;
+            const height = chart.clientHeight;
 
-            $("#luckysheet-cell-main .luckysheet-data-visualization-chart").each(function(i, e){
-                let x = $(e).position();
-                let width = $(e).width();
-                let height = $(e).height();
+            $chartCrop.css({ "width": "", "height": "", "visibility": "visible" });
 
-                let $canvas_width = $(e).find("canvas").width();
-                let $canvas_height = $(e).find("canvas").height();
-
-                let height_diff = $canvas_height - height;
-                let width_diff = $canvas_width - width;
-
-                if((x.top - height_diff) < freezenTop){
-                    let size = freezenTop - (x.top - height_diff);
-
-                    if(size > ($canvas_height + 40 + 2)){
-                        $(e).css("visibility", "hidden");
-                    }
-                    else{
-                        $(e).css({
-                            "top": freezenTop + scrollTop,
-                            "height": $canvas_height - size,
-                            "visibility": "visible"
-                        });   
-                        $(e).find("canvas").css("top", - size);
-                    }
+            if (position.top < freezenTop) {
+                const croppedHeight = Math.max(position.top + height - 40 - freezenTop, 0);
+                if (croppedHeight) {
+                    $chartCrop.height(croppedHeight - 2);
+                } else {
+                    $chartCrop.css("visibility", "hidden");
                 }
-                else{
-                    $(e).css({
-                        "top": x.top - height_diff + scrollTop,
-                        "height": $canvas_height,
-                        "visibility": "visible"
-                    }); 
-                    $(e).find("canvas").css("top", 0);
+            }
+
+            if (position.left < freezenLeft) {
+                const croppedWidth = Math.max(position.left + width - 20 - freezenLeft, 0);
+                if (croppedWidth) {
+                    $chartCrop.width(croppedWidth - 2);
+                } else {
+                    $chartCrop.css("visibility", "hidden");
                 }
-
-                if((x.left - width_diff) < freezenLeft){
-                    let size = freezenLeft - (x.left - width_diff);
-
-                    if(size > ($canvas_width + 20 + 2)){
-                        $(e).css("visibility", "hidden");
-                    }
-                    else{
-                        $(e).css({
-                            "left": freezenLeft + scrollLeft,
-                            "width": $canvas_width - size,
-                            "visibility": "visible"
-                        });   
-                        $(e).find("canvas").css("left", - size);
-                    }
-                }
-                else{
-                    $(e).css({
-                        "left": x.left - width_diff + scrollLeft,
-                        "width": $canvas_width,
-                        "visibility": "visible"
-                    }); 
-                    $(e).find("canvas").css("left", 0);
-                }
-            })
-        }
-        else if(_this.freezenhorizontaldata != null){
-            let freezenTop = _this.freezenhorizontaldata[0] - _this.freezenhorizontaldata[2];
-
-            $("#luckysheet-cell-main .luckysheet-data-visualization-chart").each(function(i, e){
-                let x = $(e).position();
-                let height = $(e).height();
-                
-                let $canvas_height = $(e).find("canvas").height();
-
-                let height_diff = $canvas_height - height;
-
-                if((x.top - height_diff) < freezenTop){
-                    let size = freezenTop - (x.top - height_diff);
-
-                    if(size > ($canvas_height + 40 + 2)){
-                        $(e).css("visibility", "hidden");
-                    }
-                    else{
-                        $(e).css({
-                            "top": freezenTop + scrollTop,
-                            "height": $canvas_height - size,
-                            "visibility": "visible"
-                        });   
-                        $(e).find("canvas").css("top", - size);
-                    }
-                }
-                else{
-                    $(e).css({
-                        "top": x.top - height_diff + scrollTop,
-                        "height": $canvas_height,
-                        "visibility": "visible"
-                    }); 
-                    $(e).find("canvas").css("top", 0);
-                }
-            })
-        }
-        else if(_this.freezenverticaldata != null){
-            let freezenLeft = _this.freezenverticaldata[0] - _this.freezenverticaldata[2];
-
-            $("#luckysheet-cell-main .luckysheet-data-visualization-chart").each(function(i, e){
-                let x = $(e).position();
-                let width = $(e).width();
-
-                let $canvas_width = $(e).find("canvas").width();
-
-                let width_diff = $canvas_width - width;
-
-                if((x.left - width_diff) < freezenLeft){
-                    let size = freezenLeft - (x.left - width_diff);
-
-                    if(size > ($canvas_width + 20 + 2)){
-                        $(e).css("visibility", "hidden");
-                    }
-                    else{
-                        $(e).css({
-                            "left": freezenLeft + scrollLeft,
-                            "width": $canvas_width - size,
-                            "visibility": "visible"
-                        });   
-                        $(e).find("canvas").css("left", - size);
-                    }
-                }
-                else{
-                    $(e).css({
-                        "left": x.left - width_diff + scrollLeft,
-                        "width": $canvas_width,
-                        "visibility": "visible"
-                    }); 
-                    $(e).find("canvas").css("left", 0);
-                }
-            })
-        }
-        else{
-            $("#luckysheet-cell-main .luckysheet-data-visualization-chart").each(function(i, e){
-                let x = $(e).position();
-                let width = $(e).width();
-                let height = $(e).height();
-
-                let $canvas_width = $(e).find("canvas").width();
-                let $canvas_height = $(e).find("canvas").height();
-
-                let height_diff = $canvas_height - height;
-                let width_diff = $canvas_width - width;
-
-                $(e).css({
-                    "top": x.top - height_diff + scrollTop,
-                    "height": $canvas_height,
-                    "left": x.left - width_diff + scrollLeft,
-                    "width": $canvas_width,
-                    "visibility": "visible"
-                }); 
-
-                $(e).find("canvas").css({
-                    "top": 0,
-                    "left": 0
-                });
-            })
-        }
+            }
+        });
     },
+
     scrollAdaptOfpostil: function(){
         let _this = this;
 
@@ -1892,3 +1757,11 @@ const luckysheetFreezen = {
 }
 
 export default luckysheetFreezen;
+
+export const getFrozenRows = function() {
+    const currentSheet = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+    if (currentSheet.freezen && currentSheet.freezen.horizontal && currentSheet.freezen.horizontal.freezenhorizontaldata) {
+        return currentSheet.freezen.horizontal.freezenhorizontaldata[1];
+    }
+    return 0;
+}

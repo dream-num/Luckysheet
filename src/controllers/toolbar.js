@@ -2,6 +2,7 @@ import locale from '../locale/locale';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 
 import { getObjType, camel2split } from '../utils/util';
+import escapeHtml from "escape-html";
 
 // 默认的工具栏按钮
 export const defaultToolbar = [
@@ -322,7 +323,7 @@ export function createToolbarHtml() {
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(0, 0, 0); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultTextColor}"></div>
+                                <div class="text-color-bar" style="background-color:${escapeHtml(luckysheetConfigsetting.defaultTextColor)}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-text-color iconfont luckysheet-iconfont-wenbenyanse"
                                 style="user-select: none;">
                                 </div>
@@ -355,7 +356,7 @@ export function createToolbarHtml() {
                     style="user-select: none;">
                         <div class="luckysheet-color-menu-button-indicator" style="border-bottom-color: rgb(255, 255, 255); user-select: none;">
                             <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                                <div class="text-color-bar" style="background-color:${luckysheetConfigsetting.defaultCellColor}"></div>
+                                <div class="text-color-bar" style="background-color:${escapeHtml(luckysheetConfigsetting.defaultCellColor)}"></div>
                                 <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-cell-color iconfont luckysheet-iconfont-tianchong"
                                 style="user-select: none;">
                                 </div>

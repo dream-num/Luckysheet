@@ -1,4 +1,3 @@
-
 import pivotTable from './pivotTable';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
@@ -9,8 +8,7 @@ import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from '.
 import { 
     getObjType, 
     showrightclickmenu,
-    luckysheetContainerFocus, 
-    luckysheetfontformat,
+    luckysheetContainerFocus,
     $$
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
@@ -30,16 +28,16 @@ import {
     jfrefreshgridall, 
     jfrefreshgrid_rhcw,
 } from '../global/refresh';
-import { getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import locale from '../locale/locale';
-import {getMeasureText,getCellTextInfo} from '../global/getRowlen';
+import {getCellTextInfo} from '../global/getRowlen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import {isInlineStringCell} from './inlineString';
 import {checkProtectionLockedRangeList, checkProtectionAllSelected,checkProtectionAuthorityNormal  } from './protection';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
+import escapeHtml from "escape-html";
 
 export function rowColumnOperationInitial(){
 
@@ -173,6 +171,8 @@ export function rowColumnOperationInitial(){
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
@@ -253,7 +253,7 @@ export function rowColumnOperationInitial(){
 
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
-                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                    formula.setCaretPosition($span.get(0), 0, $span.html()?.length);
                 }, 1);
 
                 return;
@@ -606,6 +606,8 @@ export function rowColumnOperationInitial(){
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
+                    } else {
+                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
@@ -2135,7 +2137,7 @@ export function rowColumnOperationInitial(){
 
           /* 对异常情况进行判断：NaN */
         if(isNaN(size)){
-            tooltip.info("只允许使用数字来设置行列的宽高!", "");
+            tooltip.info("Only allow numbers to set the width and height of rows and columns!", "");
             return;
         }
 

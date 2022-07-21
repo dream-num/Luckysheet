@@ -112,7 +112,7 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         $("#luckysheet-input-box").css("z-index", 10002);
     }
     
-    $("#luckysheet-input-box-index").html(chatatABC(col_index) + (row_index + 1)).hide();
+    $("#luckysheet-input-box-index").text(chatatABC(col_index) + (row_index + 1)).hide();
     $("#luckysheet-wa-functionbox-cancel, #luckysheet-wa-functionbox-confirm").addClass("luckysheet-wa-calculate-active");
     
     let value = "", isCenter=false;
@@ -222,7 +222,6 @@ export function luckysheetupdateCell(row_index1, col_index1, d, cover, isnotfocu
         $("#luckysheet-rich-text-editor").html("");
     }
     else{
-        value = formula.ltGtSignDeal(value);
         $("#luckysheet-rich-text-editor").html(value);
         if (!isnotfocus) {
             luckysheetRangeLast($("#luckysheet-rich-text-editor")[0]);
@@ -275,12 +274,11 @@ export function setCenterInputPosition(row_index, col_index, d){
     }
 
     let size = getColumnAndRowSize(row_index, col_index, d);
-    let row = size.row, row_pre = size.row_pre, col = size.col, col_pre = size.col_pre;
+    let col = size.col, col_pre = size.col_pre;
 
-    let winH = $(window).height(), winW = $(window).width();
+    let winW = $(window).width();
     let container_offset = $("#" + Store.container).offset();
     let scrollLeft = $("#luckysheet-cell-main").scrollLeft();
-    let scrollTop = $("#luckysheet-cell-main").scrollTop();
 
     let input_postition = { 
         "min-width": col - col_pre + 1 - 8, 

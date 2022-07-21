@@ -8,6 +8,7 @@ import sheetmanage from '../controllers/sheetmanage';
 import { isInlineStringCT,isInlineStringCell,convertCssToStyleList } from '../controllers/inlineString';
 import locale from '../locale/locale';
 import Store from '../store';
+import escapeHtml from "escape-html";
 
 //Get selection range value
 export function getdatabyselection(range, sheetIndex) {
@@ -137,6 +138,9 @@ export function getcellvalue(r, c, data, type) {
 
     let d_value;
 
+    if (r >= data.length || c >= data[r].length) {
+        return data;
+    }
     if (r != null && c != null) {
         d_value = data[r][c];
     }
@@ -164,11 +168,16 @@ export function getcellvalue(r, c, data, type) {
             retv = formula.functionHTMLGenerate(retv);
         }
         else if(type == "f") {
-            retv = d_value["v"];
+            retv = escapeValue(d_value["v"]);
         }
         else if(d_value && d_value.ct && d_value.ct.t == 'd') {
             retv = d_value.m;
+            retv = escapeValue(retv);
+        } else {
+            retv = escapeValue(retv);
         }
+    } else {
+        retv = escapeValue(retv);
     }
 
     if(retv == undefined){
@@ -176,6 +185,13 @@ export function getcellvalue(r, c, data, type) {
     }
 
     return retv;
+}
+
+function escapeValue(value) {
+    if (typeof value === "string") {
+        value = escapeHtml(value);
+    }
+    return value;
 }
 
 //Data increase in rows and columns
@@ -265,8 +281,6 @@ export function getOrigincell(r, c, i) {
     }
 
     return data[r][c];
-
-
 }
 
 export function getRealCellValue(r, c){
@@ -302,10 +316,6 @@ export function getInlineStringNoStyle(r, c){
 
 export function getInlineStringStyle(r, c, data){
     let ct = getcellvalue(r, c, data, "ct");
-    if (data == null) {
-        data = Store.flowdata;
-    }
-    let cell = data[r][c];
     if(isInlineStringCT(ct)){
         let strings = ct.s, value="";
         for(let i=0;i<strings.length;i++){
@@ -349,29 +359,28 @@ export function getFontStyleByCell(cell,checksAF,checksCF, isCheck=true){
             else{
                 f = value;
             }
-            style += "font-family: " + f + ";";
+            style += "font-family: " + escapeHtml(f) + ";";
         }
 
         if(key == "fs" && value != "10"){
-            style += "font-size: "+ value + "pt;";
+            style += "font-size: "+ escapeHtml(value) + "pt;";
         }
 
         if((key == "fc" && value != "#000000") || checksAF != null || (checksCF != null && checksCF["textColor"] != null)){
             if(checksCF != null && checksCF["textColor"] != null){
-                style += "color: " + checksCF["textColor"] + ";";
+                style += "color: " + escapeHtml(checksCF["textColor"]) + ";";
             }
             else if(checksAF != null){
-                style += "color: " + checksAF[0] + ";";
+                style += "color: " + escapeHtml(checksAF[0]) + ";";
             }
             else{
-                style += "color: " + value + ";";  
+                style += "color: " + escapeHtml(value) + ";";
             }
         }
 
         if(key == "cl" && value != "0"){
             style += "text-decoration: line-through;";
         }
-
     }
     return style;
 }
@@ -552,7 +561,7 @@ export function checkstatusByCell(cell, a){
         }
     }
 
-    return foucsStatus;
+    return escapeValue(foucsStatus);
 }
 
 export function textTrim(x) {

@@ -1,23 +1,21 @@
 import Store from "../store";
 import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
-import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
+import { getSheetIndex, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 import method from './method';
 import formula from './formula';
 import func_methods from "./func_methods";
 import tooltip from "./tooltip";
-import json from "./json";
 import editor from "./editor";
 import luckysheetformula from './formula';
 import cleargridelement from './cleargridelement';
-import { genarate, update } from './format';
-import { setAccuracy,setcellvalue } from "./setdata";
-import { orderbydata } from "./sort";
+import { setcellvalue } from "./setdata";
+import {applySortResult, orderbydata} from "./sort";
 import { rowlenByRange } from "./getRowlen";
 import { getdatabyselection, getcellvalue } from "./getdata";
 import { luckysheetrefreshgrid, jfrefreshgrid, jfrefreshgrid_rhcw } from "./refresh";
 import { luckysheetDeleteCell, luckysheetextendtable, luckysheetdeletetable } from "./extend";
-import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./validate";
+import { isRealNull,  isRealNum, isEditMode, hasPartMC } from "./validate";
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
 import { luckysheetDrawMain } from './draw';
@@ -41,7 +39,7 @@ import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
-const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
+import escapeHtml from "escape-html";
 
 /**
  * 获取单元格的值
@@ -71,7 +69,7 @@ export function getCellValue(row, column, options = {}) {
             return_v = formula.functionHTMLGenerate(return_v);
         }
         else if(type == "f") {
-            return_v = cellData["v"];
+            return_v = escapeHtml(cellData["v"]);
         }
         else if(cellData && cellData.ct ) {
             if (cellData.ct.fa == 'yyyy-MM-dd') {
@@ -2923,8 +2921,6 @@ export function setSingleRangeFormat(attr, value, options = {}) {
 
     for (let r = range.row[0]; r <= range.row[1]; r++) {
         for (let c = range.column[0]; c <= range.column[1]; c++) {
-            console.log('r',r);
-            console.log('c',c);
             setCellValue(r, c, {[attr]: value}, {
                 order: order,
                 isRefresh: false,
@@ -3497,12 +3493,7 @@ export function setRangeSort(type, options = {}) {
     }
 
     data = orderbydata([].concat(data), 0, type === 'asc');
-
-    for(let r = r1; r <= r2; r++){
-        for(let c = c1; c <= c2; c++){
-            fileData[r][c] = data[r - r1][c - c1];
-        }
-    }
+    applySortResult(fileData, data, r1, r2, c1, c2);
 
     let allParam = {};
     if(cfg["rowlen"] != null){
@@ -3602,12 +3593,7 @@ export function setRangeSortMulti(hasTitle, sort, options = {}) {
         i -= c1;
         data = orderbydata([].concat(data), i, sortItem.sort === 'asc');
     })
-
-    for(let r = str; r <= r2; r++){
-        for(let c = c1; c <= c2; c++){
-            fileData[r][c] = data[r - str][c - c1];
-        }
-    }
+    applySortResult(fileData, data, str, r2, c1, c2);
 
     let allParam = {};
     if(cfg["rowlen"] != null){
@@ -4742,7 +4728,6 @@ export function matrixOperation(type, options = {}) {
             break;
         case 'newMatrix':
             // TODO
-            console.log("TODO")
             break;
     }
     editor.controlHandler(arr, range)
@@ -4903,9 +4888,9 @@ export function setSheetAdd(options = {}) {
     }
 
     $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
-        "index": index,
+        "index": escapeHtml(index),
         "active": "",
-        "name": sheetname,
+        "name": escapeHtml(sheetname),
         "style": "",
         "colorset": ""
     }));
@@ -5063,10 +5048,10 @@ export function setSheetCopy(options = {}) {
     }
 
     $("#luckysheet-sheet-container-c").append(replaceHtml(sheetHTML, {
-        "index": copyjson.index,
+        "index": escapeHtml(copyjson.index),
         "active": "",
-        "name": copyjson.name,
-        "order": copyjson.order,
+        "name": escapeHtml(copyjson.name),
+        "order": escapeHtml(copyjson.order),
         "style": "",
         "colorset": colorset
     }));
@@ -5277,7 +5262,7 @@ export function setSheetColor(color, options = {}) {
     file.color = color;
 
     $("#luckysheet-sheets-item" + file.index).find(".luckysheet-sheets-item-color").remove();
-    $("#luckysheet-sheets-item" + file.index).append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>');
+    $("#luckysheet-sheets-item" + file.index).append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(color)};"></div>`);
 
     server.saveParam("all", file.index, color, { "k": "color" });
 
@@ -5882,7 +5867,8 @@ export function redo(options = {}) {
  * 返回所有工作表配置
  */
 export function getAllSheets() {
-    let data = $.extend(true, [], Store.luckysheetfile);
+    const file = getluckysheetfile()
+    let data = $.extend(true, [], file);
 
     data.forEach((item, index, arr) => {
         if(item.data != null && item.data.length > 0){

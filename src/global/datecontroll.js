@@ -1,16 +1,16 @@
 import { hasChinaword } from './validate';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+
+// const dateFormats = ["DD.MM.YYYY", "M/D/YYYY", "YYYY-MM-DD", "M/D/YY", "YYYY/MM/DD", "D. M. YYYY.", "DD-MM-YYYY", "DD-MM-YY", "DD.MM.YY", "DD/MM/YYYY", "YYYY.MM.DD", "MM-DD", "M-D", "H:mm:ss", "H:mm", "MM-DD HH:mm", "hh:mm", "YYYY-MM-DD hh:mm", "YYYY-MM-DD HH:mm"];
 
 function isdatetime(s) {
     if (s == null || s.toString().length < 5) {
         return false;
     }
-    else if(checkDateTime(s)){
-        return true;
-    }
-    else {
-        return false;
-    }
+
+    return checkDateTime(s)//dayjs(s, dateFormats, true).isValid();
 
     function checkDateTime(str){
         var reg1 = /^(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2})(:(\d{1,2}))?)?$/;
@@ -80,7 +80,13 @@ function isdatatype(s) {
     return type;
 }
 
+function parseDateByFormat(dateStr, format) {
+    return dayjs(dateStr, format).toDate();
+}
+
 export {
+    dayjs,
+    parseDateByFormat,
     isdatetime,
     diff,
     isdatatypemulti,

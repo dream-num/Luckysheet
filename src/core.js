@@ -260,3 +260,5 @@ luckysheet.locales = locales;
 export {
     luckysheet
 }
+
+window.luckysheet = luckysheet;

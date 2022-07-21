@@ -1,4 +1,3 @@
-
 import sheetmanage from './sheetmanage';
 import server from './server';
 import { sheetselectlistitemHTML, sheetselectlistHTML, keycode } from './constant';
@@ -11,14 +10,13 @@ import { isEditMode } from '../global/validate';
 import formula from '../global/formula';
 import cleargridelement from '../global/cleargridelement';
 import tooltip from '../global/tooltip';
-    selectTextDom
 import {selectTextDom} from '../global/cursorPos';
 import locale from '../locale/locale';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import {pagerInit} from '../global/api'
 import method from '../global/method';
-
+import escapeHtml from "escape-html";
 
 //表格底部名称栏区域 相关事件（增、删、改、隐藏显示、颜色等等）
 let isInitialSheetConfig = false, luckysheetcurrentSheetitem = null, jfdbclicklagTimeout = null,oldSheetFileName = "";
@@ -45,7 +43,6 @@ function showsheetconfigmenu() {
             noColorSelectedText: locale_toolbar.noColorSelectedText,
             palette: [["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(255, 255, 255)"], ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)", "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"], ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)"], ["rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)"], ["rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)"], ["rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)"], ["rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"], ["#c1232b", "#27727b", "#fcce10", "#e87c25", "#b5c334", "#fe8463", "#9bca63", "#fad860", "#f3a43b", "#60c0dd", "#d7504b", "#c6e579", "#f4e001", "#f0805a", "#26c0c0", "#c12e34", "#e6b600", "#0098d9", "#2b821d", "#005eaa", "#339ca8", "#cda819", "#32a487", "#3fb1e3", "#6be6c1", "#626c91", "#a0a7e6", "#c4ebad", "#96dee8"]],
             change: function (color) {
-                let $input = $(this);
                 if (color != null) {
                     color = color.toHexString();
                 }
@@ -59,7 +56,7 @@ function showsheetconfigmenu() {
                 }
 
                 luckysheetcurrentSheetitem.find(".luckysheet-sheets-item-color").remove();
-                luckysheetcurrentSheetitem.append('<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0px; left: 0px; background-color: ' + color + ';"></div>');
+                luckysheetcurrentSheetitem.append(`<div class="luckysheet-sheets-item-color" style=" position: absolute; width: 100%; height: 3px; bottom: 0; left: 0; background-color: ${escapeHtml(color)};"></div>`);
                 let index = getSheetIndex(Store.currentSheetIndex);
                 Store.luckysheetfile[index].color = color;
                 server.saveParam("all", Store.currentSheetIndex, color, { "k": "color" });
@@ -106,14 +103,12 @@ function showsheetconfigmenu() {
     let index = getSheetIndex(Store.currentSheetIndex);
     if (Store.luckysheetfile[index].color != null && Store.luckysheetfile[index].color.length > 0) {
         $("#luckysheetsheetconfigcolorur").spectrum("set", Store.luckysheetfile[index].color);
-
     }
 
     $("#luckysheetsheetconfigcolorur").parent().find("span, div, button, input, a").addClass("luckysheet-mousedown-cancel");
 
     // 如果全部按钮设置了隐藏，则不显示
     const config = luckysheetConfigsetting.sheetRightClickConfig;
-    // if(!config.delete && !config.copy && !config.rename && !config.color && !config.hide && !config.move){
     if(Object.values(config).every(ele=> !ele)){
         return;
     }
@@ -132,7 +127,7 @@ let luckysheetsheetrightclick = function ($t, $cur, e) {
         setTimeout(function () {
             formula.setCaretPosition(formula.rangeSetValueTo.get(0), 0, formula.rangeSetValueTo.text().length);
             formula.createRangeHightlight();
-            $("#luckysheet-input-box-index").find(".luckysheet-input-box-index-sheettxt").remove().end().prepend("<span class='luckysheet-input-box-index-sheettxt'>" + sheetmanage.getSheetName(formula.rangetosheet) + "!</span>").show();
+            $("#luckysheet-input-box-index").find(".luckysheet-input-box-index-sheettxt").remove().end().prepend(`<span class='luckysheet-input-box-index-sheettxt'>${escapeHtml(sheetmanage.getSheetName(formula.rangetosheet))}!</span>`).show();
             $("#luckysheet-input-box-index").css({"left": $("#luckysheet-input-box").css("left"), "top": (parseInt($("#luckysheet-input-box").css("top")) - 20) + "px", "z-index": $("#luckysheet-input-box").css("z-index")});
         }, 1);
     }
@@ -167,7 +162,6 @@ export function initialSheetBar(){
 
     $("#luckysheet-sheet-area").on("mousedown", "div.luckysheet-sheets-item", function (e) {
         if(isEditMode()){
-            // alert("非编辑模式下不允许该操作！");
             return;
         }
 
@@ -211,7 +205,6 @@ export function initialSheetBar(){
     }).on("click", "div.luckysheet-sheets-item", function (e) {
 
         if(isEditMode()){
-            // alert("非编辑模式下不允许该操作！");
             return;
         }
 
@@ -473,7 +466,7 @@ export function initialSheetBar(){
     });
 
     let initialOpenSheet = true;
-    $("#luckysheet-sheets-m").click(function (e) {
+    $("#luckysheet-sheets-m").click(function () {
         //保存正在编辑的单元格内容
         if (parseInt($("#luckysheet-input-box").css("top")) > 0) {
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
@@ -494,17 +487,16 @@ export function initialSheetBar(){
             }
 
             if (f["color"] != null && f["color"].length > 0) {
-                style += "border-right:4px solid " + f["color"] + ";";
+                style += `border-right:4px solid ${escapeHtml(f["color"])};`;
             }
 
-            item += replaceHtml(sheetselectlistitemHTML, { "index": f["index"], "name": f["name"], "icon": icon, "style": style });
+            item += replaceHtml(sheetselectlistitemHTML, { "index": escapeHtml(f["index"]), "name": escapeHtml(f["name"]), "icon": icon, "style": style });
         }
 
         if (initialOpenSheet) {
             $("#" + Store.container).append(replaceHtml(sheetselectlistHTML, { "item": item }));
             $("#luckysheet-sheet-list").on("click", ".luckysheet-cols-menuitem", function (e) {
                 if(isEditMode()){
-                    // tooltip.info("提示", "图表编辑模式下不允许该操作！");
                     alert(locale_sheetconfig.chartEditNoOpt);
                     return;
                 }
