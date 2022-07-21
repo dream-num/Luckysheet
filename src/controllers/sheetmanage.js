@@ -73,77 +73,52 @@ const sheetmanage = {
         }
     },
     generateCopySheetName: function(file, name) {
-        let copySheetName = "";
-
         let _locale = locale();
         let locale_info = _locale.info;
+        let copyWord = "(" + locale_info.copy;
+        const copy_i = name.toString().indexOf(copyWord);
 
-        if(name.toString().indexOf("("+locale_info.copy) > -1){
-            let copy_i = name.toString().indexOf("("+locale_info.copy);
-            let name2 = name.toString().substring(0, copy_i) + "("+locale_info.copy;
-            let index = null;
+        if (~copy_i) {
+            name = name.toString().substring(0, copy_i);
+        }
 
-            for(let i = 0; i < file.length; i++){
-                let fileName = file[i].name.toString();
-                let st_i = fileName.indexOf(name2);
+        let index = "";
+        let nameCopy = name + copyWord;
+        const sheetNames = [];
 
-                if(st_i > -1){
-                    let ed_i = fileName.indexOf(")", st_i + name2.length);
-                    let num = fileName.substring(st_i + name2.length, ed_i);
+        for (let i = 0; i < file.length; i++) {
+            let fileName = file[i].name.toString();
+            sheetNames.push(fileName);
+            let st_i = fileName.indexOf(nameCopy);
 
-                    if(isRealNum(num)){
-                        if(index == null || parseInt(num) > index){
-                            index = parseInt(num);
-                        }
+            if(st_i === 0) {
+                index = index || 2;
+                let ed_i = fileName.indexOf(")", st_i + nameCopy.length);
+                let num = fileName.substring(st_i + nameCopy.length, ed_i);
+
+                if (isRealNum(num)) {
+                    if(parseInt(num) >= index){
+                        index = parseInt(num) + 1;
                     }
                 }
             }
-
-            if(index == null){
-                copySheetName = name2 + "2)";
-            }
-            else{
-                index++;
-                copySheetName = name2 + index + ")";
-            }
-        }
-        else{
-            let index = null;
-            let hascopy = false;
-            let name2 = name + "("+locale_info.copy;
-
-            for(let i = 0; i < file.length; i++){
-                let fileName = file[i].name.toString();
-                let st_i = fileName.indexOf(name2);
-
-                if(st_i > -1){
-                    hascopy = true;
-                    let ed_i = fileName.indexOf(")", st_i + name2.length);
-                    let num = fileName.substring(st_i + name2.length, ed_i);
-
-                    if(isRealNum(num)){
-                        if(index == null || parseInt(num) > index){
-                            index = parseInt(num);
-                        }
-                    }
-                }
-            }
-
-            if(hascopy){
-                if(index == null){
-                    copySheetName = name + "("+ locale_info.copy +"2)";
-                }
-                else{
-                    index++;
-                    copySheetName = name + "("+ locale_info.copy +"" + index + ")";
-                }
-            }
-            else{
-                copySheetName = name + "("+ locale_info.copy +")";
-            }
         }
 
-        return copySheetName;
+        let sheetCopyName;
+
+        do {
+            let postfix = copyWord + index + ")";
+
+            const lengthLimit = 31 - postfix.length;
+            sheetCopyName = name;
+            if (sheetCopyName.length > lengthLimit) {
+                sheetCopyName = sheetCopyName.slice(0, lengthLimit - 1) + "…";
+            }
+
+            sheetCopyName = sheetCopyName + postfix;
+        } while (~sheetNames.indexOf(sheetCopyName) && (index = (index || 1) + 1))
+
+        return sheetCopyName;
     },
     getSheetByIndex: function(index) {
         let _this = this;
