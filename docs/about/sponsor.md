@@ -114,3 +114,8 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - Jeff ¥ 100
 - 八千多条狗🐶 ¥ 100
 - 晓峰 ¥ 10
+- 戒 ¥ 1
+- 浪里个浪 ¥ 1
+- 回调函数 ¥ 50
+- 赖瓜子 ¥ 5
+- Milo•J ¥ 20
