@@ -1777,14 +1777,8 @@ const menuButton = {
 
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let row_focus = last["row_focus"] == null ? last["row"][0] : last["row_focus"];
+                        row_st = Math.max(row_st - 1, row_focus - 1, 0);
 
-                        if(row_focus > row_st){
-                            row_st = row_focus;
-                        }
-                        
-                        if(row_st == -1){
-                            row_st = 0;
-                        }
                         let top,freezenhorizontaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
                             top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
@@ -1826,14 +1820,8 @@ const menuButton = {
 
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let column_focus = last["column_focus"] == null ? last["column"][0] : last["column_focus"];
+                        col_st = Math.max(col_st - 1, column_focus - 1, 0);
 
-                        if(column_focus > col_st){
-                            col_st = column_focus;
-                        }
-
-                        if(col_st == -1){
-                            col_st = 0;
-                        }
                         let left,freezenverticaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
                             left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
@@ -1878,14 +1866,8 @@ const menuButton = {
 
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let row_focus = last["row_focus"] == null ? last["row"][0] : last["row_focus"];
+                        row_st = Math.max(row_st - 1, row_focus - 1, 0);
 
-                        if(row_focus > row_st){
-                            row_st = row_focus;
-                        }
-                        
-                        if(row_st == -1){
-                            row_st = 0;
-                        }
                         let top,freezenhorizontaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
                             top = Store.visibledatarow[row_st] - 2 + Store.columnHeaderHeight;
@@ -1903,14 +1885,8 @@ const menuButton = {
                         let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
 
                         let column_focus = last["column_focus"] == null ? last["column"][0] : last["column_focus"];
+                        col_st = Math.max(col_st - 1, column_focus - 1, 0);
 
-                        if(column_focus > col_st){
-                            col_st = column_focus;
-                        }
-
-                        if(col_st == -1){
-                            col_st = 0;
-                        }
                         let left,freezenverticaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
                            left = Store.visibledatacolumn[col_st] - 2 + Store.rowHeaderWidth;
