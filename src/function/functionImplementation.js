@@ -12451,9 +12451,8 @@ const functionImplementation = {
         }
 
         try {
-            luckysheet_getValue(arguments);
             for (var i = 0; i < arguments.length-1; i++){
-                arguments[i] = moment.fromOADate(arguments[i]).format("l");
+                arguments[i] = func_methods.getCellDate(arguments[i]);
                 if(!isdatetime(arguments[i])){
                     return formula.error.v;
                 }
