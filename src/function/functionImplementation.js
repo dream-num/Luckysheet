@@ -12485,8 +12485,9 @@ const functionImplementation = {
                     result = (startM <= endM) ?  endM - startM : endM + 12 - startM;
                     break;
                 case "YD":case "yd":
-                    var startM = genarate(startDate.format('MM-DD'))[2];
-                    var endM = genarate(endDate.format('MM-DD'))[2];
+                    const format = `${endDate.$y}-MM-DD`;
+                    var startM = genarate(startDate.format(format))[2];
+                    var endM = genarate(endDate.format(format))[2];
 
                     result = (startM <= endM) ? endM - startM : endM + 365 - startM;
                     break;
