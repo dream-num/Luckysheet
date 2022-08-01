@@ -197,6 +197,9 @@ export function zoomInitial(){
     document.getElementById('luckysheet').addEventListener(
         'wheel',
         function (ev) {
+            if (!ev.ctrlKey || !ev.deltaY) {
+                return;
+            }
             if (currentWheelZoom === null) {
                 currentWheelZoom = Store.zoomRatio || 1;
             }
