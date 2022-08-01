@@ -194,12 +194,9 @@ export function zoomInitial(){
 
     currentWheelZoom = null;
     // 拦截系统缩放快捷键 Ctrl + wheel
-    document.addEventListener(
+    document.getElementById('luckysheet').addEventListener(
         'wheel',
         function (ev) {
-            if (!ev.ctrlKey || !ev.deltaY) {
-                return;
-            }
             if (currentWheelZoom === null) {
                 currentWheelZoom = Store.zoomRatio || 1;
             }
