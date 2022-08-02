@@ -4746,8 +4746,8 @@ export default function luckysheetHandler() {
         }
 
         let newCanvas = $("<canvas>").attr({
-            width: Math.ceil(ch_width * devicePixelRatio),
-            height: Math.ceil(rh_height * devicePixelRatio)
+            width: Math.ceil(ch_width * Store.devicePixelRatio),
+            height: Math.ceil(rh_height * Store.devicePixelRatio)
         }).css({ width: ch_width, height: rh_height });
 
         luckysheetDrawMain(scrollWidth, scrollHeight, ch_width, rh_height, 1, 1, null, null, newCanvas);
