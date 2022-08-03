@@ -59,7 +59,7 @@ import {
 import { getdatabyselection, datagridgrowth } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
-import { genarate } from '../global/format';
+import { genarate, update } from '../global/format';
 import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
@@ -5401,13 +5401,23 @@ export default function luckysheetHandler() {
                 imageCtrl.pasteImgItem();
             }
             else {
-                if (txtdata.indexOf("table") > -1) {
-                    $("#luckysheet-copy-content").html(txtdata);
+                let $content
+                try {
+                    $content = $("#luckysheet-copy-content").html(txtdata);
+                } catch (e) {
+                    // clipboard text may not be in HTML format
+                }
+                // note: Google Spreadsheet: single cell copy will contain a <span>, multiple cells copy will contain a <table>
+                if ($content && ($content.find("table").length !== 0 || $content.children("span[data-sheets-value]").length === 1)) {
+                    if ($content.find("table").length === 0) {
+                        const td = $content.children("span[data-sheets-value]")[0].outerHTML.replace(/^<span/, '<td').replace(/<\/span>$/, '</td>');
+                        $content.html("<table><tbody><tr>" + td + "</tr></tbody></table>");
+                    }
 
-                    let data = new Array($("#luckysheet-copy-content").find("table tr").length);
+                    let data = new Array($content.find("table tr").length);
                     let colLen = 0;
                     const cellElements = "th, td";
-                    $("#luckysheet-copy-content").find("table tr").eq(0).find(cellElements).each(function () {
+                    $content.find("table tr").eq(0).find(cellElements).each(function () {
                         let colspan = parseInt($(this).attr("colspan"));
                         if (isNaN(colspan)) {
                             colspan = 1;
@@ -5421,19 +5431,48 @@ export default function luckysheetHandler() {
 
                     let r = 0;
                     let borderInfo = {};
-                    $("#luckysheet-copy-content").find("table tr").each(function () {
+                    $content.find("table tr").each(function () {
                         let $tr = $(this);
                         let c = 0;
                         $tr.find(cellElements).each(function () {
                             let $td = $(this);
                             let cell = {};
-                            let txt = $td.text();
-                            if ($.trim(txt).length == 0) {
+                            // note: Google Spreadsheet: copied formula cell has the formula in R1C1 format
+                            const originalFormula = $td.attr("data-sheets-formula");
+                            const originalText = $td.text();
+                            if (originalFormula && originalFormula.startsWith("=")) {
+                                const address = Store.luckysheet_select_save[0];
+                                const rowIndex = address.row[0] + r;
+                                const columnIndex = address.column[0] + c;
+                                const translatedFormula = originalFormula
+                                    // R1C1 format -> A1 format
+                                    .replace(
+                                        /([^a-zA-Z0-9])R(\[?)(-?[0-9]+)\]?C(\[?)(-?[0-9]+)\]?/g,
+                                        function (_, prefix, rowRefRelative, rowRef, columnRefRelative, columnRef) {
+                                            return [
+                                                prefix,
+                                                columnRefRelative ? chatatABC(columnIndex + +columnRef) : `$${chatatABC(+columnRef - 1)}`,
+                                                rowRefRelative ? rowIndex + +rowRef + 1 : `$${rowRef}`,
+                                            ].join("");
+                                        }
+                                    )
+                                    // TRUE -> true, FALSE -> false (Luckysheet can interpret lowercase "true" literal or "TRUE()" function, but not "TRUE".)
+                                    .replace(/\bTRUE\b/g, "true")
+                                    .replace(/\bFALSE\b/g, "false");
+                                const v = formula.execfunction(translatedFormula, rowIndex, columnIndex);
+                                cell.f = v[2];
+                                cell.v = v[1];
+                                cell.ct = genarate(originalText)[1];
+                                if (cell.ct && cell.ct.fa) {
+                                    cell.m = update(cell.ct.fa, cell.v);
+                                }
+                            }
+                            else if (originalText.trim().length === 0){
                                 cell.v = null;
                                 cell.m = "";
                             }
                             else {
-                                let mask = genarate($td.text());
+                                let mask = genarate(originalText);
                                 cell.v = mask[2];
                                 cell.ct = mask[1];
                                 cell.m = mask[0];
@@ -5627,7 +5666,6 @@ export default function luckysheetHandler() {
 
                     Store.luckysheet_selection_range = [];
                     selection.pasteHandler(data, borderInfo);
-                    $("#luckysheet-copy-content").empty();
                 }
                 //复制的是图片
                 else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
@@ -5639,6 +5677,7 @@ export default function luckysheetHandler() {
                     txtdata = clipboardData.getData("text/plain");
                     selection.pasteHandler(txtdata);
                 }
+                $("#luckysheet-copy-content").empty();
             }
         }
         else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
