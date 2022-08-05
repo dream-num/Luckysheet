@@ -129,6 +129,7 @@ npm run build
 - [鲁班h5](https://github.com/ly525/luban-h5)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 - [Furion](https://gitee.com/monksoul/Furion)
+- [AFFiNE.PRO](https://github.com/toeverything/AFFiNE)
 
 ## 交流
 
