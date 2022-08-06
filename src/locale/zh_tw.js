@@ -9537,7 +9537,6 @@ export default {
         filterValueByTip       : "按照值進行篩選",
         filterConform          : "確 認",
         filterCancel           : "取 消",
-        clearFilter            : "清除篩選",
 
         conditionNone              : "無",
         conditionCellIsNull        : "儲存格為空",
