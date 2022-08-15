@@ -12,8 +12,8 @@ import tooltip from '../global/tooltip';
 import func_methods from '../global/func_methods';
 import Store from '../store';
 import locale from '../locale/locale';
-import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionLocked} from './protection';
-
+import {checkProtectionLocked} from './protection';
+import escapeHtml from "escape-html";
 
 //查找替换
 const luckysheetSearchReplace = {
@@ -338,27 +338,27 @@ const luckysheetSearchReplace = {
         }
 
         let searchAllHtml = '';
-
+              
         for(let i = 0; i < searchIndexArr.length; i++){
             let value_ShowEs = valueShowEs(searchIndexArr[i].r, searchIndexArr[i].c, Store.flowdata).toString();
 
             if(value_ShowEs.indexOf("</") > -1 && value_ShowEs.indexOf(">") > -1){
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
-                                    '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
+                                    '<span>' + escapeHtml(Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name) + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span>' + value_ShowEs + '</span>' +
+                                    '<span>' + escapeHtml(value_ShowEs) + '</span>' +
                                  '</div>';
             }
             else{
                 searchAllHtml += '<div class="boxItem" data-row="' + searchIndexArr[i].r + '" data-col="' + searchIndexArr[i].c + '" data-sheetIndex="' + Store.currentSheetIndex + '">' +
                                     '<span>' + Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + '</span>' +
                                     '<span>' + chatatABC(searchIndexArr[i].c) + (searchIndexArr[i].r + 1) + '</span>' +
-                                    '<span title="' + value_ShowEs + '">' + value_ShowEs + '</span>' +
+                                    '<span title="' + escapeHtml(value_ShowEs) + '">' + escapeHtml(value_ShowEs) + '</span>' +
                                  '</div>';
             }
         }
         
-        $('<div id="searchAllbox"><div class="boxTitle"><span>'+ locale_findAndReplace.searchTargetSheet +'</span><span>'+locale_findAndReplace.searchTargetCell+'</span><span>'+locale_findAndReplace.searchTargetValue+'</span></div><div class="boxMain">' + searchAllHtml + '</div></div>').appendTo($("#luckysheet-search-replace"));
+        $(`<div id="searchAllbox"><div class="boxTitle"><span>${locale_findAndReplace.searchTargetSheet}</span><span>${locale_findAndReplace.searchTargetCell}</span><span>${locale_findAndReplace.searchTargetValue}</span></div><div class="boxMain">${searchAllHtml}</div></div>`).appendTo($("#luckysheet-search-replace"));
         
         $("#luckysheet-search-replace #searchAllbox .boxItem").eq(0).addClass("on").siblings().removeClass("on");
 
@@ -370,34 +370,39 @@ const luckysheetSearchReplace = {
         selectHightlightShow();
     },
     getSearchIndexArr: function(searchText, range){
-        let arr = [];
-        let obj = {};
+        const arr = [];
+        const obj = {};
+
+        const $container = $("#luckysheet-search-replace");
+        const isChecked = (inputId) => $container.find(`#${inputId} input[type='checkbox']`).is(":checked");
 
         //正则表达式匹配
-        let regCheck = false;
-        if($("#luckysheet-search-replace #regCheck input[type='checkbox']").is(":checked")){
-            regCheck = true;
-        }
-
+        const regCheck = isChecked("regCheck");
         //整词匹配
-        let wordCheck = false;
-        if($("#luckysheet-search-replace #wordCheck input[type='checkbox']").is(":checked")){
-            wordCheck = true;
+        const wordCheck = isChecked("wordCheck");
+        //区分大小写匹配
+        const caseCheck = isChecked("caseCheck");
+
+        let regExpFlags = "g";
+        if (!caseCheck) {
+            searchText = searchText.toLowerCase();
+            regExpFlags += "i";
         }
 
-        //区分大小写匹配
-        let caseCheck = false;
-        if($("#luckysheet-search-replace #caseCheck input[type='checkbox']").is(":checked")){
-            caseCheck = true;
+        const addResult = (r, c) => {
+            if(!((r + "_" + c) in obj)){
+                obj[r + "_" + c] = 0;
+                arr.push({"r": r, "c": c});
+            }
         }
 
         for(let s = 0; s < range.length; s++){
-            let r1 = range[s].row[0], r2 = range[s].row[1];
-            let c1 = range[s].column[0], c2 = range[s].column[1];
+            const r1 = range[s].row[0], r2 = range[s].row[1];
+            const c1 = range[s].column[0], c2 = range[s].column[1];
 
             for(let r = r1; r <= r2; r++){
                 for(let c = c1; c <= c2; c++){
-                    let cell = Store.flowdata[r][c];
+                    const cell = Store.flowdata[r][c];
 
                     if(cell != null){
                         let value = valueShowEs(r, c, Store.flowdata);
@@ -407,66 +412,22 @@ const luckysheetSearchReplace = {
                         }
 
                         if(value != null && value != ""){
+                            let wasFound = false;
                             value = value.toString();
-
-                            // 1. 勾选整词 直接匹配
-                            // 2. 勾选了正则 结合是否勾选 构造正则 
-                            // 3. 什么都没选 用字符串 indexOf 匹配
+                            value = caseCheck ? value : value.toLowerCase();
 
                             if(wordCheck){ //整词
-                                if(caseCheck){
-                                    if(searchText == value){
-                                        if(!((r + "_" + c) in obj)){
-                                            obj[r + "_" + c] = 0;
-                                            arr.push({"r": r, "c": c});
-                                        }
-                                    }
-                                }
-                                else{
-                                    let txt = searchText.toLowerCase();
-                                    if(txt == value.toLowerCase()){
-                                        if(!((r + "_" + c) in obj)){
-                                            obj[r + "_" + c] = 0;
-                                            arr.push({"r": r, "c": c});
-                                        }
-                                    }
-                                }
+                                wasFound = searchText == value;
                             }
                             else if(regCheck){ //正则表达式
-                                let reg;
-                                // 是否区分大小写
-                                if(caseCheck){
-                                    reg = new RegExp(func_methods.getRegExpStr(searchText), "g");
-                                }
-                                else{
-                                    reg = new RegExp(func_methods.getRegExpStr(searchText), "ig");
-                                }
+                                let reg = new RegExp(func_methods.getRegExpStr(searchText), regExpFlags);
+                                wasFound = reg.test(value);
+                            }
+                            else {
+                                wasFound = ~value.indexOf(searchText);
+                            }
 
-                                if(reg.test(value)){
-                                    if(!((r + "_" + c) in obj)){
-                                        obj[r + "_" + c] = 0;
-                                        arr.push({"r": r, "c": c});
-                                    }
-                                }
-                            }
-                            else{
-                                if(caseCheck){
-                                    if(~value.indexOf(searchText)){
-                                        if(!((r + "_" + c) in obj)){
-                                            obj[r + "_" + c] = 0;
-                                            arr.push({"r": r, "c": c});
-                                        }
-                                    }
-                                }
-                                else{
-                                    if(~value.toLowerCase().indexOf(searchText.toLowerCase())){
-                                        if(!((r + "_" + c) in obj)){
-                                            obj[r + "_" + c] = 0;
-                                            arr.push({"r": r, "c": c});
-                                        }
-                                    }
-                                }
-                            }
+                            wasFound && addResult(r, c);
                         }
                     }
                 }
