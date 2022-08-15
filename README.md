@@ -256,6 +256,9 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 回调函数 ¥ 50
 - 赖瓜子 ¥ 5
 - Milo•J ¥ 20
+- 可道云 ¥ 200
+- *程 ¥ 10
+- 来一杯卡布酸奶 ¥ 5
 
 ## Authors and acknowledgment
 
