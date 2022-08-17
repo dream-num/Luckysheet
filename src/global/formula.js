@@ -999,7 +999,7 @@ const luckysheetformula = {
         let _this = this;
 
         if ($("#luckysheet-formula-search-c").length == 0) {
-            $("body").first().append(_this.searchHTML);
+            $("body").append(_this.searchHTML);
             $("#luckysheet-formula-search-c").on("mouseover", ".luckysheet-formula-search-item", function () {
                 $("#luckysheet-formula-search-c").find(".luckysheet-formula-search-item").removeClass("luckysheet-formula-search-item-active");
                 $(this).addClass("luckysheet-formula-search-item-active");
@@ -1121,7 +1121,7 @@ const luckysheetformula = {
         let _locale = locale();
         let locale_formulaMore = _locale.formulaMore;
         if ($("#luckysheet-formula-help-c").length == 0) {
-            $("body").first().after(replaceHtml(_this.helpHTML, {
+            $("body").after(replaceHtml(_this.helpHTML, {
                 helpClose: locale_formulaMore.helpClose,
                 helpCollapse: locale_formulaMore.helpCollapse,
                 helpExample: locale_formulaMore.helpExample,
