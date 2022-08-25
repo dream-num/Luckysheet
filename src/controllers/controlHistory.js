@@ -83,7 +83,8 @@ const controlHistory = {
                 "RowlChange": ctr.RowlChange,
                 "cdformat": ctr.cdformat,
                 "dataVerification": ctr.dataVerification,
-                "dynamicArray": ctr.dynamicArray
+                "dynamicArray": ctr.dynamicArray,
+                "hyperlink": ctr.hyperlink,
             }
            // jfrefreshgrid(ctr.data, ctr.range, allParam);
 
@@ -459,7 +460,8 @@ const controlHistory = {
                 "RowlChange": ctr.RowlChange,
                 "cdformat": ctr.curCdformat,
                 "dataVerification": ctr.curDataVerification,
-                "dynamicArray": ctr.curDynamicArray
+                "dynamicArray": ctr.curDynamicArray,
+                "hyperlink": ctr.curHyperlink,
             }
 
             formulaHistoryHanddler(ctr, "undo");
