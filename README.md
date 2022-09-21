@@ -259,6 +259,10 @@ Funds donated via Patreon go directly to support mengshukeji's work on Luckyshee
 - 可道云 ¥ 200
 - *程 ¥ 10
 - 来一杯卡布酸奶 ¥ 5
+- 刘久胜 ¥ 100
+- 快意江湖 ¥ 50
+- *新 ¥ 9.9
+- **龙 ¥ 100
 
 ## Authors and acknowledgment
 
