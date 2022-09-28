@@ -41,6 +41,8 @@ import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
+import luckysheetSearchReplace from "../controllers/searchReplace";
+
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
 /**
@@ -5484,7 +5486,7 @@ export function setSheetZoom(zoom, options = {}) {
         imageCtrl.images = currentSheet.images;
         imageCtrl.allImagesShow();
         imageCtrl.init();
-        
+
         zoomNumberDomBind();
         zoomRefreshView();
     }
@@ -6876,4 +6878,14 @@ export function checkTheStatusOfTheSelectedCells(type,status){
     })
 
     return flag;
+}
+
+/**
+ * 调用查找/替换 dialog
+ * @param {Number} source              0:搜索 1:替换
+ */
+export function openSearchDialog(source = 1){
+    luckysheetSearchReplace.createDialog(source);
+    luckysheetSearchReplace.init();
+    $("#luckysheet-search-replace #searchInput input").focus();
 }
