@@ -4,7 +4,7 @@
 Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.
 
 ## Demo
-[Online demo](https://mengshukeji.github.io/LuckysheetDemo/)
+[Online demo](https://dream-num.github.io/LuckysheetDemo/)
 
 ![Demo](/LuckysheetDocs/img/LuckysheetDemo.gif)
 
@@ -249,8 +249,8 @@ You can see the complete settings
 If you encounter problems with Luckysheet, follow the steps below to find the answer
 
 1. Use Doge or Google to search for common technical issues
-2. For Luckysheet related issues, please view [Luckysheet Official Document](https://mengshukeji.github.io/LuckysheetDocs/)(Note that the function of marking TODO has not yet been implemented)
-3. Search [FAQ List](https://mengshukeji.github.io/LuckysheetDocs/guide/FAQ.html)
+2. For Luckysheet related issues, please view [Luckysheet Official Document](https://dream-num.github.io/LuckysheetDocs/)(Note that the function of marking TODO has not yet been implemented)
+3. Search [FAQ List](https://dream-num.github.io/LuckysheetDocs/guide/FAQ.html)
 4. Search [Official Forum](https://groups.google.com/g/luckysheet) to see if anyone has encountered it
 5. Try to check or experiment by yourself to find the answer
 6. Please try to read the source code to find the answer,

@@ -16,7 +16,7 @@ module.exports = {
 		
 	},
 	themeConfig: {
-		domain: 'https://mengshukeji.github.io/LuckysheetDemo',
+		domain: 'https://dream-num.github.io/LuckysheetDemo',
 		logo: '/img/logo.png',
 		author: 'Luckysheet',
 		// 仓库地址
@@ -43,7 +43,7 @@ module.exports = {
 				nav: [
 					{ text: 'Home', link: '/' },
 					{ text: 'Guide', link: '/guide/' },
-					{ text: 'Demo', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{ text: 'Demo', link: 'https://dream-num.github.io/LuckysheetDemo/' },
 					{
 						text: 'More',
 						ariaLabel: 'More',
@@ -92,7 +92,7 @@ module.exports = {
 				nav: [
 					{ text: '首页', link: '/zh/' },
 					{ text: '指南', link: '/zh/guide/' },
-					{ text: '演示', link: 'https://mengshukeji.github.io/LuckysheetDemo/' },
+					{ text: '演示', link: 'https://dream-num.github.io/LuckysheetDemo/' },
 					{
 						text: '了解更多',
 						ariaLabel: '了解更多',
@@ -127,7 +127,7 @@ module.exports = {
 	plugins: {
 		'vuepress-plugin-baidu-autopush': {},
 		'sitemap': {
-			hostname: 'https://mengshukeji.github.io/LuckysheetDocs'
+			hostname: 'https://dream-num.github.io/LuckysheetDocs'
 		},
 		'vuepress-plugin-code-copy': true,
 		'seo': {
