@@ -2068,7 +2068,10 @@ export function rowColumnOperationInitial(){
 
                 return;
             }
-            const hyperlinkMap = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].hyperlink;
+
+            const file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            const hyperlink = file.hyperlink && $.extend(true, {}, file.hyperlink);
+            let hyperlinkUpdated;
 
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let r1 = Store.luckysheet_select_save[s].row[0], 
@@ -2101,14 +2104,15 @@ export function rowColumnOperationInitial(){
                             d[r][c] = null;
                         }
                         // 同步清除 hyperlink
-                        if (hyperlinkMap && hyperlinkMap[`${r}_${c}`]) {
-                            delete hyperlinkMap[`${r}_${c}`];
+                        if (hyperlink?.[`${r}_${c}`]) {
+                            delete hyperlink[`${r}_${c}`];
+                            hyperlinkUpdated = true;
                         }
                     }
                 }
             }
 
-            jfrefreshgrid(d, Store.luckysheet_select_save);
+            jfrefreshgrid(d, Store.luckysheet_select_save, hyperlinkUpdated && { hyperlink });
 
             // 清空编辑框的内容
             // 备注：在functionInputHanddler方法中会把该标签的内容拷贝到 #luckysheet-functionbox-cell
