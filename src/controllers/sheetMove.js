@@ -1663,7 +1663,7 @@ function getRowMerge(rIndex, c1, c2){
             }
 
             if(rowHasMerge(str - 1, c1, c2) && str > r1){
-                r = str - 1;
+                r = str;
             }
             else{
                 break;
@@ -1690,7 +1690,7 @@ function getRowMerge(rIndex, c1, c2){
             }
 
             if(rowHasMerge(end + 1, c1, c2) && end < r2){
-                r = end + 1;
+                r = end;
             }
             else{
                 break;
@@ -1722,7 +1722,7 @@ function getColMerge(cIndex, r1, r2){
             }
 
             if(colHasMerge(str - 1, r1, r2) && str > c1){
-                c = str - 1;
+                c = str;
             }
             else{
                 break;
@@ -1749,7 +1749,7 @@ function getColMerge(cIndex, r1, r2){
             }
 
             if(colHasMerge(end + 1, r1, r2) && end < c2){
-                c = end + 1;
+                c = end;
             }
             else{
                 break;
