@@ -162,7 +162,7 @@ const menuButton = {
 
             if(has_PartMC){
                 // *提示后中止下一步
-                tooltip.info('无法对部分合并单元格执行此操作', '');
+                tooltip.info(_locale.merge.partiallyError, '');
                 return;
             }
 
@@ -1273,16 +1273,19 @@ const menuButton = {
 
         //合并单元格
         $("#luckysheet-icon-merge-button").click(function(){
+            const _locale = locale();
+            const locale_merge =  _locale.merge;
+
             if(!checkProtectionNotEnable(Store.currentSheetIndex)){
                 return;
             }
 
             if(selectIsOverlap()){
                 if(isEditMode()){
-                    alert("不能合并重叠区域");
+                    alert(locale_merge.overlappingError);
                 }
                 else{
-                    tooltip.info("不能合并重叠区域", "");
+                    tooltip.info(locale_merge.overlappingError, "");
                 }
                 return;
             }
@@ -1305,10 +1308,10 @@ const menuButton = {
 
                 if(has_PartMC){
                     if(isEditMode()){
-                        alert("无法对部分合并单元格执行此操作");
+                        alert(locale_merge.partiallyError);
                     }
                     else{
-                        tooltip.info("无法对部分合并单元格执行此操作", ""); 
+                        tooltip.info(locale_merge.partiallyError, ""); 
                     }
                     return;    
                 }
