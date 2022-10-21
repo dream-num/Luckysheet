@@ -2101,15 +2101,11 @@ const luckysheetformula = {
                 return _this.error.r;
             }
 
-            if (isNaN(col[0]) && isNaN(col[1])) {
-                return prefix + $row0 + (row[0]) + ":" + $row1 + (row[1]);
-            }
-            else if (isNaN(row[0]) && isNaN(row[1])) {
-                return prefix + $col0 + chatatABC(col[0]) + ":" + $col1 + chatatABC(col[1]);
-            }
-            else {
-                return prefix + $col0 + chatatABC(col[0]) + $row0 + (row[0]) + ":" + $col1 + chatatABC(col[1]) + $row1 + (row[1]);
-            }
+            const col0 = isNaN(col[0]) ? "" : $col0 + chatatABC(col[0]);
+            const col1 = isNaN(col[1]) ? "" : $col1 + chatatABC(col[1]);
+            const row0 = isNaN(row[0]) ? "" : $row0 + row[0];
+            const row1 = isNaN(row[1]) ? "" : $row1 + row[1];
+            return prefix + col0 + row0 + ":" + col1 + row1;
         }
     },
     downparam: function (txt, step) {
