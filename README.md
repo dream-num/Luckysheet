@@ -9,7 +9,7 @@
 
 </div>
 
-# Luckysheet 3.x is currently being rewritten in Typescript
+# Luckysheet 3.x has been renamed to [Univer](https://github.com/dream-num/univer)
 
 English| [简体中文](./README-zh.md)
 
