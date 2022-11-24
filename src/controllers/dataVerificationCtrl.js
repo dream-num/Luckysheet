@@ -1532,7 +1532,8 @@ const dataVerificationCtrl = {
             'top': row,
         });
 
-        let myh = $("#luckysheet-dataVerification-dropdown-List").outerHeight();
+        // let myh = $("#luckysheet-dataVerification-dropdown-List").outerHeight();
+        let myh = 350
         let currentWinH = $("#luckysheet-cell-main")[0].scrollHeight;
 
         if(row + myh > currentWinH - 42 - 6){

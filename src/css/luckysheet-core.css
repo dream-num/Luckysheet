@@ -7312,6 +7312,8 @@ fieldset[disabled] .btn-danger.focus {
     position: absolute;
     z-index: 10000;
     box-sizing: border-box;
+    height: 350px;
+    overflow: auto;
 }
 #luckysheet-dataVerification-dropdown-List .dropdown-List-item{
     padding: 5px 10px;
