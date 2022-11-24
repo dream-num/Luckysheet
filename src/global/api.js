@@ -109,12 +109,6 @@ export function getCellValue(row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
-
-    let curv = Store.flowdata[row][column];
-
-    // Store old value for hook function
-    const oldValue = JSON.stringify(curv);
-
     if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('The row or column parameter is invalid.', '');
     }
@@ -143,6 +137,11 @@ export function setCellValue(row, column, value, options = {}) {
     }
     if(data.length == 0){
         data = sheetmanage.buildGridData(file);
+    }
+
+    let oldValue
+    if (Store.flowdata[row] && Store.flowdata[row][column]) {
+      oldValue = JSON.stringify(Store.flowdata[row][column]);
     }
 
     // luckysheetformula.updatecell(row, column, value);
@@ -227,8 +226,12 @@ export function setCellValue(row, column, value, options = {}) {
 
     /* cell更新后触发  */
     setTimeout(() => {
+        let oldValueObj
+        if (oldValue) {
+          oldValueObj = JSON.parse(oldValue)
+        }
         // Hook function
-        method.createHookFunction("cellUpdated", row, column, JSON.parse(oldValue), Store.flowdata[row][column], isRefresh);
+        method.createHookFunction("cellUpdated", row, column, oldValueObj, Store.flowdata[row][column], isRefresh);
     }, 0);
 
     if(file.index == Store.currentSheetIndex && isRefresh){
