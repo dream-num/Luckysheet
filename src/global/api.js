@@ -173,6 +173,9 @@ export function setCellValue(row, column, value, options = {}) {
     }
     else if(value instanceof Object){
         let curv = {};
+        if(isRealNull(data[row])){
+            data[row] = {};
+        }
         if(isRealNull(data[row][column])){
             data[row][column] = {};
         }
