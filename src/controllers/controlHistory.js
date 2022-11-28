@@ -344,6 +344,8 @@ const controlHistory = {
         else if (ctr.type == "mergeChange") {
             let allParam = {
                 "cfg": ctr.config,
+                calc: ctr.calc,
+                hyperlink: ctr.hyperlink,
             }
 
             jfrefreshgrid(ctr.data, ctr.range, allParam);
@@ -667,6 +669,8 @@ const controlHistory = {
         else if (ctr.type == "mergeChange") {
             let allParam = {
                 "cfg": ctr.curConfig,
+                calc: ctr.curCalc,
+                hyperlink: ctr.curHyperlink,
             }
 
             jfrefreshgrid(ctr.curData, ctr.range, allParam);

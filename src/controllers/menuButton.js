@@ -3418,6 +3418,15 @@ const menuButton = {
             }
         }
 
+        const file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+        const calc = file.calcChain?.filter(({ r, c }) => d[r][c]?.f);
+        const hyperlink = file.hyperlink && Object.fromEntries(
+            Object.entries(file.hyperlink).filter(([r_c]) => {
+                const [r, c] = r_c.split('_');
+                return d[r][c]?.v;
+            })
+        );
+
         if (Store.clearjfundo) {
             Store.jfundo.length  = 0;
             Store.jfredo.push({
@@ -3427,12 +3436,16 @@ const menuButton = {
                 "curData": d,
                 "range": $.extend(true, [], Store.luckysheet_select_save),
                 "config": $.extend(true, {}, Store.config),
-                "curConfig": cfg
+                "curConfig": cfg,
+                "calc": file.calcChain,
+                "curCalc": calc,
+                "hyperlink": file.hyperlink,
+                "curHyperlink": hyperlink,
             });
         }
 
         Store.clearjfundo = false;
-        jfrefreshgrid(d, Store.luckysheet_select_save, {"cfg": cfg});
+        jfrefreshgrid(d, Store.luckysheet_select_save, {cfg, calc, hyperlink});
         Store.clearjfundo = true;
     },
     borderfix: function(d, r, c){
