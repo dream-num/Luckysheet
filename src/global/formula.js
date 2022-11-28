@@ -2019,7 +2019,7 @@ const luckysheetformula = {
                 row += step;
             }
 
-            if (row[0] < 0 || col[0] < 0) {
+            if (row < 0 || col < 0) {
                 return _this.error.r;
             }
 
