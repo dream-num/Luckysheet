@@ -20,6 +20,10 @@
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
+## 在 Cloud IDE 中预览
+
+[https://idegithub.com/dream-num/Luckysheet](https://idegithub.com/dream-num/Luckysheet)
+
 ## 插件
 - [Luckyexcel](https://gitee.com/mengshukeji/Luckyexcel)：excel导入导出库 
 - [chartMix](https://gitee.com/mengshukeji/chartMix)：图表插件
