@@ -4,7 +4,7 @@
 Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
 ## Demo
-[在线demo](https://mengshukeji.github.io/LuckysheetDemo/)
+[在线demo](https://dream-num.github.io/LuckysheetDemo/)
 
 ![演示](/LuckysheetDocs/img/LuckysheetDemo.gif)
 
@@ -259,8 +259,8 @@ luckysheetfile = [ {sheet1设置},  {sheet2设置},  {sheet3设置} ]`
 如果您使用Luckysheet遇到了问题，按以下步骤来寻找答案
 
 1. 使用多吉或者Google搜索常见技术问题
-2. Luckysheet相关的问题优先查看[Luckysheet官方文档](https://mengshukeji.github.io/LuckysheetDocs/zh/)（注意标注TODO的功能暂未实现）
-3. 搜索[常见问题列表](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/FAQ.html)
+2. Luckysheet相关的问题优先查看[Luckysheet官方文档](https://dream-num.github.io/LuckysheetDocs/zh/)（注意标注TODO的功能暂未实现）
+3. 搜索[常见问题列表](https://dream-num.github.io/LuckysheetDocs/zh/guide/FAQ.html)
 4. 搜索[官方论坛](https://support.qq.com/product/288322)，看看有没有人已经遇到过
 5. 尝试自己检查或试验以找到答案
 6. 请尝试阅读源代码以找到答案，
