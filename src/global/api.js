@@ -3657,7 +3657,8 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         'last10',
         'last10%',
         'AboveAverage',
-        'SubAverage'
+        'SubAverage',
+        'regExp',
     ];
 
     if(!conditionName || !conditionNameValues.includes(conditionName)){
@@ -3867,6 +3868,9 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
     else if(conditionName == 'AboveAverage' || conditionName == 'SubAverage'){
         conditionValue2.push(conditionName);
+    }
+    else if(conditionName == 'regExp') {
+        conditionValue2.push(...conditionValue);
     }
 
     if(!format.hasOwnProperty("textColor") || !format.hasOwnProperty("cellColor")){

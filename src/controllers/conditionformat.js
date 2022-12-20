@@ -3717,6 +3717,33 @@ const conditionformat = {
                                 }
                             }
                         }
+                        else if (conditionName == 'regExp') { // 支持正则
+                            let re = new RegExp(conditionValue0); // 外部传递过来的正则表达式
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
+                                        continue;
+                                    }
+
+                                    //单元格值
+                                    let cell = d[r][c];
+
+                                    if (getObjType(cell) != "object" || isRealNull(cell.v)) {
+                                        continue;
+                                    }
+
+                                    // 符合条件
+                                    if (re.test(cell.v)) {
+                                        if ((r + "_" + c) in computeMap) {
+                                            computeMap[r + "_" + c]["textColor"] = textColor;
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         else if(conditionName == "formula"){
                             let str = cellrange[s].row[0],
                                 edr = cellrange[s].row[1],
