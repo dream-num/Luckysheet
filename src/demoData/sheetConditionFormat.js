@@ -6453,7 +6453,7 @@ window.sheetConditionFormat = {
 	},{
 		"type": "default",
 		"cellrange": [{
-			"row": [0, 30],
+			"row": [10, 19],
 			"column": [0, 0]
 		}],
 		"format": {
@@ -6463,7 +6463,21 @@ window.sheetConditionFormat = {
 		"conditionName": "regExp",
 		"conditionRange": [],
 		"conditionValue": [/^\d{1,}\.\d{1,}$/]
-	}, {
+	},{
+		"type": "default",
+		"cellrange": [{
+			"row": [0, 9],
+			"column": [0, 0]
+		}],
+		"format": {
+			"textColor": "#000000",
+			"cellColor": "#ff0000"
+		},
+		"conditionName": "sort",
+		"conditionRange": [],
+		"conditionValue": ['desc']
+	},
+	{
 		"type": "colorGradation",
 		"cellrange": [{
 			"left": 422,

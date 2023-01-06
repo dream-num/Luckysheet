@@ -3665,6 +3665,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         'AboveAverage',
         'SubAverage',
         'regExp',
+        'sort',
     ];
 
     if(!conditionName || !conditionNameValues.includes(conditionName)){
@@ -3876,6 +3877,9 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         conditionValue2.push(conditionName);
     }
     else if(conditionName == 'regExp') {
+        conditionValue2.push(...conditionValue);
+    }
+    else if(condtionName == 'sort') {
         conditionValue2.push(...conditionValue);
     }
 
