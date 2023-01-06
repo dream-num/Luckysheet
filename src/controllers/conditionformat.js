@@ -3771,7 +3771,7 @@ const conditionformat = {
                                     }
 
                                     // 符合条件
-                                    if (($.inArray(conditionValue0, [0, 'asc', '0']) > -1 && cell.v >= cellAbove.v) || ($.inArray(conditionValue0, [1, '1', 'desc']) > -1 && cell.v <= cellAbove.v)) {
+                                    if (($.inArray(conditionValue0, [0, 'asc', '0']) > -1 && cell.v > cellAbove.v) || ($.inArray(conditionValue0, [1, '1', 'desc']) > -1 && cell.v < cellAbove.v)) {
                                         if ((r + "_" + c) in computeMap) {
                                             computeMap[r + "_" + c]["textColor"] = textColor;
                                             computeMap[r + "_" + c]["cellColor"] = cellColor;
