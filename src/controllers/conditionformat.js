@@ -3833,6 +3833,8 @@ const conditionformat = {
             }
         }
 
+        Store.conditionFormatNum = Object.keys(computeMap).length;
+
         return computeMap;
     },
     updateItem: function(type, cellrange, format){

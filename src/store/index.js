@@ -164,7 +164,8 @@ const Store = {
         vt: 1,
         m: '',
         v: ''
-    }
+    },
+    conditionFormatNum: 0, // 条件格式高亮的单元格
 
 }
 
