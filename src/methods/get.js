@@ -87,8 +87,8 @@ function getvisibledatacolumn() {
     return Store.visibledatacolumn;
 }
 
-function getConditionFormatNum() {
-    return Store.conditionFormatNum;
+function getConditionFormatCells() {
+    return Store.conditionFormatCells;
 }
 
 export {
@@ -100,5 +100,5 @@ export {
     getconfig,
     getvisibledatarow,
     getvisibledatacolumn,
-    getConditionFormatNum,
+    getConditionFormatCells,
 }

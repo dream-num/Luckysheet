@@ -3833,7 +3833,7 @@ const conditionformat = {
             }
         }
 
-        Store.conditionFormatNum = Object.keys(computeMap).length;
+        Store.conditionFormatCells = computeMap;
 
         return computeMap;
     },

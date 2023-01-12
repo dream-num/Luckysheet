@@ -20,7 +20,7 @@ import {
     getluckysheetfile,
     getluckysheet_select_save,
     getconfig,
-    getConditionFormatNum,
+    getConditionFormatCells,
 } from './methods/get';
 import {
     setluckysheet_select_save
@@ -259,7 +259,7 @@ luckysheet.luckysheetextendData = luckysheetextendData;
 luckysheet.locales = locales;
 
 // 获取条件格式渲染的单元格数量
-luckysheet.getConditionFormatNum = getConditionFormatNum;
+luckysheet.getConditionFormatCells = getConditionFormatCells;
 
 export {
     luckysheet
