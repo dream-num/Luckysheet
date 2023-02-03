@@ -540,7 +540,10 @@ const server = {
 	                    luckysheetFreezen.createFreezenVertical(file["freezen"].vertical.freezenverticaldata, file["freezen"].vertical.left);
 	                }
 
-	                luckysheetFreezen.createAssistCanvas();
+                  luckysheetFreezen.createAssistCanvas();
+                  setTimeout(function () {
+                    luckysheetrefreshgrid();
+                  }, 1);
 	            }
 	        }
 	        else if(k == "filter_select"){ //筛选范围

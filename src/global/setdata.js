@@ -59,7 +59,7 @@ function setcellvalue(r, c, d, v) {
 
         d[r][c] = cell;
 
-        return;
+        return cell;
     }
 
     // 1.为null
@@ -215,6 +215,7 @@ function setcellvalue(r, c, d, v) {
     }
 
     d[r][c] = cell;
+    return cell;
 }
 
 //new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式
