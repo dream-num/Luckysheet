@@ -5269,7 +5269,7 @@ export default function luckysheetHandler() {
     let dpi_y = document.getElementById('testdpidiv').offsetHeight * Store.devicePixelRatio;
 
     //粘贴事件处理
-    $(document).off("paste.luckysheetEvent").on("paste.luckysheetEvent", function (e) {
+    $(document).on("paste.luckysheetEvent", function (e) {
         if (isEditMode()) {//此模式下禁用粘贴
             return;
         }
