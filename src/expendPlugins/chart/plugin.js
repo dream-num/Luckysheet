@@ -1210,6 +1210,7 @@ function createLuckyChart(width, height, left, top) {
         height,
         left,
         top,
+        chartOptions: chart_json.chartOptions,
         sheetIndex: sheetFile.index
     })
 
