@@ -227,6 +227,10 @@ async function core() {
         target: ['es2015'],
         sourcemap: true,
         outfile: 'dist/luckysheet.umd.js',
+        loader: {
+            '.ttf': 'file',
+            '.woff': 'file',
+        },
       })
 }
 
