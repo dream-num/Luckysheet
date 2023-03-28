@@ -1,4 +1,3 @@
-import "jquery-mousewheel";
 import mobileinit from './mobile';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import luckysheetFreezen from './freezen';
@@ -20,7 +19,7 @@ import luckysheetsizeauto from './resize';
 import { 
     luckysheetMoveHighlightCell, 
 } from './sheetMove';
-import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show } from './select';
+import { selectHightlightShow, selectIsOverlap, selectionCopyShow, luckysheet_count_show,selectHelpboxFill } from './select';
 import selection from './selection';
 import controlHistory from './controlHistory';
 import splitColumn from './splitColumn';
@@ -28,7 +27,6 @@ import {hideMenuByCancel} from '../global/cursorPos';
 import { luckysheetdefaultstyle } from './constant';
 import {checkProtectionLockedRangeList,checkProtectionAllSelected,checkProtectionSelectLockedOrUnLockedCells,checkProtectionNotEnable,checkProtectionAuthorityNormal} from './protection';
 import { openCellFormatModel } from './cellFormat';
-import DOMPurify from "dompurify";
 
 import { 
     replaceHtml,
@@ -61,20 +59,18 @@ import {
 import { getdatabyselection, datagridgrowth } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
-import { genarate } from '../global/format';
+import { genarate, update } from '../global/format';
 import method from '../global/method';
 import { getBorderInfoCompute } from '../global/border';
 import { luckysheetDrawMain } from '../global/draw';
 import locale from '../locale/locale';
 import Store from '../store';
 import { createLuckyChart, hideAllNeedRangeShow } from '../expendPlugins/chart/plugin'
-import escapeHtml from "escape-html";
-import unescapeHtml from "unescape-html";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
 
-    const isMobile = browser.mobilecheck();
+    const os = browser.detectOS(), isMobile = browser.mobilecheck();
 
     //移动端
     if(isMobile){
@@ -108,7 +104,7 @@ export default function luckysheetHandler() {
 
     
 
-    $("#luckysheet-sheet-container-c").mousewheel(function (event) {
+    $("#luckysheet-sheet-container-c").mousewheel(function (event, delta) {
         let scrollNum = event.deltaFactor<40?1:(event.deltaFactor<80?2:3);
         let scrollLeft = $(this).scrollLeft();
         if(event.deltaY != 0){
@@ -140,17 +136,17 @@ export default function luckysheetHandler() {
     $("#luckysheet-cell-main").scroll(function () {
         
     })
-    .mousewheel(function (event) {
+    .mousewheel(function (event, delta) {
         event.preventDefault();
     });
 
     const _locale = locale();
     const locale_drag = _locale.drag;
     const locale_info = _locale.info;
-    let mousewheelArrayUniqueTimeout;
-    $("#luckysheet-grid-window-1").mousewheel(function (event) {
+    let prev, mousewheelArrayUniqueTimeout;
+    $("#luckysheet-grid-window-1").mousewheel(function (event, delta) {
         let scrollLeft = $("#luckysheet-scrollbar-x").scrollLeft(), 
-            scrollTop = Math.ceil($("#luckysheet-scrollbar-y").scrollTop());
+            scrollTop = $("#luckysheet-scrollbar-y").scrollTop();
         let visibledatacolumn_c = Store.visibledatacolumn, 
             visibledatarow_c = Store.visibledatarow;
 
@@ -187,7 +183,7 @@ export default function luckysheetHandler() {
         // visibledatacolumn_c = ArrayUnique(visibledatacolumn_c);
         // visibledatarow_c = ArrayUnique(visibledatarow_c);
 
-        // let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
+        let col_st = luckysheet_searcharray(visibledatacolumn_c, scrollLeft);
         let row_st = luckysheet_searcharray(visibledatarow_c, scrollTop);
 
         if (luckysheetFreezen.freezenhorizontaldata != null) {
@@ -260,7 +256,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10); 
     })
-    .mousewheel(function (event) {
+    .mousewheel(function (event, delta) {
         event.preventDefault();
     });
 
@@ -269,7 +265,7 @@ export default function luckysheetHandler() {
             luckysheetscrollevent();
         // },10);
     })
-    .mousewheel(function (event) {
+    .mousewheel(function (event, delta) {
         event.preventDefault();
     });
 
@@ -536,8 +532,6 @@ export default function luckysheetHandler() {
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
-                    } else {
-                        vText = escapeHtml(vText)
                     }
 
                     formula.rangestart = false;
@@ -611,7 +605,7 @@ export default function luckysheetHandler() {
 
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
-                    formula.setCaretPosition($span.get(0), 0, $span.html()?.length);
+                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
                 }, 1);
                 return;
             }
@@ -1150,6 +1144,7 @@ export default function luckysheetHandler() {
 
             let x = event.pageX;
             let y = event.pageY;
+            let data = Store.flowdata;
 
             let obj_s = Store.luckysheet_select_save[0];
 
@@ -2457,15 +2452,8 @@ export default function luckysheetHandler() {
                     if (left + myw + 22 + 36 > Store.chartparam.luckysheetCurrentChartMoveWinW) {
                         left = Store.chartparam.luckysheetCurrentChartMoveWinW - myw - 22 - 36;
                     }
-                    // black magic for chart with frozen cells on sheet
-                    if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
-                        top += 0.5;
-                        left += 0.5;
-                    }
 
                     Store.chartparam.luckysheetCurrentChartMoveObj.css({ "top": top, "left": left });
-                    Store.currentSheetChart.top = top
-                    Store.currentSheetChart.left = left
 
                     if (luckysheetFreezen.freezenhorizontaldata != null || luckysheetFreezen.freezenverticaldata != null) {
                         luckysheetFreezen.scrollAdapt();
@@ -2541,10 +2529,6 @@ export default function luckysheetHandler() {
                     Store.chartparam.luckysheetCurrentChartResizeObj.css(resizedata);
                     // resize chart
                     Store.resizeChart(Store.chartparam.luckysheetCurrentChart)
-                    Store.currentSheetChart.top = top
-                    Store.currentSheetChart.left = left
-                    Store.currentSheetChart.height = height
-                    Store.currentSheetChart.width = width
                 }
                 //image move
                 else if (imageCtrl.move) {
@@ -4762,8 +4746,8 @@ export default function luckysheetHandler() {
         }
 
         let newCanvas = $("<canvas>").attr({
-            width: Math.ceil(ch_width * devicePixelRatio),
-            height: Math.ceil(rh_height * devicePixelRatio)
+            width: Math.ceil(ch_width * Store.devicePixelRatio),
+            height: Math.ceil(rh_height * Store.devicePixelRatio)
         }).css({ width: ch_width, height: rh_height });
 
         luckysheetDrawMain(scrollWidth, scrollHeight, ch_width, rh_height, 1, 1, null, null, newCanvas);
@@ -5189,11 +5173,23 @@ export default function luckysheetHandler() {
 
         let $id = $(this).parent().attr("id");
         if ($id == "luckysheet-chart-rangeShow-content") {
-             row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
-             row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
+            if (chart_json.rangeRowCheck.exits) {
+                 row_s = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[0];
+                 row_e = chart_json.rangeArray[0].row[0] + chart_json.rangeSplitArray.content.row[1];
+            }
+            else {
+                 row_s = chart_json.rangeSplitArray.content.row[0];
+                 row_e = chart_json.rangeSplitArray.content.row[0];
+            }
 
-             col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
-             col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
+            if (chart_json.rangeColCheck.exits) {
+                 col_s = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[0];
+                 col_e = chart_json.rangeArray[0].column[0] + chart_json.rangeSplitArray.content.column[1];
+            }
+            else {
+                 col_s = chart_json.rangeSplitArray.content.column[0];
+                 col_e = chart_json.rangeSplitArray.content.column[1];
+            }
 
             Store.chart_selection.rangeResizeIndex = { "row": [row_s, row_e], "column": [col_s, col_e] };
         }
@@ -5268,6 +5264,9 @@ export default function luckysheetHandler() {
 
     //表格格式处理
     menuButton.initialMenuButton();
+
+    let dpi_x = document.getElementById('testdpidiv').offsetWidth * Store.devicePixelRatio;
+    let dpi_y = document.getElementById('testdpidiv').offsetHeight * Store.devicePixelRatio;
 
     //粘贴事件处理
     $(document).on("paste.luckysheetEvent", function (e) {
@@ -5370,7 +5369,7 @@ export default function luckysheetHandler() {
                           }
                         }
                         else{
-                          if(unescapeHtml(cpDataArr[r - copy_r1][c - copy_c1]) != v){
+                          if(cpDataArr[r - copy_r1][c - copy_c1] != v){
                             isEqual = false;
                             break;
                           }
@@ -5381,6 +5380,7 @@ export default function luckysheetHandler() {
 
             const locale_fontjson = locale().fontjson;
 
+            
             // hook
             if(!method.createHookFunction('rangePasteBefore',Store.luckysheet_select_save,txtdata)){
                 return;
@@ -5401,13 +5401,23 @@ export default function luckysheetHandler() {
                 imageCtrl.pasteImgItem();
             }
             else {
-                if (txtdata.indexOf("table") > -1) {
-                    $("#luckysheet-copy-content").html(DOMPurify.sanitize(txtdata));
+                let $content
+                try {
+                    $content = $("#luckysheet-copy-content").html(txtdata);
+                } catch (e) {
+                    // clipboard text may not be in HTML format
+                }
+                // note: Google Spreadsheet: single cell copy will contain a <span>, multiple cells copy will contain a <table>
+                if ($content && ($content.find("table").length !== 0 || $content.children("span[data-sheets-value]").length === 1)) {
+                    if ($content.find("table").length === 0) {
+                        const td = $content.children("span[data-sheets-value]")[0].outerHTML.replace(/^<span/, '<td').replace(/<\/span>$/, '</td>');
+                        $content.html("<table><tbody><tr>" + td + "</tr></tbody></table>");
+                    }
 
-                    let data = new Array($("#luckysheet-copy-content").find("table tr").length);
+                    let data = new Array($content.find("table tr").length);
                     let colLen = 0;
                     const cellElements = "th, td";
-                    $("#luckysheet-copy-content").find("table tr").eq(0).find(cellElements).each(function () {
+                    $content.find("table tr").eq(0).find(cellElements).each(function () {
                         let colspan = parseInt($(this).attr("colspan"));
                         if (isNaN(colspan)) {
                             colspan = 1;
@@ -5421,19 +5431,48 @@ export default function luckysheetHandler() {
 
                     let r = 0;
                     let borderInfo = {};
-                    $("#luckysheet-copy-content").find("table tr").each(function () {
+                    $content.find("table tr").each(function () {
                         let $tr = $(this);
                         let c = 0;
                         $tr.find(cellElements).each(function () {
                             let $td = $(this);
                             let cell = {};
-                            let txt = $td.text();
-                            if ($.trim(txt).length == 0) {
+                            // note: Google Spreadsheet: copied formula cell has the formula in R1C1 format
+                            const originalFormula = $td.attr("data-sheets-formula");
+                            const originalText = $td.text();
+                            if (originalFormula && originalFormula.startsWith("=")) {
+                                const address = Store.luckysheet_select_save[0];
+                                const rowIndex = address.row[0] + r;
+                                const columnIndex = address.column[0] + c;
+                                const translatedFormula = originalFormula
+                                    // R1C1 format -> A1 format
+                                    .replace(
+                                        /([^a-zA-Z0-9])R(\[?)(-?[0-9]+)\]?C(\[?)(-?[0-9]+)\]?/g,
+                                        function (_, prefix, rowRefRelative, rowRef, columnRefRelative, columnRef) {
+                                            return [
+                                                prefix,
+                                                columnRefRelative ? chatatABC(columnIndex + +columnRef) : `$${chatatABC(+columnRef - 1)}`,
+                                                rowRefRelative ? rowIndex + +rowRef + 1 : `$${rowRef}`,
+                                            ].join("");
+                                        }
+                                    )
+                                    // TRUE -> true, FALSE -> false (Luckysheet can interpret lowercase "true" literal or "TRUE()" function, but not "TRUE".)
+                                    .replace(/\bTRUE\b/g, "true")
+                                    .replace(/\bFALSE\b/g, "false");
+                                const v = formula.execfunction(translatedFormula, rowIndex, columnIndex);
+                                cell.f = v[2];
+                                cell.v = v[1];
+                                cell.ct = genarate(originalText)[1];
+                                if (cell.ct && cell.ct.fa) {
+                                    cell.m = update(cell.ct.fa, cell.v);
+                                }
+                            }
+                            else if (originalText.trim().length === 0){
                                 cell.v = null;
                                 cell.m = "";
                             }
                             else {
-                                let mask = genarate($td.text());
+                                let mask = genarate(originalText);
                                 cell.v = mask[2];
                                 cell.ct = mask[1];
                                 cell.m = mask[0];
@@ -5627,7 +5666,6 @@ export default function luckysheetHandler() {
 
                     Store.luckysheet_selection_range = [];
                     selection.pasteHandler(data, borderInfo);
-                    $("#luckysheet-copy-content").empty();
                 }
                 //复制的是图片
                 else if(clipboardData.files.length == 1 && clipboardData.files[0].type.indexOf('image') > -1){
@@ -5639,6 +5677,7 @@ export default function luckysheetHandler() {
                     txtdata = clipboardData.getData("text/plain");
                     selection.pasteHandler(txtdata);
                 }
+                $("#luckysheet-copy-content").empty();
             }
         }
         else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
@@ -5665,6 +5704,7 @@ export default function luckysheetHandler() {
             let mobile = luckysheetConfigsetting.pageInfo.mobile;
             let frezon = luckysheetConfigsetting.pageInfo.frezon;
             let currentPage = luckysheetConfigsetting.pageInfo.currentPage;
+            let totalPage = luckysheetConfigsetting.pageInfo.totalPage;
             let pageUrl = luckysheetConfigsetting.pageInfo.pageUrl;
 
             

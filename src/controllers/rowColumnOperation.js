@@ -1,3 +1,4 @@
+
 import pivotTable from './pivotTable';
 import luckysheetPostil from './postil';
 import imageCtrl from './imageCtrl';
@@ -8,7 +9,8 @@ import { selectHightlightShow, luckysheet_count_show,selectHelpboxFill } from '.
 import { 
     getObjType, 
     showrightclickmenu,
-    luckysheetContainerFocus,
+    luckysheetContainerFocus, 
+    luckysheetfontformat,
     $$
 } from '../utils/util';
 import { getSheetIndex, getRangetxt } from '../methods/get';
@@ -28,16 +30,16 @@ import {
     jfrefreshgridall, 
     jfrefreshgrid_rhcw,
 } from '../global/refresh';
+import { getcellvalue } from '../global/getdata';
 import tooltip from '../global/tooltip';
 import editor from '../global/editor';
 import locale from '../locale/locale';
-import {getCellTextInfo} from '../global/getRowlen';
+import {getMeasureText,getCellTextInfo} from '../global/getRowlen';
 import { luckysheet_searcharray } from '../controllers/sheetSearch';
 import {isInlineStringCell} from './inlineString';
 import {checkProtectionLockedRangeList, checkProtectionAllSelected,checkProtectionAuthorityNormal  } from './protection';
 import Store from '../store';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
-import escapeHtml from "escape-html";
 
 export function rowColumnOperationInitial(){
 
@@ -171,8 +173,6 @@ export function rowColumnOperationInitial(){
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
-                    } else {
-                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
@@ -253,7 +253,7 @@ export function rowColumnOperationInitial(){
 
                     let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
 
-                    formula.setCaretPosition($span.get(0), 0, $span.html()?.length);
+                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
                 }, 1);
 
                 return;
@@ -606,8 +606,6 @@ export function rowColumnOperationInitial(){
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
-                    } else {
-                        vText = escapeHtml(vText);
                     }
 
                     formula.rangestart = false;
@@ -2070,7 +2068,10 @@ export function rowColumnOperationInitial(){
 
                 return;
             }
-            const hyperlinkMap = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].hyperlink;
+
+            const file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+            const hyperlink = file.hyperlink && $.extend(true, {}, file.hyperlink);
+            let hyperlinkUpdated;
 
             for(let s = 0; s < Store.luckysheet_select_save.length; s++){
                 let r1 = Store.luckysheet_select_save[s].row[0], 
@@ -2103,14 +2104,15 @@ export function rowColumnOperationInitial(){
                             d[r][c] = null;
                         }
                         // 同步清除 hyperlink
-                        if (hyperlinkMap && hyperlinkMap[`${r}_${c}`]) {
-                            delete hyperlinkMap[`${r}_${c}`];
+                        if (hyperlink?.[`${r}_${c}`]) {
+                            delete hyperlink[`${r}_${c}`];
+                            hyperlinkUpdated = true;
                         }
                     }
                 }
             }
 
-            jfrefreshgrid(d, Store.luckysheet_select_save);
+            jfrefreshgrid(d, Store.luckysheet_select_save, hyperlinkUpdated && { hyperlink });
 
             // 清空编辑框的内容
             // 备注：在functionInputHanddler方法中会把该标签的内容拷贝到 #luckysheet-functionbox-cell
@@ -2137,7 +2139,7 @@ export function rowColumnOperationInitial(){
 
           /* 对异常情况进行判断：NaN */
         if(isNaN(size)){
-            tooltip.info("Only allow numbers to set the width and height of rows and columns!", "");
+            tooltip.info(locale_info.tipInputNumber, "");
             return;
         }
 

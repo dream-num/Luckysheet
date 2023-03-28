@@ -11227,9 +11227,8 @@ const functionImplementation = {
         }
 
         try {
-            luckysheet_getValue(arguments);
             for (var i = 0; i < arguments.length-1; i++){
-                arguments[i] = moment.fromOADate(arguments[i]).format("l");
+                arguments[i] = func_methods.getCellDate(arguments[i]);
                 if(!isdatetime(arguments[i])){
                     return formula.error.v;
                 }
@@ -11262,8 +11261,9 @@ const functionImplementation = {
                     result = (startM <= endM) ?  endM - startM : endM + 12 - startM;
                     break;
                 case "YD":case "yd":
-                    var startM = genarate(startDate.format('MM-DD'))[2];
-                    var endM = genarate(endDate.format('MM-DD'))[2];
+                    const format = `${endDate.$y}-MM-DD`;
+                    var startM = genarate(startDate.format(format))[2];
+                    var endM = genarate(endDate.format(format))[2];
 
                     result = (startM <= endM) ? endM - startM : endM + 365 - startM;
                     break;
