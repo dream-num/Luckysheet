@@ -1703,7 +1703,6 @@ var good_pd = good_pd_date.getFullYear() == 2017;
 /* parses a date as a local date */
 function parseDate(str, fixdate) {
     var d = new Date(str);
-    //console.log(d);
     if (good_pd) {
         if (fixdate > 0) d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
         else if (fixdate < 0) d.setTime(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
@@ -1799,21 +1798,26 @@ export function genarate(value) {//万 单位格式增加！！！
         ct = { "fa": "@", "t": "s" };
     }
     else if(isRealNum(value) && Math.abs(parseFloat(value)) > 0 && (Math.abs(parseFloat(value)) >= 1e+11 || Math.abs(parseFloat(value)) < 1e-9)){
-        v = numeral(value).value();
-        var str = v.toExponential();
-        if(str.indexOf(".") > -1){
-            var strlen = str.split(".")[1].split("e")[0].length;
-            if(strlen > 5){
-                strlen = 5;
+        if (value.length > 16) {
+            v = value;
+            ct = { 'fa': '@', 't': 's' }
+            m = SSF.format(ct.fa, v);
+        }
+        else {
+            v = numeral(value).value();
+            var str = v.toExponential();
+            if(str.indexOf(".") > -1){
+                var strlen = str.split(".")[1].split("e")[0].length;
+                if(strlen > 5){
+                    strlen = 5;
+                }
+                ct = { "fa": "#0."+ new Array(strlen + 1).join("0") +"E+00", "t": "n" }; 
             }
-
-            ct = { "fa": "#0."+ new Array(strlen + 1).join("0") +"E+00", "t": "n" }; 
+            else{
+                ct = { "fa": "#0.E+00", "t": "n" };
+            }
+            m = SSF.format(ct.fa, v);
         }
-        else{
-            ct = { "fa": "#0.E+00", "t": "n" };
-        }
-
-        m = SSF.format(ct.fa, v);
     }
     else if(value.toString().indexOf("%") > -1){
         var index = value.toString().indexOf("%");
