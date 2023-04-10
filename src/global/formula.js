@@ -2245,7 +2245,7 @@ const luckysheetformula = {
             }
 
             if (i == funcstack.length - 1) {
-                if (_this.iscelldata($.trim(str))) {
+                if (!str.includes("!") && _this.iscelldata($.trim(str))) {
                     function_str += _this.functionStrChange_range($.trim(str), type, rc, orient, stindex, step);
                 }
                 else {
