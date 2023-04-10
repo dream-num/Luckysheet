@@ -54,6 +54,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     }
 
     let cfg = allParam["cfg"];  //config
+    let calc = allParam["calc"];
     let RowlChange = allParam["RowlChange"];  //行高改变
     let cdformat = allParam["cdformat"];  //条件格式
     let dataVerification = allParam["dataVerification"];  //数据验证
@@ -104,6 +105,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "sheetIndex": Store.currentSheetIndex, 
             "config": $.extend(true, {}, Store.config), 
             "curConfig": curConfig,
+            "calc": $.extend(true, [], file.calcChain),
+            "curCalc": calc,
             "cdformat":  $.extend(true, [], file["luckysheet_conditionformat_save"]),
             "curCdformat": curCdformat,
             "RowlChange": RowlChange,
@@ -133,6 +136,11 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         if(RowlChange != null){
             jfrefreshgrid_rhcw(Store.flowdata.length, Store.flowdata[0].length);
         }
+    }
+
+    if(calc != null){
+        file.calcChain = calc;
+        server.saveParam("all", Store.currentSheetIndex, calc, { "k": "calcChain" });
     }
 
     //condition format, null or empty array are not processed

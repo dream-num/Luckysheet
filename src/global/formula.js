@@ -2019,7 +2019,7 @@ const luckysheetformula = {
                 row += step;
             }
 
-            if (row[0] < 0 || col[0] < 0) {
+            if (row < 0 || col < 0) {
                 return _this.error.r;
             }
 
@@ -5725,8 +5725,8 @@ const luckysheetformula = {
                 }
                 updateValue.v = item.v;
                 updateValue.f = item.f;
-                setcellvalue(item.r, item.c, data, updateValue);
-                server.saveParam("v", item.index, item.v, {
+                const cell = setcellvalue(item.r, item.c, data, updateValue);
+                server.saveParam("v", item.index, cell, {
                     "r": item.r,
                     "c": item.c
                 });

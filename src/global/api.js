@@ -41,6 +41,8 @@ import imageCtrl from '../controllers/imageCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
+import luckysheetSearchReplace from "../controllers/searchReplace";
+
 const IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i;
 
 /**
@@ -111,12 +113,6 @@ export function getCellValue(row, column, options = {}) {
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
-
-    let curv = Store.flowdata[row][column];
-
-    // Store old value for hook function
-    const oldValue = JSON.stringify(curv);
-
     if (!isRealNum(row) || !isRealNum(column)) {
         return tooltip.info('The row or column parameter is invalid.', '');
     }
@@ -149,6 +145,11 @@ export function setCellValue(row, column, value, options = {}) {
         data = sheetmanage.buildGridData(file);
     }
 
+    let oldValue
+    if (Store.flowdata[row] && Store.flowdata[row][column]) {
+      oldValue = JSON.stringify(Store.flowdata[row][column]);
+    }
+
     // luckysheetformula.updatecell(row, column, value);
     let formatList = {
         //ct:1, //celltype,Cell value format: text, time, etc.
@@ -178,6 +179,9 @@ export function setCellValue(row, column, value, options = {}) {
     }
     else if(value instanceof Object){
         let curv = {};
+        if(isRealNull(data[row])){
+            data[row] = {};
+        }
         if(isRealNull(data[row][column])){
             data[row][column] = {};
         }
@@ -231,10 +235,15 @@ export function setCellValue(row, column, value, options = {}) {
 
     /* cell更新后触发  */
     setTimeout(() => {
+        let oldValueObj
+        if (oldValue) {
+          oldValueObj = JSON.parse(oldValue)
+        }
         // Hook function
         if (triggerUpdated) {
-            method.createHookFunction("cellUpdated", row, column, JSON.parse(oldValue), Store.flowdata[row][column], isRefresh);
+            method.createHookFunction("cellUpdated", row, column, oldValueObj, Store.flowdata[row][column], isRefresh);
         }
+
     }, 0);
 
     if(file.index == Store.currentSheetIndex && isRefresh){
@@ -5498,7 +5507,7 @@ export function setSheetZoom(zoom, options = {}) {
         imageCtrl.images = currentSheet.images;
         imageCtrl.allImagesShow();
         imageCtrl.init();
-        
+
         zoomNumberDomBind();
         zoomRefreshView();
     }
@@ -6890,4 +6899,14 @@ export function checkTheStatusOfTheSelectedCells(type,status){
     })
 
     return flag;
+}
+
+/**
+ * 调用查找/替换 dialog
+ * @param {Number} source              0:搜索 1:替换
+ */
+export function openSearchDialog(source = 1){
+    luckysheetSearchReplace.createDialog(source);
+    luckysheetSearchReplace.init();
+    $("#luckysheet-search-replace #searchInput input").focus();
 }

@@ -2797,6 +2797,12 @@ Luckysheet针对常用的数据操作需求，开放了主要功能的API，开�
 
 	关闭websocket连接
 
+### openSearchDialog()
+
+- **说明**：
+
+  打开搜索/替换弹窗
+
 ### getRangeByTxt([txt])
 
 - **说明**：

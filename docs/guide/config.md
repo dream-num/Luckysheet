@@ -392,7 +392,7 @@ Note that you also need to configure `loadUrl` and `loadSheetUrl` to take effect
 	}
 
 	```
-	`ture`: Show the default string
+	`true`: Show the default string
 	```js
 	options:{
 		// Other configuration
