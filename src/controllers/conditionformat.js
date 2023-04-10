@@ -3717,6 +3717,71 @@ const conditionformat = {
                                 }
                             }
                         }
+                        else if (conditionName == 'regExp') { // 支持正则
+                            let re = new RegExp(conditionValue0); // 外部传递过来的正则表达式
+                            if (undefined == conditionValue1) { // 如果没有第二个参数，默认是正则表达式直接生效
+                                conditionValue1 = 1;
+                            }
+
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
+                                        continue;
+                                    }
+
+                                    //单元格值
+                                    let cell = d[r][c];
+
+                                    if (getObjType(cell) != "object" || isRealNull(cell.v)) {
+                                        continue;
+                                    }
+
+                                    // 符合条件
+                                    let ret = re.test(cell.v);
+                                    if ((conditionValue1 == 1 && ret) || (conditionValue1 == 0 && !ret)) {
+                                        if ((r + "_" + c) in computeMap) {
+                                            computeMap[r + "_" + c]["textColor"] = textColor;
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (conditionName == 'sort') { // 支持数据有序
+                            for (let r = cellrange[s].row[0]; r <= cellrange[s].row[1]; r++) {
+                                for (let c = cellrange[s].column[0]; c <= cellrange[s].column[1]; c++) {
+                                    if (d[r] == null || d[r][c] == null) {
+                                        continue;
+                                    }
+
+                                    //单元格值
+                                    let cell = d[r][c];
+                                    if (r<1) {
+                                        continue;
+                                    }
+                                    let cellAbove = d[r-1][c];
+                                    if (undefined == cellAbove) {
+                                        continue;
+                                    }
+
+                                    if (getObjType(cell) != "object" || isRealNull(cell.v)) {
+                                        continue;
+                                    }
+
+                                    // 符合条件
+                                    if (($.inArray(conditionValue0, [0, 'asc', '0']) > -1 && cell.v > cellAbove.v) || ($.inArray(conditionValue0, [1, '1', 'desc']) > -1 && cell.v < cellAbove.v)) {
+                                        if ((r + "_" + c) in computeMap) {
+                                            computeMap[r + "_" + c]["textColor"] = textColor;
+                                            computeMap[r + "_" + c]["cellColor"] = cellColor;
+                                        } else {
+                                            computeMap[r + "_" + c] = {"textColor": textColor, "cellColor": cellColor};
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         else if(conditionName == "formula"){
                             let str = cellrange[s].row[0],
                                 edr = cellrange[s].row[1],
@@ -3767,6 +3832,8 @@ const conditionformat = {
                 }
             }
         }
+
+        Store.conditionFormatCells = computeMap;
 
         return computeMap;
     },

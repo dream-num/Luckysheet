@@ -108,6 +108,8 @@ export function getCellValue(row, column, options = {}) {
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
  * @param {Boolean} options.isRefresh 是否刷新界面；默认为`true`
+ * @param {Boolean} options.triggerBeforeUpdate 是否触发更新前hook；默认为`true`
+ * @param {Boolean} options.triggerUpdated 是否触发更新后hook；默认为`true`
  * @param {Function} options.success 操作结束的回调函数
  */
 export function setCellValue(row, column, value, options = {}) {
@@ -118,6 +120,8 @@ export function setCellValue(row, column, value, options = {}) {
     let {
         order = getSheetIndex(Store.currentSheetIndex),
         isRefresh = true,
+        triggerBeforeUpdate = true,
+        triggerUpdated = true,
         success
     } = {...options}
 
@@ -128,7 +132,7 @@ export function setCellValue(row, column, value, options = {}) {
     }
 
     /* cell更新前触发  */
-    if (!method.createHookFunction("cellUpdateBefore", row, column, value, isRefresh)) {
+    if (triggerBeforeUpdate && !method.createHookFunction("cellUpdateBefore", row, column, value, isRefresh)) {
         /* 如果cellUpdateBefore函数返回false 则不执行后续的更新 */
         return;
     }
@@ -236,7 +240,10 @@ export function setCellValue(row, column, value, options = {}) {
           oldValueObj = JSON.parse(oldValue)
         }
         // Hook function
-        method.createHookFunction("cellUpdated", row, column, oldValueObj, Store.flowdata[row][column], isRefresh);
+        if (triggerUpdated) {
+            method.createHookFunction("cellUpdated", row, column, oldValueObj, Store.flowdata[row][column], isRefresh);
+        }
+
     }, 0);
 
     if(file.index == Store.currentSheetIndex && isRefresh){
@@ -3665,7 +3672,9 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         'last10',
         'last10%',
         'AboveAverage',
-        'SubAverage'
+        'SubAverage',
+        'regExp',
+        'sort',
     ];
 
     if(!conditionName || !conditionNameValues.includes(conditionName)){
@@ -3875,6 +3884,12 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     }
     else if(conditionName == 'AboveAverage' || conditionName == 'SubAverage'){
         conditionValue2.push(conditionName);
+    }
+    else if(conditionName == 'regExp') {
+        conditionValue2.push(...conditionValue);
+    }
+    else if(condtionName == 'sort') {
+        conditionValue2.push(...conditionValue);
     }
 
     if(!format.hasOwnProperty("textColor") || !format.hasOwnProperty("cellColor")){

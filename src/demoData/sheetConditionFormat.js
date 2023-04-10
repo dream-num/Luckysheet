@@ -6450,7 +6450,34 @@ window.sheetConditionFormat = {
 		"conditionName": "occurrenceDate",
 		"conditionRange": [],
 		"conditionValue": ["2020/07/23 - 2020/07/29"]
-	}, {
+	},{
+		"type": "default",
+		"cellrange": [{
+			"row": [10, 19],
+			"column": [0, 0]
+		}],
+		"format": {
+			"textColor": "#000000",
+			"cellColor": "#ff0000"
+		},
+		"conditionName": "regExp",
+		"conditionRange": [],
+		"conditionValue": [/^\d{1,}\.\d{1,}$/]
+	},{
+		"type": "default",
+		"cellrange": [{
+			"row": [0, 9],
+			"column": [0, 0]
+		}],
+		"format": {
+			"textColor": "#000000",
+			"cellColor": "#ff0000"
+		},
+		"conditionName": "sort",
+		"conditionRange": [],
+		"conditionValue": ['desc']
+	},
+	{
 		"type": "colorGradation",
 		"cellrange": [{
 			"left": 422,

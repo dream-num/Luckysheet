@@ -87,6 +87,10 @@ function getvisibledatacolumn() {
     return Store.visibledatacolumn;
 }
 
+function getConditionFormatCells() {
+    return Store.conditionFormatCells;
+}
+
 export {
     getSheetIndex,
     getRangetxt,
@@ -96,4 +100,5 @@ export {
     getconfig,
     getvisibledatarow,
     getvisibledatacolumn,
+    getConditionFormatCells,
 }
