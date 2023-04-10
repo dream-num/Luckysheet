@@ -11238,6 +11238,11 @@ const functionImplementation = {
                 return formula.error.v;
             }
 
+            if(rowlen == 1 && column_num == undefined){
+                column_num = row_num;
+                row_num = 1;
+            }
+
             if(row_num > rowlen || (isRealNum(column_num) && column_num > collen)){
                 return formula.error.r;
             }
