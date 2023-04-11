@@ -4,17 +4,18 @@
 
 </div>
 
-# Luckysheet 3.x 目前正在使用Typescript重构
+# Luckysheet 3.x 已更名为 [Univer](https://github.com/dream-num/univer)
 
 简体中文 | [English](./README.md)
 
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
 
+
 ## 相关链接
  | 源码   | 文档 | Demo | 插件Demo | 论坛 |
  | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://mengshukeji.github.io/LuckysheetDocs/zh/) | [在线Demo](https://mengshukeji.github.io/LuckysheetDemo) / [协同编辑Demo](http://luckysheet.lashuju.com/demo/) | [导入Excel Demo](https://mengshukeji.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://dream-num.github.io/LuckysheetDocs/zh/) | [在线Demo](https://dream-num.github.io/LuckysheetDemo) / [协同编辑Demo](http://luckysheet.lashuju.com/demo/) | [导入Excel Demo](https://dream-num.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
  | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
@@ -51,12 +52,12 @@
 - **表格操作**：筛选，排序
 - **增强功能**：数据透视表，图表，评论，共享编辑，插入图片，矩阵计算，截图，复制到其他格式，EXCEL导入及导出等
 
-更详细的功能列表，请查阅：[特性](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/#%E7%89%B9%E6%80%A7)
+更详细的功能列表，请查阅：[特性](https://dream-num.github.io/LuckysheetDocs/zh/guide/#%E7%89%B9%E6%80%A7)
 
 ## 📖 学习资源
 
 - 新用户优先阅读：[用户指引](https://github.com/mengshukeji/Luckysheet/wiki/User-Guide)
-- 社区提供的教程、学习资料及配套解决方案请查阅：[教程与资源](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/resource.html)
+- 社区提供的教程、学习资料及配套解决方案请查阅：[教程与资源](https://dream-num.github.io/LuckysheetDocs/zh/guide/resource.html)
 
 ## 📜 更新日志
 
@@ -64,7 +65,7 @@
 
 ## ❗️ 问题反馈
 
-在反馈问题之前，请确保仔细阅读 [如何提交问题](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/contribute.html#如何提交问题)。 不符合准则的问题可能会立即被移除。
+在反馈问题之前，请确保仔细阅读 [如何提交问题](https://dream-num.github.io/LuckysheetDocs/zh/guide/contribute.html#如何提交问题)。 不符合准则的问题可能会立即被移除。
 
 ## ✅ 开发计划
 
@@ -72,7 +73,7 @@
 
 ## 💪 贡献
 
-在提交PR之前，请确保仔细阅读 [贡献指南](https://mengshukeji.github.io/LuckysheetDocs/zh/guide/contribute.html)。
+在提交PR之前，请确保仔细阅读 [贡献指南](https://dream-num.github.io/LuckysheetDocs/zh/guide/contribute.html)。
 
 ## 用法
 
@@ -129,6 +130,7 @@ npm run build
 - [鲁班h5](https://github.com/ly525/luban-h5)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
 - [Furion](https://gitee.com/monksoul/Furion)
+- [AFFiNE.PRO](https://github.com/toeverything/AFFiNE)
 
 ## 交流
 
@@ -144,7 +146,7 @@ npm run build
 
 ## 赞助
 
-Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些优秀的 [**支持者**](https://mengshukeji.github.io/LuckysheetDocs/zh/about/sponsor.html#%E8%B5%9E%E5%8A%A9%E8%80%85%E5%88%97%E8%A1%A8)。 如果您想加入他们，请考虑：
+Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些优秀的 [**支持者**](https://dream-num.github.io/LuckysheetDocs/zh/about/sponsor.html#%E8%B5%9E%E5%8A%A9%E8%80%85%E5%88%97%E8%A1%A8)。 如果您想加入他们，请考虑：
 
 - [成为Patreon的支持者或赞助商](https://www.patreon.com/mengshukeji)
 - [成为Open Collective的支持者或赞助商](https://opencollective.com/luckysheet)
@@ -234,7 +236,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - 蔚然成林 ¥ 10
 - 邹杰 ¥ 10
 - 张永强 ¥ 50
-- 鱼得水 ¥ 150
+- 鱼得水 ¥ 270
 - Ccther ¥ 1
 - Eric Cheng ¥ 10
 - 佚名 ¥ 1
@@ -250,6 +252,18 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - Jeff ¥ 100
 - 八千多条狗🐶 ¥ 100
 - 晓峰 ¥ 10
+- 戒 ¥ 1
+- 浪里个浪 ¥ 1
+- 回调函数 ¥ 50
+- 赖瓜子 ¥ 5
+- Milo•J ¥ 20
+- 可道云 ¥ 200
+- *程 ¥ 10
+- 来一杯卡布酸奶 ¥ 5
+- 刘久胜 ¥ 100
+- 快意江湖 ¥ 50
+- *新 ¥ 9.9
+- **龙 ¥ 100
 
 ## 贡献者和感谢
 

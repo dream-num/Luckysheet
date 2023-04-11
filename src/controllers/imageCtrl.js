@@ -8,7 +8,6 @@ import { setluckysheet_scroll_status } from '../methods/set';
 import { replaceHtml } from '../utils/util';
 import Store from '../store';
 import locale from '../locale/locale';
-import escapeHtml from "escape-html";
 import tooltip from '../global/tooltip';
 import method from '../global/method';
 
@@ -59,7 +58,7 @@ const imageCtrl = {
             uploadImage(file).then(url => {
                 imageCtrl._insertImg(url);
             }).catch(error => {
-                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', 'Image upload failed');
+                tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '图片上传失败');
             });
         } else {
             // 内部base64形式
@@ -133,11 +132,11 @@ const imageCtrl = {
 
         let borderWidth = imgItem.border.width;
 
-        return  `<div id="${escapeHtml(id)}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${escapeHtml(position)};left:${left}px;top:${top}px;z-index:200;">
+        return  `<div id="${id}" class="luckysheet-modal-dialog luckysheet-modal-dialog-image" style="width:${width}px;height:${height}px;padding:0;position:${position};left:${left}px;top:${top}px;z-index:200;">
                     <div class="luckysheet-modal-dialog-content" style="width:100%;height:100%;overflow:hidden;position:relative;">
-                        <img src="${escapeHtml(src)}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
+                        <img src="${src}" style="position:absolute;width:${imgItem.default.width * Store.zoomRatio}px;height:${imgItem.default.height * Store.zoomRatio}px;left:${-imgItem.crop.offsetLeft * Store.zoomRatio}px;top:${-imgItem.crop.offsetTop * Store.zoomRatio}px;" />
                     </div>
-                    <div class="luckysheet-modal-dialog-border" style="border:${escapeHtml(borderWidth)}px ${escapeHtml(imgItem.border.style)} ${escapeHtml(imgItem.border.color)};border-radius:${imgItem.border.radius * Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
+                    <div class="luckysheet-modal-dialog-border" style="border:${borderWidth}px ${imgItem.border.style} ${imgItem.border.color};border-radius:${imgItem.border.radius * Store.zoomRatio}px;position:absolute;left:${-borderWidth}px;right:${-borderWidth}px;top:${-borderWidth}px;bottom:${-borderWidth}px;"></div>
                 </div>`;
     },
     getSliderHtml: function() {
@@ -209,7 +208,7 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-slider-imageCtrl").remove();
 
         let sliderHtml = _this.getSliderHtml();
-        $("body").first().append(sliderHtml);
+        $("body").append(sliderHtml);
         luckysheetsizeauto();
 
         let imgItem = _this.images[_this.currentImgId];
@@ -240,12 +239,12 @@ const imageCtrl = {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-imageCtrl-colorSelect-dialog").remove();
 
-        $("body").first().append(replaceHtml(modelHTML, {
-            "id": "luckysheet-imageCtrl-colorSelect-dialog",
+        $("body").append(replaceHtml(modelHTML, { 
+            "id": "luckysheet-imageCtrl-colorSelect-dialog", 
             "addclass": "luckysheet-imageCtrl-colorSelect-dialog", 
             "title": locale_imageCtrl.borderTile, 
             "content": `<div class="currenColor">
-                            ${locale_imageCtrl.borderCur}:<span title="${escapeHtml(currenColor)}" style="background-color:${escapeHtml(currenColor)}"></span>
+                            ${locale_imageCtrl.borderCur}:<span title="${currenColor}" style="background-color:${currenColor}"></span>
                         </div>
                         <div class="colorshowbox"></div>`, 
             "botton":  `<button id="luckysheet-imageCtrl-colorSelect-dialog-confirm" class="btn btn-primary">${locale_button.confirm}</button>
@@ -311,51 +310,41 @@ const imageCtrl = {
         });
     },
     init: function() {
-        const _this = this;
-        const dialogActiveImage = $("#luckysheet-modal-dialog-activeImage");
-        const dialogActiveImageBorder = dialogActiveImage.find(".luckysheet-modal-dialog-border");
-        const dialogCropping = $("#luckysheet-modal-dialog-cropping");
-        const dialogSliderImageCtrl = $("#luckysheet-modal-dialog-slider-imageCtrl");
-        const imageShowBoxs = $("#luckysheet-image-showBoxs");
-        const cellMain = $("#luckysheet-cell-main");
-
-        const imageBorderDivs = dialogActiveImageBorder.add("#" + _this.currentImgId + " .luckysheet-modal-dialog-border");
-        _this.configChangeData =  { currentImgId: _this.currentImgId, imageBorderDivs };
+        let _this = this;
 
         //关闭
-        dialogSliderImageCtrl.find(".luckysheet-model-close-btn").click(function () {
-            dialogSliderImageCtrl.hide();
+        $("#luckysheet-modal-dialog-slider-imageCtrl .luckysheet-model-close-btn").click(function () {
+            $("#luckysheet-modal-dialog-slider-imageCtrl").hide();
             luckysheetsizeauto();
         });
 
         //常规
-
-        dialogSliderImageCtrl.off("change.radio").on("change.radio", ".radio-item input[type=radio][name=imgItemType]", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.radio").on("change.radio", ".radio-item input[type=radio][name=imgItemType]", function() {
             _this.configChange("type", this.value);
         })
 
         //固定位置
-        dialogSliderImageCtrl.off("change.checkbox").on("change.checkbox", ".slider-box-checkbox input[type=checkbox]", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.checkbox").on("change.checkbox", ".slider-box-checkbox input[type=checkbox]", function() {
             _this.configChange("fixedPos", this.checked);
         })
 
         //边框宽度
-        dialogSliderImageCtrl.off("change.borderWidth").on("change.borderWidth", "#imgItemBorderWidth", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.borderWidth").on("change.borderWidth", "#imgItemBorderWidth", function() {
             _this.configChange("border-width", this.valueAsNumber);
         })
 
         //边框半径
-        dialogSliderImageCtrl.off("change.borderRadius").on("change.borderRadius", "#imgItemBorderRadius", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.borderRadius").on("change.borderRadius", "#imgItemBorderRadius", function() {
             _this.configChange("border-radius", this.valueAsNumber);
         })
 
         //边框样式
-        dialogSliderImageCtrl.off("change.borderStyle").on("change.borderStyle", "#imgItemBorderStyle", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("change.borderStyle").on("change.borderStyle", "#imgItemBorderStyle", function() {
             _this.configChange("border-style", this.value);
         })
 
         //边框颜色 选择
-        dialogSliderImageCtrl.off("click.color").on("click.color", "#imgItemBorderColor", function() {
+        $("#luckysheet-modal-dialog-slider-imageCtrl").off("click.color").on("click.color", "#imgItemBorderColor", function() {
             let currenColor = $(this).find("span").attr("title");
             _this.colorSelectDialog(currenColor);
         })
@@ -367,13 +356,13 @@ const imageCtrl = {
             $parent.hide();
 
             let currenColor = $parent.find(".currenColor span").attr("title");
-            dialogSliderImageCtrl("#imgItemBorderColor span").css("background-color", currenColor).attr("title", currenColor);
+            $("#luckysheet-modal-dialog-slider-imageCtrl #imgItemBorderColor span").css("background-color", currenColor).attr("title", currenColor);
 
             _this.configChange("border-color", currenColor);            
         });
 
         //image active
-        imageShowBoxs.off("mousedown.active").on("mousedown.active", ".luckysheet-modal-dialog-image", function(e) {
+        $("#luckysheet-image-showBoxs").off("mousedown.active").on("mousedown.active", ".luckysheet-modal-dialog-image", function(e) {
             
 
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
@@ -397,8 +386,8 @@ const imageCtrl = {
             let left = imgItemParam.left * Store.zoomRatio;
             let top = imgItemParam.top * Store.zoomRatio;
             let position = imgItemParam.position;
-
-            dialogActiveImage.show().css({
+        
+            $("#luckysheet-modal-dialog-activeImage").show().css({
                 "width": width,
                 "height": height,
                 "left": left,
@@ -407,13 +396,13 @@ const imageCtrl = {
             });
             let imageUrlHandle = Store.toJsonOptions && Store.toJsonOptions['imageUrlHandle'];
             let imgUrl = typeof imageUrlHandle === 'function' ? imageUrlHandle(item.src) : item.src;
-            dialogActiveImage.find(".luckysheet-modal-dialog-content").css({
+            $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content").css({
                 "background-image": "url(" + imgUrl + ")",
                 "background-size": item.default.width * Store.zoomRatio + "px " + item.default.height * Store.zoomRatio + "px",
                 "background-position": -item.crop.offsetLeft * Store.zoomRatio + "px " + -item.crop.offsetTop * Store.zoomRatio + "px"
             })
 
-            dialogActiveImageBorder.css({
+            $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css({
                 "border-width": item.border.width * Store.zoomRatio,
                 "border-style": item.border.style,
                 "border-color": item.border.color,
@@ -430,7 +419,7 @@ const imageCtrl = {
         })
 
         //image move
-        dialogActiveImage.off("mousedown.move").on("mousedown.move", ".luckysheet-modal-dialog-content", function(e) {
+        $("#luckysheet-modal-dialog-activeImage").off("mousedown.move").on("mousedown.move", ".luckysheet-modal-dialog-content", function(e) {
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
                 return;
             }
@@ -441,10 +430,10 @@ const imageCtrl = {
             
             _this.move = true;
             
-            _this.currentWinW = cellMain[0].scrollWidth;
-            _this.currentWinH = cellMain[0].scrollHeight;
+            _this.currentWinW = $("#luckysheet-cell-main")[0].scrollWidth;
+            _this.currentWinH = $("#luckysheet-cell-main")[0].scrollHeight;
 
-            let offset = dialogActiveImage.offset();
+            let offset = $("#luckysheet-modal-dialog-activeImage").offset();
 
             _this.moveXY = [
                 e.pageX - offset.left, 
@@ -457,25 +446,25 @@ const imageCtrl = {
         })
 
         //image resize
-        dialogActiveImage.off("mousedown.resize").on("mousedown.resize", ".luckysheet-modal-dialog-resize-item", function(e) {
+        $("#luckysheet-modal-dialog-activeImage").off("mousedown.resize").on("mousedown.resize", ".luckysheet-modal-dialog-resize-item", function(e) {
             if(!checkProtectionAuthorityNormal(Store.currentSheetIndex, "editObjects",false)){
                 return;
             }
             
-            _this.currentWinW = cellMain[0].scrollWidth;
-            _this.currentWinH = cellMain[0].scrollHeight;
+            _this.currentWinW = $("#luckysheet-cell-main")[0].scrollWidth;
+            _this.currentWinH = $("#luckysheet-cell-main")[0].scrollHeight;
 
             _this.resize = $(this).data("type");
 
-            let scrollTop = cellMain.scrollTop(),
-                scrollLeft = cellMain.scrollLeft();
+            let scrollTop = $("#luckysheet-cell-main").scrollTop(), 
+                scrollLeft = $("#luckysheet-cell-main").scrollLeft();
             let mouse = mouseposition(e.pageX, e.pageY);
             let x = mouse[0] + scrollLeft;
             let y = mouse[1] + scrollTop;
 
-            let position = dialogActiveImage.position();
-            let width = dialogActiveImage.width();
-            let height = dialogActiveImage.height();
+            let position = $("#luckysheet-modal-dialog-activeImage").position();
+            let width = $("#luckysheet-modal-dialog-activeImage").width();
+            let height = $("#luckysheet-modal-dialog-activeImage").height();
 
             _this.resizeXY = [
                 x, 
@@ -494,23 +483,23 @@ const imageCtrl = {
         })
 
         //image croppingEnter
-        dialogActiveImage.off("mousedown.croppingEnter").on("mousedown.croppingEnter", ".luckysheet-modal-controll-crop", function(e) {
+        $("#luckysheet-modal-dialog-activeImage").off("mousedown.croppingEnter").on("mousedown.croppingEnter", ".luckysheet-modal-controll-crop", function(e) {
             _this.croppingEnter();
             e.stopPropagation();
         })
 
         //image croppingExit
-        dialogCropping.off("mousedown.croppingExit").on("mousedown.croppingExit", ".luckysheet-modal-controll-crop", function(e) {
+        $("#luckysheet-modal-dialog-cropping").off("mousedown.croppingExit").on("mousedown.croppingExit", ".luckysheet-modal-controll-crop", function(e) {
             _this.croppingExit();
             e.stopPropagation();
         })
 
         //image crop change
-        dialogCropping.off("mousedown.cropChange").on("mousedown.cropChange", ".resize-item", function(e) {
+        $("#luckysheet-modal-dialog-cropping").off("mousedown.cropChange").on("mousedown.cropChange", ".resize-item", function(e) {
             _this.cropChange = $(this).data("type");
 
-            let scrollTop = cellMain.scrollTop(),
-                scrollLeft = cellMain.scrollLeft();
+            let scrollTop = $("#luckysheet-cell-main").scrollTop(), 
+                scrollLeft = $("#luckysheet-cell-main").scrollLeft();
             let mouse = mouseposition(e.pageX, e.pageY);
             let x = mouse[0] + scrollLeft;
             let y = mouse[1] + scrollTop;
@@ -526,22 +515,21 @@ const imageCtrl = {
         })
 
         //image restore
-        imageShowBoxs.off("mousedown.restore").on("mousedown.restore", ".luckysheet-modal-controll-restore", function(e) {
+        $("#luckysheet-image-showBoxs").off("mousedown.restore").on("mousedown.restore", ".luckysheet-modal-controll-restore", function(e) {
             _this.restoreImgItem();
             e.stopPropagation();
         })
 
         //image delete
-        imageShowBoxs.off("mousedown.delete").on("mousedown.delete", ".luckysheet-modal-controll-del", function(e) {
+        $("#luckysheet-image-showBoxs").off("mousedown.delete").on("mousedown.delete", ".luckysheet-modal-controll-del", function(e) {
             _this.removeImgItem();
             e.stopPropagation();
         })
     },
     configChange: function(type, value){
         let _this = this;
-        const borderDiv = _this.configChangeData.imageBorderDivs.filter(":visible");
 
-        let imgItem = _this.images[_this.configChangeData.currentImgId];
+        let imgItem = _this.images[_this.currentImgId];
 
         switch(type){
             case "type":
@@ -556,8 +544,8 @@ const imageCtrl = {
                 let left = imgItemParam.left;
                 let top = imgItemParam.top;
                 let position = imgItemParam.position;
-
-                borderDiv.show().css({
+            
+                $("#luckysheet-modal-dialog-activeImage").show().css({
                     "width": width,
                     "height": height,
                     "left": left,
@@ -567,25 +555,25 @@ const imageCtrl = {
                 break;
             case "border-width":
                 imgItem.border.width = value;
-                borderDiv.css({
-                    "border-width": value * Store.zoomRatio,
-                    "left": -value * Store.zoomRatio,
-                    "right": -value * Store.zoomRatio,
-                    "top": -value * Store.zoomRatio,
-                    "bottom": -value * Store.zoomRatio
+                $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css({
+                    "border-width": value,
+                    "left": -value,
+                    "right": -value,
+                    "top": -value,
+                    "bottom": -value
                 });
                 break;
             case "border-radius":
-                imgItem.border.radius = value * Store.zoomRatio;
-                borderDiv.css("border-radius", value * Store.zoomRatio);
+                imgItem.border.radius = value;
+                $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css("border-radius", value);
                 break;
             case "border-style":
                 imgItem.border.style = value;
-                borderDiv.css("border-style", value);
+                $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css("border-style", value);
                 break;
             case "border-color":
                 imgItem.border.color = value;
-                borderDiv.css("border-color", value);
+                $("#luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-border").css("border-color", value);
                 break;
         }
         

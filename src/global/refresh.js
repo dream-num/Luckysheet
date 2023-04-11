@@ -58,6 +58,7 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     let cdformat = allParam["cdformat"];  //条件格式
     let dataVerification = allParam["dataVerification"];  //数据验证
     let dynamicArray = allParam["dynamicArray"];  //动态数组
+    let hyperlink = allParam["hyperlink"];
 
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
 
@@ -110,6 +111,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
             "curDataVerification": curDataVerification,
             "dynamicArray": $.extend(true, [], file["dynamicArray"]),
             "curDynamicArray": curDynamicArray,
+            "hyperlink": hyperlink && $.extend(true, {}, file.hyperlink),
+            "curHyperlink": hyperlink,
             "range": range,
             "dataRange": [...file.luckysheet_select_save]// 保留操作时的选区
         });
@@ -151,6 +154,12 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
         file["dynamicArray"] = dynamicArray;
 
         server.saveParam("all", Store.currentSheetIndex, dynamicArray, { "k": "dynamicArray" });
+    }
+
+    if(hyperlink != null){
+        file["hyperlink"] = hyperlink;
+        hyperlinkCtrl.hyperlink = hyperlink;
+        server.saveParam("all", Store.currentSheetIndex, hyperlink, { "k": "hyperlink" });
     }
 
     //更新数据的范围

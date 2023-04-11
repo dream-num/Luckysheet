@@ -1321,7 +1321,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-singleRange-dialog",
             "addclass": "luckysheet-singleRange-dialog",
             "title": conditionformat_Text.selectCell,
@@ -1351,7 +1351,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-multiRange-dialog",
             "addclass": "luckysheet-multiRange-dialog",
             "title": conditionformat_Text.selectRange,
@@ -1462,7 +1462,7 @@ const conditionformat = {
 
         const conditionformat_Text = locale().conditionformat;
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-conditionformat-dialog",
             "addclass": "luckysheet-conditionformat-dialog",
             "title": title,
@@ -1553,7 +1553,7 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-CFicons-dialog",
             "addclass": "luckysheet-CFicons-dialog",
             "title": conditionformat_Text.icons,
@@ -1614,7 +1614,7 @@ const conditionformat = {
                             </div>
                         </div>`;
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-administerRule-dialog",
             "addclass": "luckysheet-administerRule-dialog",
             "title": conditionformat_Text.conditionformatManageRules,
@@ -1857,7 +1857,7 @@ const conditionformat = {
             '</div>' +
             '</div>';
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-newConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.newFormatRule,
@@ -1950,7 +1950,7 @@ const conditionformat = {
             '</div>' +
             '</div>';
 
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-editorConditionRule-dialog",
             "addclass": "luckysheet-newEditorRule-dialog",
             "title": conditionformat_Text.editFormatRule,
@@ -2104,7 +2104,7 @@ const conditionformat = {
     infoDialog: function (title, content) {
         $("#luckysheet-modal-dialog-mask").show();
         $("#luckysheet-conditionformat-info-dialog").remove();
-        $("body").first().append(replaceHtml(modelHTML, {
+        $("body").append(replaceHtml(modelHTML, {
             "id": "luckysheet-conditionformat-info-dialog",
             "addclass": "",
             "title": title,
