@@ -1122,7 +1122,7 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
 
     // 默认在行上方增加行，列左侧增加列
     let sheetIndex;
-    if(order){
+    if (!isNaN(order)){
         if(Store.luckysheetfile[order]){
             sheetIndex = Store.luckysheetfile[order].index;
         }

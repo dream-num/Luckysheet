@@ -21,7 +21,7 @@ import Store from '../store';
  * @returns 
  */
 function luckysheetextendtable(type, index, value, direction, sheetIndex) {
-    sheetIndex = sheetIndex || Store.currentSheetIndex;
+    sheetIndex = sheetIndex ?? Store.currentSheetIndex;
 
     if(type=='row' && !checkProtectionAuthorityNormal(sheetIndex, "insertRows")){
         return;
