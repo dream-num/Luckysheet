@@ -468,7 +468,7 @@ const selection = {
                         c_value = "";
                     }
                     
-                    c_value = formula.ltGtSignDeal(c_value)
+                    // c_value = formula.ltGtSignDeal(c_value)
 
                     column += c_value;
                 }
