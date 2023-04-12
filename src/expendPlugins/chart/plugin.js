@@ -162,6 +162,30 @@ function renderCharts(chartLists, isDemo) {
         $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
             showChartSettingComponent()
         })
+        
+        // 把图表坐标信息更新到sheetFile中
+        $(`#${chart_id}_c`).mouseup(function (e) {
+          const w = $(this).css('width')
+          const h = $(this).css('height')
+          const t = $(this).css('top')
+          const l = $(this).css('left')
+
+          // insert chartinfo
+          let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
+
+          if (!sheetFile.chart) {
+            sheetFile.chart = []
+          }
+
+          sheetFile.chart.forEach((item) => {
+            if (item.chart_id === chart_id) {
+              item.width = parseFloat(w)
+              item.height = parseFloat(h)
+              item.left = parseFloat(l)
+              item.top = parseFloat(t)
+            }
+          })
+        })
 
         $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
             if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
@@ -1339,6 +1363,30 @@ function createLuckyChart(width, height, left, top) {
 
             }
         })
+    
+      // 将图表的坐标信息更新到sheetFile中
+      $(`#${chart_id}_c`).mouseup(function (e) {
+        const w = $(this).css('width')
+        const h = $(this).css('height')
+        const t = $(this).css('top')
+        const l = $(this).css('left')
+
+        // insert chartinfo
+        let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
+
+        if (!sheetFile.chart) {
+          sheetFile.chart = []
+        }
+
+        sheetFile.chart.forEach((item) => {
+          if (item.chart_id === chart_id) {
+            item.width = parseFloat(w)
+            item.height = parseFloat(h)
+            item.left = parseFloat(l)
+            item.top = parseFloat(t)
+          }
+        })
+      })
 }
 
 /**
