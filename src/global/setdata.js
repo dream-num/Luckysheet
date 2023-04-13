@@ -48,7 +48,8 @@ function setcellvalue(r, c, d, v) {
         vupdate = v;
     }
 
-    if(isRealNull(vupdate)){
+    // fix #81， vupdate = ''
+    if(vupdate == null){
         if(getObjType(cell) == "object"){
             delete cell.m;
             delete cell.v;

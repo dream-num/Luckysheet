@@ -498,7 +498,7 @@ function luckysheetContainerFocus() {
     // fix jquery error: Uncaught TypeError: ((n.event.special[g.origType] || {}).handle || g.handler).apply is not a function
     // $("#" + Store.container).attr("tabindex", 0).focus();
 
-    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem fix #794 #152
     document.getElementById(Store.container).focus({preventScroll:true});
 }
 
