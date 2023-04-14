@@ -702,6 +702,11 @@ function parallelLoadScripts(scripts, options, callback) {
 */
 function loadLink(url) {
     var doc = document;
+    
+    const link_list = doc.getElementsByTagName('link')
+    const is_repeat = Array.from(link_list).some((item) => item.href === url)
+    if (is_repeat) return
+    
     var link = doc.createElement("link");
     link.setAttribute("rel", "stylesheet");
     link.setAttribute("type", "text/css");
