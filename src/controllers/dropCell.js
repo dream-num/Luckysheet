@@ -181,24 +181,25 @@ const luckysheetDropCell = {
 
         let isChnNumber = true;
 
-        if(txt.length == 1){
-            if(txt == "日" || (txt in _this.chnNumChar)){
-                isChnNumber = true;
+        if (txt) {//如果不判断，出现undefined的时候这里会报错
+            if(txt.length == 1){
+                if(txt == "日" || (txt in _this.chnNumChar)){
+                    isChnNumber = true;
+                }
+                else{
+                    isChnNumber = false;
+                }
             }
             else{
-                isChnNumber = false;
-            }
-        }
-        else{
-            let str = txt.split("");
-            for(let i = 0; i < str.length; i++){
-                if(!((str[i] in _this.chnNumChar) || (str[i] in _this.chnNameValue))){
-                    isChnNumber = false;
-                    break;
+                let str = txt.split("");
+                for(let i = 0; i < str.length; i++){
+                    if(!((str[i] in _this.chnNumChar) || (str[i] in _this.chnNameValue))){
+                        isChnNumber = false;
+                        break;
+                    }
                 }
             }
         }
-
         return isChnNumber;
     },
     isExtendNumber: function(txt){

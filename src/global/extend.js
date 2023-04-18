@@ -1585,13 +1585,13 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         d.splice(st, slen);
 
         //删除多少行，增加多少行空白行
-        for (let r = 0; r < slen; r++) {
-            let row = [];
-            for (let c = 0; c < d[0].length; c++) {
-                row.push(null);
-            }
-            d.push(row);
-        }
+        // for (let r = 0; r < slen; r++) {
+        //     let row = [];
+        //     for (let c = 0; c < d[0].length; c++) {
+        //         row.push(null);
+        //     }
+        //     d.push(row);
+        // }
     } else {
         type1 = "c";
 
@@ -1683,20 +1683,18 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             cfg["borderInfo"] = borderInfo;
         }
 
-        //空白列模板
-        let addcol = [];
-        for (let r = 0; r < slen; r++) {
-            addcol.push(null);
-        }
+        // //空白列模板
+        // let addcol = [];
+        // for (let r = 0; r < slen; r++) {
+        //     addcol.push(null);
+        // }
 
         for (let r = 0; r < d.length; r++) {
-            let row = [].concat(d[r]);
-
-            //删除选中列
-            row.splice(st, slen);
-
-            d[r] = row.concat(addcol);
-        }
+            let row = [].concat(JSON.parse((JSON.stringify(d[r]))));
+           //删除该行选中列
+           row.splice(st, slen);
+           d[r] = row;//将删除列的行数据        赋值给sheet的对应行
+       }
     }
 
     // 修改当前sheet页时刷新

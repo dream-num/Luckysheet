@@ -30,6 +30,7 @@ import { changeSheetContainerSize, menuToolBarWidth } from "./resize";
 import { zoomNumberDomBind } from "./zoom";
 import menuButton from "./menuButton";
 import method from "../global/method";
+import { initialEvent } from './protection';
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -198,6 +199,13 @@ const sheetmanage = {
 
         return Store.currentSheetIndex;
     },
+    getCustomSheet()//设置自定义luckysheet 配置项。
+    {
+        return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet));//每次都返回一个自定义sheet新对象
+    },
+    setCustomSheet(luckysheet_custom_sheet) {
+        this.Luckysheet_custom_sheet = luckysheet_custom_sheet;
+    },
     addNewSheet: function(e, isPivotTable) {
         if (isEditMode() || Store.allowEdit === false) {
             // alert("非编辑模式下不允许该操作！");
@@ -219,19 +227,30 @@ const sheetmanage = {
             replaceHtml(sheetHTML, { index: index, active: "", name: sheetname, style: "", colorset: "" }),
         );
 
-        let sheetconfig = {
-            name: sheetname,
-            color: "",
-            status: "0",
-            order: order,
-            index: index,
-            celldata: [],
-            row: Store.defaultrowNum,
-            column: Store.defaultcolumnNum,
-            config: {},
-            pivotTable: null,
-            isPivotTable: !!isPivotTable,
-        };
+        let sheetconfig = {};
+        let sheet_defaullt_config = this.getCustomSheet();
+        if (JSON.stringify(sheet_defaullt_config) != "{}" && sheet_defaullt_config != null && sheetconfig != undefined) {//判断设置的自定义sheet
+            sheetconfig = sheet_defaullt_config;
+            // sheet_defaullt_config.isPivotTable=false;
+            sheetconfig.index = index;
+            sheetconfig.order = order;
+            sheetconfig.name = sheetname;
+            // sheet_defaullt_config.config={};
+        } else {//自定义sheet为空的话
+            sheetconfig = {
+                "name": sheetname,
+                "color": "",
+                "status": "0",
+                "order": order,
+                "index": index,
+                "celldata": [],
+                "row": Store.defaultrowNum,
+                "column": Store.defaultcolumnNum,
+                "config": {},
+                "pivotTable": null,
+                "isPivotTable": !!isPivotTable
+            };
+        }
         Store.luckysheetfile.push(sheetconfig);
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
@@ -1395,6 +1414,8 @@ const sheetmanage = {
 
         luckysheetFreezen.initialFreezen(index);
         _this.restoreselect();
+        //工作表保护的事件 不初始化工作表保护打开以后引用单元格点不动
+        initialEvent(file);
     },
     checkLoadSheetIndexToDataIndex: {},
     checkLoadSheetIndex: function(file) {
