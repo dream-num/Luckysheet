@@ -1356,10 +1356,12 @@ export function rowColumnOperationInitial() {
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0];
-        if (!method.createHookFunction("rowInsertBefore", st_index, value, "lefttop")) {
-            return;
-        }
-        luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
+
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "lefttop", Store.luckysheetRightHeadClickIs)){ 
+			return; 
+		}
+		luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "lefttop");
+
     });
 
     // When you right-click a cell, a row is inserted before the row by default
@@ -1372,12 +1374,16 @@ export function rowColumnOperationInitial() {
         }
 
         let st_index = Store.luckysheet_select_save[0].row[0];
-        if (!method.createHookFunction("rowInsertBefore", st_index, 1, "lefttop")) {
-            return;
-        }
-        luckysheetextendtable("row", st_index, 1, "lefttop");
-    });
-    $("#luckysheetColsRowsHandleAdd_column").click(function(event) {
+
+		if(!method.createHookFunction("rowInsertBefore",  st_index, 1, "lefttop", Store.luckysheetRightHeadClickIs)){ 
+			return; 
+		}
+        luckysheetextendtable('row', st_index, 1, "lefttop");
+
+
+    })
+    $("#luckysheetColsRowsHandleAdd_column").click(function (event) {
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
@@ -1576,9 +1582,11 @@ export function rowColumnOperationInitial() {
         }
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
-        if (!method.createHookFunction("rowInsertBefore", st_index, value, "rightbottom")) {
-            return;
-        }
+
+		if(!method.createHookFunction("rowInsertBefore",  st_index, value, "rightbottom", Store.luckysheetRightHeadClickIs)){
+			return; 
+		}
+
         luckysheetextendtable(Store.luckysheetRightHeadClickIs, st_index, value, "rightbottom");
     });
 
@@ -1722,8 +1730,10 @@ export function rowColumnOperationInitial() {
 
         let st_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][0],
             ed_index = Store.luckysheet_select_save[0][Store.luckysheetRightHeadClickIs][1];
-        if (!method.createHookFunction("rowDeleteBefore", st_index, ed_index)) {
-            return;
+
+        if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index, Store.luckysheetRightHeadClickIs)){
+        	return; 
+
         }
         luckysheetdeletetable(Store.luckysheetRightHeadClickIs, st_index, ed_index);
     });
@@ -1752,12 +1762,14 @@ export function rowColumnOperationInitial() {
 
         let st_index = Store.luckysheet_select_save[0].row[0],
             ed_index = Store.luckysheet_select_save[0].row[1];
-        if (!method.createHookFunction("rowDeleteBefore", st_index, ed_index)) {
-            return;
-        }
-        luckysheetdeletetable("row", st_index, ed_index);
-    });
-    $("#luckysheet-delCols").click(function(event) {
+
+		if(!method.createHookFunction("rowDeleteBefore", st_index, ed_index, 'row')){
+			return; 
+		}
+        luckysheetdeletetable('row', st_index, ed_index);
+    })
+    $("#luckysheet-delCols").click(function (event) {
+
         $("#luckysheet-rightclick-menu").hide();
         luckysheetContainerFocus();
 
