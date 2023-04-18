@@ -50,7 +50,7 @@ function common_extend(jsonbject1, jsonbject2) {
 // 替换temp中的${xxx}为指定内容 ,temp:字符串，这里指html代码，dataarry：一个对象{"xxx":"替换的内容"}
 // 例：luckysheet.replaceHtml("${image}",{"image":"abc","jskdjslf":"abc"})   ==>  abc
 function replaceHtml(temp, dataarry) {
-    return temp.replace(/\$\{([\w]+)\}/g, function (s1, s2) {
+    return temp.replace(/\$\{([\w]+)\}/g, function(s1, s2) {
         let s = dataarry[s2];
         if (typeof s != "undefined") {
             return s;
@@ -146,9 +146,15 @@ function rgbTohex(color) {
     let rgb;
 
     if (color.indexOf("rgba") > -1) {
-        rgb = color.replace("rgba(", "").replace(")", "").split(",");
+        rgb = color
+            .replace("rgba(", "")
+            .replace(")", "")
+            .split(",");
     } else {
-        rgb = color.replace("rgb(", "").replace(")", "").split(",");
+        rgb = color
+            .replace("rgb(", "")
+            .replace(")", "")
+            .split(",");
     }
 
     let r = parseInt(rgb[0]);
@@ -189,7 +195,7 @@ function ABCatNum(a) {
     var str = a.toLowerCase().split("");
     var num = 0;
     var al = str.length;
-    var getCharNumber = function (charx) {
+    var getCharNumber = function(charx) {
         return charx.charCodeAt() - 96;
     };
     var numout = 0;
@@ -478,7 +484,7 @@ function showrightclickmenu($menu, x, y) {
 //单元格编辑聚焦
 function luckysheetactiveCell() {
     if (!!Store.fullscreenmode) {
-        setTimeout(function () {
+        setTimeout(function() {
             // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
             const input = document.getElementById("luckysheet-rich-text-editor");
             input.focus({ preventScroll: true });
@@ -497,7 +503,7 @@ function luckysheetContainerFocus() {
     // fix jquery error: Uncaught TypeError: ((n.event.special[g.origType] || {}).handle || g.handler).apply is not a function
     // $("#" + Store.container).attr("tabindex", 0).focus();
 
-    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem
+    // need preventScroll:true,fix Luckysheet has been set top, and clicking the cell will trigger the scrolling problem fix #794 #152
     document.getElementById(Store.container).focus({ preventScroll: true });
 }
 
@@ -613,12 +619,12 @@ function seriesLoadScripts(scripts, options, callback) {
     var s = [];
     var last = scripts.length - 1;
     //递归
-    var recursiveLoad = function (i) {
+    var recursiveLoad = function(i) {
         s[i] = document.createElement("script");
         s[i].setAttribute("type", "text/javascript");
         // Attach handlers for all browsers
         // 异步
-        s[i].onload = s[i].onreadystatechange = function () {
+        s[i].onload = s[i].onreadystatechange = function() {
             if (!(/*@cc_on!@*/ 0) || this.readyState === "loaded" || this.readyState === "complete") {
                 this.onload = this.onreadystatechange = null;
                 this.parentNode.removeChild(this);
@@ -666,7 +672,7 @@ function parallelLoadScripts(scripts, options, callback) {
         s[i].setAttribute("type", "text/javascript");
         // Attach handlers for all browsers
         // 异步
-        s[i].onload = s[i].onreadystatechange = function () {
+        s[i].onload = s[i].onreadystatechange = function() {
             if (!(/*@cc_on!@*/ 0) || this.readyState === "loaded" || this.readyState === "complete") {
                 loaded++;
                 this.onload = this.onreadystatechange = null;
@@ -876,7 +882,7 @@ function arrayRemoveItem(array, item) {
  * @returns
  */
 function camel2split(camel) {
-    return camel.replace(/([A-Z])/g, function (all, group) {
+    return camel.replace(/([A-Z])/g, function(all, group) {
         return "-" + group.toLowerCase();
     });
 }

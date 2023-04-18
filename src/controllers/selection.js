@@ -18,7 +18,7 @@ import locale from "../locale/locale";
 import imageCtrl from "./imageCtrl";
 
 const selection = {
-    clearcopy: function (e) {
+    clearcopy: function(e) {
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) {
             // for chrome
@@ -38,7 +38,7 @@ const selection = {
             textarea.focus();
             textarea.select();
             // 等50毫秒，keyPress事件发生了再去处理数据
-            setTimeout(function () {
+            setTimeout(function() {
                 textarea.blur().css("visibility", "visible");
             }, 10);
         } else {
@@ -46,7 +46,7 @@ const selection = {
             return false; //否则设不生效
         }
     },
-    getHtmlBorderStyle: function (type, color) {
+    getHtmlBorderStyle: function(type, color) {
         let style = "";
         let borderType = {
             0: "none",
@@ -90,7 +90,7 @@ const selection = {
 
         return style + color + ";";
     },
-    copy: function (e) {
+    copy: function(e) {
         //copy事件
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) {
@@ -487,7 +487,7 @@ const selection = {
                         c_value = "";
                     }
 
-                    c_value = formula.ltGtSignDeal(c_value);
+                    // c_value = formula.ltGtSignDeal(c_value)
 
                     column += c_value;
                 } else {
@@ -553,7 +553,7 @@ const selection = {
             document.execCommand("Copy");
 
             // 等50毫秒，keyPress事件发生了再去处理数据
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#luckysheet-copy-content").blur();
             }, 10);
 
@@ -570,7 +570,7 @@ const selection = {
             return false; //否则设不生效
         }
     },
-    copybyformat: function (e, txt) {
+    copybyformat: function(e, txt) {
         //copy事件
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) {
@@ -594,7 +594,7 @@ const selection = {
             document.execCommand("selectAll");
             document.execCommand("Copy");
             // 等50毫秒，keyPress事件发生了再去处理数据
-            setTimeout(function () {
+            setTimeout(function() {
                 textarea.blur();
             }, 10);
         } else {
@@ -603,7 +603,7 @@ const selection = {
         }
     },
     isPasteAction: false,
-    paste: function (e, triggerType) {
+    paste: function(e, triggerType) {
         //paste事件
         let _this = this;
 
@@ -619,7 +619,7 @@ const selection = {
         textarea.select();
 
         // 等50毫秒，keyPress事件发生了再去处理数据
-        setTimeout(function () {
+        setTimeout(function() {
             let data = textarea.html();
 
             if (
@@ -647,7 +647,7 @@ const selection = {
             }
         }, 10);
     },
-    pasteHandler: function (data, borderInfo) {
+    pasteHandler: function(data, borderInfo) {
         if (!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)) {
             return;
         }
@@ -914,7 +914,7 @@ const selection = {
             }
         }
     },
-    pasteHandlerOfCutPaste: function (copyRange) {
+    pasteHandlerOfCutPaste: function(copyRange) {
         if (!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)) {
             return;
         }
@@ -1395,7 +1395,7 @@ const selection = {
             jfrefreshgrid_pastcut(source, target, copyRowlChange);
         }
     },
-    pasteHandlerOfCopyPaste: function (copyRange) {
+    pasteHandlerOfCopyPaste: function(copyRange) {
         if (!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)) {
             return;
         }
@@ -1427,8 +1427,8 @@ const selection = {
             );
             if (copyRange["copyRange"].length > 1) {
                 if (c_r1 == copyRange["copyRange"][1].row[0] && c_r2 == copyRange["copyRange"][1].row[1]) {
-                    arrData = arrData[0].map(function (col, a) {
-                        return arrData.map(function (row) {
+                    arrData = arrData[0].map(function(col, a) {
+                        return arrData.map(function(row) {
                             return row[a];
                         });
                     });
@@ -1445,8 +1445,8 @@ const selection = {
         }
 
         if (isSameRow) {
-            arr = arr[0].map(function (col, b) {
-                return arr.map(function (row) {
+            arr = arr[0].map(function(col, b) {
+                return arr.map(function(row) {
                     return row[b];
                 });
             });
@@ -1739,7 +1739,7 @@ const selection = {
             selectHightlightShow();
         }
     },
-    pasteHandlerOfPaintModel: function (copyRange) {
+    pasteHandlerOfPaintModel: function(copyRange) {
         if (!checkProtectionLockedRangeList(Store.luckysheet_select_save, Store.currentSheetIndex)) {
             return;
         }
@@ -2052,7 +2052,7 @@ const selection = {
             selectHightlightShow();
         }
     },
-    matchcopy: function (data1, data2) {
+    matchcopy: function(data1, data2) {
         let data1cache = [],
             data2cache = [],
             data1len,
