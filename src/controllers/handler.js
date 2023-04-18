@@ -663,8 +663,10 @@ export default function luckysheetHandler() {
                         }
 
                         let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
-
-                        formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                        if($span && $span!=undefined && $span !=null && $span && $span.html().length)
+                        {
+                            formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                        }
                     }, 1);
                     return;
                 } else {
@@ -940,7 +942,7 @@ export default function luckysheetHandler() {
                 selectionCopyShow(dataVerificationCtrl.selectRange);
 
                 let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
-                if (formula.rangetosheet != Store.currentSheetIndex) {
+                if (formula.rangetosheet && formula.rangetosheet!= Store.currentSheetIndex) {
                     range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + "!" + range;
                 }
                 $("#luckysheet-dataVerificationRange-dialog input").val(range);
@@ -2481,7 +2483,7 @@ export default function luckysheetHandler() {
                     selectionCopyShow(dataVerificationCtrl.selectRange);
 
                     let range = dataVerificationCtrl.getTxtByRange(dataVerificationCtrl.selectRange);
-                    if (formula.rangetosheet != Store.currentSheetIndex) {
+                    if (formula.rangetosheet && formula.rangetosheet != Store.currentSheetIndex) {
                         range = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].name + "!" + range;
                     }
                     $("#luckysheet-dataVerificationRange-dialog input").val(range);
@@ -5887,7 +5889,7 @@ export default function luckysheetHandler() {
         formula.functionResizeData.y = y;
         formula.functionResizeStatus = true;
         formula.functionResizeData.calculatebarHeight = Store.calculatebarHeight;
-        if (formula.rangetosheet != null) {
+        if (formula.rangetosheet  && formula.rangetosheet!= null) {
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
         }
     });
