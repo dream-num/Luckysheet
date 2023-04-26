@@ -550,7 +550,13 @@ function initialFilterHandler(){
                 }
                 else{
                     let v, m;
-                    if(cell == null || isRealNull(cell.v)){
+                    if((cell == null || isRealNull(cell.v)) && cell?.mc){
+                        const { r, c } = cell.mc;
+                        const mainCell = Store.flowdata[r][c];
+                        v = mainCell.v;
+                        m = mainCell.m;
+                    }
+                    else if(cell == null || isRealNull(cell.v)){
                         v = null;
                         m = null;
                     }
@@ -1735,7 +1741,12 @@ function initialFilterHandler(){
                 let cell = Store.flowdata[r][cindex];
 
                 let value;
-                if(cell == null || isRealNull(cell.v)){
+                if((cell == null || isRealNull(cell.v)) && cell?.mc){
+                    const { r, c } = cell.mc
+                    const mainCell = Store.flowdata[r][c]
+                    value = mainCell.v + "#$$$#" + mainCell.m;
+                }
+                else if(cell == null || isRealNull(cell.v)){
                     value = "null#$$$#null";
                 }
                 else if(cell.ct != null && cell.ct.t == "d"){
