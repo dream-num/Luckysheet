@@ -211,8 +211,11 @@ export function datagridgrowth(data, addr, addc, iscallback) {
         rowadd.push(null);
     }
 
-    for (let r = 0; r < data.length; r++) {
-        data[r] = [].concat(data[r].concat(coladd));
+    // 下面循环非常耗时, 在coladd为空时是无用循环
+    if (coladd && coladd.length) {
+        for (let r = 0; r < data.length; r++) {
+            data[r] = [].concat(data[r].concat(coladd));
+        }
     }
 
     for (let r = 0; r < addr; r++) {
