@@ -201,6 +201,7 @@ const sheetmanage = {
         return Store.currentSheetIndex;
     },
     getCustomSheet() { //设置自定义luckysheet 配置项。
+        if(!this.Luckysheet_custom_sheet) return {}
         return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet)); //每次都返回一个自定义sheet新对象
     },
     setCustomSheet(luckysheet_custom_sheet) {
