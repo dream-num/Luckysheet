@@ -30,7 +30,8 @@ import { changeSheetContainerSize, menuToolBarWidth } from "./resize";
 import { zoomNumberDomBind } from "./zoom";
 import menuButton from "./menuButton";
 import method from "../global/method";
-import { initialEvent } from './protection';
+import { initialEvent } from "./protection";
+import luckysheetformula from "../global/formula";
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -199,9 +200,8 @@ const sheetmanage = {
 
         return Store.currentSheetIndex;
     },
-    getCustomSheet()//设置自定义luckysheet 配置项。
-    {
-        return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet));//每次都返回一个自定义sheet新对象
+    getCustomSheet() { //设置自定义luckysheet 配置项。
+        return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet)); //每次都返回一个自定义sheet新对象
     },
     setCustomSheet(luckysheet_custom_sheet) {
         this.Luckysheet_custom_sheet = luckysheet_custom_sheet;
@@ -229,26 +229,32 @@ const sheetmanage = {
 
         let sheetconfig = {};
         let sheet_defaullt_config = this.getCustomSheet();
-        if (JSON.stringify(sheet_defaullt_config) != "{}" && sheet_defaullt_config != null && sheetconfig != undefined) {//判断设置的自定义sheet
+        if (
+            JSON.stringify(sheet_defaullt_config) != "{}" &&
+            sheet_defaullt_config != null &&
+            sheetconfig != undefined
+        ) {
+            //判断设置的自定义sheet
             sheetconfig = sheet_defaullt_config;
             // sheet_defaullt_config.isPivotTable=false;
             sheetconfig.index = index;
             sheetconfig.order = order;
             sheetconfig.name = sheetname;
             // sheet_defaullt_config.config={};
-        } else {//自定义sheet为空的话
+        } else {
+            //自定义sheet为空的话
             sheetconfig = {
-                "name": sheetname,
-                "color": "",
-                "status": "0",
-                "order": order,
-                "index": index,
-                "celldata": [],
-                "row": Store.defaultrowNum,
-                "column": Store.defaultcolumnNum,
-                "config": {},
-                "pivotTable": null,
-                "isPivotTable": !!isPivotTable
+                name: sheetname,
+                color: "",
+                status: "0",
+                order: order,
+                index: index,
+                celldata: [],
+                row: Store.defaultrowNum,
+                column: Store.defaultcolumnNum,
+                config: {},
+                pivotTable: null,
+                isPivotTable: !!isPivotTable,
             };
         }
         Store.luckysheetfile.push(sheetconfig);
@@ -1291,6 +1297,17 @@ const sheetmanage = {
             Store.luckysheetcurrentisPivotTable = true;
             if (!isPivotInitial) {
                 pivotTable.changePivotTable(index);
+
+                const data = Store.luckysheetfile[_this.getSheetIndex(index)].data;
+                if (!!data && data instanceof Array) {
+                    for (let i = 0; i < data.length; i++) {
+                        if (!data[i]) continue;
+                        for (let j = 0; j < data[i].length; j++) {
+                            if (!data[i][j]) continue;
+                            luckysheetformula.execFunctionGroup(i, j, data[i][j]);
+                        }
+                    }
+                }
             }
         } else {
             Store.luckysheetcurrentisPivotTable = false;
