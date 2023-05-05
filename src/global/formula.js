@@ -1753,10 +1753,8 @@ const luckysheetformula = {
             rangetxt;
 
         if (val.length > 1) {
-            //r如果有sheet名字+ !+范围这种范围是不对的，设置以后不能生效，因此要禁用掉。
-            //如果大于1说明是这种形式的，就不应该通过验证
+            // Supports cross-table references
             rangetxt = val[1];
-            return false;
         } else {
             rangetxt = val[0];
         }
