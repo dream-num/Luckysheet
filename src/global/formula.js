@@ -1757,7 +1757,6 @@ const luckysheetformula = {
             //如果大于1说明是这种形式的，就不应该通过验证
             rangetxt = val[1];
             return false;
-            
         } else {
             rangetxt = val[0];
         }
