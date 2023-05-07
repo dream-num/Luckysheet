@@ -31,6 +31,7 @@ import { zoomNumberDomBind } from "./zoom";
 import menuButton from "./menuButton";
 import method from "../global/method";
 import { initialEvent } from "./protection";
+import luckysheetformula from "../global/formula";
 
 const sheetmanage = {
     generateRandomSheetIndex: function(prefix) {
@@ -1298,6 +1299,17 @@ const sheetmanage = {
             Store.luckysheetcurrentisPivotTable = true;
             if (!isPivotInitial) {
                 pivotTable.changePivotTable(index);
+
+                const data = Store.luckysheetfile[_this.getSheetIndex(index)].data;
+                if (!!data && data instanceof Array) {
+                    for (let i = 0; i < data.length; i++) {
+                        if (!data[i]) continue;
+                        for (let j = 0; j < data[i].length; j++) {
+                            if (!data[i][j]) continue;
+                            luckysheetformula.execFunctionGroup(i, j, data[i][j]);
+                        }
+                    }
+                }
             }
         } else {
             Store.luckysheetcurrentisPivotTable = false;
