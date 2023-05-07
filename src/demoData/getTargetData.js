@@ -5079,7 +5079,7 @@ export function pivotTable(data, config) {
     function getCellValue(type, values) {
         switch (type) {
             case "sum":
-                return values.reduce((sum, curr) => sum + parseFloat(curr), 0);
+                return values.reduce((sum, curr) => sum + (parseFloat(curr) || 0), 0);
             case "count":
                 return values.length;
             default:
@@ -5089,7 +5089,7 @@ export function pivotTable(data, config) {
 
     // Filter and sort data based on row columns
     const sortedData = data
-        .filter((row) => row[rows[0]] !== undefined)
+        .filter((row) => row[rows[0]] != undefined)
         .sort((a, b) => {
             if (a[rows[0]] < b[rows[0]]) return -1;
             if (a[rows[0]] > b[rows[0]]) return 1;
@@ -5127,7 +5127,7 @@ export function pivotTable(data, config) {
     // Add header row
     result.unshift(
         [{ v: headers[rows[0]] }].concat(
-            values.map((value) => ({ v: `${value.type} of ${headers[value.column]}` }))
+            values.map((value) => ({ v: `${headers[value.column]}` }))
         )
     );
 
@@ -5140,10 +5140,8 @@ export function sortTable(data) {
     // 按照销售额从高到底排序
     data.sort(function (a, b) {
         // 四舍五入
-        // b[1].v = parseFloat(b[1].v) ?  parseFloat(parseFloat(b[1].v).toFixed(2)) : b[1].v
-        // a[1].v = parseFloat(a[1].v) ?  parseFloat(parseFloat(a[1].v).toFixed(2)) : a[1].v
-        b[1].v = Math.round(b[1].v) || b[1].v
-        a[1].v = Math.round(a[1].v) || a[1].v
+        b[1].v = Math.round(b[1].v) || b[1].v || 0
+        a[1].v = Math.round(a[1].v) || a[1].v || 0
         return b[1].v - a[1].v;
     });
 
@@ -5174,7 +5172,7 @@ export function addSalesTargetToTable(table, salesTargetData) {
     for (let i = 1; i < table.length; i++) {
         const companyName = table[i][1].v;
         const area = salesTargetObj[companyName].area || "";
-        const salesTarget = parseFloat(salesTargetObj[companyName].salesTarget) || "";
+        const salesTarget = parseFloat(salesTargetObj[companyName].salesTarget) || 0;
         table[i].splice(1, 0, { v: area });
         table[i].push({ v: salesTarget });
     }
@@ -5194,7 +5192,7 @@ export function summary(data) {
         for (let j = 1; j < data.length; j++) {
             sum += parseInt(data[j][i]['v']) || 0;
         }
-        summaryRow.push({ "v": parseInt(sum) });
+        summaryRow.push({ "v": parseInt(sum) || 0 });
     }
 
     // 插入汇总数据到第二行
@@ -5228,7 +5226,7 @@ export function summaryArea(data) {
                 sumTargets += parseInt(data[j][6]['v']) || 0;
             }
         }
-        const summary = [{ "v": "" }, { "v": region }, { v: "" }, { "v": parseInt(sumSales) }, { "v": sumCustomers }, { "v": countSalesmen }, { "v": sumTargets }];
+        const summary = [{ "v": "" }, { "v": region }, { v: "" }, { "v": parseInt(sumSales) || 0 }, { "v": sumCustomers }, { "v": countSalesmen }, { "v": sumTargets }];
         data.splice(2, 0, summary);
     }
 
@@ -5279,22 +5277,55 @@ export function askAIData(data, salesTargetData) {
     return resultTable
 }
 
-export function getAirTable(cb, tableName = 'luckysheet demo', orders = ['Name', 'Notes', 'Assignee', 'Status']) {
-    const baseId = 'apppmwxXOSVmq07a9'
+function getAjax(url, data = {}, success, error) {
     $.ajax({
-        url: `https://api.airtable.com/v0/${baseId}/${tableName}`,
+        url,
+        data,
         beforeSend: function (request) {
-            // Token used for testing DEMO, please do not abuse it
             request.setRequestHeader("Authorization", `Bearer ${remoteT1}.${remoteT2}`)
         },
         success(res) {
-            const records = res.records.sort((a, b) => a.fields.Number - b.fields.Number)
+            success?.(res)
+        },
+        error(err) {
+            error?.(err)
+        }
+    })
+}
+
+
+export function getAirTable(url, columnId = 0, sort = 1, cb) {
+    const host = 'https://api.airtable.com'
+    const urls = url.replace('https://airtable.com/', '').split('/')
+    const baseId = urls[0]
+    const tableId = urls[1]
+    const viewId = urls[2].split('?')[0]
+    let direction = 'asc'
+    if (!sort) {
+        direction = 'desc'
+    }
+
+    const tablesUrl = `${host}/v0/meta/bases/${baseId}/tables`
+    getAjax(tablesUrl, {}, (res) => {
+        const table = res.tables.find(item => item.id === tableId)
+        const fields = table.fields
+
+        const tableUrl = `${host}/v0/${baseId}/${tableId}`
+        const query = {
+            view: viewId,
+            sort: [{
+                field: fields[columnId].name,
+                direction
+            }]
+        }
+        getAjax(tableUrl, query, (result) => {
+            const records = result.records
             const data = new Array()
             data.length = records.length
             for (let i = 0; i < records.length; i++) {
                 data[i] = []
-                for (let j = 0; j < orders.length; j++) {
-                    const record = records[i].fields[orders[j]]
+                for (let j = 0; j < fields.length; j++) {
+                    const record = records[i].fields[fields[j].name]
                     if (record) {
                         data[i].push(record)
                     } else {
@@ -5303,9 +5334,11 @@ export function getAirTable(cb, tableName = 'luckysheet demo', orders = ['Name',
                 }
             }
             cb(data)
-        },
-        error(err) {
+        }, (err) => {
             console.dir(err)
-        }
+        })
+    }, (err) => {
+        console.dir(err)
     })
+
 }

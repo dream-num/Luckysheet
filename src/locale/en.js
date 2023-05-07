@@ -704,6 +704,18 @@ export default {
             "d": "Query AirTable data.",
             "a": "Query AirTable data.",
             "p": [
+                {
+                    "name": "AirTable url",
+                    "detail": "AirTable url address."
+                },
+                {
+                    "name": "sort_column",
+                    "detail": "The index of the column in current AirTable view containing the values by which to sort."
+                },
+                {
+                    "name": "is_ascending",
+                    "detail": "[Optional] - 1 or 0 indicating whether to sort `sort_column` in ascending order. 0 sorts in descending order.1 sorts in ascending order."
+                },
             ]
         },
         "ASK_AI": {

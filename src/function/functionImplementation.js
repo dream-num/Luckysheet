@@ -4667,9 +4667,31 @@ const functionImplementation = {
         }
     },
     "GET_AIRTABLE_DATA": function() {
+
+        //必要参数个数错误检测
+        if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
+            return formula.error.na;
+        }
+
+        //参数类型错误检测
+        for (var i = 0; i < arguments.length; i++) {
+            var p = formula.errorParamCheck(this.p, arguments[i], i);
+
+            if (!p[0]) {
+                return formula.error.v;
+            }
+        }
+
         try {
             var startRow = window.luckysheetCurrentRow;
             var startColumn = window.luckysheetCurrentColumn;
+
+            // airtable url
+            const url = func_methods.getFirstValue(arguments[0]);
+            // 表示要排序的列的数字
+            const sort_index = func_methods.getFirstValue(arguments[1]);
+            // 表示所需排序顺序的数字；1表示升序（默认），0表示降序
+            const sort_order = func_methods.getFirstValue(arguments[2]);
             // const {row, column} = Store.luckysheet_select_save[0];
             // const startRow = row[0]
             // const endRow = row[1]
@@ -4684,7 +4706,8 @@ const functionImplementation = {
                 v:"AirTable数据",
                 "f": cell_fp
             }
-            getAirTable((data)=>{
+
+            getAirTable(url,sort_index,sort_order,(data)=>{
                 data.forEach((row,r)=>{
                     row.forEach((cell,c)=>{
                         d[startRow+r+1][startColumn+c] = {v:cell} 

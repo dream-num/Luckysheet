@@ -1113,10 +1113,28 @@ export default [
         "n": "GET_AIRTABLE_DATA",
         "t": 0,
         "m": [
-            0,
-            0
+            1,
+            3
         ],
         "p": [
+            {
+                "example": "https://airtable.com/apppqwer/tblpoi/viwmnb",
+                "require": "m",
+                "repeat": "n",
+                "type": "rangeall"
+            },
+            {
+                "example": "0",
+                "require": "m",
+                "repeat": "n",
+                "type": "rangenumber"
+            },
+            {
+                "example": "1",
+                "require": "m",
+                "repeat": "n",
+                "type": "rangenumber"
+            },
         ]
     },
     {
