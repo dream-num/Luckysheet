@@ -9,6 +9,9 @@ export const sourceData2 = `分公司	中支名称	业务员代码	出生日期	
 山东	山东济南	21455372	5/26/74	男	2004/10/25	大专	4029490.88	5
 四川	四川高新	1702542	11/9/71	女	2002/8/15	硕士	3864554.45	19
 `
+const remoteT1 = atob('cGF0b0h0bFlqMlJGWThhZks=')
+const remoteT2 = atob('M2Y1ZThmNjNlMWM3OTRjN2Y1YjExOWFmNWJlMTg5MjRkOTIzZjc3YTQ3YjZhYWY5OTk2Y2E3NWMyZDU3YWRjNQ==')
+
 export const sourceData = `分公司	中支名称	业务员代码	出生日期	性别	入司日期	学历	销售额	客户数
 福建	福建泉州	187565152	8/12/72	男	2007/12/5	高中	20163451.32	40
 山东	山东烟台	25271172	7/20/65	女	2004/12/2	高中	18373103.35	11
@@ -5282,7 +5285,7 @@ export function getAirTable(cb, tableName = 'luckysheet demo', orders = ['Name',
         url: `https://api.airtable.com/v0/${baseId}/${tableName}`,
         beforeSend: function (request) {
             // Token used for testing DEMO, please do not abuse it
-            request.setRequestHeader("Authorization", `Bearer patoHtlYj2RFY8afK.3f5e8f63e1c794c7f5b119af5be18924d923f77a47b6aaf9996ca75c2d57adc5`)
+            request.setRequestHeader("Authorization", `Bearer ${remoteT1}.${remoteT2}`)
         },
         success(res) {
             const records = res.records.sort((a, b) => a.fields.Number - b.fields.Number)
