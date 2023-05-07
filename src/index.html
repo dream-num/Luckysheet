@@ -41,7 +41,6 @@
 	<script src="./demoData/sheetChart.js"></script>
 	<script src="./demoData/sheetPicture.js"></script>
 	<script src="./demoData/sheetDataVerification.js"></script>
-	<script src="./demoData/sheetDataAnalysis.js"></script>
 
 	<script>
 		// import sheetFormula from './demoData/sheetFormula.js'
@@ -1911,11 +1910,7 @@
            //      "isPivotTable": false
            //  };
            //  luckysheet.sheetmanage.setCustomSheet(customSheetconfig);
-		   const option = {
-					container: 'luckysheet',
-					data: [window.sheetDataAnalysis],
-				}
-			luckysheet.create(option);
+			luckysheet.create(options);
 		})
 	</script>
 	<style>
