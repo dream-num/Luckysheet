@@ -17,6 +17,7 @@ import { getObjType, ABCatNum, chatatABC, numFormat } from '../utils/util';
 import Store from '../store';
 import dayjs from 'dayjs';
 import numeral from 'numeral';
+import {getAirTable,companyTargetData,excelToLuckyArray,excelToArray,askAIData} from '../demoData/getTargetData'
 
 //公式函数计算
 const functionImplementation = {
@@ -4622,6 +4623,135 @@ const functionImplementation = {
             }
 
             return sum;
+        }
+        catch (e) {
+            var err = e;
+            err = formula.errorInfo(err);
+            return [formula.error.v, err];
+        }
+    },
+    "GET_TARGET": function() {
+        try {
+                var startRow = window.luckysheetCurrentRow;
+                var startColumn = window.luckysheetCurrentColumn;
+                // const {row, column} = Store.luckysheet_select_save[0];
+                // const startRow = row[0]
+                // const endRow = row[1]
+                // const startColumn = column[0]
+                // const endColumn = column[1]
+                var cell_fp = window.luckysheetCurrentFunction;
+
+                setTimeout(() => {
+                var d = editor.deepCopyFlowData(Store.flowdata);
+
+                d[startRow][startColumn] = {
+                    v:"查询结果",
+                    "f": cell_fp
+                }
+                const target = excelToLuckyArray(companyTargetData);
+                target.forEach((row,r)=>{
+                    row.forEach((cell,c)=>{
+                        d[startRow+r+1][startColumn+c] = cell 
+                    })
+                })
+                
+                jfrefreshgrid(d, [{"row": [startRow+1, startRow+target.length+1], "column": [startColumn, startColumn + target[0].length]}]);
+            }, 300);
+
+            return "loading...";
+        }
+        catch (e) {
+            var err = e;
+            err = formula.errorInfo(err);
+            return [formula.error.v, err];
+        }
+    },
+    "GET_AIRTABLE_DATA": function() {
+        try {
+            var startRow = window.luckysheetCurrentRow;
+            var startColumn = window.luckysheetCurrentColumn;
+            // const {row, column} = Store.luckysheet_select_save[0];
+            // const startRow = row[0]
+            // const endRow = row[1]
+            // const startColumn = column[0]
+            // const endColumn = column[1]
+            var cell_fp = window.luckysheetCurrentFunction;
+
+            setTimeout(() => {
+            var d = editor.deepCopyFlowData(Store.flowdata);
+
+            d[startRow][startColumn] = {
+                v:"AirTable数据",
+                "f": cell_fp
+            }
+            getAirTable((data)=>{
+                data.forEach((row,r)=>{
+                    row.forEach((cell,c)=>{
+                        d[startRow+r+1][startColumn+c] = {v:cell} 
+                    })
+                })
+                
+                jfrefreshgrid(d, [{"row": [startRow+1, startRow+data.length+1], "column": [startColumn, startColumn + data[0].length]}]);
+            });
+            
+        }, 300);
+
+        return "loading...";
+    }
+    catch (e) {
+        var err = e;
+        err = formula.errorInfo(err);
+        return [formula.error.v, err];
+    }
+    },
+    "ASK_AI": function() {
+         //必要参数个数错误检测
+         if (arguments.length < this.m[0] || arguments.length > this.m[1]) {
+            return formula.error.na;
+        }
+
+        //参数类型错误检测
+        for (var i = 0; i < arguments.length; i++) {
+            var p = formula.errorParamCheck(this.p, arguments[i], i);
+
+            if (!p[0]) {
+                return formula.error.v;
+            }
+        }
+        try {
+                var startRow = window.luckysheetCurrentRow;
+                var startColumn = window.luckysheetCurrentColumn;
+                // const {row, column} = Store.luckysheet_select_save[0];
+                // const startRow = row[0]
+                // const endRow = row[1]
+                // const startColumn = column[0]
+                // const endColumn = column[1]
+                var cell_fp = window.luckysheetCurrentFunction;
+
+                var args = arguments;
+                var rangeData = formula.getRangeArrayTwo(args[1].data);
+                const companyTarget  = excelToArray(companyTargetData)
+                
+
+                const resultTable = askAIData(rangeData,companyTarget)
+
+                setTimeout(() => {
+                var d = editor.deepCopyFlowData(Store.flowdata);
+
+                d[startRow][startColumn] = {
+                    v:"AI回答",
+                    "f": cell_fp
+                }
+                resultTable.forEach((row,r)=>{
+                    row.forEach((cell,c)=>{
+                        d[startRow+r+1][startColumn+c] = cell 
+                    })
+                })
+                
+                jfrefreshgrid(d, [{"row": [startRow+1, startRow+resultTable.length+1], "column": [startColumn, startColumn + resultTable[0].length]}]);
+            }, 300);
+
+            return "loading...";
         }
         catch (e) {
             var err = e;

@@ -116,6 +116,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
                 calc_i = calc.index,
                 calc_funcStr = getcellFormula(calc_r, calc_c, calc_i);
 
+                // 添加进公式后，可能又直接覆盖了单元格值
+                if(!calc_funcStr) continue
+
             if (type == "row") {
                 let functionStr = "=" + formula.functionStrChange(calc_funcStr, "add", "row", direction, index, value);
 
@@ -1068,6 +1071,9 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
                 calc_i = calc.index,
                 calc_funcStr = getcellFormula(calc_r, calc_c, calc_i);
 
+                // 添加进公式后，可能又直接覆盖了单元格值
+                if(!calc_funcStr) continue
+
             if (type == "row") {
                 if (calc_r < st || calc_r > ed) {
                     let functionStr = "=" + formula.functionStrChange(calc_funcStr, "del", "row", null, st, slen);
@@ -1798,6 +1804,9 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
                 calc_c = calc.c,
                 calc_i = calc.index,
                 calc_funcStr = getcellFormula(calc_r, calc_c, calc_i);
+
+                // 添加进公式后，可能又直接覆盖了单元格值
+                if(!calc_funcStr) continue
 
             if (calc_r < str || calc_r > edr || calc_c < stc || calc_c > edc) {
                 let functionStr;

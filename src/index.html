@@ -41,6 +41,7 @@
 	<script src="./demoData/sheetChart.js"></script>
 	<script src="./demoData/sheetPicture.js"></script>
 	<script src="./demoData/sheetDataVerification.js"></script>
+	<script src="./demoData/sheetDataAnalysis.js"></script>
 
 	<script>
 		// import sheetFormula from './demoData/sheetFormula.js'
@@ -54,6 +55,7 @@
 		// import sheetChart from './demoData/sheetChart.js'
 		// import sheetPicture from './demoData/sheetPicture.js'
 		// import sheetDataVerification from './demoData/sheetDataVerification.js'
+
 
 		$(function () {
 
@@ -1909,7 +1911,11 @@
            //      "isPivotTable": false
            //  };
            //  luckysheet.sheetmanage.setCustomSheet(customSheetconfig);
-			luckysheet.create(options);
+		   const option = {
+					container: 'luckysheet',
+					data: [window.sheetDataAnalysis],
+				}
+			luckysheet.create(option);
 		})
 	</script>
 	<style>

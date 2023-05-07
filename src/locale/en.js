@@ -694,6 +694,32 @@ export default {
                 }
             ]
         },
+        "GET_TARGET": {
+            "d": "Query target data.",
+            "a": "Query target data.",
+            "p": [
+            ]
+        },
+        "GET_AIRTABLE_DATA": {
+            "d": "Query AirTable data.",
+            "a": "Query AirTable data.",
+            "p": [
+            ]
+        },
+        "ASK_AI": {
+            "d": "Ask the AI questions.",
+            "a": "Ask the AI questions.",
+            "p": [
+                {
+                    "name": "question",
+                    "detail": "Consult AI for the data you want."
+                },
+                {
+                    "name": "criteria_range",
+                    "detail": "In which range to process the data."
+                },
+            ]
+        },
         "COUNTIFS": {
             "d": "Returns the count of a range depending on multiple criteria.",
             "a": "Count values depending on multiple criteria.",
