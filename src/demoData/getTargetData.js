@@ -5281,6 +5281,7 @@ export function getAirTable(cb, tableName = 'luckysheet demo', orders = ['Name',
     $.ajax({
         url: `https://api.airtable.com/v0/${baseId}/${tableName}`,
         beforeSend: function (request) {
+            // Token used for testing DEMO, please do not abuse it
             request.setRequestHeader("Authorization", `Bearer patoHtlYj2RFY8afK.3f5e8f63e1c794c7f5b119af5be18924d923f77a47b6aaf9996ca75c2d57adc5`)
         },
         success(res) {
