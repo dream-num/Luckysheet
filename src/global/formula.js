@@ -6151,7 +6151,6 @@ const luckysheetformula = {
             console.info('listener')
             $("#luckysheet-formula-refresh").data("listener","true")
             $("#luckysheet-formula-refresh").on('click',(e)=>{
-                console.info('click33332222==')
                 this.execFunctionGroupForce(true);
                 jfrefreshgrid()
                 e.stopPropagation();

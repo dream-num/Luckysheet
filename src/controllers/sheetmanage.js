@@ -1,11 +1,11 @@
 import { isEditMode } from "../global/validate";
 import cleargridelement from "../global/cleargridelement";
-import { getcellvalue, datagridgrowth, getcellFormula } from "../global/getdata";
+import { getdatabyselectionD, getcellvalue, datagridgrowth, getcellFormula } from "../global/getdata";
 import { setcellvalue } from "../global/setdata";
 import luckysheetcreatedom from "../global/createdom";
 import tooltip from "../global/tooltip";
 import formula from "../global/formula";
-import { luckysheetrefreshgrid, jfrefreshgrid_rhcw } from "../global/refresh";
+import { luckysheetrefreshgrid, jfrefreshgrid_rhcw,jfrefreshgrid } from "../global/refresh";
 import rhchInit from "../global/rhchInit";
 import editor from "../global/editor";
 import { luckysheetextendtable, luckysheetdeletetable } from "../global/extend";
@@ -1315,6 +1315,7 @@ const sheetmanage = {
             Store.luckysheetcurrentisPivotTable = false;
             $("#luckysheet-modal-dialog-slider-pivot").hide();
             luckysheetsizeauto(false);
+            this.refreshAllPivotTable(Store.currentSheetIndex);
         }
 
         let load = file["load"];
@@ -1435,6 +1436,85 @@ const sheetmanage = {
         _this.restoreselect();
         //工作表保护的事件 不初始化工作表保护打开以后引用单元格点不动
         initialEvent(file);
+    },
+
+    refreshAllPivotTable: function(index) {
+        Store.luckysheetfile.forEach((file)=>{
+            if(file.isPivotTable){
+                this.refreshPivotTableByFile(file)
+            }
+        })
+    },
+    refreshPivotTableByFile:function(file) {
+        let pivotTableConfig = file.pivotTable
+
+        let column = pivotTableConfig.column
+        let row = pivotTableConfig.row
+        let values = pivotTableConfig.values
+        let showType = pivotTableConfig.showType
+        let filterparm = pivotTableConfig.filterparm
+        let pivotDataSheetIndex = pivotTableConfig.pivotDataSheetIndex
+
+        let pivotrealIndex = this.getSheetIndex(pivotDataSheetIndex);
+
+        let otherfile = Store.luckysheetfile[pivotrealIndex];
+        if(otherfile["data"] == null){
+            otherfile["data"] = this.buildGridData(otherfile);
+        }
+
+        const origindata = getdatabyselectionD(otherfile.data, pivotTableConfig.pivot_select_save);
+
+        let rowhidden = {};
+        if (filterparm != null) {
+            for (let f in filterparm) {
+                // 目的是取出rowhidden
+                for (let h in filterparm[f]) {
+                    if (h === 'rowhidden' && _this.filterparm[f][h] != null) {
+                        rowhidden = $.extend(true, rowhidden, filterparm[f][h]);
+                    }
+                }
+            }
+        }
+
+
+        let newdata = [];
+        for (let i = 0; i < origindata.length; i++) {
+            if (rowhidden != null && rowhidden[i] != null) {
+                continue;
+            }
+            newdata.push([].concat(origindata[i]));
+        }
+
+        let ret = pivotTable.dataHandler(column, row, values, showType, newdata);
+        
+        pivotTableConfig.pivotDatas = ret
+
+
+        let d = $.extend(true, [], this.nulldata);
+        let data = d;
+
+        let addr = 0, addc = 0;
+        let rlen = ret.length, 
+                clen = ret[0].length;
+
+            addr = rlen - d.length; 
+            addc = clen - d[0].length;
+
+            data = datagridgrowth(d, addr + 20, addc + 10, true);
+
+            for (let r = 0; r < rlen; r++) {
+                // let x = [].concat(data[r]);
+                for (let c = 0; c < clen; c++) {
+                    let value = "";
+                    if (ret[r] != null && ret[r][c] != null) {
+                        value = getcellvalue(r, c, ret);
+                        setcellvalue(r,c,data,value)
+                    }
+                    // x[c] = value;
+                }
+                // data[r] = x;
+            }
+        file.data = data;
     },
     checkLoadSheetIndexToDataIndex: {},
     checkLoadSheetIndex: function(file) {
