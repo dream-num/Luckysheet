@@ -4642,21 +4642,20 @@ const functionImplementation = {
                 var cell_fp = window.luckysheetCurrentFunction;
 
                 setTimeout(() => {
-                var d = editor.deepCopyFlowData(Store.flowdata);
+                    var d = editor.deepCopyFlowData(Store.flowdata);
 
-                d[startRow][startColumn] = {
-                    v:"查询结果",
-                    "f": cell_fp
-                }
-                const target = excelToLuckyArray(companyTargetData);
-                target.forEach((row,r)=>{
-                    row.forEach((cell,c)=>{
-                        d[startRow+r+1][startColumn+c] = cell 
+                    const target = excelToLuckyArray(companyTargetData);
+                    target.forEach((row,r)=>{
+                        row.forEach((cell,c)=>{
+                            d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
+                        })
                     })
-                })
-                
-                jfrefreshgrid(d, [{"row": [startRow+1, startRow+target.length+1], "column": [startColumn, startColumn + target[0].length]}]);
-            }, 300);
+
+                    d[startRow][startColumn].f = cell_fp
+                    delete d[startRow][startColumn].m;
+                    
+                    jfrefreshgrid(d, [{"row": [startRow, startRow+target.length], "column": [startColumn, startColumn + target[0].length]}]);
+                }, 300);
 
             return "loading...";
         }
@@ -4699,26 +4698,25 @@ const functionImplementation = {
             // const endColumn = column[1]
             var cell_fp = window.luckysheetCurrentFunction;
 
-            setTimeout(() => {
             var d = editor.deepCopyFlowData(Store.flowdata);
-
-            d[startRow][startColumn] = {
-                v:"AirTable数据",
-                "f": cell_fp
-            }
 
             getAirTable(url,sort_index,sort_order,(data)=>{
                 data.forEach((row,r)=>{
                     row.forEach((cell,c)=>{
-                        d[startRow+r+1][startColumn+c] = {v:cell} 
+                        d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],{v:cell}) 
                     })
                 })
+
+                d[startRow][startColumn].f = cell_fp
+                delete d[startRow][startColumn].m;
                 
-                jfrefreshgrid(d, [{"row": [startRow+1, startRow+data.length+1], "column": [startColumn, startColumn + data[0].length]}]);
+                jfrefreshgrid(d, [{"row": [startRow, startRow+data.length], "column": [startColumn, startColumn + data[0].length]}]);
+            },(e)=>{
+                var err = e;
+                err = formula.errorInfo(err);
+                return [formula.error.v, err];
             });
             
-        }, 300);
-
         return "loading...";
     }
     catch (e) {
@@ -4761,17 +4759,16 @@ const functionImplementation = {
                 setTimeout(() => {
                 var d = editor.deepCopyFlowData(Store.flowdata);
 
-                d[startRow][startColumn] = {
-                    v:"AI回答",
-                    "f": cell_fp
-                }
+                
                 resultTable.forEach((row,r)=>{
                     row.forEach((cell,c)=>{
-                        d[startRow+r+1][startColumn+c] = cell 
+                        d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell) 
                     })
                 })
+                d[startRow][startColumn].f = cell_fp
+                delete d[startRow][startColumn].m;
                 
-                jfrefreshgrid(d, [{"row": [startRow+1, startRow+resultTable.length+1], "column": [startColumn, startColumn + resultTable[0].length]}]);
+                jfrefreshgrid(d, [{"row": [startRow, startRow+resultTable.length], "column": [startColumn, startColumn + resultTable[0].length]}]);
             }, 300);
 
             return "loading...";

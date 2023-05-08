@@ -68,6 +68,7 @@ import { luckysheetDrawMain } from "../global/draw";
 import locale from "../locale/locale";
 import Store from "../store";
 import { createLuckyChart, hideAllNeedRangeShow } from "../expendPlugins/chart/plugin";
+import luckysheetformula from "../global/formula";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -383,6 +384,7 @@ export default function luckysheetHandler() {
 
             //数据验证 单元格聚焦
             dataVerificationCtrl.cellFocus(row_index, col_index, true);
+            luckysheetformula.cellFocus(row_index, col_index);
 
             //若点击单元格部分不在视图内
             if (col_pre < $("#luckysheet-cell-main").scrollLeft()) {

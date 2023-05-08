@@ -5294,7 +5294,7 @@ function getAjax(url, data = {}, success, error) {
 }
 
 
-export function getAirTable(url, columnId = 0, sort = 1, cb) {
+export function getAirTable(url, columnId = 0, sort = 1, success,fail) {
     const host = 'https://api.airtable.com'
     const urls = url.replace('https://airtable.com/', '').split('/')
     const baseId = urls[0]
@@ -5333,12 +5333,14 @@ export function getAirTable(url, columnId = 0, sort = 1, cb) {
                     }
                 }
             }
-            cb(data)
+            success && success(data)
         }, (err) => {
             console.dir(err)
+            fail && fail(err)
         })
     }, (err) => {
         console.dir(err)
+        fail && fail(err)
     })
 
 }

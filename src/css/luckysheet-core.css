@@ -7293,6 +7293,11 @@ fieldset[disabled] .btn-danger.focus {
     z-index: 10;
     overflow: hidden;
 }
+#luckysheet-formula-refresh{
+    display: none;
+    position: absolute;
+    z-index: 10;
+}
 #luckysheet-dataVerification-dropdown-btn::after{
     content: '';
     width: 10px;
