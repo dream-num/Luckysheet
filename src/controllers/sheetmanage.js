@@ -1300,16 +1300,16 @@ const sheetmanage = {
             if (!isPivotInitial) {
                 pivotTable.changePivotTable(index);
 
-                const data = Store.luckysheetfile[_this.getSheetIndex(index)].data;
-                if (!!data && data instanceof Array) {
-                    for (let i = 0; i < data.length; i++) {
-                        if (!data[i]) continue;
-                        for (let j = 0; j < data[i].length; j++) {
-                            if (!data[i][j]) continue;
-                            luckysheetformula.execFunctionGroup(i, j, data[i][j]);
-                        }
-                    }
-                }
+                // const data = Store.luckysheetfile[_this.getSheetIndex(index)].data;
+                // if (!!data && data instanceof Array) {
+                //     for (let i = 0; i < data.length; i++) {
+                //         if (!data[i]) continue;
+                //         for (let j = 0; j < data[i].length; j++) {
+                //             if (!data[i][j]) continue;
+                //             luckysheetformula.execFunctionGroup(i, j, data[i][j]);
+                //         }
+                //     }
+                // }
             }
         } else {
             Store.luckysheetcurrentisPivotTable = false;
@@ -1328,7 +1328,7 @@ const sheetmanage = {
             _this.showSheet();
 
             setTimeout(function() {
-                formula.execFunctionGroup();
+                formula.execFunctionGroupForce(true);
                 luckysheetrefreshgrid();
                 server.saveParam("shs", null, Store.currentSheetIndex);
             }, 1);

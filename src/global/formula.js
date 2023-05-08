@@ -437,7 +437,7 @@ const luckysheetformula = {
             for (let c = 0; c < range[0].length; c++) {
                 if (range[0][c] != null && range[0][c].v) {
                     rangeNow.push(range[0][c].v);
-                    let f = range[0][c].ct.fa;
+                    let f = range[0][c].ct?.fa;
                     fmt = fmt == "General" ? f : fmt;
                 } else {
                     //若单元格为null或为空，此处推入null（待考虑是否使用"null"）
@@ -449,7 +449,7 @@ const luckysheetformula = {
             for (let r = 0; r < range.length; r++) {
                 if (range[r][0] != null && range[r][0].v) {
                     rangeNow.push(range[r][0].v);
-                    let f = range[r][0].ct.fa;
+                    let f = range[r][0].ct?.fa;
                     fmt = fmt == "General" ? f : fmt;
                 } else {
                     rangeNow.push(null);
@@ -460,7 +460,7 @@ const luckysheetformula = {
                 for (let c = 0; c < range[r].length; c++) {
                     if (range[r][c] != null && range[r][c].v) {
                         rangeNow.push(range[r][c].v);
-                        let f = range[r][c].ct.fa;
+                        let f = range[r][c].ct?.fa;
                         fmt = fmt == "General" ? f : fmt;
                     } else {
                         rangeNow.push(null);
@@ -468,6 +468,8 @@ const luckysheetformula = {
                 }
             }
         }
+
+        fmt = fmt ?? "General";
 
         range = rangeNow;
 
