@@ -1431,6 +1431,7 @@ const sheetmanage = {
 
         $("#luckysheet-cell-main .luckysheet-datavisual-selection-set").hide();
         $("#luckysheet-datavisual-selection-set-" + index).show();
+        luckysheetformula.hideButton()
 
         //隐藏其他sheet的图表，显示当前sheet的图表 chartMix
         renderChartShow(index);
