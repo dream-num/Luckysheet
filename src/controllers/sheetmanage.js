@@ -1292,6 +1292,9 @@ const sheetmanage = {
         ).hide();
         $("#luckysheet-filter-selected-sheet" + index + ", #luckysheet-filter-options-sheet" + index).show();
 
+        // 存储当前index，在远程公式里能识别，如果不是当前页就不要刷新（远程公式只能刷新当前页）
+        window.luckysheetCurrentIndex = index;
+
         _this.storeSheetParamALL();
         _this.setCurSheet(index);
 

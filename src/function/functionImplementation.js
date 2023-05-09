@@ -18,6 +18,7 @@ import Store from '../store';
 import dayjs from 'dayjs';
 import numeral from 'numeral';
 import {getAirTable,companyTargetData,excelToLuckyArray,excelToArray,askAIData} from '../demoData/getTargetData'
+import { setcellvalue } from "../global/setdata";
 
 //公式函数计算
 const functionImplementation = {
@@ -4631,9 +4632,15 @@ const functionImplementation = {
         }
     },
     "GET_TARGET": function() {
-        try {
+        try {   
+                var luckysheetCurrentIndex = window.luckysheetCurrentIndex;
+                var currentSheetIndex = Store.currentSheetIndex;
+                if(luckysheetCurrentIndex !== currentSheetIndex){
+                    return
+                }
                 var startRow = window.luckysheetCurrentRow;
                 var startColumn = window.luckysheetCurrentColumn;
+                
                 // const {row, column} = Store.luckysheet_select_save[0];
                 // const startRow = row[0]
                 // const endRow = row[1]
@@ -4647,14 +4654,22 @@ const functionImplementation = {
                     const target = excelToLuckyArray(companyTargetData);
                     target.forEach((row,r)=>{
                         row.forEach((cell,c)=>{
-                            d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
+                            // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
+                            setcellvalue(startRow+r,startColumn+c,d,cell)
                         })
                     })
 
                     d[startRow][startColumn].f = cell_fp
                     delete d[startRow][startColumn].m;
+
+                    // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
+                    if(currentSheetIndex === Store.currentSheetIndex){
+                        jfrefreshgrid(d, [{"row": [startRow, startRow+target.length], "column": [startColumn, startColumn + target[0].length]}]);
+                    }else{
+                        let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                        file.data = d
+                    }
                     
-                    jfrefreshgrid(d, [{"row": [startRow, startRow+target.length], "column": [startColumn, startColumn + target[0].length]}]);
                 }, 300);
 
             return "loading...";
@@ -4682,6 +4697,12 @@ const functionImplementation = {
         }
 
         try {
+            var luckysheetCurrentIndex = window.luckysheetCurrentIndex;
+            var currentSheetIndex = Store.currentSheetIndex;
+            if(luckysheetCurrentIndex !== currentSheetIndex){
+                return
+            }
+
             var startRow = window.luckysheetCurrentRow;
             var startColumn = window.luckysheetCurrentColumn;
 
@@ -4703,14 +4724,23 @@ const functionImplementation = {
             getAirTable(url,sort_index,sort_order,(data)=>{
                 data.forEach((row,r)=>{
                     row.forEach((cell,c)=>{
-                        d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],{v:cell}) 
+                        // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],{v:cell})
+                        setcellvalue(startRow+r,startColumn+c,d,cell)
                     })
                 })
 
                 d[startRow][startColumn].f = cell_fp
                 delete d[startRow][startColumn].m;
+
+                // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
+                if(currentSheetIndex === Store.currentSheetIndex){
+                    jfrefreshgrid(d, [{"row": [startRow, startRow+data.length], "column": [startColumn, startColumn + data[0].length]}]);
+                }else{
+                    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                    file.data = d
+                }
                 
-                jfrefreshgrid(d, [{"row": [startRow, startRow+data.length], "column": [startColumn, startColumn + data[0].length]}]);
+                
             },(e)=>{
                 var err = e;
                 err = formula.errorInfo(err);
@@ -4739,7 +4769,12 @@ const functionImplementation = {
                 return formula.error.v;
             }
         }
-        try {
+        try {   
+                let luckysheetCurrentIndex = window.luckysheetCurrentIndex;
+                let currentSheetIndex = Store.currentSheetIndex;
+                if(luckysheetCurrentIndex !== currentSheetIndex){
+                    return
+                }
                 var startRow = window.luckysheetCurrentRow;
                 var startColumn = window.luckysheetCurrentColumn;
                 // const {row, column} = Store.luckysheet_select_save[0];
@@ -4757,19 +4792,27 @@ const functionImplementation = {
                 const resultTable = askAIData(rangeData,companyTarget)
 
                 setTimeout(() => {
-                var d = editor.deepCopyFlowData(Store.flowdata);
+                    var d = editor.deepCopyFlowData(Store.flowdata);
 
-                
-                resultTable.forEach((row,r)=>{
-                    row.forEach((cell,c)=>{
-                        d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell) 
+                    
+                    resultTable.forEach((row,r)=>{
+                        row.forEach((cell,c)=>{
+                            // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
+                            setcellvalue(startRow+r,startColumn+c,d,cell)
+                        })
                     })
-                })
-                d[startRow][startColumn].f = cell_fp
-                delete d[startRow][startColumn].m;
-                
-                jfrefreshgrid(d, [{"row": [startRow, startRow+resultTable.length], "column": [startColumn, startColumn + resultTable[0].length]}]);
-            }, 300);
+                    d[startRow][startColumn].f = cell_fp
+                    delete d[startRow][startColumn].m;
+                    
+                    // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
+                    if(currentSheetIndex === Store.currentSheetIndex){
+                        jfrefreshgrid(d, [{"row": [startRow, startRow+resultTable.length], "column": [startColumn, startColumn + resultTable[0].length]}]);
+                    }else{
+                        let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                        file.data = d
+                    }
+                    
+                }, 300);
 
             return "loading...";
         }
