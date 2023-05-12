@@ -6045,9 +6045,10 @@ const luckysheetformula = {
                     result = result.data.v;
                 } else if (!isRealNull(result.data)) {
                     //只有data长或宽大于1才可能是选区
-                    if (result.cell > 1 || result.rowl > 1) {
+                    // =INDIRECT("I2") 计算结果为 result.data = "J2"
+                    if (result.cell > 1 || result.rowl > 1 || getObjType(result.data) == "string") {
                         result = result.data;
-                    } //否则就是单个不为null的没有值v的单元格
+                    } // 否则就是单个不为null的没有值v的单元格
                     else {
                         result = 0;
                     }
