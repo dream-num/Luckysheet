@@ -215,26 +215,37 @@ export const luckysheetPrint = {
         window.onbeforeprint = (event) => {
             const _locale = locale();
             const locale_screenshot = _locale.screenshot;
-            if (Store.luckysheet_select_save.length > 1) {
-                return;
+            const sheetInfo = Store.luckysheetfile.find((item) => item.index === Store.currentSheetIndex);
+            const images = sheetInfo.images;
+
+            let saveRange;
+            if (Store.luckysheet_select_save.length === 0 || this.selectArea === "0") {
+                saveRange = {
+                    row: [0, sheetInfo.row - 1],
+                    column: [0, sheetInfo.column - 1],
+                };
+            } else if (Store.luckysheet_select_save.length === 1) {
+                saveRange = {
+                    row: Store.luckysheet_select_save[0].row,
+                    column: Store.luckysheet_select_save[0].column,
+                };
+            } else {
+                saveRange = {
+                    row: Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].row,
+                    column: Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1].column,
+                };
             }
 
             //截图范围内包含部分合并单元格，提示
             if (Store.config["merge"] != null) {
                 let has_PartMC = false;
 
-                for (let s = 0; s < Store.luckysheet_select_save.length; s++) {
-                    let r1 = Store.luckysheet_select_save[s].row[0],
-                        r2 = Store.luckysheet_select_save[s].row[1];
-                    let c1 = Store.luckysheet_select_save[s].column[0],
-                        c2 = Store.luckysheet_select_save[s].column[1];
+                let r1 = saveRange.row[0],
+                    r2 = saveRange.row[1];
+                let c1 = saveRange.column[0],
+                    c2 = saveRange.column[1];
 
-                    has_PartMC = hasPartMC(Store.config, r1, r2, c1, c2);
-
-                    if (has_PartMC) {
-                        break;
-                    }
-                }
+                has_PartMC = hasPartMC(Store.config, r1, r2, c1, c2);
 
                 if (has_PartMC) {
                     if (isEditMode()) {
@@ -246,10 +257,10 @@ export const luckysheetPrint = {
                 }
             }
 
-            let st_r = Store.luckysheet_select_save[0].row[0],
-                ed_r = Store.luckysheet_select_save[0].row[1];
-            let st_c = Store.luckysheet_select_save[0].column[0],
-                ed_c = Store.luckysheet_select_save[0].column[1];
+            let st_r = saveRange.row[0],
+                ed_r = saveRange.row[1];
+            let st_c = saveRange.column[0],
+                ed_c = saveRange.column[1];
 
             let scrollHeight, rh_height;
             if (st_r - 1 < 0) {

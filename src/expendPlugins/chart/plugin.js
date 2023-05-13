@@ -292,45 +292,55 @@ function renderCharts(chartLists, isDemo) {
 }
 
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
-    let chart = chartInfo.currentChart;
-    if (!chart) {
-        return;
-    }
-    if (chart.rangeArray.length == 1) {
-        var row = chart.rangeArray[0].row;
-        var column = chart.rangeArray[0].column;
-        //不在范围内的不更新
-        if (r_st > row[1] || r_ed < row[0] || c_st > column[1] || c_ed < column[0]) {
-            return;
-        }
-        //根据原有的范围取得数据
-        var luckysheetgetcellrange = formula.getcellrange(chart.rangeTxt);
-        // var sheetIndex = luckysheetgetcellrange.sheetIndex == -1 ? 0 : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
-        // var sheetName = Store.luckysheetfile.find((item) => item.index === sheetIndex).name;
-        var sheetName;
-        Store.luckysheetfile.forEach((item) => {
-            if (item.chart && item.chart.length) {
-                item.chart.forEach((ele) => {
-                    if (ele.chart_id === chart.chart_id) {
-                        sheetName = item.name;
-                    }
-                });
+    // let chart = chartInfo.currentChart;
+    // if (!chart) {
+    //     return;
+    // }
+    // if (chart.rangeArray.length == 1) {
+    //     var row = chart.rangeArray[0].row;
+    //     var column = chart.rangeArray[0].column;
+    //     //不在范围内的不更新
+    //     if (r_st > row[1] || r_ed < row[0] || c_st > column[1] || c_ed < column[0]) {
+    //         return;
+    //     }
+    //根据原有的范围取得数据
+    // var luckysheetgetcellrange = formula.getcellrange(chart.rangeTxt);
+    // var sheetIndex = luckysheetgetcellrange.sheetIndex == -1 ? 0 : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+    // var sheetName = Store.luckysheetfile.find((item) => item.index === sheetIndex).name;
+    // var sheetName;
+    // Store.luckysheetfile.forEach((item) => {
+    //     if (item.chart && item.chart.length) {
+    //         item.chart.forEach((ele) => {
+    //             if (ele.chart_id === chart.chart_id) {
+    //                 sheetName = item.name;
+    //             }
+    //         });
+    //     }
+    // });
+    // var selection = {
+    //     row: luckysheetgetcellrange.row,
+    //     column: luckysheetgetcellrange.column,
+    //     dataSheetIndex: sheetIndex,
+    // }; //数组
+    // var getcelldata = luckysheet_getcelldata(sheetName + "!" + chart.rangeTxt);
+    // if (typeof getcelldata === "object" && getcelldata.length != 0 && getcelldata.data.length != null) {
+    //     //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+    //     var chartData = getcelldata.data;
+    //     chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
+    // }
+    // }
+
+    const sheetInfo = Store.luckysheetfile.find((item) => item.index == Store.currentSheetIndex);
+    const charts = sheetInfo.chart;
+    charts &&
+        charts.forEach((item) => {
+            var getcelldata = luckysheet_getcelldata(sheetInfo.name + "!" + item.chartOptions.rangeTxt);
+            if (typeof getcelldata === "object" && getcelldata.length != 0 && getcelldata.data.length != null) {
+                //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+                var chartData = getcelldata.data;
+                chartInfo.chartparam.changeChartCellData(item.chart_id, chartData);
             }
         });
-        // var selection = {
-        //     row: luckysheetgetcellrange.row,
-        //     column: luckysheetgetcellrange.column,
-        //     dataSheetIndex: sheetIndex,
-        // }; //数组
-
-        var getcelldata = luckysheet_getcelldata(sheetName + "!" + chart.rangeTxt);
-
-        if (typeof getcelldata === "object" && getcelldata.length != 0 && getcelldata.data.length != null) {
-            //getcelldata有值，且不为空数组 && getcelldata.data为二维数组
-            var chartData = getcelldata.data;
-            chartInfo.chartparam.changeChartCellData(chart.chart_id, chartData);
-        }
-    }
 }
 
 function chart_selection() {
