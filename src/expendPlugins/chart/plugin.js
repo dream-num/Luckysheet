@@ -305,13 +305,23 @@ function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
         }
         //根据原有的范围取得数据
         var luckysheetgetcellrange = formula.getcellrange(chart.rangeTxt);
-        var sheetIndex = luckysheetgetcellrange.sheetIndex == -1 ? 0 : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
-        var sheetName = Store.luckysheetfile.find((item) => item.index === sheetIndex).name;
-        var selection = {
-            row: luckysheetgetcellrange.row,
-            column: luckysheetgetcellrange.column,
-            dataSheetIndex: sheetIndex,
-        }; //数组
+        // var sheetIndex = luckysheetgetcellrange.sheetIndex == -1 ? 0 : luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+        // var sheetName = Store.luckysheetfile.find((item) => item.index === sheetIndex).name;
+        var sheetName;
+        Store.luckysheetfile.forEach((item) => {
+            if (item.chart && item.chart.length) {
+                item.chart.forEach((ele) => {
+                    if (ele.chart_id === chart.chart_id) {
+                        sheetName = item.name;
+                    }
+                });
+            }
+        });
+        // var selection = {
+        //     row: luckysheetgetcellrange.row,
+        //     column: luckysheetgetcellrange.column,
+        //     dataSheetIndex: sheetIndex,
+        // }; //数组
 
         var getcelldata = luckysheet_getcelldata(sheetName + "!" + chart.rangeTxt);
 
