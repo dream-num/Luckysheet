@@ -162,7 +162,7 @@ export const luckysheetPrint = {
                 addclass: "luckysheet-print",
                 title: locale_print.title,
                 content: content,
-                botton: `<button class="btn btn-default luckysheet-model-confirm-btn">${locale_button.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_button.close}</button>`,
+                botton: `<button class="btn btn-default luckysheet-model-confirm-btn">${locale_button.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_button.close}</button><button class="btn btn-default luckysheet-model-test-btn">图片</button>`,
                 style: "z-index:100003",
                 close: locale_button.close,
             }),
@@ -212,11 +212,19 @@ export const luckysheetPrint = {
                 window.print();
             });
 
+        $(document)
+            .off("click.printTest")
+            .on("click.printTest", ".luckysheet-print .luckysheet-model-test-btn", function() {
+                const _locale = locale();
+                const locale_screenshot = _locale.screenshot;
+                const sheetInfo = Store.luckysheetfile.find((item) => item.index === Store.currentSheetIndex);
+                const images = sheetInfo.images;
+            });
+
         window.onbeforeprint = (event) => {
             const _locale = locale();
             const locale_screenshot = _locale.screenshot;
             const sheetInfo = Store.luckysheetfile.find((item) => item.index === Store.currentSheetIndex);
-            const images = sheetInfo.images;
 
             let saveRange;
             if (Store.luckysheet_select_save.length === 0 || this.selectArea === "0") {

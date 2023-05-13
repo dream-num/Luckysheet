@@ -28,7 +28,6 @@ const dependScripts = [
     "https://unpkg.com/element-ui@2.13.2/lib/index.js",
     "https://unpkg.com/echarts@4.8.0/dist/echarts.min.js",
     "./expendPlugins/chart/chartmix.umd.min.js",
-    // 'http://26.26.26.1:8000/chartmix.umd.js'
 ];
 
 const dependLinks = [
@@ -1318,7 +1317,6 @@ function setChartMoveableEffect($container) {
         },
     );
 }
-
 // delete chart
 function delChart(chart_id) {
     // delete container
