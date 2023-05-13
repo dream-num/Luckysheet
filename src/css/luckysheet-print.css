@@ -1,7 +1,7 @@
-.luckysheet-print-viewList{
+.luckysheet-print-viewList {
     position: relative;
     float: right;
-    width:126px;
+    width: 126px;
     /* right: 222px; */
     height: 22px;
     line-height: 22px;
@@ -18,38 +18,68 @@
     top: 0;
     left: 0px;
     width: 42px;
-    height:22px;
+    height: 22px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
-.luckysheet-print-viewBtn .iconfont{
+.luckysheet-print-viewBtn .iconfont {
     font-size: 22px;
 }
 
-.luckysheet-print-viewBtn:hover{
-    background: #E1E4E8;
+.luckysheet-print-viewBtn:hover {
+    background: #e1e4e8;
 }
 
-.luckysheet-print-viewBtn-active{
+.luckysheet-print-viewBtn-active {
     background: #dcdcdc;
     cursor: default;
 }
 
-.luckysheet-print-viewBtn-active:hover{
+.luckysheet-print-viewBtn-active:hover {
     background: #dcdcdc;
 }
 
-.luckysheet-print-viewNormal{
+.luckysheet-print-viewNormal {
     left: 0px;
 }
 
-.luckysheet-print-viewLayout{
+.luckysheet-print-viewLayout {
     left: 42px;
 }
 
-.luckysheet-print-viewPage{
+.luckysheet-print-viewPage {
     left: 84px;
 }
 
+.luckysheet-print span[role="heading"] {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.luckysheet-print-suggest {
+    font-size: 12px;
+}
+
+.luckysheet-print-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.luckysheet-print-radio {
+    display: flex;
+}
+
+.luckysheet-print-radio > div {
+    width: 50%;
+}
+
+.luckysheet-print select {
+    height: 30px;
+}
+
+.luckysheet-print .luckysheet-modal-dialog-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}

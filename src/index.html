@@ -16,7 +16,13 @@
 
 	<!-- rollup luckysheet.js -->
 	<script src="./luckysheet.umd.js"></script>
-
+	<style>
+		@media print {
+			#luckysheet {
+				display: none;
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -1896,20 +1902,20 @@
 					}
 				}]
 			}
-		 // let  customSheetconfig = { //自定义sheet demo
-           //      "name": "自定义",
-           //      "color": "",
-           //      "status": "0",
-           //      "order": 1,
-           //      "index": 1,
-           //      "celldata": [],
-           //      "row": 10,
-           //      "column": 10,
-           //      "config": {},
-           //      "pivotTable": null,
-           //      "isPivotTable": false
-           //  };
-           //  luckysheet.sheetmanage.setCustomSheet(customSheetconfig);
+			// let  customSheetconfig = { //自定义sheet demo
+			//      "name": "自定义",
+			//      "color": "",
+			//      "status": "0",
+			//      "order": 1,
+			//      "index": 1,
+			//      "celldata": [],
+			//      "row": 10,
+			//      "column": 10,
+			//      "config": {},
+			//      "pivotTable": null,
+			//      "isPivotTable": false
+			//  };
+			//  luckysheet.sheetmanage.setCustomSheet(customSheetconfig);
 			luckysheet.create(options);
 		})
 	</script>
