@@ -83,3 +83,13 @@
     display: flex;
     flex-direction: row-reverse;
 }
+
+.luckysheet-print-box canvas {
+    display: block;
+}
+
+@media print {
+    .luckysheet-print-break {
+        page-break-after: always;
+    }
+}
