@@ -4,6 +4,7 @@ package-lock.json
 yarn.lock
 dist
 docs/.vuepress/dist
+src/controllers/print.js
 
 .idea
 .history
