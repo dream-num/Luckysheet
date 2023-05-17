@@ -1,47 +1,39 @@
+import defaultSetting from "./config.js";
+import { common_extend } from "./utils/util";
+import Store from "./store";
+import { locales } from "./locale/locale";
+import server from "./controllers/server";
+import luckysheetConfigsetting from "./controllers/luckysheetConfigsetting";
+import sheetmanage from "./controllers/sheetmanage";
+import luckysheetsizeauto from "./controllers/resize";
+import luckysheetHandler from "./controllers/handler";
+import { initialFilterHandler } from "./controllers/filter";
+import { initialMatrixOperation } from "./controllers/matrixOperation";
+import { initialSheetBar } from "./controllers/sheetBar";
+import { formulaBarInitial } from "./controllers/formulaBar";
+import { rowColumnOperationInitial } from "./controllers/rowColumnOperation";
+import { keyboardInitial } from "./controllers/keyboard";
+import { orderByInitial } from "./controllers/orderBy";
+import { initPlugins } from "./controllers/expendPlugins";
+import { getluckysheetfile, getluckysheet_select_save, getconfig, getConditionFormatCells } from "./methods/get";
+import { setluckysheet_select_save } from "./methods/set";
+import { luckysheetrefreshgrid, jfrefreshgrid } from "./global/refresh";
+import functionlist from "./function/functionlist";
+import { luckysheetlodingHTML } from "./controllers/constant";
+import { getcellvalue, getdatabyselection } from "./global/getdata";
+import { setcellvalue } from "./global/setdata";
+import { selectHightlightShow } from "./controllers/select";
+import { zoomInitial } from "./controllers/zoom";
+import { printInitial } from "./controllers/print";
+import method from "./global/method";
 
-import defaultSetting from './config.js';
-import { common_extend } from './utils/util';
-import Store from './store';
-import { locales } from './locale/locale';
-import server from './controllers/server';
-import luckysheetConfigsetting from './controllers/luckysheetConfigsetting';
-import sheetmanage from './controllers/sheetmanage';
-import luckysheetsizeauto from './controllers/resize';
-import luckysheetHandler from './controllers/handler';
-import {initialFilterHandler} from './controllers/filter';
-import {initialMatrixOperation} from './controllers/matrixOperation';
-import {initialSheetBar} from './controllers/sheetBar';
-import {formulaBarInitial} from './controllers/formulaBar';
-import {rowColumnOperationInitial} from './controllers/rowColumnOperation';
-import {keyboardInitial} from './controllers/keyboard';
-import {orderByInitial} from './controllers/orderBy';
-import {initPlugins} from './controllers/expendPlugins';
-import {
-    getluckysheetfile,
-    getluckysheet_select_save,
-    getconfig,
-    getConditionFormatCells,
-} from './methods/get';
-import {
-    setluckysheet_select_save
-} from './methods/set';
-import { luckysheetrefreshgrid, jfrefreshgrid } from './global/refresh';
-import functionlist from './function/functionlist';
-import { luckysheetlodingHTML } from './controllers/constant';
-import { getcellvalue, getdatabyselection } from './global/getdata';
-import { setcellvalue } from './global/setdata';
-import { selectHightlightShow } from './controllers/select';
-import {zoomInitial} from './controllers/zoom';
-import {printInitial} from './controllers/print';
-import method from './global/method';
+import * as api from "./global/api";
 
-import * as api from './global/api';
-
-import flatpickr from 'flatpickr'
-import Mandarin from 'flatpickr/dist/l10n/zh.js'
-import { initListener } from './controllers/listener';
-import { hideloading, showloading } from './global/loading.js';
-import { luckysheetextendData } from './global/extend.js';
+import flatpickr from "flatpickr";
+import Mandarin from "flatpickr/dist/l10n/zh.js";
+import { initListener } from "./controllers/listener";
+import { hideloading, showloading } from "./global/loading.js";
+import { luckysheetextendData } from "./global/extend.js";
 
 let luckysheet = {};
 
@@ -49,17 +41,15 @@ let luckysheet = {};
 // luckysheet.api = api;
 // Object.assign(luckysheet, api);
 
-luckysheet = common_extend(api,luckysheet);
-
-
+luckysheet = common_extend(api, luckysheet);
 
 //创建luckysheet表格
-luckysheet.create = function (setting) {
-    method.destroy()
+luckysheet.create = function(setting) {
+    method.destroy();
     // Store original parameters for api: toJson
-    Store.toJsonOptions = {}
-    for(let c in setting){
-        if(c !== 'data'){
+    Store.toJsonOptions = {};
+    for (let c in setting) {
+        if (c !== "data") {
             Store.toJsonOptions[c] = setting[c];
         }
     }
@@ -79,7 +69,7 @@ luckysheet.create = function (setting) {
     Store.fullscreenmode = extendsetting.fullscreenmode;
     Store.lang = extendsetting.lang; //language
     Store.allowEdit = extendsetting.allowEdit;
-    Store.limitSheetNameLength =  extendsetting.limitSheetNameLength;
+    Store.limitSheetNameLength = extendsetting.limitSheetNameLength;
     Store.defaultSheetNameMaxLength = extendsetting.defaultSheetNameMaxLength;
     Store.fontList = extendsetting.fontList;
     server.gridKey = extendsetting.gridKey;
@@ -149,35 +139,34 @@ luckysheet.create = function (setting) {
 
     luckysheetConfigsetting.imageUpdateMethodConfig = extendsetting.imageUpdateMethodConfig;
 
-    if (Store.lang === 'zh') flatpickr.localize(Mandarin.zh);
+    if (Store.lang === "zh") flatpickr.localize(Mandarin.zh);
 
     // Store the currently used plugins for monitoring asynchronous loading
     Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
 
     // Register plugins
-    initPlugins(extendsetting.plugins , extendsetting);
+    initPlugins(extendsetting.plugins, extendsetting);
     Store.plugins = extendsetting.plugins;
 
     // Store formula information, including internationalization
     functionlist(extendsetting.customFunctions);
 
     let devicePixelRatio = extendsetting.devicePixelRatio;
-    if(devicePixelRatio == null){
+    if (devicePixelRatio == null) {
         devicePixelRatio = 1;
     }
     Store.devicePixelRatio = Math.ceil(devicePixelRatio);
 
     //loading
-    const loadingObj=luckysheetlodingHTML("#" + container)
-    Store.loadingObj=loadingObj
+    const loadingObj = luckysheetlodingHTML("#" + container);
+    Store.loadingObj = loadingObj;
 
     if (loadurl == "") {
         sheetmanage.initialjfFile(menu, title);
         // luckysheetsizeauto();
         initialWorkBook();
-    }
-    else {
-        $.post(loadurl, {"gridKey" : server.gridKey}, function (d) {
+    } else {
+        $.post(loadurl, { gridKey: server.gridKey }, function(d) {
             let data = new Function("return " + d)();
             Store.luckysheetfile = data;
 
@@ -186,24 +175,24 @@ luckysheet.create = function (setting) {
             initialWorkBook();
 
             //需要更新数据给后台时，建立WebSocket连接
-            if(server.allowUpdate){
+            if (server.allowUpdate) {
                 server.openWebSocket();
             }
         });
     }
-}
+};
 
-function initialWorkBook(){
-    luckysheetHandler();//Overall dom initialization
-    initialFilterHandler();//Filter initialization
-    initialMatrixOperation();//Right click matrix initialization
-    initialSheetBar();//bottom sheet bar initialization
-    formulaBarInitial();//top formula bar initialization
-    rowColumnOperationInitial();//row and coloumn operate initialization
-    keyboardInitial();//Keyboard operate initialization
-    orderByInitial();//menu bar orderby function initialization
-    zoomInitial();//zoom method initialization
-    printInitial();//print initialization
+function initialWorkBook() {
+    luckysheetHandler(); //Overall dom initialization
+    initialFilterHandler(); //Filter initialization
+    initialMatrixOperation(); //Right click matrix initialization
+    initialSheetBar(); //bottom sheet bar initialization
+    formulaBarInitial(); //top formula bar initialization
+    rowColumnOperationInitial(); //row and coloumn operate initialization
+    keyboardInitial(); //Keyboard operate initialization
+    orderByInitial(); //menu bar orderby function initialization
+    zoomInitial(); //zoom method initialization
+    printInitial(); //print initialization
     initListener();
 }
 
@@ -243,9 +232,9 @@ luckysheet.getdatabyselection = getdatabyselection;
 luckysheet.sheetmanage = sheetmanage;
 
 // Data of the current table
-luckysheet.flowdata = function () {
+luckysheet.flowdata = function() {
     return Store.flowdata;
-}
+};
 
 // Set selection highlight
 luckysheet.selectHightlightShow = selectHightlightShow;
@@ -262,6 +251,4 @@ luckysheet.locales = locales;
 // 获取条件格式渲染的单元格数量
 luckysheet.getConditionFormatCells = getConditionFormatCells;
 
-export {
-    luckysheet
-}
+export { luckysheet };

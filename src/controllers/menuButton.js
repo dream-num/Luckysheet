@@ -52,7 +52,7 @@ import { openProtectionModal, checkProtectionFormatCells, checkProtectionNotEnab
 import Store from "../store";
 import locale from "../locale/locale";
 import { checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn } from "../global/api";
-import { luckysheetPrint } from "./print";
+// import { luckysheetPrint } from "./print";
 
 const menuButton = {
     menu:
@@ -3647,8 +3647,11 @@ const menuButton = {
 
                     if (itemvalue == "print") {
                         //Print config
-                        luckysheetPrint.createDialog();
-                        luckysheetPrint.init();
+                        if (Store.luckysheetPrint) {
+                            luckysheetPrint = Store.luckysheetPrint;
+                            luckysheetPrint.createDialog();
+                            luckysheetPrint.init();
+                        }
                     } else if (itemvalue == "areas" || itemvalue == "rows" || itemvalue == "columns") {
                         //range
                         alert("areas");
