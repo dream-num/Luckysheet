@@ -69,6 +69,7 @@ import locale from "../locale/locale";
 import Store from "../store";
 import { createLuckyChart, hideAllNeedRangeShow } from "../expendPlugins/chart/plugin";
 import luckysheetformula from "../global/formula";
+import {fetchAndDownloadXlsx} from "../expendPlugins/exportXlsx/plugin";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -5611,6 +5612,22 @@ export default function luckysheetHandler() {
     $("#luckysheet-modal-dialog-mask").on("click dbclick mousedown mousemove mouseup", function(e) {
         e.stopPropagation();
         e.preventDefault();
+    });
+
+    //菜单栏 导出按钮
+    $("#luckysheet-exportXlsx-btn-title").click(function() {
+
+        const exportXlsxInfo =  Store.plugins.find(plugin => plugin.name === 'exportXlsx')
+        if(exportXlsxInfo){
+            const url = exportXlsxInfo?.config?.url;
+            if(url){
+                fetchAndDownloadXlsx(url,null,()=>{
+                    tooltip.info(_locale.exportXlsx.serverError, "");
+                })
+            }
+        }else{
+            tooltip.info(_locale.exportXlsx.notice, "");
+        }
     });
 
     let copychange = function() {

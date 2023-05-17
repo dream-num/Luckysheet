@@ -6149,6 +6149,7 @@ export default {
         screenshot: "Screenshot",
         splitColumn: "Split text",
         insertImage: "Insert image",
+        exportXlsx: "Export Xlsx",
         insertLink: "Insert link",
         dataVerification: "Data verification",
         protection: "Protect the sheet",
@@ -7322,4 +7323,8 @@ export default {
             "Server communication error occurred, please refresh the page and try again, if not, please contact the administrator!",
         support: "The current browser does not support WebSocket",
     },
+    exportXlsx:{
+        notice:'Please configure the export plugin',
+        serverError:'server is under maintenance'
+    }
 };

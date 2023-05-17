@@ -155,7 +155,8 @@ luckysheet.create = function (setting) {
     Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
 
     // Register plugins
-    initPlugins(extendsetting.plugins , extendsetting.data);
+    initPlugins(extendsetting.plugins , extendsetting);
+    Store.plugins = extendsetting.plugins;
 
     // Store formula information, including internationalization
     functionlist(extendsetting.customFunctions);

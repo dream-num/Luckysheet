@@ -37,7 +37,8 @@ const dependLinks = [
 ];
 
 // Initialize the chart component
-function chart(data, isDemo) {
+function chart(options,config, isDemo) {
+    const data = options.data;
     loadLinks(dependLinks);
 
     seriesLoadScripts(dependScripts, null, function() {

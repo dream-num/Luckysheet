@@ -6082,6 +6082,7 @@ export default {
         screenshot: "截图",
         splitColumn: "分列",
         insertImage: "插入图片",
+        exportXlsx: "导出Xlsx",
         insertLink: "插入链接",
         dataVerification: "数据验证",
         protection: "保护工作表内容",
@@ -7310,4 +7311,8 @@ export default {
         contact: "服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！",
         support: "当前浏览器不支持WebSocket",
     },
+    exportXlsx:{
+        notice:'请配置导出插件',
+        serverError:'服务器正在维护'
+    }
 };

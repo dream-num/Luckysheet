@@ -56,7 +56,8 @@ export const defaultToolbar = [
     'screenshot',
     'findAndReplace',
     'protection',
-    'print'
+    'print',
+    'exportXlsx',
 ];
 
 // 工具栏按钮 id 关系
@@ -97,7 +98,8 @@ export const toolbarIdMap = {
     screenshot: '#luckysheet-chart-btn-screenshot', //'screenshot'
     findAndReplace: '#luckysheet-icon-seachmore', //'Find and Replace'
     protection: '#luckysheet-icon-protection', // 'Worksheet protection'
-    print: '#luckysheet-icon-print' // 'print'
+    print: '#luckysheet-icon-print', // 'print'
+    exportXlsx: '#luckysheet-exportXlsx-btn-title' // 'export xlsx'
 };
 
 // 创建工具栏按钮的html
@@ -829,7 +831,25 @@ export function createToolbarHtml() {
                     </div>
                 </div>
             </div>
-        </div>` // 'print'
+        </div>`, // 'print'
+        exportXlsx: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="${toolbar.exportXlsx}" id="luckysheet-exportXlsx-btn-title" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none"
+                            style="user-select: none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M4 12a8 8 0 1 0 16 0"/><path stroke-linejoin="round" d="M12 14V4m0 0l3 3m-3-3L9 7"/></g></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`, // 'Insert picture'
     };
 
     const showtoolbar = luckysheetConfigsetting.showtoolbar;

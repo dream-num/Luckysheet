@@ -13,7 +13,8 @@ const dependLinks = [
 ]
 
 // Initialize the chart component
-function print(data, isDemo) {
+function print(options,config, isDemo) {
+    const data = options.data;
     loadLinks(dependLinks);
 
     seriesLoadScripts(dependScripts, null, function () {

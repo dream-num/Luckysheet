@@ -5838,6 +5838,7 @@ export default {
         screenshot         : '截圖',
         splitColumn        : '分列',
         insertImage        : '插入圖片',
+        exportXlsx         : "導出Xlsx",
         insertLink         : '插入連結',
         dataVerification   : '數據驗證',
         protection         : '保護工作表內容',
@@ -7008,6 +7009,10 @@ export default {
         close  : 'WebSocket連接關閉',
         contact: '服務器通信發生錯誤,請刷新頁面後再試,如若不行請聯系管理員！',
         support: '當前瀏覽器不支持WebSocket',
+    },
+    exportXlsx:{
+        notice:'請配置導出插件',
+        serverError:'服務器正在維護'
     }
 
 };

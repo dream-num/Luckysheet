@@ -86,7 +86,7 @@
 					loadSheetUrl: location.origin + "/luckysheet/api/loadsheet"
 				}
 			} else {
-				// http://localhost:3000/ 
+				// http://localhost:3000/
 				options = {
 					container: 'luckysheet',
 					lang: lang,
@@ -97,7 +97,7 @@
 					// 	selectOption: [10, 20]
 					// },
 					forceCalculation: false,
-					plugins: ['chart'],
+					plugins: [{name:'chart'},{name:'exportXlsx',config:{url:'http://47.100.177.253:8503/luckyToXlsx'}}],
 					fontList: [
 						{
 							"fontName": "HanaleiFill",
@@ -210,16 +210,16 @@
 							"viewPageZoomScale":0.6,
 						},
 						"printoptions":{
-							unit:"mm",//mm(default), in, pt, cm, m, 
+							unit:"mm",//mm(default), in, pt, cm, m,
 							PrintArea:"$A$1:$S$31",//print range
 							PrintTitles:{//row column
 								row:"Sheet1!$1:$1",
 								column:"Sheet1!$C:$C"
-							}, 
+							},
 							printOptions:{
 								horizontalCentered:0,//align
 								verticalCentered:0,//valign
-								headings:0,//show row and column 
+								headings:0,//show row and column
 								gridLines:0,//show gridlines
 							},
 							pageMargins:{
@@ -233,7 +233,7 @@
 							pageSetup:{
 								copies:1,//Number of copies to print.
 								draft:0,//Print without graphics about image and chart
-								paperSize:9,//1Letter ,3Tabloid, 5Legal ,6Statement ,7Executive ,8A3 ,9A4 ,11A5 ,12B4 ,13B5 
+								paperSize:9,//1Letter ,3Tabloid, 5Legal ,6Statement ,7Executive ,8A3 ,9A4 ,11A5 ,12B4 ,13B5
 								paperHeight:null,//Height of custom paper as a number followed by a unit identifier. [Example: 297mm, 11inend example],When paperHeight and paperWidth are specified, paperSize shall be ignored.
 								paperWidth:null,//Width of custom paper as a number followed by a unit identifier. [Example: 21cm, 8.5inend example]
 								fitToWidth:0,//Number of horizontal pages to fit on.

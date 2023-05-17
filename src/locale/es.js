@@ -5838,6 +5838,7 @@ export default {
         screenshot: 'Captura de pantalla',
         splitColumn: 'Separar texto',
         insertImage: 'Insertar imagen',
+        exportXlsx: "Exportar Xlsx",
         dataVerification: 'Verificación de datos',
         protection:"Proteger la hoja",
 
@@ -6240,7 +6241,7 @@ export default {
         "columnSortMergeError":"La ordenación de las columnas se extiende a toda la selección de la tabla. Esta operación no puede realizarse si hay celdas fusionadas. Utilice la función de clasificación de la barra de herramientas.",
     },
     filter:{
-       filter:"crear filtro", 
+       filter:"crear filtro",
 
        sortByAsc:"Ordenar A-Z",
        sortByDesc:"Ordenar Z-A",
@@ -6356,7 +6357,7 @@ export default {
         byRow: 'Por fila',
         byCol: 'Por columna',
         generateNewMatrix: 'Generar nueva matriz',
-        
+
     },
     comment:{
         "insert":"Insertar",
@@ -6414,7 +6415,7 @@ export default {
         "semicolon":"punto y coma",
         "comma":"coma",
         "space":"espacio",
-        
+
     },
     findAndReplace:{
         find:"Encontrar",
@@ -6985,5 +6986,9 @@ export default {
         close: 'Conexión WebSocket cerrada',
         contact: 'Ocurrió un error de comunicación con el servidor, actualice la página y vuelva a intentarlo; de lo contrario, comuníquese con el administrador.',
         support: 'El navegador actual no es compatible con WebSocket',
+    },
+    exportXlsx:{
+        notice:'Configure el complemento de exportación',
+        serverError:'El servidor está en mantenimiento'
     }
   };
