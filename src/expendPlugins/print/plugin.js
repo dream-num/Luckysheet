@@ -19,13 +19,14 @@ function print(options, config, isDemo) {
     // loadLinks(dependLinks);
 
     // seriesLoadScripts(dependScripts, null, function() {});
-
-    Store.luckysheetPrint = luckysheetPrint;
-    const link = document.createElement("link");
-    link.setAttribute("rel", "stylesheet");
-    link.setAttribute("type", "text/css");
-    link.setAttribute("href", "/expendPlugins/print/print.css");
-    document.head.appendChild(link);
+    if (luckysheetPrint) {
+        Store.luckysheetPrint = luckysheetPrint;
+        const link = document.createElement("link");
+        link.setAttribute("rel", "stylesheet");
+        link.setAttribute("type", "text/css");
+        link.setAttribute("href", "/expendPlugins/print/print.css");
+        document.head.appendChild(link);
+    }
 }
 
 export { print };

@@ -52,7 +52,6 @@ import { openProtectionModal, checkProtectionFormatCells, checkProtectionNotEnab
 import Store from "../store";
 import locale from "../locale/locale";
 import { checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn } from "../global/api";
-// import { luckysheetPrint } from "./print";
 
 const menuButton = {
     menu:
