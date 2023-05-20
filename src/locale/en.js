@@ -7310,6 +7310,22 @@ export default {
         menuItemAreas: "Print areas",
         menuItemRows: "Print title rows",
         menuItemColumns: "Print title columns",
+        suggest: "Any suggestions for the print function?",
+        range: "Print Range",
+        size: "Paper Size",
+        direction: "Print Direction",
+        horizontal: "Horizontal",
+        vertical: "Vertical",
+        title: "Print Setup",
+        current: "Current Sheet",
+        area: "Selected Range",
+        letter: "letter",
+        paper: "tabloid paper",
+        law: "official paper",
+        admin: "administrative paper",
+        expire: "expired",
+        remain: "remaining days",
+        error: "error",
     },
     edit: {
         typing: "typing",
@@ -7323,8 +7339,8 @@ export default {
             "Server communication error occurred, please refresh the page and try again, if not, please contact the administrator!",
         support: "The current browser does not support WebSocket",
     },
-    exportXlsx:{
-        notice:'Please configure the export plugin',
-        serverError:'server is under maintenance'
-    }
+    exportXlsx: {
+        notice: "Please configure the export plugin",
+        serverError: "server is under maintenance",
+    },
 };
