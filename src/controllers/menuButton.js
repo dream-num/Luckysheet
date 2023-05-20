@@ -3648,8 +3648,11 @@ const menuButton = {
                         //Print config
                         if (Store.luckysheetPrint) {
                             luckysheetPrint = Store.luckysheetPrint;
-                            luckysheetPrint.createDialog();
-                            luckysheetPrint.init();
+                            const plugin = Store.plugins.find((item) => item.name === "print");
+                            if (plugin && plugin.config) {
+                                luckysheetPrint.createDialog();
+                                luckysheetPrint.init(plugin.config.license);
+                            }
                         }
                     } else if (itemvalue == "areas" || itemvalue == "rows" || itemvalue == "columns") {
                         //range

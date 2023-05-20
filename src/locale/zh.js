@@ -7299,6 +7299,9 @@ export default {
         paper: "小报用纸",
         law: "法定用纸",
         admin: "行政用纸",
+        expire: "已过期",
+        remain: "剩余天数",
+        error: "错误",
     },
     edit: {
         typing: "正在输入",
@@ -7311,8 +7314,8 @@ export default {
         contact: "服务器通信发生错误，请刷新页面后再试，如若不行请联系管理员！",
         support: "当前浏览器不支持WebSocket",
     },
-    exportXlsx:{
-        notice:'请配置导出插件',
-        serverError:'服务器正在维护'
-    }
+    exportXlsx: {
+        notice: "请配置导出插件",
+        serverError: "服务器正在维护",
+    },
 };
