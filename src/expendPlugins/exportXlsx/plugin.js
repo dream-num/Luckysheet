@@ -26,9 +26,14 @@ function fetchAndDownloadXlsx(url,success,fail) {
     })
         .then((response) => response.blob())
         .then((blob) => {
-            const filename = luckyJson.title + '.xlsx';
-            downloadXlsx(blob, filename);
-            success && success()
+            if(blob.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+                const filename = luckyJson.title + '.xlsx';
+                downloadXlsx(blob, filename);
+                success && success()
+            }else{
+                fail && fail()
+            }
+            
         })
         .catch((error) => {
             console.error('fetch error:', error);

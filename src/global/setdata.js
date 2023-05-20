@@ -166,7 +166,9 @@ function setcellvalue(r, c, d, v) {
             ) {
                 if (typeof vupdate === "string") {
                     let flag = vupdate.split("").every((ele) => ele == "0" || ele == ".");
-                    if (flag) {
+
+                    // 1.1111111111111111 as an example, numbers within 18 characters need to be converted to numbers
+                    if (flag || vupdate.length < 18) {
                         vupdate = parseFloat(vupdate);
                     }
                 }
