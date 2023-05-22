@@ -34,6 +34,7 @@ import { initialEvent } from "./protection";
 import luckysheetformula from "../global/formula";
 
 const sheetmanage = {
+    Luckysheet_custom_sheet:null,//不能删除，下面用来存储自定义sheet ，如果这个变量不为null ，新增sheet 就按这个运行。
     generateRandomSheetIndex: function(prefix) {
         if (prefix == null) {
             prefix = "Sheet";
@@ -201,11 +202,11 @@ const sheetmanage = {
         return Store.currentSheetIndex;
     },
     getCustomSheet() {
-        //设置自定义luckysheet 配置项。
+        //设置自定义sheet页面 配置项。
         if (!this.Luckysheet_custom_sheet) return {};
         return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet)); //每次都返回一个自定义sheet新对象
     },
-    setCustomSheet(luckysheet_custom_sheet) {
+    setCustomSheet(luckysheet_custom_sheet) {//获取自定义sheet 配置
         this.Luckysheet_custom_sheet = luckysheet_custom_sheet;
     },
     addNewSheet: function(e, isPivotTable) {
@@ -244,7 +245,7 @@ const sheetmanage = {
             sheetconfig.name = sheetname;
             // sheet_defaullt_config.config={};
         } else {
-            //自定义sheet为空的话
+            //自定义sheet为空的话自定义sheet为空的话,那就说明没有设置自定sheet ，那就按默认的sheet 添加
             sheetconfig = {
                 name: sheetname,
                 color: "",

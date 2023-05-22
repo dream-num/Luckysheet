@@ -128,7 +128,15 @@ export function initialEvent(file){
         file.config.authority = authorityData;
 
         inputRangeProtectionPassword = {};
-
+        //确定工作表保护的确定事件，触发updated钩子函数
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = 'update_pritect';
+            redo["sheetIndex"] = file.index;
+            redo["config"] = $.extend(true, {}, file.config);    
+            Store. jfundo.length  = 0;
+            Store.jfredo.push(redo);
+        }
         closeProtectionModal();
 
     });
@@ -686,12 +694,11 @@ function restoreProtectionConfig(aut){
 export function openProtectionModal(file){
     if(!isInitialProtection){
         initialProtectionRIghtBar(file);
-        initialEvent(file);
-        isInitialProtection = true;
     }
 
     updatingSheetFile = file;
-
+    initialEvent(file);
+    isInitialProtection = true;
 
     if(file!=null && file.config!=null && file.config.authority!=null){
         let aut = file.config.authority;
