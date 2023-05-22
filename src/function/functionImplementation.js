@@ -9,7 +9,7 @@ import func_methods from '../global/func_methods';
 import editor from '../global/editor';
 import { isdatetime, diff, isdatatype } from '../global/datecontroll';
 import { isRealNum, isRealNull, valueIsError,error } from '../global/validate';
-import { jfrefreshgrid } from '../global/refresh';
+import { jfrefreshgrid,jfrefreshgridall } from '../global/refresh';
 import { genarate, update } from '../global/format';
 import { orderbydata } from '../global/sort';
 import { getcellvalue,datagridgrowth } from '../global/getdata';
@@ -4652,6 +4652,18 @@ const functionImplementation = {
                     var d = editor.deepCopyFlowData(Store.flowdata);
 
                     const target = excelToLuckyArray(companyTargetData);
+
+                    const rowheight = startRow + target.length;
+                    const colwidth = startColumn + target[0].length;
+                    
+                    if(rowheight >= d.length && colwidth >= d[0].length){
+                        d = datagridgrowth(d,rowheight - d.length + 1, colwidth - d[0].length + 1)
+                    }else if(rowheight >= d.length){
+                        d = datagridgrowth(d,rowheight - d.length + 1, 0)
+                    }else if(colwidth >= d[0].length){
+                        d = datagridgrowth(d,0, colwidth - d[0].length + 1)
+                    }
+
                     target.forEach((row,r)=>{
                         row.forEach((cell,c)=>{
                             // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
@@ -4664,7 +4676,21 @@ const functionImplementation = {
 
                     // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
                     if(currentSheetIndex === Store.currentSheetIndex){
-                        jfrefreshgrid(d, [{"row": [startRow, startRow+target.length], "column": [startColumn, startColumn + target[0].length]}]);
+                        let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                        file.row = d.length
+                        file.data = d
+                        jfrefreshgridall(
+                            d[0].length,
+                            d.length,
+                            d,
+                            null,
+                            Store.luckysheet_select_save,
+                            "datachangeAll",
+                            undefined,
+                            undefined,
+                        );
+
+                        // jfrefreshgrid(d, [{"row": [startRow, startRow+target.length], "column": [startColumn, startColumn + target[0].length]}]);
                     }else{
                         let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
                         file.data = d
@@ -4745,7 +4771,20 @@ const functionImplementation = {
 
                 // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
                 if(currentSheetIndex === Store.currentSheetIndex){
-                    jfrefreshgrid(d, [{"row": [startRow, startRow+data.length], "column": [startColumn, startColumn + data[0].length]}]);
+                    let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                    file.row = d.length
+                    file.data = d
+                    jfrefreshgridall(
+                        d[0].length,
+                        d.length,
+                        d,
+                        null,
+                        Store.luckysheet_select_save,
+                        "datachangeAll",
+                        undefined,
+                        undefined,
+                    );
+                    // jfrefreshgrid(d, [{"row": [startRow, startRow+data.length], "column": [startColumn, startColumn + data[0].length]}]);
                 }else{
                     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
                     file.data = d
@@ -4805,7 +4844,17 @@ const functionImplementation = {
                 setTimeout(() => {
                     var d = editor.deepCopyFlowData(Store.flowdata);
 
+                    const rowheight = startRow + resultTable.length;
+                    const colwidth = startColumn + resultTable[0].length;
                     
+                    if(rowheight >= d.length && colwidth >= d[0].length){
+                        d = datagridgrowth(d,rowheight - d.length + 1, colwidth - d[0].length + 1)
+                    }else if(rowheight >= d.length){
+                        d = datagridgrowth(d,rowheight - d.length + 1, 0)
+                    }else if(colwidth >= d[0].length){
+                        d = datagridgrowth(d,0, colwidth - d[0].length + 1)
+                    }
+                        
                     resultTable.forEach((row,r)=>{
                         row.forEach((cell,c)=>{
                             // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],cell)
@@ -4817,7 +4866,21 @@ const functionImplementation = {
                     
                     // 切换到包含远程公式的页之后300ms内又切换到其他页，不需要刷新，否则会导致公式页的数据刷到当前页
                     if(currentSheetIndex === Store.currentSheetIndex){
-                        jfrefreshgrid(d, [{"row": [startRow, startRow+resultTable.length], "column": [startColumn, startColumn + resultTable[0].length]}]);
+                        let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+                        file.row = d.length
+                        file.data = d
+                        jfrefreshgridall(
+                            d[0].length,
+                            d.length,
+                            d,
+                            null,
+                            Store.luckysheet_select_save,
+                            "datachangeAll",
+                            undefined,
+                            undefined,
+                        );
+
+                        // jfrefreshgrid(d, [{"row": [startRow, startRow+resultTable.length], "column": [startColumn, startColumn + resultTable[0].length]}]);
                     }else{
                         let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
                         file.data = d
