@@ -12,7 +12,7 @@ import { isRealNum, isRealNull, valueIsError,error } from '../global/validate';
 import { jfrefreshgrid } from '../global/refresh';
 import { genarate, update } from '../global/format';
 import { orderbydata } from '../global/sort';
-import { getcellvalue } from '../global/getdata';
+import { getcellvalue,datagridgrowth } from '../global/getdata';
 import { getObjType, ABCatNum, chatatABC, numFormat } from '../utils/util';
 import Store from '../store';
 import dayjs from 'dayjs';
@@ -4722,6 +4722,17 @@ const functionImplementation = {
             var d = editor.deepCopyFlowData(Store.flowdata);
 
             getAirTable(url,sort_index,sort_order,(data)=>{
+                const rowheight = startRow + data.length;
+                const colwidth = startColumn + data[0].length;
+                
+                if(rowheight >= d.length && colwidth >= d[0].length){
+                    d = datagridgrowth(d,rowheight - d.length + 1, colwidth - d[0].length + 1)
+                }else if(rowheight >= d.length){
+                    d = datagridgrowth(d,rowheight - d.length + 1, 0)
+                }else if(colwidth >= d[0].length){
+                    d = datagridgrowth(d,0, colwidth - d[0].length + 1)
+                }
+
                 data.forEach((row,r)=>{
                     row.forEach((cell,c)=>{
                         // d[startRow+r][startColumn+c] = Object.assign({},d[startRow+r][startColumn+c],{v:cell})

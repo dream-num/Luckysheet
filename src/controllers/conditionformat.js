@@ -336,7 +336,8 @@ const conditionformat = {
                                 if(r1 == r2 && c1 == c2){
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    // conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    conditionRange[0] = { "row": rangeArr1[0].row, "column": rangeArr1[0].column };
                                     conditionValue.push(v1);
                                 }
                                 else{
@@ -366,7 +367,10 @@ const conditionformat = {
                                 if(r1 == r2 && c1 == c2){
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                                    // conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+
+                                    // If the first value is a custom value, and the cell range selected by the second value, push will cause the position to be wrong
+                                    conditionRange[1] = { "row": rangeArr2[0].row, "column": rangeArr2[0].column };
                                     conditionValue.push(v2);
                                 }
                                 else{
@@ -721,7 +725,8 @@ const conditionformat = {
                                 if(r1 == r2 && c1 == c2){
                                     v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    // conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                                    conditionRange[0] = { "row": rangeArr1[0].row, "column": rangeArr1[0].column };
                                     conditionValue.push(v1);
                                 }
                                 else{
@@ -751,7 +756,8 @@ const conditionformat = {
                                 if(r1 == r2 && c1 == c2){
                                     v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                                    conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                                    // conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                                    conditionRange[1] = { "row": rangeArr2[0].row, "column": rangeArr2[0].column };
                                     conditionValue.push(v2);
                                 }
                                 else{
@@ -1108,7 +1114,8 @@ const conditionformat = {
                     if(r1 == r2 && c1 == c2){
                         v1 = getcellvalue(r1, c1, Store.flowdata);
 
-                        conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                        // conditionRange.push({ "row": rangeArr1[0].row, "column": rangeArr1[0].column });
+                        conditionRange[0] = { "row": rangeArr1[0].row, "column": rangeArr1[0].column };
                         conditionValue.push(v1);
                     }
                     else{
@@ -1138,7 +1145,8 @@ const conditionformat = {
                     if(r1 == r2 && c1 == c2){
                         v2 = getcellvalue(r1, c1, Store.flowdata);
 
-                        conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                        // conditionRange.push({ "row": rangeArr2[0].row, "column": rangeArr2[0].column });
+                        conditionRange[1] = { "row": rangeArr2[0].row, "column": rangeArr2[0].column };
                         conditionValue.push(v2);
                     }
                     else{
