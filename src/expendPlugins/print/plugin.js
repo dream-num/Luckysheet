@@ -24,7 +24,7 @@ function print(options, config, isDemo) {
         const link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
         link.setAttribute("type", "text/css");
-        link.setAttribute("href", "/expendPlugins/print/print.css");
+        link.setAttribute("href", "./expendPlugins/print/print.css");
         document.head.appendChild(link);
     }
 }

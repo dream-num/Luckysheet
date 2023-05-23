@@ -40,4 +40,7 @@
     .luckysheet-print-break {
         page-break-after: always;
     }
+    #print-layout-options {
+        display: none;
+    }
 }
