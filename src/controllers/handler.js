@@ -69,7 +69,7 @@ import locale from "../locale/locale";
 import Store from "../store";
 import { createLuckyChart, hideAllNeedRangeShow } from "../expendPlugins/chart/plugin";
 import luckysheetformula from "../global/formula";
-import {fetchAndDownloadXlsx} from "../expendPlugins/exportXlsx/plugin";
+import {createExportDialog,fetchAndDownloadXlsx} from "../expendPlugins/exportXlsx/plugin";
 
 //, columeflowset, rowflowset
 export default function luckysheetHandler() {
@@ -5621,6 +5621,7 @@ export default function luckysheetHandler() {
         if(exportXlsxInfo){
             const url = exportXlsxInfo?.config?.url;
             if(url){
+                // createExportDialog(url)
                 fetchAndDownloadXlsx(url,null,()=>{
                     tooltip.info(_locale.exportXlsx.serverError, "");
                 })

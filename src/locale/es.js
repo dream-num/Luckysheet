@@ -6989,6 +6989,10 @@ export default {
     },
     exportXlsx:{
         notice:'Configure el complemento de exportación',
-        serverError:'El servidor está en mantenimiento'
+        serverError:'El servidor está en mantenimiento',
+        title: "Exportar XLSX",
+        range: "alcance",
+        currentSheet: "Hoja de trabajo actual",
+        allSheets: "Todas las hojas",
     }
   };

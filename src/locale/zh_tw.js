@@ -7012,7 +7012,11 @@ export default {
     },
     exportXlsx:{
         notice:'請配置導出插件',
-        serverError:'服務器正在維護'
+        serverError:'服務器正在維護',
+        title:'導出XLSX',
+        range: "範圍",
+        currentSheet: "當前工作表",
+        allSheets: "所有工作表",
     }
 
 };
