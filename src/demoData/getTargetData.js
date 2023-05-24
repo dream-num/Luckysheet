@@ -5284,7 +5284,7 @@ export function askAIData(data, salesTargetData) {
         resultTable = targetRate(resultTable)
     }
 
-    if(resultTable[0] && resultTable[0][4] && resultTable[0][4].v === '客户数'){
+    if(!saleTarget && resultTable[0] && resultTable[0][4] && resultTable[0][4].v === '客户数'){
         resultTable[0][4].v = '销售员人数'
     }
     return resultTable
