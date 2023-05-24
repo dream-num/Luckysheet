@@ -5270,10 +5270,23 @@ export function askAIData(data, salesTargetData) {
 
     let resultTable = pivotTable(data, config)
     resultTable = sortTable(resultTable)
-    resultTable = addSalesTargetToTable(resultTable, salesTargetData); // 添加“销售目标”列
+
+    let saleTarget = false
+    // 只有分公司才能执行vlookup查询
+    if(resultTable[0][1].v === '分公司'){
+        saleTarget = true
+        resultTable = addSalesTargetToTable(resultTable, salesTargetData); // 添加“销售目标”列
+    }
     resultTable = summary(resultTable)
-    resultTable = summaryArea(resultTable)
-    resultTable = targetRate(resultTable)
+    
+    if(saleTarget){
+        resultTable = summaryArea(resultTable)
+        resultTable = targetRate(resultTable)
+    }
+
+    if(resultTable[0] && resultTable[0][4] && resultTable[0][4].v === '客户数'){
+        resultTable[0][4].v = '销售员人数'
+    }
     return resultTable
 }
 
