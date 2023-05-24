@@ -2,6 +2,9 @@
 import locale from '../../locale/locale';
 import { modelHTML } from "../../controllers/constant";
 import { replaceHtml } from '../../utils/util';
+import tooltip from '../../global/tooltip';
+import { getSheetIndex } from '../../methods/get';
+import Store from '../../store';
 
 // Initialize the export xlsx api
 function exportXlsx(options, config, isDemo) {
@@ -19,17 +22,18 @@ function downloadXlsx(data, filename) {
 }
 
 /**
- * fetchAndDownloadXlsx(url,null,()=>{
-                    tooltip.info(_locale.exportXlsx.serverError, "");
-                })
+ * 
  * @param {*} url 
  * @param {*} success 
  * @param {*} fail 
  */
-function fetchAndDownloadXlsx(url,success,fail) {
+function fetchAndDownloadXlsx({url,order}, success, fail) {
     const luckyJson = luckysheet.toJson();
-    luckysheet.getAllChartsBase64((chartMap)=>{
-        luckyJson.chartMap = chartMap 
+    luckysheet.getAllChartsBase64((chartMap) => {
+        luckyJson.chartMap = chartMap
+        luckyJson.exportXlsx = {
+            order
+        }
         fetch(url, {
             method: 'POST',
             headers: {
@@ -39,14 +43,14 @@ function fetchAndDownloadXlsx(url,success,fail) {
         })
             .then((response) => response.blob())
             .then((blob) => {
-                if(blob.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+                if (blob.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
                     const filename = luckyJson.title + '.xlsx';
                     downloadXlsx(blob, filename);
                     success && success()
-                }else{
+                } else {
                     fail && fail()
                 }
-                
+
             })
             .catch((error) => {
                 console.error('fetch error:', error);
@@ -54,32 +58,24 @@ function fetchAndDownloadXlsx(url,success,fail) {
             });
     })
 
-    
+
 }
 
 function createExportDialog(url) {
+    $("#luckysheet-modal-dialog-mask").hide();
+    var xlsxContainer = $("#luckysheet-export-xlsx");
 
-    // title: "导出XLSX",
-        // selection: "导出范围",
-        // currentSheet: "当前工作表",
-        // allSheets: "所有工作表",
-
-        $("#luckysheet-modal-dialog-mask").hide();
-        var xlsxContainer = $("#luckysheet-export-xlsx");
-
-        // if(){
-
-        // }
+    if (xlsxContainer.length === 0) {
 
         const _locale = locale();
         const locale_exportXlsx = _locale.exportXlsx;
         const locale_button = _locale.button;
 
-        let content = `<div class="luckysheet-export-xlsx-content">
+        let content = `<div class="luckysheet-export-xlsx-content" style="padding: 10px 10px 10px 0;">
                 <span>${locale_exportXlsx.range}</span>
                 <select class="luckysheet-export-xlsx-select-area">
-                    <option value="0" selected="selected">${locale_exportXlsx.currentSheet}</option>
-                    <option value="1">${locale_exportXlsx.allSheets}</option>
+                    <option value="allSheets" selected="selected">${locale_exportXlsx.allSheets}</option>
+                    <option value="currentSheet">${locale_exportXlsx.currentSheet}</option>
                 </select>
         </div>`;
 
@@ -90,22 +86,49 @@ function createExportDialog(url) {
                 title: locale_exportXlsx.title,
                 content: content,
                 botton: `<button class="btn btn-primary luckysheet-model-confirm-btn">${locale_button.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_button.close}</button>`,
-                style: "z-index:100003",
+                style: "z-index:2",
                 close: locale_button.close,
             }),
         );
-        
-        let $t = $("#luckysheet-export-xlsx").find(".luckysheet-modal-dialog-content").css("min-width", 350).end(),
-            myh = $t.outerHeight(),
-            myw = $t.outerWidth();
-        let winw = $(window).width(),
-            winh = $(window).height();
-        let scrollLeft = $(document).scrollLeft(),
-            scrollTop = $(document).scrollTop();
-        $("#luckysheet-export-xlsx")
-            .css({ left: (winw + scrollLeft - myw) / 2, top: (winh + scrollTop - myh) / 3 })
-            .show();
-    
+
+        selectedOption = 'allSheets'
+
+        // init event
+        $("#luckysheet-export-xlsx .luckysheet-model-confirm-btn").on('click',()=>{
+            luckysheet.showLoadingProgress()
+
+            var order = 'all'
+            if(selectedOption === 'currentSheet'){
+                order = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].order
+            }
+            fetchAndDownloadXlsx({url,order},()=>{
+                luckysheet.hideLoadingProgress()
+            },()=>{
+                luckysheet.hideLoadingProgress()
+                tooltip.info(_locale.exportXlsx.serverError, "");
+            })
+            $("#luckysheet-export-xlsx").hide()
+        })
+
+        $("#luckysheet-export-xlsx .luckysheet-export-xlsx-select-area").change(function() {
+            selectedOption = $(this).val();
+          });
+
+    }
+
+
+
+    let $t = $("#luckysheet-export-xlsx").find(".luckysheet-modal-dialog-content").css("min-width", 350).end(),
+        myh = $t.outerHeight(),
+        myw = $t.outerWidth();
+    let winw = $(window).width(),
+        winh = $(window).height();
+    let scrollLeft = $(document).scrollLeft(),
+        scrollTop = $(document).scrollTop();
+    $("#luckysheet-export-xlsx")
+        .css({ left: (winw + scrollLeft - myw) / 2, top: (winh + scrollTop - myh) / 3 })
+        .show();
+
 }
 
-export { exportXlsx,downloadXlsx,fetchAndDownloadXlsx,createExportDialog }
+export { exportXlsx, downloadXlsx, fetchAndDownloadXlsx, createExportDialog }

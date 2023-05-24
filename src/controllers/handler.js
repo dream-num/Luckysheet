@@ -5621,10 +5621,7 @@ export default function luckysheetHandler() {
         if(exportXlsxInfo){
             const url = exportXlsxInfo?.config?.url;
             if(url){
-                // createExportDialog(url)
-                fetchAndDownloadXlsx(url,null,()=>{
-                    tooltip.info(_locale.exportXlsx.serverError, "");
-                })
+                createExportDialog(url)
             }
         }else{
             tooltip.info(_locale.exportXlsx.notice, "");
