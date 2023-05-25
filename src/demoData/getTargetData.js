@@ -5180,7 +5180,7 @@ export function addSalesTargetToTable(table, salesTargetData) {
     return table;
 }
 
-// 汇总所有区域数据
+// 汇总所有区域数据，带分公司
 export function summary(data) {
     // 获取需要汇总的列数
     const colCount = data[0].length - 1;
@@ -5188,6 +5188,26 @@ export function summary(data) {
     // 计算汇总数据
     const summaryRow = [{ v: "" }, { v: "合计" }, { v: "" }];
     for (let i = 3; i <= colCount; i++) {
+        let sum = 0;
+        for (let j = 1; j < data.length; j++) {
+            sum += parseInt(data[j][i]['v']) || 0;
+        }
+        summaryRow.push({ "v": parseInt(sum) || 0 });
+    }
+
+    // 插入汇总数据到第二行
+    data.splice(1, 0, summaryRow);
+    return data
+}
+
+// 汇总所有区域数据，不带分公司
+export function summaryAll(data) {
+    // 获取需要汇总的列数
+    const colCount = data[0].length - 1;
+
+    // 计算汇总数据
+    const summaryRow = [{ v: "" }, { v: "合计" }];
+    for (let i = 2; i <= colCount; i++) {
         let sum = 0;
         for (let j = 1; j < data.length; j++) {
             sum += parseInt(data[j][i]['v']) || 0;
@@ -5277,7 +5297,12 @@ export function askAIData(data, salesTargetData) {
         saleTarget = true
         resultTable = addSalesTargetToTable(resultTable, salesTargetData); // 添加“销售目标”列
     }
-    resultTable = summary(resultTable)
+    if(saleTarget){
+
+        resultTable = summary(resultTable)
+    }else{
+        resultTable = summaryAll(resultTable)
+    }
     
     if(saleTarget){
         resultTable = summaryArea(resultTable)
