@@ -31,6 +31,7 @@ function fetchAndDownloadXlsx({url,order}, success, fail) {
     const luckyJson = luckysheet.toJson();
     luckysheet.getAllChartsBase64((chartMap) => {
         luckyJson.chartMap = chartMap
+        luckyJson.devicePixelRatio = window.devicePixelRatio
         luckyJson.exportXlsx = {
             order
         }
