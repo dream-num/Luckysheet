@@ -4835,7 +4835,14 @@ const functionImplementation = {
                 var cell_fp = window.luckysheetCurrentFunction;
 
                 var args = arguments;
-                var rangeData = formula.getRangeArrayTwo(args[1].data);
+                var rangeData
+                if(args[1]){
+                    rangeData = formula.getRangeArrayTwo(args[1].data);
+                }else{
+                    // 默认是target数据
+                    rangeData = excelToArray(companyTargetData)
+                }
+                
                 const companyTarget  = excelToArray(companyTargetData)
                 
 
