@@ -744,6 +744,11 @@ const luckysheetformula = {
             rangetxt = txt;
         }
 
+        // fix =VLOOKUP(D9,数据透视表!A:D,2,0)
+        if(sheetdata == null){
+            return null
+        }
+
         if (rangetxt.indexOf(":") == -1) {
             let row = parseInt(rangetxt.replace(/[^0-9]/g, "")) - 1;
             let col = ABCatNum(rangetxt.replace(/[^A-Za-z]/g, ""));
@@ -5995,7 +6000,7 @@ const luckysheetformula = {
                     let funcgStr = funcg[i].split("')")[0];
                     let funcgRange = _this.getcellrange(funcgStr);
 
-                    if (funcgRange.row[0] < 0 || funcgRange.column[0] < 0) {
+                    if (!funcgRange || funcgRange.row[0] < 0 || funcgRange.column[0] < 0) {
                         return [true, _this.error.r, txt];
                     }
 

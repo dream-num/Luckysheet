@@ -1141,7 +1141,7 @@ export default [
         "n": "ASK_AI",
         "t": 0,
         "m": [
-            2,
+            1,
             2
         ],
         "p": [
