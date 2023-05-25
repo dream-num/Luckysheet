@@ -4846,7 +4846,12 @@ const functionImplementation = {
                 const companyTarget  = excelToArray(companyTargetData)
                 
 
-                const resultTable = askAIData(rangeData,companyTarget)
+                let resultTable = askAIData(rangeData,companyTarget)
+
+                // 没有传数据，默认为target数据
+                if(!args[1]){
+                    resultTable = excelToLuckyArray(companyTargetData);
+                }
 
                 setTimeout(() => {
                     var d = editor.deepCopyFlowData(Store.flowdata);
