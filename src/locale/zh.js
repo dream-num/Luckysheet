@@ -7302,6 +7302,9 @@ export default {
         expire: "已过期",
         remain: "剩余天数",
         error: "错误",
+        showLine: "显示网格线",
+        show: "显示",
+        hide: "隐藏",
     },
     edit: {
         typing: "正在输入",

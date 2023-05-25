@@ -7326,6 +7326,9 @@ export default {
         expire: "expired",
         remain: "remaining days",
         error: "error",
+        showLine: "show grid line",
+        show: "show",
+        hide: "hide",
     },
     edit: {
         typing: "typing",
