@@ -17,7 +17,7 @@ import { getObjType, ABCatNum, chatatABC, numFormat } from '../utils/util';
 import Store from '../store';
 import dayjs from 'dayjs';
 import numeral from 'numeral';
-import {getAirTable,companyTargetData,excelToLuckyArray,excelToArray,askAIData} from '../demoData/getTargetData'
+import {getAirTable,companyTargetData,companyTargetData10,companyTargetData11,companyTargetData12,excelToLuckyArray,excelToArray,askAIData} from '../demoData/getTargetData'
 import { setcellvalue } from "../global/setdata";
 
 //公式函数计算
@@ -4835,6 +4835,7 @@ const functionImplementation = {
                 var cell_fp = window.luckysheetCurrentFunction;
 
                 var args = arguments;
+                var targetText =  func_methods.getFirstValue(arguments[0]);
                 var rangeData
                 if(args[1]){
                     rangeData = formula.getRangeArrayTwo(args[1].data);
@@ -4850,7 +4851,16 @@ const functionImplementation = {
 
                 // 没有传数据，默认为target数据
                 if(!args[1]){
-                    resultTable = excelToLuckyArray(companyTargetData);
+                    if(targetText.indexOf('10月') !== -1){
+                        resultTable = excelToLuckyArray(companyTargetData10);
+                    }else if(targetText.indexOf('11月') !== -1){
+                        resultTable = excelToLuckyArray(companyTargetData11);
+                    }else if(targetText.indexOf('12月') !== -1){
+                        resultTable = excelToLuckyArray(companyTargetData12);
+                    }else{
+                        resultTable = excelToLuckyArray(companyTargetData11);
+                    }
+                    
                 }
 
                 setTimeout(() => {
