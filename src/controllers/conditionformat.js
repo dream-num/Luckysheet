@@ -2458,12 +2458,16 @@ const conditionformat = {
     },
     daterangeInit: function(id){
         const conditionformat_Text = locale().conditionformat;
+        const regexSingleDate = /^\d{4}-\d{2}-\d{2}$/; // 匹配  "YYYY-MM-DD"
+        const regexStartEndDate = /^\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}$/; // 匹配 "YYYY-MM-DD to YYYY-MM-DD"
+        // const regexStartEndDate = /^(\d{4}-\d{2}-\d{2})( to (\d{4}-\d{2}-\d{2}))?$/; // 
 
         //日期选择插件
         $('.ranges_1 ul').remove();
-        $('#' + id).find("#daterange-btn").flatpickr({
+        const daterangeBtn = $('#' + id).find("#daterange-btn")
+        daterangeBtn.flatpickr({
             mode: "range",
-            onChange: function (data, label) {
+            onChange:  (data, label) => {
                 const [start, end] = data
                 //label:通过它来知道用户选择的是什么，传给后台进行相应的展示
                 let format1 = [
@@ -2483,11 +2487,21 @@ const conditionformat = {
                 ]
 
                 if (label == conditionformat_Text.all) {
-                    $('#daterange-btn').val('');
+                    daterangeBtn.val('');
                 } else if (format1.indexOf(label) > -1) {
-                    $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD'));
+                    daterangeBtn.val(dayjs(start).format('YYYY/MM/DD'));
                 } else if (format2.indexOf(label) > -1) {
-                    $('#daterange-btn').val(dayjs(start).format('YYYY/MM/DD') + '-' + dayjs(end).format('YYYY/MM/DD'));
+                    daterangeBtn.val(dayjs(start).format('YYYY/MM/DD') + '-' + dayjs(end).format('YYYY/MM/DD'));
+                }
+
+                // 匹配  "2023-05-17 to 2023-05-19"
+                const isValidSingleFormat = regexSingleDate.test(label);
+                const isValidStartEndFormat = regexStartEndDate.test(label);
+                if(isValidSingleFormat){
+                    daterangeBtn.val(dayjs(start).format('YYYY/MM/DD'));
+                }else if(isValidStartEndFormat){
+                    daterangeBtn.val(dayjs(start).format('YYYY/MM/DD') + '-' + dayjs(end).format('YYYY/MM/DD'));
+
                 }
             }
         });
