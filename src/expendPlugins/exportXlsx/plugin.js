@@ -100,7 +100,7 @@ function createExportDialog(url) {
 
             var order = 'all'
             if(selectedOption === 'currentSheet'){
-                order = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].order
+                order = getSheetIndex(Store.currentSheetIndex)
             }
             fetchAndDownloadXlsx({url,order},()=>{
                 luckysheet.hideLoadingProgress()
