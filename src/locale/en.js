@@ -7329,6 +7329,7 @@ export default {
         showLine: "show grid line",
         show: "show",
         hide: "hide",
+        preview: "preview",
     },
     edit: {
         typing: "typing",
