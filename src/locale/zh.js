@@ -7305,6 +7305,7 @@ export default {
         showLine: "显示网格线",
         show: "显示",
         hide: "隐藏",
+        preview: "预览",
     },
     edit: {
         typing: "正在输入",
