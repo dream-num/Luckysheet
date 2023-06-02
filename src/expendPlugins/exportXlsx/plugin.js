@@ -87,7 +87,7 @@ function createExportDialog(url) {
                 title: locale_exportXlsx.title,
                 content: content,
                 botton: `<button class="btn btn-primary luckysheet-model-confirm-btn">${locale_button.confirm}</button><button class="btn btn-default luckysheet-model-close-btn">${locale_button.close}</button>`,
-                style: "z-index:16",
+                style: "z-index:991",
                 close: locale_button.close,
             }),
         );
