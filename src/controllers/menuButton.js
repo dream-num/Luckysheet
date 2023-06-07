@@ -4921,6 +4921,8 @@ const menuButton = {
         setcellvalue(r, c, d, value);
         luckysheetformula.execFunctionExist.push({ r: r, c: c, i: Store.currentSheetIndex });
 
+        //刷新生成公式所在的单元格，刷新calcChain
+        Store.luckysheet_select_save.push({"row": [r, r], "column": [c, c]});
         server.historyParam(d, Store.currentSheetIndex, { row: [r, r], column: [c, c] });
     },
     checkNoNullValue: function(cell) {
@@ -5122,6 +5124,7 @@ const menuButton = {
         let d = editor.deepCopyFlowData(Store.flowdata);
         let nullfindnum = 40;
         let isfalse = true;
+        let select_save_len=Store.luckysheet_select_save.length;
         luckysheetformula.execFunctionExist = [];
 
         let execFormulaInput_c = function(d, st_r, ed_r, st_c, ed_c, formula) {
@@ -5144,7 +5147,7 @@ const menuButton = {
             }
         };
 
-        for (let s = 0; s < Store.luckysheet_select_save.length; s++) {
+        for(let s = 0; s < select_save_len; s++){
             let st_r = Store.luckysheet_select_save[s].row[0],
                 ed_r = Store.luckysheet_select_save[s].row[1];
             let st_c = Store.luckysheet_select_save[s].column[0],
