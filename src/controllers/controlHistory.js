@@ -86,6 +86,8 @@ const controlHistory = {
                 "dynamicArray": ctr.dynamicArray,
                 "hyperlink": ctr.hyperlink,
             }
+            //防止协同编辑时选区错误
+            server.saveParam("mv", Store.currentSheetIndex, ctr.dataRange);
            // jfrefreshgrid(ctr.data, ctr.range, allParam);
 
             /* ⚠️  这个🌶️  dataRange表示的才是数据更新的位置 */
@@ -423,14 +425,15 @@ const controlHistory = {
         }
         else if (ctr.type=="zoomChange"){
             Store.zoomRatio = ctr.zoomRatio;
-            server.saveParam("all", ctr.currentSheetIndex, ctr.zoomRatio, { "k": "zoomRatio" });
+            server.saveParam("all", ctr.sheetIndex, ctr.zoomRatio, { "k": "zoomRatio" });
             zoomNumberDomBind();
             zoomRefreshView();
         }
         
         cleargridelement(e);
         if (ctr.range) {
-            Store.luckysheet_select_save = ctr.range;
+            //使用深复制
+            Store.luckysheet_select_save = $.extend(true, [],ctr.range);
             selectHightlightShow();
         }
         Store.clearjfundo = true;
@@ -468,6 +471,8 @@ const controlHistory = {
 
             formulaHistoryHanddler(ctr, "undo");
 
+            //防止协同编辑时选区错误
+            server.saveParam("mv", Store.currentSheetIndex, ctr.range);
             jfrefreshgrid(ctr.curdata, ctr.range, allParam);
         }
         else if (ctr.type == "pasteCut") {
@@ -743,13 +748,14 @@ const controlHistory = {
         }
         else if (ctr.type=="zoomChange"){
             Store.zoomRatio = ctr.curZoomRatio;
-            server.saveParam("all", ctr.currentSheetIndex, ctr.curZoomRatio, { "k": "zoomRatio" });
+            server.saveParam("all", ctr.sheetIndex, ctr.curZoomRatio, { "k": "zoomRatio" });
             zoomNumberDomBind();
             zoomRefreshView();
         }
 
         if (ctr.range) {
-            Store.luckysheet_select_save = ctr.range;
+            //使用深复制
+            Store.luckysheet_select_save = $.extend(true, [],ctr.range);
             selectHightlightShow();
         }
         Store.clearjfundo = true;
