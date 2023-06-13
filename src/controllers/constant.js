@@ -72,13 +72,13 @@ const gridHTML = function() {
                                 </div> 
                             </div> 
                             <div id="luckysheet-wa-functionbox-cancel" class="luckysheet-wa-functionbox">
-                                <span><i class="iconfont luckysheet-iconfont-qingchu" aria-hidden="true"></i></span>
+                                <span><i class="iconfont-luckysheet luckysheet-iconfont-qingchu" aria-hidden="true"></i></span>
                             </div> 
                             <div id="luckysheet-wa-functionbox-confirm" class="luckysheet-wa-functionbox">
-                                <span><i class="iconfont luckysheet-iconfont-yunhang" aria-hidden="true"></i></span>
+                                <span><i class="iconfont-luckysheet luckysheet-iconfont-yunhang" aria-hidden="true"></i></span>
                             </div> 
                             <div id="luckysheet-wa-functionbox-fx" class="luckysheet-wa-functionbox">
-                                <span><i class="iconfont luckysheet-iconfont-hanshu" aria-hidden="true" style="color:#333"></i></span> 
+                                <span><i class="iconfont-luckysheet luckysheet-iconfont-hanshu" aria-hidden="true" style="color:#333"></i></span> 
                             </div> 
                             <div id="luckysheet-functionbox-container" class="luckysheet-mousedown-cancel">
                                 <div class="luckysheet-mousedown-cancel" dir="ltr">
@@ -235,8 +235,8 @@ const gridHTML = function() {
                             </div> 
                             <div class="luckysheet-sheet-area luckysheet-noselected-text" id="luckysheet-sheet-area">
                                 <div id="luckysheet-sheet-content">
-                                    <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="iconfont luckysheet-iconfont-jia1"></i></div>
-                                    <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="iconfont luckysheet-iconfont-caidan2"></i></div>
+                                    <div id="luckysheet-sheets-add" class="luckysheet-sheets-add lucky-button-custom"><i class="iconfont-luckysheet luckysheet-iconfont-jia1"></i></div>
+                                    <div id="luckysheet-sheets-m" class="luckysheet-sheets-m lucky-button-custom"><i class="iconfont-luckysheet luckysheet-iconfont-caidan2"></i></div>
                                     <div class="luckysheet-sheet-container" id="luckysheet-sheet-container">
                                         <div class="docs-sheet-fade docs-sheet-fade-left" style="display: none;">
                                             <div class="docs-sheet-fade3"></div>
@@ -396,7 +396,7 @@ function rightclickHTML() {
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                         ${
                             rightclick.copyAs
-                        }<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
+                        }<span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
                     </div>
                 </div>
                 <div id="luckysheet-copy-paste" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${
@@ -449,7 +449,7 @@ function rightclickHTML() {
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             ${
                                 rightclick.hide
-                            }<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
+                            }<span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
                         </div>
                     </div>
                     -->
@@ -459,7 +459,7 @@ function rightclickHTML() {
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             ${
                                 rightclick.deleteCell
-                            }<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
+                            }<span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
                         </div>
                     </div>
                 </div>
@@ -566,7 +566,7 @@ function rightclickHTML() {
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
                             ${
                                 rightclick.matrix
-                            }<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
+                            }<span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;"></span>
                         </div>
                     </div>
                     <div id="luckysheetorderby" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${
@@ -981,7 +981,7 @@ function sheetconfigHTML() {
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"> 
                         ${
                             sheetconfig.changeColor
-                        } <span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span> 
+                        } <span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;"></span> 
                     </div> 
                 </div> 
                 <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator" style="display:${
@@ -1074,7 +1074,7 @@ function filtermenuHTML() {
     const _locale = locale();
     const locale_filter = _locale.filter;
 
-    return `<div class="luckysheet-cols-menu luckysheet-mousedown-cancel luckysheet-filter-menu" id="luckysheet-\${menuid}-menu"><div id="luckysheet-\${menuid}-orderby-asc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${locale_filter.sortByAsc}</div></div><div id="luckysheet-\${menuid}-orderby-desc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div style="width:205px;" class="luckysheet-mousedown-cancel">${locale_filter.sortByDesc}</div></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div id="luckysheet-\${menuid}-orderby-color" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="position: relative;">${locale_filter.filterByColor}<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;right: 0;"></span></div></div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-bycondition" style="padding-top:0px;padding-bottom:0px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><i class="fa fa-caret-right" aria-hidden="true"></i> ${locale_filter.filterByCondition}</div></div> <div class="luckysheet-\${menuid}-bycondition" style="display:none;"><div class="luckysheet-flat-menu-button luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-selected"><span class="luckysheet-mousedown-cancel" data-value="null" data-type="0">${locale_filter.filiterInputNone}</span><div class="luckysheet-mousedown-cancel"><i class="fa fa-sort" aria-hidden="true"></i></div></div><div class="luckysheet-\${menuid}-selected-input"><input type="text" placeholder="${locale_filter.filiterInputTip}" class="luckysheet-mousedown-cancel" /></div><div class="luckysheet-\${menuid}-selected-input luckysheet-\${menuid}-selected-input2"><span>${locale_filter.filiterRangeStart}</span><input type="text" placeholder="${locale_filter.filiterRangeStartTip}" class="luckysheet-mousedown-cancel" /><span>${locale_filter.filiterRangeEnd}</span><input type="text" placeholder="${locale_filter.filiterRangeEndTip}" class="luckysheet-mousedown-cancel" /></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-byvalue" style="padding-top:0px;padding-bottom:0px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><i class="fa fa-caret-right" aria-hidden="true"></i> ${locale_filter.filterByValues}</div></div> <div class="luckysheet-\${menuid}-byvalue"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel luckysheet-mousedown-\${menuid}-byvalue-btn"><span id="luckysheet-\${menuid}-byvalue-btn-all" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByAllBtn}</span> - <span id="luckysheet-\${menuid}-byvalue-btn-clear" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByClearBtn}</span> - <span id="luckysheet-\${menuid}-byvalue-btn-contra" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByInverseBtn}</span> <div><i class="fa fa-\${menuid} luckysheet-mousedown-cancel" aria-hidden="true"></i></div></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="padding-left:3px; padding-right:3px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><input type="text" placeholder="${locale_filter.filterValueByTip}" class="luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-byvalue-input" /><div class="luckysheet-\${menuid}-byvalue-input-icon luckysheet-mousedown-cancel"><i class="fa fa-search luckysheet-mousedown-cancel" aria-hidden="true"></i></div></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div id="luckysheet-\${menuid}-byvalue-select" class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"></div></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div class="btn btn-primary luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-confirm">${locale_filter.filterConform}</div> <div class="btn btn-default luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-cancel">${locale_filter.filterCancel}</div> <div class="btn btn-danger luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-initial">${locale_filter.clearFilter}</div></div></div> </div>`;
+    return `<div class="luckysheet-cols-menu luckysheet-mousedown-cancel luckysheet-filter-menu" id="luckysheet-\${menuid}-menu"><div id="luckysheet-\${menuid}-orderby-asc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${locale_filter.sortByAsc}</div></div><div id="luckysheet-\${menuid}-orderby-desc" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div style="width:205px;" class="luckysheet-mousedown-cancel">${locale_filter.sortByDesc}</div></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div id="luckysheet-\${menuid}-orderby-color" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="position: relative;">${locale_filter.filterByColor}<span class="luckysheet-submenu-arrow iconfont-luckysheet luckysheet-iconfont-youjiantou" style="user-select: none;right: 0;"></span></div></div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-bycondition" style="padding-top:0px;padding-bottom:0px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><i class="fa fa-caret-right" aria-hidden="true"></i> ${locale_filter.filterByCondition}</div></div> <div class="luckysheet-\${menuid}-bycondition" style="display:none;"><div class="luckysheet-flat-menu-button luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-selected"><span class="luckysheet-mousedown-cancel" data-value="null" data-type="0">${locale_filter.filiterInputNone}</span><div class="luckysheet-mousedown-cancel"><i class="fa fa-sort" aria-hidden="true"></i></div></div><div class="luckysheet-\${menuid}-selected-input"><input type="text" placeholder="${locale_filter.filiterInputTip}" class="luckysheet-mousedown-cancel" /></div><div class="luckysheet-\${menuid}-selected-input luckysheet-\${menuid}-selected-input2"><span>${locale_filter.filiterRangeStart}</span><input type="text" placeholder="${locale_filter.filiterRangeStartTip}" class="luckysheet-mousedown-cancel" /><span>${locale_filter.filiterRangeEnd}</span><input type="text" placeholder="${locale_filter.filiterRangeEndTip}" class="luckysheet-mousedown-cancel" /></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-byvalue" style="padding-top:0px;padding-bottom:0px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><i class="fa fa-caret-right" aria-hidden="true"></i> ${locale_filter.filterByValues}</div></div> <div class="luckysheet-\${menuid}-byvalue"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel luckysheet-mousedown-\${menuid}-byvalue-btn"><span id="luckysheet-\${menuid}-byvalue-btn-all" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByAllBtn}</span> - <span id="luckysheet-\${menuid}-byvalue-btn-clear" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByClearBtn}</span> - <span id="luckysheet-\${menuid}-byvalue-btn-contra" class="luckysheet-mousedown-cancel">${locale_filter.filterValueByInverseBtn}</span> <div><i class="fa fa-\${menuid} luckysheet-mousedown-cancel" aria-hidden="true"></i></div></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="padding-left:3px; padding-right:3px;"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><input type="text" placeholder="${locale_filter.filterValueByTip}" class="luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-byvalue-input" /><div class="luckysheet-\${menuid}-byvalue-input-icon luckysheet-mousedown-cancel"><i class="fa fa-search luckysheet-mousedown-cancel" aria-hidden="true"></i></div></div></div><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div id="luckysheet-\${menuid}-byvalue-select" class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"></div></div></div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> <div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel"><div class="btn btn-primary luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-confirm">${locale_filter.filterConform}</div> <div class="btn btn-default luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-cancel">${locale_filter.filterCancel}</div> <div class="btn btn-danger luckysheet-mousedown-cancel" id="luckysheet-\${menuid}-initial">${locale_filter.clearFilter}</div></div></div> </div>`;
 }
 
 function filtersubmenuHTML() {
@@ -1413,37 +1413,37 @@ luckysheet_CFiconsImg.src =
 
 const iconfontObjects = {
     border: {
-        "border-top": " iconfont luckysheet-iconfont-shangbiankuang",
-        "border-bottom": " iconfont luckysheet-iconfont-xiabiankuang",
-        "border-left": " iconfont luckysheet-iconfont-zuobiankuang",
-        "border-right": " iconfont luckysheet-iconfont-youbiankuang",
-        "border-none": " iconfont luckysheet-iconfont-wubiankuang",
-        "border-all": " iconfont luckysheet-iconfont-quanjiabiankuang",
-        "border-outside": " iconfont luckysheet-iconfont-sizhoujiabiankuang",
-        "border-inside": " iconfont luckysheet-iconfont-neikuangxian",
-        "border-horizontal": " iconfont luckysheet-iconfont-neikuanghengxian",
-        "border-vertical": " iconfont luckysheet-iconfont-neikuangshuxian",
+        "border-top": " iconfont-luckysheet luckysheet-iconfont-shangbiankuang",
+        "border-bottom": " iconfont-luckysheet luckysheet-iconfont-xiabiankuang",
+        "border-left": " iconfont-luckysheet luckysheet-iconfont-zuobiankuang",
+        "border-right": " iconfont-luckysheet luckysheet-iconfont-youbiankuang",
+        "border-none": " iconfont-luckysheet luckysheet-iconfont-wubiankuang",
+        "border-all": " iconfont-luckysheet luckysheet-iconfont-quanjiabiankuang",
+        "border-outside": " iconfont-luckysheet luckysheet-iconfont-sizhoujiabiankuang",
+        "border-inside": " iconfont-luckysheet luckysheet-iconfont-neikuangxian",
+        "border-horizontal": " iconfont-luckysheet luckysheet-iconfont-neikuanghengxian",
+        "border-vertical": " iconfont-luckysheet luckysheet-iconfont-neikuangshuxian",
     },
     align: {
-        left: " iconfont luckysheet-iconfont-wenbenzuoduiqi",
-        center: " iconfont luckysheet-iconfont-wenbenjuzhongduiqi",
-        right: " iconfont luckysheet-iconfont-wenbenyouduiqi",
-        top: " iconfont luckysheet-iconfont-dingbuduiqi",
-        middle: " iconfont luckysheet-iconfont-shuipingduiqi",
-        bottom: " iconfont luckysheet-iconfont-dibuduiqi",
+        left: " iconfont-luckysheet luckysheet-iconfont-wenbenzuoduiqi",
+        center: " iconfont-luckysheet luckysheet-iconfont-wenbenjuzhongduiqi",
+        right: " iconfont-luckysheet luckysheet-iconfont-wenbenyouduiqi",
+        top: " iconfont-luckysheet luckysheet-iconfont-dingbuduiqi",
+        middle: " iconfont-luckysheet luckysheet-iconfont-shuipingduiqi",
+        bottom: " iconfont-luckysheet luckysheet-iconfont-dibuduiqi",
     },
     textWrap: {
-        overflow: " iconfont luckysheet-iconfont-yichu1",
-        wrap: " iconfont luckysheet-iconfont-zidonghuanhang",
-        clip: " iconfont luckysheet-iconfont-jieduan",
+        overflow: " iconfont-luckysheet luckysheet-iconfont-yichu1",
+        wrap: " iconfont-luckysheet luckysheet-iconfont-zidonghuanhang",
+        clip: " iconfont-luckysheet luckysheet-iconfont-jieduan",
     },
     rotation: {
-        none: " iconfont luckysheet-iconfont-wuxuanzhuang",
-        angleup: " iconfont luckysheet-iconfont-xiangshangqingxie",
-        angledown: " iconfont luckysheet-iconfont-xiangxiaqingxie",
-        vertical: " iconfont luckysheet-iconfont-shupaiwenzi",
-        "rotation-up": " iconfont luckysheet-iconfont-wenbenxiangshang",
-        "rotation-down": " iconfont luckysheet-iconfont-xiangxia90",
+        none: " iconfont-luckysheet luckysheet-iconfont-wuxuanzhuang",
+        angleup: " iconfont-luckysheet luckysheet-iconfont-xiangshangqingxie",
+        angledown: " iconfont-luckysheet luckysheet-iconfont-xiangxiaqingxie",
+        vertical: " iconfont-luckysheet luckysheet-iconfont-shupaiwenzi",
+        "rotation-up": " iconfont-luckysheet luckysheet-iconfont-wenbenxiangshang",
+        "rotation-down": " iconfont-luckysheet luckysheet-iconfont-xiangxia90",
     },
 };
 
