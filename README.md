@@ -138,6 +138,8 @@ npm run build
 - [AFFiNE.PRO](https://github.com/toeverything/AFFiNE)
 
 ## Communication
+
+- [WebSite](http://lucky.lashuju.com/index.html)
 - [Github Discussions](https://github.com/mengshukeji/Luckysheet/discussions)
 - [Gitter](https://gitter.im/mengshukeji/Luckysheet)
 

@@ -134,6 +134,7 @@ npm run build
 
 ## 交流
 
+- [官网](http://lucky.lashuju.com/index.html)
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
