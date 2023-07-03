@@ -19,14 +19,16 @@ body {
 #chat-assistant-button {
     width: 50px;
     height: 50px;
-    background-color: #ffffff;
     border-radius: 50%;
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgb(215 98 150 / 55%),rgb(34 78 139 / 71%), rgb(114 222 172));
+    box-shadow: 0px 0px 8px 1px rgb(0 0 0 / 22%);
+    color: #fff;
+    text-shadow: 1px 1px 3px rgb(0 0 0 / 56%);
 }
 
 
@@ -40,7 +42,7 @@ body {
     display: none;
     border-radius: 5px;
     width: 40%;
-    background: linear-gradient(135deg, #f2eefe, #ebf8fa);
+    background: linear-gradient(135deg, rgb(215 98 150 / 92%),rgb(34 78 139 / 93%), rgb(114 222 172 / 94%));
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -93,6 +95,8 @@ body {
     user-select: none;
     display: flex;
     align-items: center;
+    color: #fff; 
+    text-shadow: 1px 1px 3px black;
 }
 
 #close-button {
@@ -101,6 +105,8 @@ body {
     border: none;
     background-color: transparent;
     font-size: 24px;
+    color: #fff; 
+    text-shadow: 1px 1px 3px black;
 }
 #send-button {
     cursor: pointer;
@@ -179,7 +185,7 @@ body {
     
         <div id="chat-container">
             <div id="chat-header">
-                <span id="circle-button">🤖 AI助手<div id="loading-indicator"></div></span>
+                <span id="circle-button">Univer AI 助手<div id="loading-indicator"></div></span>
     
                 <button id="close-button">×</button>
             </div>
