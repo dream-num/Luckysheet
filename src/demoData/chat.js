@@ -166,7 +166,7 @@ body {
 }
 
 #send-button:enabled {
-    background-color: rgb(25, 195, 125);
+    background-color: rgb(120,198,174);
 }
 
 #send-button:enabled svg path {
