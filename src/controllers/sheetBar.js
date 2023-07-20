@@ -248,7 +248,7 @@ export function initialSheetBar(){
     });
 
     let luckysheetsheetnameeditor = function ($t) {
-        if(Store.allowEdit===false){
+        if(Store.allowEdit===false || !luckysheetConfigsetting.sheetRightClickConfig.rename){
             return;
         }
         $t.attr("contenteditable", "true").addClass("luckysheet-mousedown-cancel").data("oldtxt", $t.text());
