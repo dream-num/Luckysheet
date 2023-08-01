@@ -10,6 +10,7 @@ import { luckysheet_searcharray } from "../controllers/sheetSearch";
 import { checkProtectionAuthorityNormal, checkProtectionNotEnable } from "../controllers/protection";
 import { getSheetIndex } from "../methods/get";
 import Store from "../store";
+import method from "./method";
 
 /**
  * 增加行列
@@ -1739,7 +1740,7 @@ function luckysheetDeleteCell(type, str, edr, stc, edc, sheetIndex) {
     }
 
     // Hook function
-    if (!method.createHookFunction("rangeDeleteBefore", r, c)) {
+    if (!method.createHookFunction("rangeDeleteBefore", str, stc)) {
         return;
     }
 
