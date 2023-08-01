@@ -1,0 +1,9 @@
+dist
+
+*.css
+*.html
+*.md
+*.yml
+*.min.js
+package.json
+package-lock.json

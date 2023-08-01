@@ -25,6 +25,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^4.0.1",
     "http-proxy-middleware": "^1.0.6",
+    "prettier": "2.8.8",
     "rollup": "^2.32.1",
     "rollup-plugin-terser": "^6.1.0",
     "standard-version": "^8.0.2",
@@ -51,7 +52,9 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "commit": "git-cz",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prettier": "npx prettier --check .",
+    "prettier:fix": "npx prettier -w ."
   },
   "files": [
     "dist"
