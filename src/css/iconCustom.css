@@ -1,5 +1,5 @@
-.luckysheet-icon-img-container.iconfont,
-.luckysheet-submenu-arrow .iconfont
+.luckysheet-icon-img-container.iconfont-luckysheet,
+.luckysheet-submenu-arrow .iconfont-luckysheet
 {
     font-size: 24px;
 }
@@ -45,7 +45,7 @@
 #luckysheet-icon-morebtn{
     padding: 2px 13px 0 5px;
 }
-#luckysheet-icon-morebtn .iconfont{
+#luckysheet-icon-morebtn .iconfont-luckysheet{
     top:-9px;
 }
 
@@ -71,7 +71,7 @@
 /* #luckysheet-sheets-add, #luckysheet-sheets-m{
     padding: 1px 3px;
 } */
-.luckysheet-sheets-add .iconfont, .luckysheet-sheets-m .iconfont{
+.luckysheet-sheets-add .iconfont-luckysheet, .luckysheet-sheets-m .iconfont-luckysheet {
     font-size: 21px;
 }
 

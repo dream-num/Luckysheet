@@ -24,27 +24,27 @@ const conditionformat = {
 
         return `<div class="ruleTypeBox">
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem1}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem2}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem3}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem4}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem5}</span>
                     </div>
                     <div class="ruleTypeItem">
-                        <span class="icon iconfont luckysheet-iconfont-youjiantou"></span>
+                        <span class="icon iconfont-luckysheet luckysheet-iconfont-youjiantou"></span>
                         <span>${conditionformat_Text.ruleTypeItem6}</span>
                     </div>
                 </div>`;

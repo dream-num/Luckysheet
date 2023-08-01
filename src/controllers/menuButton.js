@@ -110,7 +110,7 @@ const menuButton = {
                         name: item.text,
                         example: "",
                         sub: "luckysheet-cols-submenu",
-                        iconClass: "iconfont luckysheet-iconfont-youjiantou",
+                        iconClass: "iconfont-luckysheet luckysheet-iconfont-youjiantou",
                     });
                 } else {
                     itemset += replaceHtml(_this.item, {
@@ -1199,63 +1199,63 @@ const menuButton = {
                         text: locale_border.borderTop,
                         value: "border-top",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-top iconfont luckysheet-iconfont-shangbiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-top iconfont-luckysheet luckysheet-iconfont-shangbiankuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderBottom,
                         value: "border-bottom",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-bottom iconfont luckysheet-iconfont-xiabiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-bottom iconfont-luckysheet luckysheet-iconfont-xiabiankuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderLeft,
                         value: "border-left",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-left iconfont luckysheet-iconfont-zuobiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-left iconfont-luckysheet luckysheet-iconfont-zuobiankuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderRight,
                         value: "border-right",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-right iconfont luckysheet-iconfont-youbiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-right iconfont-luckysheet luckysheet-iconfont-youbiankuang" style="user-select: none;"> </div> </div>',
                     },
                     { text: "", value: "split", example: "" },
                     {
                         text: locale_border.borderNone,
                         value: "border-none",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-none iconfont luckysheet-iconfont-wubiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-none iconfont-luckysheet luckysheet-iconfont-wubiankuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderAll,
                         value: "border-all",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all iconfont luckysheet-iconfont-quanjiabiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-all iconfont-luckysheet luckysheet-iconfont-quanjiabiankuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderOutside,
                         value: "border-outside",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-outside iconfont luckysheet-iconfont-sizhoujiabiankuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-outside iconfont-luckysheet luckysheet-iconfont-sizhoujiabiankuang" style="user-select: none;"> </div> </div>',
                     },
                     { text: "", value: "split", example: "" },
                     {
                         text: locale_border.borderInside,
                         value: "border-inside",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-inside iconfont luckysheet-iconfont-neikuangxian" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-inside iconfont-luckysheet luckysheet-iconfont-neikuangxian" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderHorizontal,
                         value: "border-horizontal",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-horizontal iconfont luckysheet-iconfont-neikuanghengxian" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-horizontal iconfont-luckysheet luckysheet-iconfont-neikuanghengxian" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_border.borderVertical,
                         value: "border-vertical",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-vertical iconfont luckysheet-iconfont-neikuangshuxian" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block luckysheet-material-icon luckysheet-mousedown-cancel" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-border-vertical iconfont-luckysheet luckysheet-iconfont-neikuangshuxian" style="user-select: none;"> </div> </div>',
                     },
                     { text: "", value: "split", example: "" },
                     {
@@ -1819,19 +1819,19 @@ const menuButton = {
                         text: locale_align.left,
                         value: "left",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left iconfont luckysheet-iconfont-wenbenzuoduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-left iconfont-luckysheet luckysheet-iconfont-wenbenzuoduiqi" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_align.center,
                         value: "center",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-center iconfont luckysheet-iconfont-wenbenjuzhongduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-center iconfont-luckysheet luckysheet-iconfont-wenbenjuzhongduiqi" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_align.right,
                         value: "right",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-right iconfont luckysheet-iconfont-wenbenyouduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-align-right iconfont-luckysheet luckysheet-iconfont-wenbenyouduiqi" style="user-select: none;"> </div> </div>',
                     },
                 ];
 
@@ -1904,19 +1904,19 @@ const menuButton = {
                         text: locale_align.top,
                         value: "top",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-top iconfont luckysheet-iconfont-dingbuduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-top iconfont-luckysheet luckysheet-iconfont-dingbuduiqi" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_align.middle,
                         value: "middle",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-middle iconfont luckysheet-iconfont-shuipingduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-middle iconfont-luckysheet luckysheet-iconfont-shuipingduiqi" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_align.bottom,
                         value: "bottom",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom iconfont luckysheet-iconfont-dibuduiqi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-valign-bottom iconfont-luckysheet luckysheet-iconfont-dibuduiqi" style="user-select: none;"> </div> </div>',
                     },
                 ];
 
@@ -1980,19 +1980,19 @@ const menuButton = {
                         text: locale_textWrap.overflow,
                         value: "overflow",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow iconfont luckysheet-iconfont-yichu1" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow iconfont-luckysheet luckysheet-iconfont-yichu1" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_textWrap.wrap,
                         value: "wrap",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap iconfont luckysheet-iconfont-zidonghuanhang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap iconfont-luckysheet luckysheet-iconfont-zidonghuanhang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_textWrap.clip,
                         value: "clip",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-clip iconfont luckysheet-iconfont-jieduan" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-clip iconfont-luckysheet luckysheet-iconfont-jieduan" style="user-select: none;"> </div> </div>',
                     },
                 ];
 
@@ -2056,37 +2056,37 @@ const menuButton = {
                         text: locale_rotation.none,
                         value: "none",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont luckysheet-iconfont-wuxuanzhuang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont-luckysheet luckysheet-iconfont-wuxuanzhuang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_rotation.angleup,
                         value: "angleup",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angleup iconfont luckysheet-iconfont-xiangshangqingxie" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angleup iconfont-luckysheet luckysheet-iconfont-xiangshangqingxie" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_rotation.angledown,
                         value: "angledown",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angledown iconfont luckysheet-iconfont-xiangxiaqingxie" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-angledown iconfont-luckysheet luckysheet-iconfont-xiangxiaqingxie" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_rotation.vertical,
                         value: "vertical",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-vertical iconfont luckysheet-iconfont-shupaiwenzi" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-vertical iconfont-luckysheet luckysheet-iconfont-shupaiwenzi" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_rotation.rotationUp,
                         value: "rotation-up",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-up iconfont luckysheet-iconfont-wenbenxiangshang" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-up iconfont-luckysheet luckysheet-iconfont-wenbenxiangshang" style="user-select: none;"> </div> </div>',
                     },
                     {
                         text: locale_rotation.rotationDown,
                         value: "rotation-down",
                         example:
-                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-down iconfont luckysheet-iconfont-xiangxia90" style="user-select: none;"> </div> </div>',
+                            '<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-rotation-down iconfont-luckysheet luckysheet-iconfont-xiangxia90" style="user-select: none;"> </div> </div>',
                     },
                 ];
 
@@ -2535,28 +2535,28 @@ const menuButton = {
                     {
                         text: locale_sort.asc,
                         value: "asc",
-                        example: '<i class="iconfont luckysheet-iconfont-shengxu" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-shengxu" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_sort.desc,
                         value: "desc",
-                        example: '<i class="iconfont luckysheet-iconfont-jiangxu" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-jiangxu" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_sort.custom + "...",
                         value: "diysort",
-                        example: '<i class="iconfont luckysheet-iconfont-zidingyipaixu" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-zidingyipaixu" aria-hidden="true"></i>',
                     },
                     { text: "", value: "split", example: "" },
                     {
                         text: locale_filter.filter,
                         value: "filter",
-                        example: '<i class="iconfont luckysheet-iconfont-shaixuan2" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-shaixuan2" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_filter.clearFilter,
                         value: "clearfilter",
-                        example: '<i class="iconfont luckysheet-iconfont-qingchushaixuan" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-qingchushaixuan" aria-hidden="true"></i>',
                     },
                 ];
 
@@ -2613,19 +2613,19 @@ const menuButton = {
                     {
                         text: locale_findAndReplace.find + " ...",
                         value: "search",
-                        example: '<i class="iconfont luckysheet-iconfont-sousuo" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-sousuo" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_findAndReplace.replace + " ...",
                         value: "replace",
-                        example: '<i class="iconfont luckysheet-iconfont-tihuan" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-tihuan" aria-hidden="true"></i>',
                     },
-                    // {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
+                    // {"text": locale_findAndReplace.goto+" ...", "value": "goto", "example": '<i class="iconfont-luckysheet luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>'},
                     { text: "", value: "split", example: "" },
                     {
                         text: locale_findAndReplace.location + " ...",
                         value: "location",
-                        example: '<i class="iconfont luckysheet-iconfont-dingwei" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-dingwei" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_findAndReplace.formula,

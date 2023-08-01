@@ -41,13 +41,13 @@ function addRangeItem(item){
     
     let passwordTxt = "";
     if(password!=null && password.length>0){
-        passwordTxt = '<i class="icon iconfont luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
+        passwordTxt = '<i class="icon iconfont-luckysheet luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
     }
 
     let rangeItemTemplate = `
         <div class="luckysheet-protection-rangeItem" title="${local_protection.rangeItemDblclick}">
             <div class="luckysheet-protection-rangeItem-del" title="${locale_button.delete}">
-                <i class="icon iconfont luckysheet-iconfont-shanchu"></i>
+                <i class="icon iconfont-luckysheet luckysheet-iconfont-shanchu"></i>
             </div>
             <div class="luckysheet-protection-rangeItem-name" title="${title}">
                 ${title}${passwordTxt}
@@ -56,7 +56,7 @@ function addRangeItem(item){
                 ${sqref}
             </div>
             <div class="luckysheet-protection-rangeItem-update" title="${locale_button.update}">
-                <i class="icon iconfont luckysheet-iconfont-bianji"></i>
+                <i class="icon iconfont-luckysheet luckysheet-iconfont-bianji"></i>
             </div>
         </div>
     `;
@@ -259,7 +259,7 @@ export function initialEvent(file){
 
             let passwordTxt = "";
             if(password!=null && password.length>0){
-                passwordTxt = '<i class="icon iconfont luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
+                passwordTxt = '<i class="icon iconfont-luckysheet luckysheet-iconfont-bianji2" title="'+ local_protection.rangeItemHasPassword+'"></i>';
             }
 
             $name.html(name+passwordTxt).attr("title",name);
