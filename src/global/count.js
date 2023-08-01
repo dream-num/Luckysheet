@@ -59,16 +59,16 @@ export function countfunc() {
 
     //处理成亿万格式
     if (isFinite(max) || isFinite(min)) {
-        ret += "<span>"+locale_formula.sum+":" + update("w", sum) + "</span>";
-        ret += "<span>"+locale_formula.average+":" + update("w", Math.round(sum / count * 10000) / 10000) + "</span>";
+        ret += "<span>"+locale_formula.sum+":" + sum + "</span>";
+        ret += "<span>"+locale_formula.average+":" +  Math.round(sum / count * 10000) / 10000 + "</span>";
     }
 
     if (isFinite(max)) {
-        ret += "<span>"+locale_formula.max+":" + update("w", max) + "</span>";
+        ret += "<span>"+locale_formula.max+":" +  max + "</span>";
     }
 
     if (isFinite(min)) {
-        ret += "<span>"+locale_formula.min+":" + update("w", min) + "</span>";
+        ret += "<span>"+locale_formula.min+":" +  min + "</span>";
     }
 
     $("#luckysheet-sta-content").html(ret);
