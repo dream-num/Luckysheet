@@ -199,6 +199,8 @@ export function setCellValue(row, column, value, options = {}) {
             }
             if(value.f!=null){
                 curv.f = value.f;
+            } else {
+                formula.delFunctionGroup(row, column);
             }
             if(value.v!=null){
                 curv.v = value.v;
@@ -209,7 +211,6 @@ export function setCellValue(row, column, value, options = {}) {
             if(value.m!=null){
                 curv.m = value.m;
             }
-            formula.delFunctionGroup(row, column);
             setcellvalue(row, column, data, curv);//update text value
         }
         for(let attr in value){
