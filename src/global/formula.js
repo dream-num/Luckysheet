@@ -5980,7 +5980,8 @@ const luckysheetformula = {
         }
 
         if (!_this.testFunction(txt, fp) || fp == "") {
-            tooltip.info("", locale_formulaMore.execfunctionError);
+            const file = Store.luckysheetfile[getSheetIndex(index)];
+            tooltip.info("", `${locale_formulaMore.execfunctionError}: ${file.name}>${chatatABC(c)}${r + 1}>${txt}`);
             return [false, _this.error.n, txt];
         }
 
