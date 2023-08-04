@@ -5929,13 +5929,14 @@ export function getAllChartsBase64(cb) {
             chartMap[item.index] = {}
             item.chart.forEach((chartInfo) => {
                 const chartDom = document.querySelector(`#${chartInfo.chart_id}`);
-                const chartInstance = echarts.getInstanceByDom(chartDom);
-                chartInstance.resize({width:chartInfo.width,height: chartInfo.height,animation: {
-                    duration: 0
-                }})
+                if (chartDom) {
+                    const chartInstance = echarts.getInstanceByDom(chartDom);
+                    chartInstance.resize({width:chartInfo.width,height: chartInfo.height,animation: {
+                        duration: 0
+                    }})
 
-                chartMap[item.index][chartInfo.chart_id] = chartInstance
-                
+                    chartMap[item.index][chartInfo.chart_id] = chartInstance
+                }
             });
 
         }
