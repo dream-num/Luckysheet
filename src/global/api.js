@@ -38,7 +38,6 @@ import controlHistory from '../controllers/controlHistory';
 import { zoomRefreshView, zoomNumberDomBind } from '../controllers/zoom';
 import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
 import imageCtrl from '../controllers/imageCtrl';
-import customCtrl from '../controllers/customCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
@@ -6971,22 +6970,6 @@ export function getCurrentSheetIndex(){
  */
 export function showSelectionCopy (range) {
     selectionCopyShow(range)
-}
-
-/**
- * 显示区域选择框
- * @param {*} txt 默认展示选区字符串
- * @param {*} confirmCallback 确认选中选区的回调 
- */
-export function showSelectionRangeDialog(txt, confirmCallback){
-    const _this = customCtrl
-    _this.init(confirmCallback)
-    _this.rangeDialog(txt);
-
-    let range = _this.getRangeByTxt(txt);
-    _this.selectRange = getRangeDetailInfoArr(range);
-    
-    selectionCopyShow(_this.selectRange);
 }
 
 /**
