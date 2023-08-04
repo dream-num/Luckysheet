@@ -1,5 +1,5 @@
 import Store from "../store";
-import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
+import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell, getRangeDetailInfoArr, getRangeDetailInfo } from "../utils/util";
 import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 import method from './method';
@@ -31,13 +31,14 @@ import luckysheetsizeauto from '../controllers/resize';
 import sheetmanage from '../controllers/sheetmanage';
 import conditionformat from '../controllers/conditionformat';
 import { luckysheet_searcharray } from "../controllers/sheetSearch";
-import { selectHightlightShow, selectIsOverlap } from '../controllers/select';
-import { sheetHTML, luckysheetdefaultstyle } from '../controllers/constant';
+import { selectHightlightShow, selectIsOverlap, selectionCopyShow } from '../controllers/select';
+import { sheetHTML, luckysheetdefaultstyle, modelHTML } from '../controllers/constant';
 import { createFilterOptions } from '../controllers/filter';
 import controlHistory from '../controllers/controlHistory';
 import { zoomRefreshView, zoomNumberDomBind } from '../controllers/zoom';
 import dataVerificationCtrl from "../controllers/dataVerificationCtrl";
 import imageCtrl from '../controllers/imageCtrl';
+import customCtrl from '../controllers/customCtrl';
 import dayjs from "dayjs";
 import {getRangetxt } from '../methods/get';
 import {luckysheetupdateCell} from '../controllers/updateCell';
@@ -6789,6 +6790,15 @@ export function getRangeByTxt(txt){
     };
 }
 
+/**
+ * 根据范围字符串转换为range数组
+ * @param {String} txt 范围字符串
+ */
+export function getRangesByTxt(txt){
+    const range = conditionformat.getRangeByTxt(txt);
+    return range;
+}
+
 
 /**
  * 根据范围数组转换为范围字符串
@@ -6949,4 +6959,90 @@ export function openSearchDialog(source = 1){
     luckysheetSearchReplace.createDialog(source);
     luckysheetSearchReplace.init();
     $("#luckysheet-search-replace #searchInput input").focus();
+}
+
+export function getCurrentSheetIndex(){
+    return Store.currentSheetIndex
+}
+
+/**
+ * 展示选区
+ * @param {Array | Object | String} range 选区范围
+ */
+export function showSelectionCopy (range) {
+    selectionCopyShow(range)
+}
+
+/**
+ * 显示区域选择框
+ * @param {*} txt 默认展示选区字符串
+ * @param {*} confirmCallback 确认选中选区的回调 
+ */
+export function showSelectionRangeDialog(txt, confirmCallback){
+    const _this = customCtrl
+    _this.init(confirmCallback)
+    _this.rangeDialog(txt);
+
+    let range = _this.getRangeByTxt(txt);
+    _this.selectRange = getRangeDetailInfoArr(range);
+    
+    selectionCopyShow(_this.selectRange);
+}
+
+/**
+ * 检查某一单元格是否在指定区域内
+ * @param {Number} r 单元格所在行
+ * @param {Number} c 单元格所在列
+ * @param {Array} specifiedRange 指定区域 
+ */
+export function checkCellWithinSpecifiedRange(r, c, specifiedRange) {
+    let within = false
+    if (!specifiedRange || specifiedRange.length === 0) {
+        return false
+    }
+    for(let item of specifiedRange){
+        let r1 = item.row[0], r2 = item.row[1];
+        let c1 = item.column[0], c2 = item.column[1];
+
+        if(r>=r1 && r<=r2 && c>=c1 && c<=c2){
+            within = true;
+            break;
+        }
+    }
+    return within
+}
+
+/**
+ * 检查range是否在指定区域内
+ * @param {Array} range 需要检查的区域
+ * @param {Array} specifiedRange 指定区域 
+ */
+export function checkRangeWithinSpecifiedRange(range = [], specifiedRange = []) {
+    if (!specifiedRange || specifiedRange.length === 0) {
+        return false
+    }
+    if (!range || range.length === 0) {
+        return false
+    }
+
+    for(let item of range){
+        let r1 = item.row[0], r2 = item.row[1];
+        let c1 = item.column[0], c2 = item.column[1];
+
+        for(let r=r1;r<=r2;r++){
+            for(let c=c1;c<=c2;c++){
+                const within = checkCellWithinSpecifiedRange(r, c , specifiedRange);
+                if(!within){
+                    return false;
+                }
+            }
+        }
+    }
+    return true
+
+}
+
+export {
+    getRangeDetailInfoArr,
+    getRangeDetailInfo
 }

@@ -8,7 +8,7 @@ import { getSheetIndex, getRangetxt } from '../methods/get';
 import Store from '../store';
 import method from '../global/method';
 import locale from '../locale/locale';
-import { refreshMenuButtonFocus } from "../global/api";
+import { refreshMenuButtonFocus, getRangesByTxt, checkRangeWithinSpecifiedRange } from "../global/api";
 
 //公式函数 选区实体框
 function seletedHighlistByindex(id, r1, r2, c1, c2) {
@@ -184,6 +184,9 @@ function selectHightlightShow(isRestore = false) {
     
         /* 刷新当前状态栏 */
         refreshMenuButtonFocus();
+
+        // 刷新上方工具栏状态(不在允许输入范围内，工具栏不可用)
+        refreshToolbar()
     }
 
     Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)].luckysheet_select_save = Store.luckysheet_select_save;
@@ -195,6 +198,27 @@ function selectHightlightShow(isRestore = false) {
         }
         
         Store.luckysheet_select_save_previous = luckysheet_select_save_previous;
+}
+
+// 刷新工具栏
+function refreshToolbar() {
+    if (!Store.config?.authority?.allowRangeList || Store.config?.authority?.allowRangeList?.length === 0) {
+        return
+    }
+    const currentAllowedRange = []
+    Store.config?.authority?.allowRangeList?.forEach((range) => {
+       const allowRange = getRangesByTxt(range.sqref);
+       currentAllowedRange.push(...(allowRange || []))
+    })
+    // 检查修改区域是否是保护区域内 如果是不能修改
+    const hasDisabled = $('#luckysheet-wa-editor').hasClass('disabled')
+    const within = checkRangeWithinSpecifiedRange(Store.luckysheet_select_save, currentAllowedRange);
+    if (!within) {
+        !hasDisabled && $('#luckysheet-wa-editor').addClass('disabled')
+    } else {
+        hasDisabled && $('#luckysheet-wa-editor').removeClass('disabled')
+    }
+
 }
 
 //选区标题栏
