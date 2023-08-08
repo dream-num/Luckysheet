@@ -278,13 +278,6 @@ export default function luckysheetHandler() {
         menuButton.inputMenuButtonFocus(e.target);
     });
 
-    // 点击视图外部任意处，退出编辑模式
-    $("#luckysheet-rich-text-editor").on('blur', function(e){
-        if(e.relatedTarget) return
-        formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
-        luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
-    })
-
     //表格mousedown
     $("#luckysheet-cell-main, #luckysheetTableContent")
         .mousedown(function(event) {
