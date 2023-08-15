@@ -6404,6 +6404,7 @@ export function insertImage(src, options = {}){
         return tooltip.info("The order parameter is invalid.", "");
     }
 
+    const zoomRatio = Store.zoomRatio;
     if(file.index == Store.currentSheetIndex){
         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
 
@@ -6431,8 +6432,8 @@ export function insertImage(src, options = {}){
             colIndex = Store.visibledatacolumn.length;
         }
 
-        let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
-        let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1];
+        let left = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1] / zoomRatio;
+        let top = rowIndex == 0 ? 0 : Store.visibledatarow[rowIndex - 1] / zoomRatio;
 
         let image = new Image();
         image.onload = function(){
@@ -6530,8 +6531,8 @@ export function insertImage(src, options = {}){
             colIndex = visibledatacolumn.length;
         }
 
-        let left = colIndex == 0 ? 0 : visibledatacolumn[colIndex - 1];
-        let top = rowIndex == 0 ? 0 : visibledatarow[rowIndex - 1];
+        let left = colIndex == 0 ? 0 : visibledatacolumn[colIndex - 1] / zoomRatio;
+        let top = rowIndex == 0 ? 0 : visibledatarow[rowIndex - 1] / zoomRatio;
 
         let image = new Image();
         image.onload = function(){
