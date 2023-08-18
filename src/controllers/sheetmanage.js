@@ -1069,6 +1069,10 @@ const sheetmanage = {
                     server.clearcachelocaldata(function() {
                         ini();
                     });
+                })
+                .catch(function(e) {
+                    ini();
+                    console.log("缓存操作失败");
                 });
             } catch (e) {
                 ini();
