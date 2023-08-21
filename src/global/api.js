@@ -5105,13 +5105,14 @@ export function setSheetCopy(options = {}) {
 
     sheetmanage.changeSheetExec(index);
     sheetmanage.reOrderAllSheet();
-
+    debugger;
     if (Store.clearjfundo) {
         Store.jfredo.push({
             "type": "copySheet",
             "copyindex": copyindex,
             "index": copyjson.index,
-            "sheetIndex": copyjson.index
+            "sheetIndex": copyjson.index,
+            "sheetName":copyindex.name,
         });
     }
     else if (Store.jfredo.length > 0) {

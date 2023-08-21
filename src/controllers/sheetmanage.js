@@ -576,13 +576,14 @@ const sheetmanage = {
 
         _this.changeSheetExec(index, undefined, undefined, true);
         _this.reOrderAllSheet();
-
+            debugger;
         if (Store.clearjfundo) {
             Store.jfredo.push({
                 type: "copySheet",
                 copyindex: copyindex,
                 index: copyjson.index,
                 sheetIndex: copyjson.index,
+                sheetName:copyindex.name,
             });
         } else if (Store.jfredo.length > 0) {
             let jfredostr = Store.jfredo[Store.jfredo.length - 1];
