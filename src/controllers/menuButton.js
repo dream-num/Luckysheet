@@ -1894,7 +1894,6 @@ const menuButton = {
         });
 
         $("#luckysheet-icon-valign-menu").click(function() {
-            debugger;
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
             const _locale = locale();
@@ -2009,7 +2008,6 @@ const menuButton = {
                 _this.focus($menuButton, "clip");
                 //点击换行方式时触发
                 $menuButton.find(".luckysheet-cols-menuitem").click(function() {
-                    debugger;
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
@@ -4334,7 +4332,6 @@ const menuButton = {
                 );
             $menuButton.hide();
         } else if (attr == "tb") {
-            debugger;
             let $menuButton = $("#luckysheet-icon-textwrap-menu-menuButton");
             let $t = $("luckysheet-icon-textwrap"),
                 itemvalue = "clip";

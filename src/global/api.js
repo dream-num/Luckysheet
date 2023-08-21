@@ -5105,14 +5105,13 @@ export function setSheetCopy(options = {}) {
 
     sheetmanage.changeSheetExec(index);
     sheetmanage.reOrderAllSheet();
-    debugger;
     if (Store.clearjfundo) {
         Store.jfredo.push({
             "type": "copySheet",
             "copyindex": copyindex,
             "index": copyjson.index,
             "sheetIndex": copyjson.index,
-            "sheetName":copyindex.name,
+            "sheetName":copyjson.name,
         });
     }
     else if (Store.jfredo.length > 0) {
@@ -5121,6 +5120,8 @@ export function setSheetCopy(options = {}) {
         if (jfredostr.type == "copySheet") {
             jfredostr.index = copyjson.index;
             jfredostr.sheetIndex = copyjson.index;
+            jfredostr.sheetName = copyjson.name;
+
         }
     }
 
