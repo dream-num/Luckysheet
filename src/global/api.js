@@ -5920,6 +5920,10 @@ export function getAllSheets() {
     return data;
 }
 
+export function uploadCustom(){
+    console.log("You called upload api API!")
+}
+
 export function getAllChartsBase64(cb) {
     let data = $.extend(true, [], Store.luckysheetfile);
     const chartMap = {}

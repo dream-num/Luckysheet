@@ -61,7 +61,7 @@ const imageCtrl = {
                 tooltip.info('<i class="fa fa-exclamation-triangle"></i>', '图片上传失败');
             });
         } else {
-            // 内部base64形式
+            // 上传形式
             let render = new FileReader();
             render.readAsDataURL(file);
 

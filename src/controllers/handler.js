@@ -5511,6 +5511,8 @@ export default function luckysheetHandler() {
         imageCtrl.insertImg(file);
     });
 
+    
+
     //菜单栏 插入链接按钮
     $("#luckysheet-insertLink-btn-title").click(function() {
         // *如果禁止前台编辑，则中止下一步操作
