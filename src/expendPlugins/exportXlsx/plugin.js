@@ -1,14 +1,14 @@
 
 import locale from '../../locale/locale';
 import { modelHTML } from "../../controllers/constant";
-import { replaceHtml } from '../../utils/util';
+import { arrayRemoveItem, replaceHtml } from '../../utils/util';
 import tooltip from '../../global/tooltip';
 import { getSheetIndex } from '../../methods/get';
 import Store from '../../store';
 
 // Initialize the export xlsx api
 function exportXlsx(options, config, isDemo) {
-
+    arrayRemoveItem(Store.asyncLoad,'exportXlsx')
 }
 
 function downloadXlsx(data, filename) {

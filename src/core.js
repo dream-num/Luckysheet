@@ -143,7 +143,7 @@ luckysheet.create = function (setting) {
     if (Store.lang === "zh") flatpickr.localize(Mandarin.zh);
 
     // Store the currently used plugins for monitoring asynchronous loading
-    Store.asyncLoad.push(...luckysheetConfigsetting.plugins);
+    Store.asyncLoad.push(...luckysheetConfigsetting.plugins.map(plugin => plugin.name));
 
     // Register plugins
     initPlugins(extendsetting.plugins, extendsetting);
