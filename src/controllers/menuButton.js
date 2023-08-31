@@ -3610,23 +3610,23 @@ const menuButton = {
                     {
                         text: locale_print.menuItemPrint,
                         value: "print",
-                        example: '<i class="iconfont luckysheet-iconfont-dayin" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-dayin" aria-hidden="true"></i>',
                     },
                     { text: "", value: "split", example: "" },
                     {
                         text: locale_print.menuItemAreas,
                         value: "areas",
-                        example: '<i class="iconfont luckysheet-iconfont-tihuan" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-tihuan" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_print.menuItemRows,
                         value: "rows",
-                        example: '<i class="iconfont luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-zhuandao1" aria-hidden="true"></i>',
                     },
                     {
                         text: locale_print.menuItemColumns,
                         value: "columns",
-                        example: '<i class="iconfont luckysheet-iconfont-dingwei" aria-hidden="true"></i>',
+                        example: '<i class="iconfont-luckysheet luckysheet-iconfont-dingwei" aria-hidden="true"></i>',
                     },
                 ];
 
