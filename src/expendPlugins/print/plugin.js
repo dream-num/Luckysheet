@@ -1,4 +1,4 @@
-import { seriesLoadScripts, loadLinks, $$ } from "../../utils/util";
+import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from "../../utils/util";
 import { luckysheetPrint } from "./print";
 import Store from "../../store";
 
@@ -20,6 +20,7 @@ function print(options, config, isDemo) {
 
     // seriesLoadScripts(dependScripts, null, function() {});
     if (luckysheetPrint) {
+        arrayRemoveItem(Store.asyncLoad, "print");
         Store.luckysheetPrint = luckysheetPrint;
         const link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
