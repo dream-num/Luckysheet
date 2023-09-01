@@ -1540,6 +1540,8 @@ const dataVerificationCtrl = {
                 'top': row_pre - myh,
             })
         }
+
+        formula.rangetosheet = Store.currentSheetIndex;
     },
     getDropdownList: function(txt){
         let list = [];
