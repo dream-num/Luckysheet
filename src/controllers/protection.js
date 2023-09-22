@@ -695,15 +695,12 @@ function restoreProtectionConfig(aut){
 export function openProtectionModal(file){
     if(!isInitialProtection){
         initialProtectionRIghtBar(file);
-        isInitialProtection = true;
     }
     initialProtectionRIghtBar(file);
 
     updatingSheetFile = file;
     initialEvent(file);
     isInitialProtection = true;
-
-
 
     if(file!=null && file.config!=null && file.config.authority!=null){
         let aut = file.config.authority;

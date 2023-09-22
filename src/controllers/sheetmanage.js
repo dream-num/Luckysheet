@@ -202,11 +202,11 @@ const sheetmanage = {
         return Store.currentSheetIndex;
     },
     getCustomSheet() {
-        //设置自定义luckysheet 配置项。
+        //设置自定义sheet页面 配置项。
         if (!this.Luckysheet_custom_sheet) return {};
         return JSON.parse(JSON.stringify(this.Luckysheet_custom_sheet)); //每次都返回一个自定义sheet新对象
     },
-    setCustomSheet(luckysheet_custom_sheet) {
+    setCustomSheet(luckysheet_custom_sheet) {//获取自定义sheet 配置
         this.Luckysheet_custom_sheet = luckysheet_custom_sheet;
     },
     addNewSheet: function(e, isPivotTable) {
@@ -249,7 +249,7 @@ const sheetmanage = {
            
             // sheet_defaullt_config.config={};
         } else {
-            //自定义sheet为空的话
+            //自定义sheet为空的话自定义sheet为空的话,那就说明没有设置自定sheet ，那就按默认的sheet 添加
             sheetconfig = {
                 name: sheetname,
                 color: "",
@@ -584,13 +584,13 @@ const sheetmanage = {
 
         _this.changeSheetExec(index, undefined, undefined, true);
         _this.reOrderAllSheet();
-
         if (Store.clearjfundo) {
             Store.jfredo.push({
                 type: "copySheet",
                 copyindex: copyindex,
                 index: copyjson.index,
                 sheetIndex: copyjson.index,
+                sheetName:copyjson.name,
             });
         } else if (Store.jfredo.length > 0) {
             let jfredostr = Store.jfredo[Store.jfredo.length - 1];
@@ -598,6 +598,7 @@ const sheetmanage = {
             if (jfredostr.type == "copySheet") {
                 jfredostr.index = copyjson.index;
                 jfredostr.sheetIndex = copyjson.index;
+                jfredostr.sheetName = copyjson.name;
             }
         }
     },

@@ -1843,7 +1843,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { id: "align-menu", item: itemset, subclass: "", sub: "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(140);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function() {
@@ -1928,7 +1928,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { id: "valign-menu", item: itemset, subclass: "", sub: "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(140);
                 _this.focus($menuButton, "bottom");
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function() {
@@ -2004,8 +2004,10 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { id: "textwrap-menu", item: itemset, subclass: "", sub: "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(140);
                 _this.focus($menuButton, "clip");
+                //点击换行方式时触发
+                $menuButton.find(".luckysheet-cols-menuitem").click(function() {
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function() { // 处理自动换行
                     $menuButton.hide();
@@ -4336,7 +4338,6 @@ const menuButton = {
             let $menuButton = $("#luckysheet-icon-textwrap-menu-menuButton");
             let $t = $("luckysheet-icon-textwrap"),
                 itemvalue = "clip";
-
             if (foucsStatus == "1") {
                 itemvalue = "overflow";
             } else if (foucsStatus == "2") {

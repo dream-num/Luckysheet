@@ -791,7 +791,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         let margeMaindata = cell["mc"];
 
         value = getRealCellValue(margeMaindata.r,margeMaindata.c);
-
         r = margeMaindata.r;
         c = margeMaindata.c;
 
@@ -810,7 +809,6 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
         else {
             start_r = Store.visibledatarow[r - 1] - scrollHeight - 1;
         }
-
         end_r = Store.visibledatarow[r+mainCell["mc"].rs-1] - scrollHeight;
         end_c = Store.visibledatacolumn[c+mainCell["mc"].cs-1] - scrollWidth;
 
