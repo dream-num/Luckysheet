@@ -54,7 +54,7 @@ luckysheet.create = function(setting) {
         }
     }
 
-    let extendsetting = common_extend(defaultSetting, setting);
+    let extendsetting = common_extend(defaultSetting, setting); // defaultSetting 会被 setting中的同名属性替换
 
     let loadurl = extendsetting.loadUrl,
         menu = extendsetting.menu,

@@ -6135,9 +6135,11 @@ const luckysheetformula = {
                     return true
                 }
             });
-            if(txt.indexOf('=GET_AIRTABLE_DATA') === 0){
-                this.showButton(row_index, col_index)
-                this.addButtonListener(txt,row_index, col_index,)
+            if(txt){
+                if(txt.indexOf('=GET_AIRTABLE_DATA') === 0){
+                    this.showButton(row_index, col_index)
+                    this.addButtonListener(txt,row_index, col_index,)
+                }
             }else{
                 this.hideButton()
             }

@@ -666,8 +666,12 @@ export default function luckysheetHandler() {
                         }
 
                         let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
-                        if ($span && $span != undefined && $span != null && $span && $span.html().length) {
-                            formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                        if ($span && $span != undefined && $span != null && $span ) {
+                            if($span.html()){
+                                if($span.html().length){
+                                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                                }
+                            }
                         }
                     }, 1);
                     return;
@@ -1363,15 +1367,15 @@ export default function luckysheetHandler() {
                         }
                     }
 
-                    if (isSame) {
-                        $("#luckysheet-cols-rows-add")
-                            .find("input[type='number'].rcsize")
-                            .val(first_collen);
-                    } else {
-                        $("#luckysheet-cols-rows-add")
-                            .find("input[type='number'].rcsize")
-                            .val("");
-                    }
+                    // if (isSame) {
+                    //     $("#luckysheet-cols-rows-add")
+                    //         .find("input[type='number'].rcsize")
+                    //         .val(first_collen);
+                    // } else {
+                    //     $("#luckysheet-cols-rows-add")
+                    //         .find("input[type='number'].rcsize")
+                    //         .val("");
+                    // }
                 } else if (
                     obj_s["column"] != null &&
                     obj_s["column"][0] == 0 &&
@@ -1558,7 +1562,7 @@ export default function luckysheetHandler() {
             // 备注：在mousedown中发送光标信息会漏处理部分(选区)范围
             server.saveParam("mv", Store.currentSheetIndex, Store.luckysheet_select_save);
         })
-        .dblclick(function(event) {
+        .dblclick(function(event) { // 双击进入单元格执行的是这个方法
             if ($(event.target).hasClass("luckysheet-mousedown-cancel")) {
                 return;
             }
@@ -5135,7 +5139,7 @@ export default function luckysheetHandler() {
             value = $("#luckysheet-bottom-add-row-input").val();
 
         if (value == "") {
-            value = luckysheetConfigsetting.addRowCount || 100;
+            value = luckysheetConfigsetting.addRowCount || 5;
         }
 
         if (isNaN(parseInt(value))) {
@@ -5148,7 +5152,7 @@ export default function luckysheetHandler() {
         }
 
         value = parseInt(value);
-        if (value < 1 || value > 100) {
+        if (value < 1 || value > 10) { // 1-10 行数据
             if (isEditMode()) {
                 alert(locale_info.tipInputNumberLimit);
             } else {
@@ -6041,7 +6045,7 @@ export default function luckysheetHandler() {
             }
 
             const locale_fontjson = locale().fontjson;
-
+            debugger;
             // hook
             if (!method.createHookFunction("rangePasteBefore", Store.luckysheet_select_save, txtdata)) {
                 return;

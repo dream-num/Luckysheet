@@ -129,6 +129,15 @@ export function initialEvent(file){
 
         inputRangeProtectionPassword = {};
 
+        //确定工作表保护的确定事件，触发updated钩子函数
+        if(Store.clearjfundo){
+            let redo = {};
+            redo["type"] = 'update_protect';
+            redo["sheetIndex"] = file.index;
+            redo["config"] = $.extend(true, {}, file.config);    
+            Store. jfundo.length  = 0;
+            Store.jfredo.push(redo);
+        }
         closeProtectionModal();
 
     });
@@ -495,7 +504,7 @@ function initialProtectionRangeModal(file){
                         </div>
                     </div>
                 </div>
-                <div class="luckysheet-slider-protection-row">
+                <div class="luckysheet-slider-protection-row" style="display:none">
                     <div class="luckysheet-slider-protection-column luckysheet-protection-column-3x">
                         ${local_protection.allowRangeAddTitlePassword}
                     </div>
@@ -503,7 +512,7 @@ function initialProtectionRangeModal(file){
                         <input class="luckysheet-protection-rangeItemiInput" id="protection-allowRangeAdd-password"  placeHolder="${local_protection.enterPassword}">
                     </div>
                 </div>
-                <div class="luckysheet-slider-protection-row">
+                <div class="luckysheet-slider-protection-row" style="display:none" >
                     <div class="luckysheet-slider-protection-column luckysheet-protection-column-3x">
                         ${local_protection.allowRangeAddTitleHint}
                     </div>
@@ -549,24 +558,24 @@ function initialProtectionRIghtBar(file){
                     <label for="protection-swichProtectionState"><input id="protection-swichProtectionState" name="protection-swichProtectionState" type="checkbox">${local_protection.swichProtectionTip}</label>
                     </div>
                 </div>
-                <div class="luckysheet-slider-protection-row" style="height:23px;">
+                <div class="luckysheet-slider-protection-row" style="height:23px; display:none;">
                     <div class="luckysheet-slider-protection-column" style="width:98%;">
                         <input class="luckysheet-protection-input" id="protection-password"  placeHolder="${local_protection.enterPassword}">
                     </div>
                 </div>
-                <div class="luckysheet-slider-protection-row" style="height:47px;margin-top:4px;">
+                <div class="luckysheet-slider-protection-row" style="height:47px;margin-top:4px;display:none;">
                     <div class="luckysheet-slider-protection-column" style="width:98%;">
                         <textarea class="luckysheet-protection-textarea" id="protection-hint"  placeHolder="${local_protection.enterHint}"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="luckysheet-slider-protection-config" style="top:130px;height:290px;border-top:1px solid #c5c5c5">
+            <div class="luckysheet-slider-protection-config" style="top:60px;height:290px;border-top:1px solid #c5c5c5">
                 <div class="luckysheet-slider-protection-row" style="height:20px;">
                     ${local_protection.authorityTitle}
                 </div>
                 ${authorityItemHtml}
             </div>
-            <div class="luckysheet-slider-protection-config" style="top:440px;bottom:45px;border-top:1px solid #c5c5c5">
+            <div class="luckysheet-slider-protection-config" style="top:375px;bottom:45px;border-top:1px solid #c5c5c5">
                 <div class="luckysheet-slider-protection-row" style="height:25px;">
                     <div class="luckysheet-slider-protection-column luckysheet-protection-column-7x" style="left:0px;line-height: 25px;">
                         ${local_protection.allowRangeTitle}
@@ -686,24 +695,27 @@ function restoreProtectionConfig(aut){
 export function openProtectionModal(file){
     if(!isInitialProtection){
         initialProtectionRIghtBar(file);
-        initialEvent(file);
         isInitialProtection = true;
     }
+    initialProtectionRIghtBar(file);
 
     updatingSheetFile = file;
+    initialEvent(file);
+    isInitialProtection = true;
+
 
 
     if(file!=null && file.config!=null && file.config.authority!=null){
         let aut = file.config.authority;
-        if(firstInputSheetProtectionPassword && aut.sheet==1 && aut.password!=null && aut.password.length>0){
-            validationAuthority = aut;
-            $("#luckysheet-protection-sheet-validation input").val("");
-            openSelfModel("luckysheet-protection-sheet-validation");
-            return;
-        }
-        else{//retore protection config
+        // if(firstInputSheetProtectionPassword && aut.sheet==1 && aut.password!=null && aut.password.length>0){
+        //     validationAuthority = aut;
+        //     $("#luckysheet-protection-sheet-validation input").val("");
+        //     openSelfModel("luckysheet-protection-sheet-validation");
+        //     return;
+        // }
+        // else{//retore protection config
             restoreProtectionConfig(aut);
-        }
+        // }
     }
     else{//protection initial config //没有设置可编辑区域
         //默认全选
@@ -883,6 +895,7 @@ function openRangePasswordModal(rangeAut) {
 
 //protection state
 export function checkProtectionNotEnable(sheetIndex){
+    //删除 单元格格式化 合并单元格等都会走这个方法。
     let sheetFile = sheetmanage.getSheetByIndex(sheetIndex);
     if(sheetFile==null){
         return true;
@@ -901,6 +914,7 @@ export function checkProtectionNotEnable(sheetIndex){
     const _locale = locale();
     const local_protection = _locale.protection;
 
+    // 如果是垂直 
     let ht;
     if(aut.hintText != null && aut.hintText.length>0){
         ht = aut.hintText;

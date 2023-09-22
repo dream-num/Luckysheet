@@ -295,8 +295,13 @@ export function rowColumnOperationInitial() {
                         }
 
                         let $span = $editor.find("span[rangeindex='" + formula.rangechangeindex + "']");
-
-                        formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                        if ($span && $span != undefined && $span != null && $span ) {
+                            if($span.html()){
+                                if($span.html().length){
+                                    formula.setCaretPosition($span.get(0), 0, $span.html().length);
+                                }
+                            }
+                        }
                     }, 1);
 
                     return;
@@ -559,7 +564,7 @@ export function rowColumnOperationInitial() {
                         }
                     }
                 }
-
+                // 【hz_font_style_adjust】
                 if (isSame) {
                     $("#luckysheet-cols-rows-add")
                         .find("input[type='number'].rcsize")
@@ -1346,7 +1351,7 @@ export function rowColumnOperationInitial() {
 
         value = parseInt(value);
 
-        if (value < 1 || value > 100) {
+        if (value < 1 || value > 10) { //只能增加 1-10 之间
             if (isEditMode()) {
                 alert(locale_info.tipInputNumberLimit);
             } else {
@@ -1571,7 +1576,7 @@ export function rowColumnOperationInitial() {
 
         value = parseInt(value);
 
-        if (value < 1 || value > 100) {
+        if (value < 1 || value > 10) { //1-10
             if (isEditMode()) {
                 alert(locale_info.tipInputNumberLimit);
             } else {
@@ -2273,18 +2278,27 @@ export function rowColumnOperationInitial() {
             const file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
             const hyperlink = file.hyperlink && $.extend(true, {}, file.hyperlink);
             let hyperlinkUpdated;
-
+            const file_data = file?file.data:null;
+            const file_cell_data = file?file.celldata:null;
             for (let s = 0; s < Store.luckysheet_select_save.length; s++) {
+                debugger;
                 let r1 = Store.luckysheet_select_save[s].row[0],
                     r2 = Store.luckysheet_select_save[s].row[1];
                 let c1 = Store.luckysheet_select_save[s].column[0],
                     c2 = Store.luckysheet_select_save[s].column[1];
-
+                
                 for (let r = r1; r <= r2; r++) {
                     for (let c = c1; c <= c2; c++) {
                         if (pivotTable.isPivotRange(r, c)) {
                             continue;
                         }
+                            // 添加钩子函数
+                        // if (!method.createHookFunction("cellDeleteBefore", r, c, file_data[r][c], file_cell_data[r][c])) {
+                        //     debugger;
+                        //     console.log("retun啦");
+                        //     alert("retun啦");
+                        //     return;
+                        // }   
 
                         if (getObjType(d[r][c]) == "object") {
                             delete d[r][c]["m"];

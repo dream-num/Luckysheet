@@ -2007,12 +2007,12 @@ const menuButton = {
                 $menuButton = $("#" + menuButtonId).width(120);
                 _this.focus($menuButton, "clip");
 
-                $menuButton.find(".luckysheet-cols-menuitem").click(function() {
+                $menuButton.find(".luckysheet-cols-menuitem").click(function() { // 处理自动换行
                     $menuButton.hide();
                     luckysheetContainerFocus();
 
                     let $t = $(this),
-                        itemvalue = $t.attr("itemvalue");
+                        itemvalue = $t.attr("itemvalue"); // 当前选中的换行方式
                     _this.focus($menuButton, itemvalue);
 
                     let $icon = $("#luckysheet-icon-textwrap")
@@ -2309,10 +2309,9 @@ const menuButton = {
                         }
                         let scrollTop = $("#luckysheet-cell-main").scrollTop();
                         let row_st = luckysheet_searcharray(Store.visibledatarow, scrollTop);
-
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let row_focus = last["row_focus"] == null ? last["row"][0] : last["row_focus"];
-                        row_st = Math.max(row_st - 1, row_focus - 1, 0);
+                        row_st = Math.max(row_st, row_focus, 0);
 
                         let top, freezenhorizontaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
@@ -2369,7 +2368,7 @@ const menuButton = {
 
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let column_focus = last["column_focus"] == null ? last["column"][0] : last["column_focus"];
-                        col_st = Math.max(col_st - 1, column_focus - 1, 0);
+                        col_st = Math.max(col_st, column_focus, 0);
 
                         let left, freezenverticaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
@@ -2430,7 +2429,7 @@ const menuButton = {
 
                         let last = Store.luckysheet_select_save[Store.luckysheet_select_save.length - 1];
                         let row_focus = last["row_focus"] == null ? last["row"][0] : last["row_focus"];
-                        row_st = Math.max(row_st - 1, row_focus - 1, 0);
+                        row_st = Math.max(row_st, row_focus , 0);
 
                         let top, freezenhorizontaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
@@ -2461,7 +2460,7 @@ const menuButton = {
                         let col_st = luckysheet_searcharray(Store.visibledatacolumn, scrollLeft);
 
                         let column_focus = last["column_focus"] == null ? last["column"][0] : last["column_focus"];
-                        col_st = Math.max(col_st - 1, column_focus - 1, 0);
+                        col_st = Math.max(col_st, column_focus, 0);
 
                         let left, freezenverticaldata;
                         if (luckysheetFreezen.freezenRealFirstRowColumn) {
@@ -3929,7 +3928,7 @@ const menuButton = {
             cfg["rowlen"] = {};
         }
 
-        for (let s = 0; s < Store.luckysheet_select_save.length; s++) {
+        for (let s = 0; s < Store.luckysheet_select_save.length; s++) { // 调整了行高和列宽 
             let row_st = Store.luckysheet_select_save[s]["row"][0],
                 row_ed = Store.luckysheet_select_save[s]["row"][1];
             let col_st = Store.luckysheet_select_save[s]["column"][0],
@@ -3937,7 +3936,9 @@ const menuButton = {
 
             this.updateFormatCell(d, attr, foucsStatus, row_st, row_ed, col_st, col_ed);
 
-            if (attr == "tb" || attr == "tr" || attr == "fs") {
+            if (attr == "tr" || attr == "fs") {
+            // if (attr == "tb" || attr == "tr" || attr == "fs") {
+                // 处理行高的，我需要tb 的去掉行高
                 cfg = rowlenByRange(d, row_st, row_ed, cfg);
             }
         }

@@ -4,8 +4,8 @@
 export default {
     container: "luckysheet", //容器的ID
     loading:{}, //自定义loading
-    column: 60, //空表格默认的列数量
-    row: 84, //空表格默认的行数据量
+    column: 15, //空表格默认的列数量
+    row: 30, //空表格默认的行数据量
     allowCopy: true, //是否允许拷贝
     showtoolbar: true, //是否第二列显示工具栏
     showinfobar: true, //是否显示顶部名称栏
@@ -55,9 +55,9 @@ export default {
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用
     rowHeaderWidth: 46,
     columnHeaderHeight: 20,
-    defaultColWidth:73,
-    defaultRowHeight:19,
-    defaultFontSize:10,
+    defaultColWidth:120,
+    defaultRowHeight:40,
+    defaultFontSize:12,
     limitSheetNameLength:true,    //是否限制工作表名的长度
     defaultSheetNameMaxLength:31,  //默认工作表名称的最大长度
     sheetFormulaBar:true, //是否显示公式栏
@@ -67,4 +67,13 @@ export default {
     cellRightClickConfig:{}, //自定义单元格右键菜单
     sheetRightClickConfig:{}, //自定义底部sheet页右击菜单
     imageUpdateMethodConfig:{}, //自定义图片同步方式
+    // defaultstyle: {
+    //     fillStyle: "#000000",
+    //     textBaseline: "middle",
+    //     strokeStyle: "#dfdfdf",
+    //     rowFillStyle: "#5e5e5e",
+    //     textAlign: "center",
+    //     whiteSpace: "normal" // 添加自动换行属性
+    //   },
+    defaultBorder:{},
 }

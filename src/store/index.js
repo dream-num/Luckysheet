@@ -2,8 +2,8 @@ const Store = {
     container: null, 
     loadingObj:{},
     luckysheetfile: null, 
-    defaultcolumnNum: 60, 
-    defaultrowNum: 84, 
+    defaultcolumnNum: 30, 
+    defaultrowNum: 15, 
     fullscreenmode: true,
     devicePixelRatio: 1,
 
@@ -29,8 +29,8 @@ const Store = {
     statisticBarHeight: 23,
     luckysheetTableContentHW: [0, 0], 
 
-    defaultcollen: 73,
-    defaultrowlen: 19,
+    defaultcollen: 120,
+    defaultrowlen: 40,
 
     jfcountfuncTimeout: null, 
     jfautoscrollTimeout: null,
@@ -134,7 +134,7 @@ const Store = {
     inlineStringEditRange:null,
 
     fontList:[],
-    defaultFontSize: 10,
+    defaultFontSize: 12,
 
     currentSheetView:"viewNormal",
 
@@ -156,12 +156,13 @@ const Store = {
         bg: null,
         bl: 0,
         ct: {fa: "General", t: "n"},
-        fc: "rgb(51, 51, 51)",
-        ff: 0,
-        fs: 11,
-        ht: 1,
+        fc: "rgb(64, 64, 64)",
+        ff: 4,
+        fs: 12,
+        ht: 0,
         it: 0,
-        vt: 1,
+        vt: 0,
+        tb: 2,
         m: '',
         v: ''
     },

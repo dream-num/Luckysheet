@@ -28,8 +28,9 @@ const server = {
     updateUrl: null,
     updateImageUrl: null,
     title: null,
-		loadSheetUrl: null,
-		retryTimer:null,
+	loadSheetUrl: null,
+	retryTimer:null,
+	saveFrozenToStoreTimer:undefined,
     allowUpdate: false, //共享编辑模式
     historyParam: function(data, sheetIndex, range) {
     	let _this = this;
@@ -84,10 +85,42 @@ const server = {
 	        }
 	    }
 	},
+	saveFrozenToStore(type, index, value, params)
+	{
+		if (params) {
+			if (params.k === 'frozen') {
+				if (Store.luckysheetfile[index]) {
+					if (type === 'cancel') {  //取消冻结
+						Store.luckysheetfile[index].frozen = null;
+					}
+					else {//冻结
+						Store.luckysheetfile[index].frozen = JSON.parse(JSON.stringify(value));
+					}
+					//冻结行改变事件，触发updated钩子函数
+					// 添加timer,防止拖动鼠标时抖动
+					clearTimeout(this.saveFrozenToStoreTimer)
+					this.saveFrozenToStoreTimer = setTimeout(function(){
+						if (Store.clearjfundo) {
+							let redo = {};
+							redo["type"] = 'update_frozen';
+							redo["sheetIndex"] = index;
+							redo["frozen"] = $.extend(true, {}, Store.luckysheetfile[index].frozen);
+							Store.jfundo.length = 0;
+							Store.jfredo.push(redo);
+						}
+					}, 1000)
+				}
+			}
+		}
+	},
     saveParam: function (type, index, value, params) {
     	let _this = this;
-
-	    if(!_this.allowUpdate){
+	    if(!_this.allowUpdate){//没有开启实时共享时，
+			if(params &&params.k){
+				if(params.k === 'frozen'){
+					// this.saveFrozenToStore(type, index, value, params);
+				}
+			}
 	        return;
 	    }
 

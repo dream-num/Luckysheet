@@ -504,8 +504,11 @@ window.sheetPivotTableData = {
 				"fa": "General",
 				"t": "n"
 			},
-			"m": "255"
-		}
+			"m": "255",
+			
+		},
+		"editor":1,
+		"test":250,
 	}, {
 		"r": 9,
 		"c": 0,

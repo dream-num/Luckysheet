@@ -6168,7 +6168,7 @@ export default {
         nextPage: "下一页",
 
         tipInputNumber: "请输入数字",
-        tipInputNumberLimit: "增加范围限制在1-100",
+        tipInputNumberLimit: "增加范围限制在1-10",
 
         tipRowHeightLimit: "行高必须在0 ~ 545之间",
         tipColumnWidthLimit: "列宽必须在0 ~ 2038之间",
@@ -6421,8 +6421,8 @@ export default {
         "Times New Roman",
         "Arial",
         "Tahoma",
-        "Verdana",
         "微软雅黑",
+        "Verdana",
         "宋体",
         "黑体",
         "楷体",

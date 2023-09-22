@@ -34,6 +34,7 @@ import { initialEvent } from "./protection";
 import luckysheetformula from "../global/formula";
 
 const sheetmanage = {
+    Luckysheet_custom_sheet:null,//不能删除，下面用来存储自定义sheet ，如果这个变量不为null ，新增sheet 就按这个运行。
     generateRandomSheetIndex: function(prefix) {
         if (prefix == null) {
             prefix = "Sheet";
@@ -239,9 +240,13 @@ const sheetmanage = {
             //判断设置的自定义sheet
             sheetconfig = sheet_defaullt_config;
             // sheet_defaullt_config.isPivotTable=false;
+            sheetconfig.status = "0";
             sheetconfig.index = index;
             sheetconfig.order = order;
             sheetconfig.name = sheetname;
+            sheetconfig.pivotTable = null;
+            sheetconfig.isPivotTable = !!isPivotTable;
+           
             // sheet_defaullt_config.config={};
         } else {
             //自定义sheet为空的话
@@ -259,6 +264,10 @@ const sheetmanage = {
                 isPivotTable: !!isPivotTable,
             };
         }
+        //修复数据透视表对象为空导致的sheet刷新报错。
+        // if(!!isPivotTable){
+        //     sheetconfig.pivotTable = pivotTable;
+        // }
         Store.luckysheetfile.push(sheetconfig);
 
         $("#luckysheet-sheet-area div.luckysheet-sheets-item").removeClass("luckysheet-sheets-item-active");
@@ -917,7 +926,10 @@ const sheetmanage = {
                 $("#luckysheet-cell-main").width() + Store.rowHeaderWidth - Store.cellMainSrollBarSize,
                 $("#luckysheet-cell-main").height() + Store.columnHeaderHeight - Store.cellMainSrollBarSize,
             ];
-            $("#luckysheetTableContent, #luckysheetTableContentF")
+
+        
+            if($("#luckysheetTableContent, #luckysheetTableContentF")){
+                $("#luckysheetTableContent, #luckysheetTableContentF")
                 .attr({
                     width: Math.ceil(Store.luckysheetTableContentHW[0] * Store.devicePixelRatio),
                     height: Math.ceil(Store.luckysheetTableContentHW[1] * Store.devicePixelRatio),
@@ -928,6 +940,9 @@ const sheetmanage = {
                 })
                 .get(0)
                 .getContext("2d");
+            }
+       
+            
             let locale_info = locale().info;
             let key = server.gridKey;
             let cahce_key = key + "__qkcache";

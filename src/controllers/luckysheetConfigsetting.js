@@ -19,7 +19,7 @@ const luckysheetConfigsetting = {
 
     showConfigWindowResize: true,
     enableAddRow: true,
-    addRowCount: 100,
+    addRowCount: 5,//默认为5
     enableAddBackTop: true,
     enablePage: true,
     pageInfo: null,
@@ -34,8 +34,8 @@ const luckysheetConfigsetting = {
     plugins:[],
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用
 
-    defaultColWidth:73,
-    defaultRowHeight:19,
+    defaultColWidth:120,
+    defaultRowHeight:40,
 
     defaultTextColor: '#000',
     defaultCellColor: '#fff',
