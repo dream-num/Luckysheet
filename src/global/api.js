@@ -3889,7 +3889,7 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
     else if(conditionName == 'regExp') {
         conditionValue2.push(...conditionValue);
     }
-    else if(condtionName == 'sort') {
+    else if(conditionName == 'sort') {
         conditionValue2.push(...conditionValue);
     }
 
