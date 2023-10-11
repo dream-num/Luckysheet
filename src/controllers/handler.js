@@ -6096,12 +6096,12 @@ export default function luckysheetHandler() {
                             $tr.find(cellElements).each(function() {
                                 let $td = $(this);
                                 let cell = {};
-                                let txt = $td.text();
+                                let txt = $td?.[0].innerText;
                                 if ($.trim(txt).length == 0) {
                                     cell.v = null;
                                     cell.m = "";
                                 } else {
-                                    let mask = genarate($td.text());
+                                    let mask = genarate(txt);
                                     cell.v = mask[2];
                                     cell.ct = mask[1];
                                     cell.m = mask[0];
