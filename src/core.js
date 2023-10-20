@@ -36,6 +36,32 @@ import { hideloading, showloading } from "./global/loading.js";
 import { luckysheetextendData } from "./global/extend.js";
 import { initChat } from './demoData/chat.js'
 
+import {
+  luckysheet_compareWith,
+  luckysheet_getarraydata,
+  luckysheet_getcelldata, 
+  luckysheet_parseData,
+  luckysheet_getValue,
+  luckysheet_indirect_check,
+  luckysheet_indirect_check_return,
+  luckysheet_offset_check,
+  luckysheet_calcADPMM,
+  luckysheet_getSpecialReference,
+} from "./function/func";
+
+if (!window.luckysheet_compareWith) {
+  window.luckysheet_compareWith = luckysheet_compareWith;
+  window.luckysheet_getarraydata = luckysheet_getarraydata;
+  window.luckysheet_getcelldata = luckysheet_getcelldata;
+  window.luckysheet_parseData = luckysheet_parseData;
+  window.luckysheet_getValue = luckysheet_getValue;
+  window.luckysheet_indirect_check = luckysheet_indirect_check;
+  window.luckysheet_indirect_check_return = luckysheet_indirect_check_return;
+  window.luckysheet_offset_check = luckysheet_offset_check;
+  window.luckysheet_calcADPMM = luckysheet_calcADPMM;
+  window.luckysheet_getSpecialReference = luckysheet_getSpecialReference;
+}
+
 let luckysheet = {};
 
 // mount api
