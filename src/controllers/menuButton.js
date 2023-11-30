@@ -46,7 +46,7 @@ import {
     rgbTohex,
     mouseclickposition,
     luckysheetfontformat,
-    luckysheetContainerFocus,
+    luckysheetContainerFocus, borderInfoMerge,
 } from "../utils/util";
 import { openProtectionModal, checkProtectionFormatCells, checkProtectionNotEnable } from "./protection";
 import Store from "../store";
@@ -1157,7 +1157,8 @@ const menuButton = {
             };
 
             cfg["borderInfo"].push(borderInfo);
-
+            // 尝试对边框数据进行合并
+            cfg["borderInfo"] = borderInfoMerge(cfg["borderInfo"])
             if (Store.clearjfundo) {
                 Store.jfundo.length = 0;
 
@@ -1556,7 +1557,8 @@ const menuButton = {
                     };
 
                     cfg["borderInfo"].push(borderInfo);
-
+                    // 尝试对边框数据进行合并
+                    cfg["borderInfo"] = borderInfoMerge(cfg["borderInfo"])
                     if (Store.clearjfundo) {
                         Store.jfundo.length = 0;
 

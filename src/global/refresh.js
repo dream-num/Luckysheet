@@ -19,6 +19,7 @@ import { selectHightlightShow, selectionCopyShow, collaborativeEditBox } from '.
 import { createFilterOptions } from '../controllers/filter';
 import { getSheetIndex } from '../methods/get';
 import Store from '../store';
+import {borderInfoMerge} from "../utils/util";
 
 let refreshCanvasTimeOut = null;
 
@@ -54,6 +55,8 @@ function jfrefreshgrid(data, range, allParam, isRunExecFunction = true, isRefres
     }
 
     let cfg = allParam["cfg"];  //config
+    // 尝试对边框数据合并
+    cfg && cfg['borderInfo'] && (cfg['borderInfo'] = borderInfoMerge(cfg['borderInfo']))
     let calc = allParam["calc"];
     let RowlChange = allParam["RowlChange"];  //行高改变
     let cdformat = allParam["cdformat"];  //条件格式
@@ -396,6 +399,8 @@ function jfrefreshrange(data, range, cdformat) {
 
 //删除、增加行列 刷新表格
 function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf, af, freezen, dataVerification, hyperlink){
+    // 对边框数据进行合并
+    cfg['borderInfo'] && (cfg['borderInfo'] = borderInfoMerge(cfg['borderInfo']))
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
     collaborativeEditBox();
     //merge改变对应的单元格值改变
@@ -625,6 +630,7 @@ function jfrefreshgrid_adRC(data, cfg, ctrlType, ctrlValue, calc, filterObj, cf,
 
 //删除单元格 刷新表格
 function jfrefreshgrid_deleteCell(data, cfg, ctrl, calc, filterObj, cf, dataVerification, hyperlink){
+    cfg['borderInfo'] && (cfg['borderInfo'] = borderInfoMerge(cfg['borderInfo']))
     let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
     clearTimeout(refreshCanvasTimeOut);
     collaborativeEditBox();

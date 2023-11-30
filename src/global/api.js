@@ -1,5 +1,5 @@
 import Store from "../store";
-import { replaceHtml, getObjType, chatatABC, luckysheetactiveCell } from "../utils/util";
+import {replaceHtml, getObjType, chatatABC, luckysheetactiveCell, borderInfoMerge} from "../utils/util";
 import { getSheetIndex, getluckysheet_select_save, getluckysheetfile } from "../methods/get";
 import locale from "../locale/locale";
 import method from './method';
@@ -420,7 +420,8 @@ export function setCellFormat(row, column, attr, value, options = {}) {
     }
 
     targetSheetData[row][column] = cellData;
-
+    // 如果配置项中存在borderInfo，则对borderInfo尝试压缩
+    cfg["borderInfo"] && (cfg["borderInfo"] = borderInfoMerge(cfg["borderInfo"]))
     // refresh
     if(file.index == Store.currentSheetIndex){
         file.config = cfg;
@@ -5935,7 +5936,7 @@ export function getAllChartsBase64(cb) {
                 }})
 
                 chartMap[item.index][chartInfo.chart_id] = chartInstance
-                
+
             });
 
         }
@@ -5951,13 +5952,13 @@ export function getAllChartsBase64(cb) {
                         sheet[chart_id] = chartInstance.getDataURL();
                     }
                 }
-                
+
             }
         }
         cb && cb(chartMap)
-        
+
     }, 500);
-    
+
 }
 
 /**

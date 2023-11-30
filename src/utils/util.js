@@ -887,6 +887,306 @@ function camel2split(camel) {
     });
 }
 
+function borderInfoMergeCore (borderInfo) {
+    if (!borderInfo || !borderInfo.length) {
+        return []
+    }
+    const borderRange = {
+        r: [Infinity, 0],
+        c: [Infinity, 0],
+    }
+    const borderLineMap = new Map([['', {style: '', color: '', styleKey: ''}]])
+    borderLineMap.clear();
+    const createLinePos = (r, c, d) => {
+        if (d === 't') {
+            return `${r}_${c}_${r}_${c+1}`
+        } else if (d === 'b') {
+            return `${r+1}_${c}_${r+1}_${c+1}`
+        } else if (d === 'l') {
+            return `${r}_${c}_${r+1}_${c}`
+        } else if (d === 'r') {
+            return `${r}_${c+1}_${r+1}_${c+1}`
+        } else {
+            throw new Error('createLinePos 越界')
+        }
+    }
+    // 对边框数据进行拆分，精确到每个单元格的边框情况
+    for (let i = 0; i < borderInfo.length; i++) {
+        const t = borderInfo[i]
+        if (t.rangeType === 'cell') {
+            borderRange.r[0] > (t.value.row_index - 1) && (borderRange.r[0] = t.value.row_index - 1);
+            borderRange.r[1] < (t.value.row_index + 1) && (borderRange.r[1] = t.value.row_index + 1);
+            borderRange.c[0] > (t.value.col_index - 1) && (borderRange.c[0] = t.value.col_index - 1);
+            borderRange.c[1] < (t.value.col_index + 1) && (borderRange.c[1] = t.value.col_index + 1);
+
+            ['l', 'r', 't', 'b'].forEach(d => {
+                if (t.value[d] && !isUndefined(t.value[d].style) && !isNull(t.value[d].style)) {
+                    const linePos = createLinePos(t.value.row_index, t.value.col_index, d)
+                    const style = `${t.value[d]}` === '0' ? undefined : {
+                        style: t.value[d].style,
+                        color: t.value[d].color,
+                        styleKey: `${t.value[d].style}_${t.value[d].color}`
+                    }
+                    style ? borderLineMap.set(linePos, style) : borderLineMap.delete(linePos)
+                }
+            })
+        }
+        else if (t.rangeType === 'range') {
+            for (let i = 0; i < t.range.length; i++) {
+                const range = t.range[i]
+                borderRange.r[0] >(range.row[0] - 1) && (borderRange.r[0] = range.row[0]-1)
+                borderRange.r[1] < (range.row[1]+1) && (borderRange.r[1] = range.row[1]+1)
+                borderRange.c[0] > (range.column[0]-1) && (borderRange.c[0] = range.column[0]-1)
+                borderRange.c[1] < (range.column[1]+1) && (borderRange.c[1] = range.column[1]+1)
+
+                for (let r = range.row[0]; r <= range.row[1]; r++) {
+                    for (let c = range.column[0]; c <= range.column[1]; c++) {
+                        const style = {
+                            style: t.style, color: t.color, styleKey: `${t.style}_${t.color}`
+                        }
+                        if (t.borderType === 'border-all') {
+                            borderLineMap.set(createLinePos(r, c, 't'), style)
+                            borderLineMap.set(createLinePos(r, c, 'b'), style)
+                            borderLineMap.set(createLinePos(r, c, 'r'), style)
+                            borderLineMap.set(createLinePos(r, c, 'l'), style)
+                        } else if (t.borderType === 'border-top') {
+                            r === range.row[0] && borderLineMap.set(createLinePos(r, c, 't'), style)
+                        } else if (t.borderType === 'border-bottom') {
+                            r === range.row[1] && borderLineMap.set(createLinePos(r, c, 'b'), style)
+                        } else if (t.borderType === 'border-left') {
+                            c === range.column[0] && borderLineMap.set(createLinePos(r, c, 'l'), style)
+                        } else if (t.borderType === 'border-right') {
+                            c === range.column[1] && borderLineMap.set(createLinePos(r, c, 'r'), style)
+                        } else if (t.borderType === 'border-outside') {
+                            r === range.row[0] && borderLineMap.set(createLinePos(r, c, 't'), style)
+                            r === range.row[1] && borderLineMap.set(createLinePos(r, c, 'b'), style)
+                            c === range.column[0] && borderLineMap.set(createLinePos(r, c, 'l'), style)
+                            c === range.column[1] && borderLineMap.set(createLinePos(r, c, 'r'), style)
+                        } else if (t.borderType === 'border-inside') {
+                            r !== range.row[0] && borderLineMap.set(createLinePos(r, c, 't'), style)
+                            r !== range.row[1] && borderLineMap.set(createLinePos(r, c, 'b'), style)
+                            c !== range.column[0] && borderLineMap.set(createLinePos(r, c, 'l'), style)
+                            c !== range.column[1] && borderLineMap.set(createLinePos(r, c, 'r'), style)
+                        } else if (t.borderType === 'border-horizontal') {
+                            r !== range.row[0] && borderLineMap.set(createLinePos(r, c, 't'), style)
+                        } else if (t.borderType === 'border-vertical') {
+                            c !== range.column[0] && borderLineMap.set(createLinePos(r, c, 'l'), style)
+                        } else if (t.borderType === 'border-none') {
+                            // 设置为无边框时，删除边框数据
+                            borderLineMap.delete(createLinePos(r, c, 't'))
+                            borderLineMap.delete(createLinePos(r, c, 'b'))
+                            borderLineMap.delete(createLinePos(r, c, 'r'))
+                            borderLineMap.delete(createLinePos(r, c, 'l'))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // 创建边框样式key值
+    // 判断4边边框内容是一样的
+    const isBorderAll = (r, c) => {
+        const topLine = borderLineMap.get(createLinePos(r, c, 't'))
+        const bottomLine = borderLineMap.get(createLinePos(r, c, 'b'))
+        const leftLine = borderLineMap.get(createLinePos(r, c, 'l'))
+        const rightLine = borderLineMap.get(createLinePos(r, c, 'r'))
+        return topLine
+            && bottomLine
+            && leftLine
+            && rightLine
+            && topLine.styleKey === bottomLine.styleKey
+            && topLine.styleKey === leftLine.styleKey
+            && topLine.styleKey === rightLine.styleKey
+    }
+    const borderAllResult = []
+    // 被合并成 borderType为all的坐标集合
+    const borderAllMergedPosSet = new Set()
+    const dfsBorderAll = (d, styleKey, r = 0, cArray = [0, 0], resultItem) => {
+        // 判断能否被合并
+        const ableMerge = (task) => {
+            let able = true
+            for (let c = task.cArray[0]; c <= task.cArray[1]; c++) {
+                // 接触到已经被合并的单元格，判断该区间为不可合并
+                if (borderAllMergedPosSet.has(`${task.r}_${c}`)) {
+                    able = false
+                    break
+                }
+                const topLine = borderLineMap.get(createLinePos(task.r, c, 't'));
+                const bottomLine = borderLineMap.get(createLinePos(task.r, c, 'b'));
+                const leftLine = borderLineMap.get(createLinePos(task.r, c, 'l'));
+                const rightLine = borderLineMap.get(createLinePos(task.r, c, 'r'));
+                if (
+                    topLine && bottomLine && leftLine && rightLine
+                    && styleKey === topLine.styleKey
+                    && styleKey === bottomLine.styleKey
+                    && styleKey === leftLine.styleKey
+                    && styleKey === rightLine.styleKey
+                ) {
+                    // do nothing
+                }
+                else {
+                    able = false
+                    break
+                }
+            }
+            return able
+        }
+        const taskArr = [{
+            r, cArray, d,
+        }]
+        // 使用栈遍历，避免出现递归次数超出限制的问题
+        while (taskArr.length) {
+            const task = taskArr.shift()
+            if (task.d === 'right') {
+                // 不能被合并，开始向下尝试合并
+                if (!ableMerge(task)) {
+                    taskArr.push({
+                        d: 'down', r: task.r+1, cArray: resultItem.c
+                    })
+                } else {
+                    resultItem.c[1] = task.cArray[1]
+                    for (let c = task.cArray[0]; c <= task.cArray[1]; c++) {
+                        borderAllMergedPosSet.add(`${task.r}_${c}`)
+                    }
+                    taskArr.push({
+                        d: 'right', r: task.r, cArray: [task.cArray[0] + 1, task.cArray[1] + 1]
+                    })
+                }
+
+            }
+            else if (task.d === 'down') {
+                // 不能继续向下合并，直接跳出
+                if (!ableMerge(task)) {
+                    break
+                } else {
+                    resultItem.r[1] = task.r
+                    for (let c = task.cArray[0]; c <= task.cArray[1]; c++) {
+                        borderAllMergedPosSet.add(`${task.r}_${c}`)
+                    }
+                    taskArr.push({
+                        d: 'down', r: task.r + 1, cArray: resultItem.c
+                    })
+                }
+            }
+        }
+    }
+    // 第一次遍历，找出所有能合并成borderAll的数据
+    for (let r = borderRange.r[0]; r <= borderRange.r[1]; r++) {
+        for (let c = borderRange.c[0]; c <= borderRange.c[1]; c++) {
+            if (isBorderAll(r, c) && !borderAllMergedPosSet.has(`${r}_${c}`)) {
+                borderAllMergedPosSet.add(`${r}_${c}`)
+                const leftLine = borderLineMap.get(createLinePos(r, c, 'l'))
+                const resultItem = {
+                    borderType: 'border-all',
+                    r: [r, r],
+                    c: [c, c],
+                    line: leftLine,
+                }
+                borderAllResult.push(resultItem)
+                dfsBorderAll('right', leftLine.styleKey, r, [c+1, c+1], resultItem)
+            }
+        }
+    }
+
+    // 删除borderAll的线条，准备进行第二次聚合
+    for (let i = 0; i < borderAllResult.length; i++) {
+        const item = borderAllResult[i]
+        for (let r = item.r[0]; r <= item.r[1]; r++) {
+            for (let c = item.c[0]; c <= item.c[1]; c++) {
+                borderLineMap.delete(createLinePos(r, c, 'l'))
+                borderLineMap.delete(createLinePos(r, c, 'r'))
+                borderLineMap.delete(createLinePos(r, c, 't'))
+                borderLineMap.delete(createLinePos(r, c, 'b'))
+            }
+        }
+    }
+    if (!borderLineMap.size) {
+        return borderAllResult
+    }
+    const borderBottomResult = []
+    const borderBottomMergedPosSet = new Set()
+
+    const dfsBorderBottom = (styleKey, r, c, resultItem) => {
+        const posKey = `${r}_${c}`
+        if (borderBottomMergedPosSet.has(posKey)) {
+            return;
+        }
+        const bottomLine = borderLineMap.get(createLinePos(r, c, 'b'))
+        if (!bottomLine || bottomLine.styleKey !== styleKey) {
+            return
+        }
+        borderBottomMergedPosSet.add(posKey)
+        resultItem.c[1] = c
+        return dfsBorderBottom(styleKey, r, c + 1, resultItem)
+    }
+
+    const borderRightResult = []
+    const borderRightMergedPosSet = new Set()
+    const dfsBorderRight = (styleKey, r, c, resultItem) => {
+        const posKey = `${r}_${c}`
+        if (borderRightMergedPosSet.has(posKey)) {
+            return;
+        }
+        const rightLine = borderLineMap.get(createLinePos(r, c, 'r'))
+        if (!rightLine || rightLine.styleKey !== styleKey) {
+            return
+        }
+        borderRightMergedPosSet.add(posKey)
+        resultItem.r[1] = r
+        return dfsBorderRight(styleKey, r+1, c, resultItem)
+    }
+
+    // 第二次遍历，找出所有能合并成borderBottom、borderRight的数据
+    for (let r = borderRange.r[0]; r <= borderRange.r[1]; r++) {
+        for (let c = borderRange.c[0]; c <= borderRange.c[1]; c++) {
+            const bottomLine = borderLineMap.get(createLinePos(r, c, 'b'))
+            const rightLine = borderLineMap.get(createLinePos(r, c, 'r'))
+            if (bottomLine && !borderBottomMergedPosSet.has(`${r}_${c}`)) {
+                const resultItem = {
+                    borderType: 'border-bottom',
+                    r: [r, r],
+                    c: [c, c],
+                    line: bottomLine,
+                }
+                borderBottomMergedPosSet.add(`${r}_${c}`)
+                borderBottomResult.push(resultItem)
+                dfsBorderBottom(bottomLine.styleKey, r, c+1, resultItem)
+            }
+            if (rightLine && !borderRightMergedPosSet.has(`${r}_${c}`)) {
+                const resultItem = {
+                    borderType: 'border-right',
+                    r: [r, r],
+                    c: [c, c],
+                    line: rightLine,
+                }
+                borderBottomMergedPosSet.add(`${r}_${c}`)
+                borderRightResult.push(resultItem)
+                dfsBorderRight(rightLine.styleKey, r+1, c, resultItem)
+            }
+        }
+    }
+    // return [...borderBottomResult, ...borderRightResult]
+    return borderAllResult.concat(borderBottomResult, borderRightResult)
+}
+function borderInfoMerge(infoList) {
+    console.log('start merge border info')
+    if (!infoList || !infoList.length) {
+        return []
+    }
+    // 如果边框数据少于120，就不进行合并
+    if (infoList.length < 120) {
+        return infoList
+    }
+    const mergeInfo = borderInfoMergeCore(infoList).map(o => ({
+        rangeType: 'range',
+        borderType: o.borderType,
+        color: o.line.color,
+        style: o.line.style,
+        range: [{column: o.c, row: o.r}],
+    }))
+    return mergeInfo
+}
+
 export {
     isJsonString,
     common_extend,
@@ -917,4 +1217,5 @@ export {
     createProxy,
     arrayRemoveItem,
     camel2split,
+    borderInfoMerge,
 };
