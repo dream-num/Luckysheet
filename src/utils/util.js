@@ -920,7 +920,7 @@ function borderInfoMergeCore (borderInfo) {
             borderRange.c[1] < (t.value.col_index + 1) && (borderRange.c[1] = t.value.col_index + 1);
 
             ['l', 'r', 't', 'b'].forEach(d => {
-                if (t.value[d] && !isUndefined(t.value[d].style) && !isNull(t.value[d].style)) {
+                if (t.value[d] && !_.isUndefined(t.value[d].style) && !_.isNull(t.value[d].style)) {
                     const linePos = createLinePos(t.value.row_index, t.value.col_index, d)
                     const style = `${t.value[d]}` === '0' ? undefined : {
                         style: t.value[d].style,
