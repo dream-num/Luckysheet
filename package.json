@@ -43,6 +43,7 @@
     "escape-html": "^1.0.3",
     "flatpickr": "^4.6.6",
     "jquery": "^2.2.4",
+    "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "pako": "^1.0.11"
   },
