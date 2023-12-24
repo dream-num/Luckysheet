@@ -162,7 +162,7 @@ export function openCellFormatModel(){
         recycleSeletion(
             function(cell){
                 // let cell = data[r][c];
-                if(cell==null || cell.lo==null || cell.lo==1){
+                if (cell!=null && cell.lo!=null && cell.lo==1){
                     locked = true;
                     lockedCount++;
                 }
