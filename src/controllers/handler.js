@@ -5627,6 +5627,9 @@ export default function luckysheetHandler() {
             tooltip.info(_locale.exportXlsx.notice, "");
         }
     });
+    $("#luckysheet-icon-autoSave").click(function() {
+        alert("保存成功")
+    });
 
     let copychange = function() {
         if (document.hidden || document.webkitHidden || document.msHidden) {

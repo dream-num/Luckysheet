@@ -58,6 +58,7 @@ export const defaultToolbar = [
     'protection',
     'print',
     'exportXlsx',
+    'autoSave',
 ];
 
 // 工具栏按钮 id 关系
@@ -99,7 +100,8 @@ export const toolbarIdMap = {
     findAndReplace: '#luckysheet-icon-seachmore', //'Find and Replace'
     protection: '#luckysheet-icon-protection', // 'Worksheet protection'
     print: '#luckysheet-icon-print', // 'print'
-    exportXlsx: '#luckysheet-exportXlsx-btn-title' // 'export xlsx'
+    exportXlsx: '#luckysheet-exportXlsx-btn-title', // 'export xlsx'
+    autoSave: '#luckysheet-icon-print', // 'autoSave'
 };
 
 // 创建工具栏按钮的html
@@ -850,6 +852,23 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Insert picture'
+        autoSave: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+        data-tips="${toolbar.autoSave}" id="luckysheet-icon-autoSave" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    style="user-select: none;">
+                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
+                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont-luckysheet luckysheet-iconfont-biaogesuoding"
+                            style="user-select: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`, // 'Worksheet protection'
     };
 
     const showtoolbar = luckysheetConfigsetting.showtoolbar;

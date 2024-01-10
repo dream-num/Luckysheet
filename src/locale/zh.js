@@ -6083,6 +6083,7 @@ export default {
         splitColumn: "分列",
         insertImage: "插入图片",
         exportXlsx: "导出Xlsx",
+        autoSave: "自动保存",
         insertLink: "插入链接",
         dataVerification: "数据验证",
         protection: "保护工作表内容",
