@@ -163,7 +163,7 @@ luckysheet.create = function (setting) {
     Store.loadingObj = loadingObj;
 
     if (loadurl == "") {
-        sheetmanage.initialjfFile(menu, title);
+        sheetmanage.initialjfFile(menu, title); //构建页面
         // luckysheetsizeauto();
         initialWorkBook();
     } else {
@@ -181,7 +181,6 @@ luckysheet.create = function (setting) {
             }
         });
     }
-
     initChat()
 };
 
