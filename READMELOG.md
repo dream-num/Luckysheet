@@ -13,7 +13,7 @@
 
 ## 2024/01/11
 
-+ 浏览源码，理清代码执行逻辑
++ 阅读源码，理清代码执行逻辑
   
 ```html
 src/core.js			//入口程序
@@ -24,3 +24,7 @@ srec/global/createdom.js  //创建页面DMO
 	luckysheetcreatedom()
 src/controllers/constant.js
 ```
+
+## 2024/01/12
++ 增加了定时自动保存，刷新页面数据不丢失 `core.js 文件中`
+
