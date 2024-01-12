@@ -163,6 +163,12 @@ luckysheet.create = function (setting) {
     Store.loadingObj = loadingObj;
 
     if (loadurl == "") {
+        let datas=localStorage.getItem('luckysheetfile')
+        try{
+            if(datas) Store.luckysheetfile=JSON.parse(datas)
+        }catch (e){
+            console.log(e)
+        }
         sheetmanage.initialjfFile(menu, title); //构建页面
         // luckysheetsizeauto();
         initialWorkBook();
@@ -196,6 +202,14 @@ function initialWorkBook() {
     zoomInitial(); //zoom method initialization
     // printInitial(); //print initialization
     initListener();
+    autoStore()
+}
+
+//自动存储
+function autoStore(){
+    setInterval(function () {
+        localStorage.setItem('luckysheetfile',JSON.stringify(Store.luckysheetfile))
+    },1000)
 }
 
 //获取所有表格数据

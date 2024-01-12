@@ -1,5 +1,4 @@
 import formula from '../global/formula';
-import formula from '../global/formula';
 import editor from '../global/editor';
 import {luckysheetupdateCell} from './updateCell';
 import { modelHTML } from './constant';
