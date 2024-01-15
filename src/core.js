@@ -58,11 +58,11 @@ luckysheet.create = function (setting) {
     let extendsetting = common_extend(defaultSetting, setting);
     if (setting.data) {
         Store.curFileName = 'temp'
-        this.clearCache()
+        clearCache()
     }
     if(setting.isNew){
         Store.curFileName = 'new'
-        this.clearCache()
+        clearCache()
     }
 
     let loadurl = extendsetting.loadUrl,
@@ -182,7 +182,7 @@ luckysheet.create = function (setting) {
             let data = new Function("return " + d)();
             Store.luckysheetfile = data;
             Store.curFileName = 'loadurl'
-            this.clearCache()
+            clearCache()
             sheetmanage.initialjfFile(menu, title);
             // luckysheetsizeauto();
             initialWorkBook();
@@ -232,7 +232,7 @@ function autoStore(){
     },1000)
 }
 //清楚缓存
-luckysheet.clearCache = function () {
+function clearCache() {
     localStorage.removeItem('fileInfo')
 }
 
