@@ -181,7 +181,8 @@ luckysheet.create = function (setting) {
         $.post(loadurl, { gridKey: server.gridKey }, function (d) {
             let data = new Function("return " + d)();
             Store.luckysheetfile = data;
-
+            Store.curFileName = 'loadurl'
+            this.clearCache()
             sheetmanage.initialjfFile(menu, title);
             // luckysheetsizeauto();
             initialWorkBook();
@@ -230,7 +231,7 @@ function autoStore(){
         localStorage.setItem('fileInfo', JSON.stringify(info))
     },1000)
 }
-
+//清楚缓存
 luckysheet.clearCache = function () {
     localStorage.removeItem('fileInfo')
 }
