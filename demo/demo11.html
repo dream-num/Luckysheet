@@ -3,34 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>Luckysheet-html01-base</title>
-
-  <link rel='stylesheet' href='../dist/plugins/css/pluginsCss.css' />
-  <link rel='stylesheet' href='../dist/plugins/plugins.css' />
-  <link rel='stylesheet' href='../dist/css/luckysheet.css' />
-  <link rel='stylesheet' href='../dist/assets/iconfont/iconfont.css' />
-
+  <link rel='stylesheet' href='../dist/plugins/css/pluginsCss.css'/>
+  <link rel='stylesheet' href='../dist/plugins/plugins.css'/>
+  <link rel='stylesheet' href='../dist/css/luckysheet.css'/>
+  <link rel='stylesheet' href='../dist/assets/iconfont/iconfont.css'/>
 </head>
 <body>
 <div>
-  <div id="luckysheeta" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 0px;">
+  <div>
+    <button onclick="newDoc()">新建</button>
+    <button onclick="readExcel()">打开Excel文件</button>
+    <button onclick="refresh()">刷新</button>
+  </div>
+  <div id="luckysheeta" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 35px;">
   </div>
 </div>
 <script src="../dist/plugins/js/plugin.js"></script>
 <script src="../dist/luckysheet.umd.js"></script>
+<script src="../src/demoData/sheetTable.js"></script>
 <script src="../src/demoData/sheetCell.js"></script>
 <script>
-  $(function () {
+
+  let options = null
+  window.onload = function () {
     //Configuration item
-    let sheetData=window.sheetCell
-    var options = {
+    options = {
       container: 'luckysheeta', //id
       title: '在线电子表格', // 设定表格名称
       lang: 'zh', // 设定表格语言
-      data:[sheetData]
+      showinfobar: false, // 显示头部返回标题栏 data:[sheetCell]
     }
     luckysheet.create(options)
-  })
+  }
+
+  function newDoc() {
+    console.log('新建文档....')
+    options.isNew = true
+    luckysheet.create(options)
+  }
+  function refresh(){
+    window.location.reload()
+  }
+
+  function readExcel() {
+    console.log('读取Excel文件....', JSON.stringify(options))
+    options.data = [sheetCell]
+    luckysheet.create(options)
+  }
+
+
 </script>
+
 
 </body>
 </html>

@@ -56,6 +56,14 @@ luckysheet.create = function (setting) {
     }
 
     let extendsetting = common_extend(defaultSetting, setting);
+    if (setting.data) {
+        Store.curFileName = 'temp'
+        this.clearCache()
+    }
+    if(setting.isNew){
+        Store.curFileName = 'new'
+        this.clearCache()
+    }
 
     let loadurl = extendsetting.loadUrl,
         menu = extendsetting.menu,
@@ -163,12 +171,9 @@ luckysheet.create = function (setting) {
     Store.loadingObj = loadingObj;
 
     if (loadurl == "") {
-        let datas=localStorage.getItem('luckysheetfile')
-        try{
-            if(datas) Store.luckysheetfile=JSON.parse(datas)
-        }catch (e){
-            console.log(e)
-        }
+
+        restore() //恢复缓存
+
         sheetmanage.initialjfFile(menu, title); //构建页面
         // luckysheetsizeauto();
         initialWorkBook();
@@ -205,11 +210,29 @@ function initialWorkBook() {
     autoStore()
 }
 
+function restore() {
+    try {
+        let data = localStorage.getItem('fileInfo')
+        if (data) {
+            let info = JSON.parse(data)
+            Store.curFileName = info.fileName
+            Store.luckysheetfile = info.fileData
+        }
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 //自动存储
 function autoStore(){
     setInterval(function () {
-        localStorage.setItem('luckysheetfile',JSON.stringify(Store.luckysheetfile))
+        let info = {fileName: Store.curFileName, fileData: Store.luckysheetfile}
+        localStorage.setItem('fileInfo', JSON.stringify(info))
     },1000)
+}
+
+luckysheet.clearCache = function () {
+    localStorage.removeItem('fileInfo')
 }
 
 //获取所有表格数据
