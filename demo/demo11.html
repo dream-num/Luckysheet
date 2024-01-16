@@ -27,27 +27,31 @@
   let options = null
   window.onload = function () {
     //Configuration item
+    let curFileName=localStorage.getItem('filename')
     options = {
       container: 'luckysheeta', //id
       title: '在线电子表格', // 设定表格名称
       lang: 'zh', // 设定表格语言
-      showinfobar: false, // 显示头部返回标题栏 data:[sheetCell]
+      showinfobar: false, // 显示头部返回标题栏 data:[sheetCell],
+      curFileName: curFileName
     }
     luckysheet.create(options)
   }
 
   function newDoc() {
-    console.log('新建文档....')
-    options.isNew = true
+    options.curFileName = 'new'
+    localStorage.setItem('filename',options.curFileName)
     luckysheet.create(options)
   }
-  function refresh(){
+
+  function refresh() {
     window.location.reload()
   }
 
   function readDemoData() {
-    console.log('读取内置Demo数据....')
     options.data = [sheetCell]
+    options.curFileName = 'sheetCell'
+    localStorage.setItem('filename',options.curFileName)
     luckysheet.create(options)
   }
 
