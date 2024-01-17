@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Luckysheet-html01-base</title>
+  <link rel='stylesheet' href='../dist/plugins/css/pluginsCss.css'/>
+  <link rel='stylesheet' href='../dist/plugins/plugins.css'/>
+  <link rel='stylesheet' href='../dist/css/luckysheet.css'/>
+  <link rel='stylesheet' href='../dist/assets/iconfont/iconfont.css'/>
+</head>
+<body>
+<div>
+  <div>
+    <button onclick="newDoc()">新建</button>
+    <button onclick="readDemoData()">打开内置Demo数据</button>
+    <button onclick="refresh()">刷新</button>
+  </div>
+  <div id="luckysheeta" style="margin:0px;padding:0px;position:absolute;width:100%;height:100%;left: 0px;top: 35px;">
+  </div>
+</div>
+<script src="../dist/plugins/js/plugin.js"></script>
+<script src="../dist/luckysheet.umd.js"></script>
+<script src="../src/demoData/sheetTable.js"></script>
+<script src="../src/demoData/sheetCell.js"></script>
+<script>
+
+  let options = null
+  window.onload = function () {
+    //Configuration item
+    let curFileName = localStorage.getItem('filename')
+
+    options = {
+      container: 'luckysheeta', //id
+      title: '在线电子表格', // 设定表格名称
+      lang: 'zh', // 设定表格语言
+      showinfobar: false, // 显示头部返回标题栏 data:[sheetCell],
+      curFileName: curFileName
+    }
+    luckysheet.create(options)
+  }
+
+  function newDoc() {
+    options.curFileName = 'new'
+    options.data = null
+    localStorage.setItem('filename', options.curFileName+'_1')
+    luckysheet.create(options)
+  }
+
+  function readDemoData() {
+    options.data = [sheetCell]
+    options.curFileName = 'sheetCell'
+    localStorage.setItem('filename', options.curFileName)
+    luckysheet.create(options)
+  }
+
+  function refresh() {
+    window.location.reload()
+  }
+
+
+</script>
+
+
+</body>
+</html>

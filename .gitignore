@@ -2,11 +2,12 @@
 node_modules
 package-lock.json
 yarn.lock
-dist
 docs/.vuepress/dist
 src/expendPlugins/print/print.js
+test
 
 .idea
 .history
 .vs
 .vscode
+.dist

@@ -1,0 +1,46 @@
+.luckysheet-print span[role="heading"] {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.luckysheet-print-suggest {
+    font-size: 12px;
+}
+
+.luckysheet-print-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.luckysheet-print-radio {
+    display: flex;
+}
+
+.luckysheet-print-radio > div {
+    width: 50%;
+}
+
+.luckysheet-print select {
+    height: 30px;
+}
+
+.luckysheet-print .luckysheet-modal-dialog-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.luckysheet-print-box canvas {
+    display: block;
+}
+
+@media print {
+    :not(html, head, body, .luckysheet-print-preview, .luckysheet-print-preview *) {
+        display: none;
+    }
+    .luckysheet-print-break {
+        page-break-after: always;
+    }
+    #print-layout-options {
+        display: none;
+    }
+}
