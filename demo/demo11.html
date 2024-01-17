@@ -27,7 +27,8 @@
   let options = null
   window.onload = function () {
     //Configuration item
-    let curFileName=localStorage.getItem('filename')
+    let curFileName = localStorage.getItem('filename')
+
     options = {
       container: 'luckysheeta', //id
       title: '在线电子表格', // 设定表格名称
@@ -40,19 +41,20 @@
 
   function newDoc() {
     options.curFileName = 'new'
-    localStorage.setItem('filename',options.curFileName)
+    options.data = null
+    localStorage.setItem('filename', options.curFileName+'_1')
     luckysheet.create(options)
-  }
-
-  function refresh() {
-    window.location.reload()
   }
 
   function readDemoData() {
     options.data = [sheetCell]
     options.curFileName = 'sheetCell'
-    localStorage.setItem('filename',options.curFileName)
+    localStorage.setItem('filename', options.curFileName)
     luckysheet.create(options)
+  }
+
+  function refresh() {
+    window.location.reload()
   }
 
 
