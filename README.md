@@ -9,9 +9,11 @@
 
 </div>
 
-# Luckysheet 3.x has been renamed to [Univer](https://github.com/dream-num/univer)
-
 English| [简体中文](./README-zh.md)
+
+# Luckysheet is no longer maintained, please use [Univer](https://github.com/dream-num/univer) instead!
+
+Follow the [#1454](https://github.com/dream-num/Luckysheet/issues/1454) issue for more details.
 
 ## Introduction
 🚀Luckysheet is an online spreadsheet like excel that is powerful, simple to configure, and completely open source.

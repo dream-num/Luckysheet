@@ -4,9 +4,12 @@
 
 </div>
 
-# Luckysheet 3.x 已更名为 [Univer](https://github.com/dream-num/univer)
-
 简体中文 | [English](./README.md)
+
+# Luckysheet 已不再维护，推荐使用 [Univer](https://github.com/dream-num/univer) 替代
+
+点击 [#1454](https://github.com/dream-num/Luckysheet/issues/1454) 查看更多详情。
+
 
 ## 介绍
 🚀Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
