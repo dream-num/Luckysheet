@@ -3447,6 +3447,10 @@ export function cancelRangeMerge(options = {}) {
         file.data = data;
         file.config = cfg;
     }
+
+    if (success && typeof success === 'function') {
+      success();
+    }
 }
 
 /**
