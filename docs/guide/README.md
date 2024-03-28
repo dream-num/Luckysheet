@@ -1,3 +1,5 @@
+# Luckysheet is no longer maintained, please use [Univer](https://github.com/dream-num/univer) instead!
+
 # Get started
 
 ## Introduction

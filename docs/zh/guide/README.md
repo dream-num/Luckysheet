@@ -1,3 +1,5 @@
+# Luckysheet 已不再维护，推荐使用 [Univer](https://github.com/dream-num/univer) 替代
+
 # 快速上手
 
 ## 基本介绍

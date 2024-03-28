@@ -130,10 +130,7 @@ npm run build
 
 ## 合作项目
 
-- [鲁班h5](https://github.com/ly525/luban-h5)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
-- [Furion](https://gitee.com/monksoul/Furion)
-- [AFFiNE.PRO](https://github.com/toeverything/AFFiNE)
 
 ## 交流
 
@@ -141,9 +138,9 @@ npm run build
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
 - 以下扫码加入官方微信群或者QQ群
 
-|  加小编微信: msuniver，备注:加群  | QQ群:767964895 |
-|---|---|
-|<img src="https://gcore.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/univer-wechat.jpg" width="200" />| <img src="https://cdn.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/luckysheet_qq_group_2.jpeg" width="200" /> |
+加小编微信: msuniver，备注:加群
+
+<img src="https://gcore.jsdelivr.net/gh/mengshukeji/LuckyResources@master/assets/img/wechat/univer-wechat.jpg" width="200" />
 
 
 [英文社群](./README.md)
