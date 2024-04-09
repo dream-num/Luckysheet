@@ -887,6 +887,49 @@ function camel2split(camel) {
     });
 }
 
+/**
+ * 根据range（只包含row column坐标） 转换为range的详细内容（除坐标 还有宽高 偏移量等）
+ * @param {Object} range 由getRangeByTxt方法返回{column, row}
+ */
+function getRangeDetailInfo(range) {
+    let r1 = range.row[0], r2 = range.row[1];
+    let c1 = range.column[0], c2 = range.column[1];
+    let row = Store.visibledatarow[r2], 
+        row_pre = r1 - 1 == -1 ? 0 : Store.visibledatarow[r1 - 1];
+    let col = Store.visibledatacolumn[c2], 
+        col_pre = c1 - 1 == -1 ? 0 : Store.visibledatacolumn[c1 - 1];
+
+    return { 
+        "left": col_pre, 
+        "width": col - col_pre - 1, 
+        "top": row_pre, 
+        "height": row - row_pre - 1, 
+        "left_move": col_pre, 
+        "width_move": col - col_pre - 1, 
+        "top_move": row_pre, 
+        "height_move": row - row_pre - 1, 
+        "row": [r1, r2], 
+        "column": [c1, c2], 
+        "row_focus": r1, 
+        "column_focus": c1 
+    }
+}
+
+/**
+ * 根据range数组，转换为range的详细内容数组
+ * @param {Array} rangeArr 由getRangesByTxt方法返回[{column, row}]
+ */
+function getRangeDetailInfoArr(rangeArr) {
+    const result = []
+    if(rangeArr.length > 0){
+        for(let s = 0; s < rangeArr.length; s++){
+            const detail = getRangeDetailInfo(rangeArr[s])
+            result.push(detail)
+        }
+    }
+    return result
+}
+
 export {
     isJsonString,
     common_extend,
@@ -917,4 +960,6 @@ export {
     createProxy,
     arrayRemoveItem,
     camel2split,
+    getRangeDetailInfo,
+    getRangeDetailInfoArr,
 };
