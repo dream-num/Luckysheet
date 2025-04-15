@@ -6,7 +6,7 @@
 
 简体中文 | [English](./README.md)
 
-# Luckysheet 已不再维护，推荐使用 [Univer](https://github.com/dream-num/univer) 替代
+# Luckysheet 已不再维护，推荐使用升级版 [Univer](https://github.com/dream-num/univer) 用于生产环境部署，新版解决了大数据量加载，图表样式，透视表，公式计算等方面的问题，做了很多优化设计，增加了导入，导出，打印，协同等功能，提高了表格性能，更有专业技术团队进行技术支持。
 
 点击 [#1454](https://github.com/dream-num/Luckysheet/issues/1454) 查看更多详情。
 
