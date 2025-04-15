@@ -55,7 +55,7 @@ luckysheet.create = function (setting) {
         }
     }
 
-    let extendsetting = common_extend(defaultSetting, setting);
+    let extendsetting = common_extend(structuredClone(defaultSetting), setting);
 
     let loadurl = extendsetting.loadUrl,
         menu = extendsetting.menu,
