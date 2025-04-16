@@ -1487,26 +1487,29 @@ const sheetmanage = {
         let data = d;
 
         let addr = 0, addc = 0;
-        let rlen = ret.length, 
-                clen = ret[0].length;
+        let rlen = ret.length;
+        let clen = 0;
+        if (rlen > 0) {
+            clen = ret[0].length;
+        }
 
-            addr = rlen - d.length; 
-            addc = clen - d[0].length;
+        addr = rlen - d.length; 
+        addc = clen - d[0].length;
 
-            data = datagridgrowth(d, addr + 20, addc + 10, true);
+        data = datagridgrowth(d, addr + 20, addc + 10, true);
 
-            for (let r = 0; r < rlen; r++) {
-                // let x = [].concat(data[r]);
-                for (let c = 0; c < clen; c++) {
-                    let value = "";
-                    if (ret[r] != null && ret[r][c] != null) {
-                        value = getcellvalue(r, c, ret);
-                        setcellvalue(r,c,data,value)
-                    }
-                    // x[c] = value;
+        for (let r = 0; r < rlen; r++) {
+            // let x = [].concat(data[r]);
+            for (let c = 0; c < clen; c++) {
+                let value = "";
+                if (ret[r] != null && ret[r][c] != null) {
+                    value = getcellvalue(r, c, ret);
+                    setcellvalue(r,c,data,value)
                 }
-                // data[r] = x;
+                // x[c] = value;
             }
+            // data[r] = x;
+        }
         file.data = data;
     },
     checkLoadSheetIndexToDataIndex: {},
