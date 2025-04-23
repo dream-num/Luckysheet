@@ -251,7 +251,7 @@ export function setCellValue(row, column, value, options = {}) {
         jfrefreshgrid(data, [{ "row": [row, row], "column": [column, column] }]);//update data, meanwhile refresh canvas and store data to history
     }
     else{
-        file.data = data;//only update data
+        Store.flowdata = data;//only update data
     }
 
     if (success && typeof success === 'function') {
