@@ -11,7 +11,7 @@
 
 English| [简体中文](./README-zh.md)
 
-# Luckysheet is no longer maintained. It is recommended to use the upgraded version of [Univer](https://univer.ai/?utm_source=LuckysheetRepository&utm_medium=referral) for production environment deployment. The new version solves problems such as large data loading, chart styles, pivot tables, formula calculations, etc., and has made many optimization designs, added import, export, printing, collaboration and other functions, improved table performance, and has a professional technical team to provide technical support.
+# Luckysheet is no longer maintained. It is recommended to use the upgraded version of [Univer](https://univer.short.gy/LuckysheetRepository) for production environment deployment. The new version solves problems such as large data loading, chart styles, pivot tables, formula calculations, etc., and has made many optimization designs, added import, export, printing, collaboration and other functions, improved table performance, and has a professional technical team to provide technical support.
 
 Follow the [#1454](https://github.com/dream-num/Luckysheet/issues/1454) issue for more details.
 
