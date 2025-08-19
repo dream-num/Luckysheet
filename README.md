@@ -20,16 +20,16 @@ Follow the [#1454](https://github.com/dream-num/Luckysheet/issues/1454) issue fo
 
 
 ## Links
- | Source Code   | Documentation | Demo | Plugins Demo | Forum |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://dream-num.github.io/LuckysheetDocs/) | [Online Demo](https://dream-num.github.io/LuckysheetDemo) / [Cooperative editing demo](http://luckysheet.lashuju.com/demo/) | [Import Excel Demo](https://dream-num.github.io/LuckyexcelDemo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
- | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee Import Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
+ | Source Code   | Documentation | Demo | Forum |
+ | ------ | -------- | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [Online Documentation](https://dream-num.github.io/LuckysheetDocs/) | [Online Demo](https://dream-num.github.io/LuckysheetDemo) / [Cooperative editing demo](http://luckysheet.lashuju.com/demo/) | [Chinese Forum](https://support.qq.com/product/288322)  |
+ | [Gitee Mirror](https://gitee.com/mengshukeji/Luckysheet)| [Gitee Online Documentation](https://mengshukeji.gitee.io/LuckysheetDocs/) | [Gitee Online Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![Demo](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
 ## Plugins
-- [Luckyexcel](https://github.com/mengshukeji/Luckyexcel): Excel import and export library
-- [chartMix](https://github.com/mengshukeji/chartMix): Chart plugin
+
+For advanced features like import, export, and printing, please use [Univer](https://github.com/dream-num/univer/)
 
 ## Ecosystem
 

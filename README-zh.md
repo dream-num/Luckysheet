@@ -16,16 +16,16 @@
 
 
 ## 相关链接
- | 源码   | 文档 | Demo | 插件Demo | 论坛 |
- | ------ | -------- | ------ | ------ | ------ |
- | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://dream-num.github.io/LuckysheetDocs/zh/) | [在线Demo](https://dream-num.github.io/LuckysheetDemo) / [协同编辑Demo](http://luckysheet.lashuju.com/demo/) | [导入Excel Demo](https://dream-num.github.io/LuckyexcelDemo/) | [中文论坛](https://support.qq.com/product/288322) |
- | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Gitee导入Excel Demo](https://mengshukeji.gitee.io/luckyexceldemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
+ | 源码   | 文档 | Demo | 论坛 |
+ | ------ | -------- | ------ | ------ |
+ | [Github](https://github.com/mengshukeji/Luckysheet)| [在线文档](https://dream-num.github.io/LuckysheetDocs/zh/) | [在线Demo](https://dream-num.github.io/LuckysheetDemo) / [协同编辑Demo](http://luckysheet.lashuju.com/demo/) | [中文论坛](https://support.qq.com/product/288322) |
+ | [Gitee镜像](https://gitee.com/mengshukeji/Luckysheet)| [Gitee在线文档](https://mengshukeji.gitee.io/LuckysheetDocs/zh/) | [Gitee在线Demo](https://mengshukeji.gitee.io/luckysheetdemo/) | [Google Group](https://groups.google.com/g/luckysheet) |
 
 ![演示](/docs/.vuepress/public/img/LuckysheetDemo.gif)
 
 ## 插件
-- [Luckyexcel](https://gitee.com/mengshukeji/Luckyexcel)：excel导入导出库 
-- [chartMix](https://gitee.com/mengshukeji/chartMix)：图表插件
+
+导入导出、打印等高级功能请使用 [Univer](https://github.com/dream-num/univer/)
 
 ## 生态
 
