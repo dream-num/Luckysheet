@@ -5089,7 +5089,7 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .luckysheetPaintCursor {
-    cursor: url(paint_24px.ico), auto;
+    cursor: url(paint_24px.ico), auto !important;
 }
 
 /*        input {
