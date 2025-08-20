@@ -1192,6 +1192,11 @@ const sheetmanage = {
             let r = parseInt(x.substr(0, x.indexOf("_")));
             let c = parseInt(x.substr(x.indexOf("_") + 1));
             let mcInfo = mergeConfig[x];
+
+            if (data[r] == void 0) {
+                continue
+            }
+            
             if (data[r][c] == null) {
                 data[r][c] = {};
             }
