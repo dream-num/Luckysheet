@@ -438,6 +438,17 @@ export function setCellFormat(row, column, attr, value, options = {}) {
 }
 
 /**
+ * 复制公式
+ * @param  {String} txt  公式（例如：=SUM(A1:A2)）
+ * @param  {String} mode 模式，down / up / right / left
+ * @param  {Number} step 步长
+ * @return {String}      不带最前面的=的公式（例如：SUM(A1:A2)）
+ */
+export function copyFormula(txt, mode, step) {
+    return luckysheetformula.functionCopy(txt, mode, step)
+}
+
+/**
  * 查找一个工作表中的指定内容，返回查找到的内容组成的单元格一位数组，数据格式同celldata
  * @param {String} content 要查找的内容 可以为正则表达式（不包含前后'/')
  * @param {Object} options 可选参数
